@@ -22,11 +22,11 @@ namespace ouzel
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
-                                    uint32_t newDepthBits)
+                                    bool newDepth)
         {
             free();
 
-            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLLinux::present()

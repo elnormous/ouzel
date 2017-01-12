@@ -75,7 +75,7 @@ namespace ouzel
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
                                    bool newVerticalSync,
-                                   uint32_t newDepthBits)
+                                   bool newDepth)
         {
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -97,7 +97,7 @@ namespace ouzel
                 EGL_GREEN_SIZE, 8,
                 EGL_BLUE_SIZE, 8,
                 EGL_ALPHA_SIZE, 8,
-                EGL_DEPTH_SIZE, static_cast<int>(newDepthBits),
+                EGL_DEPTH_SIZE, newDepth ? 24 : 0,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 EGL_SAMPLES, static_cast<int>(newSampleCount),
@@ -182,7 +182,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLRasp::present()

@@ -44,7 +44,7 @@ namespace ouzel
                                     TextureFilter newTextureFilter,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
-                                    uint32_t newDepthBits)
+                                    bool newDepth)
         {
             free();
 
@@ -103,7 +103,7 @@ namespace ouzel
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
             [openGLContext makeCurrentContext];
 
-            return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLMacOS::present()

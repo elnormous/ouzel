@@ -150,21 +150,11 @@ namespace ouzel
                             renderPassDescriptor.colorAttachments[0].texture = texture;
                         }
 
-                        if (uploadData.depthBits > 0)
+                        if (uploadData.depth)
                         {
                             if (depthTexture) [depthTexture release];
 
-                            switch (uploadData.depthBits)
-                            {
-                                case 16:
-                                case 24:
-                                case 32:
-                                    depthFormat = MTLPixelFormatDepth32Float;
-                                    break;
-                                default:
-                                    Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                                    return false;
-                            }
+                            depthFormat = MTLPixelFormatDepth32Float;
 
                             MTLTextureDescriptor* desc = [MTLTextureDescriptor
                                                           texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)

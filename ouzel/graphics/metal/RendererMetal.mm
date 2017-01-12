@@ -203,9 +203,9 @@ namespace ouzel
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
-                                 uint32_t newDepthBits)
+                                 bool newDepth)
         {
-            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth))
             {
                 return false;
             }
@@ -238,21 +238,10 @@ namespace ouzel
 
             colorFormat = view.colorPixelFormat;
 
-            if (depthBits > 0)
+            if (depth)
             {
-                switch (depthBits)
-                {
-                    case 16:
-                    case 24:
-                    case 32:
-                        depthBits = 32; // always use 32-bit depth buffer for Metal
-                        view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
-                        depthFormat = view.depthStencilPixelFormat;
-                        break;
-                    default:
-                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                        return false;
-                }
+                view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
+                depthFormat = view.depthStencilPixelFormat;
 
                 for (uint32_t state = 0; state < 4; ++state)
                 {
@@ -447,7 +436,7 @@ namespace ouzel
                 renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
             }
 
-            if (depthBits > 0)
+            if (depth)
             {
                 if (!depthTexture ||
                     frameBufferWidth != depthTexture.width ||

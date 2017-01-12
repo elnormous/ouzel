@@ -77,7 +77,7 @@ namespace ouzel
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
-                              uint32_t newDepthBits) override;
+                              bool newDepth) override;
             virtual bool update() override;
             virtual bool generateScreenshot(const std::string& filename) override;
 

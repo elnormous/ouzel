@@ -156,7 +156,7 @@ namespace ouzel
                               TextureFilter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
-                              uint32_t newDepthBits);
+                              bool newDepth);
 
             virtual bool update();
 
@@ -174,7 +174,7 @@ namespace ouzel
             uint32_t sampleCount = 1; // MSAA sample count
             TextureFilter textureFilter = TextureFilter::NONE;
             PixelFormat backBufferFormat;
-            uint32_t depthBits = 0;
+            bool depth = false;
 
             bool verticalSync = true;
 

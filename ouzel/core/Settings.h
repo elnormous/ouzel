@@ -22,7 +22,7 @@ namespace ouzel
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;
+        bool depth = false;
         graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
-        uint32_t depthBits = 0;
     };
 }

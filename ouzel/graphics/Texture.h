@@ -27,7 +27,7 @@ namespace ouzel
             virtual ~Texture();
             virtual void free() override;
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, uint32_t newDepthBits = 0);
+            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, bool newDepth = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
@@ -41,7 +41,7 @@ namespace ouzel
             bool isDynamic() const { return dynamic; }
 
             uint32_t getSampleCount() const { return sampleCount; }
-            uint32_t getDepthBits() const { return depthBits; }
+            uint32_t getDepth() const { return depth; }
 
             virtual void setClearColorBuffer(bool clear);
             virtual bool getClearColorBuffer() const { return clearColorBuffer; }
@@ -80,7 +80,7 @@ namespace ouzel
                 bool clearDepthBuffer = false;
                 std::vector<Level> levels;
                 uint32_t sampleCount = 1;
-                uint32_t depthBits = 0;
+                bool depth = false;
                 Color clearColor;
             };
 
@@ -101,7 +101,7 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             uint32_t sampleCount = 1;
-            uint32_t depthBits = 0;
+            bool depth = false;
             Color clearColor;
 
             Data currentData;

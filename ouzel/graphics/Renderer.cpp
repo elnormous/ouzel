@@ -43,7 +43,7 @@ namespace ouzel
                             TextureFilter newTextureFilter,
                             PixelFormat newBackBufferFormat,
                             bool newVerticalSync,
-                            uint32_t newDepthBits)
+                            bool newDepth)
         {
             window = newWindow;
             size = newSize;
@@ -51,7 +51,7 @@ namespace ouzel
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
-            depthBits = newDepthBits;
+            depth = newDepth;
 
             return true;
         }

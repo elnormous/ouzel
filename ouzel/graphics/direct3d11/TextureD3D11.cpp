@@ -143,26 +143,14 @@ namespace ouzel
                         frameBufferClearColor[3] = uploadData.clearColor.normA();
                     }
 
-                    if (uploadData.depthBits > 0)
+                    if (uploadData.depth)
                     {
                         D3D11_TEXTURE2D_DESC depthStencilDesc;
                         depthStencilDesc.Width = width;
                         depthStencilDesc.Height = height;
                         depthStencilDesc.MipLevels = 1;
                         depthStencilDesc.ArraySize = 1;
-
-                        switch (uploadData.depthBits)
-                        {
-                        case 16:
-                        case 24:
-                        case 32:
-                            depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                            break;
-                        default:
-                            Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                            return false;
-                        }
-
+                        depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
                         depthStencilDesc.SampleDesc.Count = uploadData.sampleCount;
                         depthStencilDesc.SampleDesc.Quality = 0;
                         depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;

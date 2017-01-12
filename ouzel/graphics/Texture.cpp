@@ -27,7 +27,7 @@ namespace ouzel
             currentData.levels.clear();
         }
 
-        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, uint32_t newDepthBits)
+        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
         {
             free();
 
@@ -35,7 +35,7 @@ namespace ouzel
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
             sampleCount = newSampleCount;
-            depthBits = newDepthBits;
+            depth = newDepth;
 
             if (!calculateSizes(newSize))
             {
@@ -70,7 +70,7 @@ namespace ouzel
             mipmaps = newMipmaps;
             renderTarget = false;
             sampleCount = 1;
-            depthBits = 0;
+            depth = false;
 
             if (!calculateData(newData, newSize))
             {
@@ -389,7 +389,7 @@ namespace ouzel
             currentData.clearColorBuffer = clearColorBuffer;
             currentData.clearDepthBuffer = clearDepthBuffer;
             currentData.sampleCount = sampleCount;
-            currentData.depthBits = depthBits;
+            currentData.depth = depth;
             currentData.clearColor = clearColor;
 
             dirty = true;

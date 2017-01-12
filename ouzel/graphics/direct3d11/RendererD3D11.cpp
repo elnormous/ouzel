@@ -159,9 +159,9 @@ namespace ouzel
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
-                                 uint32_t newDepthBits)
+                                 bool newDepth)
         {
-            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth))
             {
                 return false;
             }
@@ -375,27 +375,14 @@ namespace ouzel
                 return false;
             }
 
-            if (depthBits > 0)
+            if (depth)
             {
                 D3D11_TEXTURE2D_DESC depthStencilDesc;
                 depthStencilDesc.Width = width;
                 depthStencilDesc.Height = height;
                 depthStencilDesc.MipLevels = 1;
                 depthStencilDesc.ArraySize = 1;
-
-                switch (depthBits)
-                {
-                    case 16:
-                    case 24:
-                    case 32:
-                        depthBits = 32; // always use 32-bit depth buffer for Direct3D
-                        depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                        break;
-                    default:
-                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                        return false;
-                }
-
+                depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
                 depthStencilDesc.SampleDesc.Count = sampleCount;
                 depthStencilDesc.SampleDesc.Quality = 0;
                 depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -1096,7 +1083,7 @@ namespace ouzel
                     depthStencilView = nullptr;
                 }
 
-                if (depthBits > 0)
+                if (depth)
                 {
                     D3D11_TEXTURE2D_DESC depthStencilDesc;
                     depthStencilDesc.Width = width;

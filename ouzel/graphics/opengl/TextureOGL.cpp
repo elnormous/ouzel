@@ -159,7 +159,7 @@ namespace ouzel
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-                        if (uploadData.depthBits > 0)
+                        if (uploadData.depth)
                         {
                             glGenRenderbuffers(1, &depthBufferId);
                             glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);

@@ -63,7 +63,7 @@ namespace ouzel
                                    TextureFilter newTextureFilter,
                                    PixelFormat newBackBufferFormat,
                                    bool newVerticalSync,
-                                   uint32_t newDepthBits)
+                                   bool newDepth)
         {
             free();
 
@@ -108,7 +108,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth))
             {
                 return false;
             }
@@ -232,9 +232,9 @@ namespace ouzel
                 glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
                 glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
 
-                if (depthBits > 0)
+                if (depth)
                 {
-                    GLuint depthFormat = getDepthFormat(depthBits);
+                    GLuint depthFormat = GL_DEPTH_COMPONENT24_OES;
 
                     if (!depthFormat)
                     {
@@ -250,7 +250,7 @@ namespace ouzel
                 graphics::RendererOGL::bindFrameBuffer(frameBufferId);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
-                if (depthBits > 0)
+                if (depth)
                 {
                     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }

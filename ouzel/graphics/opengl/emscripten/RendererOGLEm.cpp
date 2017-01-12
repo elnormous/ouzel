@@ -31,7 +31,7 @@ namespace ouzel
                                  TextureFilter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
-                                 uint32_t newDepthBits)
+                                 bool newDepth)
         {
             apiMajorVersion = 2;
             apiMinorVersion = 0;
@@ -40,7 +40,7 @@ namespace ouzel
             emscripten_webgl_init_context_attributes(&attrs);
 
             attrs.alpha = true;
-            attrs.depth = newDepthBits > 0;
+            attrs.depth = newDepth;
             attrs.stencil = false;
             attrs.antialias = newSampleCount > 0;
 
@@ -59,7 +59,7 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLEm::present()

@@ -108,9 +108,9 @@ namespace ouzel
                                TextureFilter newTextureFilter,
                                PixelFormat newBackBufferFormat,
                                bool newVerticalSync,
-                               uint32_t newDepthBits)
+                               bool newDepth)
         {
-            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepthBits))
+            if (!Renderer::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth))
             {
                 return false;
             }
@@ -867,9 +867,13 @@ namespace ouzel
                 renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
     #endif
 
-                if (depthBits > 0)
+                if (depth)
                 {
-                    GLuint depthFormat = getDepthFormat(depthBits);
+#ifdef OUZEL_SUPPORTS_OPENGL
+                    GLuint depthFormat = GL_DEPTH_COMPONENT24;
+#elif OUZEL_SUPPORTS_OPENGLES
+                    GLuint depthFormat = GL_DEPTH_COMPONENT24_OES;
+#endif
 
                     if (!depthFormat)
                     {
@@ -892,7 +896,7 @@ namespace ouzel
                 bindFrameBuffer(frameBufferId);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
-                if (depthBits > 0)
+                if (depth)
                 {
                     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
@@ -912,9 +916,13 @@ namespace ouzel
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
-                if (depthBits > 0)
+                if (depth)
                 {
-                    GLuint depthFormat = getDepthFormat(depthBits);
+#ifdef OUZEL_SUPPORTS_OPENGL
+                    GLuint depthFormat = GL_DEPTH_COMPONENT24;
+#elif OUZEL_SUPPORTS_OPENGLES
+                    GLuint depthFormat = GL_DEPTH_COMPONENT24_OES;
+#endif
 
                     if (!depthFormat)
                     {
@@ -930,7 +938,7 @@ namespace ouzel
                 bindFrameBuffer(frameBufferId);
                 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
-                if (depthBits > 0)
+                if (depth)
                 {
                     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
