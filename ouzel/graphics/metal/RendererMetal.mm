@@ -249,6 +249,7 @@ namespace ouzel
                     depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
                     depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
                     depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+                    [depthStencilDescriptor release];
                 }
             }
 
