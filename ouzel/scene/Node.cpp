@@ -46,7 +46,7 @@ namespace ouzel
                          bool parentHidden)
         {
             worldOrder = parentOrder + order;
-            worldHidden = hidden && parentHidden;
+            worldHidden = parentHidden && hidden;
 
             if (parentTransformDirty)
             {
