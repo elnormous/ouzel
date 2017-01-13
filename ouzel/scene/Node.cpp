@@ -42,9 +42,11 @@ namespace ouzel
                          const Matrix4& newParentTransform,
                          bool parentTransformDirty,
                          Camera* camera,
-                         int32_t parentOrder)
+                         int32_t parentOrder,
+                         bool parentHidden)
         {
             worldOrder = parentOrder + order;
+            worldHidden = hidden && parentHidden;
 
             if (parentTransformDirty)
             {
@@ -56,7 +58,7 @@ namespace ouzel
                 calculateTransform();
             }
 
-            if (!hidden)
+            if (!worldHidden)
             {
                 AABB3 boundingBox = getBoundingBox();
 
@@ -73,7 +75,7 @@ namespace ouzel
 
             for (Node* child : children)
             {
-                child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder);
+                child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
             }
 
             updateChildrenTransform = false;

@@ -35,7 +35,8 @@ namespace ouzel
                                const Matrix4& newParentTransform,
                                bool parentTransformDirty,
                                Camera* camera,
-                               int32_t parentOrder);
+                               int32_t parentOrder,
+                               bool parentHidden);
             virtual void draw(Camera* camera);
             virtual void drawWireframe(Camera* camera);
 
@@ -79,6 +80,7 @@ namespace ouzel
 
             virtual void setHidden(bool newHidden);
             virtual bool isHidden() const { return hidden; }
+            bool isWorldHidden() const { return worldHidden; }
 
             virtual bool pointOn(const Vector2& worldPosition) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
@@ -159,14 +161,15 @@ namespace ouzel
             bool pickable = false;
             bool cullDisabled = false;
             bool hidden = false;
+            bool worldHidden = false;
 
             Vector3 position;
             Quaternion rotation = Quaternion::IDENTITY;
             Vector3 scale = Vector3(1.0f, 1.0f, 1.0f);
             Color color = Color::WHITE;
             float opacity = 1.0f;
-            int32_t worldOrder = 0;
             int32_t order = 0;
+            int32_t worldOrder = 0;
 
             Animator* currentAnimator = nullptr;
             std::vector<Component*> components;
