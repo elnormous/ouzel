@@ -146,26 +146,32 @@ namespace ouzel
 
             if (type == Event::Type::KEY_DOWN && !widgets.empty())
             {
-                if (event.key == input::KeyboardKey::UP)
+                switch (event.key)
                 {
-                    selectPreviousWidget();
-                }
-                else if (event.key == input::KeyboardKey::DOWN)
-                {
-                    selectNextWidget();
-                }
-                else if (event.key == input::KeyboardKey::RETURN)
-                {
-                    if (selectedWidget)
+                    case input::KeyboardKey::LEFT:
+                    case input::KeyboardKey::UP:
+                        selectPreviousWidget();
+                        break;
+                    case input::KeyboardKey::RIGHT:
+                    case input::KeyboardKey::DOWN:
+                        selectNextWidget();
+                        break;
+                    case input::KeyboardKey::RETURN:
                     {
-                        Event clickEvent;
-                        clickEvent.type = Event::Type::UI_CLICK_NODE;
+                        if (selectedWidget)
+                        {
+                            Event clickEvent;
+                            clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                        clickEvent.uiEvent.node = selectedWidget;
-                        clickEvent.uiEvent.position = selectedWidget->getPosition();
+                            clickEvent.uiEvent.node = selectedWidget;
+                            clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                            sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                        }
+                        break;
                     }
+                    default:
+                        break;
                 }
             }
 
