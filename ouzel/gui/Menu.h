@@ -20,14 +20,13 @@ namespace ouzel
             virtual void addWidget(Widget* widget);
             virtual bool removeChild(Node* node) override;
 
+            void selectWidget(Widget* widget);
             virtual void selectNextWidget();
             virtual void selectPreviousWidget();
 
         protected:
             virtual void enter() override;
             virtual void leave() override;
-
-            void selectWidget(Widget* widget);
 
             bool handleKeyboard(Event::Type type, const KeyboardEvent& event);
             bool handleGamepad(Event::Type type, const GamepadEvent& event);

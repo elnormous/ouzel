@@ -90,11 +90,19 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            selectedWidget = widget;
+            selectedWidget = nullptr;
 
             for (Widget* childWidget : widgets)
             {
-                childWidget->setSelected(childWidget == selectedWidget);
+                if (childWidget == widget)
+                {
+                    selectedWidget = widget;
+                    childWidget->setSelected(true);
+                }
+                else
+                {
+                    childWidget->setSelected(false);
+                }
             }
         }
 

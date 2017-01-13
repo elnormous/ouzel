@@ -9,18 +9,22 @@ namespace ouzel
 {
     namespace gui
     {
+        class Menu;
+
         class Widget: public scene::Node
         {
+            friend Menu;
         public:
             Widget();
 
             virtual void setEnabled(bool newEnabled);
             bool isEnabled() const { return enabled; }
 
-            virtual void setSelected(bool newSelected);
             bool isSelected() const { return selected; }
 
         protected:
+            virtual void setSelected(bool newSelected);
+            
             bool enabled = true;
             bool selected = false;
         };
