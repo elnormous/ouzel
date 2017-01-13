@@ -29,7 +29,7 @@ namespace ouzel
 
         void Menu::setEnabled(bool newEnabled)
         {
-            Menu::setEnabled(newEnabled);
+            Widget::setEnabled(newEnabled);
 
             if (enabled)
             {
