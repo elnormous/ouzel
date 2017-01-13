@@ -10,6 +10,8 @@
 
 namespace ouzel
 {
+    class AABB2;
+    
     class AABB3
     {
     public:
@@ -31,6 +33,9 @@ namespace ouzel
             min(box.min), max(box.max)
         {
         }
+
+        AABB3(const AABB2& box);
+        AABB3& operator=(const AABB2& box);
 
         Vector3 getCenter()
         {

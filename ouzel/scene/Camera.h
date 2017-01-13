@@ -57,7 +57,7 @@ namespace ouzel
             Vector3 convertNormalizedToWorld(const Vector2& position) const;
             Vector2 convertWorldToNormalized(const Vector3& position) const;
 
-            bool checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const;
+            bool checkVisibility(const Matrix4& boxTransform, const AABB3& boundingBox) const;
 
             void setViewport(const Rectangle& newViewport);
             const Rectangle& getViewport() const { return viewport; }

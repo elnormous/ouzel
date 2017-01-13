@@ -3,9 +3,23 @@
 
 #include <algorithm>
 #include "AABB3.h"
+#include "AABB2.h"
 
 namespace ouzel
 {
+    AABB3::AABB3(const AABB2& box):
+        min(box.min), max(box.max)
+    {
+    }
+
+    AABB3& AABB3::operator=(const AABB2& box)
+    {
+        min = box.min;
+        max = box.max;
+
+        return *this;
+    }
+
     void AABB3::getCorners(Vector3* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.

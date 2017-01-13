@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "scene/NodeContainer.h"
-#include "math/AABB2.h"
+#include "math/AABB3.h"
 #include "math/Color.h"
 #include "math/Matrix4.h"
 #include "math/Quaternion.h"
@@ -131,7 +131,7 @@ namespace ouzel
             bool removeComponent(Component* component);
             void removeAllComponents();
 
-            AABB2 getBoundingBox() const;
+            AABB3 getBoundingBox() const;
 
         protected:
             void removeAnimator(Animator* animator);

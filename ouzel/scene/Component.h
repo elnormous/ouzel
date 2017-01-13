@@ -5,7 +5,7 @@
 
 #include <vector>
 #include "utils/Noncopyable.h"
-#include "math/AABB2.h"
+#include "math/AABB3.h"
 #include "math/Matrix4.h"
 #include "math/Color.h"
 
@@ -30,8 +30,8 @@ namespace ouzel
                                        const Color& drawColor,
                                        scene::Camera* camera);
 
-            virtual void setBoundingBox(const AABB2& newBoundingBox) { boundingBox = newBoundingBox; }
-            virtual const AABB2& getBoundingBox() const { return boundingBox; }
+            virtual void setBoundingBox(const AABB3& newBoundingBox) { boundingBox = newBoundingBox; }
+            virtual const AABB3& getBoundingBox() const { return boundingBox; }
             bool isAddedToNode() const { return node != nullptr; }
 
             virtual bool pointOn(const Vector2& position) const;
@@ -41,7 +41,7 @@ namespace ouzel
             void setHidden(bool newHidden) { hidden = newHidden; }
 
         protected:
-            AABB2 boundingBox;
+            AABB3 boundingBox;
             bool hidden = false;
 
             Node* node = nullptr;

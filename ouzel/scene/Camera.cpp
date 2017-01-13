@@ -164,7 +164,7 @@ namespace ouzel
                            (result.v[1] / 2.0f + 0.5f) * viewport.size.v[1] + viewport.position.v[1]);
         }
 
-        bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB2& boundingBox) const
+        bool Camera::checkVisibility(const Matrix4& boxTransform, const AABB3& boundingBox) const
         {
             if (type == Type::PERSPECTIVE)
             {

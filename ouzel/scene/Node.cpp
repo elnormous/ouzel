@@ -58,7 +58,7 @@ namespace ouzel
 
             if (!hidden)
             {
-                AABB2 boundingBox = getBoundingBox();
+                AABB3 boundingBox = getBoundingBox();
 
                 if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
                 {
@@ -465,9 +465,9 @@ namespace ouzel
             }
         }
 
-        AABB2 Node::getBoundingBox() const
+        AABB3 Node::getBoundingBox() const
         {
-            AABB2 boundingBox;
+            AABB3 boundingBox;
 
             for (Component* component : components)
             {

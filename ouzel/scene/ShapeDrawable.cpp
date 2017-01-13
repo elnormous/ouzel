@@ -118,7 +118,7 @@ namespace ouzel
 
         void ShapeDrawable::clear()
         {
-            boundingBox = AABB2();
+            boundingBox = AABB3();
 
             drawCommands.clear();
             indices.clear();
