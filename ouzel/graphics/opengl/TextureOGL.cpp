@@ -156,9 +156,6 @@ namespace ouzel
                                      static_cast<GLsizei>(uploadData.size.v[1]),
                                      0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
                         if (uploadData.depth)
                         {
                             glGenRenderbuffers(1, &depthBufferId);
