@@ -165,6 +165,7 @@ namespace ouzel
                         selectNextWidget();
                         break;
                     case input::KeyboardKey::RETURN:
+                    case input::KeyboardKey::SPACE:
                     {
                         if (selectedWidget)
                         {
