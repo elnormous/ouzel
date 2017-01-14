@@ -415,6 +415,10 @@ namespace ouzel
                         }
                     }
                 }
+                else
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
             }
 #if OUZEL_MULTITHREADED
         }
