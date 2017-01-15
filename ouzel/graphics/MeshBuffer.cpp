@@ -2,8 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBuffer.h"
-#include "core/Engine.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

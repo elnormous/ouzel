@@ -22,7 +22,7 @@
 #include "graphics/Shader.h"
 #include "graphics/BlendState.h"
 #include "graphics/PixelFormat.h"
-#include "graphics/TextureFilter.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -85,7 +85,7 @@ namespace ouzel
             virtual void setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
-            TextureFilter getTextureFilter() const { return textureFilter; }
+            Texture::Filter getTextureFilter() const { return textureFilter; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
@@ -153,7 +153,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              TextureFilter newTextureFilter,
+                              Texture::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth);
@@ -172,7 +172,7 @@ namespace ouzel
             uint32_t currentFrame = 0;
             uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
-            TextureFilter textureFilter = TextureFilter::NONE;
+            Texture::Filter textureFilter = Texture::Filter::NONE;
             PixelFormat backBufferFormat;
             bool depth = false;
 

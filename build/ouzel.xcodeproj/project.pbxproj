@@ -1024,7 +1024,6 @@
 		306B0E5D1C567D05005C75C1 /* ShapeDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeDrawable.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeDrawable.h; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelFormat.h; sourceTree = "<group>"; };
-		3082C3471D94A90E0090FC9D /* TextureFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureFilter.h; sourceTree = "<group>"; };
 		3082C3831D9565DE0090FC9D /* ColorPSGL2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSGL2.h; sourceTree = "<group>"; };
 		3082C3841D9565DE0090FC9D /* ColorPSGL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSGL3.h; sourceTree = "<group>"; };
 		3082C3851D9565DE0090FC9D /* ColorPSGLES2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSGLES2.h; sourceTree = "<group>"; };
@@ -1305,7 +1304,6 @@
 				304A8E431C237C70008B1151 /* Shader.h */,
 				304A8E461C237C70008B1151 /* Texture.cpp */,
 				304A8E471C237C70008B1151 /* Texture.h */,
-				3082C3471D94A90E0090FC9D /* TextureFilter.h */,
 				304A8EA01C270833008B1151 /* Vertex.cpp */,
 				304A8EA11C270833008B1151 /* Vertex.h */,
 				30381F171D8094FD00677CAB /* VertexBuffer.cpp */,

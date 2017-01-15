@@ -3,7 +3,6 @@
 
 #include "IndexBuffer.h"
 #include "Renderer.h"
-#include "core/Engine.h"
 
 namespace ouzel
 {

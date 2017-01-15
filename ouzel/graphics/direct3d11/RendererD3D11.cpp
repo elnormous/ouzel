@@ -156,7 +156,7 @@ namespace ouzel
         bool RendererD3D11::init(Window* newWindow,
                                  const Size2& newSize,
                                  uint32_t newSampleCount,
-                                 TextureFilter newTextureFilter,
+                                 Texture::Filter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  bool newDepth)
@@ -287,16 +287,16 @@ namespace ouzel
             D3D11_SAMPLER_DESC samplerStateDesc;
             switch (textureFilter)
             {
-                case TextureFilter::NONE:
+                case Texture::Filter::NONE:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                     break;
-                case TextureFilter::LINEAR:
+                case Texture::Filter::LINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                     break;
-                case TextureFilter::BILINEAR:
+                case Texture::Filter::BILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                     break;
-                case TextureFilter::TRILINEAR:
+                case Texture::Filter::TRILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                     break;
             }

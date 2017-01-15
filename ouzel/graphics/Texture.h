@@ -22,6 +22,14 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            enum class Filter
+            {
+                NONE,
+                LINEAR,
+                BILINEAR,
+                TRILINEAR
+            };
+
             static const uint32_t LAYERS = 4;
 
             virtual ~Texture();

@@ -35,7 +35,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
-#include "graphics/TextureFilter.h"
 #include "graphics/Vertex.h"
 #include "graphics/VertexBuffer.h"
 #include "gui/BMFont.h"

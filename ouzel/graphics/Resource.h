@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <memory>
 #include <atomic>
 
 namespace ouzel

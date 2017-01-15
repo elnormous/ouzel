@@ -28,7 +28,7 @@ namespace ouzel
         bool RendererOGLEm::init(Window* newWindow,
                                  const Size2& newSize,
                                  uint32_t newSampleCount,
-                                 TextureFilter newTextureFilter,
+                                 Texture::Filter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  bool newDepth)
