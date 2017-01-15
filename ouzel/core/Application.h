@@ -14,7 +14,7 @@
 namespace ouzel
 {
     class FileSystem;
-    
+
     class Application: public Noncopyable
     {
     public:

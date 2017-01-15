@@ -114,7 +114,7 @@ namespace ouzel
         void VertexBuffer::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             currentData.vertexSize = vertexSize;
             currentData.vertexAttributes = vertexAttributes;
             currentData.dynamic = dynamic;

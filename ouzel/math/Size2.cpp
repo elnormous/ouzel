@@ -16,7 +16,7 @@ namespace ouzel
     {
         v[0] = s.v[0];
         v[1] = s.v[1];
-        
+
         return *this;
     }
 }

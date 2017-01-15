@@ -156,7 +156,7 @@ namespace ouzel
             {
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
-                
+
                 const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
 
                 if (checkOpenGLError() || !extensionPtr)

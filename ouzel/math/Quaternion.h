@@ -204,7 +204,7 @@ namespace ouzel
             result.m[9] = 2.0f * (yz - wx);
             result.m[10] = 1.0f - 2.0f * (xx + yy);
             result.m[11] = 0.0f;
-            
+
             result.m[12] = 0.0f;
             result.m[13] = 0.0f;
             result.m[14] = 0.0f;

@@ -349,7 +349,7 @@ namespace ouzel
             }
 
             drawCommands.push_back(command);
-            
+
             dirty = true;
         }
 

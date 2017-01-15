@@ -71,7 +71,7 @@ namespace ouzel
         v[2] = cr * cpsy - sr * spcy;
         v[3] = cr * cpcy + sr * spsy;
     }
-    
+
     Vector3 Quaternion::getEulerAngles() const
     {
         Vector3 result;

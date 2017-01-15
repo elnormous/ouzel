@@ -486,7 +486,7 @@ namespace ouzel
     {
         running = false;
         active = false;
-        
+
 #if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
 #endif

@@ -11,7 +11,7 @@
 namespace ouzel
 {
     class AABB2;
-    
+
     class AABB3
     {
     public:

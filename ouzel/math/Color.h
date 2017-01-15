@@ -36,7 +36,7 @@ namespace ouzel
             v[2] = 0;
             v[3] = 0;
         }
-        
+
         Color(uint32_t color)
         {
             v[0] = static_cast<uint8_t>((color & 0xFF000000) >> 24);

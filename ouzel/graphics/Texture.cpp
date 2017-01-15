@@ -180,13 +180,13 @@ namespace ouzel
                     for (; newHeight >= 2;)
                     {
                         newHeight >>= 1;
-                        
+
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
                 }
             }
-            
+
             return true;
         }
 
@@ -371,14 +371,14 @@ namespace ouzel
         void Texture::setClearColor(Color color)
         {
             clearColor = color;
-            
+
             update();
         }
 
         void Texture::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             currentData.size = size;
             currentData.dynamic = dynamic;
             currentData.mipmaps = mipMapsGenerated;

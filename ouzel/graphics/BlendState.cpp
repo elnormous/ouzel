@@ -43,7 +43,7 @@ namespace ouzel
         void BlendState::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             currentData = data;
 
             dirty = true;

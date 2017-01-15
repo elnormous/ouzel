@@ -147,7 +147,7 @@ namespace ouzel
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
-            
+
         protected:
             Renderer(Driver aDriver);
             virtual bool init(Window* newWindow,

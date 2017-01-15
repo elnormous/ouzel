@@ -193,7 +193,7 @@ namespace ouzel
 #else
                     glUnmapBuffer(GL_ARRAY_BUFFER);
 #endif
-                    
+
                     if (RendererOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to upload vertex buffer";

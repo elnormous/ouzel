@@ -23,7 +23,7 @@ namespace ouzel
         protected:
             virtual void update() = 0;
             virtual bool upload() = 0;
-            
+
             std::atomic<bool> dirty;
         };
     } // graphics

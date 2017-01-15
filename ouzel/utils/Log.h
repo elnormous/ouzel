@@ -62,7 +62,7 @@ namespace ouzel
             flush();
             level = other.level;
             s = std::move(other.s);
-            
+
             return *this;
         }
 

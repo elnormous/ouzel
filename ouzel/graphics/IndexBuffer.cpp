@@ -81,7 +81,7 @@ namespace ouzel
         void IndexBuffer::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             currentData.indexSize = indexSize;
             currentData.dynamic = dynamic;
             currentData.data = std::move(data);

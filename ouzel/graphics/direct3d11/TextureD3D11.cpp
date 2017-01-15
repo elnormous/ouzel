@@ -102,7 +102,7 @@ namespace ouzel
                     D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
                     resourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                     resourceViewDesc.ViewDimension = (uploadData.sampleCount > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
-                    
+
                     if (uploadData.sampleCount == 1)
                     {
                         resourceViewDesc.Texture2D.MostDetailedMip = 0;

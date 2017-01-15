@@ -25,7 +25,7 @@ namespace ouzel
             scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
             scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
             scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
-            
+
         protected:
             bool handleUI(Event::Type type,const UIEvent& event);
 

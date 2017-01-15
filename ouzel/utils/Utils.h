@@ -44,7 +44,7 @@ namespace ouzel
     extern std::mt19937 randomEngine;
 
     // decoding
-    
+
     inline int64_t decodeInt64Big(const uint8_t* buffer)
     {
         return static_cast<int64_t>(buffer[7]) |

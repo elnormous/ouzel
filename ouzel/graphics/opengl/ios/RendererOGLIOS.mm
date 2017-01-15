@@ -21,7 +21,7 @@ namespace ouzel
             {
                 glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
             }
-            
+
             if (context)
             {
                 if ([EAGLContext currentContext] == context)
@@ -262,7 +262,7 @@ namespace ouzel
 
                 systemFrameBufferId = frameBufferId;
             }
-            
+
             return RendererOGL::createFrameBuffer();
         }
     } // namespace graphics

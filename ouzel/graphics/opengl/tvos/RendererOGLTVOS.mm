@@ -254,7 +254,7 @@ namespace ouzel
                 {
                     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
-                
+
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
                     Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -263,7 +263,7 @@ namespace ouzel
 
                 systemFrameBufferId = frameBufferId;
             }
-            
+
             return RendererOGL::createFrameBuffer();
         }
     } // namespace graphics

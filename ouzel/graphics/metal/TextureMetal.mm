@@ -172,7 +172,7 @@ namespace ouzel
                                 Log(Log::Level::ERR) << "Failed to create depth texture";
                                 return false;
                             }
-                            
+
                             renderPassDescriptor.depthAttachment.texture = depthTexture;
                         }
                         else

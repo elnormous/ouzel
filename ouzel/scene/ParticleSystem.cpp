@@ -280,7 +280,7 @@ namespace ouzel
 
             createParticleMesh();
             resume();
-            
+
             return true;
         }
 

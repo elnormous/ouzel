@@ -180,7 +180,7 @@ namespace ouzel
                             return false;
                         }
                     }
-                    
+
                     frameBufferClearColor[0] = uploadData.clearColor.normR();
                     frameBufferClearColor[1] = uploadData.clearColor.normG();
                     frameBufferClearColor[2] = uploadData.clearColor.normB();

@@ -155,7 +155,7 @@ namespace ouzel
         {
             transformVector(vector, vector);
         }
-        
+
         void transformVector(const Vector4& vector, Vector4& dst) const;
 
         void translate(float x, float y, float z);

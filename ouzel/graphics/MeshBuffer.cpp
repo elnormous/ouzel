@@ -51,7 +51,7 @@ namespace ouzel
         void MeshBuffer::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             currentData.indexBuffer = indexBuffer;
             currentData.vertexBuffer = vertexBuffer;
 

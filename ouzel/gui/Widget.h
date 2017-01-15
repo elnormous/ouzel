@@ -24,7 +24,7 @@ namespace ouzel
 
         protected:
             virtual void setSelected(bool newSelected);
-            
+
             bool enabled = true;
             bool selected = false;
         };

@@ -125,7 +125,7 @@ namespace ouzel
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
-            
+
             return offset - originalOffset;
         }
 
@@ -150,7 +150,7 @@ namespace ouzel
             result.assign(reinterpret_cast<const uint8_t*>(buffer.data() + offset),
                           reinterpret_cast<const uint8_t*>(buffer.data() + offset) + length);
             offset += length;
-            
+
             return offset - originalOffset;
         }
 
@@ -266,10 +266,10 @@ namespace ouzel
                     return 0;
                 }
                 offset += ret;
-                
+
                 result[key] = node;
             }
-            
+
             return offset - originalOffset;
         }
 
@@ -364,7 +364,7 @@ namespace ouzel
                           reinterpret_cast<const uint8_t*>(value.data()),
                           reinterpret_cast<const uint8_t*>(value.data()) + value.length());
             size += static_cast<uint32_t>(value.length());
-            
+
             return size;
         }
 
@@ -455,7 +455,7 @@ namespace ouzel
 
                 size += i.second.encode(buffer);
             }
-            
+
             return size;
         }
 
@@ -589,21 +589,21 @@ namespace ouzel
                 }
                 default: return 0;
             }
-            
+
             offset += ret;
-            
+
             return offset - originalOffset;
         }
-        
+
         uint32_t Value::encode(std::vector<uint8_t>& buffer) const
         {
             uint32_t size = 0;
-            
+
             uint32_t ret = 0;
-            
+
             buffer.push_back(static_cast<uint8_t>(type));
             size += 1;
-            
+
             switch (type)
             {
                 case Type::NONE: break;
@@ -621,9 +621,9 @@ namespace ouzel
                 case Type::DICTIONARY: ret = writeDictionary(buffer, dictionaryValue); break;
                 default: return 0;
             }
-            
+
             size += ret;
-            
+
             return size;
         }
     } // namespace obf
