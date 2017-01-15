@@ -183,7 +183,6 @@
     <ClInclude Include="..\ouzel\graphics\Renderer.h" />
     <ClInclude Include="..\ouzel\graphics\Shader.h" />
     <ClInclude Include="..\ouzel\graphics\Texture.h" />
-    <ClInclude Include="..\ouzel\graphics\TextureFilter.h" />
     <ClInclude Include="..\ouzel\graphics\Vertex.h" />
     <ClInclude Include="..\ouzel\graphics\VertexBuffer.h" />
     <ClInclude Include="..\ouzel\gui\BMFont.h" />
