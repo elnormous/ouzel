@@ -159,25 +159,27 @@ namespace ouzel
 
     void WindowMacOS::close()
     {
-        if (view)
-        {
-            [view release];
-            view = Nil;
-        }
+        ouzel::sharedApplication->execute([this] {
+            if (view)
+            {
+                [view release];
+                view = Nil;
+            }
 
-        if (window)
-        {
-            window.delegate = Nil;
-            [window close];
-            [window release];
-            window = Nil;
-        }
+            if (window)
+            {
+                window.delegate = Nil;
+                [window close];
+                [window release];
+                window = Nil;
+            }
 
-        if (windowDelegate)
-        {
-            [windowDelegate release];
-            windowDelegate = Nil;
-        }
+            if (windowDelegate)
+            {
+                [windowDelegate release];
+                windowDelegate = Nil;
+            }
+        });
     }
 
     void WindowMacOS::setSize(const Size2& newSize)
