@@ -20,6 +20,8 @@ namespace ouzel
     public:
         virtual ~WindowLinux();
 
+        virtual void close() override;
+
         virtual void setSize(const Size2& newSize) override;
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;

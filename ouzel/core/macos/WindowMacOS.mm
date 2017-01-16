@@ -159,6 +159,8 @@ namespace ouzel
 
     void WindowMacOS::close()
     {
+        Window::close();
+        
         ouzel::sharedApplication->execute([this] {
             if (view)
             {

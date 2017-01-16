@@ -382,6 +382,8 @@ namespace ouzel
 
     void WindowWin::close()
     {
+        Window::close();
+
         sharedApplication->execute([this] {
             SendMessage(window, WM_CLOSE, 0, 0);
         });

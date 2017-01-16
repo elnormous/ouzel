@@ -211,6 +211,24 @@ namespace ouzel
         return Window::init();
     }
 
+    void WindowLinux::close()
+    {
+        Window::close();
+
+        ouzel::sharedApplication->execute([this] {
+            Display *display = display;
+            XEvent event;
+            memset(&event, 0, sizeof (event));
+            event.xclient.type = ClientMessage;
+            event.xclient.window = window;
+            event.xclient.message_type = XInternAtom(display, "WM_PROTOCOLS", true);
+            event.xclient.format = 32; // data is set as 32-bit integers
+            event.xclient.data.l[0] = deleteMessage;
+            event.xclient.data.l[1] = CurrentTime;
+            XSendEvent(display, window, False, NoEventMask, &event);
+        });
+    }
+
     void WindowLinux::setSize(const Size2& newSize)
     {
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
