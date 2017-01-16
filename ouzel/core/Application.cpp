@@ -5,7 +5,6 @@
 #include <cstdint>
 #include "Application.h"
 #include "Engine.h"
-#include "files/FileSystem.h"
 
 namespace ouzel
 {
@@ -14,14 +13,12 @@ namespace ouzel
     Application::Application()
     {
         sharedApplication = this;
-        fileSystem.reset(new FileSystem());
     }
 
     Application::Application(int aArgc, char* aArgv[]):
         argc(aArgc), argv(aArgv)
     {
         sharedApplication = this;
-        fileSystem.reset(new FileSystem());
 
         for (int32_t i = 0; i < argc; ++i)
         {
@@ -33,7 +30,6 @@ namespace ouzel
         args(aArgs)
     {
         sharedApplication = this;
-        fileSystem.reset(new FileSystem());
     }
 
     Application::~Application()

@@ -8,6 +8,7 @@
 #include <queue>
 #include <functional>
 #include <mutex>
+#include "files/FileSystem.h"
 #include "utils/Noncopyable.h"
 #include "utils/Types.h"
 
@@ -33,7 +34,7 @@ namespace ouzel
 
         virtual void execute(const std::function<void(void)>& func);
 
-        FileSystem* getFileSystem() const { return fileSystem.get(); }
+        FileSystem* getFileSystem() { return &fileSystem; }
 
     protected:
         void executeAll();
@@ -46,7 +47,7 @@ namespace ouzel
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
 
-        std::unique_ptr<FileSystem> fileSystem;
+        FileSystem fileSystem;
     };
 
     extern Application* sharedApplication;
