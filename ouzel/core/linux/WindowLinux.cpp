@@ -191,7 +191,7 @@ namespace ouzel
 
             deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
             XSetWMProtocols(display, window, &deleteMessage, 1);
-
+            protocols = XInternAtom(display, "WM_PROTOCOLS", False);
             state = XInternAtom(display, "_NET_WM_STATE", False);
             stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
 
@@ -218,13 +218,15 @@ namespace ouzel
         ouzel::sharedApplication->execute([this] {
             Display *display = display;
             XEvent event;
-            memset(&event, 0, sizeof (event));
-            event.xclient.type = ClientMessage;
+            event.type = ClientMessage;
             event.xclient.window = window;
-            event.xclient.message_type = XInternAtom(display, "WM_PROTOCOLS", true);
+            event.xclient.message_type = protocols;
             event.xclient.format = 32; // data is set as 32-bit integers
             event.xclient.data.l[0] = deleteMessage;
             event.xclient.data.l[1] = CurrentTime;
+            event.xclient.data.l[2] = 0; // unused
+            event.xclient.data.l[3] = 0; // unused
+            event.xclient.data.l[4] = 0; // unused
             XSendEvent(display, window, False, NoEventMask, &event);
         });
     }
@@ -285,16 +287,15 @@ namespace ouzel
             }
 
             XEvent event;
-
             event.type = ClientMessage;
             event.xclient.window = window;
             event.xclient.message_type = state;
             event.xclient.format = 32;
             event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
             event.xclient.data.l[1] = stateFullscreen;
-            event.xclient.data.l[2] = 0;  /* no second property to toggle */
-            event.xclient.data.l[3] = 1;  /* source indication: application */
-            event.xclient.data.l[4] = 0;  /* unused */
+            event.xclient.data.l[2] = 0; // no second property to toggle
+            event.xclient.data.l[3] = 1; // source indication: application
+            event.xclient.data.l[4] = 0; // unused
 
             if(!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
             {

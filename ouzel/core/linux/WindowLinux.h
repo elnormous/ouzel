@@ -41,6 +41,7 @@ namespace ouzel
         GLXContext context = 0;
         ::Window window = 0;
         Atom deleteMessage;
+        Atom protocols;
         Atom state;
         Atom stateFullscreen;
     };
