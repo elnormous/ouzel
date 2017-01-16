@@ -216,7 +216,6 @@ namespace ouzel
         Window::close();
 
         ouzel::sharedApplication->execute([this] {
-            Display *display = display;
             XEvent event;
             event.type = ClientMessage;
             event.xclient.window = window;
