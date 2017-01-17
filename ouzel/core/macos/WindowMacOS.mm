@@ -256,6 +256,12 @@ namespace ouzel
 
     void WindowMacOS::handleFullscreenChange(bool fullscreen)
     {
+        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
+                                               styleMask:[window styleMask]];
+
+        Window::setSize(Size2(static_cast<float>(frame.size.width),
+                              static_cast<float>(frame.size.height)));
+
         Window::setFullscreen(fullscreen);
     }
 }
