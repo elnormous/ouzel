@@ -107,4 +107,13 @@ namespace ouzel
 
         return EXIT_SUCCESS;
     }
+
+    bool ApplicationWin::openURL(const std::string& url)
+    {
+        wchar_t urlBuffer[256];
+        MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256);
+        int result = reinterpret_cast<int>(ShellExecute(NULL, L"open", urlBuffer, NULL, NULL, SW_SHOWNORMAL));
+
+        return result > 32;
+    }
 }

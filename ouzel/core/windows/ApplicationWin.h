@@ -14,5 +14,7 @@ namespace ouzel
         virtual ~ApplicationWin();
 
         virtual int run() override;
+
+        virtual bool openURL(const std::string& url) override;
     };
 }
