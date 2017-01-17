@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
+#include <unistd.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "ApplicationLinux.h"
@@ -170,4 +171,11 @@ namespace ouzel
 
         return EXIT_SUCCESS;
     }
+
+    bool ApplicationLinux::openURL(const std::string& url)
+    {
+		exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), (char *)0));
+
+		return true;
+	}
 }

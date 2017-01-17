@@ -13,5 +13,7 @@ namespace ouzel
         ApplicationLinux(int aArgc, char* aArgv[]);
 
         virtual int run() override;
+
+        virtual bool openURL(const std::string& url) override;
     };
 }
