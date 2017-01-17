@@ -18,6 +18,8 @@ namespace ouzel
 
         virtual void execute(const std::function<void(void)>& func) override;
 
+        virtual bool openURL(const std::string& url);
+
     protected:
         dispatch_queue_t mainQueue;
     };

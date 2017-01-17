@@ -46,4 +46,11 @@ namespace ouzel
             localFunction();
         });
     }
+
+    bool ApplicationMacOS::openURL(const std::string& url)
+    {
+        NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+
+        return [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:nsStringURL]] == YES;
+    }
 }

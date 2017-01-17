@@ -22,6 +22,7 @@ private:
     ouzel::gui::Menu menu;
 
     ouzel::EventHandler eventHandler;
+    ouzel::gui::Button gitHubButton;
     ouzel::gui::Button spritesButton;
     ouzel::gui::Button guiButton;
     ouzel::gui::Button renderTargetButton;

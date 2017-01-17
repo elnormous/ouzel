@@ -82,4 +82,9 @@ namespace ouzel
             }
         }
     }
+
+    bool Application::openURL(const std::string&)
+    {
+        return false;
+    }
 }

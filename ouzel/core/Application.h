@@ -36,6 +36,8 @@ namespace ouzel
 
         FileSystem* getFileSystem() { return &fileSystem; }
 
+        virtual bool openURL(const std::string& url);
+
     protected:
         void executeAll();
 

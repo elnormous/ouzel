@@ -15,7 +15,8 @@ using namespace ouzel;
 
 MainMenu::MainMenu(Samples& aSamples):
     samples(aSamples),
-spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
     guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
     renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
     animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
@@ -33,6 +34,9 @@ spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprit
     camera.setTargetContentSize(Size2(400.0f, 600.0f));
     layer.addCamera(&camera);
     layer.addChild(&menu);
+
+    gitHubButton.setPosition(Vector2(0.0f, 120.0f));
+    menu.addWidget(&gitHubButton);
 
     spritesButton.setPosition(Vector2(0.0f, 80.0f));
     menu.addWidget(&spritesButton);
@@ -75,7 +79,11 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &spritesButton)
+        if (event.node == &gitHubButton)
+        {
+            sharedApplication->openURL("https://github.com/elnormous/ouzel");
+        }
+        else if (event.node == &spritesButton)
         {
             samples.setScene(std::unique_ptr<scene::Scene>(new SpritesSample(samples)));
         }
