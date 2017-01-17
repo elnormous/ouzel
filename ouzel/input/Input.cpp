@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "Input.h"
+#include "Gamepad.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "math/MathUtils.h"

@@ -473,21 +473,23 @@ namespace ouzel
 
         void InputApple::handleGamepadConnected(id controller)
         {
-            std::shared_ptr<GamepadApple> gamepad(new GamepadApple(controller));
-            gamepads.push_back(gamepad);
-
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
+            std::unique_ptr<GamepadApple> gamepad(new GamepadApple(controller));
+
             event.gamepadEvent.gamepad = gamepad.get();
+
+            gamepads.push_back(std::move(gamepad));
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
         void InputApple::handleGamepadDisconnected(id controller)
         {
-            std::vector<std::shared_ptr<GamepadApple>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::shared_ptr<GamepadApple>& p) {
-                return p->getController() == controller;
+            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
+                GamepadApple* gamepadApple = static_cast<GamepadApple*>(gamepad.get());
+                return gamepadApple->getController() == controller;
             });
 
             if (i != gamepads.end())

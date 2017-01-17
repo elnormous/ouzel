@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <vector>
-#include <memory>
 #include "input/Input.h"
 
 #if defined(__OBJC__)
@@ -50,7 +48,6 @@ namespace ouzel
             InputApple();
 
             ConnectDelegatePtr connectDelegate = nullptr;
-            std::vector<std::shared_ptr<GamepadApple>> gamepads;
 
             bool discovering = false;
             bool cursorVisible = true;
