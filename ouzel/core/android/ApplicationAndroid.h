@@ -13,19 +13,26 @@ namespace ouzel
     class ApplicationAndroid: public Application
     {
     public:
-        ApplicationAndroid(JNIEnv* aJNIEnv, jobject aMainActivity, jobject aAssetManager);
+        ApplicationAndroid(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager);
+        virtual ~ApplicationAndroid();
 
         virtual int run() override;
 
+        virtual bool openURL(const std::string& url) override;
+
         bool step();
 
-        JNIEnv* getJNIEnv() const { return jniEnv; }
+        JavaVM* getJavaVM() const { return javaVM; }
         jobject getMainActivity() const { return mainActivity; }
+        jmethodID getCreateSurfaceMethod() const { return createSurfaceMethod; }
+        jmethodID getOpenURLMethod() const { return openURLMethod; }
         AAssetManager* getAssetManager() const { return assetManager; }
 
     private:
-        JNIEnv* jniEnv;
+        JavaVM* javaVM;
         jobject mainActivity;
+        jmethodID createSurfaceMethod;
+        jmethodID openURLMethod;
         AAssetManager* assetManager;
     };
 }

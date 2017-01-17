@@ -3,6 +3,7 @@
 
 #include "RendererOGLAndroid.h"
 #include "core/android/ApplicationAndroid.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -25,10 +26,16 @@ namespace ouzel
                                       bool newDepth)
         {
             ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
-            JNIEnv* jniEnv = applicationAndroid->getJNIEnv();
+            JavaVM* javaVM = applicationAndroid->getJavaVM();
+            JNIEnv* jniEnv;
+
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+            }
+
             jobject mainActivity = applicationAndroid->getMainActivity();
-            jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
-            jmethodID createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIIIII)V");
+            jmethodID createSurfaceMethod = applicationAndroid->getCreateSurfaceMethod();
             jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, newDepth ? 24 : 0, 0, (newSampleCount > 1) ? 1 : 0, newSampleCount);
 
             apiMajorVersion = 2;

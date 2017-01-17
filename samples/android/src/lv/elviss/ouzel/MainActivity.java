@@ -4,10 +4,14 @@
 package lv.elviss.ouzel;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends Activity
 {
+    public static final String TAG = "Ouzel";
     private SurfaceView surfaceView;
 
     @Override
@@ -22,6 +26,19 @@ public class MainActivity extends Activity
     {
         surfaceView = new SurfaceView(this, r, g, b, a, depth, stencil, sampleBuffers, samples);
         setContentView(surfaceView);
+    }
+
+    public void openURL(String url)
+    {
+        try
+        {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "Failed to open URL, error " + e.getMessage());
+        }
     }
 
     @Override
