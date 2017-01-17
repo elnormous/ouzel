@@ -286,7 +286,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedApplication->execute([this, newFullscreen] {
+            sharedApplication->execute([this] {
                 XEvent event;
                 event.type = ClientMessage;
                 event.xclient.window = window;
