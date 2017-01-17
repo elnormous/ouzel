@@ -226,7 +226,10 @@ namespace ouzel
             event.xclient.data.l[2] = 0; // unused
             event.xclient.data.l[3] = 0; // unused
             event.xclient.data.l[4] = 0; // unused
-            XSendEvent(display, window, False, NoEventMask, &event);
+            if (!XSendEvent(display, window, False, NoEventMask, &event))
+            {
+                Log(Log::Level::ERR) << "Failed to send X11 delete message";
+            }
         });
     }
 
@@ -252,9 +255,7 @@ namespace ouzel
         {
             if (fullscreen != newFullscreen)
             {
-                sharedApplication->execute([this, newFullscreen] {
-                    toggleFullscreen();
-                });
+                toggleFullscreen();
             }
         }
 
@@ -285,22 +286,23 @@ namespace ouzel
                 return false;
             }
 
-            XEvent event;
-            event.type = ClientMessage;
-            event.xclient.window = window;
-            event.xclient.message_type = state;
-            event.xclient.format = 32;
-            event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
-            event.xclient.data.l[1] = stateFullscreen;
-            event.xclient.data.l[2] = 0; // no second property to toggle
-            event.xclient.data.l[3] = 1; // source indication: application
-            event.xclient.data.l[4] = 0; // unused
+            sharedApplication->execute([this, newFullscreen] {
+                XEvent event;
+                event.type = ClientMessage;
+                event.xclient.window = window;
+                event.xclient.message_type = state;
+                event.xclient.format = 32;
+                event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
+                event.xclient.data.l[1] = stateFullscreen;
+                event.xclient.data.l[2] = 0; // no second property to toggle
+                event.xclient.data.l[3] = 1; // source indication: application
+                event.xclient.data.l[4] = 0; // unused
 
-            if(!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-            {
-                Log(Log::Level::ERR) << "Failed to send fullscreen message";
-                return false;
-            }
+                if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+                {
+                    Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
+                }
+            });
         }
 
         return true;
