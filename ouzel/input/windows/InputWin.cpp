@@ -195,10 +195,7 @@ namespace ouzel
 
         InputWin::InputWin()
         {
-        }
-
-        InputWin::~InputWin()
-        {
+            std::fill(std::begin(gamepadsWin), std::end(gamepadsWin), nullptr);
         }
 
         void InputWin::update()
@@ -206,39 +203,49 @@ namespace ouzel
             for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
             {
                 XINPUT_STATE state;
-
-                memset(&state, 0, sizeof(XINPUT_STATE));
+                ZeroMemory(&state, sizeof(XINPUT_STATE));
 
                 DWORD result = XInputGetState(i, &state);
 
                 if (result == ERROR_SUCCESS)
                 {
-                    if (!gamepads[i])
+                    if (!gamepadsWin[i])
                     {
-                        gamepads[i].reset(new GamepadWin(static_cast<int32_t>(i)));
+                        std::unique_ptr<GamepadWin> gamepad(new GamepadWin(static_cast<int32_t>(i)));
+                        gamepadsWin[i] = gamepad.get();
 
                         Event event;
                         event.type = Event::Type::GAMEPAD_CONNECT;
+                        event.gamepadEvent.gamepad = gamepad.get();
 
-                        event.gamepadEvent.gamepad = gamepads[i].get();
+                        gamepads.push_back(std::move(gamepad));
 
                         sharedEngine->getEventDispatcher()->postEvent(event);
                     }
 
-                    gamepads[i]->update(state);
+                    gamepadsWin[i]->update(state);
                 }
                 else if (result == ERROR_DEVICE_NOT_CONNECTED)
                 {
-                    if (gamepads[i])
+                    if (gamepadsWin[i])
                     {
+                        GamepadWin* gamepadWin = gamepadsWin[i];
+
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
 
-                        event.gamepadEvent.gamepad = gamepads[i].get();
+                        event.gamepadEvent.gamepad = gamepadWin;
 
                         sharedEngine->getEventDispatcher()->postEvent(event);
 
-                        gamepads[i].reset();
+                        std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadWin](const std::unique_ptr<Gamepad>& gamepad) {
+                            return gamepadWin == gamepad.get();
+                        });
+                        
+                        if (i != gamepads.end())
+                        {
+                            gamepads.erase(i);
+                        }
                     }
                 }
                 else

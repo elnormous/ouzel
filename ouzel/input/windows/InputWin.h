@@ -21,8 +21,6 @@ namespace ouzel
             static uint32_t getKeyboardModifiers(WPARAM wParam);
             static uint32_t getMouseModifiers(WPARAM wParam);
 
-            virtual ~InputWin();
-
             void update();
 
             virtual void setCursorVisible(bool visible) override;
@@ -33,7 +31,7 @@ namespace ouzel
         protected:
             InputWin();
 
-            std::shared_ptr<GamepadWin> gamepads[XUSER_MAX_COUNT];
+            GamepadWin* gamepadsWin[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;
         };

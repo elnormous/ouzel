@@ -87,7 +87,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
                 samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
-                break;
+                return true;
             default:
                 break;
         }
