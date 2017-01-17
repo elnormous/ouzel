@@ -54,4 +54,11 @@ namespace ouzel
 
         return active;
     }
+
+    bool ApplicationEm::openURL(const std::string& url)
+    {
+        EM_ASM_ARGS({window.open(Pointer_stringify($0));}, url.c_str());
+
+        return true;
+    }
 }

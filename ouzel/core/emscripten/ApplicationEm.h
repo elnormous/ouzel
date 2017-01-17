@@ -15,5 +15,7 @@ namespace ouzel
         virtual int run() override;
 
         bool step();
+
+        virtual bool openURL(const std::string& url) override;
     };
 }
