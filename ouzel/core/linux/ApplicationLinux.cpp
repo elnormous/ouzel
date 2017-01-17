@@ -174,7 +174,7 @@ namespace ouzel
 
     bool ApplicationLinux::openURL(const std::string& url)
     {
-		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), (char *)0));
+		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
 
 		return true;
 	}
