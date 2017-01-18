@@ -135,6 +135,9 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
         switch (event.button)
         {
+            case input::GamepadButton::B:
+                if (event.pressed) samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:

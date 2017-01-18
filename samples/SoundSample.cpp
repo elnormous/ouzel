@@ -13,6 +13,7 @@ SoundSample::SoundSample(Samples& aSamples):
     ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
+    eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
@@ -44,6 +45,20 @@ SoundSample::SoundSample(Samples& aSamples):
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+}
+
+bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+{
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    {
+        if (event.pressed &&
+            event.button == input::GamepadButton::B)
+        {
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        }
+    }
+
+    return true;
 }
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const

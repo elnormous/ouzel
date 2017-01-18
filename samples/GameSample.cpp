@@ -38,7 +38,7 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     return true;
 }
 
-bool GameSample::handleMouse(Event::Type type, const MouseEvent& event)
+bool GameSample::handleMouse(Event::Type type, const MouseEvent&)
 {
     if (type == Event::Type::MOUSE_DOWN)
     {
@@ -47,7 +47,7 @@ bool GameSample::handleMouse(Event::Type type, const MouseEvent& event)
     return true;
 }
 
-bool GameSample::handleTouch(Event::Type type, const TouchEvent& event)
+bool GameSample::handleTouch(Event::Type type, const TouchEvent&)
 {
     if (type == Event::Type::TOUCH_BEGIN)
     {
@@ -60,12 +60,17 @@ bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-
+        if (event.pressed &&
+            event.button == input::GamepadButton::B)
+        {
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        }
     }
+
     return true;
 }
 
-bool GameSample::handleUI(Event::Type type, const UIEvent& event) const
+bool GameSample::handleUI(Event::Type, const UIEvent&) const
 {
     return true;
 }

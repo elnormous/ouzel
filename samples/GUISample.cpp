@@ -11,6 +11,7 @@ GUISample::GUISample(Samples& aSamples):
     samples(aSamples),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
+    eventHandler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
@@ -54,6 +55,20 @@ GUISample::GUISample(Samples& aSamples):
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+}
+
+bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
+{
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    {
+        if (event.pressed &&
+            event.button == input::GamepadButton::B)
+        {
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        }
+    }
+
+    return true;
 }
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event) const

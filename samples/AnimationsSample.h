@@ -11,6 +11,7 @@ public:
     AnimationsSample(Samples& aSamples);
 
 private:
+    bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 

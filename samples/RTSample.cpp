@@ -12,6 +12,7 @@ RTSample::RTSample(Samples& aSamples):
     characterSprite("run.json"),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
 {
+    eventHandler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
@@ -58,6 +59,20 @@ RTSample::RTSample(Samples& aSamples):
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+}
+
+bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
+{
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    {
+        if (event.pressed &&
+            event.button == input::GamepadButton::B)
+        {
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        }
+    }
+
+    return true;
 }
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const

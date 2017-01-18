@@ -144,7 +144,16 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
     return true;
 }
 
-bool PerspectiveSample::handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event)
+bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
+    if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+    {
+        if (event.pressed &&
+            event.button == input::GamepadButton::B)
+        {
+            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        }
+    }
+
     return true;
 }

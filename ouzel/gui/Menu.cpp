@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
+#include "input/Input.h"
 
 namespace ouzel
 {
@@ -187,9 +188,26 @@ namespace ouzel
             return true;
         }
 
-        bool Menu::handleGamepad(Event::Type, const GamepadEvent&)
+        bool Menu::handleGamepad(Event::Type type, const GamepadEvent& event)
         {
             if (!enabled) return true;
+
+            if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
+            {
+                if (event.pressed && event.button == input::GamepadButton::A)
+                {
+                    if (selectedWidget)
+                    {
+                        Event clickEvent;
+                        clickEvent.type = Event::Type::UI_CLICK_NODE;
+
+                        clickEvent.uiEvent.node = selectedWidget;
+                        clickEvent.uiEvent.position = selectedWidget->getPosition();
+
+                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                    }
+                }
+            }
 
             return true;
         }
