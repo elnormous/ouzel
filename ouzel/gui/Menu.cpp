@@ -194,17 +194,30 @@ namespace ouzel
 
             if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
-                if (event.pressed && event.button == input::GamepadButton::A)
+                if (event.pressed)
                 {
-                    if (selectedWidget)
+                    if (event.button == input::GamepadButton::A)
                     {
-                        Event clickEvent;
-                        clickEvent.type = Event::Type::UI_CLICK_NODE;
+                        if (selectedWidget)
+                        {
+                            Event clickEvent;
+                            clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                        clickEvent.uiEvent.node = selectedWidget;
-                        clickEvent.uiEvent.position = selectedWidget->getPosition();
+                            clickEvent.uiEvent.node = selectedWidget;
+                            clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                            sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                        }
+                    }
+                    else if (event.button == input::GamepadButton::DPAD_LEFT ||
+                             event.button == input::GamepadButton::DPAD_UP)
+                    {
+                        if (!event.previousPressed && event.pressed) selectPreviousWidget();
+                    }
+                    else if (event.button == input::GamepadButton::DPAD_RIGHT ||
+                             event.button == input::GamepadButton::DPAD_DOWN)
+                    {
+                        if (!event.previousPressed && event.pressed) selectNextWidget();
                     }
                 }
             }
