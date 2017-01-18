@@ -52,7 +52,9 @@ namespace ouzel
         input::Gamepad* gamepad = nullptr;
         input::GamepadButton button = input::GamepadButton::NONE;
         bool pressed = false;
+        bool previousPressed = false;
         float value = 0.0f;
+        float previousValue = 0.0f;
     };
 
     class Window;
