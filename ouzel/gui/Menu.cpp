@@ -6,6 +6,7 @@
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "input/Input.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -218,6 +219,16 @@ namespace ouzel
                              event.button == input::GamepadButton::DPAD_DOWN)
                     {
                         if (!event.previousPressed && event.pressed) selectNextWidget();
+                    }
+                    else if (event.button == input::GamepadButton::LEFT_THUMB_LEFT ||
+                             event.button == input::GamepadButton::LEFT_THUMB_UP)
+                    {
+                        if (event.previousValue < 0.6f && event.value > 0.6f) selectPreviousWidget();
+                    }
+                    else if (event.button == input::GamepadButton::LEFT_THUMB_RIGHT ||
+                             event.button == input::GamepadButton::LEFT_THUMB_DOWN)
+                    {
+                        if (event.previousValue < 0.6f && event.value > 0.6f) selectNextWidget();
                     }
                 }
             }
