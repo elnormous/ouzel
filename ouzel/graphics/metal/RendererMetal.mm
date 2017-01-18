@@ -316,8 +316,8 @@ namespace ouzel
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", 4 * sizeof(float)}},
-                                           {{"modelViewProj", sizeof(Matrix4)}},
+                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}},
                                            256, 256,
                                            "main_ps", "main_vs");
 
@@ -327,8 +327,8 @@ namespace ouzel
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", 4 * sizeof(float)}},
-                                         {{"modelViewProj", sizeof(Matrix4)}},
+                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}},
                                          256, 256,
                                          "main_ps", "main_vs");
 

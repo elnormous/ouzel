@@ -44,7 +44,7 @@ namespace ouzel
             struct Location
             {
                 GLint location;
-                uint32_t size;
+                DataType dataType;
             };
 
             const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }

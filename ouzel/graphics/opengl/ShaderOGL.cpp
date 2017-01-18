@@ -234,7 +234,7 @@ namespace ouzel
                     return false;
                 }
 
-                pixelShaderConstantLocations.push_back({location, info.size});
+                pixelShaderConstantLocations.push_back({location, info.dataType});
             }
 
             vertexShaderConstantLocations.clear();
@@ -250,7 +250,7 @@ namespace ouzel
                     return false;
                 }
 
-                vertexShaderConstantLocations.push_back({location, info.size});
+                vertexShaderConstantLocations.push_back({location, info.dataType});
             }
 
             return true;

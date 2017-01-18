@@ -434,8 +434,8 @@ namespace ouzel
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", 4 * sizeof(float)}},
-                                           {{"modelViewProj", sizeof(Matrix4)}});
+                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -443,8 +443,8 @@ namespace ouzel
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", 4 * sizeof(float)}},
-                                         {{"modelViewProj", sizeof(Matrix4)}});
+                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
