@@ -236,6 +236,9 @@ namespace ouzel
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
             std::atomic<bool> dirty;
+
+            static std::queue<Resource> deleteQueue;
+            static std::mutex deleteMutex;
         };
     } // namespace graphics
 } // namespace ouzel
