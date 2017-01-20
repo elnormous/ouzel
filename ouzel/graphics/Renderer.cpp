@@ -99,6 +99,9 @@ namespace ouzel
                 updateSet.clear();
             }
 
+            // refills draw and update queues
+            refillDrawQueue = true;
+
             for (const ResourcePtr& resource : resources)
             {
                 // upload data to GPU
@@ -107,9 +110,6 @@ namespace ouzel
                     return false;
                 }
             }
-
-            // refills draw and update queues
-            refillDrawQueue = true;
 
             ++currentFrame;
 
