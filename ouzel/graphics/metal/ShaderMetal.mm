@@ -187,15 +187,18 @@ namespace ouzel
                 }
             }
 
-            pixelShaderConstantLocations.clear();
-            pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-            pixelShaderConstantSize = 0;
-
-            for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+            if (!uploadData.pixelShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
-                pixelShaderConstantSize += info.size;
+                pixelShaderConstantLocations.clear();
+                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
+
+                pixelShaderConstantSize = 0;
+
+                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+                {
+                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
+                    pixelShaderConstantSize += info.size;
+                }
             }
 
             if (!pixelShaderConstantBuffer)
@@ -234,15 +237,18 @@ namespace ouzel
                 }
             }
 
-            vertexShaderConstantLocations.clear();
-            vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
-
-            vertexShaderConstantSize = 0;
-
-            for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+            if (!uploadData.vertexShaderConstantInfo.empty())
             {
-                vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
-                vertexShaderConstantSize += info.size;
+                vertexShaderConstantLocations.clear();
+                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
+
+                vertexShaderConstantSize = 0;
+
+                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+                {
+                    vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
+                    vertexShaderConstantSize += info.size;
+                }
             }
 
             if (!vertexShaderConstantBuffer)

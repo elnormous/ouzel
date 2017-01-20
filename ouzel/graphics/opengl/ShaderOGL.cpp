@@ -221,36 +221,42 @@ namespace ouzel
                 }
             }
 
-            pixelShaderConstantLocations.clear();
-            pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-            for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+            if (!uploadData.pixelShaderConstantInfo.empty())
             {
-                GLint location = glGetUniformLocation(programId, info.name.c_str());
+                pixelShaderConstantLocations.clear();
+                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
 
-                if (location == -1 || RendererOGL::checkOpenGLError())
+                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
                 {
-                    Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
-                    return false;
-                }
+                    GLint location = glGetUniformLocation(programId, info.name.c_str());
 
-                pixelShaderConstantLocations.push_back({location, info.dataType});
+                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                        return false;
+                    }
+
+                    pixelShaderConstantLocations.push_back({location, info.dataType});
+                }
             }
 
-            vertexShaderConstantLocations.clear();
-            vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
-
-            for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+            if (!uploadData.vertexShaderConstantInfo.empty())
             {
-                GLint location = glGetUniformLocation(programId, info.name.c_str());
+                vertexShaderConstantLocations.clear();
+                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
 
-                if (location == -1 || RendererOGL::checkOpenGLError())
+                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
                 {
-                    Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
-                    return false;
-                }
+                    GLint location = glGetUniformLocation(programId, info.name.c_str());
 
-                vertexShaderConstantLocations.push_back({location, info.dataType});
+                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                        return false;
+                    }
+
+                    vertexShaderConstantLocations.push_back({location, info.dataType});
+                }
             }
 
             return true;
