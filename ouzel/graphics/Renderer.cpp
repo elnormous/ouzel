@@ -105,7 +105,7 @@ namespace ouzel
             for (const ResourcePtr& resource : resources)
             {
                 // upload data to GPU
-                if (!resource->upload())
+                if (resource->dirty && !resource->upload())
                 {
                     return false;
                 }
