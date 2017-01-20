@@ -38,7 +38,7 @@ namespace ouzel
                               bool newDepth) override;
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
-            
+
             virtual bool createFrameBuffer() override;
 
             EAGLContextPtr context = Nil;
