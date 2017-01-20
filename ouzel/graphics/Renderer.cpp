@@ -94,12 +94,12 @@ namespace ouzel
 
             std::set<ResourcePtr> resources;
             {
-                std::lock_guard<std::mutex> lock(updateMutex);
-                resources = std::move(updateSet);
-                updateSet.clear();
+                std::lock_guard<std::mutex> lock(uploadMutex);
+                resources = std::move(uploadSet);
+                uploadSet.clear();
             }
 
-            // refills draw and update queues
+            // refills draw and upload queues
             refillDrawQueue = true;
 
             for (const ResourcePtr& resource : resources)
@@ -212,22 +212,22 @@ namespace ouzel
                 scissorTest
             });
 
-            std::lock_guard<std::mutex> lock(updateMutex);
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
             for (const TexturePtr& texture : textures)
             {
-                if (texture && texture->dirty) updateSet.insert(texture);
+                if (texture && texture->dirty) uploadSet.insert(texture);
             }
 
-            if (shader && shader->dirty) updateSet.insert(shader);
-            if (blendState && blendState->dirty) updateSet.insert(blendState);
+            if (shader && shader->dirty) uploadSet.insert(shader);
+            if (blendState && blendState->dirty) uploadSet.insert(blendState);
             if (meshBuffer)
             {
-                if (meshBuffer && meshBuffer->dirty) updateSet.insert(meshBuffer);
-                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) updateSet.insert(meshBuffer->indexBuffer);
-                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) updateSet.insert(meshBuffer->vertexBuffer);
+                if (meshBuffer && meshBuffer->dirty) uploadSet.insert(meshBuffer);
+                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) uploadSet.insert(meshBuffer->indexBuffer);
+                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) uploadSet.insert(meshBuffer->vertexBuffer);
             }
-            if (renderTarget && renderTarget->dirty) updateSet.insert(renderTarget);
+            if (renderTarget && renderTarget->dirty) uploadSet.insert(renderTarget);
 
             return true;
         }

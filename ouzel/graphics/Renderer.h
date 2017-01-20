@@ -233,8 +233,8 @@ namespace ouzel
 
             std::vector<DrawCommand> activeDrawQueue;
 
-            std::set<ResourcePtr> updateSet;
-            std::mutex updateMutex;
+            std::set<ResourcePtr> uploadSet;
+            std::mutex uploadMutex;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
