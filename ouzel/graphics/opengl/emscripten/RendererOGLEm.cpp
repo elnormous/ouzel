@@ -62,16 +62,11 @@ namespace ouzel
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
-        bool RendererOGLEm::present()
+        bool RendererOGLEm::lockContext()
         {
             EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
 
             if (res != EMSCRIPTEN_RESULT_SUCCESS)
-            {
-                return false;
-            }
-
-            if (!RendererOGL::present())
             {
                 return false;
             }

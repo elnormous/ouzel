@@ -185,13 +185,8 @@ namespace ouzel
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
-        bool RendererOGLRasp::present()
+        bool RendererOGLRasp::swapBuffers()
         {
-            if (!RendererOGL::present())
-            {
-                return false;
-            }
-
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
             {
                 return false;

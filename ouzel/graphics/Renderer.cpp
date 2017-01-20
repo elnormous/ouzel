@@ -20,7 +20,7 @@ namespace ouzel
     {
         Renderer::Renderer(Driver aDriver):
             driver(aDriver),
-            activeDrawQueueFinished(false), refillDrawQueue(true),
+            refillDrawQueue(true),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
             clearColor(Color::BLACK),
@@ -78,34 +78,40 @@ namespace ouzel
                 dirty = false;
             }
 
-            ++currentFrame;
-
-            if (activeDrawQueueFinished)
             {
+                std::unique_lock<std::mutex> lock(drawQueueMutex);
+
+                if (!activeDrawQueueFinished)
+                {
+                    drawQueueCondition.wait(lock);
+                }
+
                 drawQueue = std::move(activeDrawQueue);
                 activeDrawQueue.reserve(drawQueue.size());
-                drawCallCount = static_cast<uint32_t>(drawQueue.size());
-
-                std::set<ResourcePtr> resources;
-
-                {
-                    std::lock_guard<std::mutex> lock(updateMutex);
-                    resources = std::move(updateSet);
-                    updateSet.clear();
-                }
-
-                for (const ResourcePtr& resource : resources)
-                {
-                    // upload data to GPU
-                    if (!resource->upload())
-                    {
-                        return false;
-                    }
-                }
 
                 activeDrawQueueFinished = false;
-                refillDrawQueue = true;
             }
+
+            std::set<ResourcePtr> resources;
+            {
+                std::lock_guard<std::mutex> lock(uploadMutex);
+                resources = std::move(uploadSet);
+                uploadSet.clear();
+            }
+
+            // refills draw and upload queues
+            refillDrawQueue = true;
+
+            for (const ResourcePtr& resource : resources)
+            {
+                // upload data to GPU
+                if (resource->dirty && !resource->upload())
+                {
+                    return false;
+                }
+            }
+
+            ++currentFrame;
 
             if (!generateScreenshots())
             {
@@ -206,20 +212,22 @@ namespace ouzel
                 scissorTest
             });
 
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
             for (const TexturePtr& texture : textures)
             {
-                if (texture && texture->dirty) updateSet.insert(texture);
+                if (texture && texture->dirty) uploadSet.insert(texture);
             }
 
-            if (shader && shader->dirty) updateSet.insert(shader);
-            if (blendState && blendState->dirty) updateSet.insert(blendState);
+            if (shader && shader->dirty) uploadSet.insert(shader);
+            if (blendState && blendState->dirty) uploadSet.insert(blendState);
             if (meshBuffer)
             {
-                if (meshBuffer && meshBuffer->dirty) updateSet.insert(meshBuffer);
-                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) updateSet.insert(meshBuffer->indexBuffer);
-                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) updateSet.insert(meshBuffer->vertexBuffer);
+                if (meshBuffer && meshBuffer->dirty) uploadSet.insert(meshBuffer);
+                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) uploadSet.insert(meshBuffer->indexBuffer);
+                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) uploadSet.insert(meshBuffer->vertexBuffer);
             }
-            if (renderTarget && renderTarget->dirty) updateSet.insert(renderTarget);
+            if (renderTarget && renderTarget->dirty) uploadSet.insert(renderTarget);
 
             return true;
         }
@@ -227,7 +235,13 @@ namespace ouzel
         void Renderer::flushDrawCommands()
         {
             refillDrawQueue = false;
-            activeDrawQueueFinished = true;
+
+            {
+                std::lock_guard<std::mutex> lock(drawQueueMutex);
+                activeDrawQueueFinished = true;
+                drawCallCount = static_cast<uint32_t>(activeDrawQueue.size());
+            }
+            drawQueueCondition.notify_one();
         }
 
         bool Renderer::saveScreenshot(const std::string& filename)

@@ -408,6 +408,11 @@ namespace ouzel
                 return false;
             }
 
+            if (!lockContext())
+            {
+                return false;
+            }
+
             deleteResources();
 
             if (drawQueue.empty())
@@ -440,6 +445,11 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to clear frame buffer";
                         return false;
                     }
+                }
+
+                if (!swapBuffers())
+                {
+                    return false;
                 }
             }
             else for (const DrawCommand& drawCommand : drawQueue)
@@ -757,6 +767,21 @@ namespace ouzel
             stateCache.frameBufferId = systemFrameBufferId;
 #endif
 
+            if (!swapBuffers())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool RendererOGL::lockContext()
+        {
+            return true;
+        }
+
+        bool RendererOGL::swapBuffers()
+        {
             return true;
         }
 

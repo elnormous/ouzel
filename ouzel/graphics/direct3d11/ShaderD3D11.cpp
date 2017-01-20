@@ -133,31 +133,31 @@ namespace ouzel
 
                 if (uploadData.vertexAttributes & VERTEX_POSITION)
                 {
-                    vertexInputElements.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+                    vertexInputElements.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
                     offset += 3 * sizeof(float);
                 }
 
                 if (uploadData.vertexAttributes & VERTEX_COLOR)
                 {
-                    vertexInputElements.push_back({ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+                    vertexInputElements.push_back({"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
                     offset += 4 * sizeof(uint8_t);
                 }
 
                 if (uploadData.vertexAttributes & VERTEX_NORMAL)
                 {
-                    vertexInputElements.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+                    vertexInputElements.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
                     offset += 3 * sizeof(float);
                 }
 
                 if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
                 {
-                    vertexInputElements.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+                    vertexInputElements.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
                     offset += 2 * sizeof(float);
                 }
 
                 if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
                 {
-                    vertexInputElements.push_back({ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+                    vertexInputElements.push_back({"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
                     offset += 2 * sizeof(float);
                 }
 
@@ -174,15 +174,18 @@ namespace ouzel
                 }
             }
 
-            pixelShaderConstantLocations.clear();
-            pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-            pixelShaderConstantSize = 0;
-
-            for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+            if (!uploadData.pixelShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.push_back({ pixelShaderConstantSize, info.size });
-                pixelShaderConstantSize += info.size;
+                pixelShaderConstantLocations.clear();
+                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
+
+                pixelShaderConstantSize = 0;
+
+                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+                {
+                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
+                    pixelShaderConstantSize += info.size;
+                }
             }
 
             if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
@@ -202,12 +205,18 @@ namespace ouzel
                 return false;
             }
 
-            vertexShaderConstantSize = 0;
-
-            for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+            if (!uploadData.vertexShaderConstantInfo.empty())
             {
-                vertexShaderConstantLocations.push_back({ vertexShaderConstantSize, info.size });
-                vertexShaderConstantSize += info.size;
+                vertexShaderConstantLocations.clear();
+                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
+
+                vertexShaderConstantSize = 0;
+
+                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+                {
+                    vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
+                    vertexShaderConstantSize += info.size;
+                }
             }
 
             if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
