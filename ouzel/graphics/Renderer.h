@@ -11,6 +11,7 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
+#include <condition_variable>
 #include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Rectangle.h"
@@ -201,7 +202,9 @@ namespace ouzel
             bool npotTexturesSupported = true;
             bool multisamplingSupported = true;
 
-            std::atomic<bool> activeDrawQueueFinished;
+            std::mutex drawQueueMutex;
+            std::condition_variable drawQueueCondition;
+            bool activeDrawQueueFinished = false;
             std::atomic<bool> refillDrawQueue;
 
             std::vector<DrawCommand> drawQueue;

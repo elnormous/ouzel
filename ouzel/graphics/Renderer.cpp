@@ -20,7 +20,7 @@ namespace ouzel
     {
         Renderer::Renderer(Driver aDriver):
             driver(aDriver),
-            activeDrawQueueFinished(false), refillDrawQueue(true),
+            refillDrawQueue(true),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
             clearColor(Color::BLACK),
@@ -78,34 +78,40 @@ namespace ouzel
                 dirty = false;
             }
 
-            ++currentFrame;
-
-            if (activeDrawQueueFinished)
             {
+                std::unique_lock<std::mutex> lock(drawQueueMutex);
+
+                if (!activeDrawQueueFinished)
+                {
+                    drawQueueCondition.wait(lock);
+                }
+
                 drawQueue = std::move(activeDrawQueue);
                 activeDrawQueue.reserve(drawQueue.size());
-                drawCallCount = static_cast<uint32_t>(drawQueue.size());
-
-                std::set<ResourcePtr> resources;
-
-                {
-                    std::lock_guard<std::mutex> lock(updateMutex);
-                    resources = std::move(updateSet);
-                    updateSet.clear();
-                }
-
-                for (const ResourcePtr& resource : resources)
-                {
-                    // upload data to GPU
-                    if (!resource->upload())
-                    {
-                        return false;
-                    }
-                }
 
                 activeDrawQueueFinished = false;
-                refillDrawQueue = true;
             }
+
+            std::set<ResourcePtr> resources;
+            {
+                std::lock_guard<std::mutex> lock(updateMutex);
+                resources = std::move(updateSet);
+                updateSet.clear();
+            }
+
+            for (const ResourcePtr& resource : resources)
+            {
+                // upload data to GPU
+                if (!resource->upload())
+                {
+                    return false;
+                }
+            }
+
+            // refills draw and update queues
+            refillDrawQueue = true;
+
+            ++currentFrame;
 
             if (!generateScreenshots())
             {
@@ -206,6 +212,8 @@ namespace ouzel
                 scissorTest
             });
 
+            std::lock_guard<std::mutex> lock(updateMutex);
+
             for (const TexturePtr& texture : textures)
             {
                 if (texture && texture->dirty) updateSet.insert(texture);
@@ -227,7 +235,13 @@ namespace ouzel
         void Renderer::flushDrawCommands()
         {
             refillDrawQueue = false;
-            activeDrawQueueFinished = true;
+
+            {
+                std::lock_guard<std::mutex> lock(drawQueueMutex);
+                activeDrawQueueFinished = true;
+                drawCallCount = static_cast<uint32_t>(activeDrawQueue.size());
+            }
+            drawQueueCondition.notify_one();
         }
 
         bool Renderer::saveScreenshot(const std::string& filename)
