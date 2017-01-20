@@ -106,15 +106,15 @@ namespace ouzel
             return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
-        bool RendererOGLMacOS::present()
+        bool RendererOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];
 
-            if (!RendererOGL::present())
-            {
-                return false;
-            }
+            return true;
+        }
 
+        bool RendererOGLMacOS::swapBuffers()
+        {
             [openGLContext flushBuffer];
 
             return true;

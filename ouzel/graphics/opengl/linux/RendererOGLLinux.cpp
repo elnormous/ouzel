@@ -29,13 +29,8 @@ namespace ouzel
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
-        bool RendererOGLLinux::present()
+        bool RendererOGLLinux::swapBuffers()
         {
-            if (!RendererOGL::present())
-            {
-                return false;
-            }
-
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());

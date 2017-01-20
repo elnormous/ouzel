@@ -460,6 +460,8 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth) override;
             virtual bool update() override;
+            virtual bool lockContext();
+            virtual bool swapBuffers();
 
             virtual bool generateScreenshot(const std::string& filename) override;
 

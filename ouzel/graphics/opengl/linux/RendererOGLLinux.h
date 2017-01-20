@@ -18,8 +18,6 @@ namespace ouzel
             virtual ~RendererOGLLinux();
             virtual void free() override;
 
-            virtual bool present() override;
-
         private:
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
@@ -28,6 +26,7 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
+            virtual bool swapBuffers() override;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -28,8 +28,6 @@ namespace ouzel
             virtual ~RendererOGLMacOS();
             virtual void free() override;
 
-            virtual bool present() override;
-
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
             NSOpenGLPixelFormatPtr getPixelFormat() const { return pixelFormat; }
 
@@ -43,6 +41,8 @@ namespace ouzel
                               bool newDepth) override;
 
             virtual bool update() override;
+            virtual bool lockContext() override;
+            virtual bool swapBuffers() override;
 
             NSOpenGLContextPtr openGLContext = Nil;
             NSOpenGLPixelFormatPtr pixelFormat = Nil;

@@ -121,18 +121,19 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLTVOS::present()
+        bool RendererOGLTVOS::lockContext()
         {
             if (![EAGLContext setCurrentContext:context])
             {
                 Log(Log::Level::ERR) << "Failed to set current OpenGL context";
-            }
-
-            if (!RendererOGL::present())
-            {
                 return false;
             }
 
+            return true;
+        }
+
+        bool RendererOGLTVOS::swapBuffers()
+        {
             if (sampleCount > 1)
             {
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, resolveFrameBufferId); // draw to resolve frame buffer
