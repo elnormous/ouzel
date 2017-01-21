@@ -4,7 +4,7 @@
 #pragma once
 
 #include <memory>
-#include "Noncopyable.h"
+#include "utils/Noncopyable.h"
 
 namespace ouzel
 {
