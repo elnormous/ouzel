@@ -48,14 +48,6 @@ namespace ouzel
         typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
     }
 
-    namespace input
-    {
-        class Input;
-
-        class Gamepad;
-        typedef std::shared_ptr<Gamepad> GamepadPtr;
-    }
-
     namespace scene
     {
         class SceneManager;
