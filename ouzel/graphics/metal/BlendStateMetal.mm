@@ -7,37 +7,37 @@ namespace ouzel
 {
     namespace graphics
     {
-        static MTLBlendFactor getBlendFactor(BlendState::BlendFactor blendFactor)
+        static MTLBlendFactor getBlendFactor(BlendStateResource::BlendFactor blendFactor)
         {
             switch (blendFactor)
             {
-                case BlendState::BlendFactor::ZERO: return MTLBlendFactorZero;
-                case BlendState::BlendFactor::ONE: return MTLBlendFactorOne;
-                case BlendState::BlendFactor::SRC_COLOR: return MTLBlendFactorSourceColor;
-                case BlendState::BlendFactor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
-                case BlendState::BlendFactor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
-                case BlendState::BlendFactor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
-                case BlendState::BlendFactor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
-                case BlendState::BlendFactor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
-                case BlendState::BlendFactor::DEST_COLOR: return MTLBlendFactorDestinationColor;
-                case BlendState::BlendFactor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
-                case BlendState::BlendFactor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
-                case BlendState::BlendFactor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
-                case BlendState::BlendFactor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
+                case BlendStateResource::BlendFactor::ZERO: return MTLBlendFactorZero;
+                case BlendStateResource::BlendFactor::ONE: return MTLBlendFactorOne;
+                case BlendStateResource::BlendFactor::SRC_COLOR: return MTLBlendFactorSourceColor;
+                case BlendStateResource::BlendFactor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
+                case BlendStateResource::BlendFactor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
+                case BlendStateResource::BlendFactor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
+                case BlendStateResource::BlendFactor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
+                case BlendStateResource::BlendFactor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
+                case BlendStateResource::BlendFactor::DEST_COLOR: return MTLBlendFactorDestinationColor;
+                case BlendStateResource::BlendFactor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
+                case BlendStateResource::BlendFactor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
+                case BlendStateResource::BlendFactor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
+                case BlendStateResource::BlendFactor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
             }
 
             return MTLBlendFactorZero;
         }
 
-        static MTLBlendOperation getBlendOperation(BlendState::BlendOperation blendOperation)
+        static MTLBlendOperation getBlendOperation(BlendStateResource::BlendOperation blendOperation)
         {
             switch (blendOperation)
             {
-                case BlendState::BlendOperation::ADD: return MTLBlendOperationAdd;
-                case BlendState::BlendOperation::SUBTRACT: return MTLBlendOperationSubtract;
-                case BlendState::BlendOperation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
-                case BlendState::BlendOperation::MIN: return MTLBlendOperationMin;
-                case BlendState::BlendOperation::MAX: return MTLBlendOperationMax;
+                case BlendStateResource::BlendOperation::ADD: return MTLBlendOperationAdd;
+                case BlendStateResource::BlendOperation::SUBTRACT: return MTLBlendOperationSubtract;
+                case BlendStateResource::BlendOperation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
+                case BlendStateResource::BlendOperation::MIN: return MTLBlendOperationMin;
+                case BlendStateResource::BlendOperation::MAX: return MTLBlendOperationMax;
             }
 
             return MTLBlendOperationAdd;
@@ -49,7 +49,7 @@ namespace ouzel
 
         bool BlendStateMetal::upload()
         {
-            if (!BlendState::upload())
+            if (!BlendStateResource::upload())
             {
                 return false;
             }

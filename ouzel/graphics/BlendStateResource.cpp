@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendState.h"
+#include "BlendStateResource.h"
 #include "Renderer.h"
 #include "core/Engine.h"
 
@@ -9,23 +9,23 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendState::BlendState()
+        BlendStateResource::BlendStateResource()
         {
         }
 
-        BlendState::~BlendState()
+        BlendStateResource::~BlendStateResource()
         {
         }
 
-        void BlendState::free()
+        void BlendStateResource::free()
         {
         }
 
-        bool BlendState::init(bool newEnableBlending,
-                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                              BlendOperation newColorOperation,
-                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation)
+        bool BlendStateResource::init(bool newEnableBlending,
+                                      BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                                      BlendOperation newColorOperation,
+                                      BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                                      BlendOperation newAlphaOperation)
         {
             data.enableBlending = newEnableBlending;
             data.colorBlendSource = newColorBlendSource;
@@ -40,7 +40,7 @@ namespace ouzel
             return true;
         }
 
-        void BlendState::update()
+        void BlendStateResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -49,7 +49,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool BlendState::upload()
+        bool BlendStateResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

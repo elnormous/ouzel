@@ -4,7 +4,7 @@
 #pragma once
 
 #include "core/CompileConfig.h"
-#include "graphics/BlendState.h"
+#include "graphics/BlendStateResource.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
@@ -18,7 +18,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateMetal: public BlendState
+        class BlendStateMetal: public BlendStateResource
         {
         public:
             BlendStateMetal();

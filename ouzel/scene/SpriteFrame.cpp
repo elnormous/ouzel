@@ -9,10 +9,10 @@
 #include "core/Application.h"
 #include "core/Cache.h"
 #include "files/FileSystem.h"
-#include "graphics/Texture.h"
-#include "graphics/MeshBuffer.h"
-#include "graphics/IndexBuffer.h"
-#include "graphics/VertexBuffer.h"
+#include "graphics/TextureResource.h"
+#include "graphics/MeshBufferResource.h"
+#include "graphics/IndexBufferResource.h"
+#include "graphics/VertexBufferResource.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -42,7 +42,7 @@ namespace ouzel
 
             const rapidjson::Value& metaObject = document["meta"];
 
-            graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+            graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 
             const rapidjson::Value& framesArray = document["frames"];
 
@@ -128,7 +128,7 @@ namespace ouzel
             return frames;
         }
 
-        SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
+        SpriteFrame::SpriteFrame(const graphics::TextureResourcePtr& pTexture,
                                  const Rectangle& frameRectangle,
                                  bool rotated,
                                  const Size2& sourceSize,
@@ -196,7 +196,7 @@ namespace ouzel
             meshBuffer->init(indexBuffer, vertexBuffer);
         }
 
-        SpriteFrame::SpriteFrame(const graphics::TexturePtr& pTexture,
+        SpriteFrame::SpriteFrame(const graphics::TextureResourcePtr& pTexture,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::VertexPCT>& vertices,
                                  const Rectangle& frameRectangle,

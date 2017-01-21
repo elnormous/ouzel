@@ -25,7 +25,7 @@ namespace ouzel
 
         void VertexBufferMetal::free()
         {
-            VertexBuffer::free();
+            VertexBufferResource::free();
 
             if (buffer)
             {
@@ -38,7 +38,7 @@ namespace ouzel
 
         bool VertexBufferMetal::upload()
         {
-            if (!VertexBuffer::upload())
+            if (!VertexBufferResource::upload())
             {
                 return false;
             }

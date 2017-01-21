@@ -28,13 +28,13 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/MeshBuffer.h"
+#include "graphics/MeshBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferOGL: public MeshBuffer
+        class MeshBufferOGL: public MeshBufferResource
         {
         public:
             MeshBufferOGL();

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Texture.h"
+#include "TextureResource.h"
 #include "Renderer.h"
 #include "Image.h"
 #include "core/Engine.h"
@@ -13,21 +13,21 @@ namespace ouzel
 {
     namespace graphics
     {
-        Texture::Texture()
+        TextureResource::TextureResource()
         {
         }
 
-        Texture::~Texture()
+        TextureResource::~TextureResource()
         {
         }
 
-        void Texture::free()
+        void TextureResource::free()
         {
             levels.clear();
             currentData.levels.clear();
         }
 
-        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
+        bool TextureResource::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
         {
             free();
 
@@ -47,7 +47,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
+        bool TextureResource::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
         {
             free();
 
@@ -62,7 +62,7 @@ namespace ouzel
             return initFromBuffer(image.getData(), image.getSize(), newDynamic, newMipmaps);
         }
 
-        bool Texture::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             free();
 
@@ -82,7 +82,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::setSize(const Size2& newSize)
+        bool TextureResource::setSize(const Size2& newSize)
         {
             if (!dynamic)
             {
@@ -104,7 +104,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        bool TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!dynamic)
             {
@@ -126,7 +126,7 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::calculateSizes(const Size2& newSize)
+        bool TextureResource::calculateSizes(const Size2& newSize)
         {
             levels.clear();
             size = newSize;
@@ -268,7 +268,7 @@ namespace ouzel
             }
         }
 
-        bool Texture::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        bool TextureResource::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             levels.clear();
             size = newSize;
@@ -354,28 +354,28 @@ namespace ouzel
             return true;
         }
 
-        void Texture::setClearColorBuffer(bool clear)
+        void TextureResource::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
             update();
         }
 
-        void Texture::setClearDepthBuffer(bool clear)
+        void TextureResource::setClearDepthBuffer(bool clear)
         {
             clearColorBuffer = clear;
 
             update();
         }
 
-        void Texture::setClearColor(Color color)
+        void TextureResource::setClearColor(Color color)
         {
             clearColor = color;
 
             update();
         }
 
-        void Texture::update()
+        void TextureResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -395,7 +395,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool Texture::upload()
+        bool TextureResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

@@ -34,11 +34,11 @@ namespace ouzel
             void triangle(const Vector2 (&positions)[3], const Color& color, bool fill = false);
             void polygon(const std::vector<Vector2>& edges, const Color& color, bool fill = false);
 
-            virtual const graphics::ShaderPtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
 
         protected:
             struct DrawCommand
@@ -48,11 +48,11 @@ namespace ouzel
                 uint32_t startIndex;
             };
 
-            graphics::ShaderPtr shader;
-            graphics::BlendStatePtr blendState;
-            graphics::MeshBufferPtr meshBuffer;
-            graphics::IndexBufferPtr indexBuffer;
-            graphics::VertexBufferPtr vertexBuffer;
+            graphics::ShaderResourcePtr shader;
+            graphics::BlendStateResourcePtr blendState;
+            graphics::MeshBufferResourcePtr meshBuffer;
+            graphics::IndexBufferResourcePtr indexBuffer;
+            graphics::VertexBufferResourcePtr vertexBuffer;
 
             std::vector<DrawCommand> drawCommands;
 

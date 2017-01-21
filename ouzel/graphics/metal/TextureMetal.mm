@@ -36,7 +36,7 @@ namespace ouzel
 
         void TextureMetal::free()
         {
-            Texture::free();
+            TextureResource::free();
 
             if (msaaTexture)
             {
@@ -62,7 +62,7 @@ namespace ouzel
 
         bool TextureMetal::upload()
         {
-            if (!Texture::upload())
+            if (!TextureResource::upload())
             {
                 return false;
             }

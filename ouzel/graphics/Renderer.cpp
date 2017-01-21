@@ -3,12 +3,12 @@
 
 #include "Renderer.h"
 #include "core/Engine.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "BlendState.h"
-#include "MeshBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
+#include "TextureResource.h"
+#include "ShaderResource.h"
+#include "BlendStateResource.h"
+#include "MeshBufferResource.h"
+#include "IndexBufferResource.h"
+#include "VertexBufferResource.h"
 #include "events/EventHandler.h"
 #include "events/EventDispatcher.h"
 #include "core/Window.h"
@@ -40,7 +40,7 @@ namespace ouzel
         bool Renderer::init(Window* newWindow,
                             const Size2& newSize,
                             uint32_t newSampleCount,
-                            Texture::Filter newTextureFilter,
+                            TextureResource::Filter newTextureFilter,
                             PixelFormat newBackBufferFormat,
                             bool newVerticalSync,
                             bool newDepth)
@@ -162,16 +162,16 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        bool Renderer::addDrawCommand(const std::vector<TexturePtr>& textures,
-                                      const ShaderPtr& shader,
+        bool Renderer::addDrawCommand(const std::vector<TextureResourcePtr>& textures,
+                                      const ShaderResourcePtr& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants,
-                                      const BlendStatePtr& blendState,
-                                      const MeshBufferPtr& meshBuffer,
+                                      const BlendStateResourcePtr& blendState,
+                                      const MeshBufferResourcePtr& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex,
-                                      const TexturePtr& renderTarget,
+                                      const TextureResourcePtr& renderTarget,
                                       const Rectangle& viewport,
                                       bool depthWrite,
                                       bool depthTest,
@@ -214,7 +214,7 @@ namespace ouzel
 
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            for (const TexturePtr& texture : textures)
+            for (const TextureResourcePtr& texture : textures)
             {
                 if (texture && texture->dirty) uploadSet.insert(texture);
             }

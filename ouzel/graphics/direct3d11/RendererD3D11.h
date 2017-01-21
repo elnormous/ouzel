@@ -24,12 +24,12 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStatePtr createBlendState() override;
-            virtual TexturePtr createTexture() override;
-            virtual ShaderPtr createShader() override;
-            virtual MeshBufferPtr createMeshBuffer() override;
-            virtual IndexBufferPtr createIndexBuffer() override;
-            virtual VertexBufferPtr createVertexBuffer() override;
+            virtual BlendStateResourcePtr createBlendState() override;
+            virtual TextureResourcePtr createTexture() override;
+            virtual ShaderResourcePtr createShader() override;
+            virtual MeshBufferResourcePtr createMeshBuffer() override;
+            virtual IndexBufferResourcePtr createIndexBuffer() override;
+            virtual VertexBufferResourcePtr createVertexBuffer() override;
 
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }

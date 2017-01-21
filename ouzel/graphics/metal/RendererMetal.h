@@ -17,7 +17,7 @@ typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
 typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
 typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
-typedef id<MTLTexture> MTLTexturePtr;
+typedef id<MTLTexture> MTLTextureResourcePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
@@ -30,7 +30,7 @@ typedef id MTLCommandQueuePtr;
 typedef id MTLRenderPipelineStatePtr;
 typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
-typedef id MTLTexturePtr;
+typedef id MTLTextureResourcePtr;
 typedef id MTLDepthStencilStatePtr;
 #endif
 
@@ -58,12 +58,12 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStatePtr createBlendState() override;
-            virtual TexturePtr createTexture() override;
-            virtual ShaderPtr createShader() override;
-            virtual MeshBufferPtr createMeshBuffer() override;
-            virtual IndexBufferPtr createIndexBuffer() override;
-            virtual VertexBufferPtr createVertexBuffer() override;
+            virtual BlendStateResourcePtr createBlendState() override;
+            virtual TextureResourcePtr createTexture() override;
+            virtual ShaderResourcePtr createShader() override;
+            virtual MeshBufferResourcePtr createMeshBuffer() override;
+            virtual IndexBufferResourcePtr createIndexBuffer() override;
+            virtual VertexBufferResourcePtr createVertexBuffer() override;
 
             MTLDevicePtr getDevice() const { return device; }
             MTKViewPtr getMetalView() const { return view; }
@@ -74,7 +74,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
+                              TextureResource::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
@@ -107,8 +107,8 @@ namespace ouzel
             MTLSamplerStatePtr samplerState = Nil;
             MTLDepthStencilStatePtr depthStencilStates[4];
 
-            MTLTexturePtr msaaTexture = Nil;
-            MTLTexturePtr depthTexture = Nil;
+            MTLTextureResourcePtr msaaTexture = Nil;
+            MTLTextureResourcePtr depthTexture = Nil;
 
             MTLCommandQueuePtr commandQueue = Nil;
             MTLCommandBufferPtr currentCommandBuffer = Nil;

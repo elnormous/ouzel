@@ -18,7 +18,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class Texture: public Resource, public Noncopyable
+        class TextureResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
@@ -32,7 +32,7 @@ namespace ouzel
 
             static const uint32_t LAYERS = 4;
 
-            virtual ~Texture();
+            virtual ~TextureResource();
             virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, bool newDepth = false);
@@ -64,7 +64,7 @@ namespace ouzel
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
 
         protected:
-            Texture();
+            TextureResource();
             virtual void update() override;
             virtual bool upload() override;
 

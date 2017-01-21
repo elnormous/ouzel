@@ -60,7 +60,7 @@ namespace ouzel
         bool RendererOGLIOS::init(Window* newWindow,
                                   const Size2& newSize,
                                   uint32_t newSampleCount,
-                                  Texture::Filter newTextureFilter,
+                                  TextureResource::Filter newTextureFilter,
                                   PixelFormat newBackBufferFormat,
                                   bool newVerticalSync,
                                   bool newDepth)

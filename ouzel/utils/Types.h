@@ -29,31 +29,23 @@ namespace ouzel
         class Resource;
         typedef std::shared_ptr<Resource> ResourcePtr;
 
-        class BlendState;
-        typedef std::shared_ptr<BlendState> BlendStatePtr;
+        class BlendStateResource;
+        typedef std::shared_ptr<BlendStateResource> BlendStateResourcePtr;
 
-        class IndexBuffer;
-        typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
+        class IndexBufferResource;
+        typedef std::shared_ptr<IndexBufferResource> IndexBufferResourcePtr;
 
-        class MeshBuffer;
-        typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
+        class MeshBufferResource;
+        typedef std::shared_ptr<MeshBufferResource> MeshBufferResourcePtr;
 
-        class Shader;
-        typedef std::shared_ptr<Shader> ShaderPtr;
+        class ShaderResource;
+        typedef std::shared_ptr<ShaderResource> ShaderResourcePtr;
 
-        class Texture;
-        typedef std::shared_ptr<Texture> TexturePtr;
+        class TextureResource;
+        typedef std::shared_ptr<TextureResource> TextureResourcePtr;
 
-        class VertexBuffer;
-        typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
-    }
-
-    namespace input
-    {
-        class Input;
-
-        class Gamepad;
-        typedef std::shared_ptr<Gamepad> GamepadPtr;
+        class VertexBufferResource;
+        typedef std::shared_ptr<VertexBufferResource> VertexBufferResourcePtr;
     }
 
     namespace scene

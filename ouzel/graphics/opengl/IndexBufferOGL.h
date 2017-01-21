@@ -28,7 +28,7 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/IndexBuffer.h"
+#include "graphics/IndexBufferResource.h"
 
 namespace ouzel
 {
@@ -36,7 +36,7 @@ namespace ouzel
     {
         class MeshBufferOGL;
 
-        class IndexBufferOGL: public IndexBuffer
+        class IndexBufferOGL: public IndexBufferResource
         {
             friend MeshBufferOGL;
         public:

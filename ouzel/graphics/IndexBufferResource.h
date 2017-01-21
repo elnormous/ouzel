@@ -14,11 +14,11 @@ namespace ouzel
     {
         class Renderer;
 
-        class IndexBuffer: public Resource, public Noncopyable
+        class IndexBufferResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
-            virtual ~IndexBuffer();
+            virtual ~IndexBufferResource();
             virtual void free() override;
 
             virtual bool init(bool newDynamic = true);
@@ -32,7 +32,7 @@ namespace ouzel
             virtual bool setData(const void* newIndices, uint32_t newIndexCount);
 
         protected:
-            IndexBuffer();
+            IndexBufferResource();
             virtual void update() override;
             virtual bool upload() override;
 

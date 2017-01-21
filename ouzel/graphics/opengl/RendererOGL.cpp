@@ -105,7 +105,7 @@ namespace ouzel
         bool RendererOGL::init(Window* newWindow,
                                const Size2& newSize,
                                uint32_t newSampleCount,
-                               Texture::Filter newTextureFilter,
+                               TextureResource::Filter newTextureFilter,
                                PixelFormat newBackBufferFormat,
                                bool newVerticalSync,
                                bool newDepth)
@@ -229,7 +229,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderPtr textureShader = createShader();
+            ShaderResourcePtr textureShader = createShader();
 
             switch (apiMajorVersion)
             {
@@ -238,14 +238,14 @@ namespace ouzel
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 case 3:
@@ -253,14 +253,14 @@ namespace ouzel
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES3
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 default:
@@ -270,7 +270,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderPtr colorShader = createShader();
+            ShaderResourcePtr colorShader = createShader();
 
             switch (apiMajorVersion)
             {
@@ -279,14 +279,14 @@ namespace ouzel
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 case 3:
@@ -294,14 +294,14 @@ namespace ouzel
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES3
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 default:
@@ -311,47 +311,47 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStatePtr noBlendState = createBlendState();
+            BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD);
+                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
+                               BlendStateResource::BlendOperation::ADD,
+                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
+                               BlendStateResource::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStatePtr addBlendState = createBlendState();
+            BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD);
+                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
+                                BlendStateResource::BlendOperation::ADD,
+                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
+                                BlendStateResource::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStatePtr multiplyBlendState = createBlendState();
+            BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
-                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
-                                     BlendState::BlendOperation::ADD,
-                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                     BlendState::BlendOperation::ADD);
+                                     BlendStateResource::BlendFactor::DEST_COLOR, BlendStateResource::BlendFactor::ZERO,
+                                     BlendStateResource::BlendOperation::ADD,
+                                     BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
+                                     BlendStateResource::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStatePtr alphaBlendState = createBlendState();
+            BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
-                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                  BlendState::BlendOperation::ADD,
-                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                  BlendState::BlendOperation::ADD);
+                                  BlendStateResource::BlendFactor::SRC_ALPHA, BlendStateResource::BlendFactor::INV_SRC_ALPHA,
+                                  BlendStateResource::BlendOperation::ADD,
+                                  BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
+                                  BlendStateResource::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TexturePtr whitePixelTexture = createTexture();
+            TextureResourcePtr whitePixelTexture = createTexture();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
@@ -486,7 +486,7 @@ namespace ouzel
                 bool texturesValid = true;
 
                 // textures
-                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                for (uint32_t layer = 0; layer < TextureResource::LAYERS; ++layer)
                 {
                     std::shared_ptr<TextureOGL> textureOGL;
 
@@ -549,22 +549,22 @@ namespace ouzel
 
                     switch (pixelShaderConstantLocation.dataType)
                     {
-                        case Shader::DataType::FLOAT:
+                        case ShaderResource::DataType::FLOAT:
                             glUniform1fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR2:
+                        case ShaderResource::DataType::FLOAT_VECTOR2:
                             glUniform2fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR3:
+                        case ShaderResource::DataType::FLOAT_VECTOR3:
                             glUniform3fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR4:
+                        case ShaderResource::DataType::FLOAT_VECTOR4:
                             glUniform4fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX3:
+                        case ShaderResource::DataType::FLOAT_MATRIX3:
                             glUniformMatrix3fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX4:
+                        case ShaderResource::DataType::FLOAT_MATRIX4:
                             glUniformMatrix4fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
                         default:
@@ -589,22 +589,22 @@ namespace ouzel
 
                     switch (vertexShaderConstantLocation.dataType)
                     {
-                        case Shader::DataType::FLOAT:
+                        case ShaderResource::DataType::FLOAT:
                             glUniform1fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR2:
+                        case ShaderResource::DataType::FLOAT_VECTOR2:
                             glUniform2fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR3:
+                        case ShaderResource::DataType::FLOAT_VECTOR3:
                             glUniform3fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR4:
+                        case ShaderResource::DataType::FLOAT_VECTOR4:
                             glUniform4fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX3:
+                        case ShaderResource::DataType::FLOAT_MATRIX3:
                             glUniformMatrix3fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX4:
+                        case ShaderResource::DataType::FLOAT_MATRIX4:
                             glUniformMatrix4fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
                         default:
@@ -790,37 +790,37 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        BlendStatePtr RendererOGL::createBlendState()
+        BlendStateResourcePtr RendererOGL::createBlendState()
         {
             std::shared_ptr<BlendStateOGL> blendState = std::make_shared<BlendStateOGL>();
             return blendState;
         }
 
-        TexturePtr RendererOGL::createTexture()
+        TextureResourcePtr RendererOGL::createTexture()
         {
             std::shared_ptr<TextureOGL> texture = std::make_shared<TextureOGL>();
             return texture;
         }
 
-        ShaderPtr RendererOGL::createShader()
+        ShaderResourcePtr RendererOGL::createShader()
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
             return shader;
         }
 
-        MeshBufferPtr RendererOGL::createMeshBuffer()
+        MeshBufferResourcePtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer = std::make_shared<MeshBufferOGL>();
             return meshBuffer;
         }
 
-        IndexBufferPtr RendererOGL::createIndexBuffer()
+        IndexBufferResourcePtr RendererOGL::createIndexBuffer()
         {
             std::shared_ptr<IndexBufferOGL> meshBuffer = std::make_shared<IndexBufferOGL>();
             return meshBuffer;
         }
 
-        VertexBufferPtr RendererOGL::createVertexBuffer()
+        VertexBufferResourcePtr RendererOGL::createVertexBuffer()
         {
             std::shared_ptr<VertexBufferOGL> meshBuffer = std::make_shared<VertexBufferOGL>();
             return meshBuffer;
@@ -1043,7 +1043,7 @@ namespace ouzel
                         glDeleteShader(deleteResource.first);
                         break;
                     case ResourceType::Texture:
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        for (uint32_t layer = 0; layer < TextureResource::LAYERS; ++layer)
                         {
                             if (stateCache.textureId[layer] == deleteResource.first)
                             {

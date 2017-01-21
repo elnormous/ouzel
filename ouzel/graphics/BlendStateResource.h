@@ -13,7 +13,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class BlendState: public Resource, public Noncopyable
+        class BlendStateResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
@@ -43,7 +43,7 @@ namespace ouzel
                 MAX
             };
 
-            virtual ~BlendState();
+            virtual ~BlendStateResource();
             virtual void free() override;
 
             virtual bool init(bool newEnableBlending,
@@ -61,7 +61,7 @@ namespace ouzel
             BlendOperation getAlphaOperation() const { return data.alphaOperation; }
 
         protected:
-            BlendState();
+            BlendStateResource();
             virtual void update() override;
             virtual bool upload() override;
 

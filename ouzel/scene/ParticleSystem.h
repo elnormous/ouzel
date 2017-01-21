@@ -57,10 +57,10 @@ namespace ouzel
 
             ParticleDefinition particleDefinition;
 
-            graphics::ShaderPtr shader;
-            graphics::BlendStatePtr blendState;
-            graphics::TexturePtr texture;
-            graphics::TexturePtr whitePixelTexture;
+            graphics::ShaderResourcePtr shader;
+            graphics::BlendStateResourcePtr blendState;
+            graphics::TextureResourcePtr texture;
+            graphics::TextureResourcePtr whitePixelTexture;
 
             struct Particle
             {
@@ -98,9 +98,9 @@ namespace ouzel
 
             std::vector<Particle> particles;
 
-            graphics::MeshBufferPtr meshBuffer;
-            graphics::IndexBufferPtr indexBuffer;
-            graphics::VertexBufferPtr vertexBuffer;
+            graphics::MeshBufferResourcePtr meshBuffer;
+            graphics::IndexBufferResourcePtr indexBuffer;
+            graphics::VertexBufferResourcePtr vertexBuffer;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;

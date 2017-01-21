@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class TextureEmpty: public Texture
+        class TextureEmpty: public TextureResource
         {
         public:
             TextureEmpty();

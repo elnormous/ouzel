@@ -64,7 +64,7 @@
 #endif
 
 #include "graphics/Renderer.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -83,12 +83,12 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStatePtr createBlendState() override;
-            virtual TexturePtr createTexture() override;
-            virtual ShaderPtr createShader() override;
-            virtual MeshBufferPtr createMeshBuffer() override;
-            virtual IndexBufferPtr createIndexBuffer() override;
-            virtual VertexBufferPtr createVertexBuffer() override;
+            virtual BlendStateResourcePtr createBlendState() override;
+            virtual TextureResourcePtr createTexture() override;
+            virtual ShaderResourcePtr createShader() override;
+            virtual MeshBufferResourcePtr createMeshBuffer() override;
+            virtual IndexBufferResourcePtr createIndexBuffer() override;
+            virtual VertexBufferResourcePtr createVertexBuffer() override;
 
             static inline bool checkOpenGLError(bool logError = true)
             {
@@ -455,7 +455,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
+                              TextureResource::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
@@ -482,7 +482,7 @@ namespace ouzel
 
             struct StateCache
             {
-                GLuint textureId[Texture::LAYERS] = {0};
+                GLuint textureId[TextureResource::LAYERS] = {0};
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 

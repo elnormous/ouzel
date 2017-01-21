@@ -1,28 +1,28 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "VertexBuffer.h"
+#include "VertexBufferResource.h"
 #include "Renderer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        VertexBuffer::VertexBuffer()
+        VertexBufferResource::VertexBufferResource()
         {
         }
 
-        VertexBuffer::~VertexBuffer()
+        VertexBufferResource::~VertexBufferResource()
         {
         }
 
-        void VertexBuffer::free()
+        void VertexBufferResource::free()
         {
             data.clear();
             currentData.data.clear();
         }
 
-        bool VertexBuffer::init(bool newDynamic)
+        bool VertexBufferResource::init(bool newDynamic)
         {
             free();
 
@@ -31,8 +31,8 @@ namespace ouzel
             return true;
         }
 
-        bool VertexBuffer::initFromBuffer(const void* newVertices, uint32_t newVertexAttributes,
-                                          uint32_t newVertexCount, bool newDynamic)
+        bool VertexBufferResource::initFromBuffer(const void* newVertices, uint32_t newVertexAttributes,
+                                                  uint32_t newVertexCount, bool newDynamic)
         {
             free();
 
@@ -53,7 +53,7 @@ namespace ouzel
             return true;
         }
 
-        bool VertexBuffer::setData(const void* newVertices, uint32_t newVertexCount)
+        bool VertexBufferResource::setData(const void* newVertices, uint32_t newVertexCount)
         {
             if (!dynamic)
             {
@@ -70,7 +70,7 @@ namespace ouzel
             return true;
         }
 
-        bool VertexBuffer::setVertexAttributes(uint32_t newVertexAttributes)
+        bool VertexBufferResource::setVertexAttributes(uint32_t newVertexAttributes)
         {
             vertexAttributes = newVertexAttributes;
             updateVertexSize();
@@ -80,7 +80,7 @@ namespace ouzel
             return true;
         }
 
-        void VertexBuffer::updateVertexSize()
+        void VertexBufferResource::updateVertexSize()
         {
             vertexSize = 0;
 
@@ -110,7 +110,7 @@ namespace ouzel
             }
         }
 
-        void VertexBuffer::update()
+        void VertexBufferResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -122,7 +122,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool VertexBuffer::upload()
+        bool VertexBufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

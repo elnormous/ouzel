@@ -1,28 +1,28 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBuffer.h"
+#include "MeshBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBuffer::MeshBuffer()
+        MeshBufferResource::MeshBufferResource()
         {
         }
 
-        MeshBuffer::~MeshBuffer()
+        MeshBufferResource::~MeshBufferResource()
         {
         }
 
-        void MeshBuffer::free()
+        void MeshBufferResource::free()
         {
             indexBuffer.reset();
             vertexBuffer.reset();
         }
 
-        bool MeshBuffer::init(const IndexBufferPtr& newIndexBuffer,
-                              const VertexBufferPtr& newVertexBuffer)
+        bool MeshBufferResource::init(const IndexBufferResourcePtr& newIndexBuffer,
+                                      const VertexBufferResourcePtr& newVertexBuffer)
         {
             indexBuffer = newIndexBuffer;
             vertexBuffer = newVertexBuffer;
@@ -32,21 +32,21 @@ namespace ouzel
             return true;
         }
 
-        void MeshBuffer::setIndexBuffer(const IndexBufferPtr& newIndexBuffer)
+        void MeshBufferResource::setIndexBuffer(const IndexBufferResourcePtr& newIndexBuffer)
         {
             indexBuffer = newIndexBuffer;
 
             update();
         }
 
-        void MeshBuffer::setVertexBuffer(const VertexBufferPtr& newVertexBuffer)
+        void MeshBufferResource::setVertexBuffer(const VertexBufferResourcePtr& newVertexBuffer)
         {
             vertexBuffer = newVertexBuffer;
 
             update();
         }
 
-        void MeshBuffer::update()
+        void MeshBufferResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -56,7 +56,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool MeshBuffer::upload()
+        bool MeshBufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

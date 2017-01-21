@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "graphics/IndexBuffer.h"
+#include "graphics/IndexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferEmpty: public IndexBuffer
+        class IndexBufferEmpty: public IndexBufferResource
         {
         public:
             IndexBufferEmpty();

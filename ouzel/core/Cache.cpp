@@ -8,8 +8,8 @@
 #include "Engine.h"
 #include "Application.h"
 #include "graphics/Renderer.h"
-#include "graphics/Texture.h"
-#include "graphics/Shader.h"
+#include "graphics/TextureResource.h"
+#include "graphics/ShaderResource.h"
 #include "scene/ParticleDefinition.h"
 #include "scene/SpriteFrame.h"
 #include "files/FileSystem.h"
@@ -23,22 +23,22 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);
+        std::unordered_map<std::string, graphics::TextureResourcePtr>::const_iterator i = textures.find(filename);
 
         if (i == textures.end())
         {
-            graphics::TexturePtr texture = sharedEngine->getRenderer()->createTexture();
+            graphics::TextureResourcePtr texture = sharedEngine->getRenderer()->createTexture();
             texture->initFromFile(filename, dynamic, mipmaps);
 
             textures[filename] = texture;
         }
     }
 
-    graphics::TexturePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
+    graphics::TextureResourcePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        graphics::TexturePtr result;
+        graphics::TextureResourcePtr result;
 
-        std::unordered_map<std::string, graphics::TexturePtr>::const_iterator i = textures.find(filename);
+        std::unordered_map<std::string, graphics::TextureResourcePtr>::const_iterator i = textures.find(filename);
 
         if (i != textures.end())
         {
@@ -55,7 +55,7 @@ namespace ouzel
         return result;
     }
 
-    void Cache::setTexture(const std::string& filename, const graphics::TexturePtr& texture)
+    void Cache::setTexture(const std::string& filename, const graphics::TextureResourcePtr& texture)
     {
         textures[filename] = texture;
     }
@@ -65,9 +65,9 @@ namespace ouzel
         textures.clear();
     }
 
-    graphics::ShaderPtr Cache::getShader(const std::string& shaderName) const
+    graphics::ShaderResourcePtr Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, graphics::ShaderPtr>::const_iterator i = shaders.find(shaderName);
+        std::unordered_map<std::string, graphics::ShaderResourcePtr>::const_iterator i = shaders.find(shaderName);
 
         if (i != shaders.end())
         {
@@ -79,14 +79,14 @@ namespace ouzel
         }
     }
 
-    void Cache::setShader(const std::string& shaderName, const graphics::ShaderPtr& shader)
+    void Cache::setShader(const std::string& shaderName, const graphics::ShaderResourcePtr& shader)
     {
         shaders[shaderName] = shader;
     }
 
-    graphics::BlendStatePtr Cache::getBlendState(const std::string& blendStateName) const
+    graphics::BlendStateResourcePtr Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::unordered_map<std::string, graphics::BlendStatePtr>::const_iterator i = blendStates.find(blendStateName);
+        std::unordered_map<std::string, graphics::BlendStateResourcePtr>::const_iterator i = blendStates.find(blendStateName);
 
         if (i != blendStates.end())
         {
@@ -98,7 +98,7 @@ namespace ouzel
         }
     }
 
-    void Cache::setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState)
+    void Cache::setBlendState(const std::string& blendStateName, const graphics::BlendStateResourcePtr& blendState)
     {
         blendStates[blendStateName] = blendState;
     }
@@ -115,7 +115,7 @@ namespace ouzel
         }
         else
         {
-            graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+            graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
             if (!texture)
             {
@@ -147,7 +147,7 @@ namespace ouzel
             }
             else
             {
-                graphics::TexturePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
                 if (texture)
                 {

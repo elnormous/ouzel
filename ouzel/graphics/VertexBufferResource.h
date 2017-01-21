@@ -14,11 +14,11 @@ namespace ouzel
     {
         class Renderer;
 
-        class VertexBuffer: public Resource, public Noncopyable
+        class VertexBufferResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
-            virtual ~VertexBuffer();
+            virtual ~VertexBufferResource();
             virtual void free() override;
 
             virtual bool init(bool newDynamic = true);
@@ -34,7 +34,7 @@ namespace ouzel
             virtual bool setData(const void* newVertices, uint32_t newVertexCount);
 
         protected:
-            VertexBuffer();
+            VertexBufferResource();
             void updateVertexSize();
             virtual void update() override;
             virtual bool upload() override;

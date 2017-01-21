@@ -12,13 +12,13 @@ typedef id MTLBufferPtr;
 typedef NSUInteger MTLIndexType;
 #endif
 
-#include "graphics/IndexBuffer.h"
+#include "graphics/IndexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferMetal: public IndexBuffer
+        class IndexBufferMetal: public IndexBufferResource
         {
         public:
             IndexBufferMetal();

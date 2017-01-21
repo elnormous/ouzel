@@ -1,28 +1,28 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "IndexBuffer.h"
+#include "IndexBufferResource.h"
 #include "Renderer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        IndexBuffer::IndexBuffer()
+        IndexBufferResource::IndexBufferResource()
         {
         }
 
-        IndexBuffer::~IndexBuffer()
+        IndexBufferResource::~IndexBufferResource()
         {
         }
 
-        void IndexBuffer::free()
+        void IndexBufferResource::free()
         {
             data.clear();
             currentData.data.clear();
         }
 
-        bool IndexBuffer::init(bool newDynamic)
+        bool IndexBufferResource::init(bool newDynamic)
         {
             free();
 
@@ -31,7 +31,7 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBuffer::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
+        bool IndexBufferResource::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
                                          uint32_t newIndexCount, bool newDynamic)
         {
             free();
@@ -51,7 +51,7 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBuffer::setData(const void* newIndices, uint32_t newIndexCount)
+        bool IndexBufferResource::setData(const void* newIndices, uint32_t newIndexCount)
         {
             if (!dynamic)
             {
@@ -68,7 +68,7 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBuffer::setIndexSize(uint32_t newIndexSize)
+        bool IndexBufferResource::setIndexSize(uint32_t newIndexSize)
         {
             indexSize = newIndexSize;
 
@@ -77,7 +77,7 @@ namespace ouzel
             return true;
         }
 
-        void IndexBuffer::update()
+        void IndexBufferResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -88,7 +88,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool IndexBuffer::upload()
+        bool IndexBufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

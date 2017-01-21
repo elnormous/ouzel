@@ -5,9 +5,9 @@
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
-#include "graphics/MeshBuffer.h"
-#include "graphics/IndexBuffer.h"
-#include "graphics/VertexBuffer.h"
+#include "graphics/MeshBufferResource.h"
+#include "graphics/IndexBufferResource.h"
+#include "graphics/VertexBufferResource.h"
 #include "core/Cache.h"
 #include "Layer.h"
 #include "Camera.h"
@@ -59,7 +59,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TexturePtr>(),
+                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TextureResourcePtr>(),
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -99,7 +99,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TexturePtr>(),
+                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TextureResourcePtr>(),
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,

@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "graphics/Shader.h"
+#include "graphics/ShaderResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class ShaderEmpty: public Shader
+        class ShaderEmpty: public ShaderResource
         {
         public:
             ShaderEmpty();

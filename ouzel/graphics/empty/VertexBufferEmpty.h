@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "graphics/VertexBuffer.h"
+#include "graphics/VertexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class VertexBufferEmpty: public VertexBuffer
+        class VertexBufferEmpty: public VertexBufferResource
         {
         public:
             VertexBufferEmpty();

@@ -28,13 +28,13 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/Shader.h"
+#include "graphics/ShaderResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class ShaderOGL: public Shader
+        class ShaderOGL: public ShaderResource
         {
         public:
             ShaderOGL();

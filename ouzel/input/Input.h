@@ -213,6 +213,8 @@ namespace ouzel
             BUTTON_COUNT
         };
 
+        class Gamepad;
+
         class Input: public Noncopyable
         {
             friend Engine;

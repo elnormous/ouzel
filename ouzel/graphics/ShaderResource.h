@@ -19,7 +19,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class Shader: public Resource, public Noncopyable
+        class ShaderResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
@@ -66,7 +66,7 @@ namespace ouzel
                 uint32_t size;
             };
 
-            virtual ~Shader();
+            virtual ~ShaderResource();
             virtual void free() override;
 
             virtual bool initFromFiles(const std::string& newPixelShader,
@@ -91,7 +91,7 @@ namespace ouzel
             uint32_t getVertexAttributes() const { return data.vertexAttributes; }
 
         protected:
-            Shader();
+            ShaderResource();
             virtual void update() override;
             virtual bool upload() override;
 

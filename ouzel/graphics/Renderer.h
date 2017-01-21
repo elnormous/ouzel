@@ -20,10 +20,10 @@
 #include "math/Color.h"
 #include "math/AABB2.h"
 #include "graphics/Vertex.h"
-#include "graphics/Shader.h"
-#include "graphics/BlendState.h"
+#include "graphics/ShaderResource.h"
+#include "graphics/BlendStateResource.h"
 #include "graphics/PixelFormat.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
@@ -41,8 +41,6 @@ namespace ouzel
         const std::string BLEND_ALPHA = "blendAlpha";
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
-
-        class MeshBuffer;
 
         class Renderer: public Noncopyable
         {
@@ -86,28 +84,28 @@ namespace ouzel
             virtual void setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
-            Texture::Filter getTextureFilter() const { return textureFilter; }
+            TextureResource::Filter getTextureFilter() const { return textureFilter; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            virtual BlendStatePtr createBlendState() = 0;
-            virtual TexturePtr createTexture() = 0;
-            virtual ShaderPtr createShader() = 0;
-            virtual MeshBufferPtr createMeshBuffer() = 0;
-            virtual IndexBufferPtr createIndexBuffer() = 0;
-            virtual VertexBufferPtr createVertexBuffer() = 0;
+            virtual BlendStateResourcePtr createBlendState() = 0;
+            virtual TextureResourcePtr createTexture() = 0;
+            virtual ShaderResourcePtr createShader() = 0;
+            virtual MeshBufferResourcePtr createMeshBuffer() = 0;
+            virtual IndexBufferResourcePtr createIndexBuffer() = 0;
+            virtual VertexBufferResourcePtr createVertexBuffer() = 0;
 
             bool getRefillDrawQueue() const { return refillDrawQueue; }
-            bool addDrawCommand(const std::vector<TexturePtr>& textures,
-                                const ShaderPtr& shader,
+            bool addDrawCommand(const std::vector<TextureResourcePtr>& textures,
+                                const ShaderResourcePtr& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
                                 const std::vector<std::vector<float>>& vertexShaderConstants,
-                                const BlendStatePtr& blendState,
-                                const MeshBufferPtr& meshBuffer,
+                                const BlendStateResourcePtr& blendState,
+                                const MeshBufferResourcePtr& meshBuffer,
                                 uint32_t indexCount = 0,
                                 DrawMode drawMode = DrawMode::TRIANGLE_LIST,
                                 uint32_t startIndex = 0,
-                                const TexturePtr& renderTarget = nullptr,
+                                const TextureResourcePtr& renderTarget = nullptr,
                                 const Rectangle& viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f),
                                 bool depthWrite = false,
                                 bool depthTest = false,
@@ -154,7 +152,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
+                              TextureResource::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth);
@@ -173,7 +171,7 @@ namespace ouzel
             uint32_t currentFrame = 0;
             uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
-            Texture::Filter textureFilter = Texture::Filter::NONE;
+            TextureResource::Filter textureFilter = TextureResource::Filter::NONE;
             PixelFormat backBufferFormat;
             bool depth = false;
 
@@ -181,16 +179,16 @@ namespace ouzel
 
             struct DrawCommand
             {
-                std::vector<TexturePtr> textures;
-                ShaderPtr shader;
+                std::vector<TextureResourcePtr> textures;
+                ShaderResourcePtr shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStatePtr blendState;
-                MeshBufferPtr meshBuffer;
+                BlendStateResourcePtr blendState;
+                MeshBufferResourcePtr meshBuffer;
                 uint32_t indexCount;
                 DrawMode drawMode;
                 uint32_t startIndex;
-                TexturePtr renderTarget;
+                TextureResourcePtr renderTarget;
                 Rectangle viewport;
                 bool depthWrite;
                 bool depthTest;

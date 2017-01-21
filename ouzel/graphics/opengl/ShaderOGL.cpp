@@ -35,7 +35,7 @@ namespace ouzel
 
         void ShaderOGL::free()
         {
-            Shader::free();
+            ShaderResource::free();
 
             pixelShaderConstantLocations.clear();
             vertexShaderConstantLocations.clear();
@@ -89,7 +89,7 @@ namespace ouzel
 
         bool ShaderOGL::upload()
         {
-            if (!Shader::upload())
+            if (!ShaderResource::upload())
             {
                 return false;
             }

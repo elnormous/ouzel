@@ -28,7 +28,7 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/VertexBuffer.h"
+#include "graphics/VertexBufferResource.h"
 
 namespace ouzel
 {
@@ -36,7 +36,7 @@ namespace ouzel
     {
         class MeshBufferOGL;
 
-        class VertexBufferOGL: public VertexBuffer
+        class VertexBufferOGL: public VertexBufferResource
         {
             friend MeshBufferOGL;
         public:

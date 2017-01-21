@@ -25,7 +25,7 @@ namespace ouzel
 
         void IndexBufferMetal::free()
         {
-            IndexBuffer::free();
+            IndexBufferResource::free();
 
             if (buffer)
             {
@@ -38,7 +38,7 @@ namespace ouzel
 
         bool IndexBufferMetal::upload()
         {
-            if (!IndexBuffer::upload())
+            if (!IndexBufferResource::upload())
             {
                 return false;
             }

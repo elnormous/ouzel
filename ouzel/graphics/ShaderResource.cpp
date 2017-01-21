@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Shader.h"
+#include "ShaderResource.h"
 #include "Renderer.h"
 #include "core/Application.h"
 #include "files/FileSystem.h"
@@ -11,15 +11,15 @@ namespace ouzel
 {
     namespace graphics
     {
-        Shader::Shader()
+        ShaderResource::ShaderResource()
         {
         }
 
-        Shader::~Shader()
+        ShaderResource::~ShaderResource()
         {
         }
 
-        void Shader::free()
+        void ShaderResource::free()
         {
             data.pixelShaderData.clear();
             data.vertexShaderData.clear();
@@ -36,15 +36,15 @@ namespace ouzel
             currentData.vertexShaderConstantInfo.clear();
         }
 
-        bool Shader::initFromFiles(const std::string& newPixelShader,
-                                   const std::string& newVertexShader,
-                                   uint32_t newVertexAttributes,
-                                   const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                   const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                                   uint32_t newPixelShaderDataAlignment,
-                                   uint32_t newVertexShaderDataAlignment,
-                                   const std::string& newPixelShaderFunction,
-                                   const std::string& newVertexShaderFunction)
+        bool ShaderResource::initFromFiles(const std::string& newPixelShader,
+                                           const std::string& newVertexShader,
+                                           uint32_t newVertexAttributes,
+                                           const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                           const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                           uint32_t newPixelShaderDataAlignment,
+                                           uint32_t newVertexShaderDataAlignment,
+                                           const std::string& newPixelShaderFunction,
+                                           const std::string& newVertexShaderFunction)
         {
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
@@ -70,15 +70,15 @@ namespace ouzel
                                    newPixelShaderFunction, newVertexShaderFunction);
         }
 
-        bool Shader::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                     const std::vector<uint8_t>& newVertexShader,
-                                     uint32_t newVertexAttributes,
-                                     const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                     const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t newPixelShaderDataAlignment,
-                                     uint32_t newVertexShaderDataAlignment,
-                                     const std::string& newPixelShaderFunction,
-                                     const std::string& newVertexShaderFunction)
+        bool ShaderResource::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
+                                             const std::vector<uint8_t>& newVertexShader,
+                                             uint32_t newVertexAttributes,
+                                             const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                                             const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                             uint32_t newPixelShaderDataAlignment,
+                                             uint32_t newVertexShaderDataAlignment,
+                                             const std::string& newPixelShaderFunction,
+                                             const std::string& newVertexShaderFunction)
         {
             data.pixelShaderData = newPixelShader;
             data.vertexShaderData = newVertexShader;
@@ -122,7 +122,7 @@ namespace ouzel
             return  true;
         }
 
-        void Shader::update()
+        void ShaderResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -140,7 +140,7 @@ namespace ouzel
             dirty = true;
         }
 
-        bool Shader::upload()
+        bool ShaderResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

@@ -39,7 +39,7 @@ namespace ouzel
 
         void ShaderMetal::free()
         {
-            Shader::free();
+            ShaderResource::free();
 
             pixelShaderConstantLocations.clear();
             vertexShaderConstantLocations.clear();
@@ -97,7 +97,7 @@ namespace ouzel
 
         bool ShaderMetal::upload()
         {
-            if (!Shader::upload())
+            if (!ShaderResource::upload())
             {
                 return false;
             }
