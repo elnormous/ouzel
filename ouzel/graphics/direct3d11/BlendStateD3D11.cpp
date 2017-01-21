@@ -33,7 +33,7 @@ namespace ouzel
             }
         }
 
-        static D3D11_BLEND getBlendFactor(BlendStateResource::BlendFactor blendFactor)
+        static D3D11_BLEND getBlendFactor(BlendState::BlendFactor blendFactor)
         {
             switch (blendFactor)
             {

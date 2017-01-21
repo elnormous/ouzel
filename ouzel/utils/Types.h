@@ -24,11 +24,6 @@ namespace ouzel
 
     namespace graphics
     {
-        class Renderer;
-
-        class Resource;
-        typedef std::shared_ptr<Resource> ResourcePtr;
-
         class BlendStateResource;
         typedef std::shared_ptr<BlendStateResource> BlendStateResourcePtr;
 

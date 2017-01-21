@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "core/Engine.h"
+#include "Resource.h"
 #include "TextureResource.h"
 #include "ShaderResource.h"
 #include "BlendStateResource.h"
@@ -92,7 +93,7 @@ namespace ouzel
                 activeDrawQueueFinished = false;
             }
 
-            std::set<ResourcePtr> resources;
+            std::set<Resource*> resources;
             {
                 std::lock_guard<std::mutex> lock(uploadMutex);
                 resources = std::move(uploadSet);
@@ -102,7 +103,7 @@ namespace ouzel
             // refills draw and upload queues
             refillDrawQueue = true;
 
-            for (const ResourcePtr& resource : resources)
+            for (Resource* resource : resources)
             {
                 // upload data to GPU
                 if (resource->dirty && !resource->upload())
@@ -216,18 +217,18 @@ namespace ouzel
 
             for (const TextureResourcePtr& texture : textures)
             {
-                if (texture && texture->dirty) uploadSet.insert(texture);
+                if (texture && texture->dirty) uploadSet.insert(texture.get());
             }
 
-            if (shader && shader->dirty) uploadSet.insert(shader);
-            if (blendState && blendState->dirty) uploadSet.insert(blendState);
+            if (shader && shader->dirty) uploadSet.insert(shader.get());
+            if (blendState && blendState->dirty) uploadSet.insert(blendState.get());
             if (meshBuffer)
             {
-                if (meshBuffer && meshBuffer->dirty) uploadSet.insert(meshBuffer);
-                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) uploadSet.insert(meshBuffer->indexBuffer);
-                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) uploadSet.insert(meshBuffer->vertexBuffer);
+                if (meshBuffer && meshBuffer->dirty) uploadSet.insert(meshBuffer.get());
+                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) uploadSet.insert(meshBuffer->indexBuffer.get());
+                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) uploadSet.insert(meshBuffer->vertexBuffer.get());
             }
-            if (renderTarget && renderTarget->dirty) uploadSet.insert(renderTarget);
+            if (renderTarget && renderTarget->dirty) uploadSet.insert(renderTarget.get());
 
             return true;
         }

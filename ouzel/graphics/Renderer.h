@@ -41,6 +41,8 @@ namespace ouzel
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
 
+        class Resource;
+
         class Renderer: public Noncopyable
         {
             friend Engine;
@@ -230,14 +232,14 @@ namespace ouzel
 
             std::vector<DrawCommand> activeDrawQueue;
 
-            std::set<ResourcePtr> uploadSet;
+            std::set<Resource*> uploadSet;
             std::mutex uploadMutex;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
             std::atomic<bool> dirty;
 
-            static std::queue<Resource> deleteQueue;
+            static std::queue<Resource*> deleteQueue;
             static std::mutex deleteMutex;
         };
     } // namespace graphics

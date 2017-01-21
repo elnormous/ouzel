@@ -190,6 +190,7 @@
     <ClInclude Include="..\ouzel\graphics\MeshBufferResource.h" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.h" />
     <ClInclude Include="..\ouzel\graphics\Renderer.h" />
+    <ClInclude Include="..\ouzel\graphics\Resource.h" />
     <ClInclude Include="..\ouzel\graphics\Shader.h" />
     <ClInclude Include="..\ouzel\graphics\ShaderResource.h" />
     <ClInclude Include="..\ouzel\graphics\Texture.h" />

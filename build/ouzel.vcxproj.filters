@@ -685,6 +685,9 @@
     <ClInclude Include="..\ouzel\graphics\VertexBuffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Resource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
