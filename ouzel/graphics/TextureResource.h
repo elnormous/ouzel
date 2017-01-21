@@ -9,6 +9,7 @@
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
+#include "graphics/Texture.h"
 #include "math/Color.h"
 #include "math/Size2.h"
 
@@ -22,16 +23,6 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            enum class Filter
-            {
-                NONE,
-                LINEAR,
-                BILINEAR,
-                TRILINEAR
-            };
-
-            static const uint32_t LAYERS = 4;
-
             virtual ~TextureResource();
             virtual void free() override;
 

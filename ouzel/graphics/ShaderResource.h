@@ -9,6 +9,7 @@
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
+#include "graphics/Shader.h"
 #include "math/Vector3.h"
 #include "math/Vector4.h"
 #include "math/Matrix4.h"
@@ -23,46 +24,36 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            enum DataType
-            {
-                FLOAT,
-                FLOAT_VECTOR2,
-                FLOAT_VECTOR3,
-                FLOAT_VECTOR4,
-                FLOAT_MATRIX3,
-                FLOAT_MATRIX4
-            };
-
             struct ConstantInfo
             {
-                ConstantInfo(std::string aName, DataType aDataType):
+                ConstantInfo(std::string aName, Shader::DataType aDataType):
                     name(aName), dataType(aDataType)
                 {
                     switch (aDataType)
                     {
-                        case FLOAT:
+                        case Shader::DataType::FLOAT:
                             size = sizeof(float);
                             break;
-                        case FLOAT_VECTOR2:
+                        case Shader::DataType::FLOAT_VECTOR2:
                             size = 2 * sizeof(float);
                             break;
-                        case FLOAT_VECTOR3:
+                        case Shader::DataType::FLOAT_VECTOR3:
                             size = 3 * sizeof(float);
                             break;
-                        case FLOAT_VECTOR4:
+                        case Shader::DataType::FLOAT_VECTOR4:
                             size = 4 * sizeof(float);
                             break;
-                        case FLOAT_MATRIX3:
+                        case Shader::DataType::FLOAT_MATRIX3:
                             size = 9 * sizeof(float);
                             break;
-                        case FLOAT_MATRIX4:
+                        case Shader::DataType::FLOAT_MATRIX4:
                             size = 16 * sizeof(float);
                             break;
                     }
                 }
 
                 std::string name;
-                DataType dataType;
+                Shader::DataType dataType;
                 uint32_t size;
             };
 

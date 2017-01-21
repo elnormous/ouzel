@@ -22,10 +22,10 @@ namespace ouzel
         }
 
         bool BlendStateResource::init(bool newEnableBlending,
-                                      BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                                      BlendOperation newColorOperation,
-                                      BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                                      BlendOperation newAlphaOperation)
+                                      BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                                      BlendState::BlendOperation newColorOperation,
+                                      BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                                      BlendState::BlendOperation newAlphaOperation)
         {
             data.enableBlending = newEnableBlending;
             data.colorBlendSource = newColorBlendSource;

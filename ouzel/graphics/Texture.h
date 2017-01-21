@@ -15,6 +15,16 @@ namespace ouzel
         class Texture: public Noncopyable
         {
         public:
+            enum class Filter
+            {
+                NONE,
+                LINEAR,
+                BILINEAR,
+                TRILINEAR
+            };
+
+            static const uint32_t LAYERS = 4;
+            
             Texture();
 
         private:

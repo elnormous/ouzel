@@ -15,6 +15,16 @@ namespace ouzel
         class Shader: public Noncopyable
         {
         public:
+            enum class DataType
+            {
+                FLOAT,
+                FLOAT_VECTOR2,
+                FLOAT_VECTOR3,
+                FLOAT_VECTOR4,
+                FLOAT_MATRIX3,
+                FLOAT_MATRIX4
+            };
+            
             Shader();
 
         private:

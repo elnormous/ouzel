@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include "utils/Noncopyable.h"
+#include "graphics/BlendState.h"
 #include "graphics/Resource.h"
 
 #pragma once
@@ -17,48 +18,22 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            enum class BlendFactor
-            {
-                ZERO,
-                ONE,
-                SRC_COLOR,
-                INV_SRC_COLOR,
-                SRC_ALPHA,
-                INV_SRC_ALPHA,
-                DEST_ALPHA,
-                INV_DEST_ALPHA,
-                DEST_COLOR,
-                INV_DEST_COLOR,
-                SRC_ALPHA_SAT,
-                BLEND_FACTOR,
-                INV_BLEND_FACTOR
-            };
-
-            enum class BlendOperation
-            {
-                ADD,
-                SUBTRACT,
-                REV_SUBTRACT,
-                MIN,
-                MAX
-            };
-
             virtual ~BlendStateResource();
             virtual void free() override;
 
             virtual bool init(bool newEnableBlending,
-                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                              BlendOperation newColorOperation,
-                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation);
+                              BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                              BlendState::BlendOperation newColorOperation,
+                              BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                              BlendState::BlendOperation newAlphaOperation);
 
             bool isBlendingEnabled() const { return data.enableBlending; }
-            BlendFactor getColorBlendSource() const { return data.colorBlendSource; }
-            BlendFactor getColorBlendDest() const { return data.colorBlendDest; }
-            BlendOperation getColorOperation() const { return data.colorOperation; }
-            BlendFactor getAlphaBlendSource() const { return data.alphaBlendSource; }
-            BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
-            BlendOperation getAlphaOperation() const { return data.alphaOperation; }
+            BlendState::BlendFactor getColorBlendSource() const { return data.colorBlendSource; }
+            BlendState::BlendFactor getColorBlendDest() const { return data.colorBlendDest; }
+            BlendState::BlendOperation getColorOperation() const { return data.colorOperation; }
+            BlendState::BlendFactor getAlphaBlendSource() const { return data.alphaBlendSource; }
+            BlendState::BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
+            BlendState::BlendOperation getAlphaOperation() const { return data.alphaOperation; }
 
         protected:
             BlendStateResource();
@@ -67,12 +42,12 @@ namespace ouzel
 
             struct Data
             {
-                BlendFactor colorBlendSource = BlendFactor::ONE;
-                BlendFactor colorBlendDest = BlendFactor::ZERO;
-                BlendOperation colorOperation = BlendOperation::ADD;
-                BlendFactor alphaBlendSource = BlendFactor::ONE;
-                BlendFactor alphaBlendDest = BlendFactor::ZERO;
-                BlendOperation alphaOperation = BlendOperation::ADD;
+                BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
+                BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
+                BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
+                BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
+                BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
+                BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
                 bool enableBlending = false;
             };
 

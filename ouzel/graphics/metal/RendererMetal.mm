@@ -200,7 +200,7 @@ namespace ouzel
         bool RendererMetal::init(Window* newWindow,
                                  const Size2& newSize,
                                  uint32_t newSampleCount,
-                                 TextureResource::Filter newTextureFilter,
+                                 Texture::Filter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  bool newDepth)
@@ -279,22 +279,22 @@ namespace ouzel
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
             switch (textureFilter)
             {
-                case TextureResource::Filter::NONE:
+                case Texture::Filter::NONE:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
-                case TextureResource::Filter::LINEAR:
+                case Texture::Filter::LINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
-                case TextureResource::Filter::BILINEAR:
+                case Texture::Filter::BILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
                     break;
-                case TextureResource::Filter::TRILINEAR:
+                case Texture::Filter::TRILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
@@ -316,8 +316,8 @@ namespace ouzel
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}},
+                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}},
                                            256, 256,
                                            "main_ps", "main_vs");
 
@@ -327,8 +327,8 @@ namespace ouzel
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}},
+                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}},
                                          256, 256,
                                          "main_ps", "main_vs");
 
@@ -337,40 +337,40 @@ namespace ouzel
             BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD);
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD,
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD);
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD,
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
-                                     BlendStateResource::BlendFactor::DEST_COLOR, BlendStateResource::BlendFactor::ZERO,
-                                     BlendStateResource::BlendOperation::ADD,
-                                     BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                     BlendStateResource::BlendOperation::ADD);
+                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
+                                     BlendState::BlendOperation::ADD,
+                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                     BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
-                                  BlendStateResource::BlendFactor::SRC_ALPHA, BlendStateResource::BlendFactor::INV_SRC_ALPHA,
-                                  BlendStateResource::BlendOperation::ADD,
-                                  BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                  BlendStateResource::BlendOperation::ADD);
+                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                  BlendState::BlendOperation::ADD,
+                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                  BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
@@ -746,7 +746,7 @@ namespace ouzel
                 bool texturesValid = true;
 
                 // textures
-                for (uint32_t layer = 0; layer < TextureResource::LAYERS; ++layer)
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     std::shared_ptr<TextureMetal> textureMetal;
 

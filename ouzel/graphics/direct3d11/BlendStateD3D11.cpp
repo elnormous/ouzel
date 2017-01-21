@@ -37,32 +37,32 @@ namespace ouzel
         {
             switch (blendFactor)
             {
-                case BlendStateResource::BlendFactor::ZERO: return D3D11_BLEND_ZERO;
-                case BlendStateResource::BlendFactor::ONE: return D3D11_BLEND_ONE;
-                case BlendStateResource::BlendFactor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
-                case BlendStateResource::BlendFactor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
-                case BlendStateResource::BlendFactor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
-                case BlendStateResource::BlendFactor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
-                case BlendStateResource::BlendFactor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
-                case BlendStateResource::BlendFactor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
-                case BlendStateResource::BlendFactor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
-                case BlendStateResource::BlendFactor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
-                case BlendStateResource::BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
-                case BlendStateResource::BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
-                case BlendStateResource::BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
+                case BlendState::BlendFactor::ZERO: return D3D11_BLEND_ZERO;
+                case BlendState::BlendFactor::ONE: return D3D11_BLEND_ONE;
+                case BlendState::BlendFactor::SRC_COLOR: return D3D11_BLEND_SRC_COLOR;
+                case BlendState::BlendFactor::INV_SRC_COLOR: return D3D11_BLEND_INV_SRC_COLOR;
+                case BlendState::BlendFactor::SRC_ALPHA: return D3D11_BLEND_SRC_ALPHA;
+                case BlendState::BlendFactor::INV_SRC_ALPHA: return D3D11_BLEND_INV_SRC_ALPHA;
+                case BlendState::BlendFactor::DEST_ALPHA: return D3D11_BLEND_DEST_ALPHA;
+                case BlendState::BlendFactor::INV_DEST_ALPHA: return D3D11_BLEND_INV_DEST_ALPHA;
+                case BlendState::BlendFactor::DEST_COLOR: return D3D11_BLEND_DEST_COLOR;
+                case BlendState::BlendFactor::INV_DEST_COLOR: return D3D11_BLEND_INV_DEST_COLOR;
+                case BlendState::BlendFactor::SRC_ALPHA_SAT: return D3D11_BLEND_SRC_ALPHA_SAT;
+                case BlendState::BlendFactor::BLEND_FACTOR: return D3D11_BLEND_BLEND_FACTOR;
+                case BlendState::BlendFactor::INV_BLEND_FACTOR: return D3D11_BLEND_INV_BLEND_FACTOR;
                 default: return D3D11_BLEND_ZERO;
             }
         }
 
-        static D3D11_BLEND_OP getBlendOperation(BlendStateResource::BlendOperation blendOperation)
+        static D3D11_BLEND_OP getBlendOperation(BlendState::BlendOperation blendOperation)
         {
             switch (blendOperation)
             {
-                case BlendStateResource::BlendOperation::ADD: return D3D11_BLEND_OP_ADD;
-                case BlendStateResource::BlendOperation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
-                case BlendStateResource::BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
-                case BlendStateResource::BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
-                case BlendStateResource::BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
+                case BlendState::BlendOperation::ADD: return D3D11_BLEND_OP_ADD;
+                case BlendState::BlendOperation::SUBTRACT: return D3D11_BLEND_OP_SUBTRACT;
+                case BlendState::BlendOperation::REV_SUBTRACT: return D3D11_BLEND_OP_REV_SUBTRACT;
+                case BlendState::BlendOperation::MIN: return D3D11_BLEND_OP_MIN;
+                case BlendState::BlendOperation::MAX: return D3D11_BLEND_OP_MAX;
                 default: return D3D11_BLEND_OP_ADD;
             }
         }

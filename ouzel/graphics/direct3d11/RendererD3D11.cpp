@@ -156,7 +156,7 @@ namespace ouzel
         bool RendererD3D11::init(Window* newWindow,
                                  const Size2& newSize,
                                  uint32_t newSampleCount,
-                                 TextureResource::Filter newTextureFilter,
+                                 Texture::Filter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  bool newDepth)
@@ -287,16 +287,16 @@ namespace ouzel
             D3D11_SAMPLER_DESC samplerStateDesc;
             switch (textureFilter)
             {
-                case TextureResource::Filter::NONE:
+                case Texture::Filter::NONE:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                     break;
-                case TextureResource::Filter::LINEAR:
+                case Texture::Filter::LINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
                     break;
-                case TextureResource::Filter::BILINEAR:
+                case Texture::Filter::BILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
                     break;
-                case TextureResource::Filter::TRILINEAR:
+                case Texture::Filter::TRILINEAR:
                     samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
                     break;
             }
@@ -434,8 +434,8 @@ namespace ouzel
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
+                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -443,48 +443,48 @@ namespace ouzel
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
+                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD);
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD,
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD);
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD,
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
-                                     BlendStateResource::BlendFactor::DEST_COLOR, BlendStateResource::BlendFactor::ZERO,
-                                     BlendStateResource::BlendOperation::ADD,
-                                     BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                     BlendStateResource::BlendOperation::ADD);
+                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
+                                     BlendState::BlendOperation::ADD,
+                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                     BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
-                                  BlendStateResource::BlendFactor::SRC_ALPHA, BlendStateResource::BlendFactor::INV_SRC_ALPHA,
-                                  BlendStateResource::BlendOperation::ADD,
-                                  BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                  BlendStateResource::BlendOperation::ADD);
+                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                  BlendState::BlendOperation::ADD,
+                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                  BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
@@ -743,7 +743,7 @@ namespace ouzel
                 bool texturesValid = true;
 
                 // textures
-                for (uint32_t layer = 0; layer < TextureResource::LAYERS; ++layer)
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     std::shared_ptr<TextureD3D11> textureD3D11;
 
@@ -775,8 +775,8 @@ namespace ouzel
                     continue;
                 }
 
-                context->PSSetShaderResources(0, TextureResource::LAYERS, resourceViews);
-                context->PSSetSamplers(0, TextureResource::LAYERS, samplerStates);
+                context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
+                context->PSSetSamplers(0, Texture::LAYERS, samplerStates);
 
                 // mesh buffer
                 std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);

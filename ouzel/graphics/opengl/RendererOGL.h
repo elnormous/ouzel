@@ -455,7 +455,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              TextureResource::Filter newTextureFilter,
+                              Texture::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
@@ -482,7 +482,7 @@ namespace ouzel
 
             struct StateCache
             {
-                GLuint textureId[TextureResource::LAYERS] = {0};
+                GLuint textureId[Texture::LAYERS] = {0};
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 

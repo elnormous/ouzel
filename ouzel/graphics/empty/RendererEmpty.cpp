@@ -23,7 +23,7 @@ namespace ouzel
         bool RendererEmpty::init(Window* newWindow,
                                  const Size2& newSize,
                                  uint32_t newSampleCount,
-                                 TextureResource::Filter newTextureFilter,
+                                 Texture::Filter newTextureFilter,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
                                  bool newDepth)
@@ -38,8 +38,8 @@ namespace ouzel
             textureShader->initFromBuffers({},
                                            {},
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
+                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -48,48 +48,48 @@ namespace ouzel
             colorShader->initFromBuffers({},
                                          {},
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", ShaderResource::DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", ShaderResource::DataType::FLOAT_MATRIX4}});
+                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD,
-                               BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ZERO,
-                               BlendStateResource::BlendOperation::ADD);
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD,
+                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
+                               BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD,
-                                BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                BlendStateResource::BlendOperation::ADD);
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD,
+                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
-                                     BlendStateResource::BlendFactor::DEST_COLOR, BlendStateResource::BlendFactor::ZERO,
-                                     BlendStateResource::BlendOperation::ADD,
-                                     BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                     BlendStateResource::BlendOperation::ADD);
+                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
+                                     BlendState::BlendOperation::ADD,
+                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                     BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
-                                  BlendStateResource::BlendFactor::SRC_ALPHA, BlendStateResource::BlendFactor::INV_SRC_ALPHA,
-                                  BlendStateResource::BlendOperation::ADD,
-                                  BlendStateResource::BlendFactor::ONE, BlendStateResource::BlendFactor::ONE,
-                                  BlendStateResource::BlendOperation::ADD);
+                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
+                                  BlendState::BlendOperation::ADD,
+                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
+                                  BlendState::BlendOperation::ADD);
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 

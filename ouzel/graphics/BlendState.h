@@ -15,6 +15,32 @@ namespace ouzel
         class BlendState: public Noncopyable
         {
         public:
+            enum class BlendFactor
+            {
+                ZERO,
+                ONE,
+                SRC_COLOR,
+                INV_SRC_COLOR,
+                SRC_ALPHA,
+                INV_SRC_ALPHA,
+                DEST_ALPHA,
+                INV_DEST_ALPHA,
+                DEST_COLOR,
+                INV_DEST_COLOR,
+                SRC_ALPHA_SAT,
+                BLEND_FACTOR,
+                INV_BLEND_FACTOR
+            };
+
+            enum class BlendOperation
+            {
+                ADD,
+                SUBTRACT,
+                REV_SUBTRACT,
+                MIN,
+                MAX
+            };
+            
             BlendState();
 
         private:
