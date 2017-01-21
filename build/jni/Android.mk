@@ -55,14 +55,20 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/opengl/TextureOGL.cpp \
     ../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
+    ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Image.cpp \
     ../../ouzel/graphics/IndexBuffer.cpp \
+    ../../ouzel/graphics/IndexBufferResource.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
+    ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
     ../../ouzel/graphics/Shader.cpp \
+    ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \
+    ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/graphics/VertexBuffer.cpp \
+    ../../ouzel/graphics/VertexBufferResource.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/Button.cpp \
     ../../ouzel/gui/CheckBox.cpp \
@@ -75,7 +81,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/gui/RadioButtonGroup.cpp \
     ../../ouzel/gui/ScrollArea.cpp \
     ../../ouzel/gui/ScrollBar.cpp \
-	../../ouzel/gui/SlideBar.cpp \
+    ../../ouzel/gui/SlideBar.cpp \
     ../../ouzel/gui/Widget.cpp \
     ../../ouzel/input/android/GamepadAndroid.cpp \
     ../../ouzel/input/android/InputAndroid.cpp \
@@ -92,7 +98,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/math/Quaternion.cpp \
     ../../ouzel/math/Rectangle.cpp \
     ../../ouzel/math/Size2.cpp \
-	../../ouzel/math/Size3.cpp \
+    ../../ouzel/math/Size3.cpp \
     ../../ouzel/math/Vector2.cpp \
     ../../ouzel/math/Vector3.cpp \
     ../../ouzel/math/Vector4.cpp \
@@ -101,7 +107,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Layer.cpp \
     ../../ouzel/scene/Node.cpp \
     ../../ouzel/scene/NodeContainer.cpp \
-	../../ouzel/scene/ParticleDefinition.cpp \
+    ../../ouzel/scene/ParticleDefinition.cpp \
     ../../ouzel/scene/ParticleSystem.cpp \
     ../../ouzel/scene/Scene.cpp \
     ../../ouzel/scene/SceneManager.cpp \

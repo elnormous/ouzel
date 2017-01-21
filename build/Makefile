@@ -58,14 +58,20 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/VertexBufferOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Image.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/IndexBuffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/IndexBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/ShaderResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/TextureResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/VertexBuffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/VertexBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
 	$(ROOT_DIR)/../ouzel/gui/CheckBox.cpp \
