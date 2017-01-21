@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include "Noncopyable.h"
 
 namespace ouzel
 {
@@ -11,7 +12,7 @@ namespace ouzel
     {
         class IndexBufferResource;
 
-        class IndexBuffer
+        class IndexBuffer: public Noncopyable
         {
         public:
             IndexBuffer();
