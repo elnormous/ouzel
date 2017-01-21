@@ -52,7 +52,6 @@ namespace ouzel
             static bool available();
 
             virtual ~RendererMetal();
-            virtual void free() override;
 
             virtual bool present() override;
 

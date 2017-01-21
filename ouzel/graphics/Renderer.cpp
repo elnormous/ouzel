@@ -33,11 +33,6 @@ namespace ouzel
         {
         }
 
-        void Renderer::free()
-        {
-            activeDrawQueue.clear();
-        }
-
         bool Renderer::init(Window* newWindow,
                             const Size2& newSize,
                             uint32_t newSampleCount,

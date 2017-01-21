@@ -18,7 +18,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererD3D11();
-            virtual void free() override;
 
             virtual bool present() override;
 

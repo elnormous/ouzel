@@ -39,36 +39,6 @@ namespace ouzel
             }
         }
 
-        void RendererOGLRasp::free()
-        {
-            if (surface)
-            {
-                if (!eglDestroySurface(display, surface))
-                {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
-                surface = 0;
-            }
-
-            if (context)
-            {
-                if (!eglDestroyContext(display, context))
-                {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
-                }
-                context = 0;
-            }
-
-            if (display)
-            {
-                if (!eglTerminate(display))
-                {
-                    Log(Log::Level::ERR) << "Failed to terminate EGL";
-                }
-                display = 0;
-            }
-        }
-
         bool RendererOGLRasp::init(Window* newWindow,
                                    const Size2& newSize,
                                    uint32_t newSampleCount,

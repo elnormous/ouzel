@@ -12,10 +12,6 @@ namespace ouzel
         {
         }
 
-        void RendererOGLLinux::free()
-        {
-        }
-
         bool RendererOGLLinux::init(Window* newWindow,
                                     const Size2& newSize,
                                     uint32_t newSampleCount,

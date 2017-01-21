@@ -26,7 +26,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererOGLTVOS();
-            virtual void free() override;
 
         private:
             virtual bool init(Window* newWindow,

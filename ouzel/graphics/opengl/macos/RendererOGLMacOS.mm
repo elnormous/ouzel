@@ -21,23 +21,6 @@ namespace ouzel
             }
         }
 
-        void RendererOGLMacOS::free()
-        {
-            RendererOGL::free();
-
-            if (openGLContext)
-            {
-                [openGLContext release];
-                openGLContext = Nil;
-            }
-
-            if (pixelFormat)
-            {
-                [pixelFormat release];
-                pixelFormat = Nil;
-            }
-        }
-
         bool RendererOGLMacOS::init(Window* window,
                                     const Size2& newSize,
                                     uint32_t newSampleCount,
@@ -46,8 +29,6 @@ namespace ouzel
                                     bool newVerticalSync,
                                     bool newDepth)
         {
-            free();
-
             // Create pixel format
             NSOpenGLPixelFormatAttribute openGL3Attributes[] =
             {

@@ -16,7 +16,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererOGLLinux();
-            virtual void free() override;
 
         private:
             virtual bool init(Window* newWindow,

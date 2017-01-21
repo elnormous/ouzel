@@ -13,15 +13,9 @@ namespace ouzel
     {
         RendererOGLEm::~RendererOGLEm()
         {
-            emscripten_webgl_destroy_context(webGLContext);
-        }
-
-        void RendererOGLEm::free()
-        {
             if (webGLContext)
             {
                 emscripten_webgl_destroy_context(webGLContext);
-                webGLContext = 0;
             }
         }
 
