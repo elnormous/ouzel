@@ -86,6 +86,8 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
+            lockContext();
+
             if (colorRenderBufferId)
             {
                 glDeleteRenderbuffers(1, &colorRenderBufferId);
