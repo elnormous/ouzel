@@ -37,7 +37,7 @@ namespace ouzel
 
         void TextureD3D11::free()
         {
-            Texture::free();
+            TextureResource::free();
 
             if (renderTargetView)
             {
@@ -60,7 +60,7 @@ namespace ouzel
 
         bool TextureD3D11::upload()
         {
-            if (!Texture::upload())
+            if (!TextureResource::upload())
             {
                 return false;
             }

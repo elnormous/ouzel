@@ -7,7 +7,7 @@
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/Renderer.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
@@ -40,7 +40,7 @@ namespace ouzel
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
-                              Texture::Filter newTextureFilter,
+                              TextureResource::Filter newTextureFilter,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
@@ -62,8 +62,8 @@ namespace ouzel
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* depthStencilStates[4];
-            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-            ID3D11SamplerState* samplerStates[Texture::LAYERS];
+            ID3D11ShaderResourceView* resourceViews[TextureResource::LAYERS];
+            ID3D11SamplerState* samplerStates[TextureResource::LAYERS];
 
             UINT width = 0;
             UINT height = 0;

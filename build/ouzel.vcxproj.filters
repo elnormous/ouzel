@@ -46,22 +46,10 @@
     <ClCompile Include="..\ouzel\files\FileSystem.cpp">
       <Filter>files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Image.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Shader.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Texture.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Vertex.cpp">
@@ -205,12 +193,6 @@
     <ClCompile Include="..\ouzel\events\EventHandler.cpp">
       <Filter>events</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\IndexBuffer.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\VertexBuffer.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
@@ -310,6 +292,24 @@
     <ClCompile Include="..\ouzel\utils\OBF.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\IndexBufferResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\MeshBufferResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\ShaderResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\TextureResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\VertexBufferResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -370,22 +370,10 @@
     <ClInclude Include="..\ouzel\files\FileSystem.h">
       <Filter>files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BlendState.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Image.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\MeshBuffer.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Renderer.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Shader.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Texture.h">
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Vertex.h">
@@ -535,12 +523,6 @@
     <ClInclude Include="..\ouzel\scene\Component.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\IndexBuffer.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\VertexBuffer.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
@@ -648,6 +630,24 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\OBF.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\BlendStateResource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\IndexBufferResource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\MeshBufferResource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\ShaderResource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\TextureResource.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\VertexBufferResource.h">
+      <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

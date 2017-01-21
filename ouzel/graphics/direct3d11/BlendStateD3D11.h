@@ -5,13 +5,13 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/BlendState.h"
+#include "graphics/BlendStateResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateD3D11: public BlendState
+        class BlendStateD3D11: public BlendStateResource
         {
         public:
             BlendStateD3D11();

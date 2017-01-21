@@ -5,13 +5,13 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/MeshBuffer.h"
+#include "graphics/MeshBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferD3D11: public MeshBuffer
+        class MeshBufferD3D11: public MeshBufferResource
         {
         public:
             MeshBufferD3D11();

@@ -24,7 +24,7 @@ namespace ouzel
 
         void IndexBufferD3D11::free()
         {
-            IndexBuffer::free();
+            IndexBufferResource::free();
 
             if (buffer)
             {
@@ -37,7 +37,7 @@ namespace ouzel
 
         bool IndexBufferD3D11::upload()
         {
-            if (!IndexBuffer::upload())
+            if (!IndexBufferResource::upload())
             {
                 return false;
             }

@@ -5,13 +5,13 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/VertexBuffer.h"
+#include "graphics/VertexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class VertexBufferD3D11: public VertexBuffer
+        class VertexBufferD3D11: public VertexBufferResource
         {
         public:
             VertexBufferD3D11();
