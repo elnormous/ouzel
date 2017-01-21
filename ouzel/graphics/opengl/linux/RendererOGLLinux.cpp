@@ -20,8 +20,6 @@ namespace ouzel
                                     bool newVerticalSync,
                                     bool newDepth)
         {
-            free();
-
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
