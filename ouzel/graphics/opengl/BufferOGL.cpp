@@ -74,7 +74,7 @@ namespace ouzel
                 default:
                     bufferType = 0;
                     Log(Log::Level::ERR) << "Unsupported buffer type";
-                    break;
+                    return false;
             }
 
             if (!uploadData.data.empty())
