@@ -11,8 +11,7 @@
 #include "Layer.h"
 #include "scene/Camera.h"
 #include "graphics/MeshBufferResource.h"
-#include "graphics/IndexBufferResource.h"
-#include "graphics/VertexBufferResource.h"
+#include "graphics/BufferResource.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 
@@ -349,11 +348,11 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(1.0f, 0.0f)));
             }
 
-            indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
-            indexBuffer->initFromBuffer(indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
+            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
-            vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
-            vertexBuffer->initFromBuffer(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
+            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);

@@ -61,8 +61,7 @@ namespace ouzel
             virtual TextureResourcePtr createTexture() override;
             virtual ShaderResourcePtr createShader() override;
             virtual MeshBufferResourcePtr createMeshBuffer() override;
-            virtual IndexBufferResourcePtr createIndexBuffer() override;
-            virtual VertexBufferResourcePtr createVertexBuffer() override;
+            virtual BufferResourcePtr createBuffer() override;
 
             MTLDevicePtr getDevice() const { return device; }
             MTKViewPtr getMetalView() const { return view; }

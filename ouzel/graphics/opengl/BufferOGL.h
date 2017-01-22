@@ -28,7 +28,7 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/IndexBufferResource.h"
+#include "graphics/BufferResource.h"
 
 namespace ouzel
 {
@@ -36,15 +36,16 @@ namespace ouzel
     {
         class MeshBufferOGL;
 
-        class IndexBufferOGL: public IndexBufferResource
+        class BufferOGL: public BufferResource
         {
             friend MeshBufferOGL;
         public:
-            IndexBufferOGL();
-            virtual ~IndexBufferOGL();
+            BufferOGL();
+            virtual ~BufferOGL();
             virtual void free() override;
 
             GLuint getBufferId() const { return bufferId; }
+            GLuint getBufferType() const { return bufferType; }
 
         protected:
             bool bindBuffer();
@@ -52,6 +53,8 @@ namespace ouzel
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;
+
+            GLuint bufferType = 0;
         };
     } // namespace graphics
 } // namespace ouzel

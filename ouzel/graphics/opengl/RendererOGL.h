@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <map>
 #include <queue>
 #include <utility>
 #include <mutex>
@@ -87,8 +88,7 @@ namespace ouzel
             virtual TextureResourcePtr createTexture() override;
             virtual ShaderResourcePtr createShader() override;
             virtual MeshBufferResourcePtr createMeshBuffer() override;
-            virtual IndexBufferResourcePtr createIndexBuffer() override;
-            virtual VertexBufferResourcePtr createVertexBuffer() override;
+            virtual BufferResourcePtr createBuffer() override;
 
             static inline bool checkOpenGLError(bool logError = true)
             {
@@ -171,33 +171,18 @@ namespace ouzel
                 return true;
             }
 
-            static inline bool bindElementArrayBuffer(GLuint elementArrayBufferId)
+            static inline bool bindBuffer(GLuint bufferType, GLuint bufferId)
             {
-                if (stateCache.elementArrayBufferId != elementArrayBufferId)
+                GLuint& currentBufferId = stateCache.bufferId[bufferType];
+
+                if (currentBufferId != bufferId)
                 {
-                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBufferId);
-                    stateCache.elementArrayBufferId = elementArrayBufferId;
+                    glBindBuffer(bufferType, bufferId);
+                    currentBufferId = bufferId;
 
                     if (checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to bind element array buffer";
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            static inline bool bindArrayBuffer(GLuint arrayBufferId)
-            {
-                if (stateCache.arrayBufferId != arrayBufferId)
-                {
-                    glBindBuffer(GL_ARRAY_BUFFER, arrayBufferId);
-                    stateCache.arrayBufferId = arrayBufferId;
-
-                    if (checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to bind array buffer";
                         return false;
                     }
                 }
@@ -217,8 +202,8 @@ namespace ouzel
                     glBindVertexArray(vertexArrayId);
 #endif
                     stateCache.vertexArrayId = vertexArrayId;
-                    stateCache.elementArrayBufferId = 0;
-                    stateCache.arrayBufferId = 0;
+                    stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
+                    stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
 
                     if (checkOpenGLError())
                     {
@@ -486,8 +471,7 @@ namespace ouzel
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 
-                GLuint elementArrayBufferId = 0;
-                GLuint arrayBufferId = 0;
+                std::map<GLuint, GLuint> bufferId;
                 GLuint vertexArrayId = 0;
 
                 bool blendEnabled = false;

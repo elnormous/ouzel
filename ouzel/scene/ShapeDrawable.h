@@ -51,8 +51,8 @@ namespace ouzel
             graphics::ShaderResourcePtr shader;
             graphics::BlendStateResourcePtr blendState;
             graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::IndexBufferResourcePtr indexBuffer;
-            graphics::VertexBufferResourcePtr vertexBuffer;
+            graphics::BufferResourcePtr indexBuffer;
+            graphics::BufferResourcePtr vertexBuffer;
 
             std::vector<DrawCommand> drawCommands;
 

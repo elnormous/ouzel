@@ -40,25 +40,23 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/events/EventHandler.cpp \
     ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/BlendStateEmpty.cpp \
-    ../../ouzel/graphics/empty/IndexBufferEmpty.cpp \
+    ../../ouzel/graphics/empty/BufferEmpty.cpp \
     ../../ouzel/graphics/empty/MeshBufferEmpty.cpp \
     ../../ouzel/graphics/empty/RendererEmpty.cpp \
     ../../ouzel/graphics/empty/ShaderEmpty.cpp \
     ../../ouzel/graphics/empty/TextureEmpty.cpp \
-    ../../ouzel/graphics/empty/VertexBufferEmpty.cpp \
     ../../ouzel/graphics/opengl/android/RendererOGLAndroid.cpp \
     ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
+    ../../ouzel/graphics/opengl/BufferOGL.cpp \
     ../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
-    ../../ouzel/graphics/opengl/IndexBufferOGL.cpp \
     ../../ouzel/graphics/opengl/RendererOGL.cpp \
     ../../ouzel/graphics/opengl/ShaderOGL.cpp \
     ../../ouzel/graphics/opengl/TextureOGL.cpp \
-    ../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/BlendStateResource.cpp \
+    ../../ouzel/graphics/Buffer.cpp \
+    ../../ouzel/graphics/BufferResource.cpp \
     ../../ouzel/graphics/Image.cpp \
-    ../../ouzel/graphics/IndexBuffer.cpp \
-    ../../ouzel/graphics/IndexBufferResource.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
     ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
@@ -67,8 +65,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/Texture.cpp \
     ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
-    ../../ouzel/graphics/VertexBuffer.cpp \
-    ../../ouzel/graphics/VertexBufferResource.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/Button.cpp \
     ../../ouzel/gui/CheckBox.cpp \

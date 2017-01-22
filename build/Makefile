@@ -44,24 +44,22 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/IndexBufferEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/BufferEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RendererEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/TextureEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/VertexBufferEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/IndexBufferOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RendererOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/VertexBufferOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/BufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Image.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/IndexBuffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/IndexBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
@@ -70,8 +68,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/TextureResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/VertexBuffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/VertexBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
 	$(ROOT_DIR)/../ouzel/gui/CheckBox.cpp \
@@ -142,12 +138,11 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/apple/AudioALApple.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/IndexBufferMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/VertexBufferMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/apple/GamepadApple.mm \

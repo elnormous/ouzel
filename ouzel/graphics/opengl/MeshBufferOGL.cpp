@@ -5,8 +5,7 @@
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "RendererOGL.h"
-#include "IndexBufferOGL.h"
-#include "VertexBufferOGL.h"
+#include "BufferOGL.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -47,14 +46,14 @@ namespace ouzel
             }
             else
             {
-                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
+                std::shared_ptr<BufferOGL> indexBufferOGL = std::static_pointer_cast<BufferOGL>(uploadData.indexBuffer);
 
                 if (!indexBufferOGL || !indexBufferOGL->bindBuffer())
                 {
                     return false;
                 }
 
-                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
+                std::shared_ptr<BufferOGL> vertexBufferOGL = std::static_pointer_cast<BufferOGL>(uploadData.vertexBuffer);
 
                 if (!vertexBufferOGL || !vertexBufferOGL->bindBuffer())
                 {
@@ -185,14 +184,14 @@ namespace ouzel
                 Log(Log::Level::WARN) << "Failed to create vertex array";
             }
 
-            std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(uploadData.indexBuffer);
+            std::shared_ptr<BufferOGL> indexBufferOGL = std::static_pointer_cast<BufferOGL>(uploadData.indexBuffer);
 
             if (indexBufferOGL && indexBufferOGL->dirty && !indexBufferOGL->upload())
             {
                 return false;
             }
 
-            std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(uploadData.vertexBuffer);
+            std::shared_ptr<BufferOGL> vertexBufferOGL = std::static_pointer_cast<BufferOGL>(uploadData.vertexBuffer);
 
             if (vertexBufferOGL && vertexBufferOGL->dirty && !vertexBufferOGL->upload())
             {

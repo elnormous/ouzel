@@ -5,8 +5,7 @@
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/MeshBufferResource.h"
-#include "graphics/IndexBufferResource.h"
-#include "graphics/VertexBufferResource.h"
+#include "graphics/BufferResource.h"
 #include "scene/Camera.h"
 #include "core/Cache.h"
 #include "utils/Utils.h"
@@ -27,11 +26,11 @@ namespace ouzel
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
-            indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
-            indexBuffer->init();
+            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer->init(graphics::Buffer::Usage::INDEX);
 
-            vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
-            vertexBuffer->init();
+            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);

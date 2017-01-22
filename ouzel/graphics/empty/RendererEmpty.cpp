@@ -8,8 +8,7 @@
 #include "TextureEmpty.h"
 #include "ShaderEmpty.h"
 #include "MeshBufferEmpty.h"
-#include "IndexBufferEmpty.h"
-#include "VertexBufferEmpty.h"
+#include "BufferEmpty.h"
 
 namespace ouzel
 {
@@ -124,16 +123,10 @@ namespace ouzel
             return meshBuffer;
         }
 
-        IndexBufferResourcePtr RendererEmpty::createIndexBuffer()
+        BufferResourcePtr RendererEmpty::createBuffer()
         {
-            IndexBufferResourcePtr indexBuffer = std::make_shared<IndexBufferEmpty>();
-            return indexBuffer;
-        }
-
-        VertexBufferResourcePtr RendererEmpty::createVertexBuffer()
-        {
-            VertexBufferResourcePtr vertexBuffer = std::make_shared<VertexBufferEmpty>();
-            return vertexBuffer;
+            BufferResourcePtr buffer = std::make_shared<BufferEmpty>();
+            return buffer;
         }
     } // namespace graphics
 } // namespace ouzel

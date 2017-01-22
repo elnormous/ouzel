@@ -4,8 +4,7 @@
 #include "MeshBufferMetal.h"
 #include "core/Engine.h"
 #include "RendererMetal.h"
-#include "IndexBufferMetal.h"
-#include "VertexBufferMetal.h"
+#include "BufferMetal.h"
 #include "utils/Log.h"
 
 namespace ouzel

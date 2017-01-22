@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "IndexBufferMetal.h"
+#include "BufferMetal.h"
 #include "RendererMetal.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        IndexBufferMetal::IndexBufferMetal()
+        BufferMetal::BufferMetal()
         {
         }
 
-        IndexBufferMetal::~IndexBufferMetal()
+        BufferMetal::~BufferMetal()
         {
             if (buffer)
             {
@@ -23,9 +23,9 @@ namespace ouzel
             }
         }
 
-        void IndexBufferMetal::free()
+        void BufferMetal::free()
         {
-            IndexBufferResource::free();
+            BufferResource::free();
 
             if (buffer)
             {
@@ -36,9 +36,9 @@ namespace ouzel
             bufferSize = 0;
         }
 
-        bool IndexBufferMetal::upload()
+        bool BufferMetal::upload()
         {
-            if (!IndexBufferResource::upload())
+            if (!BufferResource::upload())
             {
                 return false;
             }
@@ -58,7 +58,7 @@ namespace ouzel
 
                     if (!buffer)
                     {
-                        Log(Log::Level::ERR) << "Failed to create Metal index buffer";
+                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
                         return false;
                     }
                 }

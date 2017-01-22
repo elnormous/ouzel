@@ -7,6 +7,7 @@
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
+#include "graphics/Buffer.h"
 
 namespace ouzel
 {
@@ -14,28 +15,30 @@ namespace ouzel
     {
         class Renderer;
 
-        class VertexBufferResource: public Resource, public Noncopyable
+        class BufferResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
-            virtual ~VertexBufferResource();
+            virtual ~BufferResource();
             virtual void free() override;
 
-            virtual bool init(bool newDynamic = true);
-            virtual bool initFromBuffer(const void* newVertices, uint32_t newSize, bool newDynamic);
+            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true);
+            virtual bool initFromBuffer(Buffer::Usage newUsage, const void* newIndices, uint32_t newSize, bool newDynamic);
 
+            Buffer::Usage getUsage() const { return usage; }
             uint32_t getSize() const { return size; }
 
-            virtual bool setData(const void* newVertices, uint32_t newSize);
+            virtual bool setData(const void* newIndices, uint32_t newSize);
 
         protected:
-            VertexBufferResource();
+            BufferResource();
             virtual void update() override;
             virtual bool upload() override;
 
             struct Data
             {
                 std::vector<uint8_t> data;
+                Buffer::Usage usage;
                 bool dynamic = true;
             };
 
@@ -44,9 +47,9 @@ namespace ouzel
 
         private:
             uint32_t size = 0;
-
             std::vector<uint8_t> data;
 
+            Buffer::Usage usage;
             bool dynamic = true;
 
             Data currentData;

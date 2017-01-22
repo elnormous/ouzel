@@ -8,8 +8,7 @@
 #include "TextureOGL.h"
 #include "ShaderOGL.h"
 #include "MeshBufferOGL.h"
-#include "IndexBufferOGL.h"
-#include "VertexBufferOGL.h"
+#include "BufferOGL.h"
 #include "BlendStateOGL.h"
 #include "core/Engine.h"
 #include "core/Window.h"
@@ -82,6 +81,9 @@ namespace ouzel
                                                       0.0f, -1.0f, 0.0f, 0.0f,
                                                       0.0f, 0.0f, 2.0f, -1.0f,
                                                       0.0f, 0.0f, 0.0f, 1.0f);
+
+            stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
+            stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
         }
 
         RendererOGL::~RendererOGL()
@@ -702,8 +704,8 @@ namespace ouzel
                     continue;
                 }
 
-                std::shared_ptr<IndexBufferOGL> indexBufferOGL = std::static_pointer_cast<IndexBufferOGL>(meshBufferOGL->getIndexBuffer());
-                std::shared_ptr<VertexBufferOGL> vertexBufferOGL = std::static_pointer_cast<VertexBufferOGL>(meshBufferOGL->getVertexBuffer());
+                std::shared_ptr<BufferOGL> indexBufferOGL = std::static_pointer_cast<BufferOGL>(meshBufferOGL->getIndexBuffer());
+                std::shared_ptr<BufferOGL> vertexBufferOGL = std::static_pointer_cast<BufferOGL>(meshBufferOGL->getVertexBuffer());
 
                 if (!indexBufferOGL || !indexBufferOGL->getBufferId() ||
                     !vertexBufferOGL || !vertexBufferOGL->getBufferId())
@@ -814,16 +816,10 @@ namespace ouzel
             return meshBuffer;
         }
 
-        IndexBufferResourcePtr RendererOGL::createIndexBuffer()
+        BufferResourcePtr RendererOGL::createBuffer()
         {
-            std::shared_ptr<IndexBufferOGL> meshBuffer = std::make_shared<IndexBufferOGL>();
-            return meshBuffer;
-        }
-
-        VertexBufferResourcePtr RendererOGL::createVertexBuffer()
-        {
-            std::shared_ptr<VertexBufferOGL> meshBuffer = std::make_shared<VertexBufferOGL>();
-            return meshBuffer;
+            std::shared_ptr<BufferOGL> buffer = std::make_shared<BufferOGL>();
+            return buffer;
         }
 
         bool RendererOGL::generateScreenshot(const std::string& filename)
@@ -1009,10 +1005,14 @@ namespace ouzel
                 switch (deleteResource.second)
                 {
                     case ResourceType::Buffer:
-                        if (stateCache.elementArrayBufferId == deleteResource.first) stateCache.elementArrayBufferId = 0;
-                        if (stateCache.arrayBufferId == deleteResource.first) stateCache.arrayBufferId = 0;
+                    {
+                        GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
+                        if (elementArrayBufferId == deleteResource.first) elementArrayBufferId = 0;
+                        GLuint& arrayBufferId = stateCache.bufferId[GL_ARRAY_BUFFER];
+                        if (arrayBufferId == deleteResource.first) arrayBufferId = 0;
                         glDeleteBuffers(1, &deleteResource.first);
                         break;
+                    }
                     case ResourceType::VertexArray:
 #if OUZEL_PLATFORM_ANDROID
                         bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)

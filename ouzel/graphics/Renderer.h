@@ -92,8 +92,7 @@ namespace ouzel
             virtual TextureResourcePtr createTexture() = 0;
             virtual ShaderResourcePtr createShader() = 0;
             virtual MeshBufferResourcePtr createMeshBuffer() = 0;
-            virtual IndexBufferResourcePtr createIndexBuffer() = 0;
-            virtual VertexBufferResourcePtr createVertexBuffer() = 0;
+            virtual BufferResourcePtr createBuffer() = 0;
 
             bool getRefillDrawQueue() const { return refillDrawQueue; }
             bool addDrawCommand(const std::vector<TextureResourcePtr>& textures,
