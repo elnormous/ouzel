@@ -27,8 +27,8 @@ namespace ouzel
         class BlendStateResource;
         typedef std::shared_ptr<BlendStateResource> BlendStateResourcePtr;
 
-        class IndexBufferResource;
-        typedef std::shared_ptr<IndexBufferResource> IndexBufferResourcePtr;
+        class BufferResource;
+        typedef std::shared_ptr<BufferResource> BufferResourcePtr;
 
         class MeshBufferResource;
         typedef std::shared_ptr<MeshBufferResource> MeshBufferResourcePtr;
@@ -38,9 +38,6 @@ namespace ouzel
 
         class TextureResource;
         typedef std::shared_ptr<TextureResource> TextureResourcePtr;
-
-        class VertexBufferResource;
-        typedef std::shared_ptr<VertexBufferResource> VertexBufferResourcePtr;
     }
 
     namespace scene

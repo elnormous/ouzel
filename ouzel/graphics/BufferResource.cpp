@@ -1,40 +1,42 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "IndexBufferResource.h"
+#include "BufferResource.h"
 #include "Renderer.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        IndexBufferResource::IndexBufferResource()
+        BufferResource::BufferResource()
         {
         }
 
-        IndexBufferResource::~IndexBufferResource()
+        BufferResource::~BufferResource()
         {
         }
 
-        void IndexBufferResource::free()
+        void BufferResource::free()
         {
             data.clear();
             currentData.data.clear();
         }
 
-        bool IndexBufferResource::init(bool newDynamic)
+        bool BufferResource::init(Buffer::Usage newUsage, bool newDynamic)
         {
             free();
 
+            usage = newUsage;
             dynamic = newDynamic;
 
             return true;
         }
 
-        bool IndexBufferResource::initFromBuffer(const void* newIndices, uint32_t newSize, bool newDynamic)
+        bool BufferResource::initFromBuffer(Buffer::Usage newUsage, const void* newIndices, uint32_t newSize, bool newDynamic)
         {
             free();
 
+            usage = newUsage;
             dynamic = newDynamic;
             size = newSize;
 
@@ -49,7 +51,7 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBufferResource::setData(const void* newIndices, uint32_t newSize)
+        bool BufferResource::setData(const void* newIndices, uint32_t newSize)
         {
             if (!dynamic)
             {
@@ -66,17 +68,18 @@ namespace ouzel
             return true;
         }
 
-        void IndexBufferResource::update()
+        void BufferResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
+            currentData.usage = usage;
             currentData.dynamic = dynamic;
             currentData.data = std::move(data);
 
             dirty = true;
         }
 
-        bool IndexBufferResource::upload()
+        bool BufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

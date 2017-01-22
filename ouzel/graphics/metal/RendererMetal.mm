@@ -6,8 +6,7 @@
 #include "TextureMetal.h"
 #include "ShaderMetal.h"
 #include "MeshBufferMetal.h"
-#include "IndexBufferMetal.h"
-#include "VertexBufferMetal.h"
+#include "BufferMetal.h"
 #include "BlendStateMetal.h"
 #include "events/EventDispatcher.h"
 #if OUZEL_PLATFORM_MACOS
@@ -711,8 +710,8 @@ namespace ouzel
                     continue;
                 }
 
-                std::shared_ptr<IndexBufferMetal> indexBufferMetal = std::static_pointer_cast<IndexBufferMetal>(meshBufferMetal->getIndexBuffer());
-                std::shared_ptr<VertexBufferMetal> vertexBufferMetal = std::static_pointer_cast<VertexBufferMetal>(meshBufferMetal->getVertexBuffer());
+                std::shared_ptr<BufferMetal> indexBufferMetal = std::static_pointer_cast<BufferMetal>(meshBufferMetal->getIndexBuffer());
+                std::shared_ptr<BufferMetal> vertexBufferMetal = std::static_pointer_cast<BufferMetal>(meshBufferMetal->getVertexBuffer());
 
                 if (!indexBufferMetal || !indexBufferMetal->getBuffer() ||
                     !vertexBufferMetal || !vertexBufferMetal->getBuffer())
@@ -790,16 +789,10 @@ namespace ouzel
             return meshBuffer;
         }
 
-        IndexBufferResourcePtr RendererMetal::createIndexBuffer()
+        BufferResourcePtr RendererMetal::createBuffer()
         {
-            std::shared_ptr<IndexBufferMetal> meshBuffer = std::make_shared<IndexBufferMetal>();
-            return meshBuffer;
-        }
-
-        VertexBufferResourcePtr RendererMetal::createVertexBuffer()
-        {
-            std::shared_ptr<VertexBufferMetal> meshBuffer = std::make_shared<VertexBufferMetal>();
-            return meshBuffer;
+            std::shared_ptr<BufferMetal> buffer = std::make_shared<BufferMetal>();
+            return buffer;
         }
 
         MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const PipelineStateDesc& desc)

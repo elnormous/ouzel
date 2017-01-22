@@ -10,15 +10,22 @@ namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferResource;
+        class BufferResource;
 
-        class IndexBuffer: public Noncopyable
+        class Buffer: public Noncopyable
         {
         public:
-            IndexBuffer();
+            enum class Usage
+            {
+                NONE,
+                INDEX,
+                VERTEX
+            };
+
+            Buffer();
 
         private:
-            std::unique_ptr<IndexBufferResource> resource;
+            std::unique_ptr<BufferResource> resource;
         };
     } // namespace graphics
 } // namespace ouzel

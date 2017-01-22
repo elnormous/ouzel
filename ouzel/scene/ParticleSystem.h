@@ -99,8 +99,8 @@ namespace ouzel
             std::vector<Particle> particles;
 
             graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::IndexBufferResourcePtr indexBuffer;
-            graphics::VertexBufferResourcePtr vertexBuffer;
+            graphics::BufferResourcePtr indexBuffer;
+            graphics::BufferResourcePtr vertexBuffer;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;

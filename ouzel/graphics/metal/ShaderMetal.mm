@@ -208,7 +208,7 @@ namespace ouzel
 
                 if (pixelShaderConstantBuffer == Nil)
                 {
-                    Log(Log::Level::ERR) << "Failed to create Metal index buffer";
+                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
                     return false;
                 }
             }
@@ -258,7 +258,7 @@ namespace ouzel
 
                 if (vertexShaderConstantBuffer == Nil)
                 {
-                    Log(Log::Level::ERR) << "Failed to create Metal constant buffer";
+                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
                     return false;
                 }
             }

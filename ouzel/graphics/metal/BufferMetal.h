@@ -11,17 +11,17 @@ typedef id<MTLBuffer> MTLBufferPtr;
 typedef id MTLBufferPtr;
 #endif
 
-#include "graphics/IndexBufferResource.h"
+#include "graphics/BufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferMetal: public IndexBufferResource
+        class BufferMetal: public BufferResource
         {
         public:
-            IndexBufferMetal();
-            virtual ~IndexBufferMetal();
+            BufferMetal();
+            virtual ~BufferMetal();
             virtual void free() override;
 
             MTLBufferPtr getBuffer() const { return buffer; }

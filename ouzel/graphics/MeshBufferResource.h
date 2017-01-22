@@ -21,8 +21,8 @@ namespace ouzel
             virtual ~MeshBufferResource();
             virtual void free() override;
 
-            bool init(uint32_t newIndexSize, const IndexBufferResourcePtr& newIndexBuffer,
-                      uint32_t newVertexAttributes, const VertexBufferResourcePtr& newVertexBuffer);
+            bool init(uint32_t newIndexSize, const BufferResourcePtr& newIndexBuffer,
+                      uint32_t newVertexAttributes, const BufferResourcePtr& newVertexBuffer);
 
             bool setIndexSize(uint32_t newIndexSize);
             uint32_t getIndexSize() const { return indexSize; }
@@ -31,11 +31,11 @@ namespace ouzel
             uint32_t getVertexAttributes() const { return vertexAttributes; }
             uint32_t getVertexSize() const { return vertexSize; }
 
-            void setIndexBuffer(const IndexBufferResourcePtr& newIndexBuffer);
-            void setVertexBuffer(const VertexBufferResourcePtr& newVertexBuffer);
+            bool setIndexBuffer(const BufferResourcePtr& newIndexBuffer);
+            bool setVertexBuffer(const BufferResourcePtr& newVertexBuffer);
 
-            const IndexBufferResourcePtr& getIndexBuffer() const { return indexBuffer; }
-            const VertexBufferResourcePtr& getVertexBuffer() const { return vertexBuffer; }
+            const BufferResourcePtr& getIndexBuffer() const { return indexBuffer; }
+            const BufferResourcePtr& getVertexBuffer() const { return vertexBuffer; }
 
         protected:
             MeshBufferResource();
@@ -46,10 +46,10 @@ namespace ouzel
             struct Data
             {
                 uint32_t indexSize = 0;
-                IndexBufferResourcePtr indexBuffer;
+                BufferResourcePtr indexBuffer;
                 uint32_t vertexAttributes = 0;
                 uint32_t vertexSize = 0;
-                VertexBufferResourcePtr vertexBuffer;
+                BufferResourcePtr vertexBuffer;
             };
 
             Data uploadData;
@@ -57,11 +57,11 @@ namespace ouzel
 
         private:
             uint32_t indexSize = 0;
-            IndexBufferResourcePtr indexBuffer;
+            BufferResourcePtr indexBuffer;
 
             uint32_t vertexAttributes = 0;
             uint32_t vertexSize = 0;
-            VertexBufferResourcePtr vertexBuffer;
+            BufferResourcePtr vertexBuffer;
 
             Data currentData;
         };

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferResource.h"
+#include "BufferResource.h"
 #include "Vertex.h"
 
 namespace ouzel
@@ -22,9 +23,19 @@ namespace ouzel
             vertexBuffer.reset();
         }
 
-        bool MeshBufferResource::init(uint32_t newIndexSize, const IndexBufferResourcePtr& newIndexBuffer,
-                                      uint32_t newVertexAttributes, const VertexBufferResourcePtr& newVertexBuffer)
+        bool MeshBufferResource::init(uint32_t newIndexSize, const BufferResourcePtr& newIndexBuffer,
+                                      uint32_t newVertexAttributes, const BufferResourcePtr& newVertexBuffer)
         {
+            if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
+            {
+                return false;
+            }
+
+            if (newVertexBuffer && newVertexBuffer->getUsage() != Buffer::Usage::VERTEX)
+            {
+                return false;
+            }
+
             indexSize = newIndexSize;
             indexBuffer = newIndexBuffer;
             vertexAttributes = newVertexAttributes;
@@ -85,18 +96,32 @@ namespace ouzel
             }
         }
 
-        void MeshBufferResource::setIndexBuffer(const IndexBufferResourcePtr& newIndexBuffer)
+        bool MeshBufferResource::setIndexBuffer(const BufferResourcePtr& newIndexBuffer)
         {
+            if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
+            {
+                return false;
+            }
+
             indexBuffer = newIndexBuffer;
 
             update();
+
+            return true;
         }
 
-        void MeshBufferResource::setVertexBuffer(const VertexBufferResourcePtr& newVertexBuffer)
+        bool MeshBufferResource::setVertexBuffer(const BufferResourcePtr& newVertexBuffer)
         {
+            if (newVertexBuffer && newVertexBuffer->getUsage() != Buffer::Usage::VERTEX)
+            {
+                return false;
+            }
+
             vertexBuffer = newVertexBuffer;
 
             update();
+
+            return true;
         }
 
         void MeshBufferResource::update()

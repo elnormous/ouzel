@@ -1,15 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "VertexBuffer.h"
-#include "VertexBufferResource.h"
+#include "BufferEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        VertexBuffer::VertexBuffer()
+        BufferEmpty::BufferEmpty()
         {
         }
-    } // namespace graphics
-} // namespace ouzel
+    }
+}
