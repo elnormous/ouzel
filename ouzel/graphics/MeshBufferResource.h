@@ -3,15 +3,6 @@
 
 #pragma once
 
-#if defined(__OBJC__)
-#import <Metal/Metal.h>
-typedef id<MTLBuffer> MTLBufferPtr;
-#else
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
-typedef id MTLBufferPtr;
-typedef NSUInteger MTLIndexType;
-#endif
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"

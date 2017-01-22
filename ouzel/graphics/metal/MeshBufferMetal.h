@@ -3,6 +3,14 @@
 
 #pragma once
 
+#if defined(__OBJC__)
+#import <Metal/Metal.h>
+typedef id<MTLBuffer> MTLBufferPtr;
+#else
+#include <objc/objc.h>
+typedef id MTLBufferPtr;
+typedef NSUInteger MTLIndexType;
+#endif
 #include "graphics/MeshBufferResource.h"
 
 namespace ouzel
