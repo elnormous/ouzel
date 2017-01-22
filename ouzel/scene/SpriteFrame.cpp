@@ -185,15 +185,13 @@ namespace ouzel
                                   sourceSize.v[0], sourceSize.v[1]);
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
-            indexBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                        static_cast<uint32_t>(indices.size()), false);
+            indexBuffer->initFromBuffer(indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
-            vertexBuffer->initFromBuffer(vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), true);
+            vertexBuffer->initFromBuffer(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init(indexBuffer, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
         }
 
         SpriteFrame::SpriteFrame(const graphics::TextureResourcePtr& pTexture,
@@ -218,15 +216,13 @@ namespace ouzel
                                   sourceSize.v[0], sourceSize.v[1]);
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
-            indexBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                        static_cast<uint32_t>(indices.size()), false);
+            indexBuffer->initFromBuffer(indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
-            vertexBuffer->initFromBuffer(vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), true);
+            vertexBuffer->initFromBuffer(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init(indexBuffer, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
         }
 
     } // scene

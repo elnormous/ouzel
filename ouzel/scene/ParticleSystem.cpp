@@ -350,15 +350,13 @@ namespace ouzel
             }
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
-            indexBuffer->initFromBuffer(indices.data(), sizeof(uint16_t),
-                                        static_cast<uint32_t>(indices.size()), false);
+            indexBuffer->initFromBuffer(indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
-            vertexBuffer->initFromBuffer(vertices.data(), graphics::VertexPCT::ATTRIBUTES,
-                                         static_cast<uint32_t>(vertices.size()), true);
+            vertexBuffer->initFromBuffer(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init(indexBuffer, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
             particles.resize(particleDefinition.maxParticles);
 
@@ -415,7 +413,7 @@ namespace ouzel
                     vertices[i * 4 + 3].color = color;
                 }
 
-                if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size())))
+                if (!vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices))))
                 {
                     return false;
                 }

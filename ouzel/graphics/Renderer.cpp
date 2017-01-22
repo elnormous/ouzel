@@ -183,7 +183,7 @@ namespace ouzel
             }
 
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
-                shader->getVertexAttributes() != meshBuffer->getVertexBuffer()->getVertexAttributes())
+                shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
             {
                 Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
                 return false;
@@ -196,7 +196,7 @@ namespace ouzel
                 vertexShaderConstants,
                 blendState,
                 meshBuffer,
-                (indexCount > 0) ? indexCount : meshBuffer->getIndexBuffer()->getIndexCount() - startIndex,
+                (indexCount > 0) ? indexCount : (meshBuffer->getIndexBuffer()->getSize() / meshBuffer->getIndexSize()) - startIndex,
                 drawMode,
                 startIndex,
                 renderTarget,

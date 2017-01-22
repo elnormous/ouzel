@@ -3,6 +3,15 @@
 
 #pragma once
 
+#if defined(__OBJC__)
+#import <Metal/Metal.h>
+typedef id<MTLBuffer> MTLBufferPtr;
+#else
+#include <objc/objc.h>
+#include <objc/NSObjCRuntime.h>
+typedef id MTLBufferPtr;
+typedef NSUInteger MTLIndexType;
+#endif
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
@@ -21,8 +30,15 @@ namespace ouzel
             virtual ~MeshBufferResource();
             virtual void free() override;
 
-            bool init(const IndexBufferResourcePtr& newIndexBuffer,
-                      const VertexBufferResourcePtr& newVertexBuffer);
+            bool init(uint32_t newIndexSize, const IndexBufferResourcePtr& newIndexBuffer,
+                      uint32_t newVertexAttributes, const VertexBufferResourcePtr& newVertexBuffer);
+
+            bool setIndexSize(uint32_t newIndexSize);
+            uint32_t getIndexSize() const { return indexSize; }
+
+            bool setVertexAttributes(uint32_t newVertexAttributes);
+            uint32_t getVertexAttributes() const { return vertexAttributes; }
+            uint32_t getVertexSize() const { return vertexSize; }
 
             void setIndexBuffer(const IndexBufferResourcePtr& newIndexBuffer);
             void setVertexBuffer(const VertexBufferResourcePtr& newVertexBuffer);
@@ -32,12 +48,16 @@ namespace ouzel
 
         protected:
             MeshBufferResource();
+            void updateVertexSize();
             virtual void update() override;
             virtual bool upload() override;
 
             struct Data
             {
+                uint32_t indexSize = 0;
                 IndexBufferResourcePtr indexBuffer;
+                uint32_t vertexAttributes = 0;
+                uint32_t vertexSize = 0;
                 VertexBufferResourcePtr vertexBuffer;
             };
 
@@ -45,7 +65,11 @@ namespace ouzel
             std::mutex uploadMutex;
 
         private:
+            uint32_t indexSize = 0;
             IndexBufferResourcePtr indexBuffer;
+
+            uint32_t vertexAttributes = 0;
+            uint32_t vertexSize = 0;
             VertexBufferResourcePtr vertexBuffer;
 
             Data currentData;

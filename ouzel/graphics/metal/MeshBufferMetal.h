@@ -15,8 +15,14 @@ namespace ouzel
             MeshBufferMetal();
             virtual ~MeshBufferMetal();
 
+            MTLIndexType getIndexType() const { return indexType; }
+            NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
+
         protected:
             virtual bool upload() override;
+
+            MTLIndexType indexType;
+            NSUInteger bytesPerIndex = 0;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -60,6 +60,30 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                {
+                    if (index < vertexAttribs.size())
+                    {
+                        glEnableVertexAttribArray(index);
+                        glVertexAttribPointer(index,
+                                              vertexAttribs[index].size,
+                                              vertexAttribs[index].type,
+                                              vertexAttribs[index].normalized,
+                                              vertexAttribs[index].stride,
+                                              vertexAttribs[index].pointer);
+                    }
+                    else
+                    {
+                        glDisableVertexAttribArray(index);
+                    }
+                }
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                    return false;
+                }
             }
 
             return true;
@@ -69,6 +93,79 @@ namespace ouzel
         {
             if (!MeshBufferResource::upload())
             {
+                return false;
+            }
+
+            switch (uploadData.indexSize)
+            {
+                case 2:
+                    indexType = GL_UNSIGNED_SHORT;
+                    bytesPerIndex = 2;
+                    break;
+                case 4:
+                    indexType = GL_UNSIGNED_INT;
+                    bytesPerIndex = 4;
+                    break;
+                default:
+                    indexType = 0;
+                    bytesPerIndex = 0;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
+            }
+
+            vertexAttribs.clear();
+
+            GLuint offset = 0;
+
+            if (uploadData.vertexAttributes & VERTEX_POSITION)
+            {
+                vertexAttribs.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_COLOR)
+            {
+                vertexAttribs.push_back({
+                    4, GL_UNSIGNED_BYTE, GL_TRUE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 4 * sizeof(uint8_t);
+            }
+            if (uploadData.vertexAttributes & VERTEX_NORMAL)
+            {
+                vertexAttribs.push_back({
+                    3, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 3 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
+            {
+                vertexAttribs.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+            if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
+            {
+                vertexAttribs.push_back({
+                    2, GL_FLOAT, GL_FALSE,
+                    static_cast<GLsizei>(uploadData.vertexSize),
+                    reinterpret_cast<const GLvoid*>(offset)
+                });
+                offset += 2 * sizeof(float);
+            }
+
+            if (offset != uploadData.vertexSize)
+            {
+                Log(Log::Level::ERR) << "Invalid vertex size";
                 return false;
             }
 
@@ -113,6 +210,30 @@ namespace ouzel
 
                 if (vertexBufferOGL && !vertexBufferOGL->bindBuffer())
                 {
+                    return false;
+                }
+
+                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                {
+                    if (index < vertexAttribs.size())
+                    {
+                        glEnableVertexAttribArray(index);
+                        glVertexAttribPointer(index,
+                                              vertexAttribs[index].size,
+                                              vertexAttribs[index].type,
+                                              vertexAttribs[index].normalized,
+                                              vertexAttribs[index].stride,
+                                              vertexAttribs[index].pointer);
+                    }
+                    else
+                    {
+                        glDisableVertexAttribArray(index);
+                    }
+                }
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to update vertex attributes";
                     return false;
                 }
             }

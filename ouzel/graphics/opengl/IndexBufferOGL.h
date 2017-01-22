@@ -45,8 +45,6 @@ namespace ouzel
             virtual void free() override;
 
             GLuint getBufferId() const { return bufferId; }
-            GLenum getType() const { return type; }
-            GLuint getBytesPerIndex() const { return bytesPerIndex; }
 
         protected:
             bool bindBuffer();
@@ -54,9 +52,6 @@ namespace ouzel
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;
-
-            GLenum type = 0;
-            GLuint bytesPerIndex = 0;
         };
     } // namespace graphics
 } // namespace ouzel

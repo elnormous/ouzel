@@ -9,7 +9,6 @@ typedef id<MTLBuffer> MTLBufferPtr;
 #else
 #include <objc/objc.h>
 typedef id MTLBufferPtr;
-typedef NSUInteger MTLIndexType;
 #endif
 
 #include "graphics/IndexBufferResource.h"
@@ -26,17 +25,12 @@ namespace ouzel
             virtual void free() override;
 
             MTLBufferPtr getBuffer() const { return buffer; }
-            MTLIndexType getType() const { return type; }
-            NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 
         protected:
             virtual bool upload() override;
 
             MTLBufferPtr buffer = Nil;
             uint32_t bufferSize = 0;
-
-            MTLIndexType type;
-            NSUInteger bytesPerIndex = 0;
         };
     } // namespace graphics
 } // namespace ouzel

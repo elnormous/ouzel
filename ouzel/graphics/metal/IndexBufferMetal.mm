@@ -45,23 +45,6 @@ namespace ouzel
 
             RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-            switch (uploadData.indexSize)
-            {
-                case 2:
-                    type = MTLIndexTypeUInt16;
-                    bytesPerIndex = 2;
-                    break;
-                case 4:
-                    type = MTLIndexTypeUInt32;
-                    bytesPerIndex = 4;
-                    break;
-                default:
-                    bytesPerIndex = 0;
-                    Log(Log::Level::ERR) << "Invalid index size";
-                    return false;
-            }
-
-
             if (!uploadData.data.empty())
             {
                 if (!buffer || uploadData.data.size() > bufferSize)

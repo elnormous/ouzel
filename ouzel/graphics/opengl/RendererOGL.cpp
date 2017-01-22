@@ -731,8 +731,8 @@ namespace ouzel
 
                 glDrawElements(mode,
                                static_cast<GLsizei>(drawCommand.indexCount),
-                               indexBufferOGL->getType(),
-                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * indexBufferOGL->getBytesPerIndex()));
+                               meshBufferOGL->getIndexType(),
+                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getBytesPerIndex()));
 
                 if (checkOpenGLError())
                 {

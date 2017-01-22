@@ -29,14 +29,12 @@ namespace ouzel
 
             indexBuffer = sharedEngine->getRenderer()->createIndexBuffer();
             indexBuffer->init();
-            indexBuffer->setIndexSize(sizeof(uint16_t));
 
             vertexBuffer = sharedEngine->getRenderer()->createVertexBuffer();
             vertexBuffer->init();
-            vertexBuffer->setVertexAttributes(graphics::VertexPCT::ATTRIBUTES);
 
             meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
-            meshBuffer->init(indexBuffer, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
             font = sharedEngine->getCache()->getBMFont(fontFile);
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
@@ -67,8 +65,8 @@ namespace ouzel
 
             if (needsMeshUpdate)
             {
-                indexBuffer->setData(indices.data(), static_cast<uint32_t>(indices.size()));
-                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(vertices.size()));
+                indexBuffer->setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
                 needsMeshUpdate = false;
             }

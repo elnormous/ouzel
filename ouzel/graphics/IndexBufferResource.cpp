@@ -31,19 +31,17 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBufferResource::initFromBuffer(const void* newIndices, uint32_t newIndexSize,
-                                         uint32_t newIndexCount, bool newDynamic)
+        bool IndexBufferResource::initFromBuffer(const void* newIndices, uint32_t newSize, bool newDynamic)
         {
             free();
 
-            indexCount = newIndexCount;
-            indexSize = newIndexSize;
             dynamic = newDynamic;
+            size = newSize;
 
-            if (newIndices && indexSize && indexCount)
+            if (newIndices && size)
             {
                 data.assign(static_cast<const uint8_t*>(newIndices),
-                            static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
+                            static_cast<const uint8_t*>(newIndices) + size);
             }
 
             update();
@@ -51,26 +49,17 @@ namespace ouzel
             return true;
         }
 
-        bool IndexBufferResource::setData(const void* newIndices, uint32_t newIndexCount)
+        bool IndexBufferResource::setData(const void* newIndices, uint32_t newSize)
         {
             if (!dynamic)
             {
                 return false;
             }
 
-            indexCount = newIndexCount;
+            size = newSize;
 
             data.assign(static_cast<const uint8_t*>(newIndices),
-                        static_cast<const uint8_t*>(newIndices) + indexSize * indexCount);
-
-            update();
-
-            return true;
-        }
-
-        bool IndexBufferResource::setIndexSize(uint32_t newIndexSize)
-        {
-            indexSize = newIndexSize;
+                        static_cast<const uint8_t*>(newIndices) + size);
 
             update();
 
@@ -81,7 +70,6 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            currentData.indexSize = indexSize;
             currentData.dynamic = dynamic;
             currentData.data = std::move(data);
 

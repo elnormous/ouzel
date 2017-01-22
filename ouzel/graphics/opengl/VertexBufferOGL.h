@@ -52,16 +52,6 @@ namespace ouzel
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;
-
-            struct VertexAttrib
-            {
-                GLint size;
-                GLenum type;
-                GLboolean normalized;
-                GLsizei stride;
-                const GLvoid* pointer;
-            };
-            std::vector<VertexAttrib> vertexAttribs;
         };
     } // namespace graphics
 } // namespace ouzel

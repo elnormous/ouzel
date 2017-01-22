@@ -63,23 +63,6 @@ namespace ouzel
                 glGenBuffers(1, &bufferId);
             }
 
-            switch (uploadData.indexSize)
-            {
-                case 2:
-                    type = GL_UNSIGNED_SHORT;
-                    bytesPerIndex = 2;
-                    break;
-                case 4:
-                    type = GL_UNSIGNED_INT;
-                    bytesPerIndex = 4;
-                    break;
-                default:
-                    type = 0;
-                    bytesPerIndex = 0;
-                    Log(Log::Level::ERR) << "Invalid index size";
-                    return false;
-            }
-
             if (!uploadData.data.empty())
             {
                 RendererOGL::bindVertexArray(0);
