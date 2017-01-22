@@ -44,20 +44,6 @@ namespace ouzel
 
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-            switch (uploadData.indexSize)
-            {
-            case 2:
-                format = DXGI_FORMAT_R16_UINT;
-                break;
-            case 4:
-                format = DXGI_FORMAT_R32_UINT;
-                break;
-            default:
-                format = DXGI_FORMAT_UNKNOWN;
-                Log(Log::Level::ERR) << "Invalid index size";
-                return false;
-            }
-
             if (!uploadData.data.empty())
             {
                 if (!buffer || uploadData.data.size() > bufferSize)

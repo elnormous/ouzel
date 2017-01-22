@@ -739,10 +739,10 @@ namespace ouzel
                 }
 
                 ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
-                UINT strides[] = {vertexBufferD3D11->getVertexSize()};
+                UINT strides[] = {meshBufferD3D11->getVertexSize()};
                 UINT offsets[] = {0};
                 context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexBufferD3D11->getFormat(), 0);
+                context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), meshBufferD3D11->getIndexFormat(), 0);
 
                 D3D_PRIMITIVE_TOPOLOGY topology;
 

@@ -17,8 +17,12 @@ namespace ouzel
             MeshBufferD3D11();
             virtual ~MeshBufferD3D11();
 
+            DXGI_FORMAT getIndexFormat() const { return indexFormat; }
+
         protected:
             virtual bool upload() override;
+
+            DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
         };
     } // namespace graphics
 } // namespace ouzel
