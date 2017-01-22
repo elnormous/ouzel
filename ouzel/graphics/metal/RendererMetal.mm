@@ -460,9 +460,7 @@ namespace ouzel
             else for (const DrawCommand& drawCommand : drawQueue)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                uint32_t newSampleCount;
-                NSUInteger newColorFormat;
-                NSUInteger newDepthFormat;
+                PipelineStateDesc pipelineStateDesc;
                 bool newClearColorBuffer = false;
                 bool newClearDepthBuffer = false;
 
@@ -485,9 +483,9 @@ namespace ouzel
                     }
 
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                    newSampleCount = renderTargetMetal->getSampleCount();
-                    newColorFormat = renderTargetMetal->getColorFormat();
-                    newDepthFormat = renderTargetMetal->getDepthFormat();
+                    pipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
+                    pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
+                    pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
 
                     std::shared_ptr<TextureMetal> renderTargetTextureMetal = std::static_pointer_cast<TextureMetal>(renderTargetMetal);
                     viewport.originY = renderTargetTextureMetal->getSize().v[1] - (viewport.originY + viewport.height);
@@ -506,9 +504,9 @@ namespace ouzel
                 else
                 {
                     newRenderPassDescriptor = renderPassDescriptor;
-                    newSampleCount = sampleCount;
-                    newColorFormat = colorFormat;
-                    newDepthFormat = depthFormat;
+                    pipelineStateDesc.sampleCount = sampleCount;
+                    pipelineStateDesc.colorFormat = colorFormat;
+                    pipelineStateDesc.depthFormat = depthFormat;
 
                     viewport.originY = static_cast<float>(frameBufferHeight) - (viewport.originY + viewport.height);
 
@@ -568,6 +566,8 @@ namespace ouzel
                     // don't render if invalid shader
                     continue;
                 }
+
+                pipelineStateDesc.shader = shaderMetal;
 
                 // pixel shader constants
                 const std::vector<ShaderMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
@@ -648,13 +648,7 @@ namespace ouzel
                     continue;
                 }
 
-                PipelineStateDesc pipelineStateDesc = {
-                    blendStateMetal,
-                    shaderMetal,
-                    newSampleCount,
-                    newColorFormat,
-                    newDepthFormat,
-                };
+                pipelineStateDesc.blendState = blendStateMetal;
 
                 auto pipelineStateIterator = pipelineStates.find(pipelineStateDesc);
 
@@ -821,17 +815,15 @@ namespace ouzel
             pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
             // blending
-            std::shared_ptr<BlendStateMetal> blendStateMetal = std::static_pointer_cast<BlendStateMetal>(desc.blendState);
-
             pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
 
-            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = blendStateMetal->getSourceRGBBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = blendStateMetal->getDestinationRGBBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = blendStateMetal->getRGBBlendOperation();
+            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
 
-            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = blendStateMetal->getSourceAlphaBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = blendStateMetal->getDestinationAlphaBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = blendStateMetal->getAlphaBlendOperation();
+            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
             pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
 

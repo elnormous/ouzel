@@ -84,7 +84,7 @@ namespace ouzel
             {
                 std::shared_ptr<BlendStateMetal> blendState;
                 std::shared_ptr<ShaderMetal> shader;
-                uint32_t sampleCount;
+                NSUInteger sampleCount;
                 NSUInteger colorFormat;
                 NSUInteger depthFormat;
 
