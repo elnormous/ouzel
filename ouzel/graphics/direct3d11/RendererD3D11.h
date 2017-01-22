@@ -27,8 +27,7 @@ namespace ouzel
             virtual TextureResourcePtr createTexture() override;
             virtual ShaderResourcePtr createShader() override;
             virtual MeshBufferResourcePtr createMeshBuffer() override;
-            virtual IndexBufferResourcePtr createIndexBuffer() override;
-            virtual VertexBufferResourcePtr createVertexBuffer() override;
+            virtual BufferResourcePtr createBuffer() override;
 
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }

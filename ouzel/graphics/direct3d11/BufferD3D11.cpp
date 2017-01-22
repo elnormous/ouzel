@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "IndexBufferD3D11.h"
+#include "BufferD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -10,11 +10,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        IndexBufferD3D11::IndexBufferD3D11()
+        BufferD3D11::BufferD3D11()
         {
         }
 
-        IndexBufferD3D11::~IndexBufferD3D11()
+        BufferD3D11::~BufferD3D11()
         {
             if (buffer)
             {
@@ -22,9 +22,9 @@ namespace ouzel
             }
         }
 
-        void IndexBufferD3D11::free()
+        void BufferD3D11::free()
         {
-            IndexBufferResource::free();
+            BufferResource::free();
 
             if (buffer)
             {
@@ -35,9 +35,9 @@ namespace ouzel
             bufferSize = 0;
         }
 
-        bool IndexBufferD3D11::upload()
+        bool BufferD3D11::upload()
         {
-            if (!IndexBufferResource::upload())
+            if (!BufferResource::upload())
             {
                 return false;
             }
@@ -52,23 +52,36 @@ namespace ouzel
 
                     bufferSize = static_cast<UINT>(uploadData.data.size());
 
-                    D3D11_BUFFER_DESC indexBufferDesc;
-                    indexBufferDesc.ByteWidth = bufferSize;
-                    indexBufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-                    indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-                    indexBufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
-                    indexBufferDesc.MiscFlags = 0;
-                    indexBufferDesc.StructureByteStride = 0;
+                    D3D11_BUFFER_DESC bufferDesc;
+                    bufferDesc.ByteWidth = bufferSize;
+                    bufferDesc.Usage = uploadData.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
 
-                    D3D11_SUBRESOURCE_DATA indexBufferResourceData;
-                    indexBufferResourceData.pSysMem = uploadData.data.data();
-                    indexBufferResourceData.SysMemPitch = 0;
-                    indexBufferResourceData.SysMemSlicePitch = 0;
+                    switch (uploadData.usage)
+                    {
+                        case Buffer::Usage::INDEX:
+                            bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+                            break;
+                        case Buffer::Usage::VERTEX:
+                            bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+                            break;
+                        default:
+                            Log(Log::Level::ERR) << "Unsupported buffer type";
+                            return false;
+                    }
+                    
+                    bufferDesc.CPUAccessFlags = uploadData.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    bufferDesc.MiscFlags = 0;
+                    bufferDesc.StructureByteStride = 0;
 
-                    HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&indexBufferDesc, &indexBufferResourceData, &buffer);
+                    D3D11_SUBRESOURCE_DATA bufferResourceData;
+                    bufferResourceData.pSysMem = uploadData.data.data();
+                    bufferResourceData.SysMemPitch = 0;
+                    bufferResourceData.SysMemSlicePitch = 0;
+
+                    HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 index buffer";
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer";
                         return false;
                     }
                 }

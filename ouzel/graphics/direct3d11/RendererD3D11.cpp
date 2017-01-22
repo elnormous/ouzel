@@ -7,8 +7,7 @@
 #include "TextureD3D11.h"
 #include "ShaderD3D11.h"
 #include "MeshBufferD3D11.h"
-#include "IndexBufferD3D11.h"
-#include "VertexBufferD3D11.h"
+#include "BufferD3D11.h"
 #include "utils/Log.h"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
@@ -729,8 +728,8 @@ namespace ouzel
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                 // draw
-                std::shared_ptr<IndexBufferD3D11> indexBufferD3D11 = std::static_pointer_cast<IndexBufferD3D11>(meshBufferD3D11->getIndexBuffer());
-                std::shared_ptr<VertexBufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<VertexBufferD3D11>(meshBufferD3D11->getVertexBuffer());
+                std::shared_ptr<BufferD3D11> indexBufferD3D11 = std::static_pointer_cast<BufferD3D11>(meshBufferD3D11->getIndexBuffer());
+                std::shared_ptr<BufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<BufferD3D11>(meshBufferD3D11->getVertexBuffer());
 
                 if (!indexBufferD3D11 || !indexBufferD3D11->getBuffer() ||
                     !vertexBufferD3D11 || !vertexBufferD3D11->getBuffer())
@@ -862,16 +861,10 @@ namespace ouzel
             return meshBuffer;
         }
 
-        IndexBufferResourcePtr RendererD3D11::createIndexBuffer()
+        BufferResourcePtr RendererD3D11::createBuffer()
         {
-            std::shared_ptr<IndexBufferD3D11> meshBuffer = std::make_shared<IndexBufferD3D11>();
-            return meshBuffer;
-        }
-
-        VertexBufferResourcePtr RendererD3D11::createVertexBuffer()
-        {
-            std::shared_ptr<VertexBufferD3D11> meshBuffer = std::make_shared<VertexBufferD3D11>();
-            return meshBuffer;
+            std::shared_ptr<BufferD3D11> buffer = std::make_shared<BufferD3D11>();
+            return buffer;
         }
 
         bool RendererD3D11::saveScreenshot(const std::string& filename)

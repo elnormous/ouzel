@@ -5,17 +5,17 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/IndexBufferResource.h"
+#include "graphics/BufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferD3D11: public IndexBufferResource
+        class BufferD3D11: public BufferResource
         {
         public:
-            IndexBufferD3D11();
-            virtual ~IndexBufferD3D11();
+            BufferD3D11();
+            virtual ~BufferD3D11();
             virtual void free() override;
 
             ID3D11Buffer* getBuffer() const { return buffer; }
