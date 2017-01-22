@@ -43,6 +43,12 @@ namespace ouzel
 
     extern std::mt19937 randomEngine;
 
+    template<typename T>
+    size_t getVectorSize(const typename std::vector<T>& vec)
+    {
+        return sizeof(T) * vec.size();
+    }
+
     // decoding
 
     inline int64_t decodeInt64Big(const uint8_t* buffer)

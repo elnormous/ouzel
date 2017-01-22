@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
@@ -43,11 +44,26 @@ namespace ouzel
 
             bool bindBuffers();
 
+            GLenum getIndexType() const { return indexType; }
+            GLuint getBytesPerIndex() const { return bytesPerIndex; }
             GLuint getVertexArrayId() const { return vertexArrayId; }
 
         protected:
             virtual bool upload() override;
 
+            GLenum indexType = 0;
+            GLuint bytesPerIndex = 0;
+
+            struct VertexAttrib
+            {
+                GLint size;
+                GLenum type;
+                GLboolean normalized;
+                GLsizei stride;
+                const GLvoid* pointer;
+            };
+            std::vector<VertexAttrib> vertexAttribs;
+            
             GLuint vertexArrayId = 0;
         };
     } // namespace graphics

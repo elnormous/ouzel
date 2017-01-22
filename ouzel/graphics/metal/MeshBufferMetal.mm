@@ -6,7 +6,7 @@
 #include "RendererMetal.h"
 #include "IndexBufferMetal.h"
 #include "VertexBufferMetal.h"
-#include "utils/Utils.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -25,6 +25,22 @@ namespace ouzel
             if (!MeshBufferResource::upload())
             {
                 return false;
+            }
+
+            switch (uploadData.indexSize)
+            {
+                case 2:
+                    indexType = MTLIndexTypeUInt16;
+                    bytesPerIndex = 2;
+                    break;
+                case 4:
+                    indexType = MTLIndexTypeUInt32;
+                    bytesPerIndex = 4;
+                    break;
+                default:
+                    bytesPerIndex = 0;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
             }
 
             return true;

@@ -737,9 +737,9 @@ namespace ouzel
 
                 [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                         indexCount:drawCommand.indexCount
-                                                         indexType:indexBufferMetal->getType()
+                                                         indexType:meshBufferMetal->getIndexType()
                                                        indexBuffer:indexBufferMetal->getBuffer()
-                                                 indexBufferOffset:drawCommand.startIndex * indexBufferMetal->getBytesPerIndex()];
+                                                 indexBufferOffset:drawCommand.startIndex * meshBufferMetal->getBytesPerIndex()];
             }
 
             if (currentRenderCommandEncoder)

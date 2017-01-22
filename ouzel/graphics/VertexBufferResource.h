@@ -22,27 +22,19 @@ namespace ouzel
             virtual void free() override;
 
             virtual bool init(bool newDynamic = true);
-            virtual bool initFromBuffer(const void* newVertices, uint32_t newVertexAttributes,
-                                        uint32_t newVertexCount, bool newDynamic);
+            virtual bool initFromBuffer(const void* newVertices, uint32_t newSize, bool newDynamic);
 
-            uint32_t getVertexCount() const { return vertexCount; }
-            uint32_t getVertexSize() const { return vertexSize; }
+            uint32_t getSize() const { return size; }
 
-            virtual bool setVertexAttributes(uint32_t newVertexAttributes);
-            uint32_t getVertexAttributes() const { return vertexAttributes; }
-
-            virtual bool setData(const void* newVertices, uint32_t newVertexCount);
+            virtual bool setData(const void* newVertices, uint32_t newSize);
 
         protected:
             VertexBufferResource();
-            void updateVertexSize();
             virtual void update() override;
             virtual bool upload() override;
 
             struct Data
             {
-                uint32_t vertexSize = 0;
-                uint32_t vertexAttributes = 0;
                 std::vector<uint8_t> data;
                 bool dynamic = true;
             };
@@ -51,10 +43,7 @@ namespace ouzel
             std::mutex uploadMutex;
 
         private:
-            uint32_t vertexCount = 0;
-            uint32_t vertexSize = 0;
-
-            uint32_t vertexAttributes = 0;
+            uint32_t size = 0;
 
             std::vector<uint8_t> data;
 

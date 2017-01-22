@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "VertexBufferResource.h"
-#include "Renderer.h"
 
 namespace ouzel
 {
@@ -31,21 +30,17 @@ namespace ouzel
             return true;
         }
 
-        bool VertexBufferResource::initFromBuffer(const void* newVertices, uint32_t newVertexAttributes,
-                                                  uint32_t newVertexCount, bool newDynamic)
+        bool VertexBufferResource::initFromBuffer(const void* newVertices, uint32_t newSize, bool newDynamic)
         {
             free();
 
-            vertexAttributes = newVertexAttributes;
-            vertexCount = newVertexCount;
+            size = newSize;
             dynamic = newDynamic;
 
-            updateVertexSize();
-
-            if (newVertices && vertexSize && vertexCount)
+            if (newVertices && size)
             {
                 data.assign(static_cast<const uint8_t*>(newVertices),
-                            static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+                            static_cast<const uint8_t*>(newVertices) + size);
             }
 
             update();
@@ -53,69 +48,27 @@ namespace ouzel
             return true;
         }
 
-        bool VertexBufferResource::setData(const void* newVertices, uint32_t newVertexCount)
+        bool VertexBufferResource::setData(const void* newVertices, uint32_t newSize)
         {
             if (!dynamic)
             {
                 return false;
             }
 
-            vertexCount = newVertexCount;
+            size = newSize;
 
             data.assign(static_cast<const uint8_t*>(newVertices),
-                        static_cast<const uint8_t*>(newVertices) + vertexSize * vertexCount);
+                        static_cast<const uint8_t*>(newVertices) + size);
 
             update();
 
             return true;
-        }
-
-        bool VertexBufferResource::setVertexAttributes(uint32_t newVertexAttributes)
-        {
-            vertexAttributes = newVertexAttributes;
-            updateVertexSize();
-
-            update();
-
-            return true;
-        }
-
-        void VertexBufferResource::updateVertexSize()
-        {
-            vertexSize = 0;
-
-            if (vertexAttributes & VERTEX_POSITION)
-            {
-                vertexSize += 3 * sizeof(float);
-            }
-
-            if (vertexAttributes & VERTEX_COLOR)
-            {
-                vertexSize += 4 * sizeof(uint8_t);
-            }
-
-            if (vertexAttributes & VERTEX_NORMAL)
-            {
-                vertexSize += 3 * sizeof(float);
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                vertexSize += 2 * sizeof(float);
-            }
-
-            if (vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                vertexSize += 2 * sizeof(float);
-            }
         }
 
         void VertexBufferResource::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            currentData.vertexSize = vertexSize;
-            currentData.vertexAttributes = vertexAttributes;
             currentData.dynamic = dynamic;
             currentData.data = std::move(data);
 
