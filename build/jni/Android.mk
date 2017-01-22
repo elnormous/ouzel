@@ -55,14 +55,20 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/opengl/TextureOGL.cpp \
     ../../ouzel/graphics/opengl/VertexBufferOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
+    ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Image.cpp \
     ../../ouzel/graphics/IndexBuffer.cpp \
+    ../../ouzel/graphics/IndexBufferResource.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
+    ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
     ../../ouzel/graphics/Shader.cpp \
+    ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \
+    ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/graphics/VertexBuffer.cpp \
+    ../../ouzel/graphics/VertexBufferResource.cpp \
     ../../ouzel/gui/BMFont.cpp \
     ../../ouzel/gui/Button.cpp \
     ../../ouzel/gui/CheckBox.cpp \

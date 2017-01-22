@@ -6,13 +6,13 @@
 #include <vector>
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/Shader.h"
+#include "graphics/ShaderResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class ShaderD3D11: public Shader
+        class ShaderD3D11: public ShaderResource
         {
         public:
             ShaderD3D11();

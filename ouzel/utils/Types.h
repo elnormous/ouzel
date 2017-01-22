@@ -24,28 +24,23 @@ namespace ouzel
 
     namespace graphics
     {
-        class Renderer;
+        class BlendStateResource;
+        typedef std::shared_ptr<BlendStateResource> BlendStateResourcePtr;
 
-        class Resource;
-        typedef std::shared_ptr<Resource> ResourcePtr;
+        class IndexBufferResource;
+        typedef std::shared_ptr<IndexBufferResource> IndexBufferResourcePtr;
 
-        class BlendState;
-        typedef std::shared_ptr<BlendState> BlendStatePtr;
+        class MeshBufferResource;
+        typedef std::shared_ptr<MeshBufferResource> MeshBufferResourcePtr;
 
-        class IndexBuffer;
-        typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
+        class ShaderResource;
+        typedef std::shared_ptr<ShaderResource> ShaderResourcePtr;
 
-        class MeshBuffer;
-        typedef std::shared_ptr<MeshBuffer> MeshBufferPtr;
+        class TextureResource;
+        typedef std::shared_ptr<TextureResource> TextureResourcePtr;
 
-        class Shader;
-        typedef std::shared_ptr<Shader> ShaderPtr;
-
-        class Texture;
-        typedef std::shared_ptr<Texture> TexturePtr;
-
-        class VertexBuffer;
-        typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
+        class VertexBufferResource;
+        typedef std::shared_ptr<VertexBufferResource> VertexBufferResourcePtr;
     }
 
     namespace scene

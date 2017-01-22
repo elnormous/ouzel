@@ -5,13 +5,13 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/IndexBuffer.h"
+#include "graphics/IndexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class IndexBufferD3D11: public IndexBuffer
+        class IndexBufferD3D11: public IndexBufferResource
         {
         public:
             IndexBufferD3D11();

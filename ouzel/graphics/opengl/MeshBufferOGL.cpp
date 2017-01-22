@@ -27,7 +27,7 @@ namespace ouzel
 
         void MeshBufferOGL::free()
         {
-            MeshBuffer::free();
+            MeshBufferResource::free();
 
             if (vertexArrayId)
             {
@@ -67,7 +67,7 @@ namespace ouzel
 
         bool MeshBufferOGL::upload()
         {
-            if (!MeshBuffer::upload())
+            if (!MeshBufferResource::upload())
             {
                 return false;
             }

@@ -24,7 +24,7 @@ namespace ouzel
 
         void BlendStateD3D11::free()
         {
-            BlendState::free();
+            BlendStateResource::free();
 
             if (blendState)
             {
@@ -69,7 +69,7 @@ namespace ouzel
 
         bool BlendStateD3D11::upload()
         {
-            if (!BlendState::upload())
+            if (!BlendStateResource::upload())
             {
                 return false;
             }

@@ -35,11 +35,11 @@ namespace ouzel
                                        const Color& drawColor,
                                        scene::Camera* camera) override;
 
-            virtual const graphics::ShaderPtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
 
             virtual const Size2& getSize() const { return size; }
 
@@ -57,9 +57,9 @@ namespace ouzel
         protected:
             void updateBoundingBox();
 
-            graphics::ShaderPtr shader;
-            graphics::BlendStatePtr blendState;
-            graphics::TexturePtr whitePixelTexture;
+            graphics::ShaderResourcePtr shader;
+            graphics::BlendStateResourcePtr blendState;
+            graphics::TextureResourcePtr whitePixelTexture;
 
             Size2 size;
             Vector2 offset;

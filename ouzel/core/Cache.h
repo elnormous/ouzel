@@ -20,15 +20,15 @@ namespace ouzel
         Cache();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-        graphics::TexturePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
-        void setTexture(const std::string& filename, const graphics::TexturePtr& texture);
+        graphics::TextureResourcePtr getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
+        void setTexture(const std::string& filename, const graphics::TextureResourcePtr& texture);
         void releaseTextures();
 
-        graphics::ShaderPtr getShader(const std::string& shaderName) const;
-        void setShader(const std::string& shaderName, const graphics::ShaderPtr& shader);
+        graphics::ShaderResourcePtr getShader(const std::string& shaderName) const;
+        void setShader(const std::string& shaderName, const graphics::ShaderResourcePtr& shader);
 
-        graphics::BlendStatePtr getBlendState(const std::string& blendStateName) const;
-        void setBlendState(const std::string& blendStateName, const graphics::BlendStatePtr& blendState);
+        graphics::BlendStateResourcePtr getBlendState(const std::string& blendStateName) const;
+        void setBlendState(const std::string& blendStateName, const graphics::BlendStateResourcePtr& blendState);
 
         void preloadSpriteFrames(const std::string& filename, bool mipmaps = true);
         const std::vector<scene::SpriteFrame>& getSpriteFrames(const std::string& filename, bool mipmaps = true) const;
@@ -42,10 +42,10 @@ namespace ouzel
         const BMFont& getBMFont(const std::string& filename) const;
 
     protected:
-        mutable std::unordered_map<std::string, graphics::TexturePtr> textures;
-        mutable std::unordered_map<std::string, graphics::ShaderPtr> shaders;
+        mutable std::unordered_map<std::string, graphics::TextureResourcePtr> textures;
+        mutable std::unordered_map<std::string, graphics::ShaderResourcePtr> shaders;
         mutable std::unordered_map<std::string, scene::ParticleDefinition> particleDefinitions;
-        mutable std::unordered_map<std::string, graphics::BlendStatePtr> blendStates;
+        mutable std::unordered_map<std::string, graphics::BlendStateResourcePtr> blendStates;
         mutable std::unordered_map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::unordered_map<std::string, BMFont> bmFonts;
     };

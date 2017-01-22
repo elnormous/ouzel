@@ -54,7 +54,7 @@ namespace ouzel
 
         bool BlendStateOGL::upload()
         {
-            if (!BlendState::upload())
+            if (!BlendStateResource::upload())
             {
                 return false;
             }

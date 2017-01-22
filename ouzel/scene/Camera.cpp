@@ -7,7 +7,7 @@
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "Layer.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 #include "math/Matrix4.h"
 #include "utils/Utils.h"
 
@@ -232,7 +232,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(const graphics::TexturePtr& newRenderTarget)
+        void Camera::setRenderTarget(const graphics::TextureResourcePtr& newRenderTarget)
         {
             renderTarget = newRenderTarget;
 

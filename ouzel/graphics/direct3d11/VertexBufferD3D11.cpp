@@ -24,7 +24,7 @@ namespace ouzel
 
         void VertexBufferD3D11::free()
         {
-            VertexBuffer::free();
+            VertexBufferResource::free();
 
             if (buffer)
             {
@@ -37,7 +37,7 @@ namespace ouzel
 
         bool VertexBufferD3D11::upload()
         {
-            if (!VertexBuffer::upload())
+            if (!VertexBufferResource::upload())
             {
                 return false;
             }

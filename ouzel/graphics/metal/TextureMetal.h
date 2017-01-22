@@ -5,29 +5,29 @@
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
-typedef id<MTLTexture> MTLTexturePtr;
+typedef id<MTLTexture> MTLTextureResourcePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #include <objc/objc.h>
-typedef id MTLTexturePtr;
+typedef id MTLTextureResourcePtr;
 typedef id MTLRenderPassDescriptorPtr;
 #endif
 
 #include "core/CompileConfig.h"
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class TextureMetal: public Texture
+        class TextureMetal: public TextureResource
         {
         public:
             TextureMetal();
             virtual ~TextureMetal();
             virtual void free() override;
 
-            MTLTexturePtr getTexture() const { return texture; }
+            MTLTextureResourcePtr getTexture() const { return texture; }
             NSUInteger getColorFormat() const { return colorFormat; }
             NSUInteger getDepthFormat() const { return depthFormat; }
 
@@ -36,14 +36,14 @@ namespace ouzel
         protected:
             virtual bool upload() override;
 
-            MTLTexturePtr texture = Nil;
+            MTLTextureResourcePtr texture = Nil;
 
             NSUInteger width = 0;
             NSUInteger height = 0;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
-            MTLTexturePtr msaaTexture = Nil;
-            MTLTexturePtr depthTexture = Nil;
+            MTLTextureResourcePtr msaaTexture = Nil;
+            MTLTextureResourcePtr depthTexture = Nil;
 
             NSUInteger colorFormat = 0;
             NSUInteger depthFormat = 0;

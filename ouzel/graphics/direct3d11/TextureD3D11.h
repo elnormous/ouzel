@@ -5,13 +5,13 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class TextureD3D11: public Texture
+        class TextureD3D11: public TextureResource
         {
         public:
             TextureD3D11();

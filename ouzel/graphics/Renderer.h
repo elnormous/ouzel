@@ -20,7 +20,6 @@
 #include "math/Color.h"
 #include "math/AABB2.h"
 #include "graphics/Vertex.h"
-#include "graphics/Shader.h"
 #include "graphics/BlendState.h"
 #include "graphics/PixelFormat.h"
 #include "graphics/Texture.h"
@@ -42,7 +41,7 @@ namespace ouzel
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
 
-        class MeshBuffer;
+        class Resource;
 
         class Renderer: public Noncopyable
         {
@@ -68,7 +67,6 @@ namespace ouzel
             };
 
             virtual ~Renderer();
-            virtual void free();
 
             Driver getDriver() const { return driver; }
 
@@ -90,24 +88,24 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            virtual BlendStatePtr createBlendState() = 0;
-            virtual TexturePtr createTexture() = 0;
-            virtual ShaderPtr createShader() = 0;
-            virtual MeshBufferPtr createMeshBuffer() = 0;
-            virtual IndexBufferPtr createIndexBuffer() = 0;
-            virtual VertexBufferPtr createVertexBuffer() = 0;
+            virtual BlendStateResourcePtr createBlendState() = 0;
+            virtual TextureResourcePtr createTexture() = 0;
+            virtual ShaderResourcePtr createShader() = 0;
+            virtual MeshBufferResourcePtr createMeshBuffer() = 0;
+            virtual IndexBufferResourcePtr createIndexBuffer() = 0;
+            virtual VertexBufferResourcePtr createVertexBuffer() = 0;
 
             bool getRefillDrawQueue() const { return refillDrawQueue; }
-            bool addDrawCommand(const std::vector<TexturePtr>& textures,
-                                const ShaderPtr& shader,
+            bool addDrawCommand(const std::vector<TextureResourcePtr>& textures,
+                                const ShaderResourcePtr& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
                                 const std::vector<std::vector<float>>& vertexShaderConstants,
-                                const BlendStatePtr& blendState,
-                                const MeshBufferPtr& meshBuffer,
+                                const BlendStateResourcePtr& blendState,
+                                const MeshBufferResourcePtr& meshBuffer,
                                 uint32_t indexCount = 0,
                                 DrawMode drawMode = DrawMode::TRIANGLE_LIST,
                                 uint32_t startIndex = 0,
-                                const TexturePtr& renderTarget = nullptr,
+                                const TextureResourcePtr& renderTarget = nullptr,
                                 const Rectangle& viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f),
                                 bool depthWrite = false,
                                 bool depthTest = false,
@@ -181,16 +179,16 @@ namespace ouzel
 
             struct DrawCommand
             {
-                std::vector<TexturePtr> textures;
-                ShaderPtr shader;
+                std::vector<TextureResourcePtr> textures;
+                ShaderResourcePtr shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStatePtr blendState;
-                MeshBufferPtr meshBuffer;
+                BlendStateResourcePtr blendState;
+                MeshBufferResourcePtr meshBuffer;
                 uint32_t indexCount;
                 DrawMode drawMode;
                 uint32_t startIndex;
-                TexturePtr renderTarget;
+                TextureResourcePtr renderTarget;
                 Rectangle viewport;
                 bool depthWrite;
                 bool depthTest;
@@ -233,12 +231,15 @@ namespace ouzel
 
             std::vector<DrawCommand> activeDrawQueue;
 
-            std::set<ResourcePtr> uploadSet;
+            std::set<Resource*> uploadSet;
             std::mutex uploadMutex;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
             std::atomic<bool> dirty;
+
+            static std::queue<Resource*> deleteQueue;
+            static std::mutex deleteMutex;
         };
     } // namespace graphics
 } // namespace ouzel

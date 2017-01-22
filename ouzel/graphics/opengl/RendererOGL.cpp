@@ -229,7 +229,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderPtr textureShader = createShader();
+            ShaderResourcePtr textureShader = createShader();
 
             switch (apiMajorVersion)
             {
@@ -270,7 +270,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderPtr colorShader = createShader();
+            ShaderResourcePtr colorShader = createShader();
 
             switch (apiMajorVersion)
             {
@@ -311,7 +311,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStatePtr noBlendState = createBlendState();
+            BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -321,7 +321,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStatePtr addBlendState = createBlendState();
+            BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -331,7 +331,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStatePtr multiplyBlendState = createBlendState();
+            BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -341,7 +341,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStatePtr alphaBlendState = createBlendState();
+            BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -351,7 +351,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TexturePtr whitePixelTexture = createTexture();
+            TextureResourcePtr whitePixelTexture = createTexture();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
@@ -790,37 +790,37 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        BlendStatePtr RendererOGL::createBlendState()
+        BlendStateResourcePtr RendererOGL::createBlendState()
         {
             std::shared_ptr<BlendStateOGL> blendState = std::make_shared<BlendStateOGL>();
             return blendState;
         }
 
-        TexturePtr RendererOGL::createTexture()
+        TextureResourcePtr RendererOGL::createTexture()
         {
             std::shared_ptr<TextureOGL> texture = std::make_shared<TextureOGL>();
             return texture;
         }
 
-        ShaderPtr RendererOGL::createShader()
+        ShaderResourcePtr RendererOGL::createShader()
         {
             std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
             return shader;
         }
 
-        MeshBufferPtr RendererOGL::createMeshBuffer()
+        MeshBufferResourcePtr RendererOGL::createMeshBuffer()
         {
             std::shared_ptr<MeshBufferOGL> meshBuffer = std::make_shared<MeshBufferOGL>();
             return meshBuffer;
         }
 
-        IndexBufferPtr RendererOGL::createIndexBuffer()
+        IndexBufferResourcePtr RendererOGL::createIndexBuffer()
         {
             std::shared_ptr<IndexBufferOGL> meshBuffer = std::make_shared<IndexBufferOGL>();
             return meshBuffer;
         }
 
-        VertexBufferPtr RendererOGL::createVertexBuffer()
+        VertexBufferResourcePtr RendererOGL::createVertexBuffer()
         {
             std::shared_ptr<VertexBufferOGL> meshBuffer = std::make_shared<VertexBufferOGL>();
             return meshBuffer;

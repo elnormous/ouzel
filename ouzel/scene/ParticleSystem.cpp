@@ -10,9 +10,9 @@
 #include "core/Cache.h"
 #include "Layer.h"
 #include "scene/Camera.h"
-#include "graphics/MeshBuffer.h"
-#include "graphics/IndexBuffer.h"
-#include "graphics/VertexBuffer.h"
+#include "graphics/MeshBufferResource.h"
+#include "graphics/IndexBufferResource.h"
+#include "graphics/VertexBufferResource.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
 

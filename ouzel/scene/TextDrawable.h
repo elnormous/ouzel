@@ -40,24 +40,24 @@ namespace ouzel
             virtual const Color& getColor() const { return color; }
             virtual void setColor(const Color& newColor);
 
-            virtual const graphics::ShaderPtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderPtr& newShader) { shader = newShader; }
+            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
+            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStatePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStatePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
+            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
 
         protected:
             void updateText();
 
-            graphics::ShaderPtr shader;
-            graphics::BlendStatePtr blendState;
+            graphics::ShaderResourcePtr shader;
+            graphics::BlendStateResourcePtr blendState;
 
-            graphics::MeshBufferPtr meshBuffer;
-            graphics::IndexBufferPtr indexBuffer;
-            graphics::VertexBufferPtr vertexBuffer;
+            graphics::MeshBufferResourcePtr meshBuffer;
+            graphics::IndexBufferResourcePtr indexBuffer;
+            graphics::VertexBufferResourcePtr vertexBuffer;
 
-            graphics::TexturePtr texture;
-            graphics::TexturePtr whitePixelTexture;
+            graphics::TextureResourcePtr texture;
+            graphics::TextureResourcePtr whitePixelTexture;
 
             BMFont font;
             std::string text;

@@ -19,7 +19,7 @@ RTSample::RTSample(Samples& aSamples):
 
     addLayer(&rtLayer);
 
-    ouzel::graphics::TexturePtr renderTarget = sharedEngine->getRenderer()->createTexture();
+    ouzel::graphics::TextureResourcePtr renderTarget = sharedEngine->getRenderer()->createTexture();
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, 0);
     renderTarget->setClearColor(Color(0, 64, 0));
 

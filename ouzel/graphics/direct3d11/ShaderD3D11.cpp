@@ -44,7 +44,7 @@ namespace ouzel
 
         void ShaderD3D11::free()
         {
-            Shader::free();
+            ShaderResource::free();
 
             pixelShaderConstantLocations.clear();
             vertexShaderConstantLocations.clear();
@@ -101,7 +101,7 @@ namespace ouzel
 
         bool ShaderD3D11::upload()
         {
-            if (!Shader::upload())
+            if (!ShaderResource::upload())
             {
                 return false;
             }

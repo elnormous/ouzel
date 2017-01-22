@@ -32,31 +32,6 @@ namespace ouzel
             }
         }
 
-        void RendererOGLIOS::free()
-        {
-            if (resolveFrameBufferId)
-            {
-                glDeleteFramebuffers(1, &resolveFrameBufferId);
-                resolveFrameBufferId = 0;
-            }
-
-            if (resolveColorRenderBufferId)
-            {
-                glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
-                resolveColorRenderBufferId = 0;
-            }
-
-            if (context)
-            {
-                if ([EAGLContext currentContext] == context)
-                {
-                    [EAGLContext setCurrentContext:nil];
-                }
-                [context release];
-                context = Nil;
-            }
-        }
-
         bool RendererOGLIOS::init(Window* newWindow,
                                   const Size2& newSize,
                                   uint32_t newSampleCount,
@@ -65,8 +40,6 @@ namespace ouzel
                                   bool newVerticalSync,
                                   bool newDepth)
         {
-            free();
-
             UIView* view = static_cast<WindowIOS*>(newWindow)->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;

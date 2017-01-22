@@ -28,13 +28,13 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/Texture.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class TextureOGL: public Texture
+        class TextureOGL: public TextureResource
         {
         public:
             TextureOGL();

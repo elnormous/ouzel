@@ -13,10 +13,6 @@ namespace ouzel
         {
         }
 
-        void RendererOGLAndroid::free()
-        {
-        }
-
         bool RendererOGLAndroid::init(Window* newWindow,
                                       const Size2& newSize,
                                       uint32_t newSampleCount,

@@ -1,21 +1,19 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <mutex>
-#include "utils/Noncopyable.h"
-#include "graphics/Resource.h"
-
 #pragma once
+
+#include <memory>
+#include "utils/Noncopyable.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class Renderer;
+        class BlendStateResource;
 
-        class BlendState: public Resource, public Noncopyable
+        class BlendState: public Noncopyable
         {
-            friend Renderer;
         public:
             enum class BlendFactor
             {
@@ -42,47 +40,11 @@ namespace ouzel
                 MIN,
                 MAX
             };
-
-            virtual ~BlendState();
-            virtual void free() override;
-
-            virtual bool init(bool newEnableBlending,
-                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                              BlendOperation newColorOperation,
-                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation);
-
-            bool isBlendingEnabled() const { return data.enableBlending; }
-            BlendFactor getColorBlendSource() const { return data.colorBlendSource; }
-            BlendFactor getColorBlendDest() const { return data.colorBlendDest; }
-            BlendOperation getColorOperation() const { return data.colorOperation; }
-            BlendFactor getAlphaBlendSource() const { return data.alphaBlendSource; }
-            BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
-            BlendOperation getAlphaOperation() const { return data.alphaOperation; }
-
-        protected:
+            
             BlendState();
-            virtual void update() override;
-            virtual bool upload() override;
-
-            struct Data
-            {
-                BlendFactor colorBlendSource = BlendFactor::ONE;
-                BlendFactor colorBlendDest = BlendFactor::ZERO;
-                BlendOperation colorOperation = BlendOperation::ADD;
-                BlendFactor alphaBlendSource = BlendFactor::ONE;
-                BlendFactor alphaBlendDest = BlendFactor::ZERO;
-                BlendOperation alphaOperation = BlendOperation::ADD;
-                bool enableBlending = false;
-            };
-
-            Data uploadData;
-            std::mutex uploadMutex;
 
         private:
-            Data data;
-
-            Data currentData;
+            std::unique_ptr<BlendStateResource> resource;
         };
     } // namespace graphics
 } // namespace ouzel

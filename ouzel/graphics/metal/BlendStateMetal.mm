@@ -49,7 +49,7 @@ namespace ouzel
 
         bool BlendStateMetal::upload()
         {
-            if (!BlendState::upload())
+            if (!BlendStateResource::upload())
             {
                 return false;
             }

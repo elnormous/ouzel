@@ -26,7 +26,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~RendererOGLMacOS();
-            virtual void free() override;
 
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
             NSOpenGLPixelFormatPtr getPixelFormat() const { return pixelFormat; }

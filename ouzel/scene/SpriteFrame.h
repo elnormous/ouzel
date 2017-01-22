@@ -19,14 +19,14 @@ namespace ouzel
         public:
             static std::vector<SpriteFrame> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
 
-            SpriteFrame(const graphics::TexturePtr& pTexture,
+            SpriteFrame(const graphics::TextureResourcePtr& pTexture,
                         const Rectangle& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
-            SpriteFrame(const graphics::TexturePtr& pTexture,
+            SpriteFrame(const graphics::TextureResourcePtr& pTexture,
                         const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
                         const Rectangle& frameRectangle,
@@ -37,16 +37,16 @@ namespace ouzel
             const Rectangle& getRectangle() const { return rectangle; }
 
             const AABB2& getBoundingBox() const { return boundingBox; }
-            const graphics::MeshBufferPtr& getMeshBuffer() const { return meshBuffer; }
-            const graphics::TexturePtr& getTexture() const { return texture; }
+            const graphics::MeshBufferResourcePtr& getMeshBuffer() const { return meshBuffer; }
+            const graphics::TextureResourcePtr& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
             AABB2 boundingBox;
-            graphics::MeshBufferPtr meshBuffer;
-            graphics::IndexBufferPtr indexBuffer;
-            graphics::VertexBufferPtr vertexBuffer;
-            graphics::TexturePtr texture;
+            graphics::MeshBufferResourcePtr meshBuffer;
+            graphics::IndexBufferResourcePtr indexBuffer;
+            graphics::VertexBufferResourcePtr vertexBuffer;
+            graphics::TextureResourcePtr texture;
         };
     } // scene
 } // ouzel

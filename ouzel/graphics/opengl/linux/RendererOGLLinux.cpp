@@ -12,10 +12,6 @@ namespace ouzel
         {
         }
 
-        void RendererOGLLinux::free()
-        {
-        }
-
         bool RendererOGLLinux::init(Window* newWindow,
                                     const Size2& newSize,
                                     uint32_t newSampleCount,
@@ -24,8 +20,6 @@ namespace ouzel
                                     bool newVerticalSync,
                                     bool newDepth)
         {
-            free();
-
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 

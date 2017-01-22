@@ -28,13 +28,13 @@
     #include <EGL/egl.h>
 #endif
 
-#include "graphics/BlendState.h"
+#include "graphics/BlendStateResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateOGL: public BlendState
+        class BlendStateOGL: public BlendStateResource
         {
         public:
             BlendStateOGL();

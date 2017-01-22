@@ -17,7 +17,7 @@ namespace ouzel
 
         bool MeshBufferD3D11::upload()
         {
-            if (!MeshBuffer::upload())
+            if (!MeshBufferResource::upload())
             {
                 return false;
             }

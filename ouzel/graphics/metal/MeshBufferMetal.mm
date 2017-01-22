@@ -22,7 +22,7 @@ namespace ouzel
 
         bool MeshBufferMetal::upload()
         {
-            if (!MeshBuffer::upload())
+            if (!MeshBufferResource::upload())
             {
                 return false;
             }

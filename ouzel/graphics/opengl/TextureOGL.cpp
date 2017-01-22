@@ -35,7 +35,7 @@ namespace ouzel
 
         void TextureOGL::free()
         {
-            Texture::free();
+            TextureResource::free();
 
             if (depthBufferId)
             {
@@ -61,7 +61,7 @@ namespace ouzel
 
         bool TextureOGL::upload()
         {
-            if (!Texture::upload())
+            if (!TextureResource::upload())
             {
                 return false;
             }

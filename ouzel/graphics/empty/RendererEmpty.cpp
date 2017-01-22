@@ -33,7 +33,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderPtr textureShader = createShader();
+            ShaderResourcePtr textureShader = createShader();
 
             textureShader->initFromBuffers({},
                                            {},
@@ -43,7 +43,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderPtr colorShader = createShader();
+            ShaderResourcePtr colorShader = createShader();
 
             colorShader->initFromBuffers({},
                                          {},
@@ -53,7 +53,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStatePtr noBlendState = createBlendState();
+            BlendStateResourcePtr noBlendState = createBlendState();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -63,7 +63,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStatePtr addBlendState = createBlendState();
+            BlendStateResourcePtr addBlendState = createBlendState();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -73,7 +73,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStatePtr multiplyBlendState = createBlendState();
+            BlendStateResourcePtr multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -83,7 +83,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStatePtr alphaBlendState = createBlendState();
+            BlendStateResourcePtr alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -93,46 +93,46 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TexturePtr whitePixelTexture = createTexture();
+            TextureResourcePtr whitePixelTexture = createTexture();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;
         }
 
-        BlendStatePtr RendererEmpty::createBlendState()
+        BlendStateResourcePtr RendererEmpty::createBlendState()
         {
-            BlendStatePtr blendState = std::make_shared<BlendStateEmpty>();
+            BlendStateResourcePtr blendState = std::make_shared<BlendStateEmpty>();
             return blendState;
         }
 
-        TexturePtr RendererEmpty::createTexture()
+        TextureResourcePtr RendererEmpty::createTexture()
         {
-            TexturePtr texture(new TextureEmpty());
+            TextureResourcePtr texture(new TextureEmpty());
             return texture;
         }
 
-        ShaderPtr RendererEmpty::createShader()
+        ShaderResourcePtr RendererEmpty::createShader()
         {
-            ShaderPtr shader = std::make_shared<ShaderEmpty>();
+            ShaderResourcePtr shader = std::make_shared<ShaderEmpty>();
             return shader;
         }
 
-        MeshBufferPtr RendererEmpty::createMeshBuffer()
+        MeshBufferResourcePtr RendererEmpty::createMeshBuffer()
         {
-            MeshBufferPtr meshBuffer = std::make_shared<MeshBufferEmpty>();
+            MeshBufferResourcePtr meshBuffer = std::make_shared<MeshBufferEmpty>();
             return meshBuffer;
         }
 
-        IndexBufferPtr RendererEmpty::createIndexBuffer()
+        IndexBufferResourcePtr RendererEmpty::createIndexBuffer()
         {
-            IndexBufferPtr indexBuffer = std::make_shared<IndexBufferEmpty>();
+            IndexBufferResourcePtr indexBuffer = std::make_shared<IndexBufferEmpty>();
             return indexBuffer;
         }
 
-        VertexBufferPtr RendererEmpty::createVertexBuffer()
+        VertexBufferResourcePtr RendererEmpty::createVertexBuffer()
         {
-            VertexBufferPtr vertexBuffer = std::make_shared<VertexBufferEmpty>();
+            VertexBufferResourcePtr vertexBuffer = std::make_shared<VertexBufferEmpty>();
             return vertexBuffer;
         }
     } // namespace graphics

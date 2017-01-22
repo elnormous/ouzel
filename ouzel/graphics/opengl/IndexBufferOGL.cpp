@@ -24,7 +24,7 @@ namespace ouzel
 
         void IndexBufferOGL::free()
         {
-            IndexBuffer::free();
+            IndexBufferResource::free();
 
             if (bufferId)
             {
@@ -53,7 +53,7 @@ namespace ouzel
 
         bool IndexBufferOGL::upload()
         {
-            if (!IndexBuffer::upload())
+            if (!IndexBufferResource::upload())
             {
                 return false;
             }

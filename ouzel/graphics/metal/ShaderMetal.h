@@ -4,7 +4,7 @@
 #pragma once
 
 #include "core/CompileConfig.h"
-#include "graphics/Shader.h"
+#include "graphics/ShaderResource.h"
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
@@ -22,7 +22,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ShaderMetal: public Shader
+        class ShaderMetal: public ShaderResource
         {
         public:
             ShaderMetal();

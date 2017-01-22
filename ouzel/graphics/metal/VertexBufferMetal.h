@@ -12,13 +12,13 @@ typedef id MTLBufferPtr;
 typedef NSUInteger MTLIndexType;
 #endif
 
-#include "graphics/VertexBuffer.h"
+#include "graphics/VertexBufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class VertexBufferMetal: public VertexBuffer
+        class VertexBufferMetal: public VertexBufferResource
         {
         public:
             VertexBufferMetal();

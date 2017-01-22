@@ -23,7 +23,7 @@ namespace ouzel
 
         void VertexBufferOGL::free()
         {
-            VertexBuffer::free();
+            VertexBufferResource::free();
 
             if (bufferId)
             {
@@ -76,7 +76,7 @@ namespace ouzel
 
         bool VertexBufferOGL::upload()
         {
-            if (!VertexBuffer::upload())
+            if (!VertexBufferResource::upload())
             {
                 return false;
             }
