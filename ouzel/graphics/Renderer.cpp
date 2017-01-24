@@ -76,7 +76,7 @@ namespace ouzel
             {
                 std::unique_lock<std::mutex> lock(drawQueueMutex);
 
-                if (!activeDrawQueueFinished)
+                while (!activeDrawQueueFinished)
                 {
                     drawQueueCondition.wait(lock);
                 }
