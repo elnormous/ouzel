@@ -423,7 +423,7 @@ namespace ouzel
 #if OUZEL_OPENGL_INTERFACE_EAGL
                 glDeleteVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
+                if (deleteVertexArraysOES) deleteVertexArraysOES(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
 #endif

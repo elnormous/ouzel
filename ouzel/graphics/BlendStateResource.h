@@ -3,8 +3,8 @@
 
 #include <mutex>
 #include "utils/Noncopyable.h"
-#include "graphics/BlendState.h"
 #include "graphics/Resource.h"
+#include "graphics/BlendState.h"
 
 #pragma once
 

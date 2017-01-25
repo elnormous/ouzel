@@ -35,6 +35,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundDataResource.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundResource.cpp \
 	$(ROOT_DIR)/../ouzel/core/Application.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \

@@ -5,13 +5,13 @@
 
 namespace ouzel
 {
-    namespace graphics
+    namespace audio
     {
-        class Renderer;
+        class Audio;
 
         class Resource
         {
-            friend Renderer;
+            friend Audio;
         public:
             Resource() {}
             virtual ~Resource() {}
@@ -19,5 +19,5 @@ namespace ouzel
         protected:
             virtual bool upload() = 0;
         };
-    } // graphics
+    } // audio
 } // ouzel
