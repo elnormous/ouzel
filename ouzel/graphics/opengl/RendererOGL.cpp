@@ -610,7 +610,7 @@ namespace ouzel
                 // render target
                 GLuint newFrameBufferId = 0;
                 GLbitfield newClearMask = 0;
-                const float* newClearColor;
+                const float* newClearColor = frameBufferClearColor;
 
                 if (drawCommand.renderTarget)
                 {
