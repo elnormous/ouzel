@@ -16,7 +16,6 @@ namespace ouzel
         public:
             TextureD3D11();
             virtual ~TextureD3D11();
-            virtual void free() override;
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
@@ -26,6 +25,9 @@ namespace ouzel
             ID3D11DepthStencilView* getDepthStencilView() const { return depthStencilView; }
 
             const float* getFrameBufferClearColor() const { return frameBufferClearColor; }
+
+            UINT getWidth() const { return width; }
+            UINT getHeight() const { return height; }
 
         protected:
             virtual bool upload() override;

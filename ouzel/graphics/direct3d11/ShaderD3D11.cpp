@@ -42,44 +42,6 @@ namespace ouzel
             }
         }
 
-        void ShaderD3D11::free()
-        {
-            ShaderResource::free();
-
-            pixelShaderConstantLocations.clear();
-            vertexShaderConstantLocations.clear();
-
-            if (pixelShader)
-            {
-                pixelShader->Release();
-                pixelShader = nullptr;
-            }
-
-            if (vertexShader)
-            {
-                vertexShader->Release();
-                vertexShader = nullptr;
-            }
-
-            if (inputLayout)
-            {
-                inputLayout->Release();
-                inputLayout = nullptr;
-            }
-
-            if (pixelShaderConstantBuffer)
-            {
-                pixelShaderConstantBuffer->Release();
-                pixelShaderConstantBuffer = nullptr;
-            }
-
-            if (vertexShaderConstantBuffer)
-            {
-                vertexShaderConstantBuffer->Release();
-                vertexShaderConstantBuffer = nullptr;
-            }
-        }
-
         bool ShaderD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
@@ -106,134 +68,139 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            if (!pixelShader)
+            if (data.dirty)
             {
-                HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(uploadData.pixelShaderData.data(), uploadData.pixelShaderData.size(), NULL, &pixelShader);
+                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+
+                if (!pixelShader)
+                {
+                    HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(data.pixelShaderData.data(), data.pixelShaderData.size(), NULL, &pixelShader);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader";
+                        return false;
+                    }
+                }
+
+                if (!vertexShader)
+                {
+                    HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(data.vertexShaderData.data(), data.vertexShaderData.size(), NULL, &vertexShader);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader";
+                        return false;
+                    }
+
+                    std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
+
+                    UINT offset = 0;
+
+                    if (data.vertexAttributes & VERTEX_POSITION)
+                    {
+                        vertexInputElements.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
+                        offset += 3 * sizeof(float);
+                    }
+
+                    if (data.vertexAttributes & VERTEX_COLOR)
+                    {
+                        vertexInputElements.push_back({"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
+                        offset += 4 * sizeof(uint8_t);
+                    }
+
+                    if (data.vertexAttributes & VERTEX_NORMAL)
+                    {
+                        vertexInputElements.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
+                        offset += 3 * sizeof(float);
+                    }
+
+                    if (data.vertexAttributes & VERTEX_TEXCOORD0)
+                    {
+                        vertexInputElements.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
+                        offset += 2 * sizeof(float);
+                    }
+
+                    if (data.vertexAttributes & VERTEX_TEXCOORD1)
+                    {
+                        vertexInputElements.push_back({"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
+                        offset += 2 * sizeof(float);
+                    }
+
+                    hr = rendererD3D11->getDevice()->CreateInputLayout(
+                        vertexInputElements.data(),
+                        static_cast<UINT>(vertexInputElements.size()),
+                        data.vertexShaderData.data(),
+                        data.vertexShaderData.size(),
+                        &inputLayout);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
+                        return false;
+                    }
+                }
+
+                if (!data.pixelShaderConstantInfo.empty())
+                {
+                    pixelShaderConstantLocations.clear();
+                    pixelShaderConstantLocations.reserve(data.pixelShaderConstantInfo.size());
+
+                    pixelShaderConstantSize = 0;
+
+                    for (const Shader::ConstantInfo& info : data.pixelShaderConstantInfo)
+                    {
+                        pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
+                        pixelShaderConstantSize += info.size;
+                    }
+                }
+
+                if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
+
+                D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
+                pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(pixelShaderConstantSize);
+                pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+                pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+                pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+                pixelShaderConstantBufferDesc.MiscFlags = 0;
+                pixelShaderConstantBufferDesc.StructureByteStride = 0;
+
+                HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
                     return false;
                 }
-            }
 
-            if (!vertexShader)
-            {
-                HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(uploadData.vertexShaderData.data(), uploadData.vertexShaderData.size(), NULL, &vertexShader);
+                if (!data.vertexShaderConstantInfo.empty())
+                {
+                    vertexShaderConstantLocations.clear();
+                    vertexShaderConstantLocations.reserve(data.vertexShaderConstantInfo.size());
+
+                    vertexShaderConstantSize = 0;
+
+                    for (const Shader::ConstantInfo& info : data.vertexShaderConstantInfo)
+                    {
+                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
+                        vertexShaderConstantSize += info.size;
+                    }
+                }
+
+                if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
+
+                D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
+                vertexShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(vertexShaderConstantSize);
+                vertexShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+                vertexShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+                vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+                vertexShaderConstantBufferDesc.MiscFlags = 0;
+                vertexShaderConstantBufferDesc.StructureByteStride = 0;
+
+                hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
                     return false;
                 }
 
-                std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
-
-                UINT offset = 0;
-
-                if (uploadData.vertexAttributes & VERTEX_POSITION)
-                {
-                    vertexInputElements.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                    offset += 3 * sizeof(float);
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_COLOR)
-                {
-                    vertexInputElements.push_back({"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                    offset += 4 * sizeof(uint8_t);
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_NORMAL)
-                {
-                    vertexInputElements.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                    offset += 3 * sizeof(float);
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
-                {
-                    vertexInputElements.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                    offset += 2 * sizeof(float);
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
-                {
-                    vertexInputElements.push_back({"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                    offset += 2 * sizeof(float);
-                }
-
-                hr = rendererD3D11->getDevice()->CreateInputLayout(
-                    vertexInputElements.data(),
-                    static_cast<UINT>(vertexInputElements.size()),
-                    uploadData.vertexShaderData.data(),
-                    uploadData.vertexShaderData.size(),
-                    &inputLayout);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
-                    return false;
-                }
-            }
-
-            if (!uploadData.pixelShaderConstantInfo.empty())
-            {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-                pixelShaderConstantSize = 0;
-
-                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
-                {
-                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
-                    pixelShaderConstantSize += info.size;
-                }
-            }
-
-            if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
-
-            D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
-            pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(pixelShaderConstantSize);
-            pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-            pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            pixelShaderConstantBufferDesc.MiscFlags = 0;
-            pixelShaderConstantBufferDesc.StructureByteStride = 0;
-
-            HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
-                return false;
-            }
-
-            if (!uploadData.vertexShaderConstantInfo.empty())
-            {
-                vertexShaderConstantLocations.clear();
-                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
-
-                vertexShaderConstantSize = 0;
-
-                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
-                {
-                    vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
-                    vertexShaderConstantSize += info.size;
-                }
-            }
-
-            if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
-
-            D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
-            vertexShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(vertexShaderConstantSize);
-            vertexShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-            vertexShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            vertexShaderConstantBufferDesc.MiscFlags = 0;
-            vertexShaderConstantBufferDesc.StructureByteStride = 0;
-
-            hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
-                return false;
+                data.dirty = 0;
             }
 
             return true;

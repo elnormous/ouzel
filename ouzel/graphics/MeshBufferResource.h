@@ -24,11 +24,14 @@ namespace ouzel
             bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                       uint32_t newVertexAttributes, BufferResource* newVertexBuffer);
 
+            uint32_t getIndexSize() const { return data.indexSize; }
             bool setIndexSize(uint32_t newIndexSize);
 
             BufferResource* getIndexBuffer() const { return data.indexBuffer; }
             bool setIndexBuffer(BufferResource* newIndexBuffer);
 
+            uint32_t getVertexSize() const { return data.vertexSize; }
+            uint32_t getVertexAttributes() const { return data.vertexAttributes; }
             bool setVertexAttributes(uint32_t newVertexAttributes);
 
             BufferResource* getVertexBuffer() const { return data.vertexBuffer; }

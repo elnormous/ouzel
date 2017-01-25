@@ -23,18 +23,23 @@ namespace ouzel
                 return false;
             }
 
-            switch (uploadData.indexSize)
+            if (data.dirty)
             {
-            case 2:
-                indexFormat = DXGI_FORMAT_R16_UINT;
-                break;
-            case 4:
-                indexFormat = DXGI_FORMAT_R32_UINT;
-                break;
-            default:
-                indexFormat = DXGI_FORMAT_UNKNOWN;
-                Log(Log::Level::ERR) << "Invalid index size";
-                return false;
+                switch (data.indexSize)
+                {
+                case 2:
+                    indexFormat = DXGI_FORMAT_R16_UINT;
+                    break;
+                case 4:
+                    indexFormat = DXGI_FORMAT_R32_UINT;
+                    break;
+                default:
+                    indexFormat = DXGI_FORMAT_UNKNOWN;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
+                }
+
+                data.dirty = 0;
             }
 
             return true;

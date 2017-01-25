@@ -16,7 +16,6 @@ namespace ouzel
         public:
             BlendStateD3D11();
             virtual ~BlendStateD3D11();
-            virtual void free() override;
 
             ID3D11BlendState* getBlendState() const { return blendState; }
 
