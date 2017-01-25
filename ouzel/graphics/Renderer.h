@@ -234,6 +234,7 @@ namespace ouzel
 
             std::vector<std::unique_ptr<Resource>> resources;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+            std::set<Resource*> resourceUploadSet;
             std::mutex resourceMutex;
 
             std::atomic<float> currentFPS;
@@ -253,9 +254,6 @@ namespace ouzel
             bool clearDepthBuffer = false;
 
             std::vector<DrawCommand> activeDrawQueue;
-
-            std::set<Resource*> uploadSet;
-            std::mutex uploadMutex;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;

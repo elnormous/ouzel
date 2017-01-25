@@ -116,10 +116,11 @@ namespace ouzel
             }
 
             std::set<Resource*> uploadResources;
+            std::vector<std::unique_ptr<Resource>> deleteResources;
             {
-                std::lock_guard<std::mutex> lock(uploadMutex);
-                uploadResources = std::move(uploadSet);
-                uploadSet.clear();
+                std::lock_guard<std::mutex> lock(resourceMutex);
+                uploadResources = std::move(resourceUploadSet);
+                deleteResources = std::move(resourceDeleteSet);
             }
 
             // refills draw and upload queues
@@ -141,7 +142,7 @@ namespace ouzel
                 return false;
             }
 
-            resourceDeleteSet.clear(); // delete all resources in delete set
+            deleteResources.clear(); // delete all resources in delete set
 
             if (!generateScreenshots())
             {
@@ -194,9 +195,9 @@ namespace ouzel
 
         void Renderer::uploadResource(Resource* resource)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
+            std::lock_guard<std::mutex> lock(resourceMutex);
 
-            uploadSet.insert(resource);
+            resourceUploadSet.insert(resource);
         }
 
         void Renderer::deleteResource(Resource* resource)
