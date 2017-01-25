@@ -21,6 +21,16 @@ namespace ouzel
     {
     }
 
+    void Cache::clear()
+    {
+        textures.clear();
+        shaders.clear();
+        particleDefinitions.clear();
+        blendStates.clear();
+        spriteFrames.clear();
+        bmFonts.clear();
+    }
+
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::unordered_map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);

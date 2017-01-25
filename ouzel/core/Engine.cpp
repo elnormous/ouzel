@@ -98,6 +98,8 @@ namespace ouzel
         if (updateThread.joinable()) updateThread.join();
 #endif
 
+        cache.clear();
+
         sharedEngine = nullptr;
     }
 
