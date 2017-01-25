@@ -39,7 +39,6 @@ namespace ouzel
         public:
             ShaderOGL();
             virtual ~ShaderOGL();
-            virtual void free() override;
 
             struct Location
             {

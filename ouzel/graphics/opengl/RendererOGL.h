@@ -81,14 +81,15 @@ namespace ouzel
             virtual ~RendererOGL();
 
             virtual bool present() override;
+            virtual bool draw() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStateResourcePtr createBlendState() override;
-            virtual TextureResourcePtr createTexture() override;
-            virtual ShaderResourcePtr createShader() override;
-            virtual MeshBufferResourcePtr createMeshBuffer() override;
-            virtual BufferResourcePtr createBuffer() override;
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             static inline bool checkOpenGLError(bool logError = true)
             {
@@ -402,6 +403,66 @@ namespace ouzel
                 return true;
             }
 
+            static void deleteBuffer(GLuint bufferId)
+            {
+                GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
+                if (elementArrayBufferId == bufferId) elementArrayBufferId = 0;
+                GLuint& arrayBufferId = stateCache.bufferId[GL_ARRAY_BUFFER];
+                if (arrayBufferId == bufferId) arrayBufferId = 0;
+                glDeleteBuffers(1, &bufferId);
+            }
+
+            static void deleteVertexArray(GLuint vertexArrayId)
+            {
+#if OUZEL_PLATFORM_ANDROID
+                bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
+#else
+                if (stateCache.vertexArrayId == vertexArrayId) stateCache.vertexArrayId = 0;
+#endif
+
+#if OUZEL_OPENGL_INTERFACE_EAGL
+                glDeleteVertexArraysOES(1, &vertexArrayId);
+#elif OUZEL_OPENGL_INTERFACE_EGL
+                if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
+#else
+                glDeleteVertexArrays(1, &vertexArrayId);
+#endif
+            }
+
+            static void deleteRenderBuffer(GLuint renderBufferId)
+            {
+                glDeleteRenderbuffers(1, &renderBufferId);
+            }
+
+            static void deleteFrameBuffer(GLuint frameBufferId)
+            {
+                if (stateCache.frameBufferId == frameBufferId) stateCache.frameBufferId = 0;
+                glDeleteFramebuffers(1, &frameBufferId);
+            }
+
+            static void deleteProgram(GLuint programId)
+            {
+                if (stateCache.programId == programId) stateCache.programId = 0;
+                glDeleteProgram(programId);
+            }
+
+            static void deleteShader(GLuint shaderId)
+            {
+                glDeleteShader(shaderId);
+            }
+
+            static void deleteTexture(GLuint textureId)
+            {
+                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                {
+                    if (stateCache.textureId[layer] == textureId)
+                    {
+                        stateCache.textureId[layer] = 0;
+                    }
+                }
+                glDeleteTextures(1, &textureId);
+            }
+
 #ifdef OUZEL_SUPPORTS_OPENGL
             static inline bool setPolygonFillMode(GLenum polygonFillMode)
             {
@@ -422,18 +483,6 @@ namespace ouzel
             }
 #endif
 
-            enum class ResourceType
-            {
-                Buffer,
-                VertexArray,
-                RenderBuffer,
-                FrameBuffer,
-                Program,
-                Shader,
-                Texture
-            };
-            static void deleteResource(GLuint resource, ResourceType resourceType);
-
         protected:
             RendererOGL();
 
@@ -451,8 +500,6 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual bool createFrameBuffer();
-
-            static void deleteResources();
 
             GLuint systemFrameBufferId = 0;
 
@@ -502,9 +549,6 @@ namespace ouzel
             };
 
             static StateCache stateCache;
-
-            static std::queue<std::pair<GLuint, ResourceType>> deleteQueue;
-            static std::mutex deleteMutex;
         };
     } // namespace graphics
 } // namespace ouzel

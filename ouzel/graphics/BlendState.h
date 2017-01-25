@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <memory>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -42,9 +41,34 @@ namespace ouzel
             };
             
             BlendState();
+            virtual ~BlendState();
+
+            bool init(bool newEnableBlending,
+                      BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                      BlendState::BlendOperation newColorOperation,
+                      BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                      BlendState::BlendOperation newAlphaOperation);
+
+            BlendStateResource* getResource() const { return resource; }
+
+            bool isBlendingEnabled() const { return enableBlending; }
+            BlendState::BlendFactor getColorBlendSource() const { return colorBlendSource; }
+            BlendState::BlendFactor getColorBlendDest() const { return colorBlendDest; }
+            BlendState::BlendOperation getColorOperation() const { return colorOperation; }
+            BlendState::BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
+            BlendState::BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
+            BlendState::BlendOperation getAlphaOperation() const { return alphaOperation; }
 
         private:
-            std::unique_ptr<BlendStateResource> resource;
+            BlendStateResource* resource = nullptr;
+
+            BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
+            BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            bool enableBlending = false;
         };
     } // namespace graphics
 } // namespace ouzel

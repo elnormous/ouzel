@@ -21,70 +21,51 @@ namespace ouzel
         {
         }
 
-        void TextureResource::free()
-        {
-            levels.clear();
-            currentData.levels.clear();
-        }
-
         bool TextureResource::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
         {
-            free();
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = newRenderTarget;
-            sampleCount = newSampleCount;
-            depth = newDepth;
+            pendingData.dynamic = newDynamic;
+            pendingData.mipmaps = newMipmaps;
+            pendingData.renderTarget = newRenderTarget;
+            pendingData.sampleCount = newSampleCount;
+            pendingData.depth = newDepth;
 
             if (!calculateSizes(newSize))
             {
                 return false;
             }
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return true;
         }
 
-        bool TextureResource::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
-        {
-            free();
-
-            filename = newFilename;
-
-            Image image;
-            if (!image.initFromFile(filename))
-            {
-                return false;
-            }
-
-            return initFromBuffer(image.getData(), image.getSize(), newDynamic, newMipmaps);
-        }
-
         bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
-            free();
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = false;
-            sampleCount = 1;
-            depth = false;
+            pendingData.dynamic = newDynamic;
+            pendingData.mipmaps = newMipmaps;
+            pendingData.renderTarget = false;
+            pendingData.sampleCount = 1;
+            pendingData.depth = false;
 
             if (!calculateData(newData, newSize))
             {
                 return false;
             }
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return true;
         }
 
         bool TextureResource::setSize(const Size2& newSize)
         {
-            if (!dynamic)
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (!pendingData.dynamic)
             {
                 return false;
             }
@@ -99,14 +80,16 @@ namespace ouzel
                 return false;
             }
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return true;
         }
 
         bool TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!dynamic)
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (!pendingData.dynamic)
             {
                 return false;
             }
@@ -121,25 +104,25 @@ namespace ouzel
                 return false;
             }
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return true;
         }
 
         bool TextureResource::calculateSizes(const Size2& newSize)
         {
-            levels.clear();
-            size = newSize;
+            pendingData.levels.clear();
+            pendingData.size = newSize;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
             uint32_t pitch = newWidth * 4;
-            levels.push_back({newSize, pitch, std::vector<uint8_t>()});
+            pendingData.levels.push_back({newSize, pitch, std::vector<uint8_t>()});
 
-            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+            pendingData.mipMapsGenerated = pendingData.mipmaps && !pendingData.renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
 
-            if (mipMapsGenerated)
+            if (pendingData.mipMapsGenerated)
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
@@ -160,7 +143,7 @@ namespace ouzel
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * 4;
 
-                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                    data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                 }
 
                 if (newWidth > newHeight)
@@ -172,7 +155,7 @@ namespace ouzel
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         pitch = newWidth * 4;
 
-                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                        data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
                 }
                 else
@@ -182,7 +165,7 @@ namespace ouzel
                         newHeight >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                        data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
                 }
             }
@@ -270,18 +253,18 @@ namespace ouzel
 
         bool TextureResource::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            levels.clear();
-            size = newSize;
+            pendingData.levels.clear();
+            pendingData.size = newSize;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
             uint32_t pitch = newWidth * 4;
-            levels.push_back({newSize, pitch, newData});
+            pendingData.levels.push_back({newSize, pitch, newData});
 
-            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+            pendingData.mipMapsGenerated = pendingData.mipmaps && !pendingData.renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
 
-            if (mipMapsGenerated)
+            if (pendingData.mipMapsGenerated)
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
@@ -309,7 +292,7 @@ namespace ouzel
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * 4;
 
-                    levels.push_back({mipMapSize, pitch, mipMapData});
+                    pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
                 }
 
                 if (newWidth > newHeight)
@@ -327,7 +310,7 @@ namespace ouzel
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         pitch = newWidth * 4;
 
-                        levels.push_back({mipMapSize, pitch, mipMapData});
+                        pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
                     }
                 }
                 else
@@ -346,7 +329,7 @@ namespace ouzel
                         newHeight >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({mipMapSize, pitch, mipMapData});
+                        pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
                     }
                 }
             }
@@ -356,51 +339,49 @@ namespace ouzel
 
         void TextureResource::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            update();
+            pendingData.clearColorBuffer = clear;
+            pendingData.dirty |= 0x01;
         }
 
         void TextureResource::setClearDepthBuffer(bool clear)
         {
-            clearColorBuffer = clear;
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            update();
+            pendingData.clearColorBuffer = clear;
+            pendingData.dirty |= 0x01;
         }
 
         void TextureResource::setClearColor(Color color)
         {
-            clearColor = color;
-
-            update();
-        }
-
-        void TextureResource::update()
-        {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            currentData.size = size;
-            currentData.dynamic = dynamic;
-            currentData.mipmaps = mipMapsGenerated;
-
-            currentData.renderTarget = renderTarget;
-            currentData.levels = std::move(levels);
-
-            currentData.clearColorBuffer = clearColorBuffer;
-            currentData.clearDepthBuffer = clearDepthBuffer;
-            currentData.sampleCount = sampleCount;
-            currentData.depth = depth;
-            currentData.clearColor = clearColor;
-
-            dirty = true;
+            pendingData.clearColor = color;
+            pendingData.dirty |= 0x01;
         }
 
         bool TextureResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dirty = false;
-            uploadData = std::move(currentData);
+            data.dirty |= pendingData.dirty;
+            pendingData.dirty = 0;
+
+            if (data.dirty)
+            {
+                data.size = pendingData.size;
+                data.dynamic = pendingData.dynamic;
+                data.mipmaps = pendingData.mipmaps;
+                data.mipMapsGenerated = pendingData.mipMapsGenerated;
+                data.renderTarget = pendingData.renderTarget;
+                data.clearColorBuffer = pendingData.clearColorBuffer;
+                data.clearDepthBuffer = pendingData.clearDepthBuffer;
+                data.levels = std::move(pendingData.levels);
+                data.sampleCount = pendingData.sampleCount;
+                data.depth = pendingData.depth;
+                data.clearColor = pendingData.clearColor;
+            }
 
             return true;
         }

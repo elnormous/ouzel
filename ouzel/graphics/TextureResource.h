@@ -24,39 +24,28 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~TextureResource();
-            virtual void free() override;
 
             virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, bool newDepth = false);
-            virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
-
-            const std::string& getFilename() const { return filename; }
 
             virtual bool setSize(const Size2& newSize);
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            const Size2& getSize() const { return size; }
-
-            bool isDynamic() const { return dynamic; }
-
-            uint32_t getSampleCount() const { return sampleCount; }
-            uint32_t getDepth() const { return depth; }
-
+            bool getClearColorBuffer() const { return data.clearColorBuffer; }
             virtual void setClearColorBuffer(bool clear);
-            virtual bool getClearColorBuffer() const { return clearColorBuffer; }
 
+            bool getClearDepthBuffer() const { return data.clearDepthBuffer; }
             virtual void setClearDepthBuffer(bool clear);
-            virtual bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             virtual void setClearColor(Color color);
-            virtual Color getClearColor() const { return clearColor; }
+
+            uint32_t getSampleCount() const { return data.sampleCount; }
 
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
 
         protected:
             TextureResource();
-            virtual void update() override;
             virtual bool upload() override;
 
             bool calculateSizes(const Size2& newSize);
@@ -71,9 +60,11 @@ namespace ouzel
 
             struct Data
             {
+                uint32_t dirty = 0;
                 Size2 size;
                 bool dynamic = false;
                 bool mipmaps = false;
+                bool mipMapsGenerated = false;
                 bool renderTarget = false;
                 bool clearColorBuffer = true;
                 bool clearDepthBuffer = false;
@@ -83,27 +74,13 @@ namespace ouzel
                 Color clearColor;
             };
 
-            Data uploadData;
+            Data data;
             std::mutex uploadMutex;
 
             uint32_t frameBufferClearedFrame = 0;
 
         private:
-            std::string filename;
-            std::vector<Level> levels;
-
-            Size2 size;
-            bool dynamic = false;
-            bool mipmaps = false;
-            bool renderTarget = false;
-            bool mipMapsGenerated = false;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            uint32_t sampleCount = 1;
-            bool depth = false;
-            Color clearColor;
-
-            Data currentData;
+            Data pendingData;
         };
     } // namespace graphics
 } // namespace ouzel

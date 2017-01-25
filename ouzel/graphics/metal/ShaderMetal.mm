@@ -37,32 +37,6 @@ namespace ouzel
             }
         }
 
-        void ShaderMetal::free()
-        {
-            ShaderResource::free();
-
-            pixelShaderConstantLocations.clear();
-            vertexShaderConstantLocations.clear();
-
-            if (vertexShader)
-            {
-                [vertexShader release];
-                vertexShader = Nil;
-            }
-
-            if (pixelShader)
-            {
-                [pixelShader release];
-                pixelShader = Nil;
-            }
-
-            if (vertexDescriptor)
-            {
-                [vertexDescriptor release];
-                vertexDescriptor = Nil;
-            }
-        }
-
         void ShaderMetal::nextBuffers()
         {
             if (pixelShaderAlignment)
@@ -102,165 +76,170 @@ namespace ouzel
                 return false;
             }
 
-            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-            pixelShaderAlignment = uploadData.pixelShaderAlignment;
-            vertexShaderAlignment = uploadData.vertexShaderAlignment;
-
-            uint32_t index = 0;
-            NSUInteger offset = 0;
-
-            vertexDescriptor = [MTLVertexDescriptor new];
-
-            if (uploadData.vertexAttributes & VERTEX_POSITION)
+            if (data.dirty)
             {
-                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
-                offset += 3 * sizeof(float);
-            }
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-            if (uploadData.vertexAttributes & VERTEX_COLOR)
-            {
-                vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
-                offset += 4 * sizeof(uint8_t);
-            }
+                pixelShaderAlignment = data.pixelShaderAlignment;
+                vertexShaderAlignment = data.vertexShaderAlignment;
 
-            if (uploadData.vertexAttributes & VERTEX_NORMAL)
-            {
-                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
-                offset += 3 * sizeof(float);
-            }
+                uint32_t index = 0;
+                NSUInteger offset = 0;
 
-            if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
-                offset += 2 * sizeof(float);
-            }
+                vertexDescriptor = [MTLVertexDescriptor new];
 
-            if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
-                offset += 2 * sizeof(float);
-            }
-
-            vertexDescriptor.layouts[0].stride = offset;
-            vertexDescriptor.layouts[0].stepRate = 1;
-            vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
-
-            NSError* err = Nil;
-
-            if (!pixelShader)
-            {
-                dispatch_data_t pixelShaderDispatchData = dispatch_data_create(uploadData.pixelShaderData.data(), uploadData.pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
-                dispatch_release(pixelShaderDispatchData);
-
-                if (err != Nil)
+                if (data.vertexAttributes & VERTEX_POSITION)
                 {
-                    if (pixelShaderLibrary) [pixelShaderLibrary release];
-                    Log(Log::Level::ERR) << "Failed to load pixel shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
-                    return false;
+                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
+                    offset += 3 * sizeof(float);
                 }
 
-                pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:uploadData.pixelShaderFunction.c_str()])];
+                if (data.vertexAttributes & VERTEX_COLOR)
+                {
+                    vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
+                    offset += 4 * sizeof(uint8_t);
+                }
 
-                [pixelShaderLibrary release];
+                if (data.vertexAttributes & VERTEX_NORMAL)
+                {
+                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
+                    offset += 3 * sizeof(float);
+                }
+
+                if (data.vertexAttributes & VERTEX_TEXCOORD0)
+                {
+                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
+                    offset += 2 * sizeof(float);
+                }
+
+                if (data.vertexAttributes & VERTEX_TEXCOORD1)
+                {
+                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
+                    offset += 2 * sizeof(float);
+                }
+
+                vertexDescriptor.layouts[0].stride = offset;
+                vertexDescriptor.layouts[0].stepRate = 1;
+                vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
+
+                NSError* err = Nil;
 
                 if (!pixelShader)
                 {
-                    Log(Log::Level::ERR) << "Failed to get function from shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
-                    return false;
+                    dispatch_data_t pixelShaderDispatchData = dispatch_data_create(data.pixelShaderData.data(), data.pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
+                    dispatch_release(pixelShaderDispatchData);
+
+                    if (!pixelShaderLibrary || err != Nil)
+                    {
+                        if (pixelShaderLibrary) [pixelShaderLibrary release];
+                        Log(Log::Level::ERR) << "Failed to load pixel shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                        return false;
+                    }
+
+                    pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:data.pixelShaderFunction.c_str()])];
+
+                    [pixelShaderLibrary release];
+
+                    if (!pixelShader || err != Nil)
+                    {
+                        Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                        return false;
+                    }
                 }
-            }
 
-            if (!uploadData.pixelShaderConstantInfo.empty())
-            {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-                pixelShaderConstantSize = 0;
-
-                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
+                if (!data.pixelShaderConstantInfo.empty())
                 {
-                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
-                    pixelShaderConstantSize += info.size;
+                    pixelShaderConstantLocations.clear();
+                    pixelShaderConstantLocations.reserve(data.pixelShaderConstantInfo.size());
+
+                    pixelShaderConstantSize = 0;
+
+                    for (const Shader::ConstantInfo& info : data.pixelShaderConstantInfo)
+                    {
+                        pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
+                        pixelShaderConstantSize += info.size;
+                    }
                 }
-            }
 
-            if (!pixelShaderConstantBuffer)
-            {
-                pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                    options:MTLResourceCPUCacheModeWriteCombined];
-
-                if (pixelShaderConstantBuffer == Nil)
+                if (!pixelShaderConstantBuffer)
                 {
-                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                    return false;
+                    pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
+                                                                                        options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!pixelShaderConstantBuffer)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                        return false;
+                    }
                 }
-            }
-
-            if (!vertexShader)
-            {
-                dispatch_data_t vertexShaderDispatchData = dispatch_data_create(uploadData.vertexShaderData.data(), uploadData.vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
-                dispatch_release(vertexShaderDispatchData);
-
-                if (err != Nil)
-                {
-                    if (vertexShaderLibrary) [vertexShaderLibrary release];
-                    Log(Log::Level::ERR) << "Failed to load vertex shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
-                    return false;
-                }
-
-                vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:uploadData.vertexShaderFunction.c_str()])];
-
-                [vertexShaderLibrary release];
 
                 if (!vertexShader)
                 {
-                    Log(Log::Level::ERR) << "Failed to get function from shader, " << [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding];
-                    return false;
+                    dispatch_data_t vertexShaderDispatchData = dispatch_data_create(data.vertexShaderData.data(), data.vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                    id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+                    dispatch_release(vertexShaderDispatchData);
+
+                    if (!vertexShaderLibrary || err != Nil)
+                    {
+                        if (vertexShaderLibrary) [vertexShaderLibrary release];
+                        Log(Log::Level::ERR) << "Failed to load vertex shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                        return false;
+                    }
+
+                    vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:data.vertexShaderFunction.c_str()])];
+
+                    [vertexShaderLibrary release];
+
+                    if (!vertexShader || err != Nil)
+                    {
+                        Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ?[err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                        return false;
+                    }
                 }
-            }
 
-            if (!uploadData.vertexShaderConstantInfo.empty())
-            {
-                vertexShaderConstantLocations.clear();
-                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
-
-                vertexShaderConstantSize = 0;
-
-                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
+                if (!data.vertexShaderConstantInfo.empty())
                 {
-                    vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
-                    vertexShaderConstantSize += info.size;
+                    vertexShaderConstantLocations.clear();
+                    vertexShaderConstantLocations.reserve(data.vertexShaderConstantInfo.size());
+
+                    vertexShaderConstantSize = 0;
+
+                    for (const Shader::ConstantInfo& info : data.vertexShaderConstantInfo)
+                    {
+                        vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
+                        vertexShaderConstantSize += info.size;
+                    }
                 }
-            }
 
-            if (!vertexShaderConstantBuffer)
-            {
-                vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                     options:MTLResourceCPUCacheModeWriteCombined];
-
-                if (vertexShaderConstantBuffer == Nil)
+                if (!vertexShaderConstantBuffer)
                 {
-                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                    return false;
+                    vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
+                                                                                         options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!vertexShaderConstantBuffer)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                        return false;
+                    }
                 }
+
+                data.dirty = 0;
             }
 
             return true;

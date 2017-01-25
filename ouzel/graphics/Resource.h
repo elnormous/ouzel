@@ -15,15 +15,11 @@ namespace ouzel
         {
             friend Renderer;
         public:
-            Resource(): dirty(false) {}
-
-            virtual void free() = 0;
+            Resource() {}
+            virtual ~Resource() {}
 
         protected:
-            virtual void update() = 0;
             virtual bool upload() = 0;
-
-            std::atomic<bool> dirty;
         };
     } // graphics
 } // ouzel

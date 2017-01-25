@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <memory>
+#include <cstdint>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -23,9 +23,24 @@ namespace ouzel
             };
 
             Buffer();
+            virtual ~Buffer();
+
+            bool init(Buffer::Usage newUsage, bool newDynamic = true);
+            bool initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
+
+            BufferResource* getResource() const { return resource; }
+
+            Buffer::Usage getUsage() const { return usage; }
+            uint32_t getSize() const { return size; }
+
+            bool setData(const void* newData, uint32_t newSize);
 
         private:
-            std::unique_ptr<BufferResource> resource;
+            BufferResource* resource;
+
+            Buffer::Usage usage;
+            bool dynamic = true;
+            uint32_t size = 0;
         };
     } // namespace graphics
 } // namespace ouzel

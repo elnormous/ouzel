@@ -22,7 +22,6 @@ namespace ouzel
         public:
             BufferMetal();
             virtual ~BufferMetal();
-            virtual void free() override;
 
             MTLBufferPtr getBuffer() const { return buffer; }
 

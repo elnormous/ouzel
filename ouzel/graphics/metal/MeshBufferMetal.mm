@@ -26,20 +26,25 @@ namespace ouzel
                 return false;
             }
 
-            switch (uploadData.indexSize)
+            if (data.dirty)
             {
-                case 2:
-                    indexType = MTLIndexTypeUInt16;
-                    bytesPerIndex = 2;
-                    break;
-                case 4:
-                    indexType = MTLIndexTypeUInt32;
-                    bytesPerIndex = 4;
-                    break;
-                default:
-                    bytesPerIndex = 0;
-                    Log(Log::Level::ERR) << "Invalid index size";
-                    return false;
+                switch (data.indexSize)
+                {
+                    case 2:
+                        indexType = MTLIndexTypeUInt16;
+                        bytesPerIndex = 2;
+                        break;
+                    case 4:
+                        indexType = MTLIndexTypeUInt32;
+                        bytesPerIndex = 4;
+                        break;
+                    default:
+                        bytesPerIndex = 0;
+                        Log(Log::Level::ERR) << "Invalid index size";
+                        return false;
+                }
+
+                data.dirty = 0;
             }
 
             return true;

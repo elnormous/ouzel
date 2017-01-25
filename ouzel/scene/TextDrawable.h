@@ -8,6 +8,11 @@
 #include "utils/Types.h"
 #include "math/Color.h"
 #include "gui/BMFont.h"
+#include "graphics/BlendState.h"
+#include "graphics/Buffer.h"
+#include "graphics/MeshBuffer.h"
+#include "graphics/Shader.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -40,24 +45,24 @@ namespace ouzel
             virtual const Color& getColor() const { return color; }
             virtual void setColor(const Color& newColor);
 
-            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
+            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
+            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
+            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
         protected:
             void updateText();
 
-            graphics::ShaderResourcePtr shader;
-            graphics::BlendStateResourcePtr blendState;
+            std::shared_ptr<graphics::Shader> shader;
+            std::shared_ptr<graphics::BlendState> blendState;
 
-            graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::BufferResourcePtr indexBuffer;
-            graphics::BufferResourcePtr vertexBuffer;
+            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
 
-            graphics::TextureResourcePtr texture;
-            graphics::TextureResourcePtr whitePixelTexture;
+            std::shared_ptr<graphics::Texture> texture;
+            std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             BMFont font;
             std::string text;

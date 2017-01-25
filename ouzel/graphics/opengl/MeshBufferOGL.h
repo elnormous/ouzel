@@ -40,7 +40,6 @@ namespace ouzel
         public:
             MeshBufferOGL();
             virtual ~MeshBufferOGL();
-            virtual void free() override;
 
             bool bindBuffers();
 

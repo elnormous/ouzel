@@ -22,24 +22,6 @@ namespace ouzel
         typedef std::shared_ptr<SoundData> SoundDataPtr;
     }
 
-    namespace graphics
-    {
-        class BlendStateResource;
-        typedef std::shared_ptr<BlendStateResource> BlendStateResourcePtr;
-
-        class BufferResource;
-        typedef std::shared_ptr<BufferResource> BufferResourcePtr;
-
-        class MeshBufferResource;
-        typedef std::shared_ptr<MeshBufferResource> MeshBufferResourcePtr;
-
-        class ShaderResource;
-        typedef std::shared_ptr<ShaderResource> ShaderResourcePtr;
-
-        class TextureResource;
-        typedef std::shared_ptr<TextureResource> TextureResourcePtr;
-    }
-
     namespace scene
     {
         class SceneManager;

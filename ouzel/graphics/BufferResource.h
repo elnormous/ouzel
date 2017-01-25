@@ -20,39 +20,37 @@ namespace ouzel
             friend Renderer;
         public:
             virtual ~BufferResource();
-            virtual void free() override;
 
-            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true);
-            virtual bool initFromBuffer(Buffer::Usage newUsage, const void* newIndices, uint32_t newSize, bool newDynamic);
+            bool init(Buffer::Usage newUsage, bool newDynamic = true);
+            bool initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
 
-            Buffer::Usage getUsage() const { return usage; }
-            uint32_t getSize() const { return size; }
+            bool setData(const void* newData, uint32_t newSize);
 
-            virtual bool setData(const void* newIndices, uint32_t newSize);
+            Buffer::Usage getUsage() const { return data.usage; }
 
         protected:
             BufferResource();
-            virtual void update() override;
             virtual bool upload() override;
+
+            enum Dirty
+            {
+                ATTRIBUTES = 0x01,
+                DATA = 0x02
+            };
 
             struct Data
             {
+                uint32_t dirty = 0;
                 std::vector<uint8_t> data;
                 Buffer::Usage usage;
                 bool dynamic = true;
             };
 
-            Data uploadData;
+            Data data;
             std::mutex uploadMutex;
 
         private:
-            uint32_t size = 0;
-            std::vector<uint8_t> data;
-
-            Buffer::Usage usage;
-            bool dynamic = true;
-
-            Data currentData;
+            Data pendingData;
         };
     } // namespace graphics
 } // namespace ouzel

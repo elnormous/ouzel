@@ -8,6 +8,9 @@
 #include "math/Size2.h"
 #include "scene/SpriteFrame.h"
 #include "core/UpdateCallback.h"
+#include "graphics/BlendState.h"
+#include "graphics/Shader.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -35,11 +38,11 @@ namespace ouzel
                                        const Color& drawColor,
                                        scene::Camera* camera) override;
 
-            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
+            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
+            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
+            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
             virtual const Size2& getSize() const { return size; }
 
@@ -57,9 +60,9 @@ namespace ouzel
         protected:
             void updateBoundingBox();
 
-            graphics::ShaderResourcePtr shader;
-            graphics::BlendStateResourcePtr blendState;
-            graphics::TextureResourcePtr whitePixelTexture;
+            std::shared_ptr<graphics::Shader> shader;
+            std::shared_ptr<graphics::BlendState> blendState;
+            std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             Size2 size;
             Vector2 offset;

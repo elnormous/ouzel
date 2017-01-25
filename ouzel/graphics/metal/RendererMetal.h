@@ -53,15 +53,15 @@ namespace ouzel
 
             virtual ~RendererMetal();
 
-            virtual bool present() override;
+            virtual bool draw() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStateResourcePtr createBlendState() override;
-            virtual TextureResourcePtr createTexture() override;
-            virtual ShaderResourcePtr createShader() override;
-            virtual MeshBufferResourcePtr createMeshBuffer() override;
-            virtual BufferResourcePtr createBuffer() override;
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             MTLDevicePtr getDevice() const { return device; }
             MTKViewPtr getMetalView() const { return view; }
@@ -81,8 +81,8 @@ namespace ouzel
 
             struct PipelineStateDesc
             {
-                std::shared_ptr<BlendStateMetal> blendState;
-                std::shared_ptr<ShaderMetal> shader;
+                BlendStateMetal* blendState;
+                ShaderMetal* shader;
                 NSUInteger sampleCount;
                 NSUInteger colorFormat;
                 NSUInteger depthFormat;

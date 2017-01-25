@@ -42,7 +42,6 @@ namespace ouzel
         public:
             BufferOGL();
             virtual ~BufferOGL();
-            virtual void free() override;
 
             GLuint getBufferId() const { return bufferId; }
             GLuint getBufferType() const { return bufferType; }

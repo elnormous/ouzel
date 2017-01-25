@@ -232,7 +232,7 @@ namespace ouzel
             recalculateProjection();
         }
 
-        void Camera::setRenderTarget(const graphics::TextureResourcePtr& newRenderTarget)
+        void Camera::setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget)
         {
             renderTarget = newRenderTarget;
 

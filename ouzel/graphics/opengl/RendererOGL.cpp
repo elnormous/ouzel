@@ -88,6 +88,8 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
+            resources.clear();
+            
             if (colorRenderBufferId)
             {
                 glDeleteRenderbuffers(1, &colorRenderBufferId);
@@ -231,7 +233,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderResourcePtr textureShader = createShader();
+            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 
             switch (apiMajorVersion)
             {
@@ -272,7 +274,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderResourcePtr colorShader = createShader();
+            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
 
             switch (apiMajorVersion)
             {
@@ -313,7 +315,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStateResourcePtr noBlendState = createBlendState();
+            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -323,7 +325,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStateResourcePtr addBlendState = createBlendState();
+            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -333,7 +335,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStateResourcePtr multiplyBlendState = createBlendState();
+            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -343,7 +345,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStateResourcePtr alphaBlendState = createBlendState();
+            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -353,7 +355,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TextureResourcePtr whitePixelTexture = createTexture();
+            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
@@ -405,18 +407,16 @@ namespace ouzel
 
         bool RendererOGL::present()
         {
-            if (!Renderer::present())
-            {
-                return false;
-            }
-
             if (!lockContext())
             {
                 return false;
             }
 
-            deleteResources();
+            return Renderer::present();
+        }
 
+        bool RendererOGL::draw()
+        {
             if (drawQueue.empty())
             {
                 frameBufferClearedFrame = currentFrame;
@@ -466,7 +466,7 @@ namespace ouzel
 #endif
 
                 // blend state
-                std::shared_ptr<BlendStateOGL> blendStateOGL = std::static_pointer_cast<BlendStateOGL>(drawCommand.blendState);
+                BlendStateOGL* blendStateOGL = static_cast<BlendStateOGL*>(drawCommand.blendState);
 
                 if (!blendStateOGL)
                 {
@@ -485,24 +485,21 @@ namespace ouzel
                     return false;
                 }
 
-                bool texturesValid = true;
-
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    std::shared_ptr<TextureOGL> textureOGL;
+                    TextureOGL* textureOGL = nullptr;
 
                     if (drawCommand.textures.size() > layer)
                     {
-                        textureOGL = std::static_pointer_cast<TextureOGL>(drawCommand.textures[layer]);
+                        textureOGL = static_cast<TextureOGL*>(drawCommand.textures[layer]);
                     }
 
                     if (textureOGL)
                     {
                         if (!textureOGL->getTextureId())
                         {
-                            texturesValid = false;
-                            break;
+                            return false;
                         }
 
                         if (!bindTexture(textureOGL->getTextureId(), layer))
@@ -519,13 +516,8 @@ namespace ouzel
                     }
                 }
 
-                if (!texturesValid)
-                {
-                    continue;
-                }
-
                 // shader
-                std::shared_ptr<ShaderOGL> shaderOGL = std::static_pointer_cast<ShaderOGL>(drawCommand.shader);
+                ShaderOGL* shaderOGL = static_cast<ShaderOGL*>(drawCommand.shader);
 
                 if (!shaderOGL || !shaderOGL->getProgramId())
                 {
@@ -622,7 +614,7 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    std::shared_ptr<TextureOGL> renderTargetOGL = std::static_pointer_cast<TextureOGL>(drawCommand.renderTarget);
+                    TextureOGL* renderTargetOGL = static_cast<TextureOGL*>(drawCommand.renderTarget);
 
                     if (!renderTargetOGL->getFrameBufferId())
                     {
@@ -696,7 +688,7 @@ namespace ouzel
                                static_cast<GLsizei>(drawCommand.scissorTest.size.v[1]));
 
                 // mesh buffer
-                std::shared_ptr<MeshBufferOGL> meshBufferOGL = std::static_pointer_cast<MeshBufferOGL>(drawCommand.meshBuffer);
+                MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(drawCommand.meshBuffer);
 
                 if (!meshBufferOGL)
                 {
@@ -704,8 +696,8 @@ namespace ouzel
                     continue;
                 }
 
-                std::shared_ptr<BufferOGL> indexBufferOGL = std::static_pointer_cast<BufferOGL>(meshBufferOGL->getIndexBuffer());
-                std::shared_ptr<BufferOGL> vertexBufferOGL = std::static_pointer_cast<BufferOGL>(meshBufferOGL->getVertexBuffer());
+                BufferOGL* indexBufferOGL = static_cast<BufferOGL*>(meshBufferOGL->getIndexBuffer());
+                BufferOGL* vertexBufferOGL = static_cast<BufferOGL*>(meshBufferOGL->getVertexBuffer());
 
                 if (!indexBufferOGL || !indexBufferOGL->getBufferId() ||
                     !vertexBufferOGL || !vertexBufferOGL->getBufferId())
@@ -792,33 +784,43 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        BlendStateResourcePtr RendererOGL::createBlendState()
+        BlendStateResource* RendererOGL::createBlendState()
         {
-            std::shared_ptr<BlendStateOGL> blendState = std::make_shared<BlendStateOGL>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BlendStateResource* blendState = new BlendStateOGL();
             return blendState;
         }
 
-        TextureResourcePtr RendererOGL::createTexture()
+        TextureResource* RendererOGL::createTexture()
         {
-            std::shared_ptr<TextureOGL> texture = std::make_shared<TextureOGL>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            TextureResource* texture = new TextureOGL();
             return texture;
         }
 
-        ShaderResourcePtr RendererOGL::createShader()
+        ShaderResource* RendererOGL::createShader()
         {
-            std::shared_ptr<ShaderOGL> shader(new ShaderOGL());
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            ShaderResource* shader = new ShaderOGL();
             return shader;
         }
 
-        MeshBufferResourcePtr RendererOGL::createMeshBuffer()
+        MeshBufferResource* RendererOGL::createMeshBuffer()
         {
-            std::shared_ptr<MeshBufferOGL> meshBuffer = std::make_shared<MeshBufferOGL>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            MeshBufferResource* meshBuffer = new MeshBufferOGL();
             return meshBuffer;
         }
 
-        BufferResourcePtr RendererOGL::createBuffer()
+        BufferResource* RendererOGL::createBuffer()
         {
-            std::shared_ptr<BufferOGL> buffer = std::make_shared<BufferOGL>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BufferResource* buffer = new BufferOGL();
             return buffer;
         }
 
@@ -972,88 +974,5 @@ namespace ouzel
         }
 
         RendererOGL::StateCache RendererOGL::stateCache;
-        std::queue<std::pair<GLuint, RendererOGL::ResourceType>> RendererOGL::deleteQueue;
-        std::mutex RendererOGL::deleteMutex;
-
-        void RendererOGL::deleteResource(GLuint resource, ResourceType resourceType)
-        {
-            if (sharedEngine->isActive())
-            {
-                std::lock_guard<std::mutex> lock(deleteMutex);
-
-                deleteQueue.push(std::make_pair(resource, resourceType));
-            }
-        }
-
-        void RendererOGL::deleteResources()
-        {
-            std::pair<GLuint, ResourceType> deleteResource;
-
-            for (;;)
-            {
-                {
-                    std::lock_guard<std::mutex> lock(deleteMutex);
-                    if (deleteQueue.empty())
-                    {
-                        break;
-                    }
-
-                    deleteResource = deleteQueue.front();
-                    deleteQueue.pop();
-                }
-
-                switch (deleteResource.second)
-                {
-                    case ResourceType::Buffer:
-                    {
-                        GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
-                        if (elementArrayBufferId == deleteResource.first) elementArrayBufferId = 0;
-                        GLuint& arrayBufferId = stateCache.bufferId[GL_ARRAY_BUFFER];
-                        if (arrayBufferId == deleteResource.first) arrayBufferId = 0;
-                        glDeleteBuffers(1, &deleteResource.first);
-                        break;
-                    }
-                    case ResourceType::VertexArray:
-#if OUZEL_PLATFORM_ANDROID
-                        bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
-#else
-                        if (stateCache.vertexArrayId == deleteResource.first) stateCache.vertexArrayId = 0;
-#endif
-
-#if OUZEL_OPENGL_INTERFACE_EAGL
-                        glDeleteVertexArraysOES(1, &deleteResource.first);
-#elif OUZEL_OPENGL_INTERFACE_EGL
-                        if (deleteVertexArraysOES) deleteVertexArraysOES(1, &deleteResource.first);
-#else
-                        glDeleteVertexArrays(1, &deleteResource.first);
-#endif
-                        break;
-                    case ResourceType::RenderBuffer:
-                        glDeleteRenderbuffers(1, &deleteResource.first);
-                        break;
-                    case ResourceType::FrameBuffer:
-                        if (stateCache.frameBufferId == deleteResource.first) stateCache.frameBufferId = 0;
-                        glDeleteFramebuffers(1, &deleteResource.first);
-                        break;
-                    case ResourceType::Program:
-                        if (stateCache.programId == deleteResource.first) stateCache.programId = 0;
-                        glDeleteProgram(deleteResource.first);
-                        break;
-                    case ResourceType::Shader:
-                        glDeleteShader(deleteResource.first);
-                        break;
-                    case ResourceType::Texture:
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            if (stateCache.textureId[layer] == deleteResource.first)
-                            {
-                                stateCache.textureId[layer] = 0;
-                            }
-                        }
-                        glDeleteTextures(1, &deleteResource.first);
-                        break;
-                }
-            }
-        }
     } // namespace graphics
 } // namespace ouzel

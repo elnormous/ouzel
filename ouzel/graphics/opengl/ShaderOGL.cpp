@@ -19,43 +19,17 @@ namespace ouzel
         {
             if (programId)
             {
-                RendererOGL::deleteResource(programId, RendererOGL::ResourceType::Program);
+                RendererOGL::deleteProgram(programId);
             }
 
             if (vertexShaderId)
             {
-                RendererOGL::deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
+                RendererOGL::deleteShader(vertexShaderId);
             }
 
             if (pixelShaderId)
             {
-                RendererOGL::deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
-            }
-        }
-
-        void ShaderOGL::free()
-        {
-            ShaderResource::free();
-
-            pixelShaderConstantLocations.clear();
-            vertexShaderConstantLocations.clear();
-
-            if (programId)
-            {
-                RendererOGL::deleteResource(programId, RendererOGL::ResourceType::Program);
-                programId = 0;
-            }
-
-            if (vertexShaderId)
-            {
-                RendererOGL::deleteResource(vertexShaderId, RendererOGL::ResourceType::Shader);
-                vertexShaderId = 0;
-            }
-
-            if (pixelShaderId)
-            {
-                RendererOGL::deleteResource(pixelShaderId, RendererOGL::ResourceType::Shader);
-                pixelShaderId = 0;
+                RendererOGL::deleteShader(pixelShaderId);
             }
         }
 
@@ -94,169 +68,174 @@ namespace ouzel
                 return false;
             }
 
-            if (!pixelShaderId)
+            if (data.dirty)
             {
-                pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-
-                const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(uploadData.pixelShaderData.data());
-                GLint pixelShaderSize = static_cast<GLint>(uploadData.pixelShaderData.size());
-
-                glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
-                glCompileShader(pixelShaderId);
-
-                GLint status;
-                glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
-                if (status == GL_FALSE)
+                if (!pixelShaderId)
                 {
-                    Log(Log::Level::ERR) << "Failed to compile pixel shader";
-                    printShaderMessage(pixelShaderId);
-                    return false;
-                }
+                    pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
-            }
+                    const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(data.pixelShaderData.data());
+                    GLint pixelShaderSize = static_cast<GLint>(data.pixelShaderData.size());
 
-            if (!vertexShaderId)
-            {
-                vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+                    glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
+                    glCompileShader(pixelShaderId);
 
-                const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(uploadData.vertexShaderData.data());
-                GLint vertexShaderSize = static_cast<GLint>(uploadData.vertexShaderData.size());
-
-                glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
-                glCompileShader(vertexShaderId);
-
-                GLint status;
-                glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
-                if (status == GL_FALSE)
-                {
-                    Log(Log::Level::ERR) << "Failed to compile vertex shader";
-                    printShaderMessage(vertexShaderId);
-                    return false;
-                }
-            }
-
-            if (!programId)
-            {
-                programId = glCreateProgram();
-
-                glAttachShader(programId, vertexShaderId);
-                glAttachShader(programId, pixelShaderId);
-
-                GLuint index = 0;
-
-                if (uploadData.vertexAttributes & VERTEX_POSITION)
-                {
-                    glBindAttribLocation(programId, index, "in_Position");
-                    ++index;
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_COLOR)
-                {
-                    glBindAttribLocation(programId, index, "in_Color");
-                    ++index;
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_NORMAL)
-                {
-                    glBindAttribLocation(programId, index, "in_Normal");
-                    ++index;
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_TEXCOORD0)
-                {
-                    glBindAttribLocation(programId, index, "in_TexCoord0");
-                    ++index;
-                }
-
-                if (uploadData.vertexAttributes & VERTEX_TEXCOORD1)
-                {
-                    glBindAttribLocation(programId, index, "in_TexCoord1");
-                    ++index;
-                }
-
-                glLinkProgram(programId);
-
-                GLint status;
-                glGetProgramiv(programId, GL_LINK_STATUS, &status);
-                if (status == GL_FALSE)
-                {
-                    Log(Log::Level::ERR) << "Failed to link shader";
-                    printProgramMessage();
-                    return false;
-                }
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
-
-                glDetachShader(programId, vertexShaderId);
-                glDeleteShader(vertexShaderId);
-                vertexShaderId = 0;
-
-                glDetachShader(programId, pixelShaderId);
-                glDeleteShader(pixelShaderId);
-                pixelShaderId = 0;
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
-
-                RendererOGL::useProgram(programId);
-
-                GLint texture0Location = glGetUniformLocation(programId, "texture0");
-                if (texture0Location != -1) glUniform1i(texture0Location, 0);
-
-                GLint texture1Location = glGetUniformLocation(programId, "texture1");
-                if (texture1Location != -1) glUniform1i(texture1Location, 1);
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    return false;
-                }
-            }
-
-            if (!uploadData.pixelShaderConstantInfo.empty())
-            {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(uploadData.pixelShaderConstantInfo.size());
-
-                for (const ConstantInfo& info : uploadData.pixelShaderConstantInfo)
-                {
-                    GLint location = glGetUniformLocation(programId, info.name.c_str());
-
-                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    GLint status;
+                    glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
+                    if (status == GL_FALSE)
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                        Log(Log::Level::ERR) << "Failed to compile pixel shader";
+                        printShaderMessage(pixelShaderId);
                         return false;
                     }
 
-                    pixelShaderConstantLocations.push_back({location, info.dataType});
-                }
-            }
-
-            if (!uploadData.vertexShaderConstantInfo.empty())
-            {
-                vertexShaderConstantLocations.clear();
-                vertexShaderConstantLocations.reserve(uploadData.vertexShaderConstantInfo.size());
-
-                for (const ConstantInfo& info : uploadData.vertexShaderConstantInfo)
-                {
-                    GLint location = glGetUniformLocation(programId, info.name.c_str());
-
-                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    if (RendererOGL::checkOpenGLError())
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                        return false;
+                    }
+                }
+
+                if (!vertexShaderId)
+                {
+                    vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+
+                    const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(data.vertexShaderData.data());
+                    GLint vertexShaderSize = static_cast<GLint>(data.vertexShaderData.size());
+
+                    glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
+                    glCompileShader(vertexShaderId);
+
+                    GLint status;
+                    glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
+                    if (status == GL_FALSE)
+                    {
+                        Log(Log::Level::ERR) << "Failed to compile vertex shader";
+                        printShaderMessage(vertexShaderId);
+                        return false;
+                    }
+                }
+
+                if (!programId)
+                {
+                    programId = glCreateProgram();
+
+                    glAttachShader(programId, vertexShaderId);
+                    glAttachShader(programId, pixelShaderId);
+
+                    GLuint index = 0;
+
+                    if (data.vertexAttributes & VERTEX_POSITION)
+                    {
+                        glBindAttribLocation(programId, index, "in_Position");
+                        ++index;
+                    }
+
+                    if (data.vertexAttributes & VERTEX_COLOR)
+                    {
+                        glBindAttribLocation(programId, index, "in_Color");
+                        ++index;
+                    }
+
+                    if (data.vertexAttributes & VERTEX_NORMAL)
+                    {
+                        glBindAttribLocation(programId, index, "in_Normal");
+                        ++index;
+                    }
+
+                    if (data.vertexAttributes & VERTEX_TEXCOORD0)
+                    {
+                        glBindAttribLocation(programId, index, "in_TexCoord0");
+                        ++index;
+                    }
+
+                    if (data.vertexAttributes & VERTEX_TEXCOORD1)
+                    {
+                        glBindAttribLocation(programId, index, "in_TexCoord1");
+                        ++index;
+                    }
+
+                    glLinkProgram(programId);
+
+                    GLint status;
+                    glGetProgramiv(programId, GL_LINK_STATUS, &status);
+                    if (status == GL_FALSE)
+                    {
+                        Log(Log::Level::ERR) << "Failed to link shader";
+                        printProgramMessage();
                         return false;
                     }
 
-                    vertexShaderConstantLocations.push_back({location, info.dataType});
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
+
+                    glDetachShader(programId, vertexShaderId);
+                    glDeleteShader(vertexShaderId);
+                    vertexShaderId = 0;
+
+                    glDetachShader(programId, pixelShaderId);
+                    glDeleteShader(pixelShaderId);
+                    pixelShaderId = 0;
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
+
+                    RendererOGL::useProgram(programId);
+
+                    GLint texture0Location = glGetUniformLocation(programId, "texture0");
+                    if (texture0Location != -1) glUniform1i(texture0Location, 0);
+
+                    GLint texture1Location = glGetUniformLocation(programId, "texture1");
+                    if (texture1Location != -1) glUniform1i(texture1Location, 1);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        return false;
+                    }
                 }
+
+                if (!data.pixelShaderConstantInfo.empty())
+                {
+                    pixelShaderConstantLocations.clear();
+                    pixelShaderConstantLocations.reserve(data.pixelShaderConstantInfo.size());
+
+                    for (const Shader::ConstantInfo& info : data.pixelShaderConstantInfo)
+                    {
+                        GLint location = glGetUniformLocation(programId, info.name.c_str());
+
+                        if (location == -1 || RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                            return false;
+                        }
+
+                        pixelShaderConstantLocations.push_back({location, info.dataType});
+                    }
+                }
+
+                if (!data.vertexShaderConstantInfo.empty())
+                {
+                    vertexShaderConstantLocations.clear();
+                    vertexShaderConstantLocations.reserve(data.vertexShaderConstantInfo.size());
+
+                    for (const Shader::ConstantInfo& info : data.vertexShaderConstantInfo)
+                    {
+                        GLint location = glGetUniformLocation(programId, info.name.c_str());
+
+                        if (location == -1 || RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
+                            return false;
+                        }
+
+                        vertexShaderConstantLocations.push_back({location, info.dataType});
+                    }
+                }
+
+                data.dirty = 0;
             }
 
             return true;

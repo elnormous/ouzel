@@ -19,7 +19,7 @@ namespace ouzel
         public:
             virtual ~RendererD3D11();
 
-            virtual bool present() override;
+            virtual bool draw() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 

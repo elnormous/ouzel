@@ -19,44 +19,18 @@ namespace ouzel
         {
             if (depthBufferId)
             {
-                RendererOGL::deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
+                RendererOGL::deleteRenderBuffer(depthBufferId);
             }
 
             if (frameBufferId)
             {
-                RendererOGL::deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
+                RendererOGL::deleteFrameBuffer(frameBufferId);
             }
 
             if (textureId)
             {
-                RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
+                RendererOGL::deleteTexture(textureId);
             }
-        }
-
-        void TextureOGL::free()
-        {
-            TextureResource::free();
-
-            if (depthBufferId)
-            {
-                RendererOGL::deleteResource(depthBufferId, RendererOGL::ResourceType::RenderBuffer);
-                depthBufferId = 0;
-            }
-
-            if (frameBufferId)
-            {
-                RendererOGL::deleteResource(frameBufferId, RendererOGL::ResourceType::FrameBuffer);
-                frameBufferId = 0;
-            }
-
-            if (textureId)
-            {
-                RendererOGL::deleteResource(textureId, RendererOGL::ResourceType::Texture);
-                textureId = 0;
-            }
-
-            width = 0;
-            height = 0;
         }
 
         bool TextureOGL::upload()
@@ -66,145 +40,150 @@ namespace ouzel
                 return false;
             }
 
-            if (!textureId)
+            if (data.dirty)
             {
-                glGenTextures(1, &textureId);
+                if (!textureId)
+                {
+                    glGenTextures(1, &textureId);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create texture";
+                        return false;
+                    }
+                }
+
+                RendererOGL::bindTexture(textureId, 0);
+
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                switch (rendererOGL->getTextureFilter())
+                {
+                    case Texture::Filter::NONE:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        break;
+                    case Texture::Filter::LINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        break;
+                    case Texture::Filter::BILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        break;
+                    case Texture::Filter::TRILINEAR:
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                        break;
+                }
 
                 if (RendererOGL::checkOpenGLError())
                 {
-                    Log(Log::Level::ERR) << "Failed to create texture";
+                    Log(Log::Level::ERR) << "Failed to set texture parameters";
                     return false;
                 }
-            }
 
-            RendererOGL::bindTexture(textureId, 0);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
-            switch (rendererOGL->getTextureFilter())
-            {
-                case Texture::Filter::NONE:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                    break;
-                case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                    break;
-                case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                    break;
-                case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, uploadData.mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                    break;
-            }
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to set texture parameters";
-                return false;
-            }
-
-            if (static_cast<GLsizei>(uploadData.size.v[0]) != width ||
-                static_cast<GLsizei>(uploadData.size.v[1]) != height)
-            {
-                width = static_cast<GLsizei>(uploadData.size.v[0]);
-                height = static_cast<GLsizei>(uploadData.size.v[1]);
-
-                for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                if (static_cast<GLsizei>(data.size.v[0]) != width ||
+                    static_cast<GLsizei>(data.size.v[1]) != height)
                 {
-                    if (!uploadData.levels[level].data.empty())
-                    {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                     static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
-                                     static_cast<GLsizei>(uploadData.levels[level].size.v[1]), 0,
-                                     GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
-                    }
-                }
+                    width = static_cast<GLsizei>(data.size.v[0]);
+                    height = static_cast<GLsizei>(data.size.v[1]);
 
-                if (uploadData.renderTarget)
-                {
-                    if (!frameBufferId)
+                    for (size_t level = 0; level < data.levels.size(); ++level)
                     {
-                        glGenFramebuffers(1, &frameBufferId);
-
-                        if (RendererOGL::checkOpenGLError())
+                        if (!data.levels[level].data.empty())
                         {
-                            Log(Log::Level::ERR) << "Failed to create frame buffer";
-                            return false;
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
+                                         static_cast<GLsizei>(data.levels[level].size.v[0]),
+                                         static_cast<GLsizei>(data.levels[level].size.v[1]), 0,
+                                         GL_RGBA, GL_UNSIGNED_BYTE, data.levels[level].data.data());
                         }
-
-                        clearMask = 0;
-
-                        if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                        if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
                     }
 
-                    RendererOGL::bindFrameBuffer(frameBufferId);
-
-                    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                    if (data.renderTarget)
                     {
-                        RendererOGL::bindTexture(textureId, 0);
-
-                        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                                     static_cast<GLsizei>(uploadData.size.v[0]),
-                                     static_cast<GLsizei>(uploadData.size.v[1]),
-                                     0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-                        if (uploadData.depth)
+                        if (!frameBufferId)
                         {
-                            glGenRenderbuffers(1, &depthBufferId);
-                            glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-                            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                  static_cast<GLsizei>(uploadData.size.v[0]),
-                                                  static_cast<GLsizei>(uploadData.size.v[1]));
-                            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                            glGenFramebuffers(1, &frameBufferId);
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to create frame buffer";
+                                return false;
+                            }
+
+                            clearMask = 0;
+
+                            if (data.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                            if (data.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
                         }
 
-                        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-#if OUZEL_SUPPORTS_OPENGL // TODO: fix this
-                        //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-                        //glDrawBuffers(1, drawBuffers);
-                        glDrawBuffer(GL_COLOR_ATTACHMENT0);
-#endif
+                        RendererOGL::bindFrameBuffer(frameBufferId);
 
                         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         {
-                            Log(Log::Level::ERR) << "Failed to create frame buffer";
-                            return false;
-                        }
-                    }
+                            RendererOGL::bindTexture(textureId, 0);
 
-                    frameBufferClearColor[0] = uploadData.clearColor.normR();
-                    frameBufferClearColor[1] = uploadData.clearColor.normG();
-                    frameBufferClearColor[2] = uploadData.clearColor.normB();
-                    frameBufferClearColor[3] = uploadData.clearColor.normA();
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                                         static_cast<GLsizei>(data.size.v[0]),
+                                         static_cast<GLsizei>(data.size.v[1]),
+                                         0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+                            if (data.depth)
+                            {
+                                glGenRenderbuffers(1, &depthBufferId);
+                                glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
+                                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                      static_cast<GLsizei>(data.size.v[0]),
+                                                      static_cast<GLsizei>(data.size.v[1]));
+                                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                            }
+
+                            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+
+    #if OUZEL_SUPPORTS_OPENGL // TODO: fix this
+                            //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
+                            //glDrawBuffers(1, drawBuffers);
+                            glDrawBuffer(GL_COLOR_ATTACHMENT0);
+    #endif
+
+                            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                            {
+                                Log(Log::Level::ERR) << "Failed to create frame buffer";
+                                return false;
+                            }
+                        }
+
+                        frameBufferClearColor[0] = data.clearColor.normR();
+                        frameBufferClearColor[1] = data.clearColor.normG();
+                        frameBufferClearColor[2] = data.clearColor.normB();
+                        frameBufferClearColor[3] = data.clearColor.normA();
+                    }
                 }
-            }
-            else
-            {
-                for (size_t level = 0; level < uploadData.levels.size(); ++level)
+                else
                 {
-                    if (!uploadData.levels[level].data.empty())
+                    for (size_t level = 0; level < data.levels.size(); ++level)
                     {
-                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(uploadData.levels[level].size.v[0]),
-                                        static_cast<GLsizei>(uploadData.levels[level].size.v[1]),
-                                        GL_RGBA, GL_UNSIGNED_BYTE, uploadData.levels[level].data.data());
-
-                        if (RendererOGL::checkOpenGLError())
+                        if (!data.levels[level].data.empty())
                         {
-                            Log(Log::Level::ERR) << "Failed to upload texture data";
-                            return false;
+                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                            static_cast<GLsizei>(data.levels[level].size.v[0]),
+                                            static_cast<GLsizei>(data.levels[level].size.v[1]),
+                                            GL_RGBA, GL_UNSIGNED_BYTE, data.levels[level].data.data());
+
+                            if (RendererOGL::checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to upload texture data";
+                                return false;
+                            }
                         }
                     }
                 }
+
+                data.dirty = 0;
             }
 
             return true;

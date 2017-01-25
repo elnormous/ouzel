@@ -87,26 +87,33 @@ namespace ouzel
                 activeDrawQueueFinished = false;
             }
 
-            std::set<Resource*> resources;
+            std::set<Resource*> uploadResources;
             {
                 std::lock_guard<std::mutex> lock(uploadMutex);
-                resources = std::move(uploadSet);
+                uploadResources = std::move(uploadSet);
                 uploadSet.clear();
             }
 
             // refills draw and upload queues
             refillDrawQueue = true;
 
-            for (Resource* resource : resources)
+            for (Resource* resource : uploadResources)
             {
                 // upload data to GPU
-                if (resource->dirty && !resource->upload())
+                if (!resource->upload())
                 {
                     return false;
                 }
             }
 
             ++currentFrame;
+
+            if (!draw())
+            {
+                return false;
+            }
+
+            deleteSet.clear(); // delete all resources in delete set
 
             if (!generateScreenshots())
             {
@@ -157,16 +164,38 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        bool Renderer::addDrawCommand(const std::vector<TextureResourcePtr>& textures,
-                                      const ShaderResourcePtr& shader,
+        void Renderer::uploadResource(Resource* resource)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            uploadSet.insert(resource);
+        }
+
+        void Renderer::deleteResource(Resource* resource)
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::vector<std::unique_ptr<Resource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+                return ptr.get() == resource;
+            });
+
+            if (i != resources.end())
+            {
+                deleteSet.push_back(std::move(*i));
+                resources.erase(i);
+            }
+        }
+
+        bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
+                                      const std::shared_ptr<Shader>& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants,
-                                      const BlendStateResourcePtr& blendState,
-                                      const MeshBufferResourcePtr& meshBuffer,
+                                      const std::shared_ptr<BlendState>& blendState,
+                                      const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex,
-                                      const TextureResourcePtr& renderTarget,
+                                      const std::shared_ptr<Texture>& renderTarget,
                                       const Rectangle& viewport,
                                       bool depthWrite,
                                       bool depthTest,
@@ -188,17 +217,24 @@ namespace ouzel
                 return false;
             }
 
+            std::vector<TextureResource*> drawTextures;
+
+            for (const std::shared_ptr<Texture>& texture : textures)
+            {
+                if (texture) drawTextures.push_back(texture->getResource());
+            }
+
             activeDrawQueue.push_back({
-                textures,
-                shader,
+                drawTextures,
+                shader->getResource(),
                 pixelShaderConstants,
                 vertexShaderConstants,
-                blendState,
-                meshBuffer,
+                blendState->getResource(),
+                meshBuffer->getResource(),
                 (indexCount > 0) ? indexCount : (meshBuffer->getIndexBuffer()->getSize() / meshBuffer->getIndexSize()) - startIndex,
                 drawMode,
                 startIndex,
-                renderTarget,
+                renderTarget ? renderTarget->getResource() : nullptr,
                 viewport,
                 depthWrite,
                 depthTest,
@@ -206,23 +242,6 @@ namespace ouzel
                 scissorTestEnabled,
                 scissorTest
             });
-
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            for (const TextureResourcePtr& texture : textures)
-            {
-                if (texture && texture->dirty) uploadSet.insert(texture.get());
-            }
-
-            if (shader && shader->dirty) uploadSet.insert(shader.get());
-            if (blendState && blendState->dirty) uploadSet.insert(blendState.get());
-            if (meshBuffer)
-            {
-                if (meshBuffer && meshBuffer->dirty) uploadSet.insert(meshBuffer.get());
-                if (meshBuffer->indexBuffer && meshBuffer->indexBuffer->dirty) uploadSet.insert(meshBuffer->indexBuffer.get());
-                if (meshBuffer->vertexBuffer && meshBuffer->vertexBuffer->dirty) uploadSet.insert(meshBuffer->vertexBuffer.get());
-            }
-            if (renderTarget && renderTarget->dirty) uploadSet.insert(renderTarget.get());
 
             return true;
         }
@@ -258,20 +277,20 @@ namespace ouzel
                     std::lock_guard<std::mutex> lock(screenshotMutex);
 
                     if (screenshotQueue.empty()) break;
-
+                    
                     filename = screenshotQueue.front();
                     screenshotQueue.pop();
                 }
-
+                
                 if (!generateScreenshot(filename))
                 {
                     return false;
                 }
             }
-
+            
             return true;
         }
-
+        
         bool Renderer::generateScreenshot(const std::string&)
         {
             return true;

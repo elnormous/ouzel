@@ -22,13 +22,13 @@ namespace ouzel
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX);
 
-            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, ouzel::graphics::VertexPC::ATTRIBUTES, vertexBuffer);
         }
 
@@ -56,7 +56,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TextureResourcePtr>(),
+                sharedEngine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -96,7 +96,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<graphics::TextureResourcePtr>(),
+                sharedEngine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,

@@ -2,10 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "ShaderResource.h"
-#include "Renderer.h"
-#include "core/Application.h"
-#include "files/FileSystem.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -19,133 +15,80 @@ namespace ouzel
         {
         }
 
-        void ShaderResource::free()
-        {
-            data.pixelShaderData.clear();
-            data.vertexShaderData.clear();
-            data.pixelShaderFunction.clear();
-            data.vertexShaderFunction.clear();
-            data.pixelShaderConstantInfo.clear();
-            data.vertexShaderConstantInfo.clear();
-
-            currentData.pixelShaderData.clear();
-            currentData.vertexShaderData.clear();
-            currentData.pixelShaderFunction.clear();
-            currentData.vertexShaderFunction.clear();
-            currentData.pixelShaderConstantInfo.clear();
-            currentData.vertexShaderConstantInfo.clear();
-        }
-
-        bool ShaderResource::initFromFiles(const std::string& newPixelShader,
-                                           const std::string& newVertexShader,
-                                           uint32_t newVertexAttributes,
-                                           const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                           const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                                           uint32_t newPixelShaderDataAlignment,
-                                           uint32_t newVertexShaderDataAlignment,
-                                           const std::string& newPixelShaderFunction,
-                                           const std::string& newVertexShaderFunction)
-        {
-            pixelShaderFilename = newPixelShader;
-            vertexShaderFilename = newVertexShader;
-
-            std::vector<uint8_t> pixelShaderData;
-
-            if (!sharedApplication->getFileSystem()->readFile(newPixelShader, pixelShaderData))
-            {
-                return false;
-            }
-
-            std::vector<uint8_t> vertexShaderData;
-
-            if (!sharedApplication->getFileSystem()->readFile(newVertexShader, vertexShaderData))
-            {
-                return false;
-            }
-
-            return initFromBuffers(pixelShaderData, vertexShaderData,
-                                   newVertexAttributes,
-                                   newPixelShaderConstantInfo, newVertexShaderConstantInfo,
-                                   newPixelShaderDataAlignment, newVertexShaderDataAlignment,
-                                   newPixelShaderFunction, newVertexShaderFunction);
-        }
-
         bool ShaderResource::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
                                              const std::vector<uint8_t>& newVertexShader,
                                              uint32_t newVertexAttributes,
-                                             const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                             const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                                             const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                             const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                              uint32_t newPixelShaderDataAlignment,
                                              uint32_t newVertexShaderDataAlignment,
                                              const std::string& newPixelShaderFunction,
                                              const std::string& newVertexShaderFunction)
         {
-            data.pixelShaderData = newPixelShader;
-            data.vertexShaderData = newVertexShader;
-            data.vertexAttributes = newVertexAttributes;
-            data.pixelShaderConstantInfo = newPixelShaderConstantInfo;
-            data.vertexShaderConstantInfo = newVertexShaderConstantInfo;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            pendingData.pixelShaderData = newPixelShader;
+            pendingData.vertexShaderData = newVertexShader;
+            pendingData.vertexAttributes = newVertexAttributes;
+            pendingData.pixelShaderConstantInfo = newPixelShaderConstantInfo;
+            pendingData.vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
             if (newPixelShaderDataAlignment)
             {
-                data.pixelShaderAlignment = newPixelShaderDataAlignment;
+                pendingData.pixelShaderAlignment = newPixelShaderDataAlignment;
             }
             else
             {
-                data.pixelShaderAlignment = 0;
+                pendingData.pixelShaderAlignment = 0;
 
-                for (const ConstantInfo& info : newPixelShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : newPixelShaderConstantInfo)
                 {
-                    data.pixelShaderAlignment += info.size;
+                    pendingData.pixelShaderAlignment += info.size;
                 }
             }
 
             if (newVertexShaderDataAlignment)
             {
-                data.vertexShaderAlignment = newVertexShaderDataAlignment;
+                pendingData.vertexShaderAlignment = newVertexShaderDataAlignment;
             }
             else
             {
-                data.vertexShaderAlignment = 0;
+                pendingData.vertexShaderAlignment = 0;
 
-                for (const ConstantInfo& info : newVertexShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
                 {
-                    data.vertexShaderAlignment += info.size;
+                    pendingData.vertexShaderAlignment += info.size;
                 }
             }
 
-            data.pixelShaderFunction = newPixelShaderFunction;
-            data.vertexShaderFunction = newVertexShaderFunction;
+            pendingData.pixelShaderFunction = newPixelShaderFunction;
+            pendingData.vertexShaderFunction = newVertexShaderFunction;
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return  true;
-        }
-
-        void ShaderResource::update()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            currentData.vertexAttributes = data.vertexAttributes;
-            currentData.pixelShaderAlignment = data.pixelShaderAlignment;
-            currentData.vertexShaderAlignment = data.vertexShaderAlignment;
-
-            currentData.pixelShaderData = std::move(data.pixelShaderData);
-            currentData.vertexShaderData = std::move(data.vertexShaderData);
-            currentData.pixelShaderConstantInfo = std::move(data.pixelShaderConstantInfo);
-            currentData.vertexShaderConstantInfo = std::move(data.vertexShaderConstantInfo);
-            currentData.pixelShaderFunction = std::move(data.pixelShaderFunction);
-            currentData.vertexShaderFunction = std::move(data.vertexShaderFunction);
-
-            dirty = true;
         }
 
         bool ShaderResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dirty = false;
-            uploadData = std::move(currentData);
+            data.dirty |= pendingData.dirty;
+            pendingData.dirty = 0;
+
+            if (data.dirty)
+            {
+                data.vertexAttributes = pendingData.vertexAttributes;
+                data.pixelShaderAlignment = pendingData.pixelShaderAlignment;
+                data.vertexShaderAlignment = pendingData.vertexShaderAlignment;
+
+                data.pixelShaderData = std::move(pendingData.pixelShaderData);
+                data.vertexShaderData = std::move(pendingData.vertexShaderData);
+                data.pixelShaderConstantInfo = std::move(pendingData.pixelShaderConstantInfo);
+                data.vertexShaderConstantInfo = std::move(pendingData.vertexShaderConstantInfo);
+                data.pixelShaderFunction = std::move(pendingData.pixelShaderFunction);
+                data.vertexShaderFunction = std::move(pendingData.vertexShaderFunction);
+            }
 
             return true;
         }

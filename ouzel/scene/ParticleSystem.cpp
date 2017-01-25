@@ -348,13 +348,13 @@ namespace ouzel
                 vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(1.0f, 0.0f)));
             }
 
-            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
-            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
             particles.resize(particleDefinition.maxParticles);

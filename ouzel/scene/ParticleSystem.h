@@ -13,6 +13,11 @@
 #include "math/Color.h"
 #include "graphics/Vertex.h"
 #include "core/UpdateCallback.h"
+#include "graphics/BlendState.h"
+#include "graphics/Buffer.h"
+#include "graphics/MeshBuffer.h"
+#include "graphics/Shader.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -57,10 +62,10 @@ namespace ouzel
 
             ParticleDefinition particleDefinition;
 
-            graphics::ShaderResourcePtr shader;
-            graphics::BlendStateResourcePtr blendState;
-            graphics::TextureResourcePtr texture;
-            graphics::TextureResourcePtr whitePixelTexture;
+            std::shared_ptr<graphics::Shader> shader;
+            std::shared_ptr<graphics::BlendState> blendState;
+            std::shared_ptr<graphics::Texture> texture;
+            std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             struct Particle
             {
@@ -98,9 +103,9 @@ namespace ouzel
 
             std::vector<Particle> particles;
 
-            graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::BufferResourcePtr indexBuffer;
-            graphics::BufferResourcePtr vertexBuffer;
+            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;

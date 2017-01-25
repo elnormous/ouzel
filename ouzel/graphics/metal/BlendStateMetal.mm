@@ -54,13 +54,18 @@ namespace ouzel
                 return false;
             }
 
-            rgbBlendOperation = getBlendOperation(uploadData.colorOperation);
-            alphaBlendOperation = getBlendOperation(uploadData.alphaOperation);
-            sourceRGBBlendFactor = getBlendFactor(uploadData.colorBlendSource);
-            destinationRGBBlendFactor = getBlendFactor(uploadData.colorBlendDest);
-            sourceAlphaBlendFactor = getBlendFactor(uploadData.alphaBlendSource);
-            destinationAlphaBlendFactor = getBlendFactor(uploadData.alphaBlendDest);
-            metalBlendingEnabled = uploadData.enableBlending;
+            if (data.dirty)
+            {
+                rgbBlendOperation = getBlendOperation(data.colorOperation);
+                alphaBlendOperation = getBlendOperation(data.alphaOperation);
+                sourceRGBBlendFactor = getBlendFactor(data.colorBlendSource);
+                destinationRGBBlendFactor = getBlendFactor(data.colorBlendDest);
+                sourceAlphaBlendFactor = getBlendFactor(data.alphaBlendSource);
+                destinationAlphaBlendFactor = getBlendFactor(data.alphaBlendDest);
+                metalBlendingEnabled = data.enableBlending;
+
+                data.dirty = 0;
+            }
 
             return true;
         }

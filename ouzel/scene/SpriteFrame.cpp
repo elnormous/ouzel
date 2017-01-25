@@ -41,7 +41,7 @@ namespace ouzel
 
             const rapidjson::Value& metaObject = document["meta"];
 
-            graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+            std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
 
             const rapidjson::Value& framesArray = document["frames"];
 
@@ -127,7 +127,7 @@ namespace ouzel
             return frames;
         }
 
-        SpriteFrame::SpriteFrame(const graphics::TextureResourcePtr& pTexture,
+        SpriteFrame::SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
                                  const Rectangle& frameRectangle,
                                  bool rotated,
                                  const Size2& sourceSize,
@@ -183,17 +183,17 @@ namespace ouzel
             rectangle = Rectangle(finalOffset.x(), finalOffset.y(),
                                   sourceSize.v[0], sourceSize.v[1]);
 
-            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
-            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
         }
 
-        SpriteFrame::SpriteFrame(const graphics::TextureResourcePtr& pTexture,
+        SpriteFrame::SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::VertexPCT>& vertices,
                                  const Rectangle& frameRectangle,
@@ -214,13 +214,13 @@ namespace ouzel
             rectangle = Rectangle(finalOffset.x(), finalOffset.y(),
                                   sourceSize.v[0], sourceSize.v[1]);
 
-            indexBuffer = sharedEngine->getRenderer()->createBuffer();
+            indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
-            vertexBuffer = sharedEngine->getRenderer()->createBuffer();
+            vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
-            meshBuffer = sharedEngine->getRenderer()->createMeshBuffer();
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
         }
 

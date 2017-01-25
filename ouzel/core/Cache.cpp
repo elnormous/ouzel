@@ -23,22 +23,20 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, graphics::TextureResourcePtr>::const_iterator i = textures.find(filename);
+        std::unordered_map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
 
         if (i == textures.end())
         {
-            graphics::TextureResourcePtr texture = sharedEngine->getRenderer()->createTexture();
+            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
             texture->initFromFile(filename, dynamic, mipmaps);
 
             textures[filename] = texture;
         }
     }
 
-    graphics::TextureResourcePtr Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
+    const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        graphics::TextureResourcePtr result;
-
-        std::unordered_map<std::string, graphics::TextureResourcePtr>::const_iterator i = textures.find(filename);
+        std::unordered_map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
 
         if (i != textures.end())
         {
@@ -46,16 +44,16 @@ namespace ouzel
         }
         else
         {
-            result = sharedEngine->getRenderer()->createTexture();
+            std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
             result->initFromFile(filename, dynamic, mipmaps);
 
-            textures[filename] = result;
-        }
+            auto i = textures.insert(std::make_pair(filename, result));
 
-        return result;
+            return i.first->second;
+        }
     }
 
-    void Cache::setTexture(const std::string& filename, const graphics::TextureResourcePtr& texture)
+    void Cache::setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture)
     {
         textures[filename] = texture;
     }
@@ -65,9 +63,9 @@ namespace ouzel
         textures.clear();
     }
 
-    graphics::ShaderResourcePtr Cache::getShader(const std::string& shaderName) const
+    const std::shared_ptr<graphics::Shader>& Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, graphics::ShaderResourcePtr>::const_iterator i = shaders.find(shaderName);
+        std::unordered_map<std::string, std::shared_ptr<graphics::Shader>>::const_iterator i = shaders.find(shaderName);
 
         if (i != shaders.end())
         {
@@ -79,14 +77,14 @@ namespace ouzel
         }
     }
 
-    void Cache::setShader(const std::string& shaderName, const graphics::ShaderResourcePtr& shader)
+    void Cache::setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader)
     {
         shaders[shaderName] = shader;
     }
 
-    graphics::BlendStateResourcePtr Cache::getBlendState(const std::string& blendStateName) const
+    const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::unordered_map<std::string, graphics::BlendStateResourcePtr>::const_iterator i = blendStates.find(blendStateName);
+        std::unordered_map<std::string, std::shared_ptr<graphics::BlendState>>::const_iterator i = blendStates.find(blendStateName);
 
         if (i != blendStates.end())
         {
@@ -98,7 +96,7 @@ namespace ouzel
         }
     }
 
-    void Cache::setBlendState(const std::string& blendStateName, const graphics::BlendStateResourcePtr& blendState)
+    void Cache::setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState)
     {
         blendStates[blendStateName] = blendState;
     }
@@ -115,7 +113,7 @@ namespace ouzel
         }
         else
         {
-            graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+            std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
             if (!texture)
             {
@@ -135,7 +133,11 @@ namespace ouzel
     {
         auto i = spriteFrames.find(filename);
 
-        if (i == spriteFrames.end())
+        if (i != spriteFrames.end())
+        {
+            return i->second;
+        }
+        else
         {
             std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
 
@@ -147,7 +149,7 @@ namespace ouzel
             }
             else
             {
-                graphics::TextureResourcePtr texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
                 if (texture)
                 {
@@ -158,10 +160,10 @@ namespace ouzel
                 }
             }
 
-            spriteFrames[filename] = frames;
-        }
+            auto i = spriteFrames.insert(std::make_pair(filename, frames));
 
-        return spriteFrames[filename];
+            return i.first->second;
+        }
     }
 
     void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFrame>& frames)
@@ -188,12 +190,16 @@ namespace ouzel
     {
         auto i = particleDefinitions.find(filename);
 
-        if (i == particleDefinitions.end())
+        if (i != particleDefinitions.end())
         {
-            particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
+            return i->second;
         }
+        else
+        {
+            auto i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::loadParticleDefinition(filename)));
 
-        return particleDefinitions[filename];
+            return i.first->second;
+        }
     }
 
     void Cache::preloadBMFont(const std::string& filename)
@@ -210,11 +216,15 @@ namespace ouzel
     {
         std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
 
-        if (i == bmFonts.end())
+        if (i != bmFonts.end())
         {
-            bmFonts[filename] = BMFont(filename);
+            return i->second;
         }
+        else
+        {
+            auto i = bmFonts.insert(std::make_pair(filename, BMFont(filename)));
 
-        return bmFonts[filename];
+            return i.first->second;
+        }
     }
 }

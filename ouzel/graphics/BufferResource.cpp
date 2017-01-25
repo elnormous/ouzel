@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "BufferResource.h"
-#include "Renderer.h"
 
 namespace ouzel
 {
@@ -16,75 +15,81 @@ namespace ouzel
         {
         }
 
-        void BufferResource::free()
-        {
-            data.clear();
-            currentData.data.clear();
-        }
-
         bool BufferResource::init(Buffer::Usage newUsage, bool newDynamic)
         {
-            free();
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            usage = newUsage;
-            dynamic = newDynamic;
+            pendingData.usage = newUsage;
+            pendingData.dynamic = newDynamic;
+            
+            pendingData.dirty |= ATTRIBUTES;
 
             return true;
         }
 
-        bool BufferResource::initFromBuffer(Buffer::Usage newUsage, const void* newIndices, uint32_t newSize, bool newDynamic)
+        bool BufferResource::initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
-            free();
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            pendingData.usage = newUsage;
+            pendingData.dynamic = newDynamic;
 
-            usage = newUsage;
-            dynamic = newDynamic;
-            size = newSize;
-
-            if (newIndices && size)
+            if (newData && newSize)
             {
-                data.assign(static_cast<const uint8_t*>(newIndices),
-                            static_cast<const uint8_t*>(newIndices) + size);
+                pendingData.data.assign(static_cast<const uint8_t*>(newData),
+                                        static_cast<const uint8_t*>(newData) + newSize);
+            }
+            else
+            {
+                pendingData.data.resize(newSize);
             }
 
-            update();
+            pendingData.dirty |= ATTRIBUTES | DATA;
 
             return true;
         }
 
-        bool BufferResource::setData(const void* newIndices, uint32_t newSize)
+        bool BufferResource::setData(const void* newData, uint32_t newSize)
         {
-            if (!dynamic)
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (!pendingData.dynamic)
             {
                 return false;
             }
 
-            size = newSize;
+            if (newData && newSize)
+            {
+                pendingData.data.assign(static_cast<const uint8_t*>(newData),
+                                        static_cast<const uint8_t*>(newData) + newSize);
+            }
+            else
+            {
+                pendingData.data.resize(newSize);
+            }
 
-            data.assign(static_cast<const uint8_t*>(newIndices),
-                        static_cast<const uint8_t*>(newIndices) + size);
-
-            update();
+            pendingData.dirty |= ATTRIBUTES | DATA;
 
             return true;
-        }
-
-        void BufferResource::update()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            currentData.usage = usage;
-            currentData.dynamic = dynamic;
-            currentData.data = std::move(data);
-
-            dirty = true;
         }
 
         bool BufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dirty = false;
-            uploadData = std::move(currentData);
+            data.dirty |= pendingData.dirty;
+            pendingData.dirty = 0;
+
+            if (data.dirty & ATTRIBUTES)
+            {
+                data.usage = pendingData.usage;
+                data.dynamic = pendingData.dynamic;
+            }
+
+            if (data.dirty & DATA)
+            {
+                data.data = std::move(pendingData.data);
+            }
 
             return true;
         }

@@ -27,7 +27,6 @@ namespace ouzel
         public:
             ShaderMetal();
             virtual ~ShaderMetal();
-            virtual void free() override;
 
             struct Location
             {

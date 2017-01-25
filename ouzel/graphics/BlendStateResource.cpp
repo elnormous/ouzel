@@ -2,8 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "BlendStateResource.h"
-#include "Renderer.h"
-#include "core/Engine.h"
 
 namespace ouzel
 {
@@ -17,44 +15,44 @@ namespace ouzel
         {
         }
 
-        void BlendStateResource::free()
-        {
-        }
-
         bool BlendStateResource::init(bool newEnableBlending,
                                       BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
                                       BlendState::BlendOperation newColorOperation,
                                       BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
                                       BlendState::BlendOperation newAlphaOperation)
         {
-            data.enableBlending = newEnableBlending;
-            data.colorBlendSource = newColorBlendSource;
-            data.colorBlendDest = newColorBlendDest;
-            data.colorOperation = newColorOperation;
-            data.alphaBlendSource = newAlphaBlendSource;
-            data.alphaBlendDest = newAlphaBlendDest;
-            data.alphaOperation = newAlphaOperation;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
+            pendingData.enableBlending = newEnableBlending;
+            pendingData.colorBlendSource = newColorBlendSource;
+            pendingData.colorBlendDest = newColorBlendDest;
+            pendingData.colorOperation = newColorOperation;
+            pendingData.alphaBlendSource = newAlphaBlendSource;
+            pendingData.alphaBlendDest = newAlphaBlendDest;
+            pendingData.alphaOperation = newAlphaOperation;
 
-            update();
+            pendingData.dirty |= 0x01;
 
             return true;
-        }
-
-        void BlendStateResource::update()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            currentData = data;
-
-            dirty = true;
         }
 
         bool BlendStateResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dirty = false;
-            uploadData = std::move(currentData);
+            data.dirty |= pendingData.dirty;
+            pendingData.dirty = 0;
+
+            if (data.dirty)
+            {
+                data.colorBlendSource = pendingData.colorBlendSource;
+                data.colorBlendDest = pendingData.colorBlendDest;
+                data.colorOperation = pendingData.colorOperation;
+                data.alphaBlendSource = pendingData.alphaBlendSource;
+                data.alphaBlendDest = pendingData.alphaBlendDest;
+                data.alphaOperation = pendingData.alphaOperation;
+                data.enableBlending = pendingData.enableBlending;
+            }
 
             return true;
         }

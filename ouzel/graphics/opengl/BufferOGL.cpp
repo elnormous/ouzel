@@ -18,21 +18,8 @@ namespace ouzel
         {
             if (bufferId)
             {
-                RendererOGL::deleteResource(bufferId, RendererOGL::ResourceType::Buffer);
+                RendererOGL::deleteBuffer(bufferId);
             }
-        }
-
-        void BufferOGL::free()
-        {
-            BufferResource::free();
-
-            if (bufferId)
-            {
-                RendererOGL::deleteResource(bufferId, RendererOGL::ResourceType::Buffer);
-                bufferId = 0;
-            }
-
-            bufferSize = 0;
         }
 
         bool BufferOGL::bindBuffer()
@@ -58,103 +45,108 @@ namespace ouzel
                 return false;
             }
 
-            if (!bufferId)
+            if (data.dirty)
             {
-                glGenBuffers(1, &bufferId);
-            }
-
-            switch (uploadData.usage)
-            {
-                case Buffer::Usage::INDEX:
-                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
-                    break;
-                case Buffer::Usage::VERTEX:
-                    bufferType = GL_ARRAY_BUFFER;
-                    break;
-                default:
-                    bufferType = 0;
-                    Log(Log::Level::ERR) << "Unsupported buffer type";
-                    return false;
-            }
-
-            if (!uploadData.data.empty())
-            {
-                RendererOGL::bindVertexArray(0);
-
-                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                if (!bufferId)
                 {
-                    return false;
+                    glGenBuffers(1, &bufferId);
                 }
 
-                if (static_cast<GLsizeiptr>(uploadData.data.size()) > bufferSize)
+                switch (data.usage)
                 {
-                    bufferSize = static_cast<GLsizeiptr>(uploadData.data.size());
-
-                    glBufferData(bufferType, bufferSize, nullptr,
-                                 uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create buffer";
+                    case Buffer::Usage::INDEX:
+                        bufferType = GL_ELEMENT_ARRAY_BUFFER;
+                        break;
+                    case Buffer::Usage::VERTEX:
+                        bufferType = GL_ARRAY_BUFFER;
+                        break;
+                    default:
+                        bufferType = 0;
+                        Log(Log::Level::ERR) << "Unsupported buffer type";
                         return false;
-                    }
                 }
 
-                void* bufferPtr = nullptr;
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-#if defined(GL_EXT_map_buffer_range)
-                if (mapBufferRangeEXT)
+                if (!data.data.empty())
                 {
-                    bufferPtr = mapBufferRangeEXT(bufferType, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
-                }
-#endif
-#if defined(GL_OES_mapbuffer)
-                if (!bufferPtr && mapBufferOES)
-                {
-                    bufferPtr = mapBufferOES(bufferType, GL_WRITE_ONLY_OES);
-                }
-#endif
-#else
-                bufferPtr = glMapBufferRange(bufferType, 0, static_cast<GLsizeiptr>(uploadData.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
-#endif
+                    RendererOGL::bindVertexArray(0);
 
-                if (bufferPtr)
-                {
-                    std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>(bufferPtr));
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-#if defined(GL_OES_mapbuffer)
-                    if (unmapBufferOES) unmapBufferOES(bufferType);
-#endif
-#else
-                    glUnmapBuffer(bufferType);
-#endif
-
-                    if (RendererOGL::checkOpenGLError())
+                    if (!RendererOGL::bindBuffer(bufferType, bufferId))
                     {
-                        Log(Log::Level::ERR) << "Failed to upload buffer";
-                        return false;
-                    }
-                }
-                else
-                {
-                    // glMapBufferRange failed
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to map buffer";
                         return false;
                     }
 
-                    glBufferData(bufferType, bufferSize, uploadData.data.data(),
-                                 uploadData.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                    if (RendererOGL::checkOpenGLError())
+                    if (static_cast<GLsizeiptr>(data.data.size()) > bufferSize)
                     {
-                        Log(Log::Level::ERR) << "Failed to upload buffer";
-                        return false;
+                        bufferSize = static_cast<GLsizeiptr>(data.data.size());
+
+                        glBufferData(bufferType, bufferSize, nullptr,
+                                     data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to create buffer";
+                            return false;
+                        }
+                    }
+
+                    void* bufferPtr = nullptr;
+
+    #if OUZEL_OPENGL_INTERFACE_EGL
+    #if defined(GL_EXT_map_buffer_range)
+                    if (mapBufferRangeEXT)
+                    {
+                        bufferPtr = mapBufferRangeEXT(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
+                    }
+    #endif
+    #if defined(GL_OES_mapbuffer)
+                    if (!bufferPtr && mapBufferOES)
+                    {
+                        bufferPtr = mapBufferOES(bufferType, GL_WRITE_ONLY_OES);
+                    }
+    #endif
+    #else
+                    bufferPtr = glMapBufferRange(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+    #endif
+
+                    if (bufferPtr)
+                    {
+                        std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>(bufferPtr));
+
+    #if OUZEL_OPENGL_INTERFACE_EGL
+    #if defined(GL_OES_mapbuffer)
+                        if (unmapBufferOES) unmapBufferOES(bufferType);
+    #endif
+    #else
+                        glUnmapBuffer(bufferType);
+    #endif
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to upload buffer";
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // glMapBufferRange failed
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to map buffer";
+                            return false;
+                        }
+
+                        glBufferData(bufferType, bufferSize, data.data.data(),
+                                     data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to upload buffer";
+                            return false;
+                        }
                     }
                 }
+
+                data.dirty = 0;
             }
 
             return true;

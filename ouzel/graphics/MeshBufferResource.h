@@ -13,57 +13,55 @@ namespace ouzel
     namespace graphics
     {
         class Renderer;
+        class BufferResource;
 
         class MeshBufferResource: public Resource, public Noncopyable
         {
             friend Renderer;
         public:
             virtual ~MeshBufferResource();
-            virtual void free() override;
 
-            bool init(uint32_t newIndexSize, const BufferResourcePtr& newIndexBuffer,
-                      uint32_t newVertexAttributes, const BufferResourcePtr& newVertexBuffer);
+            bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                      uint32_t newVertexAttributes, BufferResource* newVertexBuffer);
 
             bool setIndexSize(uint32_t newIndexSize);
-            uint32_t getIndexSize() const { return indexSize; }
+
+            BufferResource* getIndexBuffer() const { return data.indexBuffer; }
+            bool setIndexBuffer(BufferResource* newIndexBuffer);
 
             bool setVertexAttributes(uint32_t newVertexAttributes);
-            uint32_t getVertexAttributes() const { return vertexAttributes; }
-            uint32_t getVertexSize() const { return vertexSize; }
 
-            bool setIndexBuffer(const BufferResourcePtr& newIndexBuffer);
-            bool setVertexBuffer(const BufferResourcePtr& newVertexBuffer);
-
-            const BufferResourcePtr& getIndexBuffer() const { return indexBuffer; }
-            const BufferResourcePtr& getVertexBuffer() const { return vertexBuffer; }
+            BufferResource* getVertexBuffer() const { return data.vertexBuffer; }
+            bool setVertexBuffer(BufferResource* newVertexBuffer);
 
         protected:
             MeshBufferResource();
             void updateVertexSize();
-            virtual void update() override;
             virtual bool upload() override;
+
+            enum Dirty
+            {
+                INDEX_ATTRIBUTES = 0x01,
+                INDEX_BUFFER = 0x02,
+                VERTEX_ATTRIBUTES = 0x04,
+                VERTEX_BUFFER = 0x08
+            };
 
             struct Data
             {
+                uint32_t dirty = 0;
                 uint32_t indexSize = 0;
-                BufferResourcePtr indexBuffer;
+                BufferResource* indexBuffer = nullptr;
                 uint32_t vertexAttributes = 0;
                 uint32_t vertexSize = 0;
-                BufferResourcePtr vertexBuffer;
+                BufferResource* vertexBuffer = nullptr;
             };
 
-            Data uploadData;
+            Data data;
             std::mutex uploadMutex;
 
         private:
-            uint32_t indexSize = 0;
-            BufferResourcePtr indexBuffer;
-
-            uint32_t vertexAttributes = 0;
-            uint32_t vertexSize = 0;
-            BufferResourcePtr vertexBuffer;
-
-            Data currentData;
+            Data pendingData;
         };
     } // namespace graphics
 } // namespace ouzel

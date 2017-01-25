@@ -9,6 +9,10 @@
 #include "math/AABB2.h"
 #include "math/Rectangle.h"
 #include "graphics/Vertex.h"
+#include "graphics/BlendState.h"
+#include "graphics/Buffer.h"
+#include "graphics/MeshBuffer.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -19,14 +23,14 @@ namespace ouzel
         public:
             static std::vector<SpriteFrame> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
 
-            SpriteFrame(const graphics::TextureResourcePtr& pTexture,
+            SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
                         const Rectangle& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
-            SpriteFrame(const graphics::TextureResourcePtr& pTexture,
+            SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
                         const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
                         const Rectangle& frameRectangle,
@@ -37,16 +41,16 @@ namespace ouzel
             const Rectangle& getRectangle() const { return rectangle; }
 
             const AABB2& getBoundingBox() const { return boundingBox; }
-            const graphics::MeshBufferResourcePtr& getMeshBuffer() const { return meshBuffer; }
-            const graphics::TextureResourcePtr& getTexture() const { return texture; }
+            const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
+            const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
             AABB2 boundingBox;
-            graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::BufferResourcePtr indexBuffer;
-            graphics::BufferResourcePtr vertexBuffer;
-            graphics::TextureResourcePtr texture;
+            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
+            std::shared_ptr<graphics::Texture> texture;
         };
     } // scene
 } // ouzel

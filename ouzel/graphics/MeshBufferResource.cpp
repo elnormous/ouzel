@@ -17,133 +17,123 @@ namespace ouzel
         {
         }
 
-        void MeshBufferResource::free()
+        bool MeshBufferResource::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                                      uint32_t newVertexAttributes, BufferResource* newVertexBuffer)
         {
-            indexBuffer.reset();
-            vertexBuffer.reset();
-        }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-        bool MeshBufferResource::init(uint32_t newIndexSize, const BufferResourcePtr& newIndexBuffer,
-                                      uint32_t newVertexAttributes, const BufferResourcePtr& newVertexBuffer)
-        {
-            if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
-            {
-                return false;
-            }
-
-            if (newVertexBuffer && newVertexBuffer->getUsage() != Buffer::Usage::VERTEX)
-            {
-                return false;
-            }
-
-            indexSize = newIndexSize;
-            indexBuffer = newIndexBuffer;
-            vertexAttributes = newVertexAttributes;
-            vertexBuffer = newVertexBuffer;
+            pendingData.indexSize = newIndexSize;
+            pendingData.indexBuffer = newIndexBuffer;
+            pendingData.vertexAttributes = newVertexAttributes;
+            pendingData.vertexBuffer = newVertexBuffer;
             updateVertexSize();
 
-            update();
+            pendingData.dirty |= INDEX_ATTRIBUTES | INDEX_BUFFER | VERTEX_ATTRIBUTES | VERTEX_BUFFER;
 
             return true;
         }
 
         bool MeshBufferResource::setIndexSize(uint32_t newIndexSize)
         {
-            indexSize = newIndexSize;
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            update();
+            pendingData.indexSize = newIndexSize;
+
+            pendingData.dirty |= INDEX_ATTRIBUTES;
 
             return true;
         }
 
         bool MeshBufferResource::setVertexAttributes(uint32_t newVertexAttributes)
         {
-            vertexAttributes = newVertexAttributes;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            pendingData.vertexAttributes = newVertexAttributes;
             updateVertexSize();
 
-            update();
+            pendingData.dirty |= VERTEX_ATTRIBUTES;
 
             return true;
         }
 
         void MeshBufferResource::updateVertexSize()
         {
-            vertexSize = 0;
+            pendingData.vertexSize = 0;
 
-            if (vertexAttributes & VERTEX_POSITION)
+            if (pendingData.vertexAttributes & VERTEX_POSITION)
             {
-                vertexSize += 3 * sizeof(float);
+                pendingData.vertexSize += 3 * sizeof(float);
             }
 
-            if (vertexAttributes & VERTEX_COLOR)
+            if (pendingData.vertexAttributes & VERTEX_COLOR)
             {
-                vertexSize += 4 * sizeof(uint8_t);
+                pendingData.vertexSize += 4 * sizeof(uint8_t);
             }
 
-            if (vertexAttributes & VERTEX_NORMAL)
+            if (pendingData.vertexAttributes & VERTEX_NORMAL)
             {
-                vertexSize += 3 * sizeof(float);
+                pendingData.vertexSize += 3 * sizeof(float);
             }
 
-            if (vertexAttributes & VERTEX_TEXCOORD0)
+            if (pendingData.vertexAttributes & VERTEX_TEXCOORD0)
             {
-                vertexSize += 2 * sizeof(float);
+                pendingData.vertexSize += 2 * sizeof(float);
             }
 
-            if (vertexAttributes & VERTEX_TEXCOORD1)
+            if (pendingData.vertexAttributes & VERTEX_TEXCOORD1)
             {
-                vertexSize += 2 * sizeof(float);
+                pendingData.vertexSize += 2 * sizeof(float);
             }
         }
 
-        bool MeshBufferResource::setIndexBuffer(const BufferResourcePtr& newIndexBuffer)
+        bool MeshBufferResource::setIndexBuffer(BufferResource* newIndexBuffer)
         {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
             if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
             {
                 return false;
             }
 
-            indexBuffer = newIndexBuffer;
+            pendingData.indexBuffer = newIndexBuffer;
 
-            update();
+            pendingData.dirty |= INDEX_BUFFER;
 
             return true;
         }
 
-        bool MeshBufferResource::setVertexBuffer(const BufferResourcePtr& newVertexBuffer)
+        bool MeshBufferResource::setVertexBuffer(BufferResource* newVertexBuffer)
         {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
             if (newVertexBuffer && newVertexBuffer->getUsage() != Buffer::Usage::VERTEX)
             {
                 return false;
             }
 
-            vertexBuffer = newVertexBuffer;
-
-            update();
+            pendingData.vertexBuffer = newVertexBuffer;
+            
+            pendingData.dirty |= VERTEX_BUFFER;
 
             return true;
-        }
-
-        void MeshBufferResource::update()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            currentData.indexSize = indexSize;
-            currentData.indexBuffer = indexBuffer;
-            currentData.vertexAttributes = vertexAttributes;
-            currentData.vertexSize = vertexSize;
-            currentData.vertexBuffer = vertexBuffer;
-
-            dirty = true;
         }
 
         bool MeshBufferResource::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            dirty = false;
-            uploadData = std::move(currentData);
+            data.dirty |= pendingData.dirty;
+            pendingData.dirty = 0;
 
+            if (data.dirty)
+            {
+                data.indexSize = pendingData.indexSize;
+                data.indexBuffer = pendingData.indexBuffer;
+                data.vertexAttributes = pendingData.vertexAttributes;
+                data.vertexSize = pendingData.vertexSize;
+                data.vertexBuffer = pendingData.vertexBuffer;
+            }
+            
             return true;
         }
     } // namespace graphics

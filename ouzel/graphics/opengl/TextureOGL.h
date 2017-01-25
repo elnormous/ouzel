@@ -39,7 +39,6 @@ namespace ouzel
         public:
             TextureOGL();
             virtual ~TextureOGL();
-            virtual void free() override;
 
             GLuint getTextureId() const { return textureId; }
 

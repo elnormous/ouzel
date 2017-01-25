@@ -7,6 +7,10 @@
 #include "scene/Component.h"
 #include "graphics/Renderer.h"
 #include "math/Color.h"
+#include "graphics/BlendState.h"
+#include "graphics/Buffer.h"
+#include "graphics/MeshBuffer.h"
+#include "graphics/Shader.h"
 
 namespace ouzel
 {
@@ -34,11 +38,11 @@ namespace ouzel
             void triangle(const Vector2 (&positions)[3], const Color& color, bool fill = false);
             void polygon(const std::vector<Vector2>& edges, const Color& color, bool fill = false);
 
-            virtual const graphics::ShaderResourcePtr& getShader() const { return shader; }
-            virtual void setShader(const graphics::ShaderResourcePtr& newShader) { shader = newShader; }
+            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
+            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            virtual const graphics::BlendStateResourcePtr& getBlendState() const { return blendState; }
-            virtual void setBlendState(const graphics::BlendStateResourcePtr& newBlendState)  { blendState = newBlendState; }
+            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
+            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
         protected:
             struct DrawCommand
@@ -48,11 +52,11 @@ namespace ouzel
                 uint32_t startIndex;
             };
 
-            graphics::ShaderResourcePtr shader;
-            graphics::BlendStateResourcePtr blendState;
-            graphics::MeshBufferResourcePtr meshBuffer;
-            graphics::BufferResourcePtr indexBuffer;
-            graphics::BufferResourcePtr vertexBuffer;
+            std::shared_ptr<graphics::Shader> shader;
+            std::shared_ptr<graphics::BlendState> blendState;
+            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
 
             std::vector<DrawCommand> drawCommands;
 

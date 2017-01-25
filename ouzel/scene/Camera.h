@@ -7,6 +7,7 @@
 #include "scene/Node.h"
 #include "math/MathUtils.h"
 #include "math/Rectangle.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -73,8 +74,8 @@ namespace ouzel
             const Vector2& getContentScale() const { return contentScale; }
             const Vector2& getContentPosition() const { return contentPosition; }
 
-            void setRenderTarget(const graphics::TextureResourcePtr& newRenderTarget);
-            const graphics::TextureResourcePtr& getRenderTarget() const { return renderTarget; }
+            void setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget);
+            const std::shared_ptr<graphics::Texture>& getRenderTarget() const { return renderTarget; }
 
             bool getDepthWrite() const { return depthWrite; }
             void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
@@ -113,7 +114,7 @@ namespace ouzel
 
             Layer* layer = nullptr;
 
-            graphics::TextureResourcePtr renderTarget;
+            std::shared_ptr<graphics::Texture> renderTarget;
 
             bool depthWrite = false;
             bool depthTest = false;

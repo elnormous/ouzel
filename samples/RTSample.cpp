@@ -19,7 +19,7 @@ RTSample::RTSample(Samples& aSamples):
 
     addLayer(&rtLayer);
 
-    ouzel::graphics::TextureResourcePtr renderTarget = sharedEngine->getRenderer()->createTexture();
+    std::shared_ptr<graphics::Texture> renderTarget(new graphics::Texture());
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, 0);
     renderTarget->setClearColor(Color(0, 64, 0));
 
@@ -45,7 +45,7 @@ RTSample::RTSample(Samples& aSamples):
 
     scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
-    std::vector<scene::SpriteFrame> spriteFrames = { rtFrame };
+    std::vector<scene::SpriteFrame> spriteFrames = {rtFrame};
     rtSprite.initFromSpriteFrames(spriteFrames);
     rtNode.addComponent(&rtSprite);
     layer.addChild(&rtNode);

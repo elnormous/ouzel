@@ -23,19 +23,6 @@ namespace ouzel
             }
         }
 
-        void BufferMetal::free()
-        {
-            BufferResource::free();
-
-            if (buffer)
-            {
-                [buffer release];
-                buffer = Nil;
-            }
-
-            bufferSize = 0;
-        }
-
         bool BufferMetal::upload()
         {
             if (!BufferResource::upload())
@@ -43,27 +30,32 @@ namespace ouzel
                 return false;
             }
 
-            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-            if (!uploadData.data.empty())
+            if (data.dirty)
             {
-                if (!buffer || uploadData.data.size() > bufferSize)
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+                if (!data.data.empty())
                 {
-                    if (buffer) [buffer release];
-
-                    bufferSize = static_cast<uint32_t>(uploadData.data.size());
-
-                    buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                     options:MTLResourceCPUCacheModeWriteCombined];
-
-                    if (!buffer)
+                    if (!buffer || data.data.size() > bufferSize)
                     {
-                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                        return false;
+                        if (buffer) [buffer release];
+
+                        bufferSize = static_cast<uint32_t>(data.data.size());
+
+                        buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                         options:MTLResourceCPUCacheModeWriteCombined];
+
+                        if (!buffer)
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                            return false;
+                        }
                     }
+
+                    std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>([buffer contents]));
                 }
 
-                std::copy(uploadData.data.begin(), uploadData.data.end(), static_cast<uint8_t*>([buffer contents]));
+                data.dirty = 0;
             }
 
             return true;

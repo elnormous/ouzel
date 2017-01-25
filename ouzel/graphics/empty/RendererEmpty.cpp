@@ -32,7 +32,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderResourcePtr textureShader = createShader();
+            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 
             textureShader->initFromBuffers({},
                                            {},
@@ -42,7 +42,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderResourcePtr colorShader = createShader();
+            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
 
             colorShader->initFromBuffers({},
                                          {},
@@ -52,7 +52,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStateResourcePtr noBlendState = createBlendState();
+            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -62,7 +62,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStateResourcePtr addBlendState = createBlendState();
+            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -72,7 +72,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStateResourcePtr multiplyBlendState = createBlendState();
+            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -82,7 +82,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStateResourcePtr alphaBlendState = createBlendState();
+            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -92,40 +92,60 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TextureResourcePtr whitePixelTexture = createTexture();
+            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;
         }
 
-        BlendStateResourcePtr RendererEmpty::createBlendState()
+        bool RendererEmpty::draw()
         {
-            BlendStateResourcePtr blendState = std::make_shared<BlendStateEmpty>();
+            return true;
+        }
+
+        BlendStateResource* RendererEmpty::createBlendState()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BlendStateResource* blendState = new BlendStateEmpty();
+            resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
 
-        TextureResourcePtr RendererEmpty::createTexture()
+        TextureResource* RendererEmpty::createTexture()
         {
-            TextureResourcePtr texture(new TextureEmpty());
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            TextureResource* texture(new TextureEmpty());
+            resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
 
-        ShaderResourcePtr RendererEmpty::createShader()
+        ShaderResource* RendererEmpty::createShader()
         {
-            ShaderResourcePtr shader = std::make_shared<ShaderEmpty>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            ShaderResource* shader = new ShaderEmpty();
+            resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
 
-        MeshBufferResourcePtr RendererEmpty::createMeshBuffer()
+        MeshBufferResource* RendererEmpty::createMeshBuffer()
         {
-            MeshBufferResourcePtr meshBuffer = std::make_shared<MeshBufferEmpty>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            MeshBufferResource* meshBuffer = new MeshBufferEmpty();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferResourcePtr RendererEmpty::createBuffer()
+        BufferResource* RendererEmpty::createBuffer()
         {
-            BufferResourcePtr buffer = std::make_shared<BufferEmpty>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BufferResource* buffer = new BufferEmpty();
+            resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }
     } // namespace graphics

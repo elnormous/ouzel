@@ -364,7 +364,7 @@ namespace ouzel
                 }
             }
 
-            ShaderResourcePtr textureShader = createShader();
+            std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                            std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
                                            VertexPCT::ATTRIBUTES,
@@ -373,7 +373,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
-            ShaderResourcePtr colorShader = createShader();
+            std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
             colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                                          std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
                                          VertexPC::ATTRIBUTES,
@@ -382,7 +382,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            BlendStateResourcePtr noBlendState = createBlendState();
+            std::shared_ptr<BlendState> noBlendState = createBlendState();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -392,7 +392,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            BlendStateResourcePtr addBlendState = createBlendState();
+            std::shared_ptr<BlendState> addBlendState = createBlendState();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -402,7 +402,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            BlendStateResourcePtr multiplyBlendState = createBlendState();
+            std::shared_ptr<BlendState> multiplyBlendState = createBlendState();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -412,7 +412,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            BlendStateResourcePtr alphaBlendState = createBlendState();
+            std::shared_ptr<BlendState> alphaBlendState = createBlendState();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -422,7 +422,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
-            TextureResourcePtr whitePixelTexture = createTexture();
+            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
@@ -454,13 +454,8 @@ namespace ouzel
             return true;
         }
 
-        bool RendererD3D11::present()
+        bool RendererD3D11::draw()
         {
-            if (!Renderer::present())
-            {
-                return false;
-            }
-
             context->RSSetState(rasterizerStates[0]);
 
             if (!update())
@@ -674,8 +669,6 @@ namespace ouzel
 
                 context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
 
-                bool texturesValid = true;
-
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
@@ -690,8 +683,7 @@ namespace ouzel
                     {
                         if (!textureD3D11->getResourceView())
                         {
-                            texturesValid = false;
-                            break;
+                            return false;
                         }
 
                         resourceViews[layer] = textureD3D11->getResourceView();
@@ -702,11 +694,6 @@ namespace ouzel
                         resourceViews[layer] = nullptr;
                         samplerStates[layer] = nullptr;
                     }
-                }
-
-                if (!texturesValid)
-                {
-                    continue;
                 }
 
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
@@ -837,33 +824,48 @@ namespace ouzel
             return result;
         }
 
-        BlendStateResourcePtr RendererD3D11::createBlendState()
+        BlendStateResource* RendererD3D11::createBlendState()
         {
-            std::shared_ptr<BlendStateD3D11> blendState = std::make_shared<BlendStateD3D11>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BlendStateResource* blendState = new BlendStateD3D11();
+            resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
 
-        TextureResourcePtr RendererD3D11::createTexture()
+        TextureResource* RendererD3D11::createTexture()
         {
-            std::shared_ptr<TextureD3D11> texture = std::make_shared<TextureD3D11>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            TextureResource* texture = new TextureD3D11();
+            resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
 
-        ShaderResourcePtr RendererD3D11::createShader()
+        ShaderResource* RendererD3D11::createShader()
         {
-            std::shared_ptr<ShaderD3D11> shader = std::make_shared<ShaderD3D11>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            ShaderResource* shader = new ShaderD3D11();
+            resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
 
-        MeshBufferResourcePtr RendererD3D11::createMeshBuffer()
+        MeshBufferResource* RendererD3D11::createMeshBuffer()
         {
-            std::shared_ptr<MeshBufferD3D11> meshBuffer = std::make_shared<MeshBufferD3D11>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            MeshBufferResource* meshBuffer = new MeshBufferD3D11();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferResourcePtr RendererD3D11::createBuffer()
+        BufferResource* RendererD3D11::createBuffer()
         {
-            std::shared_ptr<BufferD3D11> buffer = std::make_shared<BufferD3D11>();
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BufferResource* buffer = new BufferD3D11();
+            resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }
 

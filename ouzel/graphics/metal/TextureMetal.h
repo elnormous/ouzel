@@ -25,13 +25,15 @@ namespace ouzel
         public:
             TextureMetal();
             virtual ~TextureMetal();
-            virtual void free() override;
 
             MTLTextureResourcePtr getTexture() const { return texture; }
             NSUInteger getColorFormat() const { return colorFormat; }
             NSUInteger getDepthFormat() const { return depthFormat; }
 
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
+
+            NSUInteger getWidth() const { return width; }
+            NSUInteger getHeight() const { return height; }
 
         protected:
             virtual bool upload() override;
