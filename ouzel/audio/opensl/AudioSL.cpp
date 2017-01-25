@@ -28,32 +28,12 @@ namespace ouzel
             }
         }
 
-        void AudioSL::free()
-        {
-            Audio::free();
-
-            if (outputMixObject)
-            {
-                (*outputMixObject)->Destroy(outputMixObject);
-                outputMixObject = nullptr;
-            }
-
-            if (engineObject)
-            {
-                (*engineObject)->Destroy(engineObject);
-                engineObject = nullptr;
-                engine = nullptr;
-            }
-        }
-
         bool AudioSL::init()
         {
             if (!Audio::init())
             {
                 return false;
             }
-
-            free();
 
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;

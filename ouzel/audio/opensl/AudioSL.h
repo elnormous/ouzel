@@ -18,7 +18,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~AudioSL();
-            virtual void free() override;
 
             virtual bool init() override;
 
