@@ -239,6 +239,12 @@ namespace ouzel
                 return false;
             }
 
+            if (!blendState)
+            {
+                Log(Log::Level::ERR) << "No blend state passed to render queue";
+                return false;
+            }
+
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
                 shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
             {
