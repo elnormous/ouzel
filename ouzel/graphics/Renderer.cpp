@@ -114,7 +114,7 @@ namespace ouzel
                 return false;
             }
 
-            deleteSet.clear(); // delete all resources in delete set
+            resourceDeleteSet.clear(); // delete all resources in delete set
 
             if (!generateScreenshots())
             {
@@ -182,7 +182,7 @@ namespace ouzel
 
             if (i != resources.end())
             {
-                deleteSet.push_back(std::move(*i));
+                resourceDeleteSet.push_back(std::move(*i));
                 resources.erase(i);
             }
         }

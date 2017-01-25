@@ -88,6 +88,7 @@ namespace ouzel
 
         RendererOGL::~RendererOGL()
         {
+            resourceDeleteSet.clear();
             resources.clear();
             
             if (colorRenderBufferId)

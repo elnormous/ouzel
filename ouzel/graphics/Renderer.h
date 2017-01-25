@@ -230,7 +230,7 @@ namespace ouzel
             Data uploadData;
 
             std::vector<std::unique_ptr<Resource>> resources;
-            std::vector<std::unique_ptr<Resource>> deleteSet;
+            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
             std::mutex resourceMutex;
 
         private:

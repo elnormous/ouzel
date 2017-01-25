@@ -35,6 +35,9 @@ namespace ouzel
 
         RendererD3D11::~RendererD3D11()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             for (uint32_t state = 0; state < 4; ++state)
             {
                 if (depthStencilStates[state])
