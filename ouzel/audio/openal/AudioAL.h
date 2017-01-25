@@ -27,7 +27,6 @@ namespace ouzel
             static bool checkOpenALError(bool logError = true);
 
             virtual ~AudioAL();
-            virtual void free() override;
 
             virtual bool init() override;
 

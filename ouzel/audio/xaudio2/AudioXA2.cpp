@@ -32,38 +32,12 @@ namespace ouzel
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
-        void AudioXA2::free()
-        {
-            Audio::free();
-
-            if (masteringVoice)
-            {
-                masteringVoice->DestroyVoice();
-                masteringVoice = nullptr;
-            }
-
-            if (xAudio)
-            {
-                if (apiMajorVersion == 2 && apiMinorVersion == 7) IXAudio2Release(xAudio);
-                else xAudio->Release();
-                xAudio = nullptr;
-            }
-
-            if (xAudio2Library)
-            {
-                FreeModule(xAudio2Library);
-                xAudio2Library = nullptr;
-            }
-        }
-
         bool AudioXA2::init()
         {
             if (!Audio::init())
             {
                 return false;
             }
-
-            free();
 
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 

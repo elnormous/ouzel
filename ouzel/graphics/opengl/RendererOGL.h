@@ -80,7 +80,7 @@ namespace ouzel
         public:
             virtual ~RendererOGL();
 
-            virtual bool present() override;
+            virtual bool process() override;
             virtual bool draw() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;

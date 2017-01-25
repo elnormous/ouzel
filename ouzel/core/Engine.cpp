@@ -84,7 +84,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        currentFPS(0.0f), accumulatedFPS(0.0f), running(false), active(false)
+        running(false), active(false)
     {
         sharedEngine = this;
     }
@@ -336,7 +336,7 @@ namespace ouzel
         active = true;
         running = true;
 
-        previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
+        previousUpdateTime = std::chrono::steady_clock::now();
 
 #if OUZEL_MULTITHREADED
         updateThread = std::thread(&Engine::run, this);
@@ -358,7 +358,7 @@ namespace ouzel
 
     void Engine::resume()
     {
-        previousUpdateTime = previousFrameTime = std::chrono::steady_clock::now();
+        previousUpdateTime = std::chrono::steady_clock::now();
         running = true;
     }
 
@@ -456,28 +456,7 @@ namespace ouzel
         Engine::run();
 #endif
 
-        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-        auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
-        previousFrameTime = currentTime;
-
-        float delta = diff.count() / 1000000000.0f;
-
-        if (delta > 0.0f)
-        {
-            currentFPS = 1.0f / delta;
-        }
-
-        accumulatedTime += delta;
-        currentAccumulatedFPS += 1.0f;
-
-        if (accumulatedTime > 1.0f)
-        {
-            accumulatedFPS = currentAccumulatedFPS;
-            accumulatedTime = 0.0f;
-            currentAccumulatedFPS = 0.0f;
-        }
-
-        if (!renderer->present())
+        if (!renderer->process())
         {
             return false;
         }

@@ -25,7 +25,9 @@ namespace ouzel
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
             clearColor(Color::BLACK),
-            dirty(false)
+            dirty(false),
+            currentFPS(0.0f),
+            accumulatedFPS(0.0f)
         {
         }
 
@@ -49,6 +51,8 @@ namespace ouzel
             verticalSync = newVerticalSync;
             depth = newDepth;
 
+            previousFrameTime = std::chrono::steady_clock::now();
+
             return true;
         }
 
@@ -57,8 +61,29 @@ namespace ouzel
             return true;
         }
 
-        bool Renderer::present()
+        bool Renderer::process()
         {
+            std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+            auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
+            previousFrameTime = currentTime;
+
+            float delta = diff.count() / 1000000000.0f;
+
+            if (delta > 0.0f)
+            {
+                currentFPS = 1.0f / delta;
+            }
+
+            accumulatedTime += delta;
+            currentAccumulatedFPS += 1.0f;
+
+            if (accumulatedTime > 1.0f)
+            {
+                accumulatedFPS = currentAccumulatedFPS;
+                accumulatedTime = 0.0f;
+                currentAccumulatedFPS = 0.0f;
+            }
+
             if (dirty)
             {
                 uploadData.size = size;

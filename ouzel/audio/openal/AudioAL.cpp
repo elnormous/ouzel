@@ -87,41 +87,12 @@ namespace ouzel
             }
         }
 
-        void AudioAL::free()
-        {
-            Audio::free();
-
-            if (context)
-            {
-                alcDestroyContext(context);
-                context = nullptr;
-
-                if (checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL context";
-                }
-            }
-
-            if (device)
-            {
-                alcCloseDevice(device);
-                device = nullptr;
-
-                if (checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to close OpenAL device";
-                }
-            }
-        }
-
         bool AudioAL::init()
         {
             if (!Audio::init())
             {
                 return false;
             }
-
-            free();
 
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 

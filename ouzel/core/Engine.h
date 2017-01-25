@@ -56,9 +56,6 @@ namespace ouzel
         bool isRunning() const { return running; }
         bool isActive() const { return active; }
 
-        float getFPS() const { return currentFPS; }
-        float getAccumulatedFPS() const { return accumulatedFPS; }
-
         void scheduleUpdate(const UpdateCallback* callback);
         void unscheduleUpdate(const UpdateCallback* callback);
 
@@ -77,13 +74,6 @@ namespace ouzel
         Localization localization;
         Cache cache;
         scene::SceneManager sceneManager;
-
-        std::atomic<float> currentFPS;
-        std::chrono::steady_clock::time_point previousFrameTime;
-
-        float accumulatedTime = 0.0f;
-        float currentAccumulatedFPS = 0.0f;
-        std::atomic<float> accumulatedFPS;
 
         std::chrono::steady_clock::time_point previousUpdateTime;
 

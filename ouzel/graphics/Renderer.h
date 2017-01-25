@@ -86,7 +86,7 @@ namespace ouzel
             void setClearColor(Color color);
             Color getClearColor() const { return clearColor; }
 
-            virtual bool present();
+            virtual bool process();
 
             virtual void setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
@@ -154,6 +154,9 @@ namespace ouzel
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
+
+            float getFPS() const { return currentFPS; }
+            float getAccumulatedFPS() const { return accumulatedFPS; }
 
         protected:
             Renderer(Driver aDriver);
@@ -233,6 +236,13 @@ namespace ouzel
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
             std::mutex resourceMutex;
 
+            std::atomic<float> currentFPS;
+            std::chrono::steady_clock::time_point previousFrameTime;
+
+            float accumulatedTime = 0.0f;
+            float currentAccumulatedFPS = 0.0f;
+            std::atomic<float> accumulatedFPS;
+            
         private:
             Size2 size;
 

@@ -18,15 +18,15 @@ namespace ouzel
         {
         }
 
-        void Audio::free()
-        {
-            ready = false;
-        }
-
         bool Audio::init()
         {
             ready = true;
 
+            return true;
+        }
+
+        bool Audio::process()
+        {
             return true;
         }
     } // namespace audio

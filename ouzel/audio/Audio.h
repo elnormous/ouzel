@@ -30,9 +30,10 @@ namespace ouzel
             };
 
             virtual ~Audio();
-            virtual void free();
 
             virtual bool init();
+
+            virtual bool process();
 
             virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;

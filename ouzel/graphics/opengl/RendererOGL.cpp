@@ -406,14 +406,14 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::present()
+        bool RendererOGL::process()
         {
             if (!lockContext())
             {
                 return false;
             }
 
-            return Renderer::present();
+            return Renderer::process();
         }
 
         bool RendererOGL::draw()
