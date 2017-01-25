@@ -24,10 +24,10 @@ namespace ouzel
             refillDrawQueue(true),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
-            clearColor(Color::BLACK),
-            dirty(false),
             currentFPS(0.0f),
-            accumulatedFPS(0.0f)
+            accumulatedFPS(0.0f),
+            clearColor(Color::BLACK),
+            dirty(false)
         {
         }
 

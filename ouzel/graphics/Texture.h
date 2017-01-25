@@ -68,7 +68,6 @@ namespace ouzel
             bool dynamic = false;
             bool mipmaps = false;
             bool renderTarget = false;
-            bool mipMapsGenerated = false;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             uint32_t sampleCount = 1;
