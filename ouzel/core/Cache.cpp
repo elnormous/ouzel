@@ -73,7 +73,9 @@ namespace ouzel
         }
         else
         {
-            return nullptr;
+            auto i = shaders.insert(std::make_pair(shaderName, nullptr));
+
+            return i.first->second;
         }
     }
 
@@ -92,7 +94,9 @@ namespace ouzel
         }
         else
         {
-            return nullptr;
+            auto i = blendStates.insert(std::make_pair(blendStateName, nullptr));
+
+            return i.first->second;
         }
     }
 
