@@ -22,17 +22,6 @@ namespace ouzel
             }
         }
 
-        void BlendStateD3D11::free()
-        {
-            BlendStateResource::free();
-
-            if (blendState)
-            {
-                blendState->Release();
-                blendState = nullptr;
-            }
-        }
-
         static D3D11_BLEND getBlendFactor(BlendState::BlendFactor blendFactor)
         {
             switch (blendFactor)
@@ -74,32 +63,37 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            // Blending state
-            D3D11_BLEND_DESC blendStateDesc;
-            blendStateDesc.AlphaToCoverageEnable = FALSE;
-            blendStateDesc.IndependentBlendEnable = FALSE;
-
-            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc;
-            targetBlendDesc.BlendEnable = uploadData.enableBlending ? TRUE : FALSE;
-            targetBlendDesc.SrcBlend = getBlendFactor(uploadData.colorBlendSource);
-            targetBlendDesc.DestBlend = getBlendFactor(uploadData.colorBlendDest);
-            targetBlendDesc.BlendOp = getBlendOperation(uploadData.colorOperation);
-            targetBlendDesc.SrcBlendAlpha = getBlendFactor(uploadData.alphaBlendSource);
-            targetBlendDesc.DestBlendAlpha = getBlendFactor(uploadData.alphaBlendDest);
-            targetBlendDesc.BlendOpAlpha = getBlendOperation(uploadData.alphaOperation);
-            targetBlendDesc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-            blendStateDesc.RenderTarget[0] = targetBlendDesc;
-
-            if (blendState) blendState->Release();
-
-            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
-            if (FAILED(hr))
+            if (data.dirty)
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state";
-                return false;
+                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+
+                // Blending state
+                D3D11_BLEND_DESC blendStateDesc;
+                blendStateDesc.AlphaToCoverageEnable = FALSE;
+                blendStateDesc.IndependentBlendEnable = FALSE;
+
+                D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc;
+                targetBlendDesc.BlendEnable = data.enableBlending ? TRUE : FALSE;
+                targetBlendDesc.SrcBlend = getBlendFactor(data.colorBlendSource);
+                targetBlendDesc.DestBlend = getBlendFactor(data.colorBlendDest);
+                targetBlendDesc.BlendOp = getBlendOperation(data.colorOperation);
+                targetBlendDesc.SrcBlendAlpha = getBlendFactor(data.alphaBlendSource);
+                targetBlendDesc.DestBlendAlpha = getBlendFactor(data.alphaBlendDest);
+                targetBlendDesc.BlendOpAlpha = getBlendOperation(data.alphaOperation);
+                targetBlendDesc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+                blendStateDesc.RenderTarget[0] = targetBlendDesc;
+
+                if (blendState) blendState->Release();
+
+                HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state";
+                    return false;
+                }
+
+                data.dirty = 0;
             }
 
             return true;

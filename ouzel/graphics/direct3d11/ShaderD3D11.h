@@ -17,7 +17,6 @@ namespace ouzel
         public:
             ShaderD3D11();
             virtual ~ShaderD3D11();
-            virtual void free() override;
 
             struct Location
             {

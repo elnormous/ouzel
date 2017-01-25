@@ -16,7 +16,6 @@ namespace ouzel
         public:
             BufferD3D11();
             virtual ~BufferD3D11();
-            virtual void free() override;
 
             ID3D11Buffer* getBuffer() const { return buffer; }
 

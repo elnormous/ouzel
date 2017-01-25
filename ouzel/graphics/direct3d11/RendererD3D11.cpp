@@ -382,7 +382,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            std::shared_ptr<BlendState> noBlendState = createBlendState();
+            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
@@ -392,7 +392,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
-            std::shared_ptr<BlendState> addBlendState = createBlendState();
+            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
 
             addBlendState->init(true,
                                 BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
@@ -402,7 +402,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
-            std::shared_ptr<BlendState> multiplyBlendState = createBlendState();
+            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
 
             multiplyBlendState->init(true,
                                      BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
@@ -412,7 +412,7 @@ namespace ouzel
 
             sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
-            std::shared_ptr<BlendState> alphaBlendState = createBlendState();
+            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
 
             alphaBlendState->init(true,
                                   BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
@@ -512,15 +512,15 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    std::shared_ptr<TextureD3D11> renderTargetD3D11 = std::static_pointer_cast<TextureD3D11>(drawCommand.renderTarget);
+                    TextureD3D11* renderTargetD3D11 = static_cast<TextureD3D11*>(drawCommand.renderTarget);
 
                     if (!renderTargetD3D11->getRenderTargetView())
                     {
                         continue;
                     }
 
-                    std::shared_ptr<TextureD3D11> renderTargetTextureD3D11 = std::static_pointer_cast<TextureD3D11>(renderTargetD3D11);
-                    viewport.TopLeftY = renderTargetTextureD3D11->getSize().v[1] - (viewport.TopLeftY + viewport.Height);
+                    TextureD3D11* renderTargetTextureD3D11 = static_cast<TextureD3D11*>(renderTargetD3D11);
+                    viewport.TopLeftY = renderTargetTextureD3D11->getHeight() - (viewport.TopLeftY + viewport.Height);
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newDepthStencilView = renderTargetD3D11->getDepthStencilView();
@@ -581,7 +581,7 @@ namespace ouzel
                 }
 
                 // shader
-                std::shared_ptr<ShaderD3D11> shaderD3D11 = std::static_pointer_cast<ShaderD3D11>(drawCommand.shader);
+                ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(drawCommand.shader);
 
                 if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
                 {
@@ -659,7 +659,7 @@ namespace ouzel
                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
                 // blend state
-                std::shared_ptr<BlendStateD3D11> blendStateD3D11 = std::static_pointer_cast<BlendStateD3D11>(drawCommand.blendState);
+                BlendStateD3D11* blendStateD3D11 = static_cast<BlendStateD3D11*>(drawCommand.blendState);
 
                 if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
                 {
@@ -672,11 +672,11 @@ namespace ouzel
                 // textures
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    std::shared_ptr<TextureD3D11> textureD3D11;
+                    TextureD3D11* textureD3D11 = nullptr;
 
                     if (drawCommand.textures.size() > layer)
                     {
-                        textureD3D11 = std::static_pointer_cast<TextureD3D11>(drawCommand.textures[layer]);
+                        textureD3D11 = static_cast<TextureD3D11*>(drawCommand.textures[layer]);
                     }
 
                     if (textureD3D11)
@@ -700,7 +700,7 @@ namespace ouzel
                 context->PSSetSamplers(0, Texture::LAYERS, samplerStates);
 
                 // mesh buffer
-                std::shared_ptr<MeshBufferD3D11> meshBufferD3D11 = std::static_pointer_cast<MeshBufferD3D11>(drawCommand.meshBuffer);
+                MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(drawCommand.meshBuffer);
 
                 if (!meshBufferD3D11)
                 {
@@ -715,8 +715,8 @@ namespace ouzel
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                 // draw
-                std::shared_ptr<BufferD3D11> indexBufferD3D11 = std::static_pointer_cast<BufferD3D11>(meshBufferD3D11->getIndexBuffer());
-                std::shared_ptr<BufferD3D11> vertexBufferD3D11 = std::static_pointer_cast<BufferD3D11>(meshBufferD3D11->getVertexBuffer());
+                BufferD3D11* indexBufferD3D11 = static_cast<BufferD3D11*>(meshBufferD3D11->getIndexBuffer());
+                BufferD3D11* vertexBufferD3D11 = static_cast<BufferD3D11*>(meshBufferD3D11->getVertexBuffer());
 
                 if (!indexBufferD3D11 || !indexBufferD3D11->getBuffer() ||
                     !vertexBufferD3D11 || !vertexBufferD3D11->getBuffer())
