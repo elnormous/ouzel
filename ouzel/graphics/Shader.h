@@ -77,10 +77,10 @@ namespace ouzel
                                uint32_t newVertexAttributes,
                                const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
                                const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                               uint32_t newPixelShaderDataAlignment,
-                               uint32_t newVertexShaderDataAlignment,
-                               const std::string& newPixelShaderFunction,
-                               const std::string& newVertexShaderFunction);
+                               uint32_t newPixelShaderDataAlignment = 0,
+                               uint32_t newVertexShaderDataAlignment = 0,
+                               const std::string& newPixelShaderFunction = "",
+                               const std::string& newVertexShaderFunction = "");
 
             ShaderResource* getResource() const { return resource; }
 
