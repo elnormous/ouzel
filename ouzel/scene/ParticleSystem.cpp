@@ -160,6 +160,7 @@ namespace ouzel
                 active = false;
                 sharedEngine->unscheduleUpdate(&updateCallback);
                 if (finishHandler) finishHandler();
+                return;
             }
 
             if (active)
