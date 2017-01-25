@@ -36,7 +36,7 @@ namespace ouzel
             bool setData(const void* newData, uint32_t newSize);
 
         private:
-            BufferResource* resource;
+            BufferResource* resource = nullptr;
 
             Buffer::Usage usage;
             bool dynamic = true;
