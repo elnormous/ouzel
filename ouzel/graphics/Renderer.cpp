@@ -100,12 +100,14 @@ namespace ouzel
             }
 
             {
+#if OUZEL_MULTITHREADED
                 std::unique_lock<std::mutex> lock(drawQueueMutex);
 
                 while (!activeDrawQueueFinished)
                 {
                     drawQueueCondition.wait(lock);
                 }
+#endif
 
                 drawQueue = std::move(activeDrawQueue);
                 activeDrawQueue.reserve(drawQueue.size());
@@ -281,7 +283,10 @@ namespace ouzel
                 activeDrawQueueFinished = true;
                 drawCallCount = static_cast<uint32_t>(activeDrawQueue.size());
             }
+
+#if OUZEL_MULTITHREADED
             drawQueueCondition.notify_one();
+#endif
         }
 
         bool Renderer::saveScreenshot(const std::string& filename)
