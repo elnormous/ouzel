@@ -94,6 +94,11 @@ namespace ouzel
         shaders[shaderName] = shader;
     }
 
+    void Cache::releaseShaders()
+    {
+        shaders.clear();
+    }
+
     const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
     {
         std::unordered_map<std::string, std::shared_ptr<graphics::BlendState>>::const_iterator i = blendStates.find(blendStateName);
@@ -113,6 +118,11 @@ namespace ouzel
     void Cache::setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState)
     {
         blendStates[blendStateName] = blendState;
+    }
+
+    void Cache::releaseBlendStates()
+    {
+        blendStates.clear();
     }
 
     void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps)
@@ -216,6 +226,11 @@ namespace ouzel
         }
     }
 
+    void Cache::releaseParticleDefinitions()
+    {
+        particleDefinitions.clear();
+    }
+
     void Cache::preloadBMFont(const std::string& filename)
     {
         std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
@@ -240,5 +255,10 @@ namespace ouzel
 
             return i.first->second;
         }
+    }
+
+    void Cache::releaseBMFonts()
+    {
+        bmFonts.clear();
     }
 }

@@ -32,9 +32,11 @@ namespace ouzel
 
         const std::shared_ptr<graphics::Shader>& getShader(const std::string& shaderName) const;
         void setShader(const std::string& shaderName, const std::shared_ptr<graphics::Shader>& shader);
+        void releaseShaders();
 
         const std::shared_ptr<graphics::BlendState>& getBlendState(const std::string& blendStateName) const;
         void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
+        void releaseBlendStates();
 
         void preloadSpriteFrames(const std::string& filename, bool mipmaps = true);
         const std::vector<scene::SpriteFrame>& getSpriteFrames(const std::string& filename, bool mipmaps = true) const;
@@ -43,9 +45,11 @@ namespace ouzel
 
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
+        void releaseParticleDefinitions();
 
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
+        void releaseBMFonts();
 
     protected:
         mutable std::unordered_map<std::string, std::shared_ptr<graphics::Texture>> textures;
