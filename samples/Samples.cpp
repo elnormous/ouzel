@@ -18,13 +18,7 @@ void Samples::begin(const std::string& sample)
 {
     sharedEngine->getInput()->startGamepadDiscovery();
 
-#if OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
     sharedApplication->getFileSystem()->addResourcePath("Resources");
-#elif OUZEL_PLATFORM_WINDOWS
-    sharedApplication->getFileSystem()->addResourcePath("Resources");
-    sharedApplication->getFileSystem()->addResourcePath("../Resources");
-    sharedApplication->getFileSystem()->addResourcePath("../../Resources");
-#endif
 
     sharedEngine->getRenderer()->setClearColor(Color(64, 0, 0));
     sharedEngine->getWindow()->setTitle("Samples");
