@@ -133,7 +133,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/apple/AudioALApple.mm \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/apple/AudioALApple.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/AppDelegate.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
@@ -180,8 +180,8 @@ $(LIBRARY): $(OBJECTS)
 clean:
 	rm -rf $(LIBRARY) \
 	$(ROOT_DIR)/../ouzel/audio/*.o \
-	$(ROOT_DIR)/../ouzel/audio/apple/*.o \
 	$(ROOT_DIR)/../ouzel/audio/openal/*.o \
+	$(ROOT_DIR)/../ouzel/audio/openal/apple/*.o \
 	$(ROOT_DIR)/../ouzel/audio/empty/*.o \
 	$(ROOT_DIR)/../ouzel/animators/*.o \
 	$(ROOT_DIR)/../ouzel/core/*.o \

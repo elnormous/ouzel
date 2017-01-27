@@ -1472,7 +1472,6 @@
 		30419DDE1D162B9100A63759 /* audio */ = {
 			isa = PBXGroup;
 			children = (
-				303821011D817F5600677CAB /* apple */,
 				30419DDF1D162BCF00A63759 /* Audio.cpp */,
 				30419DE01D162BCF00A63759 /* Audio.h */,
 				3038210A1D81874D00677CAB /* empty */,
@@ -1493,6 +1492,7 @@
 		30419E6C1D20254100A63759 /* openal */ = {
 			isa = PBXGroup;
 			children = (
+				303821011D817F5600677CAB /* apple */,
 				30381FAF1D80A3F900677CAB /* AudioAL.cpp */,
 				30381FB01D80A3F900677CAB /* AudioAL.h */,
 				30381FB11D80A3F900677CAB /* SoundAL.cpp */,

@@ -69,7 +69,7 @@
 #endif
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include "audio/apple/AudioALApple.h"
+#include "audio/openal/apple/AudioALApple.h"
 #include "input/apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "input/windows/InputWin.h"
