@@ -18,7 +18,6 @@ namespace ouzel
             friend Audio;
         public:
             virtual ~SoundData();
-            virtual void free();
 
             virtual bool initFromFile(const std::string& newFilename);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);

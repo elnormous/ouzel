@@ -19,13 +19,6 @@ namespace ouzel
         {
         }
 
-        void SoundData::free()
-        {
-            data.clear();
-
-            ready = false;
-        }
-
         bool SoundData::initFromFile(const std::string& newFilename)
         {
             filename = newFilename;

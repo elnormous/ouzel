@@ -18,7 +18,6 @@ namespace ouzel
         public:
             SoundSL();
             virtual ~SoundSL();
-            virtual void free() override;
 
             virtual bool init(const SoundDataPtr& newSoundData) override;
 

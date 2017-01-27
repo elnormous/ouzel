@@ -43,28 +43,12 @@ namespace ouzel
             }
         }
 
-        void SoundSL::free()
-        {
-            Sound::free();
-
-            if (playerObject)
-            {
-                (*playerObject)->Destroy(playerObject);
-                playerObject = nullptr;
-                player = nullptr;
-                bufferQueue = nullptr;
-                playerVolume = nullptr;
-            }
-        }
-
         bool SoundSL::init(const SoundDataPtr& newSoundData)
         {
             if (!Sound::init(newSoundData))
             {
                 return false;
             }
-
-            free();
 
             AudioSL* audioSL = static_cast<AudioSL*>(sharedEngine->getAudio());
 

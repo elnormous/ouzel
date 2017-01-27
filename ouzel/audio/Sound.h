@@ -16,7 +16,6 @@ namespace ouzel
             friend Audio;
         public:
             virtual ~Sound();
-            virtual void free();
 
             virtual bool init(const SoundDataPtr& newSoundData);
 

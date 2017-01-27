@@ -15,11 +15,6 @@ namespace ouzel
         {
         }
 
-        void Sound::free()
-        {
-            ready = false;
-        }
-
         bool Sound::init(const SoundDataPtr& newSoundData)
         {
             soundData = newSoundData;

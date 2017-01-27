@@ -20,17 +20,6 @@ namespace ouzel
             if (sourceVoice) sourceVoice->DestroyVoice();
         }
 
-        void SoundXA2::free()
-        {
-            Sound::free();
-
-            if (sourceVoice)
-            {
-                sourceVoice->DestroyVoice();
-                sourceVoice = nullptr;
-            }
-        }
-
         bool SoundXA2::init(const SoundDataPtr& newSoundData)
         {
             if (!Sound::init(newSoundData))

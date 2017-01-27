@@ -40,43 +40,12 @@ namespace ouzel
             }
         }
 
-        void SoundAL::free()
-        {
-            Sound::free();
-
-            if (sourceId)
-            {
-                alSourceStop(sourceId);
-                alSourcei(sourceId, AL_BUFFER, 0);
-                alDeleteSources(1, &sourceId);
-                sourceId = 0;
-
-                if (AudioAL::checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL source";
-                }
-            }
-
-            if (outputBuffer)
-            {
-                alDeleteBuffers(1, &outputBuffer);
-                outputBuffer = 0;
-
-                if (AudioAL::checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
-                }
-            }
-        }
-
         bool SoundAL::init(const SoundDataPtr& newSoundData)
         {
             if (!Sound::init(newSoundData))
             {
                 return false;
             }
-
-            free();
 
             alGenSources(1, &sourceId);
 

@@ -17,7 +17,6 @@ namespace ouzel
         public:
             SoundXA2();
             virtual ~SoundXA2();
-            virtual void free() override;
 
             virtual bool init(const SoundDataPtr& newSoundData) override;
 
