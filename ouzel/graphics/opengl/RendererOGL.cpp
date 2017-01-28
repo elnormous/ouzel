@@ -132,7 +132,6 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
             }
 
-#if OUZEL_SUPPORTS_OPENGLES
             if (apiMajorVersion >= 3)
             {
 #if OUZEL_OPENGL_INTERFACE_EGL
@@ -172,11 +171,14 @@ namespace ouzel
                 {
                     std::string extensions(reinterpret_cast<const char*>(extensionPtr));
 
+                    Log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
+
                     std::istringstream extensionStringStream(extensions);
 
                     for (std::string extension; extensionStringStream >> extension;)
                     {
-                        if (extension == "GL_OES_texture_npot")
+                        if (extension == "GL_OES_texture_npot" ||
+                            extension == "GL_ARB_texture_non_power_of_two")
                         {
                             npotTexturesSupported = true;
                         }
@@ -224,7 +226,6 @@ namespace ouzel
                     }
                 }
             }
-#endif
 
             frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
             frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
@@ -361,12 +362,23 @@ namespace ouzel
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             glDepthFunc(GL_LEQUAL);
-            glClearDepthf(1.0f);
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log() << "Failed to set depth function";
+                return false;
+            }
 
 #if OUZEL_SUPPORTS_OPENGL
             if (sampleCount > 1)
             {
                 glEnable(GL_MULTISAMPLE);
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log() << "Failed to enable multi-sampling";
+                    return false;
+                }
             }
 #endif
 
@@ -659,12 +671,16 @@ namespace ouzel
                     {
                         // allow clearing the depth buffer
                         depthMask(true);
+                        glClearDepthf(1.0f);
                     }
 
-                    glClearColor(newClearColor[0],
-                                 newClearColor[1],
-                                 newClearColor[2],
-                                 newClearColor[3]);
+                    if (newClearMask & GL_COLOR_BUFFER_BIT)
+                    {
+                        glClearColor(newClearColor[0],
+                                     newClearColor[1],
+                                     newClearColor[2],
+                                     newClearColor[3]);
+                    }
 
                     glClear(newClearMask);
 
