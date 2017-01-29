@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <sstream>
-#include <iterator>
 
 #include "RendererOGL.h"
 #include "TextureOGL.h"
@@ -42,7 +41,27 @@
 #endif
 #endif
 
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_SUPPORTS_OPENGL
+#ifdef GL_ARB_vertex_array_object
+    PFNGLGENVERTEXARRAYSPROC genVertexArrays;
+    PFNGLBINDVERTEXARRAYPROC bindVertexArray;
+    PFNGLDELETEVERTEXARRAYSPROC deleteVertexArrays;
+#endif
+
+#ifdef GL3_PROTOTYPES
+    PFNGLMAPBUFFERPROC mapBuffer;
+    PFNGLUNMAPBUFFERPROC unmapBuffer;
+#endif
+
+#ifdef GL_ARB_map_buffer_range
+    PFNGLMAPBUFFERRANGEPROC mapBufferRange;
+#endif
+
+#ifdef GL_ARB_framebuffer_object
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisample;
+#endif
+
+#elif OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
     PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
     PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
