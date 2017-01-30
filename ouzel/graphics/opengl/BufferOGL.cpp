@@ -93,15 +93,15 @@ namespace ouzel
 
     #if OUZEL_OPENGL_INTERFACE_EGL
     #if defined(GL_EXT_map_buffer_range)
-                    if (mapBufferRangeEXT)
+                    if (mapBufferRangeProc)
                     {
-                        bufferPtr = mapBufferRangeEXT(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
+                        bufferPtr = mapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
                     }
     #endif
     #if defined(GL_OES_mapbuffer)
-                    if (!bufferPtr && mapBufferOES)
+                    if (!bufferPtr && mapBufferProc)
                     {
-                        bufferPtr = mapBufferOES(bufferType, GL_WRITE_ONLY_OES);
+                        bufferPtr = mapBufferProc(bufferType, GL_WRITE_ONLY_OES);
                     }
     #endif
     #else
@@ -114,7 +114,7 @@ namespace ouzel
 
     #if OUZEL_OPENGL_INTERFACE_EGL
     #if defined(GL_OES_mapbuffer)
-                        if (unmapBufferOES) unmapBufferOES(bufferType);
+                        if (unmapBufferProc) unmapBufferProc(bufferType);
     #endif
     #else
                         glUnmapBuffer(bufferType);

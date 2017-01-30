@@ -41,25 +41,45 @@
     typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLsizei samples);
 #endif
 
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_SUPPORTS_OPENGL
+#ifdef GL_ARB_vertex_array_object
+    extern PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
+    extern PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
+    extern PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
+#endif
+
+#ifdef GL3_PROTOTYPES
+    extern PFNGLMAPBUFFERPROC mapBufferProc;
+    extern PFNGLUNMAPBUFFERPROC unmapBufferProc;
+#endif
+
+#ifdef GL_ARB_map_buffer_range
+    extern PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
+#endif
+
+#ifdef GL_ARB_framebuffer_object
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
+#endif
+
+#elif OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
-    extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
-    extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
+    extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
+    extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
+    extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
 #endif
 
 #ifdef GL_OES_mapbuffer
-    extern PFNGLMAPBUFFEROESPROC mapBufferOES;
-    extern PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
+    extern PFNGLMAPBUFFEROESPROC mapBufferProc;
+    extern PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
 #endif
 
 #ifdef GL_EXT_map_buffer_range
-    extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
+    extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleProc;
+    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleProc;
 #endif
 
 #endif
@@ -198,7 +218,7 @@ namespace ouzel
 #if OUZEL_OPENGL_INTERFACE_EAGL
                     glBindVertexArrayOES(vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                    if (bindVertexArrayOES) bindVertexArrayOES(vertexArrayId);
+                    if (bindVertexArrayProc) bindVertexArrayProc(vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);
 #endif
@@ -423,7 +443,7 @@ namespace ouzel
 #if OUZEL_OPENGL_INTERFACE_EAGL
                 glDeleteVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                if (deleteVertexArraysOES) deleteVertexArraysOES(1, &vertexArrayId);
+                if (deleteVertexArraysProc) deleteVertexArraysProc(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
 #endif
@@ -500,6 +520,8 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename) override;
 
             virtual bool createFrameBuffer();
+
+            void* getProcAddress(const std::string& name) const;
 
             GLuint systemFrameBufferId = 0;
 

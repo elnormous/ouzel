@@ -41,45 +41,49 @@
 #endif
 #endif
 
+#if OUZEL_PLATFORM_MACOS
+#include "mach-o/dyld.h"
+#endif
+
 #if OUZEL_SUPPORTS_OPENGL
 #ifdef GL_ARB_vertex_array_object
-    PFNGLGENVERTEXARRAYSPROC genVertexArrays;
-    PFNGLBINDVERTEXARRAYPROC bindVertexArray;
-    PFNGLDELETEVERTEXARRAYSPROC deleteVertexArrays;
+    PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
+    PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
+    PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
 #endif
 
 #ifdef GL3_PROTOTYPES
-    PFNGLMAPBUFFERPROC mapBuffer;
-    PFNGLUNMAPBUFFERPROC unmapBuffer;
+    PFNGLMAPBUFFERPROC mapBufferProc;
+    PFNGLUNMAPBUFFERPROC unmapBufferProc;
 #endif
 
 #ifdef GL_ARB_map_buffer_range
-    PFNGLMAPBUFFERRANGEPROC mapBufferRange;
+    PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
 #endif
 
 #ifdef GL_ARB_framebuffer_object
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisample;
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
 #endif
 
 #elif OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
-    PFNGLGENVERTEXARRAYSOESPROC genVertexArraysOES;
-    PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayOES;
-    PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysOES;
+    PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
+    PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
+    PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
 #endif
 
 #ifdef GL_OES_mapbuffer
-    PFNGLMAPBUFFEROESPROC mapBufferOES;
-    PFNGLUNMAPBUFFEROESPROC unmapBufferOES;
+    PFNGLMAPBUFFEROESPROC mapBufferProc;
+    PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
 #endif
 
 #ifdef GL_EXT_map_buffer_range
-    PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeEXT;
+    PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleIMG;
-    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleIMG;
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleProc;
+    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleProc;
 #endif
 
 #endif
@@ -155,23 +159,23 @@ namespace ouzel
             {
 #if OUZEL_OPENGL_INTERFACE_EGL
 #ifdef GL_OES_vertex_array_object
-                genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-                bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-                deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+                genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
 #endif
 
 #ifdef GL_OES_mapbuffer
-                mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-                unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+                mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
 #endif
 
 #ifdef GL_EXT_map_buffer_range
-                mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
+                mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
 #endif
 
 #ifdef GL_IMG_multisampled_render_to_texture
-                renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
-                framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
+                renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL
             }
@@ -210,30 +214,30 @@ namespace ouzel
 #ifdef GL_OES_vertex_array_object
                         else if (extension == "GL_OES_vertex_array_object")
                         {
-                            genVertexArraysOES = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-                            bindVertexArrayOES = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-                            deleteVertexArraysOES = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
+                            genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                            bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                            deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
                         }
 #endif
 #ifdef GL_OES_mapbuffer
                         else if (extension == "GL_OES_mapbuffer")
                         {
-                            mapBufferOES = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-                            unmapBufferOES = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
+                            mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                            unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
                         }
 #endif
 #ifdef GL_EXT_map_buffer_range
                         else if (extension == "GL_EXT_map_buffer_range")
                         {
-                            mapBufferRangeEXT = (PFNGLMAPBUFFERRANGEEXTPROC)eglGetProcAddress("glMapBufferRangeEXT");
+                            mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
                         }
 #endif
 #ifdef GL_IMG_multisampled_render_to_texture
                         else if (extension == "GL_IMG_multisampled_render_to_texture")
                         {
                             multisamplingSupported = true;
-                            renderbufferStorageMultisampleIMG = (PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG)eglGetProcAddress("glRenderbufferStorageMultisampleIMG");
-                            framebufferTexture2DMultisampleIMG = (PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG)eglGetProcAddress("glFramebufferTexture2DMultisampleIMG");
+                            renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                            framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
                         }
 #endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL
@@ -1007,6 +1011,22 @@ namespace ouzel
 #endif // OUZEL_SUPPORTS_OPENGL
 
             return true;
+        }
+
+        void* RendererOGL::getProcAddress(const std::string& name) const
+        {
+#if OUZEL_PLATFORM_MACOS
+            NSSymbol symbol = nullptr;
+            std::string symbolName = "_" + name;
+            if (NSIsSymbolNameDefined(symbolName.c_str()))
+                symbol = NSLookupAndBindSymbol(symbolName.c_str());
+            return symbol ? NSAddressOfSymbol(symbol) : nullptr;
+#elif OUZEL_OPENGL_INTERFACE_EGL
+            return reinterpret_cast<void*>(eglGetProcAddress(name.c_str()));
+#else
+            OUZEL_UNUSED(name);
+            return nullptr;
+#endif
         }
 
         RendererOGL::StateCache RendererOGL::stateCache;

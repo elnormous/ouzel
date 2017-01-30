@@ -164,7 +164,7 @@ namespace ouzel
     #if OUZEL_OPENGL_INTERFACE_EAGL
                     glGenVertexArraysOES(1, &vertexArrayId);
     #elif OUZEL_OPENGL_INTERFACE_EGL
-                    if (genVertexArraysOES) genVertexArraysOES(1, &vertexArrayId);
+                    if (genVertexArraysProc) genVertexArraysProc(1, &vertexArrayId);
     #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glGenVertexArrays(1, &vertexArrayId);
     #endif
