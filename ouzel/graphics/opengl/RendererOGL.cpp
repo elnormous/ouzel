@@ -38,6 +38,8 @@
 #if OUZEL_OPENGL_INTERFACE_EGL
 #include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_XGL
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/glx.h>
 #include "GL/glxext.h"
 #endif
 
