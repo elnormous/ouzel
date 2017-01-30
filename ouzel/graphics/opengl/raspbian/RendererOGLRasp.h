@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <bcm_host.h>
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "graphics/opengl/RendererOGL.h"
@@ -32,6 +33,8 @@ namespace ouzel
             EGLDisplay display = 0;
             EGLSurface surface = 0;
             EGLContext context = 0;
+            
+            EGL_DISPMANX_WINDOW_T nativewindow;
         };
     } // namespace graphics
 } // namespace ouzel

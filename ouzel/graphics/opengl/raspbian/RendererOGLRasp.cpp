@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <bcm_host.h>
 #include "RendererOGLRasp.h"
 #include "core/Engine.h"
 #include "core/raspbian/WindowRasp.h"
@@ -126,7 +125,6 @@ namespace ouzel
                         &srcRect, DISPMANX_PROTECTION_NONE,
                         0, 0, DISPMANX_NO_ROTATE);
 
-            static EGL_DISPMANX_WINDOW_T nativewindow;
             nativewindow.element = dispmanElement;
             nativewindow.width = width;
             nativewindow.height = height;
