@@ -872,6 +872,12 @@ namespace ouzel
                 glGenFramebuffers(1, &frameBufferId);
             }
 
+            if (checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to generate frame buffer object";
+                return false;
+            }
+
             if (sampleCount > 1)
             {
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
