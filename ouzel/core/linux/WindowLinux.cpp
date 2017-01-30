@@ -2,13 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <memory>
-#define GL_GLEXT_PROTOTYPES 1
-#include <GL/gl.h>
-#include <GL/glext.h>
 #include "WindowLinux.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "graphics/Renderer.h"
 #include "graphics/opengl/RendererOGL.h"
 #include "utils/Log.h"
 

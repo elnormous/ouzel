@@ -20,25 +20,23 @@
 #include "ColorVSGL2.h"
 #include "TexturePSGL2.h"
 #include "TextureVSGL2.h"
-#if OUZEL_SUPPORTS_OPENGL3
 #include "ColorPSGL3.h"
 #include "ColorVSGL3.h"
 #include "TexturePSGL3.h"
 #include "TextureVSGL3.h"
-#endif
-#endif
-
-#if OUZEL_SUPPORTS_OPENGLES
+#elif OUZEL_SUPPORTS_OPENGLES
 #include "ColorPSGLES2.h"
 #include "ColorVSGLES2.h"
 #include "TexturePSGLES2.h"
 #include "TextureVSGLES2.h"
-#if OUZEL_SUPPORTS_OPENGLES3
 #include "ColorPSGLES3.h"
 #include "ColorVSGLES3.h"
 #include "TexturePSGLES3.h"
 #include "TextureVSGLES3.h"
 #endif
+
+#if OUZEL_OPENGL_INTERFACE_EGL
+#include "EGL/egl.h"
 #endif
 
 #if OUZEL_PLATFORM_MACOS
@@ -46,46 +44,22 @@
 #endif
 
 #if OUZEL_SUPPORTS_OPENGL
-#ifdef GL_ARB_vertex_array_object
     PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
     PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
     PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
-#endif
-
-#ifdef GL3_PROTOTYPES
     PFNGLMAPBUFFERPROC mapBufferProc;
     PFNGLUNMAPBUFFERPROC unmapBufferProc;
-#endif
-
-#ifdef GL_ARB_map_buffer_range
     PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
-#endif
-
-#ifdef GL_ARB_framebuffer_object
     PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
-#endif
-
-#elif OUZEL_OPENGL_INTERFACE_EGL
-#ifdef GL_OES_vertex_array_object
+#elif OUZEL_SUPPORTS_OPENGLES
     PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
     PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
     PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
-#endif
-
-#ifdef GL_OES_mapbuffer
     PFNGLMAPBUFFEROESPROC mapBufferProc;
     PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
-#endif
-
-#ifdef GL_EXT_map_buffer_range
     PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
-#endif
-
-#ifdef GL_IMG_multisampled_render_to_texture
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleProc;
-    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleProc;
-#endif
-
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC renderbufferStorageMultisampleProc;
+    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC framebufferTexture2DMultisampleProc;
 #endif
 
 namespace ouzel
@@ -158,25 +132,14 @@ namespace ouzel
             if (apiMajorVersion >= 3)
             {
 #if OUZEL_OPENGL_INTERFACE_EGL
-#ifdef GL_OES_vertex_array_object
                 genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
                 bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
                 deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
-#endif
-
-#ifdef GL_OES_mapbuffer
                 mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
                 unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
-#endif
-
-#ifdef GL_EXT_map_buffer_range
                 mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
-#endif
-
-#ifdef GL_IMG_multisampled_render_to_texture
-                renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
-#endif
+                renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
 #endif // OUZEL_OPENGL_INTERFACE_EGL
             }
             else
@@ -211,35 +174,27 @@ namespace ouzel
                             multisamplingSupported = true;
                         }
 #elif OUZEL_OPENGL_INTERFACE_EGL
-#ifdef GL_OES_vertex_array_object
                         else if (extension == "GL_OES_vertex_array_object")
                         {
                             genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
                             bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
                             deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
                         }
-#endif
-#ifdef GL_OES_mapbuffer
                         else if (extension == "GL_OES_mapbuffer")
                         {
                             mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
                             unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
                         }
-#endif
-#ifdef GL_EXT_map_buffer_range
                         else if (extension == "GL_EXT_map_buffer_range")
                         {
                             mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
                         }
-#endif
-#ifdef GL_IMG_multisampled_render_to_texture
                         else if (extension == "GL_IMG_multisampled_render_to_texture")
                         {
                             multisamplingSupported = true;
-                            renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                            framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                            renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                            framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
                         }
-#endif
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                     }
 
@@ -278,13 +233,13 @@ namespace ouzel
 #endif
                     break;
                 case 3:
-#if OUZEL_SUPPORTS_OPENGL3
+#if OUZEL_SUPPORTS_OPENGL
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", Shader::DataType::FLOAT_VECTOR4}},
                                                    {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
-#elif OUZEL_SUPPORTS_OPENGLES3
+#elif OUZEL_SUPPORTS_OPENGLES
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
@@ -319,13 +274,13 @@ namespace ouzel
 #endif
                     break;
                 case 3:
-#if OUZEL_SUPPORTS_OPENGL3
+#if OUZEL_SUPPORTS_OPENGL
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", Shader::DataType::FLOAT_VECTOR4}},
                                                  {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
-#elif OUZEL_SUPPORTS_OPENGLES3
+#elif OUZEL_SUPPORTS_OPENGLES
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
                                                  VertexPC::ATTRIBUTES,

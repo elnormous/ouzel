@@ -2705,6 +2705,7 @@
 					../ouzel/,
 					../external/stb/,
 					../external/rapidjson/include/,
+					../external/khronos,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2759,6 +2760,7 @@
 					../ouzel/,
 					../external/stb/,
 					../external/rapidjson/include/,
+					../external/khronos,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
+#include "EGL/egl.h"
+#include "EGL/eglext.h"
 #include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel

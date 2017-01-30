@@ -10,78 +10,35 @@
 #include <atomic>
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_MACOS
-    #include <OpenGL/gl3.h>
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-    #include <OpenGLES/ES2/gl.h>
-    #include <OpenGLES/ES2/glext.h>
-    #if OUZEL_SUPPORTS_OPENGLES3
-        #include <OpenGLES/ES3/gl.h>
-        #include <OpenGLES/ES3/glext.h>
-    #endif
-#elif OUZEL_PLATFORM_ANDROID
-    #include <GLES2/gl2platform.h>
+#if OUZEL_SUPPORTS_OPENGL
     #define GL_GLEXT_PROTOTYPES 1
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    #include <EGL/egl.h>
-#elif OUZEL_PLATFORM_LINUX
+    #include "GL/glcorearb.h"
+    #include "GL/glext.h"
+#elif OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
-    #include <GL/gl.h>
-    #include <GL/glx.h>
-    #include <GL/glext.h>
-#elif OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-    #define GL_GLEXT_PROTOTYPES 1
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    #include <EGL/egl.h>
-#endif
-
-#if OUZEL_PLATFORM_EMSCRIPTEN || OUZEL_PLATFORM_RASPBIAN // workaround for a typo in Emscripten's and Raspbian's gl2ext.h
-    typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLsizei samples);
+    #include "GLES/gl.h"
+    #include "GLES2/gl2.h"
+    #include "GLES2/gl2ext.h"
+    #include "GLES3/gl3.h"
 #endif
 
 #if OUZEL_SUPPORTS_OPENGL
-#ifdef GL_ARB_vertex_array_object
     extern PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
     extern PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
     extern PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
-#endif
-
-#ifdef GL3_PROTOTYPES
     extern PFNGLMAPBUFFERPROC mapBufferProc;
     extern PFNGLUNMAPBUFFERPROC unmapBufferProc;
-#endif
-
-#ifdef GL_ARB_map_buffer_range
     extern PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
-#endif
-
-#ifdef GL_ARB_framebuffer_object
     extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
-#endif
-
-#elif OUZEL_OPENGL_INTERFACE_EGL
-#ifdef GL_OES_vertex_array_object
+#elif OUZEL_SUPPORTS_OPENGLES
     extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
     extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
     extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
-#endif
-
-#ifdef GL_OES_mapbuffer
     extern PFNGLMAPBUFFEROESPROC mapBufferProc;
     extern PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
-#endif
-
-#ifdef GL_EXT_map_buffer_range
     extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
-#endif
-
-#ifdef GL_IMG_multisampled_render_to_texture
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG renderbufferStorageMultisampleProc;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEIMG framebufferTexture2DMultisampleProc;
-#endif
-
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC renderbufferStorageMultisampleProc;
+    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC framebufferTexture2DMultisampleProc;
 #endif
 
 #include "graphics/Renderer.h"

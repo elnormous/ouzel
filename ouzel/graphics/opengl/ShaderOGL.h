@@ -5,27 +5,16 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_MACOS
-    #include <OpenGL/gl3.h>
-#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-    #include <OpenGLES/ES2/gl.h>
-    #include <OpenGLES/ES2/glext.h>
-#elif OUZEL_PLATFORM_ANDROID
-    #include <GLES2/gl2platform.h>
+#if OUZEL_SUPPORTS_OPENGL
     #define GL_GLEXT_PROTOTYPES 1
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    #include <EGL/egl.h>
-#elif OUZEL_PLATFORM_LINUX
+    #include "GL/glcorearb.h"
+    #include "GL/glext.h"
+#elif OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
-    #include <GL/gl.h>
-    #include <GL/glx.h>
-    #include <GL/glext.h>
-#elif OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-    #define GL_GLEXT_PROTOTYPES 1
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    #include <EGL/egl.h>
+    #include "GLES/gl.h"
+    #include "GLES2/gl2.h"
+    #include "GLES2/gl2ext.h"
+    #include "GLES3/gl3.h"
 #endif
 
 #include "graphics/ShaderResource.h"

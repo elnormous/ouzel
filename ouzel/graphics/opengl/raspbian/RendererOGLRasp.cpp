@@ -1,8 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <GLES2/gl2.h>
-
 #include "RendererOGLRasp.h"
 #include "core/Engine.h"
 #include "core/raspbian/WindowRasp.h"

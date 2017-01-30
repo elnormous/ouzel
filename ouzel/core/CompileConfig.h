@@ -20,21 +20,18 @@
     #if TARGET_OS_IOS
         #define OUZEL_PLATFORM_IOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
-        #define OUZEL_SUPPORTS_OPENGLES3 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
         #define OUZEL_SUPPORTS_METAL 1
         #define OUZEL_SUPPORTS_OPENAL 1
     #elif TARGET_OS_TV
         #define OUZEL_PLATFORM_TVOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
-        #define OUZEL_SUPPORTS_OPENGLES3 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
         #define OUZEL_SUPPORTS_METAL 1
         #define OUZEL_SUPPORTS_OPENAL 1
     #elif TARGET_OS_MAC
         #define OUZEL_PLATFORM_MACOS 1
         #define OUZEL_SUPPORTS_OPENGL 1
-        #define OUZEL_SUPPORTS_OPENGL3 1
         #define OUZEL_OPENGL_INTERFACE_CGL 1
         #define OUZEL_SUPPORTS_METAL 1
         #define OUZEL_SUPPORTS_OPENAL 1
@@ -59,7 +56,6 @@
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
     #define OUZEL_SUPPORTS_OPENGLES 1
-    #define OUZEL_SUPPORTS_OPENGLES3 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENSL 1
     #define OUZEL_MULTITHREADED 1
@@ -81,7 +77,6 @@
 #elif defined(RASPBIAN)
     #define OUZEL_PLATFORM_RASPBIAN 1
     #define OUZEL_SUPPORTS_OPENGLES 1
-    #define OUZEL_SUPPORTS_OPENGLES3 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENAL 1
     #define OUZEL_MULTITHREADED 1
@@ -103,10 +98,8 @@
     #define OUZEL_PLATFORM_LINUX 1
     #if defined(__i386__) || defined(__x86_64__)
         #define OUZEL_SUPPORTS_OPENGL 1
-        #define OUZEL_SUPPORTS_OPENGL3 1
     #elif defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
-        #define OUZEL_SUPPORTS_OPENGLES3 1
     #endif
     #define OUZEL_OPENGL_INTERFACE_XGL 1
     #define OUZEL_SUPPORTS_OPENAL 1
