@@ -37,6 +37,8 @@
 
 #if OUZEL_OPENGL_INTERFACE_EGL
 #include "EGL/egl.h"
+#elif OUZEL_OPENGL_INTERFACE_XGL
+#include "GL/glxext.h"
 #endif
 
 #if OUZEL_PLATFORM_MACOS
