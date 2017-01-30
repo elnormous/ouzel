@@ -1021,6 +1021,8 @@ namespace ouzel
             if (NSIsSymbolNameDefined(symbolName.c_str()))
                 symbol = NSLookupAndBindSymbol(symbolName.c_str());
             return symbol ? NSAddressOfSymbol(symbol) : nullptr;
+#elif OUZEL_PLATFORM_LINUX
+            return reinterpret_cast<void*>(glXGetProcAddress(name.c_str()));
 #elif OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<void*>(eglGetProcAddress(name.c_str()));
 #else
