@@ -37,10 +37,12 @@
 
 #if OUZEL_OPENGL_INTERFACE_EGL
 #include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_XGL
+#elif OUZEL_OPENGL_INTERFACE_GLX
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/glx.h>
 #include "GL/glxext.h"
+#elif OUZEL_OPENGL_INTERFACE_WGL
+#include "GL/wglext.h"
 #endif
 
 #if OUZEL_PLATFORM_MACOS
@@ -989,7 +991,7 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to bind render buffer";
                     return false;
                 }
-                
+
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
                 if (checkOpenGLError())
@@ -1064,10 +1066,23 @@ namespace ouzel
             if (NSIsSymbolNameDefined(symbolName.c_str()))
                 symbol = NSLookupAndBindSymbol(symbolName.c_str());
             return symbol ? NSAddressOfSymbol(symbol) : nullptr;
-#elif OUZEL_PLATFORM_LINUX
-            return reinterpret_cast<void*>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name.c_str())));
 #elif OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<void*>(eglGetProcAddress(name.c_str()));
+#elif OUZEL_OPENGL_INTERFACE_GLX
+            return reinterpret_cast<void*>(glXGetProcAddress(reinterpret_cast<const GLubyte*>(name.c_str())));
+#elif OUZEL_OPENGL_INTERFACE_WGL
+            void* result = reinterpret_cast<void*>(wglGetProcAddress(name.c_str()));
+            if (result && result != reinterpret_cast<void*>(1) &&
+                result != reinterpret_cast<void*>(2) &&
+                result != reinterpret_cast<void*>(3) &&
+                result != reinterpret_cast<void*>(-1))
+            {
+                return result;
+            }
+            else
+            {
+                return nullptr;
+            }
 #else
             OUZEL_UNUSED(name);
             return nullptr;

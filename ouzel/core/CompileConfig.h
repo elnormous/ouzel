@@ -101,7 +101,7 @@
     #elif defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
     #endif
-    #define OUZEL_OPENGL_INTERFACE_XGL 1
+    #define OUZEL_OPENGL_INTERFACE_GLX 1
     #define OUZEL_SUPPORTS_OPENAL 1
     #define OUZEL_MULTITHREADED 1
 
