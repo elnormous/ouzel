@@ -8,6 +8,12 @@
 #include "EGL/eglext.h"
 #include "graphics/opengl/RendererOGL.h"
 
+typedef struct {
+   DISPMANX_ELEMENT_HANDLE_T element;
+   int width;   /* This is necessary because dispmanx elements are not queriable. */
+   int height;
+} EGL_DISPMANX_WINDOW_T;
+
 namespace ouzel
 {
     class Engine;
