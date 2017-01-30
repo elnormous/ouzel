@@ -887,8 +887,14 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create render buffer";
                     return false;
                 }
-                
+
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to bind render buffer";
+                    return false;
+                }
 
     #if OUZEL_SUPPORTS_OPENGL
                 glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
@@ -927,6 +933,12 @@ namespace ouzel
                     }
 
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to bind render buffer";
+                        return false;
+                    }
 
     #if OUZEL_SUPPORTS_OPENGL
                     glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
@@ -971,6 +983,13 @@ namespace ouzel
                 }
 
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to bind render buffer";
+                    return false;
+                }
+                
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
                 if (checkOpenGLError())
@@ -1002,6 +1021,13 @@ namespace ouzel
                     }
 
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to bind render buffer";
+                        return false;
+                    }
+
                     glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
 
                     if (checkOpenGLError())
