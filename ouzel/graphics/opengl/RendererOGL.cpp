@@ -881,6 +881,13 @@ namespace ouzel
             if (sampleCount > 1)
             {
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create render buffer";
+                    return false;
+                }
+                
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
 
     #if OUZEL_SUPPORTS_OPENGL
@@ -912,6 +919,13 @@ namespace ouzel
                     }
 
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create render buffer";
+                        return false;
+                    }
+
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
 
     #if OUZEL_SUPPORTS_OPENGL
@@ -949,6 +963,13 @@ namespace ouzel
             {
 
                 if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create render buffer";
+                    return false;
+                }
+
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
@@ -973,6 +994,13 @@ namespace ouzel
                     }
 
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create render buffer";
+                        return false;
+                    }
+
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
                     glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
 
