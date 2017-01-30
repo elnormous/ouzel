@@ -921,7 +921,7 @@ namespace ouzel
 
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create frame buffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
                     return false;
                 }
             }
