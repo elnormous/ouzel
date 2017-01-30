@@ -891,6 +891,12 @@ namespace ouzel
                 renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
     #endif
 
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create color render buffer";
+                    return false;
+                }
+
                 if (depth)
                 {
 #ifdef OUZEL_SUPPORTS_OPENGL
@@ -915,6 +921,12 @@ namespace ouzel
     #elif OUZEL_OPENGL_INTERFACE_EGL
                     renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
     #endif
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create depth render buffer";
+                        return false;
+                    }
                 }
 
                 bindFrameBuffer(frameBufferId);
@@ -940,6 +952,12 @@ namespace ouzel
                 glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
                 glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create color render buffer";
+                    return false;
+                }
+
                 if (depth)
                 {
 #ifdef OUZEL_SUPPORTS_OPENGL
@@ -957,6 +975,12 @@ namespace ouzel
                     if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
                     glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
                     glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create depth render buffer";
+                        return false;
+                    }
                 }
 
                 bindFrameBuffer(frameBufferId);
