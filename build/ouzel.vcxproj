@@ -168,6 +168,7 @@
     <ClInclude Include="..\ouzel\graphics\BlendStateResource.h" />
     <ClInclude Include="..\ouzel\graphics\Buffer.h" />
     <ClInclude Include="..\ouzel\graphics\BufferResource.h" />
+    <ClInclude Include="..\ouzel\graphics\DataType.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h" />

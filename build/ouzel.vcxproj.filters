@@ -679,6 +679,9 @@
     <ClInclude Include="..\ouzel\audio\SoundResource.h">
       <Filter>audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\DataType.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
