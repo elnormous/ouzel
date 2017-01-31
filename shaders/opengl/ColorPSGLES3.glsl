@@ -1,9 +1,9 @@
 #version 300 es
 precision mediump float;
 uniform lowp vec4 color;
-in lowp vec4 ex_Color;
-out vec4 out_Color;
+in lowp vec4 exColor;
+out vec4 outColor;
 void main()
 {
-    out_Color = ex_Color * color;
+    outColor = exColor * color;
 }

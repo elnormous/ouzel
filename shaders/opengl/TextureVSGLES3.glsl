@@ -1,14 +1,14 @@
 #version 300 es
 precision highp float;
-in vec3 in_Position;
-in vec4 in_Color;
-in vec2 in_TexCoord0;
+in vec3 inPosition;
+in vec4 inColor;
+in vec2 inTexCoord0;
 uniform mat4 modelViewProj;
-out lowp vec4 ex_Color;
-out vec2 ex_TexCoord;
+out lowp vec4 exColor;
+out vec2 exTexCoord;
 void main()
 {
-    gl_Position = modelViewProj * vec4(in_Position, 1.0);
-    ex_Color = in_Color;
-    ex_TexCoord = in_TexCoord0;
+    gl_Position = modelViewProj * vec4(inPosition, 1.0);
+    exColor = inColor;
+    exTexCoord = inTexCoord0;
 }

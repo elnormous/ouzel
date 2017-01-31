@@ -32,7 +32,7 @@ namespace ouzel
             };
 
             VertexAttribute(const std::string& aName, Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
-                name(aName), usage(aUsage), dataType(aDataType), index(aIndex), normalized(aNormalized) { }
+                name(aName), usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) { }
             std::string name;
             Usage usage = Usage::NONE;
             uint32_t index = 0;

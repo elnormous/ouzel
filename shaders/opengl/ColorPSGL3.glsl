@@ -1,8 +1,8 @@
 #version 330
 uniform vec4 color;
-in vec4 ex_Color;
-out vec4 out_Color;
+in vec4 exColor;
+out vec4 outColor;
 void main()
 {
-    out_Color = ex_Color * color;
+    outColor = exColor * color;
 }

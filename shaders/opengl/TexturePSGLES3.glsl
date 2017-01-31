@@ -2,10 +2,10 @@
 precision mediump float;
 uniform lowp vec4 color;
 uniform lowp sampler2D texture0;
-in lowp vec4 ex_Color;
-in vec2 ex_TexCoord;
-out vec4 out_Color;
+in lowp vec4 exColor;
+in vec2 exTexCoord;
+out vec4 outColor;
 void main()
 {
-    out_Color = texture(texture0, ex_TexCoord) * ex_Color * color;
+    outColor = texture(texture0, exTexCoord) * exColor * color;
 }

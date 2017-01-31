@@ -1,10 +1,10 @@
 precision highp float;
-attribute vec3 in_Position;
-attribute vec4 in_Color;
+attribute vec3 inPosition;
+attribute vec4 inColor;
 uniform mat4 modelViewProj;
 varying lowp vec4 ex_Color;
 void main()
 {
-    gl_Position = modelViewProj * vec4(in_Position, 1.0);
-    ex_Color = in_Color;
+    gl_Position = modelViewProj * vec4(inPosition, 1.0);
+    exColor = inColor;
 }

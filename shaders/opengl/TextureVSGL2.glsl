@@ -1,13 +1,13 @@
 #version 120
-attribute vec3 in_Position;
-attribute vec4 in_Color;
-attribute vec2 in_TexCoord0;
+attribute vec3 inPosition;
+attribute vec4 inColor;
+attribute vec2 inTexCoord0;
 uniform mat4 modelViewProj;
-varying vec4 ex_Color;
-varying vec2 ex_TexCoord;
+varying vec4 exColor;
+varying vec2 exTexCoord;
 void main()
 {
-    gl_Position = modelViewProj * vec4(in_Position, 1.0);
-    ex_Color = in_Color;
-    ex_TexCoord = in_TexCoord0;
+    gl_Position = modelViewProj * vec4(inPosition, 1.0);
+    exColor = inColor;
+    exTexCoord = inTexCoord0;
 }
