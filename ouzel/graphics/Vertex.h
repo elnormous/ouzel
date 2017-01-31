@@ -16,9 +16,26 @@ namespace ouzel
     {
         struct VertexAttribute
         {
-            VertexAttribute(const std::string& aName, DataType aDataType, bool aNormalized):
-                name(aName), dataType(aDataType), normalized(aNormalized) { }
+            enum class Usage
+            {
+                NONE,
+                BINORMAL,
+                BLENDINDICES,
+                BLENDWEIGHT,
+                COLOR,
+                NORMAL,
+                POSITION,
+                POSITIONT,
+                PSIZE,
+                TANGENT,
+                TEXCOORD
+            };
+
+            VertexAttribute(const std::string& aName, Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
+                name(aName), usage(aUsage), dataType(aDataType), index(aIndex), normalized(aNormalized) { }
             std::string name;
+            Usage usage = Usage::NONE;
+            uint32_t index = 0;
             DataType dataType = DataType::NONE;
             bool normalized = false;
         };
