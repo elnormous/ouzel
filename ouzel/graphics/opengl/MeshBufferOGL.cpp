@@ -35,6 +35,8 @@ namespace ouzel
             }
             else
             {
+                // TODO: return false for OpenGL 3.1 and up 
+
                 BufferOGL* indexBufferOGL = static_cast<BufferOGL*>(data.indexBuffer);
 
                 if (!indexBufferOGL || !indexBufferOGL->bindBuffer())
