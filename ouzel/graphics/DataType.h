@@ -107,6 +107,8 @@ namespace ouzel
                 case DataType::FLOAT_MATRIX4:
                     return 16 * sizeof(float);
             }
+
+            return 0;
         }
     } // namespace graphics
 } // namespace ouzel

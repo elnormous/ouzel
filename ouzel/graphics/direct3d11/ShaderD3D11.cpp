@@ -61,6 +61,78 @@ namespace ouzel
             return true;
         }
 
+        static DXGI_FORMAT getVertexFormat(DataType dataType, bool normalized)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                    return normalized ? DXGI_FORMAT_R8_SNORM : DXGI_FORMAT_R8_SINT;
+                case DataType::BYTE_VECTOR2:
+                    return normalized ? DXGI_FORMAT_R8G8_SNORM : DXGI_FORMAT_R8G8_SINT;
+                case DataType::BYTE_VECTOR3:
+                    return DXGI_FORMAT_UNKNOWN;
+                case DataType::BYTE_VECTOR4:
+                    return normalized ? DXGI_FORMAT_R8G8B8A8_SNORM : DXGI_FORMAT_R8G8B8A8_SINT;
+
+                case DataType::UNSIGNED_BYTE:
+                    return normalized ? DXGI_FORMAT_R8_UNORM : DXGI_FORMAT_R8_UINT;
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                    return normalized ? DXGI_FORMAT_R8G8_UNORM : DXGI_FORMAT_R8G8_UINT;
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                    return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                    return normalized ? DXGI_FORMAT_R8G8B8A8_UNORM : DXGI_FORMAT_R8G8B8A8_UINT;
+
+                case DataType::SHORT:
+                    return normalized ? DXGI_FORMAT_R16_SNORM : DXGI_FORMAT_R16_SINT;
+                case DataType::SHORT_VECTOR2:
+                    return normalized ? DXGI_FORMAT_R16G16_SNORM : DXGI_FORMAT_R16G16_SINT;
+                case DataType::SHORT_VECTOR3:
+                    return DXGI_FORMAT_UNKNOWN;
+                case DataType::SHORT_VECTOR4:
+                    return normalized ? DXGI_FORMAT_R16G16B16A16_SNORM : DXGI_FORMAT_R16G16B16A16_SINT;
+
+                case DataType::UNSIGNED_SHORT:
+                    return normalized ? DXGI_FORMAT_R16_UNORM : DXGI_FORMAT_R16_UINT;
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                    return normalized ? DXGI_FORMAT_R16G16_UNORM : DXGI_FORMAT_R16G16_UINT;
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                    return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                    return normalized ? DXGI_FORMAT_R16G16B16A16_UNORM : DXGI_FORMAT_R16G16B16A16_UINT;
+
+                case DataType::INTEGER:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_SINT;
+                case DataType::INTEGER_VECTOR2:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_SINT;
+                case DataType::INTEGER_VECTOR3:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_SINT;
+                case DataType::INTEGER_VECTOR4:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_SINT;
+
+                case DataType::UNSIGNED_INTEGER:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_UINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_UINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_UINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_UINT;
+
+                case DataType::FLOAT:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_FLOAT;
+                case DataType::FLOAT_VECTOR2:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_FLOAT;
+                case DataType::FLOAT_VECTOR3:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_FLOAT;
+                case DataType::FLOAT_VECTOR4:
+                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+                default:
+                    return DXGI_FORMAT_UNKNOWN;
+            }
+        }
+
         bool ShaderD3D11::upload()
         {
             if (!ShaderResource::upload())
@@ -95,34 +167,61 @@ namespace ouzel
 
                     UINT offset = 0;
 
-                    if (data.vertexAttributes & VERTEX_POSITION)
+                    for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
                     {
-                        vertexInputElements.push_back({"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                        offset += 3 * sizeof(float);
-                    }
+                        DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
 
-                    if (data.vertexAttributes & VERTEX_COLOR)
-                    {
-                        vertexInputElements.push_back({"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                        offset += 4 * sizeof(uint8_t);
-                    }
+                        if (vertexFormat == DXGI_FORMAT_UNKNOWN)
+                        {
+                            Log() << "Invalid vertex format";
+                            return false;
+                        }
 
-                    if (data.vertexAttributes & VERTEX_NORMAL)
-                    {
-                        vertexInputElements.push_back({"NORMAL", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                        offset += 3 * sizeof(float);
-                    }
+                        const char* usage;
 
-                    if (data.vertexAttributes & VERTEX_TEXCOORD0)
-                    {
-                        vertexInputElements.push_back({"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                        offset += 2 * sizeof(float);
-                    }
+                        switch (vertexAttribute.usage)
+                        {
+                            case VertexAttribute::Usage::BINORMAL:
+                                usage = "BINORMAL";
+                                break;
+                            case VertexAttribute::Usage::BLENDINDICES:
+                                usage = "BLENDINDICES";
+                                break;
+                            case VertexAttribute::Usage::BLENDWEIGHT:
+                                usage = "BLENDWEIGHT";
+                                break;
+                            case VertexAttribute::Usage::COLOR:
+                                usage = "COLOR";
+                                break;
+                            case VertexAttribute::Usage::NORMAL:
+                                usage = "NORMAL";
+                                break;
+                            case VertexAttribute::Usage::POSITION:
+                                usage = "POSITION";
+                                break;
+                            case VertexAttribute::Usage::POSITIONT:
+                                usage = "POSITIONT";
+                                break;
+                            case VertexAttribute::Usage::PSIZE:
+                                usage = "PSIZE";
+                                break;
+                            case VertexAttribute::Usage::TANGENT:
+                                usage = "TANGENT";
+                                break;
+                            case VertexAttribute::Usage::TEXCOORD:
+                                usage = "TEXCOORD";
+                                break;
+                            default:
+                                Log() << "Invalid vertex format";
+                                return false;
+                        }
 
-                    if (data.vertexAttributes & VERTEX_TEXCOORD1)
-                    {
-                        vertexInputElements.push_back({"TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0});
-                        offset += 2 * sizeof(float);
+                        vertexInputElements.push_back({
+                            usage, vertexAttribute.index,
+                            vertexFormat,
+                            0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
+                        });
+                        offset += getDataTypeSize(vertexAttribute.dataType);
                     }
 
                     hr = rendererD3D11->getDevice()->CreateInputLayout(
