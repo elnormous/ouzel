@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+#include "graphics/DataType.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
 #include "math/Color.h"
@@ -11,13 +14,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        enum VertexAttributes
+        struct VertexAttribute
         {
-            VERTEX_POSITION = 0x01,
-            VERTEX_COLOR = 0x02,
-            VERTEX_NORMAL = 0x04,
-            VERTEX_TEXCOORD0 = 0x08,
-            VERTEX_TEXCOORD1 = 0x10
+            VertexAttribute(const std::string& aName, DataType aDataType, bool aNormalized):
+                name(aName), dataType(aDataType), normalized(aNormalized) { }
+            std::string name;
+            DataType dataType = DataType::NONE;
+            bool normalized = false;
         };
 
         const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
@@ -25,7 +28,7 @@ namespace ouzel
         class VertexPC
         {
         public:
-            static const uint32_t ATTRIBUTES = VERTEX_POSITION | VERTEX_COLOR;
+            static const std::vector<VertexAttribute> ATTRIBUTES;
 
             Vector3 position;
             Color color;
@@ -37,7 +40,7 @@ namespace ouzel
         class VertexPCT
         {
         public:
-            static const uint32_t ATTRIBUTES = VERTEX_POSITION | VERTEX_COLOR | VERTEX_TEXCOORD0;
+            static const std::vector<VertexAttribute> ATTRIBUTES;
 
             Vector3 position;
             Color color;

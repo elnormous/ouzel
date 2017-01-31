@@ -69,6 +69,68 @@ namespace ouzel
             return true;
         }
 
+        static MTLVertexFormat getVertexFormat(DataType dataType, bool normalized)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE_VECTOR2:
+                    return normalized ? MTLVertexFormatChar2Normalized : MTLVertexFormatChar2;
+                case DataType::BYTE_VECTOR3:
+                    return normalized ? MTLVertexFormatChar3Normalized : MTLVertexFormatChar3;
+                case DataType::BYTE_VECTOR4:
+                    return normalized ? MTLVertexFormatChar4Normalized : MTLVertexFormatChar4;
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                    return normalized ? MTLVertexFormatUChar2Normalized : MTLVertexFormatUChar2;
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                    return normalized ? MTLVertexFormatUChar3Normalized : MTLVertexFormatUChar3;
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                    return normalized ? MTLVertexFormatUChar4Normalized : MTLVertexFormatUChar4;
+
+                case DataType::SHORT_VECTOR2:
+                    return normalized ? MTLVertexFormatShort2Normalized : MTLVertexFormatShort2;
+                case DataType::SHORT_VECTOR3:
+                    return normalized ? MTLVertexFormatShort3Normalized : MTLVertexFormatShort3;
+                case DataType::SHORT_VECTOR4:
+                    return normalized ? MTLVertexFormatShort4Normalized : MTLVertexFormatShort4;
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                    return normalized ? MTLVertexFormatUShort2Normalized : MTLVertexFormatUShort2;
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                    return normalized ? MTLVertexFormatUShort3Normalized : MTLVertexFormatUShort3;
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                    return normalized ? MTLVertexFormatUShort4Normalized : MTLVertexFormatUShort4;
+
+                case DataType::INTEGER:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt;
+                case DataType::INTEGER_VECTOR2:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt2;
+                case DataType::INTEGER_VECTOR3:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt3;
+                case DataType::INTEGER_VECTOR4:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt4;
+
+                case DataType::UNSIGNED_INTEGER:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt;
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt2;
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt3;
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt4;
+
+                case DataType::FLOAT:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat;
+                case DataType::FLOAT_VECTOR2:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat2;
+                case DataType::FLOAT_VECTOR3:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat3;
+                case DataType::FLOAT_VECTOR4:
+                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat4;
+
+                default:
+                    return MTLVertexFormatInvalid;
+            }
+        }
+
         bool ShaderMetal::upload()
         {
             if (!ShaderResource::upload())
@@ -88,49 +150,21 @@ namespace ouzel
 
                 vertexDescriptor = [MTLVertexDescriptor new];
 
-                if (data.vertexAttributes & VERTEX_POSITION)
+                for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
                 {
-                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
-                    vertexDescriptor.attributes[index].offset = offset;
-                    vertexDescriptor.attributes[index].bufferIndex = 0;
-                    ++index;
-                    offset += 3 * sizeof(float);
-                }
+                    MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
 
-                if (data.vertexAttributes & VERTEX_COLOR)
-                {
-                    vertexDescriptor.attributes[index].format = MTLVertexFormatUChar4Normalized;
-                    vertexDescriptor.attributes[index].offset = offset;
-                    vertexDescriptor.attributes[index].bufferIndex = 0;
-                    ++index;
-                    offset += 4 * sizeof(uint8_t);
-                }
+                    if (vertexFormat == MTLVertexFormatInvalid)
+                    {
+                        Log(Log::Level::ERR) << "Invalid vertex format";
+                        return false;
+                    }
 
-                if (data.vertexAttributes & VERTEX_NORMAL)
-                {
-                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat3;
+                    vertexDescriptor.attributes[index].format = vertexFormat;
                     vertexDescriptor.attributes[index].offset = offset;
                     vertexDescriptor.attributes[index].bufferIndex = 0;
                     ++index;
-                    offset += 3 * sizeof(float);
-                }
-
-                if (data.vertexAttributes & VERTEX_TEXCOORD0)
-                {
-                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                    vertexDescriptor.attributes[index].offset = offset;
-                    vertexDescriptor.attributes[index].bufferIndex = 0;
-                    ++index;
-                    offset += 2 * sizeof(float);
-                }
-
-                if (data.vertexAttributes & VERTEX_TEXCOORD1)
-                {
-                    vertexDescriptor.attributes[index].format = MTLVertexFormatFloat2;
-                    vertexDescriptor.attributes[index].offset = offset;
-                    vertexDescriptor.attributes[index].bufferIndex = 0;
-                    ++index;
-                    offset += 2 * sizeof(float);
+                    offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
                 vertexDescriptor.layouts[0].stride = offset;

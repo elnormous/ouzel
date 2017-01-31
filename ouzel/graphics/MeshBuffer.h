@@ -4,7 +4,9 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/Vertex.h"
 
 namespace ouzel
 {
@@ -20,7 +22,7 @@ namespace ouzel
             virtual ~MeshBuffer();
 
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
-                      uint32_t newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer);
+                      const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer);
 
             MeshBufferResource* getResource() const { return resource; }
 
@@ -30,8 +32,9 @@ namespace ouzel
             const std::shared_ptr<Buffer>& getIndexBuffer() const { return indexBuffer; }
             bool setIndexBuffer(const std::shared_ptr<Buffer>& newIndexBuffer);
 
-            uint32_t getVertexAttributes() const { return vertexAttributes; }
-            bool setVertexAttributes(uint32_t newVertexAttributes);
+            const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
+            bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
+            uint32_t getVertexSize() const { return vertexSize; }
 
             const std::shared_ptr<Buffer>& getVertexBuffer() const { return vertexBuffer; }
             bool setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer);
@@ -40,7 +43,8 @@ namespace ouzel
             MeshBufferResource* resource = nullptr;
             uint32_t indexSize = 0;
             std::shared_ptr<Buffer> indexBuffer;
-            uint32_t vertexAttributes = 0;
+            std::vector<VertexAttribute> vertexAttributes;
+            uint32_t vertexSize = 0;
             std::shared_ptr<Buffer> vertexBuffer;
         };
     } // namespace graphics

@@ -22,7 +22,7 @@ namespace ouzel
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
-                              uint32_t newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
+                              const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
         {
             if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
             {
@@ -38,6 +38,13 @@ namespace ouzel
             indexBuffer = newIndexBuffer;
 
             vertexAttributes = newVertexAttributes;
+            vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
+
             vertexBuffer = newVertexBuffer;
 
             if (!resource->init(newIndexSize, newIndexBuffer ? newIndexBuffer->getResource() : nullptr,
@@ -79,9 +86,15 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBuffer::setVertexAttributes(uint32_t newVertexAttributes)
+        bool MeshBuffer::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
         {
             vertexAttributes = newVertexAttributes;
+            vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
 
             if (!resource->setVertexAttributes(newVertexAttributes))
             {

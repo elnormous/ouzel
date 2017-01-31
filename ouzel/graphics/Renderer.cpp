@@ -246,7 +246,7 @@ namespace ouzel
             }
 
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
-                shader->getVertexAttributes() != meshBuffer->getVertexAttributes())
+                shader->getVertexSize() != meshBuffer->getVertexSize())
             {
                 Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
                 return false;

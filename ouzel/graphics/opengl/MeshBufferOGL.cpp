@@ -79,6 +79,102 @@ namespace ouzel
             return true;
         }
 
+        static GLenum getVertexFormat(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR4:
+                    return GL_BYTE;
+
+                case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                    return GL_UNSIGNED_BYTE;
+
+                case DataType::SHORT:
+                case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR4:
+                    return GL_SHORT;
+
+                case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                    return GL_UNSIGNED_SHORT;
+
+                case DataType::INTEGER:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::INTEGER_VECTOR4:
+                    return GL_INT;
+
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    return GL_UNSIGNED_INT;
+
+                case DataType::FLOAT:
+                case DataType::FLOAT_VECTOR2:
+                case DataType::FLOAT_VECTOR3:
+                case DataType::FLOAT_VECTOR4:
+                    return GL_FLOAT;
+
+                default:
+                    return 0;
+            }
+        }
+
+        static GLint getArraySize(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::UNSIGNED_BYTE:
+                case DataType::SHORT:
+                case DataType::UNSIGNED_SHORT:
+                case DataType::INTEGER:
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::FLOAT:
+                    return 1;
+
+                case DataType::BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::FLOAT_VECTOR2:
+                    return 2;
+
+                case DataType::BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::FLOAT_VECTOR3:
+                    return 3;
+
+                case DataType::BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::INTEGER_VECTOR4:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                case DataType::FLOAT_VECTOR4:
+                    return 4;
+
+                default:
+                    return 0;
+            }
+        }
+
         bool MeshBufferOGL::upload()
         {
             if (!MeshBufferResource::upload())
@@ -109,50 +205,16 @@ namespace ouzel
 
                 GLuint offset = 0;
 
-                if (data.vertexAttributes & VERTEX_POSITION)
+                for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
                 {
+                    GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
+
                     vertexAttribs.push_back({
-                        3, GL_FLOAT, GL_FALSE,
+                        3, getVertexFormat(vertexAttribute.dataType), normalized,
                         static_cast<GLsizei>(data.vertexSize),
                         reinterpret_cast<const GLvoid*>(offset)
                     });
-                    offset += 3 * sizeof(float);
-                }
-                if (data.vertexAttributes & VERTEX_COLOR)
-                {
-                    vertexAttribs.push_back({
-                        4, GL_UNSIGNED_BYTE, GL_TRUE,
-                        static_cast<GLsizei>(data.vertexSize),
-                        reinterpret_cast<const GLvoid*>(offset)
-                    });
-                    offset += 4 * sizeof(uint8_t);
-                }
-                if (data.vertexAttributes & VERTEX_NORMAL)
-                {
-                    vertexAttribs.push_back({
-                        3, GL_FLOAT, GL_FALSE,
-                        static_cast<GLsizei>(data.vertexSize),
-                        reinterpret_cast<const GLvoid*>(offset)
-                    });
-                    offset += 3 * sizeof(float);
-                }
-                if (data.vertexAttributes & VERTEX_TEXCOORD0)
-                {
-                    vertexAttribs.push_back({
-                        2, GL_FLOAT, GL_FALSE,
-                        static_cast<GLsizei>(data.vertexSize),
-                        reinterpret_cast<const GLvoid*>(offset)
-                    });
-                    offset += 2 * sizeof(float);
-                }
-                if (data.vertexAttributes & VERTEX_TEXCOORD1)
-                {
-                    vertexAttribs.push_back({
-                        2, GL_FLOAT, GL_FALSE,
-                        static_cast<GLsizei>(data.vertexSize),
-                        reinterpret_cast<const GLvoid*>(offset)
-                    });
-                    offset += 2 * sizeof(float);
+                    offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
                 if (offset != data.vertexSize)

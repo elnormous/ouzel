@@ -17,7 +17,7 @@ namespace ouzel
 
         bool ShaderResource::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
                                              const std::vector<uint8_t>& newVertexShader,
-                                             uint32_t newVertexAttributes,
+                                             const std::vector<VertexAttribute>& newVertexAttributes,
                                              const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                              const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                              uint32_t newPixelShaderDataAlignment,

@@ -124,33 +124,9 @@ namespace ouzel
 
                     GLuint index = 0;
 
-                    if (data.vertexAttributes & VERTEX_POSITION)
+                    for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
                     {
-                        glBindAttribLocation(programId, index, "in_Position");
-                        ++index;
-                    }
-
-                    if (data.vertexAttributes & VERTEX_COLOR)
-                    {
-                        glBindAttribLocation(programId, index, "in_Color");
-                        ++index;
-                    }
-
-                    if (data.vertexAttributes & VERTEX_NORMAL)
-                    {
-                        glBindAttribLocation(programId, index, "in_Normal");
-                        ++index;
-                    }
-
-                    if (data.vertexAttributes & VERTEX_TEXCOORD0)
-                    {
-                        glBindAttribLocation(programId, index, "in_TexCoord0");
-                        ++index;
-                    }
-
-                    if (data.vertexAttributes & VERTEX_TEXCOORD1)
-                    {
-                        glBindAttribLocation(programId, index, "in_TexCoord1");
+                        glBindAttribLocation(programId, index, vertexAttribute.name.c_str());
                         ++index;
                     }
 

@@ -18,7 +18,7 @@ namespace ouzel
         }
 
         bool MeshBufferResource::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                      uint32_t newVertexAttributes, BufferResource* newVertexBuffer)
+                                      const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -26,7 +26,12 @@ namespace ouzel
             pendingData.indexBuffer = newIndexBuffer;
             pendingData.vertexAttributes = newVertexAttributes;
             pendingData.vertexBuffer = newVertexBuffer;
-            updateVertexSize();
+            pendingData.vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : pendingData.vertexAttributes)
+            {
+                pendingData.vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
 
             pendingData.dirty |= INDEX_ATTRIBUTES | INDEX_BUFFER | VERTEX_ATTRIBUTES | VERTEX_BUFFER;
 
@@ -44,46 +49,21 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferResource::setVertexAttributes(uint32_t newVertexAttributes)
+        bool MeshBufferResource::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             pendingData.vertexAttributes = newVertexAttributes;
-            updateVertexSize();
+            pendingData.vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : pendingData.vertexAttributes)
+            {
+                pendingData.vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
 
             pendingData.dirty |= VERTEX_ATTRIBUTES;
 
             return true;
-        }
-
-        void MeshBufferResource::updateVertexSize()
-        {
-            pendingData.vertexSize = 0;
-
-            if (pendingData.vertexAttributes & VERTEX_POSITION)
-            {
-                pendingData.vertexSize += 3 * sizeof(float);
-            }
-
-            if (pendingData.vertexAttributes & VERTEX_COLOR)
-            {
-                pendingData.vertexSize += 4 * sizeof(uint8_t);
-            }
-
-            if (pendingData.vertexAttributes & VERTEX_NORMAL)
-            {
-                pendingData.vertexSize += 3 * sizeof(float);
-            }
-
-            if (pendingData.vertexAttributes & VERTEX_TEXCOORD0)
-            {
-                pendingData.vertexSize += 2 * sizeof(float);
-            }
-
-            if (pendingData.vertexAttributes & VERTEX_TEXCOORD1)
-            {
-                pendingData.vertexSize += 2 * sizeof(float);
-            }
         }
 
         bool MeshBufferResource::setIndexBuffer(BufferResource* newIndexBuffer)

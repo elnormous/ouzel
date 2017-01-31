@@ -6,6 +6,7 @@
 #include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
+#include "graphics/Vertex.h"
 #include "utils/Types.h"
 
 namespace ouzel
@@ -22,7 +23,7 @@ namespace ouzel
             virtual ~MeshBufferResource();
 
             bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                      uint32_t newVertexAttributes, BufferResource* newVertexBuffer);
+                      const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer);
 
             uint32_t getIndexSize() const { return data.indexSize; }
             bool setIndexSize(uint32_t newIndexSize);
@@ -31,15 +32,13 @@ namespace ouzel
             bool setIndexBuffer(BufferResource* newIndexBuffer);
 
             uint32_t getVertexSize() const { return data.vertexSize; }
-            uint32_t getVertexAttributes() const { return data.vertexAttributes; }
-            bool setVertexAttributes(uint32_t newVertexAttributes);
+            bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
 
             BufferResource* getVertexBuffer() const { return data.vertexBuffer; }
             bool setVertexBuffer(BufferResource* newVertexBuffer);
 
         protected:
             MeshBufferResource();
-            void updateVertexSize();
             virtual bool upload() override;
 
             enum Dirty
@@ -55,7 +54,7 @@ namespace ouzel
                 uint32_t dirty = 0;
                 uint32_t indexSize = 0;
                 BufferResource* indexBuffer = nullptr;
-                uint32_t vertexAttributes = 0;
+                std::vector<VertexAttribute> vertexAttributes;
                 uint32_t vertexSize = 0;
                 BufferResource* vertexBuffer = nullptr;
             };

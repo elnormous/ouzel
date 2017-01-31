@@ -24,7 +24,7 @@ namespace ouzel
 
         bool Shader::initFromFiles(const std::string& newPixelShader,
                                    const std::string& newVertexShader,
-                                   uint32_t newVertexAttributes,
+                                   const std::vector<VertexAttribute>& newVertexAttributes,
                                    const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
                                    const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
                                    uint32_t newPixelShaderDataAlignment,
@@ -35,6 +35,12 @@ namespace ouzel
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
             vertexAttributes = newVertexAttributes;
+            vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
 
             std::vector<uint8_t> pixelShaderData;
 
@@ -69,7 +75,7 @@ namespace ouzel
 
         bool Shader::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
                                      const std::vector<uint8_t>& newVertexShader,
-                                     uint32_t newVertexAttributes,
+                                     const std::vector<VertexAttribute>& newVertexAttributes,
                                      const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                      uint32_t newPixelShaderDataAlignment,
@@ -80,6 +86,12 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
             vertexAttributes = newVertexAttributes;
+            vertexSize = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
 
             if (!resource->initFromBuffers(newPixelShader, newVertexShader,
                                            newVertexAttributes,
