@@ -92,18 +92,14 @@ namespace ouzel
                     void* bufferPtr = nullptr;
 
     #if OUZEL_OPENGL_INTERFACE_EGL
-    #if defined(GL_EXT_map_buffer_range)
                     if (glMapBufferRangeProc)
                     {
                         bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
                     }
-    #endif
-    #if defined(GL_OES_mapbuffer)
-                    if (!bufferPtr && glMapBufferProc)
+                    else if (glMapBufferProc)
                     {
                         bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY_OES);
                     }
-    #endif
     #else
                     bufferPtr = glMapBufferRange(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
     #endif
@@ -113,9 +109,7 @@ namespace ouzel
                         std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>(bufferPtr));
 
     #if OUZEL_OPENGL_INTERFACE_EGL
-    #if defined(GL_OES_mapbuffer)
                         if (glUnmapBufferProc) glUnmapBufferProc(bufferType);
-    #endif
     #else
                         glUnmapBuffer(bufferType);
     #endif
