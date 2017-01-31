@@ -23,22 +23,22 @@
 #endif
 
 #if OUZEL_SUPPORTS_OPENGL
-    extern PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
-    extern PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
-    extern PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
-    extern PFNGLMAPBUFFERPROC mapBufferProc;
-    extern PFNGLUNMAPBUFFERPROC unmapBufferProc;
-    extern PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
+    extern PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
+    extern PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
+    extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
+    extern PFNGLMAPBUFFERPROC glMapBufferProc;
+    extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+    extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 #elif OUZEL_SUPPORTS_OPENGLES
-    extern PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
-    extern PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
-    extern PFNGLMAPBUFFEROESPROC mapBufferProc;
-    extern PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
-    extern PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC renderbufferStorageMultisampleProc;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC framebufferTexture2DMultisampleProc;
+    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysProc;
+    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayProc;
+    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysProc;
+    extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
+    extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+    extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC glRenderbufferStorageMultisampleProc;
+    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
 #endif
 
 #include "graphics/Renderer.h"
@@ -175,7 +175,7 @@ namespace ouzel
 #if OUZEL_OPENGL_INTERFACE_EAGL
                     glBindVertexArrayOES(vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                    if (bindVertexArrayProc) bindVertexArrayProc(vertexArrayId);
+                    if (glBindVertexArrayProc) glBindVertexArrayProc(vertexArrayId);
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
                     glBindVertexArray(vertexArrayId);
 #endif
@@ -400,7 +400,7 @@ namespace ouzel
 #if OUZEL_OPENGL_INTERFACE_EAGL
                 glDeleteVertexArraysOES(1, &vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
-                if (deleteVertexArraysProc) deleteVertexArraysProc(1, &vertexArrayId);
+                if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
 #else
                 glDeleteVertexArrays(1, &vertexArrayId);
 #endif

@@ -50,22 +50,22 @@
 #endif
 
 #if OUZEL_SUPPORTS_OPENGL
-    PFNGLGENVERTEXARRAYSPROC genVertexArraysProc;
-    PFNGLBINDVERTEXARRAYPROC bindVertexArrayProc;
-    PFNGLDELETEVERTEXARRAYSPROC deleteVertexArraysProc;
-    PFNGLMAPBUFFERPROC mapBufferProc;
-    PFNGLUNMAPBUFFERPROC unmapBufferProc;
-    PFNGLMAPBUFFERRANGEPROC mapBufferRangeProc;
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC renderbufferStorageMultisampleProc;
+    PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
+    PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
+    PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
+    PFNGLMAPBUFFERPROC glMapBufferProc;
+    PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+    PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 #elif OUZEL_SUPPORTS_OPENGLES
-    PFNGLGENVERTEXARRAYSOESPROC genVertexArraysProc;
-    PFNGLBINDVERTEXARRAYOESPROC bindVertexArrayProc;
-    PFNGLDELETEVERTEXARRAYSOESPROC deleteVertexArraysProc;
-    PFNGLMAPBUFFEROESPROC mapBufferProc;
-    PFNGLUNMAPBUFFEROESPROC unmapBufferProc;
-    PFNGLMAPBUFFERRANGEEXTPROC mapBufferRangeProc;
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC renderbufferStorageMultisampleProc;
-    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC framebufferTexture2DMultisampleProc;
+    PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysProc;
+    PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayProc;
+    PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysProc;
+    PFNGLMAPBUFFEROESPROC glMapBufferProc;
+    PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+    PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC glRenderbufferStorageMultisampleProc;
+    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
 #endif
 
 namespace ouzel
@@ -138,14 +138,14 @@ namespace ouzel
             if (apiMajorVersion >= 3)
             {
 #if OUZEL_OPENGL_INTERFACE_EGL
-                genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
-                bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
-                deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
-                mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
-                unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
-                mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
-                renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
+                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
+                glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
+                glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
 #endif // OUZEL_OPENGL_INTERFACE_EGL
             }
             else
@@ -182,24 +182,24 @@ namespace ouzel
 #elif OUZEL_OPENGL_INTERFACE_EGL
                         else if (extension == "GL_OES_vertex_array_object")
                         {
-                            genVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
-                            bindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
-                            deleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
+                            glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                            glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                            glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
                         }
                         else if (extension == "GL_OES_mapbuffer")
                         {
-                            mapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
-                            unmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
+                            glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                            glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
                         }
                         else if (extension == "GL_EXT_map_buffer_range")
                         {
-                            mapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
+                            glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
                         }
                         else if (extension == "GL_IMG_multisampled_render_to_texture")
                         {
                             multisamplingSupported = true;
-                            renderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                            framebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                            glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                            glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
                         }
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                     }
