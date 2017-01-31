@@ -46,6 +46,7 @@ namespace ouzel
             eaglLayer.opaque = YES;
             eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+            eaglLayer.contentsScale = newWindow->getContentScale();
 
             context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 
@@ -89,7 +90,7 @@ namespace ouzel
             Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                          static_cast<float>(frameBufferHeight));
 
-            newWindow->setSize(backBufferSize);
+            newWindow->setSize(backBufferSize / window->getContentScale());
 
             return true;
         }

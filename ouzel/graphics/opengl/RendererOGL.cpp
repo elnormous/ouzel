@@ -395,7 +395,7 @@ namespace ouzel
                 Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                              static_cast<float>(frameBufferHeight));
 
-                window->setSize(backBufferSize);
+                window->setSize(backBufferSize / window->getContentScale());
 #endif
             }
 
