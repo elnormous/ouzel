@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/DataType.h"
 
 namespace ouzel
 {
@@ -17,23 +18,64 @@ namespace ouzel
         class Shader: public Noncopyable
         {
         public:
-            enum class DataType
-            {
-                FLOAT,
-                FLOAT_VECTOR2,
-                FLOAT_VECTOR3,
-                FLOAT_VECTOR4,
-                FLOAT_MATRIX3,
-                FLOAT_MATRIX4
-            };
-
             struct ConstantInfo
             {
-                ConstantInfo(std::string aName, Shader::DataType aDataType):
+                ConstantInfo(std::string aName, DataType aDataType):
                 name(aName), dataType(aDataType)
                 {
                     switch (aDataType)
                     {
+                        case DataType::BYTE:
+                        case DataType::UNSIGNED_BYTE:
+                            size = sizeof(uint8_t);
+                            break;
+                        case DataType::BYTE_VECTOR2:
+                        case DataType::UNSIGNED_BYTE_VECTOR2:
+                            size = 2 * sizeof(uint8_t);
+                            break;
+                        case DataType::BYTE_VECTOR3:
+                        case DataType::UNSIGNED_BYTE_VECTOR3:
+                            size = 3 * sizeof(uint8_t);
+                            break;
+                        case DataType::BYTE_VECTOR4:
+                        case DataType::UNSIGNED_BYTE_VECTOR4:
+                            size = 4 * sizeof(uint8_t);
+                            break;
+
+                        case DataType::SHORT:
+                        case DataType::UNSIGNED_SHORT:
+                            size = sizeof(uint16_t);
+                            break;
+                        case DataType::SHORT_VECTOR2:
+                        case DataType::UNSIGNED_SHORT_VECTOR2:
+                            size = 2 * sizeof(uint16_t);
+                            break;
+                        case DataType::SHORT_VECTOR3:
+                        case DataType::UNSIGNED_SHORT_VECTOR3:
+                            size = 3 * sizeof(uint16_t);
+                            break;
+                        case DataType::SHORT_VECTOR4:
+                        case DataType::UNSIGNED_SHORT_VECTOR4:
+                            size = 4 * sizeof(uint16_t);
+                            break;
+
+                        case DataType::INTEGER:
+                        case DataType::UNSIGNED_INTEGER:
+                            size = sizeof(uint32_t);
+                            break;
+                        case DataType::INTEGER_VECTOR2:
+                        case DataType::UNSIGNED_INTEGER_VECTOR2:
+                            size = 2 * sizeof(uint32_t);
+                            break;
+                        case DataType::INTEGER_VECTOR3:
+                        case DataType::UNSIGNED_INTEGER_VECTOR3:
+                            size = 3 * sizeof(uint32_t);
+                            break;
+                        case DataType::INTEGER_VECTOR4:
+                        case DataType::UNSIGNED_INTEGER_VECTOR4:
+                            size = 4 * sizeof(uint32_t);
+                            break;
+
                         case DataType::FLOAT:
                             size = sizeof(float);
                             break;
@@ -56,7 +98,7 @@ namespace ouzel
                 }
 
                 std::string name;
-                Shader::DataType dataType;
+                DataType dataType;
                 uint32_t size;
             };
             

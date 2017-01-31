@@ -228,14 +228,14 @@ namespace ouzel
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 case 3:
@@ -243,14 +243,14 @@ namespace ouzel
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
-                                                   {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 default:
@@ -269,14 +269,14 @@ namespace ouzel
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 case 3:
@@ -284,14 +284,14 @@ namespace ouzel
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #elif OUZEL_SUPPORTS_OPENGLES
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
                                                  VertexPC::ATTRIBUTES,
-                                                 {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                                 {{"color", DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 #endif
                     break;
                 default:
@@ -540,22 +540,34 @@ namespace ouzel
 
                     switch (pixelShaderConstantLocation.dataType)
                     {
-                        case Shader::DataType::FLOAT:
+                        case DataType::INTEGER:
+                            glUniform1iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR2:
+                            glUniform2iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR3:
+                            glUniform3iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR4:
+                            glUniform4iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            break;
+                        case DataType::FLOAT:
                             glUniform1fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR2:
+                        case DataType::FLOAT_VECTOR2:
                             glUniform2fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR3:
+                        case DataType::FLOAT_VECTOR3:
                             glUniform3fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR4:
+                        case DataType::FLOAT_VECTOR4:
                             glUniform4fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX3:
+                        case DataType::FLOAT_MATRIX3:
                             glUniformMatrix3fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX4:
+                        case DataType::FLOAT_MATRIX4:
                             glUniformMatrix4fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
                         default:
@@ -580,22 +592,34 @@ namespace ouzel
 
                     switch (vertexShaderConstantLocation.dataType)
                     {
-                        case Shader::DataType::FLOAT:
+                        case DataType::INTEGER:
+                            glUniform1iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR2:
+                            glUniform2iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR3:
+                            glUniform3iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            break;
+                        case DataType::INTEGER_VECTOR4:
+                            glUniform4iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            break;
+                        case DataType::FLOAT:
                             glUniform1fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR2:
+                        case DataType::FLOAT_VECTOR2:
                             glUniform2fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR3:
+                        case DataType::FLOAT_VECTOR3:
                             glUniform3fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_VECTOR4:
+                        case DataType::FLOAT_VECTOR4:
                             glUniform4fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX3:
+                        case DataType::FLOAT_MATRIX3:
                             glUniformMatrix3fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
-                        case Shader::DataType::FLOAT_MATRIX4:
+                        case DataType::FLOAT_MATRIX4:
                             glUniformMatrix4fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
                         default:

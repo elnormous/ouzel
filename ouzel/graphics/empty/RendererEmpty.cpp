@@ -37,8 +37,8 @@ namespace ouzel
             textureShader->initFromBuffers({},
                                            {},
                                            VertexPCT::ATTRIBUTES,
-                                           {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                           {{"color", DataType::FLOAT_VECTOR4}},
+                                           {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -47,8 +47,8 @@ namespace ouzel
             colorShader->initFromBuffers({},
                                          {},
                                          VertexPC::ATTRIBUTES,
-                                         {{"color", Shader::DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", Shader::DataType::FLOAT_MATRIX4}});
+                                         {{"color", DataType::FLOAT_VECTOR4}},
+                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 

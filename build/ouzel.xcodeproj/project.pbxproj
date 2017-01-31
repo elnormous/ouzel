@@ -813,6 +813,7 @@
 		301456E51E38BEC900BA75DB /* SoundDataResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataResource.cpp; sourceTree = "<group>"; };
 		301456E61E38BEC900BA75DB /* SoundDataResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataResource.h; sourceTree = "<group>"; };
 		301456ED1E38BFB300BA75DB /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
+		301457091E40FB5100BA75DB /* DataType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataType.h; sourceTree = "<group>"; };
 		301EB3A01CCD691800466E92 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		301EB3A11CCD691800466E92 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
 		301EB3A81CCD77F600466E92 /* TextDrawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextDrawable.cpp; sourceTree = "<group>"; };
@@ -1315,13 +1316,14 @@
 				303696CB1E32DD9C007F4211 /* BlendState.h */,
 				30324E121CB2898E00601A64 /* BlendStateResource.cpp */,
 				30324E131CB2898E00601A64 /* BlendStateResource.h */,
-				303820881D816EAB00677CAB /* empty */,
-				303B74E11C277A7500FEDE92 /* Image.cpp */,
-				303B74E21C277A7500FEDE92 /* Image.h */,
 				303696D21E32DDA9007F4211 /* Buffer.cpp */,
 				303696D31E32DDA9007F4211 /* Buffer.h */,
 				30381F0F1D8094F100677CAB /* BufferResource.cpp */,
 				30381F101D8094F100677CAB /* BufferResource.h */,
+				301457091E40FB5100BA75DB /* DataType.h */,
+				303820881D816EAB00677CAB /* empty */,
+				303B74E11C277A7500FEDE92 /* Image.cpp */,
+				303B74E21C277A7500FEDE92 /* Image.h */,
 				303696E21E32DDC1007F4211 /* MeshBuffer.cpp */,
 				303696E31E32DDC1007F4211 /* MeshBuffer.h */,
 				304A8E901C26ED32008B1151 /* MeshBufferResource.cpp */,
