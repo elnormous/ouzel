@@ -210,7 +210,7 @@ namespace ouzel
                     GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
 
                     vertexAttribs.push_back({
-                        3, getVertexFormat(vertexAttribute.dataType), normalized,
+                        getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
                         static_cast<GLsizei>(data.vertexSize),
                         reinterpret_cast<const GLvoid*>(offset)
                     });

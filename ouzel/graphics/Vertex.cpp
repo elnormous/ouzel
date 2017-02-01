@@ -8,8 +8,8 @@ namespace ouzel
     namespace graphics
     {
         const std::vector<VertexAttribute> VertexPC::ATTRIBUTES = {
-            VertexAttribute(VertexAttribute::Usage::POSITION, 0, DataType::FLOAT_VECTOR3, false), // position
-            VertexAttribute(VertexAttribute::Usage::COLOR, 0, DataType::UNSIGNED_BYTE_VECTOR4, true) // color
+            VertexAttribute(VertexAttribute::Usage::POSITION, 0, DataType::FLOAT_VECTOR3, false),
+            VertexAttribute(VertexAttribute::Usage::COLOR, 0, DataType::UNSIGNED_BYTE_VECTOR4, true)
         };
 
         VertexPC::VertexPC()
@@ -22,9 +22,9 @@ namespace ouzel
         }
 
         const std::vector<VertexAttribute> VertexPCT::ATTRIBUTES = {
-            VertexAttribute(VertexAttribute::Usage::POSITION, 0, DataType::FLOAT_VECTOR3, false), // position
-            VertexAttribute(VertexAttribute::Usage::COLOR, 0, DataType::UNSIGNED_BYTE_VECTOR4, true), // color
-            VertexAttribute(VertexAttribute::Usage::TEXTURE_COORDINATES, 0, DataType::FLOAT_VECTOR2, false) // texcoord
+            VertexAttribute(VertexAttribute::Usage::POSITION, 0, DataType::FLOAT_VECTOR3, false),
+            VertexAttribute(VertexAttribute::Usage::COLOR, 0, DataType::UNSIGNED_BYTE_VECTOR4, true),
+            VertexAttribute(VertexAttribute::Usage::TEXTURE_COORDINATES, 0, DataType::FLOAT_VECTOR2, false)
         };
 
         VertexPCT::VertexPCT()
