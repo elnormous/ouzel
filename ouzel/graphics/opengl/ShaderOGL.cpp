@@ -131,34 +131,34 @@ namespace ouzel
                         switch (vertexAttribute.usage)
                         {
                             case VertexAttribute::Usage::BINORMAL:
-                                name = "binormal" + std::to_string(vertexAttribute.index);
+                                name = "binormal" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::BLEND_INDICES:
-                                name = "blendIndices" + std::to_string(vertexAttribute.index);
+                                name = "blendIndices" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::BLEND_WEIGHT:
-                                name = "blendWeight" + std::to_string(vertexAttribute.index);
+                                name = "blendWeight" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::COLOR:
-                                name = "color" + std::to_string(vertexAttribute.index);
+                                name = "color" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::NORMAL:
-                                name = "normal" + std::to_string(vertexAttribute.index);
+                                name = "normal" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::POSITION:
-                                name = "position" + std::to_string(vertexAttribute.index);
+                                name = "position" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::POSITION_TRANSFORMED:
                                 name = "positionT";
                                 break;
                             case VertexAttribute::Usage::POINT_SIZE:
-                                name = "pointSize" + std::to_string(vertexAttribute.index);
+                                name = "pointSize" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::TANGENT:
-                                name = "tangent" + std::to_string(vertexAttribute.index);
+                                name = "tangent" + toString(vertexAttribute.index);
                                 break;
                             case VertexAttribute::Usage::TEXTURE_COORDINATES:
-                                name = "texCoord" + std::to_string(vertexAttribute.index);
+                                name = "texCoord" + toString(vertexAttribute.index);
                                 break;
                             default:
                                 Log() << "Invalid vertex attribute usage";
