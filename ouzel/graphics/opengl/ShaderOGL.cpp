@@ -126,7 +126,46 @@ namespace ouzel
 
                     for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
                     {
-                        glBindAttribLocation(programId, index, vertexAttribute.name.c_str());
+                        std::string name;
+
+                        switch (vertexAttribute.usage)
+                        {
+                            case VertexAttribute::Usage::BINORMAL:
+                                name = "binormal" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::BLEND_INDICES:
+                                name = "blendIndices" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::BLEND_WEIGHT:
+                                name = "blendWeight" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::COLOR:
+                                name = "color" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::NORMAL:
+                                name = "normal" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::POSITION:
+                                name = "position" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::POSITION_TRANSFORMED:
+                                name = "positionT";
+                                break;
+                            case VertexAttribute::Usage::POINT_SIZE:
+                                name = "pointSize" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::TANGENT:
+                                name = "tangent" + std::to_string(vertexAttribute.index);
+                                break;
+                            case VertexAttribute::Usage::TEXTURE_COORDINATES:
+                                name = "texCoord" + std::to_string(vertexAttribute.index);
+                                break;
+                            default:
+                                Log() << "Invalid vertex attribute usage";
+                                return false;
+                        }
+
+                        glBindAttribLocation(programId, index, name.c_str());
                         ++index;
                     }
 

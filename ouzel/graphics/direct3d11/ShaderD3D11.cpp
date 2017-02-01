@@ -184,10 +184,10 @@ namespace ouzel
                             case VertexAttribute::Usage::BINORMAL:
                                 usage = "BINORMAL";
                                 break;
-                            case VertexAttribute::Usage::BLENDINDICES:
+                            case VertexAttribute::Usage::BLEND_INDICES:
                                 usage = "BLENDINDICES";
                                 break;
-                            case VertexAttribute::Usage::BLENDWEIGHT:
+                            case VertexAttribute::Usage::BLEND_WEIGHT:
                                 usage = "BLENDWEIGHT";
                                 break;
                             case VertexAttribute::Usage::COLOR:
@@ -199,20 +199,20 @@ namespace ouzel
                             case VertexAttribute::Usage::POSITION:
                                 usage = "POSITION";
                                 break;
-                            case VertexAttribute::Usage::POSITIONT:
+                            case VertexAttribute::Usage::POSITION_TRANSFORMED:
                                 usage = "POSITIONT";
                                 break;
-                            case VertexAttribute::Usage::PSIZE:
+                            case VertexAttribute::Usage::POINT_SIZE:
                                 usage = "PSIZE";
                                 break;
                             case VertexAttribute::Usage::TANGENT:
                                 usage = "TANGENT";
                                 break;
-                            case VertexAttribute::Usage::TEXCOORD:
+                            case VertexAttribute::Usage::TEXTURE_COORDINATES:
                                 usage = "TEXCOORD";
                                 break;
                             default:
-                                Log() << "Invalid vertex format";
+                                Log() << "Invalid vertex attribute usage";
                                 return false;
                         }
 

@@ -20,20 +20,19 @@ namespace ouzel
             {
                 NONE,
                 BINORMAL,
-                BLENDINDICES,
-                BLENDWEIGHT,
+                BLEND_INDICES,
+                BLEND_WEIGHT,
                 COLOR,
                 NORMAL,
                 POSITION,
-                POSITIONT,
-                PSIZE,
+                POSITION_TRANSFORMED,
+                POINT_SIZE,
                 TANGENT,
-                TEXCOORD
+                TEXTURE_COORDINATES
             };
 
-            VertexAttribute(const std::string& aName, Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
-                name(aName), usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) { }
-            std::string name;
+            VertexAttribute(Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
+                usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) { }
             Usage usage = Usage::NONE;
             uint32_t index = 0;
             DataType dataType = DataType::NONE;
