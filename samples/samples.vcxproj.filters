@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AnimationsSample.cpp" />
+    <ClCompile Include="GameSample.cpp" />
+    <ClCompile Include="GUISample.cpp" />
+    <ClCompile Include="InputSample.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PerspectiveSample.cpp" />
+    <ClCompile Include="RTSample.cpp" />
+    <ClCompile Include="Samples.cpp" />
+    <ClCompile Include="SoundSample.cpp" />
+    <ClCompile Include="SpritesSample.cpp" />
+    <ClCompile Include="windows\stdafx.cpp">
+      <Filter>windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AnimationsSample.h" />
+    <ClInclude Include="GameSample.h" />
+    <ClInclude Include="GUISample.h" />
+    <ClInclude Include="InputSample.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="PerspectiveSample.h" />
+    <ClInclude Include="RTSample.h" />
+    <ClInclude Include="Samples.h" />
+    <ClInclude Include="SoundSample.h" />
+    <ClInclude Include="SpritesSample.h" />
+    <ClInclude Include="win\resource.h" />
+    <ClInclude Include="windows\resource.h">
+      <Filter>windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\stdafx.h">
+      <Filter>windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="windows\samples.rc">
+      <Filter>windows</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="windows\icon1.ico">
+      <Filter>windows</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="windows">
+      <UniqueIdentifier>{14a6027d-4cee-4791-b7eb-0dd111e11b91}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

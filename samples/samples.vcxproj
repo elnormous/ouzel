@@ -173,7 +173,7 @@ copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
     <ClCompile Include="Samples.cpp" />
     <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="SpritesSample.cpp" />
-    <ClCompile Include="win\stdafx.cpp">
+    <ClCompile Include="windows\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -191,14 +191,15 @@ copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
     <ClInclude Include="Samples.h" />
     <ClInclude Include="SoundSample.h" />
     <ClInclude Include="SpritesSample.h" />
+    <ClInclude Include="windows\resource.h" />
+    <ClInclude Include="windows\stdafx.h" />
     <ClInclude Include="win\resource.h" />
-    <ClInclude Include="win\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="win\icon1.ico" />
+    <Image Include="windows\icon1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="win\samples.rc" />
+    <ResourceCompile Include="windows\samples.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\build\ouzel.vcxproj">
