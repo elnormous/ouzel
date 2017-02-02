@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#define NOMINMAX
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include "GL/wglext.h"
 #include "RendererOGLWin.h"
 #include "core/windows/WindowWin.h"
@@ -37,7 +41,7 @@ namespace ouzel
             }
 
             PIXELFORMATDESCRIPTOR pixelFormatDesc;
-            pixelFormatDesc.size = sizeof(pixelFormatDesc);
+            pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
             pixelFormatDesc.nVersion = 1;
             pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
             pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;

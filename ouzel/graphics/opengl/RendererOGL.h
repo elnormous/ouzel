@@ -10,6 +10,10 @@
 #include <atomic>
 #include "core/CompileConfig.h"
 
+#if OUZEL_PLATFORM_WINDOWS
+    #define NOMINMAX
+#endif
+
 #if OUZEL_SUPPORTS_OPENGL
     #define GL_GLEXT_PROTOTYPES 1
     #include "GL/glcorearb.h"
@@ -493,7 +497,7 @@ namespace ouzel
 
             struct StateCache
             {
-                GLuint textureId[Texture::LAYERS] = {0};
+                GLuint textureId[Texture::LAYERS];
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;
 

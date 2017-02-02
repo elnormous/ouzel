@@ -71,6 +71,13 @@
     <ClCompile Include="..\ouzel\graphics\Image.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBufferResource.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\BufferOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\MeshBufferOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\RendererOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\ShaderOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\TextureOGL.cpp" />
+    <ClCompile Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.cpp" />
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\ShaderResource.cpp" />
@@ -188,6 +195,29 @@
     <ClInclude Include="..\ouzel\graphics\Image.h" />
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\graphics\MeshBufferResource.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\BufferOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\RendererOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ShaderOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureOGL.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.h" />
     <ClInclude Include="..\ouzel\graphics\Renderer.h" />
     <ClInclude Include="..\ouzel\graphics\Resource.h" />
@@ -300,19 +330,19 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

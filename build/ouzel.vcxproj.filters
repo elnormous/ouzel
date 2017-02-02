@@ -322,6 +322,27 @@
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp">
       <Filter>audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\BufferOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\MeshBufferOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\RendererOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\ShaderOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\TextureOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.cpp">
+      <Filter>graphics\opengl\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -682,6 +703,75 @@
     <ClInclude Include="..\ouzel\graphics\DataType.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\BufferOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\RendererOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ShaderOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h">
+      <Filter>graphics\opengl\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -737,6 +827,12 @@
     </Filter>
     <Filter Include="input\windows">
       <UniqueIdentifier>{2a295899-8a84-4406-9935-36b4c3e6bc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\opengl">
+      <UniqueIdentifier>{7040e385-b60e-47a2-9f29-dd53e751ffd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\opengl\windows">
+      <UniqueIdentifier>{a1a9f225-eb74-471a-b7e8-e5996b467b50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
