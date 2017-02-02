@@ -15,8 +15,6 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual bool draw() override;
-            
             virtual BlendStateResource* createBlendState() override;
             virtual TextureResource* createTexture() override;
             virtual ShaderResource* createShader() override;
@@ -33,6 +31,8 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
+
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
         };
     } // namespace graphics
 } // namespace ouzel

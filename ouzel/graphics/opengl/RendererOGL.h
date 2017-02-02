@@ -58,7 +58,6 @@ namespace ouzel
             virtual ~RendererOGL();
 
             virtual bool process() override;
-            virtual bool draw() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
@@ -471,6 +470,7 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth) override;
             virtual bool update() override;
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();
 

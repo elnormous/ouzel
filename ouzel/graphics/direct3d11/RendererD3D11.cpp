@@ -457,7 +457,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererD3D11::draw()
+        bool RendererD3D11::draw(const std::vector<DrawCommand>& drawCommands)
         {
             context->RSSetState(rasterizerStates[0]);
 
@@ -470,7 +470,7 @@ namespace ouzel
 
             D3D11_VIEWPORT viewport;
 
-            if (drawQueue.empty())
+            if (drawCommands.empty())
             {
                 frameBufferClearedFrame = currentFrame;
 
@@ -496,7 +496,7 @@ namespace ouzel
                     context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
             }
-            else for (const DrawCommand& drawCommand : drawQueue)
+            else for (const DrawCommand& drawCommand : drawCommands)
             {
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;

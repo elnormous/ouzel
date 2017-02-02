@@ -99,7 +99,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererEmpty::draw()
+        bool RendererEmpty::draw(const std::vector<DrawCommand>&)
         {
             return true;
         }

@@ -327,7 +327,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererMetal::draw()
+        bool RendererMetal::draw(const std::vector<DrawCommand>& drawCommands)
         {
             NSUInteger frameBufferWidth = view.currentDrawable.texture.width;
             NSUInteger frameBufferHeight = view.currentDrawable.texture.height;
@@ -428,7 +428,7 @@ namespace ouzel
 
             MTLViewport viewport;
 
-            if (drawQueue.empty())
+            if (drawCommands.empty())
             {
                 frameBufferClearedFrame = currentFrame;
 
@@ -454,7 +454,7 @@ namespace ouzel
                 currentRenderPassDescriptor.colorAttachments[0].loadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
                 currentRenderPassDescriptor.depthAttachment.loadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
             }
-            else for (const DrawCommand& drawCommand : drawQueue)
+            else for (const DrawCommand& drawCommand : drawCommands)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                 PipelineStateDesc pipelineStateDesc;

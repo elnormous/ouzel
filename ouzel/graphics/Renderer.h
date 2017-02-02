@@ -168,7 +168,27 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth);
 
-            virtual bool draw() = 0;
+            struct DrawCommand
+            {
+                std::vector<TextureResource*> textures;
+                ShaderResource* shader;
+                std::vector<std::vector<float>> pixelShaderConstants;
+                std::vector<std::vector<float>> vertexShaderConstants;
+                BlendStateResource* blendState;
+                MeshBufferResource* meshBuffer;
+                uint32_t indexCount;
+                DrawMode drawMode;
+                uint32_t startIndex;
+                TextureResource* renderTarget;
+                Rectangle viewport;
+                bool depthWrite;
+                bool depthTest;
+                bool wireframe;
+                bool scissorTestEnabled;
+                Rectangle scissorTest;
+            };
+            
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
             virtual bool update();
 
             bool generateScreenshots();
@@ -189,35 +209,8 @@ namespace ouzel
 
             bool verticalSync = true;
 
-            struct DrawCommand
-            {
-                std::vector<TextureResource*> textures;
-                ShaderResource* shader;
-                std::vector<std::vector<float>> pixelShaderConstants;
-                std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStateResource* blendState;
-                MeshBufferResource* meshBuffer;
-                uint32_t indexCount;
-                DrawMode drawMode;
-                uint32_t startIndex;
-                TextureResource* renderTarget;
-                Rectangle viewport;
-                bool depthWrite;
-                bool depthTest;
-                bool wireframe;
-                bool scissorTestEnabled;
-                Rectangle scissorTest;
-            };
-
             bool npotTexturesSupported = true;
             bool multisamplingSupported = true;
-
-            std::mutex drawQueueMutex;
-            std::condition_variable drawQueueCondition;
-            bool activeDrawQueueFinished = false;
-            std::atomic<bool> refillDrawQueue;
-
-            std::vector<DrawCommand> drawQueue;
 
             Matrix4 projectionTransform;
             Matrix4 renderTargetProjectionTransform;
@@ -232,18 +225,11 @@ namespace ouzel
 
             Data uploadData;
 
-            std::vector<std::unique_ptr<Resource>> resources;
-            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
-            std::set<Resource*> resourceUploadSet;
             std::mutex resourceMutex;
+            std::vector<std::unique_ptr<Resource>> resources;
+            std::set<Resource*> resourceUploadSet;
+            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
-            std::atomic<float> currentFPS;
-            std::chrono::steady_clock::time_point previousFrameTime;
-
-            float accumulatedTime = 0.0f;
-            float currentAccumulatedFPS = 0.0f;
-            std::atomic<float> accumulatedFPS;
-            
         private:
             Size2 size;
 
@@ -253,7 +239,18 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
 
-            std::vector<DrawCommand> activeDrawQueue;
+            std::vector<DrawCommand> drawQueue;
+            std::mutex drawQueueMutex;
+            std::condition_variable drawQueueCondition;
+            bool drawQueueFinished = false;
+            std::atomic<bool> refillDrawQueue;
+
+            std::atomic<float> currentFPS;
+            std::chrono::steady_clock::time_point previousFrameTime;
+
+            float accumulatedTime = 0.0f;
+            float currentAccumulatedFPS = 0.0f;
+            std::atomic<float> accumulatedFPS;
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;

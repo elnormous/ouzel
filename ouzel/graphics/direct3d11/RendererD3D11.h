@@ -19,8 +19,6 @@ namespace ouzel
         public:
             virtual ~RendererD3D11();
 
-            virtual bool draw() override;
-
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
             virtual BlendStateResource* createBlendState() override;
@@ -42,7 +40,8 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
-            bool update();
+            virtual bool update() override;
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
 
             virtual bool saveScreenshot(const std::string& filename) override;

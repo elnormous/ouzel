@@ -99,20 +99,21 @@ namespace ouzel
                 dirty = false;
             }
 
+            std::vector<DrawCommand> drawCommands;
             {
 #if OUZEL_MULTITHREADED
                 std::unique_lock<std::mutex> lock(drawQueueMutex);
 
-                while (!activeDrawQueueFinished)
+                while (!drawQueueFinished)
                 {
                     drawQueueCondition.wait(lock);
                 }
 #endif
 
-                drawQueue = std::move(activeDrawQueue);
-                activeDrawQueue.reserve(drawQueue.size());
+                drawCommands = std::move(drawQueue);
+                drawQueue.reserve(drawCommands.size());
 
-                activeDrawQueueFinished = false;
+                drawQueueFinished = false;
             }
 
             std::set<Resource*> uploadResources;
@@ -137,7 +138,7 @@ namespace ouzel
 
             ++currentFrame;
 
-            if (!draw())
+            if (!draw(drawCommands))
             {
                 return false;
             }
@@ -259,7 +260,7 @@ namespace ouzel
                 if (texture) drawTextures.push_back(texture->getResource());
             }
 
-            activeDrawQueue.push_back({
+            drawQueue.push_back({
                 drawTextures,
                 shader->getResource(),
                 pixelShaderConstants,
@@ -287,8 +288,8 @@ namespace ouzel
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                activeDrawQueueFinished = true;
-                drawCallCount = static_cast<uint32_t>(activeDrawQueue.size());
+                drawQueueFinished = true;
+                drawCallCount = static_cast<uint32_t>(drawQueue.size());
             }
 
 #if OUZEL_MULTITHREADED

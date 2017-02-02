@@ -412,9 +412,9 @@ namespace ouzel
             return Renderer::process();
         }
 
-        bool RendererOGL::draw()
+        bool RendererOGL::draw(const std::vector<DrawCommand>& drawCommands)
         {
-            if (drawQueue.empty())
+            if (drawCommands.empty())
             {
                 frameBufferClearedFrame = currentFrame;
 
@@ -451,7 +451,7 @@ namespace ouzel
                     return false;
                 }
             }
-            else for (const DrawCommand& drawCommand : drawQueue)
+            else for (const DrawCommand& drawCommand : drawCommands)
             {
 #ifdef OUZEL_SUPPORTS_OPENGL
                 setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);

@@ -53,8 +53,6 @@ namespace ouzel
 
             virtual ~RendererMetal();
 
-            virtual bool draw() override;
-
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
             virtual BlendStateResource* createBlendState() override;
@@ -77,6 +75,7 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth) override;
             virtual bool update() override;
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
             struct PipelineStateDesc
