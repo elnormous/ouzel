@@ -190,8 +190,6 @@ namespace ouzel
             
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
             virtual bool update();
-
-            bool generateScreenshots();
             virtual bool generateScreenshot(const std::string& filename);
 
             Driver driver;
