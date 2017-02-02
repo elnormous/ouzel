@@ -49,7 +49,7 @@ namespace ouzel
             {
                 if (!bufferId)
                 {
-                    glGenBuffers(1, &bufferId);
+                    glGenBuffersProc(1, &bufferId);
                 }
 
                 switch (data.usage)
@@ -79,8 +79,8 @@ namespace ouzel
                     {
                         bufferSize = static_cast<GLsizeiptr>(data.data.size());
 
-                        glBufferData(bufferType, bufferSize, nullptr,
-                                     data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferDataProc(bufferType, bufferSize, nullptr,
+                                         data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {
@@ -129,8 +129,8 @@ namespace ouzel
                             return false;
                         }
 
-                        glBufferData(bufferType, bufferSize, data.data.data(),
-                                     data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferDataProc(bufferType, bufferSize, data.data.data(),
+                                         data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {

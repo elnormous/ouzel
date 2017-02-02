@@ -36,12 +36,12 @@ namespace ouzel
         void ShaderOGL::printShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;
-            glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+            glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
 
             if (logLength > 0)
             {
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
-                glGetShaderInfoLog(shaderId, logLength, nullptr, logMessage.data());
+                glGetShaderInfoLogProc(shaderId, logLength, nullptr, logMessage.data());
 
                 Log(Log::Level::ERR) << "Shader compilation error: " << logMessage.data();
             }
@@ -50,12 +50,12 @@ namespace ouzel
         void ShaderOGL::printProgramMessage()
         {
             GLint logLength = 0;
-            glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength);
+            glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
 
             if (logLength > 0)
             {
                 std::vector<char> logMessage(static_cast<size_t>(logLength));
-                glGetProgramInfoLog(programId, logLength, nullptr, logMessage.data());
+                glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
 
                 Log(Log::Level::ERR) << "Shader linking error: " << logMessage.data();
             }
@@ -72,16 +72,16 @@ namespace ouzel
             {
                 if (!pixelShaderId)
                 {
-                    pixelShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+                    pixelShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
 
                     const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(data.pixelShaderData.data());
                     GLint pixelShaderSize = static_cast<GLint>(data.pixelShaderData.size());
 
-                    glShaderSource(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
-                    glCompileShader(pixelShaderId);
+                    glShaderSourceProc(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
+                    glCompileShaderProc(pixelShaderId);
 
                     GLint status;
-                    glGetShaderiv(pixelShaderId, GL_COMPILE_STATUS, &status);
+                    glGetShaderivProc(pixelShaderId, GL_COMPILE_STATUS, &status);
                     if (status == GL_FALSE)
                     {
                         Log(Log::Level::ERR) << "Failed to compile pixel shader";
@@ -97,16 +97,16 @@ namespace ouzel
 
                 if (!vertexShaderId)
                 {
-                    vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+                    vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
 
                     const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(data.vertexShaderData.data());
                     GLint vertexShaderSize = static_cast<GLint>(data.vertexShaderData.size());
 
-                    glShaderSource(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
-                    glCompileShader(vertexShaderId);
+                    glShaderSourceProc(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
+                    glCompileShaderProc(vertexShaderId);
 
                     GLint status;
-                    glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
+                    glGetShaderivProc(vertexShaderId, GL_COMPILE_STATUS, &status);
                     if (status == GL_FALSE)
                     {
                         Log(Log::Level::ERR) << "Failed to compile vertex shader";
@@ -117,10 +117,10 @@ namespace ouzel
 
                 if (!programId)
                 {
-                    programId = glCreateProgram();
+                    programId = glCreateProgramProc();
 
-                    glAttachShader(programId, vertexShaderId);
-                    glAttachShader(programId, pixelShaderId);
+                    glAttachShaderProc(programId, vertexShaderId);
+                    glAttachShaderProc(programId, pixelShaderId);
 
                     GLuint index = 0;
 
@@ -165,14 +165,14 @@ namespace ouzel
                                 return false;
                         }
 
-                        glBindAttribLocation(programId, index, name.c_str());
+                        glBindAttribLocationProc(programId, index, name.c_str());
                         ++index;
                     }
 
-                    glLinkProgram(programId);
+                    glLinkProgramProc(programId);
 
                     GLint status;
-                    glGetProgramiv(programId, GL_LINK_STATUS, &status);
+                    glGetProgramivProc(programId, GL_LINK_STATUS, &status);
                     if (status == GL_FALSE)
                     {
                         Log(Log::Level::ERR) << "Failed to link shader";
@@ -185,12 +185,12 @@ namespace ouzel
                         return false;
                     }
 
-                    glDetachShader(programId, vertexShaderId);
-                    glDeleteShader(vertexShaderId);
+                    glDetachShaderProc(programId, vertexShaderId);
+                    glDeleteShaderProc(vertexShaderId);
                     vertexShaderId = 0;
 
-                    glDetachShader(programId, pixelShaderId);
-                    glDeleteShader(pixelShaderId);
+                    glDetachShaderProc(programId, pixelShaderId);
+                    glDeleteShaderProc(pixelShaderId);
                     pixelShaderId = 0;
 
                     if (RendererOGL::checkOpenGLError())
@@ -200,11 +200,11 @@ namespace ouzel
 
                     RendererOGL::useProgram(programId);
 
-                    GLint texture0Location = glGetUniformLocation(programId, "texture0");
-                    if (texture0Location != -1) glUniform1i(texture0Location, 0);
+                    GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
+                    if (texture0Location != -1) glUniform1iProc(texture0Location, 0);
 
-                    GLint texture1Location = glGetUniformLocation(programId, "texture1");
-                    if (texture1Location != -1) glUniform1i(texture1Location, 1);
+                    GLint texture1Location = glGetUniformLocationProc(programId, "texture1");
+                    if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
                     if (RendererOGL::checkOpenGLError())
                     {
@@ -219,7 +219,7 @@ namespace ouzel
 
                     for (const Shader::ConstantInfo& info : data.pixelShaderConstantInfo)
                     {
-                        GLint location = glGetUniformLocation(programId, info.name.c_str());
+                        GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
                         if (location == -1 || RendererOGL::checkOpenGLError())
                         {
@@ -238,7 +238,7 @@ namespace ouzel
 
                     for (const Shader::ConstantInfo& info : data.vertexShaderConstantInfo)
                     {
-                        GLint location = glGetUniformLocation(programId, info.name.c_str());
+                        GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
                         if (location == -1 || RendererOGL::checkOpenGLError())
                         {

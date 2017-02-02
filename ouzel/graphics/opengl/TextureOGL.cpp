@@ -107,7 +107,7 @@ namespace ouzel
                     {
                         if (!frameBufferId)
                         {
-                            glGenFramebuffers(1, &frameBufferId);
+                            glGenFramebuffersProc(1, &frameBufferId);
 
                             if (RendererOGL::checkOpenGLError())
                             {
@@ -123,7 +123,7 @@ namespace ouzel
 
                         RendererOGL::bindFrameBuffer(frameBufferId);
 
-                        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                        if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         {
                             RendererOGL::bindTexture(textureId, 0);
 
@@ -134,15 +134,15 @@ namespace ouzel
 
                             if (data.depth)
                             {
-                                glGenRenderbuffers(1, &depthBufferId);
-                                glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-                                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                      static_cast<GLsizei>(data.size.v[0]),
-                                                      static_cast<GLsizei>(data.size.v[1]));
-                                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                                glGenRenderbuffersProc(1, &depthBufferId);
+                                glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                          static_cast<GLsizei>(data.size.v[0]),
+                                                          static_cast<GLsizei>(data.size.v[1]));
+                                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
                             }
 
-                            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                            glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
     #if OUZEL_SUPPORTS_OPENGL // TODO: fix this
                             //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
@@ -150,7 +150,7 @@ namespace ouzel
                             glDrawBuffer(GL_COLOR_ATTACHMENT0);
     #endif
 
-                            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                            if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                             {
                                 Log(Log::Level::ERR) << "Failed to create frame buffer";
                                 return false;

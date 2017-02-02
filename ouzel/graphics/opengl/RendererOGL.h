@@ -26,6 +26,60 @@
     #include "GLES3/gl3.h"
 #endif
 
+extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
+extern PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
+
+extern PFNGLUNIFORM1IPROC glUniform1iProc;
+extern PFNGLUNIFORM1FVPROC glUniform1fvProc;
+extern PFNGLUNIFORM2FVPROC glUniform2fvProc;
+extern PFNGLUNIFORM3FVPROC glUniform3fvProc;
+extern PFNGLUNIFORM4FVPROC glUniform4fvProc;
+extern PFNGLUNIFORM1IVPROC glUniform1ivProc;
+extern PFNGLUNIFORM2IVPROC glUniform2ivProc;
+extern PFNGLUNIFORM3IVPROC glUniform3ivProc;
+extern PFNGLUNIFORM4IVPROC glUniform4ivProc;
+extern PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
+extern PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
+
+extern PFNGLACTIVETEXTUREPROC glActiveTextureProc;
+extern PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc;
+extern PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc;
+extern PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc;
+extern PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorageProc;
+
+extern PFNGLGENFRAMEBUFFERSPROC glGenFramebuffersProc;
+extern PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffersProc;
+extern PFNGLBINDFRAMEBUFFERPROC glBindFramebufferProc;
+extern PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatusProc;
+extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
+extern PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
+extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
+
+extern PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+
+extern PFNGLCREATESHADERPROC glCreateShaderProc;
+extern PFNGLDELETESHADERPROC glDeleteShaderProc;
+extern PFNGLATTACHSHADERPROC glAttachShaderProc;
+extern PFNGLDETACHSHADERPROC glDetachShaderProc;
+extern PFNGLSHADERSOURCEPROC glShaderSourceProc;
+extern PFNGLCOMPILESHADERPROC glCompileShaderProc;
+extern PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocationProc;
+extern PFNGLGETSHADERIVPROC glGetShaderivProc;
+extern PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLogProc;
+
+extern PFNGLCREATEPROGRAMPROC glCreateProgramProc;
+extern PFNGLDELETEPROGRAMPROC glDeleteProgramProc;
+extern PFNGLUSEPROGRAMPROC glUseProgramProc;
+extern PFNGLLINKPROGRAMPROC glLinkProgramProc;
+extern PFNGLGETPROGRAMIVPROC glGetProgramivProc;
+extern PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLogProc;
+extern PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocationProc;
+
+extern PFNGLBINDBUFFERPROC glBindBufferProc;
+extern PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
+extern PFNGLGENBUFFERSPROC glGenBuffersProc;
+extern PFNGLBUFFERDATAPROC glBufferDataProc;
+
 #if OUZEL_SUPPORTS_OPENGL
     extern PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
     extern PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
@@ -104,7 +158,7 @@ namespace ouzel
             {
                 if (stateCache.textureId[layer] != textureId)
                 {
-                    glActiveTexture(GL_TEXTURE0 + layer);
+                    glActiveTextureProc(GL_TEXTURE0 + layer);
                     glBindTexture(GL_TEXTURE_2D, textureId);
                     stateCache.textureId[layer] = textureId;
 
@@ -122,7 +176,7 @@ namespace ouzel
             {
                 if (stateCache.programId != programId)
                 {
-                    glUseProgram(programId);
+                    glUseProgramProc(programId);
                     stateCache.programId = programId;
 
                     if (checkOpenGLError())
@@ -139,7 +193,7 @@ namespace ouzel
             {
                 if (stateCache.frameBufferId != frameBufferId)
                 {
-                    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId);
+                    glBindFramebufferProc(GL_FRAMEBUFFER, frameBufferId);
                     stateCache.frameBufferId = frameBufferId;
 
                     if (checkOpenGLError())
@@ -158,7 +212,7 @@ namespace ouzel
 
                 if (currentBufferId != bufferId)
                 {
-                    glBindBuffer(bufferType, bufferId);
+                    glBindBufferProc(bufferType, bufferId);
                     currentBufferId = bufferId;
 
                     if (checkOpenGLError())
@@ -179,7 +233,7 @@ namespace ouzel
                     glBindVertexArrayOES(vertexArrayId);
 #elif OUZEL_OPENGL_INTERFACE_EGL
                     if (glBindVertexArrayProc) glBindVertexArrayProc(vertexArrayId);
-#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+#elif OUZEL_SUPPORTS_OPENGL
                     glBindVertexArray(vertexArrayId);
 #endif
                     stateCache.vertexArrayId = vertexArrayId;
@@ -346,8 +400,8 @@ namespace ouzel
                     if (stateCache.blendModeRGB != modeRGB ||
                         stateCache.blendModeAlpha != modeAlpha)
                     {
-                        glBlendEquationSeparate(modeRGB,
-                                                modeAlpha);
+                        glBlendEquationSeparateProc(modeRGB,
+                                                    modeAlpha);
 
                         stateCache.blendModeRGB = modeRGB;
                         stateCache.blendModeAlpha = modeAlpha;
@@ -360,10 +414,10 @@ namespace ouzel
                         stateCache.blendSourceFactorAlpha != sfactorAlpha ||
                         stateCache.blendDestFactorAlpha != dfactorAlpha)
                     {
-                        glBlendFuncSeparate(sfactorRGB,
-                                            dfactorRGB,
-                                            sfactorAlpha,
-                                            dfactorAlpha);
+                        glBlendFuncSeparateProc(sfactorRGB,
+                                                dfactorRGB,
+                                                sfactorAlpha,
+                                                dfactorAlpha);
 
                         stateCache.blendSourceFactorRGB = sfactorRGB;
                         stateCache.blendDestFactorRGB = dfactorRGB;
@@ -389,7 +443,7 @@ namespace ouzel
                 if (elementArrayBufferId == bufferId) elementArrayBufferId = 0;
                 GLuint& arrayBufferId = stateCache.bufferId[GL_ARRAY_BUFFER];
                 if (arrayBufferId == bufferId) arrayBufferId = 0;
-                glDeleteBuffers(1, &bufferId);
+                glDeleteBuffersProc(1, &bufferId);
             }
 
             static void deleteVertexArray(GLuint vertexArrayId)
@@ -411,24 +465,24 @@ namespace ouzel
 
             static void deleteRenderBuffer(GLuint renderBufferId)
             {
-                glDeleteRenderbuffers(1, &renderBufferId);
+                glDeleteRenderbuffersProc(1, &renderBufferId);
             }
 
             static void deleteFrameBuffer(GLuint frameBufferId)
             {
                 if (stateCache.frameBufferId == frameBufferId) stateCache.frameBufferId = 0;
-                glDeleteFramebuffers(1, &frameBufferId);
+                glDeleteFramebuffersProc(1, &frameBufferId);
             }
 
             static void deleteProgram(GLuint programId)
             {
                 if (stateCache.programId == programId) stateCache.programId = 0;
-                glDeleteProgram(programId);
+                glDeleteProgramProc(programId);
             }
 
             static void deleteShader(GLuint shaderId)
             {
-                glDeleteShader(shaderId);
+                glDeleteShaderProc(shaderId);
             }
 
             static void deleteTexture(GLuint textureId)

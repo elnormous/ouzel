@@ -14,12 +14,12 @@ namespace ouzel
         {
             if (resolveFrameBufferId)
             {
-                glDeleteFramebuffers(1, &resolveFrameBufferId);
+                glDeleteFramebuffersProc(1, &resolveFrameBufferId);
             }
 
             if (resolveColorRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &resolveColorRenderBufferId);
+                glDeleteRenderbuffersProc(1, &resolveColorRenderBufferId);
             }
 
             if (context)
@@ -110,8 +110,8 @@ namespace ouzel
         {
             if (sampleCount > 1)
             {
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, resolveFrameBufferId); // draw to resolve frame buffer
-                glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, frameBufferId); // read from FBO
+                glBindFramebufferProc(GL_DRAW_FRAMEBUFFER_APPLE, resolveFrameBufferId); // draw to resolve frame buffer
+                glBindFramebufferProc(GL_READ_FRAMEBUFFER_APPLE, frameBufferId); // read from FBO
 
                 if (checkOpenGLError())
                 {
@@ -121,9 +121,9 @@ namespace ouzel
 
                 if (apiMajorVersion >= 3)
                 {
-                    glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
-                                      0, 0, frameBufferWidth, frameBufferHeight,
-                                      GL_COLOR_BUFFER_BIT, GL_NEAREST);
+                    glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
+                                          0, 0, frameBufferWidth, frameBufferHeight,
+                                          GL_COLOR_BUFFER_BIT, GL_NEAREST);
                 }
                 else
                 {
@@ -151,11 +151,11 @@ namespace ouzel
 
             if (sampleCount > 1)
             {
-                glBindRenderbuffer(GL_RENDERBUFFER, resolveColorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
             }
             else
             {
-                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
             }
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
@@ -170,27 +170,27 @@ namespace ouzel
                 // resolve buffer
                 if (!resolveFrameBufferId)
                 {
-                    glGenFramebuffers(1, &resolveFrameBufferId);
+                    glGenFramebuffersProc(1, &resolveFrameBufferId);
                 }
 
                 if (!resolveColorRenderBufferId)
                 {
-                    glGenRenderbuffers(1, &resolveColorRenderBufferId);
+                    glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
                 }
 
-                glBindRenderbuffer(GL_RENDERBUFFER, resolveColorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
                 glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
                 glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
 
                 graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                          GL_RENDERBUFFER, resolveColorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                                              GL_RENDERBUFFER, resolveColorRenderBufferId);
 
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
                     return false;
                 }
 
@@ -198,10 +198,10 @@ namespace ouzel
             }
             else
             {
-                if (!frameBufferId) glGenFramebuffers(1, &frameBufferId);
+                if (!frameBufferId) glGenFramebuffersProc(1, &frameBufferId);
 
-                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
-                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                if (!colorRenderBufferId) glGenRenderbuffersProc(1, &colorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
                 glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
@@ -217,22 +217,22 @@ namespace ouzel
                         return false;
                     }
 
-                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
-                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
+                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
+                    glRenderbufferStorageProc(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
                 }
 
                 graphics::RendererOGL::bindFrameBuffer(frameBufferId);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (depth)
                 {
-                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
 
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
                     return false;
                 }
 

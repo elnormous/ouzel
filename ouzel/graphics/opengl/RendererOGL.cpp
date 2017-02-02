@@ -49,6 +49,60 @@
 #include "mach-o/dyld.h"
 #endif
 
+PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
+PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparateProc;
+
+PFNGLUNIFORM1IPROC glUniform1iProc;
+PFNGLUNIFORM1FVPROC glUniform1fvProc;
+PFNGLUNIFORM2FVPROC glUniform2fvProc;
+PFNGLUNIFORM3FVPROC glUniform3fvProc;
+PFNGLUNIFORM4FVPROC glUniform4fvProc;
+PFNGLUNIFORM1IVPROC glUniform1ivProc;
+PFNGLUNIFORM2IVPROC glUniform2ivProc;
+PFNGLUNIFORM3IVPROC glUniform3ivProc;
+PFNGLUNIFORM4IVPROC glUniform4ivProc;
+PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
+PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
+
+PFNGLACTIVETEXTUREPROC glActiveTextureProc;
+PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc;
+PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc;
+PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc;
+PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorageProc;
+
+PFNGLGENFRAMEBUFFERSPROC glGenFramebuffersProc;
+PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffersProc;
+PFNGLBINDFRAMEBUFFERPROC glBindFramebufferProc;
+PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatusProc;
+PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
+PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
+PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
+
+PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+
+PFNGLCREATESHADERPROC glCreateShaderProc;
+PFNGLDELETESHADERPROC glDeleteShaderProc;
+PFNGLATTACHSHADERPROC glAttachShaderProc;
+PFNGLDETACHSHADERPROC glDetachShaderProc;
+PFNGLSHADERSOURCEPROC glShaderSourceProc;
+PFNGLCOMPILESHADERPROC glCompileShaderProc;
+PFNGLBINDATTRIBLOCATIONPROC glBindAttribLocationProc;
+PFNGLGETSHADERIVPROC glGetShaderivProc;
+PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLogProc;
+
+PFNGLCREATEPROGRAMPROC glCreateProgramProc;
+PFNGLDELETEPROGRAMPROC glDeleteProgramProc;
+PFNGLUSEPROGRAMPROC glUseProgramProc;
+PFNGLLINKPROGRAMPROC glLinkProgramProc;
+PFNGLGETPROGRAMIVPROC glGetProgramivProc;
+PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLogProc;
+PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocationProc;
+
+PFNGLBINDBUFFERPROC glBindBufferProc;
+PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
+PFNGLGENBUFFERSPROC glGenBuffersProc;
+PFNGLBUFFERDATAPROC glBufferDataProc;
+
 #if OUZEL_SUPPORTS_OPENGL
     PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
     PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
@@ -98,17 +152,17 @@ namespace ouzel
             
             if (colorRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &colorRenderBufferId);
+                glDeleteRenderbuffersProc(1, &colorRenderBufferId);
             }
 
             if (depthRenderBufferId)
             {
-                glDeleteRenderbuffers(1, &depthRenderBufferId);
+                glDeleteRenderbuffersProc(1, &depthRenderBufferId);
             }
 
             if (frameBufferId)
             {
-                glDeleteFramebuffers(1, &frameBufferId);
+                glDeleteFramebuffersProc(1, &frameBufferId);
             }
         }
 
@@ -136,6 +190,116 @@ namespace ouzel
             {
                 Log(Log::Level::INFO) << "Using " << reinterpret_cast<const char*>(deviceName) << " for rendering";
             }
+
+            glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC >(getProcAddress("glBlendFuncSeparate"));
+            glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(getProcAddress("glBlendEquationSeparate"));
+
+#if OUZEL_OPENGL_INTERFACE_EAGL
+            glBlendFuncSeparateProc = glBlendFuncSeparate;
+            glBlendEquationSeparateProc = glBlendEquationSeparate;
+
+            glUniform1iProc = glUniform1i;
+            glUniform1fvProc = glUniform1fv;
+            glUniform2fvProc = glUniform2fv;
+            glUniform3fvProc = glUniform3fv;
+            glUniform4fvProc = glUniform4fv;
+            glUniform1ivProc = glUniform1iv;
+            glUniform2ivProc = glUniform2iv;
+            glUniform3ivProc = glUniform3iv;
+            glUniform4ivProc = glUniform4iv;
+            glUniformMatrix3fvProc = glUniformMatrix3fv;
+            glUniformMatrix4fvProc = glUniformMatrix4fv;
+
+            glActiveTextureProc = glActiveTexture;
+            glGenRenderbuffersProc = glGenRenderbuffers;
+            glDeleteRenderbuffersProc = glDeleteRenderbuffers;
+            glBindRenderbufferProc = glBindRenderbuffer;
+            glRenderbufferStorageProc = glRenderbufferStorage;
+
+            glGenFramebuffersProc = glGenFramebuffers;
+            glDeleteFramebuffersProc = glDeleteFramebuffers;
+            glBindFramebufferProc = glBindFramebuffer;
+            glCheckFramebufferStatusProc = glCheckFramebufferStatus;
+            glFramebufferRenderbufferProc = glFramebufferRenderbuffer;
+            glBlitFramebufferProc = glBlitFramebuffer;
+            glFramebufferTexture2DProc = glFramebufferTexture2D;
+
+            glClearDepthfProc = glClearDepthf;
+
+            glCreateShaderProc = glCreateShader;
+            glDeleteShaderProc = glDeleteShader;
+            glAttachShaderProc = glAttachShader;
+            glDetachShaderProc = glDetachShader;
+            glShaderSourceProc = glShaderSource;
+            glCompileShaderProc = glCompileShader;
+            glBindAttribLocationProc = glBindAttribLocation;
+            glGetShaderivProc = glGetShaderiv;
+            glGetShaderInfoLogProc = glGetShaderInfoLog;
+
+            glCreateProgramProc = glCreateProgram;
+            glDeleteProgramProc = glDeleteProgram;
+            glUseProgramProc = glUseProgram;
+            glLinkProgramProc = glLinkProgram;
+            glGetProgramivProc = glGetProgramiv;
+            glGetProgramInfoLogProc = glGetProgramInfoLog;
+            glGetUniformLocationProc = glGetUniformLocation;
+            
+            glBindBufferProc = glBindBuffer;
+            glDeleteBuffersProc = glDeleteBuffers;
+            glGenBuffersProc = glGenBuffers;
+            glBufferDataProc = glBufferData;
+#else
+            glUniform1iProc = reinterpret_cast<PFNGLUNIFORM1IPROC>(getProcAddress("glUniform1i"));
+            glUniform1fvProc = reinterpret_cast<PFNGLUNIFORM1FVPROC>(getProcAddress("glUniform1fv"));
+            glUniform2fvProc = reinterpret_cast<PFNGLUNIFORM2FVPROC>(getProcAddress("glUniform2fv"));
+            glUniform3fvProc = reinterpret_cast<PFNGLUNIFORM3FVPROC>(getProcAddress("glUniform3fv"));
+            glUniform4fvProc = reinterpret_cast<PFNGLUNIFORM4FVPROC>(getProcAddress("glUniform4fv"));
+            glUniform1ivProc = reinterpret_cast<PFNGLUNIFORM1IVPROC>(getProcAddress("glUniform1iv"));
+            glUniform2ivProc = reinterpret_cast<PFNGLUNIFORM2IVPROC>(getProcAddress("glUniform2iv"));
+            glUniform3ivProc = reinterpret_cast<PFNGLUNIFORM3IVPROC>(getProcAddress("glUniform3iv"));
+            glUniform4ivProc = reinterpret_cast<PFNGLUNIFORM4IVPROC>(getProcAddress("glUniform4iv"));
+            glUniformMatrix3fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX3FVPROC>(getProcAddress("glUniformMatrix3fv"));
+            glUniformMatrix4fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX4FVPROC>(getProcAddress("glUniformMatrix4fv"));
+
+            glActiveTextureProc = reinterpret_cast<PFNGLACTIVETEXTUREPROC>(getProcAddress("glActiveTexture"));
+            glGenRenderbuffersProc = reinterpret_cast<PFNGLGENRENDERBUFFERSPROC>(getProcAddress("glGenRenderbuffers"));
+            glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(getProcAddress("glDeleteRenderbuffers"));
+            glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(getProcAddress("glBindRenderbuffer"));
+            glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(getProcAddress("glRenderbufferStorage"));
+
+            glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
+            glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(getProcAddress("glDeleteFramebuffers"));
+            glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(getProcAddress("glBindFramebuffer"));
+            glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(getProcAddress("glCheckFramebufferStatus"));
+            glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(getProcAddress("glFramebufferRenderbuffer"));
+            glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(getProcAddress("glBlitFramebuffer"));
+            glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(getProcAddress("glFramebufferTexture2D"));
+
+            glClearDepthfProc = reinterpret_cast<PFNGLCLEARDEPTHFPROC>(getProcAddress("glClearDepthf"));
+
+            glCreateShaderProc = reinterpret_cast<PFNGLCREATESHADERPROC>(getProcAddress("glCreateShader"));
+            glDeleteShaderProc = reinterpret_cast<PFNGLDELETESHADERPROC>(getProcAddress("glDeleteShader"));
+            glAttachShaderProc = reinterpret_cast<PFNGLATTACHSHADERPROC>(getProcAddress("glAttachShader"));
+            glDetachShaderProc = reinterpret_cast<PFNGLDETACHSHADERPROC>(getProcAddress("glDetachShader"));
+            glShaderSourceProc = reinterpret_cast<PFNGLSHADERSOURCEPROC>(getProcAddress("glShaderSource"));
+            glCompileShaderProc = reinterpret_cast<PFNGLCOMPILESHADERPROC>(getProcAddress("glCompileShader"));
+            glBindAttribLocationProc = reinterpret_cast<PFNGLBINDATTRIBLOCATIONPROC>(getProcAddress("glBindAttribLocation"));
+            glGetShaderivProc = reinterpret_cast<PFNGLGETSHADERIVPROC>(getProcAddress("glGetShaderiv"));
+            glGetShaderInfoLogProc = reinterpret_cast<PFNGLGETSHADERINFOLOGPROC>(getProcAddress("glGetShaderInfoLog"));
+
+            glCreateProgramProc = reinterpret_cast<PFNGLCREATEPROGRAMPROC>(getProcAddress("glCreateProgram"));
+            glDeleteProgramProc = reinterpret_cast<PFNGLDELETEPROGRAMPROC>(getProcAddress("glDeleteProgram"));
+            glUseProgramProc = reinterpret_cast<PFNGLUSEPROGRAMPROC>(getProcAddress("glUseProgram"));
+            glLinkProgramProc = reinterpret_cast<PFNGLLINKPROGRAMPROC>(getProcAddress("glLinkProgram"));
+            glGetProgramivProc = reinterpret_cast<PFNGLGETPROGRAMIVPROC>(getProcAddress("glGetProgramiv"));
+            glGetProgramInfoLogProc = reinterpret_cast<PFNGLGETPROGRAMINFOLOGPROC>(getProcAddress("glGetProgramInfoLog"));
+            glGetUniformLocationProc = reinterpret_cast<PFNGLGETUNIFORMLOCATIONPROC>(getProcAddress("glGetUniformLocation"));
+            
+            glBindBufferProc = reinterpret_cast<PFNGLBINDBUFFERPROC>(getProcAddress("glBindBuffer"));
+            glDeleteBuffersProc = reinterpret_cast<PFNGLDELETEBUFFERSPROC>(getProcAddress("glDeleteBuffers"));
+            glGenBuffersProc = reinterpret_cast<PFNGLGENBUFFERSPROC>(getProcAddress("glGenBuffers"));
+            glBufferDataProc = reinterpret_cast<PFNGLBUFFERDATAPROC>(getProcAddress("glBufferData"));
+#endif
 
             if (apiMajorVersion >= 3)
             {
@@ -543,34 +707,34 @@ namespace ouzel
                     switch (pixelShaderConstantLocation.dataType)
                     {
                         case DataType::INTEGER:
-                            glUniform1iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            glUniform1ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR2:
-                            glUniform2iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            glUniform2ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR3:
-                            glUniform3iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            glUniform3ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR4:
-                            glUniform4iv(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
+                            glUniform4ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
                             break;
                         case DataType::FLOAT:
-                            glUniform1fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
+                            glUniform1fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR2:
-                            glUniform2fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
+                            glUniform2fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR3:
-                            glUniform3fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
+                            glUniform3fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR4:
-                            glUniform4fv(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
+                            glUniform4fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
                             break;
                         case DataType::FLOAT_MATRIX3:
-                            glUniformMatrix3fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
+                            glUniformMatrix3fvProc(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
                         case DataType::FLOAT_MATRIX4:
-                            glUniformMatrix4fv(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
+                            glUniformMatrix4fvProc(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
                             break;
                         default:
                             Log(Log::Level::ERR) << "Unsupported uniform size";
@@ -595,34 +759,34 @@ namespace ouzel
                     switch (vertexShaderConstantLocation.dataType)
                     {
                         case DataType::INTEGER:
-                            glUniform1iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            glUniform1ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR2:
-                            glUniform2iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            glUniform2ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR3:
-                            glUniform3iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            glUniform3ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
                             break;
                         case DataType::INTEGER_VECTOR4:
-                            glUniform4iv(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
+                            glUniform4ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
                             break;
                         case DataType::FLOAT:
-                            glUniform1fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
+                            glUniform1fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR2:
-                            glUniform2fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
+                            glUniform2fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR3:
-                            glUniform3fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
+                            glUniform3fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
                         case DataType::FLOAT_VECTOR4:
-                            glUniform4fv(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
+                            glUniform4fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
                             break;
                         case DataType::FLOAT_MATRIX3:
-                            glUniformMatrix3fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
+                            glUniformMatrix3fvProc(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
                         case DataType::FLOAT_MATRIX4:
-                            glUniformMatrix4fv(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
+                            glUniformMatrix4fvProc(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
                             break;
                         default:
                             Log(Log::Level::ERR) << "Unsupported uniform size";
@@ -681,7 +845,7 @@ namespace ouzel
                     {
                         // allow clearing the depth buffer
                         depthMask(true);
-                        glClearDepthf(1.0f);
+                        glClearDepthfProc(1.0f);
                     }
 
                     if (newClearMask & GL_COLOR_BUFFER_BIT)
@@ -763,8 +927,8 @@ namespace ouzel
             }
 
 #if OUZEL_SUPPORTS_OPENGL
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, systemFrameBufferId); // draw to default frame buffer
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferId); // read from FBO
+            glBindFramebufferProc(GL_DRAW_FRAMEBUFFER, systemFrameBufferId); // draw to default frame buffer
+            glBindFramebufferProc(GL_READ_FRAMEBUFFER, frameBufferId); // read from FBO
             glDrawBuffer(GL_BACK); // set the back buffer as the draw buffer
 
             if (checkOpenGLError())
@@ -773,9 +937,9 @@ namespace ouzel
                 return false;
             }
 
-            glBlitFramebuffer(0, 0, frameBufferWidth, frameBufferHeight,
-                              0, 0, frameBufferWidth, frameBufferHeight,
-                              GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            glBlitFramebufferProc(0, 0, frameBufferWidth, frameBufferHeight,
+                                  0, 0, frameBufferWidth, frameBufferHeight,
+                                  GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
             if (checkOpenGLError())
             {
@@ -784,7 +948,7 @@ namespace ouzel
             }
 
             // reset framebuffer
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, systemFrameBufferId);
+            glBindFramebufferProc(GL_READ_FRAMEBUFFER, systemFrameBufferId);
             stateCache.frameBufferId = systemFrameBufferId;
 #endif
 
@@ -897,7 +1061,7 @@ namespace ouzel
 #if !OUZEL_OPENGL_INTERFACE_EGL // don't create MSAA frambeuffer for EGL target
             if (!frameBufferId)
             {
-                glGenFramebuffers(1, &frameBufferId);
+                glGenFramebuffersProc(1, &frameBufferId);
             }
 
             if (checkOpenGLError())
@@ -908,7 +1072,7 @@ namespace ouzel
 
             if (sampleCount > 1)
             {
-                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+                if (!colorRenderBufferId) glGenRenderbuffersProc(1, &colorRenderBufferId);
 
                 if (checkOpenGLError())
                 {
@@ -916,7 +1080,7 @@ namespace ouzel
                     return false;
                 }
 
-                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (checkOpenGLError())
                 {
@@ -929,7 +1093,7 @@ namespace ouzel
     #elif OUZEL_OPENGL_INTERFACE_EAGL
                 glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
     #elif OUZEL_OPENGL_INTERFACE_EGL
-                renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
+                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
     #endif
 
                 if (checkOpenGLError())
@@ -952,7 +1116,7 @@ namespace ouzel
                         return false;
                     }
 
-                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
 
                     if (checkOpenGLError())
                     {
@@ -960,7 +1124,7 @@ namespace ouzel
                         return false;
                     }
 
-                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
 
                     if (checkOpenGLError())
                     {
@@ -973,7 +1137,7 @@ namespace ouzel
     #elif OUZEL_OPENGL_INTERFACE_EAGL
                     glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
     #elif OUZEL_OPENGL_INTERFACE_EGL
-                    renderbufferStorageMultisampleIMG(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
     #endif
 
                     if (checkOpenGLError())
@@ -984,16 +1148,16 @@ namespace ouzel
                 }
 
                 bindFrameBuffer(frameBufferId);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (depth)
                 {
-                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
 
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create frame buffer object " << glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create frame buffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
                     return false;
                 }
             }
@@ -1002,7 +1166,7 @@ namespace ouzel
             else
             {
 
-                if (!colorRenderBufferId) glGenRenderbuffers(1, &colorRenderBufferId);
+                if (!colorRenderBufferId) glGenRenderbuffersProc(1, &colorRenderBufferId);
 
                 if (checkOpenGLError())
                 {
@@ -1010,7 +1174,7 @@ namespace ouzel
                     return false;
                 }
 
-                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBufferId);
+                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (checkOpenGLError())
                 {
@@ -1018,7 +1182,7 @@ namespace ouzel
                     return false;
                 }
 
-                glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
+                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_RGBA, frameBufferWidth, frameBufferHeight);
 
                 if (checkOpenGLError())
                 {
@@ -1040,7 +1204,7 @@ namespace ouzel
                         return false;
                     }
 
-                    if (!depthRenderBufferId) glGenRenderbuffers(1, &depthRenderBufferId);
+                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
 
                     if (checkOpenGLError())
                     {
@@ -1048,7 +1212,7 @@ namespace ouzel
                         return false;
                     }
 
-                    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
 
                     if (checkOpenGLError())
                     {
@@ -1056,7 +1220,7 @@ namespace ouzel
                         return false;
                     }
 
-                    glRenderbufferStorage(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageProc(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
 
                     if (checkOpenGLError())
                     {
@@ -1066,16 +1230,16 @@ namespace ouzel
                 }
 
                 bindFrameBuffer(frameBufferId);
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
 
                 if (depth)
                 {
-                    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
                 }
 
-                if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object %x", glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
                     return false;
                 }
             }

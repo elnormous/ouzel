@@ -229,7 +229,7 @@ namespace ouzel
                     glGenVertexArraysOES(1, &vertexArrayId);
     #elif OUZEL_OPENGL_INTERFACE_EGL
                     if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
-    #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX
+    #elif OUZEL_SUPPORTS_OPENGL
                     glGenVertexArrays(1, &vertexArrayId);
     #endif
                 }
