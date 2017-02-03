@@ -107,6 +107,9 @@ PFNGLBUFFERDATAPROC glBufferDataProc;
 PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
 PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
 PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
+PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArrayProc;
+PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
+PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 #if OUZEL_SUPPORTS_OPENGL
     PFNGLMAPBUFFERPROC glMapBufferProc;
@@ -245,6 +248,11 @@ namespace ouzel
             glDeleteBuffersProc = glDeleteBuffers;
             glGenBuffersProc = glGenBuffers;
             glBufferDataProc = glBufferData;
+
+            glEnableVertexAttribArrayProc = glEnableVertexAttribArray;
+            glDisableVertexAttribArrayProc = glDisableVertexAttribArray;
+            glVertexAttribPointerProc = glVertexAttribPointer;
+
 #else
             glUniform1iProc = reinterpret_cast<PFNGLUNIFORM1IPROC>(getProcAddress("glUniform1i"));
             glUniform1fvProc = reinterpret_cast<PFNGLUNIFORM1FVPROC>(getProcAddress("glUniform1fv"));
@@ -296,6 +304,10 @@ namespace ouzel
             glDeleteBuffersProc = reinterpret_cast<PFNGLDELETEBUFFERSPROC>(getProcAddress("glDeleteBuffers"));
             glGenBuffersProc = reinterpret_cast<PFNGLGENBUFFERSPROC>(getProcAddress("glGenBuffers"));
             glBufferDataProc = reinterpret_cast<PFNGLBUFFERDATAPROC>(getProcAddress("glBufferData"));
+
+            glEnableVertexAttribArrayProc = reinterpret_cast<PFNGLENABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glEnableVertexAttribArray"));
+            glDisableVertexAttribArrayProc = reinterpret_cast<PFNGLDISABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glDisableVertexAttribArray"));
+            glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(getProcAddress("glVertexAttribPointer"));
 #endif
 
             if (apiMajorVersion >= 3)
