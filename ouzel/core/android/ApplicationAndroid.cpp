@@ -15,6 +15,8 @@ namespace ouzel
 
     ApplicationAndroid::~ApplicationAndroid()
     {
+        if (updateThread.joinable()) updateThread.join();
+
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
@@ -26,7 +28,7 @@ namespace ouzel
         jniEnv->DeleteGlobalRef(mainActivity);
     }
 
-    void ApplicationAndroid::setActivity(jobject aMainActivity, jobject aAssetManager)
+    void ApplicationAndroid::setMainActivity(jobject aMainActivity)
     {
         JNIEnv* jniEnv;
 
@@ -39,10 +41,25 @@ namespace ouzel
         mainActivity = jniEnv->NewGlobalRef(aMainActivity);
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
 
-        createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIIIII)V");
         openURLMethod = jniEnv->GetMethodID(mainActivityClass, "openURL", "(Ljava/lang/String;)V");
+    }
+
+    void ApplicationAndroid::setAssetManager(jobject aAssetManager)
+    {
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
 
         assetManager = AAssetManager_fromJava(jniEnv, aAssetManager);
+    }
+
+    void ApplicationAndroid::setSurface(jobject aSurface)
+    {
+        surface = aSurface;
     }
 
     int ApplicationAndroid::run()
@@ -53,6 +70,8 @@ namespace ouzel
         {
             return EXIT_FAILURE;
         }
+
+        updateThread = std::thread(&ApplicationAndroid::update, this);
 
         return EXIT_SUCCESS;
     }
@@ -74,15 +93,23 @@ namespace ouzel
         return true;
     }
 
-    bool ApplicationAndroid::step()
+    void ApplicationAndroid::update()
     {
-        executeAll();
-
-        if (!sharedEngine->draw())
+        while (active)
         {
-            return false;
+            executeAll();
+
+            if (!sharedEngine->draw())
+            {
+                break;
+            }
         }
 
-        return active;
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->exitUpdateThread();
+        }
+
+        ::exit(EXIT_SUCCESS);
     }
 }

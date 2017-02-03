@@ -8,24 +8,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 
 public class MainActivity extends Activity
 {
     public static final String TAG = "Ouzel";
-    private SurfaceView surfaceView;
+    private View surfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        OuzelLibJNIWrapper.onCreated(this, getAssets());
-    }
-
-    public void createSurface(int r, int g, int b, int a, int depth, int stencil, int sampleBuffers, int samples)
-    {
-        surfaceView = new SurfaceView(this, r, g, b, a, depth, stencil, sampleBuffers, samples);
+        surfaceView = new View(this);
         setContentView(surfaceView);
+
+        OuzelLibJNIWrapper.setMainActivity(this);
+        OuzelLibJNIWrapper.setAssetManager(getAssets());
     }
 
     public void openURL(String url)
@@ -41,15 +40,25 @@ public class MainActivity extends Activity
         }
     }
 
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    {
+        OuzelLibJNIWrapper.setSurface(holder.getSurface(), width, height);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        OuzelLibJNIWrapper.onStart();
+    }
+
     @Override
     protected void onPause()
     {
         super.onPause();
 
-        if (surfaceView != null)
-        {
-            surfaceView.onPause();
-        }
+        OuzelLibJNIWrapper.onPause();
     }
 
     @Override
@@ -57,9 +66,6 @@ public class MainActivity extends Activity
     {
         super.onResume();
 
-        if (surfaceView != null)
-        {
-            surfaceView.onResume();
-        }
+        OuzelLibJNIWrapper.onResume();
     }
 }

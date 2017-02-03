@@ -85,23 +85,6 @@ namespace ouzel
                 return false;
             }
 
-            // create an EGL rendering context
-            static const EGLint contextAttributes[] =
-            {
-                EGL_CONTEXT_CLIENT_VERSION, 2,
-                EGL_NONE
-            };
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
-
-            if (context == EGL_NO_CONTEXT)
-            {
-                Log(Log::Level::ERR) << "Failed to create EGL context";
-                return false;
-            }
-
-            apiMajorVersion = 2;
-            apiMinorVersion = 0;
-
             uint32_t width = static_cast<uint32_t>(newSize.v[0]);
             uint32_t height = static_cast<uint32_t>(newSize.v[1]);
 
@@ -137,6 +120,23 @@ namespace ouzel
                 return false;
             }
 
+            // create an EGL rendering context
+            static const EGLint contextAttributes[] =
+            {
+                EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL_NONE
+            };
+            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+
+            if (context == EGL_NO_CONTEXT)
+            {
+                Log(Log::Level::ERR) << "Failed to create EGL context";
+                return false;
+            }
+
+            apiMajorVersion = 2;
+            apiMinorVersion = 0;
+
             if (!eglMakeCurrent(display, surface, surface, context))
             {
                 Log(Log::Level::ERR) << "Failed to set current EGL context";
@@ -156,6 +156,7 @@ namespace ouzel
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
             {
+                Log(Log::Level::ERR) << "Failed to swap buffers " << eglGetError();
                 return false;
             }
 

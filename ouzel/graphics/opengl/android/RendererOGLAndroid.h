@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "EGL/egl.h"
+#include "EGL/eglext.h"
 #include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel
@@ -25,6 +27,11 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
+            virtual bool swapBuffers() override;
+
+            EGLDisplay display = 0;
+            EGLSurface surface = 0;
+            EGLContext context = 0;
         };
     } // namespace graphics
 } // namespace ouzel

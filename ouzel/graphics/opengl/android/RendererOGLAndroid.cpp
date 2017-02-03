@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererOGLAndroid.h"
-#include "core/android/ApplicationAndroid.h"
+#include "core/android/WindowAndroid.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -11,6 +11,29 @@ namespace ouzel
     {
         RendererOGLAndroid::~RendererOGLAndroid()
         {
+            if (surface)
+            {
+                if (!eglDestroySurface(display, surface))
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
+                }
+            }
+
+            if (context)
+            {
+                if (!eglDestroyContext(display, context))
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
+                }
+            }
+
+            if (display)
+            {
+                if (!eglTerminate(display))
+                {
+                    Log(Log::Level::ERR) << "Failed to terminate EGL";
+                }
+            }
         }
 
         bool RendererOGLAndroid::init(Window* newWindow,
@@ -21,24 +44,111 @@ namespace ouzel
                                       bool newVerticalSync,
                                       bool newDepth)
         {
-            ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
-            JavaVM* javaVM = applicationAndroid->getJavaVM();
-            JNIEnv* jniEnv;
+            display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
-            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            if (!display)
             {
-                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                Log(Log::Level::ERR) << "Failed to get display";
                 return false;
             }
 
-            jobject mainActivity = applicationAndroid->getMainActivity();
-            jmethodID createSurfaceMethod = applicationAndroid->getCreateSurfaceMethod();
-            jniEnv->CallVoidMethod(mainActivity, createSurfaceMethod, 8, 8, 8, 8, newDepth ? 24 : 0, 0, (newSampleCount > 1) ? 1 : 0, newSampleCount);
+            if (!eglInitialize(display, NULL, NULL))
+            {
+                Log(Log::Level::ERR) << "Failed to initialize EGL";
+                return false;
+            }
+
+            static const EGLint attributeList[] =
+            {
+                EGL_RED_SIZE, 8,
+                EGL_GREEN_SIZE, 8,
+                EGL_BLUE_SIZE, 8,
+                EGL_ALPHA_SIZE, 8,
+                EGL_DEPTH_SIZE, newDepth ? 24 : 0,
+                EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+                EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
+                EGL_SAMPLES, static_cast<int>(newSampleCount),
+                EGL_NONE
+            };
+            EGLConfig config;
+            EGLint numConfig;
+            if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
+            {
+                Log(Log::Level::ERR) << "Failed to choose EGL config";
+                return false;
+            }
+
+            EGLint format;
+            if (!eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format))
+            {
+                Log(Log::Level::ERR) << "Failed to get config attribute " << eglGetError();
+                return false;
+            }
+
+            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(newWindow);
+
+            ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
+
+            surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), NULL);
+            if (surface == EGL_NO_SURFACE)
+            {
+                Log(Log::Level::ERR) << "Failed to create EGL window surface";
+                return false;
+            }
+
+            // create an EGL rendering context
+            static const EGLint contextAttributes[] =
+            {
+                EGL_CONTEXT_CLIENT_VERSION, 2,
+                EGL_NONE
+            };
+            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+
+            if (context == EGL_NO_CONTEXT)
+            {
+                Log(Log::Level::ERR) << "Failed to create EGL context";
+                return false;
+            }
 
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
+            if (!eglMakeCurrent(display, surface, surface, context))
+            {
+                Log(Log::Level::ERR) << "Failed to set current EGL context";
+                return false;
+            }
+
+            if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
+            {
+                Log(Log::Level::ERR) << "Failed to set EGL frame interval";
+                return false;
+            }
+
+            if (!eglQuerySurface(display, surface, EGL_WIDTH, &frameBufferWidth) ||
+                !eglQuerySurface(display, surface, EGL_HEIGHT, &frameBufferHeight))
+            {
+                Log(Log::Level::ERR) << "Failed to get query window size " <<  eglGetError();
+                return false;
+            }
+
+            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
+                                         static_cast<float>(frameBufferHeight));
+
+            newWindow->setSize(backBufferSize / newWindow->getContentScale());
+
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
+        }
+
+        bool RendererOGLAndroid::swapBuffers()
+        {
+            if (eglSwapBuffers(display, surface) != EGL_TRUE)
+            {
+                Log(Log::Level::ERR) << "Failed to swap buffers " << eglGetError();
+                return false;
+            }
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

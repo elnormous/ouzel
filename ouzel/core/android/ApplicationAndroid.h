@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <thread>
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -16,25 +17,29 @@ namespace ouzel
         ApplicationAndroid(JavaVM* aJavaVM);
         virtual ~ApplicationAndroid();
 
-        void setActivity(jobject aMainActivity, jobject aAssetManager);
+        void setMainActivity(jobject aMainActivity);
+        void setAssetManager(jobject aAssetManager);
+        void setSurface(jobject aSurface);
 
         virtual int run() override;
 
         virtual bool openURL(const std::string& url) override;
 
-        bool step();
-
         JavaVM* getJavaVM() const { return javaVM; }
         jobject getMainActivity() const { return mainActivity; }
-        jmethodID getCreateSurfaceMethod() const { return createSurfaceMethod; }
-        jmethodID getOpenURLMethod() const { return openURLMethod; }
+        jobject getSurface() const { return surface; }
         AAssetManager* getAssetManager() const { return assetManager; }
+        jmethodID getOpenURLMethod() const { return openURLMethod; }
 
     private:
+        void update();
+
         JavaVM* javaVM;
         jobject mainActivity;
-        jmethodID createSurfaceMethod;
+        jobject surface;
+        AAssetManager* assetManager = nullptr;
         jmethodID openURLMethod;
-        AAssetManager* assetManager;
+
+        std::thread updateThread;
     };
 }

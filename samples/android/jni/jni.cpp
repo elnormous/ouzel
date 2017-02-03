@@ -20,21 +20,23 @@ extern "C"
 
     void JNI_OnUnload(JavaVM*, void*)
     {
-        // TODO: stop the engine
-    }
-    
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv*, jclass, jobject mainActivity, jobject assetManager)
-    {
-        application->setActivity(mainActivity, assetManager);
-        application->run();
+        application.reset();
     }
 
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setMainActivity(JNIEnv*, jclass, jobject mainActivity)
     {
+        application->setMainActivity(mainActivity);
     }
 
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jint width, jint height)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setAssetManager(JNIEnv*, jclass, jobject assetManager)
     {
+        application->setAssetManager(assetManager);
+    }
+
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setSurface(JNIEnv*, jclass, jobject surface, jint width, jint height)
+    {
+        application->setSurface(surface);
+
         if (ouzel::sharedEngine)
         {
             ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(ouzel::sharedEngine->getWindow());
@@ -42,19 +44,17 @@ extern "C"
         }
     }
 
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawFrame(JNIEnv*, jclass)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
     {
-        if (!application->step())
-        {
-            application->exit();
+        application->run();
+    }
 
-            if (ouzel::sharedEngine)
-            {
-                ouzel::sharedEngine->exitUpdateThread();
-            }
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onPause(JNIEnv*, jclass)
+    {
+    }
 
-            exit(0);
-        }
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
+    {
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_handleActionDown(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
