@@ -13,8 +13,10 @@ namespace ouzel
     class ApplicationAndroid: public Application
     {
     public:
-        ApplicationAndroid(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager);
+        ApplicationAndroid(JavaVM* aJavaVM);
         virtual ~ApplicationAndroid();
+
+        void setEnv(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager);
 
         virtual int run() override;
 

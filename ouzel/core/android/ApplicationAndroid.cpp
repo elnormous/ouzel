@@ -8,17 +8,9 @@
 
 namespace ouzel
 {
-    ApplicationAndroid::ApplicationAndroid(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager)
+    ApplicationAndroid::ApplicationAndroid(JavaVM* aJavaVM):
+        javaVM(aJavaVM)
     {
-        jniEnv->GetJavaVM(&javaVM);
-
-        mainActivity = jniEnv->NewGlobalRef(aMainActivity);
-        jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
-
-        createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIIIII)V");
-        openURLMethod = jniEnv->GetMethodID(mainActivityClass, "openURL", "(Ljava/lang/String;)V");
-
-        assetManager = AAssetManager_fromJava(jniEnv, aAssetManager);
     }
 
     ApplicationAndroid::~ApplicationAndroid()
@@ -32,6 +24,17 @@ namespace ouzel
         }
 
         jniEnv->DeleteGlobalRef(mainActivity);
+    }
+
+    void ApplicationAndroid::setEnv(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager)
+    {
+        mainActivity = jniEnv->NewGlobalRef(aMainActivity);
+        jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
+
+        createSurfaceMethod = jniEnv->GetMethodID(mainActivityClass, "createSurface", "(IIIIIIII)V");
+        openURLMethod = jniEnv->GetMethodID(mainActivityClass, "openURL", "(Ljava/lang/String;)V");
+
+        assetManager = AAssetManager_fromJava(jniEnv, aAssetManager);
     }
 
     int ApplicationAndroid::run()

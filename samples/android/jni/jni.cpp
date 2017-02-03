@@ -8,24 +8,31 @@
 #include "core/Engine.h"
 #include "input/Input.h"
 
-std::unique_ptr<ouzel::Application> application;
+std::unique_ptr<ouzel::ApplicationAndroid> application;
 
 extern "C"
 {
-    jint JNI_OnLoad(JavaVM*, void*)
+    jint JNI_OnLoad(JavaVM* javaVM, void*)
     {
+        application.reset(new ouzel::ApplicationAndroid(javaVM));
         return JNI_VERSION_1_6;
+    }
+
+    void JNI_OnUnload(JavaVM*, void*)
+    {
+        // TODO: stop the engine
     }
     
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject mainActivity, jobject assetManager)
     {
-        application.reset(new ouzel::ApplicationAndroid(env, mainActivity, assetManager));
+        application->setEnv(env, mainActivity, assetManager);
         application->run();
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass)
     {
     }
+
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jint width, jint height)
     {
         if (ouzel::sharedEngine)
@@ -37,9 +44,9 @@ extern "C"
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onDrawFrame(JNIEnv*, jclass)
     {
-        if (!static_cast<ouzel::ApplicationAndroid*>(ouzel::sharedApplication)->step())
+        if (!application->step())
         {
-            ouzel::sharedApplication->exit();
+            application->exit();
 
             if (ouzel::sharedEngine)
             {
