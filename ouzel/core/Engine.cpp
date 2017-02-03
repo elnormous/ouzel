@@ -373,11 +373,11 @@ namespace ouzel
         ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
         JavaVM* javaVM = applicationAndroid->getJavaVM();
         JNIEnv* jniEnv;
-        JavaVMAttachArgs args;
-        args.version = JNI_VERSION_1_6;
-        args.name = NULL; // thread name
-        args.group = NULL; // thread group
-        if (javaVM->AttachCurrentThread(&jniEnv, &args) != JNI_OK)
+        JavaVMAttachArgs attachArgs;
+        attachArgs.version = JNI_VERSION_1_6;
+        attachArgs.name = NULL; // thread name
+        attachArgs.group = NULL; // thread group
+        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
         }

@@ -95,6 +95,16 @@ namespace ouzel
 
     void ApplicationAndroid::update()
     {
+        JNIEnv* jniEnv;
+        JavaVMAttachArgs attachArgs;
+        attachArgs.version = JNI_VERSION_1_6;
+        attachArgs.name = NULL; // thread name
+        attachArgs.group = NULL; // thread group
+        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
+        }
+
         while (active)
         {
             executeAll();
@@ -108,6 +118,11 @@ namespace ouzel
         if (ouzel::sharedEngine)
         {
             ouzel::sharedEngine->exitUpdateThread();
+        }
+
+        if (javaVM->DetachCurrentThread() != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
         }
 
         ::exit(EXIT_SUCCESS);
