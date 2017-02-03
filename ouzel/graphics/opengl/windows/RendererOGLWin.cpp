@@ -147,7 +147,7 @@ namespace ouzel
                 return false;
             }
 
-            return false;
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel
