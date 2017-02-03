@@ -28,6 +28,7 @@ namespace ouzel
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
             {
                 Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return false;
             }
 
             jobject mainActivity = applicationAndroid->getMainActivity();
