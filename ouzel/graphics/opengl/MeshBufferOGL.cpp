@@ -267,17 +267,17 @@ namespace ouzel
                         {
                             if (index < vertexAttribs.size())
                             {
-                                glEnableVertexAttribArray(index);
-                                glVertexAttribPointer(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
+                                glEnableVertexAttribArrayProc(index);
+                                glVertexAttribPointerProc(index,
+                                                          vertexAttribs[index].size,
+                                                          vertexAttribs[index].type,
+                                                          vertexAttribs[index].normalized,
+                                                          vertexAttribs[index].stride,
+                                                          vertexAttribs[index].pointer);
                             }
                             else
                             {
-                                glDisableVertexAttribArray(index);
+                                glDisableVertexAttribArrayProc(index);
                             }
                         }
 
