@@ -12,6 +12,11 @@ std::unique_ptr<ouzel::Application> application;
 
 extern "C"
 {
+    jint JNI_OnLoad(JavaVM*, void*)
+    {
+        return JNI_VERSION_1_6;
+    }
+    
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject mainActivity, jobject assetManager)
     {
         application.reset(new ouzel::ApplicationAndroid(env, mainActivity, assetManager));
