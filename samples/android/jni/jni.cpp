@@ -23,9 +23,9 @@ extern "C"
         // TODO: stop the engine
     }
     
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv* env, jclass, jobject mainActivity, jobject assetManager)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onCreated(JNIEnv*, jclass, jobject mainActivity, jobject assetManager)
     {
-        application->setEnv(env, mainActivity, assetManager);
+        application->setActivity(mainActivity, assetManager);
         application->run();
     }
 

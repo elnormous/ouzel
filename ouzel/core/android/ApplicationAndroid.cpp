@@ -26,8 +26,16 @@ namespace ouzel
         jniEnv->DeleteGlobalRef(mainActivity);
     }
 
-    void ApplicationAndroid::setEnv(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager)
+    void ApplicationAndroid::setActivity(jobject aMainActivity, jobject aAssetManager)
     {
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
         mainActivity = jniEnv->NewGlobalRef(aMainActivity);
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
 

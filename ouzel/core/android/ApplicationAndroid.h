@@ -16,7 +16,7 @@ namespace ouzel
         ApplicationAndroid(JavaVM* aJavaVM);
         virtual ~ApplicationAndroid();
 
-        void setEnv(JNIEnv* jniEnv, jobject aMainActivity, jobject aAssetManager);
+        void setActivity(jobject aMainActivity, jobject aAssetManager);
 
         virtual int run() override;
 
