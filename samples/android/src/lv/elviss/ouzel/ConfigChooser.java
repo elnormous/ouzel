@@ -42,7 +42,8 @@ public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
 
         int numConfigs = numConfig[0];
 
-        if (numConfigs <= 0) {
+        if (numConfigs <= 0)
+        {
             throw new IllegalArgumentException("No configs match config spec");
         }
 
@@ -71,7 +72,7 @@ public class ConfigChooser implements GLSurfaceView.EGLConfigChooser
             if (r == redSize && g == greenSize && b == blueSize && a == alphaSize)
                 return config;
         }
-        
+
         return null;
     }
 
