@@ -46,6 +46,7 @@ extern PFNGLGENRENDERBUFFERSPROC glGenRenderbuffersProc;
 extern PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffersProc;
 extern PFNGLBINDRENDERBUFFERPROC glBindRenderbufferProc;
 extern PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorageProc;
+extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
 extern PFNGLGENFRAMEBUFFERSPROC glGenFramebuffersProc;
 extern PFNGLDELETEFRAMEBUFFERSPROC glDeleteFramebuffersProc;
@@ -80,22 +81,18 @@ extern PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
 extern PFNGLGENBUFFERSPROC glGenBuffersProc;
 extern PFNGLBUFFERDATAPROC glBufferDataProc;
 
+extern PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
+extern PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
+extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
+
 #if OUZEL_SUPPORTS_OPENGL
-    extern PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
-    extern PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
-    extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
     extern PFNGLMAPBUFFERPROC glMapBufferProc;
     extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
     extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 #elif OUZEL_SUPPORTS_OPENGLES
-    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysProc;
-    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayProc;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysProc;
     extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
     extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
     extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-    extern PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC glRenderbufferStorageMultisampleProc;
     extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
 #endif
 
@@ -229,13 +226,8 @@ namespace ouzel
             {
                 if (stateCache.vertexArrayId != vertexArrayId)
                 {
-#if OUZEL_OPENGL_INTERFACE_EAGL
-                    glBindVertexArrayOES(vertexArrayId);
-#elif OUZEL_OPENGL_INTERFACE_EGL
                     if (glBindVertexArrayProc) glBindVertexArrayProc(vertexArrayId);
-#elif OUZEL_SUPPORTS_OPENGL
-                    glBindVertexArray(vertexArrayId);
-#endif
+
                     stateCache.vertexArrayId = vertexArrayId;
                     stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
                     stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
@@ -453,14 +445,7 @@ namespace ouzel
 #else
                 if (stateCache.vertexArrayId == vertexArrayId) stateCache.vertexArrayId = 0;
 #endif
-
-#if OUZEL_OPENGL_INTERFACE_EAGL
-                glDeleteVertexArraysOES(1, &vertexArrayId);
-#elif OUZEL_OPENGL_INTERFACE_EGL
                 if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
-#else
-                glDeleteVertexArrays(1, &vertexArrayId);
-#endif
             }
 
             static void deleteRenderBuffer(GLuint renderBufferId)

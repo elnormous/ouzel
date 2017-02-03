@@ -91,28 +91,24 @@ namespace ouzel
 
                     void* bufferPtr = nullptr;
 
-    #if OUZEL_OPENGL_INTERFACE_EGL
                     if (glMapBufferRangeProc)
                     {
-                        bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT_EXT | GL_MAP_WRITE_BIT_EXT);
+                        bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
                     }
                     else if (glMapBufferProc)
                     {
+#if OUZEL_SUPPORTS_OPENGL
+                        bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY);
+#elif OUZEL_SUPPORTS_OPENGLES
                         bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY_OES);
+#endif
                     }
-    #else
-                    bufferPtr = glMapBufferRange(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
-    #endif
 
                     if (bufferPtr)
                     {
                         std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>(bufferPtr));
 
-    #if OUZEL_OPENGL_INTERFACE_EGL
                         if (glUnmapBufferProc) glUnmapBufferProc(bufferType);
-    #else
-                        glUnmapBuffer(bufferType);
-    #endif
 
                         if (RendererOGL::checkOpenGLError())
                         {

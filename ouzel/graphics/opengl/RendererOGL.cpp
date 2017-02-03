@@ -77,6 +77,7 @@ PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatusProc;
 PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
 PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
+PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
 PFNGLCLEARDEPTHFPROC glClearDepthfProc;
 
@@ -103,22 +104,18 @@ PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
 PFNGLGENBUFFERSPROC glGenBuffersProc;
 PFNGLBUFFERDATAPROC glBufferDataProc;
 
+PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
+PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
+PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
+
 #if OUZEL_SUPPORTS_OPENGL
-    PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
-    PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
-    PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArraysProc;
     PFNGLMAPBUFFERPROC glMapBufferProc;
     PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
     PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 #elif OUZEL_SUPPORTS_OPENGLES
-    PFNGLGENVERTEXARRAYSOESPROC glGenVertexArraysProc;
-    PFNGLBINDVERTEXARRAYOESPROC glBindVertexArrayProc;
-    PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysProc;
     PFNGLMAPBUFFEROESPROC glMapBufferProc;
     PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
     PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC glRenderbufferStorageMultisampleProc;
     PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
 #endif
 
@@ -303,16 +300,27 @@ namespace ouzel
 
             if (apiMajorVersion >= 3)
             {
-#if OUZEL_OPENGL_INTERFACE_EGL
-                glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
-                glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
-                glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
-                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
-                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
-                glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
-                glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
-#endif // OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_OPENGL_INTERFACE_EAGL
+                glGenVertexArraysProc = glGenVertexArraysOES;
+                glBindVertexArrayProc = glBindVertexArrayOES;
+                glDeleteVertexArraysProc = glDeleteVertexArraysOES;
+                glMapBufferProc = glMapBufferOES;
+                glUnmapBufferProc = glUnmapBufferOES;
+                glMapBufferRangeProc = glMapBufferRangeEXT;
+
+                glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
+#else
+                glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(getProcAddress("glGenVertexArrays"));
+                glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(getProcAddress("glBindVertexArray"));
+                glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
+                glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(getProcAddress("glMapBuffer"));
+                glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(getProcAddress("glUnmapBuffer"));
+                glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRange"));
+                glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
+    #if OUZEL_SUPPORTS_OPENGLES
+                glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEPROC>(getProcAddress("glFramebufferTexture2DMultisample"));
+    #endif
+#endif
             }
             else
             {
@@ -344,6 +352,7 @@ namespace ouzel
                         if (extension == "GL_APPLE_framebuffer_multisample")
                         {
                             multisamplingSupported = true;
+                            glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
                         }
 #elif OUZEL_OPENGL_INTERFACE_EGL
                         else if (extension == "GL_OES_vertex_array_object")
@@ -1088,13 +1097,13 @@ namespace ouzel
                     return false;
                 }
 
-    #if OUZEL_SUPPORTS_OPENGL
-                glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
-    #elif OUZEL_OPENGL_INTERFACE_EAGL
-                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
-    #elif OUZEL_OPENGL_INTERFACE_EGL
-                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER, sampleCount, GL_RGBA, frameBufferWidth, frameBufferHeight);
-    #endif
+#ifdef OUZEL_SUPPORTS_OPENGL
+                GLenum colorFormat = GL_RGBA;
+#elif OUZEL_SUPPORTS_OPENGLES
+                GLenum colorFormat = GL_RGBA8_OES;
+#endif
+
+                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER, sampleCount, colorFormat, frameBufferWidth, frameBufferHeight);
 
                 if (checkOpenGLError())
                 {
@@ -1105,9 +1114,9 @@ namespace ouzel
                 if (depth)
                 {
 #ifdef OUZEL_SUPPORTS_OPENGL
-                    GLuint depthFormat = GL_DEPTH_COMPONENT24;
+                    GLenum depthFormat = GL_DEPTH_COMPONENT24;
 #elif OUZEL_SUPPORTS_OPENGLES
-                    GLuint depthFormat = GL_DEPTH_COMPONENT24_OES;
+                    GLenum depthFormat = GL_DEPTH_COMPONENT24_OES;
 #endif
 
                     if (!depthFormat)
@@ -1132,13 +1141,7 @@ namespace ouzel
                         return false;
                     }
 
-    #if OUZEL_SUPPORTS_OPENGL
-                    glRenderbufferStorageMultisample(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
-    #elif OUZEL_OPENGL_INTERFACE_EAGL
-                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
-    #elif OUZEL_OPENGL_INTERFACE_EGL
                     glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER, sampleCount, depthFormat, frameBufferWidth, frameBufferHeight);
-    #endif
 
                     if (checkOpenGLError())
                     {

@@ -225,13 +225,7 @@ namespace ouzel
 
                 if (!vertexArrayId)
                 {
-    #if OUZEL_OPENGL_INTERFACE_EAGL
-                    glGenVertexArraysOES(1, &vertexArrayId);
-    #elif OUZEL_OPENGL_INTERFACE_EGL
                     if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
-    #elif OUZEL_SUPPORTS_OPENGL
-                    glGenVertexArrays(1, &vertexArrayId);
-    #endif
                 }
 
                 if (RendererOGL::checkOpenGLError())

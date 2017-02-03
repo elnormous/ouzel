@@ -27,10 +27,11 @@
 
 namespace ouzel
 {
-#ifndef DEBUG
-    Log::Level Log::threshold = Log::Level::INFO;
-#else
+#ifdef DEBUG
     Log::Level Log::threshold = Log::Level::ALL;
+#else
+    Log::Level Log::threshold = Log::Level::INFO;
+
 #endif
 
     void Log::flush()
