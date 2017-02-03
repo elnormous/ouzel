@@ -538,6 +538,7 @@ namespace ouzel
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
+            glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
             if (RendererOGL::checkOpenGLError())
