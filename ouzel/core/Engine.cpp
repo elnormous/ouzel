@@ -30,6 +30,7 @@
 #include "input/linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.h"
+#include "graphics/opengl/windows/RendererOGLWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "raspbian/WindowRasp.h"
 #include "graphics/opengl/raspbian/RendererOGLRasp.h"
@@ -215,6 +216,8 @@ namespace ouzel
                 renderer.reset(new graphics::RendererOGLAndroid());
     #elif OUZEL_PLATFORM_LINUX
                 renderer.reset(new graphics::RendererOGLLinux());
+    #elif OUZEL_PLATFORM_WINDOWS
+                renderer.reset(new graphics::RendererOGLWin());
     #elif OUZEL_PLATFORM_RASPBIAN
                 renderer.reset(new graphics::RendererOGLRasp());
     #elif OUZEL_PLATFORM_EMSCRIPTEN

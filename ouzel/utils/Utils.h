@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include <cstdint>
 #include <limits>
@@ -12,7 +13,6 @@
 
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_ANDROID
-#include <sstream>
 #include <cpu-features.h>
 #endif
 
@@ -319,5 +319,14 @@ namespace ouzel
 #else
         return std::to_string(val);
 #endif
+    }
+
+    template<class T>
+    inline T fromString(std::string val)
+    {
+        std::istringstream ss(val);
+        T result;
+        ss >> result;
+        return result;
     }
 }

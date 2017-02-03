@@ -8,6 +8,7 @@
 #include "GL/wglext.h"
 #include "RendererOGLWin.h"
 #include "core/windows/WindowWin.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -95,6 +96,34 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to set current OpenGL context";
                 return false;
             }
+
+            const GLubyte* versionPtr = glGetString(GL_VERSION);
+
+            if (!versionPtr)
+            {
+                Log(Log::Level::ERR) << "Failed to get OpenGL version";
+                return false;
+            }
+
+            std::string version(reinterpret_cast<const char*>(versionPtr));
+            std::string majorVersion;
+            std::string minorVersion;
+            uint32_t part = 0;
+
+            for (char c : version)
+            {
+                if (c == '.' || c == ' ')
+                {
+                    if (++part > 1) break;
+                }
+                else if (part == 0)
+                    majorVersion += c;
+                else if (part == 1)
+                    minorVersion += c;
+            }
+
+            apiMajorVersion = fromString<uint16_t>(majorVersion);
+            apiMinorVersion = fromString<uint16_t>(minorVersion);
 
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
