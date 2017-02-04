@@ -125,6 +125,12 @@ namespace ouzel
             apiMajorVersion = fromString<uint16_t>(majorVersion);
             apiMinorVersion = fromString<uint16_t>(minorVersion);
 
+            if (apiMajorVersion < 2)
+            {
+                Log(Log::Level::ERR) << "Unsupported OpenGL version";
+                return false;
+            }
+
             return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
