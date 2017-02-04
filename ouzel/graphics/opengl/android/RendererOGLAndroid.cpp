@@ -37,7 +37,7 @@ namespace ouzel
         }
 
         bool RendererOGLAndroid::init(Window* newWindow,
-                                      const Size2& newSize,
+                                      const Size2&,
                                       uint32_t newSampleCount,
                                       Texture::Filter newTextureFilter,
                                       PixelFormat newBackBufferFormat,
@@ -102,6 +102,7 @@ namespace ouzel
                 return false;
             }
 
+            // TODO: try to create OpenGL 3 context
             static const EGLint contextAttributes[] =
             {
                 EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -115,7 +116,6 @@ namespace ouzel
                 return false;
             }
 
-            // TODO: get version
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 
@@ -143,7 +143,7 @@ namespace ouzel
 
             newWindow->setSize(backBufferSize / newWindow->getContentScale());
 
-            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
+            return RendererOGL::init(newWindow, backBufferSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLAndroid::swapBuffers()
