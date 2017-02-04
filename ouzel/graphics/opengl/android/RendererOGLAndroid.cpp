@@ -52,7 +52,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!eglInitialize(display, NULL, NULL))
+            if (!eglInitialize(display, nullptr, nullptr))
             {
                 Log(Log::Level::ERR) << "Failed to initialize EGL";
                 return false;
@@ -63,8 +63,8 @@ namespace ouzel
                 EGL_RED_SIZE, 8,
                 EGL_GREEN_SIZE, 8,
                 EGL_BLUE_SIZE, 8,
-                EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, newDepth ? 24 : 0,
+                EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                 EGL_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 EGL_SAMPLES, static_cast<int>(newSampleCount),
@@ -75,6 +75,12 @@ namespace ouzel
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
             {
                 Log(Log::Level::ERR) << "Failed to choose EGL config";
+                return false;
+            }
+
+            if (!eglBindAPI(EGL_OPENGL_ES_API))
+            {
+                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API";
                 return false;
             }
 
@@ -89,14 +95,13 @@ namespace ouzel
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
-            surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), NULL);
+            surface = eglCreateWindowSurface(display, config, windowAndroid->getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
             {
                 Log(Log::Level::ERR) << "Failed to create EGL window surface";
                 return false;
             }
 
-            // create an EGL rendering context
             static const EGLint contextAttributes[] =
             {
                 EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -110,6 +115,7 @@ namespace ouzel
                 return false;
             }
 
+            // TODO: get version
             apiMajorVersion = 2;
             apiMinorVersion = 0;
 

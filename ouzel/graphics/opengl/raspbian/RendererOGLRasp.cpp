@@ -53,7 +53,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!eglInitialize(display, NULL, NULL))
+            if (!eglInitialize(display, nullptr, nullptr))
             {
                 Log(Log::Level::ERR) << "Failed to initialize EGL";
                 return false;
@@ -113,7 +113,7 @@ namespace ouzel
             nativewindow.height = height;
             vc_dispmanx_update_submit_sync(dispmanUpdate);
 
-            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&nativewindow), NULL);
+            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&nativewindow), nullptr);
             if (surface == EGL_NO_SURFACE)
             {
                 Log(Log::Level::ERR) << "Failed to create EGL window surface";
