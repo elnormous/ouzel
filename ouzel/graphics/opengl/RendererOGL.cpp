@@ -194,7 +194,7 @@ namespace ouzel
             glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC >(getProcAddress("glBlendFuncSeparate"));
             glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(getProcAddress("glBlendEquationSeparate"));
 
-#if OUZEL_OPENGL_INTERFACE_EAGL
+#if OUZEL_SUPPORTS_OPENGLES
             glBlendFuncSeparateProc = glBlendFuncSeparate;
             glBlendEquationSeparateProc = glBlendEquationSeparate;
 
@@ -221,7 +221,9 @@ namespace ouzel
             glBindFramebufferProc = glBindFramebuffer;
             glCheckFramebufferStatusProc = glCheckFramebufferStatus;
             glFramebufferRenderbufferProc = glFramebufferRenderbuffer;
+#if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = glBlitFramebuffer;
+#endif
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
             glClearDepthfProc = glClearDepthf;
