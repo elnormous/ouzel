@@ -25,7 +25,15 @@ namespace ouzel
             return;
         }
 
-        jniEnv->DeleteGlobalRef(mainActivity);
+        if (mainActivity)
+        {
+            jniEnv->DeleteGlobalRef(mainActivity);
+        }
+
+        if (surface)
+        {
+            jniEnv->DeleteGlobalRef(surface);
+        }
     }
 
     void ApplicationAndroid::setMainActivity(jobject aMainActivity)
@@ -59,7 +67,15 @@ namespace ouzel
 
     void ApplicationAndroid::setSurface(jobject aSurface)
     {
-        surface = aSurface;
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        surface = jniEnv->NewGlobalRef(aSurface);
     }
 
     int ApplicationAndroid::run()

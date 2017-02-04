@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements SurfaceHolder.Callback
 {
     public static final String TAG = "Ouzel";
     private View surfaceView;
@@ -20,11 +20,12 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        surfaceView = new View(this);
-        setContentView(surfaceView);
-
         OuzelLibJNIWrapper.setMainActivity(this);
         OuzelLibJNIWrapper.setAssetManager(getAssets());
+
+        surfaceView = new View(this);
+        surfaceView.getHolder().addCallback(this);
+        setContentView(surfaceView);
     }
 
     public void openURL(String url)
@@ -43,14 +44,22 @@ public class MainActivity extends Activity
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
         OuzelLibJNIWrapper.setSurface(holder.getSurface(), width, height);
+        OuzelLibJNIWrapper.onStart();
+    }
+
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+    }
+
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
+        OuzelLibJNIWrapper.setSurface(null, 0, 0);
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-
-        OuzelLibJNIWrapper.onStart();
     }
 
     @Override
