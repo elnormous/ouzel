@@ -80,13 +80,6 @@ namespace ouzel
 
     int ApplicationAndroid::run()
     {
-        ouzelMain(ouzel::sharedApplication->getArgs());
-
-        if (!sharedEngine)
-        {
-            return EXIT_FAILURE;
-        }
-
         updateThread = std::thread(&ApplicationAndroid::update, this);
 
         return EXIT_SUCCESS;
@@ -119,6 +112,13 @@ namespace ouzel
         if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
+        }
+
+        ouzelMain(ouzel::sharedApplication->getArgs());
+
+        if (!sharedEngine)
+        {
+            return;
         }
 
         while (active)

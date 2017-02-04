@@ -94,6 +94,12 @@ namespace ouzel
                     if (glMapBufferRangeProc)
                     {
                         bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to map buffer";
+                            return false;
+                        }
                     }
                     else if (glMapBufferProc)
                     {
@@ -102,6 +108,12 @@ namespace ouzel
 #elif OUZEL_SUPPORTS_OPENGLES
                         bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY_OES);
 #endif
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to map buffer";
+                            return false;
+                        }
                     }
 
                     if (bufferPtr)
@@ -118,13 +130,6 @@ namespace ouzel
                     }
                     else
                     {
-                        // glMapBufferRange failed
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to map buffer";
-                            return false;
-                        }
-
                         glBufferDataProc(bufferType, bufferSize, data.data.data(),
                                          data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
