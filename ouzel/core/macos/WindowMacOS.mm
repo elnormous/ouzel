@@ -44,12 +44,12 @@
 
 -(void)windowDidEnterFullScreen:(__unused NSNotification*)notification
 {
-    window->handleFullscreenChange();
+    window->handleFullscreenChange(true);
 }
 
 -(void)windowDidExitFullScreen:(__unused NSNotification*)notification
 {
-    window->handleFullscreenChange();
+    window->handleFullscreenChange(false);
 }
 
 -(void)windowDidChangeBackingProperties:(__unused NSNotification*)notification
@@ -215,7 +215,8 @@ namespace ouzel
         if (fullscreen != newFullscreen)
         {
             ouzel::sharedApplication->execute([this, newFullscreen] {
-                bool isFullscreen = (window.styleMask & NSWindowStyleMaskFullScreen) > 0;
+                NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
+                bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)
                 {
@@ -260,25 +261,19 @@ namespace ouzel
     {
     }
 
-    void WindowMacOS::handleFullscreenChange()
+    void WindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
-                                               styleMask:window.styleMask];
-
         Event event;
         event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
 
         event.windowEvent.window = this;
-        event.windowEvent.fullscreen = (window.styleMask & NSWindowStyleMaskFullScreen) > 0;
+        event.windowEvent.fullscreen = newFullscreen;
 
         sharedEngine->getEventDispatcher()->postEvent(event);
     }
 
     void WindowMacOS::handleScaleFactorChange()
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
-                                               styleMask:window.styleMask];
-        
         Event event;
         event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
 

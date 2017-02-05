@@ -35,7 +35,7 @@ namespace ouzel
 
         void handleResize();
         void handleClose();
-        void handleFullscreenChange();
+        void handleFullscreenChange(bool newFullscreen);
         void handleScaleFactorChange();
 
         NSWindowPtr getNativeWindow() const { return window; }
