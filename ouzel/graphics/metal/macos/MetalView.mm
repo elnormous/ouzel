@@ -15,6 +15,11 @@
 
 @implementation ViewDelegate
 
+-(void)mtkView:(nonnull __unused MTKView*)view drawableSizeWillChange:(__unused CGSize)size
+{
+    // this is handled by window size change handler
+}
+
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
     if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
