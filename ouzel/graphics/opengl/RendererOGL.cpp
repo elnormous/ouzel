@@ -1297,7 +1297,7 @@ namespace ouzel
         void* RendererOGL::getProcAddress(const std::string& name) const
         {
 #if OUZEL_PLATFORM_MACOS
-            return dlsym(RTLD_SELF, name.c_str());
+            return dlsym(RTLD_DEFAULT, name.c_str());
 #elif OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<void*>(eglGetProcAddress(name.c_str()));
 #elif OUZEL_OPENGL_INTERFACE_GLX
