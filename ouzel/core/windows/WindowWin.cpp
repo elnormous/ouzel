@@ -404,7 +404,6 @@ namespace ouzel
         });
 
         Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(size);
     }
 
     void WindowWin::setTitle(const std::string& newTitle)
