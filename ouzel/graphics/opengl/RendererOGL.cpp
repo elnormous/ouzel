@@ -46,7 +46,7 @@
 #endif
 
 #if OUZEL_PLATFORM_MACOS
-#include "mach-o/dyld.h"
+#include "dlfcn.h"
 #endif
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
@@ -1297,11 +1297,7 @@ namespace ouzel
         void* RendererOGL::getProcAddress(const std::string& name) const
         {
 #if OUZEL_PLATFORM_MACOS
-            NSSymbol symbol = nullptr;
-            std::string symbolName = "_" + name;
-            if (NSIsSymbolNameDefined(symbolName.c_str()))
-                symbol = NSLookupAndBindSymbol(symbolName.c_str());
-            return symbol ? NSAddressOfSymbol(symbol) : nullptr;
+            return dlsym(RTLD_SELF, name.c_str());
 #elif OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<void*>(eglGetProcAddress(name.c_str()));
 #elif OUZEL_OPENGL_INTERFACE_GLX
