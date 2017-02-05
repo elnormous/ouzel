@@ -63,6 +63,7 @@ namespace ouzel
     {
         Window* window = nullptr;
         Size2 size;
+        float contentScale = 1.0f;
         std::string title;
         bool fullscreen = false;
     };
@@ -117,7 +118,7 @@ namespace ouzel
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
-            WINDOW_RESOLUTION_CHANGE,
+            WINDOW_CONTENT_SCALE_CHANGE,
             ORIENTATION_CHANGE,
             LOW_MEMORY,
             OPEN_FILE,

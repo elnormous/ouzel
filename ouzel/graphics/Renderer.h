@@ -88,7 +88,6 @@ namespace ouzel
 
             virtual bool process();
 
-            virtual void setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
             Texture::Filter getTextureFilter() const { return textureFilter; }
@@ -168,6 +167,8 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth);
 
+            virtual void setSize(const Size2& newSize);
+            
             struct DrawCommand
             {
                 std::vector<TextureResource*> textures;

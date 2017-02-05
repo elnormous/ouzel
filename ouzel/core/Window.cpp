@@ -11,8 +11,11 @@ namespace ouzel
         size(aSize),
         resizable(aResizable),
         fullscreen(aFullscreen),
-        title(aTitle)
+        title(aTitle),
+        eventHandler(EventHandler::PRIORITY_MAX + 1)
     {
+        eventHandler.windowHandler = std::bind(&Window::handleWindowChange, this, std::placeholders::_1, std::placeholders::_2);
+        sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
     }
 
     Window::~Window()
@@ -43,6 +46,8 @@ namespace ouzel
             event.windowEvent.fullscreen = fullscreen;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
+
+            sharedEngine->getRenderer()->setSize(size * getContentScale());
         }
     }
 
@@ -80,5 +85,27 @@ namespace ouzel
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
+    }
+
+    bool Window::handleWindowChange(Event::Type type, const WindowEvent& event)
+    {
+        switch (type)
+        {
+            case Event::Type::WINDOW_SIZE_CHANGE:
+                size = event.size;
+                sharedEngine->getRenderer()->setSize(size * contentScale);
+                break;
+            case Event::Type::WINDOW_FULLSCREEN_CHANGE:
+                fullscreen = event.fullscreen;
+                break;
+            case Event::Type::WINDOW_CONTENT_SCALE_CHANGE:
+                contentScale = event.contentScale;
+                sharedEngine->getRenderer()->setSize(size * contentScale);
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 }

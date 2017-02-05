@@ -242,7 +242,6 @@ namespace ouzel
         }
 
         Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(size);
     }
 
     void WindowLinux::setFullscreen(bool newFullscreen)
@@ -306,7 +305,12 @@ namespace ouzel
 
     void WindowLinux::handleResize(const Size2& newSize)
     {
-        Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(size * getContentScale());
+        Event event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.size = newSize;
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 }

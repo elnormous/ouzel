@@ -33,11 +33,10 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
 
-        virtual float getContentScale() const override;
-
         void handleResize();
         void handleClose();
-        void handleFullscreenChange(bool fullscreen);
+        void handleFullscreenChange();
+        void handleScaleFactorChange();
 
         NSWindowPtr getNativeWindow() const { return window; }
         NSViewPtr getNativeView() const { return view; }

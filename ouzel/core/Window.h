@@ -6,6 +6,7 @@
 #include <string>
 #include "utils/Noncopyable.h"
 #include "math/Size2.h"
+#include "events/EventHandler.h"
 
 namespace ouzel
 {
@@ -29,7 +30,7 @@ namespace ouzel
         virtual const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
-        virtual float getContentScale() const { return 1.0f; }
+        float getContentScale() const { return contentScale; }
 
         Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {
@@ -59,10 +60,15 @@ namespace ouzel
         Window(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init();
 
+        bool handleWindowChange(Event::Type type, const WindowEvent& event);
+
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;
 
         std::string title;
+        float contentScale = 1.0f;
+
+        ouzel::EventHandler eventHandler;
     };
 }

@@ -44,12 +44,17 @@
 
 -(void)windowDidEnterFullScreen:(__unused NSNotification*)notification
 {
-    window->handleFullscreenChange(true);
+    window->handleFullscreenChange();
 }
 
 -(void)windowDidExitFullScreen:(__unused NSNotification*)notification
 {
-    window->handleFullscreenChange(false);
+    window->handleFullscreenChange();
+}
+
+-(void)windowDidChangeBackingProperties:(__unused NSNotification*)notification
+{
+    window->handleScaleFactorChange();
 }
 
 @end
@@ -154,6 +159,8 @@ namespace ouzel
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
 
+        contentScale = window.backingScaleFactor;
+
         return Window::init();
     }
 
@@ -208,8 +215,7 @@ namespace ouzel
         if (fullscreen != newFullscreen)
         {
             ouzel::sharedApplication->execute([this, newFullscreen] {
-                NSApplicationPresentationOptions opts = [[NSApplication sharedApplication ] presentationOptions];
-                bool isFullscreen = opts & NSApplicationPresentationFullScreen;
+                bool isFullscreen = (window.styleMask & NSWindowStyleMaskFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)
                 {
@@ -235,33 +241,50 @@ namespace ouzel
         Window::setTitle(newTitle);
     }
 
-    float WindowMacOS::getContentScale() const
-    {
-        return static_cast<float>(window.backingScaleFactor);
-    }
-
     void WindowMacOS::handleResize()
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
-                                               styleMask:[window styleMask]];
+        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
+                                               styleMask:window.styleMask];
 
-        Window::setSize(Size2(static_cast<float>(frame.size.width),
-                              static_cast<float>(frame.size.height)));
+        Event event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.size = Size2(static_cast<float>(frame.size.width),
+                                       static_cast<float>(frame.size.height));
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 
     void WindowMacOS::handleClose()
     {
-        close();
     }
 
-    void WindowMacOS::handleFullscreenChange(bool fullscreen)
+    void WindowMacOS::handleFullscreenChange()
     {
-        NSRect frame = [NSWindow contentRectForFrameRect:[window frame]
-                                               styleMask:[window styleMask]];
+        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
+                                               styleMask:window.styleMask];
 
-        Window::setSize(Size2(static_cast<float>(frame.size.width),
-                              static_cast<float>(frame.size.height)));
+        Event event;
+        event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
 
-        Window::setFullscreen(fullscreen);
+        event.windowEvent.window = this;
+        event.windowEvent.fullscreen = (window.styleMask & NSWindowStyleMaskFullScreen) > 0;
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
+    }
+
+    void WindowMacOS::handleScaleFactorChange()
+    {
+        NSRect frame = [NSWindow contentRectForFrameRect:window.frame
+                                               styleMask:window.styleMask];
+        
+        Event event;
+        event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 }

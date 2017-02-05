@@ -113,7 +113,9 @@ namespace ouzel
 
     bool WindowIOS::init()
     {
-        window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        UIScreen* screen = [UIScreen mainScreen];
+
+        window = [[UIWindow alloc] initWithFrame:[screen bounds]];
 
         viewController = [[[ViewController alloc] initWithWindow:this] autorelease];
         window.rootViewController = viewController;
@@ -154,17 +156,19 @@ namespace ouzel
 
         [window makeKeyAndVisible];
 
+        contentScale = static_cast<float>(screen.scale);
+
         return Window::init();
     }
 
     void WindowIOS::handleResize(const Size2& newSize)
     {
-        Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(newSize * getContentScale());
-    }
+        Event event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
 
-    float WindowIOS::getContentScale() const
-    {
-        return static_cast<float>([UIScreen mainScreen].scale);
+        event.windowEvent.window = this;
+        event.windowEvent.size = newSize;
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 }

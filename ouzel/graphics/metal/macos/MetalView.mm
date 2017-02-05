@@ -15,12 +15,6 @@
 
 @implementation ViewDelegate
 
--(void)mtkView:(nonnull __unused MTKView*)view drawableSizeWillChange:(CGSize)size
-{
-    ouzel::sharedEngine->getRenderer()->setSize(ouzel::Size2(static_cast<float>(size.width),
-                                                             static_cast<float>(size.height)));
-}
-
 -(void)drawInMTKView:(nonnull __unused MTKView*)view
 {
     if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())

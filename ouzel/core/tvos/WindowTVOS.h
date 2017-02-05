@@ -27,8 +27,6 @@ namespace ouzel
     public:
         virtual ~WindowTVOS();
 
-        virtual float getContentScale() const override;
-
         UIWindowPtr getNativeWindow() const { return window; }
         UIViewPtr getNativeView() const { return view; }
         UITextFieldPtr getTextField() const { return textField; }

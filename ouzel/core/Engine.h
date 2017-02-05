@@ -66,11 +66,11 @@ namespace ouzel
 
         Settings settings;
 
+        EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::Input> input;
-        EventDispatcher eventDispatcher;
         Localization localization;
         Cache cache;
         scene::SceneManager sceneManager;

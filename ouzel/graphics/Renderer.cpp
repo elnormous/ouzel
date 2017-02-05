@@ -191,14 +191,6 @@ namespace ouzel
             {
                 size = newSize;
 
-                Event event;
-                event.type = Event::Type::WINDOW_RESOLUTION_CHANGE;
-
-                event.windowEvent.window = window;
-                event.windowEvent.size = size;
-
-                sharedEngine->getEventDispatcher()->postEvent(event);
-
                 dirty = true;
             }
         }

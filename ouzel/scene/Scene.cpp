@@ -173,7 +173,8 @@ namespace ouzel
 
         bool Scene::handleWindow(Event::Type type, const WindowEvent&)
         {
-            if (type == Event::Type::WINDOW_RESOLUTION_CHANGE)
+            if (type == Event::Type::WINDOW_SIZE_CHANGE ||
+                type == Event::Type::WINDOW_CONTENT_SCALE_CHANGE)
             {
                 recalculateProjection();
             }

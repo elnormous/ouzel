@@ -466,8 +466,13 @@ namespace ouzel
 
     void WindowWin::handleResize(const Size2& newSize)
     {
-        Window::setSize(newSize);
-        sharedEngine->getRenderer()->setSize(size * getContentScale());
+        Event event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.size = newSize;
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)
