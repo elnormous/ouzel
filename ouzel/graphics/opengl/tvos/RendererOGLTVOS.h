@@ -37,14 +37,23 @@ namespace ouzel
                               bool newDepth) override;
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
+            virtual bool upload() override;
 
-            virtual bool createFrameBuffer() override;
+            bool createFrameBuffer();
 
             EAGLContextPtr context = Nil;
             CAEAGLLayerPtr eaglLayer = Nil;
 
+            GLuint msaaFrameBufferId = 0;
+            GLuint msaaColorRenderBufferId = 0;
+
             GLuint resolveFrameBufferId = 0;
             GLuint resolveColorRenderBufferId = 0;
+
+            GLuint depthRenderBufferId = 0;
+
+            GLsizei frameBufferWidth = 0;
+            GLsizei frameBufferHeight = 0;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -60,7 +60,7 @@ namespace ouzel
             pixelFormatDesc.cAccumGreenBits = 0;
             pixelFormatDesc.cAccumBlueBits = 0;
             pixelFormatDesc.cAccumAlphaBits = 0;
-            pixelFormatDesc.cDepthBits = 0;
+            pixelFormatDesc.cDepthBits = newDepth ? 24 : 0;
             pixelFormatDesc.cStencilBits = 0;
             pixelFormatDesc.cAuxBuffers = 0;
             pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;

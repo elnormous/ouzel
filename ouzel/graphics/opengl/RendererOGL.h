@@ -522,17 +522,9 @@ namespace ouzel
 
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            virtual bool createFrameBuffer();
-
             void* getProcAddress(const std::string& name) const;
 
-            GLuint systemFrameBufferId = 0;
-
-            GLsizei frameBufferWidth = 0;
-            GLsizei frameBufferHeight = 0;
             GLuint frameBufferId = 0;
-            GLuint colorRenderBufferId = 0;
-            GLuint depthRenderBufferId = 0;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];

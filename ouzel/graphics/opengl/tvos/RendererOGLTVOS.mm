@@ -12,14 +12,29 @@ namespace ouzel
     {
         RendererOGLTVOS::~RendererOGLTVOS()
         {
-            if (resolveFrameBufferId)
+            if (msaaColorRenderBufferId)
             {
-                glDeleteFramebuffersProc(1, &resolveFrameBufferId);
+                glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
+            }
+
+            if (msaaFrameBufferId)
+            {
+                glDeleteFramebuffersProc(1, &msaaFrameBufferId);
             }
 
             if (resolveColorRenderBufferId)
             {
                 glDeleteRenderbuffersProc(1, &resolveColorRenderBufferId);
+            }
+
+            if (depthRenderBufferId)
+            {
+                glDeleteRenderbuffersProc(1, &depthRenderBufferId);
+            }
+
+            if (resolveFrameBufferId)
+            {
+                glDeleteFramebuffersProc(1, &resolveFrameBufferId);
             }
 
             if (context)
@@ -87,10 +102,13 @@ namespace ouzel
                 return false;
             }
 
-            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
-                                         static_cast<float>(frameBufferHeight));
+            frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
 
-            newWindow->setSize(backBufferSize / newWindow->getContentScale());
+            if (!createFrameBuffer())
+            {
+                return false;
+            }
 
             return true;
         }
@@ -149,14 +167,7 @@ namespace ouzel
                 stateCache.frameBufferId = resolveFrameBufferId;
             }
 
-            if (sampleCount > 1)
-            {
-                glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
-            }
-            else
-            {
-                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
-            }
+            glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
 
             [context presentRenderbuffer:GL_RENDERBUFFER];
 
@@ -167,22 +178,13 @@ namespace ouzel
         {
             if (sampleCount > 1)
             {
-                // resolve buffer
-                if (!resolveFrameBufferId)
-                {
-                    glGenFramebuffersProc(1, &resolveFrameBufferId);
-                }
+                // create resolve buffer with no depth buffer
+                if (!resolveFrameBufferId) glGenFramebuffersProc(1, &resolveFrameBufferId);
 
-                if (!resolveColorRenderBufferId)
-                {
-                    glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
-                }
+                if (!resolveColorRenderBufferId) glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
-
-                glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
-                glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
 
                 graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
@@ -194,36 +196,23 @@ namespace ouzel
                     return false;
                 }
 
-                systemFrameBufferId = resolveFrameBufferId;
-            }
-            else
-            {
-                if (!frameBufferId) glGenFramebuffersProc(1, &frameBufferId);
+                // create MSAA frame buffer
+                if (!msaaFrameBufferId) glGenFramebuffers(1, &msaaFrameBufferId);
 
-                if (!colorRenderBufferId) glGenRenderbuffersProc(1, &colorRenderBufferId);
-                glBindRenderbufferProc(GL_RENDERBUFFER, colorRenderBufferId);
-                [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
+                if (!msaaColorRenderBufferId) glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
-                glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &frameBufferWidth);
-                glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &frameBufferHeight);
+                glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
+                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
                 if (depth)
                 {
-                    GLuint depthFormat = GL_DEPTH_COMPONENT24_OES;
-
-                    if (!depthFormat)
-                    {
-                        Log(Log::Level::ERR) << "Unsupported depth buffer format";
-                        return false;
-                    }
-
                     if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageProc(GL_RENDERBUFFER, depthFormat, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
-                graphics::RendererOGL::bindFrameBuffer(frameBufferId);
-                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBufferId);
+                graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if (depth)
                 {
@@ -236,10 +225,61 @@ namespace ouzel
                     return false;
                 }
 
-                systemFrameBufferId = frameBufferId;
+                frameBufferId = msaaFrameBufferId;
+            }
+            else
+            {
+                // create resolve buffer with depth buffer
+                if (!resolveFrameBufferId) glGenFramebuffersProc(1, &resolveFrameBufferId);
+
+                if (!resolveColorRenderBufferId) glGenRenderbuffersProc(1, &resolveColorRenderBufferId);
+
+                glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
+                [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
+
+                if (depth)
+                {
+                    if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
+                    glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
+                    glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
+                }
+
+                graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
+                glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                                              GL_RENDERBUFFER, resolveColorRenderBufferId);
+
+                if (depth)
+                {
+                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufferId);
+                }
+
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                {
+                    Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
+                    return false;
+                }
+                
+                frameBufferId = resolveFrameBufferId;
+            }
+            
+            return true;
+        }
+
+        bool RendererOGLTVOS::upload()
+        {
+            if (frameBufferWidth != static_cast<GLsizei>(data.size.v[0]) ||
+                frameBufferHeight != static_cast<GLsizei>(data.size.v[1]))
+            {
+                frameBufferWidth = static_cast<GLsizei>(data.size.v[0]);
+                frameBufferHeight = static_cast<GLsizei>(data.size.v[1]);
+
+                if (!createFrameBuffer())
+                {
+                    return false;
+                }
             }
 
-            return RendererOGL::createFrameBuffer();
+            return RendererOGL::upload();
         }
     } // namespace graphics
 } // namespace ouzel

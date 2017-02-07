@@ -38,6 +38,7 @@ namespace ouzel
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
+                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
                 0
             };
 
@@ -61,6 +62,7 @@ namespace ouzel
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
                     NSOpenGLPFAAlphaSize, 8,
+                    NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
                     0
                 };
 
