@@ -587,28 +587,30 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::update()
+        bool RendererOGL::upload()
         {
             clearMask = 0;
-            if (uploadData.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-            if (uploadData.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+            if (data.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+            if (data.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
 
-            frameBufferClearColor[0] = uploadData.clearColor.normR();
-            frameBufferClearColor[1] = uploadData.clearColor.normG();
-            frameBufferClearColor[2] = uploadData.clearColor.normB();
-            frameBufferClearColor[3] = uploadData.clearColor.normA();
+            frameBufferClearColor[0] = data.clearColor.normR();
+            frameBufferClearColor[1] = data.clearColor.normG();
+            frameBufferClearColor[2] = data.clearColor.normB();
+            frameBufferClearColor[3] = data.clearColor.normA();
 
-            if (frameBufferWidth != static_cast<GLsizei>(uploadData.size.v[0]) ||
-                frameBufferHeight != static_cast<GLsizei>(uploadData.size.v[1]))
+            if (frameBufferWidth != static_cast<GLsizei>(data.size.v[0]) ||
+                frameBufferHeight != static_cast<GLsizei>(data.size.v[1]))
             {
-                frameBufferWidth = static_cast<GLsizei>(uploadData.size.v[0]);
-                frameBufferHeight = static_cast<GLsizei>(uploadData.size.v[1]);
+                frameBufferWidth = static_cast<GLsizei>(data.size.v[0]);
+                frameBufferHeight = static_cast<GLsizei>(data.size.v[1]);
 
                 if (!createFrameBuffer())
                 {
                     return false;
                 }
             }
+
+            data.dirty = false;
 
             return true;
         }

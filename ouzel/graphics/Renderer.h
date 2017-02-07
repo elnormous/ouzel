@@ -78,17 +78,17 @@ namespace ouzel
             Driver getDriver() const { return driver; }
 
             void setClearColorBuffer(bool clear);
-            bool getClearColorBuffer() const { return clearColorBuffer; }
+            bool getClearColorBuffer() const { return pendingData.clearColorBuffer; }
 
             void setClearDepthBuffer(bool clear);
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            bool getClearDepthBuffer() const { return pendingData.clearDepthBuffer; }
 
             void setClearColor(Color color);
-            Color getClearColor() const { return clearColor; }
+            Color getClearColor() const { return pendingData.clearColor; }
 
             virtual bool process();
 
-            const Size2& getSize() const { return size; }
+            const Size2& getSize() const { return pendingData.size; }
             uint32_t getSampleCount() const { return sampleCount; }
             Texture::Filter getTextureFilter() const { return textureFilter; }
 
@@ -123,14 +123,14 @@ namespace ouzel
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] / size.v[0],
-                               1.0f - (position.v[1] / size.v[1]));
+                return Vector2(position.v[0] / pendingData.size.v[0],
+                               1.0f - (position.v[1] / pendingData.size.v[1]));
             }
 
             Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] * size.v[0],
-                               (1.0f - position.v[1]) * size.v[1]);
+                return Vector2(position.v[0] * pendingData.size.v[0],
+                               (1.0f - position.v[1]) * pendingData.size.v[1]);
             }
 
             virtual bool saveScreenshot(const std::string& filename);
@@ -190,7 +190,7 @@ namespace ouzel
             };
             
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
-            virtual bool update();
+            virtual bool upload();
             virtual bool generateScreenshot(const std::string& filename);
 
             Driver driver;
@@ -216,13 +216,14 @@ namespace ouzel
 
             struct Data
             {
+                bool dirty = false;
                 Size2 size;
                 Color clearColor;
-                bool clearColorBuffer;
-                bool clearDepthBuffer;
+                bool clearColorBuffer = true;
+                bool clearDepthBuffer = false;
             };
 
-            Data uploadData;
+            Data data;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
@@ -230,13 +231,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
         private:
-            Size2 size;
-
-            Color clearColor;
             uint32_t drawCallCount = 0;
-
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
 
             std::vector<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
@@ -253,7 +248,9 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
-            std::atomic<bool> dirty;
+
+            std::mutex uploadMutex;
+            Data pendingData;
         };
     } // namespace graphics
 } // namespace ouzel

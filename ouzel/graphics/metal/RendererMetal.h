@@ -74,7 +74,7 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
-            virtual bool update() override;
+            virtual bool upload() override;
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 

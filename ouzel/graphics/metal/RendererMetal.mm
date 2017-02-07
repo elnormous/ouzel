@@ -314,15 +314,17 @@ namespace ouzel
             return true;
         }
 
-        bool RendererMetal::update()
+        bool RendererMetal::upload()
         {
-            clearColorBuffer = uploadData.clearColorBuffer;
-            clearDepthBuffer = uploadData.clearDepthBuffer;
+            clearColorBuffer = data.clearColorBuffer;
+            clearDepthBuffer = data.clearDepthBuffer;
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(uploadData.clearColor.normR(),
-                                                                                    uploadData.clearColor.normG(),
-                                                                                    uploadData.clearColor.normB(),
-                                                                                    uploadData.clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(data.clearColor.normR(),
+                                                                                    data.clearColor.normG(),
+                                                                                    data.clearColor.normB(),
+                                                                                    data.clearColor.normA());
+
+            data.dirty = false;
 
             return true;
         }
@@ -418,11 +420,6 @@ namespace ouzel
              }];
 
             MTLScissorRect scissorRect;
-
-            if (!update())
-            {
-                return false;
-            }
 
             std::vector<float> shaderData;
 

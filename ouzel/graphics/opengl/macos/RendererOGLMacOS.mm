@@ -101,11 +101,11 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLMacOS::update()
+        bool RendererOGLMacOS::upload()
         {
             [openGLContext update];
 
-            return RendererOGL::update();
+            return RendererOGL::upload();
         }
     } // namespace graphics
 } // namespace ouzel

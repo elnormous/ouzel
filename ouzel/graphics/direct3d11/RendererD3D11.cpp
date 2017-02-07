@@ -432,18 +432,18 @@ namespace ouzel
             return true;
         }
 
-        bool RendererD3D11::update()
+        bool RendererD3D11::upload()
         {
-            frameBufferClearColor[0] = uploadData.clearColor.normR();
-            frameBufferClearColor[1] = uploadData.clearColor.normG();
-            frameBufferClearColor[2] = uploadData.clearColor.normB();
-            frameBufferClearColor[3] = uploadData.clearColor.normA();
+            frameBufferClearColor[0] = data.clearColor.normR();
+            frameBufferClearColor[1] = data.clearColor.normG();
+            frameBufferClearColor[2] = data.clearColor.normB();
+            frameBufferClearColor[3] = data.clearColor.normA();
 
-            clearColorBuffer = uploadData.clearColorBuffer;
-            clearDepthBuffer = uploadData.clearDepthBuffer;
+            clearColorBuffer = data.clearColorBuffer;
+            clearDepthBuffer = data.clearDepthBuffer;
 
-            if (static_cast<UINT>(uploadData.size.v[0]) != width ||
-                static_cast<UINT>(uploadData.size.v[1]) != height)
+            if (static_cast<UINT>(data.size.v[0]) != width ||
+                static_cast<UINT>(data.size.v[1]) != height)
             {
                 if (!resizeBackBuffer(0, 0))
                 {
@@ -454,17 +454,14 @@ namespace ouzel
                                         static_cast<float>(height)));
             }
 
+            data.dirty = false;
+
             return true;
         }
 
         bool RendererD3D11::draw(const std::vector<DrawCommand>& drawCommands)
         {
             context->RSSetState(rasterizerStates[0]);
-
-            if (!update())
-            {
-                return false;
-            }
 
             std::vector<float> shaderData;
 

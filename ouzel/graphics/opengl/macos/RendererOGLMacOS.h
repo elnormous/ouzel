@@ -39,7 +39,7 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth) override;
 
-            virtual bool update() override;
+            virtual bool upload() override;
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
 

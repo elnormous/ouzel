@@ -23,11 +23,9 @@ namespace ouzel
             driver(aDriver),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
-            clearColor(Color::BLACK),
             refillDrawQueue(true),
             currentFPS(0.0f),
-            accumulatedFPS(0.0f),
-            dirty(false)
+            accumulatedFPS(0.0f)
         {
         }
 
@@ -43,8 +41,10 @@ namespace ouzel
                             bool newVerticalSync,
                             bool newDepth)
         {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            
             window = newWindow;
-            size = newSize;
+            pendingData.size = newSize;
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
@@ -56,7 +56,7 @@ namespace ouzel
             return true;
         }
 
-        bool Renderer::update()
+        bool Renderer::upload()
         {
             return true;
         }
@@ -84,19 +84,25 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0f;
             }
 
-            if (dirty)
             {
-                uploadData.size = size;
-                uploadData.clearColor = clearColor;
-                uploadData.clearColorBuffer = clearColorBuffer;
-                uploadData.clearDepthBuffer = clearDepthBuffer;
 
-                if (!update())
+                std::lock_guard<std::mutex> lock(uploadMutex);
+
+                data.dirty = pendingData.dirty;
+                pendingData.dirty = false;
+
+                if (data.dirty)
                 {
-                    return false;
+                    data.size = pendingData.size;
+                    data.clearColor = pendingData.clearColor;
+                    data.clearColorBuffer = pendingData.clearColorBuffer;
+                    data.clearDepthBuffer = pendingData.clearDepthBuffer;
                 }
+            }
 
-                dirty = false;
+            if (data.dirty && !upload())
+            {
+                return false;
             }
 
             std::vector<DrawCommand> drawCommands;
@@ -169,29 +175,36 @@ namespace ouzel
 
         void Renderer::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
-            dirty = true;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            pendingData.clearColorBuffer = clear;
+            pendingData.dirty = true;
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
-            dirty = true;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            pendingData.clearDepthBuffer = clear;
+            pendingData.dirty = true;
         }
 
         void Renderer::setClearColor(Color color)
         {
-            clearColor = color;
-            dirty = true;
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            pendingData.clearColor = color;
+            pendingData.dirty = true;
         }
 
         void Renderer::setSize(const Size2& newSize)
         {
-            if (size != newSize)
-            {
-                size = newSize;
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-                dirty = true;
+            if (pendingData.size != newSize)
+            {
+                pendingData.size = newSize;
+                pendingData.dirty = true;
             }
         }
 

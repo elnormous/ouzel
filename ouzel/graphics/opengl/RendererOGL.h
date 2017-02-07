@@ -515,7 +515,7 @@ namespace ouzel
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
-            virtual bool update() override;
+            virtual bool upload() override;
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();
