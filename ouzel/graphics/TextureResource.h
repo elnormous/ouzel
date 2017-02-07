@@ -75,12 +75,12 @@ namespace ouzel
             };
 
             Data data;
-            std::mutex uploadMutex;
-
-            uint32_t frameBufferClearedFrame = 0;
 
         private:
             Data pendingData;
+            std::mutex uploadMutex;
+
+            uint32_t frameBufferClearedFrame = 0;
         };
     } // namespace graphics
 } // namespace ouzel

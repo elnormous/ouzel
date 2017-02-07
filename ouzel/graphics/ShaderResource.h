@@ -60,10 +60,10 @@ namespace ouzel
             };
 
             Data data;
-            std::mutex uploadMutex;
 
         private:
             Data pendingData;
+            std::mutex uploadMutex;
         };
     } // namespace graphics
 } // namespace ouzel
