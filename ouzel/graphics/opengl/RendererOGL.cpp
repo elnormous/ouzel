@@ -608,13 +608,6 @@ namespace ouzel
                 {
                     return false;
                 }
-
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
-                                             static_cast<float>(frameBufferHeight));
-
-                window->setSize(backBufferSize / window->getContentScale());
-#endif
             }
 
             return true;
