@@ -271,7 +271,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
     return DefWindowProcW(window, msg, wParam, lParam);
 }
 
-const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
+static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {

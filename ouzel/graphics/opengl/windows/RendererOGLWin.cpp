@@ -10,10 +10,140 @@
 #include "core/windows/WindowWin.h"
 #include "utils/Utils.h"
 
+static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
+
+static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    return DefWindowProc(window, msg, wParam, lParam);
+}
+
 namespace ouzel
 {
     namespace graphics
     {
+        class TempContext
+        {
+        public:
+            TempContext()
+            {
+                HINSTANCE hInstance = GetModuleHandleW(nullptr);
+
+                WNDCLASSW wc;
+                wc.style = CS_OWNDC;
+                wc.lpfnWndProc = windowProc;
+                wc.cbClsExtra = 0;
+                wc.cbWndExtra = 0;
+                wc.hInstance = hInstance;
+                wc.hIcon = 0;
+                wc.hCursor = 0;
+                wc.hbrBackground = 0;
+                wc.lpszMenuName = nullptr;
+                wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
+
+                windowClass = RegisterClass(&wc);
+
+                if (!windowClass)
+                {
+                    Log(Log::Level::ERR) << "Failed to register window class";
+                    return;
+                }
+
+                window = CreateWindowW(TEMP_WINDOW_CLASS_NAME, L"TempWindow", 0,
+                                       CW_USEDEFAULT, CW_USEDEFAULT,
+                                       CW_USEDEFAULT, CW_USEDEFAULT,
+                                       0, 0, hInstance, 0);
+
+                if (!window)
+                {
+                    Log(Log::Level::ERR) << "Failed to create window";
+                    return;
+                }
+
+                deviceContext = GetDC(window);
+
+                PIXELFORMATDESCRIPTOR pixelFormatDesc;
+                pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
+                pixelFormatDesc.nVersion = 1;
+                pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+                pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
+                pixelFormatDesc.cColorBits = 24;
+                pixelFormatDesc.cRedBits = 0;
+                pixelFormatDesc.cRedShift = 0;
+                pixelFormatDesc.cGreenBits = 0;
+                pixelFormatDesc.cGreenShift = 0;
+                pixelFormatDesc.cBlueBits = 0;
+                pixelFormatDesc.cBlueShift = 0;
+                pixelFormatDesc.cAlphaBits = 0;
+                pixelFormatDesc.cAlphaShift = 0;
+                pixelFormatDesc.cAccumBits = 0;
+                pixelFormatDesc.cAccumRedBits = 0;
+                pixelFormatDesc.cAccumGreenBits = 0;
+                pixelFormatDesc.cAccumBlueBits = 0;
+                pixelFormatDesc.cAccumAlphaBits = 0;
+                pixelFormatDesc.cDepthBits = 0;
+                pixelFormatDesc.cStencilBits = 0;
+                pixelFormatDesc.cAuxBuffers = 0;
+                pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
+                pixelFormatDesc.bReserved = 0;
+                pixelFormatDesc.dwLayerMask = 0;
+                pixelFormatDesc.dwVisibleMask = 0;
+                pixelFormatDesc.dwDamageMask = 0;
+
+                int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
+
+                if (!pixelFormat)
+                {
+                    Log(Log::Level::ERR) << "Failed to choose pixel format";
+                    return;
+                }
+
+                if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
+                {
+                    Log(Log::Level::ERR) << "Failed to set pixel format";
+                    return;
+                }
+
+                renderContext = wglCreateContext(deviceContext);
+
+                if (!renderContext)
+                {
+                    Log(Log::Level::ERR) << "Failed to create OpenGL context";
+                    return;
+                }
+
+                if (!wglMakeCurrent(deviceContext, renderContext))
+                {
+                    Log(Log::Level::ERR) << "Failed to set current OpenGL context";
+                    return;
+                }
+            }
+
+            ~TempContext()
+            {
+                if (renderContext)
+                {
+                    wglMakeCurrent(deviceContext, nullptr);
+                    wglDeleteContext(renderContext);
+                }
+
+                if (window)
+                {
+                    DestroyWindow(window);
+                }
+
+                if (windowClass)
+                {
+                    UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
+                }
+            }
+
+        private:
+            ATOM windowClass = 0;
+            HWND window = 0;
+            HDC deviceContext = 0;
+            HGLRC renderContext = 0;
+        };
+
         RendererOGLWin::~RendererOGLWin()
         {
             if (renderContext)
@@ -31,6 +161,10 @@ namespace ouzel
                                   bool newVerticalSync,
                                   bool newDepth)
         {
+            TempContext tempContext;
+
+            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(getProcAddress("wglChoosePixelFormatARB"));
+
             WindowWin* windowWin = static_cast<WindowWin*>(newWindow);
 
             deviceContext = GetDC(windowWin->getNativeWindow());
@@ -56,8 +190,6 @@ namespace ouzel
 
             int pixelFormat;
             UINT numFormats;
-
-            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(getProcAddress("wglChoosePixelFormatARB"));
 
             if (!wglChoosePixelFormatProc)
             {
