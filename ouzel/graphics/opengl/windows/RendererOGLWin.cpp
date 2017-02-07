@@ -57,7 +57,15 @@ namespace ouzel
             int pixelFormat;
             UINT numFormats;
 
-            if (!wglChoosePixelFormatARB(deviceContext, attributeList, nullptr, 1, &pixelFormat, &numFormats))
+            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(getProcAddress("wglChoosePixelFormatARB"));
+
+            if (!wglChoosePixelFormatProc)
+            {
+                Log(Log::Level::ERR) << "Failed to get pointer to wglChoosePixelFormatARB";
+                return false;
+            }
+
+            if (!wglChoosePixelFormatProc(deviceContext, attributeList, nullptr, 1, &pixelFormat, &numFormats))
             {
                 Log(Log::Level::ERR) << "Failed to choose pixel format";
                 return false;
@@ -68,6 +76,34 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to choose pixel format";
                 return false;
             }
+
+            PIXELFORMATDESCRIPTOR pixelFormatDesc;
+            pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
+            pixelFormatDesc.nVersion = 1;
+            pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+            pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
+            pixelFormatDesc.cColorBits = 24;
+            pixelFormatDesc.cRedBits = 0;
+            pixelFormatDesc.cRedShift = 0;
+            pixelFormatDesc.cGreenBits = 0;
+            pixelFormatDesc.cGreenShift = 0;
+            pixelFormatDesc.cBlueBits = 0;
+            pixelFormatDesc.cBlueShift = 0;
+            pixelFormatDesc.cAlphaBits = 0;
+            pixelFormatDesc.cAlphaShift = 0;
+            pixelFormatDesc.cAccumBits = 0;
+            pixelFormatDesc.cAccumRedBits = 0;
+            pixelFormatDesc.cAccumGreenBits = 0;
+            pixelFormatDesc.cAccumBlueBits = 0;
+            pixelFormatDesc.cAccumAlphaBits = 0;
+            pixelFormatDesc.cDepthBits = newDepth ? 24 : 0;
+            pixelFormatDesc.cStencilBits = 0;
+            pixelFormatDesc.cAuxBuffers = 0;
+            pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
+            pixelFormatDesc.bReserved = 0;
+            pixelFormatDesc.dwLayerMask = 0;
+            pixelFormatDesc.dwVisibleMask = 0;
+            pixelFormatDesc.dwDamageMask = 0;
 
             if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
             {
