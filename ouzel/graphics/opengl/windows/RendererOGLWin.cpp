@@ -40,36 +40,28 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to get window's device context";
                 return false;
             }
+            
+            const int attributeList[] =
+            {
+                WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+                WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+                WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+                WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+                WGL_COLOR_BITS_ARB, 24,
+                WGL_DEPTH_BITS_ARB, newDepth ? 24 : 0,
+                WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
+                WGL_SAMPLES_ARB, newSampleCount,
+                0,
+            };
 
-            PIXELFORMATDESCRIPTOR pixelFormatDesc;
-            pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
-            pixelFormatDesc.nVersion = 1;
-            pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-            pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
-            pixelFormatDesc.cColorBits = 32;
-            pixelFormatDesc.cRedBits = 0;
-            pixelFormatDesc.cRedShift = 0;
-            pixelFormatDesc.cGreenBits = 0;
-            pixelFormatDesc.cGreenShift = 0;
-            pixelFormatDesc.cBlueBits = 0;
-            pixelFormatDesc.cBlueShift = 0;
-            pixelFormatDesc.cAlphaBits = 0;
-            pixelFormatDesc.cAlphaShift = 0;
-            pixelFormatDesc.cAccumBits = 0;
-            pixelFormatDesc.cAccumRedBits = 0;
-            pixelFormatDesc.cAccumGreenBits = 0;
-            pixelFormatDesc.cAccumBlueBits = 0;
-            pixelFormatDesc.cAccumAlphaBits = 0;
-            pixelFormatDesc.cDepthBits = newDepth ? 24 : 0;
-            pixelFormatDesc.cStencilBits = 0;
-            pixelFormatDesc.cAuxBuffers = 0;
-            pixelFormatDesc.iLayerType = PFD_MAIN_PLANE;
-            pixelFormatDesc.bReserved = 0;
-            pixelFormatDesc.dwLayerMask = 0;
-            pixelFormatDesc.dwVisibleMask = 0;
-            pixelFormatDesc.dwDamageMask = 0;
+            int pixelFormat;
+            UINT numFormats;
 
-            int pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
+            if (!wglChoosePixelFormatARB(hdc, attributeList, nullptr, 1, &pixelFormat, &numFormats))
+            {
+                Log(Log::Level::ERR) << "Failed to choose pixel format";
+                return false;
+            }
 
             if (!pixelFormat)
             {
