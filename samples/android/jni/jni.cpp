@@ -33,15 +33,20 @@ extern "C"
         application->setAssetManager(assetManager);
     }
 
-    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setSurface(JNIEnv*, jclass, jobject surface, jint width, jint height)
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_setSurface(JNIEnv*, jclass, jobject surface)
+    {
+        application->setSurface(surface);
+    }
+
+    JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject surface, jint width, jint height)
     {
         application->setSurface(surface);
 
-        /*if (ouzel::sharedEngine)
+        if (ouzel::sharedEngine)
         {
             ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(ouzel::sharedEngine->getWindow());
             windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
-        }*/
+        }
     }
 
     JNIEXPORT void JNICALL Java_lv_elviss_ouzel_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)

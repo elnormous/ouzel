@@ -131,6 +131,9 @@ namespace ouzel
                 return false;
             }
 
+            EGLint frameBufferWidth;
+            EGLint frameBufferHeight;
+
             if (!eglQuerySurface(display, surface, EGL_WIDTH, &frameBufferWidth) ||
                 !eglQuerySurface(display, surface, EGL_HEIGHT, &frameBufferHeight))
             {

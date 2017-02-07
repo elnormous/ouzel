@@ -54,8 +54,14 @@ namespace ouzel
     {
         int width, height, fullscreen;
         emscripten_get_canvas_size(&width, &height, &fullscreen);
-        Window::setSize(Size2(static_cast<float>(width), static_cast<float>(height)));
 
-        sharedEngine->getRenderer()->setSize(size * getContentScale());
+        Event event;
+        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.size = Size2(static_cast<float>(width),
+                                       static_cast<float>(height));
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 }

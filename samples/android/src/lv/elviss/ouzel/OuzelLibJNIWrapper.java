@@ -15,7 +15,8 @@ public class OuzelLibJNIWrapper
 
     public static native void setMainActivity(MainActivity mainActivity);
     public static native void setAssetManager(AssetManager assetManager);
-    public static native void setSurface(Surface surface, int width, int height);
+    public static native void setSurface(Surface surface);
+    public static native void onSurfaceChanged(Surface surface, int width, int height);
 
     public static native void onStart();
     public static native void onPause();
