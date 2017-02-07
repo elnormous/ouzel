@@ -23,12 +23,12 @@ namespace ouzel
 
     void Cache::clear()
     {
-        textures.clear();
-        shaders.clear();
-        particleDefinitions.clear();
-        blendStates.clear();
-        spriteFrames.clear();
-        bmFonts.clear();
+        releaseTextures();
+        releaseShaders();
+        releaseParticleDefinitions();
+        releaseBlendStates();
+        releaseSpriteFrames();
+        releaseBMFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -70,7 +70,18 @@ namespace ouzel
 
     void Cache::releaseTextures()
     {
-        textures.clear();
+        for (auto i = textures.begin(); i != textures.end();)
+        {
+            // don't delete white pixel texture
+            if (i->first == graphics::TEXTURE_WHITE_PIXEL)
+            {
+                ++i;
+            }
+            else
+            {
+                i = textures.erase(i);
+            }
+        }
     }
 
     const std::shared_ptr<graphics::Shader>& Cache::getShader(const std::string& shaderName) const
@@ -96,7 +107,19 @@ namespace ouzel
 
     void Cache::releaseShaders()
     {
-        shaders.clear();
+        for (auto i = shaders.begin(); i != shaders.end();)
+        {
+            // don't delete default shaders
+            if (i->first == graphics::SHADER_COLOR ||
+                i->first == graphics::SHADER_TEXTURE)
+            {
+                ++i;
+            }
+            else
+            {
+                i = shaders.erase(i);
+            }
+        }
     }
 
     const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
@@ -122,7 +145,21 @@ namespace ouzel
 
     void Cache::releaseBlendStates()
     {
-        blendStates.clear();
+        for (auto i = blendStates.begin(); i != blendStates.end();)
+        {
+            // don't delete default blend states
+            if (i->first == graphics::BLEND_NO_BLEND ||
+                i->first == graphics::BLEND_ADD ||
+                i->first == graphics::BLEND_MULTIPLY ||
+                i->first == graphics::BLEND_ALPHA)
+            {
+                ++i;
+            }
+            else
+            {
+                i = blendStates.erase(i);
+            }
+        }
     }
 
     void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps)
