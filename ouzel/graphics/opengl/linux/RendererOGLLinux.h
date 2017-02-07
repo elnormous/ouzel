@@ -3,6 +3,8 @@
 
 #pragma once
 
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/glx.h>
 #include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel
@@ -26,6 +28,8 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth) override;
             virtual bool swapBuffers() override;
+
+            GLXContext context = 0;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -140,12 +140,6 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            void setAPIVersion(uint16_t majorVersion, uint16_t minorVersion)
-            {
-                apiMajorVersion = majorVersion;
-                apiMinorVersion = minorVersion;
-            }
-
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isMultisamplingSupported() const { return multisamplingSupported; }
 

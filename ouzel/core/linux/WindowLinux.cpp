@@ -5,7 +5,6 @@
 #include "WindowLinux.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "graphics/opengl/RendererOGL.h"
 #include "utils/Log.h"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
@@ -19,13 +18,13 @@ namespace ouzel
 
     WindowLinux::~WindowLinux()
     {
+        if (visualInfo)
+        {
+            XFree(visualInfo);
+        }
+
         if (display)
         {
-            if (context)
-            {
-                glXDestroyContext(display, context);
-            }
-
             if (window)
             {
                 XDestroyWindow(display, window);
@@ -39,8 +38,6 @@ namespace ouzel
     {
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            graphics::RendererOGL* rendererOGL = static_cast<graphics::RendererOGL*>(sharedEngine->getRenderer());
-
             // open a connection to the X server
             display = XOpenDisplay(nullptr);
 
@@ -50,115 +47,29 @@ namespace ouzel
                 return false;
             }
 
-            Screen* screen = XDefaultScreenOfDisplay(display);
-            int screenIndex = XScreenNumberOfScreen(screen);
-
-            std::unique_ptr<XVisualInfo, int(*)(void*)> visualInfo(nullptr, XFree);
-
-            // make sure OpenGL's GLX extension supported
-            int dummy;
-            if (!glXQueryExtension(display, &dummy, &dummy))
-            {
-                Log(Log::Level::ERR) << "X server has no OpenGL GLX extension";
-                return false;
-            }
-
-            int fbcount = 0;
-
-            static const int attributes[] = {
-                GLX_RENDER_TYPE, GLX_RGBA_BIT,
-                GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-                GLX_DOUBLEBUFFER, GL_TRUE,
+            // find an OpenGL-capable RGB visual
+            static int doubleBuffer[] = {
+                GLX_RGBA,
                 GLX_RED_SIZE, 8,
                 GLX_GREEN_SIZE, 8,
                 GLX_BLUE_SIZE, 8,
+                GLX_DOUBLEBUFFER,
                 None
             };
 
-            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(display, screenIndex, attributes, &fbcount), XFree);
-            if (!framebufferConfig)
+            Screen* screen = XDefaultScreenOfDisplay(display);
+            int screenIndex = XScreenNumberOfScreen(screen);
+
+            visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
+            if (!visualInfo)
             {
-                Log(Log::Level::ERR) << "Failed to get frame buffer";
+                Log(Log::Level::ERR) << "Failed to choose visual";
+                return false;
             }
-            else
+            if (visualInfo->c_class != TrueColor)
             {
-                // create an OpenGL rendering context
-                static const int contextAttribs[] = {
-                    GLX_CONTEXT_PROFILE_MASK_ARB,
-                    GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-                    GLX_CONTEXT_MAJOR_VERSION_ARB,
-                    3,
-                    GLX_CONTEXT_MINOR_VERSION_ARB,
-                    2,
-                    None
-                };
-
-                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
-
-                if (glXCreateContextAttribsARB)
-                {
-                    context = glXCreateContextAttribsARB(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs);
-
-                    if (context)
-                    {
-                        rendererOGL->setAPIVersion(3, 2);
-                        Log(Log::Level::INFO) << "Using OpenGL 3.2";
-
-                        visualInfo.reset(glXGetVisualFromFBConfig(display, *framebufferConfig));
-
-                        if (!visualInfo)
-                        {
-                            Log(Log::Level::INFO) << "Failed to get OpenGL visual";
-                            context = nullptr;
-                        }
-                    }
-                    else
-                    {
-                        Log(Log::Level::INFO) << "Failed to crete OpenGL 3.2 rendering context";
-                    }
-                }
-                else
-                {
-                    Log(Log::Level::INFO) << "Could not find glXCreateContextAttribsARB";
-                }
-            }
-
-            if (!context)
-            {
-                // find an OpenGL-capable RGB visual
-                static int doubleBuffer[] = {
-                    GLX_RGBA,
-                    GLX_RED_SIZE, 8,
-                    GLX_GREEN_SIZE, 8,
-                    GLX_BLUE_SIZE, 8,
-                    GLX_DOUBLEBUFFER,
-                    None
-                };
-
-                visualInfo.reset(glXChooseVisual(display, screenIndex, doubleBuffer));
-                if (!visualInfo)
-                {
-                    Log(Log::Level::ERR) << "Failed to choose OpenGL visual";
-                    return false;
-                }
-                if (visualInfo->c_class != TrueColor)
-                {
-                    Log(Log::Level::ERR) << "TrueColor visual required for this program";
-                    return false;
-                }
-
-                context = glXCreateContext(display, visualInfo.get(), None, GL_TRUE);
-
-                if (context)
-                {
-                    rendererOGL->setAPIVersion(2, 0);
-                    Log(Log::Level::INFO) << "Using OpenGL 2";
-                }
-                else
-                {
-                    Log(Log::Level::ERR) << "Failed to crete OpenGL 2 rendering context";
-                    return false;
-                }
+                Log(Log::Level::ERR) << "TrueColor visual required for this program";
+                return false;
             }
 
             // create an X colormap since probably not using default visual
@@ -177,9 +88,6 @@ namespace ouzel
                                    CWBorderPixel | CWColormap | CWEventMask, &swa);
             XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
 
-            // bind the rendering context to the window
-            glXMakeCurrent(display, window, context);
-
             // request the X window to be displayed on the screen
             XMapWindow(display, window);
 
@@ -188,13 +96,6 @@ namespace ouzel
             protocols = XInternAtom(display, "WM_PROTOCOLS", False);
             state = XInternAtom(display, "_NET_WM_STATE", False);
             stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
-
-            PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
-
-            if (glXSwapIntervalEXT)
-            {
-                glXSwapIntervalEXT(display, window, sharedEngine->getSettings().verticalSync ? 1 : 0);
-            }
 
             if (fullscreen)
             {

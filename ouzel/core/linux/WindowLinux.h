@@ -27,8 +27,8 @@ namespace ouzel
         virtual void setTitle(const std::string& newTitle) override;
 
         Display* getDisplay() const { return display; }
-        GLXContext getContext() const { return context; }
         ::Window getNativeWindow() const { return window; }
+        XVisualInfo* getVisualInfo() const { return visualInfo; }
         Atom getDeleteMessage() const { return deleteMessage; }
 
     protected:
@@ -37,8 +37,8 @@ namespace ouzel
         virtual bool toggleFullscreen();
         void handleResize(const Size2& newSize);
 
+        XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
-        GLXContext context = 0;
         ::Window window = 0;
         Atom deleteMessage;
         Atom protocols;

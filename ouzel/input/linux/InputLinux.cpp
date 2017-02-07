@@ -224,14 +224,14 @@ namespace ouzel
             WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
             Display* display = windowLinux->getDisplay();
 
-            char data[1] = { 0 };
-            XColor color;
-            Pixmap pixmap;
+            char data[1] = {0};
 
-            color.red = color.green = color.blue = 0;
-            pixmap = XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
+            Pixmap pixmap = XCreateBitmapFromData(display, DefaultRootWindow(display), data, 1, 1);
             if (pixmap)
             {
+                XColor color;
+                color.red = color.green = color.blue = 0;
+
                 emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
                 XFreePixmap(display, pixmap);
             }
