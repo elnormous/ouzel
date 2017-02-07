@@ -57,7 +57,7 @@ namespace ouzel
             int pixelFormat;
             UINT numFormats;
 
-            if (!wglChoosePixelFormatARB(hdc, attributeList, nullptr, 1, &pixelFormat, &numFormats))
+            if (!wglChoosePixelFormatARB(deviceContext, attributeList, nullptr, 1, &pixelFormat, &numFormats))
             {
                 Log(Log::Level::ERR) << "Failed to choose pixel format";
                 return false;
