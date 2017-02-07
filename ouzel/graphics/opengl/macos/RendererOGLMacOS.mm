@@ -30,19 +30,33 @@ namespace ouzel
                                     bool newDepth)
         {
             // Create pixel format
-            NSOpenGLPixelFormatAttribute openGL3Attributes[] =
+            std::vector<NSOpenGLPixelFormatAttribute> openGL3Attributes =
             {
                 NSOpenGLPFAAccelerated,
                 NSOpenGLPFANoRecovery,
                 NSOpenGLPFADoubleBuffer,
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
-                NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
-                0
             };
 
-            pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes];
+            if (newDepth)
+            {
+                openGL3Attributes.push_back(NSOpenGLPFADepthSize);
+                openGL3Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0));
+            }
+
+            if (newSampleCount)
+            {
+                openGL3Attributes.push_back(NSOpenGLPFAMultisample);
+                openGL3Attributes.push_back(NSOpenGLPFASampleBuffers);
+                openGL3Attributes.push_back(1);
+                openGL3Attributes.push_back(NSOpenGLPFASamples);
+                openGL3Attributes.push_back(newSampleCount);
+            }
+
+            openGL3Attributes.push_back(0);
+
+            pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes.data()];
 
             if (pixelFormat)
             {
@@ -54,19 +68,33 @@ namespace ouzel
             {
                 Log(Log::Level::INFO) << "Failed to crete OpenGL 3.2 pixel format";
 
-                NSOpenGLPixelFormatAttribute openGL2Attributes[] =
+                std::vector<NSOpenGLPixelFormatAttribute> openGL2Attributes =
                 {
                     NSOpenGLPFAAccelerated,
                     NSOpenGLPFANoRecovery,
                     NSOpenGLPFADoubleBuffer,
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
-                    NSOpenGLPFAAlphaSize, 8,
-                    NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0),
-                    0
                 };
 
-                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes];
+                if (newDepth)
+                {
+                    openGL2Attributes.push_back(NSOpenGLPFADepthSize);
+                    openGL2Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0));
+                }
+
+                if (newSampleCount)
+                {
+                    openGL2Attributes.push_back(NSOpenGLPFAMultisample);
+                    openGL2Attributes.push_back(NSOpenGLPFASampleBuffers);
+                    openGL2Attributes.push_back(1);
+                    openGL2Attributes.push_back(NSOpenGLPFASamples);
+                    openGL2Attributes.push_back(newSampleCount);
+                }
+
+                openGL2Attributes.push_back(0);
+
+                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes.data()];
 
                 if (pixelFormat)
                 {
