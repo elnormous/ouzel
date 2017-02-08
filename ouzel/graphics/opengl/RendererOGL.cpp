@@ -373,6 +373,10 @@ namespace ouzel
                             multisamplingSupported = true;
                             glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
                         }
+                        else if (extension == "GL_EXT_map_buffer_range")
+                        {
+                            glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRangeEXT"));
+                        }
 #elif OUZEL_OPENGL_INTERFACE_EAGL
                         if (extension == "GL_APPLE_framebuffer_multisample")
                         {
