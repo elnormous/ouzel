@@ -79,52 +79,12 @@ namespace ouzel
                     {
                         bufferSize = static_cast<GLsizeiptr>(data.data.size());
 
-                        glBufferDataProc(bufferType, bufferSize, nullptr,
+                        glBufferDataProc(bufferType, bufferSize, data.data.data(),
                                          data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {
                             Log(Log::Level::ERR) << "Failed to create buffer";
-                            return false;
-                        }
-                    }
-
-                    void* bufferPtr = nullptr;
-
-                    if (glMapBufferRangeProc)
-                    {
-                        bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to map buffer";
-                            return false;
-                        }
-                    }
-                    else if (glMapBufferProc)
-                    {
-#if OUZEL_SUPPORTS_OPENGL
-                        bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY);
-#elif OUZEL_SUPPORTS_OPENGLES
-                        bufferPtr = glMapBufferProc(bufferType, GL_WRITE_ONLY_OES);
-#endif
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to map buffer";
-                            return false;
-                        }
-                    }
-
-                    if (bufferPtr)
-                    {
-                        std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>(bufferPtr));
-
-                        if (glUnmapBufferProc) glUnmapBufferProc(bufferType);
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to upload buffer";
                             return false;
                         }
                     }
