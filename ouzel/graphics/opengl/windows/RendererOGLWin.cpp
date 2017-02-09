@@ -163,7 +163,7 @@ namespace ouzel
         {
             TempContext tempContext;
 
-            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(getProcAddress("wglChoosePixelFormatARB"));
+            PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
 
             WindowWin* windowWin = static_cast<WindowWin*>(newWindow);
 
@@ -245,7 +245,7 @@ namespace ouzel
                 return false;
             }
 
-            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(getProcAddress("wglCreateContextAttribsARB"));
+            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
 
             if (wglCreateContextAttribsProc)
             {

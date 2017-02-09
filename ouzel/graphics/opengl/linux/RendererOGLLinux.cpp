@@ -73,6 +73,9 @@ namespace ouzel
                     3,
                     GLX_CONTEXT_MINOR_VERSION_ARB,
                     2,
+#ifdef DEBUG
+                    GL_CONTEXT_FLAGS, GLX_DEBUG_CONTEXT_BIT,
+#endif
                     0
                 };
 
