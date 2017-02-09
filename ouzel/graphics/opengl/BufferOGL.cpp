@@ -93,7 +93,7 @@ namespace ouzel
 
                     if (glMapBufferRangeProc)
                     {
-                        bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT);
+                        bufferPtr = glMapBufferRangeProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), GL_MAP_UNSYNCHRONIZED_BIT | GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
                         if (RendererOGL::checkOpenGLError())
                         {
@@ -130,8 +130,7 @@ namespace ouzel
                     }
                     else
                     {
-                        glBufferDataProc(bufferType, bufferSize, data.data.data(),
-                                         data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), data.data.data());
 
                         if (RendererOGL::checkOpenGLError())
                         {

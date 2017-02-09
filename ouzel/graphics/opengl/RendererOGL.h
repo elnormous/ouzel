@@ -80,6 +80,7 @@ extern PFNGLBINDBUFFERPROC glBindBufferProc;
 extern PFNGLDELETEBUFFERSPROC glDeleteBuffersProc;
 extern PFNGLGENBUFFERSPROC glGenBuffersProc;
 extern PFNGLBUFFERDATAPROC glBufferDataProc;
+extern PFNGLBUFFERSUBDATAPROC glBufferSubDataProc;
 
 extern PFNGLGENVERTEXARRAYSPROC glGenVertexArraysProc;
 extern PFNGLBINDVERTEXARRAYPROC glBindVertexArrayProc;
