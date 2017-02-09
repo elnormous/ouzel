@@ -180,7 +180,7 @@ namespace ouzel
             PIXELFORMATDESCRIPTOR pixelFormatDesc;
             pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
             pixelFormatDesc.nVersion = 1;
-            pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+            pixelFormatDesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_GENERIC_ACCELERATED;
             pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
             pixelFormatDesc.cColorBits = 24;
             pixelFormatDesc.cRedBits = 0;
@@ -245,7 +245,23 @@ namespace ouzel
                 return false;
             }
 
-            renderContext = wglCreateContext(deviceContext);
+            PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsProc = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(getProcAddress("wglCreateContextAttribsARB"));
+
+            if (wglCreateContextAttribsProc)
+            {
+                int contextAttribs[] = {
+#ifdef DEBUG
+                    WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
+#endif
+                    0
+                };
+
+                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs);
+            }
+            else
+            {
+                renderContext = wglCreateContext(deviceContext);
+            }
 
             if (!renderContext)
             {
