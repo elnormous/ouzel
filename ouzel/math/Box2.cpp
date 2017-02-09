@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "AABB2.h"
+#include "Box2.h"
 
 namespace ouzel
 {
-    void AABB2::getCorners(Vector2* dst) const
+    void Box2::getCorners(Vector2* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
         // Left-bottom.
@@ -19,7 +19,7 @@ namespace ouzel
         dst[3].set(min.v[0], max.v[1]);
     }
 
-    void AABB2::merge(const AABB2& box)
+    void Box2::merge(const Box2& box)
     {
         // Calculate the new minimum point.
         min.v[0] = std::min(min.v[0], box.min.v[0]);

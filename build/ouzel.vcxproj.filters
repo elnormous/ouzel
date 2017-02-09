@@ -106,7 +106,7 @@
     <ClCompile Include="..\ouzel\localization\Language.cpp">
       <Filter>localization</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\AABB2.cpp">
+    <ClCompile Include="..\ouzel\math\Box2.cpp">
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\math\MathUtils.cpp">
@@ -274,7 +274,7 @@
     <ClCompile Include="..\ouzel\math\Quaternion.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\AABB3.cpp">
+    <ClCompile Include="..\ouzel\math\Box3.cpp">
       <Filter>math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\OBF.cpp">
@@ -463,7 +463,7 @@
     <ClInclude Include="..\ouzel\localization\Language.h">
       <Filter>localization</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\AABB2.h">
+    <ClInclude Include="..\ouzel\math\Box2.h">
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\MathUtils.h">
@@ -646,7 +646,7 @@
     <ClInclude Include="..\ouzel\math\Quaternion.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\AABB3.h">
+    <ClInclude Include="..\ouzel\math\Box3.h">
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\OBF.h">

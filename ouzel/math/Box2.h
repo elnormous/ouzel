@@ -10,24 +10,24 @@
 
 namespace ouzel
 {
-    class AABB2
+    class Box2
     {
     public:
         Vector2 min;
         Vector2 max;
 
-        AABB2():
+        Box2():
             min(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
             max(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest())
         {
         }
 
-        AABB2(const Vector2& aMin, const Vector2& aMax):
+        Box2(const Vector2& aMin, const Vector2& aMax):
             min(aMin), max(aMax)
         {
         }
 
-        AABB2(const AABB2& box):
+        Box2(const Box2& box):
             min(box.min), max(box.max)
         {
         }
@@ -40,7 +40,7 @@ namespace ouzel
 
         void getCorners(Vector2* dst) const;
 
-        bool intersects(const AABB2& aabb) const
+        bool intersects(const Box2& aabb) const
         {
             return !(aabb.min.v[0] > max.v[0] ||
                      aabb.max.v[0] < min.v[0] ||
@@ -57,7 +57,7 @@ namespace ouzel
             return true;
         }
 
-        void merge(const AABB2& box);
+        void merge(const Box2& box);
 
         void set(const Vector2& newMin, const Vector2& newMax)
         {
@@ -84,28 +84,28 @@ namespace ouzel
             if (point.v[1] > max.v[1]) max.v[1] = point.v[1];
         }
 
-        inline AABB2 operator+(const Vector2& v) const
+        inline Box2 operator+(const Vector2& v) const
         {
-            AABB2 result(*this);
+            Box2 result(*this);
             result += v;
             return result;
         }
 
-        inline AABB2& operator+=(const Vector2& v)
+        inline Box2& operator+=(const Vector2& v)
         {
             min += v;
             max += v;
             return *this;
         }
 
-        inline AABB2 operator-(const Vector2& v) const
+        inline Box2 operator-(const Vector2& v) const
         {
-            AABB2 result(*this);
+            Box2 result(*this);
             result -= v;
             return result;
         }
 
-        inline AABB2& operator-=(const Vector2& v)
+        inline Box2& operator-=(const Vector2& v)
         {
             min -= v;
             max -= v;

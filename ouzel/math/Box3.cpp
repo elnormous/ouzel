@@ -2,17 +2,17 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "AABB3.h"
-#include "AABB2.h"
+#include "Box3.h"
+#include "Box2.h"
 
 namespace ouzel
 {
-    AABB3::AABB3(const AABB2& box):
+    Box3::Box3(const Box2& box):
         min(box.min), max(box.max)
     {
     }
 
-    AABB3& AABB3::operator=(const AABB2& box)
+    Box3& Box3::operator=(const Box2& box)
     {
         min = box.min;
         max = box.max;
@@ -20,7 +20,7 @@ namespace ouzel
         return *this;
     }
 
-    void AABB3::getCorners(Vector3* dst) const
+    void Box3::getCorners(Vector3* dst) const
     {
         // Near face, specified counter-clockwise looking towards the origin from the positive z-axis.
         // Left-bottom-front.
@@ -41,7 +41,7 @@ namespace ouzel
         dst[3].set(min.v[0], max.v[1], max.v[2]);
     }
 
-    void AABB3::merge(const AABB3& box)
+    void Box3::merge(const Box3& box)
     {
         // Calculate the new minimum point.
         min.v[0] = std::min(min.v[0], box.min.v[0]);

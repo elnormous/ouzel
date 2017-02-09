@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include "utils/Types.h"
-#include "math/AABB2.h"
+#include "math/Box2.h"
 #include "math/Rectangle.h"
 #include "graphics/Vertex.h"
 #include "graphics/BlendState.h"
@@ -40,13 +40,13 @@ namespace ouzel
 
             const Rectangle& getRectangle() const { return rectangle; }
 
-            const AABB2& getBoundingBox() const { return boundingBox; }
+            const Box2& getBoundingBox() const { return boundingBox; }
             const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
             const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
-            AABB2 boundingBox;
+            Box2 boundingBox;
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;

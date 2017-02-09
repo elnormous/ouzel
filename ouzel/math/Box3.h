@@ -10,32 +10,32 @@
 
 namespace ouzel
 {
-    class AABB2;
+    class Box2;
 
-    class AABB3
+    class Box3
     {
     public:
         Vector3 min;
         Vector3 max;
 
-        AABB3():
+        Box3():
             min(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()),
             max(std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest())
         {
         }
 
-        AABB3(const Vector3& aMin, const Vector3& aMax):
+        Box3(const Vector3& aMin, const Vector3& aMax):
             min(aMin), max(aMax)
         {
         }
 
-        AABB3(const AABB3& box):
+        Box3(const Box3& box):
             min(box.min), max(box.max)
         {
         }
 
-        AABB3(const AABB2& box);
-        AABB3& operator=(const AABB2& box);
+        Box3(const Box2& box);
+        Box3& operator=(const Box2& box);
 
         Vector3 getCenter()
         {
@@ -46,7 +46,7 @@ namespace ouzel
 
         void getCorners(Vector3* dst) const;
 
-        bool intersects(const AABB3& aabb) const
+        bool intersects(const Box3& aabb) const
         {
             return !(aabb.min.v[0] > max.v[0] ||
                      aabb.max.v[0] < min.v[0] ||
@@ -67,7 +67,7 @@ namespace ouzel
             return true;
         }
 
-        void merge(const AABB3& box);
+        void merge(const Box3& box);
 
         void set(const Vector2& newMin, const Vector2& newMax)
         {
@@ -96,28 +96,28 @@ namespace ouzel
             if (point.v[2] > max.v[2]) max.v[2] = point.v[2];
         }
 
-        inline AABB3 operator+(const Vector3& v) const
+        inline Box3 operator+(const Vector3& v) const
         {
-            AABB3 result(*this);
+            Box3 result(*this);
             result += v;
             return result;
         }
 
-        inline AABB3& operator+=(const Vector3& v)
+        inline Box3& operator+=(const Vector3& v)
         {
             min += v;
             max += v;
             return *this;
         }
 
-        inline AABB3 operator-(const Vector3& v) const
+        inline Box3 operator-(const Vector3& v) const
         {
-            AABB3 result(*this);
+            Box3 result(*this);
             result -= v;
             return result;
         }
 
-        inline AABB3& operator-=(const Vector3& v)
+        inline Box3& operator-=(const Vector3& v)
         {
             min -= v;
             max -= v;

@@ -18,7 +18,6 @@
 #include "math/Matrix4.h"
 #include "math/Size2.h"
 #include "math/Color.h"
-#include "math/AABB2.h"
 #include "graphics/Vertex.h"
 #include "graphics/BlendState.h"
 #include "graphics/MeshBuffer.h"

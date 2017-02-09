@@ -92,8 +92,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/input/Input.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
-	$(ROOT_DIR)/../ouzel/math/AABB2.cpp \
-	$(ROOT_DIR)/../ouzel/math/AABB3.cpp \
+	$(ROOT_DIR)/../ouzel/math/Box2.cpp \
+	$(ROOT_DIR)/../ouzel/math/Box3.cpp \
 	$(ROOT_DIR)/../ouzel/math/Color.cpp \
 	$(ROOT_DIR)/../ouzel/math/MathUtils.cpp \
 	$(ROOT_DIR)/../ouzel/math/Matrix3.cpp \
