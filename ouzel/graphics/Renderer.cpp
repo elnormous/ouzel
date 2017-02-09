@@ -50,6 +50,7 @@ namespace ouzel
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
             depth = newDepth;
+            pendingData.clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();
 
