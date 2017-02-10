@@ -100,7 +100,7 @@ You can build Android samples and run them on an Android device by executing the
 
 ```
 $ ant
-$ adb shell am start -n lv.elviss.ouzel/lv.elviss.ouzel.MainActivity
+$ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity
 ```
 
 ## System requirements

@@ -9,8 +9,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../ouzel
 
 LOCAL_PCH := Prefix.h
 
-LOCAL_SRC_FILES := jni.cpp \
-    ../../AnimationsSample.cpp \
+LOCAL_SRC_FILES := ../../AnimationsSample.cpp \
     ../../Samples.cpp \
     ../../GUISample.cpp \
     ../../GameSample.cpp \
