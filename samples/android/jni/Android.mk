@@ -7,7 +7,7 @@ LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../ouzel
 
-LOCAL_PCH := Prefix.h
+LOCAL_PCH := ../../Prefix.hpp
 
 LOCAL_SRC_FILES := ../../AnimationsSample.cpp \
     ../../Samples.cpp \
