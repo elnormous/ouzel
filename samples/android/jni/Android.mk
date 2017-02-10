@@ -21,7 +21,7 @@ LOCAL_SRC_FILES := ../../AnimationsSample.cpp \
     ../../SpritesSample.cpp \
     ../../RTSample.cpp
 
-LOCAL_STATIC_LIBRARIES := ouzel
+LOCAL_WHOLE_STATIC_LIBRARIES := ouzel
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -lEGL -llog -landroid -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)

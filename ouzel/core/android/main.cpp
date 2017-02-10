@@ -10,79 +10,76 @@
 
 std::unique_ptr<ouzel::ApplicationAndroid> application;
 
-extern "C"
+extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {
-    jint JNI_OnLoad(JavaVM* javaVM, void*)
-    {
-        application.reset(new ouzel::ApplicationAndroid(javaVM));
-        return JNI_VERSION_1_6;
-    }
+    application.reset(new ouzel::ApplicationAndroid(javaVM));
+    return JNI_VERSION_1_6;
+}
 
-    void JNI_OnUnload(JavaVM*, void*)
-    {
-        application.reset();
-    }
+extern "C" JNIEXPORT void JNIEXPORT JNI_OnUnload(JavaVM*, void*)
+{
+    application.reset();
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setMainActivity(JNIEnv*, jclass, jobject mainActivity)
-    {
-        application->setMainActivity(mainActivity);
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setMainActivity(JNIEnv*, jclass, jobject mainActivity)
+{
+    application->setMainActivity(mainActivity);
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setAssetManager(JNIEnv*, jclass, jobject assetManager)
-    {
-        application->setAssetManager(assetManager);
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setAssetManager(JNIEnv*, jclass, jobject assetManager)
+{
+    application->setAssetManager(assetManager);
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setSurface(JNIEnv*, jclass, jobject surface)
-    {
-        application->setSurface(surface);
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setSurface(JNIEnv*, jclass, jobject surface)
+{
+    application->setSurface(surface);
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject surface, jint width, jint height)
-    {
-        application->setSurface(surface);
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject surface, jint width, jint height)
+{
+    application->setSurface(surface);
 
-        if (ouzel::sharedEngine)
-        {
-            ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(ouzel::sharedEngine->getWindow());
-            windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
-        }
-    }
-
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
+    if (ouzel::sharedEngine)
     {
-        application->run();
+        ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(ouzel::sharedEngine->getWindow());
+        windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
     }
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onPause(JNIEnv*, jclass)
-    {
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
+{
+    application->run();
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
-    {
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onPause(JNIEnv*, jclass)
+{
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionDown(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
-    {
-        ouzel::sharedEngine->getInput()->touchBegin(static_cast<uint64_t>(pointerId),
-                                                    ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
+{
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionMove(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
-    {
-        ouzel::sharedEngine->getInput()->touchMove(static_cast<uint64_t>(pointerId),
-                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionDown(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
+{
+    ouzel::sharedEngine->getInput()->touchBegin(static_cast<uint64_t>(pointerId),
+                                                ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionUp(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
-    {
-        ouzel::sharedEngine->getInput()->touchEnd(static_cast<uint64_t>(pointerId),
-                                                  ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionMove(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
+{
+    ouzel::sharedEngine->getInput()->touchMove(static_cast<uint64_t>(pointerId),
+                                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+}
 
-    JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionCancel(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
-    {
-        ouzel::sharedEngine->getInput()->touchCancel(static_cast<uint64_t>(pointerId),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-    }
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionUp(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
+{
+    ouzel::sharedEngine->getInput()->touchEnd(static_cast<uint64_t>(pointerId),
+                                              ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+}
+
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionCancel(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
+{
+    ouzel::sharedEngine->getInput()->touchCancel(static_cast<uint64_t>(pointerId),
+                                                 ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
 }
