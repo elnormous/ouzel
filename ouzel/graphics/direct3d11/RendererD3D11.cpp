@@ -450,8 +450,8 @@ namespace ouzel
                     return false;
                 }
 
-                Renderer::setSize(Size2(static_cast<float>(width),
-                                        static_cast<float>(height)));
+                size = Size2(static_cast<float>(width),
+                             static_cast<float>(height));
             }
 
             dirty = false;
