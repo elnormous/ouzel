@@ -88,7 +88,7 @@ namespace ouzel
 
             if (data.dirty & DATA)
             {
-                data.data = std::move(pendingData.data);
+                data.data = pendingData.data;
             }
 
             return true;
