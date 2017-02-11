@@ -116,8 +116,8 @@ namespace ouzel
             NSUInteger colorFormat = 0;
             NSUInteger depthFormat = 0;
 
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
+            NSUInteger colorBufferLoadAction = 0;
+            NSUInteger depthBufferLoadAction = 0;
 
             dispatch_semaphore_t inflightSemaphore;
 

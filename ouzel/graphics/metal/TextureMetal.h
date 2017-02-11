@@ -35,6 +35,9 @@ namespace ouzel
             NSUInteger getWidth() const { return width; }
             NSUInteger getHeight() const { return height; }
 
+            NSUInteger getColorBufferLoadAction() const { return colorBufferLoadAction; }
+            NSUInteger getDepthBufferLoadAction() const { return depthBufferLoadAction; }
+
         protected:
             virtual bool upload() override;
 
@@ -49,6 +52,9 @@ namespace ouzel
 
             NSUInteger colorFormat = 0;
             NSUInteger depthFormat = 0;
+
+            NSUInteger colorBufferLoadAction = 0;
+            NSUInteger depthBufferLoadAction = 0;
         };
     } // namespace graphics
 } // namespace ouzel

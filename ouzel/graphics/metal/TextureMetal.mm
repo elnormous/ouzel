@@ -75,6 +75,9 @@ namespace ouzel
 
                         if (renderTarget)
                         {
+                            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                            
                             if (!renderPassDescriptor)
                             {
                                 renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];

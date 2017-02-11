@@ -574,15 +574,18 @@ namespace ouzel
         bool RendererOGL::upload()
         {
             clearMask = 0;
-            if (data.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-            if (data.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+            if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+            if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
 
-            frameBufferClearColor[0] = data.clearColor.normR();
-            frameBufferClearColor[1] = data.clearColor.normG();
-            frameBufferClearColor[2] = data.clearColor.normB();
-            frameBufferClearColor[3] = data.clearColor.normA();
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
 
-            data.dirty = false;
+            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+
+            dirty = false;
 
             return true;
         }
@@ -611,8 +614,8 @@ namespace ouzel
                     }
 
                     if (!setViewport(0, 0,
-                                     static_cast<GLsizei>(data.size.v[0]),
-                                     static_cast<GLsizei>(data.size.v[1])))
+                                     frameBufferWidth,
+                                     frameBufferHeight))
                     {
                         return false;
                     }
@@ -1017,13 +1020,11 @@ namespace ouzel
         {
             bindFrameBuffer(frameBufferId);
 
-            const GLsizei width = static_cast<GLsizei>(data.size.v[0]);
-            const GLsizei height = static_cast<GLsizei>(data.size.v[1]);
             const GLsizei depth = 4;
 
-            std::vector<uint8_t> data(static_cast<size_t>(width * height * depth));
+            std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * depth));
 
-            glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+            glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
             if (checkOpenGLError())
             {
@@ -1032,20 +1033,20 @@ namespace ouzel
             }
 
             uint8_t temp;
-            for (GLsizei row = 0; row < height / 2; ++row)
+            for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
             {
-                for (GLsizei col = 0; col < width; ++col)
+                for (GLsizei col = 0; col < frameBufferWidth; ++col)
                 {
                     for (GLsizei z = 0; z < depth; ++z)
                     {
-                        temp = data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)];
-                        data[static_cast<size_t>(((height - row - 1) * width + col) * depth + z)] = data[static_cast<size_t>((row * width + col) * depth + z)];
-                        data[static_cast<size_t>((row * width + col) * depth + z)] = temp;
+                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)];
+                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
+                        data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)] = temp;
                     }
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), width, height, depth, data.data(), width * depth))
+            if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, depth, data.data(), frameBufferWidth * depth))
             {
                 Log(Log::Level::ERR) << "Failed to save image to file";
                 return false;

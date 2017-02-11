@@ -44,13 +44,13 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
             
             window = newWindow;
-            pendingData.size = newSize;
+            size = newSize;
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
             depth = newDepth;
-            pendingData.clearColor = Color::BLACK;
+            clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();
 
@@ -86,25 +86,15 @@ namespace ouzel
             }
 
             {
-
                 std::lock_guard<std::mutex> lock(uploadMutex);
 
-                data.dirty = pendingData.dirty;
-                pendingData.dirty = false;
-
-                if (data.dirty)
+                if (dirty && !upload())
                 {
-                    data.size = pendingData.size;
-                    data.clearColor = pendingData.clearColor;
-                    data.clearColorBuffer = pendingData.clearColorBuffer;
-                    data.clearDepthBuffer = pendingData.clearDepthBuffer;
+                    return false;
                 }
             }
 
-            if (data.dirty && !upload())
-            {
-                return false;
-            }
+
 
             std::vector<DrawCommand> drawCommands;
             {
@@ -178,34 +168,34 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearColorBuffer = clear;
-            pendingData.dirty = true;
+            clearColorBuffer = clear;
+            dirty = true;
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearDepthBuffer = clear;
-            pendingData.dirty = true;
+            clearDepthBuffer = clear;
+            dirty = true;
         }
 
         void Renderer::setClearColor(Color color)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearColor = color;
-            pendingData.dirty = true;
+            clearColor = color;
+            dirty = true;
         }
 
         void Renderer::setSize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (pendingData.size != newSize)
+            if (size != newSize)
             {
-                pendingData.size = newSize;
-                pendingData.dirty = true;
+                size = newSize;
+                dirty = true;
             }
         }
 

@@ -316,15 +316,15 @@ namespace ouzel
 
         bool RendererMetal::upload()
         {
-            clearColorBuffer = data.clearColorBuffer;
-            clearDepthBuffer = data.clearDepthBuffer;
+            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(data.clearColor.normR(),
-                                                                                    data.clearColor.normG(),
-                                                                                    data.clearColor.normB(),
-                                                                                    data.clearColor.normA());
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                    clearColor.normG(),
+                                                                                    clearColor.normB(),
+                                                                                    clearColor.normA());
 
-            data.dirty = false;
+            dirty = false;
 
             return true;
         }
@@ -448,15 +448,15 @@ namespace ouzel
                     [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
                 }
 
-                currentRenderPassDescriptor.colorAttachments[0].loadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
-                currentRenderPassDescriptor.depthAttachment.loadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = static_cast<MTLLoadAction>(colorBufferLoadAction);
+                currentRenderPassDescriptor.depthAttachment.loadAction = static_cast<MTLLoadAction>(depthBufferLoadAction);
             }
             else for (const DrawCommand& drawCommand : drawCommands)
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                 PipelineStateDesc pipelineStateDesc;
-                bool newClearColorBuffer = false;
-                bool newClearDepthBuffer = false;
+                MTLLoadAction newColorBufferLoadAction = MTLLoadActionDontCare;
+                MTLLoadAction newDepthBufferLoadAction = MTLLoadActionDontCare;
 
                 viewport = {
                     static_cast<double>(drawCommand.viewport.position.v[0]),
@@ -491,8 +491,8 @@ namespace ouzel
                     if (renderTargetMetal->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetMetal->setFrameBufferClearedFrame(currentFrame);
-                        newClearColorBuffer = renderTargetMetal->getClearColorBuffer();
-                        newClearDepthBuffer = renderTargetMetal->getClearDepthBuffer();
+                        newColorBufferLoadAction = static_cast<MTLLoadAction>(renderTargetMetal->getColorBufferLoadAction());
+                        newDepthBufferLoadAction = static_cast<MTLLoadAction>(renderTargetMetal->getDepthBufferLoadAction());
                     }
                 }
                 else
@@ -511,8 +511,8 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        newClearColorBuffer = clearColorBuffer;
-                        newClearDepthBuffer = clearDepthBuffer;
+                        newColorBufferLoadAction = static_cast<MTLLoadAction>(colorBufferLoadAction);
+                        newDepthBufferLoadAction = static_cast<MTLLoadAction>(depthBufferLoadAction);
                     }
                 }
 
@@ -524,8 +524,8 @@ namespace ouzel
                         return false;
                     }
 
-                    currentRenderPassDescriptor.colorAttachments[0].loadAction = newClearColorBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
-                    currentRenderPassDescriptor.depthAttachment.loadAction = newClearDepthBuffer ? MTLLoadActionClear : MTLLoadActionLoad;
+                    currentRenderPassDescriptor.colorAttachments[0].loadAction = newColorBufferLoadAction;
+                    currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
                 }
 
                 [currentRenderCommandEncoder setViewport: viewport];

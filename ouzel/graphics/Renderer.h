@@ -77,17 +77,17 @@ namespace ouzel
             Driver getDriver() const { return driver; }
 
             void setClearColorBuffer(bool clear);
-            bool getClearColorBuffer() const { return pendingData.clearColorBuffer; }
+            bool getClearColorBuffer() const { return clearColorBuffer; }
 
             void setClearDepthBuffer(bool clear);
-            bool getClearDepthBuffer() const { return pendingData.clearDepthBuffer; }
+            bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             void setClearColor(Color color);
-            Color getClearColor() const { return pendingData.clearColor; }
+            Color getClearColor() const { return clearColor; }
 
             virtual bool process();
 
-            const Size2& getSize() const { return pendingData.size; }
+            const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
             Texture::Filter getTextureFilter() const { return textureFilter; }
 
@@ -122,14 +122,14 @@ namespace ouzel
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] / pendingData.size.v[0],
-                               1.0f - (position.v[1] / pendingData.size.v[1]));
+                return Vector2(position.v[0] / size.v[0],
+                               1.0f - (position.v[1] / size.v[1]));
             }
 
             Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
-                return Vector2(position.v[0] * pendingData.size.v[0],
-                               (1.0f - position.v[1]) * pendingData.size.v[1]);
+                return Vector2(position.v[0] * size.v[0],
+                               (1.0f - position.v[1]) * size.v[1]);
             }
 
             virtual bool saveScreenshot(const std::string& filename);
@@ -207,16 +207,12 @@ namespace ouzel
             Matrix4 projectionTransform;
             Matrix4 renderTargetProjectionTransform;
 
-            struct Data
-            {
-                bool dirty = false;
-                Size2 size;
-                Color clearColor;
-                bool clearColorBuffer = true;
-                bool clearDepthBuffer = false;
-            };
-
-            Data data;
+            bool dirty = false;
+            Size2 size;
+            Color clearColor;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            std::mutex uploadMutex;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
@@ -241,9 +237,6 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
-
-            std::mutex uploadMutex;
-            Data pendingData;
         };
     } // namespace graphics
 } // namespace ouzel

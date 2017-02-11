@@ -526,6 +526,8 @@ namespace ouzel
             void* getProcAddress(const std::string& name) const;
 
             GLuint frameBufferId = 0;
+            GLsizei frameBufferWidth = 0;
+            GLsizei frameBufferHeight = 0;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
