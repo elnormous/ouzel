@@ -17,8 +17,11 @@ namespace ouzel
 {
     namespace graphics
     {
+        class MeshBufferMetal;
+
         class BufferMetal: public BufferResource
         {
+            friend MeshBufferMetal;
         public:
             BufferMetal();
             virtual ~BufferMetal();

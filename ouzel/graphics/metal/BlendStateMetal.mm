@@ -49,22 +49,19 @@ namespace ouzel
 
         bool BlendStateMetal::upload()
         {
-            if (!BlendStateResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
-                rgbBlendOperation = getBlendOperation(data.colorOperation);
-                alphaBlendOperation = getBlendOperation(data.alphaOperation);
-                sourceRGBBlendFactor = getBlendFactor(data.colorBlendSource);
-                destinationRGBBlendFactor = getBlendFactor(data.colorBlendDest);
-                sourceAlphaBlendFactor = getBlendFactor(data.alphaBlendSource);
-                destinationAlphaBlendFactor = getBlendFactor(data.alphaBlendDest);
-                metalBlendingEnabled = data.enableBlending;
+                rgbBlendOperation = getBlendOperation(colorOperation);
+                alphaBlendOperation = getBlendOperation(alphaOperation);
+                sourceRGBBlendFactor = getBlendFactor(colorBlendSource);
+                destinationRGBBlendFactor = getBlendFactor(colorBlendDest);
+                sourceAlphaBlendFactor = getBlendFactor(alphaBlendSource);
+                destinationAlphaBlendFactor = getBlendFactor(alphaBlendDest);
+                metalBlendingEnabled = enableBlending;
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

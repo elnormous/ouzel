@@ -10,5 +10,10 @@ namespace ouzel
         TextureEmpty::TextureEmpty()
         {
         }
+
+        bool TextureEmpty::upload()
+        {
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

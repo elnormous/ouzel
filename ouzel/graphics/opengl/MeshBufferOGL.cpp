@@ -35,18 +35,25 @@ namespace ouzel
             }
             else
             {
-                // TODO: return false for OpenGL 3.1 and up 
+                // TODO: return false for OpenGL 3.1 and up
+                if (!indexBufferOGL || !indexBufferOGL->getBufferId())
+                {
+                    Log(Log::Level::ERR) << "Index buffer not initialized";
+                    return false;
+                }
 
-                BufferOGL* indexBufferOGL = static_cast<BufferOGL*>(data.indexBuffer);
-
-                if (!indexBufferOGL || !indexBufferOGL->bindBuffer())
+                if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                 {
                     return false;
                 }
 
-                BufferOGL* vertexBufferOGL = static_cast<BufferOGL*>(data.vertexBuffer);
+                if (!vertexBufferOGL || !vertexBufferOGL->getBufferId())
+                {
+                    Log(Log::Level::ERR) << "Vertex buffer not initialized";
+                    return false;
+                }
 
-                if (!vertexBufferOGL || !vertexBufferOGL->bindBuffer())
+                if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                 {
                     return false;
                 }
@@ -177,14 +184,11 @@ namespace ouzel
 
         bool MeshBufferOGL::upload()
         {
-            if (!MeshBufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
-                switch (data.indexSize)
+                switch (indexSize)
                 {
                     case 2:
                         indexType = GL_UNSIGNED_SHORT;
@@ -205,19 +209,19 @@ namespace ouzel
 
                 GLuint offset = 0;
 
-                for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
+                for (const VertexAttribute& vertexAttribute : vertexAttributes)
                 {
                     GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
 
                     vertexAttribs.push_back({
                         getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
-                        static_cast<GLsizei>(data.vertexSize),
+                        static_cast<GLsizei>(vertexSize),
                         reinterpret_cast<const GLvoid*>(offset)
                     });
                     offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
-                if (offset != data.vertexSize)
+                if (offset != vertexSize)
                 {
                     Log(Log::Level::ERR) << "Invalid vertex size";
                     return false;
@@ -233,14 +237,14 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to create vertex array";
                 }
 
-                BufferOGL* indexBufferOGL = static_cast<BufferOGL*>(data.indexBuffer);
+                indexBufferOGL = static_cast<BufferOGL*>(indexBuffer);
 
                 if (indexBufferOGL && !indexBufferOGL->upload())
                 {
                     return false;
                 }
 
-                BufferOGL* vertexBufferOGL = static_cast<BufferOGL*>(data.vertexBuffer);
+                vertexBufferOGL = static_cast<BufferOGL*>(vertexBuffer);
 
                 if (vertexBufferOGL && !vertexBufferOGL->upload())
                 {
@@ -251,14 +255,17 @@ namespace ouzel
                 {
                     RendererOGL::bindVertexArray(vertexArrayId);
 
-                    if (indexBufferOGL && !indexBufferOGL->bindBuffer())
+                    if (indexBufferOGL && indexBufferOGL->getBufferId())
                     {
-                        return false;
+                        if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                        {
+                            return false;
+                        }
                     }
 
-                    if (vertexBufferOGL)
+                    if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                     {
-                        if (!vertexBufferOGL->bindBuffer())
+                        if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                         {
                             return false;
                         }
@@ -289,7 +296,7 @@ namespace ouzel
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

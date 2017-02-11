@@ -25,21 +25,20 @@ namespace ouzel
             bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                       const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer);
 
-            uint32_t getIndexSize() const { return data.indexSize; }
+            uint32_t getIndexSize() const { return indexSize; }
             bool setIndexSize(uint32_t newIndexSize);
 
-            BufferResource* getIndexBuffer() const { return data.indexBuffer; }
+            BufferResource* getIndexBuffer() const { return indexBuffer; }
             bool setIndexBuffer(BufferResource* newIndexBuffer);
 
-            uint32_t getVertexSize() const { return data.vertexSize; }
+            uint32_t getVertexSize() const { return vertexSize; }
             bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
 
-            BufferResource* getVertexBuffer() const { return data.vertexBuffer; }
+            BufferResource* getVertexBuffer() const { return vertexBuffer; }
             bool setVertexBuffer(BufferResource* newVertexBuffer);
 
         protected:
             MeshBufferResource();
-            virtual bool upload() override;
 
             enum Dirty
             {
@@ -49,20 +48,13 @@ namespace ouzel
                 VERTEX_BUFFER = 0x08
             };
 
-            struct Data
-            {
-                uint32_t dirty = 0;
-                uint32_t indexSize = 0;
-                BufferResource* indexBuffer = nullptr;
-                std::vector<VertexAttribute> vertexAttributes;
-                uint32_t vertexSize = 0;
-                BufferResource* vertexBuffer = nullptr;
-            };
+            uint32_t dirty = 0;
+            uint32_t indexSize = 0;
+            BufferResource* indexBuffer = nullptr;
+            std::vector<VertexAttribute> vertexAttributes;
+            uint32_t vertexSize = 0;
+            BufferResource* vertexBuffer = nullptr;
 
-            Data data;
-
-        private:
-            Data pendingData;
             std::mutex uploadMutex;
         };
     } // namespace graphics

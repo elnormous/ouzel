@@ -13,6 +13,8 @@ namespace ouzel
         {
         public:
             MeshBufferEmpty();
+
+            virtual bool upload() override;
         };
     } // namespace graphics
 } // namespace ouzel

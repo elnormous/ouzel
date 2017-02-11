@@ -26,11 +26,10 @@ namespace ouzel
 
             bool setData(const void* newData, uint32_t newSize);
 
-            Buffer::Usage getUsage() const { return data.usage; }
+            Buffer::Usage getUsage() const { return usage; }
 
         protected:
             BufferResource();
-            virtual bool upload() override;
 
             enum Dirty
             {
@@ -38,18 +37,11 @@ namespace ouzel
                 DATA = 0x02
             };
 
-            struct Data
-            {
-                uint32_t dirty = 0;
-                std::vector<uint8_t> data;
-                Buffer::Usage usage;
-                bool dynamic = true;
-            };
+            uint32_t dirty = 0;
+            std::vector<uint8_t> data;
+            Buffer::Usage usage;
+            bool dynamic = true;
 
-            Data data;
-
-        private:
-            Data pendingData;
             std::mutex uploadMutex;
         };
     } // namespace graphics

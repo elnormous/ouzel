@@ -25,22 +25,19 @@ namespace ouzel
 
         bool BufferMetal::upload()
         {
-            if (!BufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-                if (!data.data.empty())
+                if (!data.empty())
                 {
-                    if (!buffer || data.data.size() > bufferSize)
+                    if (!buffer || data.size() > bufferSize)
                     {
                         if (buffer) [buffer release];
 
-                        bufferSize = static_cast<uint32_t>(data.data.size());
+                        bufferSize = static_cast<uint32_t>(data.size());
 
                         buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                          options:MTLResourceCPUCacheModeWriteCombined];
@@ -52,10 +49,10 @@ namespace ouzel
                         }
                     }
 
-                    std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>([buffer contents]));
+                    std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

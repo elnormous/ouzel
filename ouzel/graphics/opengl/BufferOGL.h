@@ -40,7 +40,6 @@ namespace ouzel
             GLuint getBufferType() const { return bufferType; }
 
         protected:
-            bool bindBuffer();
             virtual bool upload() override;
 
             GLuint bufferId = 0;

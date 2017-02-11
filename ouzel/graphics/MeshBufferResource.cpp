@@ -22,18 +22,18 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.indexSize = newIndexSize;
-            pendingData.indexBuffer = newIndexBuffer;
-            pendingData.vertexAttributes = newVertexAttributes;
-            pendingData.vertexBuffer = newVertexBuffer;
-            pendingData.vertexSize = 0;
+            indexSize = newIndexSize;
+            indexBuffer = newIndexBuffer;
+            vertexAttributes = newVertexAttributes;
+            vertexBuffer = newVertexBuffer;
+            vertexSize = 0;
 
-            for (const VertexAttribute& vertexAttribute : pendingData.vertexAttributes)
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
             {
-                pendingData.vertexSize += getDataTypeSize(vertexAttribute.dataType);
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            pendingData.dirty |= INDEX_ATTRIBUTES | INDEX_BUFFER | VERTEX_ATTRIBUTES | VERTEX_BUFFER;
+            dirty |= INDEX_ATTRIBUTES | INDEX_BUFFER | VERTEX_ATTRIBUTES | VERTEX_BUFFER;
 
             return true;
         }
@@ -42,9 +42,9 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.indexSize = newIndexSize;
+            indexSize = newIndexSize;
 
-            pendingData.dirty |= INDEX_ATTRIBUTES;
+            dirty |= INDEX_ATTRIBUTES;
 
             return true;
         }
@@ -53,15 +53,15 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.vertexAttributes = newVertexAttributes;
-            pendingData.vertexSize = 0;
+            vertexAttributes = newVertexAttributes;
+            vertexSize = 0;
 
-            for (const VertexAttribute& vertexAttribute : pendingData.vertexAttributes)
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
             {
-                pendingData.vertexSize += getDataTypeSize(vertexAttribute.dataType);
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            pendingData.dirty |= VERTEX_ATTRIBUTES;
+            dirty |= VERTEX_ATTRIBUTES;
 
             return true;
         }
@@ -75,9 +75,9 @@ namespace ouzel
                 return false;
             }
 
-            pendingData.indexBuffer = newIndexBuffer;
+            indexBuffer = newIndexBuffer;
 
-            pendingData.dirty |= INDEX_BUFFER;
+            dirty |= INDEX_BUFFER;
 
             return true;
         }
@@ -91,29 +91,10 @@ namespace ouzel
                 return false;
             }
 
-            pendingData.vertexBuffer = newVertexBuffer;
+            vertexBuffer = newVertexBuffer;
             
-            pendingData.dirty |= VERTEX_BUFFER;
+            dirty |= VERTEX_BUFFER;
 
-            return true;
-        }
-
-        bool MeshBufferResource::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            data.dirty |= pendingData.dirty;
-            pendingData.dirty = 0;
-
-            if (data.dirty)
-            {
-                data.indexSize = pendingData.indexSize;
-                data.indexBuffer = pendingData.indexBuffer;
-                data.vertexAttributes = pendingData.vertexAttributes;
-                data.vertexSize = pendingData.vertexSize;
-                data.vertexBuffer = pendingData.vertexBuffer;
-            }
-            
             return true;
         }
     } // namespace graphics

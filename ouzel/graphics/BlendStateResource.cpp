@@ -23,36 +23,15 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
             
-            pendingData.enableBlending = newEnableBlending;
-            pendingData.colorBlendSource = newColorBlendSource;
-            pendingData.colorBlendDest = newColorBlendDest;
-            pendingData.colorOperation = newColorOperation;
-            pendingData.alphaBlendSource = newAlphaBlendSource;
-            pendingData.alphaBlendDest = newAlphaBlendDest;
-            pendingData.alphaOperation = newAlphaOperation;
+            enableBlending = newEnableBlending;
+            colorBlendSource = newColorBlendSource;
+            colorBlendDest = newColorBlendDest;
+            colorOperation = newColorOperation;
+            alphaBlendSource = newAlphaBlendSource;
+            alphaBlendDest = newAlphaBlendDest;
+            alphaOperation = newAlphaOperation;
 
-            pendingData.dirty |= 0x01;
-
-            return true;
-        }
-
-        bool BlendStateResource::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            data.dirty |= pendingData.dirty;
-            pendingData.dirty = 0;
-
-            if (data.dirty)
-            {
-                data.colorBlendSource = pendingData.colorBlendSource;
-                data.colorBlendDest = pendingData.colorBlendDest;
-                data.colorOperation = pendingData.colorOperation;
-                data.alphaBlendSource = pendingData.alphaBlendSource;
-                data.alphaBlendDest = pendingData.alphaBlendDest;
-                data.alphaOperation = pendingData.alphaOperation;
-                data.enableBlending = pendingData.enableBlending;
-            }
+            dirty |= 0x01;
 
             return true;
         }

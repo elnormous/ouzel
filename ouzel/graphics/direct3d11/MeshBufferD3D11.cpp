@@ -18,14 +18,11 @@ namespace ouzel
 
         bool MeshBufferD3D11::upload()
         {
-            if (!MeshBufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
-                switch (data.indexSize)
+                switch (indexSize)
                 {
                 case 2:
                     indexFormat = DXGI_FORMAT_R16_UINT;
@@ -39,7 +36,10 @@ namespace ouzel
                     return false;
                 }
 
-                data.dirty = 0;
+                indexBufferD3D11 = static_cast<BufferD3D11*>(indexBuffer);
+                vertexBufferD3D11 = static_cast<BufferD3D11*>(vertexBuffer);
+
+                dirty = 0;
             }
 
             return true;

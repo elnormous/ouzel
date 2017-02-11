@@ -663,6 +663,8 @@ namespace ouzel
                 }
 
                 // textures
+                bool texturesValid = true;
+
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     TextureMetal* textureMetal = nullptr;
@@ -676,7 +678,8 @@ namespace ouzel
                     {
                         if (!textureMetal->getTexture())
                         {
-                            return false;
+                            texturesValid = false;
+                            break;
                         }
 
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
@@ -688,21 +691,23 @@ namespace ouzel
                     }
                 }
 
-                // mesh buffer
-                MeshBufferMetal* meshBufferMetal = static_cast<MeshBufferMetal*>(drawCommand.meshBuffer);
-
-                if (!meshBufferMetal)
+                if (!texturesValid)
                 {
-                    // don't render if invalid mesh buffer
                     continue;
                 }
 
-                BufferMetal* indexBufferMetal = static_cast<BufferMetal*>(meshBufferMetal->getIndexBuffer());
-                BufferMetal* vertexBufferMetal = static_cast<BufferMetal*>(meshBufferMetal->getVertexBuffer());
+                // mesh buffer
+                MeshBufferMetal* meshBufferMetal = static_cast<MeshBufferMetal*>(drawCommand.meshBuffer);
+                BufferMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
+                BufferMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
 
-                if (!indexBufferMetal || !indexBufferMetal->getBuffer() ||
-                    !vertexBufferMetal || !vertexBufferMetal->getBuffer())
+                if (!meshBufferMetal ||
+                    !indexBufferMetal ||
+                    !vertexBufferMetal ||
+                    !indexBufferMetal->getBuffer() ||
+                    !vertexBufferMetal->getBuffer())
                 {
+                    // don't render if invalid mesh buffer
                     continue;
                 }
 

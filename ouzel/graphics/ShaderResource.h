@@ -36,33 +36,25 @@ namespace ouzel
                                  const std::string& pixelShaderFunction = "",
                                  const std::string& vertexShaderFunction = "");
 
-            const std::vector<VertexAttribute>& getVertexAttributes() const { return data.vertexAttributes; }
+            const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
 
         protected:
             ShaderResource();
-            virtual bool upload() override;
 
-            struct Data
-            {
-                uint32_t dirty = 0;
-                
-                std::vector<VertexAttribute> vertexAttributes;
+            uint32_t dirty = 0;
+            
+            std::vector<VertexAttribute> vertexAttributes;
 
-                std::vector<uint8_t> pixelShaderData;
-                std::vector<uint8_t> vertexShaderData;
-                std::string pixelShaderFunction;
-                std::string vertexShaderFunction;
+            std::vector<uint8_t> pixelShaderData;
+            std::vector<uint8_t> vertexShaderData;
+            std::string pixelShaderFunction;
+            std::string vertexShaderFunction;
 
-                std::vector<Shader::ConstantInfo> pixelShaderConstantInfo;
-                uint32_t pixelShaderAlignment = 0;
-                std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
-                uint32_t vertexShaderAlignment = 0;
-            };
+            std::vector<Shader::ConstantInfo> pixelShaderConstantInfo;
+            uint32_t pixelShaderAlignment = 0;
+            std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+            uint32_t vertexShaderAlignment = 0;
 
-            Data data;
-
-        private:
-            Data pendingData;
             std::mutex uploadMutex;
         };
     } // namespace graphics

@@ -24,28 +24,25 @@ namespace ouzel
 
         bool BufferD3D11::upload()
         {
-            if (!BufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
             if (data.dirty)
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (!data.data.empty())
+                if (!data.empty())
                 {
-                    if (!buffer || data.data.size() > bufferSize)
+                    if (!buffer || data.size() > bufferSize)
                     {
                         if (buffer) buffer->Release();
 
-                        bufferSize = static_cast<UINT>(data.data.size());
+                        bufferSize = static_cast<UINT>(data.size());
 
                         D3D11_BUFFER_DESC bufferDesc;
                         bufferDesc.ByteWidth = bufferSize;
-                        bufferDesc.Usage = data.dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                        bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
 
-                        switch (data.usage)
+                        switch (usage)
                         {
                             case Buffer::Usage::INDEX:
                                 bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -58,12 +55,12 @@ namespace ouzel
                                 return false;
                         }
                     
-                        bufferDesc.CPUAccessFlags = data.dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                        bufferDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
                         bufferDesc.MiscFlags = 0;
                         bufferDesc.StructureByteStride = 0;
 
                         D3D11_SUBRESOURCE_DATA bufferResourceData;
-                        bufferResourceData.pSysMem = data.data.data();
+                        bufferResourceData.pSysMem = data.data();
                         bufferResourceData.SysMemPitch = 0;
                         bufferResourceData.SysMemSlicePitch = 0;
 
@@ -84,13 +81,13 @@ namespace ouzel
                             return false;
                         }
 
-                        std::copy(data.data.begin(), data.data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
+                        std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
 
                         rendererD3D11->getContext()->Unmap(buffer, 0);
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

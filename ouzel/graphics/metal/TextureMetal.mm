@@ -36,35 +36,32 @@ namespace ouzel
 
         bool TextureMetal::upload()
         {
-            if (!TextureResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-                if (data.size.v[0] > 0 &&
-                    data.size.v[1] > 0)
+                if (size.v[0] > 0 &&
+                    size.v[1] > 0)
                 {
                     if (!texture ||
-                        static_cast<NSUInteger>(data.size.v[0]) != width ||
-                        static_cast<NSUInteger>(data.size.v[1]) != height)
+                        static_cast<NSUInteger>(size.v[0]) != width ||
+                        static_cast<NSUInteger>(size.v[1]) != height)
                     {
                         if (texture) [texture release];
 
-                        width = static_cast<NSUInteger>(data.size.v[0]);
-                        height = static_cast<NSUInteger>(data.size.v[1]);
+                        width = static_cast<NSUInteger>(size.v[0]);
+                        height = static_cast<NSUInteger>(size.v[1]);
 
                         if (width > 0 && height > 0)
                         {
                             MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
                                                                                                                          width:width
                                                                                                                         height:height
-                                                                                                                     mipmapped:data.mipmaps ? YES : NO];
+                                                                                                                     mipmapped:mipmaps ? YES : NO];
                             textureDescriptor.textureType = MTLTextureType2D;
-                            textureDescriptor.usage = MTLTextureUsageShaderRead | (data.renderTarget ? MTLTextureUsageRenderTarget : 0);
+                            textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
                             colorFormat = textureDescriptor.pixelFormat;
 
                             texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
@@ -76,7 +73,7 @@ namespace ouzel
                             }
                         }
 
-                        if (data.renderTarget)
+                        if (renderTarget)
                         {
                             if (!renderPassDescriptor)
                             {
@@ -90,22 +87,22 @@ namespace ouzel
                             }
 
                             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(data.clearColor.normR(),
-                                                                                                    data.clearColor.normG(),
-                                                                                                    data.clearColor.normB(),
-                                                                                                    data.clearColor.normA());
+                            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                                    clearColor.normG(),
+                                                                                                    clearColor.normB(),
+                                                                                                    clearColor.normA());
 
-                            if (data.sampleCount > 1)
+                            if (sampleCount > 1)
                             {
                                 if (msaaTexture) [msaaTexture release];
 
                                 MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                width:static_cast<NSUInteger>(data.size.v[0])
-                                                                                                               height:static_cast<NSUInteger>(data.size.v[1])
+                                                                                                                width:static_cast<NSUInteger>(size.v[0])
+                                                                                                               height:static_cast<NSUInteger>(size.v[1])
                                                                                                             mipmapped:NO];
                                 desc.textureType = MTLTextureType2DMultisample;
                                 desc.storageMode = MTLStorageModePrivate;
-                                desc.sampleCount = data.sampleCount;
+                                desc.sampleCount = sampleCount;
                                 desc.usage = MTLTextureUsageRenderTarget;
 
                                 msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
@@ -126,7 +123,7 @@ namespace ouzel
                                 renderPassDescriptor.colorAttachments[0].texture = texture;
                             }
 
-                            if (data.depth)
+                            if (depth)
                             {
                                 if (depthTexture) [depthTexture release];
 
@@ -136,9 +133,9 @@ namespace ouzel
                                                               texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
                                                               width:width height:height mipmapped:NO];
 
-                                desc.textureType = (data.sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                                desc.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
                                 desc.storageMode = MTLStorageModePrivate;
-                                desc.sampleCount = data.sampleCount;
+                                desc.sampleCount = sampleCount;
                                 desc.usage = MTLTextureUsageRenderTarget;
 
                                 depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:desc];
@@ -158,20 +155,20 @@ namespace ouzel
                         }
                     }
 
-                    for (size_t level = 0; level < data.levels.size(); ++level)
+                    for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!data.levels[level].data.empty())
+                        if (!levels[level].data.empty())
                         {
                             [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                   static_cast<NSUInteger>(data.levels[level].size.v[0]),
-                                                                   static_cast<NSUInteger>(data.levels[level].size.v[1]))
-                                       mipmapLevel:level withBytes:data.levels[level].data.data()
-                                       bytesPerRow:static_cast<NSUInteger>(data.levels[level].pitch)];
+                                                                   static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                                   static_cast<NSUInteger>(levels[level].size.v[1]))
+                                       mipmapLevel:level withBytes:levels[level].data.data()
+                                       bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                         }
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

@@ -668,6 +668,8 @@ namespace ouzel
                 }
 
                 // textures
+                bool texturesValid = true;
+
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     TextureOGL* textureOGL = nullptr;
@@ -681,7 +683,8 @@ namespace ouzel
                     {
                         if (!textureOGL->getTextureId())
                         {
-                            return false;
+                            texturesValid = false;
+                            break;
                         }
 
                         if (!bindTexture(textureOGL->getTextureId(), layer))
@@ -696,6 +699,11 @@ namespace ouzel
                             return false;
                         }
                     }
+                }
+
+                if (!texturesValid)
+                {
+                    continue;
                 }
 
                 // shader
@@ -899,19 +907,16 @@ namespace ouzel
 
                 // mesh buffer
                 MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(drawCommand.meshBuffer);
+                BufferOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
+                BufferOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
 
-                if (!meshBufferOGL)
+                if (!meshBufferOGL ||
+                    !indexBufferOGL ||
+                    !indexBufferOGL->getBufferId() ||
+                    !vertexBufferOGL ||
+                    !vertexBufferOGL->getBufferId())
                 {
                     // don't render if invalid mesh buffer
-                    continue;
-                }
-
-                BufferOGL* indexBufferOGL = static_cast<BufferOGL*>(meshBufferOGL->getIndexBuffer());
-                BufferOGL* vertexBufferOGL = static_cast<BufferOGL*>(meshBufferOGL->getVertexBuffer());
-
-                if (!indexBufferOGL || !indexBufferOGL->getBufferId() ||
-                    !vertexBufferOGL || !vertexBufferOGL->getBufferId())
-                {
                     continue;
                 }
 

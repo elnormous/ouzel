@@ -63,19 +63,16 @@ namespace ouzel
 
         bool ShaderOGL::upload()
         {
-            if (!ShaderResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 if (!pixelShaderId)
                 {
                     pixelShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
 
-                    const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(data.pixelShaderData.data());
-                    GLint pixelShaderSize = static_cast<GLint>(data.pixelShaderData.size());
+                    const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(pixelShaderData.data());
+                    GLint pixelShaderSize = static_cast<GLint>(pixelShaderData.size());
 
                     glShaderSourceProc(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
                     glCompileShaderProc(pixelShaderId);
@@ -99,8 +96,8 @@ namespace ouzel
                 {
                     vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
 
-                    const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(data.vertexShaderData.data());
-                    GLint vertexShaderSize = static_cast<GLint>(data.vertexShaderData.size());
+                    const GLchar* vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
+                    GLint vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
 
                     glShaderSourceProc(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
                     glCompileShaderProc(vertexShaderId);
@@ -124,7 +121,7 @@ namespace ouzel
 
                     GLuint index = 0;
 
-                    for (const VertexAttribute& vertexAttribute : data.vertexAttributes)
+                    for (const VertexAttribute& vertexAttribute : vertexAttributes)
                     {
                         std::string name;
 
@@ -212,12 +209,12 @@ namespace ouzel
                     }
                 }
 
-                if (!data.pixelShaderConstantInfo.empty())
+                if (!pixelShaderConstantInfo.empty())
                 {
                     pixelShaderConstantLocations.clear();
-                    pixelShaderConstantLocations.reserve(data.pixelShaderConstantInfo.size());
+                    pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
 
-                    for (const Shader::ConstantInfo& info : data.pixelShaderConstantInfo)
+                    for (const Shader::ConstantInfo& info : pixelShaderConstantInfo)
                     {
                         GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
@@ -231,12 +228,12 @@ namespace ouzel
                     }
                 }
 
-                if (!data.vertexShaderConstantInfo.empty())
+                if (!vertexShaderConstantInfo.empty())
                 {
                     vertexShaderConstantLocations.clear();
-                    vertexShaderConstantLocations.reserve(data.vertexShaderConstantInfo.size());
+                    vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-                    for (const Shader::ConstantInfo& info : data.vertexShaderConstantInfo)
+                    for (const Shader::ConstantInfo& info : vertexShaderConstantInfo)
                     {
                         GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
@@ -250,7 +247,7 @@ namespace ouzel
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

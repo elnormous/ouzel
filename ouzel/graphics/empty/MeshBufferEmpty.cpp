@@ -10,5 +10,10 @@ namespace ouzel
         MeshBufferEmpty::MeshBufferEmpty()
         {
         }
+
+        bool MeshBufferEmpty::upload()
+        {
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

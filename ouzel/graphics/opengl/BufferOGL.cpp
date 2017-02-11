@@ -22,37 +22,18 @@ namespace ouzel
             }
         }
 
-        bool BufferOGL::bindBuffer()
-        {
-            if (!bufferId)
-            {
-                Log(Log::Level::ERR) << "Buffer not initialized";
-                return false;
-            }
-
-            if (!RendererOGL::bindBuffer(bufferType, bufferId))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         bool BufferOGL::upload()
         {
-            if (!BufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 if (!bufferId)
                 {
                     glGenBuffersProc(1, &bufferId);
                 }
 
-                switch (data.usage)
+                switch (usage)
                 {
                     case Buffer::Usage::INDEX:
                         bufferType = GL_ELEMENT_ARRAY_BUFFER;
@@ -66,7 +47,7 @@ namespace ouzel
                         return false;
                 }
 
-                if (!data.data.empty())
+                if (!data.empty())
                 {
                     RendererOGL::bindVertexArray(0);
 
@@ -75,12 +56,12 @@ namespace ouzel
                         return false;
                     }
 
-                    if (static_cast<GLsizeiptr>(data.data.size()) > bufferSize)
+                    if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
                     {
-                        bufferSize = static_cast<GLsizeiptr>(data.data.size());
+                        bufferSize = static_cast<GLsizeiptr>(data.size());
 
-                        glBufferDataProc(bufferType, bufferSize, data.data.data(),
-                                         data.dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                        glBufferDataProc(bufferType, bufferSize, data.data(),
+                                         dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                         if (RendererOGL::checkOpenGLError())
                         {
@@ -90,7 +71,7 @@ namespace ouzel
                     }
                     else
                     {
-                        glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.data.size()), data.data.data());
+                        glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
                         if (RendererOGL::checkOpenGLError())
                         {
@@ -100,7 +81,7 @@ namespace ouzel
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

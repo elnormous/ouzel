@@ -21,14 +21,11 @@ namespace ouzel
 
         bool MeshBufferMetal::upload()
         {
-            if (!MeshBufferResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
-                switch (data.indexSize)
+                switch (indexSize)
                 {
                     case 2:
                         indexType = MTLIndexTypeUInt16;
@@ -44,7 +41,10 @@ namespace ouzel
                         return false;
                 }
 
-                data.dirty = 0;
+                indexBufferMetal = static_cast<BufferMetal*>(indexBuffer);
+                vertexBufferMetal = static_cast<BufferMetal*>(vertexBuffer);
+
+                dirty = 0;
             }
 
             return true;

@@ -10,5 +10,10 @@ namespace ouzel
         ShaderEmpty::ShaderEmpty()
         {
         }
+
+        bool ShaderEmpty::upload()
+        {
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

@@ -54,24 +54,21 @@ namespace ouzel
 
         bool BlendStateOGL::upload()
         {
-            if (!BlendStateResource::upload())
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (dirty)
             {
-                return false;
-            }
+                modeRGB = getBlendOperation(colorOperation);
+                modeAlpha = getBlendOperation(alphaOperation);
 
-            if (data.dirty)
-            {
-                modeRGB = getBlendOperation(data.colorOperation);
-                modeAlpha = getBlendOperation(data.alphaOperation);
+                sourceFactorRGB = getBlendFactor(colorBlendSource);
+                destFactorRGB = getBlendFactor(colorBlendDest);
+                sourceFactorAlpha = getBlendFactor(alphaBlendDest);
+                destFactorAlpha = getBlendFactor(alphaBlendDest);
 
-                sourceFactorRGB = getBlendFactor(data.colorBlendSource);
-                destFactorRGB = getBlendFactor(data.colorBlendDest);
-                sourceFactorAlpha = getBlendFactor(data.alphaBlendDest);
-                destFactorAlpha = getBlendFactor(data.alphaBlendDest);
+                glBlendEnabled = enableBlending;
 
-                glBlendEnabled = data.enableBlending;
-
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

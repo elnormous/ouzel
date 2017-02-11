@@ -25,18 +25,18 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.dynamic = newDynamic;
-            pendingData.mipmaps = newMipmaps;
-            pendingData.renderTarget = newRenderTarget;
-            pendingData.sampleCount = newSampleCount;
-            pendingData.depth = newDepth;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
+            renderTarget = newRenderTarget;
+            sampleCount = newSampleCount;
+            depth = newDepth;
 
             if (!calculateSizes(newSize))
             {
                 return false;
             }
 
-            pendingData.dirty |= 0x01;
+            dirty |= 0x01;
 
             return true;
         }
@@ -45,18 +45,18 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.dynamic = newDynamic;
-            pendingData.mipmaps = newMipmaps;
-            pendingData.renderTarget = false;
-            pendingData.sampleCount = 1;
-            pendingData.depth = false;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
+            renderTarget = false;
+            sampleCount = 1;
+            depth = false;
 
             if (!calculateData(newData, newSize))
             {
                 return false;
             }
 
-            pendingData.dirty |= 0x01;
+            dirty |= 0x01;
 
             return true;
         }
@@ -65,7 +65,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (!pendingData.dynamic)
+            if (!dynamic)
             {
                 return false;
             }
@@ -80,7 +80,7 @@ namespace ouzel
                 return false;
             }
 
-            pendingData.dirty |= 0x01;
+            dirty |= 0x01;
 
             return true;
         }
@@ -89,7 +89,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (!pendingData.dynamic)
+            if (!dynamic)
             {
                 return false;
             }
@@ -104,25 +104,25 @@ namespace ouzel
                 return false;
             }
 
-            pendingData.dirty |= 0x01;
+            dirty |= 0x01;
 
             return true;
         }
 
         bool TextureResource::calculateSizes(const Size2& newSize)
         {
-            pendingData.levels.clear();
-            pendingData.size = newSize;
+            levels.clear();
+            size = newSize;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
             uint32_t pitch = newWidth * 4;
-            pendingData.levels.push_back({newSize, pitch, std::vector<uint8_t>()});
+            levels.push_back({newSize, pitch, std::vector<uint8_t>()});
 
-            pendingData.mipMapsGenerated = pendingData.mipmaps && !pendingData.renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
 
-            if (pendingData.mipMapsGenerated)
+            if (mipMapsGenerated)
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
@@ -143,7 +143,7 @@ namespace ouzel
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * 4;
 
-                    data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                 }
 
                 if (newWidth > newHeight)
@@ -155,7 +155,7 @@ namespace ouzel
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         pitch = newWidth * 4;
 
-                        data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
                 }
                 else
@@ -165,7 +165,7 @@ namespace ouzel
                         newHeight >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        data.levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
                 }
             }
@@ -253,18 +253,18 @@ namespace ouzel
 
         bool TextureResource::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            pendingData.levels.clear();
-            pendingData.size = newSize;
+            levels.clear();
+            size = newSize;
 
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
             uint32_t pitch = newWidth * 4;
-            pendingData.levels.push_back({newSize, pitch, newData});
+            levels.push_back({newSize, pitch, newData});
 
-            pendingData.mipMapsGenerated = pendingData.mipmaps && !pendingData.renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
+            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
 
-            if (pendingData.mipMapsGenerated)
+            if (mipMapsGenerated)
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
@@ -292,7 +292,7 @@ namespace ouzel
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * 4;
 
-                    pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
+                    levels.push_back({mipMapSize, pitch, mipMapData});
                 }
 
                 if (newWidth > newHeight)
@@ -310,7 +310,7 @@ namespace ouzel
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                         pitch = newWidth * 4;
 
-                        pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
+                        levels.push_back({mipMapSize, pitch, mipMapData});
                     }
                 }
                 else
@@ -329,7 +329,7 @@ namespace ouzel
                         newHeight >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        pendingData.levels.push_back({mipMapSize, pitch, mipMapData});
+                        levels.push_back({mipMapSize, pitch, mipMapData});
                     }
                 }
             }
@@ -341,49 +341,24 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearColorBuffer = clear;
-            pendingData.dirty |= 0x01;
+            clearColorBuffer = clear;
+            dirty |= 0x01;
         }
 
         void TextureResource::setClearDepthBuffer(bool clear)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearColorBuffer = clear;
-            pendingData.dirty |= 0x01;
+            clearColorBuffer = clear;
+            dirty |= 0x01;
         }
 
         void TextureResource::setClearColor(Color color)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.clearColor = color;
-            pendingData.dirty |= 0x01;
-        }
-
-        bool TextureResource::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            data.dirty |= pendingData.dirty;
-            pendingData.dirty = 0;
-
-            if (data.dirty)
-            {
-                data.size = pendingData.size;
-                data.dynamic = pendingData.dynamic;
-                data.mipmaps = pendingData.mipmaps;
-                data.mipMapsGenerated = pendingData.mipMapsGenerated;
-                data.renderTarget = pendingData.renderTarget;
-                data.clearColorBuffer = pendingData.clearColorBuffer;
-                data.clearDepthBuffer = pendingData.clearDepthBuffer;
-                data.levels = std::move(pendingData.levels);
-                data.sampleCount = pendingData.sampleCount;
-                data.depth = pendingData.depth;
-                data.clearColor = pendingData.clearColor;
-            }
-
-            return true;
+            clearColor = color;
+            dirty |= 0x01;
         }
     } // namespace graphics
 } // namespace ouzel

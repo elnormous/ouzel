@@ -35,12 +35,9 @@ namespace ouzel
 
         bool TextureOGL::upload()
         {
-            if (!TextureResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 if (!textureId)
                 {
@@ -63,19 +60,19 @@ namespace ouzel
                 switch (rendererOGL->getTextureFilter())
                 {
                     case Texture::Filter::NONE:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipMapsGenerated ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
                     case Texture::Filter::LINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
                     case Texture::Filter::BILINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
                     case Texture::Filter::TRILINEAR:
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, data.mipMapsGenerated ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                         break;
                 }
@@ -86,24 +83,24 @@ namespace ouzel
                     return false;
                 }
 
-                if (static_cast<GLsizei>(data.size.v[0]) != width ||
-                    static_cast<GLsizei>(data.size.v[1]) != height)
+                if (static_cast<GLsizei>(size.v[0]) != width ||
+                    static_cast<GLsizei>(size.v[1]) != height)
                 {
-                    width = static_cast<GLsizei>(data.size.v[0]);
-                    height = static_cast<GLsizei>(data.size.v[1]);
+                    width = static_cast<GLsizei>(size.v[0]);
+                    height = static_cast<GLsizei>(size.v[1]);
 
-                    for (size_t level = 0; level < data.levels.size(); ++level)
+                    for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!data.levels[level].data.empty())
+                        if (!levels[level].data.empty())
                         {
                             glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
-                                         static_cast<GLsizei>(data.levels[level].size.v[0]),
-                                         static_cast<GLsizei>(data.levels[level].size.v[1]), 0,
-                                         GL_RGBA, GL_UNSIGNED_BYTE, data.levels[level].data.data());
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                         GL_RGBA, GL_UNSIGNED_BYTE, levels[level].data.data());
                         }
                     }
 
-                    if (data.renderTarget)
+                    if (renderTarget)
                     {
                         if (!frameBufferId)
                         {
@@ -117,8 +114,8 @@ namespace ouzel
 
                             clearMask = 0;
 
-                            if (data.clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                            if (data.clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+                            if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+                            if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
                         }
 
                         RendererOGL::bindFrameBuffer(frameBufferId);
@@ -128,17 +125,17 @@ namespace ouzel
                             RendererOGL::bindTexture(textureId, 0);
 
                             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                                         static_cast<GLsizei>(data.size.v[0]),
-                                         static_cast<GLsizei>(data.size.v[1]),
+                                         static_cast<GLsizei>(size.v[0]),
+                                         static_cast<GLsizei>(size.v[1]),
                                          0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-                            if (data.depth)
+                            if (depth)
                             {
                                 glGenRenderbuffersProc(1, &depthBufferId);
                                 glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
                                 glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                          static_cast<GLsizei>(data.size.v[0]),
-                                                          static_cast<GLsizei>(data.size.v[1]));
+                                                          static_cast<GLsizei>(size.v[0]),
+                                                          static_cast<GLsizei>(size.v[1]));
                                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
                             }
 
@@ -157,22 +154,22 @@ namespace ouzel
                             }
                         }
 
-                        frameBufferClearColor[0] = data.clearColor.normR();
-                        frameBufferClearColor[1] = data.clearColor.normG();
-                        frameBufferClearColor[2] = data.clearColor.normB();
-                        frameBufferClearColor[3] = data.clearColor.normA();
+                        frameBufferClearColor[0] = clearColor.normR();
+                        frameBufferClearColor[1] = clearColor.normG();
+                        frameBufferClearColor[2] = clearColor.normB();
+                        frameBufferClearColor[3] = clearColor.normA();
                     }
                 }
                 else
                 {
-                    for (size_t level = 0; level < data.levels.size(); ++level)
+                    for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        if (!data.levels[level].data.empty())
+                        if (!levels[level].data.empty())
                         {
                             glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                            static_cast<GLsizei>(data.levels[level].size.v[0]),
-                                            static_cast<GLsizei>(data.levels[level].size.v[1]),
-                                            GL_RGBA, GL_UNSIGNED_BYTE, data.levels[level].data.data());
+                                            static_cast<GLsizei>(levels[level].size.v[0]),
+                                            static_cast<GLsizei>(levels[level].size.v[1]),
+                                            GL_RGBA, GL_UNSIGNED_BYTE, levels[level].data.data());
 
                             if (RendererOGL::checkOpenGLError())
                             {
@@ -183,7 +180,7 @@ namespace ouzel
                     }
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

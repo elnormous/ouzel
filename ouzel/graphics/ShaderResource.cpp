@@ -27,70 +27,46 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.pixelShaderData = newPixelShader;
-            pendingData.vertexShaderData = newVertexShader;
-            pendingData.vertexAttributes = newVertexAttributes;
-            pendingData.pixelShaderConstantInfo = newPixelShaderConstantInfo;
-            pendingData.vertexShaderConstantInfo = newVertexShaderConstantInfo;
+            pixelShaderData = newPixelShader;
+            vertexShaderData = newVertexShader;
+            vertexAttributes = newVertexAttributes;
+            pixelShaderConstantInfo = newPixelShaderConstantInfo;
+            vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
             if (newPixelShaderDataAlignment)
             {
-                pendingData.pixelShaderAlignment = newPixelShaderDataAlignment;
+                pixelShaderAlignment = newPixelShaderDataAlignment;
             }
             else
             {
-                pendingData.pixelShaderAlignment = 0;
+                pixelShaderAlignment = 0;
 
                 for (const Shader::ConstantInfo& info : newPixelShaderConstantInfo)
                 {
-                    pendingData.pixelShaderAlignment += info.size;
+                    pixelShaderAlignment += info.size;
                 }
             }
 
             if (newVertexShaderDataAlignment)
             {
-                pendingData.vertexShaderAlignment = newVertexShaderDataAlignment;
+                vertexShaderAlignment = newVertexShaderDataAlignment;
             }
             else
             {
-                pendingData.vertexShaderAlignment = 0;
+                vertexShaderAlignment = 0;
 
                 for (const Shader::ConstantInfo& info : newVertexShaderConstantInfo)
                 {
-                    pendingData.vertexShaderAlignment += info.size;
+                    vertexShaderAlignment += info.size;
                 }
             }
 
-            pendingData.pixelShaderFunction = newPixelShaderFunction;
-            pendingData.vertexShaderFunction = newVertexShaderFunction;
+            pixelShaderFunction = newPixelShaderFunction;
+            vertexShaderFunction = newVertexShaderFunction;
 
-            pendingData.dirty |= 0x01;
+            dirty |= 0x01;
 
             return  true;
-        }
-
-        bool ShaderResource::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            data.dirty |= pendingData.dirty;
-            pendingData.dirty = 0;
-
-            if (data.dirty)
-            {
-                data.vertexAttributes = pendingData.vertexAttributes;
-                data.pixelShaderAlignment = pendingData.pixelShaderAlignment;
-                data.vertexShaderAlignment = pendingData.vertexShaderAlignment;
-
-                data.pixelShaderData = std::move(pendingData.pixelShaderData);
-                data.vertexShaderData = std::move(pendingData.vertexShaderData);
-                data.pixelShaderConstantInfo = std::move(pendingData.pixelShaderConstantInfo);
-                data.vertexShaderConstantInfo = std::move(pendingData.vertexShaderConstantInfo);
-                data.pixelShaderFunction = std::move(pendingData.pixelShaderFunction);
-                data.vertexShaderFunction = std::move(pendingData.vertexShaderFunction);
-            }
-
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

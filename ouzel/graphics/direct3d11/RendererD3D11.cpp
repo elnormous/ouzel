@@ -670,6 +670,8 @@ namespace ouzel
                 context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
 
                 // textures
+                bool texturesValid = true;
+
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     TextureD3D11* textureD3D11 = nullptr;
@@ -683,7 +685,8 @@ namespace ouzel
                     {
                         if (!textureD3D11->getResourceView())
                         {
-                            return false;
+                            texturesValid = false;
+                            break;
                         }
 
                         resourceViews[layer] = textureD3D11->getResourceView();
@@ -694,6 +697,11 @@ namespace ouzel
                         resourceViews[layer] = nullptr;
                         samplerStates[layer] = nullptr;
                     }
+                }
+
+                if (!texturesValid)
+                {
+                    continue;
                 }
 
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);

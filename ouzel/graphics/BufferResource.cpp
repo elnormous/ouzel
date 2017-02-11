@@ -19,10 +19,10 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            pendingData.usage = newUsage;
-            pendingData.dynamic = newDynamic;
+            usage = newUsage;
+            dynamic = newDynamic;
             
-            pendingData.dirty |= ATTRIBUTES;
+            dirty |= ATTRIBUTES;
 
             return true;
         }
@@ -31,20 +31,20 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
             
-            pendingData.usage = newUsage;
-            pendingData.dynamic = newDynamic;
+            usage = newUsage;
+            dynamic = newDynamic;
 
             if (newData && newSize)
             {
-                pendingData.data.assign(static_cast<const uint8_t*>(newData),
-                                        static_cast<const uint8_t*>(newData) + newSize);
+                data.assign(static_cast<const uint8_t*>(newData),
+                            static_cast<const uint8_t*>(newData) + newSize);
             }
             else
             {
-                pendingData.data.resize(newSize);
+                data.resize(newSize);
             }
 
-            pendingData.dirty |= ATTRIBUTES | DATA;
+            dirty |= ATTRIBUTES | DATA;
 
             return true;
         }
@@ -53,43 +53,22 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (!pendingData.dynamic)
+            if (!dynamic)
             {
                 return false;
             }
 
             if (newData && newSize)
             {
-                pendingData.data.assign(static_cast<const uint8_t*>(newData),
-                                        static_cast<const uint8_t*>(newData) + newSize);
+                data.assign(static_cast<const uint8_t*>(newData),
+                            static_cast<const uint8_t*>(newData) + newSize);
             }
             else
             {
-                pendingData.data.resize(newSize);
+                data.resize(newSize);
             }
 
-            pendingData.dirty |= ATTRIBUTES | DATA;
-
-            return true;
-        }
-
-        bool BufferResource::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            data.dirty |= pendingData.dirty;
-            pendingData.dirty = 0;
-
-            if (data.dirty & ATTRIBUTES)
-            {
-                data.usage = pendingData.usage;
-                data.dynamic = pendingData.dynamic;
-            }
-
-            if (data.dirty & DATA)
-            {
-                data.data = pendingData.data;
-            }
+            dirty |= ATTRIBUTES | DATA;
 
             return true;
         }

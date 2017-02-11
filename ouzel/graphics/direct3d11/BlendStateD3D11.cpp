@@ -58,12 +58,9 @@ namespace ouzel
 
         bool BlendStateD3D11::upload()
         {
-            if (!BlendStateResource::upload())
-            {
-                return false;
-            }
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (data.dirty)
+            if (dirty)
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
@@ -73,13 +70,13 @@ namespace ouzel
                 blendStateDesc.IndependentBlendEnable = FALSE;
 
                 D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc;
-                targetBlendDesc.BlendEnable = data.enableBlending ? TRUE : FALSE;
-                targetBlendDesc.SrcBlend = getBlendFactor(data.colorBlendSource);
-                targetBlendDesc.DestBlend = getBlendFactor(data.colorBlendDest);
-                targetBlendDesc.BlendOp = getBlendOperation(data.colorOperation);
-                targetBlendDesc.SrcBlendAlpha = getBlendFactor(data.alphaBlendSource);
-                targetBlendDesc.DestBlendAlpha = getBlendFactor(data.alphaBlendDest);
-                targetBlendDesc.BlendOpAlpha = getBlendOperation(data.alphaOperation);
+                targetBlendDesc.BlendEnable = enableBlending ? TRUE : FALSE;
+                targetBlendDesc.SrcBlend = getBlendFactor(colorBlendSource);
+                targetBlendDesc.DestBlend = getBlendFactor(colorBlendDest);
+                targetBlendDesc.BlendOp = getBlendOperation(colorOperation);
+                targetBlendDesc.SrcBlendAlpha = getBlendFactor(alphaBlendSource);
+                targetBlendDesc.DestBlendAlpha = getBlendFactor(alphaBlendDest);
+                targetBlendDesc.BlendOpAlpha = getBlendOperation(alphaOperation);
                 targetBlendDesc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
                 blendStateDesc.RenderTarget[0] = targetBlendDesc;
@@ -93,7 +90,7 @@ namespace ouzel
                     return false;
                 }
 
-                data.dirty = 0;
+                dirty = 0;
             }
 
             return true;

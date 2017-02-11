@@ -26,34 +26,26 @@ namespace ouzel
                       BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
                       BlendState::BlendOperation newAlphaOperation);
 
-            bool isBlendingEnabled() const { return data.enableBlending; }
-            BlendState::BlendFactor getColorBlendSource() const { return data.colorBlendSource; }
-            BlendState::BlendFactor getColorBlendDest() const { return data.colorBlendDest; }
-            BlendState::BlendOperation getColorOperation() const { return data.colorOperation; }
-            BlendState::BlendFactor getAlphaBlendSource() const { return data.alphaBlendSource; }
-            BlendState::BlendFactor getAlphaBlendDest() const { return data.alphaBlendDest; }
-            BlendState::BlendOperation getAlphaOperation() const { return data.alphaOperation; }
+            bool isBlendingEnabled() const { return enableBlending; }
+            BlendState::BlendFactor getColorBlendSource() const { return colorBlendSource; }
+            BlendState::BlendFactor getColorBlendDest() const { return colorBlendDest; }
+            BlendState::BlendOperation getColorOperation() const { return colorOperation; }
+            BlendState::BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
+            BlendState::BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
+            BlendState::BlendOperation getAlphaOperation() const { return alphaOperation; }
 
         protected:
             BlendStateResource();
-            virtual bool upload() override;
 
-            struct Data
-            {
-                uint32_t dirty = 0;
-                BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
-                BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
-                BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
-                BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
-                BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
-                BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
-                bool enableBlending = false;
-            };
+            uint32_t dirty = 0;
+            BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
+            BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            bool enableBlending = false;
 
-            Data data;
-
-        private:
-            Data pendingData;
             std::mutex uploadMutex;
         };
     } // namespace graphics

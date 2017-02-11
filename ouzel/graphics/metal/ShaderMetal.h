@@ -67,12 +67,10 @@ namespace ouzel
             std::vector<Location> pixelShaderConstantLocations;
             uint32_t pixelShaderConstantSize = 0;
             uint32_t pixelShaderConstantBufferOffset = 0;
-            uint32_t pixelShaderAlignment = 0;
 
             std::vector<Location> vertexShaderConstantLocations;
             uint32_t vertexShaderConstantSize = 0;
             uint32_t vertexShaderConstantBufferOffset = 0;
-            uint32_t vertexShaderAlignment = 0;
         };
     } // namespace graphics
 } // namespace ouzel

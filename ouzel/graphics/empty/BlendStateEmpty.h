@@ -13,6 +13,8 @@ namespace ouzel
         {
         public:
             BlendStateEmpty();
+
+            virtual bool upload() override;
         };
     } // namespace graphics
 } // namespace ouzel
