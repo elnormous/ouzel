@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBufferD3D11.h"
+#include "BufferD3D11.h"
 #include "utils/Log.h" 
 
 namespace ouzel

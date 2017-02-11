@@ -707,27 +707,22 @@ namespace ouzel
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
                 context->PSSetSamplers(0, Texture::LAYERS, samplerStates);
 
-                // mesh buffer
-                MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(drawCommand.meshBuffer);
-
-                if (!meshBufferD3D11)
-                {
-                    // don't render if invalid mesh buffer
-                    continue;
-                }
-
                 // depth-stencil state
                 uint32_t depthStencilStateIndex = 0;
                 if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
                 if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
-                // draw
-                BufferD3D11* indexBufferD3D11 = static_cast<BufferD3D11*>(meshBufferD3D11->getIndexBuffer());
-                BufferD3D11* vertexBufferD3D11 = static_cast<BufferD3D11*>(meshBufferD3D11->getVertexBuffer());
+                // draw// mesh buffer
+                MeshBufferD3D11* meshBufferD3D11 = static_cast<MeshBufferD3D11*>(drawCommand.meshBuffer);
+                BufferD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
+                BufferD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
 
-                if (!indexBufferD3D11 || !indexBufferD3D11->getBuffer() ||
-                    !vertexBufferD3D11 || !vertexBufferD3D11->getBuffer())
+                if (!meshBufferD3D11 ||
+                    !indexBufferD3D11 ||
+                    !indexBufferD3D11->getBuffer() ||
+                    !vertexBufferD3D11 ||
+                    !vertexBufferD3D11->getBuffer())
                 {
                     continue;
                 }
