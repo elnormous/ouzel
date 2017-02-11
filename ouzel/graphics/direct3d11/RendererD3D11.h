@@ -67,8 +67,8 @@ namespace ouzel
 
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
+            bool clearFrameBufferView = true;
+            bool clearDepthBufferView = false;
         };
     } // namespace graphics
 } // namespace ouzel

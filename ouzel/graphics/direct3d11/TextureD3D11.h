@@ -29,6 +29,9 @@ namespace ouzel
             UINT getWidth() const { return width; }
             UINT getHeight() const { return height; }
 
+            bool getClearFrameBufferView() const { return clearFrameBufferView; }
+            bool getClearDepthBufferView() const { return clearDepthBufferView; }
+
         protected:
             virtual bool upload() override;
 
@@ -43,6 +46,8 @@ namespace ouzel
             ID3D11DepthStencilView* depthStencilView = nullptr;
 
             FLOAT frameBufferClearColor[4];
+            bool clearFrameBufferView = true;
+            bool clearDepthBufferView = false;
         };
     } // namespace graphics
 } // namespace ouzel

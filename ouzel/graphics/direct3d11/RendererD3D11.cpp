@@ -434,16 +434,16 @@ namespace ouzel
 
         bool RendererD3D11::upload()
         {
-            frameBufferClearColor[0] = data.clearColor.normR();
-            frameBufferClearColor[1] = data.clearColor.normG();
-            frameBufferClearColor[2] = data.clearColor.normB();
-            frameBufferClearColor[3] = data.clearColor.normA();
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
 
-            clearColorBuffer = data.clearColorBuffer;
-            clearDepthBuffer = data.clearDepthBuffer;
+            clearFrameBufferView = clearColorBuffer;
+            clearDepthBufferView = clearDepthBuffer;
 
-            if (static_cast<UINT>(data.size.v[0]) != width ||
-                static_cast<UINT>(data.size.v[1]) != height)
+            if (static_cast<UINT>(size.v[0]) != width ||
+                static_cast<UINT>(size.v[1]) != height)
             {
                 if (!resizeBackBuffer(0, 0))
                 {
@@ -454,7 +454,7 @@ namespace ouzel
                                         static_cast<float>(height)));
             }
 
-            data.dirty = false;
+            dirty = false;
 
             return true;
         }
@@ -499,8 +499,8 @@ namespace ouzel
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 ID3D11DepthStencilView* newDepthStencilView = nullptr;
                 const float* newClearColor;
-                bool newClearColorBuffer = false;
-                bool newClearDepthBuffer = false;
+                bool newClearFrameBufferView = false;
+                bool newClearDepthBufferView = false;
 
                 viewport = {
                     drawCommand.viewport.position.v[0],
@@ -529,8 +529,8 @@ namespace ouzel
                     if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetD3D11->setFrameBufferClearedFrame(currentFrame);
-                        newClearColorBuffer = renderTargetD3D11->getClearColorBuffer();
-                        newClearDepthBuffer = renderTargetD3D11->getClearDepthBuffer();
+                        newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
+                        newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
                     }
                 }
                 else
@@ -544,20 +544,20 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        newClearColorBuffer = clearColorBuffer;
-                        newClearDepthBuffer = clearDepthBuffer;
+                        newClearFrameBufferView = clearFrameBufferView;
+                        newClearDepthBufferView = clearDepthBufferView;
                     }
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
                 context->RSSetViewports(1, &viewport);
 
-                if (newClearColorBuffer)
+                if (newClearFrameBufferView)
                 {
                     context->ClearRenderTargetView(newRenderTargetView, newClearColor);
                 }
 
-                if (newClearDepthBuffer)
+                if (newClearDepthBufferView)
                 {
                     context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
