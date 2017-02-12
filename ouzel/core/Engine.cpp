@@ -398,7 +398,7 @@ namespace ouzel
 
                     eventDispatcher.dispatchEvents();
 
-                    if (sharedEngine->getRenderer()->getRefillDrawQueue())
+                    if (renderer->getRefillDrawQueue())
                     {
                         sceneManager.draw();
                         renderer->flushDrawCommands();
