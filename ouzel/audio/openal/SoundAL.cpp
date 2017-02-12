@@ -132,7 +132,19 @@ namespace ouzel
         void SoundAL::setPosition(const Vector3& newPosition)
         {
             Sound::setPosition(newPosition);
-            alSourcefv(sourceId, AL_POSITION, newPosition.v);
+            alSourcefv(sourceId, AL_POSITION, position.v);
+        }
+
+        void SoundAL::setPitch(float newPitch)
+        {
+            Sound::setPitch(newPitch);
+            alSourcef(sourceId, AL_PITCH, pitch);
+        }
+
+        void SoundAL::setGain(float newGain)
+        {
+            Sound::setGain(newGain);
+            alSourcef(sourceId, AL_GAIN, gain);
         }
 
         bool SoundAL::play(bool repeatSound)

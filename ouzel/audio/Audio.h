@@ -36,8 +36,8 @@ namespace ouzel
 
             virtual bool process();
 
-            virtual void setListenerPosition(const Vector3& position);
-            virtual void setListenerOrientation(const Vector3& orientation);
+            virtual void setListenerPosition(const Vector3& newPosition);
+            virtual void setListenerOrientation(const Vector3& newOrientation);
 
             virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;

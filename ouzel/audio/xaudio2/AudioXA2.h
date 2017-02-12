@@ -20,8 +20,8 @@ namespace ouzel
 
             virtual bool init() override;
 
-            virtual void setListenerPosition(const Vector3& position);
-            virtual void setListenerOrientation(const Vector3& orientation);
+            virtual void setListenerPosition(const Vector3& newPosition);
+            virtual void setListenerOrientation(const Vector3& newOrientation);
 
             virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;

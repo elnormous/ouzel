@@ -130,16 +130,16 @@ namespace ouzel
             return true;
         }
 
-        void AudioAL::setListenerPosition(const Vector3& position)
+        void AudioAL::setListenerPosition(const Vector3& newPosition)
         {
-            Audio::setListenerPosition(position);
-            alListenerfv(AL_POSITION, position.v);
+            Audio::setListenerPosition(newPosition);
+            alListenerfv(AL_POSITION, listenerPosition.v);
         }
 
-        void AudioAL::setListenerOrientation(const Vector3& orientation)
+        void AudioAL::setListenerOrientation(const Vector3& newOrientation)
         {
-            Audio::setListenerOrientation(orientation);
-            alListenerfv(AL_ORIENTATION, orientation.v);
+            Audio::setListenerOrientation(newOrientation);
+            alListenerfv(AL_ORIENTATION, listenerOrientation.v);
         }
 
         SoundDataPtr AudioAL::createSoundData()

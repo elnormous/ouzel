@@ -23,6 +23,8 @@ namespace ouzel
             const SoundDataPtr& getSoundData() const { return soundData; }
 
             virtual void setPosition(const Vector3& newPosition);
+            virtual void setPitch(float newPitch);
+            virtual void setGain(float newGain);
 
             virtual bool play(bool repeatSound = false);
             virtual bool stop(bool resetSound = false);
@@ -41,6 +43,8 @@ namespace ouzel
             bool ready = false;
 
             Vector3 position;
+            float pitch = 1.0f;
+            float gain = 1.0f;
         };
     } // namespace audio
 } // namespace ouzel

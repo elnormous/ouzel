@@ -30,14 +30,14 @@ namespace ouzel
             return true;
         }
 
-        void Audio::setListenerPosition(const Vector3& position)
+        void Audio::setListenerPosition(const Vector3& newPosition)
         {
-            listenerPosition = position;
+            listenerPosition = newPosition;
         }
 
-        void Audio::setListenerOrientation(const Vector3& orientation)
+        void Audio::setListenerOrientation(const Vector3& newOrientation)
         {
-            listenerOrientation = orientation;
+            listenerOrientation = newOrientation;
         }
     } // namespace audio
 } // namespace ouzel

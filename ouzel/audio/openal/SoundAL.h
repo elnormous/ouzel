@@ -28,7 +28,9 @@ namespace ouzel
             virtual bool init(const SoundDataPtr& newSoundData) override;
 
             virtual void setPosition(const Vector3& newPosition) override;
-            
+            virtual void setPitch(float newPitch) override;
+            virtual void setGain(float newGain) override;
+
             virtual bool play(bool repeatSound = false) override;
             virtual bool stop(bool resetSound = false) override;
             virtual bool reset() override;

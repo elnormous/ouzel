@@ -28,6 +28,16 @@ namespace ouzel
             position = newPosition;
         }
 
+        void Sound::setPitch(float newPitch)
+        {
+            pitch = newPitch;
+        }
+
+        void Sound::setGain(float newGain)
+        {
+            gain = newGain;
+        }
+
         bool Sound::play(bool repeatSound)
         {
             repeat = repeatSound;
