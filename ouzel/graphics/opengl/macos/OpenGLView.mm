@@ -91,13 +91,6 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
     if (!displayId) displayId = CGMainDisplayID();
 
-    ouzel::graphics::RendererOGLMacOS* rendererOGL = static_cast<ouzel::graphics::RendererOGLMacOS*>(ouzel::sharedEngine->getRenderer());
-
-    NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
-
-    [openGLContext setView:self];
-    [openGLContext makeCurrentContext];
-
     CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
     CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
 

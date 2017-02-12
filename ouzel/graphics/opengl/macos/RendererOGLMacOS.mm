@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererOGLMacOS.h"
+#include "core/macos/WindowMacOS.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -21,7 +22,7 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLMacOS::init(Window* window,
+        bool RendererOGLMacOS::init(Window* newWindow,
                                     const Size2& newSize,
                                     uint32_t newSampleCount,
                                     Texture::Filter newTextureFilter,
@@ -114,10 +115,13 @@ namespace ouzel
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
             [openGLContext makeCurrentContext];
 
+            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
+            [openGLContext setView:windowMacOS->getNativeView()];
+
             GLint swapInt = newVerticalSync ? 1 : 0;
             [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
-            return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
+            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 
         bool RendererOGLMacOS::lockContext()

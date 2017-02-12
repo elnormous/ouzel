@@ -28,10 +28,9 @@ namespace ouzel
             virtual ~RendererOGLMacOS();
 
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
-            NSOpenGLPixelFormatPtr getPixelFormat() const { return pixelFormat; }
 
         protected:
-            virtual bool init(Window* window,
+            virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
