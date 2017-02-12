@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include "math/Vector3.h"
 #include "utils/Types.h"
 
 #ifdef OPENAL
@@ -35,6 +36,8 @@ namespace ouzel
 
             virtual bool process();
 
+            virtual void setListenerPosition(const Vector3& position);
+
             virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;
 
@@ -52,6 +55,8 @@ namespace ouzel
             uint16_t apiMinorVersion = 0;
 
             bool ready = false;
+
+            Vector3 listenerPosition;
         };
     } // namespace audio
 } // namespace ouzel

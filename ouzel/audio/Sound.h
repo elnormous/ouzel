@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "math/Vector3.h"
 #include "utils/Types.h"
 
 namespace ouzel
@@ -21,6 +22,8 @@ namespace ouzel
 
             const SoundDataPtr& getSoundData() const { return soundData; }
 
+            virtual void setListenerPosition(const Vector3& newPosition);
+
             virtual bool play(bool repeatSound = false);
             virtual bool stop(bool resetSound = false);
             virtual bool reset();
@@ -36,6 +39,8 @@ namespace ouzel
             bool repeat = false;
 
             bool ready = false;
+
+            Vector3 position;
         };
     } // namespace audio
 } // namespace ouzel

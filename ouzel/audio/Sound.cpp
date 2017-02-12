@@ -23,6 +23,11 @@ namespace ouzel
             return true;
         }
 
+        void Sound::setListenerPosition(const Vector3& newPosition)
+        {
+            position = newPosition;
+        }
+
         bool Sound::play(bool repeatSound)
         {
             repeat = repeatSound;

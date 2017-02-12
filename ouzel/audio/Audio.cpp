@@ -29,5 +29,10 @@ namespace ouzel
         {
             return true;
         }
+
+        void Audio::setListenerPosition(const Vector3& position)
+        {
+            listenerPosition = position;
+        }
     } // namespace audio
 } // namespace ouzel
