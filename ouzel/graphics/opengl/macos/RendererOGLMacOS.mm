@@ -114,6 +114,9 @@ namespace ouzel
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
             [openGLContext makeCurrentContext];
 
+            GLint swapInt = newVerticalSync ? 1 : 0;
+            [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+
             return RendererOGL::init(window, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
         }
 

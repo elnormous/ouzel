@@ -98,9 +98,6 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     [openGLContext setView:self];
     [openGLContext makeCurrentContext];
 
-    GLint swapInt = ouzel::sharedEngine->getSettings().verticalSync ? 1 : 0;
-    [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-
     CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
     CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
 

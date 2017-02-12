@@ -38,7 +38,6 @@ namespace ouzel
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
         bool init(Settings& newSettings);
-        const Settings& getSettings() const { return settings; }
 
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Cache* getCache() { return &cache; }
