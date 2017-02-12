@@ -37,6 +37,7 @@ namespace ouzel
             virtual bool process();
 
             virtual void setListenerPosition(const Vector3& position);
+            virtual void setListenerOrientation(const Vector3& orientation);
 
             virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;
@@ -57,6 +58,7 @@ namespace ouzel
             bool ready = false;
 
             Vector3 listenerPosition;
+            Vector3 listenerOrientation;
         };
     } // namespace audio
 } // namespace ouzel

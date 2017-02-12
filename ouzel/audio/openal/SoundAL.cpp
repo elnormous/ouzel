@@ -129,6 +129,12 @@ namespace ouzel
             return true;
         }
 
+        void SoundAL::setPosition(const Vector3& newPosition)
+        {
+            Sound::setPosition(newPosition);
+            alSourcefv(sourceId, AL_POSITION, newPosition.v);
+        }
+
         bool SoundAL::play(bool repeatSound)
         {
             if (!Sound::play(repeatSound))

@@ -23,7 +23,7 @@ namespace ouzel
             return true;
         }
 
-        void Sound::setListenerPosition(const Vector3& newPosition)
+        void Sound::setPosition(const Vector3& newPosition)
         {
             position = newPosition;
         }

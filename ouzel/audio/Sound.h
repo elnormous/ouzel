@@ -22,7 +22,7 @@ namespace ouzel
 
             const SoundDataPtr& getSoundData() const { return soundData; }
 
-            virtual void setListenerPosition(const Vector3& newPosition);
+            virtual void setPosition(const Vector3& newPosition);
 
             virtual bool play(bool repeatSound = false);
             virtual bool stop(bool resetSound = false);
