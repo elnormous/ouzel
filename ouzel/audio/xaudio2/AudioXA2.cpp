@@ -103,6 +103,16 @@ namespace ouzel
             return true;
         }
 
+        void AudioXA2::setListenerPosition(const Vector3& position)
+        {
+            Audio::setListenerPosition(position);
+        }
+
+        void AudioXA2::setListenerOrientation(const Vector3& orientation)
+        {
+            Audio::setListenerOrientation(orientation);
+        }
+
         SoundDataPtr AudioXA2::createSoundData()
         {
             SoundDataPtr soundData = std::make_shared<SoundDataXA2>();

@@ -42,6 +42,11 @@ namespace ouzel
             return true;
         }
 
+        void SoundXA2::setPosition(const Vector3& newPosition)
+        {
+            Sound::setPosition(newPosition);
+        }
+
         bool SoundXA2::play(bool repeatSound)
         {
             if (!Sound::play(repeatSound))
