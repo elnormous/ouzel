@@ -46,6 +46,7 @@ namespace ouzel
     bool ApplicationEm::step()
     {
         executeAll();
+        sharedEngine->update();
 
         if (!sharedEngine->draw())
         {

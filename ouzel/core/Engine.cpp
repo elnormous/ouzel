@@ -365,10 +365,63 @@ namespace ouzel
         running = true;
     }
 
+    void Engine::update()
+    {
+        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+        auto diff = currentTime - previousUpdateTime;
+
+        if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
+        {
+            previousUpdateTime = currentTime;
+            float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
+
+            eventDispatcher.dispatchEvents();
+
+            if (renderer->getRefillDrawQueue())
+            {
+                sceneManager.draw();
+                renderer->flushDrawCommands();
+            }
+
+            // erase all null update callbacks from the list
+            for (auto i = updateCallbacks.begin(); i != updateCallbacks.end();)
+            {
+                i = (*i) ? ++i : updateCallbacks.erase(i);
+            }
+
+            if (!updateCallbackAddSet.empty())
+            {
+                for (const UpdateCallback* updateCallback : updateCallbackAddSet)
+                {
+                    auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
+
+                    if (i == updateCallbacks.end())
+                    {
+                        updateCallbacks.push_back(updateCallback);
+                    }
+                }
+
+                std::stable_sort(updateCallbacks.begin(), updateCallbacks.end(), [](const UpdateCallback* a, const UpdateCallback* b) {
+                    return a->priority > b->priority;
+                });
+            }
+
+            for (const UpdateCallback* updateCallback : updateCallbacks)
+            {
+                if (updateCallback && updateCallback->callback)
+                {
+                    updateCallback->callback(delta);
+                }
+            }
+        }
+        else
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    }
+
     void Engine::run()
     {
-#if OUZEL_MULTITHREADED
-
 #if OUZEL_PLATFORM_ANDROID
         ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
         JavaVM* javaVM = applicationAndroid->getJavaVM();
@@ -385,62 +438,10 @@ namespace ouzel
 
         while (active)
         {
-#endif
             if (running)
             {
-                std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-                auto diff = currentTime - previousUpdateTime;
-
-                if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
-                {
-                    previousUpdateTime = currentTime;
-                    float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
-
-                    eventDispatcher.dispatchEvents();
-
-                    if (renderer->getRefillDrawQueue())
-                    {
-                        sceneManager.draw();
-                        renderer->flushDrawCommands();
-                    }
-
-                    // erase all null update callbacks from the list
-                    for (auto i = updateCallbacks.begin(); i != updateCallbacks.end();)
-                    {
-                        i = (*i) ? ++i : updateCallbacks.erase(i);
-                    }
-
-                    if (!updateCallbackAddSet.empty())
-                    {
-                        for (const UpdateCallback* updateCallback : updateCallbackAddSet)
-                        {
-                            auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
-
-                            if (i == updateCallbacks.end())
-                            {
-                                updateCallbacks.push_back(updateCallback);
-                            }
-                        }
-
-                        std::stable_sort(updateCallbacks.begin(), updateCallbacks.end(), [](const UpdateCallback* a, const UpdateCallback* b) {
-                            return a->priority > b->priority;
-                        });
-                    }
-
-                    for (const UpdateCallback* updateCallback : updateCallbacks)
-                    {
-                        if (updateCallback && updateCallback->callback)
-                        {
-                            updateCallback->callback(delta);
-                        }
-                    }
-                }
-                else
-                {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                }
+                update();
             }
-#if OUZEL_MULTITHREADED
         }
 
 #if OUZEL_PLATFORM_ANDROID
@@ -449,16 +450,10 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
         }
 #endif
-
-#endif
     }
 
     bool Engine::draw()
     {
-#if !OUZEL_MULTITHREADED
-        Engine::run();
-#endif
-
         if (!renderer->process())
         {
             return false;
