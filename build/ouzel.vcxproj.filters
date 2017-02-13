@@ -310,9 +310,6 @@
     <ClCompile Include="..\ouzel\graphics\empty\BufferEmpty.cpp">
       <Filter>graphics\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundDataResource.cpp">
-      <Filter>audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp">
       <Filter>audio</Filter>
     </ClCompile>
@@ -683,9 +680,6 @@
       <Filter>graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Resource.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundDataResource.h">
       <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundResource.h">
