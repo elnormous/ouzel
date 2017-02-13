@@ -36,6 +36,7 @@ namespace ouzel
             waveFormat.wBitsPerSample = soundData->getBitsPerSample();
             waveFormat.cbSize = 0;
 
+            AudioXA2* audioXA2 = static_cast<AudioXA2*>(sharedEngine->getAudio());
             sourceVoice = audioXA2->createSourceVoice(waveFormat);
 
             if (!sourceVoice)
@@ -60,7 +61,6 @@ namespace ouzel
                 return false;
             }
 
-            std::vector<uint8_t> buffer;
             soundData->getData(buffer);
 
             XAUDIO2_BUFFER bufferData;

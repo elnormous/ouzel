@@ -5,6 +5,7 @@
 
 #define NOMINMAX
 #include <xaudio2.h>
+#include <vector>
 
 #include "audio/Sound.h"
 
@@ -28,6 +29,7 @@ namespace ouzel
 
         protected:
             IXAudio2SourceVoice* sourceVoice = nullptr;
+            std::vector<uint8_t> buffer;
         };
     } // namespace audio
 } // namespace ouzel

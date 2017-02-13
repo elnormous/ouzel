@@ -196,9 +196,6 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundDataXA2.cpp">
-      <Filter>audio\xaudio2</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
@@ -218,9 +215,6 @@
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
-      <Filter>audio\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\SoundDataEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp">
@@ -342,6 +336,9 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.cpp">
       <Filter>graphics\opengl\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp">
+      <Filter>audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -559,9 +556,6 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundDataXA2.h">
-      <Filter>audio\xaudio2</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
@@ -593,9 +587,6 @@
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
-      <Filter>audio\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\SoundDataEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h">
@@ -771,6 +762,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h">
       <Filter>graphics\opengl\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\SoundDataWave.h">
+      <Filter>audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
