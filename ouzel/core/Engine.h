@@ -79,6 +79,7 @@ namespace ouzel
 
         std::vector<const UpdateCallback*> updateCallbacks;
         std::set<const UpdateCallback*> updateCallbackAddSet;
+        std::set<const UpdateCallback*> updateCallbackDeleteSet;
 
 #if OUZEL_MULTITHREADED
         std::thread updateThread;

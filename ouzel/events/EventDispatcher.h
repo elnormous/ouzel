@@ -34,6 +34,7 @@ namespace ouzel
 
         std::vector<const EventHandler*> eventHandlers;
         std::set<const EventHandler*> eventHandlerAddSet;
+        std::set<const EventHandler*> eventHandlerDeleteSet;
 
         std::mutex eventQueueMutex;
         std::queue<Event> eventQueue;

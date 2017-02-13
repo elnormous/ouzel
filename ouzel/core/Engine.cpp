@@ -383,32 +383,36 @@ namespace ouzel
                 renderer->flushDrawCommands();
             }
 
-            // erase all null update callbacks from the list
-            for (auto i = updateCallbacks.begin(); i != updateCallbacks.end();)
+            for (const UpdateCallback* updateCallback : updateCallbackDeleteSet)
             {
-                i = (*i) ? ++i : updateCallbacks.erase(i);
+                auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
+
+                if (i != updateCallbacks.end())
+                {
+                    updateCallbacks.erase(i);
+                }
             }
 
-            if (!updateCallbackAddSet.empty())
+            for (const UpdateCallback* updateCallback : updateCallbackAddSet)
             {
-                for (const UpdateCallback* updateCallback : updateCallbackAddSet)
+                auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
+
+                if (i == updateCallbacks.end())
                 {
-                    auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
+                    auto upperBound = std::upper_bound(updateCallbacks.begin(), updateCallbacks.end(), updateCallback,
+                                                       [](const UpdateCallback* a, const UpdateCallback* b) {
+                                                           return a->priority > b->priority;
+                                                       });
 
-                    if (i == updateCallbacks.end())
-                    {
-                        updateCallbacks.push_back(updateCallback);
-                    }
+                    updateCallbacks.insert(upperBound, updateCallback);
                 }
-
-                std::stable_sort(updateCallbacks.begin(), updateCallbacks.end(), [](const UpdateCallback* a, const UpdateCallback* b) {
-                    return a->priority > b->priority;
-                });
             }
 
             for (const UpdateCallback* updateCallback : updateCallbacks)
             {
-                if (updateCallback && updateCallback->callback)
+                auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
+
+                if (i == updateCallbackDeleteSet.end() && updateCallback->callback)
                 {
                     updateCallback->callback(delta);
                 }
@@ -465,16 +469,18 @@ namespace ouzel
     void Engine::scheduleUpdate(const UpdateCallback* callback)
     {
         updateCallbackAddSet.insert(callback);
+
+        auto setIterator = updateCallbackDeleteSet.find(callback);
+
+        if (setIterator != updateCallbackDeleteSet.end())
+        {
+            updateCallbackDeleteSet.erase(setIterator);
+        }
     }
 
     void Engine::unscheduleUpdate(const UpdateCallback* callback)
     {
-        auto vectorIterator = std::find(updateCallbacks.begin(), updateCallbacks.end(), callback);
-
-        if (vectorIterator != updateCallbacks.end())
-        {
-            *vectorIterator = nullptr;
-        }
+        updateCallbackDeleteSet.insert(callback);
 
         auto setIterator = updateCallbackAddSet.find(callback);
 

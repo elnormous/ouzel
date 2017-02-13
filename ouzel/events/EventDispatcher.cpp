@@ -16,34 +16,29 @@ namespace ouzel
 
     void EventDispatcher::dispatchEvents()
     {
-        // erase all null event handlers from the list
-        for (auto i = eventHandlers.begin(); i != eventHandlers.end();)
+        for (const EventHandler* eventHandler : eventHandlerDeleteSet)
         {
-            if (*i)
+            auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+
+            if (i != eventHandlers.end())
             {
-                ++i;
-            }
-            else
-            {
-                i = eventHandlers.erase(i);
+                eventHandlers.erase(i);
             }
         }
 
-        if (!eventHandlerAddSet.empty())
+        for (const EventHandler* eventHandler : eventHandlerAddSet)
         {
-            for (const EventHandler* eventHandler : eventHandlerAddSet)
+            auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+
+            if (i == eventHandlers.end())
             {
-                auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
+                auto upperBound = std::upper_bound(eventHandlers.begin(), eventHandlers.end(), eventHandler,
+                                                   [](const EventHandler* a, const EventHandler* b) {
+                                                       return a->priority > b->priority;
+                                                   });
 
-                if (i == eventHandlers.end())
-                {
-                    eventHandlers.push_back(eventHandler);
-                }
+                eventHandlers.insert(upperBound, eventHandler);
             }
-
-            std::stable_sort(eventHandlers.begin(), eventHandlers.end(), [](const EventHandler* a, const EventHandler* b) {
-                return a->priority > b->priority;
-            });
         }
 
         Event event;
@@ -65,7 +60,9 @@ namespace ouzel
 
             for (const EventHandler* eventHandler : eventHandlers)
             {
-                if (eventHandler)
+                auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
+
+                if (i == eventHandlerDeleteSet.end())
                 {
                     switch (event.type)
                     {
@@ -153,16 +150,18 @@ namespace ouzel
     void EventDispatcher::addEventHandler(const EventHandler* eventHandler)
     {
         eventHandlerAddSet.insert(eventHandler);
+
+        auto setIterator = eventHandlerDeleteSet.find(eventHandler);
+
+        if (setIterator != eventHandlerDeleteSet.end())
+        {
+            eventHandlerDeleteSet.erase(setIterator);
+        }
     }
 
     void EventDispatcher::removeEventHandler(const EventHandler* eventHandler)
     {
-        auto vectorIterator = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
-
-        if (vectorIterator != eventHandlers.end())
-        {
-            *vectorIterator = nullptr;
-        }
+        eventHandlerDeleteSet.insert(eventHandler);
 
         auto setIterator = eventHandlerAddSet.find(eventHandler);
 

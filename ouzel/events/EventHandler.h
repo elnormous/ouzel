@@ -30,6 +30,6 @@ namespace ouzel
         std::function<bool(Event::Type, const UserEvent&)> userHandler;
 
     protected:
-        int32_t priority;
+        const int32_t priority;
     };
 }
