@@ -9,19 +9,16 @@
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
 {
-    ouzel::audio::SoundSL* sound = reinterpret_cast<ouzel::audio::SoundSL*>(context);
+    ouzel::audio::SoundSL* soundSL = reinterpret_cast<ouzel::audio::SoundSL*>(context);
 
-    std::vector<uint8_t> buffer;
-    sound->getSoundData()->getData(buffer);
-
-    if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)
+    if ((*bufferQueue)->Enqueue(bufferQueue, soundSL->getBuffer().data(), soundSL->getBuffer().size()) != SL_RESULT_SUCCESS)
     {
         ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
     }
 
-    if (!sound->isRepeating())
+    if (!soundSL->isRepeating())
     {
-        SLPlayItf player = sound->getPlayer();
+        SLPlayItf player = soundSL->getPlayer();
 
         if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
         {
@@ -136,7 +133,6 @@ namespace ouzel
                 return false;
             }
 
-            std::vector<uint8_t> buffer;
             soundData->getData(buffer);            
 
             if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)

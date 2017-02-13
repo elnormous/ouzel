@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
@@ -26,12 +27,14 @@ namespace ouzel
             virtual bool reset() override;
 
             SLPlayItf getPlayer() const { return player; }
+            const std::vector<uint8_t>& getBuffer() const { return buffer; }
 
         protected:
             SLObjectItf playerObject = nullptr;
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
             SLVolumeItf playerVolume = nullptr;
+            std::vector<uint8_t> buffer;
         };
     } // namespace audio
 } // namespace ouzel
