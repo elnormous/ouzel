@@ -32,14 +32,13 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/SoundEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/audio/empty/SoundDataEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/SoundDataAL.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundDataResource.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundDataWave.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundResource.cpp \
 	$(ROOT_DIR)/../ouzel/core/Application.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cache.cpp \

@@ -23,14 +23,13 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Shake.cpp \
     ../../ouzel/audio/empty/AudioEmpty.cpp \
     ../../ouzel/audio/empty/SoundEmpty.cpp \
-    ../../ouzel/audio/empty/SoundDataEmpty.cpp \
     ../../ouzel/audio/opensl/AudioSL.cpp \
     ../../ouzel/audio/opensl/SoundSL.cpp \
-    ../../ouzel/audio/opensl/SoundDataSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataResource.cpp \
+    ../../ouzel/audio/SoundDataWave.cpp \
     ../../ouzel/audio/SoundResource.cpp \
     ../../ouzel/core/android/ApplicationAndroid.cpp \
     ../../ouzel/core/android/main.cpp \

@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include "audio/SoundData.h"
 
 namespace ouzel
 {
@@ -13,14 +14,17 @@ namespace ouzel
     {
         class Audio;
 
-        class SoundData
+        class SoundDataWave: public SoundData
         {
             friend Audio;
         public:
-            SoundData();
-            virtual ~SoundData();
+            SoundDataWave();
+            virtual ~SoundDataWave();
 
-            virtual void getData(std::vector<uint8_t>& buffer) = 0;
+            virtual bool initFromFile(const std::string& newFilename);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
+
+            virtual void getData(std::vector<uint8_t>& buffer);
 
             uint16_t getFormatTag() const { return formatTag; }
             uint16_t getChannels() const { return channels; }
@@ -32,14 +36,9 @@ namespace ouzel
             bool isReady() const { return ready; }
 
         protected:
-            uint16_t formatTag = 0;
-            uint16_t channels = 0;
-            uint32_t samplesPerSecond = 0;
-            uint32_t averageBytesPerSecond = 0;
-            uint16_t blockAlign = 0;
-            uint16_t bitsPerSample = 0;
+            std::string filename;
 
-            bool ready = false;
+            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel

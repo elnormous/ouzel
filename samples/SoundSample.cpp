@@ -18,13 +18,13 @@ SoundSample::SoundSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    audio::SoundDataPtr jumpData = sharedEngine->getAudio()->createSoundData();
+    std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
     jumpData->initFromFile("jump.wav");
 
     jumpSound = sharedEngine->getAudio()->createSound();
     jumpSound->init(jumpData);
 
-    audio::SoundDataPtr ambientData = sharedEngine->getAudio()->createSoundData();
+    std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
     ambientData->initFromFile("ambient.wav");
 
     ambientSound = sharedEngine->getAudio()->createSound();

@@ -33,7 +33,6 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition) override;
             virtual void setListenerOrientation(const Vector3& newOrientation) override;
 
-            virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
             ALCdevice* getDevice() const { return device; }

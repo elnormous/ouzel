@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "AudioEmpty.h"
-#include "SoundDataEmpty.h"
 #include "SoundEmpty.h"
 
 namespace ouzel
@@ -12,12 +11,6 @@ namespace ouzel
         AudioEmpty::AudioEmpty():
             Audio(Driver::EMPTY)
         {
-        }
-
-        SoundDataPtr AudioEmpty::createSoundData()
-        {
-            SoundDataPtr soundData = std::make_shared<SoundDataEmpty>();
-            return soundData;
         }
 
         SoundPtr AudioEmpty::createSound()

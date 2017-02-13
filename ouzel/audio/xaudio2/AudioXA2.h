@@ -23,7 +23,6 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerOrientation(const Vector3& newOrientation);
 
-            virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
             IXAudio2SourceVoice* createSourceVoice(const WAVEFORMATEX& sourceFormat);

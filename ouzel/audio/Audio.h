@@ -39,7 +39,6 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerOrientation(const Vector3& newOrientation);
 
-            virtual SoundDataPtr createSoundData() = 0;
             virtual SoundPtr createSound() = 0;
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }

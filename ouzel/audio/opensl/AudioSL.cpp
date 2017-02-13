@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "AudioSL.h"
-#include "SoundDataSL.h"
 #include "SoundSL.h"
 #include "utils/Log.h"
 
@@ -72,12 +71,6 @@ namespace ouzel
             ready = true;
 
             return true;
-        }
-
-        SoundDataPtr AudioSL::createSoundData()
-        {
-            SoundDataPtr soundData = std::make_shared<SoundDataSL>();
-            return soundData;
         }
 
         SoundPtr AudioSL::createSound()

@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "AudioXA2.h"
-#include "SoundDataXA2.h"
 #include "SoundXA2.h"
 #include "XAudio27.h"
 #include "utils/Log.h"
@@ -111,12 +110,6 @@ namespace ouzel
         void AudioXA2::setListenerOrientation(const Vector3& newOrientation)
         {
             Audio::setListenerOrientation(newOrientation);
-        }
-
-        SoundDataPtr AudioXA2::createSoundData()
-        {
-            SoundDataPtr soundData = std::make_shared<SoundDataXA2>();
-            return soundData;
         }
 
         SoundPtr AudioXA2::createSound()

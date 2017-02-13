@@ -4,7 +4,6 @@
 #include "core/CompileConfig.h"
 
 #include "AudioAL.h"
-#include "SoundDataAL.h"
 #include "SoundAL.h"
 #include "utils/Log.h"
 
@@ -140,12 +139,6 @@ namespace ouzel
         {
             Audio::setListenerOrientation(newOrientation);
             alListenerfv(AL_ORIENTATION, listenerOrientation.v);
-        }
-
-        SoundDataPtr AudioAL::createSoundData()
-        {
-            SoundDataPtr soundData = std::make_shared<SoundDataAL>();
-            return soundData;
         }
 
         SoundPtr AudioAL::createSound()

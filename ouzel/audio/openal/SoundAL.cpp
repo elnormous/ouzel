@@ -3,7 +3,7 @@
 
 #include "SoundAL.h"
 #include "AudioAL.h"
-#include "SoundDataAL.h"
+#include "audio/SoundData.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -40,7 +40,7 @@ namespace ouzel
             }
         }
 
-        bool SoundAL::init(const SoundDataPtr& newSoundData)
+        bool SoundAL::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             if (!Sound::init(newSoundData))
             {
@@ -102,9 +102,12 @@ namespace ouzel
                 return false;
             }
 
+            std::vector<uint8_t> buffer;
+            soundData->getData(buffer);
+
             alBufferData(outputBuffer, format,
-                         soundData->getData().data(),
-                         static_cast<ALsizei>(soundData->getData().size()),
+                         buffer.data(),
+                         static_cast<ALsizei>(buffer.size()),
                          static_cast<ALsizei>(soundData->getSamplesPerSecond()));
 
             if (AudioAL::checkOpenALError())

@@ -21,7 +21,6 @@ namespace ouzel
 
             virtual bool init() override;
 
-            virtual SoundDataPtr createSoundData() override;
             virtual SoundPtr createSound() override;
 
             SLEngineItf getEngine() const { return engine; }

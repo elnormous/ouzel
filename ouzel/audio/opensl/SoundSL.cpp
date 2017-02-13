@@ -3,7 +3,7 @@
 
 #include "SoundSL.h"
 #include "AudioSL.h"
-#include "SoundDataSL.h"
+#include "audio/SoundData.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -11,7 +11,10 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 {
     ouzel::audio::SoundSL* sound = reinterpret_cast<ouzel::audio::SoundSL*>(context);
 
-    if ((*bufferQueue)->Enqueue(bufferQueue, sound->getSoundData()->getData().data(), sound->getSoundData()->getData().size()) != SL_RESULT_SUCCESS)
+    std::vector<uint8_t> buffer;
+    sound->getSoundData()->getData(buffer);
+
+    if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)
     {
         ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
     }
@@ -43,7 +46,7 @@ namespace ouzel
             }
         }
 
-        bool SoundSL::init(const SoundDataPtr& newSoundData)
+        bool SoundSL::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             if (!Sound::init(newSoundData))
             {
@@ -133,7 +136,10 @@ namespace ouzel
                 return false;
             }
 
-            if ((*bufferQueue)->Enqueue(bufferQueue, soundData->getData().data(), soundData->getData().size()) != SL_RESULT_SUCCESS)
+            std::vector<uint8_t> buffer;
+            soundData->getData(buffer);            
+
+            if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)
             {
                 Log(Log::Level::ERR) << "Failed to enqueue OpenSL data";
                 return false;

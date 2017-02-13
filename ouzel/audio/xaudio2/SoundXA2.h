@@ -18,7 +18,7 @@ namespace ouzel
             SoundXA2();
             virtual ~SoundXA2();
 
-            virtual bool init(const SoundDataPtr& newSoundData) override;
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData) override;
 
             virtual void setPosition(const Vector3& newPosition) override;
 

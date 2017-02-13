@@ -15,6 +15,12 @@
 		300934211C88698500CC50D3 /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.h */; };
 		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
 		3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowTVOS.h */; };
+		300C39ED1E51355000330E4F /* SoundDataWave.h in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.h */; };
+		300C39EE1E51355000330E4F /* SoundDataWave.h in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.h */; };
+		300C39EF1E51355000330E4F /* SoundDataWave.h in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.h */; };
+		300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
+		300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
+		300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
 		301456DF1E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E01E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E11E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
@@ -156,12 +162,6 @@
 		30381FBE1D80A3F900677CAB /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB21D80A3F900677CAB /* SoundAL.h */; };
 		30381FBF1D80A3F900677CAB /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB21D80A3F900677CAB /* SoundAL.h */; };
 		30381FC01D80A3F900677CAB /* SoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB21D80A3F900677CAB /* SoundAL.h */; };
-		30381FC11D80A3F900677CAB /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30381FB31D80A3F900677CAB /* SoundDataAL.cpp */; };
-		30381FC21D80A3F900677CAB /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30381FB31D80A3F900677CAB /* SoundDataAL.cpp */; };
-		30381FC31D80A3F900677CAB /* SoundDataAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30381FB31D80A3F900677CAB /* SoundDataAL.cpp */; };
-		30381FC41D80A3F900677CAB /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB41D80A3F900677CAB /* SoundDataAL.h */; };
-		30381FC51D80A3F900677CAB /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB41D80A3F900677CAB /* SoundDataAL.h */; };
-		30381FC61D80A3F900677CAB /* SoundDataAL.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FB41D80A3F900677CAB /* SoundDataAL.h */; };
 		30381FDF1D80A40700677CAB /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.h */; };
 		30381FE01D80A40700677CAB /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.h */; };
 		30381FE11D80A40700677CAB /* BlendStateMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 30381FC71D80A40700677CAB /* BlendStateMetal.h */; };
@@ -308,12 +308,6 @@
 		3038216C1D81876E00677CAB /* AudioEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioEmpty.h */; };
 		3038216D1D81876E00677CAB /* AudioEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioEmpty.h */; };
 		3038216E1D81876E00677CAB /* AudioEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821641D81876E00677CAB /* AudioEmpty.h */; };
-		3038216F1D81876E00677CAB /* SoundDataEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821651D81876E00677CAB /* SoundDataEmpty.cpp */; };
-		303821701D81876E00677CAB /* SoundDataEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821651D81876E00677CAB /* SoundDataEmpty.cpp */; };
-		303821711D81876E00677CAB /* SoundDataEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821651D81876E00677CAB /* SoundDataEmpty.cpp */; };
-		303821721D81876E00677CAB /* SoundDataEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821661D81876E00677CAB /* SoundDataEmpty.h */; };
-		303821731D81876E00677CAB /* SoundDataEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821661D81876E00677CAB /* SoundDataEmpty.h */; };
-		303821741D81876E00677CAB /* SoundDataEmpty.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821661D81876E00677CAB /* SoundDataEmpty.h */; };
 		303821751D81876E00677CAB /* SoundEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821671D81876E00677CAB /* SoundEmpty.cpp */; };
 		303821761D81876E00677CAB /* SoundEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821671D81876E00677CAB /* SoundEmpty.cpp */; };
 		303821771D81876E00677CAB /* SoundEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821671D81876E00677CAB /* SoundEmpty.cpp */; };
@@ -808,6 +802,8 @@
 		3009341B1C88698500CC50D3 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
 		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
 		3009342D1C88978D00CC50D3 /* WindowTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowTVOS.h; sourceTree = "<group>"; };
+		300C39EB1E51355000330E4F /* SoundDataWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataWave.h; sourceTree = "<group>"; };
+		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
 		301456DD1E38BEB200BA75DB /* SoundResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundResource.cpp; sourceTree = "<group>"; };
 		301456DE1E38BEB200BA75DB /* SoundResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundResource.h; sourceTree = "<group>"; };
 		301456E51E38BEC900BA75DB /* SoundDataResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataResource.cpp; sourceTree = "<group>"; };
@@ -856,8 +852,6 @@
 		30381FB01D80A3F900677CAB /* AudioAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioAL.h; sourceTree = "<group>"; };
 		30381FB11D80A3F900677CAB /* SoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundAL.cpp; sourceTree = "<group>"; };
 		30381FB21D80A3F900677CAB /* SoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundAL.h; sourceTree = "<group>"; };
-		30381FB31D80A3F900677CAB /* SoundDataAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataAL.cpp; sourceTree = "<group>"; };
-		30381FB41D80A3F900677CAB /* SoundDataAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataAL.h; sourceTree = "<group>"; };
 		30381FC71D80A40700677CAB /* BlendStateMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendStateMetal.h; sourceTree = "<group>"; };
 		30381FC81D80A40700677CAB /* BlendStateMetal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BlendStateMetal.mm; sourceTree = "<group>"; };
 		30381FC91D80A40700677CAB /* ColorPSIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSIOS.h; sourceTree = "<group>"; };
@@ -916,8 +910,6 @@
 		303821301D81876E00677CAB /* TextureEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureEmpty.h; sourceTree = "<group>"; };
 		303821631D81876E00677CAB /* AudioEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioEmpty.cpp; path = ../empty/AudioEmpty.cpp; sourceTree = "<group>"; };
 		303821641D81876E00677CAB /* AudioEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioEmpty.h; path = ../empty/AudioEmpty.h; sourceTree = "<group>"; };
-		303821651D81876E00677CAB /* SoundDataEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundDataEmpty.cpp; path = ../empty/SoundDataEmpty.cpp; sourceTree = "<group>"; };
-		303821661D81876E00677CAB /* SoundDataEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDataEmpty.h; path = ../empty/SoundDataEmpty.h; sourceTree = "<group>"; };
 		303821671D81876E00677CAB /* SoundEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SoundEmpty.cpp; path = ../empty/SoundEmpty.cpp; sourceTree = "<group>"; };
 		303821681D81876E00677CAB /* SoundEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundEmpty.h; path = ../empty/SoundEmpty.h; sourceTree = "<group>"; };
 		303821EC1D8500E500677CAB /* UpdateCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UpdateCallback.cpp; sourceTree = "<group>"; };
@@ -1208,8 +1200,6 @@
 			children = (
 				303821631D81876E00677CAB /* AudioEmpty.cpp */,
 				303821641D81876E00677CAB /* AudioEmpty.h */,
-				303821651D81876E00677CAB /* SoundDataEmpty.cpp */,
-				303821661D81876E00677CAB /* SoundDataEmpty.h */,
 				303821671D81876E00677CAB /* SoundEmpty.cpp */,
 				303821681D81876E00677CAB /* SoundEmpty.h */,
 			);
@@ -1485,6 +1475,8 @@
 				30419DF01D162BEF00A63759 /* SoundData.h */,
 				301456E51E38BEC900BA75DB /* SoundDataResource.cpp */,
 				301456E61E38BEC900BA75DB /* SoundDataResource.h */,
+				300C39EC1E51355000330E4F /* SoundDataWave.cpp */,
+				300C39EB1E51355000330E4F /* SoundDataWave.h */,
 				301456DD1E38BEB200BA75DB /* SoundResource.cpp */,
 				301456DE1E38BEB200BA75DB /* SoundResource.h */,
 			);
@@ -1499,8 +1491,6 @@
 				30381FB01D80A3F900677CAB /* AudioAL.h */,
 				30381FB11D80A3F900677CAB /* SoundAL.cpp */,
 				30381FB21D80A3F900677CAB /* SoundAL.h */,
-				30381FB31D80A3F900677CAB /* SoundDataAL.cpp */,
-				30381FB41D80A3F900677CAB /* SoundDataAL.h */,
 			);
 			path = openal;
 			sourceTree = "<group>";
@@ -1687,7 +1677,6 @@
 			files = (
 				3047F75A1C4C4FBA00774E3D /* Scale.h in Headers */,
 				303820241D80A40700677CAB /* TextureVSTVOS.h in Headers */,
-				303821721D81876E00677CAB /* SoundDataEmpty.h in Headers */,
 				30575A931C38BD370009C8A7 /* Box2.h in Headers */,
 				30EF36671CA845DC00F04F29 /* ComboBox.h in Headers */,
 				303820611D816C7700677CAB /* AppDelegate.h in Headers */,
@@ -1809,6 +1798,7 @@
 				3038201E1D80A40700677CAB /* TextureVSIOS.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
+				300C39ED1E51355000330E4F /* SoundDataWave.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				30381F8E1D80A3EC00677CAB /* TextureOGL.h in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.h in Headers */,
@@ -1818,7 +1808,6 @@
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				303821481D81876E00677CAB /* RendererEmpty.h in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
-				30381FC41D80A3F900677CAB /* SoundDataAL.h in Headers */,
 				3082C39C1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
 				301EB3A61CCD691800466E92 /* Component.h in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.h in Headers */,
@@ -1841,7 +1830,6 @@
 			files = (
 				3047F75B1C4C4FBA00774E3D /* Scale.h in Headers */,
 				303820261D80A40700677CAB /* TextureVSTVOS.h in Headers */,
-				303821741D81876E00677CAB /* SoundDataEmpty.h in Headers */,
 				30575A941C38BD370009C8A7 /* Box2.h in Headers */,
 				30EF36681CA845DC00F04F29 /* ComboBox.h in Headers */,
 				30EA71111D5268C600AE8C3E /* Application.h in Headers */,
@@ -1963,13 +1951,13 @@
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
+				300C39EF1E51355000330E4F /* SoundDataWave.h in Headers */,
 				30381F901D80A3EC00677CAB /* TextureOGL.h in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
 				301456EC1E38BEC900BA75DB /* SoundDataResource.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
 				3082C3B31D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
-				30381FC61D80A3F900677CAB /* SoundDataAL.h in Headers */,
 				3038214A1D81876E00677CAB /* RendererEmpty.h in Headers */,
 				301EB3A71CCD691800466E92 /* Component.h in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.h in Headers */,
@@ -2053,7 +2041,6 @@
 				30575AD01C3B175D0009C8A7 /* Label.h in Headers */,
 				30575A921C38BD370009C8A7 /* Box2.h in Headers */,
 				30EA710F1D5268C600AE8C3E /* Application.h in Headers */,
-				30381FC51D80A3F900677CAB /* SoundDataAL.h in Headers */,
 				301456EB1E38BEC900BA75DB /* SoundDataResource.h in Headers */,
 				303696F01E32DE08007F4211 /* Shader.h in Headers */,
 				30381FEC1D80A40700677CAB /* ColorPSTVOS.h in Headers */,
@@ -2107,7 +2094,7 @@
 				3038201C1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
 				3030D5061DAEF1FA007CC8EB /* Log.h in Headers */,
-				303821731D81876E00677CAB /* SoundDataEmpty.h in Headers */,
+				300C39EE1E51355000330E4F /* SoundDataWave.h in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.h in Headers */,
 				303821051D817F6400677CAB /* AudioALApple.h in Headers */,
 				30381F771D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
@@ -2249,6 +2236,7 @@
 				30381FB51D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303820FE1D817F4900677CAB /* InputApple.mm in Sources */,
+				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
 				303821571D81876E00677CAB /* TextureEmpty.cpp in Sources */,
@@ -2256,7 +2244,6 @@
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBufferResource.cpp in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
-				30381FC11D80A3F900677CAB /* SoundDataAL.cpp in Sources */,
 				303696E41E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
 				30EA710D1D5268C600AE8C3E /* Application.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
@@ -2291,7 +2278,6 @@
 				303820121D80A40700677CAB /* TextureMetal.mm in Sources */,
 				303B754D1C2A3CB700FEDE92 /* MathUtils.cpp in Sources */,
 				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
-				3038216F1D81876E00677CAB /* SoundDataEmpty.cpp in Sources */,
 				30C56C961CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				30381FE21D80A40700677CAB /* BlendStateMetal.mm in Sources */,
@@ -2373,6 +2359,7 @@
 				30381FB71D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821001D817F4900677CAB /* InputApple.mm in Sources */,
+				300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* ShapeDrawable.cpp in Sources */,
 				303821591D81876E00677CAB /* TextureEmpty.cpp in Sources */,
@@ -2380,7 +2367,6 @@
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBufferResource.cpp in Sources */,
 				303B76871C355A5800FEDE92 /* AppDelegate.mm in Sources */,
-				30381FC31D80A3F900677CAB /* SoundDataAL.cpp in Sources */,
 				303696E61E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
 				30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -2416,7 +2402,6 @@
 				30C56C971CAC3ECE007AEF8F /* SlideBar.cpp in Sources */,
 				30381FE41D80A40700677CAB /* BlendStateMetal.mm in Sources */,
 				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
-				303821711D81876E00677CAB /* SoundDataEmpty.cpp in Sources */,
 				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
@@ -2497,6 +2482,7 @@
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				30381F741D80A3EC00677CAB /* MeshBufferOGL.cpp in Sources */,
 				303820FF1D817F4900677CAB /* InputApple.mm in Sources */,
+				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureEmpty.cpp in Sources */,
@@ -2506,7 +2492,6 @@
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30EA710C1D5268C600AE8C3E /* Application.cpp in Sources */,
 				303696E51E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
-				30381FC21D80A3F900677CAB /* SoundDataAL.cpp in Sources */,
 				303821761D81876E00677CAB /* SoundEmpty.cpp in Sources */,
 				30A9C13A1CAEBA540084C4BF /* Language.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
@@ -2539,7 +2524,6 @@
 				30EF36631CA845DC00F04F29 /* ComboBox.cpp in Sources */,
 				304A8E581C237C70008B1151 /* Matrix3.cpp in Sources */,
 				30381FE31D80A40700677CAB /* BlendStateMetal.mm in Sources */,
-				303821701D81876E00677CAB /* SoundDataEmpty.cpp in Sources */,
 				3047F7771C4D39C500774E3D /* Repeat.cpp in Sources */,
 				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* Image.cpp in Sources */,

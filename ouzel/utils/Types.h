@@ -17,9 +17,6 @@ namespace ouzel
 
         class Sound;
         typedef std::shared_ptr<Sound> SoundPtr;
-
-        class SoundData;
-        typedef std::shared_ptr<SoundData> SoundDataPtr;
     }
 
     namespace scene

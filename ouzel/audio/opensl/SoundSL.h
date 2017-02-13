@@ -19,7 +19,7 @@ namespace ouzel
             SoundSL();
             virtual ~SoundSL();
 
-            virtual bool init(const SoundDataPtr& newSoundData) override;
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData) override;
 
             virtual bool play(bool repeatSound = false) override;
             virtual bool stop(bool resetSound = false) override;

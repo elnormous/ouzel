@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "math/Vector3.h"
 #include "utils/Types.h"
 
@@ -11,6 +12,7 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class SoundData;
 
         class Sound
         {
@@ -18,9 +20,9 @@ namespace ouzel
         public:
             virtual ~Sound();
 
-            virtual bool init(const SoundDataPtr& newSoundData);
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
 
-            const SoundDataPtr& getSoundData() const { return soundData; }
+            const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
             virtual void setPosition(const Vector3& newPosition);
             virtual void setPitch(float newPitch);
@@ -37,7 +39,7 @@ namespace ouzel
         protected:
             Sound();
 
-            SoundDataPtr soundData;
+            std::shared_ptr<SoundData> soundData;
             bool repeat = false;
 
             bool ready = false;
