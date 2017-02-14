@@ -264,11 +264,11 @@ namespace ouzel
 
         bool RendererOGLTVOS::upload()
         {
-            if (frameBufferWidth != static_cast<GLsizei>(data.size.v[0]) ||
-                frameBufferHeight != static_cast<GLsizei>(data.size.v[1]))
+            if (frameBufferWidth != static_cast<GLsizei>(size.v[0]) ||
+                frameBufferHeight != static_cast<GLsizei>(size.v[1]))
             {
-                frameBufferWidth = static_cast<GLsizei>(data.size.v[0]);
-                frameBufferHeight = static_cast<GLsizei>(data.size.v[1]);
+                frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+                frameBufferHeight = static_cast<GLsizei>(size.v[1]);
 
                 if (!createFrameBuffer())
                 {

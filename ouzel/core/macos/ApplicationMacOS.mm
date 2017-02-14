@@ -3,7 +3,65 @@
 
 #import <Cocoa/Cocoa.h>
 #include "ApplicationMacOS.h"
-#import "AppDelegate.h"
+#include "core/Application.h"
+#include "core/Engine.h"
+
+@interface AppDelegate: NSObject<NSApplicationDelegate>
+
+@end
+
+@implementation AppDelegate
+
+-(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
+{
+    ouzelMain(ouzel::sharedApplication->getArgs());
+}
+
+-(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
+{
+}
+
+-(void)applicationWillTerminate:(__unused NSNotification*)notification
+{
+    ouzel::sharedApplication->exit();
+
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->exitUpdateThread();
+    }
+}
+
+-(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
+{
+    return YES;
+}
+
+-(BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
+{
+    if (ouzel::sharedEngine)
+    {
+        ouzel::Event event;
+        event.type = ouzel::Event::Type::OPEN_FILE;
+
+        event.systemEvent.filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
+
+        ouzel::sharedEngine->getEventDispatcher()->postEvent(event);
+    }
+
+    return YES;
+}
+
+-(void)applicationDidBecomeActive:(__unused NSNotification*)notification
+{
+    ouzel::sharedEngine->resume();
+}
+
+-(void)applicationDidResignActive:(__unused NSNotification*)notification
+{
+    ouzel::sharedEngine->pause();
+}
+
+@end
 
 namespace ouzel
 {
@@ -18,7 +76,7 @@ namespace ouzel
         @autoreleasepool
         {
             NSApplication* application = [NSApplication sharedApplication];
-            [application activateIgnoringOtherApps : YES];
+            [application activateIgnoringOtherApps:YES];
 
             AppDelegate* appDelegate = [[[AppDelegate alloc] init] autorelease];
             [application setDelegate:appDelegate];
