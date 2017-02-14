@@ -22,6 +22,6 @@ namespace ouzel
         std::function<void(float)> callback;
 
     protected:
-        const int32_t priority;
+        int32_t priority;
     };
 }
