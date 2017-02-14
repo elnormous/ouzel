@@ -2,8 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "Audio.h"
-#include "SoundData.h"
-#include "Sound.h"
 #include "SoundResource.h"
 
 namespace ouzel
