@@ -39,10 +39,7 @@ namespace ouzel
 
             if (context)
             {
-                if ([EAGLContext currentContext] == context)
-                {
-                    [EAGLContext setCurrentContext:nil];
-                }
+                [EAGLContext setCurrentContext:nil];
                 [context release];
             }
         }

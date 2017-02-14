@@ -77,6 +77,7 @@ namespace ouzel
         {
             if (context)
             {
+                alcMakeContextCurrent(nullptr);
                 alcDestroyContext(context);
             }
 

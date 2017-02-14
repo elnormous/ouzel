@@ -15,6 +15,11 @@ namespace ouzel
 
             if (display && context)
             {
+                if (!glXMakeCurrent(display, None, nullptr))
+                {
+                    Log(Log::Level::ERR) << "Failed to unset GLX context";
+                }
+
                 glXDestroyContext(display, context);
             }
         }
@@ -120,7 +125,11 @@ namespace ouzel
             }
 
             // bind the rendering context to the window
-            glXMakeCurrent(display, windowLinux->getNativeWindow(), context);
+            if (!glXMakeCurrent(display, windowLinux->getNativeWindow(), context))
+            {
+                Log(Log::Level::ERR) << "Failed to make GLX context current";
+                return false;
+            }
 
             PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
 

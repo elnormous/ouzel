@@ -12,19 +12,24 @@ namespace ouzel
     {
         RendererOGLRasp::~RendererOGLRasp()
         {
+            if (context)
+            {
+                if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+                {
+                    Log(Log::Level::ERR) << "Failed to unset EGL context";
+                }
+
+                if (!eglDestroyContext(display, context))
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
+                }
+            }
+
             if (surface)
             {
                 if (!eglDestroySurface(display, surface))
                 {
                     Log(Log::Level::ERR) << "Failed to destroy EGL surface";
-                }
-            }
-
-            if (context)
-            {
-                if (!eglDestroyContext(display, context))
-                {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
                 }
             }
 

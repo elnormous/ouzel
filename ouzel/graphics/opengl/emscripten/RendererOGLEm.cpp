@@ -13,7 +13,10 @@ namespace ouzel
         {
             if (webGLContext)
             {
-                emscripten_webgl_destroy_context(webGLContext);
+                if (emscripten_webgl_destroy_context(webGLContext) != EMSCRIPTEN_RESULT_SUCCESS)
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy WebGL context";
+                }
             }
         }
 
@@ -48,6 +51,7 @@ namespace ouzel
 
             if (res != EMSCRIPTEN_RESULT_SUCCESS)
             {
+                Log(Log::Level::ERR) << "Failed to make WebGL context current";
                 return false;
             }
 
@@ -60,6 +64,7 @@ namespace ouzel
 
             if (res != EMSCRIPTEN_RESULT_SUCCESS)
             {
+                Log(Log::Level::ERR) << "Failed to make WebGL context current";
                 return false;
             }
 

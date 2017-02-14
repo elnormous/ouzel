@@ -13,6 +13,7 @@ namespace ouzel
         {
             if (openGLContext)
             {
+                [NSOpenGLContext clearCurrentContext];
                 [openGLContext release];
             }
 
