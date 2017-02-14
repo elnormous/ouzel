@@ -4,6 +4,10 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
+#include <mutex>
+#include <set>
+#include <vector>
 #include "math/Vector3.h"
 #include "utils/Types.h"
 
@@ -17,6 +21,8 @@ namespace ouzel
 
     namespace audio
     {
+        class Resource;
+        
         class Audio
         {
             friend Engine;
@@ -58,6 +64,11 @@ namespace ouzel
 
             Vector3 listenerPosition;
             Vector3 listenerOrientation;
+
+            std::mutex resourceMutex;
+            std::vector<std::unique_ptr<Resource>> resources;
+            std::set<Resource*> resourceUploadSet;
+            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
         };
     } // namespace audio
 } // namespace ouzel
