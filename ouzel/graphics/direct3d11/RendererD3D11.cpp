@@ -230,21 +230,30 @@ namespace ouzel
 
             // Sampler state
             D3D11_SAMPLER_DESC samplerStateDesc;
-            switch (textureFilter)
+
+            if (maxAnisotropy > 1)
             {
-                case Texture::Filter::NONE:
-                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-                    break;
-                case Texture::Filter::LINEAR:
-                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
-                    break;
-                case Texture::Filter::BILINEAR:
-                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-                    break;
-                case Texture::Filter::TRILINEAR:
-                    samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-                    break;
+                samplerStateDesc.Filter = D3D11_FILTER_ANISOTROPIC;
             }
+            else
+            {
+                switch (textureFilter)
+                {
+                    case Texture::Filter::NONE:
+                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+                        break;
+                    case Texture::Filter::LINEAR:
+                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+                        break;
+                    case Texture::Filter::BILINEAR:
+                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+                        break;
+                    case Texture::Filter::TRILINEAR:
+                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+                        break;
+                }
+            }
+
             samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
             samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
