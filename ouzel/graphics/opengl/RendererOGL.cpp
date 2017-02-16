@@ -296,8 +296,72 @@ namespace ouzel
             glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(getProcAddress("glVertexAttribPointer"));
 #endif
 
+            anisotropicFilteringSupported = false;
+
+            std::vector<std::string> extensions;
+
             if (apiMajorVersion >= 3)
             {
+                GLint extensionCount;
+                glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::WARN) << "Failed to get OpenGL extension count";
+                }
+                else
+                {
+                    for (GLint i = 0; i < extensionCount; ++i)
+                    {
+                        std::string extension(reinterpret_cast<const char*>(glGetStringi(GL_EXTENSIONS, i)));
+
+                        extensions.push_back(extension);
+                    }
+                }
+            }
+            else
+            {
+                const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
+
+                if (checkOpenGLError() || !extensionPtr)
+                {
+                    Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
+                }
+                else
+                {
+                    std::istringstream extensionStringStream(reinterpret_cast<const char*>(extensionPtr));
+
+                    for (std::string extension; extensionStringStream >> extension;)
+                    {
+                        extensions.push_back(extension);
+                    }
+                }
+            }
+
+            {
+                Log extensionLog(Log::Level::ALL);
+
+                extensionLog << "Supported OpenGL extensions: ";
+                bool first = true;
+
+                for (const std::string& extension : extensions)
+                {
+                    if (!first) extensionLog << ", ";
+                    first = false;
+                    extensionLog << extension;
+                }
+            }
+
+            if (apiMajorVersion >= 3)
+            {
+                for (const std::string& extension : extensions)
+                {
+                    if (extension == "GL_EXT_texture_filter_anisotropic")
+                    {
+                        anisotropicFilteringSupported = true;
+                    }
+                }
+
 #if OUZEL_OPENGL_INTERFACE_EAGL
                 glGenVertexArraysProc = glGenVertexArraysOES;
                 glBindVertexArrayProc = glBindVertexArrayOES;
@@ -360,8 +424,12 @@ namespace ouzel
 
                     for (std::string extension; extensionStringStream >> extension;)
                     {
-                        if (extension == "GL_OES_texture_npot" ||
-                            extension == "GL_ARB_texture_non_power_of_two")
+                        if (extension == "GL_EXT_texture_filter_anisotropic")
+                        {
+                            anisotropicFilteringSupported = true;
+                        }
+                        else if (extension == "GL_OES_texture_npot" ||
+                                 extension == "GL_ARB_texture_non_power_of_two")
                         {
                             npotTexturesSupported = true;
                         }
