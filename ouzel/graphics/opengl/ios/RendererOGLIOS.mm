@@ -67,30 +67,28 @@ namespace ouzel
             {
                 apiMajorVersion = 3;
                 apiMinorVersion = 0;
-                Log(Log::Level::INFO) << "Using OpenGL ES 3";
+                Log(Log::Level::INFO) << "EAGL OpenGL ES 3 context created";
             }
             else
             {
-                Log(Log::Level::INFO) << "Failed to create OpenGL ES 3 rendering context";
-
                 context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
                 if (context)
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "Using OpenGL ES 2";
+                    Log(Log::Level::INFO) << "EAGL OpenGL ES 2 context created";
                 }
                 else
                 {
-                    Log(Log::Level::ERR) << "Failed to initialize OpenGL ES 2 rendering context";
+                    Log(Log::Level::ERR) << "Failed to create EAGL context";
                     return false;
                 }
             }
 
             if (![EAGLContext setCurrentContext:context])
             {
-                Log(Log::Level::ERR) << "Failed to set current OpenGL rendering context";
+                Log(Log::Level::ERR) << "Failed to set current EAGL context";
                 return false;
             }
 

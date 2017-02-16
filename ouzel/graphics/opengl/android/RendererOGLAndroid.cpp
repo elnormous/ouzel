@@ -64,7 +64,7 @@ namespace ouzel
                 return false;
             }
 
-            static const EGLint attributeList[] =
+            const EGLint attributeList[] =
             {
                 EGL_RED_SIZE, 8,
                 EGL_GREEN_SIZE, 8,
@@ -108,22 +108,30 @@ namespace ouzel
                 return false;
             }
 
-            // TODO: try to create OpenGL 3 context
-            static const EGLint contextAttributes[] =
+            for (EGLint version = 3; version >= 2; --version)
             {
-                EGL_CONTEXT_CLIENT_VERSION, 2,
-                EGL_NONE
-            };
-            context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+                const EGLint contextAttributes[] =
+                {
+                    EGL_CONTEXT_CLIENT_VERSION, version,
+                    EGL_NONE
+                };
+
+                context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+
+                if (context != EGL_NO_CONTEXT)
+                {
+                    apiMajorVersion = version;
+                    apiMinorVersion = 0;
+                    Log(Log::Level::INFO) << "EGL OpenGL ES " << version << " context created";
+                    break;
+                }
+            }
 
             if (context == EGL_NO_CONTEXT)
             {
                 Log(Log::Level::ERR) << "Failed to create EGL context";
                 return false;
             }
-
-            apiMajorVersion = 2;
-            apiMinorVersion = 0;
 
             if (!eglMakeCurrent(display, surface, surface, context))
             {
