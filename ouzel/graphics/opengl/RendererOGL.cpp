@@ -112,6 +112,8 @@ PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArrayProc;
 PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
 PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
+PFNGLGETSTRINGIPROC glGetStringiProc;
+
 #if OUZEL_SUPPORTS_OPENGL
     PFNGLMAPBUFFERPROC glMapBufferProc;
     PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
@@ -215,6 +217,7 @@ namespace ouzel
             glBindFramebufferProc = glBindFramebuffer;
             glCheckFramebufferStatusProc = glCheckFramebufferStatus;
             glFramebufferRenderbufferProc = glFramebufferRenderbuffer;
+            glGetStringiProc = glGetStringi;
 #if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = glBlitFramebuffer;
 #endif
@@ -294,6 +297,8 @@ namespace ouzel
             glEnableVertexAttribArrayProc = reinterpret_cast<PFNGLENABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glEnableVertexAttribArray"));
             glDisableVertexAttribArrayProc = reinterpret_cast<PFNGLDISABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glDisableVertexAttribArray"));
             glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(getProcAddress("glVertexAttribPointer"));
+
+            glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
 #endif
 
             anisotropicFilteringSupported = false;
@@ -313,7 +318,7 @@ namespace ouzel
                 {
                     for (GLint i = 0; i < extensionCount; ++i)
                     {
-                        std::string extension(reinterpret_cast<const char*>(glGetStringi(GL_EXTENSIONS, i)));
+                        std::string extension(reinterpret_cast<const char*>(glGetStringiProc(GL_EXTENSIONS, i)));
 
                         extensions.push_back(extension);
                     }

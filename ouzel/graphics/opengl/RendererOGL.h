@@ -89,6 +89,8 @@ extern PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArrayProc;
 extern PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArrayProc;
 extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
+extern PFNGLGETSTRINGIPROC glGetStringiProc;
+
 #if OUZEL_SUPPORTS_OPENGL
     extern PFNGLMAPBUFFERPROC glMapBufferProc;
     extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
