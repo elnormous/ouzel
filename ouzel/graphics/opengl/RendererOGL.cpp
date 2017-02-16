@@ -217,9 +217,19 @@ namespace ouzel
             glBindFramebufferProc = glBindFramebuffer;
             glCheckFramebufferStatusProc = glCheckFramebufferStatus;
             glFramebufferRenderbufferProc = glFramebufferRenderbuffer;
-            glGetStringiProc = glGetStringi;
+
 #if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = glBlitFramebuffer;
+            glGetStringiProc = glGetStringi;
+#else
+            if (apiMajorVersion >= 3)
+            {
+                glGetStringiProc = glGetStringi;
+            }
+            else
+            {
+                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
+            }
 #endif
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
