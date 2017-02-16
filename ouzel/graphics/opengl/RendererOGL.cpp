@@ -222,14 +222,7 @@ namespace ouzel
             glBlitFramebufferProc = glBlitFramebuffer;
             glGetStringiProc = glGetStringi;
 #else
-            if (apiMajorVersion >= 3)
-            {
-                glGetStringiProc = glGetStringi;
-            }
-            else
-            {
-                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
-            }
+            glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
 #endif
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
