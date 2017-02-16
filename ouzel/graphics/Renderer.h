@@ -198,7 +198,7 @@ namespace ouzel
             uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
             Texture::Filter textureFilter = Texture::Filter::NONE;
-            uint32_t maxAnisotropy = 0;
+            uint32_t maxAnisotropy = 1;
             PixelFormat backBufferFormat;
             bool depth = false;
 

@@ -19,7 +19,7 @@ namespace ouzel
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::NONE;
-        uint32_t maxAnisotropy = 0;
+        uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;

@@ -241,6 +241,7 @@ namespace ouzel
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
                     break;
             }
+            samplerDescriptor.maxAnisotropy = maxAnisotropy;
             samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
             samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
 
