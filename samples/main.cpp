@@ -13,6 +13,7 @@ void ouzelMain(const std::vector<std::string>& args)
     settings.resizable = true;
     settings.sampleCount = 4;
     settings.textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
+    settings.maxAnisotropy = 4;
     settings.depth = true;
 
     std::string sample;

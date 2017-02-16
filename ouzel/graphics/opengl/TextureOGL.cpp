@@ -77,6 +77,11 @@ namespace ouzel
                         break;
                 }
 
+                if (rendererOGL->getMaxAnisotropy() > 1)
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, rendererOGL->getMaxAnisotropy());
+                }
+
                 if (RendererOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture parameters";

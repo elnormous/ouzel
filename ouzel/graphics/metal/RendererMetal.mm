@@ -224,21 +224,25 @@ namespace ouzel
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                    samplerDescriptor.maxAnisotropy = 1;
                     break;
                 case Texture::Filter::LINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                    samplerDescriptor.maxAnisotropy = 1;
                     break;
                 case Texture::Filter::BILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                    samplerDescriptor.maxAnisotropy = 1;
                     break;
                 case Texture::Filter::TRILINEAR:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                    samplerDescriptor.maxAnisotropy = 1;
                     break;
             }
             samplerDescriptor.maxAnisotropy = maxAnisotropy;
