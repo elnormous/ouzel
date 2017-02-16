@@ -22,7 +22,7 @@ namespace ouzel
     namespace audio
     {
         class Resource;
-        
+
         class Audio
         {
             friend Engine;

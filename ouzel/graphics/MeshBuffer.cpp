@@ -33,7 +33,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             indexSize = newIndexSize;
             indexBuffer = newIndexBuffer;
 
@@ -109,14 +109,14 @@ namespace ouzel
         bool MeshBuffer::setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer)
         {
             vertexBuffer = newVertexBuffer;
-            
+
             if (!resource->setVertexBuffer(newVertexBuffer ? newVertexBuffer->getResource() : nullptr))
             {
                 return false;
             }
 
             sharedEngine->getRenderer()->uploadResource(resource);
-            
+
             return true;
         }
     } // namespace graphics

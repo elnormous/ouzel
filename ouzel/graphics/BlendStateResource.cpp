@@ -22,7 +22,7 @@ namespace ouzel
                                       BlendState::BlendOperation newAlphaOperation)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             enableBlending = newEnableBlending;
             colorBlendSource = newColorBlendSource;
             colorBlendDest = newColorBlendDest;

@@ -39,7 +39,7 @@ namespace ouzel
             EGLDisplay display = 0;
             EGLSurface surface = 0;
             EGLContext context = 0;
-            
+
             EGL_DISPMANX_WINDOW_T nativewindow;
         };
     } // namespace graphics

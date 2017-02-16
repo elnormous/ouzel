@@ -255,10 +255,10 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create framebuffer object " << glCheckFramebufferStatusProc(GL_FRAMEBUFFER);
                     return false;
                 }
-                
+
                 frameBufferId = resolveFrameBufferId;
             }
-            
+
             return true;
         }
 

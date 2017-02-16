@@ -42,7 +42,7 @@ namespace ouzel
             ShaderResource();
 
             uint32_t dirty = 0;
-            
+
             std::vector<VertexAttribute> vertexAttributes;
 
             std::vector<uint8_t> pixelShaderData;

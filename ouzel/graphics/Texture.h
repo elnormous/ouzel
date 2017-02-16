@@ -28,7 +28,7 @@ namespace ouzel
             };
 
             static const uint32_t LAYERS = 4;
-            
+
             Texture();
             virtual ~Texture();
 
@@ -39,7 +39,7 @@ namespace ouzel
             TextureResource* getResource() const { return resource; }
 
             const std::string& getFilename() const { return filename; }
-            
+
             bool setSize(const Size2& newSize);
             bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 

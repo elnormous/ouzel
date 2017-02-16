@@ -32,7 +32,7 @@ namespace ouzel
             }
 
             sharedEngine->getRenderer()->uploadResource(resource);
-            
+
             return true;
         }
 
@@ -67,7 +67,7 @@ namespace ouzel
             }
 
             sharedEngine->getRenderer()->uploadResource(resource);
-            
+
             return true;
         }
     } // namespace graphics

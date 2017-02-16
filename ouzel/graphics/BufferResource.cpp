@@ -21,7 +21,7 @@ namespace ouzel
 
             usage = newUsage;
             dynamic = newDynamic;
-            
+
             dirty |= ATTRIBUTES;
 
             return true;
@@ -30,7 +30,7 @@ namespace ouzel
         bool BufferResource::initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             usage = newUsage;
             dynamic = newDynamic;
 

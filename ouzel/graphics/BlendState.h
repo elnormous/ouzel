@@ -39,7 +39,7 @@ namespace ouzel
                 MIN,
                 MAX
             };
-            
+
             BlendState();
             virtual ~BlendState();
 

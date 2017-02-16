@@ -231,7 +231,7 @@ namespace ouzel
             glGetProgramivProc = glGetProgramiv;
             glGetProgramInfoLogProc = glGetProgramInfoLog;
             glGetUniformLocationProc = glGetUniformLocation;
-            
+
             glBindBufferProc = glBindBuffer;
             glDeleteBuffersProc = glDeleteBuffers;
             glGenBuffersProc = glGenBuffers;
@@ -276,7 +276,7 @@ namespace ouzel
             glGetProgramivProc = reinterpret_cast<PFNGLGETPROGRAMIVPROC>(getProcAddress("glGetProgramiv"));
             glGetProgramInfoLogProc = reinterpret_cast<PFNGLGETPROGRAMINFOLOGPROC>(getProcAddress("glGetProgramInfoLog"));
             glGetUniformLocationProc = reinterpret_cast<PFNGLGETUNIFORMLOCATIONPROC>(getProcAddress("glGetUniformLocation"));
-            
+
             glBindBufferProc = reinterpret_cast<PFNGLBINDBUFFERPROC>(getProcAddress("glBindBuffer"));
             glDeleteBuffersProc = reinterpret_cast<PFNGLDELETEBUFFERSPROC>(getProcAddress("glDeleteBuffers"));
             glGenBuffersProc = reinterpret_cast<PFNGLGENBUFFERSPROC>(getProcAddress("glGenBuffers"));

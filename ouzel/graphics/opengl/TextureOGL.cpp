@@ -106,7 +106,7 @@ namespace ouzel
 
                         if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
                         if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-                        
+
                         if (!frameBufferId)
                         {
                             glGenFramebuffersProc(1, &frameBufferId);

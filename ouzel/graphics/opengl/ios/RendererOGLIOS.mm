@@ -31,7 +31,7 @@ namespace ouzel
             {
                 glDeleteRenderbuffersProc(1, &depthRenderBufferId);
             }
-            
+
             if (resolveFrameBufferId)
             {
                 glDeleteFramebuffersProc(1, &resolveFrameBufferId);

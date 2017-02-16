@@ -75,7 +75,7 @@ namespace ouzel
         {
             resourceDeleteSet.clear();
             resources.clear();
-            
+
             for (uint32_t state = 0; state < 4; ++state)
             {
                 if (depthStencilStates[state])

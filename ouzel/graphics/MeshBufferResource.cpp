@@ -92,7 +92,7 @@ namespace ouzel
             }
 
             vertexBuffer = newVertexBuffer;
-            
+
             dirty |= VERTEX_BUFFER;
 
             return true;

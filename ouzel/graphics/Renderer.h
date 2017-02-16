@@ -161,7 +161,7 @@ namespace ouzel
                               bool newDepth);
 
             virtual void setSize(const Size2& newSize);
-            
+
             struct DrawCommand
             {
                 std::vector<TextureResource*> textures;
@@ -181,7 +181,7 @@ namespace ouzel
                 bool scissorTestEnabled;
                 Rectangle scissorTest;
             };
-            
+
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
             virtual bool upload();
             virtual bool generateScreenshot(const std::string& filename);

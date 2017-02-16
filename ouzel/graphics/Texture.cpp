@@ -84,7 +84,7 @@ namespace ouzel
             }
 
             sharedEngine->getRenderer()->uploadResource(resource);
-            
+
             return true;
         }
 

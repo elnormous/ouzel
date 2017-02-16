@@ -3,7 +3,7 @@
 
 #include "MeshBufferD3D11.h"
 #include "BufferD3D11.h"
-#include "utils/Log.h" 
+#include "utils/Log.h"
 
 namespace ouzel
 {

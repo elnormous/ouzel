@@ -54,7 +54,7 @@ namespace ouzel
                                 Log(Log::Level::ERR) << "Unsupported buffer type";
                                 return false;
                         }
-                    
+
                         bufferDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
                         bufferDesc.MiscFlags = 0;
                         bufferDesc.StructureByteStride = 0;

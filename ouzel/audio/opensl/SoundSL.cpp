@@ -133,7 +133,7 @@ namespace ouzel
                 return false;
             }
 
-            soundData->getData(buffer);            
+            soundData->getData(buffer);
 
             if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)
             {

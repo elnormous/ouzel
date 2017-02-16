@@ -241,7 +241,7 @@ namespace ouzel
                         std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadWin](const std::unique_ptr<Gamepad>& gamepad) {
                             return gamepadWin == gamepad.get();
                         });
-                        
+
                         if (i != gamepads.end())
                         {
                             gamepads.erase(i);

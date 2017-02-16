@@ -238,7 +238,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to choose pixel format";
                 return false;
             }
-            
+
             if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
             {
                 Log(Log::Level::ERR) << "Failed to set pixel format";

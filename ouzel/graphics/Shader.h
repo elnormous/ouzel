@@ -28,7 +28,7 @@ namespace ouzel
                 DataType dataType;
                 uint32_t size;
             };
-            
+
             Shader();
             virtual ~Shader();
 

@@ -60,7 +60,7 @@ namespace ouzel
                 const GLvoid* pointer;
             };
             std::vector<VertexAttrib> vertexAttribs;
-            
+
             GLuint vertexArrayId = 0;
 
             BufferOGL* indexBufferOGL = nullptr;

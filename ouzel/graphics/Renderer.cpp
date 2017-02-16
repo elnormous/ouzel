@@ -42,7 +42,7 @@ namespace ouzel
                             bool newDepth)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
-            
+
             window = newWindow;
             size = newSize;
             sampleCount = newSampleCount;
@@ -93,8 +93,6 @@ namespace ouzel
                     return false;
                 }
             }
-
-
 
             std::vector<DrawCommand> drawCommands;
             {
@@ -315,7 +313,7 @@ namespace ouzel
 
             return true;
         }
-        
+
         bool Renderer::generateScreenshot(const std::string&)
         {
             return true;
