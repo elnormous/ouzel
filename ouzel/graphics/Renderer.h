@@ -90,6 +90,7 @@ namespace ouzel
             const Size2& getSize() const { return size; }
             uint32_t getSampleCount() const { return sampleCount; }
             Texture::Filter getTextureFilter() const { return textureFilter; }
+            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
@@ -156,6 +157,7 @@ namespace ouzel
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
+                              uint32_t newMaxAnisotropy,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth);
@@ -196,6 +198,7 @@ namespace ouzel
             uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
             Texture::Filter textureFilter = Texture::Filter::NONE;
+            uint32_t maxAnisotropy = 0;
             PixelFormat backBufferFormat;
             bool depth = false;
 

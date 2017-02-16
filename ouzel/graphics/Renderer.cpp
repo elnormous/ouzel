@@ -37,6 +37,7 @@ namespace ouzel
                             const Size2& newSize,
                             uint32_t newSampleCount,
                             Texture::Filter newTextureFilter,
+                            uint32_t newMaxAnisotropy,
                             PixelFormat newBackBufferFormat,
                             bool newVerticalSync,
                             bool newDepth)
@@ -47,6 +48,7 @@ namespace ouzel
             size = newSize;
             sampleCount = newSampleCount;
             textureFilter = newTextureFilter;
+            maxAnisotropy = newMaxAnisotropy;
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
             depth = newDepth;

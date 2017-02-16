@@ -28,6 +28,7 @@ namespace ouzel
                                     const Size2& newSize,
                                     uint32_t newSampleCount,
                                     Texture::Filter newTextureFilter,
+                                    uint32_t newMaxAnisotropy,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
                                     bool newDepth)
@@ -138,7 +139,14 @@ namespace ouzel
                 glXSwapIntervalEXT(display, windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
             }
 
-            return RendererOGL::init(newWindow, newSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
+            return RendererOGL::init(newWindow,
+                                     newSize,
+                                     newSampleCount,
+                                     newTextureFilter,
+                                     newMaxAnisotropy,
+                                     newBackBufferFormat,
+                                     newVerticalSync,
+                                     newDepth);
         }
 
         bool RendererOGLLinux::swapBuffers()

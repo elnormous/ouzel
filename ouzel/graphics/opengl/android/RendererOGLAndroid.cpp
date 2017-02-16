@@ -45,6 +45,7 @@ namespace ouzel
                                       const Size2&,
                                       uint32_t newSampleCount,
                                       Texture::Filter newTextureFilter,
+                                      uint32_t newMaxAnisotropy,
                                       PixelFormat newBackBufferFormat,
                                       bool newVerticalSync,
                                       bool newDepth)
@@ -151,7 +152,14 @@ namespace ouzel
 
             newWindow->setSize(backBufferSize / newWindow->getContentScale());
 
-            return RendererOGL::init(newWindow, backBufferSize, newSampleCount, newTextureFilter, newBackBufferFormat, newVerticalSync, newDepth);
+            return RendererOGL::init(newWindow,
+                                     backBufferSize,
+                                     newSampleCount,
+                                     newTextureFilter,
+                                     newMaxAnisotropy,
+                                     newBackBufferFormat,
+                                     newVerticalSync,
+                                     newDepth);
         }
 
         bool RendererOGLAndroid::swapBuffers()

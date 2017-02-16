@@ -253,6 +253,7 @@ namespace ouzel
                             window->getSize() * window->getContentScale(),
                             settings.sampleCount,
                             settings.textureFilter,
+                            settings.maxAnisotropy,
                             settings.backBufferFormat,
                             settings.verticalSync,
                             settings.depth))

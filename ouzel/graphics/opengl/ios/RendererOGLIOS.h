@@ -32,6 +32,7 @@ namespace ouzel
                               const Size2& newSize,
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
+                              uint32_t newMaxAnisotropy,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth) override;
