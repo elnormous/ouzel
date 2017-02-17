@@ -147,7 +147,6 @@ namespace ouzel
         void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color)
         {
             DrawCommand command;
-
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
             command.indexCount = 2;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -350,5 +349,50 @@ namespace ouzel
             dirty = true;
         }
 
+        void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints, const Color& color, uint32_t segments)
+        {
+            DrawCommand command;
+            command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
+            command.indexCount = 0;
+            command.startIndex = static_cast<uint32_t>(indices.size());
+
+            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
+
+            for (uint16_t i = 0; i < controlPoints.size(); ++i)
+            {
+                if (i == 0 || i == controlPoints.size() - 1)
+                {
+                    indices.push_back(startVertex + command.indexCount);
+                    ++command.indexCount;
+                    vertices.push_back(graphics::VertexPC(controlPoints[i], color));
+                    boundingBox.insertPoint(controlPoints[i]);
+                }
+                else
+                {
+                    for (uint32_t segment = 0; segment < segments; ++segment)
+                    {
+                        float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
+
+                        Vector3 p0 = controlPoints[i - 1];
+                        Vector3 p1 = controlPoints[i];
+                        Vector3 p2 = controlPoints[i + 1];
+
+                        graphics::VertexPC vertex(Vector3(), color);
+                        vertex.position.v[0] = (1.0f - t) * (1.0f - t) * p0.v[0] + 2.0f * (1.0f - t) * t * p1.v[0] + t * t * p2.v[0];
+                        vertex.position.v[1] = (1.0f - t) * (1.0f - t) * p0.v[1] + 2.0f * (1.0f - t) * t * p1.v[1] + t * t * p2.v[1];
+                        vertex.position.v[2] = (1.0f - t) * (1.0f - t) * p0.v[2] + 2.0f * (1.0f - t) * t * p1.v[2] + t * t * p2.v[2];
+
+                        indices.push_back(startVertex + command.indexCount);
+                        ++command.indexCount;
+                        vertices.push_back(vertex);
+                        boundingBox.insertPoint(controlPoints[i]);
+                    }
+                }
+            }
+
+            drawCommands.push_back(command);
+
+            dirty = true;
+        }
     } // namespace scene
 } // namespace ouzel

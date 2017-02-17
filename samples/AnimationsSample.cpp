@@ -26,6 +26,11 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable.line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN);
     shapeDrawable.point(Vector2(75.0f, 75.0f), Color::RED);
 
+    shapeDrawable.curve({Vector2(50.0f, 50.0f),
+                         Vector2(100.0f, 50.0f),
+                         Vector2(100.0f, 0.0f)},
+                        Color::YELLOW);
+
     shapeDrawable.circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE);
     shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
