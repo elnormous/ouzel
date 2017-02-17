@@ -131,7 +131,7 @@ namespace ouzel
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             indices.push_back(startVertex);
-            vertices.push_back(graphics::VertexPC(Vector3(position), color));
+            vertices.push_back(graphics::VertexPC(position, color));
 
             drawCommands.push_back(command);
 
@@ -150,10 +150,10 @@ namespace ouzel
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             indices.push_back(startVertex);
-            vertices.push_back(graphics::VertexPC(Vector3(start), color));
+            vertices.push_back(graphics::VertexPC(start, color));
 
             indices.push_back(startVertex + 1);
-            vertices.push_back(graphics::VertexPC(Vector3(finish), color));
+            vertices.push_back(graphics::VertexPC(finish, color));
 
             drawCommands.push_back(command);
 
@@ -178,7 +178,7 @@ namespace ouzel
 
             if (fill)
             {
-                vertices.push_back(graphics::VertexPC(Vector3(position), color)); // center
+                vertices.push_back(graphics::VertexPC(position, color)); // center
             }
 
             for (uint32_t i = 0; i <= segments; ++i)
@@ -220,8 +220,8 @@ namespace ouzel
 
             drawCommands.push_back(command);
 
-            boundingBox.insertPoint(Vector2(position.v[0] - radius, position.v[1] - radius));
-            boundingBox.insertPoint(Vector2(position.v[0] + radius, position.v[1] + radius));
+            boundingBox.insertPoint(position - Vector2(radius, radius));
+            boundingBox.insertPoint(position + Vector2(radius, radius));
 
             dirty = true;
         }
