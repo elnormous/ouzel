@@ -18,8 +18,6 @@ namespace ouzel
         public:
             virtual ~AudioXA2();
 
-            virtual bool init() override;
-
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerOrientation(const Vector3& newOrientation);
 
@@ -29,6 +27,7 @@ namespace ouzel
 
         protected:
             AudioXA2();
+            virtual bool init() override;
 
             HMODULE xAudio2Library = nullptr;
 

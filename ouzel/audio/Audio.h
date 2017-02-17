@@ -38,8 +38,6 @@ namespace ouzel
 
             virtual ~Audio();
 
-            virtual bool init();
-
             virtual bool process();
 
             virtual void setListenerPosition(const Vector3& newPosition);
@@ -54,6 +52,7 @@ namespace ouzel
 
         protected:
             Audio(Driver aDriver);
+            virtual bool init();
 
             Driver driver;
 

@@ -19,8 +19,6 @@ namespace ouzel
         public:
             virtual ~AudioSL();
 
-            virtual bool init() override;
-
             virtual SoundPtr createSound() override;
 
             SLEngineItf getEngine() const { return engine; }
@@ -28,6 +26,7 @@ namespace ouzel
 
         protected:
             AudioSL();
+            virtual bool init() override;
 
             SLObjectItf engineObject = nullptr;
             SLEngineItf engine = nullptr;
