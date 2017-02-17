@@ -95,16 +95,8 @@ namespace ouzel
                     {
                         apiMajorVersion = 3;
                         apiMinorVersion = 2;
-                        Log(Log::Level::INFO) << "Using OpenGL 3.2";
+                        Log(Log::Level::INFO) << "GLX OpenGL 3.2 context created";
                     }
-                    else
-                    {
-                        Log(Log::Level::INFO) << "Failed to crete OpenGL 3.2 rendering context";
-                    }
-                }
-                else
-                {
-                    Log(Log::Level::INFO) << "Could not find glXCreateContextAttribsARB";
                 }
             }
 
@@ -116,11 +108,11 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "Using OpenGL 2";
+                    Log(Log::Level::INFO) << "GLX OpenGL 2 context created";
                 }
                 else
                 {
-                    Log(Log::Level::ERR) << "Failed to crete OpenGL 2 rendering context";
+                    Log(Log::Level::ERR) << "Failed to create GLX context";
                     return false;
                 }
             }

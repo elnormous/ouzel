@@ -65,12 +65,10 @@ namespace ouzel
             {
                 apiMajorVersion = 3;
                 apiMinorVersion = 2;
-                Log(Log::Level::INFO) << "Using OpenGL 3.2";
+                Log(Log::Level::INFO) << "OpenGL 3.2 pixel format created";
             }
             else
             {
-                Log(Log::Level::INFO) << "Failed to crete OpenGL 3.2 pixel format";
-
                 std::vector<NSOpenGLPixelFormatAttribute> openGL2Attributes =
                 {
                     NSOpenGLPFAAccelerated,
@@ -103,13 +101,13 @@ namespace ouzel
                 {
                     apiMajorVersion = 2;
                     apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "Using OpenGL 2";
+                    Log(Log::Level::INFO) << "OpenGL 2 pixel format created";
                 }
             }
 
             if (!pixelFormat)
             {
-                Log(Log::Level::ERR) << "Failed to crete OpenGL 2 pixel format";
+                Log(Log::Level::ERR) << "Failed to crete OpenGL pixel format";
                 return Nil;
             }
 
