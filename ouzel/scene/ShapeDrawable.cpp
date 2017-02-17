@@ -2,15 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include "ShapeDrawable.h"
-#include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/MeshBufferResource.h"
 #include "graphics/BufferResource.h"
-#include "core/Cache.h"
-#include "Layer.h"
 #include "Camera.h"
-#include "math/MathUtils.h"
 #include "utils/Utils.h"
 
 namespace ouzel
@@ -349,6 +345,17 @@ namespace ouzel
             dirty = true;
         }
 
+        static std::vector<uint32_t> pascalsTriangleRow(uint32_t row)
+        {
+            std::vector<uint32_t> ret;
+            ret.push_back(1);
+            for (uint32_t i = 0; i < row; ++i)
+            {
+                ret.push_back(ret[i] * (row - i) / (i + 1));
+            }
+            return ret;
+        }
+
         void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints, const Color& color, uint32_t segments)
         {
             if (controlPoints.size() < 2) return;
@@ -372,26 +379,24 @@ namespace ouzel
             }
             else
             {
-                for (uint16_t i = 1; i < controlPoints.size() - 1; ++i)
+                std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(controlPoints.size() - 1);
+
+                for (uint32_t segment = 0; segment < segments; ++segment)
                 {
-                    for (uint32_t segment = 0; segment < segments; ++segment)
+                    float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
+
+                    graphics::VertexPC vertex(Vector3(), color);
+
+                    for (uint16_t n = 0; n < controlPoints.size(); ++n)
                     {
-                        float t = static_cast<float>(segment) / static_cast<float>(segments - 1);
-
-                        Vector3 p0 = controlPoints[i - 1];
-                        Vector3 p1 = controlPoints[i];
-                        Vector3 p2 = controlPoints[i + 1];
-
-                        graphics::VertexPC vertex(Vector3(), color);
-                        vertex.position.v[0] = (1.0f - t) * (1.0f - t) * p0.v[0] + 2.0f * (1.0f - t) * t * p1.v[0] + t * t * p2.v[0];
-                        vertex.position.v[1] = (1.0f - t) * (1.0f - t) * p0.v[1] + 2.0f * (1.0f - t) * t * p1.v[1] + t * t * p2.v[1];
-                        vertex.position.v[2] = (1.0f - t) * (1.0f - t) * p0.v[2] + 2.0f * (1.0f - t) * t * p1.v[2] + t * t * p2.v[2];
-
-                        indices.push_back(startVertex + command.indexCount);
-                        ++command.indexCount;
-                        vertices.push_back(vertex);
-                        boundingBox.insertPoint(controlPoints[i]);
+                        vertex.position.v[0] += binomialCoefficients[n] * powf(t, n) * powf(1.0f - t, controlPoints.size() - n - 1) * controlPoints[n].v[0];
+                        vertex.position.v[1] += binomialCoefficients[n] * powf(t, n) * powf(1.0f - t, controlPoints.size() - n - 1) * controlPoints[n].v[1];
                     }
+
+                    indices.push_back(startVertex + command.indexCount);
+                    ++command.indexCount;
+                    vertices.push_back(vertex);
+                    boundingBox.insertPoint(vertex.position);
                 }
             }
 
