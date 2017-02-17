@@ -351,6 +351,8 @@ namespace ouzel
 
         void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints, const Color& color, uint32_t segments)
         {
+            if (controlPoints.size() < 2) return;
+
             DrawCommand command;
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
             command.indexCount = 0;
@@ -358,16 +360,19 @@ namespace ouzel
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            for (uint16_t i = 0; i < controlPoints.size(); ++i)
+            if (controlPoints.size() == 2)
             {
-                if (i == 0 || i == controlPoints.size() - 1)
+                for (uint16_t i = 0; i < controlPoints.size(); ++i)
                 {
                     indices.push_back(startVertex + command.indexCount);
                     ++command.indexCount;
                     vertices.push_back(graphics::VertexPC(controlPoints[i], color));
                     boundingBox.insertPoint(controlPoints[i]);
                 }
-                else
+            }
+            else
+            {
+                for (uint16_t i = 1; i < controlPoints.size() - 1; ++i)
                 {
                     for (uint32_t segment = 0; segment < segments; ++segment)
                     {

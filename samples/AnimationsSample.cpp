@@ -28,6 +28,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     shapeDrawable.curve({Vector2(50.0f, 50.0f),
                          Vector2(100.0f, 50.0f),
+                         Vector2(50.0f, 0.0f),
                          Vector2(100.0f, 0.0f)},
                         Color::YELLOW);
 
