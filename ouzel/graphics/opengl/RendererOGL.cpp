@@ -323,7 +323,7 @@ namespace ouzel
                 }
                 else
                 {
-                    for (GLint i = 0; i < extensionCount; ++i)
+                    for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                     {
                         std::string extension(reinterpret_cast<const char*>(glGetStringiProc(GL_EXTENSIONS, i)));
 
@@ -413,96 +413,80 @@ namespace ouzel
                 glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisample"));
     #endif
 #endif
-
             }
             else
             {
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
 
-                const GLubyte* extensionPtr = glGetString(GL_EXTENSIONS);
-
-                if (checkOpenGLError() || !extensionPtr)
+                for (const std::string& extension : extensions)
                 {
-                    Log(Log::Level::WARN) << "Failed to get OpenGL extensions";
-                }
-                else
-                {
-                    std::string extensions(reinterpret_cast<const char*>(extensionPtr));
-
-                    Log(Log::Level::ALL) << "Supported OpenGL extensions: " << extensions;
-
-                    std::istringstream extensionStringStream(extensions);
-
-                    for (std::string extension; extensionStringStream >> extension;)
+                    if (extension == "GL_EXT_texture_filter_anisotropic")
                     {
-                        if (extension == "GL_EXT_texture_filter_anisotropic")
-                        {
-                            anisotropicFilteringSupported = true;
-                        }
-                        else if (extension == "GL_OES_texture_npot" ||
-                                 extension == "GL_ARB_texture_non_power_of_two")
-                        {
-                            npotTexturesSupported = true;
-                        }
+                        anisotropicFilteringSupported = true;
+                    }
+                    else if (extension == "GL_OES_texture_npot" ||
+                             extension == "GL_ARB_texture_non_power_of_two")
+                    {
+                        npotTexturesSupported = true;
+                    }
 #if OUZEL_SUPPORTS_OPENGL
-                        if (extension == "GL_EXT_framebuffer_object")
-                        {
-                            glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
-                            glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(getProcAddress("glDeleteFramebuffers"));
-                            glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(getProcAddress("glBindFramebuffer"));
-                            glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(getProcAddress("glCheckFramebufferStatus"));
-                            glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(getProcAddress("glFramebufferRenderbuffer"));
-                            glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(getProcAddress("glFramebufferTexture2D"));
-                        }
-                        else if (extension == "GL_EXT_framebuffer_blit")
-                        {
-                            glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(getProcAddress("glBlitFramebuffer"));
-                        }
-                        else if (extension == "GL_EXT_framebuffer_multisample")
-                        {
-                            multisamplingSupported = true;
-                            glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
-                        }
-                        else if (extension == "GL_EXT_map_buffer_range")
-                        {
-                            glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRangeEXT"));
-                        }
-#elif OUZEL_OPENGL_INTERFACE_EAGL
-                        if (extension == "GL_APPLE_framebuffer_multisample")
-                        {
-                            multisamplingSupported = true;
-                            glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
-                        }
-#elif OUZEL_OPENGL_INTERFACE_EGL
-                        else if (extension == "GL_OES_vertex_array_object")
-                        {
-                            glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
-                            glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
-                            glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
-                        }
-                        else if (extension == "GL_OES_mapbuffer")
-                        {
-                            glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
-                            glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
-                        }
-                        else if (extension == "GL_EXT_map_buffer_range")
-                        {
-                            glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
-                        }
-                        else if (extension == "GL_IMG_multisampled_render_to_texture")
-                        {
-                            multisamplingSupported = true;
-                            glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
-                            glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
-                        }
-#endif // OUZEL_OPENGL_INTERFACE_EGL
-                    }
-
-                    if (!multisamplingSupported)
+                    if (extension == "GL_EXT_framebuffer_object")
                     {
-                        sampleCount = 1;
+                        glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
+                        glDeleteFramebuffersProc = reinterpret_cast<PFNGLDELETEFRAMEBUFFERSPROC>(getProcAddress("glDeleteFramebuffers"));
+                        glBindFramebufferProc = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(getProcAddress("glBindFramebuffer"));
+                        glCheckFramebufferStatusProc = reinterpret_cast<PFNGLCHECKFRAMEBUFFERSTATUSPROC>(getProcAddress("glCheckFramebufferStatus"));
+                        glFramebufferRenderbufferProc = reinterpret_cast<PFNGLFRAMEBUFFERRENDERBUFFERPROC>(getProcAddress("glFramebufferRenderbuffer"));
+                        glFramebufferTexture2DProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DPROC>(getProcAddress("glFramebufferTexture2D"));
                     }
+                    else if (extension == "GL_EXT_framebuffer_blit")
+                    {
+                        glBlitFramebufferProc = reinterpret_cast<PFNGLBLITFRAMEBUFFERPROC>(getProcAddress("glBlitFramebuffer"));
+                    }
+                    else if (extension == "GL_EXT_framebuffer_multisample")
+                    {
+                        multisamplingSupported = true;
+                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
+                    }
+                    else if (extension == "GL_EXT_map_buffer_range")
+                    {
+                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRangeEXT"));
+                    }
+#elif OUZEL_OPENGL_INTERFACE_EAGL
+                    if (extension == "GL_APPLE_framebuffer_multisample")
+                    {
+                        multisamplingSupported = true;
+                        glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
+                    }
+#elif OUZEL_OPENGL_INTERFACE_EGL
+                    else if (extension == "GL_OES_vertex_array_object")
+                    {
+                        glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSOESPROC>(getProcAddress("glGenVertexArraysOES"));
+                        glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYOESPROC>(getProcAddress("glBindVertexArrayOES"));
+                        glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSOESPROC>(getProcAddress("glDeleteVertexArraysOES"));
+                    }
+                    else if (extension == "GL_OES_mapbuffer")
+                    {
+                        glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBufferOES"));
+                        glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFEROESPROC>(getProcAddress("glUnmapBufferOES"));
+                    }
+                    else if (extension == "GL_EXT_map_buffer_range")
+                    {
+                        glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEEXTPROC>(getProcAddress("glMapBufferRangeEXT"));
+                    }
+                    else if (extension == "GL_IMG_multisampled_render_to_texture")
+                    {
+                        multisamplingSupported = true;
+                        glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
+                        glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                    }
+#endif // OUZEL_OPENGL_INTERFACE_EGL
+                }
+
+                if (!multisamplingSupported)
+                {
+                    sampleCount = 1;
                 }
             }
 

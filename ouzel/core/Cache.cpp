@@ -57,9 +57,9 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
             result->initFromFile(filename, dynamic, mipmaps);
 
-            auto i = textures.insert(std::make_pair(filename, result));
+            i = textures.insert(std::make_pair(filename, result)).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 
@@ -94,9 +94,9 @@ namespace ouzel
         }
         else
         {
-            auto i = shaders.insert(std::make_pair(shaderName, nullptr));
+            i = shaders.insert(std::make_pair(shaderName, nullptr)).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 
@@ -132,9 +132,9 @@ namespace ouzel
         }
         else
         {
-            auto i = blendStates.insert(std::make_pair(blendStateName, nullptr));
+            i = blendStates.insert(std::make_pair(blendStateName, nullptr)).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 
@@ -221,9 +221,9 @@ namespace ouzel
                 }
             }
 
-            auto i = spriteFrames.insert(std::make_pair(filename, frames));
+            i = spriteFrames.insert(std::make_pair(filename, frames)).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 
@@ -257,9 +257,9 @@ namespace ouzel
         }
         else
         {
-            auto i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::loadParticleDefinition(filename)));
+            i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::loadParticleDefinition(filename))).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 
@@ -288,9 +288,9 @@ namespace ouzel
         }
         else
         {
-            auto i = bmFonts.insert(std::make_pair(filename, BMFont(filename)));
+            i = bmFonts.insert(std::make_pair(filename, BMFont(filename))).first;
 
-            return i.first->second;
+            return i->second;
         }
     }
 

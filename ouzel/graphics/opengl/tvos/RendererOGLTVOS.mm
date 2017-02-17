@@ -204,13 +204,13 @@ namespace ouzel
                 if (!msaaColorRenderBufferId) glGenRenderbuffersProc(1, &msaaColorRenderBufferId);
 
                 glBindRenderbufferProc(GL_RENDERBUFFER, msaaColorRenderBufferId);
-                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
+                glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_RGBA8_OES, frameBufferWidth, frameBufferHeight);
 
                 if (depth)
                 {
                     if (!depthRenderBufferId) glGenRenderbuffersProc(1, &depthRenderBufferId);
                     glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
-                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, sampleCount, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
+                    glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
                 graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);

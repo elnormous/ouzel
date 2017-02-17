@@ -371,7 +371,7 @@ namespace ouzel
             {
                 for (uint16_t i = 0; i < controlPoints.size(); ++i)
                 {
-                    indices.push_back(startVertex + command.indexCount);
+                    indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                     ++command.indexCount;
                     vertices.push_back(graphics::VertexPC(controlPoints[i], color));
                     boundingBox.insertPoint(controlPoints[i]);
@@ -379,7 +379,7 @@ namespace ouzel
             }
             else
             {
-                std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(controlPoints.size() - 1);
+                std::vector<uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<uint32_t>(controlPoints.size() - 1));
 
                 for (uint32_t segment = 0; segment < segments; ++segment)
                 {
@@ -393,7 +393,7 @@ namespace ouzel
                         vertex.position.v[1] += binomialCoefficients[n] * powf(t, n) * powf(1.0f - t, controlPoints.size() - n - 1) * controlPoints[n].v[1];
                     }
 
-                    indices.push_back(startVertex + command.indexCount);
+                    indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
                     ++command.indexCount;
                     vertices.push_back(vertex);
                     boundingBox.insertPoint(vertex.position);

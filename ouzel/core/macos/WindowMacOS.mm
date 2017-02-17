@@ -159,7 +159,7 @@ namespace ouzel
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
 
-        contentScale = window.backingScaleFactor;
+        contentScale = static_cast<float>(window.backingScaleFactor);
 
         return Window::init();
     }

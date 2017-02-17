@@ -430,13 +430,13 @@ namespace ouzel
 
         static uint32_t writeDictionary(std::vector<uint8_t>& buffer, const std::map<std::string, Value>& value)
         {
-            uint8_t lengthData[sizeof(uint32_t)];
+            uint8_t sizeData[sizeof(uint32_t)];
 
-            encodeUInt32Big(lengthData, static_cast<uint32_t>(value.size()));
+            encodeUInt32Big(sizeData, static_cast<uint32_t>(value.size()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), std::begin(sizeData), std::end(sizeData));
 
-            uint32_t size = sizeof(lengthData);
+            uint32_t size = sizeof(sizeData);
 
             for (const auto& i : value)
             {

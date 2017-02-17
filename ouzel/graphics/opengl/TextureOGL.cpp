@@ -79,7 +79,7 @@ namespace ouzel
 
                 if (rendererOGL->getMaxAnisotropy() > 1 && rendererOGL->isAnisotropicFilteringSupported())
                 {
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, rendererOGL->getMaxAnisotropy());
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(rendererOGL->getMaxAnisotropy()));
                 }
 
                 if (RendererOGL::checkOpenGLError())

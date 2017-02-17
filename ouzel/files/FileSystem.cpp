@@ -265,7 +265,7 @@ namespace ouzel
             return false;
         }
 
-        file.write(reinterpret_cast<const char*>(data.data()), data.size());
+        file.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
 
         return true;
     }
