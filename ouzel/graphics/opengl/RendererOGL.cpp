@@ -79,7 +79,11 @@ PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
+#if OUZEL_SUPPORTS_OPENGL
+PFNGLCLEARDEPTHPROC glClearDepthProc;
+#elif OUZEL_SUPPORTS_OPENGLES
 PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+#endif
 
 PFNGLCREATESHADERPROC glCreateShaderProc;
 PFNGLDELETESHADERPROC glDeleteShaderProc;
@@ -271,7 +275,7 @@ namespace ouzel
 
             glActiveTextureProc = reinterpret_cast<PFNGLACTIVETEXTUREPROC>(getProcAddress("glActiveTexture"));
 
-            glClearDepthfProc = reinterpret_cast<PFNGLCLEARDEPTHFPROC>(getProcAddress("glClearDepthf"));
+            glClearDepthProc = reinterpret_cast<PFNGLCLEARDEPTHPROC>(getProcAddress("glClearDepth"));
 
             glCreateShaderProc = reinterpret_cast<PFNGLCREATESHADERPROC>(getProcAddress("glCreateShader"));
             glDeleteShaderProc = reinterpret_cast<PFNGLDELETESHADERPROC>(getProcAddress("glDeleteShader"));
@@ -959,7 +963,11 @@ namespace ouzel
                     {
                         // allow clearing the depth buffer
                         depthMask(true);
+#if OUZEL_SUPPORTS_OPENGL
+                        glClearDepthProc(1.0);
+#elif OUZEL_SUPPORTS_OPENGLES
                         glClearDepthfProc(1.0f);
+#endif
                     }
 
                     if (newClearMask & GL_COLOR_BUFFER_BIT)

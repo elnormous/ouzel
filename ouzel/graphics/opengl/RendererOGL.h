@@ -56,7 +56,11 @@ extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
 extern PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 
+#if OUZEL_SUPPORTS_OPENGL
+extern PFNGLCLEARDEPTHPROC glClearDepthProc;
+#elif OUZEL_SUPPORTS_OPENGLES
 extern PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+#endif
 
 extern PFNGLCREATESHADERPROC glCreateShaderProc;
 extern PFNGLDELETESHADERPROC glDeleteShaderProc;
