@@ -25,6 +25,8 @@ namespace ouzel
         {
             friend Engine;
         public:
+            const uint32_t SPEAKER_COUNT = 6;
+
             enum class Driver
             {
                 DEFAULT,
