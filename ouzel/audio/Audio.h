@@ -11,9 +11,7 @@
 #include "math/Vector3.h"
 #include "utils/Types.h"
 
-#ifdef OPENAL
 #undef OPENAL
-#endif
 
 namespace ouzel
 {
