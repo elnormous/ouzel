@@ -46,6 +46,12 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     layer.addChild(&character);
     character.setPosition(Vector2(10.0f, 0.0f));
 
+    jumpSound = sharedEngine->getAudio()->createSound();
+    std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
+    soundData->initFromFile("jump.wav");
+    jumpSound->init(soundData);
+    jumpSound->setPosition(character.getPosition());
+
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
     character.animate(rotate.get());
     
@@ -77,7 +83,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 {
     if (type == Event::Type::KEY_DOWN)
     {
-        Quaternion rotation;
+        Quaternion rotation = Quaternion::IDENTITY;
 
         switch (event.key)
         {
@@ -96,14 +102,18 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
             case input::KeyboardKey::ESCAPE:
                 samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
+            case input::KeyboardKey::TAB:
+                jumpSound->play();
+                break;
             case input::KeyboardKey::KEY_S:
-                sharedEngine->getRenderer()->saveScreenshot("/Users/elviss/Desktop/test.png");
+                sharedEngine->getRenderer()->saveScreenshot("test.png");
                 break;
             default:
                 break;
         }
 
         camera.setRotation(camera.getRotation() * rotation);
+        sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
     }
 
     return true;
