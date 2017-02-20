@@ -9,7 +9,6 @@ import android.view.SurfaceHolder;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback
 {
-    public static final String TAG = "Ouzel";
     private View surfaceView;
 
     @Override
