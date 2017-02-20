@@ -24,7 +24,9 @@ namespace ouzel
         static const Vector4 UNIT_X;
         static const Vector4 UNIT_Y;
         static const Vector4 UNIT_Z;
-        static const Vector4 UNIT_W;
+        static const Vector4 NEGATIVE_UNIT_X;
+        static const Vector4 NEGATIVE_UNIT_Y;
+        static const Vector4 NEGATIVE_UNIT_Z;
 
 #if OUZEL_SUPPORTS_SSE
         union

@@ -92,19 +92,19 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
-        // Clamp the x value.
+        // clamp the x value
         if (v[0] < min.v[0])
             v[0] = min.v[0];
         if (v[0] > max.v[0])
             v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         if (v[1] < min.v[1])
             v[1] = min.v[1];
         if (v[1] > max.v[1])
             v[1] = max.v[1];
 
-        // Clamp the z value.
+        // clamp the z value
         if (v[2] < min.v[2])
             v[2] = min.v[2];
         if (v[2] > max.v[2])
@@ -115,21 +115,21 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2]));
 
-        // Clamp the x value.
+        // clamp the x value
         dst.v[0] = vec.v[0];
         if (dst.v[0] < min.v[0])
             dst.v[0] = min.v[0];
         if (dst.v[0] > max.v[0])
             dst.v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         dst.v[1] = vec.v[1];
         if (dst.v[1] < min.v[1])
             dst.v[1] = min.v[1];
         if (dst.v[1] > max.v[1])
             dst.v[1] = max.v[1];
 
-        // Clamp the z value.
+        // clamp the z value
         dst.v[2] = vec.v[2];
         if (dst.v[2] < min.v[2])
             dst.v[2] = min.v[2];
@@ -154,13 +154,11 @@ namespace ouzel
     Vector3& Vector3::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-        // Already normalized.
-        if (n == 1.0f)
+        if (n == 1.0f) // already normalized
             return *this;
 
         n = sqrtf(n);
-        // Too close to zero.
-        if (n < TOLERANCE)
+        if (n < TOLERANCE) // too close to zero
             return *this;
 
         n = 1.0f / n;

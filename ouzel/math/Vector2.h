@@ -18,6 +18,8 @@ namespace ouzel
         static const Vector2 ONE;
         static const Vector2 UNIT_X;
         static const Vector2 UNIT_Y;
+        static const Vector2 NEGATIVE_UNIT_X;
+        static const Vector2 NEGATIVE_UNIT_Y;
 
         float v[2];
 

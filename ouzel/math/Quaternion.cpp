@@ -8,19 +8,16 @@
 namespace ouzel
 {
     const Quaternion Quaternion::IDENTITY(0.0f, 0.0f, 0.0f, 1.0f);
-
     const Quaternion Quaternion::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
     Quaternion& Quaternion::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-        // Already normalized.
-        if (n == 1.0f)
+        if (n == 1.0f) // already normalized
             return *this;
 
         n = sqrtf(n);
-        // Too close to zero.
-        if (n < TOLERANCE)
+        if (n < TOLERANCE) // too close to zero
             return *this;
 
         n = 1.0f / n;

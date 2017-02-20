@@ -14,10 +14,12 @@ namespace ouzel
 {
     const Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
     const Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
-    const Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 0.0f);
-    const Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 0.0f);
-    const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
-    const Vector4 Vector4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 1.0f);
+    const Vector4 Vector4::NEGATIVE_UNIT_X(-1.0f, 0.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::NEGATIVE_UNIT_Y(0.0f, -1.0f, 0.0f, 1.0f);
+    const Vector4 Vector4::NEGATIVE_UNIT_Z(0.0f, 0.0f, -1.0f, 1.0f);
 
     Vector4::Vector4(const Vector4& p1, const Vector4& p2)
     {
@@ -91,25 +93,25 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2] || min.v[3] > max.v[3]));
 
-        // Clamp the x value.
+        // clamp the x value
         if (v[0] < min.v[0])
             v[0] = min.v[0];
         if (v[0] > max.v[0])
             v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         if (v[1] < min.v[1])
             v[1] = min.v[1];
         if (v[1] > max.v[1])
             v[1] = max.v[1];
 
-        // Clamp the z value.
+        // clamp the z value
         if (v[2] < min.v[2])
             v[2] = min.v[2];
         if (v[2] > max.v[2])
             v[2] = max.v[2];
 
-        // Clamp the z value.
+        // clamp the z value
         if (v[3] < min.v[3])
             v[3] = min.v[3];
         if (v[3] > max.v[3])
@@ -120,28 +122,28 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2] || min.v[3] > max.v[3]));
 
-        // Clamp the x value.
+        // clamp the x value
         dst.v[0] = vec.v[0];
         if (dst.v[0] < min.v[0])
             dst.v[0] = min.v[0];
         if (dst.v[0] > max.v[0])
             dst.v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         dst.v[1] = vec.v[1];
         if (dst.v[1] < min.v[1])
             dst.v[1] = min.v[1];
         if (dst.v[1] > max.v[1])
             dst.v[1] = max.v[1];
 
-        // Clamp the z value.
+        // clamp the z value
         dst.v[2] = vec.v[2];
         if (dst.v[2] < min.v[2])
             dst.v[2] = min.v[2];
         if (dst.v[2] > max.v[2])
             dst.v[2] = max.v[2];
 
-        // Clamp the w value.
+        // clamp the w value
         dst.v[3] = vec.v[3];
         if (dst.v[3] < min.v[3])
             dst.v[3] = min.v[3];
@@ -167,13 +169,11 @@ namespace ouzel
     Vector4& Vector4::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-        // Already normalized.
-        if (n == 1.0f)
+        if (n == 1.0f) // already normalized
             return *this;
 
         n = sqrtf(n);
-        // Too close to zero.
-        if (n < TOLERANCE)
+        if (n < TOLERANCE) // too close to zero
             return *this;
 
         n = 1.0f / n;

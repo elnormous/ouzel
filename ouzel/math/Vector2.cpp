@@ -15,6 +15,8 @@ namespace ouzel
     const Vector2 Vector2::ONE(1.0f, 1.0f);
     const Vector2 Vector2::UNIT_X(1.0f, 0.0f);
     const Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
+    const Vector2 Vector2::NEGATIVE_UNIT_X(-1.0f, 0.0f);
+    const Vector2 Vector2::NEGATIVE_UNIT_Y(0.0f, -1.0f);
 
     Vector2::Vector2(const Vector2& p1, const Vector2& p2)
     {
@@ -63,13 +65,13 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
 
-        // Clamp the x value.
+        // clamp the x value
         if (v[0] < min.v[0])
             v[0] = min.v[0];
         if (v[0] > max.v[0])
             v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         if (v[1] < min.v[1])
             v[1] = min.v[1];
         if (v[1] > max.v[1])
@@ -80,14 +82,14 @@ namespace ouzel
     {
         assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
 
-        // Clamp the x value.
+        // clamp the x value
         dst.v[0] = vec.v[0];
         if (dst.v[0] < min.v[0])
             dst.v[0] = min.v[0];
         if (dst.v[0] > max.v[0])
             dst.v[0] = max.v[0];
 
-        // Clamp the y value.
+        // clamp the y value
         dst.v[1] = vec.v[1];
         if (dst.v[1] < min.v[1])
             dst.v[1] = min.v[1];
@@ -111,13 +113,11 @@ namespace ouzel
     Vector2& Vector2::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1];
-        // Already normalized.
-        if (n == 1.0f)
+        if (n == 1.0f) // already normalized
             return *this;
 
         n = sqrtf(n);
-        // Too close to zero.
-        if (n < TOLERANCE)
+        if (n < TOLERANCE) // too close to zero
             return *this;
 
         n = 1.0f / n;
