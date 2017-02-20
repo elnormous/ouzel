@@ -29,16 +29,19 @@ namespace ouzel
         jobject getMainActivity() const { return mainActivity; }
         jobject getSurface() const { return surface; }
         AAssetManager* getAssetManager() const { return assetManager; }
-        jmethodID getOpenURLMethod() const { return openURLMethod; }
 
     private:
         void update();
 
-        JavaVM* javaVM;
-        jobject mainActivity;
-        jobject surface;
+        JavaVM* javaVM = nullptr;
+        jclass uriClass = nullptr;
+        jmethodID parseMethod = nullptr;
+        jclass intentClass = nullptr;
+        jmethodID intentConstructor = nullptr;
+        jobject mainActivity = nullptr;
+        jmethodID startActivityMethod = nullptr;
+        jobject surface = nullptr;
         AAssetManager* assetManager = nullptr;
-        jmethodID openURLMethod;
 
         std::thread updateThread;
     };

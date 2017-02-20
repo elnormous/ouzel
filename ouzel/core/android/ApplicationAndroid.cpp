@@ -11,6 +11,18 @@ namespace ouzel
     ApplicationAndroid::ApplicationAndroid(JavaVM* aJavaVM):
         javaVM(aJavaVM)
     {
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        uriClass = reinterpret_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/net/Uri")));
+        parseMethod = jniEnv->GetStaticMethodID(uriClass, "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
+        intentClass = reinterpret_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/content/Intent")));
+        intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
     }
 
     ApplicationAndroid::~ApplicationAndroid()
@@ -25,15 +37,10 @@ namespace ouzel
             return;
         }
 
-        if (mainActivity)
-        {
-            jniEnv->DeleteGlobalRef(mainActivity);
-        }
-
-        if (surface)
-        {
-            jniEnv->DeleteGlobalRef(surface);
-        }
+        if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
+        if (surface) jniEnv->DeleteGlobalRef(surface);
+        if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
+        if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
     }
 
     void ApplicationAndroid::setMainActivity(jobject aMainActivity)
@@ -47,9 +54,9 @@ namespace ouzel
         }
 
         mainActivity = jniEnv->NewGlobalRef(aMainActivity);
-        jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
 
-        openURLMethod = jniEnv->GetMethodID(mainActivityClass, "openURL", "(Ljava/lang/String;)V");
+        jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
+        startActivityMethod = jniEnv->GetMethodID(mainActivityClass, "startActivity", "(Landroid/content/Intent;)V");
     }
 
     void ApplicationAndroid::setAssetManager(jobject aAssetManager)
@@ -95,9 +102,24 @@ namespace ouzel
             return false;
         }
 
+        jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
         jstring urlString = jniEnv->NewStringUTF(url.c_str());
-        jniEnv->CallVoidMethod(mainActivity, openURLMethod, urlString);
+        jobject uri = jniEnv->CallStaticObjectMethod(uriClass, parseMethod, urlString);
+        jobject intentObject = jniEnv->NewObject(intentClass, intentConstructor, actionString, uri);
+
+        jniEnv->CallVoidMethod(mainActivity, startActivityMethod, intentObject);
+
+        jniEnv->DeleteLocalRef(intentObject);
+        jniEnv->DeleteLocalRef(uri);
         jniEnv->DeleteLocalRef(urlString);
+        jniEnv->DeleteLocalRef(actionString);
+
+        if (jniEnv->ExceptionCheck())
+        {
+            Log(Log::Level::ERR) << "Failed to open URL";
+            jniEnv->ExceptionClear();
+            return false;
+        }
 
         return true;
     }

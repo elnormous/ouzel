@@ -4,10 +4,7 @@
 package org.ouzelengine;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class MainActivity extends Activity implements SurfaceHolder.Callback
@@ -26,19 +23,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
         surfaceView = new View(this);
         surfaceView.getHolder().addCallback(this);
         setContentView(surfaceView);
-    }
-
-    public void openURL(String url)
-    {
-        try
-        {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-        }
-        catch (Exception e)
-        {
-            Log.e(TAG, "Failed to open URL, error " + e.getMessage());
-        }
     }
 
     @Override
