@@ -186,6 +186,21 @@ namespace ouzel
             return result;
         }
 
+        inline Vector3 getRightVector() const
+        {
+            return rotateVector(Vector3(1.0f, 0.0f, 0.0f));
+        }
+
+        inline Vector3 getUpVector() const
+        {
+            return rotateVector(Vector3(0.0f, 1.0f, 0.0f));
+        }
+
+        inline Vector3 getForwardVector() const
+        {
+            return rotateVector(Vector3(0.0f, 0.0f, 1.0f));
+        }
+
         Matrix4 getMatrix() const
         {
             Matrix4 result;

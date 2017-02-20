@@ -140,15 +140,17 @@ namespace ouzel
         {
             Audio::setListenerRotation(newRotation);
 
-            Vector3 upVector = listenerRotation * Vector3(0.0f, 1.0f, 0.0f);
-            Vector3 forwardVector = listenerRotation * Vector3(0.0f, 0.0f, 1.0f);
+            Vector3 forwardVector = listenerRotation.getForwardVector();
+            Vector3 upVector = listenerRotation.getUpVector();
 
-            float values[] = {upVector.v[0],
-                upVector.v[1],
-                upVector.v[2],
+            float values[] = {
                 forwardVector.v[0],
                 forwardVector.v[1],
-                forwardVector.v[2]};
+                -forwardVector.v[2],
+                upVector.v[0],
+                upVector.v[1],
+                -upVector.v[2]
+            };
 
             alListenerfv(AL_ORIENTATION, values);
         }
