@@ -188,17 +188,17 @@ namespace ouzel
 
         inline Vector3 getRightVector() const
         {
-            return rotateVector(Vector3(1.0f, 0.0f, 0.0f));
+            return rotateVector(Vector3::UNIT_X);
         }
 
         inline Vector3 getUpVector() const
         {
-            return rotateVector(Vector3(0.0f, 1.0f, 0.0f));
+            return rotateVector(Vector3::UNIT_Y);
         }
 
         inline Vector3 getForwardVector() const
         {
-            return rotateVector(Vector3(0.0f, 0.0f, 1.0f));
+            return rotateVector(Vector3::UNIT_Z);
         }
 
         Matrix4 getMatrix() const
