@@ -96,8 +96,24 @@ namespace ouzel
         void clamp(const Vector3& min, const Vector3& max);
         static void clamp(const Vector3& vec, const Vector3& min, const Vector3& max, Vector3& dst);
 
-        void cross(const Vector3& vec);
-        static void cross(const Vector3& v1, const Vector3& v2, Vector3& dst);
+        void cross(const Vector3& vec)
+        {
+            cross(*this, vec, *this);
+        }
+
+        static void cross(const Vector3& v1, const Vector3& v2, Vector3& dst)
+        {
+            dst.v[0] = (v1.v[1] * v2.v[2]) - (v1.v[2] * v2.v[1]);
+            dst.v[1] = (v1.v[2] * v2.v[0]) - (v1.v[0] * v2.v[2]);
+            dst.v[2] = (v1.v[0] * v2.v[1]) - (v1.v[1] * v2.v[0]);
+        }
+
+        static Vector3 cross(const Vector3& v1, const Vector3& v2)
+        {
+            Vector3 result;
+            cross(v1, v2, result);
+            return result;
+        }
 
         float distance(const Vector3& vec) const;
 

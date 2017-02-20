@@ -34,9 +34,9 @@ namespace ouzel
             listenerPosition = newPosition;
         }
 
-        void Audio::setListenerOrientation(const Vector3& newOrientation)
+        void Audio::setListenerRotation(const Quaternion& newRotation)
         {
-            listenerOrientation = newOrientation;
+            listenerRotation = newRotation;
         }
     } // namespace audio
 } // namespace ouzel

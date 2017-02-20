@@ -173,6 +173,19 @@ namespace ouzel
         float getEulerAngleY() const;
         float getEulerAngleZ() const;
 
+        inline Vector3 operator*(const Vector3& vector) const
+        {
+            return rotateVector(vector);
+        }
+
+        inline Vector3 rotateVector(const Vector3& vector) const
+        {
+            Vector3 q(v[0], v[1], v[2]);
+            Vector3 t = 2.0f * Vector3::cross(q, vector);
+            Vector3 result = vector + (v[3] * t) + Vector3::cross(q, t);
+            return result;
+        }
+
         Matrix4 getMatrix() const
         {
             Matrix4 result;

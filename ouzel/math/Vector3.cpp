@@ -134,18 +134,6 @@ namespace ouzel
             dst.v[2] = max.v[2];
     }
 
-    void Vector3::cross(const Vector3& vec)
-    {
-        cross(*this, vec, *this);
-    }
-
-    void Vector3::cross(const Vector3& v1, const Vector3& v2, Vector3& dst)
-    {
-        dst.v[0] = (v1.v[1] * v2.v[2]) - (v1.v[2] * v2.v[1]);
-        dst.v[1] = (v1.v[2] * v2.v[0]) - (v1.v[0] * v2.v[2]);
-        dst.v[2] = (v1.v[0] * v2.v[1]) - (v1.v[1] * v2.v[0]);
-    }
-
     float Vector3::distance(const Vector3& vec) const
     {
         float dx = vec.v[0] - v[0];

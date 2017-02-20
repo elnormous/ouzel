@@ -107,9 +107,9 @@ namespace ouzel
             Audio::setListenerPosition(newPosition);
         }
 
-        void AudioXA2::setListenerOrientation(const Vector3& newOrientation)
+        void AudioXA2::setListenerRotation(const Quaternion& newRotation)
         {
-            Audio::setListenerOrientation(newOrientation);
+            Audio::setListenerRotation(newRotation);
         }
 
         SoundPtr AudioXA2::createSound()

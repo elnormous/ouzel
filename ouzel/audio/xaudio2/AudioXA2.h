@@ -19,7 +19,7 @@ namespace ouzel
             virtual ~AudioXA2();
 
             virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerOrientation(const Vector3& newOrientation);
+            virtual void setListenerRotation(const Quaternion& newRotation);
 
             virtual SoundPtr createSound() override;
 

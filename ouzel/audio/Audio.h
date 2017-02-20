@@ -8,6 +8,7 @@
 #include <mutex>
 #include <set>
 #include <vector>
+#include "math/Quaternion.h"
 #include "math/Vector3.h"
 #include "utils/Types.h"
 
@@ -41,7 +42,7 @@ namespace ouzel
             virtual bool process();
 
             virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerOrientation(const Vector3& newOrientation);
+            virtual void setListenerRotation(const Quaternion& newRotation);
 
             virtual SoundPtr createSound() = 0;
 
@@ -62,7 +63,7 @@ namespace ouzel
             bool ready = false;
 
             Vector3 listenerPosition;
-            Vector3 listenerOrientation;
+            Quaternion listenerRotation;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
