@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Image.h"
+#include "ImageDataSTB.h"
 #include "utils/Log.h"
 #include "core/Application.h"
 #include "files/FileSystem.h"
@@ -14,11 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        Image::Image()
-        {
-        }
-
-        bool Image::initFromFile(const std::string& newFilename)
+        bool ImageDataSTB::initFromFile(const std::string& newFilename)
         {
             filename = newFilename;
 
@@ -31,7 +27,7 @@ namespace ouzel
             return initFromBuffer(newData);
         }
 
-        bool Image::initFromBuffer(const std::vector<uint8_t>& newData)
+        bool ImageDataSTB::initFromBuffer(const std::vector<uint8_t>& newData)
         {
             int width;
             int height;

@@ -63,7 +63,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BufferResource.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/Image.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/ImageDataSTB.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \

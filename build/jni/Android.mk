@@ -58,7 +58,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Buffer.cpp \
     ../../ouzel/graphics/BufferResource.cpp \
-    ../../ouzel/graphics/Image.cpp \
+    ../../ouzel/graphics/ImageData.cpp \
+    ../../ouzel/graphics/ImageDataSTB.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
     ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \

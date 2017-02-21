@@ -4,7 +4,6 @@
 #include "TextureOGL.h"
 #include "core/Engine.h"
 #include "RendererOGL.h"
-#include "graphics/Image.h"
 #include "utils/Log.h"
 
 namespace ouzel

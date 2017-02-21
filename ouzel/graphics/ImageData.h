@@ -13,16 +13,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Image: public Noncopyable
+        class ImageData: public Noncopyable
         {
         public:
-            Image();
+            ImageData();
 
             const Size2& getSize() const { return size; }
             const std::vector<uint8_t>& getData() const { return data; }
-
-            virtual bool initFromFile(const std::string& newFilename);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
 
         protected:
             std::string filename;

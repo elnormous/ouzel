@@ -4,7 +4,6 @@
 #include "TextureMetal.h"
 #include "core/Engine.h"
 #include "RendererMetal.h"
-#include "graphics/Image.h"
 #include "math/MathUtils.h"
 #include "utils/Log.h"
 

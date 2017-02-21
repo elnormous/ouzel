@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "TextureResource.h"
 #include "Renderer.h"
-#include "Image.h"
 #include "core/Engine.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"

@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "TextureResource.h"
 #include "Renderer.h"
-#include "Image.h"
+#include "ImageDataSTB.h"
 #include "core/Engine.h"
 
 namespace ouzel
@@ -45,7 +45,7 @@ namespace ouzel
         {
             filename = newFilename;
 
-            Image image;
+            ImageDataSTB image;
             if (!image.initFromFile(filename))
             {
                 return false;
