@@ -389,8 +389,7 @@ namespace ouzel
 
                     for (uint16_t n = 0; n < controlPoints.size(); ++n)
                     {
-                        vertex.position.v[0] += binomialCoefficients[n] * powf(t, n) * powf(1.0f - t, controlPoints.size() - n - 1) * controlPoints[n].v[0];
-                        vertex.position.v[1] += binomialCoefficients[n] * powf(t, n) * powf(1.0f - t, controlPoints.size() - n - 1) * controlPoints[n].v[1];
+                        vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0f - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
                     }
 
                     indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));

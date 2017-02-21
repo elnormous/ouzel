@@ -46,9 +46,6 @@
     <ClCompile Include="..\ouzel\files\FileSystem.cpp">
       <Filter>files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\Image.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -337,6 +334,12 @@
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp">
       <Filter>audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\ImageData.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -396,9 +399,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\files\FileSystem.h">
       <Filter>files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Image.h">
-      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Renderer.h">
       <Filter>graphics</Filter>
@@ -759,6 +759,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundDataWave.h">
       <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\ImageData.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\ImageDataSTB.h">
+      <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
