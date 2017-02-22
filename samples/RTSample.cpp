@@ -20,7 +20,7 @@ RTSample::RTSample(Samples& aSamples):
     addLayer(&rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTarget(new graphics::Texture());
-    renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, 0);
+    renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, false);
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);

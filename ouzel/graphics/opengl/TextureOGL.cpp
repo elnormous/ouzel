@@ -104,7 +104,7 @@ namespace ouzel
                         }
                     }
 
-                    if (renderTarget)
+                    if (renderTarget && rendererOGL->isRenderTargetsSupported())
                     {
                         clearMask = 0;
 

@@ -143,6 +143,7 @@ namespace ouzel
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isMultisamplingSupported() const { return multisamplingSupported; }
             bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
+            bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
             const Matrix4& getProjectionTransform(bool renderTarget) const
             {
@@ -208,6 +209,7 @@ namespace ouzel
             bool npotTexturesSupported = true;
             bool multisamplingSupported = true;
             bool anisotropicFilteringSupported = true;
+            bool renderTargetsSupported = true;
 
             Matrix4 projectionTransform;
             Matrix4 renderTargetProjectionTransform;
