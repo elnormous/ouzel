@@ -145,12 +145,6 @@ namespace ouzel
 
                             glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
-    #if OUZEL_SUPPORTS_OPENGL // TODO: fix this
-                            //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-                            //glDrawBuffers(1, drawBuffers);
-                            glDrawBuffer(GL_COLOR_ATTACHMENT0);
-    #endif
-
                             if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                             {
                                 Log(Log::Level::ERR) << "Failed to create frame buffer";
