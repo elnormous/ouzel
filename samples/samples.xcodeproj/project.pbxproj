@@ -551,12 +551,6 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
-					303B760C1C34CFE300FEDE92 = {
-						DevelopmentTeam = XHH29823R9;
-					};
-					303B768B1C355AA400FEDE92 = {
-						DevelopmentTeam = XHH29823R9;
-					};
 					304A8E091C237B95008B1151 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -782,12 +776,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_ios;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -802,12 +797,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_ios;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -822,11 +818,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -841,11 +838,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -969,7 +967,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Debug;
@@ -983,7 +981,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = lv.elviss.ouzel;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Release;
