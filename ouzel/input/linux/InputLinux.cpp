@@ -212,9 +212,9 @@ namespace ouzel
 
             if (state & ShiftMask) modifiers |= SHIFT_DOWN;
             if (state & ControlMask) modifiers |= CONTROL_DOWN;
-            if (state & Button1) modifiers |= LEFT_MOUSE_DOWN;
-            if (state & Button2) modifiers |= RIGHT_MOUSE_DOWN;
-            if (state & Button3) modifiers |= MIDDLE_MOUSE_DOWN;
+            if (state & Button1Mask) modifiers |= LEFT_MOUSE_DOWN;
+            if (state & Button2Mask) modifiers |= RIGHT_MOUSE_DOWN;
+            if (state & Button3Mask) modifiers |= MIDDLE_MOUSE_DOWN;
 
             return modifiers;
         }
