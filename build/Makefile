@@ -114,6 +114,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SceneManager.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeDrawable.cpp \
+	$(ROOT_DIR)/../ouzel/scene/SoundListener.cpp \
+	$(ROOT_DIR)/../ouzel/scene/SoundPlayer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextDrawable.cpp \

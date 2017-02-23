@@ -111,6 +111,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Scene.cpp \
     ../../ouzel/scene/SceneManager.cpp \
     ../../ouzel/scene/ShapeDrawable.cpp \
+    ../../ouzel/scene/SoundListener.cpp \
+    ../../ouzel/scene/SoundPlayer.cpp \
     ../../ouzel/scene/Sprite.cpp \
     ../../ouzel/scene/SpriteFrame.cpp \
     ../../ouzel/scene/TextDrawable.cpp \

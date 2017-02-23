@@ -75,6 +75,8 @@
 #include "scene/Scene.h"
 #include "scene/SceneManager.h"
 #include "scene/ShapeDrawable.h"
+#include "scene/SoundListener.h"
+#include "scene/SoundPlayer.h"
 #include "scene/Sprite.h"
 #include "scene/TextDrawable.h"
 #include "utils/Log.h"
