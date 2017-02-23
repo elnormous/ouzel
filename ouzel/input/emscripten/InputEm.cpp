@@ -248,6 +248,10 @@ namespace ouzel
             if (mouseEvent->altKey) modifiers |= ouzel::ALT_DOWN;
             if (mouseEvent->metaKey) modifiers |= ouzel::SUPER_DOWN;
 
+            if (mouseEvent->buttons & (1 << 0)) modifiers |= LEFT_MOUSE_DOWN;
+            if (mouseEvent->buttons & (1 << 1)) modifiers |= RIGHT_MOUSE_DOWN;
+            if (mouseEvent->buttons & (1 << 2)) modifiers |= MIDDLE_MOUSE_DOWN;
+
             return modifiers;
         }
 
