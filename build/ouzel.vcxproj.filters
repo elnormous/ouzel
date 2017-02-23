@@ -340,6 +340,12 @@
     <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\SoundListener.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\SoundPlayer.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -765,6 +771,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\ImageDataSTB.h">
       <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\SoundListener.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\SoundPlayer.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

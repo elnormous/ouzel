@@ -126,6 +126,8 @@
     <ClCompile Include="..\ouzel\scene\Scene.cpp" />
     <ClCompile Include="..\ouzel\scene\SceneManager.cpp" />
     <ClCompile Include="..\ouzel\scene\ShapeDrawable.cpp" />
+    <ClCompile Include="..\ouzel\scene\SoundListener.cpp" />
+    <ClCompile Include="..\ouzel\scene\SoundPlayer.cpp" />
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextDrawable.cpp" />
@@ -268,6 +270,8 @@
     <ClInclude Include="..\ouzel\scene\Scene.h" />
     <ClInclude Include="..\ouzel\scene\SceneManager.h" />
     <ClInclude Include="..\ouzel\scene\ShapeDrawable.h" />
+    <ClInclude Include="..\ouzel\scene\SoundListener.h" />
+    <ClInclude Include="..\ouzel\scene\SoundPlayer.h" />
     <ClInclude Include="..\ouzel\scene\Sprite.h" />
     <ClInclude Include="..\ouzel\scene\SpriteFrame.h" />
     <ClInclude Include="..\ouzel\scene\TextDrawable.h" />
