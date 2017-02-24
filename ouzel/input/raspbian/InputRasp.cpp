@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -327,6 +328,9 @@ namespace ouzel
     {
         InputRasp::InputRasp()
         {
+            std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
+            std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
+
             glob_t g;
             int result = glob("/dev/input/event*", GLOB_NOSORT, NULL, &g);
 
@@ -513,11 +517,13 @@ namespace ouzel
                                 {
                                     if (event->value == 1 || event->value == 2) // press or repeat
                                     {
-                                        keyDown(convertKeyCode(event->code), 0);
+                                        if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = true;
+                                        keyDown(convertKeyCode(event->code), getModifiers());
                                     }
                                     else if (event->value == 0) // release
                                     {
-                                        keyUp(convertKeyCode(event->code), 0);
+                                        if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = false;
+                                        keyUp(convertKeyCode(event->code), getModifiers());
                                     }
                                 }
                             }
@@ -536,7 +542,7 @@ namespace ouzel
                                         absolutePos.v[1] = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).v[1];
                                     }
 
-                                    mouseMove(absolutePos, 0);
+                                    mouseMove(absolutePos, getModifiers());
                                 }
                                 else if (event->type == EV_REL)
                                 {
@@ -551,22 +557,26 @@ namespace ouzel
                                         relativePos.v[1] = static_cast<float>(event->value);
                                     }
 
-                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), 0);
+                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), getModifiers());
                                 }
                                 else if (event->type == EV_KEY)
                                 {
                                     MouseButton button;
+                                    int buttonIndex = -1;
 
                                     switch (event->code)
                                     {
                                     case BTN_LEFT:
                                         button = MouseButton::LEFT;
+                                        buttonIndex = 0;
                                         break;
                                     case BTN_RIGHT:
                                         button = MouseButton::RIGHT;
+                                        buttonIndex =  1;
                                         break;
                                     case BTN_MIDDLE:
                                         button = MouseButton::MIDDLE;
+                                        buttonIndex = 2;
                                         break;
                                     default:
                                         button = MouseButton::NONE;
@@ -574,11 +584,13 @@ namespace ouzel
 
                                     if (event->value == 1)
                                     {
-                                        mouseDown(button, cursorPosition, 0);
+                                        if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = true;
+                                        mouseDown(button, cursorPosition, getModifiers());
                                     }
                                     else if (event->value == 0)
                                     {
-                                        mouseUp(button, cursorPosition, 0);
+                                        if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = false;
+                                        mouseUp(button, cursorPosition, getModifiers());
                                     }
                                 }
                             }
@@ -594,6 +606,22 @@ namespace ouzel
                     }
                 }
             }
+        }
+
+        uint32_t InputRasp::getModifiers() const
+        {
+            uint32_t modifiers = 0;
+
+            if (keyboardKeyDown[KEY_LEFTSHIFT] || keyboardKeyDown[KEY_RIGHTSHIFT]) modifiers |= SHIFT_DOWN;
+            if (keyboardKeyDown[KEY_LEFTALT] || keyboardKeyDown[KEY_RIGHTALT]) modifiers |= ALT_DOWN;
+            if (keyboardKeyDown[KEY_LEFTCTRL] || keyboardKeyDown[KEY_RIGHTCTRL]) modifiers |= CONTROL_DOWN;
+            if (keyboardKeyDown[KEY_LEFTMETA] || keyboardKeyDown[KEY_RIGHTMETA]) modifiers |= SUPER_DOWN;
+
+            if (mouseButtonDown[0]) modifiers |= LEFT_MOUSE_DOWN;
+            if (mouseButtonDown[1]) modifiers |= RIGHT_MOUSE_DOWN;
+            if (mouseButtonDown[2]) modifiers |= MIDDLE_MOUSE_DOWN;
+
+            return modifiers;
         }
     } // namespace input
 } // namespace ouzel

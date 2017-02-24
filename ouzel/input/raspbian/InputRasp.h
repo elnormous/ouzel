@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include "input/Input.h"
 
@@ -36,9 +37,12 @@ namespace ouzel
 
         protected:
             InputRasp();
+            uint32_t getModifiers() const;
 
             int maxFd = 0;
             std::vector<InputDeviceRasp> inputDevices;
+            bool keyboardKeyDown[256];
+            bool mouseButtonDown[3];
         };
     } // namespace input
 } // namespace ouzel
