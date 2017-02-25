@@ -189,6 +189,13 @@ namespace ouzel
                     samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
 
                     samplerState = rendererMetal->getSamplerState(samplerDesc);
+
+                    if (!samplerState)
+                    {
+                        Log(Log::Level::ERR) << "Failed to get Metal sampler state";
+                        return false;
+                    }
+
                     [samplerState retain];
                 }
 
