@@ -84,6 +84,11 @@ namespace ouzel
                 }
             }
 
+            for (const auto& samplerState : samplerStates)
+            {
+                [samplerState.second release];
+            }
+
             if (depthTexture)
             {
                 [depthTexture release];
