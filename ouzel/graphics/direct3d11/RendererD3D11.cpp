@@ -239,7 +239,7 @@ namespace ouzel
             {
                 switch (textureFilter)
                 {
-                    case Texture::Filter::NONE:
+                    case Texture::Filter::POINT:
                         samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
                         break;
                     case Texture::Filter::LINEAR:

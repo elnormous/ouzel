@@ -34,8 +34,11 @@ namespace ouzel
             Texture::Filter getFilter() const { return filter; }
             bool setFilter(Texture::Filter newFilter);
 
-            Texture::WrapMode getWrapMode() const { return wrapMode; }
-            bool setWrapMode(Texture::WrapMode newWrapMode);
+            Texture::Address getAddressX() const { return addressX; }
+            bool setAddressX(Texture::Address newAddressX);
+
+            Texture::Address getAddressY() const { return addressY; }
+            bool setAddressY(Texture::Address newAddressY);
 
             uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
@@ -66,7 +69,7 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            static const uint32_t DIRTY_TEXTURE = 1;
+            static const uint32_t DIRTY_DATA = 1;
             static const uint32_t DIRTY_PARAMETERS = 2;
 
             uint32_t dirty = 0;
@@ -83,7 +86,8 @@ namespace ouzel
             uint32_t sampleCount = 1;
             Color clearColor;
             Texture::Filter filter = Texture::Filter::DEFAULT;
-            Texture::WrapMode wrapMode = Texture::WrapMode::CLAMP;
+            Texture::Address addressX = Texture::Address::CLAMP;
+            Texture::Address addressY = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
 
             std::mutex uploadMutex;

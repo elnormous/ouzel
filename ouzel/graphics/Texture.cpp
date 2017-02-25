@@ -127,10 +127,23 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::setWrapMode(WrapMode newWrapMode)
+        bool Texture::setAddressX(Address newAddressX)
         {
-            wrapMode = newWrapMode;
-            if (!resource->setWrapMode(newWrapMode))
+            addressX = newAddressX;
+            if (!resource->setAddressX(newAddressX))
+            {
+                return false;
+            }
+
+            sharedEngine->getRenderer()->uploadResource(resource);
+
+            return true;
+        }
+
+        bool Texture::setAddressY(Address newAddressY)
+        {
+            addressY = newAddressY;
+            if (!resource->setAddressY(newAddressY))
             {
                 return false;
             }

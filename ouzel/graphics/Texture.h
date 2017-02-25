@@ -28,7 +28,7 @@ namespace ouzel
                 TRILINEAR
             };
 
-            enum class WrapMode
+            enum class Address
             {
                 CLAMP,
                 REPEAT
@@ -62,8 +62,11 @@ namespace ouzel
             Filter getFilter() const { return filter; }
             bool setFilter(Filter newFilter);
 
-            WrapMode getWrapMode() const { return wrapMode; }
-            bool setWrapMode(WrapMode newWrapMode);
+            Address getAddressX() const { return addressX; }
+            bool setAddressX(Address newAddressX);
+
+            Address getAddressY() const { return addressY; }
+            bool setAddressY(Address newAddressY);
 
             uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
@@ -95,7 +98,8 @@ namespace ouzel
             uint32_t sampleCount = 1;
             Color clearColor;
             Filter filter = Filter::DEFAULT;
-            WrapMode wrapMode = WrapMode::CLAMP;
+            Address addressX = Address::CLAMP;
+            Address addressY = Address::CLAMP;
             uint32_t maxAnisotropy = 0;
         };
     } // namespace graphics

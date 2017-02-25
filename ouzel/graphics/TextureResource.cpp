@@ -55,7 +55,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_TEXTURE | DIRTY_PARAMETERS;
+            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
 
             return true;
         }
@@ -79,7 +79,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_TEXTURE;
+            dirty |= DIRTY_DATA;
 
             return true;
         }
@@ -103,7 +103,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_TEXTURE;
+            dirty |= DIRTY_DATA;
 
             return true;
         }
@@ -346,11 +346,21 @@ namespace ouzel
             return true;
         }
 
-        bool TextureResource::setWrapMode(Texture::WrapMode newWrapMode)
+        bool TextureResource::setAddressX(Texture::Address newAddressX)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            wrapMode = newWrapMode;
+            addressX = newAddressX;
+            dirty |= DIRTY_PARAMETERS;
+
+            return true;
+        }
+
+        bool TextureResource::setAddressY(Texture::Address newAddressY)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            addressY = newAddressY;
             dirty |= DIRTY_PARAMETERS;
 
             return true;
