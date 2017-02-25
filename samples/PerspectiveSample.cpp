@@ -33,6 +33,11 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     // floor
     floorSprite.initFromFile("floor.jpg");
 
+    for (const scene::SpriteFrame& spriteFrame : floorSprite.getFrames())
+    {
+        spriteFrame.getTexture()->setMaxAnisotropy(4);
+    }
+
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
     floor.setPosition(Vector2(0.0f, -50.0f));
@@ -41,6 +46,11 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     // character
     characterSprite.initFromFile("run.json");
     characterSprite.play(true);
+
+    for (const scene::SpriteFrame& spriteFrame : characterSprite.getFrames())
+    {
+        spriteFrame.getTexture()->setMaxAnisotropy(4);
+    }
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);

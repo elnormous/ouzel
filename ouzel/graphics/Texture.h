@@ -21,10 +21,17 @@ namespace ouzel
         public:
             enum class Filter
             {
-                NONE,
+                DEFAULT,
+                POINT,
                 LINEAR,
                 BILINEAR,
                 TRILINEAR
+            };
+
+            enum class WrapMode
+            {
+                CLAMP,
+                REPEAT
             };
 
             static const uint32_t LAYERS = 4;
@@ -32,7 +39,12 @@ namespace ouzel
             Texture();
             virtual ~Texture();
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, bool newDepth = false);
+            virtual bool init(const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              bool newRenderTarget = false,
+                              uint32_t newSampleCount = 1,
+                              bool newDepth = false);
             virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
@@ -46,6 +58,15 @@ namespace ouzel
             const Size2& getSize() const { return size; }
 
             bool isDynamic() const { return dynamic; }
+
+            Filter getFilter() const { return filter; }
+            bool setFilter(Filter newFilter);
+
+            WrapMode getWrapMode() const { return wrapMode; }
+            bool setWrapMode(WrapMode newWrapMode);
+
+            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             uint32_t getSampleCount() const { return sampleCount; }
             uint32_t getDepth() const { return depth; }
@@ -70,9 +91,12 @@ namespace ouzel
             bool renderTarget = false;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            uint32_t sampleCount = 1;
             bool depth = false;
+            uint32_t sampleCount = 1;
             Color clearColor;
+            Filter filter = Filter::DEFAULT;
+            WrapMode wrapMode = WrapMode::CLAMP;
+            uint32_t maxAnisotropy = 0;
         };
     } // namespace graphics
 } // namespace ouzel

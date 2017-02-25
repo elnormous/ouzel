@@ -56,9 +56,12 @@ namespace ouzel
 
                 RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                switch (rendererOGL->getTextureFilter())
+                Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+
+                switch (finalFilter)
                 {
-                    case Texture::Filter::NONE:
+                    case Texture::Filter::DEFAULT:
+                    case Texture::Filter::POINT:
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                         break;
@@ -76,9 +79,11 @@ namespace ouzel
                         break;
                 }
 
-                if (rendererOGL->getMaxAnisotropy() > 1 && rendererOGL->isAnisotropicFilteringSupported())
+                uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+
+                if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
                 {
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(rendererOGL->getMaxAnisotropy()));
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
                 }
 
                 if (RendererOGL::checkOpenGLError())

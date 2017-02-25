@@ -114,6 +114,45 @@ namespace ouzel
             return true;
         }
 
+        bool Texture::setFilter(Filter newFilter)
+        {
+            filter = newFilter;
+            if (!resource->setFilter(newFilter))
+            {
+                return false;
+            }
+
+            sharedEngine->getRenderer()->uploadResource(resource);
+
+            return true;
+        }
+
+        bool Texture::setWrapMode(WrapMode newWrapMode)
+        {
+            wrapMode = newWrapMode;
+            if (!resource->setWrapMode(newWrapMode))
+            {
+                return false;
+            }
+
+            sharedEngine->getRenderer()->uploadResource(resource);
+
+            return true;
+        }
+
+        bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        {
+            maxAnisotropy = newMaxAnisotropy;
+            if (!resource->setMaxAnisotropy(newMaxAnisotropy))
+            {
+                return false;
+            }
+
+            sharedEngine->getRenderer()->uploadResource(resource);
+
+            return true;
+        }
+
         void Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;

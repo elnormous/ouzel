@@ -55,7 +55,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= 0x01;
+            dirty |= DIRTY_TEXTURE | DIRTY_PARAMETERS;
 
             return true;
         }
@@ -79,7 +79,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= 0x01;
+            dirty |= DIRTY_TEXTURE;
 
             return true;
         }
@@ -103,7 +103,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= 0x01;
+            dirty |= DIRTY_TEXTURE;
 
             return true;
         }
@@ -336,12 +336,42 @@ namespace ouzel
             return true;
         }
 
+        bool TextureResource::setFilter(Texture::Filter newFilter)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            filter = newFilter;
+            dirty |= DIRTY_PARAMETERS;
+
+            return true;
+        }
+
+        bool TextureResource::setWrapMode(Texture::WrapMode newWrapMode)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            wrapMode = newWrapMode;
+            dirty |= DIRTY_PARAMETERS;
+
+            return true;
+        }
+
+        bool TextureResource::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            maxAnisotropy = newMaxAnisotropy;
+            dirty |= DIRTY_PARAMETERS;
+
+            return true;
+        }
+
         void TextureResource::setClearColorBuffer(bool clear)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColorBuffer = clear;
-            dirty |= 0x01;
+            dirty |= DIRTY_PARAMETERS;
         }
 
         void TextureResource::setClearDepthBuffer(bool clear)
@@ -349,7 +379,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColorBuffer = clear;
-            dirty |= 0x01;
+            dirty |= DIRTY_PARAMETERS;
         }
 
         void TextureResource::setClearColor(Color color)
@@ -357,7 +387,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColor = color;
-            dirty |= 0x01;
+            dirty |= DIRTY_PARAMETERS;
         }
     } // namespace graphics
 } // namespace ouzel

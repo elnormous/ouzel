@@ -220,7 +220,7 @@ namespace ouzel
             MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
             switch (textureFilter)
             {
-                case Texture::Filter::NONE:
+                case Texture::Filter::POINT:
                     samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
                     samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;

@@ -18,7 +18,7 @@ namespace ouzel
         std::string title = "ouzel";
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
-        graphics::Texture::Filter textureFilter = graphics::Texture::Filter::NONE;
+        graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
         uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;

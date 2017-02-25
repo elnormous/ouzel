@@ -31,6 +31,15 @@ namespace ouzel
             virtual bool setSize(const Size2& newSize);
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
+            Texture::Filter getFilter() const { return filter; }
+            bool setFilter(Texture::Filter newFilter);
+
+            Texture::WrapMode getWrapMode() const { return wrapMode; }
+            bool setWrapMode(Texture::WrapMode newWrapMode);
+
+            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
+
             bool getClearColorBuffer() const { return clearColorBuffer; }
             virtual void setClearColorBuffer(bool clear);
 
@@ -57,7 +66,11 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
+            static const uint32_t DIRTY_TEXTURE = 1;
+            static const uint32_t DIRTY_PARAMETERS = 2;
+
             uint32_t dirty = 0;
+
             Size2 size;
             bool dynamic = false;
             bool mipmaps = false;
@@ -65,10 +78,13 @@ namespace ouzel
             bool renderTarget = false;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
+            bool depth = false;
             std::vector<Level> levels;
             uint32_t sampleCount = 1;
-            bool depth = false;
             Color clearColor;
+            Texture::Filter filter = Texture::Filter::DEFAULT;
+            Texture::WrapMode wrapMode = Texture::WrapMode::CLAMP;
+            uint32_t maxAnisotropy = 0;
 
             std::mutex uploadMutex;
 
