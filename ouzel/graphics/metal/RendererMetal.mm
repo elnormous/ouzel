@@ -939,6 +939,8 @@ namespace ouzel
                     return Nil;
                 }
 
+                samplerStates[desc] = samplerState;
+
                 return samplerState;
             }
         }

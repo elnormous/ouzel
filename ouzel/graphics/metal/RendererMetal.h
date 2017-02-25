@@ -73,7 +73,7 @@ namespace ouzel
 
                 bool operator<(const SamplerStateDesc& other) const
                 {
-                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(filter, addressX, addressY, maxAnisotropy);
+                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
                 }
             };
 
