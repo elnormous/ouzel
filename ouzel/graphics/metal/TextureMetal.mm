@@ -31,6 +31,11 @@ namespace ouzel
             {
                 [texture release];
             }
+
+            if (samplerState)
+            {
+                [samplerState release];
+            }
         }
 
         bool TextureMetal::upload()
@@ -41,133 +46,148 @@ namespace ouzel
             {
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-                if (size.v[0] > 0 &&
-                    size.v[1] > 0)
+                if (dirty & DIRTY_DATA)
                 {
-                    if (!texture ||
-                        static_cast<NSUInteger>(size.v[0]) != width ||
-                        static_cast<NSUInteger>(size.v[1]) != height)
+                    if (size.v[0] > 0 &&
+                        size.v[1] > 0)
                     {
-                        if (texture) [texture release];
-
-                        width = static_cast<NSUInteger>(size.v[0]);
-                        height = static_cast<NSUInteger>(size.v[1]);
-
-                        if (width > 0 && height > 0)
+                        if (!texture ||
+                            static_cast<NSUInteger>(size.v[0]) != width ||
+                            static_cast<NSUInteger>(size.v[1]) != height)
                         {
-                            MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
-                                                                                                                         width:width
-                                                                                                                        height:height
-                                                                                                                     mipmapped:mipMapsGenerated ? YES : NO];
-                            textureDescriptor.textureType = MTLTextureType2D;
-                            textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
-                            colorFormat = textureDescriptor.pixelFormat;
+                            if (texture) [texture release];
 
-                            texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+                            width = static_cast<NSUInteger>(size.v[0]);
+                            height = static_cast<NSUInteger>(size.v[1]);
 
-                            if (!texture)
+                            if (width > 0 && height > 0)
                             {
-                                Log(Log::Level::ERR) << "Failed to create Metal texture";
-                                return false;
+                                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                                             width:width
+                                                                                                                            height:height
+                                                                                                                         mipmapped:mipMapsGenerated ? YES : NO];
+                                textureDescriptor.textureType = MTLTextureType2D;
+                                textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+                                colorFormat = textureDescriptor.pixelFormat;
+
+                                texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                                if (!texture)
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Metal texture";
+                                    return false;
+                                }
                             }
-                        }
 
-                        if (renderTarget)
-                        {
-                            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-                            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-
-                            if (!renderPassDescriptor)
+                            if (renderTarget)
                             {
-                                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+                                colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                                depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
                                 if (!renderPassDescriptor)
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
-                                    return false;
+                                    renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
+                                    if (!renderPassDescriptor)
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                                        return false;
+                                    }
                                 }
-                            }
 
-                            renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                                    clearColor.normG(),
-                                                                                                    clearColor.normB(),
-                                                                                                    clearColor.normA());
+                                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+                                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                                        clearColor.normG(),
+                                                                                                        clearColor.normB(),
+                                                                                                        clearColor.normA());
 
-                            if (sampleCount > 1)
-                            {
-                                if (msaaTexture) [msaaTexture release];
-
-                                MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                width:static_cast<NSUInteger>(size.v[0])
-                                                                                                               height:static_cast<NSUInteger>(size.v[1])
-                                                                                                            mipmapped:NO];
-                                desc.textureType = MTLTextureType2DMultisample;
-                                desc.storageMode = MTLStorageModePrivate;
-                                desc.sampleCount = sampleCount;
-                                desc.usage = MTLTextureUsageRenderTarget;
-
-                                msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
-
-                                if (!msaaTexture)
+                                if (sampleCount > 1)
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create MSAA texture";
-                                    return false;
+                                    if (msaaTexture) [msaaTexture release];
+
+                                    MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
+                                                                                                                    width:static_cast<NSUInteger>(size.v[0])
+                                                                                                                   height:static_cast<NSUInteger>(size.v[1])
+                                                                                                                mipmapped:NO];
+                                    desc.textureType = MTLTextureType2DMultisample;
+                                    desc.storageMode = MTLStorageModePrivate;
+                                    desc.sampleCount = sampleCount;
+                                    desc.usage = MTLTextureUsageRenderTarget;
+
+                                    msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor: desc];
+
+                                    if (!msaaTexture)
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to create MSAA texture";
+                                        return false;
+                                    }
+
+                                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                                    renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                                    renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
                                 }
-
-                                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                                renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
-                                renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
-                            }
-                            else
-                            {
-                                renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-                                renderPassDescriptor.colorAttachments[0].texture = texture;
-                            }
-
-                            if (depth)
-                            {
-                                if (depthTexture) [depthTexture release];
-
-                                depthFormat = MTLPixelFormatDepth32Float;
-
-                                MTLTextureDescriptor* desc = [MTLTextureDescriptor
-                                                              texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
-                                                              width:width height:height mipmapped:NO];
-
-                                desc.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
-                                desc.storageMode = MTLStorageModePrivate;
-                                desc.sampleCount = sampleCount;
-                                desc.usage = MTLTextureUsageRenderTarget;
-
-                                depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:desc];
-
-                                if (!depthTexture)
+                                else
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create depth texture";
-                                    return false;
+                                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                                    renderPassDescriptor.colorAttachments[0].texture = texture;
                                 }
 
-                                renderPassDescriptor.depthAttachment.texture = depthTexture;
-                            }
-                            else
-                            {
-                                renderPassDescriptor.depthAttachment.texture = Nil;
+                                if (depth)
+                                {
+                                    if (depthTexture) [depthTexture release];
+
+                                    depthFormat = MTLPixelFormatDepth32Float;
+
+                                    MTLTextureDescriptor* desc = [MTLTextureDescriptor
+                                                                  texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
+                                                                  width:width height:height mipmapped:NO];
+
+                                    desc.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                                    desc.storageMode = MTLStorageModePrivate;
+                                    desc.sampleCount = sampleCount;
+                                    desc.usage = MTLTextureUsageRenderTarget;
+
+                                    depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:desc];
+
+                                    if (!depthTexture)
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to create depth texture";
+                                        return false;
+                                    }
+
+                                    renderPassDescriptor.depthAttachment.texture = depthTexture;
+                                }
+                                else
+                                {
+                                    renderPassDescriptor.depthAttachment.texture = Nil;
+                                }
                             }
                         }
-                    }
 
-                    for (size_t level = 0; level < levels.size(); ++level)
-                    {
-                        if (!levels[level].data.empty())
+                        for (size_t level = 0; level < levels.size(); ++level)
                         {
-                            [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                   static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                                   static_cast<NSUInteger>(levels[level].size.v[1]))
-                                       mipmapLevel:level withBytes:levels[level].data.data()
-                                       bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                            if (!levels[level].data.empty())
+                            {
+                                [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                                       static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                                       static_cast<NSUInteger>(levels[level].size.v[1]))
+                                           mipmapLevel:level withBytes:levels[level].data.data()
+                                           bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                            }
                         }
                     }
+                }
+
+                if (dirty & DIRTY_PARAMETERS)
+                {
+                    RendererMetal::SamplerStateDesc samplerDesc;
+                    samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+                    samplerDesc.addressX = addressX;
+                    samplerDesc.addressY = addressY;
+                    samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+
+                    samplerState = rendererMetal->getSamplerState(samplerDesc);
+                    [samplerState retain];
                 }
 
                 dirty = 0;

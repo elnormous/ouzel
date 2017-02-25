@@ -114,11 +114,6 @@ namespace ouzel
                 [commandQueue release];
             }
 
-            if (samplerState)
-            {
-                [samplerState release];
-            }
-
             if (renderPassDescriptor)
             {
                 [renderPassDescriptor release];
@@ -214,47 +209,6 @@ namespace ouzel
             if (!commandQueue)
             {
                 Log(Log::Level::ERR) << "Failed to create Metal command queue";
-                return false;
-            }
-
-            MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
-            switch (textureFilter)
-            {
-                case Texture::Filter::POINT:
-                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
-                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
-                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
-                    samplerDescriptor.maxAnisotropy = 1;
-                    break;
-                case Texture::Filter::LINEAR:
-                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
-                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
-                    samplerDescriptor.maxAnisotropy = 1;
-                    break;
-                case Texture::Filter::BILINEAR:
-                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-                    samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
-                    samplerDescriptor.maxAnisotropy = 1;
-                    break;
-                case Texture::Filter::TRILINEAR:
-                    samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
-                    samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
-                    samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
-                    samplerDescriptor.maxAnisotropy = 1;
-                    break;
-            }
-            samplerDescriptor.maxAnisotropy = maxAnisotropy;
-            samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
-            samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
-
-            samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
-            [samplerDescriptor release];
-
-            if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal sampler state";
                 return false;
             }
 
@@ -657,23 +611,15 @@ namespace ouzel
 
                 pipelineStateDesc.blendState = blendStateMetal;
 
-                auto pipelineStateIterator = pipelineStates.find(pipelineStateDesc);
+                MTLRenderPipelineStatePtr pipelineState = getPipelineState(pipelineStateDesc);
 
-                if (pipelineStateIterator != pipelineStates.end())
+                if (!pipelineState)
                 {
-                    [currentRenderCommandEncoder setRenderPipelineState:pipelineStateIterator->second];
+                    Log(Log::Level::ERR) << "Failed to get Metal pipeline state";
+                    return false;
                 }
-                else
-                {
-                    id<MTLRenderPipelineState> pipelineState = createPipelineState(pipelineStateDesc);
 
-                    if (!pipelineState)
-                    {
-                        return false;
-                    }
-
-                    [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
-                }
+                [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
 
                 // textures
                 bool texturesValid = true;
@@ -696,7 +642,7 @@ namespace ouzel
                         }
 
                         [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                        [currentRenderCommandEncoder setFragmentSamplerState:samplerState atIndex:layer];
+                        [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
                     }
                     else
                     {
@@ -815,45 +761,54 @@ namespace ouzel
             return buffer;
         }
 
-        MTLRenderPipelineStatePtr RendererMetal::createPipelineState(const PipelineStateDesc& desc)
+        MTLRenderPipelineStatePtr RendererMetal::getPipelineState(const PipelineStateDesc& desc)
         {
-            MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-            pipelineStateDescriptor.sampleCount = desc.sampleCount;
-            pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
-            pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
-            pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+            auto pipelineStateIterator = pipelineStates.find(desc);
 
-            pipelineStateDescriptor.colorAttachments[0].pixelFormat = static_cast<MTLPixelFormat>(desc.colorFormat);
-            pipelineStateDescriptor.depthAttachmentPixelFormat = static_cast<MTLPixelFormat>(desc.depthFormat);
-            pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
-
-            // blending
-            pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
-
-            pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
-
-            pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
-            pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
-
-            pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
-
-            NSError* error = Nil;
-            id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
-            [pipelineStateDescriptor release];
-            if (error || !pipelineState)
+            if (pipelineStateIterator != pipelineStates.end())
             {
-                if (pipelineState) [pipelineState release];
-
-                Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
-                return Nil;
+                return pipelineStateIterator->second;
             }
+            else
+            {
+                MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+                pipelineStateDescriptor.sampleCount = desc.sampleCount;
+                pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
+                pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
+                pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
 
-            pipelineStates[desc] = pipelineState;
+                pipelineStateDescriptor.colorAttachments[0].pixelFormat = static_cast<MTLPixelFormat>(desc.colorFormat);
+                pipelineStateDescriptor.depthAttachmentPixelFormat = static_cast<MTLPixelFormat>(desc.depthFormat);
+                pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
-            return pipelineState;
+                // blending
+                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
+
+                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
+                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
+                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
+
+                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
+
+                pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
+
+                NSError* error = Nil;
+                id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
+                [pipelineStateDescriptor release];
+                if (error || !pipelineState)
+                {
+                    if (pipelineState) [pipelineState release];
+
+                    Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
+                    return Nil;
+                }
+                
+                pipelineStates[desc] = pipelineState;
+                
+                return pipelineState;
+            }
         }
 
         bool RendererMetal::generateScreenshot(const std::string& filename)
@@ -910,6 +865,77 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        MTLSamplerStatePtr RendererMetal::getSamplerState(const SamplerStateDesc& desc)
+        {
+            auto samplerStatesIterator = samplerStates.find(desc);
+
+            if (samplerStatesIterator != samplerStates.end())
+            {
+                return samplerStatesIterator->second;
+            }
+            else
+            {
+                MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
+                switch (desc.filter)
+                {
+                    case Texture::Filter::DEFAULT:
+                    case Texture::Filter::POINT:
+                        samplerDescriptor.minFilter = MTLSamplerMinMagFilterNearest;
+                        samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
+                        samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                        break;
+                    case Texture::Filter::LINEAR:
+                        samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                        samplerDescriptor.magFilter = MTLSamplerMinMagFilterNearest;
+                        samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                        break;
+                    case Texture::Filter::BILINEAR:
+                        samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                        samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
+                        samplerDescriptor.mipFilter = MTLSamplerMipFilterNearest;
+                        break;
+                    case Texture::Filter::TRILINEAR:
+                        samplerDescriptor.minFilter = MTLSamplerMinMagFilterLinear;
+                        samplerDescriptor.magFilter = MTLSamplerMinMagFilterLinear;
+                        samplerDescriptor.mipFilter = MTLSamplerMipFilterLinear;
+                        break;
+                }
+
+                switch (desc.addressX)
+                {
+                    case Texture::Address::CLAMP:
+                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
+                        break;
+                    case Texture::Address::REPEAT:
+                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
+                        break;
+                }
+
+                switch (desc.addressY)
+                {
+                    case Texture::Address::CLAMP:
+                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
+                        break;
+                    case Texture::Address::REPEAT:
+                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
+                        break;
+                }
+
+                samplerDescriptor.maxAnisotropy = desc.maxAnisotropy;
+
+                MTLSamplerStatePtr samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
+                [samplerDescriptor release];
+
+                if (!samplerState)
+                {
+                    Log(Log::Level::ERR) << "Failed to create Metal sampler state";
+                    return Nil;
+                }
+
+                return samplerState;
+            }
         }
     } // namespace graphics
 } // namespace ouzel

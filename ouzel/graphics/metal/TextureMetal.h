@@ -5,10 +5,12 @@
 
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
+typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLTexture> MTLTextureResourcePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 #else
 #include <objc/objc.h>
+typedef id MTLSamplerStatePtr;
 typedef id MTLTextureResourcePtr;
 typedef id MTLRenderPassDescriptorPtr;
 #endif
@@ -30,6 +32,7 @@ namespace ouzel
             NSUInteger getColorFormat() const { return colorFormat; }
             NSUInteger getDepthFormat() const { return depthFormat; }
 
+            MTLSamplerStatePtr getSamplerState() const { return samplerState; }
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
             NSUInteger getWidth() const { return width; }
@@ -46,6 +49,7 @@ namespace ouzel
             NSUInteger width = 0;
             NSUInteger height = 0;
 
+            MTLSamplerStatePtr samplerState = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
             MTLTextureResourcePtr msaaTexture = Nil;
             MTLTextureResourcePtr depthTexture = Nil;

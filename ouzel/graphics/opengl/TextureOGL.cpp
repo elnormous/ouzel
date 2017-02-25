@@ -149,26 +149,6 @@ namespace ouzel
                     frameBufferClearColor[2] = clearColor.normB();
                     frameBufferClearColor[3] = clearColor.normA();
 
-                    switch (addressX)
-                    {
-                        case Texture::Address::CLAMP:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                            break;
-                        case Texture::Address::REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                            break;
-                    }
-
-                    switch (addressY)
-                    {
-                        case Texture::Address::CLAMP:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                            break;
-                        case Texture::Address::REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-                            break;
-                    }
-
                     Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
 
                     switch (finalFilter)
@@ -189,6 +169,26 @@ namespace ouzel
                         case Texture::Filter::TRILINEAR:
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                            break;
+                    }
+
+                    switch (addressX)
+                    {
+                        case Texture::Address::CLAMP:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                            break;
+                        case Texture::Address::REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                            break;
+                    }
+
+                    switch (addressY)
+                    {
+                        case Texture::Address::CLAMP:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                            break;
+                        case Texture::Address::REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
                             break;
                     }
 

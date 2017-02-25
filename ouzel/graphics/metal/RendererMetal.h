@@ -64,6 +64,21 @@ namespace ouzel
             MTLDevicePtr getDevice() const { return device; }
             MTKViewPtr getMetalView() const { return view; }
 
+            struct SamplerStateDesc
+            {
+                Texture::Filter filter;
+                Texture::Address addressX;
+                Texture::Address addressY;
+                uint32_t maxAnisotropy;
+
+                bool operator<(const SamplerStateDesc& other) const
+                {
+                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(filter, addressX, addressY, maxAnisotropy);
+                }
+            };
+
+            MTLSamplerStatePtr getSamplerState(const SamplerStateDesc& desc);
+
         protected:
             RendererMetal();
 
@@ -93,7 +108,7 @@ namespace ouzel
                 }
             };
 
-            MTLRenderPipelineStatePtr createPipelineState(const PipelineStateDesc& desc);
+            MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
             bool createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor);
 
@@ -102,11 +117,11 @@ namespace ouzel
             MTLDevicePtr device = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
 
-            MTLSamplerStatePtr samplerState = Nil;
             MTLDepthStencilStatePtr depthStencilStates[4];
 
             MTLTextureResourcePtr msaaTexture = Nil;
             MTLTextureResourcePtr depthTexture = Nil;
+            std::map<SamplerStateDesc, MTLSamplerStatePtr> samplerStates;
 
             MTLCommandQueuePtr commandQueue = Nil;
             MTLCommandBufferPtr currentCommandBuffer = Nil;
