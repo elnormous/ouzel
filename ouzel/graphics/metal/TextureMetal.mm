@@ -81,9 +81,6 @@ namespace ouzel
 
                             if (renderTarget)
                             {
-                                colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-                                depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
-
                                 if (!renderPassDescriptor)
                                 {
                                     renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
@@ -94,12 +91,6 @@ namespace ouzel
                                         return false;
                                     }
                                 }
-
-                                renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-                                renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
-                                                                                                        clearColor.normG(),
-                                                                                                        clearColor.normB(),
-                                                                                                        clearColor.normA());
 
                                 if (sampleCount > 1)
                                 {
@@ -180,6 +171,17 @@ namespace ouzel
 
                 if (dirty & DIRTY_PARAMETERS)
                 {
+                    colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+                    depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+
+                    if (renderPassDescriptor)
+                    {
+                        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                                clearColor.normG(),
+                                                                                                clearColor.normB(),
+                                                                                                clearColor.normA());
+                    }
+
                     RendererMetal::SamplerStateDesc samplerDesc;
                     samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
                     samplerDesc.addressX = addressX;
