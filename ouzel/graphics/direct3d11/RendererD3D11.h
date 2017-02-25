@@ -4,6 +4,7 @@
 #pragma once
 
 #include <atomic>
+#include <map>
 #define NOMINMAX
 #include <d3d11.h>
 #include "graphics/Renderer.h"
@@ -30,6 +31,21 @@ namespace ouzel
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
 
+            struct SamplerStateDesc
+            {
+                Texture::Filter filter;
+                Texture::Address addressX;
+                Texture::Address addressY;
+                uint32_t maxAnisotropy;
+
+                bool operator<(const SamplerStateDesc& other) const
+                {
+                    return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
+                }
+            };
+
+            ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
+
         protected:
             RendererD3D11();
 
@@ -55,13 +71,11 @@ namespace ouzel
             IDXGIAdapter* adapter = nullptr;
             ID3D11Texture2D* backBuffer = nullptr;
             ID3D11RenderTargetView* renderTargetView = nullptr;
-            ID3D11SamplerState* samplerState = nullptr;
+            std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
             ID3D11RasterizerState* rasterizerStates[4];
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* depthStencilStates[4];
-            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-            ID3D11SamplerState* samplerStates[Texture::LAYERS];
 
             UINT width = 0;
             UINT height = 0;

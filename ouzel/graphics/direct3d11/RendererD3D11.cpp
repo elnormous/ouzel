@@ -29,8 +29,6 @@ namespace ouzel
 
             std::fill(std::begin(rasterizerStates), std::end(rasterizerStates), nullptr);
             std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nullptr);
-            std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
-            std::fill(std::begin(samplerStates), std::end(samplerStates), nullptr);
         }
 
         RendererD3D11::~RendererD3D11()
@@ -64,9 +62,9 @@ namespace ouzel
                 }
             }
 
-            if (samplerState)
+            for (const auto& samplerState : samplerStates)
             {
-                samplerState->Release();
+                samplerState.second->Release();
             }
 
             if (renderTargetView)
@@ -225,54 +223,6 @@ namespace ouzel
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
-                return false;
-            }
-
-            // Sampler state
-            D3D11_SAMPLER_DESC samplerStateDesc;
-
-            if (maxAnisotropy > 1)
-            {
-                samplerStateDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-            }
-            else
-            {
-                switch (textureFilter)
-                {
-                    case Texture::Filter::POINT:
-                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-                        break;
-                    case Texture::Filter::LINEAR:
-                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
-                        break;
-                    case Texture::Filter::BILINEAR:
-                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-                        break;
-                    case Texture::Filter::TRILINEAR:
-                        samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-                        break;
-                }
-            }
-
-            samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-            samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-            samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-            samplerStateDesc.MipLODBias = 0.0f;
-            samplerStateDesc.MaxAnisotropy = maxAnisotropy;
-            samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-
-            samplerStateDesc.BorderColor[0] = 0.0f;
-            samplerStateDesc.BorderColor[1] = 0.0f;
-            samplerStateDesc.BorderColor[2] = 0.0f;
-            samplerStateDesc.BorderColor[3] = 0.0f;
-
-            samplerStateDesc.MinLOD = 0.0f;
-            samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-            hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 sampler state";
                 return false;
             }
 
@@ -478,6 +428,11 @@ namespace ouzel
 
         bool RendererD3D11::draw(const std::vector<DrawCommand>& drawCommands)
         {
+            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
+            ID3D11SamplerState* samplers[Texture::LAYERS];
+            std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
+            std::fill(std::begin(samplers), std::end(samplers), nullptr);
+
             context->RSSetState(rasterizerStates[0]);
 
             std::vector<float> shaderData;
@@ -700,19 +655,20 @@ namespace ouzel
 
                     if (textureD3D11)
                     {
-                        if (!textureD3D11->getResourceView())
+                        if (!textureD3D11->getResourceView() ||
+                            !textureD3D11->getSamplerState())
                         {
                             texturesValid = false;
                             break;
                         }
 
                         resourceViews[layer] = textureD3D11->getResourceView();
-                        samplerStates[layer] = samplerState;
+                        samplers[layer] = textureD3D11->getSamplerState();
                     }
                     else
                     {
                         resourceViews[layer] = nullptr;
-                        samplerStates[layer] = nullptr;
+                        samplers[layer] = nullptr;
                     }
                 }
 
@@ -722,7 +678,7 @@ namespace ouzel
                 }
 
                 context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
-                context->PSSetSamplers(0, Texture::LAYERS, samplerStates);
+                context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                 // depth-stencil state
                 uint32_t depthStencilStateIndex = 0;
@@ -1064,6 +1020,90 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        ID3D11SamplerState* RendererD3D11::getSamplerState(const SamplerStateDesc& desc)
+        {
+            auto samplerStatesIterator = samplerStates.find(desc);
+
+            if (samplerStatesIterator != samplerStates.end())
+            {
+                return samplerStatesIterator->second;
+            }
+            else
+            {
+                D3D11_SAMPLER_DESC samplerStateDesc;
+
+                if (desc.maxAnisotropy > 1)
+                {
+                    samplerStateDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+                }
+                else
+                {
+                    switch (desc.filter)
+                    {
+                        case Texture::Filter::DEFAULT:
+                        case Texture::Filter::POINT:
+                            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+                            break;
+                        case Texture::Filter::LINEAR:
+                            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+                            break;
+                        case Texture::Filter::BILINEAR:
+                            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+                            break;
+                        case Texture::Filter::TRILINEAR:
+                            samplerStateDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+                            break;
+                    }
+                }
+
+                switch (desc.addressX)
+                {
+                    case Texture::Address::CLAMP:
+                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+                        break;
+                    case Texture::Address::REPEAT:
+                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+                        break;
+                }
+
+                switch (desc.addressY)
+                {
+                    case Texture::Address::CLAMP:
+                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+                        break;
+                    case Texture::Address::REPEAT:
+                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+                        break;
+                }
+
+                samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+                samplerStateDesc.MipLODBias = 0.0f;
+                samplerStateDesc.MaxAnisotropy = desc.maxAnisotropy;
+                samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+
+                samplerStateDesc.BorderColor[0] = 0.0f;
+                samplerStateDesc.BorderColor[1] = 0.0f;
+                samplerStateDesc.BorderColor[2] = 0.0f;
+                samplerStateDesc.BorderColor[3] = 0.0f;
+
+                samplerStateDesc.MinLOD = 0.0f;
+                samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+                ID3D11SamplerState* samplerState;
+
+                HRESULT hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 sampler state";
+                    return nullptr;
+                }
+
+                samplerStates[desc] = samplerState;
+
+                return samplerState;
+            }
         }
     } // namespace graphics
 } // namespace ouzel

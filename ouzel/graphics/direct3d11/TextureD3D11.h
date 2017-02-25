@@ -19,6 +19,7 @@ namespace ouzel
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
+            ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
             ID3D11Texture2D* getDepthStencilTexture() const { return depthStencilTexture; }
@@ -37,6 +38,7 @@ namespace ouzel
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;
+            ID3D11SamplerState* samplerState = nullptr;
 
             UINT width = 0;
             UINT height = 0;
