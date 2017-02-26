@@ -31,6 +31,15 @@ namespace ouzel
             return false;
         }
 
+        void Input::setCursorLocked(bool)
+        {
+        }
+
+        bool Input::isCursorLocked() const
+        {
+            return false;
+        }
+
         void Input::setCursorPosition(const Vector2& position)
         {
             cursorPosition = position;
