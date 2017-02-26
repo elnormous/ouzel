@@ -224,6 +224,9 @@ namespace ouzel
             virtual void setCursorVisible(bool visible);
             virtual bool isCursorVisible() const;
 
+            virtual void setCursorLocked(bool locked);
+            virtual bool isCursorLocked() const;
+
             const Vector2& getCursorPosition() const { return cursorPosition; }
             virtual void setCursorPosition(const Vector2& position);
 
@@ -260,6 +263,8 @@ namespace ouzel
             std::unordered_map<uint64_t, Vector2> touchPositions;
 
             std::vector<std::unique_ptr<Gamepad>> gamepads;
+
+            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel
