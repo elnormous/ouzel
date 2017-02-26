@@ -27,10 +27,16 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
+            virtual void setCursorLocked(bool locked) override;
+            virtual bool isCursorLocked() const override;
+
+            void pointerLockChanged(bool locked);
+
         protected:
             InputEm();
 
             bool cursorVisible = true;
+            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel

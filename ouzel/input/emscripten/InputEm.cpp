@@ -4,30 +4,34 @@
 #include <emscripten.h>
 #include "InputEm.h"
 #include "core/Engine.h"
+#include "core/Application.h"
 #include "core/Window.h"
 #include "events/Event.h"
 #include "utils/Log.h"
 
-EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
+static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
+    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+
     switch (eventType)
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                                                     ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyDown(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
+                             ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
             return true;
         case EMSCRIPTEN_EVENT_KEYUP:
-            ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                                                   ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyUp(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
+                           ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
             return true;
     }
 
     return false;
 }
 
-EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
+static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
 {
+    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
     ouzel::input::MouseButton button;
 
     switch (mouseEvent->button)
@@ -52,34 +56,48 @@ EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, v
     switch (eventType)
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
-            ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                       ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                       ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+            inputEm->mouseDown(button,
+                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                               ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
-            ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+            inputEm->mouseUp(button,
+                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                             ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
-            ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                       ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+            inputEm->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                               ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
     }
 
     return false;
 }
 
-EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
+static EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
 {
     if (eventType == EMSCRIPTEN_EVENT_WHEEL)
     {
+        ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
         ouzel::Vector2 position(static_cast<float>(wheelEvent->mouse.canvasX),
                                 static_cast<float>(wheelEvent->mouse.canvasY));
 
-        ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
+        inputEm->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
+                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                             ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
+
+        return true;
+    }
+
+    return false;
+}
+
+static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointerlockChangeEvent* pointerlockChangeEvent, void* userData)
+{
+    if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
+    {
+        ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+        inputEm->pointerLockChanged(pointerlockChangeEvent->isActive);
 
         return true;
     }
@@ -198,15 +216,17 @@ namespace ouzel
 
         InputEm::InputEm()
         {
-            emscripten_set_keypress_callback(nullptr, this, 1, emKeyCallback);
-            emscripten_set_keydown_callback(nullptr, this, 1, emKeyCallback);
-            emscripten_set_keyup_callback(nullptr, this, 1, emKeyCallback);
+            emscripten_set_keypress_callback(nullptr, this, true, emKeyCallback);
+            emscripten_set_keydown_callback(nullptr, this, true, emKeyCallback);
+            emscripten_set_keyup_callback(nullptr, this, true, emKeyCallback);
 
-            emscripten_set_mousedown_callback("#canvas", this, 1, emMouseCallback);
-            emscripten_set_mouseup_callback("#canvas", this, 1, emMouseCallback);
-            emscripten_set_mousemove_callback("#canvas", this, 1, emMouseCallback);
+            emscripten_set_mousedown_callback("#canvas", this, true, emMouseCallback);
+            emscripten_set_mouseup_callback("#canvas", this, true, emMouseCallback);
+            emscripten_set_mousemove_callback("#canvas", this, true, emMouseCallback);
 
-            emscripten_set_wheel_callback("#canvas", this, 1, emWheelCallback);
+            emscripten_set_wheel_callback("#canvas", this, true, emWheelCallback);
+
+            emscripten_set_pointerlockchange_callback(nullptr, this, true, emPointerLockChangeCallback);
         }
 
         InputEm::~InputEm()
@@ -257,20 +277,47 @@ namespace ouzel
 
         void InputEm::setCursorVisible(bool visible)
         {
-            if (!visible)
-            {
-                cursorVisible = visible;
-                emscripten_hide_mouse();
-            }
-            else
-            {
-                Log(Log::Level::WARN) << "Cursors showing is not implemented for Emscripten target";
-            }
+            cursorVisible = visible;
+
+            sharedApplication->execute([visible] {
+                if (!visible)
+                {
+                    emscripten_hide_mouse();
+                }
+                else
+                {
+                    Log(Log::Level::WARN) << "Cursors showing is not implemented for Emscripten target";
+                }
+            });
         }
 
         bool InputEm::isCursorVisible() const
         {
             return cursorVisible;
+        }
+
+        void InputEm::setCursorLocked(bool locked)
+        {
+            sharedApplication->execute([locked] {
+                if (locked)
+                {
+                    emscripten_request_pointerlock(nullptr, false);
+                }
+                else
+                {
+                    emscripten_exit_pointerlock();
+                }
+            });
+        }
+
+        bool InputEm::isCursorLocked() const
+        {
+            return cursorLocked;
+        }
+
+        void InputEm::pointerLockChanged(bool locked)
+        {
+            cursorLocked = locked;
         }
     } // namespace input
 } // namespace ouzel

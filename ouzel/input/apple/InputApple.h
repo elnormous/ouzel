@@ -27,8 +27,8 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
-            virtual void setCursorLocked(bool locked);
-            virtual bool isCursorLocked() const;
+            virtual void setCursorLocked(bool locked) override;
+            virtual bool isCursorLocked() const override;
 
             virtual void setCursorPosition(const Vector2& position) override;
 

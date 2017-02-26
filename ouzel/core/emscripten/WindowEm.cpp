@@ -6,19 +6,19 @@
 #include "WindowEm.h"
 #include "core/Engine.h"
 
-namespace ouzel
+static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {
-    EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
+    if (eventType == EMSCRIPTEN_EVENT_RESIZE)
     {
-        if (eventType == EMSCRIPTEN_EVENT_RESIZE)
-        {
-            reinterpret_cast<WindowEm*>(userData)->handleResize();
-            return true;
-        }
-
-        return false;
+        reinterpret_cast<ouzel::WindowEm*>(userData)->handleResize();
+        return true;
     }
 
+    return false;
+}
+
+namespace ouzel
+{
     WindowEm::WindowEm(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
         Window(aSize, aResizable, aFullscreen, aTitle)
     {
