@@ -263,8 +263,6 @@ namespace ouzel
             std::unordered_map<uint64_t, Vector2> touchPositions;
 
             std::vector<std::unique_ptr<Gamepad>> gamepads;
-
-            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel

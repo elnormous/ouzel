@@ -403,6 +403,21 @@ namespace ouzel
 #endif
         }
 
+        void InputApple::setCursorLocked(bool locked)
+        {
+#if OUZEL_PLATFORM_MACOS
+            sharedApplication->execute([locked] {
+                CGAssociateMouseAndMouseCursorPosition(!locked);
+            });
+            cursorLocked = locked;
+#endif
+        }
+
+        bool InputApple::isCursorLocked() const
+        {
+            return cursorLocked;
+        }
+
         void InputApple::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";

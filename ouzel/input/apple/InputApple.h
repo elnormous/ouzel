@@ -27,6 +27,9 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
+            virtual void setCursorLocked(bool locked);
+            virtual bool isCursorLocked() const;
+
             virtual void setCursorPosition(const Vector2& position) override;
 
             virtual void startGamepadDiscovery() override;
@@ -51,6 +54,7 @@ namespace ouzel
 
             bool discovering = false;
             bool cursorVisible = true;
+            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel
