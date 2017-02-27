@@ -96,17 +96,31 @@ namespace ouzel
                                              static_cast<GLsizei>(size.v[1]),
                                              0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
+                                // TODO: blit multisample render buffer to texture
+                                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                                
                                 if (depth)
                                 {
                                     glGenRenderbuffersProc(1, &depthBufferId);
                                     glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-                                    glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                              static_cast<GLsizei>(size.v[0]),
-                                                              static_cast<GLsizei>(size.v[1]));
+
+                                    if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
+                                    {
+                                        glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                             static_cast<GLsizei>(sampleCount),
+                                                                             GL_DEPTH_COMPONENT,
+                                                                             static_cast<GLsizei>(size.v[0]),
+                                                                             static_cast<GLsizei>(size.v[1]));
+                                    }
+                                    else
+                                    {
+                                        glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                                  static_cast<GLsizei>(size.v[0]),
+                                                                  static_cast<GLsizei>(size.v[1]));
+                                    }
+
                                     glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
                                 }
-
-                                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
                                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                                 {
