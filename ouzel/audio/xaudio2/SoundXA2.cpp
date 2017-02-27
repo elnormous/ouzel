@@ -54,6 +54,12 @@ namespace ouzel
             Sound::setPosition(newPosition);
         }
 
+        void SoundAL::setGain(float newGain)
+        {
+            Sound::setGain(newGain);
+            gain = newGain;
+        }
+
         bool SoundXA2::play(bool repeatSound)
         {
             if (!Sound::play(repeatSound))
