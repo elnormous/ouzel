@@ -54,7 +54,7 @@ namespace ouzel
             Sound::setPosition(newPosition);
         }
 
-        void SoundAL::setGain(float newGain)
+        void SoundXA2::setGain(float newGain)
         {
             Sound::setGain(newGain);
             gain = newGain;
