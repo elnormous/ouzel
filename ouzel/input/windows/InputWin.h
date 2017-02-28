@@ -26,6 +26,9 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
+            virtual void setCursorLocked(bool locked) override;
+            virtual bool isCursorLocked() const override;
+
             virtual void setCursorPosition(const Vector2& position) override;
 
         protected:
@@ -34,6 +37,7 @@ namespace ouzel
             GamepadWin* gamepadsWin[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;
+            bool cursorLocked = false;
         };
     } // namespace input
 } // namespace ouzel

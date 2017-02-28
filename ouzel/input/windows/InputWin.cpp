@@ -276,17 +276,51 @@ namespace ouzel
             return cursorVisible;
         }
 
+        void InputApple::setCursorLocked(bool locked)
+        {
+            sharedApplication->execute([locked] {
+                if (locked)
+                {
+                    HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
+
+                    RECT rect;
+                    GetWindowRect(nativeWindow, &rect);
+
+                    LONG centerX = (rect.left + rect.right) / 2;
+                    LONG centerY = (rect.top + rect.bottom) / 2;
+
+                    rect.left = centerX;
+                    rect.right = centerX + 1;
+                    rect.top = centerY;
+                    rect.bottom = centerY + 1;
+
+                    ClipCursor(&rect);
+                }
+                else
+                {
+                    ClipCursor(nullptr);
+                }
+            });
+            cursorLocked = locked;
+        }
+
+        bool InputApple::isCursorLocked() const
+        {
+            return cursorLocked;
+        }
+
         void InputWin::setCursorPosition(const Vector2& position)
         {
             Input::setCursorPosition(position);
 
             sharedApplication->execute([position] {
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
+                HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
 
                 POINT p;
                 p.x = static_cast<LONG>(windowLocation.v[0]);
                 p.y = static_cast<LONG>(windowLocation.v[1]);
-                ClientToScreen(static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow(), &p);
+                ClientToScreen(nativeWindow, &p);
                 SetCursorPos(static_cast<int>(p.x),
                              static_cast<int>(p.y));
             });
