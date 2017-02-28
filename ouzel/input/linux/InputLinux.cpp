@@ -6,6 +6,7 @@
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -283,10 +284,10 @@ namespace ouzel
 
                 if (locked)
                 {
-                    if (X11_XGrabPointer(display, window, False,
-                                         ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
-                                         GrabModeAsync, GrabModeAsync,
-                                         None, None, CurrentTime) != GrabSuccess)
+                    if (XGrabPointer(display, window, False,
+                                     ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
+                                     GrabModeAsync, GrabModeAsync,
+                                     None, None, CurrentTime) != GrabSuccess)
                     {
                         Log(Log::Level::ERR) << "Failed to grab pointer";
                     }
