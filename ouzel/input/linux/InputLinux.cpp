@@ -288,7 +288,7 @@ namespace ouzel
                                          GrabModeAsync, GrabModeAsync,
                                          None, None, CurrentTime) != GrabSuccess)
                     {
-                        Log(Log::ERR) << "Failed to grab pointer;"
+                        Log(Log::Level::ERR) << "Failed to grab pointer";
                     }
                 }
                 else

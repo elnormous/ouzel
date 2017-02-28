@@ -294,7 +294,10 @@ namespace ouzel
                     rect.top = centerY;
                     rect.bottom = centerY + 1;
 
-                    ClipCursor(&rect);
+                    if (!ClipCursor(&rect))
+                    {
+                        Log(Log::Level::ERR) << "Failed to grab pointer";
+                    }
                 }
                 else
                 {
