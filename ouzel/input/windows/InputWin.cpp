@@ -276,7 +276,7 @@ namespace ouzel
             return cursorVisible;
         }
 
-        void InputApple::setCursorLocked(bool locked)
+        void InputWin::setCursorLocked(bool locked)
         {
             sharedApplication->execute([locked] {
                 if (locked)
@@ -304,7 +304,7 @@ namespace ouzel
             cursorLocked = locked;
         }
 
-        bool InputApple::isCursorLocked() const
+        bool InputWin::isCursorLocked() const
         {
             return cursorLocked;
         }
