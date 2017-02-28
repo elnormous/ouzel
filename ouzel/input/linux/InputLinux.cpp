@@ -274,6 +274,38 @@ namespace ouzel
             return cursorVisible;
         }
 
+        void InputLinux::setCursorLocked(bool locked)
+        {
+            sharedApplication->execute([locked] {
+                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                Display* display = windowLinux->getDisplay();
+                ::Window window = windowLinux->getNativeWindow();
+
+                if (locked)
+                {
+                    if (X11_XGrabPointer(display, window, False,
+                                         ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
+                                         GrabModeAsync, GrabModeAsync,
+                                         None, None, CurrentTime) != GrabSuccess)
+                    {
+                        Log(Log::ERR) << "Failed to grab pointer;"
+                    }
+                }
+                else
+                {
+                    XUngrabPointer(display, CurrentTime);
+                }
+
+                XSync(display, False);
+            });
+            cursorLocked = locked;
+        }
+
+        bool InputLinux::isCursorLocked() const
+        {
+            return cursorLocked;
+        }
+
         void InputLinux::setCursorPosition(const Vector2& position)
         {
             Input::setCursorPosition(position);

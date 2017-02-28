@@ -28,12 +28,16 @@ namespace ouzel
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
+            virtual void setCursorLocked(bool locked) override;
+            virtual bool isCursorLocked() const override;
+
             virtual void setCursorPosition(const Vector2& position) override;
 
         protected:
             InputLinux();
 
             bool cursorVisible = true;
+            bool cursorLocked = false;
             Cursor emptyCursor = None;
         };
     } // namespace input
