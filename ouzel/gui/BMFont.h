@@ -31,8 +31,10 @@ namespace ouzel
 
         float getHeight() { return lineHeight; }
 
-        void getVertices(const std::string& text, const Color& color,
+        void getVertices(const std::string& text,
+                         const Color& color,
                          const Vector2& anchor,
+                         const Vector2& scale,
                          std::vector<uint16_t>& indices,
                          std::vector<graphics::VertexPCT>& vertices);
 

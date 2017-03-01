@@ -46,14 +46,21 @@ namespace ouzel
             font = sharedEngine->getCache()->getBMFont(fontFile);
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
-            setText(text);
+            updateText();
         }
 
         void TextDrawable::setTextAnchor(const Vector2& newTextAnchor)
         {
             textAnchor = newTextAnchor;
 
-            setText(text);
+            updateText();
+        }
+
+        void TextDrawable::setTextScale(const Vector2& newTextScale)
+        {
+            textScale = newTextScale;
+
+            updateText();
         }
 
         void TextDrawable::draw(const Matrix4& transformMatrix,
@@ -141,7 +148,7 @@ namespace ouzel
 
         void TextDrawable::updateText()
         {
-            font.getVertices(text, color, textAnchor, indices, vertices);
+            font.getVertices(text, color, textAnchor, textScale, indices, vertices);
             needsMeshUpdate = true;
 
             boundingBox.reset();

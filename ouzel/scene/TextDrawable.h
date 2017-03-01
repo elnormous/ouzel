@@ -40,6 +40,9 @@ namespace ouzel
             virtual void setTextAnchor(const Vector2& newTextAnchor);
             virtual const Vector2& getTextAnchor() const { return textAnchor; }
 
+            virtual void setTextScale(const Vector2& newTextScale);
+            virtual const Vector2& getTextScale() const { return textScale; }
+
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
 
@@ -68,6 +71,7 @@ namespace ouzel
             BMFont font;
             std::string text;
             Vector2 textAnchor;
+            Vector2 textScale = Vector2(1.0f, 1.0f);
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
