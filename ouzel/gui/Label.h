@@ -17,7 +17,10 @@ namespace ouzel
         class Label: public Widget
         {
         public:
-            Label(const std::string& fontFile, const std::string& pText, const Vector2& textAnchor = Vector2(0.5f, 0.5f));
+            Label(const std::string& aText,
+                  const std::string& fontFile,
+                  Color color = Color::WHITE,
+                  const Vector2& textAnchor = Vector2(0.5f, 0.5f));
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }

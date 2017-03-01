@@ -24,6 +24,7 @@ namespace ouzel
             TextDrawable(const std::string& fontFile,
                          bool aMipmaps = true,
                          const std::string& aText = std::string(),
+                         Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& transformMatrix,
