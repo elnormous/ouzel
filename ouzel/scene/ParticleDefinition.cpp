@@ -43,8 +43,8 @@ namespace ouzel
 
                 switch (emitterType)
                 {
-                    case 0: result.emitterType = scene::ParticleDefinition::EmitterType::GRAVITY; break;
-                    case 1: result.emitterType = scene::ParticleDefinition::EmitterType::RADIUS; break;
+                    case 0: result.emitterType = ParticleDefinition::EmitterType::GRAVITY; break;
+                    case 1: result.emitterType = ParticleDefinition::EmitterType::RADIUS; break;
                 }
             }
 

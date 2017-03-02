@@ -188,22 +188,22 @@ namespace ouzel
             {
                 case Event::Type::MOUSE_DOWN:
                 {
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerDownOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_UP:
                 {
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
-                    scene::Node* previousNode = pickNode(event.position - event.difference);
+                    Node* previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(0);
@@ -227,22 +227,22 @@ namespace ouzel
             {
                 case Event::Type::TOUCH_BEGIN:
                 {
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerDownOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_END:
                 {
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_MOVE:
                 {
-                    scene::Node* previousNode = pickNode(event.position - event.difference);
+                    Node* previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(event.touchId);
@@ -255,7 +255,7 @@ namespace ouzel
                 }
                 case Event::Type::TOUCH_CANCEL:
                 {
-                    scene::Node* node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
