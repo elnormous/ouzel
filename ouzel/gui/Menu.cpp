@@ -111,43 +111,55 @@ namespace ouzel
         void Menu::selectNextWidget()
         {
             if (!enabled) return;
-            if (widgets.empty()) return;
 
-            std::vector<Widget*>::iterator widgetIterator = widgets.end();
+            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+                std::find(widgets.begin(), widgets.end(), selectedWidget) :
+                widgets.end();
 
-            if (selectedWidget)
+            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+
+            do
             {
-                widgetIterator = std::find(widgets.begin(), widgets.end(), selectedWidget);
+                if (widgetIterator == widgets.end())
+                {
+                    widgetIterator = widgets.begin();
+                }
+                else
+                {
+                    widgetIterator++;
+                }
+
+                if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
+                {
+                    selectWidget(*widgetIterator);
+                    break;
+                }
             }
-
-            if (widgetIterator != widgets.end()) widgetIterator++;
-            if (widgetIterator == widgets.end()) widgetIterator = widgets.begin();
-
-            selectWidget(*widgetIterator);
+            while (widgetIterator != firstWidgetIterator);
         }
 
         void Menu::selectPreviousWidget()
         {
             if (!enabled) return;
-            if (widgets.empty()) return;
 
-            std::vector<Widget*>::iterator widgetIterator = widgets.end();
+            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+                std::find(widgets.begin(), widgets.end(), selectedWidget) :
+                widgets.end();
 
-            if (selectedWidget)
+            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+
+            do
             {
-                widgetIterator = std::find(widgets.begin(), widgets.end(), selectedWidget);
-            }
+                if (widgetIterator == widgets.begin()) widgetIterator = widgets.end();
+                if (widgetIterator != widgets.begin()) widgetIterator--;
 
-            if (widgetIterator == widgets.begin())
-            {
-                widgetIterator = --widgets.end();
+                if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
+                {
+                    selectWidget(*widgetIterator);
+                    break;
+                }
             }
-            else
-            {
-                widgetIterator--;
-            }
-
-            selectWidget(*widgetIterator);
+            while (widgetIterator != firstWidgetIterator);
         }
 
         bool Menu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
