@@ -33,16 +33,15 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(Animator* aAnimator, Type aType, Func aFunc);
+            Ease(const std::shared_ptr<Animator>& aAnimator, Type aType, Func aFunc);
 
             virtual void start(Node* newTargetNode) override;
             virtual void reset() override;
 
         protected:
-            virtual void removeAnimator(Animator* oldAnimator) override;
             virtual void updateProgress() override;
 
-            Animator* animator = nullptr;
+            std::shared_ptr<Animator> animator;
             Type type;
             Func func;
         };

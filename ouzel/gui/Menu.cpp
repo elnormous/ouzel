@@ -44,14 +44,14 @@ namespace ouzel
             {
                 selectedWidget = nullptr;
 
-                for (Widget* childWidget : widgets)
+                for (const std::shared_ptr<Widget>& childWidget : widgets)
                 {
                     childWidget->setSelected(false);
                 }
             }
         }
 
-        void Menu::addWidget(Widget* widget)
+        void Menu::addWidget(const std::shared_ptr<Widget>& widget)
         {
             addChild(widget);
 
@@ -66,7 +66,7 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(scene::Node* node)
+        bool Menu::removeChild(const std::shared_ptr<Node>& node)
         {
             if (!Node::removeChild(node))
             {
@@ -88,13 +88,13 @@ namespace ouzel
             return true;
         }
 
-        void Menu::selectWidget(Widget* widget)
+        void Menu::selectWidget(const std::shared_ptr<Widget>& widget)
         {
             if (!enabled) return;
 
             selectedWidget = nullptr;
 
-            for (Widget* childWidget : widgets)
+            for (const std::shared_ptr<Widget>& childWidget : widgets)
             {
                 if (childWidget == widget)
                 {
@@ -112,11 +112,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+            std::vector<std::shared_ptr<Widget>>::iterator firstWidgetIterator = selectedWidget ?
                 std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+            std::vector<std::shared_ptr<Widget>>::iterator widgetIterator = firstWidgetIterator;
 
             do
             {
@@ -142,11 +142,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+            std::vector<std::shared_ptr<Widget>>::iterator firstWidgetIterator = selectedWidget ?
                 std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
+            std::vector<std::shared_ptr<Widget>>::iterator widgetIterator = firstWidgetIterator;
 
             do
             {
@@ -256,7 +256,7 @@ namespace ouzel
             {
                 if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
                 {
-                    selectWidget(static_cast<Widget*>(event.node));
+                    selectWidget(std::static_pointer_cast<Widget>(event.node));
                 }
             }
 

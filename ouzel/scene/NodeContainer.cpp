@@ -13,39 +13,29 @@ namespace ouzel
         {
         }
 
-        NodeContainer::~NodeContainer()
-        {
-            for (Node* node : children)
-            {
-                if (entered) node->leave();
-                node->parent = nullptr;
-            }
-        }
-
-        void NodeContainer::addChild(Node* node)
+        void NodeContainer::addChild(const std::shared_ptr<Node>& node)
         {
             if (node)
             {
-                NodeContainer* oldParent = node->parent;
-                if (oldParent)
+                if (std::shared_ptr<NodeContainer> oldParent = node->parent.lock())
                 {
                     oldParent->removeChild(node);
                 }
 
-                node->parent = this;
+                node->parent = shared_from_this();
                 if (entered) node->enter();
                 children.push_back(node);
             }
         }
 
-        bool NodeContainer::removeChild(Node* node)
+        bool NodeContainer::removeChild(const std::shared_ptr<Node>& node)
         {
-            std::vector<Node*>::iterator i = std::find(children.begin(), children.end(), node);
+            std::vector<std::shared_ptr<Node>>::iterator i = std::find(children.begin(), children.end(), node);
 
             if (i != children.end())
             {
                 if (entered) node->leave();
-                node->parent = nullptr;
+                node->parent.reset();
                 children.erase(i);
 
                 return true;
@@ -63,17 +53,17 @@ namespace ouzel
             for (auto& node : childrenCopy)
             {
                 if (entered) node->leave();
-                node->parent = nullptr;
+                node->parent.reset();
             }
 
             children.clear();
         }
 
-        bool NodeContainer::hasChild(Node* node, bool recursive) const
+        bool NodeContainer::hasChild(const std::shared_ptr<Node>& node, bool recursive) const
         {
-            for (std::vector<Node*>::const_iterator i = children.begin(); i != children.end(); ++i)
+            for (std::vector<std::shared_ptr<Node>>::const_iterator i = children.begin(); i != children.end(); ++i)
             {
-                Node* child = *i;
+                const std::shared_ptr<Node>& child = *i;
 
                 if (child == node || (recursive && child->hasChild(node, true)))
                 {
@@ -88,7 +78,7 @@ namespace ouzel
         {
             entered = true;
 
-            for (Node* node : children)
+            for (const std::shared_ptr<Node>& node : children)
             {
                 node->enter();
             }
@@ -98,24 +88,24 @@ namespace ouzel
         {
             entered = false;
 
-            for (Node* node : children)
+            for (const std::shared_ptr<Node>& node : children)
             {
                 node->leave();
             }
         }
 
-        void NodeContainer::findNodes(const Vector2& position, std::vector<Node*>& nodes) const
+        void NodeContainer::findNodes(const Vector2& position, std::vector<std::shared_ptr<Node>>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
-                Node* node = *i;
+                const std::shared_ptr<Node>& node = *i;
 
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->pointOn(position))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](Node* a, Node* b) {
+                                                           [](const std::shared_ptr<Node>& a, const std::shared_ptr<Node>& b) {
                                                                return a->worldOrder < b->worldOrder;
                                                            });
 
@@ -127,18 +117,18 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const
+        void NodeContainer::findNodes(const std::vector<Vector2>& edges, std::vector<std::shared_ptr<Node>>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
-                Node* node = *i;
+                const std::shared_ptr<Node>& node = *i;
 
                 if (!node->isHidden())
                 {
                     if (node->isPickable() && node->shapeOverlaps(edges))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](Node* a, Node* b) {
+                                                           [](const std::shared_ptr<Node>& a, const std::shared_ptr<Node>& b) {
                                                                return a->worldOrder < b->worldOrder;
                                                            });
 

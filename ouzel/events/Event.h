@@ -87,7 +87,7 @@ namespace ouzel
 
     struct UIEvent
     {
-        scene::Node* node = nullptr;
+        std::shared_ptr<scene::Node> node;
         uint64_t touchId = 0;
         Vector2 position;
     };

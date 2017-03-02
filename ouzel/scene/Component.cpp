@@ -10,11 +10,6 @@ namespace ouzel
 {
     namespace scene
     {
-        Component::~Component()
-        {
-            if (node) node->removeComponent(this);
-        }
-
         void Component::draw(const Matrix4&,
                              const Color&,
                              scene::Camera*)

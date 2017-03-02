@@ -21,23 +21,6 @@ namespace ouzel
             animationUpdateCallback.callback = std::bind(&Node::updateAnimation, this, std::placeholders::_1);
         }
 
-        Node::~Node()
-        {
-            if (currentAnimator) currentAnimator->parentNode = nullptr;
-
-            for (Component* component : components)
-            {
-                component->node = nullptr;
-            }
-
-            for (Node* child : children)
-            {
-                child->parent = nullptr;
-            }
-
-            if (parent) parent->removeChild(this);
-        }
-
         void Node::visit(std::vector<Node*>& drawQueue,
                          const Matrix4& newParentTransform,
                          bool parentTransformDirty,
@@ -73,7 +56,7 @@ namespace ouzel
                 }
             }
 
-            for (Node* child : children)
+            for (const std::shared_ptr<Node>& child : children)
             {
                 child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
             }
@@ -90,7 +73,7 @@ namespace ouzel
 
             Color drawColor(color.v[0], color.v[1], color.v[2], static_cast<uint8_t>(color.v[3] * opacity));
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {
@@ -108,7 +91,7 @@ namespace ouzel
 
             Color drawColor(color.v[0], color.v[1], color.v[2], 255);
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {
@@ -117,7 +100,7 @@ namespace ouzel
             }
         }
 
-        void Node::addChild(Node* node)
+        void Node::addChild(const std::shared_ptr<Node>&node)
         {
             NodeContainer::addChild(node);
 
@@ -129,9 +112,9 @@ namespace ouzel
 
         void Node::removeFromParent()
         {
-            if (parent)
+            if (std::shared_ptr<NodeContainer> currenParent = parent.lock())
             {
-                parent->removeChild(this);
+                currenParent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
             }
         }
 
@@ -225,7 +208,7 @@ namespace ouzel
         {
             Vector2 localPosition = convertWorldToLocal(worldPosition);
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (component->pointOn(localPosition))
                 {
@@ -251,7 +234,7 @@ namespace ouzel
                 transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
                 {
@@ -296,7 +279,7 @@ namespace ouzel
             return worldPosition;
         }
 
-        void Node::animate(Animator* animator)
+        void Node::animate(const std::shared_ptr<Animator>& animator)
         {
             if (currentAnimator)
             {
@@ -316,7 +299,7 @@ namespace ouzel
             sharedEngine->scheduleUpdate(&animationUpdateCallback);
         }
 
-        void Node::removeAnimator(Animator* animator)
+        void Node::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
             if (animator && animator == currentAnimator)
             {
@@ -368,16 +351,16 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addComponent(Component* component)
+        void Node::addComponent(const std::shared_ptr<Component>& component)
         {
-            Node* oldNode = component->node;
+            std::shared_ptr<Node> oldNode = component->node.lock();
 
             if (oldNode)
             {
                 oldNode->removeComponent(component);
             }
 
-            component->node = this;
+            component->node.reset();
             components.push_back(component);
         }
 
@@ -388,21 +371,21 @@ namespace ouzel
                 return false;
             }
 
-            Component* component = components[index];
-            component->node = nullptr;
+            const std::shared_ptr<Component>& component = components[index];
+            component->node.reset();
 
             components.erase(components.begin() + static_cast<int>(index));
 
             return true;
         }
 
-        bool Node::removeComponent(Component* component)
+        bool Node::removeComponent(const std::shared_ptr<Component>& component)
         {
             for (auto i = components.begin(); i != components.end();)
             {
                 if (*i == component)
                 {
-                    component->node = nullptr;
+                    component->node.reset();
                     components.erase(i);
                     return true;
                 }
@@ -442,7 +425,7 @@ namespace ouzel
         {
             Box3 boundingBox;
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {

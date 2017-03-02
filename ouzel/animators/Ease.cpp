@@ -253,7 +253,7 @@ namespace ouzel
                 return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
         }
 
-        Ease::Ease(Animator* aAnimator, Type aType, Func aFunc):
+        Ease::Ease(const std::shared_ptr<Animator>& aAnimator, Type aType, Func aFunc):
             Animator(aAnimator->getLength()), animator(aAnimator), type(aType), func(aFunc)
         {
         }
@@ -270,16 +270,6 @@ namespace ouzel
             Animator::reset();
 
             animator->reset();
-        }
-
-        void Ease::removeAnimator(Animator* oldAnimator)
-        {
-            Animator::removeAnimator(oldAnimator);
-
-            if (oldAnimator == animator)
-            {
-                animator = nullptr;
-            }
         }
 
         void Ease::updateProgress()

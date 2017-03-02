@@ -16,18 +16,18 @@ private:
 
     Samples& samples;
 
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
+    std::shared_ptr<ouzel::scene::Layer> layer;
+    std::shared_ptr<ouzel::scene::Camera> camera;
 
-    ouzel::gui::Menu menu;
+    std::shared_ptr<ouzel::gui::Menu> menu;
 
     ouzel::EventHandler eventHandler;
-    ouzel::gui::Button gitHubButton;
-    ouzel::gui::Button spritesButton;
-    ouzel::gui::Button guiButton;
-    ouzel::gui::Button renderTargetButton;
-    ouzel::gui::Button animationsButton;
-    ouzel::gui::Button inputButton;
-    ouzel::gui::Button soundButton;
-    ouzel::gui::Button perspectiveButton;
+    std::shared_ptr<ouzel::gui::Button> gitHubButton;
+    std::shared_ptr<ouzel::gui::Button> spritesButton;
+    std::shared_ptr<ouzel::gui::Button> guiButton;
+    std::shared_ptr<ouzel::gui::Button> renderTargetButton;
+    std::shared_ptr<ouzel::gui::Button> animationsButton;
+    std::shared_ptr<ouzel::gui::Button> inputButton;
+    std::shared_ptr<ouzel::gui::Button> soundButton;
+    std::shared_ptr<ouzel::gui::Button> perspectiveButton;
 };

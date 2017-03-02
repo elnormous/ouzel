@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "scene/NodeContainer.h"
 #include "math/Box3.h"
@@ -29,7 +30,6 @@ namespace ouzel
             friend Animator;
         public:
             Node();
-            virtual ~Node();
 
             virtual void visit(std::vector<Node*>& drawQueue,
                                const Matrix4& newParentTransform,
@@ -40,8 +40,8 @@ namespace ouzel
             virtual void draw(Camera* camera);
             virtual void drawWireframe(Camera* camera);
 
-            virtual void addChild(Node* node) override;
-            virtual NodeContainer* getParent() const { return parent; }
+            virtual void addChild(const std::shared_ptr<Node>& node) override;
+            virtual std::shared_ptr<NodeContainer> getParent() const { return parent.lock(); }
             virtual void removeFromParent();
 
             virtual void setPosition(const Vector2& newPosition);
@@ -123,20 +123,20 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            void animate(Animator* animator);
-            Animator* getAnimator() const { return currentAnimator; }
+            void animate(const std::shared_ptr<Animator>& animator);
+            const std::shared_ptr<Animator>& getAnimator() const { return currentAnimator; }
+            void removeAnimator(const std::shared_ptr<Animator>& animator);
             void removeCurrentAnimator();
 
-            const std::vector<Component*>& getComponents() const { return components; }
-            void addComponent(Component* component);
+            const std::vector<std::shared_ptr<Component>>& getComponents() const { return components; }
+            void addComponent(const std::shared_ptr<Component>& component);
             bool removeComponent(uint32_t index);
-            bool removeComponent(Component* component);
+            bool removeComponent(const std::shared_ptr<Component>& component);
             void removeAllComponents();
 
             Box3 getBoundingBox() const;
 
         protected:
-            void removeAnimator(Animator* animator);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
@@ -171,10 +171,10 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            Animator* currentAnimator = nullptr;
-            std::vector<Component*> components;
+            std::shared_ptr<Animator> currentAnimator;
+            std::vector<std::shared_ptr<Component>> components;
 
-            NodeContainer* parent = nullptr;
+            std::weak_ptr<NodeContainer> parent;
 
             UpdateCallback animationUpdateCallback;
         };

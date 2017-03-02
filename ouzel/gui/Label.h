@@ -25,11 +25,11 @@ namespace ouzel
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
 
-            scene::TextDrawable* getLabelDrawable() { return &labelDrawable; }
+            const std::shared_ptr<scene::TextDrawable>& getLabelDrawable() { return labelDrawable; }
 
         protected:
             std::string text;
-            scene::TextDrawable labelDrawable;
+            std::shared_ptr<scene::TextDrawable> labelDrawable;
         };
     } // namespace gui
 } // namespace ouzel

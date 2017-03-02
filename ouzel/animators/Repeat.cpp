@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace scene
     {
-        Repeat::Repeat(Animator* aAnimator, uint32_t aCount):
+        Repeat::Repeat(const std::shared_ptr<Animator>& aAnimator, uint32_t aCount):
             Animator(aAnimator->getLength() * static_cast<float>(aCount)), animator(aAnimator), count(aCount)
         {
         }
@@ -32,16 +32,6 @@ namespace ouzel
             }
 
             currentCount = 0;
-        }
-
-        void Repeat::removeAnimator(Animator* oldAnimator)
-        {
-            Animator::removeAnimator(oldAnimator);
-
-            if (oldAnimator == animator)
-            {
-                animator = nullptr;
-            }
         }
 
         void Repeat::updateProgress()

@@ -15,12 +15,6 @@ namespace ouzel
         {
         }
 
-        Animator::~Animator()
-        {
-            if (parent) parent->removeAnimator(this);
-            if (parentNode) parentNode->removeAnimator(this);
-        }
-
         void Animator::update(float delta)
         {
             if (running)
@@ -43,9 +37,8 @@ namespace ouzel
             }
         }
 
-        void Animator::start(Node* newTargetNode)
+        void Animator::start()
         {
-            targetNode = newTargetNode;
             running = true;
         }
 
@@ -87,20 +80,6 @@ namespace ouzel
 
         void Animator::updateProgress()
         {
-        }
-
-        void Animator::removeFromParent()
-        {
-            if (parent)
-            {
-                parent->removeAnimator(this);
-                parent = nullptr;
-            }
-        }
-
-        void Animator::removeAnimator(Animator* animator)
-        {
-            if (animator->parent == this) animator->parent = nullptr;
         }
     } // namespace scene
 } // namespace ouzel

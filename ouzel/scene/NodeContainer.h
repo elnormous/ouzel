@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "utils/Noncopyable.h"
 #include "math/Vector2.h"
@@ -13,26 +14,25 @@ namespace ouzel
     {
         class Node;
 
-        class NodeContainer: public Noncopyable
+        class NodeContainer: public Noncopyable, public std::enable_shared_from_this<NodeContainer>
         {
         public:
             NodeContainer();
-            virtual ~NodeContainer();
 
-            virtual void addChild(Node* node);
-            virtual bool removeChild(Node* node);
+            virtual void addChild(const std::shared_ptr<Node>& node);
+            virtual bool removeChild(const std::shared_ptr<Node>& node);
             virtual void removeAllChildren();
-            virtual bool hasChild(Node* node, bool recursive = false) const;
-            virtual const std::vector<Node*>& getChildren() const { return children; }
+            virtual bool hasChild(const std::shared_ptr<Node>& node, bool recursive = false) const;
+            virtual const std::vector<std::shared_ptr<Node>>& getChildren() const { return children; }
 
         protected:
-            void findNodes(const Vector2& position, std::vector<Node*>& nodes) const;
-            void findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const;
+            void findNodes(const Vector2& position, std::vector<std::shared_ptr<Node>>& nodes) const;
+            void findNodes(const std::vector<Vector2>& edges, std::vector<std::shared_ptr<Node>>& nodes) const;
 
             virtual void enter();
             virtual void leave();
 
-            std::vector<Node*> children;
+            std::vector<std::shared_ptr<Node>> children;
             bool entered = false;
         };
     } // namespace scene

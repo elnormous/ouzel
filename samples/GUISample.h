@@ -19,16 +19,16 @@ private:
 
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::gui::Button> button;
-    std::unique_ptr<ouzel::gui::Button> fullscreenButton;
-    std::unique_ptr<ouzel::gui::CheckBox> checkBox;
+    std::shared_ptr<ouzel::gui::Button> button;
+    std::shared_ptr<ouzel::gui::Button> fullscreenButton;
+    std::shared_ptr<ouzel::gui::CheckBox> checkBox;
 
-    std::unique_ptr<ouzel::gui::Label> label1;
-    std::unique_ptr<ouzel::gui::Label> label2;
-    std::unique_ptr<ouzel::gui::Label> label3;
+    std::shared_ptr<ouzel::gui::Label> label1;
+    std::shared_ptr<ouzel::gui::Label> label2;
+    std::shared_ptr<ouzel::gui::Label> label3;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
+    std::shared_ptr<ouzel::scene::Layer> guiLayer;
+    std::shared_ptr<ouzel::scene::Camera> guiCamera;
+    std::shared_ptr<ouzel::gui::Menu> menu;
+    std::shared_ptr<ouzel::gui::Button> backButton;
 };

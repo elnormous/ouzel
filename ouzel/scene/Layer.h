@@ -21,19 +21,18 @@ namespace ouzel
             friend Scene;
         public:
             Layer();
-            virtual ~Layer();
 
             virtual void draw();
 
-            virtual void addChild(Node* node) override;
+            virtual void addChild(const std::shared_ptr<Node>& node) override;
 
-            void addCamera(Camera* camera);
-            void removeCamera(Camera* camera);
-            const std::vector<Camera*>& getCameras() const { return cameras; }
+            void addCamera(const std::shared_ptr<Camera>& camera);
+            void removeCamera(const std::shared_ptr<Camera>& camera);
+            const std::vector<std::shared_ptr<Camera>>& getCameras() const { return cameras; }
 
-            Node* pickNode(const Vector2& position) const;
-            std::vector<Node*> pickNodes(const Vector2& position) const;
-            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
+            std::shared_ptr<Node> pickNode(const Vector2& position) const;
+            std::vector<std::shared_ptr<Node>> pickNodes(const Vector2& position) const;
+            std::vector<std::shared_ptr<Node>> pickNodes(const std::vector<Vector2>& edges) const;
 
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
@@ -42,9 +41,9 @@ namespace ouzel
             virtual void recalculateProjection();
             virtual void enter() override;
 
-            Scene* scene = nullptr;
+            std::weak_ptr<Scene> scene;
 
-            std::vector<Camera*> cameras;
+            std::vector<std::shared_ptr<Camera>> cameras;
 
             int32_t order = 0;
         };
