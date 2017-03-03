@@ -23,11 +23,11 @@ namespace ouzel
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
-                              scene::Camera* camera) override;
+                              Camera* camera) override;
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const Color& drawColor,
-                                       scene::Camera* camera) override;
+                                       Camera* camera) override;
 
             void clear();
 

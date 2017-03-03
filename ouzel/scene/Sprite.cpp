@@ -127,7 +127,7 @@ namespace ouzel
 
         void Sprite::draw(const Matrix4& transformMatrix,
                           const Color& drawColor,
-                          scene::Camera* camera)
+                          Camera* camera)
         {
             Component::draw(transformMatrix, drawColor, camera);
 
@@ -160,7 +160,7 @@ namespace ouzel
 
         void Sprite::drawWireframe(const Matrix4& transformMatrix,
                                    const Color& drawColor,
-                                   scene::Camera* camera)
+                                   Camera* camera)
         {
             Component::drawWireframe(transformMatrix, drawColor, camera);
 

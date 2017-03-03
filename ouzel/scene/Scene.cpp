@@ -266,7 +266,7 @@ namespace ouzel
             return true;
         }
 
-        void Scene::pointerEnterNode(uint64_t pointerId, scene::Node* node, const Vector2& position)
+        void Scene::pointerEnterNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             if (node)
             {
@@ -281,7 +281,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerLeaveNode(uint64_t pointerId, scene::Node* node, const Vector2& position)
+        void Scene::pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             if (node)
             {
@@ -296,7 +296,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerDownOnNode(uint64_t pointerId, scene::Node* node, const Vector2& position)
+        void Scene::pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             pointerDownOnNodes[pointerId] = node;
 
@@ -313,7 +313,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerUpOnNode(uint64_t pointerId, scene::Node* node, const Vector2& position)
+        void Scene::pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             auto i = pointerDownOnNodes.find(pointerId);
 
@@ -349,7 +349,7 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t, scene::Node* node, const Vector2& position)
+        void Scene::pointerDragNode(uint64_t, Node* node, const Vector2& position)
         {
             if (node)
             {
