@@ -55,6 +55,9 @@ namespace ouzel
 
         void Animator::play()
         {
+            currentTime = 0.0f;
+            progress = 0.0f;
+            done = false;
             running = true;
 
             targetNode = node;
