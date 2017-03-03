@@ -6,7 +6,6 @@
 #include "core/Engine.h"
 #include "SceneManager.h"
 #include "Layer.h"
-#include "animators/Animator.h"
 #include "Camera.h"
 #include "utils/Utils.h"
 #include "math/MathUtils.h"
@@ -18,13 +17,10 @@ namespace ouzel
     {
         Node::Node()
         {
-            animationUpdateCallback.callback = std::bind(&Node::updateAnimation, this, std::placeholders::_1);
         }
 
         Node::~Node()
         {
-            if (currentAnimator) currentAnimator->parentNode = nullptr;
-
             for (Component* component : components)
             {
                 component->node = nullptr;
@@ -296,48 +292,6 @@ namespace ouzel
             return worldPosition;
         }
 
-        void Node::animate(Animator* animator)
-        {
-            if (currentAnimator)
-            {
-                currentAnimator->parentNode = nullptr;
-                currentAnimator->stop();
-            }
-
-            currentAnimator = animator;
-
-            if (currentAnimator)
-            {
-                currentAnimator->removeFromParent();
-                currentAnimator->parentNode = this;
-                currentAnimator->start(this);
-            }
-
-            sharedEngine->scheduleUpdate(&animationUpdateCallback);
-        }
-
-        void Node::removeAnimator(Animator* animator)
-        {
-            if (animator && animator == currentAnimator)
-            {
-                currentAnimator->parentNode = nullptr;
-                currentAnimator->stop();
-                currentAnimator = nullptr;
-                sharedEngine->unscheduleUpdate(&animationUpdateCallback);
-            }
-        }
-
-        void Node::removeCurrentAnimator()
-        {
-            if (currentAnimator)
-            {
-                currentAnimator->parentNode = nullptr;
-                currentAnimator->stop();
-                currentAnimator = nullptr;
-                sharedEngine->unscheduleUpdate(&animationUpdateCallback);
-            }
-        }
-
         void Node::calculateLocalTransform() const
         {
             localTransform.setIdentity();
@@ -418,24 +372,6 @@ namespace ouzel
         void Node::removeAllComponents()
         {
             components.clear();
-        }
-
-        void Node::updateAnimation(float delta)
-        {
-            if (currentAnimator)
-            {
-                currentAnimator->update(delta);
-
-                if (currentAnimator->isDone())
-                {
-                    removeCurrentAnimator();
-                    sharedEngine->unscheduleUpdate(&animationUpdateCallback);
-                }
-            }
-            else
-            {
-                sharedEngine->unscheduleUpdate(&animationUpdateCallback);
-            }
         }
 
         Box3 Node::getBoundingBox() const

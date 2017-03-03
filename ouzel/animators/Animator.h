@@ -4,7 +4,8 @@
 #pragma once
 
 #include <functional>
-#include "utils/Noncopyable.h"
+#include "scene/Component.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -12,7 +13,7 @@ namespace ouzel
     {
         class Node;
 
-        class Animator: public Noncopyable
+        class Animator: public Component
         {
             friend Node;
         public:
@@ -21,7 +22,8 @@ namespace ouzel
 
             virtual void update(float delta);
 
-            virtual void start(Node* newTargetNode);
+            virtual void start();
+            virtual void play();
 
             virtual void resume();
             virtual void stop(bool resetAnimation = false);
@@ -38,6 +40,7 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
+            void addAnimator(Animator* animator);
             void removeFromParent();
             virtual void removeAnimator(Animator* animator);
 
@@ -51,10 +54,11 @@ namespace ouzel
             bool running = false;
 
             Animator* parent = nullptr;
-            Node* parentNode = nullptr;
             Node* targetNode = nullptr;
 
             std::function<void()> finishHandler;
+
+            UpdateCallback updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

@@ -10,15 +10,21 @@ namespace ouzel
         Repeat::Repeat(Animator* aAnimator, uint32_t aCount):
             Animator(aAnimator->getLength() * static_cast<float>(aCount)), animator(aAnimator), count(aCount)
         {
+            addAnimator(animator);
         }
 
-        void Repeat::start(Node* newTargetNode)
+        Repeat::~Repeat()
         {
-            Animator::start(newTargetNode);
+            if (animator) removeAnimator(animator);
+        }
+
+        void Repeat::play()
+        {
+            Animator::play();
 
             if (animator)
             {
-                animator->start(targetNode);
+                animator->play();
             }
         }
 

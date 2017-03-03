@@ -13,12 +13,12 @@ namespace ouzel
         Animator::Animator(float aLength):
             length(aLength)
         {
+            updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
         Animator::~Animator()
         {
             if (parent) parent->removeAnimator(this);
-            if (parentNode) parentNode->removeAnimator(this);
         }
 
         void Animator::update(float delta)
@@ -41,12 +41,28 @@ namespace ouzel
 
                 updateProgress();
             }
+            else
+            {
+                sharedEngine->unscheduleUpdate(&updateCallback);
+            }
         }
 
-        void Animator::start(Node* newTargetNode)
+        void Animator::start()
         {
-            targetNode = newTargetNode;
+            sharedEngine->scheduleUpdate(&updateCallback);
+            play();
+        }
+
+        void Animator::play()
+        {
             running = true;
+
+            targetNode = node;
+
+            if (!targetNode && parent)
+            {
+                targetNode = parent->targetNode;
+            }
         }
 
         void Animator::resume()
@@ -89,6 +105,11 @@ namespace ouzel
         {
         }
 
+        void Animator::addAnimator(Animator* animator)
+        {
+            if (animator) animator->parent = this;
+        }
+
         void Animator::removeFromParent()
         {
             if (parent)
@@ -100,7 +121,7 @@ namespace ouzel
 
         void Animator::removeAnimator(Animator* animator)
         {
-            if (animator->parent == this) animator->parent = nullptr;
+            if (animator && animator->parent == this) animator->parent = nullptr;
         }
     } // namespace scene
 } // namespace ouzel

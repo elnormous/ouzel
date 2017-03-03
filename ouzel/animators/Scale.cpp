@@ -13,9 +13,9 @@ namespace ouzel
         {
         }
 
-        void Scale::start(Node* newTargetNode)
+        void Scale::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             if (targetNode)
             {

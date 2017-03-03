@@ -11,13 +11,11 @@
 #include "math/Quaternion.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
-#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
     namespace scene
     {
-        class Animator;
         class Camera;
         class Component;
         class Layer;
@@ -26,7 +24,6 @@ namespace ouzel
         {
             friend NodeContainer;
             friend Layer;
-            friend Animator;
         public:
             Node();
             virtual ~Node();
@@ -123,10 +120,6 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            void animate(Animator* animator);
-            Animator* getAnimator() const { return currentAnimator; }
-            void removeCurrentAnimator();
-
             const std::vector<Component*>& getComponents() const { return components; }
             void addComponent(Component* component);
             bool removeComponent(uint32_t index);
@@ -136,14 +129,10 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            void removeAnimator(Animator* animator);
-
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 
             virtual void calculateInverseTransform() const;
-
-            void updateAnimation(float delta);
 
             Matrix4 parentTransform;
             mutable Matrix4 transform;
@@ -171,12 +160,9 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            Animator* currentAnimator = nullptr;
             std::vector<Component*> components;
 
             NodeContainer* parent = nullptr;
-
-            UpdateCallback animationUpdateCallback;
         };
     } // namespace scene
 } // namespace ouzel

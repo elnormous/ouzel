@@ -12,15 +12,27 @@ namespace ouzel
         Sequence::Sequence(const std::vector<Animator*>& aAnimators):
             Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); })), animators(aAnimators)
         {
+            for (const auto& animator : animators)
+            {
+                addAnimator(animator);
+            }
         }
 
-        void Sequence::start(Node* newTargetNode)
+        Sequence::~Sequence()
         {
-            Animator::start(newTargetNode);
+            for (const auto& animator : animators)
+            {
+                removeAnimator(animator);
+            }
+        }
+
+        void Sequence::play()
+        {
+            Animator::play();
 
             for (const auto& animator : animators)
             {
-                animator->start(targetNode);
+                animator->play();
             }
         }
 

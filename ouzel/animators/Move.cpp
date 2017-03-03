@@ -13,9 +13,9 @@ namespace ouzel
         {
         }
 
-        void Move::start(Node* newTargetNode)
+        void Move::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             if (targetNode)
             {

@@ -34,8 +34,9 @@ namespace ouzel
             };
 
             Ease(Animator* aAnimator, Type aType, Func aFunc);
+            virtual ~Ease();
 
-            virtual void start(Node* newTargetNode) override;
+            virtual void play() override;
             virtual void reset() override;
 
         protected:

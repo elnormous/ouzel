@@ -63,7 +63,8 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     jumpSound->setPosition(character.getPosition());
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
-    character.animate(rotate.get());
+    character.addComponent(rotate.get());
+    rotate->start();
     
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));

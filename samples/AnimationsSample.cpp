@@ -40,7 +40,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     layer.addChild(&drawNode);
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
-    drawNode.animate(shake.get());
+    drawNode.addComponent(shake.get());
+    shake->start();
 
     witchSprite.initFromFile("witch.png");
 
@@ -68,7 +69,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     witchSequence.reset(new scene::Sequence(sequence));
 
-    witch.animate(witchSequence.get());
+    witch.addComponent(witchSequence.get());
+    witchSequence->start();
 
     ballSprite.initFromFile("ball.png");
     ball.addComponent(&ballSprite);
@@ -85,7 +87,8 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
      
     ballSequence.reset(new scene::Sequence(sequence2));
 
-    ball.animate(ballSequence.get());
+    ball.addComponent(ballSequence.get());
+    ballSequence->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));

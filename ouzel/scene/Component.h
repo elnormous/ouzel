@@ -40,6 +40,8 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
+            Node* getNode() const { return node; }
+
         protected:
             Box3 boundingBox;
             bool hidden = false;

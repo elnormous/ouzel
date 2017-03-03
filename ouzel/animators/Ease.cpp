@@ -256,13 +256,19 @@ namespace ouzel
         Ease::Ease(Animator* aAnimator, Type aType, Func aFunc):
             Animator(aAnimator->getLength()), animator(aAnimator), type(aType), func(aFunc)
         {
+            addAnimator(animator);
         }
 
-        void Ease::start(Node* newTargetNode)
+        Ease::~Ease()
         {
-            Animator::start(newTargetNode);
+            if (animator) removeAnimator(animator);
+        }
 
-            animator->start(targetNode);
+        void Ease::play()
+        {
+            Animator::play();
+
+            animator->play();
         }
 
         void Ease::reset()
