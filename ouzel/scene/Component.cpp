@@ -12,13 +12,13 @@ namespace ouzel
     {
         void Component::draw(const Matrix4&,
                              const Color&,
-                             scene::Camera*)
+                             Camera*)
         {
         }
 
         void Component::drawWireframe(const Matrix4&,
                                       const Color&,
-                                      scene::Camera*)
+                                      Camera*)
         {
         }
 

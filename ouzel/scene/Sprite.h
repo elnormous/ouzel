@@ -32,11 +32,11 @@ namespace ouzel
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
-                              scene::Camera* camera) override;
+                              Camera* camera) override;
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const Color& drawColor,
-                                       scene::Camera* camera) override;
+                                       Camera* camera) override;
 
             virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
             virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
