@@ -55,8 +55,7 @@ namespace ouzel
 
         void Animator::play()
         {
-            currentTime = 0.0f;
-            progress = 0.0f;
+            setProgress(0.0f);
             done = false;
             running = true;
 
@@ -70,18 +69,12 @@ namespace ouzel
 
         void Animator::resume()
         {
-            if (!running)
-            {
-                running = true;
-            }
+            running = true;
         }
 
         void Animator::stop(bool resetAnimation)
         {
-            if (running)
-            {
-                running = false;
-            }
+            running = false;
 
             if (resetAnimation)
             {
@@ -92,7 +85,6 @@ namespace ouzel
         void Animator::reset()
         {
             done = false;
-            currentTime = 0.0f;
             setProgress(0.0f);
         }
 
