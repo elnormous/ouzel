@@ -292,6 +292,8 @@ namespace ouzel
         {
             Animator::updateProgress();
 
+            if (!animator) return;
+
             switch (type)
             {
                 case Type::IN:

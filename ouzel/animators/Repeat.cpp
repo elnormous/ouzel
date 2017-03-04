@@ -52,15 +52,9 @@ namespace ouzel
 
         void Repeat::updateProgress()
         {
-            if (!animator || animator->getLength() <= 0.0f)
-            {
-                currentCount = count;
-                done = true;
-                running = false;
-                currentTime = length;
-                progress = 1.0f;
-            }
-            else
+            if (!animator) return;
+
+            if (animator->getLength() != 0.0f)
             {
                 currentCount = static_cast<uint32_t>(currentTime / animator->getLength());
 
@@ -78,6 +72,7 @@ namespace ouzel
                     running = false;
                     currentTime = length;
                     progress = 1.0f;
+                    if (finishHandler) finishHandler();
                 }
             }
         }
