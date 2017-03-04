@@ -25,7 +25,12 @@ namespace ouzel
         {
             if (running)
             {
-                if (currentTime + delta >= length)
+                if (length == 0.0f) // never-ending action
+                {
+                    currentTime += delta;
+                    progress = 0.0f;
+                }
+                else if (currentTime + delta >= length)
                 {
                     done = true;
                     running = false;
