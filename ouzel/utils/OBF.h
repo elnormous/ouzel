@@ -110,6 +110,38 @@ namespace ouzel
             {
                 type = newType;
 
+                switch (type)
+                {
+                    case Type::NONE: // do nothing
+                        break;
+                    case Type::INT8:
+                    case Type::INT16:
+                    case Type::INT32:
+                    case Type::INT64:
+                        intValue = 0;
+                        break;
+                    case Type::FLOAT:
+                    case Type::DOUBLE:
+                        doubleValue = 0.0;
+                        break;
+                    case Type::STRING:
+                    case Type::LONG_STRING:
+                        stringValue.clear();
+                        break;
+                    case Type::BYTE_ARRAY:
+                        byteArrayValue.clear();
+                        break;
+                    case Type::OBJECT:
+                        objectValue.clear();
+                        break;
+                    case Type::ARRAY:
+                        arrayValue.clear();
+                        break;
+                    case Type::DICTIONARY:
+                        dictionaryValue.clear();
+                        break;
+                }
+
                 return *this;
             }
 
@@ -236,15 +268,35 @@ namespace ouzel
             }
 
             Type getType() const { return type; }
+            bool isIntType() const { return type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64; }
+            bool isFloatType() const { return type == Type::FLOAT || type == Type::DOUBLE; }
+            bool isStringType() const { return type == Type::STRING || type == Type::LONG_STRING; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
             uint32_t encode(std::vector<uint8_t>& buffer) const;
 
             bool operator!()
             {
-                return (type == Type::NONE) ||
-                    ((type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64) && intValue == 0) ||
-                    ((type == Type::FLOAT || type == Type::DOUBLE) && doubleValue == 0.0f);
+                switch (type)
+                {
+                    case Type::NONE: // do nothing
+                        return true;
+                    case Type::INT8:
+                    case Type::INT16:
+                    case Type::INT32:
+                    case Type::INT64:
+                        return intValue == 0;
+                    case Type::FLOAT:
+                    case Type::DOUBLE:
+                        return doubleValue == 0.0;
+                    case Type::STRING:
+                    case Type::LONG_STRING:
+                    case Type::BYTE_ARRAY:
+                    case Type::OBJECT:
+                    case Type::ARRAY:
+                    case Type::DICTIONARY:
+                        return false;
+                }
             }
 
             int8_t asInt8() const
@@ -480,8 +532,11 @@ namespace ouzel
 
         private:
             Type type = Type::NONE;
-            uint64_t intValue;
-            double doubleValue;
+            union
+            {
+                uint64_t intValue = 0;
+                double doubleValue;
+            };
             std::string stringValue;
             std::vector<uint8_t> byteArrayValue;
             std::map<uint32_t, Value> objectValue;
