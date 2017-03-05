@@ -14,8 +14,6 @@
 
 namespace ouzel
 {
-    class EventHandler;
-
     class EventDispatcher: public Noncopyable
     {
         friend Engine;

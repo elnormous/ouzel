@@ -13,9 +13,9 @@ namespace ouzel
         {
         }
 
-        SoundPtr AudioEmpty::createSound()
+        std::shared_ptr<Sound> AudioEmpty::createSound()
         {
-            SoundPtr sound = std::make_shared<SoundEmpty>();
+            std::shared_ptr<Sound> sound = std::make_shared<SoundEmpty>();
             return sound;
         }
     } // namespace audio

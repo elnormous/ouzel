@@ -10,12 +10,9 @@
 #include <mutex>
 #include "files/FileSystem.h"
 #include "utils/Noncopyable.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {
-    class FileSystem;
-
     class Application: public Noncopyable
     {
     public:

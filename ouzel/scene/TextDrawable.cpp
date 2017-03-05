@@ -18,8 +18,8 @@ namespace ouzel
                                    Color aColor,
                                    const Vector2& aTextAnchor):
             text(aText),
-            color(aColor),
             textAnchor(aTextAnchor),
+            color(aColor),
             mipmaps(aMipmaps)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);

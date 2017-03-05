@@ -19,9 +19,9 @@ namespace ouzel
             seedZ = std::uniform_int_distribution<uint32_t>{0, std::numeric_limits<uint32_t>::max()}(randomEngine);
         }
 
-        void Shake::start(Node* newTargetNode)
+        void Shake::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             if (targetNode)
             {

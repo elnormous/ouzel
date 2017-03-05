@@ -12,15 +12,19 @@ namespace ouzel
         Sequence::Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators):
             Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::shared_ptr<Animator>& b) { return a + b->getLength(); })), animators(aAnimators)
         {
+            for (const auto& animator : animators)
+            {
+                addAnimator(animator);
+            }
         }
 
-        void Sequence::start()
+        void Sequence::play()
         {
-            Animator::start();
+            Animator::play();
 
             for (const auto& animator : animators)
             {
-                animator->start(targetNode);
+                animator->play();
             }
         }
 

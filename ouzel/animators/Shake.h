@@ -17,7 +17,7 @@ namespace ouzel
         public:
             Shake(float aLength, const Vector3& aDistance, float aTimeScale);
 
-            void start(Node* newTargetNode) override;
+            void play() override;
 
         protected:
             virtual void updateProgress() override;

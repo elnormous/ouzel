@@ -5,7 +5,6 @@
 
 #include <string>
 #include "scene/Component.h"
-#include "utils/Types.h"
 #include "math/Color.h"
 #include "gui/BMFont.h"
 #include "graphics/BlendState.h"

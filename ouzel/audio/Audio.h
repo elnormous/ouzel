@@ -10,7 +10,6 @@
 #include <vector>
 #include "math/Quaternion.h"
 #include "math/Vector3.h"
-#include "utils/Types.h"
 
 #undef OPENAL
 
@@ -21,6 +20,7 @@ namespace ouzel
     namespace audio
     {
         class Resource;
+        class Sound;
 
         class Audio
         {
@@ -44,7 +44,7 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerRotation(const Quaternion& newRotation);
 
-            virtual SoundPtr createSound() = 0;
+            virtual std::shared_ptr<Sound> createSound() = 0;
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }

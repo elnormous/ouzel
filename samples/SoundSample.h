@@ -21,8 +21,8 @@ private:
     ouzel::gui::Button ambientButton;
     ouzel::EventHandler eventHandler;
 
-    ouzel::audio::SoundPtr jumpSound;
-    ouzel::audio::SoundPtr ambientSound;
+    std::shared_ptr<ouzel::audio::Sound> jumpSound;
+    std::shared_ptr<ouzel::audio::Sound> ambientSound;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

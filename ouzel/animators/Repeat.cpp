@@ -10,15 +10,16 @@ namespace ouzel
         Repeat::Repeat(const std::shared_ptr<Animator>& aAnimator, uint32_t aCount):
             Animator(aAnimator->getLength() * static_cast<float>(aCount)), animator(aAnimator), count(aCount)
         {
+            addAnimator(animator);
         }
 
-        void Repeat::start(Node* newTargetNode)
+        void Repeat::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             if (animator)
             {
-                animator->start(targetNode);
+                animator->play();
             }
         }
 
@@ -36,15 +37,9 @@ namespace ouzel
 
         void Repeat::updateProgress()
         {
-            if (!animator || animator->getLength() <= 0.0f)
-            {
-                currentCount = count;
-                done = true;
-                running = false;
-                currentTime = length;
-                progress = 1.0f;
-            }
-            else
+            if (!animator) return;
+
+            if (animator->getLength() != 0.0f)
             {
                 currentCount = static_cast<uint32_t>(currentTime / animator->getLength());
 
@@ -62,6 +57,7 @@ namespace ouzel
                     running = false;
                     currentTime = length;
                     progress = 1.0f;
+                    if (finishHandler) finishHandler();
                 }
             }
         }

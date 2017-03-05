@@ -4,7 +4,6 @@
 #pragma once
 
 #include "scene/Component.h"
-#include "utils/Types.h"
 #include "math/Size2.h"
 #include "scene/SpriteFrame.h"
 #include "core/UpdateCallback.h"

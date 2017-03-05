@@ -6,6 +6,7 @@
 #include <memory>
 #include <functional>
 #include "scene/Component.h"
+#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
@@ -22,6 +23,7 @@ namespace ouzel
             virtual void update(float delta);
 
             virtual void start();
+            virtual void play();
 
             virtual void resume();
             virtual void stop(bool resetAnimation = false);
@@ -38,6 +40,10 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
+            void addAnimator(const std::shared_ptr<Animator>& animator);
+            void removeFromParent();
+            virtual void removeAnimator(const std::shared_ptr<Animator>& animator);
+
         protected:
             virtual void updateProgress();
 
@@ -47,7 +53,12 @@ namespace ouzel
             bool done = false;
             bool running = false;
 
+            std::weak_ptr<Animator> parent;
+            std::weak_ptr<Node> targetNode;
+
             std::function<void()> finishHandler;
+
+            UpdateCallback updateCallback;
         };
     } // namespace scene
 } // namespace ouzel

@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 #include "gui/Widget.h"
-#include "utils/Types.h"
 #include "math/Color.h"
 #include "scene/TextDrawable.h"
 

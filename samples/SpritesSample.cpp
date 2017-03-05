@@ -30,7 +30,8 @@ SpritesSample::SpritesSample(Samples& aSamples):
     character.setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character.animate(move.get());
+    character.addComponent(move.get());
+    move->start();
 
     // fire
     fireSprite.initFromFile("fire.json");

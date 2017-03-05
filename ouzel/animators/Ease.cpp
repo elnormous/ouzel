@@ -256,13 +256,14 @@ namespace ouzel
         Ease::Ease(const std::shared_ptr<Animator>& aAnimator, Type aType, Func aFunc):
             Animator(aAnimator->getLength()), animator(aAnimator), type(aType), func(aFunc)
         {
+            addAnimator(animator);
         }
 
-        void Ease::start(Node* newTargetNode)
+        void Ease::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
-            animator->start(targetNode);
+            animator->play();
         }
 
         void Ease::reset()
@@ -275,6 +276,8 @@ namespace ouzel
         void Ease::updateProgress()
         {
             Animator::updateProgress();
+
+            if (!animator) return;
 
             switch (type)
             {

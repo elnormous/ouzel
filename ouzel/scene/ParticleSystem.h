@@ -7,7 +7,6 @@
 #include <vector>
 #include <functional>
 #include "scene/Component.h"
-#include "utils/Types.h"
 #include "scene/ParticleDefinition.h"
 #include "math/Vector2.h"
 #include "math/Color.h"

@@ -15,7 +15,7 @@ namespace ouzel
         public:
             Repeat(const std::shared_ptr<Animator>& aAnimator, uint32_t aCount = 0);
 
-            virtual void start(Node* newTargetNode) override;
+            virtual void play() override;
             virtual void reset() override;
 
         protected:

@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include "utils/Types.h"
 #include "math/Vector2.h"
 
 namespace ouzel

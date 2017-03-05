@@ -40,6 +40,8 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
+            std::shared_ptr<Node> getNode() const { return node.lock(); }
+
         protected:
             Box3 boundingBox;
             bool hidden = false;

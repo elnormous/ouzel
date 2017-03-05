@@ -4,8 +4,9 @@
 #pragma once
 
 #include <functional>
-#include "utils/Types.h"
 #include "gui/Widget.h"
+#include "scene/Sprite.h"
+#include "scene/TextDrawable.h"
 #include "events/Event.h"
 #include "events/EventHandler.h"
 #include "math/Color.h"

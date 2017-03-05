@@ -35,7 +35,7 @@ namespace ouzel
 
             Ease(const std::shared_ptr<Animator>& aAnimator, Type aType, Func aFunc);
 
-            virtual void start(Node* newTargetNode) override;
+            virtual void play() override;
             virtual void reset() override;
 
         protected:

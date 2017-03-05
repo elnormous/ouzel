@@ -6,19 +6,18 @@
 #include <memory>
 #include <vector>
 #include "scene/NodeContainer.h"
+#include "core/UpdateCallback.h"
 #include "math/Box3.h"
 #include "math/Color.h"
 #include "math/Matrix4.h"
 #include "math/Quaternion.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
-#include "core/UpdateCallback.h"
 
 namespace ouzel
 {
     namespace scene
     {
-        class Animator;
         class Camera;
         class Component;
         class Layer;
@@ -27,7 +26,6 @@ namespace ouzel
         {
             friend NodeContainer;
             friend Layer;
-            friend Animator;
         public:
             Node();
 
@@ -123,13 +121,9 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            void animate(const std::shared_ptr<Animator>& animator);
-            const std::shared_ptr<Animator>& getAnimator() const { return currentAnimator; }
-            void removeAnimator(const std::shared_ptr<Animator>& animator);
-            void removeCurrentAnimator();
-
             const std::vector<std::shared_ptr<Component>>& getComponents() const { return components; }
             void addComponent(const std::shared_ptr<Component>& component);
+
             bool removeComponent(uint32_t index);
             bool removeComponent(const std::shared_ptr<Component>& component);
             void removeAllComponents();
@@ -137,13 +131,10 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 
             virtual void calculateInverseTransform() const;
-
-            void updateAnimation(float delta);
 
             Matrix4 parentTransform;
             mutable Matrix4 transform;
@@ -171,7 +162,6 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            std::shared_ptr<Animator> currentAnimator;
             std::vector<std::shared_ptr<Component>> components;
 
             std::weak_ptr<NodeContainer> parent;

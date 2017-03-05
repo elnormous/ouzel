@@ -13,6 +13,8 @@ namespace ouzel
         {
             for (const auto& animator : animators)
             {
+                addAnimator(animator);
+
                 if (animator->getLength() > length)
                 {
                     length = animator->getLength();
@@ -20,13 +22,13 @@ namespace ouzel
             }
         }
 
-        void Parallel::start(Node* newTargetNode)
+        void Parallel::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             for (const auto& animator : animators)
             {
-                animator->start(targetNode);
+                animator->play();
             }
         }
 

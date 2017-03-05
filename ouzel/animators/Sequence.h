@@ -15,7 +15,7 @@ namespace ouzel
         public:
             Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators);
 
-            virtual void start() override;
+            virtual void play() override;
             virtual void reset() override;
 
         protected:

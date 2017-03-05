@@ -73,9 +73,9 @@ namespace ouzel
             return true;
         }
 
-        SoundPtr AudioSL::createSound()
+        std::shared_ptr<Sound> AudioSL::createSound()
         {
-            SoundPtr sound = std::make_shared<SoundSL>();
+            std::shared_ptr<Sound> sound = std::make_shared<SoundSL>();
             return sound;
         }
     } // namespace audio

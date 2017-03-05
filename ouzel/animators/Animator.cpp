@@ -13,13 +13,19 @@ namespace ouzel
         Animator::Animator(float aLength):
             length(aLength)
         {
+            updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
         void Animator::update(float delta)
         {
             if (running)
             {
-                if (currentTime + delta >= length)
+                if (length == 0.0f) // never-ending action
+                {
+                    currentTime += delta;
+                    progress = 0.0f;
+                }
+                else if (currentTime + delta >= length)
                 {
                     done = true;
                     running = false;
@@ -35,27 +41,43 @@ namespace ouzel
 
                 updateProgress();
             }
+            else
+            {
+                sharedEngine->unscheduleUpdate(&updateCallback);
+            }
         }
 
         void Animator::start()
         {
+            sharedEngine->scheduleUpdate(&updateCallback);
+            play();
+        }
+
+        void Animator::play()
+        {
+            setProgress(0.0f);
+            done = false;
             running = true;
+
+            targetNode = node;
+
+            if (targetNode.expired())
+            {
+                if (std::shared_ptr<Animator> currentParent = parent.lock())
+                {
+                    targetNode = currentParent->targetNode;
+                }
+            }
         }
 
         void Animator::resume()
         {
-            if (!running)
-            {
-                running = true;
-            }
+            running = true;
         }
 
         void Animator::stop(bool resetAnimation)
         {
-            if (running)
-            {
-                running = false;
-            }
+            running = false;
 
             if (resetAnimation)
             {
@@ -66,7 +88,6 @@ namespace ouzel
         void Animator::reset()
         {
             done = false;
-            currentTime = 0.0f;
             setProgress(0.0f);
         }
 
@@ -80,6 +101,25 @@ namespace ouzel
 
         void Animator::updateProgress()
         {
+        }
+
+        void Animator::addAnimator(const std::shared_ptr<Animator>& animator)
+        {
+            if (animator) animator->parent = this;
+        }
+
+        void Animator::removeFromParent()
+        {
+            if (parent)
+            {
+                parent->removeAnimator(this);
+                parent = nullptr;
+            }
+        }
+
+        void Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
+        {
+            if (animator && animator->parent == this) animator->parent = nullptr;
         }
     } // namespace scene
 } // namespace ouzel

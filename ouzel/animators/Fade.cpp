@@ -13,9 +13,9 @@ namespace ouzel
         {
         }
 
-        void Fade::start(Node* newTargetNode)
+        void Fade::play()
         {
-            Animator::start(newTargetNode);
+            Animator::play();
 
             if (targetNode)
             {

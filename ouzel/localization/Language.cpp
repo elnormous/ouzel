@@ -19,18 +19,6 @@ namespace ouzel
         uint32_t translationOffset;
     };
 
-    LanguagePtr Language::createFromFile(const std::string& filename)
-    {
-        LanguagePtr result = std::make_shared<Language>();
-
-        if (!result->initFromFile(filename))
-        {
-            result.reset();
-        }
-
-        return result;
-    }
-
     bool Language::initFromFile(const std::string& filename)
     {
         const unsigned long MAGIC_BIG = 0xde120495;

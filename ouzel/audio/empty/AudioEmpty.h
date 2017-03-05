@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "audio/Audio.h"
 
 namespace ouzel
@@ -15,7 +16,7 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual SoundPtr createSound() override;
+            virtual std::shared_ptr<Sound> createSound() override;
 
         protected:
             AudioEmpty();

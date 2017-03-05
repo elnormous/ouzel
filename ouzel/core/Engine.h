@@ -11,7 +11,6 @@
 #include <atomic>
 #include <chrono>
 #include "CompileConfig.h"
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"
@@ -25,8 +24,6 @@ void ouzelMain(const std::vector<std::string>& args);
 namespace ouzel
 {
     class Window;
-    class EventDispatcher;
-    class Cache;
 
     class Engine: public Noncopyable
     {

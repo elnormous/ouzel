@@ -15,7 +15,7 @@ namespace ouzel
         public:
             Rotate(float aLength, const Vector3& aRotation, bool aRelative = false);
 
-            virtual void start(Node* newTargetNode) override;
+            virtual void play() override;
 
         protected:
             virtual void updateProgress() override;

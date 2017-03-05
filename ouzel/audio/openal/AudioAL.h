@@ -31,7 +31,7 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition) override;
             virtual void setListenerRotation(const Quaternion& newRotation) override;
 
-            virtual SoundPtr createSound() override;
+            virtual std::shared_ptr<Sound> createSound() override;
 
             ALCdevice* getDevice() const { return device; }
             ALCcontext* getContext() const { return context; }

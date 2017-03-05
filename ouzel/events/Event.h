@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include "utils/Types.h"
+#include "scene/Node.h"
 #include "math/Vector2.h"
 #include "math/Size2.h"
 #include "input/Input.h"
