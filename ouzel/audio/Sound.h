@@ -5,7 +5,6 @@
 
 #include <memory>
 #include "math/Vector3.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {

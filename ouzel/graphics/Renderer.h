@@ -12,7 +12,6 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Rectangle.h"
 #include "math/Matrix4.h"

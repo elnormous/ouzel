@@ -4,6 +4,7 @@
 #pragma once
 
 #include "gui/Widget.h"
+#include "scene/Sprite.h"
 #include "events/Event.h"
 #include "events/EventHandler.h"
 

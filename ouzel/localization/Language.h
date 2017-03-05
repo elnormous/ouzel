@@ -5,7 +5,6 @@
 
 #include <unordered_map>
 #include <string>
-#include "utils/Types.h"
 
 namespace ouzel
 {

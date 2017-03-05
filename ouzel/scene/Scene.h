@@ -6,7 +6,6 @@
 #include <vector>
 #include <unordered_map>
 #include <cstdint>
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "math/Vector2.h"
 #include "events/EventHandler.h"

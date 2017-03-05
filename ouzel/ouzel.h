@@ -81,5 +81,4 @@
 #include "scene/TextDrawable.h"
 #include "utils/Log.h"
 #include "utils/OBF.h"
-#include "utils/Types.h"
 #include "utils/Utils.h"

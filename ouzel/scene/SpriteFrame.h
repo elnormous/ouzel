@@ -5,7 +5,6 @@
 
 #include <string>
 #include <vector>
-#include "utils/Types.h"
 #include "math/Box2.h"
 #include "math/Rectangle.h"
 #include "graphics/Vertex.h"

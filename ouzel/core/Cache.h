@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "scene/SpriteFrame.h"
 #include "scene/ParticleDefinition.h"

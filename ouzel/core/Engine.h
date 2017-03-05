@@ -11,7 +11,6 @@
 #include <atomic>
 #include <chrono>
 #include "CompileConfig.h"
-#include "utils/Types.h"
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"

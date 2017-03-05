@@ -10,7 +10,6 @@
 #include <mutex>
 #include "files/FileSystem.h"
 #include "utils/Noncopyable.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {
