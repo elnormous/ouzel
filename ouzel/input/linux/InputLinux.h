@@ -8,7 +8,6 @@
 #include <X11/cursorfont.h>
 #include <X11/X.h>
 #include "input/Input.h"
-#include "utils/Types.h"
 
 namespace ouzel
 {
