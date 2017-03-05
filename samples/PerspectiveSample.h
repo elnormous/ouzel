@@ -28,7 +28,7 @@ private:
     ouzel::scene::Sprite floorSprite;
     ouzel::scene::Node floor;
 
-    ouzel::audio::SoundPtr jumpSound;
+    std::shared_ptr<ouzel::audio::Sound> jumpSound;
 
     std::unique_ptr<ouzel::scene::Animator> rotate;
 

@@ -7,14 +7,6 @@
 
 namespace ouzel
 {
-    namespace audio
-    {
-        class Audio;
-
-        class Sound;
-        typedef std::shared_ptr<Sound> SoundPtr;
-    }
-
     namespace scene
     {
         class SceneManager;

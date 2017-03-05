@@ -155,9 +155,9 @@ namespace ouzel
             alListenerfv(AL_ORIENTATION, values);
         }
 
-        SoundPtr AudioAL::createSound()
+        std::shared_ptr<Sound> AudioAL::createSound()
         {
-            SoundPtr sound = std::make_shared<SoundAL>();
+            std::shared_ptr<Sound> sound = std::make_shared<SoundAL>();
             return sound;
         }
     } // namespace audio

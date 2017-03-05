@@ -19,7 +19,7 @@ namespace ouzel
         public:
             virtual ~AudioSL();
 
-            virtual SoundPtr createSound() override;
+            virtual std::shared_ptr<Sound> createSound() override;
 
             SLEngineItf getEngine() const { return engine; }
             SLObjectItf getOutputMix() const { return outputMixObject; }
