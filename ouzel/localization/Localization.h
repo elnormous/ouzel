@@ -9,6 +9,8 @@
 
 namespace ouzel
 {
+    class Language;
+
     class Localization
     {
     public:
@@ -17,7 +19,7 @@ namespace ouzel
         std::string getString(const std::string& str);
 
     protected:
-        std::unordered_map<std::string, LanguagePtr> languages;
-        LanguagePtr currentLanguage;
+        std::unordered_map<std::string, std::shared_ptr<Language>> languages;
+        std::shared_ptr<Language> currentLanguage;
     };
 }

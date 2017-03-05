@@ -12,8 +12,6 @@ namespace ouzel
     class Language
     {
     public:
-        static LanguagePtr createFromFile(const std::string& filename);
-
         bool initFromFile(const std::string& filename);
 
         std::string getString(const std::string& str);

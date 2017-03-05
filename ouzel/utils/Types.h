@@ -7,10 +7,6 @@
 
 namespace ouzel
 {
-    class Localization;
-    class Language;
-    typedef std::shared_ptr<Language> LanguagePtr;
-
     namespace audio
     {
         class Audio;
