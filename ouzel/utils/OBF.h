@@ -240,6 +240,13 @@ namespace ouzel
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
             uint32_t encode(std::vector<uint8_t>& buffer) const;
 
+            bool operator!()
+            {
+                return (type == Type::NONE) ||
+                    ((type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64) && intValue == 0) ||
+                    ((type == Type::FLOAT || type == Type::DOUBLE) && doubleValue == 0.0f);
+            }
+
             int8_t asInt8() const
             {
                 assert(type == Type::INT8 || type == Type::INT16 || type == Type::INT32 || type == Type::INT64);
