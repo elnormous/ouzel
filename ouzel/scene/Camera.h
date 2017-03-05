@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "scene/Node.h"
 #include "math/MathUtils.h"
 #include "math/Rectangle.h"

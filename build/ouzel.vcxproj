@@ -278,7 +278,6 @@
     <ClInclude Include="..\ouzel\utils\Log.h" />
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\OBF.h" />
-    <ClInclude Include="..\ouzel\utils\Types.h" />
     <ClInclude Include="..\ouzel\utils\Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -529,9 +529,6 @@
     <ClInclude Include="..\ouzel\utils\Noncopyable.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\Types.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\utils\Utils.h">
       <Filter>utils</Filter>
     </ClInclude>
