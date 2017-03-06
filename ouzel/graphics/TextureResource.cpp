@@ -35,7 +35,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= 0x01;
+            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
 
             return true;
         }
