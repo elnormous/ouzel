@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "utils/Noncopyable.h"
 #include "math/Box3.h"
