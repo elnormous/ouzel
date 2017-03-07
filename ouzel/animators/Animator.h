@@ -14,7 +14,7 @@ namespace ouzel
     {
         class Node;
 
-        class Animator: public Component
+        class Animator: public Component, public std::enable_shared_from_this<Animator>
         {
             friend Node;
         public:

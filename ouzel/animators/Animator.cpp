@@ -105,21 +105,21 @@ namespace ouzel
 
         void Animator::addAnimator(const std::shared_ptr<Animator>& animator)
         {
-            if (animator) animator->parent = this;
+            if (animator) animator->parent = shared_from_this();
         }
 
         void Animator::removeFromParent()
         {
-            if (parent)
+            if (std::shared_ptr<Animator> currentParent = parent.lock())
             {
-                parent->removeAnimator(this);
-                parent = nullptr;
+                currentParent->removeAnimator(shared_from_this());
+                parent.reset();
             }
         }
 
         void Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
-            if (animator && animator->parent == this) animator->parent = nullptr;
+            if (animator && animator->parent.lock() == shared_from_this()) animator->parent.reset();
         }
     } // namespace scene
 } // namespace ouzel

@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (std::shared_ptr<Node> node = targetNode.lock())
             {
-                startRotation = targetNode->getRotation().getEulerAngles();
+                startRotation = node->getRotation().getEulerAngles();
 
                 targetRotation = relative ? startRotation + rotation : rotation;
 
@@ -31,9 +31,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (std::shared_ptr<Node> node = targetNode.lock())
             {
-                targetNode->setRotation(startRotation + diff * progress);
+                node->setRotation(startRotation + diff * progress);
             }
         }
     } // namespace scene
