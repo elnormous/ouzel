@@ -9,9 +9,9 @@ using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
     samples(aSamples),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    jumpButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    ambientButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -30,21 +30,22 @@ SoundSample::SoundSample(Samples& aSamples):
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
 
-    guiLayer.addChild(&menu);
+    guiLayer->addChild(menu);
 
-    jumpButton.setPosition(Vector2(0.0f, 0.0f));
-    menu.addWidget(&jumpButton);
+    jumpButton->setPosition(Vector2(0.0f, 0.0f));
+    menu->addWidget(jumpButton);
 
-    ambientButton.setPosition(Vector2(0.0f, -40.0f));
-    menu.addWidget(&ambientButton);
+    ambientButton->setPosition(Vector2(0.0f, -40.0f));
+    menu->addWidget(ambientButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -65,15 +66,15 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
             samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == &jumpButton)
+        else if (event.node == jumpButton)
         {
             jumpSound->play();
         }
-        else if (event.node == &ambientButton)
+        else if (event.node == ambientButton)
         {
             ambientSound->play();
         }

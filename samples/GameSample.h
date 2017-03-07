@@ -19,8 +19,8 @@ private:
     
     Samples& samples;
 
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
+    std::shared_ptr<ouzel::scene::Layer> layer;
+    std::shared_ptr<ouzel::scene::Camera> camera;
 
     ouzel::EventHandler eventHandler;
 };

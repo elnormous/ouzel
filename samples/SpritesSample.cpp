@@ -9,62 +9,62 @@ using namespace ouzel;
 
 SpritesSample::SpritesSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0f, 600.0f));
-    layer.addCamera(&camera);
-    addLayer(&layer);
+    camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera->setTargetContentSize(Size2(800.0f, 600.0f));
+    layer->addCamera(camera);
+    addLayer(layer);
 
     // character
-    characterSprite.initFromFile("run.json");
-    characterSprite.play(true);
+    characterSprite->initFromFile("run.json");
+    characterSprite->play(true);
 
-    character.addComponent(&characterSprite);
-    layer.addChild(&character);
-    character.setPosition(Vector2(-300.0f, 0.0f));
+    character->addComponent(characterSprite);
+    layer->addChild(character);
+    character->setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character.addComponent(move.get());
+    character->addComponent(move);
     move->start();
 
     // fire
-    fireSprite.initFromFile("fire.json");
-    fireSprite.setOffset(Vector2(0.0f, 20.0f));
-    fireSprite.play(true);
+    fireSprite->initFromFile("fire.json");
+    fireSprite->setOffset(Vector2(0.0f, 20.0f));
+    fireSprite->play(true);
 
-    fireNode.addComponent(&fireSprite);
-    fireNode.setPosition(Vector2(-100.0f, -140.0f));
-    layer.addChild(&fireNode);
+    fireNode->addComponent(fireSprite);
+    fireNode->setPosition(Vector2(-100.0f, -140.0f));
+    layer->addChild(fireNode);
 
     // triangle
-    triangleSprite.initFromFile("triangle.json");
-    triangleNode.addComponent(&triangleSprite);
-    triangleNode.setPosition(Vector2(100.0f, -140.0f));
-    layer.addChild(&triangleNode);
+    triangleSprite->initFromFile("triangle.json");
+    triangleNode->addComponent(triangleSprite);
+    triangleNode->setPosition(Vector2(100.0f, -140.0f));
+    layer->addChild(triangleNode);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
 
-    guiLayer.addChild(&menu);
+    guiLayer->addChild(menu);
 
     hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
-    menu.addWidget(hideButton.get());
+    menu->addWidget(hideButton);
 
     wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
-    menu.addWidget(wireframeButton.get());
+    menu->addWidget(wireframeButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -85,17 +85,17 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
             samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == hideButton.get())
+        else if (event.node == hideButton)
         {
-            character.setHidden(!character.isHidden());
+            character->setHidden(!character->isHidden());
         }
-        else if (event.node == wireframeButton.get())
+        else if (event.node == wireframeButton)
         {
-            camera.setWireframe(!camera.getWireframe());
+            camera->setWireframe(!camera->getWireframe());
         }
     }
 

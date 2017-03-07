@@ -17,15 +17,15 @@ private:
 
     Samples& samples;
     
-    ouzel::gui::Button jumpButton;
-    ouzel::gui::Button ambientButton;
+    std::shared_ptr<ouzel::gui::Button> jumpButton;
+    std::shared_ptr<ouzel::gui::Button> ambientButton;
     ouzel::EventHandler eventHandler;
 
     std::shared_ptr<ouzel::audio::Sound> jumpSound;
     std::shared_ptr<ouzel::audio::Sound> ambientSound;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
+    std::shared_ptr<ouzel::scene::Layer> guiLayer;
+    std::shared_ptr<ouzel::scene::Camera> guiCamera;
+    std::shared_ptr<ouzel::gui::Menu> menu;
+    std::shared_ptr<ouzel::gui::Button> backButton;
 };

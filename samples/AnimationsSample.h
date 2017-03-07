@@ -17,36 +17,36 @@ private:
 
     Samples& samples;
 
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
+    std::shared_ptr<ouzel::scene::Layer> layer;
+    std::shared_ptr<ouzel::scene::Camera> camera;
 
-    ouzel::scene::ShapeDrawable shapeDrawable;
-    ouzel::scene::Node drawNode;
+    std::shared_ptr<ouzel::scene::ShapeDrawable> shapeDrawable;
+    std::shared_ptr<ouzel::scene::Node> drawNode;
 
-    std::unique_ptr<ouzel::scene::Shake> shake;
+    std::shared_ptr<ouzel::scene::Shake> shake;
 
-    ouzel::scene::Sprite witchSprite;
-    ouzel::scene::Node witch;
+    std::shared_ptr<ouzel::scene::Sprite> witchSprite;
+    std::shared_ptr<ouzel::scene::Node> witch;
 
-    std::unique_ptr<ouzel::scene::Animator> witchScale;
-    std::unique_ptr<ouzel::scene::Animator> witchFade;
-    std::unique_ptr<ouzel::scene::Animator> witchRotate;
-    std::unique_ptr<ouzel::scene::Animator> witchRepeat;
-    std::unique_ptr<ouzel::scene::Animator> witchParallel;
-    std::unique_ptr<ouzel::scene::Animator> witchSequence;
+    std::shared_ptr<ouzel::scene::Animator> witchScale;
+    std::shared_ptr<ouzel::scene::Animator> witchFade;
+    std::shared_ptr<ouzel::scene::Animator> witchRotate;
+    std::shared_ptr<ouzel::scene::Animator> witchRepeat;
+    std::shared_ptr<ouzel::scene::Animator> witchParallel;
+    std::shared_ptr<ouzel::scene::Animator> witchSequence;
 
-    ouzel::scene::Sprite ballSprite;
-    ouzel::scene::Node ball;
+    std::shared_ptr<ouzel::scene::Sprite> ballSprite;
+    std::shared_ptr<ouzel::scene::Node> ball;
 
-    std::unique_ptr<ouzel::scene::Animator> ballDelay;
-    std::unique_ptr<ouzel::scene::Animator> ballEase;
-    std::unique_ptr<ouzel::scene::Animator> ballMove;
-    std::unique_ptr<ouzel::scene::Animator> ballSequence;
+    std::shared_ptr<ouzel::scene::Animator> ballDelay;
+    std::shared_ptr<ouzel::scene::Animator> ballEase;
+    std::shared_ptr<ouzel::scene::Animator> ballMove;
+    std::shared_ptr<ouzel::scene::Animator> ballSequence;
     
     ouzel::EventHandler eventHandler;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
+    std::shared_ptr<ouzel::scene::Layer> guiLayer;
+    std::shared_ptr<ouzel::scene::Camera> guiCamera;
+    std::shared_ptr<ouzel::gui::Menu> menu;
+    std::shared_ptr<ouzel::gui::Button> backButton;
 };

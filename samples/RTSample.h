@@ -17,24 +17,24 @@ private:
 
     Samples& samples;
 
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
+    std::shared_ptr<ouzel::scene::Layer> layer;
+    std::shared_ptr<ouzel::scene::Camera> camera;
 
-    ouzel::scene::Layer rtLayer;
-    ouzel::scene::Camera rtCamera;
-    ouzel::scene::Camera camera1;
-    ouzel::scene::Camera camera2;
+    std::shared_ptr<ouzel::scene::Layer> rtLayer;
+    std::shared_ptr<ouzel::scene::Camera> rtCamera;
+    std::shared_ptr<ouzel::scene::Camera> camera1;
+    std::shared_ptr<ouzel::scene::Camera> camera2;
 
-    ouzel::scene::Sprite characterSprite;
-    ouzel::scene::Node rtCharacter;
+    std::shared_ptr<ouzel::scene::Sprite> characterSprite;
+    std::shared_ptr<ouzel::scene::Node> rtCharacter;
 
-    ouzel::scene::Sprite rtSprite;
-    ouzel::scene::Node rtNode;
+    std::shared_ptr<ouzel::scene::Sprite> rtSprite;
+    std::shared_ptr<ouzel::scene::Node> rtNode;
 
     ouzel::EventHandler eventHandler;
 
-    ouzel::scene::Layer guiLayer;
-    ouzel::scene::Camera guiCamera;
-    ouzel::gui::Menu menu;
-    ouzel::gui::Button backButton;
+    std::shared_ptr<ouzel::scene::Layer> guiLayer;
+    std::shared_ptr<ouzel::scene::Camera> guiCamera;
+    std::shared_ptr<ouzel::gui::Menu> menu;
+    std::shared_ptr<ouzel::gui::Button> backButton;
 };

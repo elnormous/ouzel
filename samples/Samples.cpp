@@ -63,9 +63,9 @@ void Samples::begin(const std::string& sample)
     sharedEngine->getSceneManager()->setScene(currentScene.get());
 }
 
-void Samples::setScene(std::unique_ptr<ouzel::scene::Scene>&& scene)
+void Samples::setScene(const std::shared_ptr<ouzel::scene::Scene>& scene)
 {
-    currentScene = std::forward<std::unique_ptr<scene::Scene>>(scene);
+    currentScene = scene;
 
     if (currentScene)
     {
