@@ -182,6 +182,8 @@ namespace ouzel
                                                                                                 clearColor.normA());
                     }
 
+                    if (samplerState) [samplerState release];
+
                     RendererMetal::SamplerStateDesc samplerDesc;
                     samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
                     samplerDesc.addressX = addressX;

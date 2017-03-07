@@ -173,6 +173,8 @@ namespace ouzel
                     frameBufferClearColor[2] = clearColor.normB();
                     frameBufferClearColor[3] = clearColor.normA();
 
+                    if (samplerState) samplerState->Release();
+
                     RendererD3D11::SamplerStateDesc samplerDesc;
                     samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
                     samplerDesc.addressX = addressX;
