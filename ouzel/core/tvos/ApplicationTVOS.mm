@@ -48,7 +48,7 @@
 
     if (ouzel::sharedEngine)
     {
-        ouzel::sharedEngine->exitUpdateThread();
+        ouzel::sharedEngine->stop();
     }
 }
 

@@ -419,10 +419,6 @@ namespace ouzel
                 }
             }
         }
-        else
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        }
     }
 
     void Engine::run()
@@ -446,6 +442,8 @@ namespace ouzel
             if (running)
             {
                 update();
+
+                // TODO: implement sleep to reduce the power consumption
             }
         }
 
@@ -491,7 +489,7 @@ namespace ouzel
         }
     }
 
-    void Engine::exitUpdateThread()
+    void Engine::stop()
     {
         running = false;
         active = false;
@@ -499,5 +497,7 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
 #endif
+
+        audio->stop();
     }
 }

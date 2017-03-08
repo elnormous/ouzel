@@ -37,7 +37,7 @@ namespace ouzel
 
         if (ouzel::sharedEngine)
         {
-            ouzel::sharedEngine->exitUpdateThread();
+            ouzel::sharedEngine->stop();
         }
 
         return EXIT_SUCCESS;
@@ -47,6 +47,7 @@ namespace ouzel
     {
         executeAll();
         sharedEngine->update();
+        sharedEngine->getAudio->update();
 
         if (!sharedEngine->draw())
         {
