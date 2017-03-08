@@ -56,7 +56,7 @@ namespace ouzel
         void unscheduleUpdate(const UpdateCallback* callback);
 
         void update();
-        void exitUpdateThread();
+        void stop();
 
     protected:
         void run();

@@ -97,8 +97,6 @@ namespace ouzel
                 return false;
             }
 
-            ready = true;
-
             return true;
         }
 

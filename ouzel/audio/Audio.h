@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <thread>
 #include <memory>
 #include <mutex>
 #include <set>
@@ -39,7 +40,7 @@ namespace ouzel
 
             virtual ~Audio();
 
-            virtual bool process();
+            virtual bool update();
 
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerRotation(const Quaternion& newRotation);
@@ -49,18 +50,17 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            bool isReady() const { return ready; }
+            void stop();
 
         protected:
             Audio(Driver aDriver);
             virtual bool init();
+            void run();
 
             Driver driver;
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
-
-            bool ready = false;
 
             Vector3 listenerPosition;
             Quaternion listenerRotation;
@@ -69,6 +69,11 @@ namespace ouzel
             std::vector<std::unique_ptr<Resource>> resources;
             std::set<Resource*> resourceUploadSet;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+
+            bool running = true;
+#if OUZEL_MULTITHREADED
+            std::thread audioThread;
+#endif
         };
     } // namespace audio
 } // namespace ouzel

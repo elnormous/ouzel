@@ -155,7 +155,7 @@ namespace ouzel
 
         if (ouzel::sharedEngine)
         {
-            ouzel::sharedEngine->exitUpdateThread();
+            ouzel::sharedEngine->stop();
         }
 
         if (javaVM->DetachCurrentThread() != JNI_OK)

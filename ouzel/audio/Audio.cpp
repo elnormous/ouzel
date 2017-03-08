@@ -15,17 +15,31 @@ namespace ouzel
 
         Audio::~Audio()
         {
+            running = false;
+
+#if OUZEL_MULTITHREADED
+            if (audioThread.joinable()) audioThread.join();
+#endif
         }
 
         bool Audio::init()
         {
-            ready = true;
+#if OUZEL_MULTITHREADED
+            audioThread = std::thread(&Audio::run, this);
+#endif
 
             return true;
         }
 
-        bool Audio::process()
+        bool Audio::update()
         {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            for (const std::unique_ptr<Resource>& resource : resources)
+            {
+                resource->update();
+            }
+
             return true;
         }
 
@@ -37,6 +51,25 @@ namespace ouzel
         void Audio::setListenerRotation(const Quaternion& newRotation)
         {
             listenerRotation = newRotation;
+        }
+
+        void Audio::run()
+        {
+            while (running)
+            {
+                update();
+
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        }
+
+        void Audio::stop()
+        {
+            running = false;
+
+#if OUZEL_MULTITHREADED
+            if (audioThread.joinable()) audioThread.join();
+#endif
         }
     } // namespace audio
 } // namespace ouzel

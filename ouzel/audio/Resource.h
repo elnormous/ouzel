@@ -17,7 +17,7 @@ namespace ouzel
             virtual ~Resource() {}
 
         protected:
-            virtual bool upload() = 0;
+            virtual bool update() = 0;
         };
     } // audio
 } // ouzel
