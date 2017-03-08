@@ -30,8 +30,6 @@ namespace ouzel
                     layer->leave();
                 }
             }
-
-            sharedEngine->getSceneManager()->removeScene(this);
         }
 
         void Scene::draw()
