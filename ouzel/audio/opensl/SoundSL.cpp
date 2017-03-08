@@ -146,6 +146,14 @@ namespace ouzel
             return true;
         }
 
+        void SoundSL::setGain(float newGain)
+        {
+            if ((*playerVolume)->SetVolumeLevel(playerVolume, newGain) != SL_RESULT_SUCCESS)
+            {
+                Log(Log::Level::ERR) << "Failed to set volume";
+            }
+        }
+
         bool SoundSL::play(bool repeatSound)
         {
             if (!Sound::play(repeatSound))

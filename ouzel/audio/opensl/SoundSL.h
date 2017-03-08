@@ -22,6 +22,8 @@ namespace ouzel
 
             virtual bool init(const std::shared_ptr<SoundData>& newSoundData) override;
 
+            virtual void setGain(float newGain) override;
+
             virtual bool play(bool repeatSound = false) override;
             virtual bool stop(bool resetSound = false) override;
             virtual bool reset() override;
