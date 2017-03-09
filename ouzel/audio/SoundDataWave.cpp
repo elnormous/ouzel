@@ -131,11 +131,9 @@ namespace ouzel
                     samplesPerSecond = decodeUInt32Little(newData.data() + i);
                     i += 4;
 
-                    averageBytesPerSecond = decodeUInt32Little(newData.data() + i);
-                    i += 4;
+                    i += 4; // average bytes per second
 
-                    blockAlign = decodeUInt16Little(newData.data() + i);
-                    i += 2;
+                    i += 2; // block align
 
                     bitsPerSample = decodeUInt16Little(newData.data() + i);
                     i += 2;
@@ -164,7 +162,8 @@ namespace ouzel
                 return false;
             }
 
-            if (bitsPerSample != 8 && bitsPerSample != 16 && bitsPerSample != 24)
+            if (bitsPerSample != 8 && bitsPerSample != 16 &&
+                bitsPerSample != 24 && bitsPerSample != 32)
             {
                 Log(Log::Level::ERR) << "Failed to load sound file, unsupported bit depth";
                 return false;
@@ -178,10 +177,21 @@ namespace ouzel
             {
                 for (uint32_t position = 0; position < newData.size(); position += bitsPerSample / 8)
                 {
-                    uint16_t sample = static_cast<uint16_t>((static_cast<int32_t>(newData[position]) << 8) - 32768);
+                    int16_t sample = 0;
 
-                    data.push_back(reinterpret_cast<uint8_t*>(&sample)[0]);
-                    data.push_back(reinterpret_cast<uint8_t*>(&sample)[1]);
+                    if (bitsPerSample < 16) // signed 8-bit sample
+                    {
+                        sample = static_cast<int16_t>((static_cast<int32_t>(newData[position]) << (16 - bitsPerSample)) - 32768);
+                    }
+                    else if (bitsPerSample > 16)
+                    {
+                        sample = static_cast<int16_t>(static_cast<int32_t>(newData[position + 1]) |
+                                                      static_cast<int32_t>(newData[position + 0]) << 8);
+                    }
+
+                    // encode sample as little endian integer
+                    data.push_back(static_cast<uint8_t>(sample));
+                    data.push_back(static_cast<uint8_t>(sample >> 8));
                 }
             }
 

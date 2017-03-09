@@ -9,7 +9,8 @@ using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
     samples(aSamples),
-    eightBitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
+    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
+    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
     jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
     ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
@@ -19,11 +20,17 @@ SoundSample::SoundSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    std::shared_ptr<audio::SoundDataWave> eightBitData(new audio::SoundDataWave());
-    eightBitData->initFromFile("8-bit.wav");
+    std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
+    test8BitData->initFromFile("8-bit.wav");
 
-    eightBitSound = sharedEngine->getAudio()->createSound();
-    eightBitSound->init(eightBitData);
+    test8BitSound = sharedEngine->getAudio()->createSound();
+    test8BitSound->init(test8BitData);
+
+    std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
+    test24BitData->initFromFile("24-bit.wav");
+
+    test24BitSound = sharedEngine->getAudio()->createSound();
+    test24BitSound->init(test24BitData);
 
     std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
     jumpData->initFromFile("jump.wav");
@@ -44,8 +51,11 @@ SoundSample::SoundSample(Samples& aSamples):
 
     guiLayer.addChild(&menu);
 
-    eightBitButton.setPosition(Vector2(0.0f, 40.0f));
-    menu.addWidget(&eightBitButton);
+    test8BitButton.setPosition(Vector2(0.0f, 80.0f));
+    menu.addWidget(&test8BitButton);
+
+    test24BitButton.setPosition(Vector2(0.0f, 40.0f));
+    menu.addWidget(&test24BitButton);
 
     jumpButton.setPosition(Vector2(0.0f, 0.0f));
     menu.addWidget(&jumpButton);
@@ -79,9 +89,13 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
         {
             samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == &eightBitButton)
+        else if (event.node == &test8BitButton)
         {
-            eightBitSound->play();
+            test8BitSound->play();
+        }
+        else if (event.node == &test24BitButton)
+        {
+            test24BitSound->play();
         }
         else if (event.node == &jumpButton)
         {

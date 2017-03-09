@@ -122,6 +122,9 @@
 		30A883571E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883581E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883591E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
+		30A8835E1E70E5B1004A033F /* 24-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A8835D1E70E5B1004A033F /* 24-bit.wav */; };
+		30A8835F1E70E5B1004A033F /* 24-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A8835D1E70E5B1004A033F /* 24-bit.wav */; };
+		30A883601E70E5B1004A033F /* 24-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A8835D1E70E5B1004A033F /* 24-bit.wav */; };
 		30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1311CB5DC2B00478AA2 /* Metal.framework */; };
 		30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1361CB5DC3300478AA2 /* MetalKit.framework */; };
 		30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1381CB5DC6000478AA2 /* Metal.framework */; };
@@ -250,6 +253,7 @@
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		308493A11D63D0C100B7C515 /* button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_selected.png; sourceTree = "<group>"; };
 		30A883561E70E004004A033F /* 8-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "8-bit.wav"; sourceTree = "<group>"; };
+		30A8835D1E70E5B1004A033F /* 24-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "24-bit.wav"; sourceTree = "<group>"; };
 		30AFE1311CB5DC2B00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		30AFE1361CB5DC3300478AA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		30AFE1381CB5DC6000478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -416,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				30A883561E70E004004A033F /* 8-bit.wav */,
+				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				303822541D86D83300677CAB /* arial.fnt */,
 				303822551D86D83300677CAB /* arial.png */,
@@ -643,6 +648,7 @@
 				30C56C7B1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B761C1C34CFE300FEDE92 /* fire.png in Resources */,
 				3045F0DC1D0F575F00125436 /* ball.png in Resources */,
+				30A8835E1E70E5B1004A033F /* 24-bit.wav in Resources */,
 				303822561D86D83300677CAB /* arial.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,6 +684,7 @@
 				30C56C7C1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B769C1C355AA400FEDE92 /* fire.png in Resources */,
 				3045F0DD1D0F575F00125436 /* ball.png in Resources */,
+				30A883601E70E5B1004A033F /* 24-bit.wav in Resources */,
 				303822581D86D83300677CAB /* arial.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -713,6 +720,7 @@
 				30C56C7A1CAB48A4007AEF8F /* edit_box.png in Resources */,
 				303B75F81C33756100FEDE92 /* fire.png in Resources */,
 				3045F0DB1D0F575F00125436 /* ball.png in Resources */,
+				30A8835F1E70E5B1004A033F /* 24-bit.wav in Resources */,
 				303822571D86D83300677CAB /* arial.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

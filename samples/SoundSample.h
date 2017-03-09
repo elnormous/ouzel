@@ -17,11 +17,13 @@ private:
 
     Samples& samples;
 
-    std::shared_ptr<ouzel::audio::Sound> eightBitSound;
+    std::shared_ptr<ouzel::audio::Sound> test8BitSound;
+    std::shared_ptr<ouzel::audio::Sound> test24BitSound;
     std::shared_ptr<ouzel::audio::Sound> jumpSound;
     std::shared_ptr<ouzel::audio::Sound> ambientSound;
 
-    ouzel::gui::Button eightBitButton;
+    ouzel::gui::Button test8BitButton;
+    ouzel::gui::Button test24BitButton;
     ouzel::gui::Button jumpButton;
     ouzel::gui::Button ambientButton;
     ouzel::EventHandler eventHandler;
