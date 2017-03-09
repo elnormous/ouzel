@@ -176,7 +176,7 @@ namespace ouzel
             else
             {
                 uint32_t bytesPerSample = bitsPerSample / 8;
-                uint32_t samples = static_cast<uint32_t>(newData.size() / bytesPerSample);
+                uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
 
                 for (uint32_t position = 0; position < samples * bytesPerSample; position += bytesPerSample)
                 {
@@ -184,12 +184,12 @@ namespace ouzel
 
                     if (bitsPerSample < 16) // signed 8-bit sample
                     {
-                        sample = static_cast<int16_t>((static_cast<int32_t>(newData[position]) << (16 - bitsPerSample)) - 32768);
+                        sample = static_cast<int16_t>((static_cast<int32_t>(soundData[position]) << (16 - bitsPerSample)) - 32768);
                     }
                     else if (bitsPerSample > 16)
                     {
-                        sample = static_cast<int16_t>(static_cast<int32_t>(newData[position + 1]) |
-                                                      static_cast<int32_t>(newData[position + 0]) << 8);
+                        sample = static_cast<int16_t>(static_cast<int32_t>(soundData[position + bytesPerSample - 2]) |
+                                                      static_cast<int32_t>(soundData[position + bytesPerSample - 1]) << 8);
                     }
 
                     // encode sample as little endian integer
