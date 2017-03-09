@@ -33,7 +33,7 @@ namespace ouzel
             waveFormat.nSamplesPerSec = soundData->getSamplesPerSecond();
             waveFormat.nAvgBytesPerSec = soundData->getAverageBytesPerSecond();
             waveFormat.nBlockAlign = soundData->getBlockAlign();
-            waveFormat.wBitsPerSample = soundData->getBitsPerSample();
+            waveFormat.wBitsPerSample = 16;
             waveFormat.cbSize = 0;
 
             AudioXA2* audioXA2 = static_cast<AudioXA2*>(sharedEngine->getAudio());

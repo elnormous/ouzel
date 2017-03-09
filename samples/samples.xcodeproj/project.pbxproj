@@ -119,6 +119,9 @@
 		308493A21D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A31D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		308493A41D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
+		30A883571E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
+		30A883581E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
+		30A883591E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1311CB5DC2B00478AA2 /* Metal.framework */; };
 		30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1361CB5DC3300478AA2 /* MetalKit.framework */; };
 		30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1381CB5DC6000478AA2 /* Metal.framework */; };
@@ -246,6 +249,7 @@
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		308493A11D63D0C100B7C515 /* button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_selected.png; sourceTree = "<group>"; };
+		30A883561E70E004004A033F /* 8-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "8-bit.wav"; sourceTree = "<group>"; };
 		30AFE1311CB5DC2B00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		30AFE1361CB5DC3300478AA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		30AFE1381CB5DC6000478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -411,6 +415,7 @@
 		304A8EB21C2765C4008B1151 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30A883561E70E004004A033F /* 8-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				303822541D86D83300677CAB /* arial.fnt */,
 				303822551D86D83300677CAB /* arial.png */,
@@ -628,6 +633,7 @@
 				30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303822591D86D83300677CAB /* arial.png in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
+				30A883571E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
@@ -662,6 +668,7 @@
 				30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */,
 				3038225B1D86D83300677CAB /* arial.png in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
+				30A883591E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
@@ -696,6 +703,7 @@
 				30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */,
 				3038225A1D86D83300677CAB /* arial.png in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
+				30A883581E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,

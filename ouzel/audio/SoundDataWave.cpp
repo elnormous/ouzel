@@ -78,6 +78,9 @@ namespace ouzel
             bool formatChunkFound = false;
             bool dataChunkFound = false;
 
+            uint16_t bitsPerSample = 0;
+            std::vector<uint8_t> soundData;
+
             for (; offset < newData.size();)
             {
                 if (newData.size() < offset + 8)
@@ -141,7 +144,7 @@ namespace ouzel
                 }
                 else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                 {
-                    data.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
+                    soundData.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
 
                     dataChunkFound = true;
                 }
@@ -159,6 +162,27 @@ namespace ouzel
             {
                 Log(Log::Level::ERR) << "Failed to load sound file, failed to find a data chunk";
                 return false;
+            }
+
+            if (bitsPerSample != 8 && bitsPerSample != 16 && bitsPerSample != 24)
+            {
+                Log(Log::Level::ERR) << "Failed to load sound file, unsupported bit depth";
+                return false;
+            }
+
+            if (bitsPerSample == 16)
+            {
+                data = std::move(soundData);
+            }
+            else
+            {
+                for (uint32_t position = 0; position < newData.size(); position += bitsPerSample / 8)
+                {
+                    uint16_t sample = static_cast<uint16_t>((static_cast<int32_t>(newData[position]) << 8) - 32768);
+
+                    data.push_back(reinterpret_cast<uint8_t*>(&sample)[0]);
+                    data.push_back(reinterpret_cast<uint8_t*>(&sample)[1]);
+                }
             }
 
             ready = true;
