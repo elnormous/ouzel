@@ -178,7 +178,7 @@ namespace ouzel
                 uint32_t bytesPerSample = bitsPerSample / 8;
                 uint32_t samples = static_cast<uint32_t>(newData.size() / bytesPerSample);
 
-                for (uint32_t position = 0; position <= samples * bytesPerSample; position += bytesPerSample)
+                for (uint32_t position = 0; position < samples * bytesPerSample; position += bytesPerSample)
                 {
                     int16_t sample = 0;
 
