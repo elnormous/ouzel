@@ -178,6 +178,8 @@ namespace ouzel
                 uint32_t bytesPerSample = bitsPerSample / 8;
                 uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
 
+                data.reserve(samples * 2);
+
                 for (uint32_t position = 0; position < samples * bytesPerSample; position += bytesPerSample)
                 {
                     int16_t sample = 0;
