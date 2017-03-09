@@ -175,7 +175,9 @@ namespace ouzel
             }
             else
             {
-                for (uint32_t position = 0; position < newData.size(); position += bitsPerSample / 8)
+                uint32_t bytesPerSample = bitsPerSample / 8;
+
+                for (uint32_t position = 0; position <= newData.size() - bytesPerSample; position += bytesPerSample)
                 {
                     int16_t sample = 0;
 
