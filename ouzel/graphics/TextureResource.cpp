@@ -119,9 +119,7 @@ namespace ouzel
             uint32_t pitch = newWidth * 4;
             levels.push_back({newSize, pitch, std::vector<uint8_t>()});
 
-            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
-
-            if (mipMapsGenerated)
+            if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
@@ -261,9 +259,7 @@ namespace ouzel
             uint32_t pitch = newWidth * 4;
             levels.push_back({newSize, pitch, newData});
 
-            mipMapsGenerated = mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight)));
-
-            if (mipMapsGenerated)
+            if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
                 uint32_t bufferSize = newWidth * newHeight * 4;
 
