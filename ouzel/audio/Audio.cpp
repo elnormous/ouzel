@@ -43,6 +43,13 @@ namespace ouzel
             return true;
         }
 
+        void Audio::deleteResource(Resource* resource)
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            // TODO: delete
+        }
+
         void Audio::setListenerPosition(const Vector3& newPosition)
         {
             listenerPosition = newPosition;
