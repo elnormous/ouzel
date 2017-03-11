@@ -346,6 +346,9 @@
     <ClCompile Include="..\ouzel\scene\SoundPlayer.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\files\Archive.cpp">
+      <Filter>files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -774,6 +777,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\SoundPlayer.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\files\Archive.h">
+      <Filter>files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
