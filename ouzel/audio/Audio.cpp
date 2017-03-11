@@ -47,7 +47,15 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            // TODO: delete
+            std::vector<std::unique_ptr<Resource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+                return ptr.get() == resource;
+            });
+
+            if (i != resources.end())
+            {
+                resourceDeleteSet.push_back(std::move(*i));
+                resources.erase(i);
+            }
         }
 
         void Audio::setListenerPosition(const Vector3& newPosition)
