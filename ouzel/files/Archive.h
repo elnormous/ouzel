@@ -8,5 +8,6 @@ namespace ouzel
     class Archive
     {
     public:
+        Archive() {}
     };
 }
