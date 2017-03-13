@@ -233,6 +233,15 @@ namespace ouzel
             return true;
         }
 #endif
+
+        for (const auto& archive : archives)
+        {
+            if (archive->readFile(filename, data))
+            {
+                return true;
+            }
+        }
+
         std::string path = getPath(filename);
 
         // file does not exist
