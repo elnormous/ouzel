@@ -23,13 +23,10 @@ namespace ouzel
 
         Scene::~Scene()
         {
-            if (entered)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
-                for (const std::shared_ptr<Layer>& layer : layers)
-                {
-                    layer->leave();
-                    layer->addedToScene = false;
-                }
+                if (entered) layer->leave();
+                layer->addedToScene = false;
             }
         }
 
