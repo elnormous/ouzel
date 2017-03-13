@@ -162,7 +162,7 @@ namespace ouzel
 
             std::vector<std::shared_ptr<Component>> components;
 
-            bool addedToParent = false;
+            NodeContainer* parent = nullptr;
 
             UpdateCallback animationUpdateCallback;
         };

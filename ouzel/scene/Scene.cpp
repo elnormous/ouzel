@@ -26,7 +26,7 @@ namespace ouzel
             for (const std::shared_ptr<Layer>& layer : layers)
             {
                 if (entered) layer->leave();
-                layer->addedToScene = false;
+                layer->scene = nullptr;
             }
         }
 
@@ -50,7 +50,7 @@ namespace ouzel
 
                 if (entered) layer->enter();
 
-                layer->addedToScene = true;
+                layer->scene = this;
             }
         }
 
@@ -67,7 +67,7 @@ namespace ouzel
 
                 layers.erase(i);
 
-                layer->addedToScene = false;
+                layer->scene = nullptr;
             }
         }
 

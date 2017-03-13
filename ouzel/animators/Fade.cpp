@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                startOpacity = node->getOpacity();
+                startOpacity = targetNode->getOpacity();
                 targetOpacity = relative ? startOpacity + opacity : opacity;
 
                 diff = targetOpacity - startOpacity;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                node->setOpacity(startOpacity + (diff * progress));
+                targetNode->setOpacity(startOpacity + (diff * progress));
             }
         }
     } // namespace scene

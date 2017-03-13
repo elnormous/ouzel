@@ -31,7 +31,6 @@ namespace ouzel
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }
-            bool isAddedToNode() const { return !node.expired(); }
 
             virtual bool pointOn(const Vector2& position) const;
             virtual bool shapeOverlaps(const std::vector<Vector2>& edges) const;
@@ -39,13 +38,13 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
-            std::shared_ptr<Node> getNode() const { return node.lock(); }
+            Node* getNode() const { return node; }
 
         protected:
             Box3 boundingBox;
             bool hidden = false;
 
-            std::weak_ptr<Node> node;
+            Node* node = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

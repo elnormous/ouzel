@@ -18,15 +18,20 @@ namespace ouzel
             for (auto& node : children)
             {
                 if (entered) node->leave();
-                node->addedToParent = false;
+                node->parent = nullptr;
             }
         }
 
         void NodeContainer::addChild(const std::shared_ptr<Node>& node)
         {
-            if (node && !node->addedToParent)
+            if (node)
             {
-                node->addedToParent = true;
+                if (node->parent)
+                {
+                    node->parent->removeChild(node);
+                }
+
+                node->parent = this;
                 if (entered) node->enter();
                 children.push_back(node);
             }
@@ -39,7 +44,7 @@ namespace ouzel
             if (i != children.end())
             {
                 if (entered) node->leave();
-                node->addedToParent = false;
+                node->parent = nullptr;
                 children.erase(i);
 
                 return true;
@@ -55,7 +60,7 @@ namespace ouzel
             for (auto& node : children)
             {
                 if (entered) node->leave();
-                node->addedToParent = false;
+                node->parent = nullptr;
             }
 
             children.clear();

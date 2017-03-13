@@ -65,7 +65,7 @@ namespace ouzel
 
                 cameras.push_back(camera);
                 camera->layer = std::static_pointer_cast<Layer>(shared_from_this());
-                if (!camera->addedToParent) camera->updateTransform(Matrix4::IDENTITY);
+                if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
                 camera->recalculateProjection();
             }
         }

@@ -23,9 +23,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                startPosition = node->getPosition();
+                startPosition = targetNode->getPosition();
             }
         }
 
@@ -33,7 +33,7 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
                 float x = length * progress * timeScale;
 
@@ -62,7 +62,7 @@ namespace ouzel
                               smoothStep(previousPosition.v[1], nextPosition.v[1], t),
                               smoothStep(previousPosition.v[2], nextPosition.v[2], t));
 
-                node->setPosition(startPosition + noise);
+                targetNode->setPosition(startPosition + noise);
             }
         }
     } // namespace scene

@@ -301,14 +301,12 @@ namespace ouzel
 
         void Node::addComponent(const std::shared_ptr<Component>& component)
         {
-            std::shared_ptr<Node> oldNode = component->node.lock();
-
-            if (oldNode)
+            if (component->node)
             {
-                oldNode->removeComponent(component);
+                component->node->removeComponent(component);
             }
 
-            component->node.reset();
+            component->node = this;
             components.push_back(component);
         }
 
@@ -320,7 +318,7 @@ namespace ouzel
             }
 
             const std::shared_ptr<Component>& component = components[index];
-            component->node.reset();
+            component->node = nullptr;
 
             components.erase(components.begin() + static_cast<int>(index));
 
@@ -333,7 +331,7 @@ namespace ouzel
             {
                 if (*i == component)
                 {
-                    component->node.reset();
+                    component->node = nullptr;
                     components.erase(i);
                     return true;
                 }

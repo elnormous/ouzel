@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                startPosition = node->getPosition();
+                startPosition = targetNode->getPosition();
                 targetPosition = relative ? startPosition + position : position;
 
                 diff = targetPosition - startPosition;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                node->setPosition(startPosition + (diff * progress));
+                targetNode->setPosition(startPosition + (diff * progress));
             }
         }
     } // namespace scene

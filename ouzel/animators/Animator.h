@@ -53,7 +53,7 @@ namespace ouzel
             bool running = false;
 
             std::weak_ptr<Animator> parent;
-            std::weak_ptr<Node> targetNode;
+            Node* targetNode = nullptr;
 
             std::function<void()> finishHandler;
 

@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                startScale = node->getScale();
+                startScale = targetNode->getScale();
                 targetScale = relative ? startScale + scale : scale;
 
                 diff = targetScale - startScale;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (std::shared_ptr<Node> node = targetNode.lock())
+            if (targetNode)
             {
-                node->setScale(startScale + (diff * progress));
+                targetNode->setScale(startScale + (diff * progress));
             }
         }
     } // namespace scene

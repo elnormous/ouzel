@@ -61,7 +61,7 @@ namespace ouzel
 
             targetNode = node;
 
-            if (targetNode.expired())
+            if (!targetNode)
             {
                 if (std::shared_ptr<Animator> currentParent = parent.lock())
                 {
