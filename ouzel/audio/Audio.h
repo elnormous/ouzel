@@ -42,10 +42,11 @@ namespace ouzel
 
             virtual bool update();
 
+            virtual std::shared_ptr<Sound> createSound() = 0;
+            virtual void deleteResource(Resource* resource);
+
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerRotation(const Quaternion& newRotation);
-
-            virtual std::shared_ptr<Sound> createSound() = 0;
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
@@ -67,7 +68,6 @@ namespace ouzel
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
-            std::set<Resource*> resourceUploadSet;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
             bool running = true;

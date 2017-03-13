@@ -49,6 +49,7 @@
     <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
+    <ClCompile Include="..\ouzel\files\Archive.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\ouzel\events\Event.h" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.h" />
     <ClInclude Include="..\ouzel\events\EventHandler.h" />
+    <ClInclude Include="..\ouzel\files\Archive.h" />
     <ClInclude Include="..\ouzel\files\FileSystem.h" />
     <ClInclude Include="..\ouzel\graphics\BlendState.h" />
     <ClInclude Include="..\ouzel\graphics\BlendStateResource.h" />

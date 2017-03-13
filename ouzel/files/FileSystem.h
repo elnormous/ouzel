@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -11,6 +12,7 @@
 namespace ouzel
 {
     class Application;
+    class Archive;
 
     class FileSystem: public Noncopyable
     {
@@ -27,6 +29,7 @@ namespace ouzel
 
         std::string getPath(const std::string& filename) const;
         void addResourcePath(const std::string& path);
+        void addArchive(std::shared_ptr<Archive>& archive);
 
         static std::string getExtensionPart(const std::string& path);
         static std::string getFilenamePart(const std::string& path);
@@ -41,5 +44,6 @@ namespace ouzel
 
         std::string appPath;
         std::vector<std::string> resourcePaths;
+        std::vector<std::shared_ptr<Archive>> archives;
     };
 }

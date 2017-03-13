@@ -77,7 +77,6 @@ namespace ouzel
             Size2 size;
             bool dynamic = false;
             bool mipmaps = false;
-            bool mipMapsGenerated = false;
             bool renderTarget = false;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;

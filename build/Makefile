@@ -46,6 +46,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
+	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BufferEmpty.cpp \

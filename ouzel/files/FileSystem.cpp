@@ -19,8 +19,8 @@
     #include <pwd.h>
 #endif
 #include "FileSystem.h"
+#include "Archive.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <CoreFoundation/CoreFoundation.h>
@@ -233,6 +233,15 @@ namespace ouzel
             return true;
         }
 #endif
+
+        for (const auto& archive : archives)
+        {
+            if (archive->readFile(filename, data))
+            {
+                return true;
+            }
+        }
+
         std::string path = getPath(filename);
 
         // file does not exist
@@ -328,11 +337,21 @@ namespace ouzel
 
     void FileSystem::addResourcePath(const std::string& path)
     {
-        std::vector<std::string>::iterator i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
+        auto i = std::find(resourcePaths.begin(), resourcePaths.end(), path);
 
         if (i == resourcePaths.end())
         {
             resourcePaths.push_back(path);
+        }
+    }
+
+    void FileSystem::addArchive(std::shared_ptr<Archive>& archive)
+    {
+        auto i = std::find(archives.begin(), archives.end(), archive);
+
+        if (i == archives.end())
+        {
+            archives.push_back(archive);
         }
     }
 

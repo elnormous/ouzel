@@ -58,8 +58,8 @@ namespace ouzel
             format.formatType = SL_DATAFORMAT_PCM;
             format.numChannels = soundData->getChannels();
             format.samplesPerSec = soundData->getSamplesPerSecond() * 1000; //mHz
-            format.bitsPerSample = soundData->getBitsPerSample();
-            format.containerSize = soundData->getBitsPerSample();
+            format.bitsPerSample = 16;
+            format.containerSize = 16;
 
             if (soundData->getChannels() == 2)
             {

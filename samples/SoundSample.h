@@ -16,11 +16,9 @@ private:
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
     Samples& samples;
-    
-    std::shared_ptr<ouzel::gui::Button> jumpButton;
-    std::shared_ptr<ouzel::gui::Button> ambientButton;
-    ouzel::EventHandler eventHandler;
 
+    std::shared_ptr<ouzel::audio::Sound> test8BitSound;
+    std::shared_ptr<ouzel::audio::Sound> test24BitSound;
     std::shared_ptr<ouzel::audio::Sound> jumpSound;
     std::shared_ptr<ouzel::audio::Sound> ambientSound;
 
@@ -28,4 +26,11 @@ private:
     std::shared_ptr<ouzel::scene::Camera> guiCamera;
     std::shared_ptr<ouzel::gui::Menu> menu;
     std::shared_ptr<ouzel::gui::Button> backButton;
+
+    std::shared_ptr<ouzel::gui::Button> test8BitButton;
+    std::shared_ptr<ouzel::gui::Button> test24BitButton;
+    std::shared_ptr<ouzel::gui::Button> jumpButton;
+    std::shared_ptr<ouzel::gui::Button> ambientButton;
+
+    ouzel::EventHandler eventHandler;
 };

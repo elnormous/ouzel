@@ -78,6 +78,9 @@ namespace ouzel
             bool formatChunkFound = false;
             bool dataChunkFound = false;
 
+            uint16_t bitsPerSample = 0;
+            std::vector<uint8_t> soundData;
+
             for (; offset < newData.size();)
             {
                 if (newData.size() < offset + 8)
@@ -128,11 +131,9 @@ namespace ouzel
                     samplesPerSecond = decodeUInt32Little(newData.data() + i);
                     i += 4;
 
-                    averageBytesPerSecond = decodeUInt32Little(newData.data() + i);
-                    i += 4;
+                    i += 4; // average bytes per second
 
-                    blockAlign = decodeUInt16Little(newData.data() + i);
-                    i += 2;
+                    i += 2; // block align
 
                     bitsPerSample = decodeUInt16Little(newData.data() + i);
                     i += 2;
@@ -141,7 +142,7 @@ namespace ouzel
                 }
                 else if (chunkHeader[0] == 'd' && chunkHeader[1] == 'a' && chunkHeader[2] == 't' && chunkHeader[3] == 'a')
                 {
-                    data.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
+                    soundData.assign(newData.begin() + static_cast<int>(offset), newData.begin() + static_cast<int>(offset + chunkSize));
 
                     dataChunkFound = true;
                 }
@@ -159,6 +160,44 @@ namespace ouzel
             {
                 Log(Log::Level::ERR) << "Failed to load sound file, failed to find a data chunk";
                 return false;
+            }
+
+            if (bitsPerSample != 8 && bitsPerSample != 16 &&
+                bitsPerSample != 24 && bitsPerSample != 32)
+            {
+                Log(Log::Level::ERR) << "Failed to load sound file, unsupported bit depth";
+                return false;
+            }
+
+            if (bitsPerSample == 16)
+            {
+                data = std::move(soundData);
+            }
+            else
+            {
+                uint32_t bytesPerSample = bitsPerSample / 8;
+                uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
+
+                data.reserve(samples * 2);
+
+                for (uint32_t position = 0; position < samples * bytesPerSample; position += bytesPerSample)
+                {
+                    int16_t sample = 0;
+
+                    if (bitsPerSample < 16) // signed 8-bit sample
+                    {
+                        sample = static_cast<int16_t>((static_cast<int32_t>(soundData[position]) << (16 - bitsPerSample)) - 32768);
+                    }
+                    else if (bitsPerSample > 16)
+                    {
+                        sample = static_cast<int16_t>(static_cast<int32_t>(soundData[position + bytesPerSample - 2]) |
+                                                      static_cast<int32_t>(soundData[position + bytesPerSample - 1]) << 8);
+                    }
+
+                    // encode sample as little endian integer
+                    data.push_back(static_cast<uint8_t>(sample));
+                    data.push_back(static_cast<uint8_t>(sample >> 8));
+                }
             }
 
             ready = true;

@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Audio.h"
 #include "SoundResource.h"
 
@@ -41,6 +42,21 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void Audio::deleteResource(Resource* resource)
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::vector<std::unique_ptr<Resource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+                return ptr.get() == resource;
+            });
+
+            if (i != resources.end())
+            {
+                resourceDeleteSet.push_back(std::move(*i));
+                resources.erase(i);
+            }
         }
 
         void Audio::setListenerPosition(const Vector3& newPosition)

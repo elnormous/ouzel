@@ -169,19 +169,19 @@ namespace ouzel
                     {
                         case Texture::Filter::DEFAULT:
                         case Texture::Filter::POINT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                             break;
                         case Texture::Filter::LINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                             break;
                         case Texture::Filter::BILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                             break;
                         case Texture::Filter::TRILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipMapsGenerated ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                             break;
                     }

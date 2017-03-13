@@ -712,6 +712,12 @@
 		309B483A1DEA5EE600A718C5 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.h */; };
 		309B483B1DEA5EE600A718C5 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.h */; };
 		309B483C1DEA5EE600A718C5 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.h */; };
+		30A883641E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
+		30A883651E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
+		30A883661E7432DA004A033F /* Archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A883621E7432DA004A033F /* Archive.cpp */; };
+		30A883671E7432DA004A033F /* Archive.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.h */; };
+		30A883681E7432DA004A033F /* Archive.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.h */; };
+		30A883691E7432DA004A033F /* Archive.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.h */; };
 		30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
 		30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A9C12F1CAE80570084C4BF /* Localization.cpp */; };
@@ -1067,6 +1073,8 @@
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		309B48351DEA5EE600A718C5 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		309B48361DEA5EE600A718C5 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
+		30A883631E7432DA004A033F /* Archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Archive.h; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
@@ -1372,6 +1380,8 @@
 		303B75121C2883C800FEDE92 /* files */ = {
 			isa = PBXGroup;
 			children = (
+				30A883621E7432DA004A033F /* Archive.cpp */,
+				30A883631E7432DA004A033F /* Archive.h */,
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
 			);
@@ -1792,6 +1802,7 @@
 				30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B75561C2A3CB700FEDE92 /* Size2.h in Headers */,
 				3039336E1E5F45F2000C9A8E /* SoundPlayer.h in Headers */,
+				30A883671E7432DA004A033F /* Archive.h in Headers */,
 				303B75491C2A3C9200FEDE92 /* ShaderResource.h in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.h in Headers */,
 				302511AC1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
@@ -1946,6 +1957,7 @@
 				30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */,
 				303B76741C355A3B00FEDE92 /* ShaderResource.h in Headers */,
 				303933701E5F45F2000C9A8E /* SoundPlayer.h in Headers */,
+				30A883691E7432DA004A033F /* Archive.h in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
 				302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
@@ -2036,6 +2048,7 @@
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				30381FF81D80A40700677CAB /* MeshBufferMetal.h in Headers */,
 				3047F7491C4C350D00774E3D /* Move.h in Headers */,
+				30A883681E7432DA004A033F /* Archive.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.h in Headers */,
@@ -2247,6 +2260,7 @@
 				303B75441C2A3C9200FEDE92 /* Renderer.cpp in Sources */,
 				303B75421C2A3C9200FEDE92 /* MeshBufferResource.cpp in Sources */,
 				3047F7681C4D2C2000774E3D /* Sequence.cpp in Sources */,
+				30A883641E7432DA004A033F /* Archive.cpp in Sources */,
 				303696E41E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
 				30EA710D1D5268C600AE8C3E /* Application.cpp in Sources */,
 				303B75631C2A3CBF00FEDE92 /* ParticleSystem.cpp in Sources */,
@@ -2371,6 +2385,7 @@
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBufferResource.cpp in Sources */,
 				303696E61E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
+				30A883661E7432DA004A033F /* Archive.cpp in Sources */,
 				30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				303821771D81876E00677CAB /* SoundEmpty.cpp in Sources */,
@@ -2495,6 +2510,7 @@
 				30575ABC1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
+				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
 				30EA710C1D5268C600AE8C3E /* Application.cpp in Sources */,
 				303696E51E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
 				303821761D81876E00677CAB /* SoundEmpty.cpp in Sources */,

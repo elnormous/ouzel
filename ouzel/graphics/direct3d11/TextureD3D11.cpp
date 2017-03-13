@@ -65,7 +65,7 @@ namespace ouzel
                             D3D11_TEXTURE2D_DESC textureDesc;
                             textureDesc.Width = width;
                             textureDesc.Height = height;
-                            textureDesc.MipLevels = mipMapsGenerated ? 0 : 1;
+                            textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
                             textureDesc.ArraySize = 1;
                             textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
                             textureDesc.Usage = (dynamic && !renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
@@ -89,7 +89,7 @@ namespace ouzel
                             if (sampleCount == 1)
                             {
                                 resourceViewDesc.Texture2D.MostDetailedMip = 0;
-                                resourceViewDesc.Texture2D.MipLevels = mipMapsGenerated ? static_cast<UINT>(levels.size()) : 1;
+                                resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                             }
 
                             hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
