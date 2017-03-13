@@ -108,15 +108,6 @@ namespace ouzel
             if (animator) animator->parent = shared_from_this();
         }
 
-        void Animator::removeFromParent()
-        {
-            if (std::shared_ptr<Animator> currentParent = parent.lock())
-            {
-                currentParent->removeAnimator(shared_from_this());
-                parent.reset();
-            }
-        }
-
         void Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
             if (animator && animator->parent.lock() == shared_from_this()) animator->parent.reset();

@@ -41,7 +41,6 @@ namespace ouzel
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
             void addAnimator(const std::shared_ptr<Animator>& animator);
-            void removeFromParent();
             virtual void removeAnimator(const std::shared_ptr<Animator>& animator);
 
         protected:

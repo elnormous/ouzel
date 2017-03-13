@@ -41,7 +41,7 @@ namespace ouzel
             virtual void recalculateProjection();
             virtual void enter() override;
 
-            std::weak_ptr<Scene> scene;
+            bool addedToScene = false;
 
             std::vector<std::shared_ptr<Camera>> cameras;
 

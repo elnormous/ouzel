@@ -18,6 +18,7 @@ namespace ouzel
         {
         public:
             NodeContainer();
+            virtual ~NodeContainer();
 
             virtual void addChild(const std::shared_ptr<Node>& node);
             virtual bool removeChild(const std::shared_ptr<Node>& node);

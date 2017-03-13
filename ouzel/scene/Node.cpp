@@ -108,14 +108,6 @@ namespace ouzel
             }
         }
 
-        void Node::removeFromParent()
-        {
-            if (std::shared_ptr<NodeContainer> currenParent = parent.lock())
-            {
-                currenParent->removeChild(std::static_pointer_cast<Node>(shared_from_this()));
-            }
-        }
-
         void Node::setPosition(const Vector2& newPosition)
         {
             position.v[0] = newPosition.v[0];

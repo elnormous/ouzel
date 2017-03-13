@@ -39,8 +39,6 @@ namespace ouzel
             virtual void drawWireframe(Camera* camera);
 
             virtual void addChild(const std::shared_ptr<Node>& node) override;
-            virtual std::shared_ptr<NodeContainer> getParent() const { return parent.lock(); }
-            virtual void removeFromParent();
 
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
@@ -164,7 +162,7 @@ namespace ouzel
 
             std::vector<std::shared_ptr<Component>> components;
 
-            std::weak_ptr<NodeContainer> parent;
+            bool addedToParent = false;
 
             UpdateCallback animationUpdateCallback;
         };
