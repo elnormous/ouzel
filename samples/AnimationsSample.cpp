@@ -52,22 +52,18 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
     witchFade.reset(new scene::Fade(2.0f, 0.4f));
 
-    vector<scene::Animator*> parallel = {
-        witchScale.get(),
-        witchFade.get()
-    };
-
     witchRotate.reset(new scene::Rotate(1.0f, Vector3(0.0f, 0.0f, TAU), false));
 
-    witchRepeat.reset(new scene::Repeat(witchRotate.get(), 3));
-    witchParallel.reset(new scene::Parallel(parallel));
+    witchRepeat.reset(new scene::Repeat(3));
+    witchRotate->setParent(witchRepeat.get());
+    witchParallel.reset(new scene::Parallel());
 
-    vector<scene::Animator*> sequence = {
-        witchRepeat.get(),
-        witchParallel.get()
-    };
+    witchScale->setParent(witchParallel.get());
+    witchFade->setParent(witchParallel.get());
 
-    witchSequence.reset(new scene::Sequence(sequence));
+    witchSequence.reset(new scene::Sequence());
+    witchRepeat->setParent(witchSequence.get());
+    witchParallel->setParent(witchSequence.get());
 
     witchSequence->setNode(&witch);
     witchSequence->start();
@@ -76,16 +72,15 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     ballSprite.setNode(&ball);
     ball.setParent(&layer);
 
-    ballDelay.reset(new scene::Animator(1.0f));
+    ballDelay.reset(new scene::Animator(0.5f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
-    ballEase.reset(new scene::Ease(ballMove.get(), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
-
-    vector<scene::Animator*> sequence2 = {
-        ballDelay.get(),
-        ballEase.get()
-    };
+    ballEase.reset(new scene::Ease(scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
+    ballMove->setParent(ballEase.get());
      
-    ballSequence.reset(new scene::Sequence(sequence2));
+    ballSequence.reset(new scene::Sequence());
+    ballDelay->setParent(ballSequence.get());
+    ballEase->setParent(ballSequence.get());
+
     ballSequence->setNode(&ball);
     ballSequence->start();
 

@@ -13,9 +13,12 @@ namespace ouzel
         class Sequence: public Animator
         {
         public:
-            Sequence(const std::vector<Animator*>& aAnimators);
+            Sequence();
 
         protected:
+            virtual void addAnimator(Animator* animator) override;
+            virtual bool removeAnimator(Animator* animator) override;
+            
             virtual void updateProgress() override;
         };
     } // namespace scene

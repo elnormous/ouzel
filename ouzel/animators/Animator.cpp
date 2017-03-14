@@ -26,6 +26,21 @@ namespace ouzel
             if (parent) parent->removeAnimator(this);
         }
 
+        void Animator::setParent(Animator* newParent)
+        {
+            if (parent)
+            {
+                parent->removeAnimator(this);
+            }
+
+            parent = newParent;
+
+            if (parent)
+            {
+                parent->addAnimator(this);
+            }
+        }
+
         void Animator::update(float delta)
         {
             if (running)

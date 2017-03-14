@@ -33,9 +33,12 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(Animator* animator, Type aType, Func aFunc);
+            Ease(Type aType, Func aFunc);
 
         protected:
+            virtual void addAnimator(Animator* animator) override;
+            virtual bool removeAnimator(Animator* animator) override;
+            
             virtual void updateProgress() override;
 
             Type type;

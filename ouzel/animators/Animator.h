@@ -20,6 +20,10 @@ namespace ouzel
             Animator(float aLength);
             virtual ~Animator();
 
+            void setParent(Animator* newParent);
+            Animator* getParnet() const { return parent; }
+            void removeFromParent();
+
             virtual void update(float delta);
 
             virtual void start();
@@ -40,11 +44,10 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
-            void addAnimator(Animator* animator);
-            void removeFromParent();
-            bool removeAnimator(Animator* animator);
-
         protected:
+            virtual void addAnimator(Animator* animator);
+            virtual bool removeAnimator(Animator* animator);
+
             virtual void updateProgress();
 
             float length = 0.0f;

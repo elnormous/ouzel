@@ -8,18 +8,40 @@ namespace ouzel
 {
     namespace scene
     {
-        Parallel::Parallel(const std::vector<Animator*>& aAnimators):
+        Parallel::Parallel():
             Animator(0.0f)
         {
-            for (const auto& animator : aAnimators)
-            {
-                addAnimator(animator);
 
-                if (animator->getLength() > length)
-                {
-                    length = animator->getLength();
-                }
+        }
+
+        void Parallel::addAnimator(Animator* animator)
+        {
+            Animator::addAnimator(animator);
+
+            if (animator->getLength() > length)
+            {
+                length = animator->getLength();
             }
+        }
+
+        bool Parallel::removeAnimator(Animator* animator)
+        {
+            if (Animator::removeAnimator(animator))
+            {
+                length = 0.0f;
+
+                for (const auto& animator : animators)
+                {
+                    if (animator->getLength() > length)
+                    {
+                        length = animator->getLength();
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         void Parallel::updateProgress()
