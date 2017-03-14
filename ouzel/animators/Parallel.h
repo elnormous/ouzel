@@ -14,16 +14,9 @@ namespace ouzel
         {
         public:
             Parallel(const std::vector<Animator*>& aAnimators);
-            virtual ~Parallel();
-
-            virtual void play() override;
-            virtual void reset() override;
 
         protected:
-            virtual void removeAnimator(Animator* animator) override;
             virtual void updateProgress() override;
-
-            std::vector<Animator*> animators;
         };
     } // namespace scene
 } // namespace ouzel

@@ -18,6 +18,11 @@ namespace ouzel
 
         Animator::~Animator()
         {
+            for (Animator* animator : animators)
+            {
+                animator->parent = nullptr;
+            }
+
             if (parent) parent->removeAnimator(this);
         }
 
@@ -70,6 +75,11 @@ namespace ouzel
             {
                 targetNode = parent->targetNode;
             }
+
+            for (Animator* animator : animators)
+            {
+                animator->play();
+            }
         }
 
         void Animator::resume()
@@ -91,6 +101,11 @@ namespace ouzel
         {
             done = false;
             setProgress(0.0f);
+
+            for (Animator* animator : animators)
+            {
+                animator->reset();
+            }
         }
 
         void Animator::setProgress(float newProgress)
@@ -107,7 +122,13 @@ namespace ouzel
 
         void Animator::addAnimator(Animator* animator)
         {
-            if (animator) animator->parent = this;
+            if (animator->parent)
+            {
+                animator->parent->removeAnimator(animator);
+            }
+
+            animator->parent = this;
+            animators.push_back(animator);
         }
 
         void Animator::removeFromParent()
@@ -119,9 +140,23 @@ namespace ouzel
             }
         }
 
-        void Animator::removeAnimator(Animator* animator)
+        bool Animator::removeAnimator(Animator* animator)
         {
-            if (animator && animator->parent == this) animator->parent = nullptr;
+            for (auto i = animators.begin(); i != animators.end();)
+            {
+                if (*i == animator)
+                {
+                    animator->parent = nullptr;
+                    animators.erase(i);
+                    return true;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+
+            return true;
         }
     } // namespace scene
 } // namespace ouzel

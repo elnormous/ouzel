@@ -26,11 +26,6 @@ namespace ouzel
                 component->node = nullptr;
             }
 
-            for (Node* child : children)
-            {
-                child->parent = nullptr;
-            }
-
             if (parent) parent->removeChild(this);
         }
 
@@ -324,11 +319,9 @@ namespace ouzel
 
         void Node::addComponent(Component* component)
         {
-            Node* oldNode = component->node;
-
-            if (oldNode)
+            if (component->node)
             {
-                oldNode->removeComponent(component);
+                component->node->removeComponent(component);
             }
 
             component->node = this;

@@ -7,64 +7,34 @@ namespace ouzel
 {
     namespace scene
     {
-        Repeat::Repeat(Animator* aAnimator, uint32_t aCount):
-            Animator(aAnimator->getLength() * static_cast<float>(aCount)), animator(aAnimator), count(aCount)
+        Repeat::Repeat(Animator* animator, uint32_t aCount):
+            Animator(animator->getLength() * static_cast<float>(aCount)), count(aCount)
         {
             addAnimator(animator);
-        }
-
-        Repeat::~Repeat()
-        {
-            if (animator) removeAnimator(animator);
-        }
-
-        void Repeat::play()
-        {
-            Animator::play();
-
-            if (animator)
-            {
-                animator->play();
-            }
         }
 
         void Repeat::reset()
         {
             Animator::reset();
 
-            if (animator)
-            {
-                animator->reset();
-            }
-
             currentCount = 0;
-        }
-
-        void Repeat::removeAnimator(Animator* oldAnimator)
-        {
-            Animator::removeAnimator(oldAnimator);
-
-            if (oldAnimator == animator)
-            {
-                animator = nullptr;
-            }
         }
 
         void Repeat::updateProgress()
         {
-            if (!animator) return;
+            if (animators.empty()) return;
 
-            if (animator->getLength() != 0.0f)
+            if (animators[0]->getLength() != 0.0f)
             {
-                currentCount = static_cast<uint32_t>(currentTime / animator->getLength());
+                currentCount = static_cast<uint32_t>(currentTime / animators[0]->getLength());
 
                 if (count == 0 || currentCount < count)
                 {
                     done = false;
                     running = true;
 
-                    float remainingTime = currentTime - animator->getLength() * static_cast<float>(currentCount);
-                    animator->setProgress(remainingTime / animator->getLength());
+                    float remainingTime = currentTime - animators[0]->getLength() * static_cast<float>(currentCount);
+                    animators[0]->setProgress(remainingTime / animators[0]->getLength());
                 }
                 else
                 {

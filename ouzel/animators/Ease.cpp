@@ -253,46 +253,17 @@ namespace ouzel
                 return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
         }
 
-        Ease::Ease(Animator* aAnimator, Type aType, Func aFunc):
-            Animator(aAnimator->getLength()), animator(aAnimator), type(aType), func(aFunc)
+        Ease::Ease(Animator* animator, Type aType, Func aFunc):
+            Animator(animator->getLength()), type(aType), func(aFunc)
         {
             addAnimator(animator);
-        }
-
-        Ease::~Ease()
-        {
-            if (animator) removeAnimator(animator);
-        }
-
-        void Ease::play()
-        {
-            Animator::play();
-
-            animator->play();
-        }
-
-        void Ease::reset()
-        {
-            Animator::reset();
-
-            animator->reset();
-        }
-
-        void Ease::removeAnimator(Animator* oldAnimator)
-        {
-            Animator::removeAnimator(oldAnimator);
-
-            if (oldAnimator == animator)
-            {
-                animator = nullptr;
-            }
         }
 
         void Ease::updateProgress()
         {
             Animator::updateProgress();
 
-            if (!animator) return;
+            if (animators.empty()) return;
 
             switch (type)
             {
@@ -351,7 +322,7 @@ namespace ouzel
                 }
             }
 
-            animator->setProgress(progress);
+            animators[0]->setProgress(progress);
         }
     } // namespace scene
 } // namespace ouzel

@@ -10,51 +10,11 @@ namespace ouzel
     namespace scene
     {
         Sequence::Sequence(const std::vector<Animator*>& aAnimators):
-            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); })), animators(aAnimators)
+            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); }))
         {
-            for (const auto& animator : animators)
+            for (const auto& animator : aAnimators)
             {
                 addAnimator(animator);
-            }
-        }
-
-        Sequence::~Sequence()
-        {
-            for (const auto& animator : animators)
-            {
-                removeAnimator(animator);
-            }
-        }
-
-        void Sequence::play()
-        {
-            Animator::play();
-
-            for (const auto& animator : animators)
-            {
-                animator->play();
-            }
-        }
-
-        void Sequence::reset()
-        {
-            Animator::reset();
-
-            for (const auto& animator : animators)
-            {
-                animator->reset();
-            }
-        }
-
-        void Sequence::removeAnimator(Animator* oldAnimator)
-        {
-            Animator::removeAnimator(oldAnimator);
-
-            auto i = std::find(animators.begin(), animators.end(), oldAnimator);
-
-            if (i != animators.end())
-            {
-                animators.erase(i);
             }
         }
 

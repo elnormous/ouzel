@@ -26,10 +26,9 @@ namespace ouzel
         {
             if (node)
             {
-                NodeContainer* oldParent = node->parent;
-                if (oldParent)
+                if (node->parent)
                 {
-                    oldParent->removeChild(node);
+                    node->parent->removeChild(node);
                 }
 
                 node->parent = this;

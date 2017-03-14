@@ -42,7 +42,7 @@ namespace ouzel
 
             void addAnimator(Animator* animator);
             void removeFromParent();
-            virtual void removeAnimator(Animator* animator);
+            bool removeAnimator(Animator* animator);
 
         protected:
             virtual void updateProgress();
@@ -59,6 +59,8 @@ namespace ouzel
             std::function<void()> finishHandler;
 
             UpdateCallback updateCallback;
+
+            std::vector<Animator*> animators;
         };
     } // namespace scene
 } // namespace ouzel
