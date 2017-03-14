@@ -19,6 +19,14 @@ namespace ouzel
         {
         }
 
+        Node::~Node()
+        {
+            for (const auto& component : components)
+            {
+                component->node = nullptr;
+            }
+        }
+
         void Node::visit(std::vector<Node*>& drawQueue,
                          const Matrix4& newParentTransform,
                          bool parentTransformDirty,

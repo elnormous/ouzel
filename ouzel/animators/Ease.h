@@ -37,7 +37,7 @@ namespace ouzel
 
         protected:
             virtual void updateProgress() override;
-            
+
             Type type;
             Func func;
         };

@@ -28,6 +28,7 @@ namespace ouzel
             friend Layer;
         public:
             Node();
+            virtual ~Node();
 
             virtual void visit(std::vector<Node*>& drawQueue,
                                const Matrix4& newParentTransform,
