@@ -9,9 +9,9 @@ namespace ouzel
     namespace scene
     {
         Parallel::Parallel(const std::vector<std::shared_ptr<Animator>>& aAnimators):
-            Animator(0.0f), animators(aAnimators)
+            Animator(0.0f)
         {
-            for (const auto& animator : animators)
+            for (const auto& animator : aAnimators)
             {
                 addAnimator(animator);
 
@@ -19,26 +19,6 @@ namespace ouzel
                 {
                     length = animator->getLength();
                 }
-            }
-        }
-
-        void Parallel::play()
-        {
-            Animator::play();
-
-            for (const auto& animator : animators)
-            {
-                animator->play();
-            }
-        }
-
-        void Parallel::reset()
-        {
-            Animator::reset();
-
-            for (const auto& animator : animators)
-            {
-                animator->reset();
             }
         }
 

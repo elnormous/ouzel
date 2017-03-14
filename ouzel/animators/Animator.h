@@ -14,11 +14,12 @@ namespace ouzel
     {
         class Node;
 
-        class Animator: public Component, public std::enable_shared_from_this<Animator>
+        class Animator: public Component
         {
             friend Node;
         public:
             Animator(float aLength);
+            virtual ~Animator();
 
             virtual void update(float delta);
 
@@ -40,10 +41,9 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
-            void addAnimator(const std::shared_ptr<Animator>& animator);
-            virtual void removeAnimator(const std::shared_ptr<Animator>& animator);
-
         protected:
+            void addAnimator(const std::shared_ptr<Animator>& animator);
+            bool removeAnimator(const std::shared_ptr<Animator>& animator);
             virtual void updateProgress();
 
             float length = 0.0f;
@@ -52,12 +52,14 @@ namespace ouzel
             bool done = false;
             bool running = false;
 
-            std::weak_ptr<Animator> parent;
+            Animator* parent = nullptr;
             Node* targetNode = nullptr;
 
             std::function<void()> finishHandler;
 
             UpdateCallback updateCallback;
+
+            std::vector<std::shared_ptr<Animator>> animators;
         };
     } // namespace scene
 } // namespace ouzel

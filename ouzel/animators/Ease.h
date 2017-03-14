@@ -33,15 +33,11 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(const std::shared_ptr<Animator>& aAnimator, Type aType, Func aFunc);
-
-            virtual void play() override;
-            virtual void reset() override;
+            Ease(const std::shared_ptr<Animator>& animator, Type aType, Func aFunc);
 
         protected:
             virtual void updateProgress() override;
-
-            std::shared_ptr<Animator> animator;
+            
             Type type;
             Func func;
         };

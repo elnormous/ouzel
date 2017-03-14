@@ -10,31 +10,11 @@ namespace ouzel
     namespace scene
     {
         Sequence::Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators):
-            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::shared_ptr<Animator>& b) { return a + b->getLength(); })), animators(aAnimators)
+            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::shared_ptr<Animator>& b) { return a + b->getLength(); }))
         {
-            for (const auto& animator : animators)
+            for (const auto& animator : aAnimators)
             {
                 addAnimator(animator);
-            }
-        }
-
-        void Sequence::play()
-        {
-            Animator::play();
-
-            for (const auto& animator : animators)
-            {
-                animator->play();
-            }
-        }
-
-        void Sequence::reset()
-        {
-            Animator::reset();
-
-            for (const auto& animator : animators)
-            {
-                animator->reset();
             }
         }
 

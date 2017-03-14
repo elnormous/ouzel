@@ -13,15 +13,13 @@ namespace ouzel
         class Repeat: public Animator
         {
         public:
-            Repeat(const std::shared_ptr<Animator>& aAnimator, uint32_t aCount = 0);
+            Repeat(const std::shared_ptr<Animator>& animator, uint32_t aCount = 0);
 
-            virtual void play() override;
             virtual void reset() override;
 
         protected:
             virtual void updateProgress() override;
 
-            std::shared_ptr<Animator> animator;
             uint32_t count = 0;
             uint32_t currentCount = 0;
         };

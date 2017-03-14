@@ -16,6 +16,14 @@ namespace ouzel
             updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }
 
+        Animator::~Animator()
+        {
+            for (const auto& animator : animators)
+            {
+                animator->parent = nullptr;
+            }
+        }
+
         void Animator::update(float delta)
         {
             if (running)
@@ -63,10 +71,15 @@ namespace ouzel
 
             if (!targetNode)
             {
-                if (std::shared_ptr<Animator> currentParent = parent.lock())
+                if (parent)
                 {
-                    targetNode = currentParent->targetNode;
+                    targetNode = parent->targetNode;
                 }
+            }
+
+            for (const auto& animator : animators)
+            {
+                animator->play();
             }
         }
 
@@ -89,6 +102,11 @@ namespace ouzel
         {
             done = false;
             setProgress(0.0f);
+
+            for (const auto& animator : animators)
+            {
+                animator->reset();
+            }
         }
 
         void Animator::setProgress(float newProgress)
@@ -105,12 +123,36 @@ namespace ouzel
 
         void Animator::addAnimator(const std::shared_ptr<Animator>& animator)
         {
-            if (animator) animator->parent = shared_from_this();
+            if (animator)
+            {
+                if (animator->parent)
+                {
+                    animator->parent->removeAnimator(animator);
+                }
+
+                animator->parent = this;
+
+                animators.push_back(animator);
+            }
         }
 
-        void Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
+        bool Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
-            if (animator && animator->parent.lock() == shared_from_this()) animator->parent.reset();
+            for (auto i = animators.begin(); i != animators.end();)
+            {
+                if (*i == animator)
+                {
+                    animator->parent = nullptr;
+                    animators.erase(i);
+                    return true;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+
+            return true;
         }
     } // namespace scene
 } // namespace ouzel
