@@ -41,21 +41,21 @@ RTSample::RTSample(Samples& aSamples):
     characterSprite.play(true);
 
     rtCharacter.addComponent(&characterSprite);
-    rtLayer.addChild(&rtCharacter);
+    rtCharacter.setParent(&rtLayer);
 
     scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     std::vector<scene::SpriteFrame> spriteFrames = {rtFrame};
     rtSprite.initFromSpriteFrames(spriteFrames);
     rtNode.addComponent(&rtSprite);
-    layer.addChild(&rtNode);
+    rtNode.setParent(&layer);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);

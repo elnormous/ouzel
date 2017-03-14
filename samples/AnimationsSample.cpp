@@ -37,7 +37,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     drawNode.addComponent(&shapeDrawable);
     drawNode.setPosition(Vector2(-300, 0.0f));
-    layer.addChild(&drawNode);
+    drawNode.setParent(&layer);
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
     drawNode.addComponent(shake.get());
@@ -47,7 +47,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     witch.setPosition(Vector2(200, 0.0f));
     witch.addComponent(&witchSprite);
-    layer.addChild(&witch);
+    witch.setParent(&layer);
 
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
     witchFade.reset(new scene::Fade(2.0f, 0.4f));
@@ -74,7 +74,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     ballSprite.initFromFile("ball.png");
     ball.addComponent(&ballSprite);
-    layer.addChild(&ball);
+    ball.setParent(&layer);
 
     ballDelay.reset(new scene::Animator(1.0f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
@@ -95,7 +95,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);

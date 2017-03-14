@@ -26,7 +26,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     characterSprite.play(true);
 
     character.addComponent(&characterSprite);
-    layer.addChild(&character);
+    character.setParent(&layer);
     character.setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
@@ -40,20 +40,20 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     fireNode.addComponent(&fireSprite);
     fireNode.setPosition(Vector2(-100.0f, -140.0f));
-    layer.addChild(&fireNode);
+    fireNode.setParent(&layer);
 
     // triangle
     triangleSprite.initFromFile("triangle.json");
     triangleNode.addComponent(&triangleSprite);
     triangleNode.setPosition(Vector2(100.0f, -140.0f));
-    layer.addChild(&triangleNode);
+    triangleNode.setParent(&layer);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));

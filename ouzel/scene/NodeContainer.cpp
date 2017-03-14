@@ -26,12 +26,6 @@ namespace ouzel
         {
             if (node)
             {
-                if (node->parent)
-                {
-                    node->parent->removeChild(node);
-                }
-
-                node->parent = this;
                 if (entered) node->enter();
                 children.push_back(node);
             }
@@ -44,7 +38,6 @@ namespace ouzel
             if (i != children.end())
             {
                 if (entered) node->leave();
-                node->parent = nullptr;
                 children.erase(i);
 
                 return true;
@@ -53,19 +46,6 @@ namespace ouzel
             {
                 return false;
             }
-        }
-
-        void NodeContainer::removeAllChildren()
-        {
-            auto childrenCopy = children;
-
-            for (auto& node : childrenCopy)
-            {
-                if (entered) node->leave();
-                node->parent = nullptr;
-            }
-
-            children.clear();
         }
 
         bool NodeContainer::hasChild(Node* node, bool recursive) const

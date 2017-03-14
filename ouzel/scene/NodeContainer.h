@@ -15,17 +15,18 @@ namespace ouzel
 
         class NodeContainer: public Noncopyable
         {
+            friend Node;
         public:
             NodeContainer();
             virtual ~NodeContainer();
 
-            virtual void addChild(Node* node);
-            virtual bool removeChild(Node* node);
-            virtual void removeAllChildren();
             virtual bool hasChild(Node* node, bool recursive = false) const;
             virtual const std::vector<Node*>& getChildren() const { return children; }
 
         protected:
+            virtual void addChild(Node* node);
+            virtual bool removeChild(Node* node);
+
             void findNodes(const Vector2& position, std::vector<Node*>& nodes) const;
             void findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const;
 

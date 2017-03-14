@@ -108,6 +108,21 @@ namespace ouzel
             }
         }
 
+        void Node::setParent(NodeContainer* newParent)
+        {
+            if (parent)
+            {
+                parent->removeChild(this);
+            }
+
+            parent = newParent;
+
+            if (parent)
+            {
+                parent->addChild(this);
+            }
+        }
+
         void Node::addChild(Node* node)
         {
             NodeContainer::addChild(node);

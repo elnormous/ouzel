@@ -25,8 +25,6 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual void addChild(Node* node) override;
-
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
             const std::vector<Camera*>& getCameras() const { return cameras; }
@@ -39,6 +37,8 @@ namespace ouzel
             void setOrder(int32_t newOrder);
 
         protected:
+            virtual void addChild(Node* node) override;
+
             virtual void recalculateProjection();
             virtual void enter() override;
 

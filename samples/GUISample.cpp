@@ -21,7 +21,7 @@ GUISample::GUISample(Samples& aSamples):
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 100.0f));
@@ -29,7 +29,7 @@ GUISample::GUISample(Samples& aSamples):
 
     checkBox.reset(new gui::CheckBox("checkbox.png", "", "", "", "tick.png"));
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
-    guiLayer.addChild(checkBox.get());
+    checkBox->setParent(&guiLayer);
 
     fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
@@ -38,20 +38,20 @@ GUISample::GUISample(Samples& aSamples):
     label1.reset(new gui::Label("checkbox", "arial.fnt"));
     label1->setColor(Color::CYAN);
     label1->setPosition(Vector2(-60.0f, 100.0f));
-    guiLayer.addChild(label1.get());
+    label1->setParent(&guiLayer);
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
     label2.reset(new gui::Label(sharedEngine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"));
     label2->setPosition(Vector2(10.0f, 0.0f));
-    guiLayer.addChild(label2.get());
+    label2->setParent(&guiLayer);
 
     label3.reset(new gui::Label("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", Color::WHITE, Vector2(0.0f, 0.5f)));
     label3->setColor(Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector3(0.5f, 0.5f, 1.0f));
-    guiLayer.addChild(label3.get());
+    label3->setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);

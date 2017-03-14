@@ -33,7 +33,7 @@ MainMenu::MainMenu(Samples& aSamples):
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(400.0f, 600.0f));
     layer.addCamera(&camera);
-    layer.addChild(&menu);
+    menu.setParent(&layer);
 
     gitHubButton.setPosition(Vector2(0.0f, 120.0f));
     menu.addWidget(&gitHubButton);

@@ -37,7 +37,7 @@ namespace ouzel
             virtual void draw(Camera* camera);
             virtual void drawWireframe(Camera* camera);
 
-            virtual void addChild(Node* node) override;
+            virtual void setParent(NodeContainer* newParent);
             virtual NodeContainer* getParent() const { return parent; }
             virtual void removeFromParent();
 
@@ -129,6 +129,8 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
+            virtual void addChild(Node* node) override;
+            
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 

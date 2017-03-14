@@ -49,7 +49,7 @@ SoundSample::SoundSample(Samples& aSamples):
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     test8BitButton.setPosition(Vector2(0.0f, 80.0f));
     menu.addWidget(&test8BitButton);

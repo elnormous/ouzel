@@ -28,14 +28,14 @@ InputSample::InputSample(Samples& aSamples):
 
     flame.addComponent(&flameParticleSystem);
     flame.setPickable(false);
-    layer.addChild(&flame);
+    flame.setParent(&layer);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 200.0f));

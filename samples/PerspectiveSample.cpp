@@ -39,7 +39,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     }
 
     floor.addComponent(&floorSprite);
-    layer.addChild(&floor);
+    floor.setParent(&layer);
     floor.setPosition(Vector2(0.0f, -50.0f));
     floor.setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
@@ -53,7 +53,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     }
 
     character.addComponent(&characterSprite);
-    layer.addChild(&character);
+    character.setParent(&layer);
     character.setPosition(Vector2(10.0f, 0.0f));
 
     jumpSound = sharedEngine->getAudio()->createSound();
@@ -71,7 +71,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     guiLayer.addCamera(&guiCamera);
     addLayer(&guiLayer);
 
-    guiLayer.addChild(&menu);
+    menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
