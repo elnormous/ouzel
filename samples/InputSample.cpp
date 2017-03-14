@@ -26,7 +26,7 @@ InputSample::InputSample(Samples& aSamples):
 
     flameParticleSystem.initFromFile("flame.json");
 
-    flame.addComponent(&flameParticleSystem);
+    flameParticleSystem.setNode(&flame);
     flame.setPickable(false);
     flame.setParent(&layer);
 

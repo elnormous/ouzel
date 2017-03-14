@@ -25,12 +25,12 @@ SpritesSample::SpritesSample(Samples& aSamples):
     characterSprite.initFromFile("run.json");
     characterSprite.play(true);
 
-    character.addComponent(&characterSprite);
+    characterSprite.setNode(&character);
     character.setParent(&layer);
     character.setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character.addComponent(move.get());
+    move->setNode(&character);
     move->start();
 
     // fire
@@ -38,13 +38,13 @@ SpritesSample::SpritesSample(Samples& aSamples):
     fireSprite.setOffset(Vector2(0.0f, 20.0f));
     fireSprite.play(true);
 
-    fireNode.addComponent(&fireSprite);
+    fireSprite.setNode(&fireNode);
     fireNode.setPosition(Vector2(-100.0f, -140.0f));
     fireNode.setParent(&layer);
 
     // triangle
     triangleSprite.initFromFile("triangle.json");
-    triangleNode.addComponent(&triangleSprite);
+    triangleSprite.setNode(&triangleNode);
     triangleNode.setPosition(Vector2(100.0f, -140.0f));
     triangleNode.setParent(&layer);
 

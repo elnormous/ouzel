@@ -40,14 +40,14 @@ RTSample::RTSample(Samples& aSamples):
 
     characterSprite.play(true);
 
-    rtCharacter.addComponent(&characterSprite);
+    characterSprite.setNode(&rtCharacter);
     rtCharacter.setParent(&rtLayer);
 
     scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     std::vector<scene::SpriteFrame> spriteFrames = {rtFrame};
     rtSprite.initFromSpriteFrames(spriteFrames);
-    rtNode.addComponent(&rtSprite);
+    rtSprite.setNode(&rtNode);
     rtNode.setParent(&layer);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

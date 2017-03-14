@@ -20,8 +20,8 @@ namespace ouzel
                      const Vector2& textAnchor):
             text(aText), labelDrawable(fontFile, true, text, color, textAnchor)
         {
-            addComponent(&labelDrawable);
             labelDrawable.setText(text);
+            labelDrawable.setNode(this);
 
             pickable = true;
         }

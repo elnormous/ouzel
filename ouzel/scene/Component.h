@@ -40,6 +40,7 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
+            void setNode(Node* newNode);
             Node* getNode() const { return node; }
 
         protected:

@@ -35,18 +35,18 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable.circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE);
     shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
-    drawNode.addComponent(&shapeDrawable);
+    shapeDrawable.setNode(&drawNode);
     drawNode.setPosition(Vector2(-300, 0.0f));
     drawNode.setParent(&layer);
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
-    drawNode.addComponent(shake.get());
+    shake->setNode(&drawNode);
     shake->start();
 
     witchSprite.initFromFile("witch.png");
 
     witch.setPosition(Vector2(200, 0.0f));
-    witch.addComponent(&witchSprite);
+    witchSprite.setNode(&witch);
     witch.setParent(&layer);
 
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
@@ -69,11 +69,11 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     witchSequence.reset(new scene::Sequence(sequence));
 
-    witch.addComponent(witchSequence.get());
+    witchSequence->setNode(&witch);
     witchSequence->start();
 
     ballSprite.initFromFile("ball.png");
-    ball.addComponent(&ballSprite);
+    ballSprite.setNode(&ball);
     ball.setParent(&layer);
 
     ballDelay.reset(new scene::Animator(1.0f));
@@ -86,8 +86,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     };
      
     ballSequence.reset(new scene::Sequence(sequence2));
-
-    ball.addComponent(ballSequence.get());
+    ballSequence->setNode(&ball);
     ballSequence->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

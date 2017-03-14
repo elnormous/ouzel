@@ -343,21 +343,6 @@ namespace ouzel
             components.push_back(component);
         }
 
-        bool Node::removeComponent(uint32_t index)
-        {
-            if (index >= components.size())
-            {
-                return false;
-            }
-
-            Component* component = components[index];
-            component->node = nullptr;
-
-            components.erase(components.begin() + static_cast<int>(index));
-
-            return true;
-        }
-
         bool Node::removeComponent(Component* component)
         {
             for (auto i = components.begin(); i != components.end();)
@@ -375,11 +360,6 @@ namespace ouzel
             }
 
             return false;
-        }
-
-        void Node::removeAllComponents()
-        {
-            components.clear();
         }
 
         Box3 Node::getBoundingBox() const

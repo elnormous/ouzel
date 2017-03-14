@@ -27,6 +27,21 @@ namespace ouzel
         {
         }
 
+        void Component::setNode(Node* newNode)
+        {
+            if (node)
+            {
+                node->removeComponent(this);
+            }
+
+            node = newNode;
+
+            if (node)
+            {
+                node->addComponent(this);
+            }
+        }
+
         bool Component::pointOn(const Vector2& position) const
         {
             return boundingBox.containsPoint(position);

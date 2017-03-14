@@ -24,6 +24,7 @@ namespace ouzel
         {
             friend NodeContainer;
             friend Layer;
+            friend Component;
         public:
             Node();
             virtual ~Node();
@@ -121,15 +122,14 @@ namespace ouzel
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
             const std::vector<Component*>& getComponents() const { return components; }
-            void addComponent(Component* component);
-            bool removeComponent(uint32_t index);
-            bool removeComponent(Component* component);
-            void removeAllComponents();
 
             Box3 getBoundingBox() const;
 
         protected:
             virtual void addChild(Node* node) override;
+
+            void addComponent(Component* component);
+            bool removeComponent(Component* component);
             
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;

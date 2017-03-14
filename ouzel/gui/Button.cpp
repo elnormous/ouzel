@@ -49,7 +49,7 @@ namespace ouzel
                 normalSprite.reset(new scene::Sprite());
                 if (normalSprite->initFromFile(normalImage, false))
                 {
-                    addComponent(normalSprite.get());
+                    normalSprite->setNode(this);
                 }
             }
 
@@ -58,7 +58,7 @@ namespace ouzel
                 selectedSprite.reset(new scene::Sprite());
                 if (selectedSprite->initFromFile(selectedImage, false))
                 {
-                    addComponent(selectedSprite.get());
+                    selectedSprite->setNode(this);
                 }
             }
 
@@ -67,7 +67,7 @@ namespace ouzel
                 pressedSprite.reset(new scene::Sprite());
                 if (pressedSprite->initFromFile(pressedImage, false))
                 {
-                    addComponent(pressedSprite.get());
+                    pressedSprite->setNode(this);
                 }
             }
 
@@ -76,7 +76,7 @@ namespace ouzel
                 disabledSprite.reset(new scene::Sprite());
                 if (disabledSprite->initFromFile(disabledImage, false))
                 {
-                    addComponent(disabledSprite.get());
+                    disabledSprite->setNode(this);
                 }
             }
 
@@ -86,7 +86,7 @@ namespace ouzel
                 if (labelDrawable)
                 {
                     labelDrawable->setColor(labelColor);
-                    addComponent(labelDrawable.get());
+                    labelDrawable->setNode(this);
                 }
             }
 
