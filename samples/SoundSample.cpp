@@ -46,7 +46,7 @@ SoundSample::SoundSample(Samples& aSamples):
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addCamera(&guiCamera);
+    guiCamera.setLayer(&guiLayer);
     guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);

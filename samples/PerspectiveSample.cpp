@@ -27,7 +27,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     camera.setType(scene::Camera::Type::PERSPECTIVE);
     camera.setFarPlane(1000.0f);
     camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
-    layer.addCamera(&camera);
+    camera.setLayer(&layer);
     layer.setScene(this);
 
     // floor
@@ -68,7 +68,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addCamera(&guiCamera);
+    guiCamera.setLayer(&guiLayer);
     guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);

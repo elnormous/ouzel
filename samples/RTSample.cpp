@@ -24,18 +24,18 @@ RTSample::RTSample(Samples& aSamples):
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
-    rtLayer.addCamera(&rtCamera);
+    rtCamera.setLayer(&rtLayer);
 
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera1.setTargetContentSize(Size2(400.0f, 600.0f));
     camera1.setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+    camera1.setLayer(&layer);
 
     camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera2.setTargetContentSize(Size2(400.0f, 600.0f));
     camera2.setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
+    camera2.setLayer(&layer);
 
-    layer.addCamera(&camera1);
-    layer.addCamera(&camera2);
     layer.setScene(this);
 
     characterSprite.play(true);
@@ -52,7 +52,7 @@ RTSample::RTSample(Samples& aSamples):
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addCamera(&guiCamera);
+    guiCamera.setLayer(&guiLayer);
     guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);

@@ -343,18 +343,13 @@ namespace ouzel
 
         bool Node::removeComponent(Component* component)
         {
-            for (auto i = components.begin(); i != components.end();)
+            auto i = std::find(components.begin(), components.end(), component);
+
+            if (i != components.end())
             {
-                if (*i == component)
-                {
-                    components.erase(i);
-                    component->node = nullptr;
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                component->node = nullptr;
+                components.erase(i);
+                return true;
             }
 
             return false;

@@ -157,8 +157,8 @@ namespace ouzel
 
             if (i != animators.end())
             {
-                animators.erase(i);
                 animator->parent = nullptr;
+                animators.erase(i);
                 return true;
             }
 

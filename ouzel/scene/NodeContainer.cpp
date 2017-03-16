@@ -27,6 +27,7 @@ namespace ouzel
             if (node)
             {
                 children.push_back(node);
+                node->parent = this;
                 if (entered) node->enter();
             }
         }
@@ -37,15 +38,14 @@ namespace ouzel
 
             if (i != children.end())
             {
-                children.erase(i);
                 if (entered) node->leave();
+                node->parent = nullptr;
+                children.erase(i);
 
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         bool NodeContainer::hasChild(Node* node, bool recursive) const
