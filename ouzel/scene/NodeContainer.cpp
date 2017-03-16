@@ -26,8 +26,8 @@ namespace ouzel
         {
             if (node)
             {
-                if (entered) node->enter();
                 children.push_back(node);
+                if (entered) node->enter();
             }
         }
 
@@ -37,8 +37,8 @@ namespace ouzel
 
             if (i != children.end())
             {
-                if (entered) node->leave();
                 children.erase(i);
+                if (entered) node->leave();
 
                 return true;
             }

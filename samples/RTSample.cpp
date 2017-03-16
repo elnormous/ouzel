@@ -17,7 +17,7 @@ RTSample::RTSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(&rtLayer);
+    rtLayer.setScene(this);
 
     std::shared_ptr<graphics::Texture> renderTarget(new graphics::Texture());
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, false);
@@ -36,7 +36,7 @@ RTSample::RTSample(Samples& aSamples):
 
     layer.addCamera(&camera1);
     layer.addCamera(&camera2);
-    addLayer(&layer);
+    layer.setScene(this);
 
     characterSprite.play(true);
 
@@ -53,12 +53,13 @@ RTSample::RTSample(Samples& aSamples):
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+    backButton.setParent(&menu);
 }
 
 bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)

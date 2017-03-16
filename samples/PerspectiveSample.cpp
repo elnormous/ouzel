@@ -28,7 +28,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     camera.setFarPlane(1000.0f);
     camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
     layer.addCamera(&camera);
-    addLayer(&layer);
+    layer.setScene(this);
 
     // floor
     floorSprite.initFromFile("floor.jpg");
@@ -69,12 +69,13 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+    backButton.setParent(&menu);
 }
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)

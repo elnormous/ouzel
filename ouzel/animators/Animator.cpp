@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Animator.h"
 #include "utils/Utils.h"
 #include "core/Engine.h"
@@ -38,6 +39,15 @@ namespace ouzel
             if (parent)
             {
                 parent->addAnimator(this);
+            }
+        }
+
+        void Animator::removeFromParent()
+        {
+            if (parent)
+            {
+                parent->removeAnimator(this);
+                parent = nullptr;
             }
         }
 
@@ -137,38 +147,19 @@ namespace ouzel
 
         void Animator::addAnimator(Animator* animator)
         {
-            if (animator->parent)
-            {
-                animator->parent->removeAnimator(animator);
-            }
-
-            animator->parent = this;
             animators.push_back(animator);
-        }
-
-        void Animator::removeFromParent()
-        {
-            if (parent)
-            {
-                parent->removeAnimator(this);
-                parent = nullptr;
-            }
+            animator->parent = this;
         }
 
         bool Animator::removeAnimator(Animator* animator)
         {
-            for (auto i = animators.begin(); i != animators.end();)
+            auto i = std::find(animators.begin(), animators.end(), animator);
+
+            if (i != animators.end())
             {
-                if (*i == animator)
-                {
-                    animator->parent = nullptr;
-                    animators.erase(i);
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                animators.erase(i);
+                animator->parent = nullptr;
+                return true;
             }
 
             return true;

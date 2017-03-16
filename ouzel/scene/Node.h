@@ -126,11 +126,6 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            virtual void addChild(Node* node) override;
-
-            void addComponent(Component* component);
-            bool removeComponent(Component* component);
-            
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 
@@ -162,9 +157,15 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            std::vector<Component*> components;
-
             NodeContainer* parent = nullptr;
+
+        private:
+            virtual void addChild(Node* node) override;
+
+            void addComponent(Component* component);
+            bool removeComponent(Component* component);
+            
+            std::vector<Component*> components;
         };
     } // namespace scene
 } // namespace ouzel

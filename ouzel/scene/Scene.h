@@ -20,15 +20,13 @@ namespace ouzel
         class Scene: public Noncopyable
         {
             friend SceneManager;
+            friend Layer;
         public:
             Scene();
             virtual ~Scene();
 
             virtual void draw();
 
-            void addLayer(Layer* layer);
-            void removeLayer(Layer* layer);
-            void removeAllLayers();
             bool hasLayer(Layer* layer) const;
             const std::vector<Layer*>& getLayers() const { return layers; }
 
@@ -39,6 +37,9 @@ namespace ouzel
             std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
+            void addLayer(Layer* layer);
+            bool removeLayer(Layer* layer);
+
             virtual void enter();
             virtual void leave();
 

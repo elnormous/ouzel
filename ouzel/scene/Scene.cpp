@@ -23,12 +23,10 @@ namespace ouzel
 
         Scene::~Scene()
         {
-            if (entered)
+            for (Layer* layer : layers)
             {
-                for (Layer* layer : layers)
-                {
-                    layer->leave();
-                }
+                if (entered) layer->leave();
+                layer->scene = nullptr;
             }
 
             sharedEngine->getSceneManager()->removeScene(this);
@@ -48,44 +46,30 @@ namespace ouzel
 
         void Scene::addLayer(Layer* layer)
         {
-            if (layer && !hasLayer(layer))
+            if (layer)
             {
                 layers.push_back(layer);
-
-                if (entered) layer->enter();
-
                 layer->scene = this;
+                if (entered) layer->enter();
             }
         }
 
-        void Scene::removeLayer(Layer* layer)
+        bool Scene::removeLayer(Layer* layer)
         {
             std::vector<Layer*>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
             if (i != layers.end())
             {
-                if (entered)
-                {
-                    layer->leave();
-                }
-
+                if (entered) layer->leave();
+                layer->scene = nullptr;
                 layers.erase(i);
 
-                layer->scene = nullptr;
+                return true;
             }
-        }
-
-        void Scene::removeAllLayers()
-        {
-            if (entered)
+            else
             {
-                for (Layer* layer : layers)
-                {
-                    layer->leave();
-                }
+                return false;
             }
-
-            layers.clear();
         }
 
         bool Scene::hasLayer(Layer* layer) const

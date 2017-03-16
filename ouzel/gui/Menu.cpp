@@ -53,8 +53,6 @@ namespace ouzel
 
         void Menu::addWidget(Widget* widget)
         {
-            addChild(widget);
-
             if (widget)
             {
                 widgets.push_back(widget);
@@ -66,21 +64,16 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(scene::Node* node)
+        bool Menu::removeWidget(Widget* widget)
         {
-            if (!Node::removeChild(node))
-            {
-                return false;
-            }
-
-            auto i = std::find(widgets.begin(), widgets.end(), node);
+            auto i = std::find(widgets.begin(), widgets.end(), widget);
 
             if (i != widgets.end())
             {
                 widgets.erase(i);
             }
 
-            if (selectedWidget == node)
+            if (selectedWidget == widget)
             {
                 selectWidget(nullptr);
             }

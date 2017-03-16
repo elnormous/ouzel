@@ -25,6 +25,10 @@ namespace ouzel
 
             virtual void draw();
 
+            void setScene(Scene* newScene);
+            Scene* getScene() const { return scene; }
+            void removeFromScene();
+
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
             const std::vector<Camera*>& getCameras() const { return cameras; }

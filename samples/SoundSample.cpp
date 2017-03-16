@@ -47,24 +47,29 @@ SoundSample::SoundSample(Samples& aSamples):
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);
 
     test8BitButton.setPosition(Vector2(0.0f, 80.0f));
     menu.addWidget(&test8BitButton);
+    test8BitButton.setParent(&menu);
 
     test24BitButton.setPosition(Vector2(0.0f, 40.0f));
     menu.addWidget(&test24BitButton);
+    test24BitButton.setParent(&menu);
 
     jumpButton.setPosition(Vector2(0.0f, 0.0f));
     menu.addWidget(&jumpButton);
+    jumpButton.setParent(&menu);
 
     ambientButton.setPosition(Vector2(0.0f, -40.0f));
     menu.addWidget(&ambientButton);
+    ambientButton.setParent(&menu);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+    backButton.setParent(&menu);
 }
 
 bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)

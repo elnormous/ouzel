@@ -42,6 +42,15 @@ namespace ouzel
             }
         }
 
+        void Component::removeFromNode()
+        {
+            if (node)
+            {
+                node->removeComponent(this);
+                node = nullptr;
+            }
+        }
+
         bool Component::pointOn(const Vector2& position) const
         {
             return boundingBox.containsPoint(position);

@@ -18,7 +18,7 @@ GameSample::GameSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(&layer);
+    layer.setScene(this);
     layer.addCamera(&camera);
 }
 

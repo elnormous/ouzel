@@ -28,7 +28,7 @@ MainMenu::MainMenu(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(&layer);
+    layer.setScene(this);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(400.0f, 600.0f));
@@ -37,27 +37,35 @@ MainMenu::MainMenu(Samples& aSamples):
 
     gitHubButton.setPosition(Vector2(0.0f, 120.0f));
     menu.addWidget(&gitHubButton);
+    gitHubButton.setParent(&menu);
 
     spritesButton.setPosition(Vector2(0.0f, 80.0f));
     menu.addWidget(&spritesButton);
+    spritesButton.setParent(&menu);
 
     guiButton.setPosition(Vector2(0.0f, 40.0f));
     menu.addWidget(&guiButton);
+    guiButton.setParent(&menu);
 
     renderTargetButton.setPosition(Vector2(0.0f, 0.0f));
     menu.addWidget(&renderTargetButton);
+    renderTargetButton.setParent(&menu);
 
     animationsButton.setPosition(Vector2(0.0f, -40.0f));
     menu.addWidget(&animationsButton);
+    animationsButton.setParent(&menu);
 
     inputButton.setPosition(Vector2(0.0f, -80.0f));
     menu.addWidget(&inputButton);
+    inputButton.setParent(&menu);
 
     soundButton.setPosition(Vector2(0.0f, -120.0f));
     menu.addWidget(&soundButton);
+    soundButton.setParent(&menu);
 
     perspectiveButton.setPosition(Vector2(0.0f, -160.0f));
     menu.addWidget(&perspectiveButton);
+    perspectiveButton.setParent(&menu);
 }
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)

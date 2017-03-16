@@ -334,13 +334,11 @@ namespace ouzel
 
         void Node::addComponent(Component* component)
         {
-            if (component->node)
+            if (component)
             {
-                component->node->removeComponent(component);
+                components.push_back(component);
+                component->node = this;
             }
-
-            component->node = this;
-            components.push_back(component);
         }
 
         bool Node::removeComponent(Component* component)
@@ -349,8 +347,8 @@ namespace ouzel
             {
                 if (*i == component)
                 {
-                    component->node = nullptr;
                     components.erase(i);
+                    component->node = nullptr;
                     return true;
                 }
                 else

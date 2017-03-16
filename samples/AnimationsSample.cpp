@@ -19,7 +19,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
-    addLayer(&layer);
+    layer.setScene(this);
 
     shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
     shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false);
@@ -87,12 +87,13 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+    backButton.setParent(&menu);
 }
 
 bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event)

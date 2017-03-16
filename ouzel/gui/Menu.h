@@ -18,7 +18,7 @@ namespace ouzel
             virtual void setEnabled(bool newEnabled) override;
 
             virtual void addWidget(Widget* widget);
-            virtual bool removeChild(Node* node) override;
+            virtual bool removeWidget(Widget* widget);
 
             void selectWidget(Widget* widget);
             virtual void selectNextWidget();

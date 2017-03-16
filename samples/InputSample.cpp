@@ -22,7 +22,7 @@ InputSample::InputSample(Samples& aSamples):
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
     layer.addCamera(&camera);
-    addLayer(&layer);
+    layer.setScene(this);
 
     flameParticleSystem.initFromFile("flame.json");
 
@@ -33,16 +33,18 @@ InputSample::InputSample(Samples& aSamples):
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer.addCamera(&guiCamera);
-    addLayer(&guiLayer);
+    guiLayer.setScene(this);
 
     menu.setParent(&guiLayer);
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 200.0f));
     menu.addWidget(button.get());
+    button->setParent(&menu);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
     menu.addWidget(&backButton);
+    backButton.setParent(&menu);
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)

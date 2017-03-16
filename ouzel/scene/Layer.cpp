@@ -52,6 +52,30 @@ namespace ouzel
             }
         }
 
+        void Layer::setScene(Scene* newScene)
+        {
+            if (scene)
+            {
+                scene->removeLayer(this);
+            }
+
+            scene = newScene;
+
+            if (scene)
+            {
+                scene->addLayer(this);
+            }
+        }
+
+        void Layer::removeFromScene()
+        {
+            if (scene)
+            {
+                scene->removeLayer(this);
+                scene = nullptr;
+            }
+        }
+
         void Layer::addChild(Node* node)
         {
             NodeContainer::addChild(node);
