@@ -74,7 +74,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     menu.setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton.setMenu(&menu);
     backButton.setParent(&menu);
 }
 

@@ -39,11 +39,11 @@ InputSample::InputSample(Samples& aSamples):
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 200.0f));
-    menu.addWidget(button.get());
+    button->setMenu(&menu);
     button->setParent(&menu);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton.setMenu(&menu);
     backButton.setParent(&menu);
 }
 

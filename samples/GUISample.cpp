@@ -25,17 +25,17 @@ GUISample::GUISample(Samples& aSamples):
 
     button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 100.0f));
-    menu.addWidget(button.get());
+    button->setMenu(&menu);
     button->setParent(&menu);
 
     checkBox.reset(new gui::CheckBox("checkbox.png", "", "", "", "tick.png"));
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
-    menu.addWidget(checkBox.get());
+    checkBox->setMenu(&menu);
     checkBox->setParent(&menu);
 
     fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
-    menu.addWidget(fullscreenButton.get());
+    fullscreenButton->setMenu(&menu);
     fullscreenButton->setParent(&menu);
 
     label1.reset(new gui::Label("checkbox", "arial.fnt"));
@@ -57,7 +57,7 @@ GUISample::GUISample(Samples& aSamples):
     label3->setParent(&guiLayer);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton.setMenu(&menu);
     backButton.setParent(&menu);
 }
 

@@ -36,35 +36,35 @@ MainMenu::MainMenu(Samples& aSamples):
     menu.setParent(&layer);
 
     gitHubButton.setPosition(Vector2(0.0f, 120.0f));
-    menu.addWidget(&gitHubButton);
+    gitHubButton.setMenu(&menu);
     gitHubButton.setParent(&menu);
 
     spritesButton.setPosition(Vector2(0.0f, 80.0f));
-    menu.addWidget(&spritesButton);
+    spritesButton.setMenu(&menu);
     spritesButton.setParent(&menu);
 
     guiButton.setPosition(Vector2(0.0f, 40.0f));
-    menu.addWidget(&guiButton);
+    guiButton.setMenu(&menu);
     guiButton.setParent(&menu);
 
     renderTargetButton.setPosition(Vector2(0.0f, 0.0f));
-    menu.addWidget(&renderTargetButton);
+    renderTargetButton.setMenu(&menu);
     renderTargetButton.setParent(&menu);
 
     animationsButton.setPosition(Vector2(0.0f, -40.0f));
-    menu.addWidget(&animationsButton);
+    animationsButton.setMenu(&menu);
     animationsButton.setParent(&menu);
 
     inputButton.setPosition(Vector2(0.0f, -80.0f));
-    menu.addWidget(&inputButton);
+    inputButton.setMenu(&menu);
     inputButton.setParent(&menu);
 
     soundButton.setPosition(Vector2(0.0f, -120.0f));
-    menu.addWidget(&soundButton);
+    soundButton.setMenu(&menu);
     soundButton.setParent(&menu);
 
     perspectiveButton.setPosition(Vector2(0.0f, -160.0f));
-    menu.addWidget(&perspectiveButton);
+    perspectiveButton.setMenu(&menu);
     perspectiveButton.setParent(&menu);
 }
 

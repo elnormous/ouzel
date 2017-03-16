@@ -57,16 +57,16 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
-    menu.addWidget(hideButton.get());
+    hideButton->setMenu(&menu);
     hideButton->setParent(&menu);
 
     wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
-    menu.addWidget(wireframeButton.get());
+    wireframeButton->setMenu(&menu);
     wireframeButton->setParent(&menu);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton.setMenu(&menu);
     backButton.setParent(&menu);
 }
 

@@ -19,6 +19,14 @@ namespace ouzel
             eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1, std::placeholders::_2);
         }
 
+        Menu::~Menu()
+        {
+            for (Widget* widget : widgets)
+            {
+                widget->menu = nullptr;
+            }
+        }
+
         void Menu::enter()
         {
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
@@ -56,6 +64,7 @@ namespace ouzel
             if (widget)
             {
                 widgets.push_back(widget);
+                widget->menu = this;
 
                 if (!selectedWidget)
                 {
@@ -70,6 +79,7 @@ namespace ouzel
 
             if (i != widgets.end())
             {
+                widget->menu = nullptr;
                 widgets.erase(i);
             }
 

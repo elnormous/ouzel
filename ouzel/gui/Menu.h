@@ -12,19 +12,20 @@ namespace ouzel
     {
         class Menu: public Widget
         {
+            friend Widget;
         public:
             Menu();
+            virtual ~Menu();
 
             virtual void setEnabled(bool newEnabled) override;
-
-            virtual void addWidget(Widget* widget);
-            virtual bool removeWidget(Widget* widget);
 
             void selectWidget(Widget* widget);
             virtual void selectNextWidget();
             virtual void selectPreviousWidget();
 
         protected:
+            virtual void addWidget(Widget* widget);
+            virtual bool removeWidget(Widget* widget);
             virtual void enter() override;
             virtual void leave() override;
 

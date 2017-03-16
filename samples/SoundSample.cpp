@@ -52,23 +52,23 @@ SoundSample::SoundSample(Samples& aSamples):
     menu.setParent(&guiLayer);
 
     test8BitButton.setPosition(Vector2(0.0f, 80.0f));
-    menu.addWidget(&test8BitButton);
+    test8BitButton.setMenu(&menu);
     test8BitButton.setParent(&menu);
 
     test24BitButton.setPosition(Vector2(0.0f, 40.0f));
-    menu.addWidget(&test24BitButton);
+    test24BitButton.setMenu(&menu);
     test24BitButton.setParent(&menu);
 
     jumpButton.setPosition(Vector2(0.0f, 0.0f));
-    menu.addWidget(&jumpButton);
+    jumpButton.setMenu(&menu);
     jumpButton.setParent(&menu);
 
     ambientButton.setPosition(Vector2(0.0f, -40.0f));
-    menu.addWidget(&ambientButton);
+    ambientButton.setMenu(&menu);
     ambientButton.setParent(&menu);
 
     backButton.setPosition(Vector2(-200.0f, -200.0f));
-    menu.addWidget(&backButton);
+    backButton.setMenu(&menu);
     backButton.setParent(&menu);
 }
 
