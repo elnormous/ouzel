@@ -50,6 +50,7 @@ namespace ouzel
 
             void setLayer(Layer* newLayer);
             Layer* getLayer() const { return layer; }
+            void removeFromLayer();
 
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();

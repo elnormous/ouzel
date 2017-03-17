@@ -138,6 +138,7 @@ namespace ouzel
             if (parent)
             {
                 parent->removeChild(this);
+                parent = nullptr;
             }
         }
 

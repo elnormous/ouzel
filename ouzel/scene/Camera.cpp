@@ -40,6 +40,15 @@ namespace ouzel
             }
         }
 
+        void Camera::removeFromLayer()
+        {
+            if (layer)
+            {
+                layer->removeCamera(this);
+                layer = nullptr;
+            }
+        }
+
         void Camera::calculateTransform() const
         {
             Node::calculateTransform();
