@@ -75,7 +75,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -88,7 +88,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
         else if (event.node == test8BitButton)
         {
@@ -118,7 +118,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

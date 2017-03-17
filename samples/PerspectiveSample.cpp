@@ -83,7 +83,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     {
         if (event.node == backButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -111,7 +111,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 rotation.setEulerAngles(Vector3(0.0f, TAU / 100.0f, 0.0f));
                 break;
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             case input::KeyboardKey::TAB:
                 jumpSound->play();
@@ -172,7 +172,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 

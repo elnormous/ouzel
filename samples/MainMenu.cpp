@@ -88,31 +88,31 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
         }
         else if (event.node == spritesButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new SpritesSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new SpritesSample(samples)));
         }
         else if (event.node == guiButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new GUISample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new GUISample(samples)));
         }
         else if (event.node == renderTargetButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new RTSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new RTSample(samples)));
         }
         else if (event.node == animationsButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new AnimationsSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new AnimationsSample(samples)));
         }
         else if (event.node == inputButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new InputSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new InputSample(samples)));
         }
         else if (event.node == soundButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new SoundSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new SoundSample(samples)));
         }
         else if (event.node == perspectiveButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new PerspectiveSample(samples)));
         }
     }
 

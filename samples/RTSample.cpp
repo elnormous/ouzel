@@ -68,7 +68,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -79,7 +79,7 @@ bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
     {
-        samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+        samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
     }
 
     return true;
@@ -92,7 +92,7 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

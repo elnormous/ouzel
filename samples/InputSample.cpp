@@ -86,7 +86,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             default:
                 break;
@@ -136,7 +136,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         switch (event.button)
         {
             case input::GamepadButton::B:
-                if (event.pressed) samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                if (event.pressed) samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -176,7 +176,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.node == backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
         else if (event.node == button)
         {
