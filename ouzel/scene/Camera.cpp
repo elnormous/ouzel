@@ -18,6 +18,7 @@ namespace ouzel
         Camera::Camera(Type aType, float aFov, float aNearPlane, float aFarPlane):
             type(aType), fov(aFov), nearPlane(aNearPlane), farPlane(aFarPlane)
         {
+            recalculateProjection();
         }
 
         Camera::~Camera()
