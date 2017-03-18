@@ -24,7 +24,7 @@ private:
     
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::gui::Button> button;
+    ouzel::gui::Button button;
     ouzel::scene::ParticleSystem flameParticleSystem;
     ouzel::scene::Node flame;
 
