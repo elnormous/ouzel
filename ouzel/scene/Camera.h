@@ -109,6 +109,10 @@ namespace ouzel
             Vector2 contentScale;
             Vector2 contentPosition;
 
+            bool depthWrite = false;
+            bool depthTest = false;
+            bool wireframe = false;
+
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
             mutable Matrix4 renderViewProjection;
@@ -119,10 +123,6 @@ namespace ouzel
             Layer* layer = nullptr;
 
             std::shared_ptr<graphics::Texture> renderTarget;
-
-            bool depthWrite = false;
-            bool depthTest = false;
-            bool wireframe = false;
         };
     } // namespace scene
 } // namespace ouzel
