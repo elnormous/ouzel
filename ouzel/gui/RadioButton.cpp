@@ -11,5 +11,19 @@ namespace ouzel
         {
             pickable = true;
         }
+
+        void RadioButton::setEnabled(bool enabled)
+        {
+            Widget::setEnabled(enabled);
+
+            selected = false;
+            pointerOver = false;
+            pressed = false;
+        }
+
+        void RadioButton::setChecked(bool newChecked)
+        {
+            checked = newChecked;
+        }
     } // namespace gui
 } // namespace ouzel
