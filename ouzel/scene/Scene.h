@@ -17,7 +17,7 @@ namespace ouzel
         class SceneManager;
         class Layer;
 
-        class Scene: public Noncopyable, public std::enable_shared_from_this<Scene>
+        class Scene: public Noncopyable
         {
             friend SceneManager;
         public:
