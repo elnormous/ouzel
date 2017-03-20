@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Widget.h"
+#include "Menu.h"
 
 namespace ouzel
 {

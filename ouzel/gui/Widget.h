@@ -17,6 +17,8 @@ namespace ouzel
         public:
             Widget();
 
+            Menu* getMenu() const { return menu; }
+
             virtual void setEnabled(bool newEnabled);
             bool isEnabled() const { return enabled; }
 
@@ -25,6 +27,7 @@ namespace ouzel
         protected:
             virtual void setSelected(bool newSelected);
 
+            Menu* menu = nullptr;
             bool enabled = true;
             bool selected = false;
         };

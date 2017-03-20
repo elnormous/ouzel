@@ -47,6 +47,9 @@ namespace ouzel
             void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
             float getFarPlane() const { return farPlane; }
 
+            Layer* getLayer() const { return layer; }
+            void removeFromLayer();
+
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();
 
@@ -104,6 +107,10 @@ namespace ouzel
             Vector2 contentScale;
             Vector2 contentPosition;
 
+            bool depthWrite = false;
+            bool depthTest = false;
+            bool wireframe = false;
+
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;
             mutable Matrix4 renderViewProjection;
@@ -111,13 +118,9 @@ namespace ouzel
             mutable bool inverseViewProjectionDirty = false;
             mutable Matrix4 inverseViewProjection;
 
-            std::weak_ptr<Layer> layer;
+            Layer* layer = nullptr;
 
             std::shared_ptr<graphics::Texture> renderTarget;
-
-            bool depthWrite = false;
-            bool depthTest = false;
-            bool wireframe = false;
         };
     } // namespace scene
 } // namespace ouzel

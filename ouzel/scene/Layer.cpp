@@ -19,6 +19,14 @@ namespace ouzel
         {
         }
 
+        Layer::~Layer()
+        {
+            for (auto& camera : cameras)
+            {
+                camera->layer = nullptr;
+            }
+        }
+
         void Layer::draw()
         {
             for (const std::shared_ptr<Camera>& camera : cameras)
@@ -56,15 +64,13 @@ namespace ouzel
         {
             if (camera)
             {
-                std::shared_ptr<Layer> oldLayer = camera->layer.lock();
-
-                if (oldLayer)
+                if (camera->layer)
                 {
-                    oldLayer->removeCamera(camera);
+                    camera->layer->removeCamera(camera);
                 }
 
                 cameras.push_back(camera);
-                camera->layer = std::static_pointer_cast<Layer>(shared_from_this());
+                camera->layer = this;
                 if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
                 camera->recalculateProjection();
             }
@@ -76,7 +82,7 @@ namespace ouzel
 
             if (i != cameras.end())
             {
-                camera->layer.reset();
+                camera->layer = nullptr;
                 cameras.erase(i);
             }
         }

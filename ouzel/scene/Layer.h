@@ -21,6 +21,7 @@ namespace ouzel
             friend Scene;
         public:
             Layer();
+            virtual ~Layer();
 
             virtual void draw();
 

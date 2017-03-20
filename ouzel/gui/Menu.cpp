@@ -57,6 +57,12 @@ namespace ouzel
 
             if (widget)
             {
+                if (widget->menu)
+                {
+                    widget->menu->removeChild(widget);
+                }
+
+                widget->menu = this;
                 widgets.push_back(widget);
 
                 if (!selectedWidget)
