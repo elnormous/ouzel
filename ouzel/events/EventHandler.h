@@ -31,5 +31,6 @@ namespace ouzel
 
     protected:
         int32_t priority;
+        EventDispatcher* eventDispatcher = nullptr;
     };
 }

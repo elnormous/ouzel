@@ -52,8 +52,8 @@ namespace ouzel
         bool isRunning() const { return running; }
         bool isActive() const { return active; }
 
-        void scheduleUpdate(const UpdateCallback* callback);
-        void unscheduleUpdate(const UpdateCallback* callback);
+        void scheduleUpdate(UpdateCallback* callback);
+        void unscheduleUpdate(UpdateCallback* callback);
 
         void update();
         void stop();
@@ -74,9 +74,9 @@ namespace ouzel
 
         std::chrono::steady_clock::time_point previousUpdateTime;
 
-        std::vector<const UpdateCallback*> updateCallbacks;
-        std::set<const UpdateCallback*> updateCallbackAddSet;
-        std::set<const UpdateCallback*> updateCallbackDeleteSet;
+        std::vector<UpdateCallback*> updateCallbacks;
+        std::set<UpdateCallback*> updateCallbackAddSet;
+        std::set<UpdateCallback*> updateCallbackDeleteSet;
 
 #if OUZEL_MULTITHREADED
         std::thread updateThread;

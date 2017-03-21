@@ -9,6 +9,6 @@ namespace ouzel
 {
     EventHandler::~EventHandler()
     {
-        sharedEngine->getEventDispatcher()->removeEventHandler(this);
+        if (eventDispatcher) eventDispatcher->removeEventHandler(this);
     }
 }

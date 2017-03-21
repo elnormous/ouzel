@@ -8,6 +8,6 @@ namespace ouzel
 {
     UpdateCallback::~UpdateCallback()
     {
-        sharedEngine->unscheduleUpdate(this);
+        if (engine) engine->unscheduleUpdate(this);
     }
 }

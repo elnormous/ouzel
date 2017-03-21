@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "EventDispatcher.h"
+#include "EventHandler.h"
 
 namespace ouzel
 {
@@ -12,11 +13,20 @@ namespace ouzel
 
     EventDispatcher::~EventDispatcher()
     {
+        for (EventHandler* eventHandler : eventHandlerAddSet)
+        {
+            eventHandler->eventDispatcher = nullptr;
+        }
+
+        for (EventHandler* eventHandler : eventHandlers)
+        {
+            eventHandler->eventDispatcher = nullptr;
+        }
     }
 
     void EventDispatcher::dispatchEvents()
     {
-        for (const EventHandler* eventHandler : eventHandlerDeleteSet)
+        for (EventHandler* eventHandler : eventHandlerDeleteSet)
         {
             auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
@@ -26,7 +36,7 @@ namespace ouzel
             }
         }
 
-        for (const EventHandler* eventHandler : eventHandlerAddSet)
+        for (EventHandler* eventHandler : eventHandlerAddSet)
         {
             auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
 
@@ -147,8 +157,15 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::addEventHandler(const EventHandler* eventHandler)
+    void EventDispatcher::addEventHandler(EventHandler* eventHandler)
     {
+        if (eventHandler->eventDispatcher)
+        {
+            eventHandler->eventDispatcher->removeEventHandler(eventHandler);
+        }
+
+        eventHandler->eventDispatcher = this;
+
         eventHandlerAddSet.insert(eventHandler);
 
         auto setIterator = eventHandlerDeleteSet.find(eventHandler);
@@ -159,8 +176,13 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::removeEventHandler(const EventHandler* eventHandler)
+    void EventDispatcher::removeEventHandler(EventHandler* eventHandler)
     {
+        if (eventHandler->eventDispatcher == this)
+        {
+            eventHandler->eventDispatcher = nullptr;
+        }
+
         eventHandlerDeleteSet.insert(eventHandler);
 
         auto setIterator = eventHandlerAddSet.find(eventHandler);

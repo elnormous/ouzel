@@ -22,17 +22,17 @@ namespace ouzel
 
         void dispatchEvents();
 
-        void addEventHandler(const EventHandler* eventHandler);
-        void removeEventHandler(const EventHandler* eventHandler);
+        void addEventHandler(EventHandler* eventHandler);
+        void removeEventHandler(EventHandler* eventHandler);
 
         void postEvent(const Event& event);
 
     protected:
         EventDispatcher();
 
-        std::vector<const EventHandler*> eventHandlers;
-        std::set<const EventHandler*> eventHandlerAddSet;
-        std::set<const EventHandler*> eventHandlerDeleteSet;
+        std::vector<EventHandler*> eventHandlers;
+        std::set<EventHandler*> eventHandlerAddSet;
+        std::set<EventHandler*> eventHandlerDeleteSet;
 
         std::mutex eventQueueMutex;
         std::queue<Event> eventQueue;

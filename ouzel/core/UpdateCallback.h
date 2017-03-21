@@ -23,5 +23,6 @@ namespace ouzel
 
     protected:
         int32_t priority;
+        Engine* engine = nullptr;
     };
 }

@@ -95,6 +95,16 @@ namespace ouzel
         running = false;
         active = false;
 
+        for (UpdateCallback* updateCallback : updateCallbackAddSet)
+        {
+            updateCallback->engine = nullptr;
+        }
+
+        for (UpdateCallback* updateCallback : updateCallbacks)
+        {
+            updateCallback->engine = nullptr;
+        }
+
 #if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
 #endif
@@ -384,7 +394,7 @@ namespace ouzel
                 renderer->flushDrawCommands();
             }
 
-            for (const UpdateCallback* updateCallback : updateCallbackDeleteSet)
+            for (UpdateCallback* updateCallback : updateCallbackDeleteSet)
             {
                 auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
 
@@ -394,7 +404,7 @@ namespace ouzel
                 }
             }
 
-            for (const UpdateCallback* updateCallback : updateCallbackAddSet)
+            for (UpdateCallback* updateCallback : updateCallbackAddSet)
             {
                 auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
 
@@ -465,8 +475,15 @@ namespace ouzel
         return active;
     }
 
-    void Engine::scheduleUpdate(const UpdateCallback* callback)
+    void Engine::scheduleUpdate(UpdateCallback* callback)
     {
+        if (callback->engine)
+        {
+            callback->engine->unscheduleUpdate(callback);
+        }
+
+        callback->engine = this;
+
         updateCallbackAddSet.insert(callback);
 
         auto setIterator = updateCallbackDeleteSet.find(callback);
@@ -477,8 +494,13 @@ namespace ouzel
         }
     }
 
-    void Engine::unscheduleUpdate(const UpdateCallback* callback)
+    void Engine::unscheduleUpdate(UpdateCallback* callback)
     {
+        if (callback->engine == this)
+        {
+            callback->engine = nullptr;
+        }
+
         updateCallbackDeleteSet.insert(callback);
 
         auto setIterator = updateCallbackAddSet.find(callback);
