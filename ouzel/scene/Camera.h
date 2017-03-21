@@ -48,7 +48,6 @@ namespace ouzel
             float getFarPlane() const { return farPlane; }
 
             Layer* getLayer() const { return layer; }
-            void removeFromLayer();
 
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();
