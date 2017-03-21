@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <functional>
 #include "scene/Component.h"
 #include "core/UpdateCallback.h"
@@ -19,10 +20,6 @@ namespace ouzel
         public:
             Animator(float aLength);
             virtual ~Animator();
-
-            void setParent(Animator* newParent);
-            Animator* getParnet() const { return parent; }
-            void removeFromParent();
 
             virtual void update(float delta);
 
@@ -45,9 +42,8 @@ namespace ouzel
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
         protected:
-            virtual void addAnimator(Animator* animator);
-            virtual bool removeAnimator(Animator* animator);
-
+            void addAnimator(const std::shared_ptr<Animator>& animator);
+            bool removeAnimator(const std::shared_ptr<Animator>& animator);
             virtual void updateProgress();
 
             float length = 0.0f;
@@ -63,7 +59,7 @@ namespace ouzel
 
             UpdateCallback updateCallback;
 
-            std::vector<Animator*> animators;
+            std::vector<std::shared_ptr<Animator>> animators;
         };
     } // namespace scene
 } // namespace ouzel

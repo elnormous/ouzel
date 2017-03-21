@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -21,15 +22,15 @@ namespace ouzel
 
             void draw();
 
-            void setScene(Scene* newScene);
-            const Scene* getScene() const { return scene; }
-            void removeScene(Scene* oldScene);
+            void setScene(const std::shared_ptr<Scene>& newScene);
+            const std::shared_ptr<Scene>& getScene() const { return scene; }
+            void removeScene(const std::shared_ptr<Scene>& oldScene);
 
         protected:
             SceneManager();
 
-            Scene* scene = nullptr;
-            Scene* nextScene = nullptr;
+            std::shared_ptr<Scene> scene = nullptr;
+            std::shared_ptr<Scene> nextScene = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

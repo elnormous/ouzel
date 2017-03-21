@@ -18,36 +18,6 @@ namespace ouzel
         Camera::Camera(Type aType, float aFov, float aNearPlane, float aFarPlane):
             type(aType), fov(aFov), nearPlane(aNearPlane), farPlane(aFarPlane)
         {
-            recalculateProjection();
-        }
-
-        Camera::~Camera()
-        {
-            if (layer) layer->removeCamera(this);
-        }
-
-        void Camera::setLayer(Layer* newLayer)
-        {
-            if (layer)
-            {
-                layer->removeCamera(this);
-            }
-
-            layer = newLayer;
-
-            if (layer)
-            {
-                layer->addCamera(this);
-            }
-        }
-
-        void Camera::removeFromLayer()
-        {
-            if (layer)
-            {
-                layer->removeCamera(this);
-                layer = nullptr;
-            }
         }
 
         void Camera::calculateTransform() const

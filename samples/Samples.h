@@ -8,7 +8,7 @@ class Samples: public ouzel::Noncopyable
 public:
     void begin(const std::string& sample);
 
-    void setScene(std::unique_ptr<ouzel::scene::Scene>&& scene);
+    void setScene(const std::shared_ptr<ouzel::scene::Scene>& scene);
     
-    std::unique_ptr<ouzel::scene::Scene> currentScene;
+    std::shared_ptr<ouzel::scene::Scene> currentScene;
 };

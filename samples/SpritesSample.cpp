@@ -9,65 +9,76 @@ using namespace ouzel;
 
 SpritesSample::SpritesSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0f, 600.0f));
-    camera.setLayer(&layer);
-    layer.setScene(this);
+    camera = std::make_shared<scene::Camera>();
+    camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera->setTargetContentSize(Size2(800.0f, 600.0f));
+
+    layer = std::make_shared<scene::Layer>();
+    layer->addCamera(camera);
+    addLayer(layer);
 
     // character
-    characterSprite.initFromFile("run.json");
-    characterSprite.play(true);
+    characterSprite = std::make_shared<scene::Sprite>();
+    characterSprite->initFromFile("run.json");
+    characterSprite->play(true);
 
-    characterSprite.setNode(&character);
-    character.setParent(&layer);
-    character.setPosition(Vector2(-300.0f, 0.0f));
+    character = std::make_shared<scene::Node>();
+    character->addComponent(characterSprite);
+    layer->addChild(character);
+    character->setPosition(Vector2(-300.0f, 0.0f));
 
-    move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    move->setNode(&character);
+    move = std::make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f));
+    character->addComponent(move);
     move->start();
 
     // fire
-    fireSprite.initFromFile("fire.json");
-    fireSprite.setOffset(Vector2(0.0f, 20.0f));
-    fireSprite.play(true);
+    fireSprite = std::make_shared<scene::Sprite>();
+    fireSprite->initFromFile("fire.json");
+    fireSprite->setOffset(Vector2(0.0f, 20.0f));
+    fireSprite->play(true);
 
-    fireSprite.setNode(&fireNode);
-    fireNode.setPosition(Vector2(-100.0f, -140.0f));
-    fireNode.setParent(&layer);
+    fireNode = std::make_shared<scene::Node>();
+    fireNode->addComponent(fireSprite);
+    fireNode->setPosition(Vector2(-100.0f, -140.0f));
+    layer->addChild(fireNode);
 
     // triangle
-    triangleSprite.initFromFile("triangle.json");
-    triangleSprite.setNode(&triangleNode);
-    triangleNode.setPosition(Vector2(100.0f, -140.0f));
-    triangleNode.setParent(&layer);
+    triangleSprite = std::make_shared<scene::Sprite>();
+    triangleSprite->initFromFile("triangle.json");
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiCamera.setLayer(&guiLayer);
-    guiLayer.setScene(this);
+    triangleNode = std::make_shared<scene::Node>();
+    triangleNode->addComponent(triangleSprite);
+    triangleNode->setPosition(Vector2(100.0f, -140.0f));
+    layer->addChild(triangleNode);
 
-    menu.setParent(&guiLayer);
+    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
+
+    menu = std::make_shared<gui::Menu>();
+    guiLayer->addChild(menu);
+
+    hideButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
-    hideButton->setMenu(&menu);
-    hideButton->setParent(&menu);
+    menu->addWidget(hideButton);
 
-    wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    wireframeButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
-    wireframeButton->setMenu(&menu);
-    wireframeButton->setParent(&menu);
+    menu->addWidget(wireframeButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    backButton.setMenu(&menu);
-    backButton.setParent(&menu);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -77,7 +88,7 @@ bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -88,17 +99,17 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == hideButton.get())
+        else if (event.node == hideButton)
         {
-            character.setHidden(!character.isHidden());
+            character->setHidden(!character->isHidden());
         }
-        else if (event.node == wireframeButton.get())
+        else if (event.node == wireframeButton)
         {
-            camera.setWireframe(!camera.getWireframe());
+            camera->setWireframe(!camera->getWireframe());
         }
     }
 
@@ -112,7 +123,7 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

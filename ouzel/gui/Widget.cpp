@@ -12,34 +12,6 @@ namespace ouzel
         {
         }
 
-        Widget::~Widget()
-        {
-            if (menu) menu->removeWidget(this);
-        }
-
-        void Widget::setMenu(Menu* newMenu)
-        {
-            if (menu)
-            {
-                menu->removeWidget(this);
-            }
-
-            menu = newMenu;
-
-            if (menu)
-            {
-                menu->addWidget(this);
-            }
-        }
-
-        void Widget::removeFromMenu()
-        {
-            if (menu)
-            {
-                menu->removeWidget(this);
-            }
-        }
-
         void Widget::setEnabled(bool newEnabled)
         {
             enabled = newEnabled;

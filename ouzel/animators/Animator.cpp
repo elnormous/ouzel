@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "Animator.h"
 #include "utils/Utils.h"
 #include "core/Engine.h"
@@ -19,35 +18,9 @@ namespace ouzel
 
         Animator::~Animator()
         {
-            for (Animator* animator : animators)
+            for (const auto& animator : animators)
             {
                 animator->parent = nullptr;
-            }
-
-            if (parent) parent->removeAnimator(this);
-        }
-
-        void Animator::setParent(Animator* newParent)
-        {
-            if (parent)
-            {
-                parent->removeAnimator(this);
-            }
-
-            parent = newParent;
-
-            if (parent)
-            {
-                parent->addAnimator(this);
-            }
-        }
-
-        void Animator::removeFromParent()
-        {
-            if (parent)
-            {
-                parent->removeAnimator(this);
-                parent = nullptr;
             }
         }
 
@@ -96,12 +69,15 @@ namespace ouzel
 
             targetNode = node;
 
-            if (!targetNode && parent)
+            if (!targetNode)
             {
-                targetNode = parent->targetNode;
+                if (parent)
+                {
+                    targetNode = parent->targetNode;
+                }
             }
 
-            for (Animator* animator : animators)
+            for (const auto& animator : animators)
             {
                 animator->play();
             }
@@ -127,7 +103,7 @@ namespace ouzel
             done = false;
             setProgress(0.0f);
 
-            for (Animator* animator : animators)
+            for (const auto& animator : animators)
             {
                 animator->reset();
             }
@@ -145,21 +121,35 @@ namespace ouzel
         {
         }
 
-        void Animator::addAnimator(Animator* animator)
+        void Animator::addAnimator(const std::shared_ptr<Animator>& animator)
         {
-            animators.push_back(animator);
-            animator->parent = this;
+            if (animator)
+            {
+                if (animator->parent)
+                {
+                    animator->parent->removeAnimator(animator);
+                }
+
+                animator->parent = this;
+
+                animators.push_back(animator);
+            }
         }
 
-        bool Animator::removeAnimator(Animator* animator)
+        bool Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
-            auto i = std::find(animators.begin(), animators.end(), animator);
-
-            if (i != animators.end())
+            for (auto i = animators.begin(); i != animators.end();)
             {
-                animator->parent = nullptr;
-                animators.erase(i);
-                return true;
+                if (*i == animator)
+                {
+                    animator->parent = nullptr;
+                    animators.erase(i);
+                    return true;
+                }
+                else
+                {
+                    ++i;
+                }
             }
 
             return true;

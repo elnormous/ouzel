@@ -60,15 +60,15 @@ void Samples::begin(const std::string& sample)
         currentScene.reset(new MainMenu(*this));
     }
 
-    sharedEngine->getSceneManager()->setScene(currentScene.get());
+    sharedEngine->getSceneManager()->setScene(currentScene);
 }
 
-void Samples::setScene(std::unique_ptr<ouzel::scene::Scene>&& scene)
+void Samples::setScene(const std::shared_ptr<ouzel::scene::Scene>& scene)
 {
-    currentScene = std::forward<std::unique_ptr<scene::Scene>>(scene);
+    currentScene = scene;
 
     if (currentScene)
     {
-        sharedEngine->getSceneManager()->setScene(currentScene.get());
+        sharedEngine->getSceneManager()->setScene(currentScene);
     }
 }

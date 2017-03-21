@@ -18,7 +18,7 @@ namespace ouzel
         {
         }
 
-        void SceneManager::setScene(Scene* newScene)
+        void SceneManager::setScene(const std::shared_ptr<Scene>& newScene)
         {
             if (scene != newScene)
             {
@@ -26,7 +26,7 @@ namespace ouzel
             }
         }
 
-        void SceneManager::removeScene(Scene* oldScene)
+        void SceneManager::removeScene(const std::shared_ptr<Scene>& oldScene)
         {
             if (scene == oldScene) scene = nullptr;
             if (nextScene == oldScene) nextScene = nullptr;

@@ -18,10 +18,11 @@ namespace ouzel
                      const std::string& fontFile,
                      Color color,
                      const Vector2& textAnchor):
-            text(aText), labelDrawable(fontFile, true, text, color, textAnchor)
+            text(aText),
+            labelDrawable(std::make_shared<scene::TextDrawable>(fontFile, true, text, color, textAnchor))
         {
-            labelDrawable.setText(text);
-            labelDrawable.setNode(this);
+            addComponent(labelDrawable);
+            labelDrawable->setText(text);
 
             pickable = true;
         }
@@ -29,7 +30,7 @@ namespace ouzel
         void Label::setText(const std::string& newText)
         {
             text = newText;
-            labelDrawable.setText(text);
+            labelDrawable->setText(text);
         }
     } // namespace gui
 } // namespace ouzel

@@ -3,8 +3,10 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "scene/NodeContainer.h"
+#include "core/UpdateCallback.h"
 #include "math/Box3.h"
 #include "math/Color.h"
 #include "math/Matrix4.h"
@@ -24,7 +26,6 @@ namespace ouzel
         {
             friend NodeContainer;
             friend Layer;
-            friend Component;
         public:
             Node();
             virtual ~Node();
@@ -38,9 +39,7 @@ namespace ouzel
             virtual void draw(Camera* camera);
             virtual void drawWireframe(Camera* camera);
 
-            virtual void setParent(NodeContainer* newParent);
-            virtual NodeContainer* getParent() const { return parent; }
-            virtual void removeFromParent();
+            virtual void addChild(const std::shared_ptr<Node>& node) override;
 
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
@@ -121,7 +120,12 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            const std::vector<Component*>& getComponents() const { return components; }
+            const std::vector<std::shared_ptr<Component>>& getComponents() const { return components; }
+            void addComponent(const std::shared_ptr<Component>& component);
+
+            bool removeComponent(uint32_t index);
+            bool removeComponent(const std::shared_ptr<Component>& component);
+            void removeAllComponents();
 
             Box3 getBoundingBox() const;
 
@@ -157,15 +161,11 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
+            std::vector<std::shared_ptr<Component>> components;
+
             NodeContainer* parent = nullptr;
 
-        private:
-            virtual void addChild(Node* node) override;
-
-            void addComponent(Component* component);
-            bool removeComponent(Component* component);
-            
-            std::vector<Component*> components;
+            UpdateCallback animationUpdateCallback;
         };
     } // namespace scene
 } // namespace ouzel

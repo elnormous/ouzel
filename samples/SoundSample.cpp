@@ -9,11 +9,11 @@ using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
     samples(aSamples),
-    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    test8BitButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    test24BitButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    jumpButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    ambientButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -44,32 +44,28 @@ SoundSample::SoundSample(Samples& aSamples):
     ambientSound = sharedEngine->getAudio()->createSound();
     ambientSound->init(ambientData);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiCamera.setLayer(&guiLayer);
-    guiLayer.setScene(this);
+    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
 
-    menu.setParent(&guiLayer);
+    guiLayer->addChild(menu);
 
-    test8BitButton.setPosition(Vector2(0.0f, 80.0f));
-    test8BitButton.setMenu(&menu);
-    test8BitButton.setParent(&menu);
+    test8BitButton->setPosition(Vector2(0.0f, 80.0f));
+    menu->addWidget(test8BitButton);
 
-    test24BitButton.setPosition(Vector2(0.0f, 40.0f));
-    test24BitButton.setMenu(&menu);
-    test24BitButton.setParent(&menu);
+    test24BitButton->setPosition(Vector2(0.0f, 40.0f));
+    menu->addWidget(test24BitButton);
 
-    jumpButton.setPosition(Vector2(0.0f, 0.0f));
-    jumpButton.setMenu(&menu);
-    jumpButton.setParent(&menu);
+    jumpButton->setPosition(Vector2(0.0f, 0.0f));
+    menu->addWidget(jumpButton);
 
-    ambientButton.setPosition(Vector2(0.0f, -40.0f));
-    ambientButton.setMenu(&menu);
-    ambientButton.setParent(&menu);
+    ambientButton->setPosition(Vector2(0.0f, -40.0f));
+    menu->addWidget(ambientButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    backButton.setMenu(&menu);
-    backButton.setParent(&menu);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -79,7 +75,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -90,23 +86,23 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == &test8BitButton)
+        else if (event.node == test8BitButton)
         {
             test8BitSound->play();
         }
-        else if (event.node == &test24BitButton)
+        else if (event.node == test24BitButton)
         {
             test24BitSound->play();
         }
-        else if (event.node == &jumpButton)
+        else if (event.node == jumpButton)
         {
             jumpSound->play();
         }
-        else if (event.node == &ambientButton)
+        else if (event.node == ambientButton)
         {
             ambientSound->play();
         }
@@ -122,7 +118,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 break;
             default:
                 break;

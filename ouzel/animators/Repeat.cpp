@@ -7,42 +7,10 @@ namespace ouzel
 {
     namespace scene
     {
-        Repeat::Repeat(uint32_t aCount):
-            Animator(0.0f), count(aCount)
+        Repeat::Repeat(const std::shared_ptr<Animator>& animator, uint32_t aCount):
+            Animator(animator->getLength() * static_cast<float>(aCount)), count(aCount)
         {
-        }
-
-        void Repeat::addAnimator(Animator* animator)
-        {
-            Animator::addAnimator(animator);
-
-            if (animators.empty())
-            {
-                length = 0.0f;
-            }
-            else
-            {
-                length = animators[0]->getLength() * static_cast<float>(count);
-            }
-        }
-
-        bool Repeat::removeAnimator(Animator* animator)
-        {
-            if (Animator::removeAnimator(animator))
-            {
-                if (animators.empty())
-                {
-                    length = 0.0f;
-                }
-                else
-                {
-                    length = animators[0]->getLength() * static_cast<float>(count);
-                }
-
-                return true;
-            }
-            
-            return false;
+            addAnimator(animator);
         }
 
         void Repeat::reset()

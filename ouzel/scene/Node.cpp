@@ -21,12 +21,10 @@ namespace ouzel
 
         Node::~Node()
         {
-            for (Component* component : components)
+            for (const auto& component : components)
             {
                 component->node = nullptr;
             }
-
-            if (parent) parent->removeChild(this);
         }
 
         void Node::visit(std::vector<Node*>& drawQueue,
@@ -64,7 +62,7 @@ namespace ouzel
                 }
             }
 
-            for (Node* child : children)
+            for (const std::shared_ptr<Node>& child : children)
             {
                 child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
             }
@@ -81,7 +79,7 @@ namespace ouzel
 
             Color drawColor(color.v[0], color.v[1], color.v[2], static_cast<uint8_t>(color.v[3] * opacity));
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {
@@ -99,7 +97,7 @@ namespace ouzel
 
             Color drawColor(color.v[0], color.v[1], color.v[2], 255);
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {
@@ -108,37 +106,13 @@ namespace ouzel
             }
         }
 
-        void Node::setParent(NodeContainer* newParent)
-        {
-            if (parent)
-            {
-                parent->removeChild(this);
-            }
-
-            parent = newParent;
-
-            if (parent)
-            {
-                parent->addChild(this);
-            }
-        }
-
-        void Node::addChild(Node* node)
+        void Node::addChild(const std::shared_ptr<Node>& node)
         {
             NodeContainer::addChild(node);
 
             if (node)
             {
                 node->updateTransform(getTransform());
-            }
-        }
-
-        void Node::removeFromParent()
-        {
-            if (parent)
-            {
-                parent->removeChild(this);
-                parent = nullptr;
             }
         }
 
@@ -232,7 +206,7 @@ namespace ouzel
         {
             Vector2 localPosition = convertWorldToLocal(worldPosition);
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (component->pointOn(localPosition))
                 {
@@ -258,7 +232,7 @@ namespace ouzel
                 transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
                 {
@@ -333,34 +307,61 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addComponent(Component* component)
+        void Node::addComponent(const std::shared_ptr<Component>& component)
         {
-            if (component)
+            if (component->node)
             {
-                components.push_back(component);
-                component->node = this;
+                component->node->removeComponent(component);
             }
+
+            component->node = this;
+            components.push_back(component);
         }
 
-        bool Node::removeComponent(Component* component)
+        bool Node::removeComponent(uint32_t index)
         {
-            auto i = std::find(components.begin(), components.end(), component);
-
-            if (i != components.end())
+            if (index >= components.size())
             {
-                component->node = nullptr;
-                components.erase(i);
-                return true;
+                return false;
+            }
+
+            const std::shared_ptr<Component>& component = components[index];
+            component->node = nullptr;
+
+            components.erase(components.begin() + static_cast<int>(index));
+
+            return true;
+        }
+
+        bool Node::removeComponent(const std::shared_ptr<Component>& component)
+        {
+            for (auto i = components.begin(); i != components.end();)
+            {
+                if (*i == component)
+                {
+                    component->node = nullptr;
+                    components.erase(i);
+                    return true;
+                }
+                else
+                {
+                    ++i;
+                }
             }
 
             return false;
+        }
+
+        void Node::removeAllComponents()
+        {
+            components.clear();
         }
 
         Box3 Node::getBoundingBox() const
         {
             Box3 boundingBox;
 
-            for (Component* component : components)
+            for (const std::shared_ptr<Component>& component : components)
             {
                 if (!component->isHidden())
                 {

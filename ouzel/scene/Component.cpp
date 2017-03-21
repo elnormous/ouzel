@@ -10,11 +10,6 @@ namespace ouzel
 {
     namespace scene
     {
-        Component::~Component()
-        {
-            if (node) node->removeComponent(this);
-        }
-
         void Component::draw(const Matrix4&,
                              const Color&,
                              Camera*)
@@ -25,30 +20,6 @@ namespace ouzel
                                       const Color&,
                                       Camera*)
         {
-        }
-
-        void Component::setNode(Node* newNode)
-        {
-            if (node)
-            {
-                node->removeComponent(this);
-            }
-
-            node = newNode;
-
-            if (node)
-            {
-                node->addComponent(this);
-            }
-        }
-
-        void Component::removeFromNode()
-        {
-            if (node)
-            {
-                node->removeComponent(this);
-                node = nullptr;
-            }
         }
 
         bool Component::pointOn(const Vector2& position) const

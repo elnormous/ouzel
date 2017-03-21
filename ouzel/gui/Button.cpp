@@ -46,48 +46,45 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite.reset(new scene::Sprite());
+                normalSprite = std::make_shared<scene::Sprite>();
                 if (normalSprite->initFromFile(normalImage, false))
                 {
-                    normalSprite->setNode(this);
+                    addComponent(normalSprite);
                 }
             }
 
             if (!selectedImage.empty())
             {
-                selectedSprite.reset(new scene::Sprite());
+                selectedSprite = std::make_shared<scene::Sprite>();
                 if (selectedSprite->initFromFile(selectedImage, false))
                 {
-                    selectedSprite->setNode(this);
+                    addComponent(selectedSprite);
                 }
             }
 
             if (!pressedImage.empty())
             {
-                pressedSprite.reset(new scene::Sprite());
+                pressedSprite = std::make_shared<scene::Sprite>();
                 if (pressedSprite->initFromFile(pressedImage, false))
                 {
-                    pressedSprite->setNode(this);
+                    addComponent(pressedSprite);
                 }
             }
 
             if (!disabledImage.empty())
             {
-                disabledSprite.reset(new scene::Sprite());
+                disabledSprite = std::make_shared<scene::Sprite>();
                 if (disabledSprite->initFromFile(disabledImage, false))
                 {
-                    disabledSprite->setNode(this);
+                    addComponent(disabledSprite);
                 }
             }
 
             if (!label.empty())
             {
-                labelDrawable.reset(new scene::TextDrawable(font, true, label));
-                if (labelDrawable)
-                {
-                    labelDrawable->setColor(labelColor);
-                    labelDrawable->setNode(this);
-                }
+                labelDrawable = std::make_shared<scene::TextDrawable>(font, true, label);
+                labelDrawable->setColor(labelColor);
+                addComponent(labelDrawable);
             }
 
             pickable = true;
@@ -117,7 +114,7 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (event.node == this)
+            if (event.node.get() == this)
             {
                 if (type == Event::Type::UI_ENTER_NODE)
                 {

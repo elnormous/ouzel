@@ -13,12 +13,9 @@ namespace ouzel
         class Sequence: public Animator
         {
         public:
-            Sequence();
+            Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators);
 
         protected:
-            virtual void addAnimator(Animator* animator) override;
-            virtual bool removeAnimator(Animator* animator) override;
-            
             virtual void updateProgress() override;
         };
     } // namespace scene

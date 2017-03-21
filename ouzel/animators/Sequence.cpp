@@ -1,44 +1,21 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
+#include <numeric>
 #include "Sequence.h"
 
 namespace ouzel
 {
     namespace scene
     {
-        Sequence::Sequence():
-            Animator(0.0f)
+        Sequence::Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators):
+            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::shared_ptr<Animator>& b) { return a + b->getLength(); }))
         {
-        }
-
-        void Sequence::addAnimator(Animator* animator)
-        {
-            Animator::addAnimator(animator);
-
-            length = 0.0f;
-
-            for (const auto& animator : animators)
+            for (const auto& animator : aAnimators)
             {
-                length += animator->getLength();
+                addAnimator(animator);
             }
-        }
-
-        bool Sequence::removeAnimator(Animator* animator)
-        {
-            if (Animator::removeAnimator(animator))
-            {
-                length = 0.0f;
-
-                for (const auto& animator : animators)
-                {
-                    length += animator->getLength();
-                }
-
-                return true;
-            }
-            
-            return false;
         }
 
         void Sequence::updateProgress()

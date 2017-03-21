@@ -9,8 +9,7 @@ using namespace ouzel;
 
 InputSample::InputSample(Samples& aSamples):
     samples(aSamples),
-    button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -20,39 +19,38 @@ InputSample::InputSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0f, 600.0f));
-    camera.setLayer(&layer);
-    layer.setScene(this);
+    camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera->setTargetContentSize(Size2(800.0f, 600.0f));
+    layer->addCamera(camera);
+    addLayer(layer);
 
-    flameParticleSystem.initFromFile("flame.json");
+    flameParticleSystem->initFromFile("flame.json");
 
-    flameParticleSystem.setNode(&flame);
-    flame.setPickable(false);
-    flame.setParent(&layer);
+    flame->addComponent(flameParticleSystem);
+    flame->setPickable(false);
+    layer->addChild(flame);
 
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiCamera.setLayer(&guiLayer);
-    guiLayer.setScene(this);
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
 
-    menu.setParent(&guiLayer);
+    guiLayer->addChild(menu);
 
-    button.setPosition(Vector2(-200.0f, 200.0f));
-    button.setMenu(&menu);
-    button.setParent(&menu);
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    button->setPosition(Vector2(-200.0f, 200.0f));
+    menu->addWidget(button);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    backButton.setMenu(&menu);
-    backButton.setParent(&menu);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_DOWN)
     {
-        Vector2 position = camera.getPosition();
-        Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+        Vector2 position = camera->getPosition();
+        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
 
         switch (event.key)
         {
@@ -84,21 +82,21 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
-                button.setEnabled(!button.isEnabled());
+                button->setEnabled(!button->isEnabled());
                 break;
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             default:
                 break;
         }
 
-        camera.setPosition(position);
+        camera->setPosition(position);
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
+        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
 
-        flame.setPosition(worldLocation);
+        flame->setPosition(worldLocation);
     }
 
     return true;
@@ -110,8 +108,8 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
-            flame.setPosition(worldLocation);
+            Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
+            flame->setPosition(worldLocation);
             break;
         }
         default:
@@ -123,8 +121,8 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
 
 bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
 {
-    Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
-    flame.setPosition(worldLocation);
+    Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
+    flame->setPosition(worldLocation);
 
     return true;
 }
@@ -133,12 +131,12 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
 
         switch (event.button)
         {
             case input::GamepadButton::B:
-                if (event.pressed) samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                if (event.pressed) samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -164,8 +162,8 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
                 break;
         }
 
-        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
-        flame.setPosition(worldLocation);
+        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
+        flame->setPosition(worldLocation);
     }
 
     return true;
@@ -175,12 +173,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == &button)
+        else if (event.node == button)
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }

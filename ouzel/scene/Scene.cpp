@@ -23,77 +23,89 @@ namespace ouzel
 
         Scene::~Scene()
         {
-            for (Layer* layer : layers)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
                 if (entered) layer->leave();
                 layer->scene = nullptr;
             }
-
-            sharedEngine->getSceneManager()->removeScene(this);
         }
 
         void Scene::draw()
         {
-            std::stable_sort(layers.begin(), layers.end(), [](Layer* a, Layer* b) {
+            std::stable_sort(layers.begin(), layers.end(), [](const std::shared_ptr<Layer>& a, const std::shared_ptr<Layer>& b) {
                 return a->getOrder() > b->getOrder();
             });
 
-            for (Layer* layer : layers)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
                 layer->draw();
             }
         }
 
-        void Scene::addLayer(Layer* layer)
+        void Scene::addLayer(const std::shared_ptr<Layer>& layer)
         {
-            if (layer)
+            if (layer && !hasLayer(layer))
             {
                 layers.push_back(layer);
-                layer->scene = this;
+
                 if (entered) layer->enter();
+
+                layer->scene = this;
             }
         }
 
-        bool Scene::removeLayer(Layer* layer)
+        void Scene::removeLayer(const std::shared_ptr<Layer>& layer)
         {
-            std::vector<Layer*>::iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::vector<std::shared_ptr<Layer>>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
             if (i != layers.end())
             {
-                if (entered) layer->leave();
-                layer->scene = nullptr;
+                if (entered)
+                {
+                    layer->leave();
+                }
+
                 layers.erase(i);
 
-                return true;
-            }
-            else
-            {
-                return false;
+                layer->scene = nullptr;
             }
         }
 
-        bool Scene::hasLayer(Layer* layer) const
+        void Scene::removeAllLayers()
         {
-            std::vector<Layer*>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
+            if (entered)
+            {
+                for (const std::shared_ptr<Layer>& layer : layers)
+                {
+                    layer->leave();
+                }
+            }
+
+            layers.clear();
+        }
+
+        bool Scene::hasLayer(const std::shared_ptr<Layer>& layer) const
+        {
+            std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
 
             return i != layers.end();
         }
 
         void Scene::recalculateProjection()
         {
-            for (Layer* layer : layers)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
                 layer->recalculateProjection();
             }
         }
 
-        Node* Scene::pickNode(const Vector2& position) const
+        std::shared_ptr<Node> Scene::pickNode(const Vector2& position) const
         {
-            for (std::vector<Layer*>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::vector<std::shared_ptr<Layer>>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                Layer* layer = *i;
+                const std::shared_ptr<Layer>& layer = *i;
 
-                if (Node* result = layer->pickNode(position))
+                if (std::shared_ptr<Node> result = layer->pickNode(position))
                 {
                     return result;
                 }
@@ -102,13 +114,13 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<Node*> Scene::pickNodes(const Vector2& position) const
+        std::vector<std::shared_ptr<Node>> Scene::pickNodes(const Vector2& position) const
         {
-            std::vector<Node*> result;
+            std::vector<std::shared_ptr<Node>> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<Node*> nodes = (*i)->pickNodes(position);
+                std::vector<std::shared_ptr<Node>> nodes = (*i)->pickNodes(position);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -116,13 +128,13 @@ namespace ouzel
             return result;
         }
 
-        std::vector<Node*> Scene::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<std::shared_ptr<Node>> Scene::pickNodes(const std::vector<Vector2>& edges) const
         {
-            std::vector<Node*> result;
+            std::vector<std::shared_ptr<Node>> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<Node*> nodes = (*i)->pickNodes(edges);
+                std::vector<std::shared_ptr<Node>> nodes = (*i)->pickNodes(edges);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -137,7 +149,7 @@ namespace ouzel
             recalculateProjection();
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-            for (Layer* layer : layers)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
                 layer->enter();
             }
@@ -149,7 +161,7 @@ namespace ouzel
 
             sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
 
-            for (Layer* layer : layers)
+            for (const std::shared_ptr<Layer>& layer : layers)
             {
                 layer->leave();
             }
@@ -172,22 +184,22 @@ namespace ouzel
             {
                 case Event::Type::MOUSE_DOWN:
                 {
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerDownOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_UP:
                 {
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerUpOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
-                    Node* previousNode = pickNode(event.position - event.difference);
+                    std::shared_ptr<Node> previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<scene::Node> node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(0);
@@ -211,22 +223,22 @@ namespace ouzel
             {
                 case Event::Type::TOUCH_BEGIN:
                 {
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerDownOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_END:
                 {
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_MOVE:
                 {
-                    Node* previousNode = pickNode(event.position - event.difference);
+                    std::shared_ptr<Node> previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(event.touchId);
@@ -239,7 +251,7 @@ namespace ouzel
                 }
                 case Event::Type::TOUCH_CANCEL:
                 {
-                    Node* node = pickNode(event.position);
+                    std::shared_ptr<Node> node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
@@ -250,7 +262,7 @@ namespace ouzel
             return true;
         }
 
-        void Scene::pointerEnterNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerEnterNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
         {
             if (node)
             {
@@ -265,7 +277,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerLeaveNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
         {
             if (node)
             {
@@ -280,7 +292,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerDownOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
         {
             pointerDownOnNodes[pointerId] = node;
 
@@ -297,7 +309,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerUpOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
         {
             auto i = pointerDownOnNodes.find(pointerId);
 
@@ -333,7 +345,7 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t, Node* node, const Vector2& position)
+        void Scene::pointerDragNode(uint64_t, const std::shared_ptr<Node>& node, const Vector2& position)
         {
             if (node)
             {

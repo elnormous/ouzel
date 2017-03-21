@@ -9,7 +9,7 @@ using namespace ouzel;
 
 PerspectiveSample::PerspectiveSample(Samples& aSamples):
     samples(aSamples),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -21,70 +21,69 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     sharedEngine->getRenderer()->setClearDepthBuffer(true);
 
-    camera.setDepthTest(true);
-    camera.setDepthWrite(true);
+    camera->setDepthTest(true);
+    camera->setDepthWrite(true);
 
-    camera.setType(scene::Camera::Type::PERSPECTIVE);
-    camera.setFarPlane(1000.0f);
-    camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
-    camera.setLayer(&layer);
-    layer.setScene(this);
+    camera->setType(scene::Camera::Type::PERSPECTIVE);
+    camera->setFarPlane(1000.0f);
+    camera->setPosition(Vector3(0.0f, 0.0f, -400.0f));
+    layer->addCamera(camera);
+    addLayer(layer);
 
     // floor
-    floorSprite.initFromFile("floor.jpg");
+    floorSprite->initFromFile("floor.jpg");
 
-    for (const scene::SpriteFrame& spriteFrame : floorSprite.getFrames())
+    for (const scene::SpriteFrame& spriteFrame : floorSprite->getFrames())
     {
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
-    floorSprite.setNode(&floor);
-    floor.setParent(&layer);
-    floor.setPosition(Vector2(0.0f, -50.0f));
-    floor.setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
+    floor->addComponent(floorSprite);
+    layer->addChild(floor);
+    floor->setPosition(Vector2(0.0f, -50.0f));
+    floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
     // character
-    characterSprite.initFromFile("run.json");
-    characterSprite.play(true);
+    characterSprite->initFromFile("run.json");
+    characterSprite->play(true);
 
-    for (const scene::SpriteFrame& spriteFrame : characterSprite.getFrames())
+    for (const scene::SpriteFrame& spriteFrame : characterSprite->getFrames())
     {
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
-    characterSprite.setNode(&character);
-    character.setParent(&layer);
-    character.setPosition(Vector2(10.0f, 0.0f));
+    character->addComponent(characterSprite);
+    layer->addChild(character);
+    character->setPosition(Vector2(10.0f, 0.0f));
 
     jumpSound = sharedEngine->getAudio()->createSound();
     std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
     soundData->initFromFile("jump.wav");
     jumpSound->init(soundData);
-    jumpSound->setPosition(character.getPosition());
+    jumpSound->setPosition(character->getPosition());
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
-    rotate->setNode(&character);
+    character->addComponent(rotate);
     rotate->start();
     
-    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiCamera.setLayer(&guiLayer);
-    guiLayer.setScene(this);
+    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer->addCamera(guiCamera);
+    addLayer(guiLayer);
 
-    menu.setParent(&guiLayer);
+    guiLayer->addChild(menu);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
-    backButton.setMenu(&menu);
-    backButton.setParent(&menu);
+    backButton->setPosition(Vector2(-200.0f, -200.0f));
+    menu->addWidget(backButton);
 }
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == &backButton)
+        if (event.node == backButton)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
@@ -112,7 +111,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 rotation.setEulerAngles(Vector3(0.0f, TAU / 100.0f, 0.0f));
                 break;
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
                 return true;
             case input::KeyboardKey::TAB:
                 jumpSound->play();
@@ -124,8 +123,8 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 break;
         }
 
-        camera.setRotation(camera.getRotation() * rotation);
-        sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
+        camera->setRotation(camera->getRotation() * rotation);
+        sharedEngine->getAudio()->setListenerRotation(camera->getRotation());
     }
 
     return true;
@@ -143,7 +142,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
                                             -event.difference.x() / 2.0f,
                                             0.0f));
 
-            camera.setRotation(camera.getRotation() * rotation);
+            camera->setRotation(camera->getRotation() * rotation);
         }
     }
 
@@ -160,7 +159,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
                                         -event.difference.x() / 2.0f,
                                         0.0f));
 
-        camera.setRotation(camera.getRotation() * rotation);
+        camera->setRotation(camera->getRotation() * rotation);
     }
 
     return true;
@@ -173,7 +172,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
         if (event.pressed &&
             event.button == input::GamepadButton::B)
         {
-            samples.setScene(std::unique_ptr<scene::Scene>(new MainMenu(samples)));
+            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
     }
 
