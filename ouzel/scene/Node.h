@@ -122,7 +122,6 @@ namespace ouzel
 
             const std::vector<std::shared_ptr<Component>>& getComponents() const { return components; }
             void addComponent(const std::shared_ptr<Component>& component);
-
             bool removeComponent(uint32_t index);
             bool removeComponent(const std::shared_ptr<Component>& component);
             void removeAllComponents();
@@ -161,9 +160,9 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            std::vector<std::shared_ptr<Component>> components;
-
             NodeContainer* parent = nullptr;
+
+            std::vector<std::shared_ptr<Component>> components;
 
             UpdateCallback animationUpdateCallback;
         };
