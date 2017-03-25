@@ -190,7 +190,7 @@ namespace ouzel
         spriteFrames[filename] = frames;
     }
 
-    const std::vector<scene::SpriteFrame>& Cache::getSpriteFrames(const std::string& filename, bool mipmaps) const
+    const std::vector<scene::SpriteFrame>& Cache::getSpriteFrames(const std::string& filename, bool mipmaps, uint32_t spritesX, uint32_t spritesY) const
     {
         auto i = spriteFrames.find(filename);
 
@@ -208,16 +208,27 @@ namespace ouzel
             {
                 frames = scene::SpriteFrame::loadSpriteFrames(filename, mipmaps);
             }
-            else
+            else if (spritesX > 0 && spritesY > 0)
             {
                 std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
                 if (texture)
                 {
-                    Rectangle rectangle(0.0f, 0.0f, texture->getSize().v[0], texture->getSize().v[1]);
+                    Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
-                    frames.push_back(frame);
+                    for (uint32_t x = 0; x < spritesX; ++x)
+                    {
+                        for (uint32_t y = 0; y < spritesY; ++y)
+                        {
+                            Rectangle rectangle(spriteSize.v[0] * x,
+                                                spriteSize.v[1] * y,
+                                                spriteSize.v[0],
+                                                spriteSize.v[1]);
+
+                            scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                            frames.push_back(frame);
+                        }
+                    }
                 }
             }
 

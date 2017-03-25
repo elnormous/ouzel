@@ -57,9 +57,9 @@ namespace ouzel
             return true;
         }
 
-        bool Sprite::initFromFile(const std::string& filename, bool mipmaps)
+        bool Sprite::initFromFile(const std::string& filename, bool mipmaps, uint32_t spritesX, uint32_t spritesY)
         {
-            frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps);
+            frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps, spritesX, spritesY);
 
             updateBoundingBox();
 
