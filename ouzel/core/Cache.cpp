@@ -225,7 +225,7 @@ namespace ouzel
                                                 spriteSize.v[0],
                                                 spriteSize.v[1]);
 
-                            scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, texture->getSize(), Vector2(), Vector2(0.5f, 0.5f));
+                            scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, spriteSize, Vector2(), Vector2(0.5f, 0.5f));
                             frames.push_back(frame);
                         }
                     }
