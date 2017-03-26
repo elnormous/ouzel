@@ -8,8 +8,7 @@ using namespace std;
 using namespace ouzel;
 
 PerspectiveSample::PerspectiveSample(Samples& aSamples):
-    samples(aSamples),
-    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    samples(aSamples)
 {
     eventHandler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -21,16 +20,20 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     sharedEngine->getRenderer()->setClearDepthBuffer(true);
 
+    camera = std::make_shared<scene::Camera>();
     camera->setDepthTest(true);
     camera->setDepthWrite(true);
 
     camera->setType(scene::Camera::Type::PERSPECTIVE);
     camera->setFarPlane(1000.0f);
     camera->setPosition(Vector3(0.0f, 0.0f, -400.0f));
+
+    layer = std::make_shared<scene::Layer>();
     layer->addCamera(camera);
     addLayer(layer);
 
     // floor
+    floorSprite = std::make_shared<scene::Sprite>();
     floorSprite->initFromFile("floor.jpg");
 
     for (const scene::SpriteFrame& spriteFrame : floorSprite->getFrames())
@@ -38,12 +41,14 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
+    floor = std::make_shared<scene::Node>();
     floor->addComponent(floorSprite);
     layer->addChild(floor);
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
     // character
+    characterSprite = std::make_shared<scene::Sprite>();
     characterSprite->initFromFile("run.json");
     characterSprite->play(true);
 
@@ -52,6 +57,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
+    character = std::make_shared<scene::Node>();
     character->addComponent(characterSprite);
     layer->addChild(character);
     character->setPosition(Vector2(10.0f, 0.0f));
@@ -65,14 +71,19 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
     character->addComponent(rotate);
     rotate->start();
-    
+
+    guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+
+    guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addCamera(guiCamera);
     addLayer(guiLayer);
 
+    menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
+    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }
