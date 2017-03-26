@@ -8,8 +8,7 @@ using namespace std;
 using namespace ouzel;
 
 InputSample::InputSample(Samples& aSamples):
-    samples(aSamples),
-    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    samples(aSamples)
 {
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -19,28 +18,38 @@ InputSample::InputSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
+    camera = std::make_shared<scene::Camera>();
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
+
+    layer = std::make_shared<scene::Layer>();
     layer->addCamera(camera);
     addLayer(layer);
 
+    flameParticleSystem = std::make_shared<scene::ParticleSystem>();
     flameParticleSystem->initFromFile("flame.json");
 
+    flame = std::make_shared<scene::Node>();
     flame->addComponent(flameParticleSystem);
     flame->setPickable(false);
     layer->addChild(flame);
 
+    guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addCamera(guiCamera);
     addLayer(guiLayer);
 
     guiLayer->addChild(menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     button->setPosition(Vector2(-200.0f, 200.0f));
+
+    menu = std::make_shared<gui::Menu>();
     menu->addWidget(button);
 
+    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }
@@ -104,6 +113,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
 bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
 {
+    Log() << event.position;
     switch (type)
     {
         case Event::Type::MOUSE_MOVE:
