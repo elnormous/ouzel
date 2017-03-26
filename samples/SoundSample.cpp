@@ -8,12 +8,7 @@ using namespace std;
 using namespace ouzel;
 
 SoundSample::SoundSample(Samples& aSamples):
-    samples(aSamples),
-    test8BitButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
-    test24BitButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
-    jumpButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
-    ambientButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK)),
-    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    samples(aSamples)
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -47,23 +42,31 @@ SoundSample::SoundSample(Samples& aSamples):
     guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+
+    guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addCamera(guiCamera);
     addLayer(guiLayer);
 
+    menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
+    test8BitButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     test8BitButton->setPosition(Vector2(0.0f, 80.0f));
     menu->addWidget(test8BitButton);
 
+    test24BitButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     test24BitButton->setPosition(Vector2(0.0f, 40.0f));
     menu->addWidget(test24BitButton);
 
+    jumpButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
     menu->addWidget(jumpButton);
 
+    ambientButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     menu->addWidget(ambientButton);
 
+    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
 }
