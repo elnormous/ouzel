@@ -17,7 +17,7 @@ namespace ouzel
         class Camera;
         class Node;
 
-        class Component: public ouzel::Noncopyable
+        class Component: public Noncopyable
         {
             friend Node;
         public:
