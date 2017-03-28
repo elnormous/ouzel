@@ -182,7 +182,7 @@ namespace ouzel
 
         bool GamepadApple::setPlayerIndex(int32_t playerIndex)
         {
-            if (playerIndex >= 0 || playerIndex <= 3)
+            if (playerIndex >= 0 && playerIndex <= 3)
             {
                 controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
             }
