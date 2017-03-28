@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <GameController/GameController.h>
 #include <objc/message.h>
 #include "core/Engine.h"
 #include "GamepadApple.h"
@@ -183,13 +182,14 @@ namespace ouzel
 
         bool GamepadApple::setPlayerIndex(int32_t playerIndex)
         {
-            if (playerIndex < -1 || playerIndex > 3)
+            if (playerIndex >= 0 || playerIndex <= 3)
             {
-                Log(Log::Level::ERR) << "Invalid player index";
-                return false;
+                controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
             }
-
-            controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
+            else
+            {
+                controller.playerIndex = GCControllerPlayerIndexUnset;
+            }
 
             return true;
         }

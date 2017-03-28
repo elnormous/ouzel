@@ -486,8 +486,19 @@ namespace ouzel
             discovering = false;
         }
 
-        void InputApple::handleGamepadConnected(id controller)
+        void InputApple::handleGamepadConnected(GCControllerPtr controller)
         {
+            std::vector<int32_t> playerIndices = {0, 1, 2, 3};
+
+            for (const auto& gamepad : gamepads)
+            {
+                auto i = std::find(playerIndices.begin(), playerIndices.end(), gamepad->getPlayerIndex());
+
+                if (i != playerIndices.end()) playerIndices.erase(i);
+            }
+
+            if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
+
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
@@ -500,7 +511,7 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputApple::handleGamepadDisconnected(id controller)
+        void InputApple::handleGamepadDisconnected(GCControllerPtr controller)
         {
             std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadApple* gamepadApple = static_cast<GamepadApple*>(gamepad.get());

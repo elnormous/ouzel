@@ -6,11 +6,14 @@
 #include "input/Input.h"
 
 #if defined(__OBJC__)
+#include <GameController/GameController.h>
+typedef GCController* GCControllerPtr;
 @class ConnectDelegate;
 typedef ConnectDelegate* ConnectDelegatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
+typedef id GCControllerPtr;
 typedef id ConnectDelegatePtr;
 #endif
 
@@ -39,8 +42,8 @@ namespace ouzel
             virtual bool hideVirtualKeyboard() override;
 
             void handleGamepadDiscoveryCompleted();
-            void handleGamepadConnected(id controller);
-            void handleGamepadDisconnected(id controller);
+            void handleGamepadConnected(GCControllerPtr controller);
+            void handleGamepadDisconnected(GCControllerPtr controller);
 
 #ifdef OUZEL_PLATFORM_MACOS
             static KeyboardKey convertKeyCode(unsigned short keyCode);
