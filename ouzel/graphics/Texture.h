@@ -52,55 +52,41 @@ namespace ouzel
 
             const std::string& getFilename() const { return filename; }
 
+            const Size2& getSize() const;
             bool setSize(const Size2& newSize);
+
             bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            const Size2& getSize() const { return size; }
+            bool isDynamic() const;
 
-            bool isDynamic() const { return dynamic; }
-
-            Filter getFilter() const { return filter; }
+            Filter getFilter() const;
             bool setFilter(Filter newFilter);
 
-            Address getAddressX() const { return addressX; }
+            Address getAddressX() const;
             bool setAddressX(Address newAddressX);
 
-            Address getAddressY() const { return addressY; }
+            Address getAddressY() const;
             bool setAddressY(Address newAddressY);
 
-            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            uint32_t getMaxAnisotropy() const;
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            uint32_t getSampleCount() const { return sampleCount; }
-            uint32_t getDepth() const { return depth; }
+            uint32_t getSampleCount() const;
+            bool getDepth() const;
 
-            bool getClearColorBuffer() const { return clearColorBuffer; }
+            bool getClearColorBuffer() const;
             void setClearColorBuffer(bool clear);
 
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            bool getClearDepthBuffer() const;
             void setClearDepthBuffer(bool clear);
 
+            Color getClearColor() const;
             void setClearColor(Color color);
-            Color getClearColor() const { return clearColor; }
 
         private:
             TextureResource* resource = nullptr;
 
             std::string filename;
-
-            Size2 size;
-            bool dynamic = false;
-            bool mipmaps = false;
-            bool renderTarget = false;
-            bool clearColorBuffer = true;
-            bool clearDepthBuffer = false;
-            bool depth = false;
-            uint32_t sampleCount = 1;
-            Color clearColor;
-            Filter filter = Filter::DEFAULT;
-            Address addressX = Address::CLAMP;
-            Address addressY = Address::CLAMP;
-            uint32_t maxAnisotropy = 0;
         };
     } // namespace graphics
 } // namespace ouzel

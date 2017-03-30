@@ -29,7 +29,11 @@ namespace ouzel
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
 
             virtual bool setSize(const Size2& newSize);
+            const Size2& getSize() const { return size; }
+
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+
+            bool isDynamic() const { return dynamic; }
 
             Texture::Filter getFilter() const { return filter; }
             bool setFilter(Texture::Filter newFilter);
@@ -49,9 +53,11 @@ namespace ouzel
             bool getClearDepthBuffer() const { return clearDepthBuffer; }
             virtual void setClearDepthBuffer(bool clear);
 
+            Color getClearColor() const { return clearColor; }
             virtual void setClearColor(Color color);
 
             uint32_t getSampleCount() const { return sampleCount; }
+            uint32_t getDepth() const { return depth; }
 
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }

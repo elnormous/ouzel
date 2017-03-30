@@ -24,12 +24,6 @@ namespace ouzel
         bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
         {
             filename.clear();
-            size = newSize;
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = newRenderTarget;
-            sampleCount = newSampleCount;
-            depth = newDepth;
 
             if (!resource->init(newSize, newDynamic, newMipmaps, newRenderTarget, newSampleCount, newDepth))
             {
@@ -51,13 +45,6 @@ namespace ouzel
                 return false;
             }
 
-            size = image.getSize();
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = false;
-            sampleCount = 1;
-            depth = false;
-
             if (!resource->initFromBuffer(image.getData(), image.getSize(), newDynamic, newMipmaps))
             {
                 return false;
@@ -71,12 +58,6 @@ namespace ouzel
         bool Texture::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
         {
             filename.clear();
-            size = newSize;
-            dynamic = newDynamic;
-            mipmaps = newMipmaps;
-            renderTarget = false;
-            sampleCount = 1;
-            depth = false;
 
             if (!resource->initFromBuffer(newData, newSize, newDynamic, newMipmaps))
             {
@@ -88,9 +69,13 @@ namespace ouzel
             return true;
         }
 
+        const Size2& Texture::getSize() const
+        {
+            return resource->getSize();
+        }
+
         bool Texture::setSize(const Size2& newSize)
         {
-            size = newSize;
             if (!resource->setSize(newSize))
             {
                 return false;
@@ -103,7 +88,6 @@ namespace ouzel
 
         bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            size = newSize;
             if (!resource->setData(newData, newSize))
             {
                 return false;
@@ -114,9 +98,18 @@ namespace ouzel
             return true;
         }
 
+        bool Texture::isDynamic() const
+        {
+            return resource->isDynamic();
+        }
+
+        Texture::Filter Texture::getFilter() const
+        {
+            return resource->getFilter();
+        }
+
         bool Texture::setFilter(Filter newFilter)
         {
-            filter = newFilter;
             if (!resource->setFilter(newFilter))
             {
                 return false;
@@ -127,9 +120,13 @@ namespace ouzel
             return true;
         }
 
+        Texture::Address Texture::getAddressX() const
+        {
+            return resource->getAddressX();
+        }
+
         bool Texture::setAddressX(Address newAddressX)
         {
-            addressX = newAddressX;
             if (!resource->setAddressX(newAddressX))
             {
                 return false;
@@ -140,9 +137,13 @@ namespace ouzel
             return true;
         }
 
+        Texture::Address Texture::getAddressY() const
+        {
+            return resource->getAddressY();
+        }
+
         bool Texture::setAddressY(Address newAddressY)
         {
-            addressY = newAddressY;
             if (!resource->setAddressY(newAddressY))
             {
                 return false;
@@ -153,9 +154,13 @@ namespace ouzel
             return true;
         }
 
+        uint32_t Texture::getMaxAnisotropy() const
+        {
+            return resource->getMaxAnisotropy();
+        }
+
         bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            maxAnisotropy = newMaxAnisotropy;
             if (!resource->setMaxAnisotropy(newMaxAnisotropy))
             {
                 return false;
@@ -166,25 +171,47 @@ namespace ouzel
             return true;
         }
 
+        uint32_t Texture::getSampleCount() const
+        {
+            return resource->getSampleCount();
+        }
+
+        bool Texture::getDepth() const
+        {
+            return resource->getDepth();
+        }
+
+        bool Texture::getClearColorBuffer() const
+        {
+            return resource->getClearColorBuffer();
+        }
+
         void Texture::setClearColorBuffer(bool clear)
         {
-            clearColorBuffer = clear;
             resource->setClearColorBuffer(clear);
 
             sharedEngine->getRenderer()->uploadResource(resource);
         }
 
+        bool Texture::getClearDepthBuffer() const
+        {
+            return resource->getClearDepthBuffer();
+        }
+
         void Texture::setClearDepthBuffer(bool clear)
         {
-            clearDepthBuffer = clear;
             resource->setClearDepthBuffer(clear);
 
             sharedEngine->getRenderer()->uploadResource(resource);
         }
 
+        Color Texture::getClearColor() const
+        {
+            return resource->getClearColor();
+        }
+
         void Texture::setClearColor(Color color)
         {
-            clearColor = color;
             resource->setClearColor(color);
 
             sharedEngine->getRenderer()->uploadResource(resource);
