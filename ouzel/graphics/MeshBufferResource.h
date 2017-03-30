@@ -31,6 +31,7 @@ namespace ouzel
             bool setIndexBuffer(BufferResource* newIndexBuffer);
 
             uint32_t getVertexSize() const { return vertexSize; }
+            const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
             bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
 
             BufferResource* getVertexBuffer() const { return vertexBuffer; }

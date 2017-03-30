@@ -24,27 +24,7 @@ namespace ouzel
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
                               const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
         {
-            if (newIndexBuffer && newIndexBuffer->getUsage() != Buffer::Usage::INDEX)
-            {
-                return false;
-            }
-
-            if (newVertexBuffer && newVertexBuffer->getUsage() != Buffer::Usage::VERTEX)
-            {
-                return false;
-            }
-
-            indexSize = newIndexSize;
             indexBuffer = newIndexBuffer;
-
-            vertexAttributes = newVertexAttributes;
-            vertexSize = 0;
-
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
-
             vertexBuffer = newVertexBuffer;
 
             if (!resource->init(newIndexSize, newIndexBuffer ? newIndexBuffer->getResource() : nullptr,
@@ -58,10 +38,13 @@ namespace ouzel
             return true;
         }
 
+        uint32_t MeshBuffer::getIndexSize() const
+        {
+            return resource->getIndexSize();
+        }
+
         bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
-            indexSize = newIndexSize;
-
             if (!resource->setIndexSize(newIndexSize))
             {
                 return false;
@@ -86,16 +69,18 @@ namespace ouzel
             return true;
         }
 
+        uint32_t MeshBuffer::getVertexSize() const
+        {
+            return resource->getVertexSize();
+        }
+
+        const std::vector<VertexAttribute>& MeshBuffer::getVertexAttributes() const
+        {
+            return resource->getVertexAttributes();
+        }
+
         bool MeshBuffer::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
         {
-            vertexAttributes = newVertexAttributes;
-            vertexSize = 0;
-
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
-
             if (!resource->setVertexAttributes(newVertexAttributes))
             {
                 return false;

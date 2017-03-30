@@ -26,25 +26,22 @@ namespace ouzel
 
             MeshBufferResource* getResource() const { return resource; }
 
-            uint32_t getIndexSize() const { return indexSize; }
+            uint32_t getIndexSize() const;
             bool setIndexSize(uint32_t newIndexSize);
 
             const std::shared_ptr<Buffer>& getIndexBuffer() const { return indexBuffer; }
             bool setIndexBuffer(const std::shared_ptr<Buffer>& newIndexBuffer);
 
-            const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
+            uint32_t getVertexSize() const;
+            const std::vector<VertexAttribute>& getVertexAttributes() const;
             bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
-            uint32_t getVertexSize() const { return vertexSize; }
 
             const std::shared_ptr<Buffer>& getVertexBuffer() const { return vertexBuffer; }
             bool setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer);
 
         private:
             MeshBufferResource* resource = nullptr;
-            uint32_t indexSize = 0;
             std::shared_ptr<Buffer> indexBuffer;
-            std::vector<VertexAttribute> vertexAttributes;
-            uint32_t vertexSize = 0;
             std::shared_ptr<Buffer> vertexBuffer;
         };
     } // namespace graphics
