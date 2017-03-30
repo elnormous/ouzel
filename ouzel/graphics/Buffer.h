@@ -25,22 +25,19 @@ namespace ouzel
             Buffer();
             virtual ~Buffer();
 
-            bool init(Buffer::Usage newUsage, bool newDynamic = true);
-            bool initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
+            bool init(Usage newUsage, bool newDynamic = true);
+            bool initFromBuffer(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
 
             BufferResource* getResource() const { return resource; }
 
-            Buffer::Usage getUsage() const { return usage; }
-            uint32_t getSize() const { return size; }
-
             bool setData(const void* newData, uint32_t newSize);
+
+            bool isDynamic() const;
+            Usage getUsage() const;
+            uint32_t getSize() const;
 
         private:
             BufferResource* resource = nullptr;
-
-            Buffer::Usage usage;
-            bool dynamic = true;
-            uint32_t size = 0;
         };
     } // namespace graphics
 } // namespace ouzel

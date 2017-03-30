@@ -26,7 +26,9 @@ namespace ouzel
 
             bool setData(const void* newData, uint32_t newSize);
 
+            bool isDynamic() const { return dynamic; }
             Buffer::Usage getUsage() const { return usage; }
+            uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
 
         protected:
             BufferResource();

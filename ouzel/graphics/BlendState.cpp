@@ -21,19 +21,11 @@ namespace ouzel
         }
 
         bool BlendState::init(bool newEnableBlending,
-                              BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
-                              BlendState::BlendOperation newColorOperation,
-                              BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                              BlendState::BlendOperation newAlphaOperation)
+                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
+                              BlendOperation newColorOperation,
+                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
+                              BlendOperation newAlphaOperation)
         {
-            enableBlending = newEnableBlending;
-            colorBlendSource = newColorBlendSource;
-            colorBlendDest = newColorBlendDest;
-            colorOperation = newColorOperation;
-            alphaBlendSource = newAlphaBlendSource;
-            alphaBlendDest = newAlphaBlendDest;
-            alphaOperation = newAlphaOperation;
-
             if (!resource->init(newEnableBlending,
                                 newColorBlendSource, newColorBlendDest,
                                 newColorOperation,
@@ -47,5 +39,41 @@ namespace ouzel
 
             return true;
         }
+
+        bool BlendState::isBlendingEnabled() const
+        {
+            return resource->isBlendingEnabled();
+        }
+
+        BlendState::BlendFactor BlendState::getColorBlendSource() const
+        {
+            return resource->getColorBlendSource();
+        }
+
+        BlendState::BlendFactor BlendState::getColorBlendDest() const
+        {
+            return resource->getColorBlendDest();
+        }
+
+        BlendState::BlendOperation BlendState::getColorOperation() const
+        {
+            return resource->getColorOperation();
+        }
+
+        BlendState::BlendFactor BlendState::getAlphaBlendSource() const
+        {
+            return resource->getAlphaBlendSource();
+        }
+
+        BlendState::BlendFactor BlendState::getAlphaBlendDest() const
+        {
+            return resource->getAlphaBlendDest();
+        }
+
+        BlendState::BlendOperation BlendState::getAlphaOperation() const
+        {
+            return resource->getAlphaOperation();
+        }
+
     } // namespace graphics
 } // namespace ouzel
