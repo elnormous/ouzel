@@ -34,13 +34,6 @@ namespace ouzel
         {
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
-            vertexAttributes = newVertexAttributes;
-            vertexSize = 0;
-
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
 
             std::vector<uint8_t> pixelShaderData;
 
@@ -85,13 +78,6 @@ namespace ouzel
         {
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
-            vertexAttributes = newVertexAttributes;
-            vertexSize = 0;
-
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
 
             if (!resource->initFromBuffers(newPixelShader, newVertexShader,
                                            newVertexAttributes,
@@ -110,5 +96,14 @@ namespace ouzel
             return  true;
         }
 
+        const std::vector<VertexAttribute>& Shader::getVertexAttributes() const
+        {
+            return resource->getVertexAttributes();
+        }
+
+        uint32_t Shader::getVertexSize() const
+        {
+            return resource->getVertexSize();
+        }
     } // namespace graphics
 } // namespace ouzel

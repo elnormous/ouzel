@@ -37,6 +37,7 @@ namespace ouzel
                                  const std::string& vertexShaderFunction = "");
 
             const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
+            uint32_t getVertexSize() const { return vertexSize; }
 
         protected:
             ShaderResource();
@@ -44,6 +45,7 @@ namespace ouzel
             uint32_t dirty = 0;
 
             std::vector<VertexAttribute> vertexAttributes;
+            uint32_t vertexSize = 0;
 
             std::vector<uint8_t> pixelShaderData;
             std::vector<uint8_t> vertexShaderData;

@@ -33,6 +33,11 @@ namespace ouzel
             pixelShaderConstantInfo = newPixelShaderConstantInfo;
             vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
+
             if (newPixelShaderDataAlignment)
             {
                 pixelShaderAlignment = newPixelShaderDataAlignment;
