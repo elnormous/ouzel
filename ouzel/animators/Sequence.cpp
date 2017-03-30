@@ -18,6 +18,33 @@ namespace ouzel
             }
         }
 
+        void Sequence::play()
+        {
+            setProgress(0.0f);
+            done = false;
+            running = true;
+
+            targetNode = node;
+
+            if (!targetNode)
+            {
+                if (parent)
+                {
+                    targetNode = parent->getTargetNode();
+                }
+            }
+
+            if (!animators.empty())
+            {
+                currentAnimator = animators.front();
+                currentAnimator->play();
+            }
+            else
+            {
+                currentAnimator.reset();
+            }
+        }
+
         void Sequence::updateProgress()
         {
             Animator::updateProgress();
@@ -36,6 +63,12 @@ namespace ouzel
                 }
                 else
                 {
+                    if (currentAnimator != animator)
+                    {
+                        currentAnimator = animator;
+                        animator->play();
+                    }
+
                     animator->setProgress((currentTime - time) / animator->getLength());
                 }
 

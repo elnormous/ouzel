@@ -73,7 +73,7 @@ namespace ouzel
             {
                 if (parent)
                 {
-                    targetNode = parent->targetNode;
+                    targetNode = parent->getTargetNode();
                 }
             }
 
@@ -103,8 +103,10 @@ namespace ouzel
             done = false;
             setProgress(0.0f);
 
-            for (const auto& animator : animators)
+            // reset animators in reverse order, so that Sequence is reset correctly
+            for (auto i = animators.crbegin(); i != animators.crend(); ++i)
             {
+                const std::shared_ptr<Animator>& animator = *i;
                 animator->reset();
             }
         }

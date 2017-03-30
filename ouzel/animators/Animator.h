@@ -39,6 +39,8 @@ namespace ouzel
             float getProgress() const { return progress; }
             virtual void setProgress(float newProgress);
 
+            Node* getTargetNode() const { return targetNode; }
+
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
         protected:
