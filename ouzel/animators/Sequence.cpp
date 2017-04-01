@@ -55,11 +55,11 @@ namespace ouzel
             {
                 if (animator->getLength() <= 0.0f || currentTime > time + animator->getLength())
                 {
-                    animator->setProgress(1.0f);
+                    if (animator == currentAnimator) animator->setProgress(1.0f);
                 }
                 else if (currentTime <= time)
                 {
-                    animator->setProgress(0.0f);
+                    if (animator == currentAnimator) animator->setProgress(0.0f);
                 }
                 else
                 {
