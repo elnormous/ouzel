@@ -4,16 +4,53 @@
 #pragma once
 
 #include <mutex>
+#include <memory>
 #include "utils/Noncopyable.h"
 #include "audio/Resource.h"
+#include "math/Vector3.h"
 
 namespace ouzel
 {
     namespace audio
     {
+        class Audio;
+        class SoundData;
+        
         class SoundResource: public Resource, public Noncopyable
         {
+            friend Audio;
         public:
+            virtual ~SoundResource();
+
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
+
+            const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
+
+            virtual void setPosition(const Vector3& newPosition);
+            virtual void setPitch(float newPitch);
+            virtual void setGain(float newGain);
+
+            virtual bool play(bool repeatSound = false);
+            virtual bool stop(bool resetSound = false);
+            virtual bool reset();
+
+            bool isRepeating() const { return repeat; }
+            
+            bool isReady() const { return ready; }
+
+        protected:
+            SoundResource();
+
+            std::shared_ptr<SoundData> soundData;
+            bool repeat = false;
+
+            bool ready = false;
+
+            Vector3 position;
+            float pitch = 1.0f;
+            float gain = 1.0f;
+
+            std::mutex uploadMutex;
         };
     } // namespace audio
 } // namespace ouzel
