@@ -184,6 +184,8 @@ namespace ouzel
                 reset = false;
             }
 
+            dirty = 0;
+
             return true;
         }
     } // namespace audio
