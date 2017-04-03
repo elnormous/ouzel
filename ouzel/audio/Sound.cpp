@@ -3,7 +3,7 @@
 
 #include "Sound.h"
 #include "SoundResource.h"
-#include "Engine.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {

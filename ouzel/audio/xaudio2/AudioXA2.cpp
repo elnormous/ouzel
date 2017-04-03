@@ -113,9 +113,10 @@ namespace ouzel
             Audio::setListenerRotation(newRotation);
         }
 
-        std::shared_ptr<Sound> AudioXA2::createSound()
+        SoundResource* AudioXA2::createSound()
         {
-            std::shared_ptr<Sound> sound = std::make_shared<SoundXA2>();
+            SoundResource* sound = new SoundXA2();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
 

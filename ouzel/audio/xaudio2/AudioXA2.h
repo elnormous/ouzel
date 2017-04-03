@@ -21,7 +21,7 @@ namespace ouzel
             virtual void setListenerPosition(const Vector3& newPosition);
             virtual void setListenerRotation(const Quaternion& newRotation);
 
-            virtual std::shared_ptr<Sound> createSound() override;
+            virtual SoundResource* createSound() override;
 
             IXAudio2SourceVoice* createSourceVoice(const WAVEFORMATEX& sourceFormat);
 

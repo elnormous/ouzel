@@ -57,7 +57,7 @@ namespace ouzel
             virtual void setClearColor(Color color);
 
             uint32_t getSampleCount() const { return sampleCount; }
-            uint32_t getDepth() const { return depth; }
+            bool getDepth() const { return depth; }
 
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
