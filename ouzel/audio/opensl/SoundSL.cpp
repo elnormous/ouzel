@@ -161,7 +161,7 @@ namespace ouzel
                     {
                         if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
                         {
-                            Log(Log::Level::ERR) << "Failed to " << (reset ? "stop" : "pause") << " sound";
+                            Log(Log::Level::ERR) << "Failed to stop sound";
                             return false;
                         }
                     }
