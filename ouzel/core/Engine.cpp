@@ -102,7 +102,8 @@ namespace ouzel
 
         for (UpdateCallback* updateCallback : updateCallbacks)
         {
-            updateCallback->engine = nullptr;
+            auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
+            if (i == updateCallbackDeleteSet.end()) updateCallback->engine = nullptr;
         }
 
 #if OUZEL_MULTITHREADED

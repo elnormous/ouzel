@@ -20,7 +20,8 @@ namespace ouzel
 
         for (EventHandler* eventHandler : eventHandlers)
         {
-            eventHandler->eventDispatcher = nullptr;
+            auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
+            if (i == eventHandlerDeleteSet.end()) eventHandler->eventDispatcher = nullptr;
         }
     }
 
