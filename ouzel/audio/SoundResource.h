@@ -35,16 +35,23 @@ namespace ouzel
             virtual bool reset();
 
             bool isRepeating() const { return repeat; }
-            
-            bool isReady() const { return ready; }
 
         protected:
             SoundResource();
 
+            enum Dirty
+            {
+                DIRTY_SOUND_DATA = 0x01,
+                DIRTY_POSITION = 0x02,
+                DIRTY_PITCH = 0x04,
+                DIRTY_GAIN = 0x08,
+                DIRTY_PLAY_STATE = 0x10
+            };
+
+            uint32_t dirty = 0;
+
             std::shared_ptr<SoundData> soundData;
             bool repeat = false;
-
-            bool ready = false;
 
             Vector3 position;
             float pitch = 1.0f;

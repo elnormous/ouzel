@@ -75,8 +75,11 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            static const uint32_t DIRTY_DATA = 1;
-            static const uint32_t DIRTY_PARAMETERS = 2;
+            enum Dirty
+            {
+                DIRTY_DATA = 0x01,
+                DIRTY_PARAMETERS = 0x02
+            };
 
             uint32_t dirty = 0;
 

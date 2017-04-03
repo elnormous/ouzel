@@ -18,7 +18,6 @@ namespace ouzel
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
-            ready = true;
 
             return true;
         }

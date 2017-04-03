@@ -35,8 +35,8 @@ namespace ouzel
 
             enum Dirty
             {
-                ATTRIBUTES = 0x01,
-                DATA = 0x02
+                DIRTY_ATTRIBUTES = 0x01,
+                DIRTY_DATA = 0x02
             };
 
             uint32_t dirty = 0;

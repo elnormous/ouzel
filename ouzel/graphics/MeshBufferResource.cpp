@@ -33,7 +33,7 @@ namespace ouzel
                 vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            dirty |= INDEX_ATTRIBUTES | INDEX_BUFFER | VERTEX_ATTRIBUTES | VERTEX_BUFFER;
+            dirty |= DIRTY_INDEX_ATTRIBUTES | DIRTY_INDEX_BUFFER | DIRTY_VERTEX_ATTRIBUTES | DIRTY_VERTEX_BUFFER;
 
             return true;
         }
@@ -44,7 +44,7 @@ namespace ouzel
 
             indexSize = newIndexSize;
 
-            dirty |= INDEX_ATTRIBUTES;
+            dirty |= DIRTY_INDEX_ATTRIBUTES;
 
             return true;
         }
@@ -61,7 +61,7 @@ namespace ouzel
                 vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            dirty |= VERTEX_ATTRIBUTES;
+            dirty |= DIRTY_VERTEX_ATTRIBUTES;
 
             return true;
         }
@@ -77,7 +77,7 @@ namespace ouzel
 
             indexBuffer = newIndexBuffer;
 
-            dirty |= INDEX_BUFFER;
+            dirty |= DIRTY_INDEX_BUFFER;
 
             return true;
         }
@@ -93,7 +93,7 @@ namespace ouzel
 
             vertexBuffer = newVertexBuffer;
 
-            dirty |= VERTEX_BUFFER;
+            dirty |= DIRTY_VERTEX_BUFFER;
 
             return true;
         }

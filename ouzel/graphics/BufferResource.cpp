@@ -22,7 +22,7 @@ namespace ouzel
             usage = newUsage;
             dynamic = newDynamic;
 
-            dirty |= ATTRIBUTES;
+            dirty |= DIRTY_ATTRIBUTES;
 
             return true;
         }
@@ -44,7 +44,7 @@ namespace ouzel
                 data.resize(newSize);
             }
 
-            dirty |= ATTRIBUTES | DATA;
+            dirty |= DIRTY_ATTRIBUTES | DIRTY_DATA;
 
             return true;
         }
@@ -68,7 +68,7 @@ namespace ouzel
                 data.resize(newSize);
             }
 
-            dirty |= ATTRIBUTES | DATA;
+            dirty |= DIRTY_ATTRIBUTES | DIRTY_DATA;
 
             return true;
         }

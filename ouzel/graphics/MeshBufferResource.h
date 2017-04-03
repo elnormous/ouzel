@@ -42,10 +42,10 @@ namespace ouzel
 
             enum Dirty
             {
-                INDEX_ATTRIBUTES = 0x01,
-                INDEX_BUFFER = 0x02,
-                VERTEX_ATTRIBUTES = 0x04,
-                VERTEX_BUFFER = 0x08
+                DIRTY_INDEX_ATTRIBUTES = 0x01,
+                DIRTY_INDEX_BUFFER = 0x02,
+                DIRTY_VERTEX_ATTRIBUTES = 0x04,
+                DIRTY_VERTEX_BUFFER = 0x08
             };
 
             uint32_t dirty = 0;

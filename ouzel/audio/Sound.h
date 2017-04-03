@@ -33,15 +33,11 @@ namespace ouzel
 
             bool isRepeating() const { return repeat; }
 
-            bool isReady() const { return ready; }
-
         protected:
             Sound();
 
             std::shared_ptr<SoundData> soundData;
             bool repeat = false;
-
-            bool ready = false;
 
             Vector3 position;
             float pitch = 1.0f;
