@@ -8,30 +8,24 @@
 #include <SLES/OpenSLES_Android.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 
-#include "audio/Sound.h"
+#include "audio/SoundResource.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        class SoundSL: public Sound
+        class SoundSL: public SoundResource
         {
         public:
             SoundSL();
             virtual ~SoundSL();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData) override;
-
-            virtual void setGain(float newGain) override;
-
-            virtual bool play(bool repeatSound = false) override;
-            virtual bool stop(bool resetSound = false) override;
-            virtual bool reset() override;
-
             SLPlayItf getPlayer() const { return player; }
             const std::vector<uint8_t>& getBuffer() const { return buffer; }
 
         protected:
+            virtual bool update() override;
+
             SLObjectItf playerObject = nullptr;
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;

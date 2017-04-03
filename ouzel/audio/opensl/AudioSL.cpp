@@ -74,9 +74,10 @@ namespace ouzel
             return true;
         }
 
-        std::shared_ptr<Sound> AudioSL::createSound()
+        SoundResource* AudioSL::createSound()
         {
-            std::shared_ptr<Sound> sound = std::make_shared<SoundSL>();
+            SoundResource* sound = new SoundSL();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
     } // namespace audio
