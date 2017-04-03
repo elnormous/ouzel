@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "Sound.h"
+#include "SoundResource.h"
+#include "Engine.h"
 
 namespace ouzel
 {
@@ -9,56 +11,54 @@ namespace ouzel
     {
         Sound::Sound()
         {
+            resource = sharedEngine->getAudio()->createSound();
         }
 
         Sound::~Sound()
         {
+            sharedEngine->getAudio()->deleteResource(resource);
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
-
-            return true;
+            
+            return resource->init(newSoundData);
         }
 
         void Sound::setPosition(const Vector3& newPosition)
         {
-            position = newPosition;
+            return resource->setPosition(newPosition);
         }
 
         void Sound::setPitch(float newPitch)
         {
-            pitch = newPitch;
+            return resource->setPitch(newPitch);
         }
 
         void Sound::setGain(float newGain)
         {
-            gain = newGain;
+            return resource->setGain(newGain);
         }
 
         bool Sound::play(bool repeatSound)
         {
-            repeat = repeatSound;
-
-            stop(true);
-
-            return true;
+            return resource->play(repeatSound);
         }
 
-        bool Sound::stop(bool resetSound)
+        bool Sound::pause()
         {
-            if (resetSound)
-            {
-                reset();
-            }
-
-            return true;
+            return resource->pause();
         }
 
-        bool Sound::reset()
+        bool Sound::stop()
         {
-            return true;
+            return resource->stop();
+        }
+
+        bool Sound::isRepeating() const
+        {
+            return resource->isRepeating();
         }
     } // namespace audio
 } // namespace ouzel

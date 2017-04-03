@@ -21,7 +21,7 @@ namespace ouzel
     namespace audio
     {
         class Resource;
-        class Sound;
+        class SoundResource;
 
         class Audio
         {
@@ -42,7 +42,7 @@ namespace ouzel
 
             virtual bool update();
 
-            virtual std::shared_ptr<Sound> createSound() = 0;
+            virtual SoundResource* createSound() = 0;
             virtual void deleteResource(Resource* resource);
 
             virtual void setListenerPosition(const Vector3& newPosition);

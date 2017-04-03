@@ -16,7 +16,7 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual std::shared_ptr<Sound> createSound() override;
+            virtual SoundResource* createSound() override;
 
         protected:
             AudioEmpty();

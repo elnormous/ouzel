@@ -24,15 +24,13 @@ namespace ouzel
 
             virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
 
-            const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
-
             virtual void setPosition(const Vector3& newPosition);
             virtual void setPitch(float newPitch);
             virtual void setGain(float newGain);
 
             virtual bool play(bool repeatSound = false);
-            virtual bool stop(bool resetSound = false);
-            virtual bool reset();
+            virtual bool pause();
+            virtual bool stop();
 
             bool isRepeating() const { return repeat; }
 
@@ -51,7 +49,9 @@ namespace ouzel
             uint32_t dirty = 0;
 
             std::shared_ptr<SoundData> soundData;
+            bool shouldPlay = false;
             bool repeat = false;
+            bool reset = false;
 
             Vector3 position;
             float pitch = 1.0f;

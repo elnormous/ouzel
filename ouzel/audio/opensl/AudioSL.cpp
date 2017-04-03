@@ -16,6 +16,9 @@ namespace ouzel
 
         AudioSL::~AudioSL()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             if (outputMixObject)
             {
                 (*outputMixObject)->Destroy(outputMixObject);

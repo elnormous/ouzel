@@ -13,9 +13,10 @@ namespace ouzel
         {
         }
 
-        std::shared_ptr<Sound> AudioEmpty::createSound()
+        SoundResource* AudioEmpty::createSound()
         {
-            std::shared_ptr<Sound> sound = std::make_shared<SoundEmpty>();
+            SoundResource* sound = new SoundEmpty();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
     } // namespace audio

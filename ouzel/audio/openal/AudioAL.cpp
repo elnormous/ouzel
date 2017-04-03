@@ -75,6 +75,9 @@ namespace ouzel
 
         AudioAL::~AudioAL()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             if (context)
             {
                 alcMakeContextCurrent(nullptr);
@@ -153,9 +156,10 @@ namespace ouzel
             alListenerfv(AL_ORIENTATION, values);
         }
 
-        std::shared_ptr<Sound> AudioAL::createSound()
+        SoundResource* AudioAL::createSound()
         {
-            std::shared_ptr<Sound> sound = std::make_shared<SoundAL>();
+            SoundResource* sound = new SoundAL();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
     } // namespace audio

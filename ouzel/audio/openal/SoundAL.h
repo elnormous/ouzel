@@ -13,29 +13,21 @@
 #include <AL/alc.h>
 #endif
 
-#include "audio/Sound.h"
+#include "audio/SoundResource.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        class SoundAL: public Sound
+        class SoundAL: public SoundResource
         {
         public:
             SoundAL();
             virtual ~SoundAL();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData) override;
-
-            virtual void setPosition(const Vector3& newPosition) override;
-            virtual void setPitch(float newPitch) override;
-            virtual void setGain(float newGain) override;
-
-            virtual bool play(bool repeatSound = false) override;
-            virtual bool stop(bool resetSound = false) override;
-            virtual bool reset() override;
-
         protected:
+            virtual bool update() override;
+
             ALuint sourceId = 0;
             ALuint outputBuffer = 0;
         };

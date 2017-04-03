@@ -62,7 +62,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     layer->addChild(character);
     character->setPosition(Vector2(10.0f, 0.0f));
 
-    jumpSound = sharedEngine->getAudio()->createSound();
+    jumpSound = std::make_shared<audio::Sound>();
     std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
     soundData->initFromFile("jump.wav");
     jumpSound->init(soundData);

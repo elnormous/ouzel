@@ -7,6 +7,14 @@ namespace ouzel
 {
     namespace audio
     {
+        SoundResource::SoundResource()
+        {
+        }
+
+        SoundResource::~SoundResource()
+        {
+        }
+
         bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
@@ -49,6 +57,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
+            shouldPlay = true;
             repeat = repeatSound;
 
             dirty |= DIRTY_PLAY_STATE;
@@ -56,26 +65,26 @@ namespace ouzel
             return true;
         }
 
-        bool SoundResource::stop(bool resetSound)
+        bool SoundResource::pause()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            if (resetSound)
-            {
-                reset();
-            }
+            shouldPlay = false;
 
             dirty |= DIRTY_PLAY_STATE;
 
             return true;
         }
-        
-        bool SoundResource::reset()
+
+        bool SoundResource::stop()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
+            shouldPlay = false;
+            reset = true;
+
             dirty |= DIRTY_PLAY_STATE;
-            
+
             return true;
         }
     } // namespace audio

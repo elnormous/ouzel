@@ -22,6 +22,9 @@ namespace ouzel
 
         AudioXA2::~AudioXA2()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio)
             {

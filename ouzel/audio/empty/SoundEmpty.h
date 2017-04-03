@@ -3,16 +3,19 @@
 
 #pragma once
 
-#include "audio/Sound.h"
+#include "audio/SoundResource.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        class SoundEmpty: public Sound
+        class SoundEmpty: public SoundResource
         {
         public:
             SoundEmpty();
+
+        protected:
+            virtual bool update() override;
         };
     } // namespace audio
 } // namespace ouzel

@@ -18,25 +18,25 @@ SoundSample::SoundSample(Samples& aSamples):
     std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
     test8BitData->initFromFile("8-bit.wav");
 
-    test8BitSound = sharedEngine->getAudio()->createSound();
+    test8BitSound = std::make_shared<audio::Sound>();
     test8BitSound->init(test8BitData);
 
     std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
     test24BitData->initFromFile("24-bit.wav");
 
-    test24BitSound = sharedEngine->getAudio()->createSound();
+    test24BitSound = std::make_shared<audio::Sound>();
     test24BitSound->init(test24BitData);
 
     std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
     jumpData->initFromFile("jump.wav");
 
-    jumpSound = sharedEngine->getAudio()->createSound();
+    jumpSound = std::make_shared<audio::Sound>();
     jumpSound->init(jumpData);
 
     std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
     ambientData->initFromFile("ambient.wav");
 
-    ambientSound = sharedEngine->getAudio()->createSound();
+    ambientSound = std::make_shared<audio::Sound>();
     ambientSound->init(ambientData);
 
     guiCamera = std::make_shared<scene::Camera>();

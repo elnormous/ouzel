@@ -12,11 +12,13 @@ namespace ouzel
     {
         class Audio;
         class SoundData;
+        class SoundResource;
 
         class Sound
         {
             friend Audio;
         public:
+            Sound();
             virtual ~Sound();
 
             virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
@@ -28,20 +30,15 @@ namespace ouzel
             virtual void setGain(float newGain);
 
             virtual bool play(bool repeatSound = false);
-            virtual bool stop(bool resetSound = false);
-            virtual bool reset();
+            virtual bool pause();
+            virtual bool stop();
 
-            bool isRepeating() const { return repeat; }
+            bool isRepeating() const;
 
         protected:
-            Sound();
+            SoundResource* resource = nullptr;
 
             std::shared_ptr<SoundData> soundData;
-            bool repeat = false;
-
-            Vector3 position;
-            float pitch = 1.0f;
-            float gain = 1.0f;
         };
     } // namespace audio
 } // namespace ouzel
