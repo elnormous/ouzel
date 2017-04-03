@@ -26,8 +26,6 @@ namespace ouzel
 
             virtual void getData(std::vector<uint8_t>& buffer);
 
-            bool isReady() const { return ready; }
-
         protected:
             std::string filename;
 

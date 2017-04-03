@@ -93,7 +93,8 @@ namespace ouzel
     bool ApplicationIOS::openURL(const std::string& url)
     {
         NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:nsStringURL]] == YES;
+        return [[UIApplication sharedApplication] openURL:nsURL] == YES;
     }
 }

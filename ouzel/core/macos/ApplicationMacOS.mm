@@ -108,7 +108,8 @@ namespace ouzel
     bool ApplicationMacOS::openURL(const std::string& url)
     {
         NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
+        NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
-        return [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:nsStringURL]] == YES;
+        return [[NSWorkspace sharedWorkspace] openURL:nsURL] == YES;
     }
 }

@@ -34,8 +34,6 @@ namespace ouzel
 
         bool SoundDataWave::initFromBuffer(const std::vector<uint8_t>& newData)
         {
-            ready = false;
-
             uint32_t offset = 0;
 
             if (newData.size() < 16) // RIFF + size + WAVE
@@ -199,8 +197,6 @@ namespace ouzel
                     data.push_back(static_cast<uint8_t>(sample >> 8));
                 }
             }
-
-            ready = true;
 
             return true;
         }
