@@ -131,6 +131,21 @@ namespace ouzel
             return true;
         }
 
+        bool AudioAL::update()
+        {
+            alcMakeContextCurrent(context);
+
+            if (checkALCError())
+            {
+                Log(Log::Level::ERR) << "Failed to make OpenAL context current";
+                return false;
+            }
+
+            Audio::update();
+
+            return true;
+        }
+
         void AudioAL::setListenerPosition(const Vector3& newPosition)
         {
             Audio::setListenerPosition(newPosition);

@@ -28,6 +28,8 @@ namespace ouzel
 
             virtual ~AudioAL();
 
+            virtual bool update() override;
+
             virtual void setListenerPosition(const Vector3& newPosition) override;
             virtual void setListenerRotation(const Quaternion& newRotation) override;
 
