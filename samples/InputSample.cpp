@@ -113,7 +113,6 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
 bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
 {
-    Log() << event.position;
     switch (type)
     {
         case Event::Type::MOUSE_MOVE:
