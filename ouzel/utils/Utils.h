@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include <sstream>
 #include <vector>
 #include <cstdint>
 #include <limits>
@@ -309,24 +308,21 @@ namespace ouzel
         return result;
     }
 
+#if OUZEL_PLATFORM_ANDROID
+    std::string toString(int val);
+    std::string toString(unsigned val);
+    std::string toString(long val);
+    std::string toString(unsigned long val);
+    std::string toString(long long val);
+    std::string toString(unsigned long long val);
+    std::string toString(float val);
+    std::string toString(double val);
+    std::string toString(long double val);
+#else
     template<class T>
     inline std::string toString(T val)
     {
-#if OUZEL_PLATFORM_ANDROID
-        std::stringstream ss;
-        ss << val;
-        return ss.str();
-#else
         return std::to_string(val);
+    }
 #endif
-    }
-
-    template<class T>
-    inline T fromString(std::string val)
-    {
-        std::istringstream ss(val);
-        T result;
-        ss >> result;
-        return result;
-    }
 }
