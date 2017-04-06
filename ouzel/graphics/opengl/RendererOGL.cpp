@@ -427,7 +427,10 @@ namespace ouzel
             {
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
+
+#if OUZEL_SUPPORTS_OPENGL
                 renderTargetsSupported = false;
+#endif
 
                 for (const std::string& extension : extensions)
                 {
@@ -441,7 +444,7 @@ namespace ouzel
                         npotTexturesSupported = true;
                     }
 #if OUZEL_SUPPORTS_OPENGL
-                    if (extension == "GL_EXT_framebuffer_object")
+                    else if (extension == "GL_EXT_framebuffer_object")
                     {
                         renderTargetsSupported = true;
 
@@ -471,7 +474,7 @@ namespace ouzel
                         glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRangeEXT"));
                     }
 #elif OUZEL_OPENGL_INTERFACE_EAGL
-                    if (extension == "GL_APPLE_framebuffer_multisample")
+                    else if (extension == "GL_APPLE_framebuffer_multisample")
                     {
                         multisamplingSupported = true;
                         glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
