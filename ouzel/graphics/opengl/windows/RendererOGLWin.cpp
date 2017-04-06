@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #define NOMINMAX
+#include <string.h>
 #define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -301,8 +302,8 @@ namespace ouzel
                     minorVersion += c;
             }
 
-            apiMajorVersion = fromString<uint16_t>(majorVersion);
-            apiMinorVersion = fromString<uint16_t>(minorVersion);
+            apiMajorVersion = static_cast<uint16_t>(stoi(majorVersion));
+            apiMinorVersion = static_cast<uint16_t>(stoi(minorVersion));
 
             if (apiMajorVersion < 2)
             {
