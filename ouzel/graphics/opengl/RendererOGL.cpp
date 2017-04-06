@@ -224,10 +224,16 @@ namespace ouzel
 
 #if OUZEL_OPENGL_INTERFACE_EAGL
             glBlitFramebufferProc = glBlitFramebuffer;
-            glGetStringiProc = glGetStringi;
-#else
-            glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
 #endif
+
+            if (apiMajorVersion >= 3)
+            {
+#if OUZEL_OPENGL_INTERFACE_EAGL
+                glGetStringiProc = glGetStringi;
+#else
+                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
+#endif
+            }
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
             glClearDepthfProc = glClearDepthf;
@@ -305,7 +311,10 @@ namespace ouzel
             glDisableVertexAttribArrayProc = reinterpret_cast<PFNGLDISABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glDisableVertexAttribArray"));
             glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(getProcAddress("glVertexAttribPointer"));
 
-            glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
+            if (apiMajorVersion >= 3)
+            {
+                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
+            }
 #endif
 
             anisotropicFilteringSupported = false;
