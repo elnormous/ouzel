@@ -32,11 +32,6 @@ namespace ouzel
 
         bool AudioSL::init()
         {
-            if (!Audio::init())
-            {
-                return false;
-            }
-
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
             const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
@@ -71,7 +66,7 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            return Audio::init();
         }
 
         SoundResource* AudioSL::createSound()

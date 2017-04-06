@@ -36,11 +36,6 @@ namespace ouzel
 
         bool AudioXA2::init()
         {
-            if (!Audio::init())
-            {
-                return false;
-            }
-
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
             if (xAudio2Library)
@@ -100,7 +95,7 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            return Audio::init();
         }
 
         void AudioXA2::setListenerPosition(const Vector3& newPosition)

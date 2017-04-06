@@ -92,11 +92,6 @@ namespace ouzel
 
         bool AudioAL::init()
         {
-            if (!Audio::init())
-            {
-                return false;
-            }
-
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
@@ -128,7 +123,7 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            return Audio::init();
         }
 
         bool AudioAL::update()

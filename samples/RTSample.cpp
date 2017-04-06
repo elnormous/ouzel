@@ -18,7 +18,7 @@ RTSample::RTSample(Samples& aSamples):
     rtLayer = std::make_shared<scene::Layer>();
     addLayer(rtLayer);
 
-    std::shared_ptr<graphics::Texture> renderTarget(new graphics::Texture());
+    std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, false);
     renderTarget->setClearColor(Color(0, 64, 0));
 
