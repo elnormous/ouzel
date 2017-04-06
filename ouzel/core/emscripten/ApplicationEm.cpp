@@ -47,7 +47,7 @@ namespace ouzel
     {
         executeAll();
         sharedEngine->update();
-        sharedEngine->getAudio->update();
+        sharedEngine->getAudio()->update();
 
         if (!sharedEngine->draw())
         {
