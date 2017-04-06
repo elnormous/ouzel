@@ -108,11 +108,10 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     guiLayer->addCamera(guiCamera);
     addLayer(guiLayer);
 
+    menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu);
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-
-    menu = std::make_shared<gui::Menu>();
     menu->addWidget(backButton);
 }
 
