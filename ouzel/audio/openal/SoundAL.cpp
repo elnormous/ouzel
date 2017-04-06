@@ -46,131 +46,146 @@ namespace ouzel
 
             if (dirty & DIRTY_SOUND_DATA)
             {
-                if (!sourceId) alGenSources(1, &sourceId);
-
-                if (AudioAL::checkOpenALError())
+                if (soundData)
                 {
-                    Log(Log::Level::ERR) << "Failed to create OpenAL source";
-                    return false;
-                }
+                    if (!sourceId) alGenSources(1, &sourceId);
 
-                if (!outputBuffer) alGenBuffers(1, &outputBuffer);
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create OpenAL source";
+                        return false;
+                    }
 
-                if (AudioAL::checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create OpenAL buffer";
-                    return false;
-                }
+                    if (!outputBuffer) alGenBuffers(1, &outputBuffer);
 
-                ALenum format = 0;
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create OpenAL buffer";
+                        return false;
+                    }
 
-                if (soundData->getChannels() == 1)
-                {
-                    format = AL_FORMAT_MONO16;
-                }
-                else if (soundData->getChannels() == 2)
-                {
-                    format = AL_FORMAT_STEREO16;
-                }
-                else if (soundData->getChannels() == 4)
-                {
-                    format = alGetEnumValue("AL_FORMAT_QUAD16");
-                }
-                else if (soundData->getChannels() == 6)
-                {
-                    format = alGetEnumValue("AL_FORMAT_51CHN16");
-                }
-                else if (soundData->getChannels() == 7)
-                {
-                    format = alGetEnumValue("AL_FORMAT_61CHN16");
-                }
-                else if (soundData->getChannels() == 8)
-                {
-                    format = alGetEnumValue("AL_FORMAT_71CHN16");
-                }
+                    ALenum format = 0;
 
-                if (format == 0)
-                {
-                    Log(Log::Level::ERR) << "Unsupported audio format";
-                    return false;
-                }
+                    if (soundData->getChannels() == 1)
+                    {
+                        format = AL_FORMAT_MONO16;
+                    }
+                    else if (soundData->getChannels() == 2)
+                    {
+                        format = AL_FORMAT_STEREO16;
+                    }
+                    else if (soundData->getChannels() == 4)
+                    {
+                        format = alGetEnumValue("AL_FORMAT_QUAD16");
+                    }
+                    else if (soundData->getChannels() == 6)
+                    {
+                        format = alGetEnumValue("AL_FORMAT_51CHN16");
+                    }
+                    else if (soundData->getChannels() == 7)
+                    {
+                        format = alGetEnumValue("AL_FORMAT_61CHN16");
+                    }
+                    else if (soundData->getChannels() == 8)
+                    {
+                        format = alGetEnumValue("AL_FORMAT_71CHN16");
+                    }
 
-                std::vector<uint8_t> buffer;
-                soundData->getData(buffer);
+                    if (format == 0)
+                    {
+                        Log(Log::Level::ERR) << "Unsupported audio format";
+                        return false;
+                    }
 
-                alBufferData(outputBuffer, format,
-                             buffer.data(),
-                             static_cast<ALsizei>(buffer.size()),
-                             static_cast<ALsizei>(soundData->getSamplesPerSecond()));
+                    std::vector<uint8_t> buffer;
+                    soundData->getData(buffer);
 
-                if (AudioAL::checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to upload OpenAL data";
-                    return false;
-                }
+                    alBufferData(outputBuffer, format,
+                                 buffer.data(),
+                                 static_cast<ALsizei>(buffer.size()),
+                                 static_cast<ALsizei>(soundData->getSamplesPerSecond()));
 
-                alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(outputBuffer));
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to upload OpenAL data";
+                        return false;
+                    }
 
-                if (AudioAL::checkOpenALError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set OpenAL buffer";
-                    return false;
+                    alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(outputBuffer));
+
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set OpenAL buffer";
+                        return false;
+                    }
                 }
             }
 
             if (dirty & DIRTY_PITCH)
             {
-                alSourcef(sourceId, AL_PITCH, pitch);
+                if (sourceId)
+                {
+                    alSourcef(sourceId, AL_PITCH, pitch);
+                }
             }
 
             if (dirty & DIRTY_GAIN)
             {
-                alSourcef(sourceId, AL_GAIN, gain);
+                if (sourceId)
+                {
+                    alSourcef(sourceId, AL_GAIN, gain);
+                }
             }
 
             if (dirty & DIRTY_POSITION)
             {
-                alSourcefv(sourceId, AL_POSITION, position.v);
+                if (sourceId)
+                {
+                    alSourcefv(sourceId, AL_POSITION, position.v);
+                }
             }
 
             if (dirty & DIRTY_PLAY_STATE)
             {
-                if (shouldPlay)
+                if (sourceId)
                 {
-                    if (reset)
+                    if (shouldPlay)
                     {
-                        alSourceRewind(sourceId);
-                    }
+                        if (reset)
+                        {
+                            alSourceRewind(sourceId);
+                        }
 
-                    alSourcei(sourceId, AL_LOOPING, repeat ? AL_TRUE : AL_FALSE);
-                    alSourcePlay(sourceId);
-
-                    if (AudioAL::checkOpenALError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to play OpenAL source";
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (reset)
-                    {
-                        alSourceStop(sourceId);
+                        alSourcei(sourceId, AL_LOOPING, repeat ? AL_TRUE : AL_FALSE);
+                        alSourcePlay(sourceId);
 
                         if (AudioAL::checkOpenALError())
                         {
-                            Log(Log::Level::ERR) << "Failed to stop OpenAL source";
+                            Log(Log::Level::ERR) << "Failed to play OpenAL source";
                             return false;
                         }
                     }
                     else
                     {
-                        alSourcePause(sourceId);
-
-                        if (AudioAL::checkOpenALError())
+                        if (reset)
                         {
-                            Log(Log::Level::ERR) << "Failed to pause OpenAL source";
-                            return false;
+                            alSourceStop(sourceId);
+
+                            if (AudioAL::checkOpenALError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to stop OpenAL source";
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            alSourcePause(sourceId);
+
+                            if (AudioAL::checkOpenALError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to pause OpenAL source";
+                                return false;
+                            }
                         }
                     }
                 }

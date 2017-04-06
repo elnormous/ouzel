@@ -26,6 +26,7 @@ namespace ouzel
         protected:
             virtual bool update() override;
 
+            uint32_t channels = 0;
             SLObjectItf playerObject = nullptr;
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
