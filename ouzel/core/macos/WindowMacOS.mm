@@ -102,11 +102,11 @@ namespace ouzel
                                   static_cast<float>(screen.frame.size.height) / 2.0f - size.v[1] / 2.0f,
                                   size.v[0], size.v[1]);
 
-        NSUInteger windowStyleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable;
+        NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
         if (resizable)
         {
-            windowStyleMask |= NSWindowStyleMaskResizable;
+            windowStyleMask |= NSResizableWindowMask;
         }
 
         window  = [[NSWindow alloc] initWithContentRect:frame

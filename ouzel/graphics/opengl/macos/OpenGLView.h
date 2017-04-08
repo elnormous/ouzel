@@ -8,7 +8,6 @@
 {
 @private
     CVDisplayLinkRef displayLink;
-    CGDirectDisplayID displayId;
 }
 
 // input

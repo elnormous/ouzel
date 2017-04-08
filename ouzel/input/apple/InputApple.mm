@@ -311,11 +311,11 @@ namespace ouzel
         {
             uint32_t modifiers = 0;
 
-            if (modifierFlags & NSEventModifierFlagShift) modifiers |= SHIFT_DOWN;
-            if (modifierFlags & NSEventModifierFlagOption) modifiers |= ALT_DOWN;
-            if (modifierFlags & NSEventModifierFlagControl) modifiers |= CONTROL_DOWN;
-            if (modifierFlags & NSEventModifierFlagCommand) modifiers |= SUPER_DOWN;
-            if (modifierFlags & NSEventModifierFlagFunction) modifiers |= FUNCTION_DOWN;
+            if (modifierFlags & NSShiftKeyMask) modifiers |= SHIFT_DOWN;
+            if (modifierFlags & NSAlternateKeyMask) modifiers |= ALT_DOWN;
+            if (modifierFlags & NSControlKeyMask) modifiers |= CONTROL_DOWN;
+            if (modifierFlags & NSCommandKeyMask) modifiers |= SUPER_DOWN;
+            if (modifierFlags & NSFunctionKeyMask) modifiers |= FUNCTION_DOWN;
 
             if (pressedMouseButtons)
             {

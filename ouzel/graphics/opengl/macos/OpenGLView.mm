@@ -95,11 +95,7 @@ static CVReturn renderCallback(CVDisplayLinkRef,
         displayLink = Nil;
     }
 
-    NSScreen* screen = [_window screen];
-    displayId = (CGDirectDisplayID)[[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
-    if (!displayId) displayId = CGMainDisplayID();
-
+    const CGDirectDisplayID displayId = [[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
     CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
     CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
 
