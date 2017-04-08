@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#import <Metal/Metal.h>
 #include "MetalView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -9,40 +10,59 @@
 #include "graphics/metal/RendererMetal.h"
 #include "utils/Utils.h"
 
-@interface ViewDelegate: NSObject<MTKViewDelegate>
-
-@end
-
-@implementation ViewDelegate
-
--(void)mtkView:(nonnull __unused MTKView*)view drawableSizeWillChange:(__unused CGSize)size
+static CVReturn renderCallback(CVDisplayLinkRef,
+                               const CVTimeStamp*,
+                               const CVTimeStamp*,
+                               CVOptionFlags,
+                               CVOptionFlags*,
+                               void*)
 {
-    // this is handled by window size change handler
-}
-
--(void)drawInMTKView:(nonnull __unused MTKView*)view
-{
-    if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
+    @autoreleasepool
     {
-        ouzel::sharedApplication->execute([] {
-            ouzel::sharedEngine->getWindow()->close();
-        });
+        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
+        {
+            ouzel::sharedApplication->execute([] {
+                ouzel::sharedEngine->getWindow()->close();
+            });
+        }
     }
-}
 
-@end
+    return kCVReturnSuccess;
+}
 
 @implementation MetalView
-{
-    id<MTKViewDelegate> viewDelegate;
-}
 
--(id)initWithFrame:(CGRect)frameRect
+-(id)initWithFrame:(NSRect)frameRect
 {
     if (self = [super initWithFrame:frameRect])
     {
-        viewDelegate = [[ViewDelegate alloc] init];
-        self.delegate = viewDelegate;
+        [self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [self setWantsLayer:YES];
+
+        _metalLayer = [[CAMetalLayer alloc] init];
+
+        CGFloat bgColor[] = { 0.0, 0.0, 0.0, 0.0 };
+        _metalLayer.edgeAntialiasingMask = 0;
+        _metalLayer.masksToBounds = YES;
+        _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+        _metalLayer.presentsWithTransaction = NO;
+        _metalLayer.anchorPoint = CGPointMake(0.5, 0.5);
+        _metalLayer.frame = frameRect;
+        _metalLayer.magnificationFilter = kCAFilterNearest;
+        _metalLayer.minificationFilter = kCAFilterNearest;
+        _metalLayer.framebufferOnly = NO;
+
+        [self setLayer:_metalLayer];
+
+        NSScreen* screen = [_window screen];
+        displayId = (CGDirectDisplayID)[[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+
+        if (!displayId) displayId = CGMainDisplayID();
+
+        CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
+        CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
+
+        CVDisplayLinkStart(displayLink);
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(windowWillClose:)
@@ -55,13 +75,19 @@
 
 -(void)dealloc
 {
-    if (viewDelegate)
+    if (displayLink)
     {
-        self.delegate = Nil;
-        [viewDelegate release];
+        CVDisplayLinkStop(displayLink);
+        CVDisplayLinkRelease(displayLink);
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    if (_metalLayer)
+    {
+        [_metalLayer release];
+        _metalLayer = Nil;
+    }
 
     [super dealloc];
 }
@@ -70,15 +96,25 @@
 {
     if (notification.object == self.window)
     {
-        if (viewDelegate)
+        if (displayLink)
         {
-            self.delegate = Nil;
-            [viewDelegate release];
-            viewDelegate = Nil;
+            CVDisplayLinkStop(displayLink);
+            CVDisplayLinkRelease(displayLink);
+            displayLink = Nil;
         }
-
+        
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
+}
+
+-(BOOL)isOpaque
+{
+    return YES;
+}
+
+- (BOOL)mouseDownCanMoveWindow
+{
+    return YES;
 }
 
 -(BOOL)isFlipped

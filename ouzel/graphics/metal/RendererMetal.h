@@ -7,9 +7,10 @@
 #include <dispatch/dispatch.h>
 
 #if defined(__OBJC__)
+#import <QuartzCore/QuartzCore.h>
 #import <Metal/Metal.h>
-#import <MetalKit/MTKView.h>
-typedef MTKView* MTKViewPtr;
+typedef CAMetalLayer* CAMetalLayerPtr;
+typedef id <CAMetalDrawable> CAMetalDrawablePtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
@@ -22,7 +23,8 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
-typedef id MTKViewPtr;
+typedef id CAMetalLayerPtr;
+typedef id CAMetalDrawablePtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
@@ -62,7 +64,6 @@ namespace ouzel
             virtual BufferResource* createBuffer() override;
 
             MTLDevicePtr getDevice() const { return device; }
-            MTKViewPtr getMetalView() const { return view; }
 
             struct SamplerStateDesc
             {
@@ -112,9 +113,10 @@ namespace ouzel
 
             bool createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor);
 
-            MTKViewPtr view = Nil;
-
             MTLDevicePtr device = Nil;
+            CAMetalLayerPtr metalLayer = Nil;
+            CAMetalDrawablePtr metalDrawable = Nil;
+            MTLTexturePtr metalTexture = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
 
             MTLDepthStencilStatePtr depthStencilStates[4];

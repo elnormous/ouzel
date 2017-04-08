@@ -100,6 +100,7 @@
 		3045F0DB1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
 		3045F0DC1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
 		3045F0DD1D0F575F00125436 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 3045F0DA1D0F575F00125436 /* ball.png */; };
+		304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304659F01E996AAD00D7FEA0 /* QuartzCore.framework */; };
 		304736CD1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
 		304736CE1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
 		304736CF1E0AD89E009BC562 /* PerspectiveSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */; };
@@ -126,11 +127,8 @@
 		30A8835F1E70E5B1004A033F /* 24-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A8835D1E70E5B1004A033F /* 24-bit.wav */; };
 		30A883601E70E5B1004A033F /* 24-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A8835D1E70E5B1004A033F /* 24-bit.wav */; };
 		30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1311CB5DC2B00478AA2 /* Metal.framework */; };
-		30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1361CB5DC3300478AA2 /* MetalKit.framework */; };
 		30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1381CB5DC6000478AA2 /* Metal.framework */; };
-		30AFE13B1CB5DC6000478AA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1391CB5DC6000478AA2 /* MetalKit.framework */; };
 		30AFE13E1CB5DC6F00478AA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE13C1CB5DC6F00478AA2 /* Metal.framework */; };
-		30AFE13F1CB5DC6F00478AA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE13D1CB5DC6F00478AA2 /* MetalKit.framework */; };
 		30AFE1411CB5DC7B00478AA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1401CB5DC7B00478AA2 /* Foundation.framework */; };
 		30AFE1431CB5DC8700478AA2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1421CB5DC8700478AA2 /* GameController.framework */; };
 		30AFE1451CB5DC9300478AA2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1441CB5DC9300478AA2 /* OpenGLES.framework */; };
@@ -238,6 +236,7 @@
 		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
 		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
 		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		304659F01E996AAD00D7FEA0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerspectiveSample.cpp; sourceTree = "<group>"; };
 		304736CC1E0AD89E009BC562 /* PerspectiveSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveSample.h; sourceTree = "<group>"; };
 		304736D31E0AE4CE009BC562 /* floor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = floor.jpg; sourceTree = "<group>"; };
@@ -255,11 +254,8 @@
 		30A883561E70E004004A033F /* 8-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "8-bit.wav"; sourceTree = "<group>"; };
 		30A8835D1E70E5B1004A033F /* 24-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "24-bit.wav"; sourceTree = "<group>"; };
 		30AFE1311CB5DC2B00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
-		30AFE1361CB5DC3300478AA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		30AFE1381CB5DC6000478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
-		30AFE1391CB5DC6000478AA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE13C1CB5DC6F00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
-		30AFE13D1CB5DC6F00478AA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1401CB5DC7B00478AA2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1421CB5DC8700478AA2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1441CB5DC9300478AA2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
@@ -289,7 +285,6 @@
 				30AFE14D1CB5DCDC00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE14B1CB5DCBD00478AA2 /* GameController.framework in Frameworks */,
 				30AFE13A1CB5DC6000478AA2 /* Metal.framework in Frameworks */,
-				30AFE13B1CB5DC6000478AA2 /* MetalKit.framework in Frameworks */,
 				30419E881D202DB500A63759 /* OpenAL.framework in Frameworks */,
 				30AFE14F1CB5DCF100478AA2 /* OpenGLES.framework in Frameworks */,
 				30AFE1511CB5DCF900478AA2 /* QuartzCore.framework in Frameworks */,
@@ -307,7 +302,6 @@
 				30AFE1411CB5DC7B00478AA2 /* Foundation.framework in Frameworks */,
 				30AFE1431CB5DC8700478AA2 /* GameController.framework in Frameworks */,
 				30AFE13E1CB5DC6F00478AA2 /* Metal.framework in Frameworks */,
-				30AFE13F1CB5DC6F00478AA2 /* MetalKit.framework in Frameworks */,
 				30419E8A1D202DC000A63759 /* OpenAL.framework in Frameworks */,
 				30AFE1451CB5DC9300478AA2 /* OpenGLES.framework in Frameworks */,
 				30AFE1471CB5DC9C00478AA2 /* QuartzCore.framework in Frameworks */,
@@ -319,13 +313,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */,
 				30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */,
 				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
-				30AFE1371CB5DC3300478AA2 /* MetalKit.framework in Frameworks */,
 				30419E861D202DAB00A63759 /* OpenAL.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,
 			);
@@ -337,38 +331,36 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				30419E891D202DC000A63759 /* OpenAL.framework */,
-				30419E871D202DB500A63759 /* OpenAL.framework */,
-				30419E851D202DAB00A63759 /* OpenAL.framework */,
-				30419E6A1D1F736800A63759 /* AVFoundation.framework */,
-				30419E681D1F726C00A63759 /* AVFoundation.framework */,
+				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
 				30419E621D1F3DED00A63759 /* AudioToolbox.framework */,
 				30419E3E1D1A106900A63759 /* AudioToolbox.framework */,
 				30419E3C1D1A106000A63759 /* AudioToolbox.framework */,
+				30419E6A1D1F736800A63759 /* AVFoundation.framework */,
+				30419E681D1F726C00A63759 /* AVFoundation.framework */,
+				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
 				30419E3A1D1A105600A63759 /* CoreAudio.framework */,
 				30419E381D1A104F00A63759 /* CoreAudio.framework */,
 				30419E331D1A06B900A63759 /* CoreAudio.framework */,
-				30AFE1521CB5DD0400478AA2 /* UIKit.framework */,
-				30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */,
-				30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */,
-				30AFE14C1CB5DCDC00478AA2 /* Foundation.framework */,
-				30AFE14A1CB5DCBD00478AA2 /* GameController.framework */,
-				30AFE1481CB5DCA400478AA2 /* UIKit.framework */,
-				30AFE1461CB5DC9C00478AA2 /* QuartzCore.framework */,
-				30AFE1441CB5DC9300478AA2 /* OpenGLES.framework */,
-				30AFE1421CB5DC8700478AA2 /* GameController.framework */,
-				30AFE1401CB5DC7B00478AA2 /* Foundation.framework */,
-				30AFE13C1CB5DC6F00478AA2 /* Metal.framework */,
-				30AFE13D1CB5DC6F00478AA2 /* MetalKit.framework */,
-				30AFE1381CB5DC6000478AA2 /* Metal.framework */,
-				30AFE1391CB5DC6000478AA2 /* MetalKit.framework */,
-				30AFE1361CB5DC3300478AA2 /* MetalKit.framework */,
-				30AFE1311CB5DC2B00478AA2 /* Metal.framework */,
 				305F6DBA1C66C50000B76A03 /* CoreVideo.framework */,
+				30AFE14C1CB5DCDC00478AA2 /* Foundation.framework */,
+				30AFE1401CB5DC7B00478AA2 /* Foundation.framework */,
+				30AFE14A1CB5DCBD00478AA2 /* GameController.framework */,
+				30AFE1421CB5DC8700478AA2 /* GameController.framework */,
 				30575AE71C3C98F50009C8A7 /* GameController.framework */,
-				303B74F21C27F6EB00FEDE92 /* Cocoa.framework */,
-				303B74F01C27F6DD00FEDE92 /* AppKit.framework */,
+				30AFE13C1CB5DC6F00478AA2 /* Metal.framework */,
+				30AFE1381CB5DC6000478AA2 /* Metal.framework */,
+				30AFE1311CB5DC2B00478AA2 /* Metal.framework */,
+				30419E891D202DC000A63759 /* OpenAL.framework */,
+				30419E871D202DB500A63759 /* OpenAL.framework */,
+				30419E851D202DAB00A63759 /* OpenAL.framework */,
 				303B74ED1C27F6A100FEDE92 /* OpenGL.framework */,
+				30AFE14E1CB5DCF100478AA2 /* OpenGLES.framework */,
+				30AFE1441CB5DC9300478AA2 /* OpenGLES.framework */,
+				304659F01E996AAD00D7FEA0 /* QuartzCore.framework */,
+				30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */,
+				30AFE1461CB5DC9C00478AA2 /* QuartzCore.framework */,
+				30AFE1521CB5DD0400478AA2 /* UIKit.framework */,
+				30AFE1481CB5DCA400478AA2 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			path = ..;

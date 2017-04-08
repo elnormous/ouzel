@@ -10,6 +10,7 @@
 #include "BlendStateMetal.h"
 #include "events/EventDispatcher.h"
 #if OUZEL_PLATFORM_MACOS
+    #include "macos/MetalView.h"
     #include "core/macos/WindowMacOS.h"
     #include "ColorPSMacOS.h"
     #include "ColorVSMacOS.h"
@@ -20,6 +21,7 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
 #elif OUZEL_PLATFORM_TVOS
+    #include "tvos/MetalView.h"
     #include "core/tvos/WindowTVOS.h"
     #include "ColorPSTVOS.h"
     #include "ColorVSTVOS.h"
@@ -30,6 +32,7 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
 #elif OUZEL_PLATFORM_IOS
+    #include "ios/MetalView.h"
     #include "core/ios/WindowIOS.h"
     #include "ColorPSIOS.h"
     #include "ColorVSIOS.h"
@@ -128,6 +131,11 @@ namespace ouzel
             {
                 [device release];
             }
+
+            if (metalDrawable)
+            {
+                [metalDrawable release];
+            }
         }
 
         bool RendererMetal::init(Window* newWindow,
@@ -167,22 +175,23 @@ namespace ouzel
             }
 
 #if OUZEL_PLATFORM_MACOS
-            view = (MTKViewPtr)static_cast<WindowMacOS*>(window)->getNativeView();
+            MetalView* view = (MetalView*)static_cast<WindowMacOS*>(window)->getNativeView();
 #elif OUZEL_PLATFORM_TVOS
-            view = (MTKViewPtr)static_cast<WindowTVOS*>(window)->getNativeView();
+            MetalView* view = (MetalView*)static_cast<WindowTVOS*>(window)->getNativeView();
 #elif OUZEL_PLATFORM_IOS
-            view = (MTKViewPtr)static_cast<WindowIOS*>(window)->getNativeView();
+            MetalView* view = (MetalView*)static_cast<WindowIOS*>(window)->getNativeView();
 #endif
-            view.device = device;
-            view.sampleCount = sampleCount;
-            view.framebufferOnly = NO; // for screenshot capturing
 
-            colorFormat = view.colorPixelFormat;
+            metalLayer = view.metalLayer;
+            metalLayer.device = device;
+            metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+            colorFormat = metalLayer.pixelFormat;
+            metalDrawable = [[metalLayer nextDrawable] retain];
+            metalTexture = metalDrawable.texture;
 
             if (depth)
             {
-                view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
-                depthFormat = view.depthStencilPixelFormat;
+                depthFormat = MTLPixelFormatDepth32Float;
 
                 for (uint32_t state = 0; state < 4; ++state)
                 {
@@ -303,8 +312,8 @@ namespace ouzel
 
         bool RendererMetal::draw(const std::vector<DrawCommand>& drawCommands)
         {
-            NSUInteger frameBufferWidth = view.currentDrawable.texture.width;
-            NSUInteger frameBufferHeight = view.currentDrawable.texture.height;
+            NSUInteger frameBufferWidth = metalTexture.width;
+            NSUInteger frameBufferHeight = metalTexture.height;
 
             if (sampleCount > 1)
             {
@@ -335,11 +344,11 @@ namespace ouzel
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
                 }
 
-                renderPassDescriptor.colorAttachments[0].resolveTexture = view.currentDrawable.texture;
+                renderPassDescriptor.colorAttachments[0].resolveTexture = metalTexture;
             }
             else
             {
-                renderPassDescriptor.colorAttachments[0].texture = view.currentDrawable.texture;
+                renderPassDescriptor.colorAttachments[0].texture = metalTexture;
             }
 
             if (depth)
@@ -706,7 +715,7 @@ namespace ouzel
 
             if (currentCommandBuffer)
             {
-                [currentCommandBuffer presentDrawable:static_cast<id<CAMetalDrawable> _Nonnull>(view.currentDrawable)];
+                [currentCommandBuffer presentDrawable:metalDrawable];
 
                 [currentCommandBuffer commit];
                 [currentCommandBuffer release];
@@ -818,18 +827,16 @@ namespace ouzel
 
         bool RendererMetal::generateScreenshot(const std::string& filename)
         {
-            MTLTextureResourcePtr texture = view.currentDrawable.texture;
-
-            if (!texture)
+            if (!metalTexture)
             {
                 return false;
             }
 
-            NSUInteger width = static_cast<NSUInteger>(texture.width);
-            NSUInteger height = static_cast<NSUInteger>(texture.height);
+            NSUInteger width = static_cast<NSUInteger>(metalTexture.width);
+            NSUInteger height = static_cast<NSUInteger>(metalTexture.height);
 
             std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
-            [texture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+            [metalTexture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
 
             uint8_t temp;
             for (uint32_t y = 0; y < height; ++y)
