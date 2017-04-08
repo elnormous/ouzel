@@ -27,9 +27,9 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework Cocoa \
 	-framework GameController \
 	-framework Metal \
-	-framework MetalKit \
 	-framework OpenAL \
-	-framework OpenGL
+	-framework OpenGL \
+	-framework QuartzCore
 else ifeq ($(platform),emscripten)
 	LDFLAGS+=--embed-file Resources -s TOTAL_MEMORY=33554432
 endif
