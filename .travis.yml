@@ -31,4 +31,4 @@ matrix:
       before_script:
         - export CXX=clang++
 script:
-  - cd samples && make
+  - cd samples && make -j2
