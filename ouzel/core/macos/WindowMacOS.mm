@@ -57,6 +57,11 @@
     window->handleScaleFactorChange();
 }
 
+-(void)windowDidChangeScreen:(__unused NSNotification*)notification
+{
+    window->handleScreenChange();
+}
+
 @end
 
 namespace ouzel
@@ -281,5 +286,9 @@ namespace ouzel
         event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
 
         sharedEngine->getEventDispatcher()->postEvent(event);
+    }
+
+    void WindowMacOS::handleScreenChange()
+    {
     }
 }
