@@ -46,6 +46,8 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 
 -(void)viewDidMoveToWindow
 {
+    [super viewDidMoveToWindow];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(windowWillClose:)
                                                  name:NSWindowWillCloseNotification
