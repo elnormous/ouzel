@@ -31,9 +31,8 @@ namespace ouzel
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;
-            colorFormat = metalLayer.pixelFormat;
-
             metalLayer.contentsScale = newWindow->getContentScale();
+            colorFormat = metalLayer.pixelFormat;
 
             return true;
         }
