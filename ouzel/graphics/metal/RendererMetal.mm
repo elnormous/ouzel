@@ -10,7 +10,6 @@
 #include "BlendStateMetal.h"
 #include "events/EventDispatcher.h"
 #if OUZEL_PLATFORM_MACOS
-    #include "core/macos/WindowMacOS.h"
     #include "ColorPSMacOS.h"
     #include "ColorVSMacOS.h"
     #include "TexturePSMacOS.h"
@@ -20,8 +19,6 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
 #elif OUZEL_PLATFORM_TVOS
-    #include "tvos/MetalView.h"
-    #include "core/tvos/WindowTVOS.h"
     #include "ColorPSTVOS.h"
     #include "ColorVSTVOS.h"
     #include "TexturePSTVOS.h"
@@ -31,8 +28,6 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
 #elif OUZEL_PLATFORM_IOS
-    #include "ios/MetalView.h"
-    #include "core/ios/WindowIOS.h"
     #include "ColorPSIOS.h"
     #include "ColorVSIOS.h"
     #include "TexturePSIOS.h"
@@ -173,12 +168,6 @@ namespace ouzel
             {
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
             }
-
-#if OUZEL_PLATFORM_TVOS
-            MetalView* view = (MetalView*)static_cast<WindowTVOS*>(window)->getNativeView();
-#elif OUZEL_PLATFORM_IOS
-            MetalView* view = (MetalView*)static_cast<WindowIOS*>(window)->getNativeView();
-#endif
 
             if (depth)
             {
