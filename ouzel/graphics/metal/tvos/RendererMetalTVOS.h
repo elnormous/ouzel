@@ -11,10 +11,15 @@ namespace ouzel
     {
         class RendererMetalTVOS: public RendererMetal
         {
-        public:
-            virtual ~RendererMetalTVOS() {}
-
         private:
+            virtual bool init(Window* newWindow,
+                              const Size2& newSize,
+                              uint32_t newSampleCount,
+                              Texture::Filter newTextureFilter,
+                              uint32_t newMaxAnisotropy,
+                              PixelFormat newBackBufferFormat,
+                              bool newVerticalSync,
+                              bool newDepth) override;
         };
     } // namespace graphics
 } // namespace ouzel

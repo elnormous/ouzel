@@ -20,7 +20,6 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
-typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
@@ -38,13 +37,10 @@ typedef id MTLDepthStencilStatePtr;
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RendererMetalMacOS: public RendererMetal
         {
-            friend Engine;
         public:
             virtual ~RendererMetalMacOS();
 

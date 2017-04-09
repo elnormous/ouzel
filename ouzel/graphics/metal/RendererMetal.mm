@@ -10,7 +10,6 @@
 #include "BlendStateMetal.h"
 #include "events/EventDispatcher.h"
 #if OUZEL_PLATFORM_MACOS
-    #include "macos/MetalView.h"
     #include "core/macos/WindowMacOS.h"
     #include "ColorPSMacOS.h"
     #include "ColorVSMacOS.h"
@@ -175,18 +174,11 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
             }
 
-#if OUZEL_PLATFORM_MACOS
-            MetalView* view = (MetalView*)static_cast<WindowMacOS*>(window)->getNativeView();
-#elif OUZEL_PLATFORM_TVOS
+#if OUZEL_PLATFORM_TVOS
             MetalView* view = (MetalView*)static_cast<WindowTVOS*>(window)->getNativeView();
 #elif OUZEL_PLATFORM_IOS
             MetalView* view = (MetalView*)static_cast<WindowIOS*>(window)->getNativeView();
 #endif
-
-            metalLayer = view.metalLayer;
-            metalLayer.device = device;
-            metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-            colorFormat = metalLayer.pixelFormat;
 
             if (depth)
             {

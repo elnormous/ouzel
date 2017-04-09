@@ -1,8 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#import <MetalKit/MTKView.h>
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface MetalView: MTKView<UIKeyInput>
+@interface MetalView: UIView
+{
+@private
+    CADisplayLink* displayLink;
+}
 
 @end

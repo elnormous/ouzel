@@ -19,20 +19,21 @@
         [self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [self setWantsLayer:YES];
 
-        _metalLayer = [[CAMetalLayer alloc] init];
+        CAMetalLayer* metalLayer = [[[CAMetalLayer alloc] init] autorelease];
 
         CGFloat bgColor[] = { 0.0, 0.0, 0.0, 0.0 };
-        _metalLayer.edgeAntialiasingMask = 0;
-        _metalLayer.masksToBounds = YES;
-        _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
-        _metalLayer.presentsWithTransaction = NO;
-        _metalLayer.anchorPoint = CGPointMake(0.5, 0.5);
-        _metalLayer.frame = frameRect;
-        _metalLayer.magnificationFilter = kCAFilterNearest;
-        _metalLayer.minificationFilter = kCAFilterNearest;
-        _metalLayer.framebufferOnly = NO;
+        metalLayer.edgeAntialiasingMask = 0;
+        metalLayer.masksToBounds = YES;
+        metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+        metalLayer.presentsWithTransaction = NO;
+        metalLayer.anchorPoint = CGPointMake(0.5, 0.5);
+        metalLayer.frame = frameRect;
+        metalLayer.magnificationFilter = kCAFilterNearest;
+        metalLayer.minificationFilter = kCAFilterNearest;
+        metalLayer.framebufferOnly = NO;
+        metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
 
-        [self setLayer:_metalLayer];
+        [self setLayer:metalLayer];
     }
 
     return self;

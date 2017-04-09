@@ -5,9 +5,5 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface MetalView: NSView
-{
-}
-
-@property (nonatomic, strong) CAMetalLayer* metalLayer;
 
 @end

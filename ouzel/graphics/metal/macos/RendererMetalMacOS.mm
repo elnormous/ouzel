@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererMetalMacOS.h"
+#include "MetalView.h"
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "core/macos/WindowMacOS.h"
@@ -60,6 +61,12 @@ namespace ouzel
             {
                 return false;
             }
+
+            MetalView* view = (MetalView*)static_cast<WindowMacOS*>(newWindow)->getNativeView();
+
+            metalLayer = (CAMetalLayer*)view.layer;
+            metalLayer.device = device;
+            colorFormat = metalLayer.pixelFormat;
 
             eventHandler.windowHandler = std::bind(&RendererMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
