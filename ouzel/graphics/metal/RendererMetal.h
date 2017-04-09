@@ -120,8 +120,9 @@ namespace ouzel
 
             MTLDevicePtr device = Nil;
             CAMetalLayerPtr metalLayer = Nil;
-            CAMetalDrawablePtr metalDrawable = Nil;
-            MTLTexturePtr metalTexture = Nil;
+            CAMetalDrawablePtr currentMetalDrawable = nullptr;
+            MTLTexturePtr currentMetalTexture = nullptr;
+
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
 
             MTLDepthStencilStatePtr depthStencilStates[4];

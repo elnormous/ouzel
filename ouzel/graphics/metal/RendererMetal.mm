@@ -163,9 +163,9 @@ namespace ouzel
                 [device release];
             }
 
-            if (metalDrawable)
+            if (currentMetalDrawable)
             {
-                [metalDrawable release];
+                [currentMetalDrawable release];
             }
         }
 
@@ -217,8 +217,6 @@ namespace ouzel
             metalLayer.device = device;
             metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
             colorFormat = metalLayer.pixelFormat;
-            metalDrawable = [[metalLayer nextDrawable] retain];
-            metalTexture = metalDrawable.texture;
 
             if (depth)
             {
@@ -368,8 +366,16 @@ namespace ouzel
 
         bool RendererMetal::draw(const std::vector<DrawCommand>& drawCommands)
         {
-            NSUInteger frameBufferWidth = metalTexture.width;
-            NSUInteger frameBufferHeight = metalTexture.height;
+            if (currentMetalDrawable)
+            {
+                [currentMetalDrawable release];
+            }
+
+            currentMetalDrawable = [[metalLayer nextDrawable] retain];
+            currentMetalTexture = currentMetalDrawable.texture;
+
+            NSUInteger frameBufferWidth = currentMetalTexture.width;
+            NSUInteger frameBufferHeight = currentMetalTexture.height;
 
             if (sampleCount > 1)
             {
@@ -400,11 +406,11 @@ namespace ouzel
                     renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
                 }
 
-                renderPassDescriptor.colorAttachments[0].resolveTexture = metalTexture;
+                renderPassDescriptor.colorAttachments[0].resolveTexture = currentMetalTexture;
             }
             else
             {
-                renderPassDescriptor.colorAttachments[0].texture = metalTexture;
+                renderPassDescriptor.colorAttachments[0].texture = currentMetalTexture;
             }
 
             if (depth)
@@ -771,7 +777,7 @@ namespace ouzel
 
             if (currentCommandBuffer)
             {
-                [currentCommandBuffer presentDrawable:metalDrawable];
+                [currentCommandBuffer presentDrawable:currentMetalDrawable];
 
                 [currentCommandBuffer commit];
                 [currentCommandBuffer release];
@@ -883,16 +889,16 @@ namespace ouzel
 
         bool RendererMetal::generateScreenshot(const std::string& filename)
         {
-            if (!metalTexture)
+            if (!currentMetalTexture)
             {
                 return false;
             }
 
-            NSUInteger width = static_cast<NSUInteger>(metalTexture.width);
-            NSUInteger height = static_cast<NSUInteger>(metalTexture.height);
+            NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
+            NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
 
             std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
-            [metalTexture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+            [currentMetalTexture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
 
             uint8_t temp;
             for (uint32_t y = 0; y < height; ++y)
