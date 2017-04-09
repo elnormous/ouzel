@@ -153,10 +153,10 @@ namespace ouzel
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
-        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Ouzel" action:nil keyEquivalent:@""] autorelease];
+        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()]) action:nil keyEquivalent:@""] autorelease];
         [mainMenu addItem:mainMenuItem];
 
-        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:@"Ouzel"] autorelease];
+        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])] autorelease];
         [mainMenuItem setSubmenu:subMenu];
 
         NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
