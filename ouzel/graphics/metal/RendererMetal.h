@@ -11,7 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
-typedef id <CAMetalDrawable> CAMetalDrawablePtr;
 typedef id<MTLDevice> MTLDevicePtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
@@ -26,7 +25,6 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #include <objc/NSObjCRuntime.h>
 typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
-typedef id CAMetalDrawablePtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
@@ -120,7 +118,6 @@ namespace ouzel
 
             MTLDevicePtr device = Nil;
             CAMetalLayerPtr metalLayer = Nil;
-            CAMetalDrawablePtr currentMetalDrawable = nullptr;
             MTLTexturePtr currentMetalTexture = nullptr;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;

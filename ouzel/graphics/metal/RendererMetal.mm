@@ -163,9 +163,9 @@ namespace ouzel
                 [device release];
             }
 
-            if (currentMetalDrawable)
+            if (currentMetalTexture)
             {
-                [currentMetalDrawable release];
+                [currentMetalTexture release];
             }
         }
 
@@ -366,13 +366,19 @@ namespace ouzel
 
         bool RendererMetal::draw(const std::vector<DrawCommand>& drawCommands)
         {
-            if (currentMetalDrawable)
+            id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
+
+            if (!currentMetalDrawable)
             {
-                [currentMetalDrawable release];
+                Log(Log::Level::ERR) << "Failed to get Metal drawable";
+                return false;
             }
 
-            currentMetalDrawable = [[metalLayer nextDrawable] retain];
-            currentMetalTexture = currentMetalDrawable.texture;
+            if (currentMetalTexture)
+            {
+                [currentMetalTexture release];
+            }
+            currentMetalTexture = [currentMetalDrawable.texture retain];
 
             NSUInteger frameBufferWidth = currentMetalTexture.width;
             NSUInteger frameBufferHeight = currentMetalTexture.height;
