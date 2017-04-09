@@ -4,13 +4,16 @@
 #pragma once
 
 #include "graphics/opengl/RendererOGL.h"
+#include "events/EventHandler.h"
 
 #if defined(__OBJC__)
+#import <CoreVideo/CoreVideo.h>
 #import <AppKit/NSOpenGL.h>
 typedef NSOpenGLContext* NSOpenGLContextPtr;
 typedef NSOpenGLPixelFormat* NSOpenGLPixelFormatPtr;
 #else
 #include <objc/objc.h>
+typedef void* CVDisplayLinkRef;
 typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
@@ -43,8 +46,13 @@ namespace ouzel
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
 
+            bool handleWindow(Event::Type type, const WindowEvent& event);
+
             NSOpenGLContextPtr openGLContext = Nil;
             NSOpenGLPixelFormatPtr pixelFormat = Nil;
+
+            CVDisplayLinkRef displayLink = nullptr;
+            EventHandler eventHandler;
         };
     } // namespace graphics
 } // namespace ouzel

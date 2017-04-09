@@ -290,5 +290,12 @@ namespace ouzel
 
     void WindowMacOS::handleScreenChange()
     {
+        Event event;
+        event.type = Event::Type::WINDOW_SCREEN_CHANGE;
+
+        event.windowEvent.window = this;
+        event.windowEvent.screenId = [[[[window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+
+        sharedEngine->getEventDispatcher()->postEvent(event);
     }
 }

@@ -66,6 +66,7 @@ namespace ouzel
         float contentScale = 1.0f;
         std::string title;
         bool fullscreen = false;
+        uint32_t screenId = 0;
     };
 
     struct SystemEvent
@@ -119,6 +120,7 @@ namespace ouzel
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
             WINDOW_CONTENT_SCALE_CHANGE,
+            WINDOW_SCREEN_CHANGE,
             ORIENTATION_CHANGE,
             LOW_MEMORY,
             OPEN_FILE,

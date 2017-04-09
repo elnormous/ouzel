@@ -9,72 +9,7 @@
 #include "input/apple/InputApple.h"
 #include "utils/Utils.h"
 
-static CVReturn renderCallback(CVDisplayLinkRef,
-                               const CVTimeStamp*,
-                               const CVTimeStamp*,
-                               CVOptionFlags,
-                               CVOptionFlags*,
-                               void*)
-{
-    @autoreleasepool
-    {
-        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
-        {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
-        }
-    }
-
-    return kCVReturnSuccess;
-}
-
 @implementation OpenGLView
-
--(void)dealloc
-{
-    if (displayLink)
-    {
-        CVDisplayLinkStop(displayLink);
-        CVDisplayLinkRelease(displayLink);
-    }
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [super dealloc];
-}
-
--(void)viewDidMoveToWindow
-{
-    [super viewDidMoveToWindow];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowWillClose:)
-                                                 name:NSWindowWillCloseNotification
-                                               object:_window];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowDiChangeScreen:)
-                                                 name:NSWindowDidChangeScreenNotification
-                                               object:_window];
-}
-
--(void)windowWillClose:(__unused NSNotification*)notification
-{
-    if (displayLink)
-    {
-        CVDisplayLinkStop(displayLink);
-        CVDisplayLinkRelease(displayLink);
-        displayLink = Nil;
-    }
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)windowDiChangeScreen:(__unused NSNotification*)notification
-{
-    [self createDisplayLink];
-}
 
 -(BOOL)isFlipped
 {
@@ -86,27 +21,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
     return YES;
 }
 
--(void)createDisplayLink
-{
-    if (displayLink)
-    {
-        CVDisplayLinkStop(displayLink);
-        CVDisplayLinkRelease(displayLink);
-        displayLink = Nil;
-    }
-
-    const CGDirectDisplayID displayId = [[[[_window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-    CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
-    CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
-
-    CVDisplayLinkStart(displayLink);
-}
-
 -(void)prepareOpenGL
 {
     [self setWantsBestResolutionOpenGLSurface:YES];
-
-    [self createDisplayLink];
 }
 
 -(void)lockFocus

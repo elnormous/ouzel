@@ -2,13 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #import <Cocoa/Cocoa.h>
-#import <CoreVideo/CoreVideo.h>
 
 @interface OpenGLView: NSView
-{
-@private
-    CVDisplayLinkRef displayLink;
-}
 
 // input
 -(BOOL)acceptsFirstResponder;

@@ -190,7 +190,7 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename);
 
             Driver driver;
-            Window* window;
+            Window* window = nullptr;
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
