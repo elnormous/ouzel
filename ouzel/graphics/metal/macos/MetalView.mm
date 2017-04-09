@@ -10,26 +10,6 @@
 #include "graphics/metal/RendererMetal.h"
 #include "utils/Utils.h"
 
-static CVReturn renderCallback(CVDisplayLinkRef,
-                               const CVTimeStamp*,
-                               const CVTimeStamp*,
-                               CVOptionFlags,
-                               CVOptionFlags*,
-                               void*)
-{
-    @autoreleasepool
-    {
-        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
-        {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
-        }
-    }
-
-    return kCVReturnSuccess;
-}
-
 @implementation MetalView
 
 -(id)initWithFrame:(NSRect)frameRect
@@ -53,58 +33,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
         _metalLayer.framebufferOnly = NO;
 
         [self setLayer:_metalLayer];
-
-        NSScreen* screen = [_window screen];
-        displayId = (CGDirectDisplayID)[[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
-        if (!displayId) displayId = CGMainDisplayID();
-
-        CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink);
-        CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr);
-
-        CVDisplayLinkStart(displayLink);
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(windowWillClose:)
-                                                     name:NSWindowWillCloseNotification
-                                                   object:nil];
     }
 
     return self;
-}
-
--(void)dealloc
-{
-    if (displayLink)
-    {
-        CVDisplayLinkStop(displayLink);
-        CVDisplayLinkRelease(displayLink);
-    }
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    if (_metalLayer)
-    {
-        [_metalLayer release];
-        _metalLayer = Nil;
-    }
-
-    [super dealloc];
-}
-
--(void)windowWillClose:(NSNotification*)notification
-{
-    if (notification.object == self.window)
-    {
-        if (displayLink)
-        {
-            CVDisplayLinkStop(displayLink);
-            CVDisplayLinkRelease(displayLink);
-            displayLink = Nil;
-        }
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-    }
 }
 
 -(BOOL)isOpaque

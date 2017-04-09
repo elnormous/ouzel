@@ -3,9 +3,6 @@
 
 #pragma once
 
-#include "graphics/opengl/RendererOGL.h"
-#include "events/EventHandler.h"
-
 #if defined(__OBJC__)
 #import <CoreVideo/CoreVideo.h>
 #import <AppKit/NSOpenGL.h>
@@ -17,6 +14,9 @@ typedef void* CVDisplayLinkRef;
 typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
+
+#include "graphics/opengl/RendererOGL.h"
+#include "events/EventHandler.h"
 
 namespace ouzel
 {

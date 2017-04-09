@@ -7,6 +7,7 @@
 #include <dispatch/dispatch.h>
 
 #if defined(__OBJC__)
+#import <CoreVideo/CoreVideo.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
@@ -23,6 +24,7 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
+typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id CAMetalDrawablePtr;
 typedef id MTLDevicePtr;
@@ -37,6 +39,7 @@ typedef id MTLDepthStencilStatePtr;
 #endif
 
 #include "graphics/Renderer.h"
+#include "events/EventHandler.h"
 
 namespace ouzel
 {
@@ -95,6 +98,8 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
+            bool handleWindow(Event::Type type, const WindowEvent& event);
+
             struct PipelineStateDesc
             {
                 BlendStateMetal* blendState;
@@ -140,6 +145,9 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
+
+            CVDisplayLinkRef displayLink = nullptr;
+            EventHandler eventHandler;
         };
     } // namespace graphics
 } // namespace ouzel
