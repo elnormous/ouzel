@@ -49,26 +49,6 @@
 #include "utils/Log.h"
 #include "stb_image_write.h"
 
-static CVReturn renderCallback(CVDisplayLinkRef,
-                               const CVTimeStamp*,
-                               const CVTimeStamp*,
-                               CVOptionFlags,
-                               CVOptionFlags*,
-                               void*)
-{
-    @autoreleasepool
-    {
-        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
-        {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
-        }
-    }
-
-    return kCVReturnSuccess;
-}
-
 namespace ouzel
 {
     namespace graphics
@@ -97,16 +77,6 @@ namespace ouzel
 
         RendererMetal::~RendererMetal()
         {
-            if (displayLink)
-            {
-                if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                {
-                    Log(Log::Level::ERR) << "Failed to stop display link";
-                }
-
-                CVDisplayLinkRelease(displayLink);
-            }
-
             resourceDeleteSet.clear();
             resources.clear();
 
@@ -320,31 +290,6 @@ namespace ouzel
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
-
-            eventHandler.windowHandler = std::bind(&RendererMetal::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
-
-            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
-
-            const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
-            if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to create display link";
-                return false;
-            }
-
-            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                return false;
-            }
-
-            if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to start display link";
-                return false;
-            }
 
             return true;
         }
@@ -1018,47 +963,6 @@ namespace ouzel
 
                 return samplerState;
             }
-        }
-
-        bool RendererMetal::handleWindow(Event::Type type, const WindowEvent& event)
-        {
-            if (type == Event::Type::WINDOW_SCREEN_CHANGE)
-            {
-                sharedApplication->execute([this, &event]() {
-                    if (displayLink)
-                    {
-                        if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                        {
-                            Log(Log::Level::ERR) << "Failed to stop display link";
-                        }
-
-                        CVDisplayLinkRelease(displayLink);
-                        displayLink = nullptr;
-                    }
-
-                    const CGDirectDisplayID displayId = event.screenId;
-
-                    if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create display link";
-                        return;
-                    }
-
-                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to set output callback for the display link";
-                        return;
-                    }
-
-                    if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
-                    {
-                        Log(Log::Level::ERR) << "Failed to start display link";
-                        return;
-                    }
-                });
-            }
-            
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -37,7 +37,6 @@ typedef id MTLDepthStencilStatePtr;
 #endif
 
 #include "graphics/Renderer.h"
-#include "events/EventHandler.h"
 
 namespace ouzel
 {
@@ -96,8 +95,6 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            bool handleWindow(Event::Type type, const WindowEvent& event);
-
             struct PipelineStateDesc
             {
                 BlendStateMetal* blendState;
@@ -143,9 +140,6 @@ namespace ouzel
             dispatch_semaphore_t inflightSemaphore;
 
             std::map<PipelineStateDesc, MTLRenderPipelineStatePtr> pipelineStates;
-
-            CVDisplayLinkRef displayLink = nullptr;
-            EventHandler eventHandler;
         };
     } // namespace graphics
 } // namespace ouzel

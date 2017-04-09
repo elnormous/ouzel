@@ -144,6 +144,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/apple/AudioALApple.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferMetal.mm \

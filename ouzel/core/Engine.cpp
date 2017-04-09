@@ -11,12 +11,15 @@
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
+#include "graphics/metal/macos/RendererMetalMacOS.h"
 #include "graphics/opengl/macos/RendererOGLMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
+#include "graphics/metal/ios/RendererMetalIOS.h"
 #include "graphics/opengl/ios/RendererOGLIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
+#include "graphics/metal/tvos/RendererMetalTVOS.h"
 #include "graphics/opengl/tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
@@ -247,7 +250,13 @@ namespace ouzel
 #if OUZEL_SUPPORTS_METAL
             case graphics::Renderer::Driver::METAL:
                 Log(Log::Level::INFO) << "Using Metal render driver";
-                renderer.reset(new graphics::RendererMetal());
+    #if OUZEL_PLATFORM_MACOS
+                renderer.reset(new graphics::RendererMetalMacOS());
+    #elif OUZEL_PLATFORM_IOS
+                renderer.reset(new graphics::RendererMetalIOS());
+    #elif OUZEL_PLATFORM_TVOS
+                renderer.reset(new graphics::RendererMetalTVOS());
+    #endif
                 break;
 #endif
             default:

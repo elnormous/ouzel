@@ -730,6 +730,12 @@
 		30A9C13D1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
 		30A9C13E1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
 		30A9C13F1CAEBA540084C4BF /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A9C1391CAEBA540084C4BF /* Language.h */; };
+		30ADCBB61E9A9479000DC9AC /* RendererMetalMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB41E9A9479000DC9AC /* RendererMetalMacOS.mm */; };
+		30ADCBB71E9A9479000DC9AC /* RendererMetalMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB51E9A9479000DC9AC /* RendererMetalMacOS.h */; };
+		30ADCBBA1E9A9550000DC9AC /* RendererMetalTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBB81E9A9550000DC9AC /* RendererMetalTVOS.h */; };
+		30ADCBBB1E9A9550000DC9AC /* RendererMetalTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBB91E9A9550000DC9AC /* RendererMetalTVOS.mm */; };
+		30ADCBBE1E9A957C000DC9AC /* RendererMetalIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30ADCBBC1E9A957C000DC9AC /* RendererMetalIOS.h */; };
+		30ADCBBF1E9A957C000DC9AC /* RendererMetalIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30ADCBBD1E9A957C000DC9AC /* RendererMetalIOS.mm */; };
 		30B328841C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328851C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
 		30B328861C4E9EAC00040927 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B328821C4E9EAC00040927 /* Ease.cpp */; };
@@ -1079,6 +1085,12 @@
 		30A9C1301CAE80570084C4BF /* Localization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localization.h; sourceTree = "<group>"; };
 		30A9C1381CAEBA540084C4BF /* Language.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Language.cpp; sourceTree = "<group>"; };
 		30A9C1391CAEBA540084C4BF /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
+		30ADCBB41E9A9479000DC9AC /* RendererMetalMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererMetalMacOS.mm; sourceTree = "<group>"; };
+		30ADCBB51E9A9479000DC9AC /* RendererMetalMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererMetalMacOS.h; sourceTree = "<group>"; };
+		30ADCBB81E9A9550000DC9AC /* RendererMetalTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererMetalTVOS.h; sourceTree = "<group>"; };
+		30ADCBB91E9A9550000DC9AC /* RendererMetalTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererMetalTVOS.mm; sourceTree = "<group>"; };
+		30ADCBBC1E9A957C000DC9AC /* RendererMetalIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererMetalIOS.h; sourceTree = "<group>"; };
+		30ADCBBD1E9A957C000DC9AC /* RendererMetalIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RendererMetalIOS.mm; sourceTree = "<group>"; };
 		30B328821C4E9EAC00040927 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ease.cpp; sourceTree = "<group>"; };
 		30B328831C4E9EAC00040927 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease.h; sourceTree = "<group>"; };
 		30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButtonGroup.cpp; sourceTree = "<group>"; };
@@ -1222,6 +1234,8 @@
 			children = (
 				303B04AB1E207B2700011CBE /* MetalView.h */,
 				303B04AC1E207B2700011CBE /* MetalView.mm */,
+				30ADCBBC1E9A957C000DC9AC /* RendererMetalIOS.h */,
+				30ADCBBD1E9A957C000DC9AC /* RendererMetalIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1231,6 +1245,8 @@
 			children = (
 				303B04A71E207B1D00011CBE /* MetalView.h */,
 				303B04A81E207B1D00011CBE /* MetalView.mm */,
+				30ADCBB51E9A9479000DC9AC /* RendererMetalMacOS.h */,
+				30ADCBB41E9A9479000DC9AC /* RendererMetalMacOS.mm */,
 			);
 			path = macos;
 			sourceTree = "<group>";
@@ -1240,6 +1256,8 @@
 			children = (
 				303B04A31E207B1000011CBE /* MetalView.h */,
 				303B04A41E207B1000011CBE /* MetalView.mm */,
+				30ADCBB81E9A9550000DC9AC /* RendererMetalTVOS.h */,
+				30ADCBB91E9A9550000DC9AC /* RendererMetalTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -1760,6 +1778,7 @@
 				30381FE81D80A40700677CAB /* ColorPSMacOS.h in Headers */,
 				3047F7421C4C344A00774E3D /* Animator.h in Headers */,
 				304736DC1E0B4776009BC562 /* Box3.h in Headers */,
+				30ADCBBE1E9A957C000DC9AC /* RendererMetalIOS.h in Headers */,
 				3082C3B71D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				303821421D81876E00677CAB /* MeshBufferEmpty.h in Headers */,
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
@@ -1961,6 +1980,7 @@
 				303B76761C355A3B00FEDE92 /* Vertex.h in Headers */,
 				302511AD1CD36FBA00D04209 /* SpriteFrame.h in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.h in Headers */,
+				30ADCBBA1E9A9550000DC9AC /* RendererMetalTVOS.h in Headers */,
 				303B76781C355A3B00FEDE92 /* CompileConfig.h in Headers */,
 				303820201D80A40700677CAB /* TextureVSIOS.h in Headers */,
 				3047F7531C4C4FAF00774E3D /* Rotate.h in Headers */,
@@ -2113,6 +2133,7 @@
 				300C39EE1E51355000330E4F /* SoundDataWave.h in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.h in Headers */,
 				303821051D817F6400677CAB /* AudioALApple.h in Headers */,
+				30ADCBB71E9A9479000DC9AC /* RendererMetalMacOS.h in Headers */,
 				30381F771D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
 				30547E7B1CB47E050055EE79 /* Shake.h in Headers */,
@@ -2298,6 +2319,7 @@
 				305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				30381FE21D80A40700677CAB /* BlendStateMetal.mm in Sources */,
 				303B756D1C2A3CCA00FEDE92 /* Utils.cpp in Sources */,
+				30ADCBBF1E9A957C000DC9AC /* RendererMetalIOS.mm in Sources */,
 				303B04AE1E207B2700011CBE /* MetalView.mm in Sources */,
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
@@ -2422,6 +2444,7 @@
 				305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */,
 				303B76411C355A3B00FEDE92 /* Utils.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Button.cpp in Sources */,
+				30ADCBBB1E9A9550000DC9AC /* RendererMetalTVOS.mm in Sources */,
 				303B04A61E207B1000011CBE /* MetalView.mm in Sources */,
 				303B76421C355A3B00FEDE92 /* Matrix3.cpp in Sources */,
 				303B76431C355A3B00FEDE92 /* TextureResource.cpp in Sources */,
@@ -2575,6 +2598,7 @@
 				30381F6E1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
+				30ADCBB61E9A9479000DC9AC /* RendererMetalMacOS.mm in Sources */,
 				303821341D81876E00677CAB /* BlendStateEmpty.cpp in Sources */,
 				303820F91D817F4900677CAB /* GamepadApple.mm in Sources */,
 				303933741E5F460A000C9A8E /* SoundListener.cpp in Sources */,
