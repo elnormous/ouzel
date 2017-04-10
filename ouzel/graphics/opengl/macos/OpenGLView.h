@@ -5,19 +5,4 @@
 
 @interface OpenGLView: NSView
 
-// input
--(BOOL)acceptsFirstResponder;
-
--(void)keyDown:(NSEvent*)event;
-
--(void)mouseDown:(NSEvent*)event;
--(void)mouseUp:(NSEvent*)event;
--(void)mouseMoved:(NSEvent *)event;
--(void)mouseDragged:(NSEvent*)event; // Mouse click-and-drag
--(void)scrollWheel:(NSEvent*)event; // Mouse scroll wheel movement
-
--(void)swipeWithEvent:(NSEvent*)event; // Trackpad swipe gesture
--(void)rotateWithEvent:(NSEvent*)event; // Trackpad twist gesture
--(void)magnifyWithEvent:(NSEvent*)event; // Trackpad pinch gesture
-
 @end
