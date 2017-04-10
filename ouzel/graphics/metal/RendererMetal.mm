@@ -277,6 +277,13 @@ namespace ouzel
 
         bool RendererMetal::upload()
         {
+            if (metalLayer.drawableSize.width != size.v[0] ||
+                metalLayer.drawableSize.height != size.v[1])
+            {
+                CGSize drawableSize = CGSizeMake(size.v[0], size.v[1]);
+                metalLayer.drawableSize = drawableSize;
+            }
+            
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 

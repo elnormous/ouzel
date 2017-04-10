@@ -66,6 +66,10 @@ namespace ouzel
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;
+
+            CGSize drawableSize = CGSizeMake(newSize.v[0], newSize.v[1]);
+            metalLayer.drawableSize = drawableSize;
+
             colorFormat = metalLayer.pixelFormat;
 
             eventHandler.windowHandler = std::bind(&RendererMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
