@@ -111,9 +111,8 @@ namespace ouzel
 
             MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
-            bool createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor);
-
             MTLDevicePtr device = Nil;
+            MTLCommandQueuePtr commandQueue = Nil;
             CAMetalLayerPtr metalLayer = Nil;
             MTLTexturePtr currentMetalTexture = nullptr;
 
@@ -124,12 +123,6 @@ namespace ouzel
             MTLTexturePtr msaaTexture = Nil;
             MTLTexturePtr depthTexture = Nil;
             std::map<SamplerStateDesc, MTLSamplerStatePtr> samplerStates;
-
-            MTLCommandQueuePtr commandQueue = Nil;
-            MTLCommandBufferPtr currentCommandBuffer = Nil;
-
-            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
             NSUInteger colorFormat = 0;
             NSUInteger depthFormat = 0;

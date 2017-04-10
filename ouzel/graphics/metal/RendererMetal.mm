@@ -97,16 +97,6 @@ namespace ouzel
                 [msaaTexture release];
             }
 
-            if (currentRenderCommandEncoder)
-            {
-                [currentRenderCommandEncoder release];
-            }
-
-            if (currentCommandBuffer)
-            {
-                [currentCommandBuffer release];
-            }
-
             for (const auto& pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
@@ -169,6 +159,14 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
             }
 
+            commandQueue = [device newCommandQueue];
+
+            if (!commandQueue)
+            {
+                Log(Log::Level::ERR) << "Failed to create Metal command queue";
+                return false;
+            }
+
             if (depth)
             {
                 depthFormat = MTLPixelFormatDepth32Float;
@@ -197,14 +195,6 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
             renderPassDescriptor.depthAttachment.clearDepth = 1.0f;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-
-            commandQueue = [device newCommandQueue];
-
-            if (!commandQueue)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal command queue";
-                return false;
-            }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
             textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
@@ -387,13 +377,16 @@ namespace ouzel
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            currentCommandBuffer = [[commandQueue commandBuffer] retain];
+            MTLCommandBufferPtr currentCommandBuffer = [commandQueue commandBuffer];
 
             if (!currentCommandBuffer)
             {
                 Log(Log::Level::ERR) << "Failed to create Metal command buffer";
                 return false;
             }
+
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
 
             __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
             [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
@@ -411,8 +404,12 @@ namespace ouzel
             {
                 frameBufferClearedFrame = currentFrame;
 
-                if (!createRenderCommandEncoder(renderPassDescriptor))
+                currentRenderPassDescriptor = renderPassDescriptor;
+                currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+
+                if (!currentRenderCommandEncoder)
                 {
+                    Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
                     return false;
                 }
 
@@ -501,8 +498,17 @@ namespace ouzel
                 if (currentRenderPassDescriptor != newRenderPassDescriptor ||
                     !currentRenderCommandEncoder)
                 {
-                    if (!createRenderCommandEncoder(newRenderPassDescriptor))
+                    if (currentRenderCommandEncoder)
                     {
+                        [currentRenderCommandEncoder endEncoding];
+                    }
+
+                    currentRenderPassDescriptor = newRenderPassDescriptor;
+                    currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+
+                    if (!currentRenderCommandEncoder)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
                         return false;
                     }
 
@@ -710,17 +716,12 @@ namespace ouzel
             if (currentRenderCommandEncoder)
             {
                 [currentRenderCommandEncoder endEncoding];
-                [currentRenderCommandEncoder release];
-                currentRenderCommandEncoder = Nil;
             }
 
             if (currentCommandBuffer)
             {
                 [currentCommandBuffer presentDrawable:currentMetalDrawable];
-
                 [currentCommandBuffer commit];
-                [currentCommandBuffer release];
-                currentCommandBuffer = Nil;
             }
 
             return true;
@@ -854,26 +855,6 @@ namespace ouzel
             if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
             {
                 Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
-        }
-
-        bool RendererMetal::createRenderCommandEncoder(MTLRenderPassDescriptorPtr newRenderPassDescriptor)
-        {
-            if (currentRenderCommandEncoder)
-            {
-                [currentRenderCommandEncoder endEncoding];
-                [currentRenderCommandEncoder release];
-            }
-
-            currentRenderPassDescriptor = newRenderPassDescriptor;
-            currentRenderCommandEncoder = [[currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor] retain];
-
-            if (!currentRenderCommandEncoder)
-            {
-                Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
                 return false;
             }
 
