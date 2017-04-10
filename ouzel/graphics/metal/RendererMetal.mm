@@ -385,15 +385,15 @@ namespace ouzel
                 return false;
             }
 
-            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
-
             __block dispatch_semaphore_t blockSemaphore = inflightSemaphore;
             [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
              {
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
+            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
+            
             MTLScissorRect scissorRect;
 
             std::vector<float> shaderData;
