@@ -43,6 +43,9 @@
 #include "utils/Log.h"
 #include "stb_image_write.h"
 
+static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer
+static const size_t BUFFER_COUNT = 3; // allow encoding up to 3 command buffers simultaneously
+
 namespace ouzel
 {
     namespace graphics
@@ -73,6 +76,11 @@ namespace ouzel
         {
             resourceDeleteSet.clear();
             resources.clear();
+
+            for (const ShaderConstantBuffer& shaderConstantBuffer : shaderConstantBuffers)
+            {
+                [shaderConstantBuffer.buffer release];
+            }
 
             for (uint32_t state = 0; state < 4; ++state)
             {
@@ -144,7 +152,7 @@ namespace ouzel
                 return false;
             }
 
-            inflightSemaphore = dispatch_semaphore_create(3); // allow encoding up to 3 command buffers simultaneously
+            inflightSemaphore = dispatch_semaphore_create(BUFFER_COUNT);
 
             device = MTLCreateSystemDefaultDevice();
 
@@ -261,6 +269,22 @@ namespace ouzel
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
+
+            for (uint32_t i = 0; i < BUFFER_COUNT; ++i)
+            {
+                ShaderConstantBuffer shaderConstantBuffer;
+
+                shaderConstantBuffer.buffer = [device newBufferWithLength:BUFFER_SIZE
+                                                                  options:MTLResourceCPUCacheModeWriteCombined];
+
+                if (!shaderConstantBuffer.buffer)
+                {
+                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                    return false;
+                }
+
+                shaderConstantBuffers.push_back(shaderConstantBuffer);
+            }
 
             return true;
         }
@@ -399,6 +423,10 @@ namespace ouzel
             std::vector<float> shaderData;
 
             MTLViewport viewport;
+
+            if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
+
+            ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
 
             if (drawCommands.empty())
             {
@@ -576,14 +604,23 @@ namespace ouzel
                     shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
 
-                shaderMetal->uploadBuffer(shaderMetal->getPixelShaderConstantBuffer(),
-                                          shaderMetal->getPixelShaderConstantBufferOffset(),
-                                          shaderData.data(),
-                                          static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + shaderMetal->getPixelShaderAlignment() - 1) /
+                                               shaderMetal->getPixelShaderAlignment()) * shaderMetal->getPixelShaderAlignment(); // round up to nearest aligned pointer
 
-                [currentRenderCommandEncoder setFragmentBuffer:shaderMetal->getPixelShaderConstantBuffer()
-                                                        offset:shaderMetal->getPixelShaderConstantBufferOffset()
+                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                {
+                    shaderConstantBuffer.offset = 0;
+                }
+
+                std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                          reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                          static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+
+                [currentRenderCommandEncoder setFragmentBuffer:shaderConstantBuffer.buffer
+                                                        offset:shaderConstantBuffer.offset
                                                        atIndex:1];
+
+                shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                 // vertex shader constants
                 const std::vector<ShaderMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
@@ -610,16 +647,23 @@ namespace ouzel
                     shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
 
-                shaderMetal->uploadBuffer(shaderMetal->getVertexShaderConstantBuffer(),
-                                          shaderMetal->getVertexShaderConstantBufferOffset(),
-                                          shaderData.data(),
-                                          static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + shaderMetal->getVertexShaderAlignment() - 1) /
+                                              shaderMetal->getVertexShaderAlignment()) * shaderMetal->getVertexShaderAlignment(); // round up to nearest aligned pointer
 
-                [currentRenderCommandEncoder setVertexBuffer:shaderMetal->getVertexShaderConstantBuffer()
-                                                      offset:shaderMetal->getVertexShaderConstantBufferOffset()
+                if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                {
+                    shaderConstantBuffer.offset = 0;
+                }
+
+                std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                          reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                          static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+
+                [currentRenderCommandEncoder setVertexBuffer:shaderConstantBuffer.buffer
+                                                      offset:shaderConstantBuffer.offset
                                                      atIndex:1];
 
-                shaderMetal->nextBuffers();
+                shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                 // blend state
                 BlendStateMetal* blendStateMetal = static_cast<BlendStateMetal*>(drawCommand.blendState);

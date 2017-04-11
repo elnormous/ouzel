@@ -13,8 +13,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        static const size_t BUFFER_SIZE = 1024 * 1024;
-
         ShaderMetal::ShaderMetal()
         {
         }
@@ -35,40 +33,6 @@ namespace ouzel
             {
                 [vertexDescriptor release];
             }
-        }
-
-        void ShaderMetal::nextBuffers()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (pixelShaderAlignment)
-            {
-                pixelShaderConstantBufferOffset += pixelShaderConstantSize;
-                pixelShaderConstantBufferOffset = (pixelShaderConstantBufferOffset / pixelShaderAlignment + 1) * pixelShaderAlignment;
-
-                if (BUFFER_SIZE - pixelShaderConstantBufferOffset < pixelShaderAlignment)
-                {
-                    pixelShaderConstantBufferOffset = 0;
-                }
-            }
-
-            if (vertexShaderAlignment)
-            {
-                vertexShaderConstantBufferOffset += vertexShaderConstantSize;
-                vertexShaderConstantBufferOffset = (vertexShaderConstantBufferOffset / vertexShaderAlignment + 1) * vertexShaderAlignment;
-
-                if (BUFFER_SIZE - vertexShaderConstantBufferOffset < vertexShaderAlignment)
-                {
-                    vertexShaderConstantBufferOffset = 0;
-                }
-            }
-        }
-
-        bool ShaderMetal::uploadBuffer(MTLBufferPtr buffer, uint32_t offset, const void* data, uint32_t size)
-        {
-            std::copy(static_cast<const char*>(data), static_cast<const char*>(data) + size, static_cast<char*>([buffer contents]) + offset);
-
-            return true;
         }
 
         static MTLVertexFormat getVertexFormat(DataType dataType, bool normalized)
@@ -207,18 +171,6 @@ namespace ouzel
                     }
                 }
 
-                if (!pixelShaderConstantBuffer)
-                {
-                    pixelShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                        options:MTLResourceCPUCacheModeWriteCombined];
-
-                    if (!pixelShaderConstantBuffer)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                        return false;
-                    }
-                }
-
                 if (!vertexShader)
                 {
                     dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
@@ -254,18 +206,6 @@ namespace ouzel
                     {
                         vertexShaderConstantLocations.push_back({vertexShaderConstantSize, info.size});
                         vertexShaderConstantSize += info.size;
-                    }
-                }
-
-                if (!vertexShaderConstantBuffer)
-                {
-                    vertexShaderConstantBuffer = [rendererMetal->getDevice() newBufferWithLength:BUFFER_SIZE
-                                                                                         options:MTLResourceCPUCacheModeWriteCombined];
-
-                    if (!vertexShaderConstantBuffer)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                        return false;
                     }
                 }
 

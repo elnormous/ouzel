@@ -12,6 +12,7 @@
 #import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;
 typedef id<MTLDevice> MTLDevicePtr;
+typedef id<MTLBuffer> MTLBufferPtr;
 typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
@@ -26,6 +27,7 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
+typedef id MTLBufferPtr;
 typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
@@ -115,6 +117,15 @@ namespace ouzel
             MTLCommandQueuePtr commandQueue = Nil;
             CAMetalLayerPtr metalLayer = Nil;
             MTLTexturePtr currentMetalTexture = nullptr;
+
+            struct ShaderConstantBuffer
+            {
+                MTLBufferPtr buffer = Nil;
+                uint32_t offset = 0;
+            };
+
+            uint32_t shaderConstantBufferIndex = 0;
+            std::vector<ShaderConstantBuffer> shaderConstantBuffers;
 
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
 

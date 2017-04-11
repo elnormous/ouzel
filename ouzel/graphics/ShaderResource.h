@@ -39,6 +39,9 @@ namespace ouzel
             const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
             uint32_t getVertexSize() const { return vertexSize; }
 
+            uint32_t getPixelShaderAlignment() const { return pixelShaderAlignment; }
+            uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
+
         protected:
             ShaderResource();
 
