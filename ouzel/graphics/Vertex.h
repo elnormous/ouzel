@@ -32,7 +32,7 @@ namespace ouzel
             };
 
             VertexAttribute(Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
-                usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) { }
+                usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) {}
             Usage usage = Usage::NONE;
             uint32_t index = 0;
             DataType dataType = DataType::NONE;

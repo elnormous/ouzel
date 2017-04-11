@@ -22,7 +22,7 @@ namespace ouzel
             struct ConstantInfo
             {
                 ConstantInfo(std::string aName, DataType aDataType):
-                    name(aName), dataType(aDataType), size(getDataTypeSize(aDataType)) { }
+                    name(aName), dataType(aDataType), size(getDataTypeSize(aDataType)) {}
 
                 std::string name;
                 DataType dataType;
