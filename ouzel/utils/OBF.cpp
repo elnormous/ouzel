@@ -468,19 +468,22 @@ namespace ouzel
                 return 0;
             }
 
-            type = *reinterpret_cast<const Type*>(buffer.data() + offset);
+            Marker marker = *reinterpret_cast<const Marker*>(buffer.data() + offset);
             offset += 1;
 
             uint32_t ret = 0;
 
-            switch (type)
+            switch (marker)
             {
-                case Type::NONE:
+                case Marker::NONE:
                 {
+                    type = Type::NONE;
                     break;
                 }
-                case Type::INT8:
+                case Marker::INT8:
                 {
+                    type = Type::INT;
+
                     uint8_t int8Value;
                     if ((ret = readInt8(buffer, offset, int8Value)) == 0)
                     {
@@ -490,8 +493,10 @@ namespace ouzel
                     intValue = int8Value;
                     break;
                 }
-                case Type::INT16:
+                case Marker::INT16:
                 {
+                    type = Type::INT;
+
                     uint16_t int16Value;
                     if ((ret = readInt16(buffer, offset, int16Value)) == 0)
                     {
@@ -501,8 +506,10 @@ namespace ouzel
                     intValue = int16Value;
                     break;
                 }
-                case Type::INT32:
+                case Marker::INT32:
                 {
+                    type = Type::INT;
+
                     uint32_t int32Value;
                     if ((ret = readInt32(buffer, offset, int32Value)) == 0)
                     {
@@ -512,16 +519,20 @@ namespace ouzel
                     intValue = int32Value;
                     break;
                 }
-                case Type::INT64:
+                case Marker::INT64:
                 {
+                    type = Type::INT;
+
                     if ((ret = readInt64(buffer, offset, intValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::FLOAT:
+                case Marker::FLOAT:
                 {
+                    type = Type::FLOAT;
+
                     float floatValue;
                     if ((ret = readFloat(buffer, offset, floatValue)) == 0)
                     {
@@ -531,56 +542,70 @@ namespace ouzel
                     doubleValue = floatValue;
                     break;
                 }
-                case Type::DOUBLE:
+                case Marker::DOUBLE:
                 {
+                    type = Type::DOUBLE;
+
                     if ((ret = readDouble(buffer, offset, doubleValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::STRING:
+                case Marker::STRING:
                 {
+                    type = Type::STRING;
+
                     if ((ret = readString(buffer, offset, stringValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::LONG_STRING:
+                case Marker::LONG_STRING:
                 {
+                    type = Type::STRING;
+
                     if ((ret = readLongString(buffer, offset, stringValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::BYTE_ARRAY:
+                case Marker::BYTE_ARRAY:
                 {
+                    type = Type::BYTE_ARRAY;
+
                     if ((ret = readByteArray(buffer, offset, byteArrayValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::OBJECT:
+                case Marker::OBJECT:
                 {
+                    type = Type::OBJECT;
+
                     if ((ret = readObject(buffer, offset, objectValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::ARRAY:
+                case Marker::ARRAY:
                 {
+                    type = Type::ARRAY;
+
                     if ((ret = readArray(buffer, offset, arrayValue)) == 0)
                     {
                         return 0;
                     }
                     break;
                 }
-                case Type::DICTIONARY:
+                case Marker::DICTIONARY:
                 {
+                    type = Type::DICTIONARY;
+
                     if ((ret = readDictionary(buffer, offset, dictionaryValue)) == 0)
                     {
                         return 0;
@@ -601,24 +626,100 @@ namespace ouzel
 
             uint32_t ret = 0;
 
-            buffer.push_back(static_cast<uint8_t>(type));
-            size += 1;
-
             switch (type)
             {
-                case Type::NONE: break;
-                case Type::INT8: ret = writeInt8(buffer, static_cast<uint8_t>(intValue)); break;
-                case Type::INT16: ret = writeInt16(buffer, static_cast<uint16_t>(intValue)); break;
-                case Type::INT32: ret = writeInt32(buffer, static_cast<uint32_t>(intValue)); break;
-                case Type::INT64: ret = writeInt64(buffer, intValue); break;
-                case Type::FLOAT: ret = writeFloat(buffer, static_cast<float>(doubleValue)); break;
-                case Type::DOUBLE: ret = writeDouble(buffer, doubleValue); break;
-                case Type::STRING: ret = writeString(buffer, stringValue); break;
-                case Type::LONG_STRING: ret = writeLongString(buffer, stringValue); break;
-                case Type::BYTE_ARRAY: ret = writeByteArray(buffer, byteArrayValue); break;
-                case Type::OBJECT: ret = writeObject(buffer, objectValue); break;
-                case Type::ARRAY: ret = writeArray(buffer, arrayValue); break;
-                case Type::DICTIONARY: ret = writeDictionary(buffer, dictionaryValue); break;
+                case Type::NONE:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::NONE));
+                    size += 1;
+                    break;
+                }
+                case Type::INT:
+                {
+                    if (intValue > std::numeric_limits<uint32_t>::max())
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::INT64));
+                        size += 1;
+                        ret = writeInt64(buffer, intValue);
+                    }
+                    else if (intValue > std::numeric_limits<uint16_t>::max())
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::INT32));
+                        size += 1;
+                        ret = writeInt32(buffer, static_cast<uint32_t>(intValue));
+                    }
+                    else if (intValue > std::numeric_limits<uint8_t>::max())
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::INT16));
+                        size += 1;
+                        ret = writeInt16(buffer, static_cast<uint16_t>(intValue));
+                    }
+                    else
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::INT8));
+                        size += 1;
+                        ret = writeInt8(buffer, static_cast<uint8_t>(intValue));
+                    }
+                    break;
+                }
+                case Type::FLOAT:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::FLOAT));
+                    size += 1;
+                    ret = writeFloat(buffer, static_cast<float>(doubleValue));
+                    break;
+                }
+                case Type::DOUBLE:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::DOUBLE));
+                    size += 1;
+                    ret = writeDouble(buffer, doubleValue);
+                    break;
+                }
+                case Type::STRING:
+                {
+                    if (stringValue.length() > std::numeric_limits<uint16_t>::max())
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::LONG_STRING));
+                        size += 1;
+                        ret = writeString(buffer, stringValue);
+                    }
+                    else
+                    {
+                        buffer.push_back(static_cast<uint8_t>(Marker::STRING));
+                        size += 1;
+                        ret = writeLongString(buffer, stringValue);
+                    }
+                    break;
+                }
+                case Type::BYTE_ARRAY:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::BYTE_ARRAY));
+                    size += 1;
+                    ret = writeByteArray(buffer, byteArrayValue);
+                    break;
+                }
+                case Type::OBJECT:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::OBJECT));
+                    size += 1;
+                    ret = writeObject(buffer, objectValue);
+                    break;
+                }
+                case Type::ARRAY:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::ARRAY));
+                    size += 1;
+                    ret = writeArray(buffer, arrayValue);
+                    break;
+                }
+                case Type::DICTIONARY:
+                {
+                    buffer.push_back(static_cast<uint8_t>(Marker::DICTIONARY));
+                    size += 1;
+                    ret = writeDictionary(buffer, dictionaryValue);
+                    break;
+                }
                 default: return 0;
             }
 
