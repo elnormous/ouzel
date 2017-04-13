@@ -15,10 +15,12 @@
 #include "graphics/opengl/macos/RendererOGLMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
+#include "audio/openal/ios/AudioALIOS.h"
 #include "graphics/metal/ios/RendererMetalIOS.h"
 #include "graphics/opengl/ios/RendererOGLIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
+#include "audio/openal/tvos/AudioALTVOS.h"
 #include "graphics/metal/tvos/RendererMetalTVOS.h"
 #include "graphics/opengl/tvos/RendererOGLTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
@@ -73,7 +75,6 @@
 #endif
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include "audio/openal/apple/AudioALApple.h"
 #include "input/apple/InputApple.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "input/windows/InputWin.h"
@@ -312,8 +313,10 @@ namespace ouzel
 #if OUZEL_SUPPORTS_OPENAL
             case audio::Audio::Driver::OPENAL:
                 Log(Log::Level::INFO) << "Using OpenAL audio driver";
-    #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-                audio.reset(new audio::AudioALApple());
+    #if OUZEL_PLATFORM_IOS
+                audio.reset(new audio::AudioALIOS());
+    #elif OUZEL_PLATFORM_TVOS
+                audio.reset(new audio::AudioALTVOS());
     #else
                 audio.reset(new audio::AudioAL());
     #endif

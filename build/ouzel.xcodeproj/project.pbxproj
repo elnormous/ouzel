@@ -250,12 +250,8 @@
 		303820FE1D817F4900677CAB /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputApple.mm */; };
 		303820FF1D817F4900677CAB /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputApple.mm */; };
 		303821001D817F4900677CAB /* InputApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputApple.mm */; };
-		303821041D817F6400677CAB /* AudioALApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioALApple.h */; };
-		303821051D817F6400677CAB /* AudioALApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioALApple.h */; };
-		303821061D817F6400677CAB /* AudioALApple.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioALApple.h */; };
-		303821071D817F6400677CAB /* AudioALApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioALApple.mm */; };
-		303821081D817F6400677CAB /* AudioALApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioALApple.mm */; };
-		303821091D817F6400677CAB /* AudioALApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioALApple.mm */; };
+		303821041D817F6400677CAB /* AudioALIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioALIOS.h */; };
+		303821071D817F6400677CAB /* AudioALIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioALIOS.mm */; };
 		303821331D81876E00677CAB /* BlendStateEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateEmpty.cpp */; };
 		303821341D81876E00677CAB /* BlendStateEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateEmpty.cpp */; };
 		303821351D81876E00677CAB /* BlendStateEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateEmpty.cpp */; };
@@ -706,6 +702,8 @@
 		3082C3C01D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
 		3082C3C11D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
 		3082C3C21D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
+		3098A54D1E9FD6E900528A54 /* AudioALTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A54B1E9FD6E900528A54 /* AudioALTVOS.h */; };
+		3098A54E1E9FD6E900528A54 /* AudioALTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A54C1E9FD6E900528A54 /* AudioALTVOS.mm */; };
 		309B48371DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
 		309B48381DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
 		309B48391DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
@@ -906,8 +904,8 @@
 		303820F21D817F4900677CAB /* GamepadApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadApple.mm; sourceTree = "<group>"; };
 		303820F31D817F4900677CAB /* InputApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputApple.h; sourceTree = "<group>"; };
 		303820F41D817F4900677CAB /* InputApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputApple.mm; sourceTree = "<group>"; };
-		303821021D817F6400677CAB /* AudioALApple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioALApple.h; sourceTree = "<group>"; };
-		303821031D817F6400677CAB /* AudioALApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioALApple.mm; sourceTree = "<group>"; };
+		303821021D817F6400677CAB /* AudioALIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioALIOS.h; sourceTree = "<group>"; };
+		303821031D817F6400677CAB /* AudioALIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioALIOS.mm; sourceTree = "<group>"; };
 		303821231D81876E00677CAB /* BlendStateEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateEmpty.cpp; sourceTree = "<group>"; };
 		303821241D81876E00677CAB /* BlendStateEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendStateEmpty.h; sourceTree = "<group>"; };
 		303821251D81876E00677CAB /* BufferEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferEmpty.cpp; sourceTree = "<group>"; };
@@ -1076,6 +1074,8 @@
 		3082C3901D9565DE0090FC9D /* TextureVSGL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGL3.h; sourceTree = "<group>"; };
 		3082C3911D9565DE0090FC9D /* TextureVSGLES2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES2.h; sourceTree = "<group>"; };
 		3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES3.h; sourceTree = "<group>"; };
+		3098A54B1E9FD6E900528A54 /* AudioALTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioALTVOS.h; sourceTree = "<group>"; };
+		3098A54C1E9FD6E900528A54 /* AudioALTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioALTVOS.mm; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 		309B48351DEA5EE600A718C5 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		309B48361DEA5EE600A718C5 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
@@ -1209,13 +1209,13 @@
 			path = apple;
 			sourceTree = "<group>";
 		};
-		303821011D817F5600677CAB /* apple */ = {
+		303821011D817F5600677CAB /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				303821021D817F6400677CAB /* AudioALApple.h */,
-				303821031D817F6400677CAB /* AudioALApple.mm */,
+				303821021D817F6400677CAB /* AudioALIOS.h */,
+				303821031D817F6400677CAB /* AudioALIOS.mm */,
 			);
-			path = apple;
+			path = ios;
 			sourceTree = "<group>";
 		};
 		3038210A1D81874D00677CAB /* empty */ = {
@@ -1515,11 +1515,12 @@
 		30419E6C1D20254100A63759 /* openal */ = {
 			isa = PBXGroup;
 			children = (
-				303821011D817F5600677CAB /* apple */,
 				30381FAF1D80A3F900677CAB /* AudioAL.cpp */,
 				30381FB01D80A3F900677CAB /* AudioAL.h */,
+				303821011D817F5600677CAB /* ios */,
 				30381FB11D80A3F900677CAB /* SoundAL.cpp */,
 				30381FB21D80A3F900677CAB /* SoundAL.h */,
+				3098A54A1E9FD6C800528A54 /* tvos */,
 			);
 			path = openal;
 			sourceTree = "<group>";
@@ -1671,6 +1672,15 @@
 			path = events;
 			sourceTree = "<group>";
 		};
+		3098A54A1E9FD6C800528A54 /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+				3098A54B1E9FD6E900528A54 /* AudioALTVOS.h */,
+				3098A54C1E9FD6E900528A54 /* AudioALTVOS.mm */,
+			);
+			path = tvos;
+			sourceTree = "<group>";
+		};
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1750,7 +1760,7 @@
 				3030D5051DAEF1FA007CC8EB /* Log.h in Headers */,
 				30381FF41D80A40700677CAB /* ColorVSTVOS.h in Headers */,
 				3038213C1D81876E00677CAB /* BufferEmpty.h in Headers */,
-				303821041D817F6400677CAB /* AudioALApple.h in Headers */,
+				303821041D817F6400677CAB /* AudioALIOS.h in Headers */,
 				30381F881D80A3EC00677CAB /* ShaderOGL.h in Headers */,
 				30547E7C1CB47E050055EE79 /* Shake.h in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.h in Headers */,
@@ -1907,7 +1917,6 @@
 				3030D5071DAEF1FA007CC8EB /* Log.h in Headers */,
 				30575AAB1C39D1FF0009C8A7 /* Layer.h in Headers */,
 				3038213E1D81876E00677CAB /* BufferEmpty.h in Headers */,
-				303821061D817F6400677CAB /* AudioALApple.h in Headers */,
 				30547E7D1CB47E050055EE79 /* Shake.h in Headers */,
 				303B76601C355A3B00FEDE92 /* Vector4.h in Headers */,
 				303B76611C355A3B00FEDE92 /* Utils.h in Headers */,
@@ -1988,6 +1997,7 @@
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
 				300C39EF1E51355000330E4F /* SoundDataWave.h in Headers */,
+				3098A54D1E9FD6E900528A54 /* AudioALTVOS.h in Headers */,
 				30381F901D80A3EC00677CAB /* TextureOGL.h in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
@@ -2132,7 +2142,6 @@
 				3030D5061DAEF1FA007CC8EB /* Log.h in Headers */,
 				300C39EE1E51355000330E4F /* SoundDataWave.h in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.h in Headers */,
-				303821051D817F6400677CAB /* AudioALApple.h in Headers */,
 				30ADCBB71E9A9479000DC9AC /* RendererMetalMacOS.h in Headers */,
 				30381F771D80A3EC00677CAB /* MeshBufferOGL.h in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.h in Headers */,
@@ -2325,7 +2334,7 @@
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303821451D81876E00677CAB /* RendererEmpty.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* TextureResource.cpp in Sources */,
-				303821071D817F6400677CAB /* AudioALApple.mm in Sources */,
+				303821071D817F6400677CAB /* AudioALIOS.mm in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
@@ -2450,7 +2459,6 @@
 				303B76431C355A3B00FEDE92 /* TextureResource.cpp in Sources */,
 				303821471D81876E00677CAB /* RendererEmpty.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
-				303821091D817F6400677CAB /* AudioALApple.mm in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				303B04C61E207B7800011CBE /* RendererOGLTVOS.mm in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
@@ -2463,6 +2471,7 @@
 				30381F511D80A3EC00677CAB /* BlendStateOGL.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* ApplicationTVOS.mm in Sources */,
 				30575ABE1C39D9850009C8A7 /* NodeContainer.cpp in Sources */,
+				3098A54E1E9FD6E900528A54 /* AudioALTVOS.mm in Sources */,
 				30EF364D1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				303821531D81876E00677CAB /* ShaderEmpty.cpp in Sources */,
 				30419DF31D162BEF00A63759 /* SoundData.cpp in Sources */,
@@ -2577,7 +2586,6 @@
 				303821461D81876E00677CAB /* RendererEmpty.cpp in Sources */,
 				304A8E921C26ED32008B1151 /* MeshBufferResource.cpp in Sources */,
 				30EF364B1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
-				303821081D817F6400677CAB /* AudioALApple.mm in Sources */,
 				30381F121D8094F100677CAB /* BufferResource.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* TextureResource.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,

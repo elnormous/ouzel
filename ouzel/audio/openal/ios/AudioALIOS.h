@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class AudioALApple: public AudioAL
+        class AudioALIOS: public AudioAL
         {
         public:
             virtual bool init() override;
