@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <objc/message.h>
+#include "GamepadMacOS.h"
 #include "core/Engine.h"
-#include "GamepadApple.h"
 #include "core/CompileConfig.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadApple::GamepadApple(GCControllerPtr aController):
+        GamepadMacOS::GamepadMacOS(GCControllerPtr aController):
             controller(aController)
         {
             if (controller.extendedGamepad)
@@ -119,32 +119,6 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::Y, pressed, value);
                 };
             }
-#if OUZEL_PLATFORM_TVOS
-            else if (controller.microGamepad)
-            {
-                // D-pad
-                controller.microGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
-                };
-                controller.microGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
-                };
-                controller.microGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
-                };
-                controller.microGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
-                };
-
-                // buttons
-                controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::A, pressed, value);
-                };
-                controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::X, pressed, value);
-                };
-            }
-#endif
 
             controller.controllerPausedHandler = ^(GCController*) {
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
@@ -152,35 +126,17 @@ namespace ouzel
             };
         }
 
-        bool GamepadApple::isAttached() const
+        bool GamepadMacOS::isAttached() const
         {
             return controller.isAttachedToDevice == YES;
         }
 
-        void GamepadApple::setAbsoluteDpadValues(bool absoluteDpadValues)
-        {
-#if OUZEL_PLATFORM_TVOS
-            controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
-#else
-            OUZEL_UNUSED(absoluteDpadValues);
-#endif
-        }
-
-        bool GamepadApple::isAbsoluteDpadValues() const
-        {
-#if OUZEL_PLATFORM_TVOS
-            return controller.microGamepad.reportsAbsoluteDpadValues == YES;
-#else
-            return false;
-#endif
-        }
-
-        int32_t GamepadApple::getPlayerIndex() const
+        int32_t GamepadMacOS::getPlayerIndex() const
         {
             return static_cast<int32_t>(controller.playerIndex);
         }
 
-        bool GamepadApple::setPlayerIndex(int32_t playerIndex)
+        bool GamepadMacOS::setPlayerIndex(int32_t playerIndex)
         {
             if (playerIndex >= 0 && playerIndex <= 3)
             {

@@ -21,9 +21,7 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadApple;
-
-        class InputApple: public Input
+        class InputMacOS: public Input
         {
             friend Engine;
         public:
@@ -45,13 +43,11 @@ namespace ouzel
             void handleGamepadConnected(GCControllerPtr controller);
             void handleGamepadDisconnected(GCControllerPtr controller);
 
-#ifdef OUZEL_PLATFORM_MACOS
             static KeyboardKey convertKeyCode(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
-#endif
 
         protected:
-            InputApple();
+            InputMacOS();
 
             ConnectDelegatePtr connectDelegate = nullptr;
 

@@ -2,27 +2,21 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "core/CompileConfig.h"
-#if OUZEL_PLATFORM_MACOS
 #import <AppKit/AppKit.h>
 #import <CoreGraphics/CoreGraphics.h>
-#include "core/macos/WindowMacOS.h"
-#elif OUZEL_PLATFORM_IOS
-#include "core/ios/WindowIOS.h"
-#elif OUZEL_PLATFORM_TVOS
-#include "core/tvos/WindowTVOS.h"
-#endif
 #import <GameController/GameController.h>
+#include "InputMacOS.h"
+#include "core/macos/WindowMacOS.h"
 #include "core/Application.h"
-#include "InputApple.h"
 #include "core/Engine.h"
-#include "GamepadApple.h"
+#include "GamepadMacOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 #include "utils/Utils.h"
 
 @interface ConnectDelegate: NSObject
 {
+    ouzel::input::InputMacOS* input;
 }
 
 -(void)handleControllerConnected:(NSNotification*)notification;
@@ -32,16 +26,24 @@
 
 @implementation ConnectDelegate
 
+-(id)initWithInput:(ouzel::input::InputMacOS*)newInput
+{
+    if (self = [super init])
+    {
+        input = newInput;
+    }
+
+    return self;
+}
+
 -(void)handleControllerConnected:(NSNotification*)notification
 {
-    ouzel::input::InputApple* inputApple = static_cast<ouzel::input::InputApple*>(ouzel::sharedEngine->getInput());
-    inputApple->handleGamepadConnected(notification.object);
+    input->handleGamepadConnected(notification.object);
 }
 
 -(void)handleControllerDisconnected:(NSNotification*)notification
 {
-    ouzel::input::InputApple* inputApple = static_cast<ouzel::input::InputApple*>(ouzel::sharedEngine->getInput());
-    inputApple->handleGamepadDisconnected(notification.object);
+    input->handleGamepadDisconnected(notification.object);
 }
 
 @end
@@ -185,7 +187,7 @@ namespace ouzel
             kVK_JIS_Kana                  = 0x68
         };
 
-        KeyboardKey InputApple::convertKeyCode(unsigned short keyCode)
+        KeyboardKey InputMacOS::convertKeyCode(unsigned short keyCode)
         {
             switch (keyCode)
             {
@@ -307,7 +309,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputApple::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
+        uint32_t InputMacOS::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
         {
             uint32_t modifiers = 0;
 
@@ -328,9 +330,9 @@ namespace ouzel
         }
 #endif // OUZEL_PLATFORM_MACOS
 
-        InputApple::InputApple()
+        InputMacOS::InputMacOS()
         {
-            connectDelegate = [[ConnectDelegate alloc]init];
+            connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             //if GameController framework is available
             if ([GCController class])
@@ -352,7 +354,7 @@ namespace ouzel
             }
         }
 
-        void InputApple::setCursorVisible(bool visible)
+        void InputMacOS::setCursorVisible(bool visible)
         {
 #if OUZEL_PLATFORM_MACOS
             if (visible != cursorVisible)
@@ -375,7 +377,7 @@ namespace ouzel
 #endif
         }
 
-        bool InputApple::isCursorVisible() const
+        bool InputMacOS::isCursorVisible() const
         {
 #if OUZEL_PLATFORM_MACOS
             return cursorVisible;
@@ -384,7 +386,7 @@ namespace ouzel
 #endif
         }
 
-        void InputApple::setCursorPosition(const Vector2& position)
+        void InputMacOS::setCursorPosition(const Vector2& position)
         {
             Input::setCursorPosition(position);
 
@@ -403,7 +405,7 @@ namespace ouzel
 #endif
         }
 
-        void InputApple::setCursorLocked(bool locked)
+        void InputMacOS::setCursorLocked(bool locked)
         {
 #if OUZEL_PLATFORM_MACOS
             sharedApplication->execute([locked] {
@@ -413,12 +415,12 @@ namespace ouzel
 #endif
         }
 
-        bool InputApple::isCursorLocked() const
+        bool InputMacOS::isCursorLocked() const
         {
             return cursorLocked;
         }
 
-        void InputApple::startGamepadDiscovery()
+        void InputMacOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -431,7 +433,7 @@ namespace ouzel
             }
         }
 
-        void InputApple::stopGamepadDiscovery()
+        void InputMacOS::stopGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
@@ -446,7 +448,7 @@ namespace ouzel
             }
         }
 
-        bool InputApple::showVirtualKeyboard()
+        bool InputMacOS::showVirtualKeyboard()
         {
 #if OUZEL_PLATFORM_IOS
             UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
@@ -463,7 +465,7 @@ namespace ouzel
 #endif
         }
 
-        bool InputApple::hideVirtualKeyboard()
+        bool InputMacOS::hideVirtualKeyboard()
         {
 #if OUZEL_PLATFORM_IOS
             UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
@@ -480,13 +482,13 @@ namespace ouzel
 #endif
         }
 
-        void InputApple::handleGamepadDiscoveryCompleted()
+        void InputMacOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
             discovering = false;
         }
 
-        void InputApple::handleGamepadConnected(GCControllerPtr controller)
+        void InputMacOS::handleGamepadConnected(GCControllerPtr controller)
         {
             std::vector<int32_t> playerIndices = {0, 1, 2, 3};
 
@@ -502,7 +504,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            std::unique_ptr<GamepadApple> gamepad(new GamepadApple(controller));
+            std::unique_ptr<GamepadMacOS> gamepad(new GamepadMacOS(controller));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -511,11 +513,11 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputApple::handleGamepadDisconnected(GCControllerPtr controller)
+        void InputMacOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadApple* gamepadApple = static_cast<GamepadApple*>(gamepad.get());
-                return gamepadApple->getController() == controller;
+                GamepadMacOS* currentGamepad = static_cast<GamepadMacOS*>(gamepad.get());
+                return currentGamepad->getController() == controller;
             });
 
             if (i != gamepads.end())

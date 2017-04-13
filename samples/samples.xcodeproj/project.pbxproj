@@ -122,6 +122,7 @@
 		308493A41D63D0C100B7C515 /* button_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 308493A11D63D0C100B7C515 /* button_selected.png */; };
 		3098A5481E9FD54000528A54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1521CB5DD0400478AA2 /* UIKit.framework */; };
 		3098A5491E9FD56A00528A54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE14C1CB5DCDC00478AA2 /* Foundation.framework */; };
+		3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3098A54F1EA01B4B00528A54 /* IOKit.framework */; };
 		30A883571E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883581E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883591E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
@@ -247,6 +248,7 @@
 		305B99B21C433061008589E1 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		308493A11D63D0C100B7C515 /* button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_selected.png; sourceTree = "<group>"; };
+		3098A54F1EA01B4B00528A54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		30A883561E70E004004A033F /* 8-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "8-bit.wav"; sourceTree = "<group>"; };
 		30A8835D1E70E5B1004A033F /* 24-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "24-bit.wav"; sourceTree = "<group>"; };
 		30AFE1311CB5DC2B00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -309,6 +311,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */,
 				304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */,
 				30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */,
 				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
@@ -327,6 +330,7 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3098A54F1EA01B4B00528A54 /* IOKit.framework */,
 				30419E3E1D1A106900A63759 /* AudioToolbox.framework */,
 				30419E621D1F3DED00A63759 /* AudioToolbox.framework */,
 				30419E3C1D1A106000A63759 /* AudioToolbox.framework */,

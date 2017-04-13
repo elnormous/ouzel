@@ -152,8 +152,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/apple/GamepadApple.mm \
-	$(ROOT_DIR)/../ouzel/input/apple/InputApple.mm
+	$(ROOT_DIR)/../ouzel/input/macos/GamepadMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \

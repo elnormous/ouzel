@@ -13,16 +13,19 @@
 #include "macos/WindowMacOS.h"
 #include "graphics/metal/macos/RendererMetalMacOS.h"
 #include "graphics/opengl/macos/RendererOGLMacOS.h"
+#include "input/macos/InputMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
 #include "audio/openal/ios/AudioALIOS.h"
 #include "graphics/metal/ios/RendererMetalIOS.h"
 #include "graphics/opengl/ios/RendererOGLIOS.h"
+#include "input/ios/InputIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
 #include "audio/openal/tvos/AudioALTVOS.h"
 #include "graphics/metal/tvos/RendererMetalTVOS.h"
 #include "graphics/opengl/tvos/RendererOGLTVOS.h"
+#include "input/tvos/InputTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
 #include "android/ApplicationAndroid.h"
@@ -36,6 +39,7 @@
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.h"
 #include "graphics/opengl/windows/RendererOGLWin.h"
+#include "input/windows/InputWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "raspbian/WindowRasp.h"
 #include "graphics/opengl/raspbian/RendererOGLRasp.h"
@@ -72,12 +76,6 @@
 
 #if OUZEL_SUPPORTS_OPENSL
 #include "audio/opensl/AudioSL.h"
-#endif
-
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include "input/apple/InputApple.h"
-#elif OUZEL_PLATFORM_WINDOWS
-#include "input/windows/InputWin.h"
 #endif
 
 #ifdef OPENAL
@@ -344,8 +342,12 @@ namespace ouzel
             return false;
         }
 
-#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        input.reset(new input::InputApple());
+#if OUZEL_PLATFORM_MACOS
+        input.reset(new input::InputMacOS());
+#elif OUZEL_PLATFORM_IOS
+        input.reset(new input::InputIOS());
+#elif OUZEL_PLATFORM_TVOS
+        input.reset(new input::InputTVOS());
 #elif OUZEL_PLATFORM_ANDROID
         input.reset(new input::InputAndroid());
 #elif OUZEL_PLATFORM_LINUX
