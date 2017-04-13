@@ -23,8 +23,8 @@ LDFLAGS+=-lX11 -lGL -lopenal -lpthread
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioToolbox \
-	-framework CoreVideo \
 	-framework Cocoa \
+	-framework CoreVideo \
 	-framework GameController \
 	-framework Metal \
 	-framework OpenAL \
