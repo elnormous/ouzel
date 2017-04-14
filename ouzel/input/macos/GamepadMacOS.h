@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "input/Gamepad.h"
-
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
@@ -12,6 +10,8 @@ typedef GCController* GCControllerPtr;
 #include <objc/objc.h>
 typedef id GCControllerPtr;
 #endif
+
+#include "input/Gamepad.h"
 
 namespace ouzel
 {
