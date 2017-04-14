@@ -52,7 +52,6 @@ namespace ouzel
 {
     namespace input
     {
-#ifdef OUZEL_PLATFORM_MACOS
         // defines from Carbon
         enum {
             kVK_ANSI_A                    = 0x00,
@@ -328,7 +327,6 @@ namespace ouzel
 
             return modifiers;
         }
-#endif // OUZEL_PLATFORM_MACOS
 
         InputMacOS::InputMacOS()
         {
