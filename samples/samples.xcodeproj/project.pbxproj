@@ -108,7 +108,6 @@
 		304736D51E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
 		304736D61E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
 		304A8EAA1C27429A008B1151 /* Samples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA81C27429A008B1151 /* Samples.cpp */; };
-		30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30575AE71C3C98F50009C8A7 /* GameController.framework */; };
 		305B99B31C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
 		305B99B41C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
 		305B99B51C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
@@ -317,7 +316,6 @@
 				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
-				30575AE81C3C98F50009C8A7 /* GameController.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
 				30419E861D202DAB00A63759 /* OpenAL.framework in Frameworks */,
 				303B74EE1C27F6A100FEDE92 /* OpenGL.framework in Frameworks */,

@@ -25,7 +25,7 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework AudioToolbox \
 	-framework Cocoa \
 	-framework CoreVideo \
-	-framework GameController \
+	-framework IOKit \
 	-framework Metal \
 	-framework OpenAL \
 	-framework OpenGL \
