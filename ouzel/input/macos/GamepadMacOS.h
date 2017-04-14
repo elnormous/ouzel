@@ -4,11 +4,9 @@
 #pragma once
 
 #if defined(__OBJC__)
-#include <GameController/GameController.h>
-typedef GCController* GCControllerPtr;
+#import <IOKit/hid/IOHIDManager.h>
 #else
-#include <objc/objc.h>
-typedef id GCControllerPtr;
+typedef void* IOHIDDeviceRef;
 #endif
 
 #include "input/Gamepad.h"
@@ -23,17 +21,25 @@ namespace ouzel
         {
             friend InputMacOS;
         public:
-            virtual bool isAttached() const override;
+            IOHIDDeviceRef getDevice() const { return device; }
 
-            virtual int32_t getPlayerIndex() const override;
-            virtual bool setPlayerIndex(int32_t playerIndex) override;
+            void handleInput(IOHIDValueRef value);
 
-            GCControllerPtr getController() const { return controller; }
+            const GamepadButton* getButtonMap() const { return usageMap; }
 
         protected:
-            GamepadMacOS(GCControllerPtr aController);
+            GamepadMacOS(IOHIDDeviceRef aDevice);
 
-            GCControllerPtr controller;
+            IOHIDDeviceRef device = nullptr;
+            uint64_t vendorId = 0;
+            uint64_t productId = 0;
+            GamepadButton usageMap[24];
+            uint32_t leftAnalogXMap = 0;
+            uint32_t leftAnalogYMap = 0;
+            uint32_t leftTriggerAnalogMap = 0;
+            uint32_t rightAnalogXMap = 0;
+            uint32_t rightAnalogYMap = 0;
+            uint32_t rightTriggerAnalogMap = 0;
         };
     } // namespace input
 } // namespace ouzel

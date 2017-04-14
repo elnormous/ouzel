@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#import <AppKit/AppKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <GameController/GameController.h>
 #import <Carbon/Carbon.h>
@@ -15,39 +14,17 @@
 #include "utils/Log.h"
 #include "utils/Utils.h"
 
-@interface ConnectDelegate: NSObject
+static void deviceAdded(void* ctx, IOReturn inResult, void* inSender, IOHIDDeviceRef device)
 {
-    ouzel::input::InputMacOS* input;
+    ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
+    inputMacOS->handleGamepadConnected(device);
 }
 
--(void)handleControllerConnected:(NSNotification*)notification;
--(void)handleControllerDisconnected:(NSNotification*)notification;
-
-@end
-
-@implementation ConnectDelegate
-
--(id)initWithInput:(ouzel::input::InputMacOS*)newInput
+static void deviceRemoved(void *ctx, IOReturn inResult, void *inSender, IOHIDDeviceRef device)
 {
-    if (self = [super init])
-    {
-        input = newInput;
-    }
-
-    return self;
+    ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
+    inputMacOS->handleGamepadDisconnected(device);
 }
-
--(void)handleControllerConnected:(NSNotification*)notification
-{
-    input->handleGamepadConnected(notification.object);
-}
-
--(void)handleControllerDisconnected:(NSNotification*)notification
-{
-    input->handleGamepadDisconnected(notification.object);
-}
-
-@end
 
 namespace ouzel
 {
@@ -197,25 +174,30 @@ namespace ouzel
 
         InputMacOS::InputMacOS()
         {
-            connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
+            NSArray* criteria = @[
+                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
+                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_Joystick) },
+                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
+                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_GamePad) },
+                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
+                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_MultiAxisController) }
+                                  ];
 
-            //if GameController framework is available
-            if ([GCController class])
+            hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+
+            IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
+            IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
+            if (ret != kIOReturnSuccess)
             {
-                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                         selector:@selector(handleControllerConnected:)
-                                                             name:GCControllerDidConnectNotification
-                                                           object:Nil];
-
-                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                         selector:@selector(handleControllerDisconnected:)
-                                                             name:GCControllerDidDisconnectNotification
-                                                           object:Nil];
-
-                for (GCController* controller in [GCController controllers])
-                {
-                    handleGamepadConnected(controller);
-                }
+                IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
+                CFRelease(hidManager);
+                Log(Log::Level::ERR) << "Failed to initialize manager";
+            }
+            else
+            {
+                IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+                IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
+                IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
             }
         }
 
@@ -273,57 +255,12 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputMacOS::startGamepadDiscovery()
+        void InputMacOS::handleGamepadConnected(IOHIDDeviceRef device)
         {
-            Log(Log::Level::INFO) << "Started gamepad discovery";
-
-            discovering = true;
-
-            if ([GCController class])
-            {
-                [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-                 ^(void){ handleGamepadDiscoveryCompleted(); }];
-            }
-        }
-
-        void InputMacOS::stopGamepadDiscovery()
-        {
-            Log(Log::Level::INFO) << "Stopped gamepad discovery";
-
-            if (discovering)
-            {
-                if ([GCController class])
-                {
-                    [GCController stopWirelessControllerDiscovery];
-                }
-
-                discovering = false;
-            }
-        }
-
-        void InputMacOS::handleGamepadDiscoveryCompleted()
-        {
-            Log(Log::Level::INFO) << "Gamepad discovery completed";
-            discovering = false;
-        }
-
-        void InputMacOS::handleGamepadConnected(GCControllerPtr controller)
-        {
-            std::vector<int32_t> playerIndices = {0, 1, 2, 3};
-
-            for (const auto& gamepad : gamepads)
-            {
-                auto i = std::find(playerIndices.begin(), playerIndices.end(), gamepad->getPlayerIndex());
-
-                if (i != playerIndices.end()) playerIndices.erase(i);
-            }
-
-            if (!playerIndices.empty()) controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndices.front());
-
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            std::unique_ptr<GamepadMacOS> gamepad(new GamepadMacOS(controller));
+            std::unique_ptr<GamepadMacOS> gamepad(new GamepadMacOS(device));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -332,11 +269,11 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputMacOS::handleGamepadDisconnected(GCControllerPtr controller)
+        void InputMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
         {
-            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
+            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [device](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadMacOS* currentGamepad = static_cast<GamepadMacOS*>(gamepad.get());
-                return currentGamepad->getController() == controller;
+                return currentGamepad->getDevice() == device;
             });
 
             if (i != gamepads.end())

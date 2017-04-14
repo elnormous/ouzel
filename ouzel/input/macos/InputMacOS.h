@@ -4,15 +4,10 @@
 #pragma once
 
 #if defined(__OBJC__)
-#include <GameController/GameController.h>
-typedef GCController* GCControllerPtr;
-@class ConnectDelegate;
-typedef ConnectDelegate* ConnectDelegatePtr;
+#import <IOKit/hid/IOHIDManager.h>
 #else
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
-typedef id GCControllerPtr;
-typedef id ConnectDelegatePtr;
+typedef void* IOHIDManagerRef;
+typedef void* IOHIDDeviceRef;
 #endif
 
 #include "input/Input.h"
@@ -33,20 +28,16 @@ namespace ouzel
 
             virtual void setCursorPosition(const Vector2& position) override;
 
-            virtual void startGamepadDiscovery() override;
-            virtual void stopGamepadDiscovery() override;
-
-            void handleGamepadDiscoveryCompleted();
-            void handleGamepadConnected(GCControllerPtr controller);
-            void handleGamepadDisconnected(GCControllerPtr controller);
-
+            void handleGamepadConnected(IOHIDDeviceRef device);
+            void handleGamepadDisconnected(IOHIDDeviceRef device);
+            
             static KeyboardKey convertKeyCode(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 
         protected:
             InputMacOS();
 
-            ConnectDelegatePtr connectDelegate = nullptr;
+            IOHIDManagerRef hidManager = nullptr;
 
             bool discovering = false;
             bool cursorVisible = true;
