@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "input/Input.h"
-
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
@@ -16,6 +14,8 @@ typedef ConnectDelegate* ConnectDelegatePtr;
 typedef id GCControllerPtr;
 typedef id ConnectDelegatePtr;
 #endif
+
+#include "input/Input.h"
 
 namespace ouzel
 {

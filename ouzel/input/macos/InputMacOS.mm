@@ -221,7 +221,6 @@ namespace ouzel
 
         void InputMacOS::setCursorVisible(bool visible)
         {
-#if OUZEL_PLATFORM_MACOS
             if (visible != cursorVisible)
             {
                 cursorVisible = visible;
@@ -237,25 +236,17 @@ namespace ouzel
                     }
                 });
             }
-#else
-            OUZEL_UNUSED(visible);
-#endif
         }
 
         bool InputMacOS::isCursorVisible() const
         {
-#if OUZEL_PLATFORM_MACOS
             return cursorVisible;
-#else
-            return false;
-#endif
         }
 
         void InputMacOS::setCursorPosition(const Vector2& position)
         {
             Input::setCursorPosition(position);
 
-#if OUZEL_PLATFORM_MACOS
             ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
 
             sharedApplication->execute([windowLocation] {
@@ -267,17 +258,14 @@ namespace ouzel
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
                                                       screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
             });
-#endif
         }
 
         void InputMacOS::setCursorLocked(bool locked)
         {
-#if OUZEL_PLATFORM_MACOS
             sharedApplication->execute([locked] {
                 CGAssociateMouseAndMouseCursorPosition(!locked);
             });
             cursorLocked = locked;
-#endif
         }
 
         bool InputMacOS::isCursorLocked() const
