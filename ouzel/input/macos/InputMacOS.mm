@@ -448,40 +448,6 @@ namespace ouzel
             }
         }
 
-        bool InputMacOS::showVirtualKeyboard()
-        {
-#if OUZEL_PLATFORM_IOS
-            UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
-            [textField becomeFirstResponder];
-
-            return true;
-#elif OUZEL_PLATFORM_TVOS
-            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
-            [textField becomeFirstResponder];
-
-            return true;
-#else
-            return false;
-#endif
-        }
-
-        bool InputMacOS::hideVirtualKeyboard()
-        {
-#if OUZEL_PLATFORM_IOS
-            UITextField* textField = static_cast<WindowIOS*>(sharedEngine->getWindow())->getTextField();
-            [textField resignFirstResponder];
-
-            return true;
-#elif OUZEL_PLATFORM_TVOS
-            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
-            [textField resignFirstResponder];
-
-            return true;
-#else
-            return false;
-#endif
-        }
-
         void InputMacOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
