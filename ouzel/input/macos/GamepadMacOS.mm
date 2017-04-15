@@ -248,8 +248,7 @@ namespace ouzel
                 elementType == kIOHIDElementTypeInput_Button)
             {
                 if (max - min == 1 ||
-                    usagePage == kHIDPage_Button ||
-                    elementType == kIOHIDElementTypeInput_Button)
+                    usagePage == kHIDPage_Button)
                 {
                     if (usage > 0 && usage < 24)
                     {
