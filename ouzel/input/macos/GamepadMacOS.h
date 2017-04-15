@@ -3,10 +3,13 @@
 
 #pragma once
 
+#include <map>
+
 #if defined(__OBJC__)
 #import <IOKit/hid/IOHIDManager.h>
 #else
 typedef void* IOHIDDeviceRef;
+typedef void* IOHIDElementRef;
 #endif
 
 #include "input/Gamepad.h"
@@ -40,6 +43,17 @@ namespace ouzel
             uint32_t rightAnalogXMap = 0;
             uint32_t rightAnalogYMap = 0;
             uint32_t rightTriggerAnalogMap = 0;
+
+            struct Element
+            {
+                uint32_t type;
+                uint32_t usagePage;
+                uint32_t usage;
+                int64_t min;
+                int64_t max;
+            };
+
+            std::map<IOHIDElementRef, Element> elements;
 
             bool dPadButtonStates[4];
         };

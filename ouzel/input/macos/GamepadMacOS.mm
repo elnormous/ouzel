@@ -228,42 +228,72 @@ namespace ouzel
                 rightTriggerAnalogMap = kHIDUsage_GD_Ry;
             }
 
+            CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, NULL, kIOHIDOptionsTypeNone);
+
+            for (CFIndex i = 0; i < CFArrayGetCount(elementArray); i++)
+            {
+                IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elementArray, i);
+
+                Element element;
+                element.type = IOHIDElementGetType(elementRef);
+                element.usagePage = IOHIDElementGetUsagePage(elementRef);
+                element.usage = IOHIDElementGetUsage(elementRef);
+
+                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage < 24) ||
+                    ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
+                {
+                    element.min = IOHIDElementGetPhysicalMin(elementRef);
+                    element.max = IOHIDElementGetPhysicalMax(elementRef);
+
+                    elements.insert(std::make_pair(elementRef, element));
+                }
+            }
+            
+            CFRelease(elementArray);
+
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
         }
 
         void GamepadMacOS::handleInput(IOHIDValueRef value)
         {
-            IOHIDElementRef element = IOHIDValueGetElement(value);
+            IOHIDElementRef elementRef = IOHIDValueGetElement(value);
 
-            IOHIDElementType elementType = IOHIDElementGetType(element);
-            uint32_t usage = IOHIDElementGetUsage(element);
-            uint32_t usagePage = IOHIDElementGetUsagePage(element);
+            std::map<IOHIDElementRef, Element>::const_iterator i = elements.find(elementRef);
 
-            CFIndex min = IOHIDElementGetPhysicalMin(element);
-            CFIndex max = IOHIDElementGetPhysicalMax(element);
-
-            min = IOHIDElementGetPhysicalMin(element);
-            max = IOHIDElementGetPhysicalMax(element);
-
-            CFIndex integerValue = IOHIDValueGetIntegerValue(value);
-
-            if (elementType == kIOHIDElementTypeInput_Misc ||
-                elementType == kIOHIDElementTypeInput_Axis ||
-                elementType == kIOHIDElementTypeInput_Button)
+            if (i != elements.end())
             {
-                if (usagePage == kHIDPage_Button)
-                {
-                    if (usage > 0 && usage < 24)
-                    {
-                        GamepadButton button = usageMap[usage];
+                const Element& element = i->second;
 
-                        if (button != GamepadButton::NONE)
-                        {
-                            handleButtonValueChange(button, integerValue > 0, integerValue);
-                        }
+                CFIndex integerValue = IOHIDValueGetIntegerValue(value);
+
+                if (element.usagePage == kHIDPage_Button)
+                {
+                    GamepadButton button = usageMap[element.usage];
+
+                    if (button != GamepadButton::NONE)
+                    {
+                        handleButtonValueChange(button, integerValue > 0, integerValue);
                     }
                 }
-                else if (usage == kHIDUsage_GD_Hatswitch)
+                else if (element.usage == leftAnalogXMap)
+                {
+                }
+                else if (element.usage == leftAnalogYMap)
+                {
+                }
+                else if (element.usage == leftTriggerAnalogMap)
+                {
+                }
+                else if (element.usage == rightAnalogXMap)
+                {
+                }
+                else if (element.usage == rightAnalogYMap)
+                {
+                }
+                else if (element.usage == rightTriggerAnalogMap)
+                {
+                }
+                else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
                     bool newDPadButtonStates[4];
 
