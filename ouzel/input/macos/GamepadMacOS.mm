@@ -203,7 +203,7 @@ namespace ouzel
                 rightAnalogYMap = kHIDUsage_GD_Ry;
                 rightTriggerAnalogMap = kHIDUsage_GD_Rz;
             }
-            else // Generic (based on Logitech Rum/blePad 2)
+            else // Generic (based on Logitech RumblePad 2)
             {
                 usageMap[1] = GamepadButton::FACE3;
                 usageMap[2] = GamepadButton::FACE1;
