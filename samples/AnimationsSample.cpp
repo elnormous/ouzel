@@ -120,7 +120,7 @@ bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
         if (event.pressed &&
-            event.button == input::GamepadButton::B)
+            event.button == input::GamepadButton::FACE2)
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }

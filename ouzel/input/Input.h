@@ -187,10 +187,10 @@ namespace ouzel
             DPAD_RIGHT,
             DPAD_UP,
             DPAD_DOWN,
-            A,
-            B,
-            X,
-            Y,
+            FACE1,
+            FACE2,
+            FACE3,
+            FACE4,
             LEFT_SHOULDER,  // L1 for Apple
             LEFT_TRIGGER,   // L2 for Apple
             RIGHT_SHOULDER, // R1 for Apple

@@ -215,7 +215,7 @@ namespace ouzel
             {
                 if (event.pressed)
                 {
-                    if (event.button == input::GamepadButton::A)
+                    if (event.button == input::GamepadButton::FACE1)
                     {
                         if (selectedWidget)
                         {

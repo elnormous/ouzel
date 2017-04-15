@@ -62,16 +62,16 @@ namespace ouzel
 
                 // buttons
                 controller.extendedGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::A, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE1, pressed, value);
                 };
                 controller.extendedGamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::B, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE2, pressed, value);
                 };
                 controller.extendedGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::X, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE3, pressed, value);
                 };
                 controller.extendedGamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::Y, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE4, pressed, value);
                 };
 
                 // triggers and shoulders
@@ -107,16 +107,16 @@ namespace ouzel
 
                 // buttons
                 controller.gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::A, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE1, pressed, value);
                 };
                 controller.gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::B, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE2, pressed, value);
                 };
                 controller.gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::X, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE3, pressed, value);
                 };
                 controller.gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::Y, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE4, pressed, value);
                 };
             }
             else if (controller.microGamepad)
