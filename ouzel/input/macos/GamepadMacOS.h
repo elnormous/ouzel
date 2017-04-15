@@ -40,6 +40,8 @@ namespace ouzel
             uint32_t rightAnalogXMap = 0;
             uint32_t rightAnalogYMap = 0;
             uint32_t rightTriggerAnalogMap = 0;
+
+            bool dPadButtonStates[4];
         };
     } // namespace input
 } // namespace ouzel

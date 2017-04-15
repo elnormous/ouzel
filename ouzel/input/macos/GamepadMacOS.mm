@@ -22,6 +22,8 @@ namespace ouzel
         GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
+            std::fill(std::begin(dPadButtonStates), std::end(dPadButtonStates), false);
+
             NSNumber* vendor = (NSNumber*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
             if (vendor)
             {
@@ -243,6 +245,8 @@ namespace ouzel
             min = IOHIDElementGetPhysicalMin(element);
             max = IOHIDElementGetPhysicalMax(element);
 
+            CFIndex integerValue = IOHIDValueGetIntegerValue(value);
+
             if (elementType == kIOHIDElementTypeInput_Misc ||
                 elementType == kIOHIDElementTypeInput_Axis ||
                 elementType == kIOHIDElementTypeInput_Button)
@@ -256,11 +260,78 @@ namespace ouzel
 
                         if (button != GamepadButton::NONE)
                         {
-                            CFIndex integerValue = IOHIDValueGetIntegerValue(value);
-
                             handleButtonValueChange(button, integerValue > 0, integerValue);
                         }
                     }
+                }
+                else if (usage == kHIDUsage_GD_Hatswitch)
+                {
+                    bool newDPadButtonStates[4];
+
+                    switch (integerValue)
+                    {
+                        case 0:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = true; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                        case 1:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = true; // right
+                            newDPadButtonStates[2] = true; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                        case 2:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = true; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                        case 3:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = true; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = true; // down
+                            break;
+                        case 4:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = true; // down
+                            break;
+                        case 5:
+                            newDPadButtonStates[0] = true; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = true; // down
+                            break;
+                        case 6:
+                            newDPadButtonStates[0] = true; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                        case 7:
+                            newDPadButtonStates[0] = true; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = true; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                        case 8:
+                            newDPadButtonStates[0] = false; // left
+                            newDPadButtonStates[1] = false; // right
+                            newDPadButtonStates[2] = false; // up
+                            newDPadButtonStates[3] = false; // down
+                            break;
+                    }
+
+                    if (newDPadButtonStates[0] != dPadButtonStates[0]) handleButtonValueChange(GamepadButton::DPAD_LEFT, newDPadButtonStates[0], newDPadButtonStates[0] ? 1.0f : 0.0f);
+                    if (newDPadButtonStates[1] != dPadButtonStates[1]) handleButtonValueChange(GamepadButton::DPAD_RIGHT, newDPadButtonStates[1], newDPadButtonStates[1] ? 1.0f : 0.0f);
+                    if (newDPadButtonStates[2] != dPadButtonStates[2]) handleButtonValueChange(GamepadButton::DPAD_UP, newDPadButtonStates[2], newDPadButtonStates[2] ? 1.0f : 0.0f);
+                    if (newDPadButtonStates[3] != dPadButtonStates[3]) handleButtonValueChange(GamepadButton::DPAD_DOWN, newDPadButtonStates[3], newDPadButtonStates[3] ? 1.0f : 0.0f);
+
+                    std::copy(std::begin(newDPadButtonStates), std::end(newDPadButtonStates), std::begin(dPadButtonStates));
                 }
             }
         }
