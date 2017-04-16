@@ -66,13 +66,11 @@ namespace ouzel
                 STATE_DPAD_DOWN,
                 STATE_LEFT_THUMB_X,
                 STATE_LEFT_THUMB_Y,
-                STATE_LEFT_TRIGGER,
                 STATE_RIGHT_THUMB_X,
                 STATE_RIGHT_THUMB_Y,
-                STATE_RIGHT_TRIGGER
             };
 
-            int64_t states[10];
+            int64_t states[8];
         };
     } // namespace input
 } // namespace ouzel

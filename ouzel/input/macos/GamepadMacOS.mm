@@ -244,8 +244,8 @@ namespace ouzel
                 if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage < 24) ||
                     ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
                 {
-                    element.min = IOHIDElementGetPhysicalMin(elementRef);
-                    element.max = IOHIDElementGetPhysicalMax(elementRef);
+                    element.min = IOHIDElementGetLogicalMin(elementRef);
+                    element.max = IOHIDElementGetLogicalMax(elementRef);
 
                     elements.insert(std::make_pair(elementRef, element));
                 }
@@ -264,7 +264,7 @@ namespace ouzel
 
             if (i != elements.end())
             {
-                int64_t newStates[10];
+                int64_t newStates[8];
                 std::copy(std::begin(states), std::end(states), std::begin(newStates));
 
                 const Element& element = i->second;
@@ -298,6 +298,9 @@ namespace ouzel
                 }
                 else if (element.usage == leftTriggerMap)
                 {
+                    float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
+
+                    handleButtonValueChange(GamepadButton::LEFT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (element.usage == rightThumbXMap)
                 {
@@ -317,6 +320,9 @@ namespace ouzel
                 }
                 else if (element.usage == rightTriggerMap)
                 {
+                    float floatValue = static_cast<float>(newValue - element.min) / (element.max - element.min);
+
+                    handleButtonValueChange(GamepadButton::RIGHT_TRIGGER, newValue > 0, floatValue);
                 }
                 else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
