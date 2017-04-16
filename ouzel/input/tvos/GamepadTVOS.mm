@@ -137,10 +137,10 @@ namespace ouzel
 
                 // buttons
                 controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::A, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE1, pressed, value);
                 };
                 controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
-                    handleButtonValueChange(GamepadButton::X, pressed, value);
+                    handleButtonValueChange(GamepadButton::FACE3, pressed, value);
                 };
             }
 
@@ -172,13 +172,23 @@ namespace ouzel
 
         bool GamepadTVOS::setPlayerIndex(int32_t playerIndex)
         {
-            if (playerIndex >= 0 && playerIndex <= 3)
+            switch (playerIndex)
             {
-                controller.playerIndex = static_cast<GCControllerPlayerIndex>(playerIndex);
-            }
-            else
-            {
-                controller.playerIndex = GCControllerPlayerIndexUnset;
+                case 0:
+                    controller.playerIndex = GCControllerPlayerIndex1;
+                    break;
+                case 1:
+                    controller.playerIndex = GCControllerPlayerIndex2;
+                    break;
+                case 2:
+                    controller.playerIndex = GCControllerPlayerIndex3;
+                    break;
+                case 3:
+                    controller.playerIndex = GCControllerPlayerIndex4;
+                    break;
+                default:
+                    controller.playerIndex = GCControllerPlayerIndexUnset;
+                    break;
             }
 
             return true;
