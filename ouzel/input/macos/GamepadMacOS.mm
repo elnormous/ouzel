@@ -9,6 +9,8 @@
 #include "utils/Log.h"
 #include "utils/Utils.h"
 
+static const float THUMB_DEADZONE = 0.2f;
+
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {
     ouzel::input::GamepadMacOS* gamepad = reinterpret_cast<ouzel::input::GamepadMacOS*>(ctx);
@@ -22,7 +24,7 @@ namespace ouzel
         GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
-            std::fill(std::begin(dPadButtonStates), std::end(dPadButtonStates), false);
+            std::fill(std::begin(states), std::end(states), 0);
 
             NSNumber* vendor = (NSNumber*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
             if (vendor)
@@ -57,12 +59,12 @@ namespace ouzel
                 usageMap[15] = GamepadButton::FACE1; // Cross
                 usageMap[16] = GamepadButton::FACE3; // Square
 
-                leftAnalogXMap = kHIDUsage_GD_X;
-                leftAnalogYMap = kHIDUsage_GD_Y;
-                leftTriggerAnalogMap = kHIDUsage_GD_Rx;
-                rightAnalogXMap = kHIDUsage_GD_Z;
-                rightAnalogYMap = kHIDUsage_GD_Rz;
-                rightTriggerAnalogMap = kHIDUsage_GD_Ry;
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                leftTriggerMap = kHIDUsage_GD_Rx;
+                rightThumbXMap = kHIDUsage_GD_Z;
+                rightThumbYMap = kHIDUsage_GD_Rz;
+                rightTriggerMap = kHIDUsage_GD_Ry;
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
@@ -79,12 +81,12 @@ namespace ouzel
                 usageMap[11] = GamepadButton::LEFT_THUMB; // L3
                 usageMap[12] = GamepadButton::RIGHT_THUMB; // R3
 
-                leftAnalogXMap = kHIDUsage_GD_X;
-                leftAnalogYMap = kHIDUsage_GD_Y;
-                leftTriggerAnalogMap = kHIDUsage_GD_Rx;
-                rightAnalogXMap = kHIDUsage_GD_Z;
-                rightAnalogYMap = kHIDUsage_GD_Rz;
-                rightTriggerAnalogMap = kHIDUsage_GD_Ry;
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                leftTriggerMap = kHIDUsage_GD_Rx;
+                rightThumbXMap = kHIDUsage_GD_Z;
+                rightThumbYMap = kHIDUsage_GD_Rz;
+                rightTriggerMap = kHIDUsage_GD_Ry;
             }
             else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
             {
@@ -103,12 +105,12 @@ namespace ouzel
                 usageMap[14] = GamepadButton::DPAD_LEFT;
                 usageMap[15] = GamepadButton::DPAD_RIGHT;
 
-                leftAnalogXMap = kHIDUsage_GD_X;
-                leftAnalogYMap = kHIDUsage_GD_Y;
-                leftTriggerAnalogMap = kHIDUsage_GD_Ry;
-                rightAnalogXMap = kHIDUsage_GD_Z;
-                rightAnalogYMap = kHIDUsage_GD_Rx;
-                rightTriggerAnalogMap = kHIDUsage_GD_Rz;
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                leftTriggerMap = kHIDUsage_GD_Ry;
+                rightThumbXMap = kHIDUsage_GD_Z;
+                rightThumbYMap = kHIDUsage_GD_Rx;
+                rightTriggerMap = kHIDUsage_GD_Rz;
             }
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                      (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
@@ -198,12 +200,12 @@ namespace ouzel
                 usageMap[14] = GamepadButton::DPAD_LEFT;
                 usageMap[15] = GamepadButton::DPAD_RIGHT;
 
-                leftAnalogXMap = kHIDUsage_GD_X;
-                leftAnalogYMap = kHIDUsage_GD_Y;
-                leftTriggerAnalogMap = kHIDUsage_GD_Z;
-                rightAnalogXMap = kHIDUsage_GD_Rx;
-                rightAnalogYMap = kHIDUsage_GD_Ry;
-                rightTriggerAnalogMap = kHIDUsage_GD_Rz;
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                leftTriggerMap = kHIDUsage_GD_Z;
+                rightThumbXMap = kHIDUsage_GD_Rx;
+                rightThumbYMap = kHIDUsage_GD_Ry;
+                rightTriggerMap = kHIDUsage_GD_Rz;
             }
             else // Generic (based on Logitech RumblePad 2)
             {
@@ -220,12 +222,12 @@ namespace ouzel
                 usageMap[11] = GamepadButton::LEFT_THUMB;
                 usageMap[12] = GamepadButton::RIGHT_THUMB;
                 
-                leftAnalogXMap = kHIDUsage_GD_X;
-                leftAnalogYMap = kHIDUsage_GD_Y;
-                leftTriggerAnalogMap = kHIDUsage_GD_Rx;
-                rightAnalogXMap = kHIDUsage_GD_Z;
-                rightAnalogYMap = kHIDUsage_GD_Rz;
-                rightTriggerAnalogMap = kHIDUsage_GD_Ry;
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                leftTriggerMap = kHIDUsage_GD_Rx;
+                rightThumbXMap = kHIDUsage_GD_Z;
+                rightThumbYMap = kHIDUsage_GD_Rz;
+                rightTriggerMap = kHIDUsage_GD_Ry;
             }
 
             CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, NULL, kIOHIDOptionsTypeNone);
@@ -262,9 +264,12 @@ namespace ouzel
 
             if (i != elements.end())
             {
+                int64_t newStates[10];
+                std::copy(std::begin(states), std::end(states), std::begin(newStates));
+
                 const Element& element = i->second;
 
-                CFIndex integerValue = IOHIDValueGetIntegerValue(value);
+                CFIndex newValue = IOHIDValueGetIntegerValue(value);
 
                 if (element.usagePage == kHIDPage_Button)
                 {
@@ -272,95 +277,152 @@ namespace ouzel
 
                     if (button != GamepadButton::NONE)
                     {
-                        handleButtonValueChange(button, integerValue > 0, integerValue);
+                        handleButtonValueChange(button, newValue > 0, newValue);
                     }
                 }
-                else if (element.usage == leftAnalogXMap)
+                else if (element.usage == leftThumbXMap)
+                {
+                    newStates[STATE_LEFT_THUMB_X] = newValue;
+
+                    handleThumbAxisChange(states[STATE_LEFT_THUMB_X], newStates[STATE_LEFT_THUMB_X],
+                                          element.min, element.max,
+                                          GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+                }
+                else if (element.usage == leftThumbYMap)
+                {
+                    newStates[STATE_LEFT_THUMB_Y] = newValue;
+
+                    handleThumbAxisChange(states[STATE_LEFT_THUMB_Y], newStates[STATE_LEFT_THUMB_Y],
+                                          element.min, element.max,
+                                          GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
+                }
+                else if (element.usage == leftTriggerMap)
                 {
                 }
-                else if (element.usage == leftAnalogYMap)
+                else if (element.usage == rightThumbXMap)
                 {
+                    newStates[STATE_RIGHT_THUMB_X] = newValue;
+
+                    handleThumbAxisChange(states[STATE_RIGHT_THUMB_X], newStates[STATE_RIGHT_THUMB_X],
+                                          element.min, element.max,
+                                          GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
                 }
-                else if (element.usage == leftTriggerAnalogMap)
+                else if (element.usage == rightThumbYMap)
                 {
+                    newStates[STATE_RIGHT_THUMB_Y] = newValue;
+
+                    handleThumbAxisChange(states[STATE_RIGHT_THUMB_Y], newStates[STATE_RIGHT_THUMB_Y],
+                                          element.min, element.max,
+                                          GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
                 }
-                else if (element.usage == rightAnalogXMap)
-                {
-                }
-                else if (element.usage == rightAnalogYMap)
-                {
-                }
-                else if (element.usage == rightTriggerAnalogMap)
+                else if (element.usage == rightTriggerMap)
                 {
                 }
                 else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
-                    bool newDPadButtonStates[4];
-
-                    switch (integerValue)
+                    switch (newValue)
                     {
                         case 0:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = true; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = 0;
+                            newStates[STATE_DPAD_RIGHT] = 0;
+                            newStates[STATE_DPAD_UP] = 1;
+                            newStates[STATE_DPAD_DOWN] = 0;
                             break;
                         case 1:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = true; // right
-                            newDPadButtonStates[2] = true; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = 0;
+                            newStates[STATE_DPAD_RIGHT] = 1;
+                            newStates[STATE_DPAD_UP] = 1;
+                            newStates[STATE_DPAD_DOWN] = 0;
                             break;
                         case 2:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = true; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = 0;
+                            newStates[STATE_DPAD_RIGHT] = 1;
+                            newStates[STATE_DPAD_UP] = 0;
+                            newStates[STATE_DPAD_DOWN] = 0;
                             break;
                         case 3:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = true; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = true; // down
+                            newStates[STATE_DPAD_LEFT] = 0;
+                            newStates[STATE_DPAD_RIGHT] = 1;
+                            newStates[STATE_DPAD_UP] = 0;
+                            newStates[STATE_DPAD_DOWN] = 1;
                             break;
                         case 4:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = true; // down
+                            newStates[STATE_DPAD_LEFT] = 0;
+                            newStates[STATE_DPAD_RIGHT] = 0;
+                            newStates[STATE_DPAD_UP] = 0;
+                            newStates[STATE_DPAD_DOWN] = 1;
                             break;
                         case 5:
-                            newDPadButtonStates[0] = true; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = true; // down
+                            newStates[STATE_DPAD_LEFT] = 1;
+                            newStates[STATE_DPAD_RIGHT] = 0;
+                            newStates[STATE_DPAD_UP] = 0;
+                            newStates[STATE_DPAD_DOWN] = 1;
                             break;
                         case 6:
-                            newDPadButtonStates[0] = true; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = 1;
+                            newStates[STATE_DPAD_RIGHT] = 0;
+                            newStates[STATE_DPAD_UP] = 0;
+                            newStates[STATE_DPAD_DOWN] = 0;
                             break;
                         case 7:
-                            newDPadButtonStates[0] = true; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = true; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = 1;
+                            newStates[STATE_DPAD_RIGHT] = 0;
+                            newStates[STATE_DPAD_UP] = 1;
+                            newStates[STATE_DPAD_DOWN] = 0;
                             break;
                         case 8:
-                            newDPadButtonStates[0] = false; // left
-                            newDPadButtonStates[1] = false; // right
-                            newDPadButtonStates[2] = false; // up
-                            newDPadButtonStates[3] = false; // down
+                            newStates[STATE_DPAD_LEFT] = false; // left
+                            newStates[STATE_DPAD_RIGHT] = false; // right
+                            newStates[STATE_DPAD_UP] = false; // up
+                            newStates[STATE_DPAD_DOWN] = false; // down
                             break;
                     }
 
-                    if (newDPadButtonStates[0] != dPadButtonStates[0]) handleButtonValueChange(GamepadButton::DPAD_LEFT, newDPadButtonStates[0], newDPadButtonStates[0] ? 1.0f : 0.0f);
-                    if (newDPadButtonStates[1] != dPadButtonStates[1]) handleButtonValueChange(GamepadButton::DPAD_RIGHT, newDPadButtonStates[1], newDPadButtonStates[1] ? 1.0f : 0.0f);
-                    if (newDPadButtonStates[2] != dPadButtonStates[2]) handleButtonValueChange(GamepadButton::DPAD_UP, newDPadButtonStates[2], newDPadButtonStates[2] ? 1.0f : 0.0f);
-                    if (newDPadButtonStates[3] != dPadButtonStates[3]) handleButtonValueChange(GamepadButton::DPAD_DOWN, newDPadButtonStates[3], newDPadButtonStates[3] ? 1.0f : 0.0f);
+                    if (newStates[STATE_DPAD_LEFT] != states[STATE_DPAD_LEFT]) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                                                                                                       newStates[STATE_DPAD_LEFT],
+                                                                                                       (newStates[STATE_DPAD_LEFT] > 0) ? 1.0f : 0.0f);
+                    if (newStates[STATE_DPAD_RIGHT] != states[STATE_DPAD_RIGHT]) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                                                                                                         newStates[STATE_DPAD_RIGHT],
+                                                                                                         (newStates[STATE_DPAD_RIGHT] > 0) ? 1.0f : 0.0f);
+                    if (newStates[STATE_DPAD_UP] != states[STATE_DPAD_UP]) handleButtonValueChange(GamepadButton::DPAD_UP,
+                                                                                                   newStates[STATE_DPAD_UP],
+                                                                                                   (newStates[STATE_DPAD_UP] > 0) ? 1.0f : 0.0f);
+                    if (newStates[STATE_DPAD_DOWN] != states[STATE_DPAD_DOWN]) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                                                                                                       newStates[STATE_DPAD_DOWN],
+                                                                                                       (newStates[STATE_DPAD_DOWN] > 0) ? 1.0f : 0.0f);
+                }
 
-                    std::copy(std::begin(newDPadButtonStates), std::end(newDPadButtonStates), std::begin(dPadButtonStates));
+                std::copy(std::begin(newStates), std::end(newStates), std::begin(states));
+            }
+        }
+
+        void GamepadMacOS::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
+                                                 int64_t min, int64_t max,
+                                                 GamepadButton negativeButton, GamepadButton positiveButton)
+        {
+            float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+
+            if (floatValue > 0.0f)
+            {
+                handleButtonValueChange(positiveButton,
+                                        floatValue > THUMB_DEADZONE,
+                                        floatValue);
+            }
+            else if (floatValue < 0.0f)
+            {
+                handleButtonValueChange(negativeButton,
+                                        -floatValue > THUMB_DEADZONE,
+                                        -floatValue);
+            }
+            else // thumbstick is 0
+            {
+                if (oldValue > newValue)
+                {
+                    handleButtonValueChange(positiveButton, false, 0.0f);
+                }
+                else
+                {
+                    handleButtonValueChange(negativeButton, false, 0.0f);
                 }
             }
         }

@@ -32,17 +32,20 @@ namespace ouzel
 
         protected:
             GamepadMacOS(IOHIDDeviceRef aDevice);
+            void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
+                                       int64_t min, int64_t max,
+                                       GamepadButton negativeButton, GamepadButton positiveButton);
 
             IOHIDDeviceRef device = nullptr;
             uint64_t vendorId = 0;
             uint64_t productId = 0;
             GamepadButton usageMap[24];
-            uint32_t leftAnalogXMap = 0;
-            uint32_t leftAnalogYMap = 0;
-            uint32_t leftTriggerAnalogMap = 0;
-            uint32_t rightAnalogXMap = 0;
-            uint32_t rightAnalogYMap = 0;
-            uint32_t rightTriggerAnalogMap = 0;
+            uint32_t leftThumbXMap = 0;
+            uint32_t leftThumbYMap = 0;
+            uint32_t leftTriggerMap = 0;
+            uint32_t rightThumbXMap = 0;
+            uint32_t rightThumbYMap = 0;
+            uint32_t rightTriggerMap = 0;
 
             struct Element
             {
@@ -55,7 +58,21 @@ namespace ouzel
 
             std::map<IOHIDElementRef, Element> elements;
 
-            bool dPadButtonStates[4];
+            enum
+            {
+                STATE_DPAD_LEFT,
+                STATE_DPAD_RIGHT,
+                STATE_DPAD_UP,
+                STATE_DPAD_DOWN,
+                STATE_LEFT_THUMB_X,
+                STATE_LEFT_THUMB_Y,
+                STATE_LEFT_TRIGGER,
+                STATE_RIGHT_THUMB_X,
+                STATE_RIGHT_THUMB_Y,
+                STATE_RIGHT_TRIGGER
+            };
+
+            int64_t states[10];
         };
     } // namespace input
 } // namespace ouzel
