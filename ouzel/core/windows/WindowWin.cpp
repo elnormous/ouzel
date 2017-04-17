@@ -295,7 +295,7 @@ namespace ouzel
 
     bool WindowWin::init()
     {
-        HINSTANCE hInstance = GetModuleHandleW(nullptr);
+        HINSTANCE instance = GetModuleHandleW(nullptr);
 
         WNDCLASSEXW wc;
         wc.cbSize = sizeof(wc);
@@ -303,9 +303,9 @@ namespace ouzel
         wc.lpfnWndProc = windowProc;
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
-        wc.hInstance = hInstance;
+        wc.hInstance = instance;
         // Application icon should be the first resource
-        wc.hIcon = LoadIconW(hInstance, MAKEINTRESOURCE(101));
+        wc.hIcon = LoadIconW(instance, MAKEINTRESOURCE(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
@@ -352,7 +352,7 @@ namespace ouzel
         MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
 
         window = CreateWindowExW(WS_EX_APPWINDOW, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
-                                 x, y, width, height, nullptr, nullptr, hInstance, nullptr);
+                                 x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
         {

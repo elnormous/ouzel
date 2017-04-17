@@ -26,30 +26,21 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
     bool                    bIsXinputDevice = false;
     UINT                    iDevice = 0;
     VARIANT                 var;
-    HRESULT                 hr;
 
-    // CoInit if needed
-    hr = CoInitialize(NULL);
-    bool bCleanupCOM = SUCCEEDED(hr);
-
-    // Create WMI
-    hr = CoCreateInstance(__uuidof(WbemLocator),
-        NULL,
-        CLSCTX_INPROC_SERVER,
-        __uuidof(IWbemLocator),
-        (LPVOID*)&pIWbemLocator);
+    HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), NULL, CLSCTX_INPROC_SERVER,
+        __uuidof(IWbemLocator), (LPVOID*)&pIWbemLocator);
     if (FAILED(hr) || pIWbemLocator == NULL)
-        goto LCleanup;
+        goto cleanup;
 
-    bstrNamespace = SysAllocString(L"\\\\.\\root\\cimv2"); if (bstrNamespace == NULL) goto LCleanup;
-    bstrClassName = SysAllocString(L"Win32_PNPEntity");   if (bstrClassName == NULL) goto LCleanup;
-    bstrDeviceID = SysAllocString(L"DeviceID");          if (bstrDeviceID == NULL)  goto LCleanup;
+    bstrNamespace = SysAllocString(L"\\\\.\\root\\cimv2"); if (bstrNamespace == NULL) goto cleanup;
+    bstrClassName = SysAllocString(L"Win32_PNPEntity");   if (bstrClassName == NULL) goto cleanup;
+    bstrDeviceID = SysAllocString(L"DeviceID");          if (bstrDeviceID == NULL)  goto cleanup;
 
     // Connect to WMI 
     hr = pIWbemLocator->ConnectServer(bstrNamespace, NULL, NULL, 0L,
         0L, NULL, NULL, &pIWbemServices);
     if (FAILED(hr) || pIWbemServices == NULL)
-        goto LCleanup;
+        goto cleanup;
 
     // Switch security level to IMPERSONATE. 
     CoSetProxyBlanket(pIWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
@@ -57,7 +48,7 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
 
     hr = pIWbemServices->CreateInstanceEnum(bstrClassName, 0, NULL, &pEnumDevices);
     if (FAILED(hr) || pEnumDevices == NULL)
-        goto LCleanup;
+        goto cleanup;
 
     // Loop over all devices
     for (;;)
@@ -65,11 +56,11 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
         // Get 20 at a time
         hr = pEnumDevices->Next(10000, 20, pDevices, &uReturned);
         if (FAILED(hr))
-            goto LCleanup;
+            goto cleanup;
         if (uReturned == 0)
             break;
 
-        for (iDevice = 0; iDevice<uReturned; iDevice++)
+        for (iDevice = 0; iDevice < uReturned; iDevice++)
         {
             // For each device, get its device ID
             hr = pDevices[iDevice]->Get(bstrDeviceID, 0L, &var, NULL, NULL);
@@ -93,7 +84,7 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
                     if (dwVidPid == pGuidProductFromDirectInput->Data1)
                     {
                         bIsXinputDevice = true;
-                        goto LCleanup;
+                        goto cleanup;
                     }
                 }
             }
@@ -105,7 +96,7 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
         }
     }
 
-LCleanup:
+cleanup:
     if (bstrNamespace)
         SysFreeString(bstrNamespace);
     if (bstrDeviceID)
@@ -119,9 +110,6 @@ LCleanup:
     if (pEnumDevices) pEnumDevices->Release();
     if (pIWbemLocator) pIWbemLocator->Release();
     if (pIWbemServices) pIWbemServices->Release();
-
-    if (bCleanupCOM)
-        CoUninitialize();
 
     return bIsXinputDevice;
 }
@@ -330,8 +318,8 @@ namespace ouzel
 
         bool InputWin::init()
         {
-            HINSTANCE instance = GetModuleHandle(0);
-            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
+            HINSTANCE instance = GetModuleHandleW(nullptr);
+            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
             {
                 Log(Log::Level::ERR) << "Failed to initialize DirectInput";
                 return false;
