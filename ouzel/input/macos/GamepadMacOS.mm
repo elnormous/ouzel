@@ -24,8 +24,6 @@ namespace ouzel
         GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
-            std::fill(std::begin(states), std::end(states), 0);
-
             NSString* productName = (NSString*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
             if (productName)
             {
@@ -270,8 +268,7 @@ namespace ouzel
 
             if (i != elements.end())
             {
-                int64_t newStates[8];
-                std::copy(std::begin(states), std::end(states), std::begin(newStates));
+                State newState;
 
                 const Element& element = i->second;
 
@@ -288,17 +285,17 @@ namespace ouzel
                 }
                 else if (element.usage == leftThumbXMap)
                 {
-                    newStates[STATE_LEFT_THUMB_X] = newValue;
+                    newState.leftThumbX = newValue;
 
-                    handleThumbAxisChange(states[STATE_LEFT_THUMB_X], newStates[STATE_LEFT_THUMB_X],
+                    handleThumbAxisChange(state.leftThumbX, newState.leftThumbX,
                                           element.min, element.max,
                                           GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
                 }
                 else if (element.usage == leftThumbYMap)
                 {
-                    newStates[STATE_LEFT_THUMB_Y] = newValue;
+                    newState.leftThumbY = newValue;
 
-                    handleThumbAxisChange(states[STATE_LEFT_THUMB_Y], newStates[STATE_LEFT_THUMB_Y],
+                    handleThumbAxisChange(state.leftThumbY, newState.leftThumbY,
                                           element.min, element.max,
                                           GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
                 }
@@ -310,17 +307,17 @@ namespace ouzel
                 }
                 else if (element.usage == rightThumbXMap)
                 {
-                    newStates[STATE_RIGHT_THUMB_X] = newValue;
+                    newState.rightThumbX = newValue;
 
-                    handleThumbAxisChange(states[STATE_RIGHT_THUMB_X], newStates[STATE_RIGHT_THUMB_X],
+                    handleThumbAxisChange(state.rightThumbX, newState.rightThumbX,
                                           element.min, element.max,
                                           GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
                 }
                 else if (element.usage == rightThumbYMap)
                 {
-                    newStates[STATE_RIGHT_THUMB_Y] = newValue;
+                    newState.rightThumbY = newValue;
 
-                    handleThumbAxisChange(states[STATE_RIGHT_THUMB_Y], newStates[STATE_RIGHT_THUMB_Y],
+                    handleThumbAxisChange(state.rightThumbY, newState.rightThumbY,
                                           element.min, element.max,
                                           GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
                 }
@@ -335,76 +332,76 @@ namespace ouzel
                     switch (newValue)
                     {
                         case 0:
-                            newStates[STATE_DPAD_LEFT] = 0;
-                            newStates[STATE_DPAD_RIGHT] = 0;
-                            newStates[STATE_DPAD_UP] = 1;
-                            newStates[STATE_DPAD_DOWN] = 0;
+                            newState.dpadLeft = 0;
+                            newState.dpadRight = 0;
+                            newState.dpadUp = 1;
+                            newState.dpadDown = 0;
                             break;
                         case 1:
-                            newStates[STATE_DPAD_LEFT] = 0;
-                            newStates[STATE_DPAD_RIGHT] = 1;
-                            newStates[STATE_DPAD_UP] = 1;
-                            newStates[STATE_DPAD_DOWN] = 0;
+                            newState.dpadLeft = 0;
+                            newState.dpadRight = 1;
+                            newState.dpadUp = 1;
+                            newState.dpadDown = 0;
                             break;
                         case 2:
-                            newStates[STATE_DPAD_LEFT] = 0;
-                            newStates[STATE_DPAD_RIGHT] = 1;
-                            newStates[STATE_DPAD_UP] = 0;
-                            newStates[STATE_DPAD_DOWN] = 0;
+                            newState.dpadLeft = 0;
+                            newState.dpadRight = 1;
+                            newState.dpadUp = 0;
+                            newState.dpadDown = 0;
                             break;
                         case 3:
-                            newStates[STATE_DPAD_LEFT] = 0;
-                            newStates[STATE_DPAD_RIGHT] = 1;
-                            newStates[STATE_DPAD_UP] = 0;
-                            newStates[STATE_DPAD_DOWN] = 1;
+                            newState.dpadLeft = 0;
+                            newState.dpadRight = 1;
+                            newState.dpadUp = 0;
+                            newState.dpadDown = 1;
                             break;
                         case 4:
-                            newStates[STATE_DPAD_LEFT] = 0;
-                            newStates[STATE_DPAD_RIGHT] = 0;
-                            newStates[STATE_DPAD_UP] = 0;
-                            newStates[STATE_DPAD_DOWN] = 1;
+                            newState.dpadLeft = 0;
+                            newState.dpadRight = 0;
+                            newState.dpadUp = 0;
+                            newState.dpadDown = 1;
                             break;
                         case 5:
-                            newStates[STATE_DPAD_LEFT] = 1;
-                            newStates[STATE_DPAD_RIGHT] = 0;
-                            newStates[STATE_DPAD_UP] = 0;
-                            newStates[STATE_DPAD_DOWN] = 1;
+                            newState.dpadLeft = 1;
+                            newState.dpadRight = 0;
+                            newState.dpadUp = 0;
+                            newState.dpadDown = 1;
                             break;
                         case 6:
-                            newStates[STATE_DPAD_LEFT] = 1;
-                            newStates[STATE_DPAD_RIGHT] = 0;
-                            newStates[STATE_DPAD_UP] = 0;
-                            newStates[STATE_DPAD_DOWN] = 0;
+                            newState.dpadLeft = 1;
+                            newState.dpadRight = 0;
+                            newState.dpadUp = 0;
+                            newState.dpadDown = 0;
                             break;
                         case 7:
-                            newStates[STATE_DPAD_LEFT] = 1;
-                            newStates[STATE_DPAD_RIGHT] = 0;
-                            newStates[STATE_DPAD_UP] = 1;
-                            newStates[STATE_DPAD_DOWN] = 0;
+                            newState.dpadLeft = 1;
+                            newState.dpadRight = 0;
+                            newState.dpadUp = 1;
+                            newState.dpadDown = 0;
                             break;
                         case 8:
-                            newStates[STATE_DPAD_LEFT] = false; // left
-                            newStates[STATE_DPAD_RIGHT] = false; // right
-                            newStates[STATE_DPAD_UP] = false; // up
-                            newStates[STATE_DPAD_DOWN] = false; // down
+                            newState.dpadLeft = false; // left
+                            newState.dpadRight = false; // right
+                            newState.dpadUp = false; // up
+                            newState.dpadDown = false; // down
                             break;
                     }
 
-                    if (newStates[STATE_DPAD_LEFT] != states[STATE_DPAD_LEFT]) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                                       newStates[STATE_DPAD_LEFT],
-                                                                                                       (newStates[STATE_DPAD_LEFT] > 0) ? 1.0f : 0.0f);
-                    if (newStates[STATE_DPAD_RIGHT] != states[STATE_DPAD_RIGHT]) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                                         newStates[STATE_DPAD_RIGHT],
-                                                                                                         (newStates[STATE_DPAD_RIGHT] > 0) ? 1.0f : 0.0f);
-                    if (newStates[STATE_DPAD_UP] != states[STATE_DPAD_UP]) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                                   newStates[STATE_DPAD_UP],
-                                                                                                   (newStates[STATE_DPAD_UP] > 0) ? 1.0f : 0.0f);
-                    if (newStates[STATE_DPAD_DOWN] != states[STATE_DPAD_DOWN]) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                                       newStates[STATE_DPAD_DOWN],
-                                                                                                       (newStates[STATE_DPAD_DOWN] > 0) ? 1.0f : 0.0f);
+                    if (newState.dpadLeft != state.dpadLeft) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                                                                                     newState.dpadLeft,
+                                                                                     (newState.dpadLeft > 0) ? 1.0f : 0.0f);
+                    if (newState.dpadRight != state.dpadRight) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                                                                                       newState.dpadRight,
+                                                                                       (newState.dpadRight > 0) ? 1.0f : 0.0f);
+                    if (newState.dpadUp != state.dpadUp) handleButtonValueChange(GamepadButton::DPAD_UP,
+                                                                                 newState.dpadUp,
+                                                                                 (newState.dpadUp > 0) ? 1.0f : 0.0f);
+                    if (newState.dpadDown != state.dpadDown) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                                                                                     newState.dpadDown,
+                                                                                     (newState.dpadDown > 0) ? 1.0f : 0.0f);
                 }
 
-                std::copy(std::begin(newStates), std::end(newStates), std::begin(states));
+                state = newState;
             }
         }
 

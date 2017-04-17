@@ -56,19 +56,19 @@ namespace ouzel
 
             std::map<IOHIDElementRef, Element> elements;
 
-            enum
+            struct State
             {
-                STATE_DPAD_LEFT,
-                STATE_DPAD_RIGHT,
-                STATE_DPAD_UP,
-                STATE_DPAD_DOWN,
-                STATE_LEFT_THUMB_X,
-                STATE_LEFT_THUMB_Y,
-                STATE_RIGHT_THUMB_X,
-                STATE_RIGHT_THUMB_Y,
+                int64_t dpadLeft = 0;
+                int64_t dpadRight = 0;
+                int64_t dpadUp = 0;
+                int64_t dpadDown = 0;
+                int64_t leftThumbX = 0;
+                int64_t leftThumbY = 0;
+                int64_t rightThumbX = 0;
+                int64_t rightThumbY = 0;
             };
 
-            int64_t states[8];
+            State state;
         };
     } // namespace input
 } // namespace ouzel
