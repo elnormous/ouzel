@@ -19,6 +19,7 @@ namespace ouzel
         {
             friend InputWin;
         public:
+            virtual ~GamepadDI();
             bool update();
 
         protected:
@@ -27,6 +28,7 @@ namespace ouzel
             const DIDEVICEINSTANCE* instance = nullptr;
             bool isXInputDevice = false;
             IDirectInputDevice8* device = nullptr;
+            DIJOYSTATE2 state;
         };
     } // namespace input
 } // namespace ouzel
