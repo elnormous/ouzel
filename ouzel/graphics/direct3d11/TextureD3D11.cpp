@@ -16,6 +16,16 @@ namespace ouzel
 
         TextureD3D11::~TextureD3D11()
         {
+            if (depthStencilTexture)
+            {
+                depthStencilTexture->Release();
+            }
+
+            if (depthStencilView)
+            {
+                depthStencilView->Release();
+            }
+
             if (renderTargetView)
             {
                 renderTargetView->Release();
@@ -57,7 +67,16 @@ namespace ouzel
                             static_cast<UINT>(size.v[0]) != width ||
                             static_cast<UINT>(size.v[1]) != height)
                         {
-                            if (texture) texture->Release();
+                            if (texture)
+                            {
+                                texture->Release();
+                            }
+
+                            if (resourceView)
+                            {
+                                resourceView->Release();
+                                resourceView = nullptr;
+                            }
 
                             width = static_cast<UINT>(size.v[0]);
                             height = static_cast<UINT>(size.v[1]);
@@ -101,28 +120,41 @@ namespace ouzel
 
                             if (renderTarget)
                             {
-                                if (!renderTargetView)
+                                if (renderTargetView)
                                 {
-                                    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                                    renderTargetViewDesc.Format = textureDesc.Format;
-                                    renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
+                                    renderTargetView->Release();
+                                }
 
-                                    if (sampleCount == 1)
-                                    {
-                                        renderTargetViewDesc.Texture2D.MipSlice = 0;
-                                    }
+                                D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+                                renderTargetViewDesc.Format = textureDesc.Format;
+                                renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
 
-                                    HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
-                                    if (FAILED(hr))
-                                    {
-                                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
-                                        return false;
-                                    }
+                                if (sampleCount == 1)
+                                {
+                                    renderTargetViewDesc.Texture2D.MipSlice = 0;
+                                }
+
+                                HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                                if (FAILED(hr))
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                                    return false;
                                 }
                             }
 
                             if (depth)
                             {
+                                if (depthStencilTexture)
+                                {
+                                    depthStencilTexture->Release();
+                                }
+
+                                if (depthStencilView)
+                                {
+                                    depthStencilView->Release();
+                                    depthStencilView = nullptr;
+                                }
+
                                 D3D11_TEXTURE2D_DESC depthStencilDesc;
                                 depthStencilDesc.Width = width;
                                 depthStencilDesc.Height = height;

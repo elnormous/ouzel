@@ -141,97 +141,121 @@ namespace ouzel
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (!pixelShader)
+                if (pixelShader)
                 {
-                    HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader";
-                        return false;
-                    }
+                    pixelShader->Release();
+                    pixelShader = nullptr;
                 }
 
-                if (!vertexShader)
+                if (vertexShader)
                 {
-                    HRESULT hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
-                    if (FAILED(hr))
+                    vertexShader->Release();
+                    vertexShader = nullptr;
+                }
+
+                if (inputLayout)
+                {
+                    inputLayout->Release();
+                    inputLayout = nullptr;
+                }
+
+                if (pixelShaderConstantBuffer)
+                {
+                    pixelShaderConstantBuffer->Release();
+                    pixelShaderConstantBuffer = nullptr;
+                }
+
+                if (vertexShaderConstantBuffer)
+                {
+                    vertexShaderConstantBuffer->Release();
+                    vertexShaderConstantBuffer = nullptr;
+                }
+
+                HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader";
+                    return false;
+                }
+                
+                hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader";
+                    return false;
+                }
+
+                std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
+
+                UINT offset = 0;
+
+                for (const VertexAttribute& vertexAttribute : vertexAttributes)
+                {
+                    DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
+
+                    if (vertexFormat == DXGI_FORMAT_UNKNOWN)
                     {
-                        Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader";
+                        Log() << "Invalid vertex format";
                         return false;
                     }
 
-                    std::vector<D3D11_INPUT_ELEMENT_DESC> vertexInputElements;
+                    const char* usage;
 
-                    UINT offset = 0;
-
-                    for (const VertexAttribute& vertexAttribute : vertexAttributes)
+                    switch (vertexAttribute.usage)
                     {
-                        DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
-
-                        if (vertexFormat == DXGI_FORMAT_UNKNOWN)
-                        {
-                            Log() << "Invalid vertex format";
+                        case VertexAttribute::Usage::BINORMAL:
+                            usage = "BINORMAL";
+                            break;
+                        case VertexAttribute::Usage::BLEND_INDICES:
+                            usage = "BLENDINDICES";
+                            break;
+                        case VertexAttribute::Usage::BLEND_WEIGHT:
+                            usage = "BLENDWEIGHT";
+                            break;
+                        case VertexAttribute::Usage::COLOR:
+                            usage = "COLOR";
+                            break;
+                        case VertexAttribute::Usage::NORMAL:
+                            usage = "NORMAL";
+                            break;
+                        case VertexAttribute::Usage::POSITION:
+                            usage = "POSITION";
+                            break;
+                        case VertexAttribute::Usage::POSITION_TRANSFORMED:
+                            usage = "POSITIONT";
+                            break;
+                        case VertexAttribute::Usage::POINT_SIZE:
+                            usage = "PSIZE";
+                            break;
+                        case VertexAttribute::Usage::TANGENT:
+                            usage = "TANGENT";
+                            break;
+                        case VertexAttribute::Usage::TEXTURE_COORDINATES:
+                            usage = "TEXCOORD";
+                            break;
+                        default:
+                            Log() << "Invalid vertex attribute usage";
                             return false;
-                        }
-
-                        const char* usage;
-
-                        switch (vertexAttribute.usage)
-                        {
-                            case VertexAttribute::Usage::BINORMAL:
-                                usage = "BINORMAL";
-                                break;
-                            case VertexAttribute::Usage::BLEND_INDICES:
-                                usage = "BLENDINDICES";
-                                break;
-                            case VertexAttribute::Usage::BLEND_WEIGHT:
-                                usage = "BLENDWEIGHT";
-                                break;
-                            case VertexAttribute::Usage::COLOR:
-                                usage = "COLOR";
-                                break;
-                            case VertexAttribute::Usage::NORMAL:
-                                usage = "NORMAL";
-                                break;
-                            case VertexAttribute::Usage::POSITION:
-                                usage = "POSITION";
-                                break;
-                            case VertexAttribute::Usage::POSITION_TRANSFORMED:
-                                usage = "POSITIONT";
-                                break;
-                            case VertexAttribute::Usage::POINT_SIZE:
-                                usage = "PSIZE";
-                                break;
-                            case VertexAttribute::Usage::TANGENT:
-                                usage = "TANGENT";
-                                break;
-                            case VertexAttribute::Usage::TEXTURE_COORDINATES:
-                                usage = "TEXCOORD";
-                                break;
-                            default:
-                                Log() << "Invalid vertex attribute usage";
-                                return false;
-                        }
-
-                        vertexInputElements.push_back({
-                            usage, vertexAttribute.index,
-                            vertexFormat,
-                            0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
-                        });
-                        offset += getDataTypeSize(vertexAttribute.dataType);
                     }
 
-                    hr = rendererD3D11->getDevice()->CreateInputLayout(
-                        vertexInputElements.data(),
-                        static_cast<UINT>(vertexInputElements.size()),
-                        vertexShaderData.data(),
-                        vertexShaderData.size(),
-                        &inputLayout);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
-                        return false;
-                    }
+                    vertexInputElements.push_back({
+                        usage, vertexAttribute.index,
+                        vertexFormat,
+                        0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
+                    });
+                    offset += getDataTypeSize(vertexAttribute.dataType);
+                }
+
+                hr = rendererD3D11->getDevice()->CreateInputLayout(
+                    vertexInputElements.data(),
+                    static_cast<UINT>(vertexInputElements.size()),
+                    vertexShaderData.data(),
+                    vertexShaderData.size(),
+                    &inputLayout);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader";
+                    return false;
                 }
 
                 if (!pixelShaderConstantInfo.empty())
@@ -248,8 +272,6 @@ namespace ouzel
                     }
                 }
 
-                if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
-
                 D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
                 pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(pixelShaderConstantSize);
                 pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -258,7 +280,7 @@ namespace ouzel
                 pixelShaderConstantBufferDesc.MiscFlags = 0;
                 pixelShaderConstantBufferDesc.StructureByteStride = 0;
 
-                HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
+                hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer";
@@ -278,8 +300,6 @@ namespace ouzel
                         vertexShaderConstantSize += info.size;
                     }
                 }
-
-                if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
                 D3D11_BUFFER_DESC vertexShaderConstantBufferDesc;
                 vertexShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(vertexShaderConstantSize);

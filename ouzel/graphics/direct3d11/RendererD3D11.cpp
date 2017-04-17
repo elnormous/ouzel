@@ -86,6 +86,16 @@ namespace ouzel
             {
                 adapter->Release();
             }
+
+            if (context)
+            {
+                context->Release();
+            }
+
+            if (device)
+            {
+                device->Release();
+            }
         }
 
         bool RendererD3D11::init(Window* newWindow,
