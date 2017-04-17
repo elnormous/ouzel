@@ -6,109 +6,13 @@
 #include <wbemidl.h>
 #include <oleauto.h>
 #include "InputWin.h"
+#include "GamepadDI.h"
+#include "GamepadXI.h"
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "core/windows/WindowWin.h"
 #include "events/EventDispatcher.h"
-#include "GamepadWin.h"
 #include "utils/Log.h"
-
-static BOOL isXInputDevice(const GUID* guidProductFromDirectInput)
-{
-    bool result = false;
-
-    IWbemLocator* iWbemLocator = nullptr;
-    HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-                                  __uuidof(IWbemLocator), (LPVOID*)&iWbemLocator);
-
-    if (SUCCEEDED(hr) && iWbemLocator)
-    {
-        BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
-        BSTR className = SysAllocString(L"Win32_PNPEntity");
-        BSTR deviceID = SysAllocString(L"DeviceID");
-
-        if (className && namespaceStr && deviceID)
-        {
-            IWbemServices* iWbemServices = nullptr;
-            hr = iWbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                             0L, nullptr, nullptr, &iWbemServices);
-
-            if (SUCCEEDED(hr) && iWbemServices)
-            {
-                CoSetProxyBlanket(iWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
-
-                IEnumWbemClassObject* enumDevices = nullptr;
-                hr = iWbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
-                if (SUCCEEDED(hr) && enumDevices)
-                {
-                    // Get 20 at a time
-                    ULONG returned = 0;
-                    IWbemClassObject* devices[20];
-                    while (SUCCEEDED(enumDevices->Next(10000, 20, devices, &returned)))
-                    {
-                        if (returned == 0)
-                            break;
-
-                        for (ULONG device = 0; device < returned; ++device)
-                        {
-                            // For each device, get its device ID
-                            VARIANT var;
-                            hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
-                            if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
-                            {
-                                // Check if the device ID contains "IG_". If it does, then it's an XInput device
-                                // This information can not be found from DirectInput 
-                                if (wcsstr(var.bstrVal, L"IG_"))
-                                {
-                                    // If it does, then get the VID/PID from var.bstrVal
-                                    DWORD dwPid = 0, dwVid = 0;
-                                    WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
-                                    if (strVid && swscanf(strVid, L"VID_%4X", &dwVid) != 1)
-                                        dwVid = 0;
-                                    WCHAR* strPid = wcsstr(var.bstrVal, L"PID_");
-                                    if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1)
-                                        dwPid = 0;
-
-                                    // Compare the VID/PID to the DInput device
-                                    DWORD dwVidPid = MAKELONG(dwVid, dwPid);
-                                    if (dwVidPid == guidProductFromDirectInput->Data1)
-                                    {
-                                        result = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (devices[device])
-                            {
-                                devices[device]->Release();
-                                devices[device] = nullptr;
-                            }
-                        }
-                    }
-
-                    for (ULONG device = 0; device < returned; ++device)
-                    {
-                        if (devices[device]) devices[device]->Release();
-                    }
-                }
-
-                if (enumDevices) enumDevices->Release();
-            }
-
-            if (iWbemServices) iWbemServices->Release();
-        }
-
-        if (namespaceStr) SysFreeString(namespaceStr);
-        if (deviceID) SysFreeString(deviceID);
-        if (className) SysFreeString(className);
-    }
-
-    if (iWbemLocator) iWbemLocator->Release();
-
-    return result;
-}
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCE* didInstance, VOID* context)
 {
@@ -302,7 +206,7 @@ namespace ouzel
 
         InputWin::InputWin()
         {
-            std::fill(std::begin(gamepadsWin), std::end(gamepadsWin), nullptr);
+            std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
         }
 
         InputWin::~InputWin()
@@ -333,10 +237,10 @@ namespace ouzel
 
                 if (result == ERROR_SUCCESS)
                 {
-                    if (!gamepadsWin[i])
+                    if (!gamepadsXI[i])
                     {
-                        std::unique_ptr<GamepadWin> gamepad(new GamepadWin(nullptr, i));
-                        gamepadsWin[i] = gamepad.get();
+                        std::unique_ptr<GamepadXI> gamepad(new GamepadXI(i));
+                        gamepadsXI[i] = gamepad.get();
 
                         Event event;
                         event.type = Event::Type::GAMEPAD_CONNECT;
@@ -347,23 +251,22 @@ namespace ouzel
                         sharedEngine->getEventDispatcher()->postEvent(event);
                     }
 
-                    gamepadsWin[i]->update(state);
+                    gamepadsXI[i]->update(state);
                 }
                 else if (result == ERROR_DEVICE_NOT_CONNECTED)
                 {
-                    if (gamepadsWin[i])
+                    if (gamepadsXI[i])
                     {
-                        GamepadWin* gamepadWin = gamepadsWin[i];
+                        GamepadXI* gamepadXI = gamepadsXI[i];
 
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
-
-                        event.gamepadEvent.gamepad = gamepadWin;
+                        event.gamepadEvent.gamepad = gamepadXI;
 
                         sharedEngine->getEventDispatcher()->postEvent(event);
 
-                        std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadWin](const std::unique_ptr<Gamepad>& gamepad) {
-                            return gamepadWin == gamepad.get();
+                        std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                            return gamepadXI == gamepad.get();
                         });
 
                         if (i != gamepads.end())
@@ -375,6 +278,25 @@ namespace ouzel
                 else
                 {
                     Log(Log::Level::WARN) << "Failed to get state for gamepad " << i;
+                }
+            }
+
+            for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
+            {
+                GamepadDI* gamepadDI = *i;
+                if (gamepadDI->update())
+                {
+                    ++i;
+                }
+                else
+                {
+                    Event event;
+                    event.type = Event::Type::GAMEPAD_DISCONNECT;
+                    event.gamepadEvent.gamepad = gamepadDI;
+
+                    sharedEngine->getEventDispatcher()->postEvent(event);
+
+                    i = gamepadsDI.erase(i);
                 }
             }
         }
@@ -463,13 +385,111 @@ namespace ouzel
 
         void InputWin::handleDeviceConnect(const DIDEVICEINSTANCE* didInstance)
         {
-            if (isXInputDevice(&didInstance->guidProduct))
-            {
+            bool isXInputDevice = false;
 
+            IWbemLocator* iWbemLocator = nullptr;
+            HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
+                __uuidof(IWbemLocator), (LPVOID*)&iWbemLocator);
+
+            if (SUCCEEDED(hr) && iWbemLocator)
+            {
+                BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
+                BSTR className = SysAllocString(L"Win32_PNPEntity");
+                BSTR deviceID = SysAllocString(L"DeviceID");
+
+                if (className && namespaceStr && deviceID)
+                {
+                    IWbemServices* iWbemServices = nullptr;
+                    hr = iWbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                        0L, nullptr, nullptr, &iWbemServices);
+
+                    if (SUCCEEDED(hr) && iWbemServices)
+                    {
+                        CoSetProxyBlanket(iWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                            RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
+
+                        IEnumWbemClassObject* enumDevices = nullptr;
+                        hr = iWbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
+                        if (SUCCEEDED(hr) && enumDevices)
+                        {
+                            // Get 20 at a time
+                            ULONG returned = 0;
+                            IWbemClassObject* devices[20];
+                            while (SUCCEEDED(enumDevices->Next(10000, 20, devices, &returned)))
+                            {
+                                if (returned == 0)
+                                    break;
+
+                                for (ULONG device = 0; device < returned; ++device)
+                                {
+                                    // For each device, get its device ID
+                                    VARIANT var;
+                                    hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+                                    if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
+                                    {
+                                        // Check if the device ID contains "IG_". If it does, then it's an XInput device
+                                        // This information can not be found from DirectInput 
+                                        if (wcsstr(var.bstrVal, L"IG_"))
+                                        {
+                                            // If it does, then get the VID/PID from var.bstrVal
+                                            DWORD dwPid = 0, dwVid = 0;
+                                            WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
+                                            if (strVid && swscanf(strVid, L"VID_%4X", &dwVid) != 1)
+                                                dwVid = 0;
+                                            WCHAR* strPid = wcsstr(var.bstrVal, L"PID_");
+                                            if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1)
+                                                dwPid = 0;
+
+                                            // Compare the VID/PID to the DInput device
+                                            DWORD dwVidPid = MAKELONG(dwVid, dwPid);
+                                            if (dwVidPid == didInstance->guidProduct.Data1)
+                                            {
+                                                isXInputDevice = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (devices[device])
+                                    {
+                                        devices[device]->Release();
+                                        devices[device] = nullptr;
+                                    }
+                                }
+                            }
+
+                            for (ULONG device = 0; device < returned; ++device)
+                            {
+                                if (devices[device]) devices[device]->Release();
+                            }
+                        }
+
+                        if (enumDevices) enumDevices->Release();
+                    }
+
+                    if (iWbemServices) iWbemServices->Release();
+                }
+
+                if (namespaceStr) SysFreeString(namespaceStr);
+                if (deviceID) SysFreeString(deviceID);
+                if (className) SysFreeString(className);
             }
 
-            //uint64_t vendorId = LOWORD(didInstance->guidProduct.Data1);
-            //uint64_t productId = HIWORD(didInstance->guidProduct.Data1);
+            if (iWbemLocator) iWbemLocator->Release();
+
+            if (!isXInputDevice)
+            {
+                std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance));
+                gamepadsDI.push_back(gamepad.get());
+
+                Event event;
+                event.type = Event::Type::GAMEPAD_CONNECT;
+                event.gamepadEvent.gamepad = gamepad.get();
+
+                gamepads.push_back(std::move(gamepad));
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
         }
     } // namespace input
 } // namespace ouzel

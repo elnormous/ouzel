@@ -250,9 +250,6 @@
     <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp">
       <Filter>core\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\GamepadWin.cpp">
-      <Filter>input\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\windows\InputWin.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
@@ -348,6 +345,12 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\files\Archive.cpp">
       <Filter>files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp">
+      <Filter>input\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp">
+      <Filter>input\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,9 +625,6 @@
     <ClInclude Include="..\ouzel\core\windows\WindowWin.h">
       <Filter>core\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadWin.h">
-      <Filter>input\windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\input\windows\InputWin.h">
       <Filter>input\windows</Filter>
     </ClInclude>
@@ -780,6 +780,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\files\Archive.h">
       <Filter>files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\GamepadDI.h">
+      <Filter>input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\windows\GamepadXI.h">
+      <Filter>input\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

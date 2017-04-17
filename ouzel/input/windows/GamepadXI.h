@@ -5,8 +5,6 @@
 
 #define NOMINMAX
 #include <windows.h>
-#define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
 #include <xinput.h>
 #include "input/Gamepad.h"
 
@@ -16,7 +14,7 @@ namespace ouzel
     {
         class InputWin;
 
-        class GamepadWin : public Gamepad
+        class GamepadXI: public Gamepad
         {
             friend InputWin;
         public:
@@ -28,12 +26,11 @@ namespace ouzel
             virtual float getVibration(Motor motor) override;
 
         protected:
-            GamepadWin(IDirectInputDevice8* aDevice, DWORD aPlayerIndex);
+            GamepadXI(DWORD aPlayerIndex);
 
             void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button);
 
-            IDirectInputDevice8* device = nullptr;
             XINPUT_STATE state;
             XINPUT_VIBRATION vibration;
             DWORD playerIndex;

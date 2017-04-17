@@ -14,7 +14,8 @@ namespace ouzel
 {
     namespace input
     {
-        class GamepadWin;
+        class GamepadDI;
+        class GamepadXI;
 
         class InputWin : public Input
         {
@@ -37,14 +38,16 @@ namespace ouzel
             virtual void setCursorPosition(const Vector2& position) override;
             virtual void startGamepadDiscovery() override;
 
+            IDirectInput8* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCE* didInstance);
 
         protected:
             InputWin();
             virtual bool init() override;
 
-            IDirectInput* directInput = nullptr;
-            GamepadWin* gamepadsWin[XUSER_MAX_COUNT];
+            IDirectInput8* directInput = nullptr;
+            std::vector<GamepadDI*> gamepadsDI;
+            GamepadXI* gamepadsXI[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;
             bool cursorLocked = false;

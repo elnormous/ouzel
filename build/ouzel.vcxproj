@@ -100,7 +100,8 @@
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\Input.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\GamepadWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
@@ -244,7 +245,8 @@
     <ClInclude Include="..\ouzel\gui\Widget.h" />
     <ClInclude Include="..\ouzel\input\Gamepad.h" />
     <ClInclude Include="..\ouzel\input\Input.h" />
-    <ClInclude Include="..\ouzel\input\windows\GamepadWin.h" />
+    <ClInclude Include="..\ouzel\input\windows\GamepadDI.h" />
+    <ClInclude Include="..\ouzel\input\windows\GamepadXI.h" />
     <ClInclude Include="..\ouzel\input\windows\InputWin.h" />
     <ClInclude Include="..\ouzel\localization\Language.h" />
     <ClInclude Include="..\ouzel\localization\Localization.h" />

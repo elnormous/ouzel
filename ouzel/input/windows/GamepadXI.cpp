@@ -1,8 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadWin.h"
+#include "GamepadXI.h"
+#include "InputWin.h"
 #include "core/Engine.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -11,14 +13,14 @@ namespace ouzel
         static const int32_t MAX_THUMB_VALUE = 32767;
         static const int32_t MIN_THUMB_VALUE = -32768;
 
-        GamepadWin::GamepadWin(IDirectInputDevice8* aDevice, DWORD aPlayerIndex) :
-            device(aDevice), playerIndex(aPlayerIndex)
+        GamepadXI::GamepadXI(DWORD aPlayerIndex):
+            playerIndex(aPlayerIndex)
         {
             memset(&state, 0, sizeof(XINPUT_STATE));
             memset(&vibration, 0, sizeof(XINPUT_VIBRATION));
         }
 
-        void GamepadWin::update(const XINPUT_STATE& newState)
+        void GamepadXI::update(const XINPUT_STATE& newState)
         {
             if (newState.dwPacketNumber > state.dwPacketNumber)
             {
@@ -65,12 +67,12 @@ namespace ouzel
             }
         }
 
-        int32_t GamepadWin::getPlayerIndex() const
+        int32_t GamepadXI::getPlayerIndex() const
         {
             return static_cast<int32_t>(playerIndex);
         }
 
-        void GamepadWin::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
+        void GamepadXI::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
         {
             if (newValue != oldValue)
             {
@@ -100,7 +102,7 @@ namespace ouzel
             }
         }
 
-        void GamepadWin::checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button)
+        void GamepadXI::checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button)
         {
             if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {
@@ -109,7 +111,7 @@ namespace ouzel
             }
         }
 
-        void GamepadWin::setVibration(Motor motor, float speed)
+        void GamepadXI::setVibration(Motor motor, float speed)
         {
             switch (motor)
             {
@@ -128,7 +130,7 @@ namespace ouzel
             XInputSetState(playerIndex, &vibration);
         }
 
-        float GamepadWin::getVibration(Motor motor)
+        float GamepadXI::getVibration(Motor motor)
         {
             switch (motor)
             {
