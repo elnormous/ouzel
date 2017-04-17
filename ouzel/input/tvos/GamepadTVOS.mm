@@ -148,11 +148,13 @@ namespace ouzel
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
                 handleButtonValueChange(GamepadButton::PAUSE, false, 0.0f);
             };
-        }
 
-        bool GamepadTVOS::isAttached() const
-        {
-            return controller.isAttachedToDevice == YES;
+            if (controller.vendorName)
+            {
+                name = [controller.vendorName cStringUsingEncoding:NSASCIIStringEncoding];
+            }
+            
+            attached = (controller.isAttachedToDevice == YES);
         }
 
         void GamepadTVOS::setAbsoluteDpadValues(bool absoluteDpadValues)

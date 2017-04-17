@@ -23,8 +23,6 @@ namespace ouzel
         {
             friend InputIOS;
         public:
-            virtual bool isAttached() const override;
-
             virtual int32_t getPlayerIndex() const override;
             virtual bool setPlayerIndex(int32_t playerIndex) override;
 

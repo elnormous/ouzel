@@ -124,11 +124,13 @@ namespace ouzel
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
                 handleButtonValueChange(GamepadButton::PAUSE, false, 0.0f);
             };
-        }
 
-        bool GamepadIOS::isAttached() const
-        {
-            return controller.isAttachedToDevice == YES;
+            if (controller.vendorName)
+            {
+                name = [controller.vendorName cStringUsingEncoding:NSASCIIStringEncoding];
+            }
+
+            attached = (controller.isAttachedToDevice == YES);
         }
 
         int32_t GamepadIOS::getPlayerIndex() const

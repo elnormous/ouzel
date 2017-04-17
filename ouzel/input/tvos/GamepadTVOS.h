@@ -23,7 +23,6 @@ namespace ouzel
         {
             friend InputTVOS;
         public:
-            virtual bool isAttached() const override;
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
             virtual bool isAbsoluteDpadValues() const override;
 

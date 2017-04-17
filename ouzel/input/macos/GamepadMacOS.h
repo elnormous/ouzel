@@ -37,8 +37,6 @@ namespace ouzel
                                        GamepadButton negativeButton, GamepadButton positiveButton);
 
             IOHIDDeviceRef device = nullptr;
-            uint64_t vendorId = 0;
-            uint64_t productId = 0;
             GamepadButton usageMap[24];
             uint32_t leftThumbXMap = 0;
             uint32_t leftThumbYMap = 0;

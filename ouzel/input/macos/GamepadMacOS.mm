@@ -26,6 +26,12 @@ namespace ouzel
         {
             std::fill(std::begin(states), std::end(states), 0);
 
+            NSString* productName = (NSString*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
+            if (productName)
+            {
+                name = [productName cStringUsingEncoding:NSUTF8StringEncoding];
+            }
+
             NSNumber* vendor = (NSNumber*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
             if (vendor)
             {

@@ -27,7 +27,11 @@ namespace ouzel
                 float value = 0.0f;
             };
 
-            virtual bool isAttached() const;
+            const std::string& getName() const { return name; }
+            uint64_t getVendorId() const { return vendorId; }
+            uint64_t getProductId() const { return productId; }
+            bool isAttached() const { return attached; }
+            
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
             virtual bool isAbsoluteDpadValues() const;
 
@@ -45,6 +49,10 @@ namespace ouzel
             void handleButtonValueChange(GamepadButton button, bool pressed, float value);
 
             ButtonState buttonStates[static_cast<uint32_t>(GamepadButton::BUTTON_COUNT)];
+            std::string name;
+            uint64_t vendorId = 0;
+            uint64_t productId = 0;
+            bool attached = false;
         };
     } // namespace input
 } // namespace ouzel
