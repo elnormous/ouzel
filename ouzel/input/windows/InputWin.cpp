@@ -338,7 +338,7 @@ namespace ouzel
                 {
                     if (!gamepadsWin[i])
                     {
-                        std::unique_ptr<GamepadWin> gamepad(new GamepadWin(static_cast<int32_t>(i)));
+                        std::unique_ptr<GamepadWin> gamepad(new GamepadWin(nullptr, i));
                         gamepadsWin[i] = gamepad.get();
 
                         Event event;

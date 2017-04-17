@@ -5,6 +5,8 @@
 
 #define NOMINMAX
 #include <windows.h>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
 #include <xinput.h>
 #include "input/Gamepad.h"
 
@@ -26,14 +28,15 @@ namespace ouzel
             virtual float getVibration(Motor motor) override;
 
         protected:
-            GamepadWin(int32_t aPlayerIndex);
+            GamepadWin(IDirectInputDevice8* aDevice, DWORD aPlayerIndex);
 
             void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button);
 
+            IDirectInputDevice8* device = nullptr;
             XINPUT_STATE state;
             XINPUT_VIBRATION vibration;
-            int32_t playerIndex;
+            DWORD playerIndex;
         };
     } // namespace input
 } // namespace ouzel

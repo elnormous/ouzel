@@ -11,8 +11,8 @@ namespace ouzel
         static const int32_t MAX_THUMB_VALUE = 32767;
         static const int32_t MIN_THUMB_VALUE = -32768;
 
-        GamepadWin::GamepadWin(int32_t aPlayerIndex):
-            playerIndex(aPlayerIndex)
+        GamepadWin::GamepadWin(IDirectInputDevice8* aDevice, DWORD aPlayerIndex) :
+            device(aDevice), playerIndex(aPlayerIndex)
         {
             memset(&state, 0, sizeof(XINPUT_STATE));
             memset(&vibration, 0, sizeof(XINPUT_VIBRATION));
@@ -67,7 +67,7 @@ namespace ouzel
 
         int32_t GamepadWin::getPlayerIndex() const
         {
-            return playerIndex;
+            return static_cast<int32_t>(playerIndex);
         }
 
         void GamepadWin::checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton)
