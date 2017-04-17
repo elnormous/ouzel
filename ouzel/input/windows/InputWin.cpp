@@ -13,102 +13,99 @@
 #include "GamepadWin.h"
 #include "utils/Log.h"
 
-static BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
+static BOOL isXInputDevice(const GUID* guidProductFromDirectInput)
 {
-    IWbemLocator* iWbemLocator = nullptr;
-    IEnumWbemClassObject* enumDevices = nullptr;
-    IWbemClassObject* devices[20] = { 0 };
-    IWbemServices* iWbemServices = nullptr;
-    BSTR namespaceStr = nullptr;
-    BSTR deviceID = nullptr;
-    BSTR className = nullptr;
     bool result = false;
 
+    IWbemLocator* iWbemLocator = nullptr;
     HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
-        __uuidof(IWbemLocator), (LPVOID*)&iWbemLocator);
-    if (FAILED(hr) || iWbemLocator == nullptr)
-        goto cleanup;
+                                  __uuidof(IWbemLocator), (LPVOID*)&iWbemLocator);
 
-    namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
-    if (namespaceStr == nullptr) goto cleanup;
-    className = SysAllocString(L"Win32_PNPEntity");
-    if (className == nullptr) goto cleanup;
-    deviceID = SysAllocString(L"DeviceID");
-    if (deviceID == nullptr)  goto cleanup;
-
-    hr = iWbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
-                                     0L, nullptr, nullptr, &iWbemServices);
-    if (FAILED(hr) || iWbemServices == nullptr)
-        goto cleanup;
-
-    CoSetProxyBlanket(iWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
-                      RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
-
-    hr = iWbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
-    if (FAILED(hr) || enumDevices == nullptr)
-        goto cleanup;
-
-    for (;;)
+    if (SUCCEEDED(hr) && iWbemLocator)
     {
-        DWORD returned = 0;
-        // Get 20 at a time
-        hr = enumDevices->Next(10000, 20, devices, &returned);
-        if (FAILED(hr))
-            goto cleanup;
-        if (returned == 0)
-            break;
+        BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
+        BSTR className = SysAllocString(L"Win32_PNPEntity");
+        BSTR deviceID = SysAllocString(L"DeviceID");
 
-        for (UINT device = 0; device < returned; device++)
+        if (className && namespaceStr && deviceID)
         {
-            // For each device, get its device ID
-            VARIANT var;
-            hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
-            if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
-            {
-                // Check if the device ID contains "IG_".  If it does, then it's an XInput device
-                // This information can not be found from DirectInput 
-                if (wcsstr(var.bstrVal, L"IG_"))
-                {
-                    // If it does, then get the VID/PID from var.bstrVal
-                    DWORD dwPid = 0, dwVid = 0;
-                    WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
-                    if (strVid && swscanf(strVid, L"VID_%4X", &dwVid) != 1)
-                        dwVid = 0;
-                    WCHAR* strPid = wcsstr(var.bstrVal, L"PID_");
-                    if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1)
-                        dwPid = 0;
+            IWbemServices* iWbemServices = nullptr;
+            hr = iWbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                                             0L, nullptr, nullptr, &iWbemServices);
 
-                    // Compare the VID/PID to the DInput device
-                    DWORD dwVidPid = MAKELONG(dwVid, dwPid);
-                    if (dwVidPid == pGuidProductFromDirectInput->Data1)
+            if (SUCCEEDED(hr) && iWbemServices)
+            {
+                CoSetProxyBlanket(iWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                                  RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
+
+                IEnumWbemClassObject* enumDevices = nullptr;
+                hr = iWbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
+                if (SUCCEEDED(hr) && enumDevices)
+                {
+                    // Get 20 at a time
+                    ULONG returned = 0;
+                    IWbemClassObject* devices[20];
+                    while (SUCCEEDED(enumDevices->Next(10000, 20, devices, &returned)))
                     {
-                        result = true;
-                        goto cleanup;
+                        if (returned == 0)
+                            break;
+
+                        for (ULONG device = 0; device < returned; ++device)
+                        {
+                            // For each device, get its device ID
+                            VARIANT var;
+                            hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+                            if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
+                            {
+                                // Check if the device ID contains "IG_". If it does, then it's an XInput device
+                                // This information can not be found from DirectInput 
+                                if (wcsstr(var.bstrVal, L"IG_"))
+                                {
+                                    // If it does, then get the VID/PID from var.bstrVal
+                                    DWORD dwPid = 0, dwVid = 0;
+                                    WCHAR* strVid = wcsstr(var.bstrVal, L"VID_");
+                                    if (strVid && swscanf(strVid, L"VID_%4X", &dwVid) != 1)
+                                        dwVid = 0;
+                                    WCHAR* strPid = wcsstr(var.bstrVal, L"PID_");
+                                    if (strPid && swscanf(strPid, L"PID_%4X", &dwPid) != 1)
+                                        dwPid = 0;
+
+                                    // Compare the VID/PID to the DInput device
+                                    DWORD dwVidPid = MAKELONG(dwVid, dwPid);
+                                    if (dwVidPid == guidProductFromDirectInput->Data1)
+                                    {
+                                        result = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (devices[device])
+                            {
+                                devices[device]->Release();
+                                devices[device] = nullptr;
+                            }
+                        }
+                    }
+
+                    for (ULONG device = 0; device < returned; ++device)
+                    {
+                        if (devices[device]) devices[device]->Release();
                     }
                 }
+
+                if (enumDevices) enumDevices->Release();
             }
-            if (devices[device])
-            {
-                devices[device]->Release();
-                devices[device] = nullptr;
-            }
+
+            if (iWbemServices) iWbemServices->Release();
         }
+
+        if (namespaceStr) SysFreeString(namespaceStr);
+        if (deviceID) SysFreeString(deviceID);
+        if (className) SysFreeString(className);
     }
 
-cleanup:
-    if (namespaceStr)
-        SysFreeString(namespaceStr);
-    if (deviceID)
-        SysFreeString(deviceID);
-    if (className)
-        SysFreeString(className);
-    for (UINT device = 0; device < 20; device++)
-    {
-        if (devices[device]) devices[device]->Release();
-    }
-    if (enumDevices) enumDevices->Release();
     if (iWbemLocator) iWbemLocator->Release();
-    if (iWbemServices) iWbemServices->Release();
 
     return result;
 }
@@ -470,6 +467,9 @@ namespace ouzel
             {
 
             }
+
+            //uint64_t vendorId = LOWORD(didInstance->guidProduct.Data1);
+            //uint64_t productId = HIWORD(didInstance->guidProduct.Data1);
         }
     } // namespace input
 } // namespace ouzel
