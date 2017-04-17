@@ -35,6 +35,9 @@ namespace ouzel
             virtual bool isCursorLocked() const override;
 
             virtual void setCursorPosition(const Vector2& position) override;
+            virtual void startGamepadDiscovery() override;
+
+            void handleDeviceConnect(const DIDEVICEINSTANCE* didInstance);
 
         protected:
             InputWin();

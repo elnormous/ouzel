@@ -13,58 +13,57 @@
 #include "GamepadWin.h"
 #include "utils/Log.h"
 
-BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
+static BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
 {
-    IWbemLocator*           pIWbemLocator = NULL;
-    IEnumWbemClassObject*   pEnumDevices = NULL;
-    IWbemClassObject*       pDevices[20] = { 0 };
-    IWbemServices*          pIWbemServices = NULL;
-    BSTR                    bstrNamespace = NULL;
-    BSTR                    bstrDeviceID = NULL;
-    BSTR                    bstrClassName = NULL;
-    DWORD                   uReturned = 0;
-    bool                    bIsXinputDevice = false;
-    UINT                    iDevice = 0;
-    VARIANT                 var;
+    IWbemLocator* iWbemLocator = nullptr;
+    IEnumWbemClassObject* enumDevices = nullptr;
+    IWbemClassObject* devices[20] = { 0 };
+    IWbemServices* iWbemServices = nullptr;
+    BSTR namespaceStr = nullptr;
+    BSTR deviceID = nullptr;
+    BSTR className = nullptr;
+    bool result = false;
 
-    HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), NULL, CLSCTX_INPROC_SERVER,
-        __uuidof(IWbemLocator), (LPVOID*)&pIWbemLocator);
-    if (FAILED(hr) || pIWbemLocator == NULL)
+    HRESULT hr = CoCreateInstance(__uuidof(WbemLocator), nullptr, CLSCTX_INPROC_SERVER,
+        __uuidof(IWbemLocator), (LPVOID*)&iWbemLocator);
+    if (FAILED(hr) || iWbemLocator == nullptr)
         goto cleanup;
 
-    bstrNamespace = SysAllocString(L"\\\\.\\root\\cimv2"); if (bstrNamespace == NULL) goto cleanup;
-    bstrClassName = SysAllocString(L"Win32_PNPEntity");   if (bstrClassName == NULL) goto cleanup;
-    bstrDeviceID = SysAllocString(L"DeviceID");          if (bstrDeviceID == NULL)  goto cleanup;
+    namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
+    if (namespaceStr == nullptr) goto cleanup;
+    className = SysAllocString(L"Win32_PNPEntity");
+    if (className == nullptr) goto cleanup;
+    deviceID = SysAllocString(L"DeviceID");
+    if (deviceID == nullptr)  goto cleanup;
 
-    // Connect to WMI 
-    hr = pIWbemLocator->ConnectServer(bstrNamespace, NULL, NULL, 0L,
-        0L, NULL, NULL, &pIWbemServices);
-    if (FAILED(hr) || pIWbemServices == NULL)
+    hr = iWbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+                                     0L, nullptr, nullptr, &iWbemServices);
+    if (FAILED(hr) || iWbemServices == nullptr)
         goto cleanup;
 
-    // Switch security level to IMPERSONATE. 
-    CoSetProxyBlanket(pIWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
-        RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+    CoSetProxyBlanket(iWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
+                      RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
 
-    hr = pIWbemServices->CreateInstanceEnum(bstrClassName, 0, NULL, &pEnumDevices);
-    if (FAILED(hr) || pEnumDevices == NULL)
+    hr = iWbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices);
+    if (FAILED(hr) || enumDevices == nullptr)
         goto cleanup;
 
-    // Loop over all devices
     for (;;)
     {
+        DWORD returned = 0;
         // Get 20 at a time
-        hr = pEnumDevices->Next(10000, 20, pDevices, &uReturned);
+        hr = enumDevices->Next(10000, 20, devices, &returned);
         if (FAILED(hr))
             goto cleanup;
-        if (uReturned == 0)
+        if (returned == 0)
             break;
 
-        for (iDevice = 0; iDevice < uReturned; iDevice++)
+        for (UINT device = 0; device < returned; device++)
         {
             // For each device, get its device ID
-            hr = pDevices[iDevice]->Get(bstrDeviceID, 0L, &var, NULL, NULL);
-            if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != NULL)
+            VARIANT var;
+            hr = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+            if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
             {
                 // Check if the device ID contains "IG_".  If it does, then it's an XInput device
                 // This information can not be found from DirectInput 
@@ -83,43 +82,41 @@ BOOL isXInputDevice(const GUID* pGuidProductFromDirectInput)
                     DWORD dwVidPid = MAKELONG(dwVid, dwPid);
                     if (dwVidPid == pGuidProductFromDirectInput->Data1)
                     {
-                        bIsXinputDevice = true;
+                        result = true;
                         goto cleanup;
                     }
                 }
             }
-            if (pDevices[iDevice])
+            if (devices[device])
             {
-                pDevices[iDevice]->Release();
-                pDevices[iDevice] = nullptr;
+                devices[device]->Release();
+                devices[device] = nullptr;
             }
         }
     }
 
 cleanup:
-    if (bstrNamespace)
-        SysFreeString(bstrNamespace);
-    if (bstrDeviceID)
-        SysFreeString(bstrDeviceID);
-    if (bstrClassName)
-        SysFreeString(bstrClassName);
-    for (iDevice = 0; iDevice < 20; iDevice++)
+    if (namespaceStr)
+        SysFreeString(namespaceStr);
+    if (deviceID)
+        SysFreeString(deviceID);
+    if (className)
+        SysFreeString(className);
+    for (UINT device = 0; device < 20; device++)
     {
-        if (pDevices[iDevice]) pDevices[iDevice]->Release();
+        if (devices[device]) devices[device]->Release();
     }
-    if (pEnumDevices) pEnumDevices->Release();
-    if (pIWbemLocator) pIWbemLocator->Release();
-    if (pIWbemServices) pIWbemServices->Release();
+    if (enumDevices) enumDevices->Release();
+    if (iWbemLocator) iWbemLocator->Release();
+    if (iWbemServices) iWbemServices->Release();
 
-    return bIsXinputDevice;
+    return result;
 }
 
-BOOL CALLBACK enumJoysticksCallback(const DIDEVICEINSTANCE* pdidInstance, VOID* pContext)
+static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCE* didInstance, VOID* context)
 {
-    if (isXInputDevice(&pdidInstance->guidProduct))
-        return DIENUM_CONTINUE;
-
-    // Device is verified not XInput, so add it to the list of DInput devices
+    ouzel::input::InputWin* inputWin = reinterpret_cast<ouzel::input::InputWin*>(context);
+    inputWin->handleDeviceConnect(didInstance);
 
     return DIENUM_CONTINUE;
 }
@@ -457,6 +454,22 @@ namespace ouzel
                 SetCursorPos(static_cast<int>(p.x),
                              static_cast<int>(p.y));
             });
+        }
+
+        void InputWin::startGamepadDiscovery()
+        {
+            if (FAILED(directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
+            {
+                Log(Log::Level::ERR) << "Failed to enumerate devices";
+            }
+        }
+
+        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCE* didInstance)
+        {
+            if (isXInputDevice(&didInstance->guidProduct))
+            {
+
+            }
         }
     } // namespace input
 } // namespace ouzel
