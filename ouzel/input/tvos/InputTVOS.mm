@@ -52,6 +52,10 @@ namespace ouzel
     {
         InputTVOS::InputTVOS()
         {
+        }
+
+        bool InputIOS::init()
+        {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
             //if GameController framework is available
@@ -72,6 +76,8 @@ namespace ouzel
                     handleGamepadConnected(controller);
                 }
             }
+
+            return true;
         }
 
         void InputTVOS::startGamepadDiscovery()

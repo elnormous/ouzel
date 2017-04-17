@@ -222,6 +222,10 @@ namespace ouzel
 
         InputLinux::InputLinux()
         {
+        }
+
+        bool InputLinux::init()
+        {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
             Display* display = windowLinux->getDisplay();
 
@@ -236,6 +240,8 @@ namespace ouzel
                 emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
                 XFreePixmap(display, pixmap);
             }
+
+            return true;
         }
 
         InputLinux::~InputLinux()

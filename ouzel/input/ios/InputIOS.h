@@ -37,6 +37,7 @@ namespace ouzel
 
         protected:
             InputIOS();
+            virtual bool init() override;
 
             ConnectDelegatePtr connectDelegate = nullptr;
 

@@ -328,6 +328,10 @@ namespace ouzel
     {
         InputRasp::InputRasp()
         {
+        }
+
+        bool InputRasp::init()
+        {
             std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 
@@ -337,12 +341,12 @@ namespace ouzel
             if (result == GLOB_NOMATCH)
             {
                 Log(Log::Level::WARN) << "No event devices found";
-                return;
+                return false;
             }
             else if (result)
             {
                 Log(Log::Level::ERR) << "Could not read /dev/input/event*";
-                return;
+                return false;
             }
 
             for (size_t i = 0; i < g.gl_pathc; i++)
@@ -455,6 +459,8 @@ namespace ouzel
             }
 
             globfree(&g);
+
+            return true;
         }
 
         InputRasp::~InputRasp()
@@ -492,7 +498,7 @@ namespace ouzel
             if (retval == -1)
             {
                 Log(Log::Level::ERR) << "Select failed";
-                return;
+                return false;
             }
             else if (retval > 0)
             {

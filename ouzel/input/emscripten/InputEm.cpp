@@ -216,6 +216,10 @@ namespace ouzel
 
         InputEm::InputEm()
         {
+        }
+
+        bool InputEm::init()
+        {
             emscripten_set_keypress_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keyup_callback(nullptr, this, true, emKeyCallback);
@@ -227,6 +231,8 @@ namespace ouzel
             emscripten_set_wheel_callback("#canvas", this, true, emWheelCallback);
 
             emscripten_set_pointerlockchange_callback(nullptr, this, true, emPointerLockChangeCallback);
+
+            return true;
         }
 
         InputEm::~InputEm()

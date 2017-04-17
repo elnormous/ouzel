@@ -37,6 +37,8 @@ namespace ouzel
 
         protected:
             InputRasp();
+            virtual bool init() override;
+
             uint32_t getModifiers() const;
 
             int maxFd = 0;

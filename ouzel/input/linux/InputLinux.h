@@ -34,6 +34,7 @@ namespace ouzel
 
         protected:
             InputLinux();
+            virtual bool init() override;
 
             bool cursorVisible = true;
             bool cursorLocked = false;

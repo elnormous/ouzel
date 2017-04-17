@@ -37,6 +37,7 @@ namespace ouzel
 
         protected:
             InputTVOS();
+            virtual bool init() override;
 
             ConnectDelegatePtr connectDelegate = nullptr;
 
