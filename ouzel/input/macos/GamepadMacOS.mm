@@ -280,7 +280,7 @@ namespace ouzel
 
                     if (button != GamepadButton::NONE)
                     {
-                        handleButtonValueChange(button, newValue > 0, newValue);
+                        handleButtonValueChange(button, newValue > 0, (newValue > 0) ? 1.0f : 0.0f);
                     }
                 }
                 else if (element.usage == leftThumbXMap)
@@ -388,16 +388,16 @@ namespace ouzel
                     }
 
                     if (newState.dpadLeft != state.dpadLeft) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                     newState.dpadLeft,
+                                                                                     newState.dpadLeft > 0,
                                                                                      (newState.dpadLeft > 0) ? 1.0f : 0.0f);
                     if (newState.dpadRight != state.dpadRight) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                       newState.dpadRight,
+                                                                                       newState.dpadRight > 0,
                                                                                        (newState.dpadRight > 0) ? 1.0f : 0.0f);
                     if (newState.dpadUp != state.dpadUp) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                 newState.dpadUp,
+                                                                                 newState.dpadUp > 0,
                                                                                  (newState.dpadUp > 0) ? 1.0f : 0.0f);
                     if (newState.dpadDown != state.dpadDown) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                     newState.dpadDown,
+                                                                                     newState.dpadDown > 0,
                                                                                      (newState.dpadDown > 0) ? 1.0f : 0.0f);
                 }
 
