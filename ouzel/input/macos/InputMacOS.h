@@ -36,6 +36,7 @@ namespace ouzel
 
         protected:
             InputMacOS();
+            virtual bool init() override;
 
             IOHIDManagerRef hidManager = nullptr;
 

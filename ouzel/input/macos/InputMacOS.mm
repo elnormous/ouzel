@@ -174,6 +174,10 @@ namespace ouzel
 
         InputMacOS::InputMacOS()
         {
+        }
+
+        bool InputMacOS::init()
+        {
             NSArray* criteria = @[
                                   @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
                                       @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_Joystick) },
@@ -192,6 +196,7 @@ namespace ouzel
                 IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
                 CFRelease(hidManager);
                 Log(Log::Level::ERR) << "Failed to initialize manager";
+                return false;
             }
             else
             {
@@ -199,6 +204,8 @@ namespace ouzel
                 IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
                 IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
             }
+
+            return true;
         }
 
         void InputMacOS::setCursorVisible(bool visible)

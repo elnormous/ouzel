@@ -334,6 +334,7 @@ namespace ouzel
             if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
             {
                 Log(Log::Level::ERR) << "Failed to initialize DirectInput";
+                return false;
             }
 
             return true;
