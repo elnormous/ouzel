@@ -254,6 +254,7 @@ namespace ouzel
 
         protected:
             Input();
+            virtual bool init();
 
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];

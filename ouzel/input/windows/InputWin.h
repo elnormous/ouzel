@@ -3,7 +3,10 @@
 
 #pragma once
 
+#define NOMINMAX
 #include <memory>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
 #include <xinput.h>
 #include "input/Input.h"
 
@@ -17,6 +20,8 @@ namespace ouzel
         {
             friend Engine;
         public:
+            virtual ~InputWin();
+
             static KeyboardKey convertKeyCode(WPARAM wParam);
             static uint32_t getKeyboardModifiers(WPARAM wParam);
             static uint32_t getMouseModifiers(WPARAM wParam);
@@ -33,7 +38,9 @@ namespace ouzel
 
         protected:
             InputWin();
+            virtual bool init() override;
 
+            IDirectInput* directInput = nullptr;
             GamepadWin* gamepadsWin[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;

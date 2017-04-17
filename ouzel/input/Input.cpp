@@ -22,6 +22,11 @@ namespace ouzel
         {
         }
 
+        bool Input::init()
+        {
+            return true;
+        }
+
         void Input::setCursorVisible(bool)
         {
         }

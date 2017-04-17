@@ -3,7 +3,6 @@
 
 #include "GamepadWin.h"
 #include "core/Engine.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

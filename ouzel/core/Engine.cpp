@@ -362,6 +362,11 @@ namespace ouzel
         input.reset(new input::Input());
 #endif
 
+        if (!input->init())
+        {
+            return false;
+        }
+
         active = true;
         running = true;
 
