@@ -103,6 +103,18 @@ namespace ouzel
 
             if (dirty)
             {
+                if (pixelShader)
+                {
+                    [pixelShader release];
+                    pixelShader = Nil;
+                }
+
+                if (vertexShader)
+                {
+                    [vertexShader release];
+                    vertexShader = Nil;
+                }
+
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                 uint32_t index = 0;
@@ -133,28 +145,25 @@ namespace ouzel
 
                 NSError* err = Nil;
 
-                if (!pixelShader)
+                dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
+                dispatch_release(pixelShaderDispatchData);
+
+                if (!pixelShaderLibrary || err != Nil)
                 {
-                    dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                    id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
-                    dispatch_release(pixelShaderDispatchData);
+                    if (pixelShaderLibrary) [pixelShaderLibrary release];
+                    Log(Log::Level::ERR) << "Failed to load pixel shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                    return false;
+                }
 
-                    if (!pixelShaderLibrary || err != Nil)
-                    {
-                        if (pixelShaderLibrary) [pixelShaderLibrary release];
-                        Log(Log::Level::ERR) << "Failed to load pixel shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
-                        return false;
-                    }
+                pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pixelShaderFunction.c_str()])];
 
-                    pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pixelShaderFunction.c_str()])];
+                [pixelShaderLibrary release];
 
-                    [pixelShaderLibrary release];
-
-                    if (!pixelShader || err != Nil)
-                    {
-                        Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
-                        return false;
-                    }
+                if (!pixelShader || err != Nil)
+                {
+                    Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                    return false;
                 }
 
                 if (!pixelShaderConstantInfo.empty())
@@ -171,28 +180,25 @@ namespace ouzel
                     }
                 }
 
-                if (!vertexShader)
+                dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+                id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+                dispatch_release(vertexShaderDispatchData);
+
+                if (!vertexShaderLibrary || err != Nil)
                 {
-                    dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                    id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
-                    dispatch_release(vertexShaderDispatchData);
+                    if (vertexShaderLibrary) [vertexShaderLibrary release];
+                    Log(Log::Level::ERR) << "Failed to load vertex shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                    return false;
+                }
 
-                    if (!vertexShaderLibrary || err != Nil)
-                    {
-                        if (vertexShaderLibrary) [vertexShaderLibrary release];
-                        Log(Log::Level::ERR) << "Failed to load vertex shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
-                        return false;
-                    }
+                vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 
-                    vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
+                [vertexShaderLibrary release];
 
-                    [vertexShaderLibrary release];
-
-                    if (!vertexShader || err != Nil)
-                    {
-                        Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ?[err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
-                        return false;
-                    }
+                if (!vertexShader || err != Nil)
+                {
+                    Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ?[err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
+                    return false;
                 }
 
                 if (!vertexShaderConstantInfo.empty())
