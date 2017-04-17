@@ -22,6 +22,8 @@ namespace ouzel
             virtual ~GamepadDI();
             bool update();
 
+            const DIDEVICEINSTANCE* getInstance() const { return instance; }
+
         protected:
             GamepadDI(const DIDEVICEINSTANCE* aInstance);
 

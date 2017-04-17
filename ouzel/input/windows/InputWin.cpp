@@ -479,16 +479,32 @@ namespace ouzel
 
             if (!isXInputDevice)
             {
-                std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance));
-                gamepadsDI.push_back(gamepad.get());
+                bool found = false;
 
-                Event event;
-                event.type = Event::Type::GAMEPAD_CONNECT;
-                event.gamepadEvent.gamepad = gamepad.get();
+                for (auto i = gamepadsDI.begin(); i != gamepadsDI.end();)
+                {
+                    GamepadDI* gamepadDI = *i;
 
-                gamepads.push_back(std::move(gamepad));
+                    if (gamepadDI->getInstance()->guidInstance == didInstance->guidInstance)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                if (!found)
+                {
+                    std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance));
+                    gamepadsDI.push_back(gamepad.get());
+
+                    Event event;
+                    event.type = Event::Type::GAMEPAD_CONNECT;
+                    event.gamepadEvent.gamepad = gamepad.get();
+
+                    gamepads.push_back(std::move(gamepad));
+
+                    sharedEngine->getEventDispatcher()->postEvent(event);
+                }
             }
         }
     } // namespace input
