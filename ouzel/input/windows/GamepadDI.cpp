@@ -34,6 +34,196 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to set DirectInput device format";
                 return;
             }
+
+            if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
+            {
+                buttonMap[0] = GamepadButton::BACK; // Select
+                buttonMap[1] = GamepadButton::LEFT_THUMB; // L3
+                buttonMap[2] = GamepadButton::RIGHT_THUMB; // R3
+                buttonMap[3] = GamepadButton::START; // Start
+                buttonMap[4] = GamepadButton::DPAD_UP;
+                buttonMap[5] = GamepadButton::DPAD_RIGHT;
+                buttonMap[6] = GamepadButton::DPAD_DOWN;
+                buttonMap[7] = GamepadButton::DPAD_LEFT;
+                buttonMap[8] = GamepadButton::LEFT_TRIGGER; // L2
+                buttonMap[9] = GamepadButton::RIGHT_TRIGGER; // R2
+                buttonMap[10] = GamepadButton::LEFT_SHOULDER; // L1
+                buttonMap[11] = GamepadButton::RIGHT_SHOULDER; // R1
+                buttonMap[12] = GamepadButton::FACE4; // Triangle
+                buttonMap[13] = GamepadButton::FACE2; // Circle
+                buttonMap[14] = GamepadButton::FACE1; // Cross
+                buttonMap[15] = GamepadButton::FACE3; // Square
+
+                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
+                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
+                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
+                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
+                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
+                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+            }
+            else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
+            {
+                buttonMap[0] = GamepadButton::FACE3; // Square
+                buttonMap[1] = GamepadButton::FACE1; // Cross
+                buttonMap[2] = GamepadButton::FACE2; // Circle
+                buttonMap[3] = GamepadButton::FACE4; // Triangle
+                buttonMap[4] = GamepadButton::LEFT_SHOULDER; // L1
+                buttonMap[5] = GamepadButton::RIGHT_SHOULDER; // R1
+                buttonMap[6] = GamepadButton::LEFT_TRIGGER; // L2
+                buttonMap[7] = GamepadButton::RIGHT_TRIGGER; // R2
+                buttonMap[8] = GamepadButton::BACK; // Share
+                buttonMap[9] = GamepadButton::START; // Options
+                buttonMap[10] = GamepadButton::LEFT_THUMB; // L3
+                buttonMap[11] = GamepadButton::RIGHT_THUMB; // R3
+
+                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
+                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
+                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
+                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
+                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
+                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+            }
+            else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
+            {
+                buttonMap[0] = GamepadButton::FACE1; // A
+                buttonMap[1] = GamepadButton::FACE2; // B
+                buttonMap[2] = GamepadButton::FACE3; // X
+                buttonMap[3] = GamepadButton::FACE4; // Y
+                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
+                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
+                buttonMap[6] = GamepadButton::LEFT_THUMB;
+                buttonMap[7] = GamepadButton::RIGHT_THUMB;
+                buttonMap[8] = GamepadButton::BACK; // Menu
+                buttonMap[9] = GamepadButton::START; // View
+                buttonMap[11] = GamepadButton::DPAD_UP;
+                buttonMap[12] = GamepadButton::DPAD_DOWN;
+                buttonMap[13] = GamepadButton::DPAD_LEFT;
+                buttonMap[14] = GamepadButton::DPAD_RIGHT;
+
+                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
+                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
+                leftTriggerMap = offsetof(DIJOYSTATE2, lRy);
+                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
+                rightThumbYMap = offsetof(DIJOYSTATE2, lRx);
+                rightTriggerMap = offsetof(DIJOYSTATE2, lRz);
+            }
+            else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
+                (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
+                (vendorId == 0x1BAD && productId == 0xF900) || // AfterglowGamepadforXbox360
+                (vendorId == 0x0738 && productId == 0xCB29) || // AviatorforXbox360PC
+                (vendorId == 0x15E4 && productId == 0x3F10) || // BatarangwiredcontrollerXBOX
+                (vendorId == 0x146B && productId == 0x0601) || // BigbenControllerBB7201
+                (vendorId == 0x0738 && productId == 0xF401) || // Controller
+                (vendorId == 0x0E6F && productId == 0xF501) || // Controller
+                (vendorId == 0x1430 && productId == 0xF801) || // Controller
+                (vendorId == 0x1BAD && productId == 0x028E) || // Controller
+                (vendorId == 0x1BAD && productId == 0xFA01) || // Controller
+                (vendorId == 0x12AB && productId == 0x0004) || // DDRUniverse2Mat
+                (vendorId == 0x24C6 && productId == 0x5B00) || // Ferrari458Racingwheel
+                (vendorId == 0x1430 && productId == 0x4734) || // GH4Guitar
+                (vendorId == 0x046D && productId == 0xC21D) || // GamepadF310
+                (vendorId == 0x0E6F && productId == 0x0301) || // GamepadforXbox360
+                (vendorId == 0x0E6F && productId == 0x0401) || // GamepadforXbox360Z
+                (vendorId == 0x12AB && productId == 0x0302) || // GamepadforXbox360ZZ
+                (vendorId == 0x1BAD && productId == 0xF902) || // GamepadforXbox360ZZZ
+                (vendorId == 0x1BAD && productId == 0xF901) || // GamestopXbox360Controller
+                (vendorId == 0x1430 && productId == 0x474C) || // GuitarHeroforPCMAC
+                (vendorId == 0x1BAD && productId == 0xF501) || // HORIPADEX2TURBO
+                (vendorId == 0x1BAD && productId == 0x0003) || // HarmonixDrumKitforXbox360
+                (vendorId == 0x1BAD && productId == 0x0002) || // HarmonixGuitarforXbox360
+                (vendorId == 0x0F0D && productId == 0x000A) || // HoriCoDOA4FightStick
+                (vendorId == 0x0F0D && productId == 0x000D) || // HoriFightingStickEx2
+                (vendorId == 0x0F0D && productId == 0x0016) || // HoriRealArcadeProEx
+                (vendorId == 0x24C6 && productId == 0x5501) || // HoriRealArcadeProVXSA
+                (vendorId == 0x24C6 && productId == 0x5506) || // HoriSOULCALIBURVStick
+                (vendorId == 0x1BAD && productId == 0xF02D) || // JoytechNeoSe
+                (vendorId == 0x162E && productId == 0xBEEF) || // JoytechNeoSeTake2
+                (vendorId == 0x046D && productId == 0xC242) || // LogitechChillStream
+                (vendorId == 0x046D && productId == 0xC21E) || // LogitechF510
+                (vendorId == 0x1BAD && productId == 0xFD01) || // MadCatz360
+                (vendorId == 0x0738 && productId == 0x4740) || // MadCatzBeatPad
+                (vendorId == 0x1BAD && productId == 0xF025) || // MadCatzCallofDutyGamePad
+                (vendorId == 0x1BAD && productId == 0xF027) || // MadCatzFPSProGamePad
+                (vendorId == 0x1BAD && productId == 0xF021) || // MadCatzGhostReconFSGamePad
+                (vendorId == 0x0738 && productId == 0x4736) || // MadCatzMicroConGamePadPro
+                (vendorId == 0x1BAD && productId == 0xF036) || // MadCatzMicroConGamePadProZ
+                (vendorId == 0x0738 && productId == 0x9871) || // MadCatzPortableDrumKit
+                (vendorId == 0x0738 && productId == 0x4728) || // MadCatzStreetFighterIVFightPad
+                (vendorId == 0x0738 && productId == 0x4718) || // MadCatzStreetFighterIVFightStickSE
+                (vendorId == 0x0738 && productId == 0x4716) || // MadCatzXbox360Controller
+                (vendorId == 0x0738 && productId == 0x4726) || // MadCatzXbox360Controller
+                (vendorId == 0x0738 && productId == 0xBEEF) || // MadCatzXbox360Controller
+                (vendorId == 0x1BAD && productId == 0xF016) || // MadCatzXbox360Controller
+                (vendorId == 0x0738 && productId == 0xB726) || // MadCatzXboxcontrollerMW2
+                (vendorId == 0x045E && productId == 0x028E) || // MicrosoftXbox360Controller
+                (vendorId == 0x045E && productId == 0x0719) || // MicrosoftXbox360Controller
+                (vendorId == 0x12AB && productId == 0x0301) || // PDPAFTERGLOWAX1
+                (vendorId == 0x0E6F && productId == 0x0105) || // PDPDancePad
+                (vendorId == 0x0E6F && productId == 0x0201) || // PelicanTSZ360Pad
+                (vendorId == 0x15E4 && productId == 0x3F00) || // PowerAMiniProElite
+                (vendorId == 0x24C6 && productId == 0x5300) || // PowerAMiniProEliteGlow
+                (vendorId == 0x1BAD && productId == 0xF504) || // REALARCADEPROEX
+                (vendorId == 0x1BAD && productId == 0xF502) || // REALARCADEProVX
+                (vendorId == 0x1689 && productId == 0xFD00) || // RazerOnza
+                (vendorId == 0x1689 && productId == 0xFD01) || // RazerOnzaTournamentEdition
+                (vendorId == 0x1430 && productId == 0x4748) || // RedOctaneGuitarHeroXplorer
+                (vendorId == 0x0E6F && productId == 0x011F) || // RockCandyGamepadforXbox360
+                (vendorId == 0x12AB && productId == 0x0006) || // RockRevolutionforXbox360
+                (vendorId == 0x0738 && productId == 0xCB02) || // SaitekCyborgRumblePadPCXbox360
+                (vendorId == 0x0738 && productId == 0xCB03) || // SaitekP3200RumblePadPCXbox360
+                (vendorId == 0x1BAD && productId == 0xF028) || // StreetFighterIVFightPad
+                (vendorId == 0x0738 && productId == 0x4738) || // StreetFighterIVFightStickTE
+                (vendorId == 0x0738 && productId == 0xF738) || // SuperSFIVFightStickTES
+                (vendorId == 0x1BAD && productId == 0xF903) || // TronXbox360controller
+                (vendorId == 0x1BAD && productId == 0x5500) || // USBGamepad
+                (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
+                (vendorId == 0x15E4 && productId == 0x3F0A) || // XboxAirflowiredcontroller
+                (vendorId == 0x0E6F && productId == 0x0401)) // GameStop XBox 360 Controller
+            {
+                buttonMap[0] = GamepadButton::FACE1; // A
+                buttonMap[1] = GamepadButton::FACE2; // B
+                buttonMap[2] = GamepadButton::FACE3; // X
+                buttonMap[3] = GamepadButton::FACE4; // Y
+                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
+                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
+                buttonMap[6] = GamepadButton::LEFT_THUMB;
+                buttonMap[7] = GamepadButton::RIGHT_THUMB;
+                buttonMap[8] = GamepadButton::START;
+                buttonMap[9] = GamepadButton::BACK;
+                buttonMap[11] = GamepadButton::DPAD_UP;
+                buttonMap[12] = GamepadButton::DPAD_DOWN;
+                buttonMap[13] = GamepadButton::DPAD_LEFT;
+                buttonMap[14] = GamepadButton::DPAD_RIGHT;
+
+                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
+                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
+                leftTriggerMap = offsetof(DIJOYSTATE2, lZ);
+                rightThumbXMap = offsetof(DIJOYSTATE2, lRx);
+                rightThumbYMap = offsetof(DIJOYSTATE2, lRy);
+                rightTriggerMap = offsetof(DIJOYSTATE2, lRz);
+            }
+            else // Generic (based on Logitech RumblePad 2)
+            {
+                buttonMap[0] = GamepadButton::FACE3;
+                buttonMap[1] = GamepadButton::FACE1;
+                buttonMap[2] = GamepadButton::FACE2;
+                buttonMap[3] = GamepadButton::FACE4;
+                buttonMap[4] = GamepadButton::LEFT_SHOULDER;
+                buttonMap[5] = GamepadButton::RIGHT_SHOULDER;
+                buttonMap[6] = GamepadButton::LEFT_TRIGGER;
+                buttonMap[7] = GamepadButton::RIGHT_TRIGGER;
+                buttonMap[8] = GamepadButton::BACK;
+                buttonMap[9] = GamepadButton::START;
+                buttonMap[10] = GamepadButton::LEFT_THUMB;
+                buttonMap[11] = GamepadButton::RIGHT_THUMB;
+
+                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
+                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
+                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
+                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
+                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
+                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+            }
         }
 
         GamepadDI::~GamepadDI()
@@ -67,42 +257,16 @@ namespace ouzel
                 return false;
             }
 
-            if (newDIState.rgbButtons[0] != diState.rgbButtons[0]) handleButtonValueChange(GamepadButton::FACE3,
-                                                                                           newDIState.rgbButtons[0] > 0,
-                                                                                           (newDIState.rgbButtons[0] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[1] != diState.rgbButtons[1]) handleButtonValueChange(GamepadButton::FACE1,
-                                                                                           newDIState.rgbButtons[1] > 0,
-                                                                                           (newDIState.rgbButtons[1] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[2] != diState.rgbButtons[2]) handleButtonValueChange(GamepadButton::FACE2,
-                                                                                           newDIState.rgbButtons[2] > 0,
-                                                                                           (newDIState.rgbButtons[2] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[3] != diState.rgbButtons[3]) handleButtonValueChange(GamepadButton::FACE4,
-                                                                                           newDIState.rgbButtons[3] > 0,
-                                                                                           (newDIState.rgbButtons[3] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[4] != diState.rgbButtons[4]) handleButtonValueChange(GamepadButton::LEFT_SHOULDER,
-                                                                                           newDIState.rgbButtons[4] > 0,
-                                                                                           (newDIState.rgbButtons[4] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[5] != diState.rgbButtons[5]) handleButtonValueChange(GamepadButton::RIGHT_SHOULDER,
-                                                                                           newDIState.rgbButtons[5] > 0,
-                                                                                           (newDIState.rgbButtons[5] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[6] != diState.rgbButtons[6]) handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
-                                                                                           newDIState.rgbButtons[6] > 0,
-                                                                                           (newDIState.rgbButtons[6] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[7] != diState.rgbButtons[7]) handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
-                                                                                           newDIState.rgbButtons[7] > 0,
-                                                                                           (newDIState.rgbButtons[7] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[8] != diState.rgbButtons[8]) handleButtonValueChange(GamepadButton::BACK,
-                                                                                           newDIState.rgbButtons[8] > 0,
-                                                                                           (newDIState.rgbButtons[8] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[9] != diState.rgbButtons[9]) handleButtonValueChange(GamepadButton::START,
-                                                                                           newDIState.rgbButtons[9] > 0,
-                                                                                           (newDIState.rgbButtons[9] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[10] != diState.rgbButtons[10]) handleButtonValueChange(GamepadButton::LEFT_THUMB,
-                                                                                             newDIState.rgbButtons[10] > 0,
-                                                                                             (newDIState.rgbButtons[10] > 0) ? 1.0f : 0.0f);
-            if (newDIState.rgbButtons[11] != diState.rgbButtons[11]) handleButtonValueChange(GamepadButton::RIGHT_THUMB,
-                                                                                             newDIState.rgbButtons[11] > 0,
-                                                                                             (newDIState.rgbButtons[11] > 0) ? 1.0f : 0.0f);
+            for (uint32_t i = 0; i < 24; ++i)
+            {
+                if (newDIState.rgbButtons[i] != diState.rgbButtons[i] &&
+                    buttonMap[i] != GamepadButton::NONE)
+                {
+                    handleButtonValueChange(buttonMap[i],
+                                            newDIState.rgbButtons[i] > 0,
+                                            (newDIState.rgbButtons[i] > 0) ? 1.0f : 0.0f);
+                }
+            }
 
             if (newDIState.rgdwPOV[0] != diState.rgdwPOV[0])
             {

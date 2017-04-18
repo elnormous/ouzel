@@ -31,6 +31,14 @@ namespace ouzel
             bool isXInputDevice = false;
             IDirectInputDevice8* device = nullptr;
             DIJOYSTATE2 diState;
+            GamepadButton buttonMap[24];
+
+            size_t leftThumbXMap = 0;
+            size_t leftThumbYMap = 0;
+            size_t leftTriggerMap = 0;
+            size_t rightThumbXMap = 0;
+            size_t rightThumbYMap = 0;
+            size_t rightTriggerMap = 0;
 
             struct State
             {
