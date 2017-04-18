@@ -268,7 +268,7 @@ namespace ouzel
 
             if (i != elements.end())
             {
-                State newState;
+                State newState = state;
 
                 const Element& element = i->second;
 
@@ -332,73 +332,73 @@ namespace ouzel
                     switch (newValue)
                     {
                         case 0:
-                            newState.dpadLeft = 0;
-                            newState.dpadRight = 0;
-                            newState.dpadUp = 1;
-                            newState.dpadDown = 0;
+                            newState.dpadLeft = false;
+                            newState.dpadRight = false;
+                            newState.dpadUp = true;
+                            newState.dpadDown = false;
                             break;
                         case 1:
-                            newState.dpadLeft = 0;
-                            newState.dpadRight = 1;
-                            newState.dpadUp = 1;
-                            newState.dpadDown = 0;
+                            newState.dpadLeft = false;
+                            newState.dpadRight = true;
+                            newState.dpadUp = true;
+                            newState.dpadDown = false;
                             break;
                         case 2:
-                            newState.dpadLeft = 0;
-                            newState.dpadRight = 1;
-                            newState.dpadUp = 0;
-                            newState.dpadDown = 0;
+                            newState.dpadLeft = false;
+                            newState.dpadRight = true;
+                            newState.dpadUp = false;
+                            newState.dpadDown = false;
                             break;
                         case 3:
-                            newState.dpadLeft = 0;
-                            newState.dpadRight = 1;
-                            newState.dpadUp = 0;
-                            newState.dpadDown = 1;
+                            newState.dpadLeft = false;
+                            newState.dpadRight = true;
+                            newState.dpadUp = false;
+                            newState.dpadDown = true;
                             break;
                         case 4:
-                            newState.dpadLeft = 0;
-                            newState.dpadRight = 0;
-                            newState.dpadUp = 0;
-                            newState.dpadDown = 1;
+                            newState.dpadLeft = false;
+                            newState.dpadRight = false;
+                            newState.dpadUp = false;
+                            newState.dpadDown = true;
                             break;
                         case 5:
-                            newState.dpadLeft = 1;
-                            newState.dpadRight = 0;
-                            newState.dpadUp = 0;
-                            newState.dpadDown = 1;
+                            newState.dpadLeft = true;
+                            newState.dpadRight = false;
+                            newState.dpadUp = false;
+                            newState.dpadDown = true;
                             break;
                         case 6:
-                            newState.dpadLeft = 1;
-                            newState.dpadRight = 0;
-                            newState.dpadUp = 0;
-                            newState.dpadDown = 0;
+                            newState.dpadLeft = true;
+                            newState.dpadRight = false;
+                            newState.dpadUp = false;
+                            newState.dpadDown = false;
                             break;
                         case 7:
-                            newState.dpadLeft = 1;
-                            newState.dpadRight = 0;
-                            newState.dpadUp = 1;
-                            newState.dpadDown = 0;
+                            newState.dpadLeft = true;
+                            newState.dpadRight = false;
+                            newState.dpadUp = true;
+                            newState.dpadDown = false;
                             break;
                         case 8:
-                            newState.dpadLeft = false; // left
-                            newState.dpadRight = false; // right
-                            newState.dpadUp = false; // up
-                            newState.dpadDown = false; // down
+                            newState.dpadLeft = false;
+                            newState.dpadRight = false;
+                            newState.dpadUp = false;
+                            newState.dpadDown = false;
                             break;
                     }
 
                     if (newState.dpadLeft != state.dpadLeft) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                     newState.dpadLeft > 0,
-                                                                                     (newState.dpadLeft > 0) ? 1.0f : 0.0f);
+                                                                                     newState.dpadLeft,
+                                                                                     newState.dpadLeft ? 1.0f : 0.0f);
                     if (newState.dpadRight != state.dpadRight) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                       newState.dpadRight > 0,
-                                                                                       (newState.dpadRight > 0) ? 1.0f : 0.0f);
+                                                                                       newState.dpadRight,
+                                                                                       newState.dpadRight ? 1.0f : 0.0f);
                     if (newState.dpadUp != state.dpadUp) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                 newState.dpadUp > 0,
-                                                                                 (newState.dpadUp > 0) ? 1.0f : 0.0f);
+                                                                                 newState.dpadUp,
+                                                                                 newState.dpadUp ? 1.0f : 0.0f);
                     if (newState.dpadDown != state.dpadDown) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                     newState.dpadDown > 0,
-                                                                                     (newState.dpadDown > 0) ? 1.0f : 0.0f);
+                                                                                     newState.dpadDown,
+                                                                                     newState.dpadDown ? 1.0f : 0.0f);
                 }
 
                 state = newState;

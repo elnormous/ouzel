@@ -58,10 +58,10 @@ namespace ouzel
 
             struct State
             {
-                int64_t dpadLeft = 0;
-                int64_t dpadRight = 0;
-                int64_t dpadUp = 0;
-                int64_t dpadDown = 0;
+                bool dpadLeft = false;
+                bool dpadRight = false;
+                bool dpadUp = false;
+                bool dpadDown = false;
                 int64_t leftThumbX = 0;
                 int64_t leftThumbY = 0;
                 int64_t rightThumbX = 0;
