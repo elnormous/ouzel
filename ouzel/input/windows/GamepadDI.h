@@ -30,7 +30,17 @@ namespace ouzel
             const DIDEVICEINSTANCE* instance = nullptr;
             bool isXInputDevice = false;
             IDirectInputDevice8* device = nullptr;
-            DIJOYSTATE2 state;
+            DIJOYSTATE2 diState;
+
+            struct State
+            {
+                bool dpadLeft = false;
+                bool dpadRight = false;
+                bool dpadUp = false;
+                bool dpadDown = false;
+            };
+
+            State state;
         };
     } // namespace input
 } // namespace ouzel
