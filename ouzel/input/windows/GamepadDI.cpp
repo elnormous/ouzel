@@ -107,8 +107,17 @@ namespace ouzel
             if (newDIState.rgdwPOV[0] != diState.rgdwPOV[0])
             {
                 State newState = state;
+                uint32_t hatValue = static_cast<uint32_t>(newDIState.rgdwPOV[0]);
+                if (hatValue == 0xffffffff) hatValue = 8;
+                else
+                {
+                    // round up
+                    hatValue += 4500 / 2;
+                    hatValue %= 36000;
+                    hatValue /= 4500;
+                }
 
-                switch (newDIState.rgdwPOV[0])
+                switch (hatValue)
                 {
                     case 0:
                         newState.dpadLeft = false;
@@ -116,49 +125,49 @@ namespace ouzel
                         newState.dpadUp = true;
                         newState.dpadDown = false;
                         break;
-                    case 4500:
+                    case 1:
                         newState.dpadLeft = false;
                         newState.dpadRight = true;
                         newState.dpadUp = true;
                         newState.dpadDown = false;
                         break;
-                    case 9000:
+                    case 2:
                         newState.dpadLeft = false;
                         newState.dpadRight = true;
                         newState.dpadUp = false;
                         newState.dpadDown = false;
                         break;
-                    case 13500:
+                    case 3:
                         newState.dpadLeft = false;
                         newState.dpadRight = true;
                         newState.dpadUp = false;
                         newState.dpadDown = true;
                         break;
-                    case 18000:
+                    case 4:
                         newState.dpadLeft = false;
                         newState.dpadRight = false;
                         newState.dpadUp = false;
                         newState.dpadDown = true;
                         break;
-                    case 22500:
+                    case 5:
                         newState.dpadLeft = true;
                         newState.dpadRight = false;
                         newState.dpadUp = false;
                         newState.dpadDown = true;
                         break;
-                    case 27000:
+                    case 6:
                         newState.dpadLeft = true;
                         newState.dpadRight = false;
                         newState.dpadUp = false;
                         newState.dpadDown = false;
                         break;
-                    case 31500:
+                    case 7:
                         newState.dpadLeft = true;
                         newState.dpadRight = false;
                         newState.dpadUp = true;
                         newState.dpadDown = false;
                         break;
-                    case 0xFFFFFFFF:
+                    case 8:
                         newState.dpadLeft = false;
                         newState.dpadRight = false;
                         newState.dpadUp = false;
