@@ -23,9 +23,13 @@ namespace ouzel
             bool update();
 
             const DIDEVICEINSTANCE* getInstance() const { return instance; }
+            IDirectInputDevice8* getDevice() const { return device; }
 
         protected:
             GamepadDI(const DIDEVICEINSTANCE* aInstance);
+            void checkThumbAxisChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
+                                      size_t offset, int64_t min, int64_t max,
+                                      GamepadButton negativeButton, GamepadButton positiveButton);
 
             const DIDEVICEINSTANCE* instance = nullptr;
             bool isXInputDevice = false;
@@ -33,12 +37,12 @@ namespace ouzel
             DIJOYSTATE2 diState;
             GamepadButton buttonMap[24];
 
-            size_t leftThumbXMap = 0;
-            size_t leftThumbYMap = 0;
-            size_t leftTriggerMap = 0;
-            size_t rightThumbXMap = 0;
-            size_t rightThumbYMap = 0;
-            size_t rightTriggerMap = 0;
+            size_t leftThumbXMap = 0xFFFFFFFF;
+            size_t leftThumbYMap = 0xFFFFFFFF;
+            size_t leftTriggerMap = 0xFFFFFFFF;
+            size_t rightThumbXMap = 0xFFFFFFFF;
+            size_t rightThumbYMap = 0xFFFFFFFF;
+            size_t rightTriggerMap = 0xFFFFFFFF;
 
             struct State
             {

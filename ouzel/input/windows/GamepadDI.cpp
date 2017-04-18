@@ -6,13 +6,36 @@
 #include "core/Engine.h"
 #include "utils/Log.h"
 
+static const int32_t MIN_THUMB_VALUE = -32768;
+static const int32_t MAX_THUMB_VALUE = 32767;
+static const float THUMB_DEADZONE = 0.2f;
+
+BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstance, VOID* context)
+{
+    ouzel::input::GamepadDI* gamepadDI = static_cast<ouzel::input::GamepadDI*>(context);
+
+    if (didObjectInstance->dwType & DIDFT_AXIS)
+    {
+        DIPROPRANGE diprg;
+        diprg.diph.dwSize = sizeof(DIPROPRANGE);
+        diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+        diprg.diph.dwHow = DIPH_BYID;
+        diprg.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
+        diprg.lMin = MIN_THUMB_VALUE;
+        diprg.lMax = MAX_THUMB_VALUE;
+
+        // Set the range for the axis
+        if (FAILED(gamepadDI->getDevice()->SetProperty(DIPROP_RANGE, &diprg.diph)))
+            return DIENUM_STOP;
+    }
+
+    return DIENUM_CONTINUE;
+}
+
 namespace ouzel
 {
     namespace input
     {
-        static const int32_t MAX_THUMB_VALUE = 32767;
-        static const int32_t MIN_THUMB_VALUE = -32768;
-
         GamepadDI::GamepadDI(const DIDEVICEINSTANCE* aInstance):
             instance(aInstance)
         {
@@ -32,6 +55,12 @@ namespace ouzel
             if (FAILED(device->SetDataFormat(&c_dfDIJoystick2)))
             {
                 Log(Log::Level::ERR) << "Failed to set DirectInput device format";
+                return;
+            }
+
+            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
+            {
+                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
                 return;
             }
 
@@ -355,9 +384,67 @@ namespace ouzel
                 state = newState;
             }
 
+            if (leftThumbXMap != 0xFFFFFFFF)
+            {
+                checkThumbAxisChange(diState, newDIState, leftThumbXMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                                     GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+            }
+            if (leftThumbYMap != 0xFFFFFFFF)
+            {
+                checkThumbAxisChange(diState, newDIState, leftThumbYMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                                     GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
+            }
+            if (rightThumbXMap != 0xFFFFFFFF)
+            {
+                checkThumbAxisChange(diState, newDIState, rightThumbXMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                                     GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+            }
+            if (rightThumbYMap != 0xFFFFFFFF)
+            {
+                checkThumbAxisChange(diState, newDIState, rightThumbYMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                                     GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+            }
+
             diState = newDIState;
 
             return true;
+        }
+
+        void GamepadDI::checkThumbAxisChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
+                                             size_t offset, int64_t min, int64_t max,
+                                             GamepadButton negativeButton, GamepadButton positiveButton)
+        {
+            LONG oldValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&oldState) + offset);
+            LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newState) + offset);
+
+            if (oldValue != newValue)
+            {
+                float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+
+                if (floatValue > 0.0f)
+                {
+                    handleButtonValueChange(positiveButton,
+                        floatValue > THUMB_DEADZONE,
+                        floatValue);
+                }
+                else if (floatValue < 0.0f)
+                {
+                    handleButtonValueChange(negativeButton,
+                        -floatValue > THUMB_DEADZONE,
+                        -floatValue);
+                }
+                else // thumbstick is 0
+                {
+                    if (oldValue > newValue)
+                    {
+                        handleButtonValueChange(positiveButton, false, 0.0f);
+                    }
+                    else
+                    {
+                        handleButtonValueChange(negativeButton, false, 0.0f);
+                    }
+                }
+            }
         }
     } // namespace input
 } // namespace ouzel
