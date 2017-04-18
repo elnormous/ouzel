@@ -28,8 +28,6 @@ namespace ouzel
 
             void handleInput(IOHIDValueRef value);
 
-            const GamepadButton* getButtonMap() const { return usageMap; }
-
         protected:
             GamepadMacOS(IOHIDDeviceRef aDevice);
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
