@@ -176,6 +176,15 @@ namespace ouzel
         {
         }
 
+        InputMacOS::~InputMacOS()
+        {
+            if (hidManager)
+            {
+                IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
+                CFRelease(hidManager);
+            }
+        }
+
         bool InputMacOS::init()
         {
             NSArray* criteria = @[
@@ -193,8 +202,6 @@ namespace ouzel
             IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
             {
-                IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
-                CFRelease(hidManager);
                 Log(Log::Level::ERR) << "Failed to initialize manager";
                 return false;
             }
