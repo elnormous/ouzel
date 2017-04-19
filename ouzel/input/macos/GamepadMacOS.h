@@ -24,8 +24,6 @@ namespace ouzel
         {
             friend InputMacOS;
         public:
-            virtual ~GamepadMacOS();
-
             IOHIDDeviceRef getDevice() const { return device; }
 
             void handleInput(IOHIDValueRef value);

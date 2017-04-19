@@ -27,6 +27,8 @@ namespace ouzel
                 float value = 0.0f;
             };
 
+            virtual ~Gamepad();
+
             const std::string& getName() const { return name; }
             uint64_t getVendorId() const { return vendorId; }
             uint64_t getProductId() const { return productId; }

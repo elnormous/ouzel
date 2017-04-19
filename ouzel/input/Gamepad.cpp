@@ -15,6 +15,10 @@ namespace ouzel
         {
         }
 
+        Gamepad::~Gamepad()
+        {
+        }
+
         void Gamepad::setAbsoluteDpadValues(bool)
         {
         }

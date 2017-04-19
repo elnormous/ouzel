@@ -266,14 +266,6 @@ namespace ouzel
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
         }
 
-        GamepadMacOS::~GamepadMacOS()
-        {
-            if (IOHIDDeviceClose(device, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
-            {
-                Log(Log::Level::ERR) << "Failed to close HID device";
-            }
-        }
-
         void GamepadMacOS::handleInput(IOHIDValueRef value)
         {
             IOHIDElementRef elementRef = IOHIDValueGetElement(value);
