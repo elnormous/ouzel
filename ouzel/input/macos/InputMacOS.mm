@@ -188,19 +188,15 @@ namespace ouzel
         bool InputMacOS::init()
         {
             NSArray* criteria = @[
-                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
-                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_Joystick) },
-                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
-                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_GamePad) },
-                                  @{ @kIOHIDDeviceUsagePageKey : @(kHIDPage_GenericDesktop),
-                                      @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_MultiAxisController) }
+                                  @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_Joystick)},
+                                  @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_GamePad)},
+                                  @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey : @(kHIDUsage_GD_MultiAxisController)}
                                   ];
 
             hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
-            IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
-            if (ret != kIOReturnSuccess)
+            if (IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to initialize manager";
                 return false;
