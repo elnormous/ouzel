@@ -6,8 +6,8 @@
 #include "core/Engine.h"
 #include "utils/Log.h"
 
-static const int32_t MIN_THUMB_VALUE = -32768;
-static const int32_t MAX_THUMB_VALUE = 32767;
+static const int32_t MIN_AXIS_VALUE = -32768;
+static const int32_t MAX_AXIS_VALUE = 32767;
 static const float THUMB_DEADZONE = 0.2f;
 
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstance, VOID* context)
@@ -21,8 +21,8 @@ BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstanc
         diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
         diprg.diph.dwHow = DIPH_BYID;
         diprg.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
-        diprg.lMin = MIN_THUMB_VALUE;
-        diprg.lMax = MAX_THUMB_VALUE;
+        diprg.lMin = MIN_AXIS_VALUE;
+        diprg.lMax = MAX_AXIS_VALUE;
 
         // Set the range for the axis
         if (FAILED(gamepadDI->getDevice()->SetProperty(DIPROP_RANGE, &diprg.diph)))
@@ -386,23 +386,33 @@ namespace ouzel
 
             if (leftThumbXMap != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbXMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                checkThumbAxisChange(diState, newDIState, leftThumbXMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
             }
             if (leftThumbYMap != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbYMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                checkThumbAxisChange(diState, newDIState, leftThumbYMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
             }
             if (rightThumbXMap != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbXMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                checkThumbAxisChange(diState, newDIState, rightThumbXMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
             }
             if (rightThumbYMap != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbYMap, MIN_THUMB_VALUE, MAX_THUMB_VALUE,
+                checkThumbAxisChange(diState, newDIState, rightThumbYMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+            }
+            if (leftTriggerMap != 0xFFFFFFFF)
+            {
+                checkTriggerChange(diState, newDIState, leftTriggerMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                   GamepadButton::LEFT_TRIGGER);
+            }
+            if (rightTriggerMap != 0xFFFFFFFF)
+            {
+                checkTriggerChange(diState, newDIState, rightTriggerMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                   GamepadButton::RIGHT_TRIGGER);
             }
 
             diState = newDIState;
@@ -444,6 +454,23 @@ namespace ouzel
                         handleButtonValueChange(negativeButton, false, 0.0f);
                     }
                 }
+            }
+        }
+
+        void GamepadDI::checkTriggerChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
+                                           size_t offset, int64_t min, int64_t max,
+                                           GamepadButton button)
+        {
+            LONG oldValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&oldState) + offset);
+            LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newState) + offset);
+
+            if (oldValue != newValue)
+            {
+                float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+
+                handleButtonValueChange(button,
+                                        floatValue > 0.0f,
+                                        floatValue);
             }
         }
     } // namespace input
