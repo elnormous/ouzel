@@ -244,20 +244,19 @@ namespace ouzel
 
             for (CFIndex i = 0; i < CFArrayGetCount(elementArray); i++)
             {
-                IOHIDElementRef elementRef = (IOHIDElementRef)CFArrayGetValueAtIndex(elementArray, i);
-
                 Element element;
-                element.type = IOHIDElementGetType(elementRef);
-                element.usagePage = IOHIDElementGetUsagePage(elementRef);
-                element.usage = IOHIDElementGetUsage(elementRef);
+                element.element = (IOHIDElementRef)CFArrayGetValueAtIndex(elementArray, i);
+                element.type = IOHIDElementGetType(element.element);
+                element.usagePage = IOHIDElementGetUsagePage(element.element);
+                element.usage = IOHIDElementGetUsage(element.element);
 
                 if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage < 24) ||
                     ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
                 {
-                    element.min = IOHIDElementGetLogicalMin(elementRef);
-                    element.max = IOHIDElementGetLogicalMax(elementRef);
+                    element.min = IOHIDElementGetLogicalMin(element.element);
+                    element.max = IOHIDElementGetLogicalMax(element.element);
 
-                    elements.insert(std::make_pair(elementRef, element));
+                    elements.insert(std::make_pair(element.element, element));
                 }
             }
             

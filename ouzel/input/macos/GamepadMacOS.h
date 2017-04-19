@@ -45,6 +45,7 @@ namespace ouzel
 
             struct Element
             {
+                IOHIDElementRef element;
                 uint32_t type;
                 uint32_t usagePage;
                 uint32_t usage;
