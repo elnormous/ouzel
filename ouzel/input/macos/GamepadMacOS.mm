@@ -24,6 +24,12 @@ namespace ouzel
         GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
+            if (IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+            {
+                Log(Log::Level::ERR) << "Failed to open HID device";
+                return;
+            }
+
             NSString* productName = (NSString*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
             if (productName)
             {
@@ -258,6 +264,14 @@ namespace ouzel
             CFRelease(elementArray);
 
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
+        }
+
+        GamepadMacOS::~GamepadMacOS()
+        {
+            if (IOHIDDeviceClose(device, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+            {
+                Log(Log::Level::ERR) << "Failed to close HID device";
+            }
         }
 
         void GamepadMacOS::handleInput(IOHIDValueRef value)
