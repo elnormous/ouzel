@@ -299,9 +299,20 @@ namespace ouzel
 
             if (newDIState.rgdwPOV[0] != diState.rgdwPOV[0])
             {
-                State newState = state;
+                uint32_t oldHatValue = static_cast<uint32_t>(diState.rgdwPOV[0]);
+                if (oldHatValue == 0xffffffff)
+                    oldHatValue = 8;
+                else
+                {
+                    // round up
+                    oldHatValue += 4500 / 2;
+                    oldHatValue %= 36000;
+                    oldHatValue /= 4500;
+                }
+
                 uint32_t hatValue = static_cast<uint32_t>(newDIState.rgdwPOV[0]);
-                if (hatValue == 0xffffffff) hatValue = 8;
+                if (hatValue == 0xffffffff)
+                    hatValue = 8;
                 else
                 {
                     // round up
@@ -310,78 +321,24 @@ namespace ouzel
                     hatValue /= 4500;
                 }
 
-                switch (hatValue)
-                {
-                    case 0:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = false;
-                        newState.dpadUp = true;
-                        newState.dpadDown = false;
-                        break;
-                    case 1:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = true;
-                        newState.dpadUp = true;
-                        newState.dpadDown = false;
-                        break;
-                    case 2:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = true;
-                        newState.dpadUp = false;
-                        newState.dpadDown = false;
-                        break;
-                    case 3:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = true;
-                        newState.dpadUp = false;
-                        newState.dpadDown = true;
-                        break;
-                    case 4:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = false;
-                        newState.dpadUp = false;
-                        newState.dpadDown = true;
-                        break;
-                    case 5:
-                        newState.dpadLeft = true;
-                        newState.dpadRight = false;
-                        newState.dpadUp = false;
-                        newState.dpadDown = true;
-                        break;
-                    case 6:
-                        newState.dpadLeft = true;
-                        newState.dpadRight = false;
-                        newState.dpadUp = false;
-                        newState.dpadDown = false;
-                        break;
-                    case 7:
-                        newState.dpadLeft = true;
-                        newState.dpadRight = false;
-                        newState.dpadUp = true;
-                        newState.dpadDown = false;
-                        break;
-                    case 8:
-                        newState.dpadLeft = false;
-                        newState.dpadRight = false;
-                        newState.dpadUp = false;
-                        newState.dpadDown = false;
-                        break;
-                }
+                uint32_t bitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                    (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
 
-                if (newState.dpadLeft != state.dpadLeft) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                 newState.dpadLeft,
-                                                                                 newState.dpadLeft ? 1.0f : 0.0f);
-                if (newState.dpadRight != state.dpadRight) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                   newState.dpadRight,
-                                                                                   newState.dpadRight ? 1.0f : 0.0f);
-                if (newState.dpadUp != state.dpadUp) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                             newState.dpadUp,
-                                                                             newState.dpadUp ? 1.0f : 0.0f);
-                if (newState.dpadDown != state.dpadDown) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                 newState.dpadDown,
-                                                                                 newState.dpadDown ? 1.0f : 0.0f);
+                uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
+                    (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
-                state = newState;
+                if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
+                                                                                     (newBitmask & 0x01),
+                                                                                     (newBitmask & 0x01) ? 1.0f : 0.0f);
+                if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                                                                                     (newBitmask & 0x02),
+                                                                                     (newBitmask & 0x02) ? 1.0f : 0.0f);
+                if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                                                                                     (newBitmask & 0x04),
+                                                                                     (newBitmask & 0x04) ? 1.0f : 0.0f);
+                if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                                                                                     (newBitmask & 0x08),
+                                                                                     (newBitmask & 0x08) ? 1.0f : 0.0f);
             }
 
             if (leftThumbXMap != 0xFFFFFFFF)

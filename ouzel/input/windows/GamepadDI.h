@@ -46,16 +46,6 @@ namespace ouzel
             size_t rightThumbXMap = 0xFFFFFFFF;
             size_t rightThumbYMap = 0xFFFFFFFF;
             size_t rightTriggerMap = 0xFFFFFFFF;
-
-            struct State
-            {
-                bool dpadLeft = false;
-                bool dpadRight = false;
-                bool dpadUp = false;
-                bool dpadDown = false;
-            };
-
-            State state;
         };
     } // namespace input
 } // namespace ouzel

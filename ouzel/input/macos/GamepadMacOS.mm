@@ -269,13 +269,11 @@ namespace ouzel
         {
             IOHIDElementRef elementRef = IOHIDValueGetElement(value);
 
-            std::map<IOHIDElementRef, Element>::const_iterator i = elements.find(elementRef);
+            std::map<IOHIDElementRef, Element>::iterator i = elements.find(elementRef);
 
             if (i != elements.end())
             {
-                State newState = state;
-
-                const Element& element = i->second;
+                Element& element = i->second;
 
                 CFIndex newValue = IOHIDValueGetIntegerValue(value);
 
@@ -290,17 +288,13 @@ namespace ouzel
                 }
                 else if (element.usage == leftThumbXMap)
                 {
-                    newState.leftThumbX = newValue;
-
-                    handleThumbAxisChange(state.leftThumbX, newState.leftThumbX,
+                    handleThumbAxisChange(element.value, newValue,
                                           element.min, element.max,
                                           GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
                 }
                 else if (element.usage == leftThumbYMap)
                 {
-                    newState.leftThumbY = newValue;
-
-                    handleThumbAxisChange(state.leftThumbY, newState.leftThumbY,
+                    handleThumbAxisChange(element.value, newValue,
                                           element.min, element.max,
                                           GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
                 }
@@ -312,17 +306,13 @@ namespace ouzel
                 }
                 else if (element.usage == rightThumbXMap)
                 {
-                    newState.rightThumbX = newValue;
-
-                    handleThumbAxisChange(state.rightThumbX, newState.rightThumbX,
+                    handleThumbAxisChange(element.value, newValue,
                                           element.min, element.max,
                                           GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
                 }
                 else if (element.usage == rightThumbYMap)
                 {
-                    newState.rightThumbY = newValue;
-
-                    handleThumbAxisChange(state.rightThumbY, newState.rightThumbY,
+                    handleThumbAxisChange(element.value, newValue,
                                           element.min, element.max,
                                           GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
                 }
@@ -334,79 +324,27 @@ namespace ouzel
                 }
                 else if (element.usage == kHIDUsage_GD_Hatswitch)
                 {
-                    switch (newValue)
-                    {
-                        case 0:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = false;
-                            newState.dpadUp = true;
-                            newState.dpadDown = false;
-                            break;
-                        case 1:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = true;
-                            newState.dpadUp = true;
-                            newState.dpadDown = false;
-                            break;
-                        case 2:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = true;
-                            newState.dpadUp = false;
-                            newState.dpadDown = false;
-                            break;
-                        case 3:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = true;
-                            newState.dpadUp = false;
-                            newState.dpadDown = true;
-                            break;
-                        case 4:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = false;
-                            newState.dpadUp = false;
-                            newState.dpadDown = true;
-                            break;
-                        case 5:
-                            newState.dpadLeft = true;
-                            newState.dpadRight = false;
-                            newState.dpadUp = false;
-                            newState.dpadDown = true;
-                            break;
-                        case 6:
-                            newState.dpadLeft = true;
-                            newState.dpadRight = false;
-                            newState.dpadUp = false;
-                            newState.dpadDown = false;
-                            break;
-                        case 7:
-                            newState.dpadLeft = true;
-                            newState.dpadRight = false;
-                            newState.dpadUp = true;
-                            newState.dpadDown = false;
-                            break;
-                        case 8:
-                            newState.dpadLeft = false;
-                            newState.dpadRight = false;
-                            newState.dpadUp = false;
-                            newState.dpadDown = false;
-                            break;
-                    }
+                    uint32_t bitmask = (element.value >= 8) ? 0 : (1 << (element.value / 2)) | // first bit
+                        (1 << (element.value / 2 + element.value % 2)) % 4; // second bit
 
-                    if (newState.dpadLeft != state.dpadLeft) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                     newState.dpadLeft,
-                                                                                     newState.dpadLeft ? 1.0f : 0.0f);
-                    if (newState.dpadRight != state.dpadRight) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                       newState.dpadRight,
-                                                                                       newState.dpadRight ? 1.0f : 0.0f);
-                    if (newState.dpadUp != state.dpadUp) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                 newState.dpadUp,
-                                                                                 newState.dpadUp ? 1.0f : 0.0f);
-                    if (newState.dpadDown != state.dpadDown) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                     newState.dpadDown,
-                                                                                     newState.dpadDown ? 1.0f : 0.0f);
+                    uint32_t newBitmask = (newValue >= 8) ? 0 : (1 << (newValue / 2)) | // first bit
+                        (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
+
+                    if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
+                                                                                         (newBitmask & 0x01),
+                                                                                         (newBitmask & 0x01) ? 1.0f : 0.0f);
+                    if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                                                                                         (newBitmask & 0x02),
+                                                                                         (newBitmask & 0x02) ? 1.0f : 0.0f);
+                    if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                                                                                         (newBitmask & 0x04),
+                                                                                         (newBitmask & 0x04) ? 1.0f : 0.0f);
+                    if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                                                                                         (newBitmask & 0x08),
+                                                                                         (newBitmask & 0x08) ? 1.0f : 0.0f);
                 }
 
-                state = newState;
+                element.value = newValue;
             }
         }
 

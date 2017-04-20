@@ -45,29 +45,16 @@ namespace ouzel
 
             struct Element
             {
-                IOHIDElementRef element;
-                uint32_t type;
-                uint32_t usagePage;
-                uint32_t usage;
-                int64_t min;
-                int64_t max;
+                IOHIDElementRef element = nullptr;
+                uint32_t type = 0;
+                uint32_t usagePage = 0;
+                uint32_t usage = 0;
+                int64_t min = 0;
+                int64_t max = 0;
+                int64_t value = 0;
             };
 
             std::map<IOHIDElementRef, Element> elements;
-
-            struct State
-            {
-                bool dpadLeft = false;
-                bool dpadRight = false;
-                bool dpadUp = false;
-                bool dpadDown = false;
-                int64_t leftThumbX = 0;
-                int64_t leftThumbY = 0;
-                int64_t rightThumbX = 0;
-                int64_t rightThumbY = 0;
-            };
-
-            State state;
         };
     } // namespace input
 } // namespace ouzel
