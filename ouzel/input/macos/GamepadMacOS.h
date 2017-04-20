@@ -35,13 +35,6 @@ namespace ouzel
                                        GamepadButton negativeButton, GamepadButton positiveButton);
 
             IOHIDDeviceRef device = nullptr;
-            GamepadButton usageMap[24];
-            uint32_t leftThumbXMap = 0;
-            uint32_t leftThumbYMap = 0;
-            uint32_t leftTriggerMap = 0;
-            uint32_t rightThumbXMap = 0;
-            uint32_t rightThumbYMap = 0;
-            uint32_t rightTriggerMap = 0;
 
             struct Element
             {
@@ -52,9 +45,17 @@ namespace ouzel
                 int64_t min = 0;
                 int64_t max = 0;
                 int64_t value = 0;
+                GamepadButton button = GamepadButton::NONE;
             };
 
             std::map<IOHIDElementRef, Element> elements;
+
+            IOHIDElementRef leftThumbX = nullptr;
+            IOHIDElementRef leftThumbY = nullptr;
+            IOHIDElementRef leftTrigger = nullptr;
+            IOHIDElementRef rightThumbX = nullptr;
+            IOHIDElementRef rightThumbY = nullptr;
+            IOHIDElementRef rightTrigger = nullptr;
         };
     } // namespace input
 } // namespace ouzel
