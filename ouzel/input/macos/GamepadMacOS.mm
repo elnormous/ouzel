@@ -331,17 +331,17 @@ namespace ouzel
                         (1 << (newValue / 2 + newValue % 2)) % 4; // second bit
 
                     if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                         (newBitmask & 0x01),
-                                                                                         (newBitmask & 0x01) ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x01) > 0,
+                                                                                         (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
                     if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                         (newBitmask & 0x02),
-                                                                                         (newBitmask & 0x02) ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x02) > 0,
+                                                                                         (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
                     if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                         (newBitmask & 0x04),
-                                                                                         (newBitmask & 0x04) ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x04) > 0,
+                                                                                         (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
                     if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                         (newBitmask & 0x08),
-                                                                                         (newBitmask & 0x08) ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x08) > 0,
+                                                                                         (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
                 }
 
                 element.value = newValue;

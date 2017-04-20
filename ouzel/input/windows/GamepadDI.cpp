@@ -39,7 +39,7 @@ namespace ouzel
         GamepadDI::GamepadDI(const DIDEVICEINSTANCE* aInstance):
             instance(aInstance)
         {
-            ZeroMemory(&diState, sizeof(state));
+            ZeroMemory(&diState, sizeof(diState));
 
             vendorId = LOWORD(instance->guidProduct.Data1);
             productId = HIWORD(instance->guidProduct.Data1);
@@ -328,17 +328,17 @@ namespace ouzel
                     (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
 
                 if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
-                                                                                     (newBitmask & 0x01),
-                                                                                     (newBitmask & 0x01) ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x01) > 0,
+                                                                                     (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
                 if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
-                                                                                     (newBitmask & 0x02),
-                                                                                     (newBitmask & 0x02) ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x02) > 0,
+                                                                                     (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
                 if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
-                                                                                     (newBitmask & 0x04),
-                                                                                     (newBitmask & 0x04) ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x04) > 0,
+                                                                                     (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
                 if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
-                                                                                     (newBitmask & 0x08),
-                                                                                     (newBitmask & 0x08) ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x08) > 0,
+                                                                                     (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
             }
 
             if (leftThumbXMap != 0xFFFFFFFF)
