@@ -203,9 +203,9 @@ namespace ouzel
             }
             else
             {
-                IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
                 IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
                 IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
+                IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
             }
 
             return true;
