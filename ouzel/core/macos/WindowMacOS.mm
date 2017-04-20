@@ -110,10 +110,10 @@ namespace ouzel
         }
 
         window  = [[NSWindow alloc] initWithContentRect:frame
-                                               styleMask:windowStyleMask
-                                                 backing:NSBackingStoreBuffered
-                                                   defer:NO
-                                                  screen:screen];
+                                              styleMask:windowStyleMask
+                                                backing:NSBackingStoreBuffered
+                                                  defer:NO
+                                                 screen:screen];
         [window setReleasedWhenClosed:NO];
 
         window.acceptsMouseMovedEvents = YES;
