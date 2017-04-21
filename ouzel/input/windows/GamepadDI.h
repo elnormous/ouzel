@@ -41,12 +41,22 @@ namespace ouzel
             DIJOYSTATE2 diState;
             GamepadButton buttonMap[24];
 
-            size_t leftThumbXMap = 0xFFFFFFFF;
-            size_t leftThumbYMap = 0xFFFFFFFF;
-            size_t leftTriggerMap = 0xFFFFFFFF;
-            size_t rightThumbXMap = 0xFFFFFFFF;
-            size_t rightThumbYMap = 0xFFFFFFFF;
-            size_t rightTriggerMap = 0xFFFFFFFF;
+            const GUID* leftThumbX = nullptr;
+            const GUID* leftThumbY = nullptr;
+            const GUID* leftTrigger = nullptr;
+            const GUID* rightThumbX = nullptr;
+            const GUID* rightThumbY = nullptr;
+            const GUID* rightTrigger = nullptr;
+
+            bool hasLeftTrigger = false;
+            bool hasRightTrigger = false;
+
+            size_t leftThumbXOffset = 0xFFFFFFFF;
+            size_t leftThumbYOffset = 0xFFFFFFFF;
+            size_t leftTriggerOffset = 0xFFFFFFFF;
+            size_t rightThumbXOffset = 0xFFFFFFFF;
+            size_t rightThumbYOffset = 0xFFFFFFFF;
+            size_t rightTriggerOffset = 0xFFFFFFFF;
         };
     } // namespace input
 } // namespace ouzel

@@ -38,18 +38,6 @@ namespace ouzel
                 return;
             }
 
-            if (FAILED(device->SetDataFormat(&c_dfDIJoystick2)))
-            {
-                Log(Log::Level::ERR) << "Failed to set DirectInput device format";
-                return;
-            }
-
-            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
-            {
-                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
-                return;
-            }
-
             if (vendorId == 0x054C && productId == 0x0268) // Playstation 3 controller
             {
                 buttonMap[0] = GamepadButton::BACK; // Select
@@ -69,12 +57,19 @@ namespace ouzel
                 buttonMap[14] = GamepadButton::FACE1; // Cross
                 buttonMap[15] = GamepadButton::FACE3; // Square
 
-                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
-                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
-                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
-                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
-                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
-                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+                leftThumbX = &GUID_XAxis;
+                leftThumbY = &GUID_YAxis;
+                leftTrigger = &GUID_RxAxis;
+                rightThumbX = &GUID_ZAxis;
+                rightThumbY = &GUID_RzAxis;
+                rightTrigger = &GUID_RyAxis;
+
+                leftThumbXOffset = DIJOFS_X;
+                leftThumbYOffset = DIJOFS_Y;
+                leftTriggerOffset = DIJOFS_RX;
+                rightThumbXOffset = DIJOFS_Z;
+                rightThumbYOffset = DIJOFS_RZ;
+                rightTriggerOffset = DIJOFS_RY;
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
@@ -91,12 +86,19 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB; // L3
                 buttonMap[11] = GamepadButton::RIGHT_THUMB; // R3
 
-                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
-                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
-                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
-                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
-                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
-                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+                leftThumbX = &GUID_XAxis;
+                leftThumbY = &GUID_YAxis;
+                leftTrigger = &GUID_RxAxis;
+                rightThumbX = &GUID_ZAxis;
+                rightThumbY = &GUID_RzAxis;
+                rightTrigger = &GUID_RyAxis;
+
+                leftThumbXOffset = DIJOFS_X;
+                leftThumbYOffset = DIJOFS_Y;
+                leftTriggerOffset = DIJOFS_RX;
+                rightThumbXOffset = DIJOFS_Z;
+                rightThumbYOffset = DIJOFS_RZ;
+                rightTriggerOffset = DIJOFS_RY;
             }
             else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
             {
@@ -115,12 +117,19 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
-                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
-                leftTriggerMap = offsetof(DIJOYSTATE2, lRy);
-                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
-                rightThumbYMap = offsetof(DIJOYSTATE2, lRx);
-                rightTriggerMap = offsetof(DIJOYSTATE2, lRz);
+                leftThumbX = &GUID_XAxis;
+                leftThumbY = &GUID_YAxis;
+                leftTrigger = &GUID_RyAxis;
+                rightThumbX = &GUID_ZAxis;
+                rightThumbY = &GUID_RxAxis;
+                rightTrigger = &GUID_RzAxis;
+
+                leftThumbXOffset = DIJOFS_X;
+                leftThumbYOffset = DIJOFS_Y;
+                leftTriggerOffset = DIJOFS_RY;
+                rightThumbXOffset = DIJOFS_Z;
+                rightThumbYOffset = DIJOFS_RX;
+                rightTriggerOffset = DIJOFS_RZ;
             }
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                 (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
@@ -210,12 +219,19 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
-                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
-                leftTriggerMap = offsetof(DIJOYSTATE2, lZ);
-                rightThumbXMap = offsetof(DIJOYSTATE2, lRx);
-                rightThumbYMap = offsetof(DIJOYSTATE2, lRy);
-                rightTriggerMap = offsetof(DIJOYSTATE2, lRz);
+                leftThumbX = &GUID_XAxis;
+                leftThumbY = &GUID_YAxis;
+                leftTrigger = &GUID_ZAxis;
+                rightThumbX = &GUID_RxAxis;
+                rightThumbY = &GUID_RyAxis;
+                rightTrigger = &GUID_RzAxis;
+
+                leftThumbXOffset = DIJOFS_X;
+                leftThumbYOffset = DIJOFS_Y;
+                leftTriggerOffset = DIJOFS_Z;
+                rightThumbXOffset = DIJOFS_RX;
+                rightThumbYOffset = DIJOFS_RY;
+                rightTriggerOffset = DIJOFS_RZ;
             }
             else // Generic (based on Logitech RumblePad 2)
             {
@@ -232,12 +248,31 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB;
                 buttonMap[11] = GamepadButton::RIGHT_THUMB;
 
-                leftThumbXMap = offsetof(DIJOYSTATE2, lX);
-                leftThumbYMap = offsetof(DIJOYSTATE2, lY);
-                leftTriggerMap = offsetof(DIJOYSTATE2, lRx);
-                rightThumbXMap = offsetof(DIJOYSTATE2, lZ);
-                rightThumbYMap = offsetof(DIJOYSTATE2, lRz);
-                rightTriggerMap = offsetof(DIJOYSTATE2, lRy);
+                leftThumbX = &GUID_XAxis;
+                leftThumbY = &GUID_YAxis;
+                leftTrigger = &GUID_RxAxis;
+                rightThumbX = &GUID_ZAxis;
+                rightThumbY = &GUID_RzAxis;
+                rightTrigger = &GUID_RyAxis;
+
+                leftThumbXOffset = DIJOFS_X;
+                leftThumbYOffset = DIJOFS_Y;
+                leftTriggerOffset = DIJOFS_RX;
+                rightThumbXOffset = DIJOFS_Z;
+                rightThumbYOffset = DIJOFS_RZ;
+                rightTriggerOffset = DIJOFS_RY;
+            }
+
+            if (FAILED(device->SetDataFormat(&c_dfDIJoystick2)))
+            {
+                Log(Log::Level::ERR) << "Failed to set DirectInput device format";
+                return;
+            }
+
+            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
+            {
+                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
+                return;
             }
         }
 
@@ -287,12 +322,18 @@ namespace ouzel
 
             for (uint32_t i = 0; i < 24; ++i)
             {
-                if (newDIState.rgbButtons[i] != diState.rgbButtons[i] &&
-                    buttonMap[i] != GamepadButton::NONE)
+                if (newDIState.rgbButtons[i] != diState.rgbButtons[i])
                 {
-                    handleButtonValueChange(buttonMap[i],
-                                            newDIState.rgbButtons[i] > 0,
-                                            (newDIState.rgbButtons[i] > 0) ? 1.0f : 0.0f);
+                    GamepadButton button = buttonMap[i];
+
+                    if (button != GamepadButton::NONE &&
+                        (button != GamepadButton::LEFT_TRIGGER || !hasLeftTrigger) &&
+                        (button != GamepadButton::RIGHT_TRIGGER || !hasRightTrigger))
+                    {
+                        handleButtonValueChange(button,
+                                                newDIState.rgbButtons[i] > 0,
+                                                (newDIState.rgbButtons[i] > 0) ? 1.0f : 0.0f);
+                    }
                 }
             }
 
@@ -340,34 +381,34 @@ namespace ouzel
                                                                                      (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
             }
 
-            if (leftThumbXMap != 0xFFFFFFFF)
+            if (leftThumbXOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbXMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(diState, newDIState, leftThumbXOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
             }
-            if (leftThumbYMap != 0xFFFFFFFF)
+            if (leftThumbYOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbYMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(diState, newDIState, leftThumbYOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
             }
-            if (rightThumbXMap != 0xFFFFFFFF)
+            if (rightThumbXOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbXMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(diState, newDIState, rightThumbXOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
             }
-            if (rightThumbYMap != 0xFFFFFFFF)
+            if (rightThumbYOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbYMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(diState, newDIState, rightThumbYOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
             }
-            if (leftTriggerMap != 0xFFFFFFFF)
+            if (leftTriggerOffset != 0xFFFFFFFF)
             {
-                checkTriggerChange(diState, newDIState, leftTriggerMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(diState, newDIState, leftTriggerOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                    GamepadButton::LEFT_TRIGGER);
             }
-            if (rightTriggerMap != 0xFFFFFFFF)
+            if (rightTriggerOffset != 0xFFFFFFFF)
             {
-                checkTriggerChange(diState, newDIState, rightTriggerMap, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(diState, newDIState, rightTriggerOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                    GamepadButton::RIGHT_TRIGGER);
             }
 
@@ -447,6 +488,9 @@ namespace ouzel
                 {
                     Log() << "Failed to set object property";
                 }
+
+                if (leftTrigger && didObjectInstance->guidType == *leftTrigger) hasLeftTrigger = true;
+                else if (rightTrigger && didObjectInstance->guidType == *rightTrigger) hasRightTrigger = true;
             }
         }
     } // namespace input
