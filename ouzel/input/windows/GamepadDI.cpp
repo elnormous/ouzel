@@ -13,21 +13,7 @@ static const float THUMB_DEADZONE = 0.2f;
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstance, VOID* context)
 {
     ouzel::input::GamepadDI* gamepadDI = static_cast<ouzel::input::GamepadDI*>(context);
-
-    if (didObjectInstance->dwType & DIDFT_AXIS)
-    {
-        DIPROPRANGE diprg;
-        diprg.diph.dwSize = sizeof(DIPROPRANGE);
-        diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-        diprg.diph.dwHow = DIPH_BYID;
-        diprg.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
-        diprg.lMin = MIN_AXIS_VALUE;
-        diprg.lMax = MAX_AXIS_VALUE;
-
-        // Set the range for the axis
-        if (FAILED(gamepadDI->getDevice()->SetProperty(DIPROP_RANGE, &diprg.diph)))
-            return DIENUM_STOP;
-    }
+    gamepadDI->handleObject(didObjectInstance);
 
     return DIENUM_CONTINUE;
 }
@@ -268,7 +254,20 @@ namespace ouzel
         {
             DIJOYSTATE2 newDIState;
 
-            HRESULT hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
+            HRESULT hr = device->Poll();
+
+            if (hr == DIERR_NOTACQUIRED)
+            {
+                if (FAILED(device->Acquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    return false;
+                }
+
+                hr = device->Poll();
+            }
+                
+            hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
 
             if (hr == DIERR_NOTACQUIRED)
             {
@@ -428,6 +427,26 @@ namespace ouzel
                 handleButtonValueChange(button,
                                         floatValue > 0.0f,
                                         floatValue);
+            }
+        }
+
+        void GamepadDI::handleObject(const DIDEVICEOBJECTINSTANCE* didObjectInstance)
+        {
+            if (didObjectInstance->dwType & DIDFT_AXIS)
+            {
+                DIPROPRANGE diprg;
+                diprg.diph.dwSize = sizeof(DIPROPRANGE);
+                diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+                diprg.diph.dwHow = DIPH_BYID;
+                diprg.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
+                diprg.lMin = MIN_AXIS_VALUE;
+                diprg.lMax = MAX_AXIS_VALUE;
+
+                // Set the range for the axis
+                if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph)))
+                {
+                    Log() << "Failed to set object property";
+                }
             }
         }
     } // namespace input

@@ -23,7 +23,8 @@ namespace ouzel
             bool update();
 
             const DIDEVICEINSTANCE* getInstance() const { return instance; }
-            IDirectInputDevice8* getDevice() const { return device; }
+
+            void handleObject(const DIDEVICEOBJECTINSTANCE* didObjectInstance);
 
         protected:
             GamepadDI(const DIDEVICEINSTANCE* aInstance);
