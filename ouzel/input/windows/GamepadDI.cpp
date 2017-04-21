@@ -57,12 +57,12 @@ namespace ouzel
                 buttonMap[14] = GamepadButton::FACE1; // Cross
                 buttonMap[15] = GamepadButton::FACE3; // Square
 
-                leftThumbX = &GUID_XAxis;
-                leftThumbY = &GUID_YAxis;
-                leftTrigger = &GUID_RxAxis;
-                rightThumbX = &GUID_ZAxis;
-                rightThumbY = &GUID_RzAxis;
-                rightTrigger = &GUID_RyAxis;
+                leftThumbX = HID_USAGE_GENERIC_X;
+                leftThumbY = HID_USAGE_GENERIC_Y;
+                leftTrigger = HID_USAGE_GENERIC_RX;
+                rightThumbX = HID_USAGE_GENERIC_Z;
+                rightThumbY = HID_USAGE_GENERIC_RZ;
+                rightTrigger = HID_USAGE_GENERIC_RY;
 
                 leftThumbXOffset = DIJOFS_X;
                 leftThumbYOffset = DIJOFS_Y;
@@ -86,12 +86,12 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB; // L3
                 buttonMap[11] = GamepadButton::RIGHT_THUMB; // R3
 
-                leftThumbX = &GUID_XAxis;
-                leftThumbY = &GUID_YAxis;
-                leftTrigger = &GUID_RxAxis;
-                rightThumbX = &GUID_ZAxis;
-                rightThumbY = &GUID_RzAxis;
-                rightTrigger = &GUID_RyAxis;
+                leftThumbX = HID_USAGE_GENERIC_X;
+                leftThumbY = HID_USAGE_GENERIC_Y;
+                leftTrigger = HID_USAGE_GENERIC_RX;
+                rightThumbX = HID_USAGE_GENERIC_Z;
+                rightThumbY = HID_USAGE_GENERIC_RZ;
+                rightTrigger = HID_USAGE_GENERIC_RY;
 
                 leftThumbXOffset = DIJOFS_X;
                 leftThumbYOffset = DIJOFS_Y;
@@ -117,12 +117,12 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbX = &GUID_XAxis;
-                leftThumbY = &GUID_YAxis;
-                leftTrigger = &GUID_RyAxis;
-                rightThumbX = &GUID_ZAxis;
-                rightThumbY = &GUID_RxAxis;
-                rightTrigger = &GUID_RzAxis;
+                leftThumbX = HID_USAGE_GENERIC_X;
+                leftThumbY = HID_USAGE_GENERIC_Y;
+                leftTrigger = HID_USAGE_GENERIC_RY;
+                rightThumbX = HID_USAGE_GENERIC_Z;
+                rightThumbY = HID_USAGE_GENERIC_RX;
+                rightTrigger = HID_USAGE_GENERIC_RZ;
 
                 leftThumbXOffset = DIJOFS_X;
                 leftThumbYOffset = DIJOFS_Y;
@@ -219,12 +219,12 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbX = &GUID_XAxis;
-                leftThumbY = &GUID_YAxis;
-                leftTrigger = &GUID_ZAxis;
-                rightThumbX = &GUID_RxAxis;
-                rightThumbY = &GUID_RyAxis;
-                rightTrigger = &GUID_RzAxis;
+                leftThumbX = HID_USAGE_GENERIC_X;
+                leftThumbY = HID_USAGE_GENERIC_Y;
+                leftTrigger = HID_USAGE_GENERIC_Z;
+                rightThumbX = HID_USAGE_GENERIC_RX;
+                rightThumbY = HID_USAGE_GENERIC_RY;
+                rightTrigger = HID_USAGE_GENERIC_RZ;
 
                 leftThumbXOffset = DIJOFS_X;
                 leftThumbYOffset = DIJOFS_Y;
@@ -248,12 +248,12 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB;
                 buttonMap[11] = GamepadButton::RIGHT_THUMB;
 
-                leftThumbX = &GUID_XAxis;
-                leftThumbY = &GUID_YAxis;
-                leftTrigger = &GUID_RxAxis;
-                rightThumbX = &GUID_ZAxis;
-                rightThumbY = &GUID_RzAxis;
-                rightTrigger = &GUID_RyAxis;
+                leftThumbX = HID_USAGE_GENERIC_X;
+                leftThumbY = HID_USAGE_GENERIC_Y;
+                leftTrigger = HID_USAGE_GENERIC_RX;
+                rightThumbX = HID_USAGE_GENERIC_Z;
+                rightThumbY = HID_USAGE_GENERIC_RZ;
+                rightTrigger = HID_USAGE_GENERIC_RY;
 
                 leftThumbXOffset = DIJOFS_X;
                 leftThumbYOffset = DIJOFS_Y;
@@ -489,8 +489,8 @@ namespace ouzel
                     Log() << "Failed to set object property";
                 }
 
-                if (leftTrigger && didObjectInstance->guidType == *leftTrigger) hasLeftTrigger = true;
-                else if (rightTrigger && didObjectInstance->guidType == *rightTrigger) hasRightTrigger = true;
+                if (leftTrigger && didObjectInstance->wUsage == leftTrigger) hasLeftTrigger = true;
+                else if (rightTrigger && didObjectInstance->wUsage == rightTrigger) hasRightTrigger = true;
             }
         }
     } // namespace input

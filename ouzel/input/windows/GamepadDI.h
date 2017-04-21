@@ -7,6 +7,7 @@
 #include <windows.h>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
+#include <hidusage.h>
 #include "input/Gamepad.h"
 
 namespace ouzel
@@ -41,12 +42,12 @@ namespace ouzel
             DIJOYSTATE2 diState;
             GamepadButton buttonMap[24];
 
-            const GUID* leftThumbX = nullptr;
-            const GUID* leftThumbY = nullptr;
-            const GUID* leftTrigger = nullptr;
-            const GUID* rightThumbX = nullptr;
-            const GUID* rightThumbY = nullptr;
-            const GUID* rightTrigger = nullptr;
+            USAGE leftThumbX = 0;
+            USAGE leftThumbY = 0;
+            USAGE leftTrigger = 0;
+            USAGE rightThumbX = 0;
+            USAGE rightThumbY = 0;
+            USAGE rightTrigger = 0;
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
