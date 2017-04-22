@@ -51,6 +51,7 @@ namespace ouzel
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
+            bool queued = false;
 
             size_t leftThumbXOffset = 0xFFFFFFFF;
             size_t leftThumbYOffset = 0xFFFFFFFF;

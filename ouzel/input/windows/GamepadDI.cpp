@@ -9,6 +9,7 @@
 static const int32_t MIN_AXIS_VALUE = -32768;
 static const int32_t MAX_AXIS_VALUE = 32767;
 static const float THUMB_DEADZONE = 0.2f;
+static const size_t INPUT_QUEUE_SIZE = 32;
 
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstance, VOID* context)
 {
