@@ -32,6 +32,10 @@ namespace ouzel
             vendorId = LOWORD(instance->guidProduct.Data1);
             productId = HIWORD(instance->guidProduct.Data1);
 
+            char TEMP_BUFFER[256];
+            WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            name = TEMP_BUFFER;
+
             InputWin* inputWin = static_cast<InputWin*>(sharedEngine->getInput());
 
             if (FAILED(inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr)))
