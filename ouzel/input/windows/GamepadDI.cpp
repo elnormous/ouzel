@@ -275,6 +275,18 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
                 return;
             }
+
+            DIDEVCAPS capabilities;
+            if (FAILED(device->GetCapabilities(&capabilities)))
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectInput device capabilities";
+                return;
+            }
+
+            if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
+            {
+
+            }
         }
 
         GamepadDI::~GamepadDI()
