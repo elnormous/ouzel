@@ -288,7 +288,7 @@ namespace ouzel
                 if (FAILED(device->Acquire()))
                 {
                     Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
-                    return false;
+                    return;
                 }
 
                 if (FAILED(device->SendForceFeedbackCommand(DISFFC_RESET)))
