@@ -285,7 +285,23 @@ namespace ouzel
 
             if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
             {
+                if (FAILED(device->Acquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    return false;
+                }
 
+                if (FAILED(device->SendForceFeedbackCommand(DISFFC_RESET)))
+                {
+                    Log(Log::Level::ERR) << "Failed to set DirectInput device force feedback command";
+                    return;
+                }
+
+                if (FAILED(device->Unacquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device";
+                    return;
+                }
             }
         }
 
@@ -293,7 +309,10 @@ namespace ouzel
         {
             if (device)
             {
-                device->Unacquire();
+                if (FAILED(device->Unacquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device";
+                }
                 device->Release();
             }
         }
