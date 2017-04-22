@@ -4,6 +4,7 @@
 #include "GamepadDI.h"
 #include "InputWin.h"
 #include "core/Engine.h"
+#include "core/windows/WindowWin.h"
 #include "utils/Log.h"
 
 static const int32_t MIN_AXIS_VALUE = -32768;
@@ -264,6 +265,16 @@ namespace ouzel
                 rightTriggerOffset = DIJOFS_RY;
             }
 
+            WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
+
+            // Exclusive access is needed for force feedback
+            if (FAILED(device->SetCooperativeLevel(windowWin->getNativeWindow(),
+                                                   DISCL_BACKGROUND | DISCL_EXCLUSIVE)))
+            {
+                Log(Log::Level::ERR) << "Failed to set DirectInput device format";
+                return;
+            }
+
             if (FAILED(device->SetDataFormat(&c_dfDIJoystick2)))
             {
                 Log(Log::Level::ERR) << "Failed to set DirectInput device format";
@@ -301,6 +312,18 @@ namespace ouzel
                 {
                     Log(Log::Level::ERR) << "Failed to unacquire DirectInput device";
                     return;
+                }
+
+                DIPROPDWORD property;
+                property.diph.dwSize = sizeof(DIPROPDWORD);
+                property.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+                property.diph.dwHow = DIPH_DEVICE;
+                property.diph.dwObj = 0;
+                property.dwData = DIPROPAUTOCENTER_ON;
+
+                if (FAILED(device->SetProperty(DIPROP_AUTOCENTER, &property.diph)))
+                {
+                    Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property";
                 }
             }
         }
@@ -507,18 +530,18 @@ namespace ouzel
         {
             if (didObjectInstance->dwType & DIDFT_AXIS)
             {
-                DIPROPRANGE diprg;
-                diprg.diph.dwSize = sizeof(DIPROPRANGE);
-                diprg.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-                diprg.diph.dwHow = DIPH_BYID;
-                diprg.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
-                diprg.lMin = MIN_AXIS_VALUE;
-                diprg.lMax = MAX_AXIS_VALUE;
+                DIPROPRANGE property;
+                property.diph.dwSize = sizeof(DIPROPRANGE);
+                property.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+                property.diph.dwHow = DIPH_BYID;
+                property.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
+                property.lMin = MIN_AXIS_VALUE;
+                property.lMax = MAX_AXIS_VALUE;
 
                 // Set the range for the axis
-                if (FAILED(device->SetProperty(DIPROP_RANGE, &diprg.diph)))
+                if (FAILED(device->SetProperty(DIPROP_RANGE, &property.diph)))
                 {
-                    Log() << "Failed to set object property";
+                    Log() << "Failed to set DirectInput device axis range property";
                 }
 
                 if (leftTrigger && didObjectInstance->wUsage == leftTrigger) hasLeftTrigger = true;
