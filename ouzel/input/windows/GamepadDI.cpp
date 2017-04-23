@@ -7,8 +7,6 @@
 #include "core/windows/WindowWin.h"
 #include "utils/Log.h"
 
-static const int32_t MIN_AXIS_VALUE = -32768;
-static const int32_t MAX_AXIS_VALUE = 32767;
 static const float THUMB_DEADZONE = 0.2f;
 static const size_t INPUT_QUEUE_SIZE = 32;
 
@@ -63,19 +61,19 @@ namespace ouzel
                 buttonMap[14] = GamepadButton::FACE1; // Cross
                 buttonMap[15] = GamepadButton::FACE3; // Square
 
-                leftThumbX = HID_USAGE_GENERIC_X;
-                leftThumbY = HID_USAGE_GENERIC_Y;
-                leftTrigger = HID_USAGE_GENERIC_RX;
-                rightThumbX = HID_USAGE_GENERIC_Z;
-                rightThumbY = HID_USAGE_GENERIC_RZ;
-                rightTrigger = HID_USAGE_GENERIC_RY;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
 
-                leftThumbXOffset = DIJOFS_X;
-                leftThumbYOffset = DIJOFS_Y;
-                leftTriggerOffset = DIJOFS_RX;
-                rightThumbXOffset = DIJOFS_Z;
-                rightThumbYOffset = DIJOFS_RZ;
-                rightTriggerOffset = DIJOFS_RY;
+                leftThumbX.offset = DIJOFS_X;
+                leftThumbY.offset = DIJOFS_Y;
+                leftTrigger.offset = DIJOFS_RX;
+                rightThumbX.offset = DIJOFS_Z;
+                rightThumbY.offset = DIJOFS_RZ;
+                rightTrigger.offset = DIJOFS_RY;
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
@@ -92,19 +90,19 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB; // L3
                 buttonMap[11] = GamepadButton::RIGHT_THUMB; // R3
 
-                leftThumbX = HID_USAGE_GENERIC_X;
-                leftThumbY = HID_USAGE_GENERIC_Y;
-                leftTrigger = HID_USAGE_GENERIC_RX;
-                rightThumbX = HID_USAGE_GENERIC_Z;
-                rightThumbY = HID_USAGE_GENERIC_RZ;
-                rightTrigger = HID_USAGE_GENERIC_RY;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
 
-                leftThumbXOffset = DIJOFS_X;
-                leftThumbYOffset = DIJOFS_Y;
-                leftTriggerOffset = DIJOFS_RX;
-                rightThumbXOffset = DIJOFS_Z;
-                rightThumbYOffset = DIJOFS_RZ;
-                rightTriggerOffset = DIJOFS_RY;
+                leftThumbX.offset = DIJOFS_X;
+                leftThumbY.offset = DIJOFS_Y;
+                leftTrigger.offset = DIJOFS_RX;
+                rightThumbX.offset = DIJOFS_Z;
+                rightThumbY.offset = DIJOFS_RZ;
+                rightTrigger.offset = DIJOFS_RY;
             }
             else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
             {
@@ -123,19 +121,19 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbX = HID_USAGE_GENERIC_X;
-                leftThumbY = HID_USAGE_GENERIC_Y;
-                leftTrigger = HID_USAGE_GENERIC_RY;
-                rightThumbX = HID_USAGE_GENERIC_Z;
-                rightThumbY = HID_USAGE_GENERIC_RX;
-                rightTrigger = HID_USAGE_GENERIC_RZ;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftTrigger.usage = HID_USAGE_GENERIC_RY;
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
+                rightThumbY.usage = HID_USAGE_GENERIC_RX;
+                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
 
-                leftThumbXOffset = DIJOFS_X;
-                leftThumbYOffset = DIJOFS_Y;
-                leftTriggerOffset = DIJOFS_RY;
-                rightThumbXOffset = DIJOFS_Z;
-                rightThumbYOffset = DIJOFS_RX;
-                rightTriggerOffset = DIJOFS_RZ;
+                leftThumbX.offset = DIJOFS_X;
+                leftThumbY.offset = DIJOFS_Y;
+                leftTrigger.offset = DIJOFS_RY;
+                rightThumbX.offset = DIJOFS_Z;
+                rightThumbY.offset = DIJOFS_RX;
+                rightTrigger.offset = DIJOFS_RZ;
             }
             else if ((vendorId == 0x0E6F && productId == 0x0113) || // AfterglowGamepadforXbox360
                 (vendorId == 0x0E6F && productId == 0x0213) || // AfterglowGamepadforXbox360
@@ -225,19 +223,19 @@ namespace ouzel
                 buttonMap[13] = GamepadButton::DPAD_LEFT;
                 buttonMap[14] = GamepadButton::DPAD_RIGHT;
 
-                leftThumbX = HID_USAGE_GENERIC_X;
-                leftThumbY = HID_USAGE_GENERIC_Y;
-                leftTrigger = HID_USAGE_GENERIC_Z;
-                rightThumbX = HID_USAGE_GENERIC_RX;
-                rightThumbY = HID_USAGE_GENERIC_RY;
-                rightTrigger = HID_USAGE_GENERIC_RZ;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftTrigger.usage = HID_USAGE_GENERIC_Z;
+                rightThumbX.usage = HID_USAGE_GENERIC_RX;
+                rightThumbY.usage = HID_USAGE_GENERIC_RY;
+                rightTrigger.usage = HID_USAGE_GENERIC_RZ;
 
-                leftThumbXOffset = DIJOFS_X;
-                leftThumbYOffset = DIJOFS_Y;
-                leftTriggerOffset = DIJOFS_Z;
-                rightThumbXOffset = DIJOFS_RX;
-                rightThumbYOffset = DIJOFS_RY;
-                rightTriggerOffset = DIJOFS_RZ;
+                leftThumbX.offset = DIJOFS_X;
+                leftThumbY.offset = DIJOFS_Y;
+                leftTrigger.offset = DIJOFS_Z;
+                rightThumbX.offset = DIJOFS_RX;
+                rightThumbY.offset = DIJOFS_RY;
+                rightTrigger.offset = DIJOFS_RZ;
             }
             else // Generic (based on Logitech RumblePad 2)
             {
@@ -254,19 +252,19 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB;
                 buttonMap[11] = GamepadButton::RIGHT_THUMB;
 
-                leftThumbX = HID_USAGE_GENERIC_X;
-                leftThumbY = HID_USAGE_GENERIC_Y;
-                leftTrigger = HID_USAGE_GENERIC_RX;
-                rightThumbX = HID_USAGE_GENERIC_Z;
-                rightThumbY = HID_USAGE_GENERIC_RZ;
-                rightTrigger = HID_USAGE_GENERIC_RY;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                leftTrigger.usage = HID_USAGE_GENERIC_RX;
+                rightThumbX.usage = HID_USAGE_GENERIC_Z;
+                rightThumbY.usage = HID_USAGE_GENERIC_RZ;
+                rightTrigger.usage = HID_USAGE_GENERIC_RY;
 
-                leftThumbXOffset = DIJOFS_X;
-                leftThumbYOffset = DIJOFS_Y;
-                leftTriggerOffset = DIJOFS_RX;
-                rightThumbXOffset = DIJOFS_Z;
-                rightThumbYOffset = DIJOFS_RZ;
-                rightTriggerOffset = DIJOFS_RY;
+                leftThumbX.offset = DIJOFS_X;
+                leftThumbY.offset = DIJOFS_Y;
+                leftTrigger.offset = DIJOFS_RX;
+                rightThumbX.offset = DIJOFS_Z;
+                rightThumbY.offset = DIJOFS_RZ;
+                rightTrigger.offset = DIJOFS_RY;
             }
 
             WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
@@ -487,59 +485,59 @@ namespace ouzel
                     diState.rgdwPOV[0] = events[e].dwData;
                 }
 
-                if (leftThumbXOffset == events[e].dwOfs)
+                if (leftThumbX.offset == events[e].dwOfs)
                 {
-                    checkThumbAxisChange(getAxisValue(diState, leftThumbXOffset),
+                    checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
                                          events[e].dwData,
-                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         leftThumbX.min, leftThumbX.max,
                                          GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
 
-                    setAxisValue(diState, leftThumbXOffset, events[e].dwData);
+                    setAxisValue(diState, leftThumbX.offset, events[e].dwData);
                 }
-                if (leftThumbYOffset == events[e].dwOfs)
+                if (leftThumbY.offset == events[e].dwOfs)
                 {
-                    checkThumbAxisChange(getAxisValue(diState, leftThumbYOffset),
+                    checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
                                          events[e].dwData,
-                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         leftThumbY.min, leftThumbY.max,
                                          GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
 
-                    setAxisValue(diState, leftThumbYOffset, events[e].dwData);
+                    setAxisValue(diState, leftThumbY.offset, events[e].dwData);
                 }
-                if (rightThumbXOffset == events[e].dwOfs)
+                if (rightThumbX.offset == events[e].dwOfs)
                 {
-                    checkThumbAxisChange(getAxisValue(diState, rightThumbXOffset),
+                    checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
                                          events[e].dwData,
-                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         rightThumbX.min, rightThumbX.max,
                                          GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
 
-                    setAxisValue(diState, rightThumbXOffset, events[e].dwData);
+                    setAxisValue(diState, rightThumbX.offset, events[e].dwData);
                 }
-                if (rightThumbYOffset == events[e].dwOfs)
+                if (rightThumbY.offset == events[e].dwOfs)
                 {
-                    checkThumbAxisChange(getAxisValue(diState, rightThumbYOffset),
+                    checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
                                          events[e].dwData,
-                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         rightThumbY.min, rightThumbY.max,
                                          GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
 
-                    setAxisValue(diState, rightThumbYOffset, events[e].dwData);
+                    setAxisValue(diState, rightThumbY.offset, events[e].dwData);
                 }
-                if (leftTriggerOffset == events[e].dwOfs)
+                if (leftTrigger.offset == events[e].dwOfs)
                 {
-                    checkTriggerChange(getAxisValue(diState, leftTriggerOffset),
+                    checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
                                        events[e].dwData,
-                                       MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                       leftTrigger.min, leftTrigger.max,
                                        GamepadButton::LEFT_TRIGGER);
 
-                    setAxisValue(diState, leftTriggerOffset, events[e].dwData);
+                    setAxisValue(diState, leftTrigger.offset, events[e].dwData);
                 }
-                if (rightTriggerOffset == events[e].dwOfs)
+                if (rightTrigger.offset == events[e].dwOfs)
                 {
-                    checkTriggerChange(getAxisValue(diState, rightTriggerOffset),
+                    checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
                                        events[e].dwData,
-                                       MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                       rightTrigger.min, rightTrigger.max,
                                        GamepadButton::RIGHT_TRIGGER);
 
-                    setAxisValue(diState, rightTriggerOffset, events[e].dwData);
+                    setAxisValue(diState, rightTrigger.offset, events[e].dwData);
                 }
             }
 
@@ -630,46 +628,46 @@ namespace ouzel
                                                                                      (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
             }
 
-            if (leftThumbXOffset != 0xFFFFFFFF)
+            if (leftThumbX.offset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(getAxisValue(diState, leftThumbXOffset),
-                                     getAxisValue(newDIState, leftThumbXOffset),
-                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, leftThumbX.offset),
+                                     getAxisValue(newDIState, leftThumbX.offset),
+                                     leftThumbX.min, leftThumbX.max,
                                      GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
             }
-            if (leftThumbYOffset != 0xFFFFFFFF)
+            if (leftThumbY.offset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(getAxisValue(diState, leftThumbYOffset),
-                                     getAxisValue(newDIState, leftThumbYOffset),
-                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, leftThumbY.offset),
+                                     getAxisValue(newDIState, leftThumbY.offset),
+                                     leftThumbY.min, leftThumbY.max,
                                      GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
             }
-            if (rightThumbXOffset != 0xFFFFFFFF)
+            if (rightThumbX.offset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(getAxisValue(diState, rightThumbXOffset),
-                                     getAxisValue(newDIState, rightThumbXOffset),
-                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, rightThumbX.offset),
+                                     getAxisValue(newDIState, rightThumbX.offset),
+                                     rightThumbX.min, rightThumbX.max,
                                      GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
             }
-            if (rightThumbYOffset != 0xFFFFFFFF)
+            if (rightThumbY.offset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(getAxisValue(diState, rightThumbYOffset),
-                                     getAxisValue(newDIState, rightThumbYOffset),
-                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, rightThumbY.offset),
+                                     getAxisValue(newDIState, rightThumbY.offset),
+                                     rightThumbY.min, rightThumbY.max,
                                      GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
             }
-            if (leftTriggerOffset != 0xFFFFFFFF)
+            if (leftTrigger.offset != 0xFFFFFFFF)
             {
-                checkTriggerChange(getAxisValue(diState, leftTriggerOffset),
-                                   getAxisValue(newDIState, leftTriggerOffset),
-                                   MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(getAxisValue(diState, leftTrigger.offset),
+                                   getAxisValue(newDIState, leftTrigger.offset),
+                                   leftTrigger.min, leftTrigger.max,
                                    GamepadButton::LEFT_TRIGGER);
             }
-            if (rightTriggerOffset != 0xFFFFFFFF)
+            if (rightTrigger.offset != 0xFFFFFFFF)
             {
-                checkTriggerChange(getAxisValue(diState, rightTriggerOffset),
-                                   getAxisValue(newDIState, rightTriggerOffset),
-                                   MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(getAxisValue(diState, rightTrigger.offset),
+                                   getAxisValue(newDIState, rightTrigger.offset),
+                                   rightTrigger.min, rightTrigger.max,
                                    GamepadButton::RIGHT_TRIGGER);
             }
 
@@ -730,20 +728,6 @@ namespace ouzel
         {
             if (didObjectInstance->dwType & DIDFT_AXIS)
             {
-                DIPROPRANGE propertyAxisRange;
-                propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
-                propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
-                propertyAxisRange.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
-                propertyAxisRange.diph.dwHow = DIPH_BYID;
-                propertyAxisRange.lMin = MIN_AXIS_VALUE;
-                propertyAxisRange.lMax = MAX_AXIS_VALUE;
-
-                // Set the range for the axis
-                if (FAILED(device->SetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
-                {
-                    Log(Log::Level::WARN) << "Failed to set DirectInput device axis range property";
-                }
-
                 DIPROPDWORD propertyDeadZone;
                 propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
                 propertyDeadZone.diph.dwHeaderSize = sizeof(propertyDeadZone.diph);
@@ -757,8 +741,50 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property";
                 }
 
-                if (leftTrigger && didObjectInstance->wUsage == leftTrigger) hasLeftTrigger = true;
-                else if (rightTrigger && didObjectInstance->wUsage == rightTrigger) hasRightTrigger = true;
+                DIPROPRANGE propertyAxisRange;
+                propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
+                propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
+                propertyAxisRange.diph.dwObj = didObjectInstance->dwType;
+                propertyAxisRange.diph.dwHow = DIPH_BYID;
+
+                if (FAILED(device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
+                {
+                    Log(Log::Level::ERR) << "Failed to get DirectInput device axis range property";
+                    return;
+                }
+
+                if (leftThumbX.usage && didObjectInstance->wUsage == leftThumbX.usage)
+                {
+                    leftThumbX.min = propertyAxisRange.lMin;
+                    leftThumbX.max = propertyAxisRange.lMax;
+                }
+                if (leftThumbY.usage && didObjectInstance->wUsage == leftThumbY.usage)
+                {
+                    leftThumbY.min = propertyAxisRange.lMin;
+                    leftThumbY.max = propertyAxisRange.lMax;
+                }
+                else if (leftTrigger.usage && didObjectInstance->wUsage == leftTrigger.usage)
+                {
+                    leftTrigger.min = propertyAxisRange.lMin;
+                    leftTrigger.max = propertyAxisRange.lMax;
+                    hasLeftTrigger = true;
+                }
+                else if (rightThumbX.usage && didObjectInstance->wUsage == rightThumbX.usage)
+                {
+                    rightThumbX.min = propertyAxisRange.lMin;
+                    rightThumbX.max = propertyAxisRange.lMax;
+                }
+                else if (rightThumbY.usage && didObjectInstance->wUsage == rightThumbY.usage)
+                {
+                    rightThumbY.min = propertyAxisRange.lMin;
+                    rightThumbY.max = propertyAxisRange.lMax;
+                }
+                else if (rightTrigger.usage && didObjectInstance->wUsage == rightTrigger.usage)
+                {
+                    rightTrigger.min = propertyAxisRange.lMin;
+                    rightTrigger.max = propertyAxisRange.lMax;
+                    hasRightTrigger = true;
+                }
             }
         }
     } // namespace input
