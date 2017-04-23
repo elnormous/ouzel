@@ -29,11 +29,13 @@ namespace ouzel
 
         protected:
             GamepadDI(const DIDEVICEINSTANCE* aInstance);
-            void checkThumbAxisChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
-                                      size_t offset, int64_t min, int64_t max,
+            bool checkInputBuffered();
+            bool checkInputPolled();
+            void checkThumbAxisChange(LONG oldValue, LONG newValue,
+                                      int64_t min, int64_t max,
                                       GamepadButton negativeButton, GamepadButton positiveButton);
-            void checkTriggerChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
-                                    size_t offset, int64_t min, int64_t max,
+            void checkTriggerChange(LONG oldValue, LONG newValue,
+                                    int64_t min, int64_t max,
                                     GamepadButton button);
 
             const DIDEVICEINSTANCE* instance = nullptr;

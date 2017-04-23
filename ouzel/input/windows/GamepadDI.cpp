@@ -370,11 +370,189 @@ namespace ouzel
 
         bool GamepadDI::update()
         {
+            HRESULT result = device->Poll();
+
+            if (result == DIERR_NOTACQUIRED)
+            {
+                if (FAILED(device->Acquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    return false;
+                }
+
+                result = device->Poll();
+            }
+
+            return buffered ? checkInputBuffered() : checkInputPolled();
+        }
+
+        static LONG getAxisValue(const DIJOYSTATE2& state, size_t offset)
+        {
+            return *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&state) + offset);
+        }
+
+        static void setAxisValue(DIJOYSTATE2& state, size_t offset, LONG value)
+        {
+            *reinterpret_cast<LONG*>(reinterpret_cast<uint8_t*>(&state) + offset) = value;
+        }
+
+        bool GamepadDI::checkInputBuffered()
+        {
+            DWORD eventCount = INPUT_QUEUE_SIZE;
+            DIDEVICEOBJECTDATA events[INPUT_QUEUE_SIZE];
+
+            HRESULT result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+
+            if (result == DIERR_NOTACQUIRED)
+            {
+                if (FAILED(device->Acquire()))
+                {
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    return false;
+                }
+
+                result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+            }
+
+            if (result != DI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectInput device state";
+                return false;
+            }
+
+            for (DWORD e = 0; e < eventCount; ++e)
+            {
+                for (uint32_t i = 0; i < 24; ++i)
+                {
+                    if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgbButtons[i]))
+                    {
+                        GamepadButton button = buttonMap[i];
+
+                        if (button != GamepadButton::NONE &&
+                            (button != GamepadButton::LEFT_TRIGGER || !hasLeftTrigger) &&
+                            (button != GamepadButton::RIGHT_TRIGGER || !hasRightTrigger))
+                        {
+                            handleButtonValueChange(button,
+                                events[e].dwData > 0,
+                                (events[e].dwData > 0) ? 1.0f : 0.0f);
+                        }
+
+                        diState.rgbButtons[i] = static_cast<BYTE>(events[e].dwData);
+                    }
+                }
+
+                if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgdwPOV[0]))
+                {
+                    uint32_t oldHatValue = static_cast<uint32_t>(diState.rgdwPOV[0]);
+                    if (oldHatValue == 0xffffffff)
+                        oldHatValue = 8;
+                    else
+                    {
+                        // round up
+                        oldHatValue += 4500 / 2;
+                        oldHatValue %= 36000;
+                        oldHatValue /= 4500;
+                    }
+
+                    uint32_t hatValue = static_cast<uint32_t>(events[e].dwData);
+                    if (hatValue == 0xffffffff)
+                        hatValue = 8;
+                    else
+                    {
+                        // round up
+                        hatValue += 4500 / 2;
+                        hatValue %= 36000;
+                        hatValue /= 4500;
+                    }
+
+                    uint32_t bitmask = (oldHatValue >= 8) ? 0 : (1 << (oldHatValue / 2)) | // first bit
+                        (1 << (oldHatValue / 2 + oldHatValue % 2)) % 4; // second bit
+
+                    uint32_t newBitmask = (hatValue >= 8) ? 0 : (1 << (hatValue / 2)) | // first bit
+                        (1 << (hatValue / 2 + hatValue % 2)) % 4; // second bit
+
+                    if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
+                                                                                         (newBitmask & 0x01) > 0,
+                                                                                         (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
+                    if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
+                                                                                         (newBitmask & 0x02) > 0,
+                                                                                         (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
+                    if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
+                                                                                         (newBitmask & 0x04) > 0,
+                                                                                         (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
+                    if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
+                                                                                         (newBitmask & 0x08) > 0,
+                                                                                         (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
+
+                    diState.rgdwPOV[0] = events[e].dwData;
+                }
+
+                if (leftThumbXOffset == events[e].dwOfs)
+                {
+                    checkThumbAxisChange(getAxisValue(diState, leftThumbXOffset),
+                                         events[e].dwData,
+                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
+
+                    setAxisValue(diState, leftThumbXOffset, events[e].dwData);
+                }
+                if (leftThumbYOffset == events[e].dwOfs)
+                {
+                    checkThumbAxisChange(getAxisValue(diState, leftThumbYOffset),
+                                         events[e].dwData,
+                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
+
+                    setAxisValue(diState, leftThumbYOffset, events[e].dwData);
+                }
+                if (rightThumbXOffset == events[e].dwOfs)
+                {
+                    checkThumbAxisChange(getAxisValue(diState, rightThumbXOffset),
+                                         events[e].dwData,
+                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
+
+                    setAxisValue(diState, rightThumbXOffset, events[e].dwData);
+                }
+                if (rightThumbYOffset == events[e].dwOfs)
+                {
+                    checkThumbAxisChange(getAxisValue(diState, rightThumbYOffset),
+                                         events[e].dwData,
+                                         MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                         GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
+
+                    setAxisValue(diState, rightThumbYOffset, events[e].dwData);
+                }
+                if (leftTriggerOffset == events[e].dwOfs)
+                {
+                    checkTriggerChange(getAxisValue(diState, leftTriggerOffset),
+                                       events[e].dwData,
+                                       MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                       GamepadButton::LEFT_TRIGGER);
+
+                    setAxisValue(diState, leftTriggerOffset, events[e].dwData);
+                }
+                if (rightTriggerOffset == events[e].dwOfs)
+                {
+                    checkTriggerChange(getAxisValue(diState, rightTriggerOffset),
+                                       events[e].dwData,
+                                       MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                                       GamepadButton::RIGHT_TRIGGER);
+
+                    setAxisValue(diState, rightTriggerOffset, events[e].dwData);
+                }
+            }
+
+            return true;
+        }
+
+        bool GamepadDI::checkInputPolled()
+        {
             DIJOYSTATE2 newDIState;
 
-            HRESULT hr = device->Poll();
+            HRESULT result = device->GetDeviceState(sizeof(newDIState), &newDIState);
 
-            if (hr == DIERR_NOTACQUIRED)
+            if (result == DIERR_NOTACQUIRED)
             {
                 if (FAILED(device->Acquire()))
                 {
@@ -382,24 +560,12 @@ namespace ouzel
                     return false;
                 }
 
-                hr = device->Poll();
-            }
-                
-            hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
-
-            if (hr == DIERR_NOTACQUIRED)
-            {
-                if (FAILED(device->Acquire()))
-                {
-                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
-                    return false;
-                }
-
-                hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
+                result = device->GetDeviceState(sizeof(newDIState), &newDIState);
             }
 
-            if (hr != DI_OK)
+            if (result != DI_OK)
             {
+                Log(Log::Level::ERR) << "Failed to get DirectInput device state";
                 return false;
             }
 
@@ -466,32 +632,44 @@ namespace ouzel
 
             if (leftThumbXOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbXOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, leftThumbXOffset),
+                                     getAxisValue(newDIState, leftThumbXOffset),
+                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_LEFT, GamepadButton::LEFT_THUMB_RIGHT);
             }
             if (leftThumbYOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, leftThumbYOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, leftThumbYOffset),
+                                     getAxisValue(newDIState, leftThumbYOffset),
+                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::LEFT_THUMB_UP, GamepadButton::LEFT_THUMB_DOWN);
             }
             if (rightThumbXOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbXOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, rightThumbXOffset),
+                                     getAxisValue(newDIState, rightThumbXOffset),
+                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_LEFT, GamepadButton::RIGHT_THUMB_RIGHT);
             }
             if (rightThumbYOffset != 0xFFFFFFFF)
             {
-                checkThumbAxisChange(diState, newDIState, rightThumbYOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkThumbAxisChange(getAxisValue(diState, rightThumbYOffset),
+                                     getAxisValue(newDIState, rightThumbYOffset),
+                                     MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                      GamepadButton::RIGHT_THUMB_UP, GamepadButton::RIGHT_THUMB_DOWN);
             }
             if (leftTriggerOffset != 0xFFFFFFFF)
             {
-                checkTriggerChange(diState, newDIState, leftTriggerOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(getAxisValue(diState, leftTriggerOffset),
+                                   getAxisValue(newDIState, leftTriggerOffset),
+                                   MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                    GamepadButton::LEFT_TRIGGER);
             }
             if (rightTriggerOffset != 0xFFFFFFFF)
             {
-                checkTriggerChange(diState, newDIState, rightTriggerOffset, MIN_AXIS_VALUE, MAX_AXIS_VALUE,
+                checkTriggerChange(getAxisValue(diState, rightTriggerOffset),
+                                   getAxisValue(newDIState, rightTriggerOffset),
+                                   MIN_AXIS_VALUE, MAX_AXIS_VALUE,
                                    GamepadButton::RIGHT_TRIGGER);
             }
 
@@ -500,13 +678,10 @@ namespace ouzel
             return true;
         }
 
-        void GamepadDI::checkThumbAxisChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
-                                             size_t offset, int64_t min, int64_t max,
+        void GamepadDI::checkThumbAxisChange(LONG oldValue, LONG newValue,
+                                             int64_t min, int64_t max,
                                              GamepadButton negativeButton, GamepadButton positiveButton)
         {
-            LONG oldValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&oldState) + offset);
-            LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newState) + offset);
-
             if (oldValue != newValue)
             {
                 float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
@@ -537,13 +712,10 @@ namespace ouzel
             }
         }
 
-        void GamepadDI::checkTriggerChange(const DIJOYSTATE2& oldState, const DIJOYSTATE2& newState,
-                                           size_t offset, int64_t min, int64_t max,
+        void GamepadDI::checkTriggerChange(LONG oldValue, LONG newValue,
+                                           int64_t min, int64_t max,
                                            GamepadButton button)
         {
-            LONG oldValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&oldState) + offset);
-            LONG newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const uint8_t*>(&newState) + offset);
-
             if (oldValue != newValue)
             {
                 float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
