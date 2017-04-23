@@ -285,13 +285,8 @@ namespace ouzel
                 return;
             }
 
-            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
-            {
-                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
-                return;
-            }
-
             DIDEVCAPS capabilities;
+            capabilities.dwSize = sizeof(capabilities);
             if (FAILED(device->GetCapabilities(&capabilities)))
             {
                 Log(Log::Level::ERR) << "Failed to get DirectInput device capabilities";
@@ -318,17 +313,46 @@ namespace ouzel
                     return;
                 }
 
-                DIPROPDWORD property;
-                property.diph.dwSize = sizeof(DIPROPDWORD);
-                property.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-                property.diph.dwHow = DIPH_DEVICE;
-                property.diph.dwObj = 0;
-                property.dwData = DIPROPAUTOCENTER_ON;
+                DIPROPDWORD propertyAutoCenter;
+                propertyAutoCenter.diph.dwSize = sizeof(propertyAutoCenter);
+                propertyAutoCenter.diph.dwHeaderSize = sizeof(propertyAutoCenter.diph);
+                propertyAutoCenter.diph.dwHow = DIPH_DEVICE;
+                propertyAutoCenter.diph.dwObj = 0;
+                propertyAutoCenter.dwData = DIPROPAUTOCENTER_ON;
 
-                if (FAILED(device->SetProperty(DIPROP_AUTOCENTER, &property.diph)))
+                if (FAILED(device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph)))
                 {
                     Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property";
                 }
+            }
+
+            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
+            {
+                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
+                return;
+            }
+
+            DIPROPDWORD propertyBufferSize;
+            propertyBufferSize.diph.dwSize = sizeof(propertyBufferSize);
+            propertyBufferSize.diph.dwHeaderSize = sizeof(propertyBufferSize.diph);
+            propertyBufferSize.diph.dwHow = DIPH_DEVICE;
+            propertyBufferSize.diph.dwObj = 0;
+            propertyBufferSize.dwData = INPUT_QUEUE_SIZE;
+
+            HRESULT result = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
+
+            if (result == DI_POLLEDDEVICE)
+            {
+                buffered = false;
+            }
+            else if (FAILED(result))
+            {
+                Log(Log::Level::ERR) << "Failed to set DirectInput device buffer size property";
+                return;
+            }
+            else
+            {
+                buffered = true;
             }
         }
 
@@ -535,8 +559,8 @@ namespace ouzel
             if (didObjectInstance->dwType & DIDFT_AXIS)
             {
                 DIPROPRANGE propertyAxisRange;
-                propertyAxisRange.diph.dwSize = sizeof(DIPROPRANGE);
-                propertyAxisRange.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+                propertyAxisRange.diph.dwSize = sizeof(propertyAxisRange);
+                propertyAxisRange.diph.dwHeaderSize = sizeof(propertyAxisRange.diph);
                 propertyAxisRange.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
                 propertyAxisRange.diph.dwHow = DIPH_BYID;
                 propertyAxisRange.lMin = MIN_AXIS_VALUE;
@@ -545,7 +569,7 @@ namespace ouzel
                 // Set the range for the axis
                 if (FAILED(device->SetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
                 {
-                    Log() << "Failed to set DirectInput device axis range property";
+                    Log(Log::Level::WARN) << "Failed to set DirectInput device axis range property";
                 }
 
                 DIPROPDWORD propertyDeadZone;
@@ -556,9 +580,9 @@ namespace ouzel
                 propertyDeadZone.dwData = 0;
                 
                 // Set the range for the axis
-                if (FAILED(device->SetProperty(DIPROP_RANGE, &propertyDeadZone.diph)))
+                if (FAILED(device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph)))
                 {
-                    Log() << "Failed to set DirectInput device axis range property";
+                    Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property";
                 }
 
                 if (leftTrigger && didObjectInstance->wUsage == leftTrigger) hasLeftTrigger = true;

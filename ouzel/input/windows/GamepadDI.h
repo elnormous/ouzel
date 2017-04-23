@@ -51,7 +51,7 @@ namespace ouzel
 
             bool hasLeftTrigger = false;
             bool hasRightTrigger = false;
-            bool buffered = false;
+            bool buffered = true;
 
             size_t leftThumbXOffset = 0xFFFFFFFF;
             size_t leftThumbYOffset = 0xFFFFFFFF;
