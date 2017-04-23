@@ -534,16 +534,29 @@ namespace ouzel
         {
             if (didObjectInstance->dwType & DIDFT_AXIS)
             {
-                DIPROPRANGE property;
-                property.diph.dwSize = sizeof(DIPROPRANGE);
-                property.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-                property.diph.dwHow = DIPH_BYID;
-                property.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
-                property.lMin = MIN_AXIS_VALUE;
-                property.lMax = MAX_AXIS_VALUE;
+                DIPROPRANGE propertyAxisRange;
+                propertyAxisRange.diph.dwSize = sizeof(DIPROPRANGE);
+                propertyAxisRange.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+                propertyAxisRange.diph.dwObj = didObjectInstance->dwType; // Specify the enumerated axis
+                propertyAxisRange.diph.dwHow = DIPH_BYID;
+                propertyAxisRange.lMin = MIN_AXIS_VALUE;
+                propertyAxisRange.lMax = MAX_AXIS_VALUE;
 
                 // Set the range for the axis
-                if (FAILED(device->SetProperty(DIPROP_RANGE, &property.diph)))
+                if (FAILED(device->SetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
+                {
+                    Log() << "Failed to set DirectInput device axis range property";
+                }
+
+                DIPROPDWORD propertyDeadZone;
+                propertyDeadZone.diph.dwSize = sizeof(propertyDeadZone);
+                propertyDeadZone.diph.dwHeaderSize = sizeof(propertyDeadZone.diph);
+                propertyDeadZone.diph.dwObj = didObjectInstance->dwType;
+                propertyDeadZone.diph.dwHow = DIPH_BYID;
+                propertyDeadZone.dwData = 0;
+                
+                // Set the range for the axis
+                if (FAILED(device->SetProperty(DIPROP_RANGE, &propertyDeadZone.diph)))
                 {
                     Log() << "Failed to set DirectInput device axis range property";
                 }
