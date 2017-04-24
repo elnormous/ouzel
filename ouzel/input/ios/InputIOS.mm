@@ -78,13 +78,9 @@ namespace ouzel
                                                          name:GCControllerDidDisconnectNotification
                                                        object:Nil];
 
-            //if GameController framework is available
-            if ([GCController class])
+            for (GCController* controller in [GCController controllers])
             {
-                for (GCController* controller in [GCController controllers])
-                {
-                    handleGamepadConnected(controller);
-                }
+                handleGamepadConnected(controller);
             }
 
             startGamepadDiscovery();
@@ -94,29 +90,23 @@ namespace ouzel
 
         void InputIOS::startGamepadDiscovery()
         {
-            if ([GCController class])
-            {
-                Log(Log::Level::INFO) << "Started gamepad discovery";
+            Log(Log::Level::INFO) << "Started gamepad discovery";
 
-                discovering = true;
+            discovering = true;
 
-                [GCController startWirelessControllerDiscoveryWithCompletionHandler:
-                 ^(void){ handleGamepadDiscoveryCompleted(); }];
-            }
+            [GCController startWirelessControllerDiscoveryWithCompletionHandler:
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
         void InputIOS::stopGamepadDiscovery()
         {
-            if ([GCController class])
+            if (discovering)
             {
-                if (discovering)
-                {
-                    Log(Log::Level::INFO) << "Stopped gamepad discovery";
+                Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
-                    [GCController stopWirelessControllerDiscovery];
+                [GCController stopWirelessControllerDiscovery];
 
-                    discovering = false;
-                }
+                discovering = false;
             }
         }
 
