@@ -87,17 +87,19 @@ namespace ouzel
                 }
             }
 
+            startGamepadDiscovery();
+            
             return true;
         }
 
         void InputTVOS::startGamepadDiscovery()
         {
-            Log(Log::Level::INFO) << "Started gamepad discovery";
-
-            discovering = true;
-
             if ([GCController class])
             {
+                Log(Log::Level::INFO) << "Started gamepad discovery";
+
+                discovering = true;
+
                 [GCController startWirelessControllerDiscoveryWithCompletionHandler:
                  ^(void){ handleGamepadDiscoveryCompleted(); }];
             }
@@ -105,16 +107,16 @@ namespace ouzel
 
         void InputTVOS::stopGamepadDiscovery()
         {
-            Log(Log::Level::INFO) << "Stopped gamepad discovery";
-
-            if (discovering)
+            if ([GCController class])
             {
-                if ([GCController class])
+                if (discovering)
                 {
-                    [GCController stopWirelessControllerDiscovery];
-                }
+                    Log(Log::Level::INFO) << "Stopped gamepad discovery";
 
-                discovering = false;
+                    [GCController stopWirelessControllerDiscovery];
+
+                    discovering = false;
+                }
             }
         }
 
