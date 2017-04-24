@@ -12,7 +12,7 @@ struct VS2PS
     float4 color: COLOR;
 };
 
-void main(in VS2PS input, out float4 output0 : SV_TARGET0)
+void main(in VS2PS input, out float4 output0: SV_TARGET0)
 {
     output0 = input.color * color;
 }

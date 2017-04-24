@@ -16,7 +16,7 @@ struct VS2PS
 SamplerState sampler0;
 Texture2D texture0;
 
-void main(in VS2PS input, out float4 output0 : SV_TARGET0)
+void main(in VS2PS input, out float4 output0: SV_TARGET0)
 {
     output0 = texture0.Sample(sampler0, input.texCoord) * input.color * color;
 }
