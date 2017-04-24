@@ -1,23 +1,23 @@
 // Copyright (C) 2016 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-cbuffer Constants : register(b0)
+cbuffer Constants: register(b0)
 {
     float4x4 modelViewProj;
 }
 
 struct VSInput
 {
-    float3 position : POSITION;
-    float4 color : COLOR;
-    float2 texCoord0 : TEXCOORD0;
+    float3 position: POSITION;
+    float4 color: COLOR;
+    float2 texCoord0: TEXCOORD0;
 };
 
 struct VS2PS
 {
-    float4 position : SV_POSITION;
-    float4 color : COLOR;
-    float2 texCoord : TEXCOORD;
+    float4 position: SV_POSITION;
+    float4 color: COLOR;
+    float2 texCoord: TEXCOORD;
 };
 
 void main(in VSInput input, out VS2PS output)

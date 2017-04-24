@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Elviss Strazdins
+// Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
 #include <metal_stdlib>
@@ -14,7 +14,7 @@ typedef struct __attribute__((__aligned__(256)))
 typedef struct
 {
     float4 position [[position]];
-    half4  color;
+    half4 color;
 } ColorInOut;
 
 // Fragment shader function
