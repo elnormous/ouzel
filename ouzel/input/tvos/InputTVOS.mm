@@ -54,23 +54,33 @@ namespace ouzel
         {
         }
 
-        bool InputIOS::init()
+        InputTVOS::~InputTVOS()
+        {
+            if (connectDelegate)
+            {
+                [[NSNotificationCenter defaultCenter] removeObserver:connectDelegate];
+
+                [connectDelegate release];
+            }
+        }
+
+        bool InputTVOS::init()
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
+
+            [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
+                                                     selector:@selector(handleControllerConnected:)
+                                                         name:GCControllerDidConnectNotification
+                                                       object:Nil];
+
+            [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
+                                                     selector:@selector(handleControllerDisconnected:)
+                                                         name:GCControllerDidDisconnectNotification
+                                                       object:Nil];
 
             //if GameController framework is available
             if ([GCController class])
             {
-                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                         selector:@selector(handleControllerConnected:)
-                                                             name:GCControllerDidConnectNotification
-                                                           object:Nil];
-
-                [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
-                                                         selector:@selector(handleControllerDisconnected:)
-                                                             name:GCControllerDidDisconnectNotification
-                                                           object:Nil];
-
                 for (GCController* controller in [GCController controllers])
                 {
                     handleGamepadConnected(controller);

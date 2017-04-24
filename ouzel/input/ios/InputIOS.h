@@ -25,6 +25,8 @@ namespace ouzel
         {
             friend Engine;
         public:
+            virtual ~InputIOS();
+
             virtual void startGamepadDiscovery() override;
             virtual void stopGamepadDiscovery() override;
 
