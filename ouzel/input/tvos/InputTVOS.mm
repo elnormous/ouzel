@@ -113,16 +113,22 @@ namespace ouzel
 
         bool InputTVOS::showVirtualKeyboard()
         {
-            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
-            [textField becomeFirstResponder];
+            sharedApplication->execute([]() {
+                WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
+                UITextField* textField = windowTVOS->getTextField();
+                [textField becomeFirstResponder];
+            }
 
             return true;
         }
 
         bool InputTVOS::hideVirtualKeyboard()
         {
-            UITextField* textField = static_cast<WindowTVOS*>(sharedEngine->getWindow())->getTextField();
-            [textField resignFirstResponder];
+            sharedApplication->execute([]() {
+                WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
+                UITextField* textField = windowTVOS->getTextField();
+                [textField resignFirstResponder];
+            }
 
             return true;
         }
