@@ -643,7 +643,7 @@ namespace ouzel
 
             if (RendererOGL::checkOpenGLError())
             {
-                Log() << "Failed to set depth function";
+                Log(Log::Level::ERR) << "Failed to set depth function";
                 return false;
             }
 
@@ -654,7 +654,7 @@ namespace ouzel
 
                 if (RendererOGL::checkOpenGLError())
                 {
-                    Log() << "Failed to enable multi-sampling";
+                    Log(Log::Level::ERR) << "Failed to enable multi-sampling";
                     return false;
                 }
             }

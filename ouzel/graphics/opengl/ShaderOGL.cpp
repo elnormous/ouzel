@@ -158,7 +158,7 @@ namespace ouzel
                                 name = "texCoord" + toString(vertexAttribute.index);
                                 break;
                             default:
-                                Log() << "Invalid vertex attribute usage";
+                                Log(Log::Level::ERR) << "Invalid vertex attribute usage";
                                 return false;
                         }
 

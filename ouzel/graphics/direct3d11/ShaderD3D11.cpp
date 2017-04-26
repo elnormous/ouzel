@@ -195,7 +195,7 @@ namespace ouzel
 
                     if (vertexFormat == DXGI_FORMAT_UNKNOWN)
                     {
-                        Log() << "Invalid vertex format";
+                        Log(Log::Level::ERR) << "Invalid vertex format";
                         return false;
                     }
 
@@ -234,7 +234,7 @@ namespace ouzel
                             usage = "TEXCOORD";
                             break;
                         default:
-                            Log() << "Invalid vertex attribute usage";
+                            Log(Log::Level::ERR) << "Invalid vertex attribute usage";
                             return false;
                     }
 
