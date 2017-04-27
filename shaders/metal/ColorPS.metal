@@ -15,11 +15,11 @@ typedef struct
 {
     float4 position [[position]];
     half4 color;
-} ColorInOut;
+} VS2PS;
 
 // Fragment shader function
-fragment half4 main_ps(ColorInOut in [[stage_in]],
-                       constant uniforms_t& uniforms [[buffer(1)]])
+fragment half4 mainPS(VS2PS input [[stage_in]],
+                      constant uniforms_t& uniforms [[buffer(1)]])
 {
-    return in.color * half4(uniforms.color);
+    return input.color * half4(uniforms.color);
 }

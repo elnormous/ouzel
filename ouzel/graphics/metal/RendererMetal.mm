@@ -211,7 +211,7 @@ namespace ouzel
                                            {{"color", DataType::FLOAT_VECTOR4}},
                                            {{"modelViewProj", DataType::FLOAT_MATRIX4}},
                                            256, 256,
-                                           "main_ps", "main_vs");
+                                           "mainPS", "mainVS");
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
@@ -222,7 +222,7 @@ namespace ouzel
                                          {{"color", DataType::FLOAT_VECTOR4}},
                                          {{"modelViewProj", DataType::FLOAT_MATRIX4}},
                                          256, 256,
-                                         "main_ps", "main_vs");
+                                         "mainPS", "mainVS");
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 

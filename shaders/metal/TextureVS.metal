@@ -14,24 +14,23 @@ typedef struct
 {
     float3 position [[attribute(0)]];
     half4 color [[attribute(1)]];
-    float2 texCoords [[attribute(2)]];
-} VertexPCT;
+    float2 texCoord [[attribute(2)]];
+} VSInput;
 
 typedef struct
 {
     float4 position [[position]];
     half4 color;
-    float2 texCoords;
-} ColorInOut;
+    float2 texCoord;
+} VS2PS;
 
 // Vertex shader function
-vertex ColorInOut main_vs(VertexPCT vert [[stage_in]],
-                          constant uniforms_t& uniforms [[buffer(1)]])
+vertex VS2PS mainVS(VSInput input [[stage_in]],
+                    constant uniforms_t& uniforms [[buffer(1)]])
 {
-    ColorInOut out;
-
-    out.position = uniforms.modelViewProj * float4(vert.position, 1.0);
-    out.color = vert.color;
-    out.texCoords = vert.texCoords;
+    VS2PS out;
+    out.position = uniforms.modelViewProj * float4(input.position, 1.0);
+    out.color = input.color;
+    out.texCoord = input.texCoord;
     return out;
 }
