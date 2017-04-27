@@ -8,7 +8,6 @@
 #include "core/Window.h"
 #include "input/macos/InputMacOS.h"
 #include "graphics/metal/RendererMetal.h"
-#include "utils/Utils.h"
 
 @implementation MetalView
 

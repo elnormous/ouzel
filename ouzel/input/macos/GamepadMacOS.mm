@@ -7,7 +7,6 @@
 #include "core/CompileConfig.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 static const float THUMB_DEADZONE = 0.2f;
 

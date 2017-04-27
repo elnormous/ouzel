@@ -12,7 +12,6 @@
 #include "graphics/Vertex.h"
 #include "core/Cache.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

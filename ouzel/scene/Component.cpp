@@ -3,7 +3,6 @@
 
 #include "Component.h"
 #include "Node.h"
-#include "utils/Utils.h"
 #include "math/MathUtils.h"
 
 namespace ouzel

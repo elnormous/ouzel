@@ -7,7 +7,6 @@
 #include "RendererOGLMacOS.h"
 #include "core/Window.h"
 #include "input/macos/InputMacOS.h"
-#include "utils/Utils.h"
 
 @implementation OpenGLView
 

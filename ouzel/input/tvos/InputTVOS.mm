@@ -10,7 +10,6 @@
 #include "GamepadTVOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 @interface ConnectDelegate: NSObject
 {
@@ -117,7 +116,7 @@ namespace ouzel
                 WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField becomeFirstResponder];
-            }
+            });
 
             return true;
         }
@@ -128,7 +127,7 @@ namespace ouzel
                 WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField resignFirstResponder];
-            }
+            });
 
             return true;
         }

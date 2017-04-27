@@ -9,7 +9,6 @@
 #include "Layer.h"
 #include "graphics/TextureResource.h"
 #include "math/Matrix4.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

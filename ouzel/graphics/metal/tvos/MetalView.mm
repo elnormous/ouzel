@@ -6,7 +6,6 @@
 #include "core/Window.h"
 #include "input/Input.h"
 #include "graphics/metal/RendererMetal.h"
-#include "utils/Utils.h"
 
 @implementation MetalView
 

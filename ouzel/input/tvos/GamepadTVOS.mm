@@ -7,7 +7,6 @@
 #include "core/CompileConfig.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

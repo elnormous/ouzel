@@ -6,7 +6,6 @@
 #include "core/Engine.h"
 #include "scene/Sprite.h"
 #include "events/EventDispatcher.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -5,7 +5,6 @@
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "input/Input.h"
-#include "utils/Utils.h"
 
 @implementation OpenGLView
 

@@ -4,7 +4,6 @@
 #include "RendererOGLIOS.h"
 #include "core/Engine.h"
 #include "WindowIOS.h"
-#include "utils/Utils.h"
 
 namespace ouzel
 {

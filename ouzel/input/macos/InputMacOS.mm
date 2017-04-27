@@ -12,7 +12,6 @@
 #include "GamepadMacOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
-#include "utils/Utils.h"
 
 static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {

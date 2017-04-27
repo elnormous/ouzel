@@ -10,7 +10,6 @@
 #include "scene/Layer.h"
 #include "scene/Camera.h"
 #include "Label.h"
-#include "utils/Utils.h"
 #include "scene/TextDrawable.h"
 
 namespace ouzel
