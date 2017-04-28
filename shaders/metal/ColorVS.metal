@@ -26,8 +26,8 @@ typedef struct
 vertex VS2PS mainVS(VSInput input [[stage_in]],
                     constant uniforms_t& uniforms [[buffer(1)]])
 {
-    VS2PS out;
-    out.position = uniforms.modelViewProj * float4(input.position, 1.0);
-    out.color = input.color;
-    return out;
+    VS2PS output;
+    output.position = uniforms.modelViewProj * float4(input.position, 1.0);
+    output.color = input.color;
+    return output;
 }
