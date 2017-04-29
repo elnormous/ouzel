@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <rapidjson/rapidjson.h>
-#include <rapidjson/filereadstream.h>
+#include <rapidjson/memorystream.h>
 #include <rapidjson/document.h>
 #include "ParticleDefinition.h"
 #include "core/Application.h"
