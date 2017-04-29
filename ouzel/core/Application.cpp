@@ -20,7 +20,7 @@ namespace ouzel
     {
         sharedApplication = this;
 
-        for (int32_t i = 0; i < argc; ++i)
+        for (int i = 0; i < argc; ++i)
         {
             args.push_back(argv[i]);
         }
