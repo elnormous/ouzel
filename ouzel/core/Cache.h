@@ -37,8 +37,12 @@ namespace ouzel
         void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
         void releaseBlendStates();
 
-        void preloadSpriteFrames(const std::string& filename, bool mipmaps = true);
-        const std::vector<scene::SpriteFrame>& getSpriteFrames(const std::string& filename, bool mipmaps = true, uint32_t spritesX = 1, uint32_t spritesY = 1) const;
+        void preloadSpriteFrames(const std::string& filename, bool mipmaps = true,
+                                 uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                 const Vector2& pivot = Vector2(0.5f, 0.5f));
+        const std::vector<scene::SpriteFrame>& getSpriteFrames(const std::string& filename, bool mipmaps = true,
+                                                               uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                                               const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
         void setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFrame>& frames);
         void releaseSpriteFrames();
 

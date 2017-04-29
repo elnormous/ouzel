@@ -5,6 +5,7 @@
 
 #include "scene/Component.h"
 #include "math/Size2.h"
+#include "math/Vector2.h"
 #include "scene/SpriteFrame.h"
 #include "core/UpdateCallback.h"
 #include "graphics/BlendState.h"
@@ -22,10 +23,14 @@ namespace ouzel
         public:
             Sprite();
             Sprite(const std::vector<SpriteFrame>& spriteFrames);
-            Sprite(const std::string& filename, bool mipmaps = true);
+            Sprite(const std::string& filename, bool mipmaps = true,
+                   uint32_t spritesX = 1, uint32_t spritesY = 1,
+                   const Vector2& pivot = Vector2(0.5f, 0.5f));
 
             bool initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames);
-            bool initFromFile(const std::string& filename, bool mipmaps = true, uint32_t spritesX = 1, uint32_t spritesY = 1);
+            bool initFromFile(const std::string& filename, bool mipmaps = true,
+                              uint32_t spritesX = 1, uint32_t spritesY = 1,
+                              const Vector2& pivot = Vector2(0.5f, 0.5f));
 
             virtual void update(float delta);
 
