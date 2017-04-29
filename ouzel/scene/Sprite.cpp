@@ -1,9 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/filereadstream.h>
-#include <rapidjson/document.h>
 #include "Sprite.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
