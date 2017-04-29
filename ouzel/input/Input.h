@@ -261,7 +261,6 @@ namespace ouzel
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
             std::unordered_map<uint64_t, Vector2> touchPositions;
-
             std::vector<std::unique_ptr<Gamepad>> gamepads;
         };
     } // namespace input

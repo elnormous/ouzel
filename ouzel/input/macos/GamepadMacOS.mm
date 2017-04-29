@@ -291,7 +291,7 @@ namespace ouzel
         {
             IOHIDElementRef elementRef = IOHIDValueGetElement(value);
 
-            std::map<IOHIDElementRef, Element>::iterator i = elements.find(elementRef);
+            std::unordered_map<IOHIDElementRef, Element>::iterator i = elements.find(elementRef);
 
             if (i != elements.end())
             {

@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <map>
+#include <unordered_map>
 
 #if defined(__OBJC__)
 #import <IOKit/hid/IOHIDManager.h>
@@ -48,7 +48,7 @@ namespace ouzel
                 GamepadButton button = GamepadButton::NONE;
             };
 
-            std::map<IOHIDElementRef, Element> elements;
+            std::unordered_map<IOHIDElementRef, Element> elements;
 
             IOHIDElementRef leftThumbX = nullptr;
             IOHIDElementRef leftThumbY = nullptr;

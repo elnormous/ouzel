@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include "utils/Noncopyable.h"
 #include "scene/SpriteFrame.h"
 #include "scene/ParticleDefinition.h"
@@ -51,11 +51,11 @@ namespace ouzel
         void releaseBMFonts();
 
     protected:
-        mutable std::unordered_map<std::string, std::shared_ptr<graphics::Texture>> textures;
-        mutable std::unordered_map<std::string, std::shared_ptr<graphics::Shader>> shaders;
-        mutable std::unordered_map<std::string, scene::ParticleDefinition> particleDefinitions;
-        mutable std::unordered_map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
-        mutable std::unordered_map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
-        mutable std::unordered_map<std::string, BMFont> bmFonts;
+        mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
+        mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
+        mutable std::map<std::string, scene::ParticleDefinition> particleDefinitions;
+        mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
+        mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
+        mutable std::map<std::string, BMFont> bmFonts;
     };
 }

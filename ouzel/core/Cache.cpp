@@ -32,7 +32,7 @@ namespace ouzel
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::unordered_map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
+        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
 
         if (i == textures.end())
         {
@@ -45,7 +45,7 @@ namespace ouzel
 
     const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        std::unordered_map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
+        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
 
         if (i != textures.end())
         {
@@ -85,7 +85,7 @@ namespace ouzel
 
     const std::shared_ptr<graphics::Shader>& Cache::getShader(const std::string& shaderName) const
     {
-        std::unordered_map<std::string, std::shared_ptr<graphics::Shader>>::const_iterator i = shaders.find(shaderName);
+        std::map<std::string, std::shared_ptr<graphics::Shader>>::const_iterator i = shaders.find(shaderName);
 
         if (i != shaders.end())
         {
@@ -123,7 +123,7 @@ namespace ouzel
 
     const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::unordered_map<std::string, std::shared_ptr<graphics::BlendState>>::const_iterator i = blendStates.find(blendStateName);
+        std::map<std::string, std::shared_ptr<graphics::BlendState>>::const_iterator i = blendStates.find(blendStateName);
 
         if (i != blendStates.end())
         {
@@ -249,7 +249,7 @@ namespace ouzel
 
     void Cache::preloadParticleDefinition(const std::string& filename)
     {
-        std::unordered_map<std::string, scene::ParticleDefinition>::const_iterator i = particleDefinitions.find(filename);
+        std::map<std::string, scene::ParticleDefinition>::const_iterator i = particleDefinitions.find(filename);
 
         if (i == particleDefinitions.end())
         {
@@ -280,7 +280,7 @@ namespace ouzel
 
     void Cache::preloadBMFont(const std::string& filename)
     {
-        std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
+        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
 
         if (i == bmFonts.end())
         {
@@ -290,7 +290,7 @@ namespace ouzel
 
     const BMFont& Cache::getBMFont(const std::string& filename) const
     {
-        std::unordered_map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
+        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
 
         if (i != bmFonts.end())
         {

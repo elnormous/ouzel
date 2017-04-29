@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include <string>
 
 namespace ouzel
@@ -16,6 +16,6 @@ namespace ouzel
         std::string getString(const std::string& str);
 
     protected:
-        std::unordered_map<std::string, std::string> strings;
+        std::map<std::string, std::string> strings;
     };
 }
