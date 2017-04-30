@@ -26,7 +26,7 @@ namespace ouzel
                 {
                     std::string currentValue = "0x";
 
-                    for (size_t byte = 0; byte < (componentSize < 2) ? componentSize : 2; ++byte)
+                    for (size_t byte = 0; byte < ((componentSize < 2) ? componentSize : 2); ++byte)
                     {
                         char c = newValue[component * componentSize + byte];
 
