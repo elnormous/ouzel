@@ -318,7 +318,6 @@ namespace ouzel
     std::string toString(float val);
     std::string toString(double val);
     std::string toString(long double val);
-    int stringToInt(const std::string& val);
     long stringToLong(const std::string& val);
     long long stringToLongLong(const std::string& val);
     float stringToFloat(const std::string& val);
@@ -331,34 +330,29 @@ namespace ouzel
         return std::to_string(val);
     }
 
-    inline int stringToInt(const std::string& val)
-    {
-        return std::stoi(val, 0, 0);
-    }
-
     inline long stringToLong(const std::string& val)
     {
-        return std::stol(val, 0, 0);
+        return std::stol(val, nullptr, 0);
     }
 
     inline long long stringToLongLong(const std::string& val)
     {
-        return std::stoll(val, 0, 0);
+        return std::stoll(val, nullptr, 0);
     }
 
     inline float stringToFloat(const std::string& val)
     {
-        return std::stof(val);
+        return std::stof(val, nullptr);
     }
 
     inline double stringToDouble(const std::string& val)
     {
-        return std::stod(val);
+        return std::stod(val, nullptr);
     }
 
     inline long double stringToLongDouble(const std::string& val)
     {
-        return std::stold(val);
+        return std::stold(val, nullptr);
     }
 #endif
 }

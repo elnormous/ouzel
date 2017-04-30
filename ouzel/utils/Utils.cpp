@@ -64,34 +64,29 @@ namespace ouzel
         return std::string(TEMP_BUFFER);
     }
 
-    int stringToInt(const std::string& val)
-    {
-        return strtoi(val.c_str(), 0, 0);
-    }
-
     long stringToLong(const std::string& val)
     {
-        return strtol(val.c_str(), 0, 0);
+        return strtol(val.c_str(), nullptr, 0);
     }
 
     long long stringToLongLong(const std::string& val)
     {
-        return strtoll(val.c_str(), 0, 0);
+        return strtoll(val.c_str(), nullptr, 0);
     }
 
     float stringToFloat(const std::string& val)
     {
-        return strtof(val.c_str());
+        return strtof(val.c_str(), nullptr);
     }
 
     double stringToDouble(const std::string& val)
     {
-        return strtod(val.c_str());
+        return strtod(val.c_str(), nullptr);
     }
 
     long double stringToLongDouble(const std::string& val)
     {
-        return strtold(val.c_str());
+        return strtold(val.c_str(), nullptr);
     }
 
     #if OUZEL_SUPPORTS_NEON_CHECK
