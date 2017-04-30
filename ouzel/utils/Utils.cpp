@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "Utils.h"
 
 namespace ouzel
@@ -61,6 +62,36 @@ namespace ouzel
     {
         snprintf(TEMP_BUFFER, sizeof(TEMP_BUFFER), "%Lf", val);
         return std::string(TEMP_BUFFER);
+    }
+
+    int stringToInt(const std::string& val)
+    {
+        return strtoi(val.c_str(), 0, 0);
+    }
+
+    long stringToLong(const std::string& val)
+    {
+        return strtol(val.c_str(), 0, 0);
+    }
+
+    long long stringToLongLong(const std::string& val)
+    {
+        return strtoll(val.c_str(), 0, 0);
+    }
+
+    float stringToFloat(const std::string& val)
+    {
+        return strtof(val.c_str());
+    }
+
+    double stringToDouble(const std::string& val)
+    {
+        return strtod(val.c_str());
+    }
+
+    long double stringToLongDouble(const std::string& val)
+    {
+        return strtold(val.c_str());
     }
 
     #if OUZEL_SUPPORTS_NEON_CHECK
