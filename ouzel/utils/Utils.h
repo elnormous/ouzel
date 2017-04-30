@@ -322,7 +322,6 @@ namespace ouzel
     long long stringToLongLong(const std::string& val);
     float stringToFloat(const std::string& val);
     double stringToDouble(const std::string& val);
-    long double stringToLongDouble(const std::string& val);
 #else
     template<class T>
     inline std::string toString(T val)
@@ -348,11 +347,6 @@ namespace ouzel
     inline double stringToDouble(const std::string& val)
     {
         return std::stod(val, nullptr);
-    }
-
-    inline long double stringToLongDouble(const std::string& val)
-    {
-        return std::stold(val, nullptr);
     }
 #endif
 }

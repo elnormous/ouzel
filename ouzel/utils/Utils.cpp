@@ -84,11 +84,6 @@ namespace ouzel
         return strtod(val.c_str(), nullptr);
     }
 
-    long double stringToLongDouble(const std::string& val)
-    {
-        return strtold(val.c_str(), nullptr);
-    }
-
     #if OUZEL_SUPPORTS_NEON_CHECK
         AnrdoidNEONChecker anrdoidNEONChecker;
     #endif
