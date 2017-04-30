@@ -8,52 +8,72 @@
 
 namespace ouzel
 {
-    Color::Color(const std::string& color)
+    static uint32_t parseColorString(const std::string& value)
     {
-        if (!color.empty())
-        {
-            uint32_t intValue = 0;
+        uint32_t result = 0;
 
-            if (color[0] == '#')
+        if (!value.empty())
+        {
+            if (value.front() == '#')
             {
-                std::string newValue = "0x";
-                newValue.append(color.begin() + 1, color.end());
-                intValue = static_cast<uint32_t>(stringToLong(newValue));
+                std::string newValue(value.begin() + 1, value.end());
+
+                size_t componentSize = (newValue.length() + 2) / 3; // get the size of component rounded up
+                size_t newSize = componentSize * 3;
+                newValue.resize(newSize);
+
+                for (size_t component = 0; component < 3; ++component)
+                {
+                    std::string currentValue = "0x";
+
+                    for (size_t byte = 0; byte < componentSize; ++byte)
+                    {
+                        char c = newValue[component * componentSize + byte];
+
+                        if ((c >= '0' && c <= '9') ||
+                            (c >= 'a' && c <= 'f') ||
+                            (c >= 'A' && c <= 'F'))
+                        {
+                            currentValue += c;
+                        }
+                        else
+                        {
+                            currentValue += "0";
+                        }
+                    }
+
+                    result |= (static_cast<uint32_t>(stringToLong(currentValue))) << ((3 - component) * 8);
+                }
+
+                result |= 0xff; // alpha
             }
             else
             {
-                intValue = static_cast<uint32_t>(stringToLong(color));
+                result = static_cast<uint32_t>(stringToLong(value));
             }
-
-            v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
-            v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
-            v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
-            v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
         }
+
+        return result;
+    }
+
+    Color::Color(const std::string& color)
+    {
+        uint32_t intValue = parseColorString(color);
+
+        v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+        v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+        v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+        v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
     }
 
     Color& Color::operator=(const std::string& color)
     {
-        if (!color.empty())
-        {
-            uint32_t intValue = 0;
+        uint32_t intValue = parseColorString(color);
 
-            if (color[0] == '#')
-            {
-                std::string newValue = "0x";
-                newValue.append(color.begin() + 1, color.end());
-                intValue = static_cast<uint32_t>(stringToLong(newValue));
-            }
-            else
-            {
-                intValue = static_cast<uint32_t>(stringToLong(color));
-            }
-
-            v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
-            v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
-            v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
-            v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
-        }
+        v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+        v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+        v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+        v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
 
         return *this;
     }
