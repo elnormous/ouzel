@@ -276,7 +276,7 @@ namespace ouzel
         {
             uint32_t cp = *i & 0xff;
 
-            if (cp < 0x80) // length = 1
+            if (cp <= 0x7f) // length = 1
             {
                 // do nothing
             }
@@ -303,6 +303,39 @@ namespace ouzel
             }
 
             result.push_back(cp);
+        }
+
+        return result;
+    }
+
+    inline std::string utf32to8(const std::vector<uint32_t>& text)
+    {
+        std::string result;
+
+        for (auto i = text.begin(); i != text.end(); ++i)
+        {
+            if (*i <= 0x7f)
+            {
+                result.push_back(static_cast<char>(*i));
+            }
+            else if (*i <= 0x7ff)
+            {
+                result.push_back(static_cast<char>(0xc0 | ((*i >> 6) & 0x1f)));
+                result.push_back(static_cast<char>(0x80 | (*i & 0x3f)));
+            }
+            else if (*i <= 0xffff)
+            {
+                result.push_back(static_cast<char>(0xe0 | ((*i >> 12) & 0x0f)));
+                result.push_back(static_cast<char>(0x80 | ((*i >> 6) & 0x3f)));
+                result.push_back(static_cast<char>(0x80 | (*i & 0x3f)));
+            }
+            else
+            {
+                result.push_back(static_cast<char>(0xf0 | ((*i >> 18) & 0x07)));
+                result.push_back(static_cast<char>(0x80 | ((*i >> 12) & 0x3f)));
+                result.push_back(static_cast<char>(0x80 | ((*i >> 6) & 0x3f)));
+                result.push_back(static_cast<char>(0x80 | (*i & 0x3f)));
+            }
         }
 
         return result;
