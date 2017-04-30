@@ -32,7 +32,7 @@ namespace ouzel
             void clear();
 
             void point(const Vector2& position, const Color& color);
-            void line(const Vector2& start, const Vector2& finish, const Color& color);
+            void line(const Vector2& start, const Vector2& finish, const Color& color, float thickness = 0.0f);
             void circle(const Vector2& position, float radius, const Color& color, bool fill = false, uint32_t segments = 16);
             void rectangle(const Rectangle& rectangle, const Color& color, bool fill = false);
             void triangle(const Vector2 (&positions)[3], const Color& color, bool fill = false);

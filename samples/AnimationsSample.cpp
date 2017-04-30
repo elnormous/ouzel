@@ -27,7 +27,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable = std::make_shared<scene::ShapeDrawable>();
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false);
-    shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN);
+    shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN, 2.0f);
     shapeDrawable->point(Vector2(75.0f, 75.0f), Color::RED);
 
     shapeDrawable->curve({Vector2(50.0f, 50.0f),

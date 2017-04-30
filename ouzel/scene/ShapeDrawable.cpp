@@ -140,25 +140,69 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color)
+        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
         {
             DrawCommand command;
-            command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-            command.indexCount = 2;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            indices.push_back(startVertex);
-            vertices.push_back(graphics::VertexPC(start, color));
+            if (thickness > 0.0f)
+            {
+                command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
+                command.indexCount = 6;
 
-            indices.push_back(startVertex + 1);
-            vertices.push_back(graphics::VertexPC(finish, color));
+                Vector2 off = finish - start;
+                float angle = off.getAngle();
+                float sinAngle = sinf(angle);
+                float cosAngle = cosf(angle);
+
+                Vector2 positions[4];
+
+                vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle + thickness * sinAngle,
+                                                                      -thickness * cosAngle - thickness * sinAngle),
+                                                      color));
+
+                vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle + thickness * sinAngle,
+                                                                       -thickness * cosAngle + thickness * sinAngle),
+                                                      color));
+
+                vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle - thickness * sinAngle,
+                                                                      thickness * cosAngle - thickness * sinAngle),
+                                                      color));
+
+                vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle - thickness * sinAngle,
+                                                                       thickness * cosAngle + thickness * sinAngle),
+                                                      color));
+
+                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 1);
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 1);
+                indices.push_back(startVertex + 3);
+                indices.push_back(startVertex + 2);
+
+                boundingBox.insertPoint(vertices[startVertex + 0].position);
+                boundingBox.insertPoint(vertices[startVertex + 1].position);
+                boundingBox.insertPoint(vertices[startVertex + 2].position);
+                boundingBox.insertPoint(vertices[startVertex + 3].position);
+            }
+            else
+            {
+                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
+                command.indexCount = 2;
+
+                indices.push_back(startVertex);
+                vertices.push_back(graphics::VertexPC(start, color));
+
+                indices.push_back(startVertex + 1);
+                vertices.push_back(graphics::VertexPC(finish, color));
+
+                boundingBox.insertPoint(start);
+                boundingBox.insertPoint(finish);
+            }
 
             drawCommands.push_back(command);
-
-            boundingBox.insertPoint(start);
-            boundingBox.insertPoint(finish);
 
             dirty = true;
         }
@@ -389,7 +433,8 @@ namespace ouzel
 
                     for (uint16_t n = 0; n < controlPoints.size(); ++n)
                     {
-                        vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) * powf(1.0f - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
+                        vertex.position += static_cast<float>(binomialCoefficients[n]) * powf(t, n) *
+                                           powf(1.0f - t, static_cast<float>(controlPoints.size() - n - 1)) * controlPoints[n];
                     }
 
                     indices.push_back(startVertex + static_cast<uint16_t>(command.indexCount));
