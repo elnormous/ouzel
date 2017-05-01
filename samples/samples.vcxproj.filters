@@ -50,9 +50,4 @@
       <UniqueIdentifier>{14a6027d-4cee-4791-b7eb-0dd111e11b91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="windows\samples.exe.manifest">
-      <Filter>windows</Filter>
-    </Manifest>
-  </ItemGroup>
 </Project>
