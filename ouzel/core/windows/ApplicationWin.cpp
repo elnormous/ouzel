@@ -4,6 +4,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include <cstdlib>
+#include <ShellScalingApi.h>
 #include "ApplicationWin.h"
 #include "input/windows/InputWin.h"
 #include "WindowWin.h"
@@ -15,9 +16,6 @@ namespace ouzel
     ApplicationWin::ApplicationWin(const std::vector<std::string>& pArgs):
         Application(pArgs)
     {
-#ifdef DEBUG
-        AllocConsole();
-#endif
     }
 
     ApplicationWin::~ApplicationWin()
@@ -31,6 +29,20 @@ namespace ouzel
         if (FAILED(hr))
         {
             Log(Log::Level::ERR) << "Failed to initialize COM";
+            return EXIT_FAILURE;
+        }
+
+#ifdef DEBUG
+        if (!AllocConsole())
+        {
+            Log(Log::Level::ERR) << "Failed to allocate console";
+            return EXIT_FAILURE;
+        }
+#endif
+
+        if (FAILED(SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE)))
+        {
+            Log(Log::Level::ERR) << "Failed to set process DPI awareness";
             return EXIT_FAILURE;
         }
 

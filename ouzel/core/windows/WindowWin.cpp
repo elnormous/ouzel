@@ -3,7 +3,6 @@
 
 #define NOMINMAX
 #include <windowsx.h>
-#include <ShellScalingApi.h>
 #include "WindowWin.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -368,13 +367,6 @@ namespace ouzel
         }
 
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
-        UINT dpiX, dpiY;
-        if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
-        {
-            Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
-            return false;
-        }
-        contentScale = static_cast<float>(dpiX) / 96.0f;
 
         if (fullscreen)
         {
@@ -479,6 +471,8 @@ namespace ouzel
 
     void WindowWin::handleResize(const Size2& newSize)
     {
+        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+
         Event event;
         event.type = Event::Type::WINDOW_SIZE_CHANGE;
 
@@ -486,13 +480,11 @@ namespace ouzel
         event.windowEvent.size = newSize;
 
         sharedEngine->getEventDispatcher()->postEvent(event);
-
-        checkMonitorChange();
     }
 
     void WindowWin::handleMove()
     {
-        checkMonitorChange();
+        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)
@@ -503,34 +495,5 @@ namespace ouzel
     void WindowWin::removeAccelerator(HACCEL accelerator)
     {
         accelerators.erase(accelerator);
-    }
-
-    void WindowWin::checkMonitorChange()
-    {
-        HMONITOR newMonitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
-
-        if (newMonitor != monitor)
-        {
-            monitor = newMonitor;
-            UINT dpiX, dpiY;
-            if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
-            {
-                Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
-                return;
-            }
-
-            float newContentScale = static_cast<float>(dpiX) / 96.0f;
-
-            if (newContentScale != contentScale)
-            {
-                Event event;
-                event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
-
-                event.windowEvent.window = this;
-                event.windowEvent.contentScale = newContentScale;
-
-                sharedEngine->getEventDispatcher()->postEvent(event);
-            }
-        }
     }
 }

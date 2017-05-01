@@ -35,7 +35,6 @@ namespace ouzel
     protected:
         WindowWin(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
-        void checkMonitorChange();
 
         void switchFullscreen(bool newFullscreen);
 
