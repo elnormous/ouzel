@@ -23,16 +23,19 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen) override;
 
         void handleResize(const Size2& newSize);
+        void handleMove();
 
         HWND getNativeWindow() const { return window; }
         const std::set<HACCEL>& getAccelerators() const { return accelerators; }
         void addAccelerator(HACCEL accelerator);
         void removeAccelerator(HACCEL accelerator);
-        HMONITOR getMonitor() const;
+
+        HMONITOR getMonitor() const { return monitor; }
 
     protected:
         WindowWin(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
         virtual bool init() override;
+        void checkMonitorChange();
 
         void switchFullscreen(bool newFullscreen);
 
@@ -41,6 +44,7 @@ namespace ouzel
         DWORD windowStyle = 0;
         DWORD windowWindowedStyle = 0;
         DWORD windowFullscreenStyle = 0;
+        HMONITOR monitor = 0;
 
         int windowX = 0;
         int windowY = 0;

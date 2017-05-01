@@ -1,7 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#define NOMINMAX
 #include <windowsx.h>
+#include <ShellScalingApi.h>
 #include "WindowWin.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -233,6 +235,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             }
             return 0;
         }
+        case WM_MOVE:
+        {
+            windowWin->handleMove();
+            break;
+        }
         case WM_ERASEBKGND:
         {
             if (ouzel::sharedEngine->getRenderer()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
@@ -377,6 +384,15 @@ namespace ouzel
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
+        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+        UINT dpiX, dpiY;
+        if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
+        {
+            Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
+            return false;
+        }
+        contentScale = static_cast<float>(dpiX) / 96.0f;
+
         return Window::init();
     }
 
@@ -445,11 +461,12 @@ namespace ouzel
             windowWidth = windowRect.right - windowRect.left;
             windowHeight = windowRect.bottom - windowRect.top;
 
-            HMONITOR monitor = getMonitor();
-
             MONITORINFO info;
             info.cbSize = sizeof(MONITORINFO);
             GetMonitorInfo(monitor, &info);
+
+            Log() << info.rcMonitor.right - info.rcMonitor.left << "x" <<
+                info.rcMonitor.bottom - info.rcMonitor.top;
 
             SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
                          info.rcMonitor.right - info.rcMonitor.left,
@@ -472,6 +489,13 @@ namespace ouzel
         event.windowEvent.size = newSize;
 
         sharedEngine->getEventDispatcher()->postEvent(event);
+
+        checkMonitorChange();
+    }
+
+    void WindowWin::handleMove()
+    {
+        checkMonitorChange();
     }
 
     void WindowWin::addAccelerator(HACCEL accelerator)
@@ -484,8 +508,32 @@ namespace ouzel
         accelerators.erase(accelerator);
     }
 
-    HMONITOR WindowWin::getMonitor() const
+    void WindowWin::checkMonitorChange()
     {
-        return MonitorFromWindow(window, MONITOR_DEFAULTTONULL);
+        HMONITOR newMonitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+
+        if (newMonitor != monitor)
+        {
+            monitor = newMonitor;
+            UINT dpiX, dpiY;
+            if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
+            {
+                Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
+                return;
+            }
+
+            float newContentScale = static_cast<float>(dpiX) / 96.0f;
+
+            if (newContentScale != contentScale)
+            {
+                Event event;
+                event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
+
+                event.windowEvent.window = this;
+                event.windowEvent.contentScale = newContentScale;
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
+        }
     }
 }
