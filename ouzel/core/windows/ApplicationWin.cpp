@@ -4,7 +4,6 @@
 #define NOMINMAX
 #include <windows.h>
 #include <cstdlib>
-#include <ShellScalingApi.h>
 #include "ApplicationWin.h"
 #include "input/windows/InputWin.h"
 #include "WindowWin.h"
@@ -39,12 +38,6 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 #endif
-
-        if (FAILED(SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE)))
-        {
-            Log(Log::Level::ERR) << "Failed to set process DPI awareness";
-            return EXIT_FAILURE;
-        }
 
         ouzelMain(args);
 
