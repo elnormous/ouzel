@@ -68,6 +68,29 @@ namespace ouzel
             MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer, MAX_PATH);
             StringCchCatW(szBuffer, sizeof(szBuffer), L"\n");
             OutputDebugStringW(szBuffer);
+
+    #if DEBUG
+            HANDLE handle = 0;
+            switch (level)
+            {
+            case Level::ERR:
+            case Level::WARN:
+                handle = GetStdHandle(STD_ERROR_HANDLE);
+                break;
+            case Level::INFO:
+            case Level::ALL:
+                handle = GetStdHandle(STD_OUTPUT_HANDLE);
+                break;
+            default: break;
+            }
+
+            if (handle)
+            {
+                DWORD bytesWritten;
+                WriteConsoleW(handle, szBuffer, static_cast<DWORD>(wcslen(szBuffer)), &bytesWritten, nullptr);
+            }
+    #endif
+
 #elif OUZEL_PLATFORM_ANDROID
             int priority = 0;
             switch (level)

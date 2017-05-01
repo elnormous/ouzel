@@ -15,6 +15,9 @@ namespace ouzel
     ApplicationWin::ApplicationWin(const std::vector<std::string>& pArgs):
         Application(pArgs)
     {
+#ifdef DEBUG
+        AllocConsole();
+#endif
     }
 
     ApplicationWin::~ApplicationWin()
