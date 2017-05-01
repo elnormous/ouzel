@@ -367,6 +367,15 @@ namespace ouzel
             return false;
         }
 
+        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+        UINT dpiX, dpiY;
+        if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
+        {
+            Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
+            return false;
+        }
+        contentScale = static_cast<float>(dpiX) / 96.0f;
+
         if (fullscreen)
         {
             switchFullscreen(fullscreen);
@@ -383,15 +392,6 @@ namespace ouzel
 
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
-        UINT dpiX, dpiY;
-        if (FAILED(GetDpiForMonitor(monitor, MDT_DEFAULT, &dpiX, &dpiY)))
-        {
-            Log(Log::Level::ERR) << "Failed to get monitor' s DPI";
-            return false;
-        }
-        contentScale = static_cast<float>(dpiX) / 96.0f;
 
         return Window::init();
     }
@@ -464,9 +464,6 @@ namespace ouzel
             MONITORINFO info;
             info.cbSize = sizeof(MONITORINFO);
             GetMonitorInfo(monitor, &info);
-
-            Log() << info.rcMonitor.right - info.rcMonitor.left << "x" <<
-                info.rcMonitor.bottom - info.rcMonitor.top;
 
             SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
                          info.rcMonitor.right - info.rcMonitor.left,
