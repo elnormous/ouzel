@@ -90,6 +90,7 @@ namespace ouzel
     {
         std::shared_ptr<scene::Node> node;
         uint64_t touchId = 0;
+        Vector2 difference;
         Vector2 position;
     };
 

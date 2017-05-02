@@ -50,7 +50,7 @@ namespace ouzel
             void pointerLeaveNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position);
             void pointerDownOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position);
             void pointerUpOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position);
-            void pointerDragNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position);
+            void pointerDragNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position, const Vector2& difference);
 
             std::vector<std::shared_ptr<Layer>> layers;
             ouzel::EventHandler eventHandler;

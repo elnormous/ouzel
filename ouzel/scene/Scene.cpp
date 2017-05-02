@@ -206,7 +206,7 @@ namespace ouzel
 
                     if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(0, i->second, event.position);
+                        pointerDragNode(0, i->second, event.position, event.difference);
                     }
                     break;
                 }
@@ -245,7 +245,7 @@ namespace ouzel
 
                     if (i != pointerDownOnNodes.end())
                     {
-                        pointerDragNode(event.touchId, i->second, event.position);
+                        pointerDragNode(event.touchId, i->second, event.position, event.difference);
                     }
                     break;
                 }
@@ -345,7 +345,7 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t, const std::shared_ptr<Node>& node, const Vector2& position)
+        void Scene::pointerDragNode(uint64_t, const std::shared_ptr<Node>& node, const Vector2& position, const Vector2& difference)
         {
             if (node)
             {
@@ -353,6 +353,7 @@ namespace ouzel
                 event.type = Event::Type::UI_DRAG_NODE;
 
                 event.uiEvent.node = node;
+                event.uiEvent.difference = difference;
                 event.uiEvent.position = position;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
