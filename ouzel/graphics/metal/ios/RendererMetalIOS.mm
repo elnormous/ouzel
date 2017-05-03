@@ -19,9 +19,13 @@ namespace ouzel
                                     bool newVerticalSync,
                                     bool newDepth)
         {
-            if (!RendererMetal::init(newWindow, newSize, newSampleCount,
-                                     newTextureFilter, newMaxAnisotropy,
-                                     newBackBufferFormat, newVerticalSync,
+            if (!RendererMetal::init(newWindow,
+                                     newSize,
+                                     newSampleCount,
+                                     newTextureFilter,
+                                     newMaxAnisotropy,
+                                     newBackBufferFormat,
+                                     newVerticalSync,
                                      newDepth))
             {
                 return false;
