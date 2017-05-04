@@ -160,7 +160,10 @@ namespace ouzel
 
         [window makeKeyAndVisible];
 
-        contentScale = static_cast<float>(screen.scale);
+        if (highDpi)
+        {
+            contentScale = static_cast<float>(screen.scale);
+        }
 
         return Window::init();
     }
