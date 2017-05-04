@@ -82,7 +82,13 @@ namespace ouzel
             {
                 if (!component->isHidden())
                 {
-                    component->draw(transform, drawColor, camera);
+                    component->draw(transform,
+                                    drawColor,
+                                    camera->getRenderViewProjection(),
+                                    camera->getRenderTarget(),
+                                    camera->getRenderViewport(),
+                                    camera->getDepthWrite(),
+                                    camera->getDepthTest());
                 }
             }
         }
@@ -100,7 +106,13 @@ namespace ouzel
             {
                 if (!component->isHidden())
                 {
-                    component->drawWireframe(transform, drawColor, camera);
+                    component->drawWireframe(transform,
+                                             drawColor,
+                                             camera->getRenderViewProjection(),
+                                             camera->getRenderTarget(),
+                                             camera->getRenderViewport(),
+                                             camera->getDepthWrite(),
+                                             camera->getDepthTest());
                 }
             }
         }

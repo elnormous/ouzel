@@ -30,9 +30,19 @@ namespace ouzel
 
         void ShapeDrawable::draw(const Matrix4& transformMatrix,
                                  const Color& drawColor,
-                                 Camera* camera)
+                                 const Matrix4& renderViewProjection,
+                                 const std::shared_ptr<graphics::Texture>& renderTarget,
+                                 const Rectangle& renderViewport,
+                                 bool depthWrite,
+                                 bool depthTest)
         {
-            Component::draw(transformMatrix, drawColor, camera);
+            Component::draw(transformMatrix,
+                            drawColor,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest);
 
             if (dirty)
             {
@@ -41,7 +51,7 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
             for (const DrawCommand& drawCommand : drawCommands)
@@ -61,18 +71,28 @@ namespace ouzel
                                                             drawCommand.indexCount,
                                                             drawCommand.mode,
                                                             drawCommand.startIndex,
-                                                            camera->getRenderTarget(),
-                                                            camera->getRenderViewport(),
-                                                            camera->getDepthWrite(),
-                                                            camera->getDepthTest());
+                                                            renderTarget,
+                                                            renderViewport,
+                                                            depthWrite,
+                                                            depthTest);
             }
         }
 
         void ShapeDrawable::drawWireframe(const Matrix4& transformMatrix,
                                           const Color& drawColor,
-                                          Camera* camera)
+                                          const Matrix4& renderViewProjection,
+                                          const std::shared_ptr<graphics::Texture>& renderTarget,
+                                          const Rectangle& renderViewport,
+                                          bool depthWrite,
+                                          bool depthTest)
         {
-            Component::drawWireframe(transformMatrix, drawColor, camera);
+            Component::drawWireframe(transformMatrix,
+                                     drawColor,
+                                     renderViewProjection,
+                                     renderTarget,
+                                     renderViewport,
+                                     depthWrite,
+                                     depthTest);
 
             if (dirty)
             {
@@ -81,7 +101,7 @@ namespace ouzel
                 dirty = false;
             }
 
-            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
             for (const DrawCommand& drawCommand : drawCommands)
@@ -101,10 +121,10 @@ namespace ouzel
                                                             drawCommand.indexCount,
                                                             drawCommand.mode,
                                                             drawCommand.startIndex,
-                                                            camera->getRenderTarget(),
-                                                            camera->getRenderViewport(),
-                                                            camera->getDepthWrite(),
-                                                            camera->getDepthTest(),
+                                                            renderTarget,
+                                                            renderViewport,
+                                                            depthWrite,
+                                                            depthTest,
                                                             true);
             }
         }

@@ -30,11 +30,19 @@ namespace ouzel
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
-                              Camera* camera) override;
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest) override;
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const Color& drawColor,
-                                       Camera* camera) override;
+                                       const Matrix4& renderViewProjection,
+                                       const std::shared_ptr<graphics::Texture>& renderTarget,
+                                       const Rectangle& renderViewport,
+                                       bool depthWrite,
+                                       bool depthTest) override;
 
             virtual void update(float delta);
 

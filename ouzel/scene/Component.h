@@ -9,6 +9,8 @@
 #include "math/Box3.h"
 #include "math/Matrix4.h"
 #include "math/Color.h"
+#include "math/Rectangle.h"
+#include "graphics/Texture.h"
 
 namespace ouzel
 {
@@ -23,11 +25,19 @@ namespace ouzel
         public:
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
-                              Camera* camera);
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest);
 
             virtual void drawWireframe(const Matrix4& transformMatrix,
                                        const Color& drawColor,
-                                       Camera* camera);
+                                       const Matrix4& renderViewProjection,
+                                       const std::shared_ptr<graphics::Texture>& renderTarget,
+                                       const Rectangle& renderViewport,
+                                       bool depthWrite,
+                                       bool depthTest);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }

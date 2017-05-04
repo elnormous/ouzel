@@ -65,9 +65,19 @@ namespace ouzel
 
         void TextDrawable::draw(const Matrix4& transformMatrix,
                                 const Color& drawColor,
-                                Camera* camera)
+                                const Matrix4& renderViewProjection,
+                                const std::shared_ptr<graphics::Texture>& renderTarget,
+                                const Rectangle& renderViewport,
+                                bool depthWrite,
+                                bool depthTest)
         {
-            Component::draw(transformMatrix, drawColor, camera);
+            Component::draw(transformMatrix,
+                            drawColor,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest);
 
             if (needsMeshUpdate)
             {
@@ -77,7 +87,7 @@ namespace ouzel
                 needsMeshUpdate = false;
             }
 
-            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -95,19 +105,29 @@ namespace ouzel
                                                         static_cast<uint32_t>(indices.size()),
                                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                         0,
-                                                        camera->getRenderTarget(),
-                                                        camera->getRenderViewport(),
-                                                        camera->getDepthWrite(),
-                                                        camera->getDepthTest());
+                                                        renderTarget,
+                                                        renderViewport,
+                                                        depthWrite,
+                                                        depthTest);
         }
 
         void TextDrawable::drawWireframe(const Matrix4& transformMatrix,
                                          const Color& drawColor,
-                                         Camera* camera)
+                                         const Matrix4& renderViewProjection,
+                                         const std::shared_ptr<graphics::Texture>& renderTarget,
+                                         const Rectangle& renderViewport,
+                                         bool depthWrite,
+                                         bool depthTest)
         {
-            Component::drawWireframe(transformMatrix, drawColor, camera);
+            Component::drawWireframe(transformMatrix,
+                                     drawColor,
+                                     renderViewProjection,
+                                     renderTarget,
+                                     renderViewport,
+                                     depthWrite,
+                                     depthTest);
 
-            Matrix4 modelViewProj = camera->getRenderViewProjection() * transformMatrix;
+            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
             float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
@@ -125,10 +145,10 @@ namespace ouzel
                                                         static_cast<uint32_t>(indices.size()),
                                                         graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                         0,
-                                                        camera->getRenderTarget(),
-                                                        camera->getRenderViewport(),
-                                                        camera->getDepthWrite(),
-                                                        camera->getDepthTest(),
+                                                        renderTarget,
+                                                        renderViewport,
+                                                        depthWrite,
+                                                        depthTest,
                                                         true);
         }
 

@@ -36,9 +36,19 @@ namespace ouzel
 
         void ParticleSystem::draw(const Matrix4& transformMatrix,
                                   const Color& drawColor,
-                                  Camera* camera)
+                                  const Matrix4& renderViewProjection,
+                                  const std::shared_ptr<graphics::Texture>& renderTarget,
+                                  const Rectangle& renderViewport,
+                                  bool depthWrite,
+                                  bool depthTest)
         {
-            Component::draw(transformMatrix, drawColor, camera);
+            Component::draw(transformMatrix,
+                            drawColor,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest);
 
             if (particleCount)
             {
@@ -53,11 +63,11 @@ namespace ouzel
                 if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
                     particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
-                    transform = camera->getRenderViewProjection();
+                    transform = renderViewProjection;
                 }
                 else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = camera->getRenderViewProjection() * transformMatrix;
+                    transform = renderViewProjection * transformMatrix;
                 }
 
                 float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
@@ -77,18 +87,28 @@ namespace ouzel
                                                             particleCount * 6,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
-                                                            camera->getRenderTarget(),
-                                                            camera->getRenderViewport(),
-                                                            camera->getDepthWrite(),
-                                                            camera->getDepthTest());
+                                                            renderTarget,
+                                                            renderViewport,
+                                                            depthWrite,
+                                                            depthTest);
             }
         }
 
         void ParticleSystem::drawWireframe(const Matrix4& transformMatrix,
                                            const Color& drawColor,
-                                           Camera* camera)
+                                           const Matrix4& renderViewProjection,
+                                           const std::shared_ptr<graphics::Texture>& renderTarget,
+                                           const Rectangle& renderViewport,
+                                           bool depthWrite,
+                                           bool depthTest)
         {
-            Component::drawWireframe(transformMatrix, drawColor, camera);
+            Component::drawWireframe(transformMatrix,
+                                     drawColor,
+                                     renderViewProjection,
+                                     renderTarget,
+                                     renderViewport,
+                                     depthWrite,
+                                     depthTest);
 
             if (particleCount)
             {
@@ -97,11 +117,11 @@ namespace ouzel
                 if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
                     particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
-                    transform = camera->getRenderViewProjection();
+                    transform = renderViewProjection;
                 }
                 else if (particleDefinition.positionType == ParticleDefinition::PositionType::GROUPED)
                 {
-                    transform = camera->getRenderViewProjection() * transformMatrix;
+                    transform = renderViewProjection * transformMatrix;
                 }
 
                 float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
@@ -121,10 +141,10 @@ namespace ouzel
                                                             particleCount * 6,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
-                                                            camera->getRenderTarget(),
-                                                            camera->getRenderViewport(),
-                                                            camera->getDepthWrite(),
-                                                            camera->getDepthTest(),
+                                                            renderTarget,
+                                                            renderViewport,
+                                                            depthWrite,
+                                                            depthTest,
                                                             true);
             }
         }

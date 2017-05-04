@@ -11,13 +11,21 @@ namespace ouzel
     {
         void Component::draw(const Matrix4&,
                              const Color&,
-                             Camera*)
+                             const Matrix4&,
+                             const std::shared_ptr<graphics::Texture>&,
+                             const Rectangle&,
+                             bool,
+                             bool)
         {
         }
 
         void Component::drawWireframe(const Matrix4&,
                                       const Color&,
-                                      Camera*)
+                                      const Matrix4&,
+                                      const std::shared_ptr<graphics::Texture>&,
+                                      const Rectangle&,
+                                      bool,
+                                      bool)
         {
         }
 
