@@ -99,12 +99,25 @@ namespace ouzel
     {
         NSScreen* screen = [NSScreen mainScreen];
 
-        if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(screen.frame.size.width) * 0.6f;
-        if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(screen.frame.size.height) * 0.6f;
+        CGSize windowSize;
 
-        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - size.v[0] / 2.0f,
-                                  static_cast<float>(screen.frame.size.height) / 2.0f - size.v[1] / 2.0f,
-                                  size.v[0], size.v[1]);
+        if (highDpi)
+        {
+            windowSize.width = size.v[0];
+            windowSize.height = size.v[1];
+        }
+        else
+        {
+            windowSize.width = size.v[0] / [screen backingScaleFactor];
+            windowSize.height = size.v[1] / [screen backingScaleFactor];
+        }
+
+        if (windowSize.width <= 0.0f) windowSize.width = screen.frame.size.width * 0.6f;
+        if (windowSize.height <= 0.0f) windowSize.height = screen.frame.size.height * 0.6f;
+
+        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - windowSize.width / 2.0f,
+                                  static_cast<float>(screen.frame.size.height) / 2.0f - windowSize.height / 2.0f,
+                                  windowSize.width, windowSize.height);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
@@ -168,7 +181,13 @@ namespace ouzel
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
 
-        contentScale = static_cast<float>(window.backingScaleFactor);
+        if (highDpi)
+        {
+            contentScale = static_cast<float>(window.backingScaleFactor);
+        }
+        else
+        {
+        }
 
         return Window::init();
     }
@@ -260,8 +279,17 @@ namespace ouzel
         event.type = Event::Type::WINDOW_SIZE_CHANGE;
 
         event.windowEvent.window = this;
-        event.windowEvent.size = Size2(static_cast<float>(frame.size.width),
-                                       static_cast<float>(frame.size.height));
+
+        if (highDpi)
+        {
+            event.windowEvent.size = Size2(static_cast<float>(frame.size.width),
+                                           static_cast<float>(frame.size.height));
+        }
+        else
+        {
+            event.windowEvent.size = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor),
+                                           static_cast<float>(frame.size.height * window.backingScaleFactor));
+        }
 
         sharedEngine->getEventDispatcher()->postEvent(event);
     }
@@ -284,13 +312,30 @@ namespace ouzel
 
     void WindowMacOS::handleScaleFactorChange()
     {
-        Event event;
-        event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
+        if (highDpi)
+        {
+            Event event;
+            event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
 
-        event.windowEvent.window = this;
-        event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
+            event.windowEvent.window = this;
+            event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
 
-        sharedEngine->getEventDispatcher()->postEvent(event);
+            sharedEngine->getEventDispatcher()->postEvent(event);
+        }
+        else
+        {
+            NSRect frame = [NSWindow contentRectForFrameRect:window.frame
+                                                   styleMask:window.styleMask];
+
+            Event event;
+            event.type = Event::Type::WINDOW_SIZE_CHANGE;
+
+            event.windowEvent.window = this;
+            event.windowEvent.size = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor),
+                                           static_cast<float>(frame.size.height * window.backingScaleFactor));
+
+            sharedEngine->getEventDispatcher()->postEvent(event);
+        }
     }
 
     void WindowMacOS::handleScreenChange()
