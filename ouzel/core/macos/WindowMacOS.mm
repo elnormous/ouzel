@@ -108,8 +108,8 @@ namespace ouzel
         }
         else
         {
-            windowSize.width = size.v[0] / [screen backingScaleFactor];
-            windowSize.height = size.v[1] / [screen backingScaleFactor];
+            windowSize.width = size.v[0] / screen.backingScaleFactor;
+            windowSize.height = size.v[1] / screen.backingScaleFactor;
         }
 
         if (windowSize.width <= 0.0f) windowSize.width = screen.frame.size.width * 0.6f;
@@ -167,6 +167,9 @@ namespace ouzel
 
         window.contentView = view;
         [window makeKeyAndOrderFront:Nil];
+
+        size = Size2(static_cast<float>(windowSize.width * window.backingScaleFactor),
+                     static_cast<float>(windowSize.height * window.backingScaleFactor));
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
