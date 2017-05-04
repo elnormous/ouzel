@@ -191,23 +191,23 @@ namespace ouzel
         }
 
 #if OUZEL_PLATFORM_MACOS
-        window.reset(new WindowMacOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowMacOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_IOS
-        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_TVOS
-        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_ANDROID
-        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_LINUX
-        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_WINDOWS
-        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_RASPBIAN
-        window.reset(new WindowRasp(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowRasp(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        window.reset(new WindowEm(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new WindowEm(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #else
-        window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title));
+        window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
 #endif
 
         switch (settings.renderDriver)

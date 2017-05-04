@@ -11,8 +11,12 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
-        Window(aSize, aResizable, aFullscreen, aTitle)
+    WindowLinux::WindowLinux(const Size2& aSize,
+                             bool aResizable,
+                             bool aFullscreen,
+                             const std::string& aTitle,
+                             bool aHighDpi):
+        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
     {
     }
 

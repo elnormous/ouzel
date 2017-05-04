@@ -281,8 +281,12 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowWin::WindowWin(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
-        Window(aSize, aResizable, aFullscreen, aTitle)
+    WindowWin::WindowWin(const Size2& aSize,
+                         bool aResizable,
+                         bool aFullscreen,
+                         const std::string& aTitle,
+                         bool aHighDpi):
+        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
     {
     }
 
@@ -301,6 +305,22 @@ namespace ouzel
 
     bool WindowWin::init()
     {
+        if (highDpi)
+        {
+            HMODULE shcore = LoadLibraryW(L"shcore.dll");
+
+            if (shcore)
+            {
+                typedef HRESULT(STDAPICALLTYPE *SetProcessDpiAwarenessProc)(int value);
+                SetProcessDpiAwarenessProc setProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcore, "SetProcessDpiAwareness"));
+
+                if (setProcessDpiAwareness)
+                {
+                    setProcessDpiAwareness(2); // PROCESS_PER_MONITOR_DPI_AWARE
+                }
+            }
+        }
+
         HINSTANCE instance = GetModuleHandleW(nullptr);
 
         WNDCLASSEXW wc;

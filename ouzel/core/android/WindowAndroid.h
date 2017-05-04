@@ -20,7 +20,11 @@ namespace ouzel
         ANativeWindow* getNativeWindow() const { return window; }
 
     protected:
-        WindowAndroid(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
+        WindowAndroid(const Size2& aSize,
+                      bool aResizable,
+                      bool aFullscreen,
+                      const std::string& aTitle,
+                      bool aHighDpi);
 
         ANativeWindow* window = nullptr;
     };

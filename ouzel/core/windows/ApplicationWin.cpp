@@ -39,19 +39,6 @@ namespace ouzel
         }
 #endif
 
-        HMODULE shcore = LoadLibraryW(L"shcore.dll");
-
-        if (shcore)
-        {
-            typedef HRESULT(STDAPICALLTYPE *SetProcessDpiAwarenessProc)(int value);
-            SetProcessDpiAwarenessProc setProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwarenessProc>(GetProcAddress(shcore, "SetProcessDpiAwareness"));
-
-            if (setProcessDpiAwareness)
-            {
-                setProcessDpiAwareness(2); // PROCESS_PER_MONITOR_DPI_AWARE
-            }
-        }
-
         ouzelMain(args);
 
         if (!sharedEngine)

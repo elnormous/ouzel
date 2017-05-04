@@ -32,7 +32,11 @@ namespace ouzel
         Atom getDeleteMessage() const { return deleteMessage; }
 
     protected:
-        WindowLinux(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
+        WindowLinux(const Size2& aSize,
+                    bool aResizable,
+                    bool aFullscreen,
+                    const std::string& aTitle,
+                    bool aHighDpi);
         virtual bool init() override;
         virtual bool toggleFullscreen();
         void handleResize(const Size2& newSize);

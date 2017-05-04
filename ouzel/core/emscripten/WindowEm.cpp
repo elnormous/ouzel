@@ -19,8 +19,12 @@ static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, voi
 
 namespace ouzel
 {
-    WindowEm::WindowEm(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
-        Window(aSize, aResizable, aFullscreen, aTitle)
+    WindowEm::WindowEm(const Size2& aSize,
+                       bool aResizable,
+                       bool aFullscreen,
+                       const std::string& aTitle,
+                       bool aHighDpi):
+        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
     {
         emscripten_set_resize_callback(nullptr, this, 1, emUICallback);
     }

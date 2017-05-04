@@ -8,8 +8,12 @@
 
 namespace ouzel
 {
-    WindowAndroid::WindowAndroid(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle):
-        Window(aSize, aResizable, aFullscreen, aTitle)
+    WindowAndroid::WindowAndroid(const Size2& aSize,
+                                 bool aResizable,
+                                 bool aFullscreen,
+                                 const std::string& aTitle,
+                                 bool aHighDpi):
+        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
     {
         ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
         JNIEnv* jniEnv;

@@ -57,7 +57,11 @@ namespace ouzel
         }
 
     protected:
-        Window(const Size2& aSize, bool aResizable, bool aFullscreen, const std::string& aTitle);
+        Window(const Size2& aSize,
+               bool aResizable,
+               bool aFullscreen,
+               const std::string& aTitle,
+               bool aHighDpi);
         virtual bool init();
 
         bool handleWindowChange(Event::Type type, const WindowEvent& event);
@@ -65,6 +69,7 @@ namespace ouzel
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;
+        bool highDpi = true;
 
         std::string title;
         float contentScale = 1.0f;
