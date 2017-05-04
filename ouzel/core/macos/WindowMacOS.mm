@@ -168,8 +168,18 @@ namespace ouzel
         window.contentView = view;
         [window makeKeyAndOrderFront:Nil];
 
-        size = Size2(static_cast<float>(windowSize.width * window.backingScaleFactor),
-                     static_cast<float>(windowSize.height * window.backingScaleFactor));
+        if (highDpi)
+        {
+            contentScale = static_cast<float>(window.backingScaleFactor);
+
+            size.v[0] = static_cast<float>(windowSize.width);
+            size.v[1] = static_cast<float>(windowSize.height);
+        }
+        else
+        {
+            size.v[0] = static_cast<float>(windowSize.width * window.backingScaleFactor);
+            size.v[1] = static_cast<float>(windowSize.height * window.backingScaleFactor);
+        }
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
@@ -183,14 +193,6 @@ namespace ouzel
         [subMenu addItem:quitItem];
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
-
-        if (highDpi)
-        {
-            contentScale = static_cast<float>(window.backingScaleFactor);
-        }
-        else
-        {
-        }
 
         return Window::init();
     }
