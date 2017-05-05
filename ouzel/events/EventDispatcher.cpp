@@ -37,6 +37,8 @@ namespace ouzel
             }
         }
 
+        eventHandlerDeleteSet.clear();
+
         for (EventHandler* eventHandler : eventHandlerAddSet)
         {
             auto i = std::find(eventHandlers.begin(), eventHandlers.end(), eventHandler);
@@ -51,6 +53,8 @@ namespace ouzel
                 eventHandlers.insert(upperBound, eventHandler);
             }
         }
+
+        eventHandlerAddSet.clear();
 
         Event event;
 

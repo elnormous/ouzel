@@ -424,6 +424,8 @@ namespace ouzel
                 }
             }
 
+            updateCallbackDeleteSet.clear();
+
             for (UpdateCallback* updateCallback : updateCallbackAddSet)
             {
                 auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
@@ -438,6 +440,8 @@ namespace ouzel
                     updateCallbacks.insert(upperBound, updateCallback);
                 }
             }
+
+            updateCallbackAddSet.clear();
 
             for (const UpdateCallback* updateCallback : updateCallbacks)
             {
