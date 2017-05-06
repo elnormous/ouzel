@@ -15,8 +15,8 @@ namespace ouzel
         size(aSize),
         resizable(aResizable),
         fullscreen(aFullscreen),
-        title(aTitle),
         highDpi(aHighDpi),
+        title(aTitle),
         eventHandler(EventHandler::PRIORITY_MAX + 1)
     {
         eventHandler.windowHandler = std::bind(&Window::handleWindowChange, this, std::placeholders::_1, std::placeholders::_2);

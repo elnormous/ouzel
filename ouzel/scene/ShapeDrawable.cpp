@@ -177,8 +177,6 @@ namespace ouzel
                 float sinAngle = sinf(angle);
                 float cosAngle = cosf(angle);
 
-                Vector2 positions[4];
-
                 vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle + thickness * sinAngle,
                                                                       -thickness * cosAngle - thickness * sinAngle),
                                                       color));
