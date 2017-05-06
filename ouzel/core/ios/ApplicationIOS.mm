@@ -108,7 +108,7 @@ namespace ouzel
         Application::setScreenSaverEnabled(newScreenSaverEnabled);
 
         dispatch_async(mainQueue, ^{
-            [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? NO : YES;
+            [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
     }
 }
