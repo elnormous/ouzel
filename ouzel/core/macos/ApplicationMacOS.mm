@@ -2,9 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #import <Cocoa/Cocoa.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
 #include "ApplicationMacOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
+#include "utils/Log.h"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 
@@ -115,5 +117,38 @@ namespace ouzel
         NSURL* nsURL = [NSURL URLWithString:nsStringURL];
 
         return [[NSWorkspace sharedWorkspace] openURL:nsURL] == YES;
+    }
+
+    void ApplicationMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        dispatch_async(mainQueue, ^{
+            if (newScreenSaverEnabled)
+            {
+                if (noSleepAssertionID)
+                {
+                    if (IOPMAssertionRelease(noSleepAssertionID) != kIOReturnSuccess)
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable screen saver";
+                    }
+
+                    noSleepAssertionID = 0;
+                }
+            }
+            else
+            {
+                if (!noSleepAssertionID)
+                {
+                    CFStringRef reasonForActivity= CFSTR("Screen saver");
+                    
+                    if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                                                    kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
+                    {
+                        Log(Log::Level::ERR) << "Failed to disable screen saver";
+                    }
+                }
+            }
+        });
     }
 }

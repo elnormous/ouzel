@@ -166,8 +166,6 @@ namespace ouzel
 
     bool Engine::init(Settings& settings)
     {
-        screenSaverEnabled = settings.screenSaverEnabled;
-
         if (settings.renderDriver == graphics::Renderer::Driver::DEFAULT)
         {
             auto availableDrivers = getAvailableRenderDrivers();

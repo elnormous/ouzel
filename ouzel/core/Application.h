@@ -35,10 +35,14 @@ namespace ouzel
 
         virtual bool openURL(const std::string& url);
 
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
+        bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+
     protected:
         void executeAll();
 
         bool active = true;
+        bool screenSaverEnabled = true;
         int argc = 0;
         char** argv = nullptr;
         std::vector<std::string> args;

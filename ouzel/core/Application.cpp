@@ -87,4 +87,9 @@ namespace ouzel
     {
         return false;
     }
+
+    void Application::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        screenSaverEnabled = newScreenSaverEnabled;
+    }
 }

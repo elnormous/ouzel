@@ -20,7 +20,10 @@ namespace ouzel
 
         virtual bool openURL(const std::string& url) override;
 
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+
     protected:
         dispatch_queue_t mainQueue;
+        uint32_t noSleepAssertionID = 0;
     };
 }
