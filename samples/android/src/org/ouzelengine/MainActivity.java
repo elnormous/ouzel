@@ -16,8 +16,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
     {
         super.onCreate(savedInstanceState);
 
-        OuzelLibJNIWrapper.setMainActivity(this);
-        OuzelLibJNIWrapper.setAssetManager(getAssets());
+        OuzelLibJNIWrapper.onCreate(this, getAssets());
 
         surfaceView = new View(this);
         surfaceView.getHolder().addCallback(this);

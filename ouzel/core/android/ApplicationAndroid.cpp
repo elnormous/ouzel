@@ -124,6 +124,11 @@ namespace ouzel
         return true;
     }
 
+    void ApplicationAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+    }
+
     void ApplicationAndroid::update()
     {
         JNIEnv* jniEnv;

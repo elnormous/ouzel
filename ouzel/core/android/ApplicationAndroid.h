@@ -25,6 +25,8 @@ namespace ouzel
 
         virtual bool openURL(const std::string& url) override;
 
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+
         JavaVM* getJavaVM() const { return javaVM; }
         jobject getMainActivity() const { return mainActivity; }
         jobject getSurface() const { return surface; }

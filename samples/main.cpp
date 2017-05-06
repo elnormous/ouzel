@@ -8,6 +8,9 @@ Samples samples;
 
 void ouzelMain(const std::vector<std::string>& args)
 {
+    // disable screen saver
+    ouzel::sharedApplication->setScreenSaverEnabled(false);
+
     ouzel::Settings settings;
     settings.size = ouzel::Size2(800.0f, 600.0f);
     settings.resizable = true;

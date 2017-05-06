@@ -21,13 +21,9 @@ extern "C" JNIEXPORT void JNIEXPORT JNI_OnUnload(JavaVM*, void*)
     application.reset();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setMainActivity(JNIEnv*, jclass, jobject mainActivity)
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onCreate(JNIEnv*, jclass, jobject mainActivity, jobject assetManager)
 {
     application->setMainActivity(mainActivity);
-}
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_setAssetManager(JNIEnv*, jclass, jobject assetManager)
-{
     application->setAssetManager(assetManager);
 }
 
