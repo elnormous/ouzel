@@ -102,4 +102,13 @@ namespace ouzel
 
         return [[UIApplication sharedApplication] openURL:nsURL] == YES;
     }
+
+    void ApplicationIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        dispatch_async(mainQueue, ^{
+            [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? NO : YES;
+        });
+    }
 }
