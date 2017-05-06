@@ -41,7 +41,11 @@ namespace ouzel
 
         ouzelMain(args);
 
-        if (!sharedEngine)
+        if (sharedEngine)
+        {
+            sharedEngine->start();
+        }
+        else
         {
             return EXIT_FAILURE;
         }
@@ -108,9 +112,9 @@ namespace ouzel
             }
         }
 
-        if (ouzel::sharedEngine)
+        if (sharedEngine)
         {
-            ouzel::sharedEngine->stop();
+            sharedEngine->stop();
         }
 
         return EXIT_SUCCESS;

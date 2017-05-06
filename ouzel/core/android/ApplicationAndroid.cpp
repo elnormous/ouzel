@@ -136,11 +136,15 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
         }
 
-        ouzelMain(ouzel::sharedApplication->getArgs());
+        ouzelMain(sharedApplication->getArgs());
 
-        if (!sharedEngine)
+        if (sharedEngine)
         {
-            return;
+            sharedEngine->start();
+        }
+        else
+        {
+            ::exit(EXIT_FAILURE);
         }
 
         while (active)
@@ -153,9 +157,9 @@ namespace ouzel
             }
         }
 
-        if (ouzel::sharedEngine)
+        if (sharedEngine)
         {
-            ouzel::sharedEngine->stop();
+            sharedEngine->stop();
         }
 
         if (javaVM->DetachCurrentThread() != JNI_OK)

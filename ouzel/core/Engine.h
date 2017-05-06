@@ -46,6 +46,8 @@ namespace ouzel
         Localization* getLocalization() { return &localization; }
 
         void exit();
+        void start();
+        void stop();
         void pause();
         void resume();
         bool draw();
@@ -56,7 +58,6 @@ namespace ouzel
         void unscheduleUpdate(UpdateCallback* callback);
 
         void update();
-        void stop();
 
     protected:
         void run();

@@ -19,6 +19,10 @@
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
 {
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->start();
+    }
 }
 
 -(void)applicationWillTerminate:(__unused NSNotification*)notification

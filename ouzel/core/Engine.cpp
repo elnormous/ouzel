@@ -367,6 +367,17 @@ namespace ouzel
             return false;
         }
 
+        return true;
+    }
+
+    void Engine::exit()
+    {
+        running = false;
+        active = false;
+    }
+
+    void Engine::start()
+    {
         active = true;
         running = true;
 
@@ -375,14 +386,18 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
         updateThread = std::thread(&Engine::run, this);
 #endif
-
-        return true;
     }
 
-    void Engine::exit()
+    void Engine::stop()
     {
         running = false;
         active = false;
+
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
+
+        audio->stop();
     }
 
     void Engine::pause()
@@ -533,17 +548,5 @@ namespace ouzel
         {
             updateCallbackAddSet.erase(setIterator);
         }
-    }
-
-    void Engine::stop()
-    {
-        running = false;
-        active = false;
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
-
-        audio->stop();
     }
 }

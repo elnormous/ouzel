@@ -21,6 +21,11 @@
 
 -(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
+    if (ouzel::sharedEngine)
+    {
+        ouzel::sharedEngine->start();
+    }
+
     return YES;
 }
 
