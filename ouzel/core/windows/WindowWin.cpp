@@ -254,9 +254,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             case SC_SCREENSAVE:
             case SC_MONITORPOWER:
             {
-                if (windowWin->isFullscreen())
+                if (!ouzel::sharedApplication->isScreenSaverEnabled())
                 {
-                    // Disable screensaver in fullscreen mode
+                    // Disable screensaver
                     return 0;
                 }
                 break;

@@ -83,7 +83,6 @@ namespace ouzel
 
         std::atomic<bool> running;
         std::atomic<bool> active;
-        std::atomic<bool> screenSaverEnabled;
     };
 
     extern Engine* sharedEngine;

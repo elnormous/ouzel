@@ -10,7 +10,8 @@ namespace ouzel
 {
     ouzel::Application* sharedApplication = nullptr;
 
-    Application::Application()
+    Application::Application():
+        screenSaverEnabled(false)
     {
         sharedApplication = this;
     }
