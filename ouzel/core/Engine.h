@@ -45,6 +45,9 @@ namespace ouzel
         input::Input* getInput() const { return input.get(); }
         Localization* getLocalization() { return &localization; }
 
+        void setScreenSaverEnabled(bool newScreenSaverEnabled) { screenSaverEnabled = newScreenSaverEnabled; }
+        bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+
         void exit();
         void start();
         void stop();
@@ -83,6 +86,7 @@ namespace ouzel
 
         std::atomic<bool> running;
         std::atomic<bool> active;
+        std::atomic<bool> screenSaverEnabled;
     };
 
     extern Engine* sharedEngine;
