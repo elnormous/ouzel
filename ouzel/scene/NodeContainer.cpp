@@ -19,6 +19,7 @@ namespace ouzel
             {
                 if (entered) node->leave();
                 node->parent = nullptr;
+                node->layer = nullptr;
             }
         }
 
@@ -32,6 +33,7 @@ namespace ouzel
                 }
 
                 node->parent = this;
+                node->layer = layer;
                 if (entered) node->enter();
                 children.push_back(node);
             }
@@ -45,6 +47,7 @@ namespace ouzel
             {
                 if (entered) node->leave();
                 node->parent = nullptr;
+                node->layer = nullptr;
                 children.erase(i);
 
                 return true;

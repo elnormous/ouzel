@@ -13,6 +13,7 @@ namespace ouzel
     namespace scene
     {
         class Node;
+        class Layer;
 
         class NodeContainer: public Noncopyable
         {
@@ -26,6 +27,8 @@ namespace ouzel
             virtual bool hasChild(const std::shared_ptr<Node>& node, bool recursive = false) const;
             virtual const std::vector<std::shared_ptr<Node>>& getChildren() const { return children; }
 
+            Layer* getLayer() const { return layer; }
+
         protected:
             void findNodes(const Vector2& position, std::vector<std::shared_ptr<Node>>& nodes) const;
             void findNodes(const std::vector<Vector2>& edges, std::vector<std::shared_ptr<Node>>& nodes) const;
@@ -34,6 +37,7 @@ namespace ouzel
             virtual void leave();
 
             std::vector<std::shared_ptr<Node>> children;
+            Layer* layer = nullptr;
             bool entered = false;
         };
     } // namespace scene

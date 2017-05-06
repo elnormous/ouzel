@@ -17,6 +17,7 @@ namespace ouzel
     {
         Layer::Layer()
         {
+            layer = this;
         }
 
         Layer::~Layer()
