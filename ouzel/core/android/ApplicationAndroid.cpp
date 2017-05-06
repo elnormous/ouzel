@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
+#include <android/window.h>
 #include "ApplicationAndroid.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -38,6 +39,7 @@ namespace ouzel
         }
 
         if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
+        if (window) jniEnv->DeleteGlobalRef(window);
         if (surface) jniEnv->DeleteGlobalRef(surface);
         if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
         if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
@@ -57,6 +59,23 @@ namespace ouzel
 
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
         startActivityMethod = jniEnv->GetMethodID(mainActivityClass, "startActivity", "(Landroid/content/Intent;)V");
+    }
+
+    void ApplicationAndroid::setWindow(jobject aWindow)
+    {
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        window = jniEnv->NewGlobalRef(aWindow);
+
+        jclass windowClass = jniEnv->GetObjectClass(window);
+        addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
+        clearFlagsMethod = jniEnv->GetMethodID(windowClass, "clearFlags", "(I)V");
     }
 
     void ApplicationAndroid::setAssetManager(jobject aAssetManager)
@@ -127,6 +146,24 @@ namespace ouzel
     void ApplicationAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         Application::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        // TODO: run on UI thread (Activity.runOnUiThread)
+        /*JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        if (newScreenSaverEnabled)
+        {
+            jniEnv->CallVoidMethod(window, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+        }
+        else
+        {
+            jniEnv->CallVoidMethod(window, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+        }*/
     }
 
     void ApplicationAndroid::update()

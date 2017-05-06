@@ -18,6 +18,7 @@ namespace ouzel
         virtual ~ApplicationAndroid();
 
         void setMainActivity(jobject aMainActivity);
+        void setWindow(jobject aWindow);
         void setAssetManager(jobject aAssetManager);
         void setSurface(jobject aSurface);
 
@@ -44,6 +45,9 @@ namespace ouzel
         jmethodID startActivityMethod = nullptr;
         jobject surface = nullptr;
         AAssetManager* assetManager = nullptr;
+        jobject window = nullptr;
+        jmethodID addFlagsMethod = nullptr;
+        jmethodID clearFlagsMethod = nullptr;
 
         std::thread updateThread;
     };
