@@ -34,7 +34,7 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-        bool init(Settings& newSettings);
+        bool init(Settings& settings);
 
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Cache* getCache() { return &cache; }
@@ -61,8 +61,6 @@ namespace ouzel
 
     protected:
         void run();
-
-        Settings settings;
 
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
