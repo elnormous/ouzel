@@ -30,7 +30,9 @@ namespace ouzel
                               const Rectangle& renderViewport,
                               bool depthWrite,
                               bool depthTest,
-                              bool wireframe);
+                              bool wireframe,
+                              bool scissorTestEnabled,
+                              const Rectangle& scissorTest);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }

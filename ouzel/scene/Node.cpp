@@ -90,7 +90,9 @@ namespace ouzel
                                     camera->getRenderViewport(),
                                     camera->getDepthWrite(),
                                     camera->getDepthTest(),
-                                    wireframe);
+                                    wireframe,
+                                    false,
+                                    Rectangle());
                 }
             }
         }

@@ -35,7 +35,9 @@ namespace ouzel
                                  const Rectangle& renderViewport,
                                  bool depthWrite,
                                  bool depthTest,
-                                 bool wireframe)
+                                 bool wireframe,
+                                 bool scissorTestEnabled,
+                                 const Rectangle& scissorTest)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -44,7 +46,9 @@ namespace ouzel
                             renderViewport,
                             depthWrite,
                             depthTest,
-                            wireframe);
+                            wireframe,
+                            scissorTestEnabled,
+                            scissorTest);
 
             if (dirty)
             {
@@ -77,7 +81,9 @@ namespace ouzel
                                                             renderViewport,
                                                             depthWrite,
                                                             depthTest,
-                                                            wireframe);
+                                                            wireframe,
+                                                            scissorTestEnabled,
+                                                            scissorTest);
             }
         }
 

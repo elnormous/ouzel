@@ -41,7 +41,9 @@ namespace ouzel
                               const Rectangle& renderViewport,
                               bool depthWrite,
                               bool depthTest,
-                              bool wireframe) override;
+                              bool wireframe,
+                              bool scissorTestEnabled,
+                              const Rectangle& scissorTest) override;
 
             virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
             virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }

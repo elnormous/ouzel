@@ -16,7 +16,9 @@ namespace ouzel
                              const Rectangle&,
                              bool,
                              bool,
-                             bool)
+                             bool,
+                             bool,
+                             const Rectangle&)
         {
         }
 
