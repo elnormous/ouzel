@@ -22,6 +22,7 @@ namespace ouzel
             friend Camera;
         public:
             Layer();
+            virtual ~Layer();
 
             virtual void draw();
 

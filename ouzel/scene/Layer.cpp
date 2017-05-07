@@ -20,6 +20,14 @@ namespace ouzel
             layer = this;
         }
 
+        Layer::~Layer()
+        {
+            for (Camera* camera : cameras)
+            {
+                camera->addedToLayer = nullptr;
+            }
+        }
+
         void Layer::draw()
         {
             for (Camera* camera : cameras)
