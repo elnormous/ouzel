@@ -25,7 +25,7 @@ RTSample::RTSample(Samples& aSamples):
     rtCamera = std::make_shared<scene::Camera>();
     rtCamera->setRenderTarget(renderTarget);
 
-    rtLayer->addCamera(rtCamera);
+    rtLayer->addChild(rtCamera);
 
     camera1 = std::make_shared<scene::Camera>();
     camera1->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -38,8 +38,8 @@ RTSample::RTSample(Samples& aSamples):
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addCamera(camera1);
-    layer->addCamera(camera2);
+    layer->addChild(camera1);
+    layer->addChild(camera2);
     addLayer(layer);
 
     characterSprite = std::make_shared<ouzel::scene::Sprite>("run.json");
@@ -64,7 +64,7 @@ RTSample::RTSample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addCamera(guiCamera);
+    guiLayer->addChild(guiCamera);
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();

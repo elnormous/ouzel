@@ -21,7 +21,7 @@ GUISample::GUISample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addCamera(guiCamera);
+    guiLayer->addChild(guiCamera);
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();

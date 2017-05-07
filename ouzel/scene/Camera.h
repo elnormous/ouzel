@@ -34,6 +34,7 @@ namespace ouzel
             };
 
             Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
+            virtual ~Camera();
 
             void setType(Type newType) { type = newType; }
             Type getType() const { return type; }
@@ -87,6 +88,8 @@ namespace ouzel
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
+            virtual void setLayer(Layer* newLayer) override;
+
             virtual void calculateTransform() const override;
             void calculateViewProjection() const;
 
@@ -116,8 +119,6 @@ namespace ouzel
 
             mutable bool inverseViewProjectionDirty = false;
             mutable Matrix4 inverseViewProjection;
-
-            Layer* layer = nullptr;
 
             std::shared_ptr<graphics::Texture> renderTarget;
         };

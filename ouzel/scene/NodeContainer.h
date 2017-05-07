@@ -30,6 +30,7 @@ namespace ouzel
             Layer* getLayer() const { return layer; }
 
         protected:
+            virtual void setLayer(Layer* newLayer);
             void findNodes(const Vector2& position, std::vector<std::shared_ptr<Node>>& nodes) const;
             void findNodes(const std::vector<Vector2>& edges, std::vector<std::shared_ptr<Node>>& nodes) const;
 

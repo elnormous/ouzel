@@ -20,32 +20,24 @@ namespace ouzel
             layer = this;
         }
 
-        Layer::~Layer()
-        {
-            for (auto& camera : cameras)
-            {
-                camera->layer = nullptr;
-            }
-        }
-
         void Layer::draw()
         {
-            for (const std::shared_ptr<Camera>& camera : cameras)
+            for (Camera* camera : cameras)
             {
                 std::vector<Node*> drawQueue;
 
                 for (const std::shared_ptr<Node>& child : children)
                 {
-                    child->visit(drawQueue, Matrix4::IDENTITY, false, camera.get(), 0, false);
+                    child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
                 }
 
                 for (Node* node : drawQueue)
                 {
-                    node->draw(camera.get(), false);
+                    node->draw(camera, false);
 
                     if (camera->getWireframe())
                     {
-                        node->draw(camera.get(), true);
+                        node->draw(camera, true);
                     }
                 }
             }
@@ -61,29 +53,18 @@ namespace ouzel
             }
         }
 
-        void Layer::addCamera(const std::shared_ptr<Camera>& camera)
+        void Layer::addCamera(Camera* camera)
         {
-            if (camera)
-            {
-                if (camera->layer)
-                {
-                    camera->layer->removeCamera(camera);
-                }
-
-                cameras.push_back(camera);
-                camera->layer = this;
-                if (!camera->parent) camera->updateTransform(Matrix4::IDENTITY);
-                camera->recalculateProjection();
-            }
+            cameras.push_back(camera);
+            camera->recalculateProjection();
         }
 
-        void Layer::removeCamera(const std::shared_ptr<Camera>& camera)
+        void Layer::removeCamera(Camera* camera)
         {
             auto i = std::find(cameras.begin(), cameras.end(), camera);
 
             if (i != cameras.end())
             {
-                camera->layer = nullptr;
                 cameras.erase(i);
             }
         }
@@ -92,7 +73,7 @@ namespace ouzel
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
-                const std::shared_ptr<Camera>& camera = *i;
+                Camera* camera = *i;
 
                 std::vector<std::shared_ptr<Node>> nodes;
 
@@ -112,7 +93,7 @@ namespace ouzel
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
-                const std::shared_ptr<Camera>& camera = *i;
+                Camera* camera = *i;
 
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
@@ -131,7 +112,7 @@ namespace ouzel
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
-                const std::shared_ptr<Camera>& camera = *i;
+                Camera* camera = *i;
 
                 std::vector<Vector2> worldEdges;
                 worldEdges.reserve(edges.size());
@@ -157,7 +138,7 @@ namespace ouzel
 
         void Layer::recalculateProjection()
         {
-            for (const std::shared_ptr<Camera>& camera : cameras)
+            for (Camera* camera : cameras)
             {
                 camera->recalculateProjection();
             }

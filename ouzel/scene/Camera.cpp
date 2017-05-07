@@ -19,6 +19,20 @@ namespace ouzel
         {
         }
 
+        Camera::~Camera()
+        {
+            if (layer) layer->removeCamera(this);
+        }
+
+        void Camera::setLayer(Layer* newLayer)
+        {
+            if (layer) layer->removeCamera(this);
+
+            Node::setLayer(newLayer);
+
+            if (layer) layer->addCamera(this);
+        }
+
         void Camera::calculateTransform() const
         {
             Node::calculateTransform();

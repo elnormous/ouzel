@@ -19,17 +19,15 @@ namespace ouzel
         class Layer: public NodeContainer
         {
             friend Scene;
+            friend Camera;
         public:
             Layer();
-            virtual ~Layer();
 
             virtual void draw();
 
             virtual void addChild(const std::shared_ptr<Node>& node) override;
 
-            void addCamera(const std::shared_ptr<Camera>& camera);
-            void removeCamera(const std::shared_ptr<Camera>& camera);
-            const std::vector<std::shared_ptr<Camera>>& getCameras() const { return cameras; }
+            const std::vector<Camera*>& getCameras() const { return cameras; }
 
             std::shared_ptr<Node> pickNode(const Vector2& position) const;
             std::vector<std::shared_ptr<Node>> pickNodes(const Vector2& position) const;
@@ -39,12 +37,15 @@ namespace ouzel
             void setOrder(int32_t newOrder);
 
         protected:
+            void addCamera(Camera* camera);
+            void removeCamera(Camera* camera);
+
             virtual void recalculateProjection();
             virtual void enter() override;
 
             Scene* scene = nullptr;
 
-            std::vector<std::shared_ptr<Camera>> cameras;
+            std::vector<Camera*> cameras;
 
             int32_t order = 0;
         };

@@ -19,7 +19,7 @@ namespace ouzel
             {
                 if (entered) node->leave();
                 node->parent = nullptr;
-                node->layer = nullptr;
+                node->setLayer(nullptr);
             }
         }
 
@@ -33,7 +33,7 @@ namespace ouzel
                 }
 
                 node->parent = this;
-                node->layer = layer;
+                node->setLayer(layer);
                 if (entered) node->enter();
                 children.push_back(node);
             }
@@ -47,7 +47,7 @@ namespace ouzel
             {
                 if (entered) node->leave();
                 node->parent = nullptr;
-                node->layer = nullptr;
+                node->setLayer(nullptr);
                 children.erase(i);
 
                 return true;
@@ -101,6 +101,16 @@ namespace ouzel
             for (const std::shared_ptr<Node>& node : children)
             {
                 node->leave();
+            }
+        }
+
+        void NodeContainer::setLayer(Layer* newLayer)
+        {
+            layer = newLayer;
+
+            for (const std::shared_ptr<Node>& child : children)
+            {
+                child->setLayer(layer);
             }
         }
 

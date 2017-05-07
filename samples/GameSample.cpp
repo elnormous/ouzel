@@ -19,7 +19,7 @@ GameSample::GameSample(Samples& aSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     addLayer(layer);
-    layer->addCamera(camera);
+    layer->addChild(camera);
 }
 
 bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
