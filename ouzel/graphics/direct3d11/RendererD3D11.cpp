@@ -551,14 +551,14 @@ namespace ouzel
                 // scissor test
                 if (drawCommand.scissorTest)
                 {
-                    rasterizerStateIndex |= 0x02
+                    rasterizerStateIndex |= 0x02;
 
-                    D3D11_RECT rects;
-                    rects.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
-                    rects.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
-                    rects.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1]);
-                    rects.top = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
-                    context->RSSetScissorRects(1, &rects);
+                    D3D11_RECT rect;
+                    rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
+                    rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
+                    rect.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1]);
+                    rect.top = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
+                    context->RSSetScissorRects(1, &rect);
                 }
 
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
