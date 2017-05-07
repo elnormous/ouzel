@@ -69,14 +69,15 @@ namespace ouzel
             updateChildrenTransform = false;
         }
 
-        void Node::draw(Camera* camera)
+        void Node::draw(Camera* camera, bool wireframe)
         {
             if (transformDirty)
             {
                 calculateTransform();
             }
 
-            Color drawColor(color.v[0], color.v[1], color.v[2], static_cast<uint8_t>(color.v[3] * opacity));
+            Color drawColor(color.v[0], color.v[1], color.v[2],
+                            wireframe ? 255 : (static_cast<uint8_t>(color.v[3] * opacity)));
 
             for (const std::shared_ptr<Component>& component : components)
             {
@@ -88,31 +89,8 @@ namespace ouzel
                                     camera->getRenderTarget(),
                                     camera->getRenderViewport(),
                                     camera->getDepthWrite(),
-                                    camera->getDepthTest());
-                }
-            }
-        }
-
-        void Node::drawWireframe(Camera* camera)
-        {
-            if (transformDirty)
-            {
-                calculateTransform();
-            }
-
-            Color drawColor(color.v[0], color.v[1], color.v[2], 255);
-
-            for (const std::shared_ptr<Component>& component : components)
-            {
-                if (!component->isHidden())
-                {
-                    component->drawWireframe(transform,
-                                             drawColor,
-                                             camera->getRenderViewProjection(),
-                                             camera->getRenderTarget(),
-                                             camera->getRenderViewport(),
-                                             camera->getDepthWrite(),
-                                             camera->getDepthTest());
+                                    camera->getDepthTest(),
+                                    wireframe);
                 }
             }
         }

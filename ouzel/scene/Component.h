@@ -29,15 +29,8 @@ namespace ouzel
                               const std::shared_ptr<graphics::Texture>& renderTarget,
                               const Rectangle& renderViewport,
                               bool depthWrite,
-                              bool depthTest);
-
-            virtual void drawWireframe(const Matrix4& transformMatrix,
-                                       const Color& drawColor,
-                                       const Matrix4& renderViewProjection,
-                                       const std::shared_ptr<graphics::Texture>& renderTarget,
-                                       const Rectangle& renderViewport,
-                                       bool depthWrite,
-                                       bool depthTest);
+                              bool depthTest,
+                              bool wireframe);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }

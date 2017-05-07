@@ -131,7 +131,8 @@ namespace ouzel
                           const std::shared_ptr<graphics::Texture>& renderTarget,
                           const Rectangle& renderViewport,
                           bool depthWrite,
-                          bool depthTest)
+                          bool depthTest,
+                          bool wireframe)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -139,7 +140,8 @@ namespace ouzel
                             renderTarget,
                             renderViewport,
                             depthWrite,
-                            depthTest);
+                            depthTest,
+                            wireframe);
 
             if (currentFrame < frames.size())
             {
@@ -152,50 +154,9 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({frames[currentFrame].getTexture()},
-                                                            shader,
-                                                            pixelShaderConstants,
-                                                            vertexShaderConstants,
-                                                            blendState,
-                                                            frames[currentFrame].getMeshBuffer(),
-                                                            0,
-                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                            0,
-                                                            renderTarget,
-                                                            renderViewport,
-                                                            depthWrite,
-                                                            depthTest);
-            }
-        }
+                const std::shared_ptr<graphics::Texture>& drawTexture = wireframe ? whitePixelTexture : frames[currentFrame].getTexture();
 
-        void Sprite::drawWireframe(const Matrix4& transformMatrix,
-                                   const Color& drawColor,
-                                   const Matrix4& renderViewProjection,
-                                   const std::shared_ptr<graphics::Texture>& renderTarget,
-                                   const Rectangle& renderViewport,
-                                   bool depthWrite,
-                                   bool depthTest)
-        {
-            Component::drawWireframe(transformMatrix,
-                                     drawColor,
-                                     renderViewProjection,
-                                     renderTarget,
-                                     renderViewport,
-                                     depthWrite,
-                                     depthTest);
-
-            if (currentFrame < frames.size())
-            {
-                Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
-
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
-
-                std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
-
-                sharedEngine->getRenderer()->addDrawCommand({whitePixelTexture},
+                sharedEngine->getRenderer()->addDrawCommand({drawTexture},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -208,7 +169,7 @@ namespace ouzel
                                                             renderViewport,
                                                             depthWrite,
                                                             depthTest,
-                                                            true);
+                                                            wireframe);
             }
         }
 

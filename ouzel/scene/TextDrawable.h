@@ -32,15 +32,8 @@ namespace ouzel
                               const std::shared_ptr<graphics::Texture>& renderTarget,
                               const Rectangle& renderViewport,
                               bool depthWrite,
-                              bool depthTest) override;
-
-            virtual void drawWireframe(const Matrix4& transformMatrix,
-                                       const Color& drawColor,
-                                       const Matrix4& renderViewProjection,
-                                       const std::shared_ptr<graphics::Texture>& renderTarget,
-                                       const Rectangle& renderViewport,
-                                       bool depthWrite,
-                                       bool depthTest) override;
+                              bool depthTest,
+                              bool wireframe) override;
 
             virtual void setFont(const std::string& fontFile);
 

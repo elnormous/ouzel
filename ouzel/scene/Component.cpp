@@ -15,17 +15,8 @@ namespace ouzel
                              const std::shared_ptr<graphics::Texture>&,
                              const Rectangle&,
                              bool,
+                             bool,
                              bool)
-        {
-        }
-
-        void Component::drawWireframe(const Matrix4&,
-                                      const Color&,
-                                      const Matrix4&,
-                                      const std::shared_ptr<graphics::Texture>&,
-                                      const Rectangle&,
-                                      bool,
-                                      bool)
         {
         }
 

@@ -41,11 +41,11 @@ namespace ouzel
 
                 for (Node* node : drawQueue)
                 {
-                    node->draw(camera.get());
+                    node->draw(camera.get(), false);
 
                     if (camera->getWireframe())
                     {
-                        node->drawWireframe(camera.get());
+                        node->draw(camera.get(), true);
                     }
                 }
             }

@@ -34,7 +34,8 @@ namespace ouzel
                                  const std::shared_ptr<graphics::Texture>& renderTarget,
                                  const Rectangle& renderViewport,
                                  bool depthWrite,
-                                 bool depthTest)
+                                 bool depthTest,
+                                 bool wireframe)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -42,57 +43,8 @@ namespace ouzel
                             renderTarget,
                             renderViewport,
                             depthWrite,
-                            depthTest);
-
-            if (dirty)
-            {
-                indexBuffer->setData(indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
-                vertexBuffer->setData(vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-                dirty = false;
-            }
-
-            Matrix4 modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
-
-            for (const DrawCommand& drawCommand : drawCommands)
-            {
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
-
-                std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
-
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
-                                                            shader,
-                                                            pixelShaderConstants,
-                                                            vertexShaderConstants,
-                                                            blendState,
-                                                            meshBuffer,
-                                                            drawCommand.indexCount,
-                                                            drawCommand.mode,
-                                                            drawCommand.startIndex,
-                                                            renderTarget,
-                                                            renderViewport,
-                                                            depthWrite,
-                                                            depthTest);
-            }
-        }
-
-        void ShapeDrawable::drawWireframe(const Matrix4& transformMatrix,
-                                          const Color& drawColor,
-                                          const Matrix4& renderViewProjection,
-                                          const std::shared_ptr<graphics::Texture>& renderTarget,
-                                          const Rectangle& renderViewport,
-                                          bool depthWrite,
-                                          bool depthTest)
-        {
-            Component::drawWireframe(transformMatrix,
-                                     drawColor,
-                                     renderViewProjection,
-                                     renderTarget,
-                                     renderViewport,
-                                     depthWrite,
-                                     depthTest);
+                            depthTest,
+                            wireframe);
 
             if (dirty)
             {
@@ -125,7 +77,7 @@ namespace ouzel
                                                             renderViewport,
                                                             depthWrite,
                                                             depthTest,
-                                                            true);
+                                                            wireframe);
             }
         }
 
