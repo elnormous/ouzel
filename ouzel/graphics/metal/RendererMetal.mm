@@ -423,6 +423,8 @@ namespace ouzel
             std::vector<float> shaderData;
 
             MTLViewport viewport;
+            viewport.znear = 0.0;
+            viewport.zfar = 1.0;
 
             if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
 
@@ -441,12 +443,9 @@ namespace ouzel
                     return false;
                 }
 
-                viewport = {
-                    0.0, 0.0,
-                    static_cast<double>(frameBufferWidth),
-                    static_cast<double>(frameBufferHeight),
-                    0.0, 1.0
-                };
+                viewport.originX = viewport.originY = 0.0;
+                viewport.width = static_cast<double>(frameBufferWidth);
+                viewport.height = static_cast<double>(frameBufferHeight);
 
                 [currentRenderCommandEncoder setViewport: viewport];
 
@@ -465,35 +464,27 @@ namespace ouzel
                 MTLLoadAction newColorBufferLoadAction = MTLLoadActionDontCare;
                 MTLLoadAction newDepthBufferLoadAction = MTLLoadActionDontCare;
 
-                viewport = {
-                    static_cast<double>(drawCommand.viewport.position.v[0]),
-                    static_cast<double>(drawCommand.viewport.position.v[1]),
-                    static_cast<double>(drawCommand.viewport.size.v[0]),
-                    static_cast<double>(drawCommand.viewport.size.v[1]),
-                    0.0, 1.0
-                };
+                NSUInteger renderTargetWidth = 0;
+                NSUInteger renderTargetHeight = 0;
 
                 // render target
                 if (drawCommand.renderTarget)
                 {
                     TextureMetal* renderTargetMetal = static_cast<TextureMetal*>(drawCommand.renderTarget);
 
-                    if (!renderTargetMetal->getRenderPassDescriptor())
+                    newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                    if (!newRenderPassDescriptor)
                     {
                         continue;
                     }
-
-                    newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                    
                     pipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
                     pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
                     pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
 
                     TextureMetal* renderTargetTextureMetal = static_cast<TextureMetal*>(renderTargetMetal);
-                    viewport.originY = renderTargetTextureMetal->getHeight() - (viewport.originY + viewport.height);
-
-                    scissorRect.x = scissorRect.y = 0;
-                    scissorRect.width = renderTargetTextureMetal->getTexture().width;
-                    scissorRect.height = renderTargetTextureMetal->getTexture().height;
+                    renderTargetWidth = renderTargetTextureMetal->getWidth();
+                    renderTargetHeight = renderTargetTextureMetal->getHeight();
 
                     if (renderTargetMetal->getFrameBufferClearedFrame() != currentFrame)
                     {
@@ -509,11 +500,8 @@ namespace ouzel
                     pipelineStateDesc.colorFormat = colorFormat;
                     pipelineStateDesc.depthFormat = depthFormat;
 
-                    viewport.originY = static_cast<float>(frameBufferHeight) - (viewport.originY + viewport.height);
-
-                    scissorRect.x = scissorRect.y = 0;
-                    scissorRect.width = frameBufferWidth;
-                    scissorRect.height = frameBufferHeight;
+                    renderTargetWidth = frameBufferWidth;
+                    renderTargetHeight = frameBufferHeight;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -544,17 +532,26 @@ namespace ouzel
                     currentRenderPassDescriptor.depthAttachment.loadAction = newDepthBufferLoadAction;
                 }
 
-                [currentRenderCommandEncoder setViewport: viewport];
+                viewport.originX = static_cast<double>(drawCommand.viewport.position.v[0]);
+                viewport.originY = static_cast<double>(renderTargetHeight - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]));
+                viewport.width = static_cast<double>(drawCommand.viewport.size.v[0]);
+                viewport.height = static_cast<double>(drawCommand.viewport.size.v[1]);
 
+                [currentRenderCommandEncoder setViewport: viewport];
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
-                // scissor test
                 if (drawCommand.scissorTest)
                 {
                     scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[0]);
-                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1]);
+                    scissorRect.y = renderTargetHeight - static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
                     scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[0]);
                     scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[1]);
+                }
+                else
+                {
+                    scissorRect.x = scissorRect.y = 0;
+                    scissorRect.width = renderTargetWidth;
+                    scissorRect.height = renderTargetHeight;
                 }
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];
