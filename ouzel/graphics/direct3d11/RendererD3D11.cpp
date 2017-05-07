@@ -547,21 +547,21 @@ namespace ouzel
 
                 uint32_t rasterizerStateIndex = 0;
                 if (drawCommand.wireframe) rasterizerStateIndex |= 0x01;
-                if (drawCommand.scissorTestEnabled) rasterizerStateIndex |= 0x02;
-
-                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                 // scissor test
-                if (drawCommand.scissorTestEnabled)
+                if (drawCommand.scissorTest)
                 {
-                    D3D11_RECT rects[1];
-                    rects[0].left = static_cast<LONG>(drawCommand.scissorTest.position.v[0]);
-                    rects[0].right = static_cast<LONG>(drawCommand.scissorTest.position.v[0] + drawCommand.scissorTest.size.v[0]);
-                    rects[0].bottom = static_cast<LONG>(drawCommand.scissorTest.position.v[1]);
-                    rects[0].top = static_cast<LONG>(drawCommand.scissorTest.position.v[1] + drawCommand.scissorTest.size.v[1]);
+                    rasterizerStateIndex |= 0x02
 
-                    context->RSSetScissorRects(1, rects);
+                    D3D11_RECT rects;
+                    rects.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
+                    rects.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
+                    rects.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1]);
+                    rects.top = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
+                    context->RSSetScissorRects(1, &rects);
                 }
+
+                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                 // shader
                 ShaderD3D11* shaderD3D11 = static_cast<ShaderD3D11*>(drawCommand.shader);

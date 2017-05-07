@@ -998,11 +998,11 @@ namespace ouzel
                 depthMask(drawCommand.depthWrite);
 
                 // scissor test
-                setScissorTest(drawCommand.scissorTestEnabled,
-                               static_cast<GLint>(drawCommand.scissorTest.position.v[0]),
-                               static_cast<GLint>(drawCommand.scissorTest.position.v[1]),
-                               static_cast<GLsizei>(drawCommand.scissorTest.size.v[0]),
-                               static_cast<GLsizei>(drawCommand.scissorTest.size.v[1]));
+                setScissorTest(drawCommand.scissorTest,
+                               static_cast<GLint>(drawCommand.scissorRectangle.position.v[0]),
+                               static_cast<GLint>(drawCommand.scissorRectangle.position.v[1]),
+                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.v[0]),
+                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.v[1]));
 
                 // mesh buffer
                 MeshBufferOGL* meshBufferOGL = static_cast<MeshBufferOGL*>(drawCommand.meshBuffer);

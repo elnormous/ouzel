@@ -42,8 +42,8 @@ namespace ouzel
                                   bool depthWrite,
                                   bool depthTest,
                                   bool wireframe,
-                                  bool scissorTestEnabled,
-                                  const Rectangle& scissorTest)
+                                  bool scissorTest,
+                                  const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -53,8 +53,8 @@ namespace ouzel
                             depthWrite,
                             depthTest,
                             wireframe,
-                            scissorTestEnabled,
-                            scissorTest);
+                            scissorTest,
+                            scissorRectangle);
 
             if (particleCount)
             {
@@ -100,8 +100,8 @@ namespace ouzel
                                                             depthWrite,
                                                             depthTest,
                                                             wireframe,
-                                                            scissorTestEnabled,
-                                                            scissorTest);
+                                                            scissorTest,
+                                                            scissorRectangle);
             }
         }
 

@@ -116,8 +116,8 @@ namespace ouzel
                                 bool depthWrite = false,
                                 bool depthTest = false,
                                 bool wireframe = false,
-                                bool scissorTestEnabled = false,
-                                const Rectangle& scissorTest = Rectangle());
+                                bool scissorTest = false,
+                                const Rectangle& scissorRectangle = Rectangle());
             void flushDrawCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -181,8 +181,8 @@ namespace ouzel
                 bool depthWrite;
                 bool depthTest;
                 bool wireframe;
-                bool scissorTestEnabled;
-                Rectangle scissorTest;
+                bool scissorTest;
+                Rectangle scissorRectangle;
             };
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;

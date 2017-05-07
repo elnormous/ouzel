@@ -36,8 +36,8 @@ namespace ouzel
                               bool depthWrite,
                               bool depthTest,
                               bool wireframe,
-                              bool scissorTestEnabled,
-                              const Rectangle& scissorTest) override;
+                              bool scissorTest,
+                              const Rectangle& scissorRectangle) override;
 
             virtual void update(float delta);
 

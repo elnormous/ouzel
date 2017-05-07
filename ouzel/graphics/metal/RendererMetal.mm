@@ -549,12 +549,12 @@ namespace ouzel
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
                 // scissor test
-                if (drawCommand.scissorTestEnabled)
+                if (drawCommand.scissorTest)
                 {
-                    scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorTest.position.v[0]);
-                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorTest.position.v[1]);
-                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorTest.size.v[0]);
-                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorTest.size.v[1]);
+                    scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[0]);
+                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1]);
+                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[0]);
+                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[1]);
                 }
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];

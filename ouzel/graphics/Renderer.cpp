@@ -240,8 +240,8 @@ namespace ouzel
                                       bool depthWrite,
                                       bool depthTest,
                                       bool wireframe,
-                                      bool scissorTestEnabled,
-                                      const Rectangle& scissorTest)
+                                      bool scissorTest,
+                                      const Rectangle& scissorRectangle)
         {
 
             if (!shader)
@@ -285,8 +285,8 @@ namespace ouzel
                 depthWrite,
                 depthTest,
                 wireframe,
-                scissorTestEnabled,
-                scissorTest
+                scissorTest,
+                scissorRectangle
             });
 
             return true;
