@@ -112,6 +112,8 @@ namespace ouzel
 
                 if (!node->isHidden())
                 {
+                    node->findNodes(position, nodes);
+
                     if (node->isPickable() && node->pointOn(position))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
@@ -121,8 +123,6 @@ namespace ouzel
 
                         nodes.insert(upperBound, node);
                     }
-
-                    node->findNodes(position, nodes);
                 }
             }
         }
@@ -135,6 +135,8 @@ namespace ouzel
 
                 if (!node->isHidden())
                 {
+                    node->findNodes(edges, nodes);
+
                     if (node->isPickable() && node->shapeOverlaps(edges))
                     {
                         auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
@@ -144,8 +146,6 @@ namespace ouzel
 
                         nodes.insert(upperBound, node);
                     }
-
-                    node->findNodes(edges, nodes);
                 }
             }
         }
