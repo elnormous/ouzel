@@ -10,6 +10,7 @@ namespace ouzel
         enum class PixelFormat
         {
             DEFAULT,
+            A8_UNORM,
             R8_UNORM,
             R8_SNORM,
             R8_UINT,

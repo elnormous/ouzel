@@ -14,6 +14,7 @@ namespace ouzel
         {
             switch (pixelFormat)
             {
+                case PixelFormat::A8_UNORM: return 0;
                 case PixelFormat::R8_UNORM: return GL_R8;
                 case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                 case PixelFormat::R8_UINT: return GL_R8UI;
