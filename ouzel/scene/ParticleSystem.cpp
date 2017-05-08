@@ -175,11 +175,6 @@ namespace ouzel
 
                             particles[i].direction.v[0] += tmp.v[0];
                             particles[i].direction.v[1] += tmp.v[1];
-
-                            // this is cocos2d-x v3.0
-                            // if (configName.length()>0 && yCoordFlipped != -1)
-
-                            // this is cocos2d-x v3.0
                             tmp.v[0] = particles[i].direction.v[0] * delta * particleDefinition.yCoordFlipped;
                             tmp.v[1] = particles[i].direction.v[1] * delta * particleDefinition.yCoordFlipped;
                             particles[i].position.v[0] += tmp.v[0];
