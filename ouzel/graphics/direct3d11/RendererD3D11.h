@@ -77,8 +77,8 @@ namespace ouzel
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* depthStencilStates[4];
 
-            UINT width = 0;
-            UINT height = 0;
+            UINT frameBufferWidth = 0;
+            UINT frameBufferHeight = 0;
 
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];

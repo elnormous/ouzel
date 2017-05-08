@@ -175,8 +175,8 @@ namespace ouzel
 
             WindowWin* windowWin = static_cast<WindowWin*>(window);
 
-            width = static_cast<UINT>(newSize.v[0]);
-            height = static_cast<UINT>(newSize.v[1]);
+            frameBufferWidth = static_cast<UINT>(newSize.v[0]);
+            frameBufferHeight = static_cast<UINT>(newSize.v[1]);
 
             UINT qualityLevels;
 
@@ -192,8 +192,8 @@ namespace ouzel
             }
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
-            swapChainDesc.BufferDesc.Width = width;
-            swapChainDesc.BufferDesc.Height = height;
+            swapChainDesc.BufferDesc.Width = frameBufferWidth;
+            swapChainDesc.BufferDesc.Height = frameBufferHeight;
             swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
             swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
             swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -293,8 +293,8 @@ namespace ouzel
             if (depth)
             {
                 D3D11_TEXTURE2D_DESC depthStencilDesc;
-                depthStencilDesc.Width = width;
-                depthStencilDesc.Height = height;
+                depthStencilDesc.Width = frameBufferWidth;
+                depthStencilDesc.Height = frameBufferHeight;
                 depthStencilDesc.MipLevels = 1;
                 depthStencilDesc.ArraySize = 1;
                 depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -420,16 +420,16 @@ namespace ouzel
             clearFrameBufferView = clearColorBuffer;
             clearDepthBufferView = clearDepthBuffer;
 
-            if (static_cast<UINT>(size.v[0]) != width ||
-                static_cast<UINT>(size.v[1]) != height)
+            if (static_cast<UINT>(size.v[0]) != frameBufferWidth ||
+                static_cast<UINT>(size.v[1]) != frameBufferHeight)
             {
                 if (!resizeBackBuffer(0, 0))
                 {
                     return false;
                 }
 
-                size = Size2(static_cast<float>(width),
-                             static_cast<float>(height));
+                size = Size2(static_cast<float>(frameBufferWidth),
+                             static_cast<float>(frameBufferHeight));
             }
 
             dirty = false;
@@ -449,6 +449,8 @@ namespace ouzel
             std::vector<float> shaderData;
 
             D3D11_VIEWPORT viewport;
+            viewport.MinDepth = 0.0f;
+            viewport.MaxDepth = 1.0f;
 
             if (drawCommands.empty())
             {
@@ -457,13 +459,9 @@ namespace ouzel
                 context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
                 context->OMSetDepthStencilState(depthStencilStates[3], 0);
 
-                viewport = {
-                    0.0f, 0.0f,
-                    static_cast<FLOAT>(width),
-                    static_cast<FLOAT>(height),
-                    0.0f, 1.0f
-                };
-
+                viewport.TopLeftX = viewport.TopLeftY = 0.0f;
+                viewport.Width = static_cast<FLOAT>(frameBufferWidth);
+                viewport.Height = static_cast<FLOAT>(frameBufferHeight);
                 context->RSSetViewports(1, &viewport);
 
                 if (clearColorBuffer)
@@ -485,13 +483,8 @@ namespace ouzel
                 bool newClearFrameBufferView = false;
                 bool newClearDepthBufferView = false;
 
-                viewport = {
-                    drawCommand.viewport.position.v[0],
-                    drawCommand.viewport.position.v[1],
-                    drawCommand.viewport.size.v[0],
-                    drawCommand.viewport.size.v[1],
-                    0.0f, 1.0f
-                };
+                UINT renderTargetWidth = 0;
+                UINT renderTargetHeight = 0;
 
                 if (drawCommand.renderTarget)
                 {
@@ -503,7 +496,8 @@ namespace ouzel
                     }
 
                     TextureD3D11* renderTargetTextureD3D11 = static_cast<TextureD3D11*>(renderTargetD3D11);
-                    viewport.TopLeftY = renderTargetTextureD3D11->getHeight() - (viewport.TopLeftY + viewport.Height);
+                    renderTargetWidth = renderTargetTextureD3D11->getWidth();
+                    renderTargetHeight = renderTargetTextureD3D11->getHeight();
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newDepthStencilView = renderTargetD3D11->getDepthStencilView();
@@ -522,7 +516,8 @@ namespace ouzel
                     newDepthStencilView = depthStencilView;
                     newClearColor = frameBufferClearColor;
 
-                    viewport.TopLeftY = height - (viewport.TopLeftY + viewport.Height);
+                    renderTargetWidth = frameBufferWidth;
+                    renderTargetHeight = frameBufferHeight;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -533,6 +528,11 @@ namespace ouzel
                 }
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                viewport.TopLeftX = static_cast<FLOAT>(drawCommand.viewport.position.v[0]);
+                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]));
+                viewport.Width = static_cast<FLOAT>(drawCommand.viewport.size.v[0]);
+                viewport.Height = static_cast<FLOAT>(drawCommand.viewport.size.v[1]);
                 context->RSSetViewports(1, &viewport);
 
                 if (newClearFrameBufferView)
@@ -555,10 +555,16 @@ namespace ouzel
 
                     D3D11_RECT rect;
                     rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
+                    rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]));
                     rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
-                    rect.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1]);
-                    rect.top = static_cast<LONG>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
+                    rect.bottom = static_cast<LONG>(renderTargetHeight - drawCommand.scissorRectangle.position.v[1]);
                     context->RSSetScissorRects(1, &rect);
+                }
+                else
+                {
+                    scissorRect.left = scissorRect.top = 0;
+                    scissorRect.right = renderTargetWidth;
+                    scissorRect.bottom = renderTargetHeight;
                 }
 
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
@@ -946,8 +952,8 @@ namespace ouzel
 
         bool RendererD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
         {
-            if (width != newWidth || newWidth == 0 ||
-                height != newHeight || newHeight == 0)
+            if (frameBufferWidth != newWidth || newWidth == 0 ||
+                frameBufferHeight != newHeight || newHeight == 0)
             {
                 if (renderTargetView)
                 {
@@ -985,8 +991,8 @@ namespace ouzel
                 D3D11_TEXTURE2D_DESC desc;
                 backBuffer->GetDesc(&desc);
 
-                width = desc.Width;
-                height = desc.Height;
+                frameBufferWidth = desc.Width;
+                frameBufferHeight = desc.Height;
 
                 if (depthStencilTexture)
                 {
@@ -1003,8 +1009,8 @@ namespace ouzel
                 if (depth)
                 {
                     D3D11_TEXTURE2D_DESC depthStencilDesc;
-                    depthStencilDesc.Width = width;
-                    depthStencilDesc.Height = height;
+                    depthStencilDesc.Width = frameBufferWidth;
+                    depthStencilDesc.Height = frameBufferHeight;
                     depthStencilDesc.MipLevels = 1;
                     depthStencilDesc.ArraySize = 1;
                     depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;

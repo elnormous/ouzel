@@ -477,7 +477,7 @@ namespace ouzel
                     {
                         continue;
                     }
-                    
+
                     pipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
                     pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
                     pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
