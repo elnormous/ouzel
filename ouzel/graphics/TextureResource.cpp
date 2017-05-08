@@ -19,7 +19,13 @@ namespace ouzel
         {
         }
 
-        bool TextureResource::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
+        bool TextureResource::init(const Size2& newSize,
+                                   bool newDynamic,
+                                   bool newMipmaps,
+                                   bool newRenderTarget,
+                                   uint32_t newSampleCount,
+                                   bool newDepth,
+                                   PixelFormat newPixelFormat)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -28,6 +34,7 @@ namespace ouzel
             renderTarget = newRenderTarget;
             sampleCount = newSampleCount;
             depth = newDepth;
+            pixelFormat = newPixelFormat;
 
             if (!calculateSizes(newSize))
             {
@@ -39,7 +46,11 @@ namespace ouzel
             return true;
         }
 
-        bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData,
+                                             const Size2& newSize,
+                                             bool newDynamic,
+                                             bool newMipmaps,
+                                             PixelFormat newPixelFormat)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -48,6 +59,7 @@ namespace ouzel
             renderTarget = false;
             sampleCount = 1;
             depth = false;
+            pixelFormat = newPixelFormat;
 
             if (!calculateData(newData, newSize))
             {
@@ -115,12 +127,13 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
-            uint32_t pitch = newWidth * 4;
+            uint32_t pixelSize = getPixelSize(pixelFormat);
+            uint32_t pitch = newWidth * pixelSize;
             levels.push_back({newSize, pitch, std::vector<uint8_t>()});
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
-                uint32_t bufferSize = newWidth * newHeight * 4;
+                uint32_t bufferSize = newWidth * newHeight * pixelSize;
 
                 if (newWidth == 1)
                 {
@@ -137,7 +150,7 @@ namespace ouzel
                     newHeight >>= 1;
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    pitch = newWidth * 4;
+                    pitch = newWidth * pixelSize;
 
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                 }
@@ -149,7 +162,7 @@ namespace ouzel
                         newWidth >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        pitch = newWidth * 4;
+                        pitch = newWidth * pixelSize;
 
                         levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
                     }
@@ -255,12 +268,13 @@ namespace ouzel
             uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
             uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
 
-            uint32_t pitch = newWidth * 4;
+            uint32_t pixelSize = getPixelSize(pixelFormat);
+            uint32_t pitch = newWidth * pixelSize;
             levels.push_back({newSize, pitch, newData});
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
-                uint32_t bufferSize = newWidth * newHeight * 4;
+                uint32_t bufferSize = newWidth * newHeight * pixelSize;
 
                 if (newWidth == 1)
                 {
@@ -273,18 +287,25 @@ namespace ouzel
 
                 std::vector<uint8_t> mipMapData(bufferSize);
                 std::copy(newData.begin(),
-                          newData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * newHeight * 4),
+                          newData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * newHeight * pixelSize),
                           mipMapData.begin());
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
-                    imageRgba8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
+                    if (pixelSize == 4)
+                    {
+                        imageRgba8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
+                    }
+                    else
+                    {
+                        // TODO: implement downsampling of other pixel formats
+                    }
 
                     newWidth >>= 1;
                     newHeight >>= 1;
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    pitch = newWidth * 4;
+                    pitch = newWidth * pixelSize;
 
                     levels.push_back({mipMapSize, pitch, mipMapData});
                 }
@@ -294,15 +315,22 @@ namespace ouzel
                     for (; newWidth >= 2;)
                     {
                         std::copy(mipMapData.begin(),
-                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * 4),
-                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * 4));
+                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * pixelSize),
+                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * pixelSize));
 
-                        imageRgba8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
+                        if (pixelSize == 4)
+                        {
+                            imageRgba8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
+                        }
+                        else
+                        {
+                            // TODO: implement downsampling of other pixel formats
+                        }
 
                         newWidth >>= 1;
 
                         Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        pitch = newWidth * 4;
+                        pitch = newWidth * pixelSize;
 
                         levels.push_back({mipMapSize, pitch, mipMapData});
                     }
@@ -318,7 +346,14 @@ namespace ouzel
                             src[i * 2 + 1] = src[i];
                         }
 
-                        imageRgba8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
+                        if (pixelSize == 4)
+                        {
+                            imageRgba8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
+                        }
+                        else
+                        {
+                            // TODO: implement downsampling of other pixel formats
+                        }
 
                         newHeight >>= 1;
 

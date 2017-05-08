@@ -21,11 +21,23 @@ namespace ouzel
             if (resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
-        bool Texture::init(const Size2& newSize, bool newDynamic, bool newMipmaps, bool newRenderTarget, uint32_t newSampleCount, bool newDepth)
+        bool Texture::init(const Size2& newSize,
+                           bool newDynamic,
+                           bool newMipmaps,
+                           bool newRenderTarget,
+                           uint32_t newSampleCount,
+                           bool newDepth,
+                           PixelFormat newPixelFormat)
         {
             filename.clear();
 
-            if (!resource->init(newSize, newDynamic, newMipmaps, newRenderTarget, newSampleCount, newDepth))
+            if (!resource->init(newSize,
+                                newDynamic,
+                                newMipmaps,
+                                newRenderTarget,
+                                newSampleCount,
+                                newDepth,
+                                newPixelFormat))
             {
                 return false;
             }
@@ -35,17 +47,24 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps)
+        bool Texture::initFromFile(const std::string& newFilename,
+                                   bool newDynamic,
+                                   bool newMipmaps,
+                                   PixelFormat newPixelFormat)
         {
             filename = newFilename;
 
             ImageDataSTB image;
-            if (!image.initFromFile(filename))
+            if (!image.initFromFile(filename, newPixelFormat))
             {
                 return false;
             }
 
-            if (!resource->initFromBuffer(image.getData(), image.getSize(), newDynamic, newMipmaps))
+            if (!resource->initFromBuffer(image.getData(),
+                                          image.getSize(),
+                                          newDynamic,
+                                          newMipmaps,
+                                          image.getPixelFormat()))
             {
                 return false;
             }
@@ -55,11 +74,19 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps)
+        bool Texture::initFromBuffer(const std::vector<uint8_t>& newData,
+                                     const Size2& newSize,
+                                     bool newDynamic,
+                                     bool newMipmaps,
+                                     PixelFormat newPixelFormat)
         {
             filename.clear();
 
-            if (!resource->initFromBuffer(newData, newSize, newDynamic, newMipmaps))
+            if (!resource->initFromBuffer(newData,
+                                          newSize,
+                                          newDynamic,
+                                          newMipmaps,
+                                          newPixelFormat))
             {
                 return false;
             }
@@ -174,6 +201,11 @@ namespace ouzel
         uint32_t Texture::getSampleCount() const
         {
             return resource->getSampleCount();
+        }
+
+        PixelFormat Texture::getPixelFormat() const
+        {
+            return resource->getPixelFormat();
         }
 
         bool Texture::getDepth() const

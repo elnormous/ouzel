@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/PixelFormat.h"
 #include "math/Color.h"
 #include "math/Size2.h"
 
@@ -44,9 +45,16 @@ namespace ouzel
                               bool newMipmaps = true,
                               bool newRenderTarget = false,
                               uint32_t newSampleCount = 1,
-                              bool newDepth = false);
-            virtual bool initFromFile(const std::string& newFilename, bool newDynamic, bool newMipmaps = true);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+                              bool newDepth = false,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+            virtual bool initFromFile(const std::string& newFilename,
+                                      bool newDynamic,
+                                      bool newMipmaps = true,
+                                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize, bool newDynamic,
+                                        bool newMipmaps = true,
+                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
 
             TextureResource* getResource() const { return resource; }
 
@@ -73,6 +81,7 @@ namespace ouzel
 
             uint32_t getSampleCount() const;
             bool getDepth() const;
+            PixelFormat getPixelFormat() const;
 
             bool getClearColorBuffer() const;
             void setClearColorBuffer(bool clear);

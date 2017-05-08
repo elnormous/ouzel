@@ -25,8 +25,18 @@ namespace ouzel
         public:
             virtual ~TextureResource();
 
-            virtual bool init(const Size2& newSize, bool newDynamic, bool newMipmaps = true, bool newRenderTarget = false, uint32_t newSampleCount = 1, bool newDepth = false);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData, const Size2& newSize, bool newDynamic, bool newMipmaps = true);
+            virtual bool init(const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              bool newRenderTarget = false,
+                              uint32_t newSampleCount = 1,
+                              bool newDepth = false,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+            virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize,
+                                        bool newDynamic,
+                                        bool newMipmaps = true,
+                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
 
             virtual bool setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
@@ -58,6 +68,8 @@ namespace ouzel
 
             uint32_t getSampleCount() const { return sampleCount; }
             bool getDepth() const { return depth; }
+
+            PixelFormat getPixelFormat() const { return pixelFormat; }
 
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
@@ -92,6 +104,7 @@ namespace ouzel
             bool depth = false;
             std::vector<Level> levels;
             uint32_t sampleCount = 1;
+            PixelFormat pixelFormat = PixelFormat::RGBA8_UINT;
             Color clearColor;
             Texture::Filter filter = Texture::Filter::DEFAULT;
             Texture::Address addressX = Texture::Address::CLAMP;
