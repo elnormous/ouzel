@@ -197,39 +197,27 @@ namespace ouzel
                 const uint8_t* rgb = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, rgb += 6, dst += 3)
                 {
-                    float pixels = 0.0f;
-                    float r = 0, g = 0, b = 0.0;
+                    float r = 0.0f, g = 0.0f, b = 0.0f;
 
                     r += powf(rgb[0], 2.2f);
                     g += powf(rgb[1], 2.2f);
                     b += powf(rgb[2], 2.2f);
-                    pixels += 1.0f;
 
                     r += powf(rgb[3], 2.2f);
                     g += powf(rgb[4], 2.2f);
                     b += powf(rgb[5], 2.2f);
-                    pixels += 1.0f;
 
                     r += powf(rgb[pitch + 0], 2.2f);
                     g += powf(rgb[pitch + 1], 2.2f);
                     b += powf(rgb[pitch + 2], 2.2f);
-                    pixels += 1.0f;
 
                     r += powf(rgb[pitch + 3], 2.2f);
                     g += powf(rgb[pitch + 4], 2.2f);
                     b += powf(rgb[pitch + 5], 2.2f);
-                    pixels += 1.0f;
 
-                    if (pixels > 0.0f)
-                    {
-                        r /= pixels;
-                        g /= pixels;
-                        b /= pixels;
-                    }
-                    else
-                    {
-                        r = g = b = 0.0f;
-                    }
+                    r /= 4.0f;
+                    g /= 4.0f;
+                    b /= 4.0f;
 
                     r = powf(r, 1.0f / 2.2f);
                     g = powf(g, 1.0f / 2.2f);
@@ -257,7 +245,7 @@ namespace ouzel
                 for (uint32_t x = 0; x < dstWidth; ++x, rgba += 8, dst += 4)
                 {
                     float pixels = 0.0f;
-                    float r = 0, g = 0, b = 0, a = 0.0f;
+                    float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
 
                     if (rgba[3] > 0)
                     {
