@@ -53,6 +53,8 @@ namespace ouzel
                 return false;
             }
 
+            if (reqComp != STBI_default) comp = reqComp;
+
             size_t pixelSize;
             switch (comp)
             {
