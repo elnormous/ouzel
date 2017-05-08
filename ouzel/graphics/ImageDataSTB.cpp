@@ -40,7 +40,6 @@ namespace ouzel
             {
                 case PixelFormat::R8_UNORM: reqComp = STBI_grey; break;
                 case PixelFormat::RG8_UNORM: reqComp = STBI_grey_alpha; break;
-                case PixelFormat::RGB8_UNORM: reqComp = STBI_rgb; break;
                 case PixelFormat::RGBA8_UNORM: reqComp = STBI_rgb_alpha; break;
                 default: reqComp = STBI_default;
             }
@@ -60,7 +59,6 @@ namespace ouzel
             {
                 case STBI_grey: pixelFormat = PixelFormat::R8_UNORM; pixelSize = 1; break;
                 case STBI_grey_alpha: pixelFormat = PixelFormat::RG8_UNORM; pixelSize = 2; break;
-                case STBI_rgb: pixelFormat = PixelFormat::RGB8_UNORM; pixelSize = 3; break;
                 case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
                 default:
                     Log(Log::Level::ERR) << "Unknown pixel size";

@@ -31,10 +31,6 @@ namespace ouzel
                 case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
                 case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
                 case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
-                case PixelFormat::RGB8_UNORM: return DXGI_FORMAT_UNKNOWN;
-                case PixelFormat::RGB8_SNORM: return DXGI_FORMAT_UNKNOWN;
-                case PixelFormat::RGB8_UINT: return DXGI_FORMAT_UNKNOWN;
-                case PixelFormat::RGB8_SINT: return DXGI_FORMAT_UNKNOWN;
                 case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
                 case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
                 case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;

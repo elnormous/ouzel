@@ -31,10 +31,6 @@ namespace ouzel
                 case PixelFormat::RG8_SNORM: return GL_RG8_SNORM;
                 case PixelFormat::RG8_UINT: return GL_RG8UI;
                 case PixelFormat::RG8_SINT: return GL_RG8I;
-                case PixelFormat::RGB8_UNORM: return GL_RGB8;
-                case PixelFormat::RGB8_SNORM: return GL_RGB8_SNORM;
-                case PixelFormat::RGB8_UINT: return GL_RGB8UI;
-                case PixelFormat::RGB8_SINT: return GL_RGB8I;
                 case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
                 case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                 case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
@@ -75,11 +71,6 @@ namespace ouzel
                 case PixelFormat::RG8_UINT:
                 case PixelFormat::RG8_SINT:
                     return GL_RG;
-                case PixelFormat::RGB8_UNORM:
-                case PixelFormat::RGB8_SNORM:
-                case PixelFormat::RGB8_UINT:
-                case PixelFormat::RGB8_SINT:
-                    return GL_RGB;
                 case PixelFormat::RGBA8_UNORM:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA8_UINT:
@@ -106,14 +97,12 @@ namespace ouzel
                 case PixelFormat::R8_UNORM:
                 case PixelFormat::R16_UNORM:
                 case PixelFormat::RG8_UNORM:
-                case PixelFormat::RGB8_UNORM:
                 case PixelFormat::RGBA8_UNORM:
                 case PixelFormat::RGBA16_UNORM:
                     return GL_UNSIGNED_BYTE;
                 case PixelFormat::R8_SNORM:
                 case PixelFormat::R16_SNORM:
                 case PixelFormat::RG8_SNORM:
-                case PixelFormat::RGB8_SNORM:
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA16_SNORM:
                     return GL_BYTE;
@@ -121,7 +110,6 @@ namespace ouzel
                 case PixelFormat::R16_UINT:
                 case PixelFormat::R32_UINT:
                 case PixelFormat::RG8_UINT:
-                case PixelFormat::RGB8_UINT:
                 case PixelFormat::RGBA8_UINT:
                 case PixelFormat::RGBA16_UINT:
                 case PixelFormat::RGBA32_UINT:
@@ -130,7 +118,6 @@ namespace ouzel
                 case PixelFormat::R16_SINT:
                 case PixelFormat::R32_SINT:
                 case PixelFormat::RG8_SINT:
-                case PixelFormat::RGB8_SINT:
                 case PixelFormat::RGBA8_SINT:
                 case PixelFormat::RGBA16_SINT:
                 case PixelFormat::RGBA32_SINT:

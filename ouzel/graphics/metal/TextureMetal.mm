@@ -32,10 +32,6 @@ namespace ouzel
                 case PixelFormat::RG8_SNORM: return MTLPixelFormatRG8Snorm;
                 case PixelFormat::RG8_UINT: return MTLPixelFormatRG8Uint;
                 case PixelFormat::RG8_SINT: return MTLPixelFormatRG8Sint;
-                case PixelFormat::RGB8_UNORM: return MTLPixelFormatInvalid;
-                case PixelFormat::RGB8_SNORM: return MTLPixelFormatInvalid;
-                case PixelFormat::RGB8_UINT: return MTLPixelFormatInvalid;
-                case PixelFormat::RGB8_SINT: return MTLPixelFormatInvalid;
                 case PixelFormat::RGBA8_UNORM: return MTLPixelFormatRGBA8Unorm;
                 case PixelFormat::RGBA8_SNORM: return MTLPixelFormatRGBA8Snorm;
                 case PixelFormat::RGBA8_UINT: return MTLPixelFormatRGBA8Uint;
