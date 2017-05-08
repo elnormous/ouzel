@@ -40,7 +40,6 @@ namespace ouzel
                 case PixelFormat::RGBA8_SNORM: return MTLPixelFormatRGBA8Snorm;
                 case PixelFormat::RGBA8_UINT: return MTLPixelFormatRGBA8Uint;
                 case PixelFormat::RGBA8_SINT: return MTLPixelFormatRGBA8Sint;
-                case PixelFormat::ABGR8_UNORM: return MTLPixelFormatInvalid;
                 case PixelFormat::RGBA16_UNORM: return MTLPixelFormatRGBA16Unorm;
                 case PixelFormat::RGBA16_SNORM: return MTLPixelFormatRGBA16Snorm;
                 case PixelFormat::RGBA16_UINT: return MTLPixelFormatRGBA16Uint;
@@ -49,7 +48,6 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return MTLPixelFormatRGBA32Uint;
                 case PixelFormat::RGBA32_SINT: return MTLPixelFormatRGBA32Sint;
                 case PixelFormat::RGBA32_FLOAT: return MTLPixelFormatRGBA32Float;
-                case PixelFormat::R5G5B5A1_UNORM: return MTLPixelFormatInvalid;
                 default: return MTLPixelFormatInvalid;
             }
         }

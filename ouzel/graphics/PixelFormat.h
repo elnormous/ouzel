@@ -35,7 +35,6 @@ namespace ouzel
             RGBA8_SNORM,
             RGBA8_UINT,
             RGBA8_SINT,
-            ABGR8_UNORM,
             RGBA16_UNORM,
             RGBA16_SNORM,
             RGBA16_UINT,
@@ -43,8 +42,7 @@ namespace ouzel
             RGBA16_FLOAT,
             RGBA32_UINT,
             RGBA32_SINT,
-            RGBA32_FLOAT,
-            R5G5B5A1_UNORM
+            RGBA32_FLOAT
         };
 
         inline uint32_t getPixelSize(PixelFormat pixelFormat)
@@ -80,7 +78,6 @@ namespace ouzel
                 case PixelFormat::RGBA8_SNORM:
                 case PixelFormat::RGBA8_UINT:
                 case PixelFormat::RGBA8_SINT:
-                case PixelFormat::ABGR8_UNORM:
                     return 4;
                 case PixelFormat::RGBA16_UNORM:
                 case PixelFormat::RGBA16_SNORM:
@@ -92,8 +89,6 @@ namespace ouzel
                 case PixelFormat::RGBA32_SINT:
                 case PixelFormat::RGBA32_FLOAT:
                     return 16;
-                case PixelFormat::R5G5B5A1_UNORM:
-                    return 2;
                 default:
                     return 0;
             }

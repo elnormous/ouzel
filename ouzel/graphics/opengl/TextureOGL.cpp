@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        static GLuint convertPixelFormat(PixelFormat pixelFormat)
+        static GLint convertPixelFormat(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -39,7 +39,6 @@ namespace ouzel
                 case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                 case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                 case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-                case PixelFormat::ABGR8_UNORM: return 0;
                 case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
                 case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
                 case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
@@ -48,8 +47,101 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                 case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                 case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                case PixelFormat::R5G5B5A1_UNORM: return 0;
                 default: return 0;
+            }
+        }
+
+        static GLenum getPixelDataFormat(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM:
+                    return GL_ALPHA;
+                case PixelFormat::R8_UNORM:
+                case PixelFormat::R8_SNORM:
+                case PixelFormat::R8_UINT:
+                case PixelFormat::R8_SINT:
+                case PixelFormat::R16_UNORM:
+                case PixelFormat::R16_SNORM:
+                case PixelFormat::R16_UINT:
+                case PixelFormat::R16_SINT:
+                case PixelFormat::R16_FLOAT:
+                case PixelFormat::R32_UINT:
+                case PixelFormat::R32_SINT:
+                case PixelFormat::R32_FLOAT:
+                     return GL_RED;
+                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RG8_SNORM:
+                case PixelFormat::RG8_UINT:
+                case PixelFormat::RG8_SINT:
+                    return GL_RG;
+                case PixelFormat::RGB8_UNORM:
+                case PixelFormat::RGB8_SNORM:
+                case PixelFormat::RGB8_UINT:
+                case PixelFormat::RGB8_SINT:
+                    return GL_RGB;
+                case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_SNORM:
+                case PixelFormat::RGBA8_UINT:
+                case PixelFormat::RGBA8_SINT:
+                case PixelFormat::RGBA16_UNORM:
+                case PixelFormat::RGBA16_SNORM:
+                case PixelFormat::RGBA16_UINT:
+                case PixelFormat::RGBA16_SINT:
+                case PixelFormat::RGBA16_FLOAT:
+                case PixelFormat::RGBA32_UINT:
+                case PixelFormat::RGBA32_SINT:
+                case PixelFormat::RGBA32_FLOAT:
+                    return GL_RGBA;
+                default:
+                    return 0;
+            }
+        }
+
+        static GLenum getPixelDataType(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM:
+                case PixelFormat::R8_UNORM:
+                case PixelFormat::R16_UNORM:
+                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RGB8_UNORM:
+                case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA16_UNORM:
+                    return GL_UNSIGNED_BYTE;
+                case PixelFormat::R8_SNORM:
+                case PixelFormat::R16_SNORM:
+                case PixelFormat::RG8_SNORM:
+                case PixelFormat::RGB8_SNORM:
+                case PixelFormat::RGBA8_SNORM:
+                case PixelFormat::RGBA16_SNORM:
+                    return GL_BYTE;
+                case PixelFormat::R8_UINT:
+                case PixelFormat::R16_UINT:
+                case PixelFormat::R32_UINT:
+                case PixelFormat::RG8_UINT:
+                case PixelFormat::RGB8_UINT:
+                case PixelFormat::RGBA8_UINT:
+                case PixelFormat::RGBA16_UINT:
+                case PixelFormat::RGBA32_UINT:
+                    return GL_UNSIGNED_INT;
+                case PixelFormat::R8_SINT:
+                case PixelFormat::R16_SINT:
+                case PixelFormat::R32_SINT:
+                case PixelFormat::RG8_SINT:
+                case PixelFormat::RGB8_SINT:
+                case PixelFormat::RGBA8_SINT:
+                case PixelFormat::RGBA16_SINT:
+                case PixelFormat::RGBA32_SINT:
+                    return GL_INT;
+                case PixelFormat::R16_FLOAT:
+                case PixelFormat::R32_FLOAT:
+                case PixelFormat::RGBA16_FLOAT:
+                case PixelFormat::RGBA32_FLOAT:
+                    return GL_FLOAT;
+                default:
+                    return 0;
             }
         }
 
@@ -108,10 +200,11 @@ namespace ouzel
                         {
                             if (!levels[level].data.empty())
                             {
-                                glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), GL_RGBA,
+                                glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), convertPixelFormat(pixelFormat),
                                              static_cast<GLsizei>(levels[level].size.v[0]),
                                              static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                             GL_RGBA, GL_UNSIGNED_BYTE, levels[level].data.data());
+                                             getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat),
+                                             levels[level].data.data());
                             }
                         }
 
@@ -134,10 +227,10 @@ namespace ouzel
                             {
                                 RendererOGL::bindTexture(textureId, 0);
 
-                                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                                glTexImage2D(GL_TEXTURE_2D, 0, convertPixelFormat(pixelFormat),
                                              static_cast<GLsizei>(size.v[0]),
-                                             static_cast<GLsizei>(size.v[1]),
-                                             0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+                                             static_cast<GLsizei>(size.v[1]), 0,
+                                             getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat), 0);
 
                                 // TODO: blit multisample render buffer to texture
                                 glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
@@ -182,7 +275,8 @@ namespace ouzel
                                 glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                                 static_cast<GLsizei>(levels[level].size.v[0]),
                                                 static_cast<GLsizei>(levels[level].size.v[1]),
-                                                GL_RGBA, GL_UNSIGNED_BYTE, levels[level].data.data());
+                                                getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat),
+                                                levels[level].data.data());
 
                                 if (RendererOGL::checkOpenGLError())
                                 {

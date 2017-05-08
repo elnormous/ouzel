@@ -39,7 +39,6 @@ namespace ouzel
                 case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
                 case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
                 case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
-                case PixelFormat::ABGR8_UNORM: return DXGI_FORMAT_UNKNOWN;
                 case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
                 case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
                 case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
@@ -48,7 +47,6 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
                 case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
                 case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                case PixelFormat::R5G5B5A1_UNORM: return DXGI_FORMAT_UNKNOWN;
                 default: return DXGI_FORMAT_UNKNOWN;
             }
         }
