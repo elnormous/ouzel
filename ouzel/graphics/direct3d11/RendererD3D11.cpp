@@ -529,10 +529,10 @@ namespace ouzel
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
-                viewport.TopLeftX = static_cast<FLOAT>(drawCommand.viewport.position.v[0]);
-                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]));
-                viewport.Width = static_cast<FLOAT>(drawCommand.viewport.size.v[0]);
-                viewport.Height = static_cast<FLOAT>(drawCommand.viewport.size.v[1]);
+                viewport.TopLeftX = drawCommand.viewport.position.v[0];
+                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight) - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]);
+                viewport.Width = drawCommand.viewport.size.v[0];
+                viewport.Height = drawCommand.viewport.size.v[1];
                 context->RSSetViewports(1, &viewport);
 
                 if (newClearFrameBufferView)
@@ -559,12 +559,6 @@ namespace ouzel
                     rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
                     rect.bottom = static_cast<LONG>(renderTargetHeight - drawCommand.scissorRectangle.position.v[1]);
                     context->RSSetScissorRects(1, &rect);
-                }
-                else
-                {
-                    scissorRect.left = scissorRect.top = 0;
-                    scissorRect.right = renderTargetWidth;
-                    scissorRect.bottom = renderTargetHeight;
                 }
 
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
