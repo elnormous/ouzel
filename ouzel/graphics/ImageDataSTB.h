@@ -14,9 +14,9 @@ namespace ouzel
         {
         public:
             virtual bool initFromFile(const std::string& newFilename,
-                                      PixelFormat newPixelFormat = PixelFormat::DEFAULT);
+                                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
-                                        PixelFormat newPixelFormat = PixelFormat::DEFAULT);
+                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
         };
     } // namespace graphics
 } // namespace ouzel

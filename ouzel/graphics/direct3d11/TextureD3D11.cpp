@@ -10,6 +10,49 @@ namespace ouzel
 {
     namespace graphics
     {
+        static DXGI_FORMAT convertPixelFormat(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
+                case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
+                case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
+                case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
+                case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
+                case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
+                case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
+                case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
+                case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
+                case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
+                case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
+                case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
+                case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
+                case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
+                case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
+                case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
+                case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
+                case PixelFormat::RGB8_UNORM: return DXGI_FORMAT_UNKNOWN;
+                case PixelFormat::RGB8_SNORM: return DXGI_FORMAT_UNKNOWN;
+                case PixelFormat::RGB8_UINT: return DXGI_FORMAT_UNKNOWN;
+                case PixelFormat::RGB8_SINT: return DXGI_FORMAT_UNKNOWN;
+                case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
+                case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
+                case PixelFormat::ABGR8_UNORM: return DXGI_FORMAT_UNKNOWN;
+                case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
+                case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
+                case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
+                case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
+                case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                case PixelFormat::R5G5B5A1_UNORM: return DXGI_FORMAT_UNKNOWN;
+                default: return DXGI_FORMAT_UNKNOWN;
+            }
+        }
+
         TextureD3D11::TextureD3D11()
         {
         }
@@ -86,7 +129,7 @@ namespace ouzel
                             textureDesc.Height = height;
                             textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
                             textureDesc.ArraySize = 1;
-                            textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                            textureDesc.Format = convertPixelFormat(pixelFormat);
                             textureDesc.Usage = (dynamic && !renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                             textureDesc.CPUAccessFlags = (dynamic && !renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                             textureDesc.SampleDesc.Count = sampleCount;
