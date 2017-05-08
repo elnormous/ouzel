@@ -145,7 +145,7 @@ namespace ouzel
                             }
 
                             D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-                            resourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                            resourceViewDesc.Format = textureDesc.Format;
                             resourceViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
 
                             if (sampleCount == 1)
