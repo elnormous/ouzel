@@ -310,13 +310,13 @@ namespace ouzel
                     levels.push_back({mipMapSize, pitch, mipMapData});
                 }
 
-                if (newWidth > newHeight)
+                if (newWidth > newHeight) // height is 2
                 {
                     for (; newWidth >= 2;)
                     {
                         std::copy(mipMapData.begin(),
-                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * pixelSize),
-                                  mipMapData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * pixelSize));
+                                  mipMapData.begin() + newWidth * pixelSize,
+                                  mipMapData.begin() + newWidth * pixelSize);
 
                         if (pixelSize == 4)
                         {
@@ -335,15 +335,19 @@ namespace ouzel
                         levels.push_back({mipMapSize, pitch, mipMapData});
                     }
                 }
-                else
+                else // width is 2
                 {
                     for (; newHeight >= 2;)
                     {
-                        uint32_t* src = reinterpret_cast<uint32_t*>(mipMapData.data());
                         for (int32_t i = static_cast<int32_t>(newHeight) - 1; i >= 0; --i)
                         {
-                            src[i * 2] = src[i];
-                            src[i * 2 + 1] = src[i];
+                            std::copy(mipMapData.begin() + static_cast<uint32_t>(i * 2) * pixelSize,
+                                      mipMapData.begin() + static_cast<uint32_t>(i * 2) * pixelSize + pixelSize,
+                                      mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
+
+                            std::copy(mipMapData.begin() + static_cast<uint32_t>(i * 2 + 1) * pixelSize,
+                                      mipMapData.begin() + static_cast<uint32_t>(i * 2 + 1) * pixelSize + pixelSize,
+                                      mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
                         }
 
                         if (pixelSize == 4)
