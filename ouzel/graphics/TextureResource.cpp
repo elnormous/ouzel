@@ -182,6 +182,60 @@ namespace ouzel
             return true;
         }
 
+        static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        {
+            const uint32_t dstWidth  = width / 2;
+            const uint32_t dstHeight = height / 2;
+
+            if (dstWidth == 0 ||  dstHeight == 0)
+            {
+                return;
+            }
+
+            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+            {
+                const uint8_t* rgb = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                {
+                    float r = 0.0f;
+                    r += rgb[0];
+                    r += rgb[1];
+                    r += rgb[pitch + 0];
+                    r += rgb[pitch + 1];
+                    r /= 4.0f;
+                    r = powf(r, 1.0f / 2.2f);
+                    dst[0] = static_cast<uint8_t>(r);
+                }
+            }
+        }
+
+        static void imageR8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
+        {
+            const uint32_t dstWidth  = width / 2;
+            const uint32_t dstHeight = height / 2;
+
+            if (dstWidth == 0 ||  dstHeight == 0)
+            {
+                return;
+            }
+
+            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+            {
+                const uint8_t* rgb = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                {
+                    float r = 0.0f;
+                    r += powf(rgb[0], 2.2f);
+                    r += powf(rgb[1], 2.2f);
+                    r += powf(rgb[pitch + 0], 2.2f);
+                    r += powf(rgb[pitch + 1], 2.2f);
+                    r /= 4.0f;
+                    r = powf(r, 1.0f / 2.2f);
+                    dst[0] = static_cast<uint8_t>(r);
+                }
+            }
+        }
+
         static void imageRG8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth  = width / 2;
@@ -331,18 +385,10 @@ namespace ouzel
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
-                    if (pixelFormat == PixelFormat::RGBA8_UNORM)
-                    {
-                        imageRGBA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
-                    }
-                    else if (pixelFormat == PixelFormat::RG8_UNORM)
-                    {
-                        imageRG8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                    }
-                    else
-                    {
-                        // TODO: implement downsampling of other pixel formats
-                    }
+                    if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
+                    else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
+                    else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
+                    else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
 
                     newWidth >>= 1;
                     newHeight >>= 1;
@@ -361,18 +407,10 @@ namespace ouzel
                                   mipMapData.begin() + newWidth * pixelSize,
                                   mipMapData.begin() + newWidth * pixelSize);
 
-                        if (pixelFormat == PixelFormat::RGBA8_UNORM)
-                        {
-                            imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                        }
-                        else if (pixelFormat == PixelFormat::RG8_UNORM)
-                        {
-                            imageRG8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                        }
-                        else
-                        {
-                            // TODO: implement downsampling of other pixel formats
-                        }
+                        if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
 
                         newWidth >>= 1;
 
@@ -397,18 +435,10 @@ namespace ouzel
                                       mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
                         }
 
-                        if (pixelFormat == PixelFormat::RGBA8_UNORM)
-                        {
-                            imageRGBA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        }
-                        else if (pixelFormat == PixelFormat::RG8_UNORM)
-                        {
-                            imageRG8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        }
-                        else
-                        {
-                            // TODO: implement downsampling of other pixel formats
-                        }
+                        if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
+                        else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
 
                         newHeight >>= 1;
 
