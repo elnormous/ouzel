@@ -46,15 +46,15 @@ namespace ouzel
                               bool newRenderTarget = false,
                               uint32_t newSampleCount = 1,
                               bool newDepth = false,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool initFromFile(const std::string& newFilename,
                                       bool newDynamic,
                                       bool newMipmaps = true,
-                                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+                                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
                                         const Size2& newSize, bool newDynamic,
                                         bool newMipmaps = true,
-                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UINT);
+                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             TextureResource* getResource() const { return resource; }
 

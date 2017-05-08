@@ -11,6 +11,48 @@ namespace ouzel
 {
     namespace graphics
     {
+        static MTLPixelFormat convertPixelFormat(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::R8_UNORM: return MTLPixelFormatR8Unorm;
+                case PixelFormat::R8_SNORM: return MTLPixelFormatR8Snorm;
+                case PixelFormat::R8_UINT: return MTLPixelFormatR8Uint;
+                case PixelFormat::R8_SINT: return MTLPixelFormatR8Sint;
+                case PixelFormat::R16_UNORM: return MTLPixelFormatR16Unorm;
+                case PixelFormat::R16_SNORM: return MTLPixelFormatR16Snorm;
+                case PixelFormat::R16_UINT: return MTLPixelFormatR16Uint;
+                case PixelFormat::R16_SINT: return MTLPixelFormatR16Sint;
+                case PixelFormat::R16_FLOAT: return MTLPixelFormatR16Float;
+                case PixelFormat::R32_UINT: return MTLPixelFormatR32Uint;
+                case PixelFormat::R32_SINT: return MTLPixelFormatR32Sint;
+                case PixelFormat::R32_FLOAT: return MTLPixelFormatR32Float;
+                case PixelFormat::RG8_UNORM: return MTLPixelFormatRG8Unorm;
+                case PixelFormat::RG8_SNORM: return MTLPixelFormatRG8Snorm;
+                case PixelFormat::RG8_UINT: return MTLPixelFormatRG8Uint;
+                case PixelFormat::RG8_SINT: return MTLPixelFormatRG8Sint;
+                case PixelFormat::RGB8_UNORM: return MTLPixelFormatInvalid;
+                case PixelFormat::RGB8_SNORM: return MTLPixelFormatInvalid;
+                case PixelFormat::RGB8_UINT: return MTLPixelFormatInvalid;
+                case PixelFormat::RGB8_SINT: return MTLPixelFormatInvalid;
+                case PixelFormat::RGBA8_UNORM: return MTLPixelFormatRGBA8Unorm;
+                case PixelFormat::RGBA8_SNORM: return MTLPixelFormatRGBA8Snorm;
+                case PixelFormat::RGBA8_UINT: return MTLPixelFormatRGBA8Uint;
+                case PixelFormat::RGBA8_SINT: return MTLPixelFormatRGBA8Sint;
+                case PixelFormat::ABGR8_UNORM: return MTLPixelFormatInvalid;
+                case PixelFormat::RGBA16_UNORM: return MTLPixelFormatRGBA16Unorm;
+                case PixelFormat::RGBA16_SNORM: return MTLPixelFormatRGBA16Snorm;
+                case PixelFormat::RGBA16_UINT: return MTLPixelFormatRGBA16Uint;
+                case PixelFormat::RGBA16_SINT: return MTLPixelFormatRGBA16Sint;
+                case PixelFormat::RGBA16_FLOAT: return MTLPixelFormatRGBA16Float;
+                case PixelFormat::RGBA32_UINT: return MTLPixelFormatRGBA32Uint;
+                case PixelFormat::RGBA32_SINT: return MTLPixelFormatRGBA32Sint;
+                case PixelFormat::RGBA32_FLOAT: return MTLPixelFormatRGBA32Float;
+                case PixelFormat::R5G5B5A1_UNORM: return MTLPixelFormatInvalid;
+                default: return MTLPixelFormatInvalid;
+            }
+        }
+
         TextureMetal::TextureMetal()
         {
         }
@@ -62,7 +104,7 @@ namespace ouzel
 
                             if (width > 0 && height > 0)
                             {
-                                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:convertPixelFormat(pixelFormat)
                                                                                                                              width:width
                                                                                                                             height:height
                                                                                                                          mipmapped:(levels.size() > 1) ? YES : NO];

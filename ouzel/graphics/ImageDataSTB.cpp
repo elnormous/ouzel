@@ -38,10 +38,10 @@ namespace ouzel
             int reqComp;
             switch (newPixelFormat)
             {
-                case PixelFormat::R8_UINT: reqComp = STBI_grey; break;
-                case PixelFormat::RG8_UINT: reqComp = STBI_grey_alpha; break;
-                case PixelFormat::RGB8_UINT: reqComp = STBI_rgb; break;
-                case PixelFormat::RGBA8_UINT: reqComp = STBI_rgb_alpha; break;
+                case PixelFormat::R8_UNORM: reqComp = STBI_grey; break;
+                case PixelFormat::RG8_UNORM: reqComp = STBI_grey_alpha; break;
+                case PixelFormat::RGB8_UNORM: reqComp = STBI_rgb; break;
+                case PixelFormat::RGBA8_UNORM: reqComp = STBI_rgb_alpha; break;
                 default: reqComp = STBI_default;
             }
 
@@ -56,10 +56,10 @@ namespace ouzel
             size_t pixelSize;
             switch (comp)
             {
-                case STBI_grey: pixelFormat = PixelFormat::R8_UINT; pixelSize = 1; break;
-                case STBI_grey_alpha: pixelFormat = PixelFormat::RG8_UINT; pixelSize = 2; break;
-                case STBI_rgb: pixelFormat = PixelFormat::RGB8_UINT; pixelSize = 3; break;
-                case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UINT; pixelSize = 4; break;
+                case STBI_grey: pixelFormat = PixelFormat::R8_UNORM; pixelSize = 1; break;
+                case STBI_grey_alpha: pixelFormat = PixelFormat::RG8_UNORM; pixelSize = 2; break;
+                case STBI_rgb: pixelFormat = PixelFormat::RGB8_UNORM; pixelSize = 3; break;
+                case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
                 default:
                     Log(Log::Level::ERR) << "Unknown pixel size";
                     return false;

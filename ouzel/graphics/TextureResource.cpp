@@ -338,11 +338,11 @@ namespace ouzel
 
                 while (newWidth >= 2 && newHeight >= 2)
                 {
-                    if (pixelFormat == PixelFormat::RGBA8_UINT)
+                    if (pixelFormat == PixelFormat::RGBA8_UNORM)
                     {
                         imageRGBA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
                     }
-                    else if (pixelFormat == PixelFormat::RGB8_UINT)
+                    else if (pixelFormat == PixelFormat::RGB8_UNORM)
                     {
                         imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
                     }
@@ -368,11 +368,11 @@ namespace ouzel
                                   mipMapData.begin() + newWidth * pixelSize,
                                   mipMapData.begin() + newWidth * pixelSize);
 
-                        if (pixelFormat == PixelFormat::RGBA8_UINT)
+                        if (pixelFormat == PixelFormat::RGBA8_UNORM)
                         {
                             imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
                         }
-                        else if (pixelFormat == PixelFormat::RGB8_UINT)
+                        else if (pixelFormat == PixelFormat::RGB8_UNORM)
                         {
                             imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
                         }
@@ -404,11 +404,11 @@ namespace ouzel
                                       mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
                         }
 
-                        if (pixelFormat == PixelFormat::RGBA8_UINT)
+                        if (pixelFormat == PixelFormat::RGBA8_UNORM)
                         {
                             imageRGBA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
                         }
-                        else if (pixelFormat == PixelFormat::RGB8_UINT)
+                        else if (pixelFormat == PixelFormat::RGB8_UNORM)
                         {
                             imageRGB8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
                         }
