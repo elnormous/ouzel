@@ -546,6 +546,8 @@ namespace ouzel
                     scissorRect.y = renderTargetHeight - static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
                     scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[0]);
                     scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[1]);
+                    if (scissorRect.width > renderTargetWidth) scissorRect.width = renderTargetWidth;
+                    if (scissorRect.height > renderTargetHeight) scissorRect.height = renderTargetHeight;
                 }
                 else
                 {
