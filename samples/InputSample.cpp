@@ -46,11 +46,11 @@ InputSample::InputSample(Samples& aSamples):
 
     button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     button->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(button);
+    menu->addWidget(button.get());
 
     backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)

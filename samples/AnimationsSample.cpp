@@ -112,7 +112,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     guiLayer->addChild(menu.get());
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event)

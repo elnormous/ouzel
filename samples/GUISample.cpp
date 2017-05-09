@@ -29,7 +29,7 @@ GUISample::GUISample(Samples& aSamples):
 
     button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK);
     button->setPosition(Vector2(-200.0f, 100.0f));
-    menu->addWidget(button);
+    menu->addWidget(button.get());
 
     checkBox = std::make_shared<gui::CheckBox>("checkbox.png", "", "", "", "tick.png");
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
@@ -37,7 +37,7 @@ GUISample::GUISample(Samples& aSamples):
 
     fullscreenButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
-    menu->addWidget(fullscreenButton);
+    menu->addWidget(fullscreenButton.get());
 
     label1 = std::make_shared<gui::Label>("checkbox", "arial.fnt");
     label1->setColor(Color::CYAN);
@@ -58,7 +58,7 @@ GUISample::GUISample(Samples& aSamples):
     guiLayer->addChild(label3.get());
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)

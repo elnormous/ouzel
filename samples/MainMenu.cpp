@@ -41,28 +41,28 @@ MainMenu::MainMenu(Samples& aSamples):
     layer->addChild(menu.get());
 
     gitHubButton->setPosition(Vector2(0.0f, 120.0f));
-    menu->addWidget(gitHubButton);
+    menu->addWidget(gitHubButton.get());
 
     spritesButton->setPosition(Vector2(0.0f, 80.0f));
-    menu->addWidget(spritesButton);
+    menu->addWidget(spritesButton.get());
 
     guiButton->setPosition(Vector2(0.0f, 40.0f));
-    menu->addWidget(guiButton);
+    menu->addWidget(guiButton.get());
 
     renderTargetButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(renderTargetButton);
+    menu->addWidget(renderTargetButton.get());
 
     animationsButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(animationsButton);
+    menu->addWidget(animationsButton.get());
 
     inputButton->setPosition(Vector2(0.0f, -80.0f));
-    menu->addWidget(inputButton);
+    menu->addWidget(inputButton.get());
 
     soundButton->setPosition(Vector2(0.0f, -120.0f));
-    menu->addWidget(soundButton);
+    menu->addWidget(soundButton.get());
 
     perspectiveButton->setPosition(Vector2(0.0f, -160.0f));
-    menu->addWidget(perspectiveButton);
+    menu->addWidget(perspectiveButton.get());
 }
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)

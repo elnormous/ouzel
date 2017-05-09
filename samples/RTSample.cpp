@@ -72,7 +72,7 @@ RTSample::RTSample(Samples& aSamples):
 
     backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)

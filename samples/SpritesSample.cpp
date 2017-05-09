@@ -71,14 +71,14 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     hideButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(hideButton);
+    menu->addWidget(hideButton.get());
 
     wireframeButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
-    menu->addWidget(wireframeButton);
+    menu->addWidget(wireframeButton.get());
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)

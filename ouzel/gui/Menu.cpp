@@ -37,29 +37,29 @@ namespace ouzel
             {
                 if (!selectedWidget && !widgets.empty())
                 {
-                    selectWidget(widgets.front().get());
+                    selectWidget(widgets.front());
                 }
             }
             else
             {
                 selectedWidget = nullptr;
 
-                for (const std::shared_ptr<Widget>& childWidget : widgets)
+                for (Widget* childWidget : widgets)
                 {
                     childWidget->setSelected(false);
                 }
             }
         }
 
-        void Menu::addWidget(const std::shared_ptr<Widget>& widget)
+        void Menu::addWidget(Widget* widget)
         {
-            addChild(widget.get());
+            addChild(widget);
 
             if (widget)
             {
                 if (widget->menu)
                 {
-                    widget->menu->removeChild(widget.get());
+                    widget->menu->removeChild(widget);
                 }
 
                 widget->menu = this;
@@ -67,7 +67,7 @@ namespace ouzel
 
                 if (!selectedWidget)
                 {
-                    selectWidget(widget.get());
+                    selectWidget(widget);
                 }
             }
         }
@@ -79,9 +79,7 @@ namespace ouzel
                 return false;
             }
 
-            auto i = std::find_if(widgets.begin(), widgets.end(), [node](const std::shared_ptr<Widget>& widget) {
-                return widget.get() == node;
-            });
+            auto i = std::find(widgets.begin(), widgets.end(), node);
 
             if (i != widgets.end())
             {
@@ -102,9 +100,9 @@ namespace ouzel
 
             selectedWidget = nullptr;
 
-            for (const std::shared_ptr<Widget>& childWidget : widgets)
+            for (Widget* childWidget : widgets)
             {
-                if (childWidget.get() == widget)
+                if (childWidget == widget)
                 {
                     selectedWidget = widget;
                     childWidget->setSelected(true);
@@ -120,13 +118,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<std::shared_ptr<Widget>>::iterator firstWidgetIterator = selectedWidget ?
-                std::find_if(widgets.begin(), widgets.end(), [this](const std::shared_ptr<Widget>& widget) {
-                    return widget.get() == selectedWidget;
-                }) :
+            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+                std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<std::shared_ptr<Widget>>::iterator widgetIterator = firstWidgetIterator;
+            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
 
             do
             {
@@ -141,7 +137,7 @@ namespace ouzel
 
                 if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
                 {
-                    selectWidget(widgetIterator->get());
+                    selectWidget(*widgetIterator);
                     break;
                 }
             }
@@ -152,13 +148,11 @@ namespace ouzel
         {
             if (!enabled) return;
 
-            std::vector<std::shared_ptr<Widget>>::iterator firstWidgetIterator = selectedWidget ?
-                std::find_if(widgets.begin(), widgets.end(), [this](const std::shared_ptr<Widget>& widget) {
-                    return widget.get() == selectedWidget;
-                }) :
+            std::vector<Widget*>::iterator firstWidgetIterator = selectedWidget ?
+                std::find(widgets.begin(), widgets.end(), selectedWidget) :
                 widgets.end();
 
-            std::vector<std::shared_ptr<Widget>>::iterator widgetIterator = firstWidgetIterator;
+            std::vector<Widget*>::iterator widgetIterator = firstWidgetIterator;
 
             do
             {
@@ -167,7 +161,7 @@ namespace ouzel
 
                 if (widgetIterator != widgets.end() && (*widgetIterator)->isEnabled())
                 {
-                    selectWidget(widgetIterator->get());
+                    selectWidget(*widgetIterator);
                     break;
                 }
             }
@@ -266,9 +260,7 @@ namespace ouzel
 
             if (type == Event::Type::UI_ENTER_NODE)
             {
-                if (std::find_if(widgets.begin(), widgets.end(), [&event](const std::shared_ptr<Widget>& widget) {
-                    return widget.get() == event.node;
-                }) != widgets.end())
+                if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
                 {
                     selectWidget(static_cast<Widget*>(event.node));
                 }

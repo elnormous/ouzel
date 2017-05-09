@@ -85,7 +85,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton);
+    menu->addWidget(backButton.get());
 }
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
