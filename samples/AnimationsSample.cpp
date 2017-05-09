@@ -9,22 +9,22 @@ using namespace ouzel;
 
 AnimationsSample::AnimationsSample(Samples& aSamples):
     samples(aSamples),
-    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    backButton(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&AnimationsSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&AnimationsSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&AnimationsSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera = std::make_shared<scene::Camera>();
+    camera.reset(new scene::Camera());
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    layer = std::make_shared<scene::Layer>();
+    layer.reset(new scene::Layer());
     layer->addChild(camera.get());
     addLayer(layer.get());
 
-    shapeDrawable = std::make_shared<scene::ShapeDrawable>();
+    shapeDrawable.reset(new scene::ShapeDrawable());
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false);
     shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN, 2.0f);
@@ -39,76 +39,76 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE);
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
-    drawNode = std::make_shared<scene::Node>();
+    drawNode.reset(new scene::Node());
     drawNode->addComponent(shapeDrawable.get());
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode.get());
 
-    shake = std::make_shared<scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f);
+    shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
     drawNode->addComponent(shake.get());
     shake->start();
 
-    witchSprite = std::make_shared<scene::Sprite>();
+    witchSprite.reset(new scene::Sprite());
     witchSprite->initFromFile("witch.png");
 
-    witch = std::make_shared<scene::Node>();
+    witch.reset(new scene::Node());
     witch->setPosition(Vector2(200, 0.0f));
     witch->addComponent(witchSprite.get());
     layer->addChild(witch.get());
 
-    witchScale = std::make_shared<scene::Scale>(2.0f, Vector2(0.1f, 0.1f), false);
-    witchFade = std::make_shared<scene::Fade>(2.0f, 0.4f);
+    witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
+    witchFade.reset(new scene::Fade(2.0f, 0.4f));
 
     vector<scene::Animator*> parallel = {
         witchScale.get(),
         witchFade.get()
     };
 
-    witchRotate = std::make_shared<scene::Rotate>(1.0f, Vector3(0.0f, 0.0f, TAU), false);
+    witchRotate.reset(new scene::Rotate(1.0f, Vector3(0.0f, 0.0f, TAU), false));
 
-    witchRepeat = std::make_shared<scene::Repeat>(witchRotate.get(), 3);
-    witchParallel = std::make_shared<scene::Parallel>(parallel);
+    witchRepeat.reset(new scene::Repeat(witchRotate.get(), 3));
+    witchParallel.reset(new scene::Parallel(parallel));
 
     vector<scene::Animator*> sequence = {
         witchRepeat.get(),
         witchParallel.get()
     };
 
-    witchSequence = std::make_shared<scene::Sequence>(sequence);
+    witchSequence.reset(new scene::Sequence(sequence));
 
     witch->addComponent(witchSequence.get());
     witchSequence->start();
 
-    ballSprite = std::make_shared<scene::Sprite>();
+    ballSprite.reset(new scene::Sprite());
     ballSprite->initFromFile("ball.png");
 
-    ball = std::make_shared<scene::Node>();
+    ball.reset(new scene::Node());
     ball->addComponent(ballSprite.get());
     layer->addChild(ball.get());
 
-    ballDelay = std::make_shared<scene::Animator>(1.0f);
-    ballMove = std::make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false);
-    ballEase = std::make_shared<scene::Ease>(ballMove.get(), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE);
+    ballDelay.reset(new scene::Animator(1.0f));
+    ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
+    ballEase.reset(new scene::Ease(ballMove.get(), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
 
     vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
         ballEase.get()
     };
      
-    ballSequence = std::make_shared<scene::Sequence>(sequence2);
+    ballSequence.reset(new scene::Sequence(sequence2));
 
     ball->addComponent(ballSequence.get());
     ballSequence->start();
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));

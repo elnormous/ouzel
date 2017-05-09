@@ -20,7 +20,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     sharedEngine->getRenderer()->setClearDepthBuffer(true);
 
-    camera = std::make_shared<scene::Camera>();
+    camera.reset(new scene::Camera());
     camera->setDepthTest(true);
     camera->setDepthWrite(true);
 
@@ -28,12 +28,12 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     camera->setFarPlane(1000.0f);
     camera->setPosition(Vector3(0.0f, 0.0f, -400.0f));
 
-    layer = std::make_shared<scene::Layer>();
+    layer.reset(new scene::Layer());
     layer->addChild(camera.get());
     addLayer(layer.get());
 
     // floor
-    floorSprite = std::make_shared<scene::Sprite>();
+    floorSprite.reset(new scene::Sprite());
     floorSprite->initFromFile("floor.jpg");
 
     for (const scene::SpriteFrame& spriteFrame : floorSprite->getFrames())
@@ -41,14 +41,14 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
-    floor = std::make_shared<scene::Node>();
+    floor.reset(new scene::Node());
     floor->addComponent(floorSprite.get());
     layer->addChild(floor.get());
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
     // character
-    characterSprite = std::make_shared<scene::Sprite>();
+    characterSprite.reset(new scene::Sprite());
     characterSprite->initFromFile("run.json");
     characterSprite->play(true);
 
@@ -57,12 +57,12 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
         spriteFrame.getTexture()->setMaxAnisotropy(4);
     }
 
-    character = std::make_shared<scene::Node>();
+    character.reset(new scene::Node());
     character->addComponent(characterSprite.get());
     layer->addChild(character.get());
     character->setPosition(Vector2(10.0f, 0.0f));
 
-    jumpSound = std::make_shared<audio::Sound>();
+    jumpSound.reset(new audio::Sound());
     std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
     soundData->initFromFile("jump.wav");
     jumpSound->init(soundData);
@@ -72,18 +72,18 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     character->addComponent(rotate.get());
     rotate->start();
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }

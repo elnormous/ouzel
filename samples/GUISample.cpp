@@ -9,37 +9,37 @@ using namespace ouzel;
 
 GUISample::GUISample(Samples& aSamples):
     samples(aSamples),
-    backButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    backButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK);
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", Color::RED, Color::RED, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 100.0f));
     menu->addWidget(button.get());
 
-    checkBox = std::make_shared<gui::CheckBox>("checkbox.png", "", "", "", "tick.png");
+    checkBox.reset(new gui::CheckBox("checkbox.png", "", "", "", "tick.png"));
     checkBox->setPosition(Vector2(-100.0f, 100.0f));
     guiLayer->addChild(checkBox.get());
 
-    fullscreenButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu->addWidget(fullscreenButton.get());
 
-    label1 = std::make_shared<gui::Label>("checkbox", "arial.fnt");
+    label1.reset(new gui::Label("checkbox", "arial.fnt"));
     label1->setColor(Color::CYAN);
     label1->setPosition(Vector2(-60.0f, 100.0f));
     guiLayer->addChild(label1.get());
@@ -47,11 +47,11 @@ GUISample::GUISample(Samples& aSamples):
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    label2 = std::make_shared<gui::Label>(sharedEngine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt");
+    label2.reset(new gui::Label(sharedEngine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"));
     label2->setPosition(Vector2(10.0f, 0.0f));
     guiLayer->addChild(label2.get());
 
-    label3 = std::make_shared<gui::Label>("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", Color::WHITE, Vector2(0.0f, 0.5f));
+    label3.reset(new gui::Label("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", Color::WHITE, Vector2(0.0f, 0.5f)));
     label3->setColor(Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector3(0.5f, 0.5f, 1.0f));

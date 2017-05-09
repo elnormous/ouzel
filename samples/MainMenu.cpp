@@ -15,17 +15,17 @@ using namespace ouzel;
 
 MainMenu::MainMenu(Samples& aSamples):
     samples(aSamples),
-    layer(std::make_shared<ouzel::scene::Layer>()),
-    camera(std::make_shared<ouzel::scene::Camera>()),
-    menu(std::make_shared<ouzel::gui::Menu>()),
-    gitHubButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    spritesButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    guiButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    renderTargetButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    animationsButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    inputButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    soundButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    perspectiveButton(std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK))
+    layer(new ouzel::scene::Layer()),
+    camera(new ouzel::scene::Camera()),
+    menu(new ouzel::gui::Menu()),
+    gitHubButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    spritesButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    guiButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    renderTargetButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    animationsButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    inputButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    soundButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    perspectiveButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK))
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -37,7 +37,7 @@ MainMenu::MainMenu(Samples& aSamples):
     camera->setTargetContentSize(Size2(400.0f, 600.0f));
     layer->addChild(camera.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     layer->addChild(menu.get());
 
     gitHubButton->setPosition(Vector2(0.0f, 120.0f));

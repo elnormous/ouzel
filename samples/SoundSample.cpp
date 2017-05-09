@@ -18,55 +18,55 @@ SoundSample::SoundSample(Samples& aSamples):
     std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
     test8BitData->initFromFile("8-bit.wav");
 
-    test8BitSound = std::make_shared<audio::Sound>();
+    test8BitSound.reset(new audio::Sound());
     test8BitSound->init(test8BitData);
 
     std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
     test24BitData->initFromFile("24-bit.wav");
 
-    test24BitSound = std::make_shared<audio::Sound>();
+    test24BitSound.reset(new audio::Sound());
     test24BitSound->init(test24BitData);
 
     std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
     jumpData->initFromFile("jump.wav");
 
-    jumpSound = std::make_shared<audio::Sound>();
+    jumpSound.reset(new audio::Sound());
     jumpSound->init(jumpData);
 
     std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
     ambientData->initFromFile("ambient.wav");
 
-    ambientSound = std::make_shared<audio::Sound>();
+    ambientSound.reset(new audio::Sound());
     ambientSound->init(ambientData);
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    test8BitButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    test8BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     test8BitButton->setPosition(Vector2(0.0f, 80.0f));
     menu->addWidget(test8BitButton.get());
 
-    test24BitButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    test24BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     test24BitButton->setPosition(Vector2(0.0f, 40.0f));
     menu->addWidget(test24BitButton.get());
 
-    jumpButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    jumpButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
     menu->addWidget(jumpButton.get());
 
-    ambientButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    ambientButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     menu->addWidget(ambientButton.get());
 
-    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }

@@ -9,71 +9,71 @@ using namespace ouzel;
 
 SpritesSample::SpritesSample(Samples& aSamples):
     samples(aSamples),
-    backButton(std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
+    backButton(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SpritesSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera = std::make_shared<scene::Camera>();
+    camera.reset(new scene::Camera());
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    layer = std::make_shared<scene::Layer>();
+    layer.reset(new scene::Layer());
     layer->addChild(camera.get());
     addLayer(layer.get());
 
     // character
-    characterSprite = std::make_shared<scene::Sprite>();
+    characterSprite.reset(new scene::Sprite());
     characterSprite->initFromFile("run.json");
     characterSprite->play(true);
 
-    character = std::make_shared<scene::Node>();
+    character.reset(new scene::Node());
     character->addComponent(characterSprite.get());
     layer->addChild(character.get());
     character->setPosition(Vector2(-300.0f, 0.0f));
 
-    move = std::make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f));
+    move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
     character->addComponent(move.get());
     move->start();
 
     // fire
-    fireSprite = std::make_shared<scene::Sprite>();
+    fireSprite.reset(new scene::Sprite());
     fireSprite->initFromFile("fire.json");
     fireSprite->setOffset(Vector2(0.0f, 20.0f));
     fireSprite->play(true);
 
-    fireNode = std::make_shared<scene::Node>();
+    fireNode.reset(new scene::Node());
     fireNode->addComponent(fireSprite.get());
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
     layer->addChild(fireNode.get());
 
     // triangle
-    triangleSprite = std::make_shared<scene::Sprite>();
+    triangleSprite.reset(new scene::Sprite());
     triangleSprite->initFromFile("triangle.json");
 
-    triangleNode = std::make_shared<scene::Node>();
+    triangleNode.reset(new scene::Node());
     triangleNode->addComponent(triangleSprite.get());
     triangleNode->setPosition(Vector2(100.0f, -140.0f));
     layer->addChild(triangleNode.get());
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    hideButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    hideButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
     menu->addWidget(hideButton.get());
 
-    wireframeButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    wireframeButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     wireframeButton->setPosition(Vector2(-200.0f, 160.0f));
     menu->addWidget(wireframeButton.get());
 

@@ -19,17 +19,17 @@ private:
 
     Samples& samples;
 
-    std::shared_ptr<ouzel::scene::Layer> layer;
-    std::shared_ptr<ouzel::scene::Camera> camera;
+    std::unique_ptr<ouzel::scene::Layer> layer;
+    std::unique_ptr<ouzel::scene::Camera> camera;
     
     ouzel::EventHandler eventHandler;
 
-    std::shared_ptr<ouzel::gui::Button> button;
-    std::shared_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
-    std::shared_ptr<ouzel::scene::Node> flame;
+    std::unique_ptr<ouzel::gui::Button> button;
+    std::unique_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
+    std::unique_ptr<ouzel::scene::Node> flame;
 
-    std::shared_ptr<ouzel::scene::Layer> guiLayer;
-    std::shared_ptr<ouzel::scene::Camera> guiCamera;
-    std::shared_ptr<ouzel::gui::Menu> menu;
-    std::shared_ptr<ouzel::gui::Button> backButton;
+    std::unique_ptr<ouzel::scene::Layer> guiLayer;
+    std::unique_ptr<ouzel::scene::Camera> guiCamera;
+    std::unique_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Button> backButton;
 };

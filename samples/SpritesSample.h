@@ -17,25 +17,25 @@ private:
 
     Samples& samples;
 
-    std::shared_ptr<ouzel::scene::Layer> layer;
-    std::shared_ptr<ouzel::scene::Camera> camera;
+    std::unique_ptr<ouzel::scene::Layer> layer;
+    std::unique_ptr<ouzel::scene::Camera> camera;
 
-    std::shared_ptr<ouzel::scene::Sprite> characterSprite;
-    std::shared_ptr<ouzel::scene::Node> character;
-    std::shared_ptr<ouzel::scene::Sprite> fireSprite;
-    std::shared_ptr<ouzel::scene::Node> fireNode;
-    std::shared_ptr<ouzel::scene::Sprite> triangleSprite;
-    std::shared_ptr<ouzel::scene::Node> triangleNode;
+    std::unique_ptr<ouzel::scene::Sprite> characterSprite;
+    std::unique_ptr<ouzel::scene::Node> character;
+    std::unique_ptr<ouzel::scene::Sprite> fireSprite;
+    std::unique_ptr<ouzel::scene::Node> fireNode;
+    std::unique_ptr<ouzel::scene::Sprite> triangleSprite;
+    std::unique_ptr<ouzel::scene::Node> triangleNode;
 
-    std::shared_ptr<ouzel::scene::Animator> move;
+    std::unique_ptr<ouzel::scene::Animator> move;
 
     ouzel::EventHandler eventHandler;
 
-    std::shared_ptr<ouzel::gui::Button> hideButton;
-    std::shared_ptr<ouzel::gui::Button> wireframeButton;
+    std::unique_ptr<ouzel::gui::Button> hideButton;
+    std::unique_ptr<ouzel::gui::Button> wireframeButton;
 
-    std::shared_ptr<ouzel::scene::Layer> guiLayer;
-    std::shared_ptr<ouzel::scene::Camera> guiCamera;
-    std::shared_ptr<ouzel::gui::Menu> menu;
-    std::shared_ptr<ouzel::gui::Button> backButton;
+    std::unique_ptr<ouzel::scene::Layer> guiLayer;
+    std::unique_ptr<ouzel::scene::Camera> guiCamera;
+    std::unique_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Button> backButton;
 };

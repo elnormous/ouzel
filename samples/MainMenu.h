@@ -16,18 +16,18 @@ private:
 
     Samples& samples;
 
-    std::shared_ptr<ouzel::scene::Layer> layer;
-    std::shared_ptr<ouzel::scene::Camera> camera;
+    std::unique_ptr<ouzel::scene::Layer> layer;
+    std::unique_ptr<ouzel::scene::Camera> camera;
 
-    std::shared_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Menu> menu;
 
     ouzel::EventHandler eventHandler;
-    std::shared_ptr<ouzel::gui::Button> gitHubButton;
-    std::shared_ptr<ouzel::gui::Button> spritesButton;
-    std::shared_ptr<ouzel::gui::Button> guiButton;
-    std::shared_ptr<ouzel::gui::Button> renderTargetButton;
-    std::shared_ptr<ouzel::gui::Button> animationsButton;
-    std::shared_ptr<ouzel::gui::Button> inputButton;
-    std::shared_ptr<ouzel::gui::Button> soundButton;
-    std::shared_ptr<ouzel::gui::Button> perspectiveButton;
+    std::unique_ptr<ouzel::gui::Button> gitHubButton;
+    std::unique_ptr<ouzel::gui::Button> spritesButton;
+    std::unique_ptr<ouzel::gui::Button> guiButton;
+    std::unique_ptr<ouzel::gui::Button> renderTargetButton;
+    std::unique_ptr<ouzel::gui::Button> animationsButton;
+    std::unique_ptr<ouzel::gui::Button> inputButton;
+    std::unique_ptr<ouzel::gui::Button> soundButton;
+    std::unique_ptr<ouzel::gui::Button> perspectiveButton;
 };

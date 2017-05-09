@@ -15,37 +15,37 @@ RTSample::RTSample(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    rtLayer = std::make_shared<scene::Layer>();
+    rtLayer.reset(new scene::Layer());
     addLayer(rtLayer.get());
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, false);
     renderTarget->setClearColor(Color(0, 64, 0));
 
-    rtCamera = std::make_shared<scene::Camera>();
+    rtCamera.reset(new scene::Camera());
     rtCamera->setRenderTarget(renderTarget);
 
     rtLayer->addChild(rtCamera.get());
 
-    camera1 = std::make_shared<scene::Camera>();
+    camera1.reset(new scene::Camera());
     camera1->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera1->setTargetContentSize(Size2(400.0f, 600.0f));
     camera1->setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
 
-    camera2 = std::make_shared<scene::Camera>();
+    camera2.reset(new scene::Camera());
     camera2->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera2->setTargetContentSize(Size2(400.0f, 600.0f));
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
-    layer = std::make_shared<scene::Layer>();
+    layer.reset(new scene::Layer());
     layer->addChild(camera1.get());
     layer->addChild(camera2.get());
     addLayer(layer.get());
 
-    characterSprite = std::make_shared<ouzel::scene::Sprite>("run.json");
+    characterSprite.reset(new ouzel::scene::Sprite("run.json"));
     characterSprite->play(true);
 
-    rtCharacter = std::make_shared<scene::Node>();
+    rtCharacter.reset(new scene::Node());
     rtCharacter->addComponent(characterSprite.get());
 
     rtLayer->addChild(rtCharacter.get());
@@ -53,24 +53,24 @@ RTSample::RTSample(Samples& aSamples):
     scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
     std::vector<scene::SpriteFrame> spriteFrames = {rtFrame};
-    rtSprite = std::make_shared<scene::Sprite>();
+    rtSprite.reset(new scene::Sprite());
     rtSprite->initFromSpriteFrames(spriteFrames);
-    rtNode = std::make_shared<scene::Node>();
+    rtNode.reset(new scene::Node());
     rtNode->addComponent(rtSprite.get());
     layer->addChild(rtNode.get());
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }

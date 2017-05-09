@@ -17,20 +17,20 @@ private:
 
     Samples& samples;
 
-    std::shared_ptr<ouzel::audio::Sound> test8BitSound;
-    std::shared_ptr<ouzel::audio::Sound> test24BitSound;
-    std::shared_ptr<ouzel::audio::Sound> jumpSound;
-    std::shared_ptr<ouzel::audio::Sound> ambientSound;
+    std::unique_ptr<ouzel::audio::Sound> test8BitSound;
+    std::unique_ptr<ouzel::audio::Sound> test24BitSound;
+    std::unique_ptr<ouzel::audio::Sound> jumpSound;
+    std::unique_ptr<ouzel::audio::Sound> ambientSound;
 
-    std::shared_ptr<ouzel::scene::Layer> guiLayer;
-    std::shared_ptr<ouzel::scene::Camera> guiCamera;
-    std::shared_ptr<ouzel::gui::Menu> menu;
-    std::shared_ptr<ouzel::gui::Button> backButton;
+    std::unique_ptr<ouzel::scene::Layer> guiLayer;
+    std::unique_ptr<ouzel::scene::Camera> guiCamera;
+    std::unique_ptr<ouzel::gui::Menu> menu;
+    std::unique_ptr<ouzel::gui::Button> backButton;
 
-    std::shared_ptr<ouzel::gui::Button> test8BitButton;
-    std::shared_ptr<ouzel::gui::Button> test24BitButton;
-    std::shared_ptr<ouzel::gui::Button> jumpButton;
-    std::shared_ptr<ouzel::gui::Button> ambientButton;
+    std::unique_ptr<ouzel::gui::Button> test8BitButton;
+    std::unique_ptr<ouzel::gui::Button> test24BitButton;
+    std::unique_ptr<ouzel::gui::Button> jumpButton;
+    std::unique_ptr<ouzel::gui::Button> ambientButton;
 
     ouzel::EventHandler eventHandler;
 };

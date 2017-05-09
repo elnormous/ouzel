@@ -18,37 +18,37 @@ InputSample::InputSample(Samples& aSamples):
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera = std::make_shared<scene::Camera>();
+    camera.reset(new scene::Camera());
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
-    layer = std::make_shared<scene::Layer>();
+    layer.reset(new scene::Layer());
     layer->addChild(camera.get());
     addLayer(layer.get());
 
-    flameParticleSystem = std::make_shared<scene::ParticleSystem>();
+    flameParticleSystem.reset(new scene::ParticleSystem());
     flameParticleSystem->initFromFile("flame.json");
 
-    flame = std::make_shared<scene::Node>();
+    flame.reset(new scene::Node());
     flame->addComponent(flameParticleSystem.get());
     flame->setPickable(false);
     layer->addChild(flame.get());
 
-    guiCamera = std::make_shared<scene::Camera>();
+    guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer = std::make_shared<scene::Layer>();
+    guiLayer.reset(new scene::Layer());
     guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer.get());
 
-    menu = std::make_shared<gui::Menu>();
+    menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     button->setPosition(Vector2(-200.0f, 200.0f));
     menu->addWidget(button.get());
 
-    backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }
