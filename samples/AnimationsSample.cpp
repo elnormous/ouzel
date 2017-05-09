@@ -21,7 +21,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addChild(camera);
+    layer->addChild(camera.get());
     addLayer(layer);
 
     shapeDrawable = std::make_shared<scene::ShapeDrawable>();
@@ -42,7 +42,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     drawNode = std::make_shared<scene::Node>();
     drawNode->addComponent(shapeDrawable);
     drawNode->setPosition(Vector2(-300, 0.0f));
-    layer->addChild(drawNode);
+    layer->addChild(drawNode.get());
 
     shake = std::make_shared<scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f);
     drawNode->addComponent(shake);
@@ -54,7 +54,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     witch = std::make_shared<scene::Node>();
     witch->setPosition(Vector2(200, 0.0f));
     witch->addComponent(witchSprite);
-    layer->addChild(witch);
+    layer->addChild(witch.get());
 
     witchScale = std::make_shared<scene::Scale>(2.0f, Vector2(0.1f, 0.1f), false);
     witchFade = std::make_shared<scene::Fade>(2.0f, 0.4f);
@@ -84,7 +84,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     ball = std::make_shared<scene::Node>();
     ball->addComponent(ballSprite);
-    layer->addChild(ball);
+    layer->addChild(ball.get());
 
     ballDelay = std::make_shared<scene::Animator>(1.0f);
     ballMove = std::make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false);
@@ -105,11 +105,11 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton);
@@ -131,7 +131,7 @@ bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
+    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
     {
         samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
     }

@@ -21,7 +21,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addChild(camera);
+    layer->addChild(camera.get());
     addLayer(layer);
 
     // character
@@ -31,7 +31,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     character = std::make_shared<scene::Node>();
     character->addComponent(characterSprite);
-    layer->addChild(character);
+    layer->addChild(character.get());
     character->setPosition(Vector2(-300.0f, 0.0f));
 
     move = std::make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f));
@@ -47,7 +47,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     fireNode = std::make_shared<scene::Node>();
     fireNode->addComponent(fireSprite);
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
-    layer->addChild(fireNode);
+    layer->addChild(fireNode.get());
 
     // triangle
     triangleSprite = std::make_shared<scene::Sprite>();
@@ -56,18 +56,18 @@ SpritesSample::SpritesSample(Samples& aSamples):
     triangleNode = std::make_shared<scene::Node>();
     triangleNode->addComponent(triangleSprite);
     triangleNode->setPosition(Vector2(100.0f, -140.0f));
-    layer->addChild(triangleNode);
+    layer->addChild(triangleNode.get());
 
     guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     hideButton = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     hideButton->setPosition(Vector2(-200.0f, 200.0f));
@@ -99,15 +99,15 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == hideButton)
+        else if (event.node == hideButton.get())
         {
             character->setHidden(!character->isHidden());
         }
-        else if (event.node == wireframeButton)
+        else if (event.node == wireframeButton.get())
         {
             camera->setWireframe(!camera->getWireframe());
         }

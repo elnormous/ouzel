@@ -25,7 +25,7 @@ RTSample::RTSample(Samples& aSamples):
     rtCamera = std::make_shared<scene::Camera>();
     rtCamera->setRenderTarget(renderTarget);
 
-    rtLayer->addChild(rtCamera);
+    rtLayer->addChild(rtCamera.get());
 
     camera1 = std::make_shared<scene::Camera>();
     camera1->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -38,8 +38,8 @@ RTSample::RTSample(Samples& aSamples):
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addChild(camera1);
-    layer->addChild(camera2);
+    layer->addChild(camera1.get());
+    layer->addChild(camera2.get());
     addLayer(layer);
 
     characterSprite = std::make_shared<ouzel::scene::Sprite>("run.json");
@@ -48,7 +48,7 @@ RTSample::RTSample(Samples& aSamples):
     rtCharacter = std::make_shared<scene::Node>();
     rtCharacter->addComponent(characterSprite);
 
-    rtLayer->addChild(rtCharacter);
+    rtLayer->addChild(rtCharacter.get());
 
     scene::SpriteFrame rtFrame(renderTarget, Rectangle(0.0f, 0.0f, 256.0f, 256.0f), false, renderTarget->getSize(), Vector2(), Vector2(0.5f, 0.5f));
 
@@ -57,18 +57,18 @@ RTSample::RTSample(Samples& aSamples):
     rtSprite->initFromSpriteFrames(spriteFrames);
     rtNode = std::make_shared<scene::Node>();
     rtNode->addComponent(rtSprite);
-    layer->addChild(rtNode);
+    layer->addChild(rtNode.get());
 
     guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
@@ -91,7 +91,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton)
+    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
     {
         samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
     }

@@ -23,7 +23,7 @@ InputSample::InputSample(Samples& aSamples):
     camera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addChild(camera);
+    layer->addChild(camera.get());
     addLayer(layer);
 
     flameParticleSystem = std::make_shared<scene::ParticleSystem>();
@@ -32,17 +32,17 @@ InputSample::InputSample(Samples& aSamples):
     flame = std::make_shared<scene::Node>();
     flame->addComponent(flameParticleSystem);
     flame->setPickable(false);
-    layer->addChild(flame);
+    layer->addChild(flame.get());
 
     guiCamera = std::make_shared<scene::Camera>();
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     button = std::make_shared<gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     button->setPosition(Vector2(-200.0f, 200.0f));
@@ -181,12 +181,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             sharedEngine->getInput()->setCursorVisible(true);
             samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == button)
+        else if (event.node == button.get())
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }

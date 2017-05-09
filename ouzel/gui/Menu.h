@@ -20,7 +20,7 @@ namespace ouzel
             virtual void addWidget(const std::shared_ptr<Widget>& widget);
             virtual bool removeChild(Node* node) override;
 
-            void selectWidget(const std::shared_ptr<Widget>& widget);
+            void selectWidget(Widget* widget);
             virtual void selectNextWidget();
             virtual void selectPreviousWidget();
 
@@ -33,7 +33,7 @@ namespace ouzel
             bool handleUI(Event::Type type, const UIEvent& event);
 
             std::vector<std::shared_ptr<Widget>> widgets;
-            std::shared_ptr<Widget> selectedWidget;
+            Widget* selectedWidget = nullptr;
 
             EventHandler eventHandler;
         };

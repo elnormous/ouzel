@@ -29,7 +29,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     camera->setPosition(Vector3(0.0f, 0.0f, -400.0f));
 
     layer = std::make_shared<scene::Layer>();
-    layer->addChild(camera);
+    layer->addChild(camera.get());
     addLayer(layer);
 
     // floor
@@ -43,7 +43,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     floor = std::make_shared<scene::Node>();
     floor->addComponent(floorSprite);
-    layer->addChild(floor);
+    layer->addChild(floor.get());
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
@@ -59,7 +59,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     character = std::make_shared<scene::Node>();
     character->addComponent(characterSprite);
-    layer->addChild(character);
+    layer->addChild(character.get());
     character->setPosition(Vector2(10.0f, 0.0f));
 
     jumpSound = std::make_shared<audio::Sound>();
@@ -77,11 +77,11 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     backButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     backButton->setPosition(Vector2(-200.0f, -200.0f));
@@ -92,7 +92,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }

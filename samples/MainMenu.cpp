@@ -35,10 +35,10 @@ MainMenu::MainMenu(Samples& aSamples):
 
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(400.0f, 600.0f));
-    layer->addChild(camera);
+    layer->addChild(camera.get());
 
     menu = std::make_shared<gui::Menu>();
-    layer->addChild(menu);
+    layer->addChild(menu.get());
 
     gitHubButton->setPosition(Vector2(0.0f, 120.0f));
     menu->addWidget(gitHubButton);
@@ -84,35 +84,35 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == gitHubButton)
+        if (event.node == gitHubButton.get())
         {
             sharedApplication->openURL("https://github.com/elnormous/ouzel");
         }
-        else if (event.node == spritesButton)
+        else if (event.node == spritesButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new SpritesSample(samples)));
         }
-        else if (event.node == guiButton)
+        else if (event.node == guiButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new GUISample(samples)));
         }
-        else if (event.node == renderTargetButton)
+        else if (event.node == renderTargetButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new RTSample(samples)));
         }
-        else if (event.node == animationsButton)
+        else if (event.node == animationsButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new AnimationsSample(samples)));
         }
-        else if (event.node == inputButton)
+        else if (event.node == inputButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new InputSample(samples)));
         }
-        else if (event.node == soundButton)
+        else if (event.node == soundButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new SoundSample(samples)));
         }
-        else if (event.node == perspectiveButton)
+        else if (event.node == perspectiveButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new PerspectiveSample(samples)));
         }

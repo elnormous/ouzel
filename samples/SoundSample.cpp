@@ -44,11 +44,11 @@ SoundSample::SoundSample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
 
     guiLayer = std::make_shared<scene::Layer>();
-    guiLayer->addChild(guiCamera);
+    guiLayer->addChild(guiCamera.get());
     addLayer(guiLayer);
 
     menu = std::make_shared<gui::Menu>();
-    guiLayer->addChild(menu);
+    guiLayer->addChild(menu.get());
 
     test8BitButton = std::make_shared<ouzel::gui::Button>("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK);
     test8BitButton->setPosition(Vector2(0.0f, 80.0f));
@@ -89,23 +89,23 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE)
     {
-        if (event.node == backButton)
+        if (event.node == backButton.get())
         {
             samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
         }
-        else if (event.node == test8BitButton)
+        else if (event.node == test8BitButton.get())
         {
             test8BitSound->play();
         }
-        else if (event.node == test24BitButton)
+        else if (event.node == test24BitButton.get())
         {
             test24BitSound->play();
         }
-        else if (event.node == jumpButton)
+        else if (event.node == jumpButton.get())
         {
             jumpSound->play();
         }
-        else if (event.node == ambientButton)
+        else if (event.node == ambientButton.get())
         {
             ambientSound->play();
         }
