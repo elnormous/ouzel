@@ -33,7 +33,8 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(const std::shared_ptr<Animator>& animator, Type aType, Func aFunc);
+            Ease(Animator* animator, Type aType, Func aFunc);
+            Ease(const std::unique_ptr<Animator>& animator, Type aType, Func aFunc);
 
         protected:
             virtual void updateProgress() override;

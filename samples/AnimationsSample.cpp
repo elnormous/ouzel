@@ -59,19 +59,19 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     witchScale = std::make_shared<scene::Scale>(2.0f, Vector2(0.1f, 0.1f), false);
     witchFade = std::make_shared<scene::Fade>(2.0f, 0.4f);
 
-    vector<std::shared_ptr<scene::Animator>> parallel = {
-        witchScale,
-        witchFade
+    vector<scene::Animator*> parallel = {
+        witchScale.get(),
+        witchFade.get()
     };
 
     witchRotate = std::make_shared<scene::Rotate>(1.0f, Vector3(0.0f, 0.0f, TAU), false);
 
-    witchRepeat = std::make_shared<scene::Repeat>(witchRotate, 3);
+    witchRepeat = std::make_shared<scene::Repeat>(witchRotate.get(), 3);
     witchParallel = std::make_shared<scene::Parallel>(parallel);
 
-    vector<std::shared_ptr<scene::Animator>> sequence = {
-        witchRepeat,
-        witchParallel
+    vector<scene::Animator*> sequence = {
+        witchRepeat.get(),
+        witchParallel.get()
     };
 
     witchSequence = std::make_shared<scene::Sequence>(sequence);
@@ -88,11 +88,11 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     ballDelay = std::make_shared<scene::Animator>(1.0f);
     ballMove = std::make_shared<scene::Move>(2.0f, Vector2(0.0f, -240.0f), false);
-    ballEase = std::make_shared<scene::Ease>(ballMove, scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE);
+    ballEase = std::make_shared<scene::Ease>(ballMove.get(), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE);
 
-    vector<std::shared_ptr<scene::Animator>> sequence2 = {
-        ballDelay,
-        ballEase
+    vector<scene::Animator*> sequence2 = {
+        ballDelay.get(),
+        ballEase.get()
     };
      
     ballSequence = std::make_shared<scene::Sequence>(sequence2);
