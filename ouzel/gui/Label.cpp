@@ -21,7 +21,7 @@ namespace ouzel
             text(aText),
             labelDrawable(std::make_shared<scene::TextDrawable>(fontFile, true, text, color, textAnchor))
         {
-            addComponent(labelDrawable);
+            addComponent(labelDrawable.get());
             labelDrawable->setText(text);
 
             pickable = true;

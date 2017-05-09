@@ -20,6 +20,8 @@ namespace ouzel
 
         Node::~Node()
         {
+            if (parent) parent->removeChild(this);
+
             for (const auto& component : components)
             {
                 component->node = nullptr;
@@ -79,7 +81,7 @@ namespace ouzel
             Color drawColor(color.v[0], color.v[1], color.v[2],
                             wireframe ? 255 : (static_cast<uint8_t>(color.v[3] * opacity)));
 
-            for (const std::shared_ptr<Component>& component : components)
+            for (Component* component : components)
             {
                 if (!component->isHidden())
                 {
@@ -197,7 +199,7 @@ namespace ouzel
         {
             Vector2 localPosition = convertWorldToLocal(worldPosition);
 
-            for (const std::shared_ptr<Component>& component : components)
+            for (Component* component : components)
             {
                 if (component->pointOn(localPosition))
                 {
@@ -223,7 +225,7 @@ namespace ouzel
                 transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
             }
 
-            for (const std::shared_ptr<Component>& component : components)
+            for (Component* component : components)
             {
                 if (component->shapeOverlaps(transformedEdges))
                 {
@@ -298,7 +300,7 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
-        void Node::addComponent(const std::shared_ptr<Component>& component)
+        void Node::addComponent(Component* component)
         {
             if (component->node)
             {
@@ -309,6 +311,17 @@ namespace ouzel
             components.push_back(component);
         }
 
+        void Node::addComponent(const std::unique_ptr<Component>& component)
+        {
+            addComponent(component.get());
+        }
+
+        void Node::addComponent(std::unique_ptr<Component>&& component)
+        {
+            addComponent(component.get());
+            ownedComponents.push_back(std::forward<std::unique_ptr<Component>>(component));
+        }
+
         bool Node::removeComponent(uint32_t index)
         {
             if (index >= components.size())
@@ -316,31 +329,35 @@ namespace ouzel
                 return false;
             }
 
-            const std::shared_ptr<Component>& component = components[index];
-            component->node = nullptr;
-
-            components.erase(components.begin() + static_cast<int>(index));
-
-            return true;
+            return removeComponent(components[index]);
         }
 
-        bool Node::removeComponent(const std::shared_ptr<Component>& component)
+        bool Node::removeComponent(Component* component)
         {
-            for (auto i = components.begin(); i != components.end();)
+            std::vector<std::unique_ptr<Component>>::iterator ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
+                return other.get() == component;
+            });
+
+            if (ownedIterator != ownedComponents.end())
             {
-                if (*i == component)
-                {
-                    component->node = nullptr;
-                    components.erase(i);
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                ownedComponents.erase(ownedIterator);
+            }
+
+            std::vector<Component*>::iterator componentIterator = std::find(components.begin(), components.end(), component);
+
+            if (componentIterator != components.end())
+            {
+                component->node = nullptr;
+                components.erase(componentIterator);
+                return true;
             }
 
             return false;
+        }
+
+        bool Node::removeComponent(const std::unique_ptr<Component>& component)
+        {
+            return removeComponent(component.get());
         }
 
         void Node::removeAllComponents()
@@ -352,7 +369,7 @@ namespace ouzel
         {
             Box3 boundingBox;
 
-            for (const std::shared_ptr<Component>& component : components)
+            for (Component* component : components)
             {
                 if (!component->isHidden())
                 {

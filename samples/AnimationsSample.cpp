@@ -40,12 +40,12 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
     drawNode = std::make_shared<scene::Node>();
-    drawNode->addComponent(shapeDrawable);
+    drawNode->addComponent(shapeDrawable.get());
     drawNode->setPosition(Vector2(-300, 0.0f));
     layer->addChild(drawNode.get());
 
     shake = std::make_shared<scene::Shake>(10.0f, Vector2(10.0f, 20.0f), 20.0f);
-    drawNode->addComponent(shake);
+    drawNode->addComponent(shake.get());
     shake->start();
 
     witchSprite = std::make_shared<scene::Sprite>();
@@ -53,7 +53,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     witch = std::make_shared<scene::Node>();
     witch->setPosition(Vector2(200, 0.0f));
-    witch->addComponent(witchSprite);
+    witch->addComponent(witchSprite.get());
     layer->addChild(witch.get());
 
     witchScale = std::make_shared<scene::Scale>(2.0f, Vector2(0.1f, 0.1f), false);
@@ -76,14 +76,14 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     witchSequence = std::make_shared<scene::Sequence>(sequence);
 
-    witch->addComponent(witchSequence);
+    witch->addComponent(witchSequence.get());
     witchSequence->start();
 
     ballSprite = std::make_shared<scene::Sprite>();
     ballSprite->initFromFile("ball.png");
 
     ball = std::make_shared<scene::Node>();
-    ball->addComponent(ballSprite);
+    ball->addComponent(ballSprite.get());
     layer->addChild(ball.get());
 
     ballDelay = std::make_shared<scene::Animator>(1.0f);
@@ -97,7 +97,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
      
     ballSequence = std::make_shared<scene::Sequence>(sequence2);
 
-    ball->addComponent(ballSequence);
+    ball->addComponent(ballSequence.get());
     ballSequence->start();
 
     guiCamera = std::make_shared<scene::Camera>();

@@ -30,12 +30,12 @@ SpritesSample::SpritesSample(Samples& aSamples):
     characterSprite->play(true);
 
     character = std::make_shared<scene::Node>();
-    character->addComponent(characterSprite);
+    character->addComponent(characterSprite.get());
     layer->addChild(character.get());
     character->setPosition(Vector2(-300.0f, 0.0f));
 
     move = std::make_shared<scene::Move>(4.0f, Vector2(300.0f, 0.0f));
-    character->addComponent(move);
+    character->addComponent(move.get());
     move->start();
 
     // fire
@@ -45,7 +45,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     fireSprite->play(true);
 
     fireNode = std::make_shared<scene::Node>();
-    fireNode->addComponent(fireSprite);
+    fireNode->addComponent(fireSprite.get());
     fireNode->setPosition(Vector2(-100.0f, -140.0f));
     layer->addChild(fireNode.get());
 
@@ -54,7 +54,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
     triangleSprite->initFromFile("triangle.json");
 
     triangleNode = std::make_shared<scene::Node>();
-    triangleNode->addComponent(triangleSprite);
+    triangleNode->addComponent(triangleSprite.get());
     triangleNode->setPosition(Vector2(100.0f, -140.0f));
     layer->addChild(triangleNode.get());
 

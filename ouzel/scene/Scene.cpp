@@ -61,12 +61,11 @@ namespace ouzel
 
         void Scene::addLayer(std::unique_ptr<Layer>&& layer)
         {
-            ownedLayers.push_back(std::forward<std::unique_ptr<Layer>>(layer));
-
             addLayer(layer.get());
+            ownedLayers.push_back(std::forward<std::unique_ptr<Layer>>(layer));
         }
 
-        void Scene::removeLayer(Layer* layer)
+        bool Scene::removeLayer(Layer* layer)
         {
             std::vector<std::unique_ptr<Layer>>::iterator ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
                 return other.get() == layer;
@@ -89,12 +88,16 @@ namespace ouzel
                 layers.erase(layerIterator);
 
                 layer->scene = nullptr;
+
+                return true;
             }
+
+            return false;
         }
 
-        void Scene::removeLayer(const std::shared_ptr<Layer>& layer)
+        bool Scene::removeLayer(const std::shared_ptr<Layer>& layer)
         {
-            removeLayer(layer.get());
+            return removeLayer(layer.get());
         }
 
         void Scene::removeAllLayers()

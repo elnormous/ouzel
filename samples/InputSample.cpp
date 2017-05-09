@@ -30,7 +30,7 @@ InputSample::InputSample(Samples& aSamples):
     flameParticleSystem->initFromFile("flame.json");
 
     flame = std::make_shared<scene::Node>();
-    flame->addComponent(flameParticleSystem);
+    flame->addComponent(flameParticleSystem.get());
     flame->setPickable(false);
     layer->addChild(flame.get());
 

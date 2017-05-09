@@ -46,7 +46,7 @@ RTSample::RTSample(Samples& aSamples):
     characterSprite->play(true);
 
     rtCharacter = std::make_shared<scene::Node>();
-    rtCharacter->addComponent(characterSprite);
+    rtCharacter->addComponent(characterSprite.get());
 
     rtLayer->addChild(rtCharacter.get());
 
@@ -56,7 +56,7 @@ RTSample::RTSample(Samples& aSamples):
     rtSprite = std::make_shared<scene::Sprite>();
     rtSprite->initFromSpriteFrames(spriteFrames);
     rtNode = std::make_shared<scene::Node>();
-    rtNode->addComponent(rtSprite);
+    rtNode->addComponent(rtSprite.get());
     layer->addChild(rtNode.get());
 
     guiCamera = std::make_shared<scene::Camera>();

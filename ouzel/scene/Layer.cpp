@@ -22,6 +22,8 @@ namespace ouzel
 
         Layer::~Layer()
         {
+            if (scene) scene->removeLayer(this);
+
             for (Camera* camera : cameras)
             {
                 camera->addedToLayer = nullptr;

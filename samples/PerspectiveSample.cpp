@@ -42,7 +42,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     }
 
     floor = std::make_shared<scene::Node>();
-    floor->addComponent(floorSprite);
+    floor->addComponent(floorSprite.get());
     layer->addChild(floor.get());
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
@@ -58,7 +58,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     }
 
     character = std::make_shared<scene::Node>();
-    character->addComponent(characterSprite);
+    character->addComponent(characterSprite.get());
     layer->addChild(character.get());
     character->setPosition(Vector2(10.0f, 0.0f));
 
@@ -69,7 +69,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
     jumpSound->setPosition(character->getPosition());
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
-    character->addComponent(rotate);
+    character->addComponent(rotate.get());
     rotate->start();
 
     guiCamera = std::make_shared<scene::Camera>();

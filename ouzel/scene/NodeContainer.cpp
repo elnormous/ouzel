@@ -46,8 +46,8 @@ namespace ouzel
 
         void NodeContainer::addChild(std::unique_ptr<Node>&& node)
         {
-            ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(node));
             addChild(node.get());
+            ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(node));
         }
 
         bool NodeContainer::removeChild(Node* node)
@@ -72,10 +72,8 @@ namespace ouzel
 
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         bool NodeContainer::removeChild(const std::unique_ptr<Node>& node)

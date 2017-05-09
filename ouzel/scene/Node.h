@@ -119,11 +119,15 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            const std::vector<std::shared_ptr<Component>>& getComponents() const { return components; }
-            void addComponent(const std::shared_ptr<Component>& component);
+            void addComponent(Component* component);
+            void addComponent(const std::unique_ptr<Component>& component);
+            void addComponent(std::unique_ptr<Component>&& component);
+
             bool removeComponent(uint32_t index);
-            bool removeComponent(const std::shared_ptr<Component>& component);
+            bool removeComponent(Component* component);
+            bool removeComponent(const std::unique_ptr<Component>& component);
             void removeAllComponents();
+            const std::vector<Component*>& getComponents() const { return components; }
 
             Box3 getBoundingBox() const;
 
@@ -161,7 +165,8 @@ namespace ouzel
 
             NodeContainer* parent = nullptr;
 
-            std::vector<std::shared_ptr<Component>> components;
+            std::vector<Component*> components;
+            std::vector<std::unique_ptr<Component>> ownedComponents;
 
             UpdateCallback animationUpdateCallback;
         };
