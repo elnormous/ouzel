@@ -16,7 +16,7 @@ RTSample::RTSample(Samples& aSamples):
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     rtLayer = std::make_shared<scene::Layer>();
-    addLayer(rtLayer);
+    addLayer(rtLayer.get());
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
     renderTarget->init(Size2(256.0f, 256.0f), true, false, true, 1, false);
@@ -40,7 +40,7 @@ RTSample::RTSample(Samples& aSamples):
     layer = std::make_shared<scene::Layer>();
     layer->addChild(camera1.get());
     layer->addChild(camera2.get());
-    addLayer(layer);
+    addLayer(layer.get());
 
     characterSprite = std::make_shared<ouzel::scene::Sprite>("run.json");
     characterSprite->play(true);
@@ -65,7 +65,7 @@ RTSample::RTSample(Samples& aSamples):
 
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());

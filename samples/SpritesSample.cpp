@@ -22,7 +22,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     layer = std::make_shared<scene::Layer>();
     layer->addChild(camera.get());
-    addLayer(layer);
+    addLayer(layer.get());
 
     // character
     characterSprite = std::make_shared<scene::Sprite>();
@@ -64,7 +64,7 @@ SpritesSample::SpritesSample(Samples& aSamples):
 
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());

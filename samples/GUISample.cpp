@@ -22,7 +22,7 @@ GUISample::GUISample(Samples& aSamples):
 
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());

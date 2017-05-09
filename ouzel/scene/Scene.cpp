@@ -23,7 +23,7 @@ namespace ouzel
 
         Scene::~Scene()
         {
-            for (const std::shared_ptr<Layer>& layer : layers)
+            for (Layer* layer : layers)
             {
                 if (entered) layer->leave();
                 layer->scene = nullptr;
@@ -32,17 +32,17 @@ namespace ouzel
 
         void Scene::draw()
         {
-            std::stable_sort(layers.begin(), layers.end(), [](const std::shared_ptr<Layer>& a, const std::shared_ptr<Layer>& b) {
+            std::stable_sort(layers.begin(), layers.end(), [](Layer* a, Layer* b) {
                 return a->getOrder() > b->getOrder();
             });
 
-            for (const std::shared_ptr<Layer>& layer : layers)
+            for (Layer* layer : layers)
             {
                 layer->draw();
             }
         }
 
-        void Scene::addLayer(const std::shared_ptr<Layer>& layer)
+        void Scene::addLayer(Layer* layer)
         {
             if (layer && !hasLayer(layer))
             {
@@ -54,28 +54,54 @@ namespace ouzel
             }
         }
 
-        void Scene::removeLayer(const std::shared_ptr<Layer>& layer)
+        void Scene::addLayer(const std::unique_ptr<Layer>& layer)
         {
-            std::vector<std::shared_ptr<Layer>>::iterator i = std::find(layers.begin(), layers.end(), layer);
+            addLayer(layer.get());
+        }
 
-            if (i != layers.end())
+        void Scene::addLayer(std::unique_ptr<Layer>&& layer)
+        {
+            ownedLayers.push_back(std::forward<std::unique_ptr<Layer>>(layer));
+
+            addLayer(layer.get());
+        }
+
+        void Scene::removeLayer(Layer* layer)
+        {
+            std::vector<std::unique_ptr<Layer>>::iterator ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
+                return other.get() == layer;
+            });
+
+            if (ownedIterator != ownedLayers.end())
+            {
+                ownedLayers.erase(ownedIterator);
+            }
+
+            std::vector<Layer*>::iterator layerIterator = std::find(layers.begin(), layers.end(), layer);
+
+            if (layerIterator != layers.end())
             {
                 if (entered)
                 {
                     layer->leave();
                 }
 
-                layers.erase(i);
+                layers.erase(layerIterator);
 
                 layer->scene = nullptr;
             }
+        }
+
+        void Scene::removeLayer(const std::shared_ptr<Layer>& layer)
+        {
+            removeLayer(layer.get());
         }
 
         void Scene::removeAllLayers()
         {
             if (entered)
             {
-                for (const std::shared_ptr<Layer>& layer : layers)
+                for (Layer* layer : layers)
                 {
                     layer->leave();
                 }
@@ -84,16 +110,16 @@ namespace ouzel
             layers.clear();
         }
 
-        bool Scene::hasLayer(const std::shared_ptr<Layer>& layer) const
+        bool Scene::hasLayer(Layer* layer) const
         {
-            std::vector<std::shared_ptr<Layer>>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
+            std::vector<Layer*>::const_iterator i = std::find(layers.begin(), layers.end(), layer);
 
             return i != layers.end();
         }
 
         void Scene::recalculateProjection()
         {
-            for (const std::shared_ptr<Layer>& layer : layers)
+            for (Layer* layer : layers)
             {
                 layer->recalculateProjection();
             }
@@ -101,9 +127,9 @@ namespace ouzel
 
         Node* Scene::pickNode(const Vector2& position) const
         {
-            for (std::vector<std::shared_ptr<Layer>>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
+            for (std::vector<Layer*>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                const std::shared_ptr<Layer>& layer = *i;
+                Layer* layer = *i;
 
                 if (Node* result = layer->pickNode(position))
                 {
@@ -149,7 +175,7 @@ namespace ouzel
             recalculateProjection();
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-            for (const std::shared_ptr<Layer>& layer : layers)
+            for (Layer* layer : layers)
             {
                 layer->enter();
             }
@@ -161,7 +187,7 @@ namespace ouzel
 
             sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
 
-            for (const std::shared_ptr<Layer>& layer : layers)
+            for (Layer* layer : layers)
             {
                 layer->leave();
             }

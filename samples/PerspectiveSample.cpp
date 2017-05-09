@@ -30,7 +30,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     layer = std::make_shared<scene::Layer>();
     layer->addChild(camera.get());
-    addLayer(layer);
+    addLayer(layer.get());
 
     // floor
     floorSprite = std::make_shared<scene::Sprite>();
@@ -78,7 +78,7 @@ PerspectiveSample::PerspectiveSample(Samples& aSamples):
 
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());

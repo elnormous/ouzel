@@ -31,7 +31,7 @@ MainMenu::MainMenu(Samples& aSamples):
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(layer);
+    addLayer(layer.get());
 
     camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera->setTargetContentSize(Size2(400.0f, 600.0f));

@@ -26,11 +26,15 @@ namespace ouzel
 
             virtual void draw();
 
-            void addLayer(const std::shared_ptr<Layer>& layer);
+            void addLayer(Layer* layer);
+            void addLayer(const std::unique_ptr<Layer>& layer);
+            void addLayer(std::unique_ptr<Layer>&& layer);
+
+            void removeLayer(Layer* layer);
             void removeLayer(const std::shared_ptr<Layer>& layer);
             void removeAllLayers();
-            bool hasLayer(const std::shared_ptr<Layer>& layer) const;
-            const std::vector<std::shared_ptr<Layer>>& getLayers() const { return layers; }
+            bool hasLayer(Layer* layer) const;
+            const std::vector<Layer*>& getLayers() const { return layers; }
 
             virtual void recalculateProjection();
 
@@ -52,7 +56,8 @@ namespace ouzel
             void pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position);
             void pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position, const Vector2& difference);
 
-            std::vector<std::shared_ptr<Layer>> layers;
+            std::vector<Layer*> layers;
+            std::vector<std::unique_ptr<Layer>> ownedLayers;
             ouzel::EventHandler eventHandler;
 
             std::unordered_map<uint64_t, Node*> pointerDownOnNodes;

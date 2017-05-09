@@ -22,7 +22,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     layer = std::make_shared<scene::Layer>();
     layer->addChild(camera.get());
-    addLayer(layer);
+    addLayer(layer.get());
 
     shapeDrawable = std::make_shared<scene::ShapeDrawable>();
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
@@ -106,7 +106,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());

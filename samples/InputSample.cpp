@@ -24,7 +24,7 @@ InputSample::InputSample(Samples& aSamples):
 
     layer = std::make_shared<scene::Layer>();
     layer->addChild(camera.get());
-    addLayer(layer);
+    addLayer(layer.get());
 
     flameParticleSystem = std::make_shared<scene::ParticleSystem>();
     flameParticleSystem->initFromFile("flame.json");
@@ -39,7 +39,7 @@ InputSample::InputSample(Samples& aSamples):
     guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
     guiLayer = std::make_shared<scene::Layer>();
     guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer);
+    addLayer(guiLayer.get());
 
     menu = std::make_shared<gui::Menu>();
     guiLayer->addChild(menu.get());
