@@ -345,7 +345,7 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t, const std::shared_ptr<Node>& node, const Vector2& position, const Vector2& difference)
+        void Scene::pointerDragNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position, const Vector2& difference)
         {
             if (node)
             {
@@ -353,6 +353,7 @@ namespace ouzel
                 event.type = Event::Type::UI_DRAG_NODE;
 
                 event.uiEvent.node = node;
+                event.uiEvent.touchId = pointerId;
                 event.uiEvent.difference = difference;
                 event.uiEvent.position = position;
 
