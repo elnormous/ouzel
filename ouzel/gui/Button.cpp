@@ -45,7 +45,7 @@ namespace ouzel
 
             if (!normalImage.empty())
             {
-                normalSprite = std::make_shared<scene::Sprite>();
+                normalSprite.reset(new scene::Sprite());
                 if (normalSprite->initFromFile(normalImage, false))
                 {
                     addComponent(normalSprite.get());
@@ -54,7 +54,7 @@ namespace ouzel
 
             if (!selectedImage.empty())
             {
-                selectedSprite = std::make_shared<scene::Sprite>();
+                selectedSprite.reset(new scene::Sprite());
                 if (selectedSprite->initFromFile(selectedImage, false))
                 {
                     addComponent(selectedSprite.get());
@@ -63,7 +63,7 @@ namespace ouzel
 
             if (!pressedImage.empty())
             {
-                pressedSprite = std::make_shared<scene::Sprite>();
+                pressedSprite.reset(new scene::Sprite());
                 if (pressedSprite->initFromFile(pressedImage, false))
                 {
                     addComponent(pressedSprite.get());
@@ -72,7 +72,7 @@ namespace ouzel
 
             if (!disabledImage.empty())
             {
-                disabledSprite = std::make_shared<scene::Sprite>();
+                disabledSprite.reset(new scene::Sprite());
                 if (disabledSprite->initFromFile(disabledImage, false))
                 {
                     addComponent(disabledSprite.get());
@@ -81,7 +81,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                labelDrawable = std::make_shared<scene::TextDrawable>(font, true, label);
+                labelDrawable.reset(new scene::TextDrawable(font, true, label));
                 labelDrawable->setColor(labelColor);
                 addComponent(labelDrawable.get());
             }

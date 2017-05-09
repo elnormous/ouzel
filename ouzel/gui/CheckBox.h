@@ -32,11 +32,11 @@ namespace ouzel
 
             void updateSprite();
 
-            std::shared_ptr<scene::Sprite> normalSprite;
-            std::shared_ptr<scene::Sprite> selectedSprite;
-            std::shared_ptr<scene::Sprite> pressedSprite;
-            std::shared_ptr<scene::Sprite> disabledSprite;
-            std::shared_ptr<scene::Sprite> tickSprite;
+            std::unique_ptr<scene::Sprite> normalSprite;
+            std::unique_ptr<scene::Sprite> selectedSprite;
+            std::unique_ptr<scene::Sprite> pressedSprite;
+            std::unique_ptr<scene::Sprite> disabledSprite;
+            std::unique_ptr<scene::Sprite> tickSprite;
 
             EventHandler eventHandler;
 
