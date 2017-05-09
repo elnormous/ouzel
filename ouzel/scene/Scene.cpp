@@ -95,7 +95,7 @@ namespace ouzel
             return false;
         }
 
-        bool Scene::removeLayer(const std::shared_ptr<Layer>& layer)
+        bool Scene::removeLayer(const std::unique_ptr<Layer>& layer)
         {
             return removeLayer(layer.get());
         }

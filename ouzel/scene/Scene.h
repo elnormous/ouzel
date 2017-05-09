@@ -31,7 +31,7 @@ namespace ouzel
             void addLayer(std::unique_ptr<Layer>&& layer);
 
             bool removeLayer(Layer* layer);
-            bool removeLayer(const std::shared_ptr<Layer>& layer);
+            bool removeLayer(const std::unique_ptr<Layer>& layer);
             void removeAllLayers();
             bool hasLayer(Layer* layer) const;
             const std::vector<Layer*>& getLayers() const { return layers; }
