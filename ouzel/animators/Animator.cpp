@@ -105,7 +105,7 @@ namespace ouzel
             // reset animators in reverse order, so that Sequence is reset correctly
             for (auto i = animators.crbegin(); i != animators.crend(); ++i)
             {
-                const std::shared_ptr<Animator>& animator = *i;
+                Animator* animator = *i;
                 animator->reset();
             }
         }
@@ -122,7 +122,7 @@ namespace ouzel
         {
         }
 
-        void Animator::addAnimator(const std::shared_ptr<Animator>& animator)
+        void Animator::addAnimator(Animator* animator)
         {
             if (animator)
             {
@@ -137,23 +137,38 @@ namespace ouzel
             }
         }
 
-        bool Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
+        void Animator::addAnimator(const std::unique_ptr<Animator>& animator)
         {
-            for (auto i = animators.begin(); i != animators.end();)
+            addAnimator(animator.get());
+        }
+
+        void Animator::addAnimator(std::unique_ptr<Animator>&& animator)
+        {
+            addAnimator(animator.get());
+            ownedAnimators.push_back(std::forward<std::unique_ptr<Animator>>(animator));
+        }
+
+        bool Animator::removeAnimator(Animator* animator)
+        {
+            std::vector<std::unique_ptr<Animator>>::iterator ownedIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const std::unique_ptr<Animator>& other) {
+                return other.get() == animator;
+            });
+
+            if (ownedIterator != ownedAnimators.end())
             {
-                if (*i == animator)
-                {
-                    animator->parent = nullptr;
-                    animators.erase(i);
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                ownedAnimators.erase(ownedIterator);
             }
 
-            return true;
+            std::vector<Animator*>::iterator animatorIterator = std::find(animators.begin(), animators.end(), animator);
+
+            if (animatorIterator != animators.end())
+            {
+                animator->parent = nullptr;
+                animators.erase(animatorIterator);
+                return true;
+            }
+
+            return false;
         }
     } // namespace scene
 } // namespace ouzel

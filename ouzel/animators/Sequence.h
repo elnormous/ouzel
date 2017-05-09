@@ -20,7 +20,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
-            std::shared_ptr<Animator> currentAnimator;
+            Animator* currentAnimator = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

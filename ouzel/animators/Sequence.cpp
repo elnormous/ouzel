@@ -12,9 +12,9 @@ namespace ouzel
         Sequence::Sequence(const std::vector<std::shared_ptr<Animator>>& aAnimators):
             Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::shared_ptr<Animator>& b) { return a + b->getLength(); }))
         {
-            for (const auto& animator : aAnimators)
+            for (const std::shared_ptr<Animator>& animator : aAnimators)
             {
-                addAnimator(animator);
+                addAnimator(animator.get());
             }
         }
 
@@ -41,7 +41,7 @@ namespace ouzel
             }
             else
             {
-                currentAnimator.reset();
+                currentAnimator = nullptr;
             }
         }
 
@@ -51,7 +51,7 @@ namespace ouzel
 
             float time = 0.0f;
 
-            for (const auto& animator : animators)
+            for (Animator* animator : animators)
             {
                 if (animator->getLength() <= 0.0f || currentTime > time + animator->getLength())
                 {

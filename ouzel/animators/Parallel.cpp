@@ -13,7 +13,7 @@ namespace ouzel
         {
             for (const auto& animator : aAnimators)
             {
-                addAnimator(animator);
+                addAnimator(animator.get());
 
                 if (animator->getLength() > length)
                 {
@@ -26,7 +26,7 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            for (const std::shared_ptr<Animator>& animator : animators)
+            for (Animator* animator : animators)
             {
                 float animationLength = animator->getLength();
 

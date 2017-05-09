@@ -256,7 +256,7 @@ namespace ouzel
         Ease::Ease(const std::shared_ptr<Animator>& animator, Type aType, Func aFunc):
             Animator(animator->getLength()), type(aType), func(aFunc)
         {
-            addAnimator(animator);
+            addAnimator(animator.get());
         }
 
         void Ease::updateProgress()

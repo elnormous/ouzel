@@ -10,7 +10,7 @@ namespace ouzel
         Repeat::Repeat(const std::shared_ptr<Animator>& animator, uint32_t aCount):
             Animator(animator->getLength() * static_cast<float>(aCount)), count(aCount)
         {
-            addAnimator(animator);
+            addAnimator(animator.get());
         }
 
         void Repeat::reset()

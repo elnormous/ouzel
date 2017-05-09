@@ -43,9 +43,13 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
+            void addAnimator(Animator* animator);
+            void addAnimator(const std::unique_ptr<Animator>& animator);
+            void addAnimator(std::unique_ptr<Animator>&& animator);
+
+            bool removeAnimator(Animator* animator);
+
         protected:
-            void addAnimator(const std::shared_ptr<Animator>& animator);
-            bool removeAnimator(const std::shared_ptr<Animator>& animator);
             virtual void updateProgress();
 
             float length = 0.0f;
@@ -61,7 +65,8 @@ namespace ouzel
 
             UpdateCallback updateCallback;
 
-            std::vector<std::shared_ptr<Animator>> animators;
+            std::vector<Animator*> animators;
+            std::vector<std::unique_ptr<Animator>> ownedAnimators;
         };
     } // namespace scene
 } // namespace ouzel
