@@ -120,12 +120,10 @@ namespace ouzel
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
             void addComponent(Component* component);
-            void addComponent(const std::unique_ptr<Component>& component);
             void addComponent(std::unique_ptr<Component>&& component);
 
             bool removeComponent(uint32_t index);
             bool removeComponent(Component* component);
-            bool removeComponent(const std::unique_ptr<Component>& component);
             void removeAllComponents();
             const std::vector<Component*>& getComponents() const { return components; }
 

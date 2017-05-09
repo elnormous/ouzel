@@ -54,11 +54,6 @@ namespace ouzel
             }
         }
 
-        void Scene::addLayer(const std::unique_ptr<Layer>& layer)
-        {
-            addLayer(layer.get());
-        }
-
         void Scene::addLayer(std::unique_ptr<Layer>&& layer)
         {
             addLayer(layer.get());
@@ -93,11 +88,6 @@ namespace ouzel
             }
 
             return false;
-        }
-
-        bool Scene::removeLayer(const std::unique_ptr<Layer>& layer)
-        {
-            return removeLayer(layer.get());
         }
 
         void Scene::removeAllLayers()

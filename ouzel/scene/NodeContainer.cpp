@@ -39,11 +39,6 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::addChild(const std::unique_ptr<Node>& node)
-        {
-            addChild(node.get());
-        }
-
         void NodeContainer::addChild(std::unique_ptr<Node>&& node)
         {
             addChild(node.get());
@@ -74,11 +69,6 @@ namespace ouzel
             }
 
             return false;
-        }
-
-        bool NodeContainer::removeChild(const std::unique_ptr<Node>& node)
-        {
-            return removeChild(node.get());
         }
 
         void NodeContainer::removeAllChildren()

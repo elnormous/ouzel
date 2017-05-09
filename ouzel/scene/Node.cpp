@@ -311,11 +311,6 @@ namespace ouzel
             components.push_back(component);
         }
 
-        void Node::addComponent(const std::unique_ptr<Component>& component)
-        {
-            addComponent(component.get());
-        }
-
         void Node::addComponent(std::unique_ptr<Component>&& component)
         {
             addComponent(component.get());
@@ -353,11 +348,6 @@ namespace ouzel
             }
 
             return false;
-        }
-
-        bool Node::removeComponent(const std::unique_ptr<Component>& component)
-        {
-            return removeComponent(component.get());
         }
 
         void Node::removeAllComponents()

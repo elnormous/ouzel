@@ -22,11 +22,9 @@ namespace ouzel
             virtual ~NodeContainer();
 
             virtual void addChild(Node* node);
-            virtual void addChild(const std::unique_ptr<Node>& node);
             virtual void addChild(std::unique_ptr<Node>&& node);
 
             virtual bool removeChild(Node* node);
-            virtual bool removeChild(const std::unique_ptr<Node>& node);
 
             virtual void removeAllChildren();
             virtual bool hasChild(Node* node, bool recursive = false) const;

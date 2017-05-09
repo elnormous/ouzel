@@ -140,11 +140,6 @@ namespace ouzel
             }
         }
 
-        void Animator::addAnimator(const std::unique_ptr<Animator>& animator)
-        {
-            addAnimator(animator.get());
-        }
-
         void Animator::addAnimator(std::unique_ptr<Animator>&& animator)
         {
             addAnimator(animator.get());

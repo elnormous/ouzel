@@ -44,7 +44,6 @@ namespace ouzel
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
             void addAnimator(Animator* animator);
-            void addAnimator(const std::unique_ptr<Animator>& animator);
             void addAnimator(std::unique_ptr<Animator>&& animator);
 
             bool removeAnimator(Animator* animator);
