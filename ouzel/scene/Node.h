@@ -38,7 +38,7 @@ namespace ouzel
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
-            virtual void addChild(const std::shared_ptr<Node>& node) override;
+            virtual void addChild(Node* node) override;
 
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);

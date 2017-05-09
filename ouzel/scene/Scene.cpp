@@ -99,13 +99,13 @@ namespace ouzel
             }
         }
 
-        std::shared_ptr<Node> Scene::pickNode(const Vector2& position) const
+        Node* Scene::pickNode(const Vector2& position) const
         {
             for (std::vector<std::shared_ptr<Layer>>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 const std::shared_ptr<Layer>& layer = *i;
 
-                if (std::shared_ptr<Node> result = layer->pickNode(position))
+                if (Node* result = layer->pickNode(position))
                 {
                     return result;
                 }
@@ -114,13 +114,13 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<std::shared_ptr<Node>> Scene::pickNodes(const Vector2& position) const
+        std::vector<Node*> Scene::pickNodes(const Vector2& position) const
         {
-            std::vector<std::shared_ptr<Node>> result;
+            std::vector<Node*> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<std::shared_ptr<Node>> nodes = (*i)->pickNodes(position);
+                std::vector<Node*> nodes = (*i)->pickNodes(position);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -128,13 +128,13 @@ namespace ouzel
             return result;
         }
 
-        std::vector<std::shared_ptr<Node>> Scene::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<Node*> Scene::pickNodes(const std::vector<Vector2>& edges) const
         {
-            std::vector<std::shared_ptr<Node>> result;
+            std::vector<Node*> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<std::shared_ptr<Node>> nodes = (*i)->pickNodes(edges);
+                std::vector<Node*> nodes = (*i)->pickNodes(edges);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -184,22 +184,22 @@ namespace ouzel
             {
                 case Event::Type::MOUSE_DOWN:
                 {
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerDownOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_UP:
                 {
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(0, node, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
-                    std::shared_ptr<Node> previousNode = pickNode(event.position - event.difference);
+                    Node* previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    std::shared_ptr<scene::Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(0);
@@ -223,22 +223,22 @@ namespace ouzel
             {
                 case Event::Type::TOUCH_BEGIN:
                 {
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerDownOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_END:
                 {
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_MOVE:
                 {
-                    std::shared_ptr<Node> previousNode = pickNode(event.position - event.difference);
+                    Node* previousNode = pickNode(event.position - event.difference);
                     pointerLeaveNode(0, previousNode, event.position);
 
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerEnterNode(0, node, event.position);
 
                     auto i = pointerDownOnNodes.find(event.touchId);
@@ -251,7 +251,7 @@ namespace ouzel
                 }
                 case Event::Type::TOUCH_CANCEL:
                 {
-                    std::shared_ptr<Node> node = pickNode(event.position);
+                    Node* node = pickNode(event.position);
                     pointerUpOnNode(event.touchId, node, event.position);
                     break;
                 }
@@ -262,7 +262,7 @@ namespace ouzel
             return true;
         }
 
-        void Scene::pointerEnterNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
+        void Scene::pointerEnterNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             if (node)
             {
@@ -277,7 +277,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerLeaveNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
+        void Scene::pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             if (node)
             {
@@ -292,7 +292,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerDownOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
+        void Scene::pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             pointerDownOnNodes[pointerId] = node;
 
@@ -309,7 +309,7 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerUpOnNode(uint64_t pointerId, const std::shared_ptr<Node>& node, const Vector2& position)
+        void Scene::pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position)
         {
             auto i = pointerDownOnNodes.find(pointerId);
 
@@ -345,7 +345,7 @@ namespace ouzel
             pointerDownOnNodes.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t, const std::shared_ptr<Node>& node, const Vector2& position, const Vector2& difference)
+        void Scene::pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position, const Vector2& difference)
         {
             if (node)
             {
@@ -353,6 +353,7 @@ namespace ouzel
                 event.type = Event::Type::UI_DRAG_NODE;
 
                 event.uiEvent.node = node;
+                event.uiEvent.touchId = pointerId;
                 event.uiEvent.difference = difference;
                 event.uiEvent.position = position;
 

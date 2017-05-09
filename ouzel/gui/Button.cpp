@@ -113,7 +113,7 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (event.node.get() == this)
+            if (event.node == this)
             {
                 if (type == Event::Type::UI_ENTER_NODE)
                 {

@@ -34,9 +34,9 @@ namespace ouzel
             {
                 std::vector<Node*> drawQueue;
 
-                for (const std::shared_ptr<Node>& child : children)
+                for (Node* node : children)
                 {
-                    child->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
+                    node->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
                 }
 
                 for (Node* node : drawQueue)
@@ -51,7 +51,7 @@ namespace ouzel
             }
         }
 
-        void Layer::addChild(const std::shared_ptr<Node>& node)
+        void Layer::addChild(Node* node)
         {
             NodeContainer::addChild(node);
 
@@ -77,13 +77,13 @@ namespace ouzel
             }
         }
 
-        std::shared_ptr<Node> Layer::pickNode(const Vector2& position) const
+        Node* Layer::pickNode(const Vector2& position) const
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
                 Camera* camera = *i;
 
-                std::vector<std::shared_ptr<Node>> nodes;
+                std::vector<Node*> nodes;
 
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
@@ -95,9 +95,9 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<std::shared_ptr<Node>> Layer::pickNodes(const Vector2& position) const
+        std::vector<Node*> Layer::pickNodes(const Vector2& position) const
         {
-            std::vector<std::shared_ptr<Node>> result;
+            std::vector<Node*> result;
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -105,7 +105,7 @@ namespace ouzel
 
                 Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                std::vector<std::shared_ptr<Node>> nodes;
+                std::vector<Node*> nodes;
                 findNodes(worldPosition, nodes);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
@@ -114,9 +114,9 @@ namespace ouzel
             return result;
         }
 
-        std::vector<std::shared_ptr<Node>> Layer::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<Node*> Layer::pickNodes(const std::vector<Vector2>& edges) const
         {
-            std::vector<std::shared_ptr<Node>> result;
+            std::vector<Node*> result;
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -130,7 +130,7 @@ namespace ouzel
                     worldEdges.push_back(camera->convertNormalizedToWorld(edge));
                 }
 
-                std::vector<std::shared_ptr<Node>> nodes;
+                std::vector<Node*> nodes;
                 findNodes(worldEdges, nodes);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());

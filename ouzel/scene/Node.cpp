@@ -61,9 +61,9 @@ namespace ouzel
                 }
             }
 
-            for (const std::shared_ptr<Node>& child : children)
+            for (Node* node : children)
             {
-                child->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
+                node->visit(drawQueue, transform, updateChildrenTransform, camera, worldOrder, worldHidden);
             }
 
             updateChildrenTransform = false;
@@ -97,7 +97,7 @@ namespace ouzel
             }
         }
 
-        void Node::addChild(const std::shared_ptr<Node>& node)
+        void Node::addChild(Node* node)
         {
             NodeContainer::addChild(node);
 

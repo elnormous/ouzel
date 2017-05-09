@@ -26,13 +26,13 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual void addChild(const std::shared_ptr<Node>& node) override;
+            virtual void addChild(Node* node) override;
 
             const std::vector<Camera*>& getCameras() const { return cameras; }
 
-            std::shared_ptr<Node> pickNode(const Vector2& position) const;
-            std::vector<std::shared_ptr<Node>> pickNodes(const Vector2& position) const;
-            std::vector<std::shared_ptr<Node>> pickNodes(const std::vector<Vector2>& edges) const;
+            Node* pickNode(const Vector2& position) const;
+            std::vector<Node*> pickNodes(const Vector2& position) const;
+            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
 
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);

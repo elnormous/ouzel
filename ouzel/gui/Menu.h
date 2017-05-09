@@ -18,7 +18,7 @@ namespace ouzel
             virtual void setEnabled(bool newEnabled) override;
 
             virtual void addWidget(const std::shared_ptr<Widget>& widget);
-            virtual bool removeChild(const std::shared_ptr<Node>& node) override;
+            virtual bool removeChild(Node* node) override;
 
             void selectWidget(const std::shared_ptr<Widget>& widget);
             virtual void selectNextWidget();

@@ -53,13 +53,13 @@ namespace ouzel
 
         void Menu::addWidget(const std::shared_ptr<Widget>& widget)
         {
-            addChild(widget);
+            addChild(widget.get());
 
             if (widget)
             {
                 if (widget->menu)
                 {
-                    widget->menu->removeChild(widget);
+                    widget->menu->removeChild(widget.get());
                 }
 
                 widget->menu = this;
@@ -72,7 +72,7 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(const std::shared_ptr<Node>& node)
+        bool Menu::removeChild(Node* node)
         {
             if (!Node::removeChild(node))
             {
@@ -86,7 +86,7 @@ namespace ouzel
                 widgets.erase(i);
             }
 
-            if (selectedWidget == node)
+            if (selectedWidget.get() == node)
             {
                 selectWidget(nullptr);
             }
@@ -192,7 +192,7 @@ namespace ouzel
                             Event clickEvent;
                             clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                            clickEvent.uiEvent.node = selectedWidget;
+                            clickEvent.uiEvent.node = selectedWidget.get();
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                             sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -222,7 +222,7 @@ namespace ouzel
                             Event clickEvent;
                             clickEvent.type = Event::Type::UI_CLICK_NODE;
 
-                            clickEvent.uiEvent.node = selectedWidget;
+                            clickEvent.uiEvent.node = selectedWidget.get();
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                             sharedEngine->getEventDispatcher()->postEvent(clickEvent);
