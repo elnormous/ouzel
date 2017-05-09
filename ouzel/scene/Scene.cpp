@@ -54,7 +54,7 @@ namespace ouzel
             }
         }
 
-        void Scene::removeLayer(const std::shared_ptr<Layer>& layer)
+        bool Scene::removeLayer(const std::shared_ptr<Layer>& layer)
         {
             std::vector<std::shared_ptr<Layer>>::iterator i = std::find(layers.begin(), layers.end(), layer);
 
@@ -68,7 +68,11 @@ namespace ouzel
                 layers.erase(i);
 
                 layer->scene = nullptr;
+
+                return true;
             }
+
+            return false;
         }
 
         void Scene::removeAllLayers()

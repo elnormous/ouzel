@@ -326,18 +326,14 @@ namespace ouzel
 
         bool Node::removeComponent(const std::shared_ptr<Component>& component)
         {
-            for (auto i = components.begin(); i != components.end();)
+            std::vector<std::shared_ptr<Component>>::iterator i = std::find(components.begin(), components.end(), component);
+
+            if (i != components.end())
             {
-                if (*i == component)
-                {
-                    component->node = nullptr;
-                    components.erase(i);
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                component->node = nullptr;
+                components.erase(i);
+
+                return true;
             }
 
             return false;

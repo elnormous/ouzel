@@ -27,7 +27,7 @@ namespace ouzel
             virtual void draw();
 
             void addLayer(const std::shared_ptr<Layer>& layer);
-            void removeLayer(const std::shared_ptr<Layer>& layer);
+            bool removeLayer(const std::shared_ptr<Layer>& layer);
             void removeAllLayers();
             bool hasLayer(const std::shared_ptr<Layer>& layer) const;
             const std::vector<std::shared_ptr<Layer>>& getLayers() const { return layers; }

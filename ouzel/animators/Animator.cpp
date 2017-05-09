@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Animator.h"
 #include "core/Engine.h"
 #include "scene/Node.h"
@@ -139,21 +140,16 @@ namespace ouzel
 
         bool Animator::removeAnimator(const std::shared_ptr<Animator>& animator)
         {
-            for (auto i = animators.begin(); i != animators.end();)
+            std::vector<std::shared_ptr<Animator>>::iterator i = std::find(animators.begin(), animators.end(), animator);
+
+            if (i != animators.end())
             {
-                if (*i == animator)
-                {
-                    animator->parent = nullptr;
-                    animators.erase(i);
-                    return true;
-                }
-                else
-                {
-                    ++i;
-                }
+                animator->parent = nullptr;
+                animators.erase(i);
+                return true;
             }
 
-            return true;
+            return false;
         }
     } // namespace scene
 } // namespace ouzel
