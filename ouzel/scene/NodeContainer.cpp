@@ -80,6 +80,7 @@ namespace ouzel
             }
 
             children.clear();
+            ownedChildren.clear();
         }
 
         bool NodeContainer::hasChild(Node* node, bool recursive) const

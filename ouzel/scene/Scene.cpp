@@ -101,6 +101,7 @@ namespace ouzel
             }
 
             layers.clear();
+            ownedLayers.clear();
         }
 
         bool Scene::hasLayer(Layer* layer) const

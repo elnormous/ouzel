@@ -47,6 +47,7 @@ namespace ouzel
             void addAnimator(std::unique_ptr<Animator>&& animator);
 
             bool removeAnimator(Animator* animator);
+            void removeAllAnimators();
 
         protected:
             virtual void updateProgress();

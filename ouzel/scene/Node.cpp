@@ -353,6 +353,7 @@ namespace ouzel
         void Node::removeAllComponents()
         {
             components.clear();
+            ownedComponents.clear();
         }
 
         Box3 Node::getBoundingBox() const

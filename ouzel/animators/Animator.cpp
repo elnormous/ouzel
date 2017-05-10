@@ -168,5 +168,11 @@ namespace ouzel
 
             return false;
         }
+
+        void Animator::removeAllAnimators()
+        {
+            animators.clear();
+            ownedAnimators.clear();
+        }
     } // namespace scene
 } // namespace ouzel
