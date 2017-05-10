@@ -329,6 +329,17 @@ namespace ouzel
 
         bool Node::removeComponent(Component* component)
         {
+            bool result = false;
+
+            std::vector<Component*>::iterator componentIterator = std::find(components.begin(), components.end(), component);
+
+            if (componentIterator != components.end())
+            {
+                component->node = nullptr;
+                components.erase(componentIterator);
+                result = true;
+            }
+
             std::vector<std::unique_ptr<Component>>::iterator ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
                 return other.get() == component;
             });
@@ -338,16 +349,7 @@ namespace ouzel
                 ownedComponents.erase(ownedIterator);
             }
 
-            std::vector<Component*>::iterator componentIterator = std::find(components.begin(), components.end(), component);
-
-            if (componentIterator != components.end())
-            {
-                component->node = nullptr;
-                components.erase(componentIterator);
-                return true;
-            }
-
-            return false;
+            return result;
         }
 
         void Node::removeAllComponents()

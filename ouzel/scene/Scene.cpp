@@ -23,6 +23,8 @@ namespace ouzel
 
         Scene::~Scene()
         {
+            if (sceneManger) sceneManger->removeScene(this);
+
             for (Layer* layer : layers)
             {
                 if (entered) layer->leave();
@@ -62,14 +64,7 @@ namespace ouzel
 
         bool Scene::removeLayer(Layer* layer)
         {
-            std::vector<std::unique_ptr<Layer>>::iterator ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
-                return other.get() == layer;
-            });
-
-            if (ownedIterator != ownedLayers.end())
-            {
-                ownedLayers.erase(ownedIterator);
-            }
+            bool result = false;
 
             std::vector<Layer*>::iterator layerIterator = std::find(layers.begin(), layers.end(), layer);
 
@@ -84,10 +79,19 @@ namespace ouzel
 
                 layer->scene = nullptr;
 
-                return true;
+                result = true;
             }
 
-            return false;
+            std::vector<std::unique_ptr<Layer>>::iterator ownedIterator = std::find_if(ownedLayers.begin(), ownedLayers.end(), [layer](const std::unique_ptr<Layer>& other) {
+                return other.get() == layer;
+            });
+
+            if (ownedIterator != ownedLayers.end())
+            {
+                ownedLayers.erase(ownedIterator);
+            }
+
+            return result;
         }
 
         void Scene::removeAllLayers()

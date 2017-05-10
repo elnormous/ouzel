@@ -18,40 +18,62 @@ namespace ouzel
         {
         }
 
-        void SceneManager::setScene(const std::shared_ptr<Scene>& newScene)
+        void SceneManager::setScene(Scene* scene)
         {
-            if (scene != newScene)
+            if (scene)
             {
-                nextScene = newScene;
+                if (scene->sceneManger) scene->sceneManger->removeScene(scene);
+
+                scene->sceneManger = this;
+
+                scenes.push_back(scene);
             }
         }
 
-        void SceneManager::removeScene(const std::shared_ptr<Scene>& oldScene)
+        void SceneManager::setScene(std::unique_ptr<Scene>&& scene)
         {
-            if (scene == oldScene) scene = nullptr;
-            if (nextScene == oldScene) nextScene = nullptr;
+            setScene(scene.get());
+            ownedScenes.push_back(std::forward<std::unique_ptr<Scene>>(scene));
+        }
+
+        bool SceneManager::removeScene(Scene* scene)
+        {
+            bool result = false;
+
+            std::vector<Scene*>::iterator sceneIterator = std::find(scenes.begin(), scenes.end(), scene);
+
+            if (sceneIterator != scenes.end())
+            {
+                if (scene->entered) scene->leave();
+                scene->sceneManger = nullptr;
+                scenes.erase(sceneIterator);
+
+                result = true;
+            }
+
+            std::vector<std::unique_ptr<Scene>>::iterator ownedIterator = std::find_if(ownedScenes.begin(), ownedScenes.end(), [scene](const std::unique_ptr<Scene>& other) {
+                return other.get() == scene;
+            });
+
+            if (ownedIterator != ownedScenes.end())
+            {
+                ownedScenes.erase(ownedIterator);
+            }
+
+            return result;
         }
 
         void SceneManager::draw()
         {
-            if (nextScene)
+            while (scenes.size() > 1)
             {
-                if (scene)
-                {
-                    scene->leave();
-                }
-
-                scene = nextScene;
-                nextScene = nullptr;
-
-                if (scene)
-                {
-                    scene->enter();
-                }
+                removeScene(scenes.front());
             }
 
-            if (scene)
+            if (!scenes.empty())
             {
+                Scene* scene = scenes.back();
+                if (!scene->entered) scene->enter();
                 scene->draw();
             }
         }

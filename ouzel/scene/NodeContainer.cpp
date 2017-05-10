@@ -47,14 +47,7 @@ namespace ouzel
 
         bool NodeContainer::removeChild(Node* node)
         {
-            std::vector<std::unique_ptr<Node>>::iterator ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [node](const std::unique_ptr<Node>& other) {
-                return other.get() == node;
-            });
-
-            if (ownedIterator != ownedChildren.end())
-            {
-                ownedChildren.erase(ownedIterator);
-            }
+            bool result = false;
 
             std::vector<Node*>::iterator childIterator = std::find(children.begin(), children.end(), node);
 
@@ -65,10 +58,19 @@ namespace ouzel
                 node->setLayer(nullptr);
                 children.erase(childIterator);
 
-                return true;
+                result = true;
             }
 
-            return false;
+            std::vector<std::unique_ptr<Node>>::iterator ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [node](const std::unique_ptr<Node>& other) {
+                return other.get() == node;
+            });
+
+            if (ownedIterator != ownedChildren.end())
+            {
+                ownedChildren.erase(ownedIterator);
+            }
+
+            return result;
         }
 
         void NodeContainer::removeAllChildren()

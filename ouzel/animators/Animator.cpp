@@ -148,6 +148,17 @@ namespace ouzel
 
         bool Animator::removeAnimator(Animator* animator)
         {
+            bool result = false;
+
+            std::vector<Animator*>::iterator animatorIterator = std::find(animators.begin(), animators.end(), animator);
+
+            if (animatorIterator != animators.end())
+            {
+                animator->parent = nullptr;
+                animators.erase(animatorIterator);
+                result = true;
+            }
+
             std::vector<std::unique_ptr<Animator>>::iterator ownedIterator = std::find_if(ownedAnimators.begin(), ownedAnimators.end(), [animator](const std::unique_ptr<Animator>& other) {
                 return other.get() == animator;
             });
@@ -157,16 +168,7 @@ namespace ouzel
                 ownedAnimators.erase(ownedIterator);
             }
 
-            std::vector<Animator*>::iterator animatorIterator = std::find(animators.begin(), animators.end(), animator);
-
-            if (animatorIterator != animators.end())
-            {
-                animator->parent = nullptr;
-                animators.erase(animatorIterator);
-                return true;
-            }
-
-            return false;
+            return result;
         }
 
         void Animator::removeAllAnimators()
