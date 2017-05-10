@@ -187,10 +187,10 @@ namespace ouzel
             DPAD_RIGHT,
             DPAD_UP,
             DPAD_DOWN,
-            FACE1,
-            FACE2,
-            FACE3,
-            FACE4,
+            FACE1, // A on Xbox controller, X on PS controller
+            FACE2, // B on Xbox controller, circle on PS controller
+            FACE3, // X on Xbox controller, square on PS controller
+            FACE4, // Y on Xbox controller, triangle on PS controller
             LEFT_SHOULDER,  // L1 for Apple
             LEFT_TRIGGER,   // L2 for Apple
             RIGHT_SHOULDER, // R1 for Apple
