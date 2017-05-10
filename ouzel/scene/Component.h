@@ -23,6 +23,8 @@ namespace ouzel
         {
             friend Node;
         public:
+            virtual ~Component();
+
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
                               const Matrix4& renderViewProjection,
