@@ -84,9 +84,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
-                const std::shared_ptr<graphics::Texture>& drawTexture = wireframe ? whitePixelTexture : texture;
-
-                sharedEngine->getRenderer()->addDrawCommand({drawTexture},
+                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
