@@ -73,24 +73,26 @@ namespace ouzel
             else
             {
                 // create an OpenGL rendering context
-                static const int contextAttribs[] = {
+                std::vector<int> contextAttribs = {
                     GLX_CONTEXT_PROFILE_MASK_ARB,
                     GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-                    GLX_CONTEXT_MAJOR_VERSION_ARB,
-                    3,
-                    GLX_CONTEXT_MINOR_VERSION_ARB,
-                    2,
-#ifdef DEBUG
-                    GL_CONTEXT_FLAGS, GLX_DEBUG_CONTEXT_BIT,
-#endif
-                    0
+                    GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
+                    GLX_CONTEXT_MINOR_VERSION_ARB, 2
                 };
+
+                if (newDebugRenderer)
+                {
+                    contextAttribs.push_back(GL_CONTEXT_FLAGS);
+                    contextAttribs.push_back(GLX_DEBUG_CONTEXT_BIT);
+                }
+
+                contextAttribs.push_back(0);
 
                 PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
 
                 if (glXCreateContextAttribsARB)
                 {
-                    context = glXCreateContextAttribsARB(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs);
+                    context = glXCreateContextAttribsARB(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs.data());
 
                     if (context)
                     {
