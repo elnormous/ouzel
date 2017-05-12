@@ -122,10 +122,11 @@ namespace ouzel
             }
 
             UINT deviceCreationFlags = 0;
-#ifdef DEBUG
-            // TODO: add setting for debug renderer
-            //deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
+
+            if (debugRenderer)
+            {
+                deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+            }
 
             HRESULT hr = D3D11CreateDevice(
                 nullptr, // adapter

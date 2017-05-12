@@ -252,14 +252,17 @@ namespace ouzel
 
             if (wglCreateContextAttribsProc)
             {
-                int contextAttribs[] = {
-#ifdef DEBUG
-                    WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
-#endif
-                    0
-                };
+                std::vector<int> contextAttribs;
+                
+                if (newDebugRenderer)
+                {
+                    contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
+                    contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
+                }
 
-                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs);
+                contextAttribs.push_back(0);
+
+                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
             }
             else
             {

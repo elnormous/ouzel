@@ -273,7 +273,8 @@ namespace ouzel
                             settings.maxAnisotropy,
                             settings.backBufferFormat,
                             settings.verticalSync,
-                            settings.depth))
+                            settings.depth,
+                            settings.debugRenderer))
         {
             return false;
         }
