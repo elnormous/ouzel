@@ -26,5 +26,6 @@ namespace ouzel
         bool depth = false;
         bool highDpi = true; // should high DPI resolution be used
         graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
+        bool debugRenderer = false;
     };
 }
