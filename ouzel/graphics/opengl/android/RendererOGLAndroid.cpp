@@ -111,13 +111,20 @@ namespace ouzel
 
             for (EGLint version = 3; version >= 2; --version)
             {
-                const EGLint contextAttributes[] =
+                std::vector<EGLint> contextAttributes =
                 {
-                    EGL_CONTEXT_CLIENT_VERSION, version,
-                    EGL_NONE
+                    EGL_CONTEXT_CLIENT_VERSION, version
                 };
 
-                context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
+                if (newDebugRenderer)
+                {
+                    contextAttributes.push_back(EGL_CONTEXT_FLAGS_KHR);
+                    contextAttributes.push_back(EGL_CONTEXT_OPENGL_DEBUG_BIT_KHR);
+                }
+
+                contextAttributes.push_back(EGL_NONE);
+
+                context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes.data());
 
                 if (context != EGL_NO_CONTEXT)
                 {
