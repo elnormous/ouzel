@@ -17,7 +17,8 @@ namespace ouzel
                                     uint32_t newMaxAnisotropy,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
-                                    bool newDepth)
+                                    bool newDepth,
+                                    bool newDebugRenderer)
         {
             if (!RendererMetal::init(newWindow,
                                      newSize,
@@ -26,7 +27,8 @@ namespace ouzel
                                      newMaxAnisotropy,
                                      newBackBufferFormat,
                                      newVerticalSync,
-                                     newDepth))
+                                     newDepth,
+                                     newDebugRenderer))
             {
                 return false;
             }

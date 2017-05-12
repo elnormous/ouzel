@@ -31,7 +31,8 @@ namespace ouzel
                                     uint32_t newMaxAnisotropy,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
-                                    bool newDepth)
+                                    bool newDepth,
+                                    bool newDebugRenderer)
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(newWindow);
             Display* display = windowLinux->getDisplay();
@@ -138,7 +139,8 @@ namespace ouzel
                                      newMaxAnisotropy,
                                      newBackBufferFormat,
                                      newVerticalSync,
-                                     newDepth);
+                                     newDepth,
+                                     newDebugRenderer);
         }
 
         bool RendererOGLLinux::swapBuffers()

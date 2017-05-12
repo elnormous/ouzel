@@ -27,7 +27,8 @@ namespace ouzel
                                  uint32_t newMaxAnisotropy,
                                  PixelFormat newBackBufferFormat,
                                  bool newVerticalSync,
-                                 bool newDepth)
+                                 bool newDepth,
+                                 bool newDebugRenderer)
         {
             apiMajorVersion = 2;
             apiMinorVersion = 0;
@@ -63,7 +64,8 @@ namespace ouzel
                                      newMaxAnisotropy,
                                      newBackBufferFormat,
                                      newVerticalSync,
-                                     newDepth);
+                                     newDepth,
+                                     newDebugRenderer);
         }
 
         bool RendererOGLEm::lockContext()

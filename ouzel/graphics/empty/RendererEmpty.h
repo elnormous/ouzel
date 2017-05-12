@@ -31,7 +31,8 @@ namespace ouzel
                               uint32_t newMaxAnisotropy,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
-                              bool newDepth) override;
+                              bool newDepth,
+                              bool newDebugRenderer) override;
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
         };

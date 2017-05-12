@@ -62,7 +62,8 @@ namespace ouzel
                                     uint32_t newMaxAnisotropy,
                                     PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
-                                    bool newDepth)
+                                    bool newDepth,
+                                    bool newDebugRenderer)
         {
             // Create pixel format
             std::vector<NSOpenGLPixelFormatAttribute> openGL3Attributes =
@@ -160,7 +161,8 @@ namespace ouzel
                                    newMaxAnisotropy,
                                    newBackBufferFormat,
                                    newVerticalSync,
-                                   newDepth))
+                                   newDepth,
+                                   newDebugRenderer))
             {
                 return false;
             }

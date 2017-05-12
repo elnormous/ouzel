@@ -40,7 +40,8 @@ namespace ouzel
                             uint32_t newMaxAnisotropy,
                             PixelFormat newBackBufferFormat,
                             bool newVerticalSync,
-                            bool newDepth)
+                            bool newDepth,
+                            bool newDebugRenderer)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -52,6 +53,7 @@ namespace ouzel
             backBufferFormat = newBackBufferFormat;
             verticalSync = newVerticalSync;
             depth = newDepth;
+            debugRenderer = newDebugRenderer;
             clearColor = Color::BLACK;
 
             previousFrameTime = std::chrono::steady_clock::now();

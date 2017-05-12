@@ -161,7 +161,8 @@ namespace ouzel
                                   uint32_t newMaxAnisotropy,
                                   PixelFormat newBackBufferFormat,
                                   bool newVerticalSync,
-                                  bool newDepth)
+                                  bool newDepth,
+                                  bool newDebugRenderer)
         {
             TempContext tempContext;
 
@@ -318,7 +319,8 @@ namespace ouzel
                                      newMaxAnisotropy,
                                      newBackBufferFormat,
                                      newVerticalSync,
-                                     newDepth);
+                                     newDepth,
+                                     newDebugRenderer);
         }
 
         bool RendererOGLWin::lockContext()

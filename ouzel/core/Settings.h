@@ -19,13 +19,13 @@ namespace ouzel
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
+        graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
         uint32_t maxAnisotropy = 1;
         bool resizable = false;
         bool fullscreen = false;
         bool verticalSync = true;
         bool depth = false;
-        bool highDpi = true; // should high DPI resolution be used
         bool debugRenderer = false;
-        graphics::PixelFormat backBufferFormat = graphics::PixelFormat::DEFAULT;
+        bool highDpi = true; // should high DPI resolution be used
     };
 }

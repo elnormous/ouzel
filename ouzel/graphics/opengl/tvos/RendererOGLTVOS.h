@@ -35,7 +35,8 @@ namespace ouzel
                               uint32_t newMaxAnisotropy,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
-                              bool newDepth) override;
+                              bool newDepth,
+                              bool newDebugRenderer) override;
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
             virtual bool upload() override;

@@ -161,7 +161,8 @@ namespace ouzel
                               uint32_t newMaxAnisotropy,
                               PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
-                              bool newDepth);
+                              bool newDepth,
+                              bool newDebugRenderer);
 
             virtual void setSize(const Size2& newSize);
 
@@ -201,9 +202,10 @@ namespace ouzel
             Texture::Filter textureFilter = Texture::Filter::POINT;
             uint32_t maxAnisotropy = 1;
             PixelFormat backBufferFormat;
-            bool depth = false;
 
             bool verticalSync = true;
+            bool depth = false;
+            bool debugRenderer = false;
 
             bool npotTexturesSupported = true;
             bool multisamplingSupported = true;

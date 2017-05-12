@@ -48,7 +48,8 @@ namespace ouzel
                                       uint32_t newMaxAnisotropy,
                                       PixelFormat newBackBufferFormat,
                                       bool newVerticalSync,
-                                      bool newDepth)
+                                      bool newDepth,
+                                      bool newDebugRenderer)
         {
             display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
@@ -167,7 +168,8 @@ namespace ouzel
                                      newMaxAnisotropy,
                                      newBackBufferFormat,
                                      newVerticalSync,
-                                     newDepth);
+                                     newDepth,
+                                     newDebugRenderer);
         }
 
         bool RendererOGLAndroid::swapBuffers()

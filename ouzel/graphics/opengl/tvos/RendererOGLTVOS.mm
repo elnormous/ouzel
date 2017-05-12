@@ -51,7 +51,8 @@ namespace ouzel
                                    uint32_t newMaxAnisotropy,
                                    PixelFormat newBackBufferFormat,
                                    bool newVerticalSync,
-                                   bool newDepth)
+                                   bool newDepth,
+                                   bool newDebugRenderer)
         {
             UIView* view = static_cast<WindowTVOS*>(newWindow)->getNativeView();
 
@@ -99,7 +100,8 @@ namespace ouzel
                                    newMaxAnisotropy,
                                    newBackBufferFormat,
                                    newVerticalSync,
-                                   newDepth))
+                                   newDepth,
+                                   newDebugRenderer))
             {
                 return false;
             }
