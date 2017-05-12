@@ -118,7 +118,7 @@ namespace ouzel
                             width = static_cast<UINT>(size.v[0]);
                             height = static_cast<UINT>(size.v[1]);
 
-                            DXGI_FORMAT d3d11PixelFormat = convertPixelFormat(pixelFormat);
+                            DXGI_FORMAT d3d11PixelFormat = getD3D11PixelFormat(pixelFormat);
 
                             if (d3d11PixelFormat == DXGI_FORMAT_UNKNOWN)
                             {
