@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        static MTLPixelFormat convertPixelFormat(PixelFormat pixelFormat)
+        static MTLPixelFormat getMetalPixelFormat(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -99,7 +99,15 @@ namespace ouzel
 
                             if (width > 0 && height > 0)
                             {
-                                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:convertPixelFormat(pixelFormat)
+                                MTLPixelFormat metalPixelFormat = getMetalPixelFormat(pixelFormat);
+
+                                if (metalPixelFormat == MTLPixelFormatInvalid)
+                                {
+                                    Log(Log::Level::ERR) << "Invalid pixel format";
+                                    return false;
+                                }
+
+                                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalPixelFormat
                                                                                                                              width:width
                                                                                                                             height:height
                                                                                                                          mipmapped:(levels.size() > 1) ? YES : NO];

@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        static DXGI_FORMAT convertPixelFormat(PixelFormat pixelFormat)
+        static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -118,12 +118,20 @@ namespace ouzel
                             width = static_cast<UINT>(size.v[0]);
                             height = static_cast<UINT>(size.v[1]);
 
+                            DXGI_FORMAT d3d11PixelFormat = convertPixelFormat(pixelFormat);
+
+                            if (d3d11PixelFormat == DXGI_FORMAT_UNKNOWN)
+                            {
+                                Log(Log::Level::ERR) << "Invalid pixel format";
+                                return false;
+                            }
+
                             D3D11_TEXTURE2D_DESC textureDesc;
                             textureDesc.Width = width;
                             textureDesc.Height = height;
                             textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
                             textureDesc.ArraySize = 1;
-                            textureDesc.Format = convertPixelFormat(pixelFormat);
+                            textureDesc.Format = d3d11PixelFormat;
                             textureDesc.Usage = (dynamic && !renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
                             textureDesc.CPUAccessFlags = (dynamic && !renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                             textureDesc.SampleDesc.Count = sampleCount;
@@ -139,7 +147,7 @@ namespace ouzel
                             }
 
                             D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-                            resourceViewDesc.Format = textureDesc.Format;
+                            resourceViewDesc.Format = d3d11PixelFormat;
                             resourceViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
 
                             if (sampleCount == 1)
@@ -163,7 +171,7 @@ namespace ouzel
                                 }
 
                                 D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-                                renderTargetViewDesc.Format = textureDesc.Format;
+                                renderTargetViewDesc.Format = d3d11PixelFormat;
                                 renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
 
                                 if (sampleCount == 1)

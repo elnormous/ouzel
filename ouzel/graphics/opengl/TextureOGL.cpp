@@ -10,11 +10,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        static GLint convertPixelFormat(PixelFormat pixelFormat)
+        static GLint getOGLPixelFormat(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
-                case PixelFormat::A8_UNORM: return 0;
+                case PixelFormat::A8_UNORM: return GL_NONE;
                 case PixelFormat::R8_UNORM: return GL_R8;
                 case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                 case PixelFormat::R8_UINT: return GL_R8UI;
@@ -23,8 +23,8 @@ namespace ouzel
                 case PixelFormat::R16_UNORM: return GL_R16;
                 case PixelFormat::R16_SNORM: return GL_R16_SNORM;
 #elif OUZEL_SUPPORTS_OPENGLES
-                case PixelFormat::R16_UNORM: return 0;
-                case PixelFormat::R16_SNORM: return 0;
+                case PixelFormat::R16_UNORM: return GL_NONE;
+                case PixelFormat::R16_SNORM: return GL_NONE;
 #endif
                 case PixelFormat::R16_UINT: return GL_R16UI;
                 case PixelFormat::R16_SINT: return GL_R16I;
@@ -44,8 +44,8 @@ namespace ouzel
                 case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
                 case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
 #elif OUZEL_SUPPORTS_OPENGLES
-                case PixelFormat::RGBA16_UNORM: return 0;
-                case PixelFormat::RGBA16_SNORM: return 0;
+                case PixelFormat::RGBA16_UNORM: return GL_NONE;
+                case PixelFormat::RGBA16_SNORM: return GL_NONE;
 #endif
                 case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
                 case PixelFormat::RGBA16_SINT: return GL_RGBA16I;
@@ -57,7 +57,7 @@ namespace ouzel
             }
         }
 
-        static GLenum getPixelDataFormat(PixelFormat pixelFormat)
+        static GLenum getOGLPixelDataFormat(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -99,7 +99,7 @@ namespace ouzel
             }
         }
 
-        static GLenum getPixelDataType(PixelFormat pixelFormat)
+        static GLenum getOGLPixelDataType(PixelFormat pixelFormat)
         {
             switch (pixelFormat)
             {
@@ -187,6 +187,14 @@ namespace ouzel
 
                 if (dirty & DIRTY_DATA)
                 {
+                    GLint oglPixelFormat = getOGLPixelFormat(pixelFormat);
+
+                    if (oglPixelFormat == GL_NONE)
+                    {
+                        Log(Log::Level::ERR) << "Invalid pixel format";
+                        return false;
+                    }
+
                     if (static_cast<GLsizei>(size.v[0]) != width ||
                         static_cast<GLsizei>(size.v[1]) != height)
                     {
@@ -197,10 +205,11 @@ namespace ouzel
                         {
                             if (!levels[level].data.empty())
                             {
-                                glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), convertPixelFormat(pixelFormat),
+
+                                glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglPixelFormat,
                                              static_cast<GLsizei>(levels[level].size.v[0]),
                                              static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                             getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat),
+                                             getOGLPixelDataFormat(pixelFormat), getOGLPixelDataType(pixelFormat),
                                              levels[level].data.data());
                             }
                         }
@@ -224,10 +233,10 @@ namespace ouzel
                             {
                                 RendererOGL::bindTexture(textureId, 0);
 
-                                glTexImage2D(GL_TEXTURE_2D, 0, convertPixelFormat(pixelFormat),
+                                glTexImage2D(GL_TEXTURE_2D, 0, oglPixelFormat,
                                              static_cast<GLsizei>(size.v[0]),
                                              static_cast<GLsizei>(size.v[1]), 0,
-                                             getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat), 0);
+                                             getOGLPixelDataFormat(pixelFormat), getOGLPixelDataType(pixelFormat), 0);
 
                                 // TODO: blit multisample render buffer to texture
                                 glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
@@ -272,7 +281,7 @@ namespace ouzel
                                 glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
                                                 static_cast<GLsizei>(levels[level].size.v[0]),
                                                 static_cast<GLsizei>(levels[level].size.v[1]),
-                                                getPixelDataFormat(pixelFormat), getPixelDataType(pixelFormat),
+                                                getOGLPixelDataFormat(pixelFormat), getOGLPixelDataType(pixelFormat),
                                                 levels[level].data.data());
 
                                 if (RendererOGL::checkOpenGLError())
