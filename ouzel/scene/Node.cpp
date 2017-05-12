@@ -300,6 +300,11 @@ namespace ouzel
             inverseTransformDirty = false;
         }
 
+        void Node::removeFromParent()
+        {
+            if (parent) parent->removeChild(this);
+        }
+
         void Node::addComponent(Component* component)
         {
             if (component->node)

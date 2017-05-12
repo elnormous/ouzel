@@ -119,6 +119,9 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
+            NodeContainer* getParent() const { return parent; }
+            void removeFromParent();
+
             void addComponent(Component* component);
             void addComponent(std::unique_ptr<Component>&& component);
 

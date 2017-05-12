@@ -160,5 +160,10 @@ namespace ouzel
 
             recalculateProjection();
         }
+
+        void Layer::removeFromScene()
+        {
+            if (scene) scene->removeLayer(this);
+        }
     } // namespace scene
 } // namespace ouzel

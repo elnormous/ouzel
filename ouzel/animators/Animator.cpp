@@ -176,5 +176,10 @@ namespace ouzel
             animators.clear();
             ownedAnimators.clear();
         }
+
+        void Animator::removeFromParent()
+        {
+            if (parent) parent->removeAnimator(this);
+        }
     } // namespace scene
 } // namespace ouzel

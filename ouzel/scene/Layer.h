@@ -37,6 +37,9 @@ namespace ouzel
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
+            Scene* getScene() const { return scene; }
+            void removeFromScene();
+
         protected:
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);

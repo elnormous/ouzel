@@ -49,6 +49,9 @@ namespace ouzel
             bool removeAnimator(Animator* animator);
             void removeAllAnimators();
 
+            Animator* getParent() const { return parent; }
+            void removeFromParent();
+
         protected:
             virtual void updateProgress();
 

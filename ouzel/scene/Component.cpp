@@ -91,5 +91,10 @@ namespace ouzel
 
             return true;
         }
+
+        void Component::removeFromNode()
+        {
+            if (node) node->removeComponent(this);
+        }
     } // namespace scene
 } // namespace ouzel
