@@ -83,7 +83,7 @@ namespace ouzel
                 if (newDebugRenderer)
                 {
                     contextAttribs.push_back(GL_CONTEXT_FLAGS);
-                    contextAttribs.push_back(GLX_DEBUG_CONTEXT_BIT);
+                    contextAttribs.push_back(GL_CONTEXT_FLAG_DEBUG_BIT);
                 }
 
                 contextAttribs.push_back(0);
@@ -127,7 +127,7 @@ namespace ouzel
                 return false;
             }
 
-            PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = (PFNGLXSWAPINTERVALEXTPROC)glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT"));
+            PFNGLXSWAPINTERVALEXTPROC glXSwapIntervalEXT = reinterpret_cast<PFNGLXSWAPINTERVALEXTPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXSwapIntervalEXT")));
 
             if (glXSwapIntervalEXT)
             {
