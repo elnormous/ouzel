@@ -53,9 +53,9 @@ namespace ouzel
             }
         }
 
-        void Layer::addChild(Node* node)
+        void Layer::addChildNode(Node* node)
         {
-            NodeContainer::addChild(node);
+            NodeContainer::addChildNode(node);
 
             if (node)
             {

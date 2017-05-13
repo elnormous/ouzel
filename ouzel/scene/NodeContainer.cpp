@@ -23,7 +23,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::addChild(Node* node)
+        void NodeContainer::addChildNode(Node* node)
         {
             if (node)
             {
@@ -39,13 +39,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::addChild(std::unique_ptr<Node>&& node)
-        {
-            addChild(node.get());
-            ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(node));
-        }
-
-        bool NodeContainer::removeChild(Node* node)
+        bool NodeContainer::removeChildNode(Node* node)
         {
             bool result = false;
 

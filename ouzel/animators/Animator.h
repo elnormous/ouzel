@@ -43,16 +43,37 @@ namespace ouzel
 
             void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
 
-            void addAnimator(Animator* animator);
-            void addAnimator(std::unique_ptr<Animator>&& animator);
+            void addAnimator(Animator* animator)
+            {
+                addChildAnimator(animator);
+            }
+            template<class T> void addAnimator(const std::unique_ptr<T>& animator)
+            {
+                addChildAnimator(animator.get());
+            }
+            template<class T> void addAnimator(std::unique_ptr<T>&& animator)
+            {
+                addChildAnimator(animator.get());
+                ownedAnimators.push_back(std::forward<std::unique_ptr<Animator>>(animator));
+            }
 
-            bool removeAnimator(Animator* animator);
+            bool removeAnimator(Animator* animator)
+            {
+                return removeChildAnimator(animator);
+            }
+            template<class T> bool removeAnimator(const std::unique_ptr<T>& animator)
+            {
+                return removeChildAnimator(animator.get());
+            }
             void removeAllAnimators();
 
             Animator* getParent() const { return parent; }
             void removeFromParent();
 
         protected:
+            virtual void addChildAnimator(Animator* animator);
+            virtual bool removeChildAnimator(Animator* animator);
+
             virtual void updateProgress();
 
             float length = 0.0f;

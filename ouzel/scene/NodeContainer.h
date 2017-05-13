@@ -21,10 +21,31 @@ namespace ouzel
             NodeContainer();
             virtual ~NodeContainer();
 
-            virtual void addChild(Node* node);
-            virtual void addChild(std::unique_ptr<Node>&& node);
+            void addChild(Node* node)
+            {
+                addChildNode(node);
+            }
 
-            virtual bool removeChild(Node* node);
+            template<class T> void addChild(const std::unique_ptr<T>& node)
+            {
+                addChildNode(node.get());
+            }
+
+            template<class T> void addChild(std::unique_ptr<T>&& node)
+            {
+                addChildNode(node.get());
+                ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(node));
+            }
+
+            template<class T> bool removeChild(const std::unique_ptr<T>& node)
+            {
+                return removeChildNode(node.get());
+            }
+
+            bool removeChild(Node* node)
+            {
+                return removeChildNode(node);
+            }
 
             virtual void removeAllChildren();
             virtual bool hasChild(Node* node, bool recursive = false) const;
@@ -33,6 +54,9 @@ namespace ouzel
             Layer* getLayer() const { return layer; }
 
         protected:
+            virtual void addChildNode(Node* node);
+            virtual bool removeChildNode(Node* node);
+
             virtual void setLayer(Layer* newLayer);
             void findNodes(const Vector2& position, std::vector<Node*>& nodes) const;
             void findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const;

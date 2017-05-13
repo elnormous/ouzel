@@ -23,13 +23,33 @@ namespace ouzel
 
             void draw();
 
-            void setScene(Scene* scene);
-            void setScene(std::unique_ptr<Scene>&& scene);
+            void setScene(Scene* scene)
+            {
+                addChildScene(scene);
+            }
+            template<class T> void setScene(const std::unique_ptr<T>& scene)
+            {
+                addChildScene(scene.get());
+            }
+            template<class T> void setScene(std::unique_ptr<T>&& scene)
+            {
+                addChildScene(scene.get());
+                ownedScenes.push_back(std::forward<std::unique_ptr<Scene>>(scene));
+            }
 
-            bool removeScene(Scene* scene);
+            bool removeScene(Scene* scene)
+            {
+                return removeChildScene(scene);
+            }
+            template<class T> bool setScene(const std::unique_ptr<T>& scene)
+            {
+                return removeChildScene(scene.get());
+            }
             Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
         protected:
+            virtual void addChildScene(Scene* scene);
+            virtual bool removeChildScene(Scene* scene);
             SceneManager();
 
             std::vector<Scene*> scenes;

@@ -99,9 +99,9 @@ namespace ouzel
             }
         }
 
-        void Node::addChild(Node* node)
+        void Node::addChildNode(Node* node)
         {
-            NodeContainer::addChild(node);
+            NodeContainer::addChildNode(node);
 
             if (node)
             {
@@ -305,7 +305,7 @@ namespace ouzel
             if (parent) parent->removeChild(this);
         }
 
-        void Node::addComponent(Component* component)
+        void Node::addChildComponent(Component* component)
         {
             if (component->node)
             {
@@ -316,23 +316,7 @@ namespace ouzel
             components.push_back(component);
         }
 
-        void Node::addComponent(std::unique_ptr<Component>&& component)
-        {
-            addComponent(component.get());
-            ownedComponents.push_back(std::forward<std::unique_ptr<Component>>(component));
-        }
-
-        bool Node::removeComponent(uint32_t index)
-        {
-            if (index >= components.size())
-            {
-                return false;
-            }
-
-            return removeComponent(components[index]);
-        }
-
-        bool Node::removeComponent(Component* component)
+        bool Node::removeChildComponent(Component* component)
         {
             bool result = false;
 

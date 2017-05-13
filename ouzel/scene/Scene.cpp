@@ -44,7 +44,7 @@ namespace ouzel
             }
         }
 
-        void Scene::addLayer(Layer* layer)
+        void Scene::addChildLayer(Layer* layer)
         {
             if (layer && !hasLayer(layer))
             {
@@ -56,13 +56,7 @@ namespace ouzel
             }
         }
 
-        void Scene::addLayer(std::unique_ptr<Layer>&& layer)
-        {
-            addLayer(layer.get());
-            ownedLayers.push_back(std::forward<std::unique_ptr<Layer>>(layer));
-        }
-
-        bool Scene::removeLayer(Layer* layer)
+        bool Scene::removeChildLayer(Layer* layer)
         {
             bool result = false;
 

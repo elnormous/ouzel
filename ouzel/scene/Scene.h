@@ -26,10 +26,28 @@ namespace ouzel
 
             virtual void draw();
 
-            void addLayer(Layer* layer);
-            void addLayer(std::unique_ptr<Layer>&& layer);
+            void addLayer(Layer* layer)
+            {
+                addChildLayer(layer);
+            }
+            template<class T> void addLayer(const std::unique_ptr<T>& layer)
+            {
+                addChildLayer(layer.get());
+            }
+            template<class T> void addLayer(std::unique_ptr<T>&& layer)
+            {
+                addChildLayer(layer.get());
+                ownedLayers.push_back(std::forward<std::unique_ptr<Layer>>(layer));
+            }
 
-            bool removeLayer(Layer* layer);
+            bool removeLayer(Layer* layer)
+            {
+                return removeChildLayer(layer);
+            }
+            template<class T> bool removeLayer(const std::unique_ptr<T>& layer)
+            {
+                return removeChildLayer(layer.get());
+            }
             void removeAllLayers();
             bool hasLayer(Layer* layer) const;
             const std::vector<Layer*>& getLayers() const { return layers; }
@@ -41,6 +59,9 @@ namespace ouzel
             std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
 
         protected:
+            virtual void addChildLayer(Layer* layer);
+            virtual bool removeChildLayer(Layer* layer);
+
             virtual void enter();
             virtual void leave();
 

@@ -38,8 +38,6 @@ namespace ouzel
                                bool parentHidden);
             virtual void draw(Camera* camera, bool wireframe);
 
-            virtual void addChild(Node* node) override;
-
             virtual void setPosition(const Vector2& newPosition);
             virtual void setPosition(const Vector3& newPosition);
             virtual const Vector3& getPosition() const { return position; }
@@ -122,17 +120,40 @@ namespace ouzel
             NodeContainer* getParent() const { return parent; }
             void removeFromParent();
 
-            void addComponent(Component* component);
-            void addComponent(std::unique_ptr<Component>&& component);
+            void addComponent(Component* component)
+            {
+                addChildComponent(component);
+            }
 
-            bool removeComponent(uint32_t index);
-            bool removeComponent(Component* component);
+            template<class T> void addComponent(const std::unique_ptr<T>& component)
+            {
+                addChildComponent(component.get());
+            }
+
+            template<class T> void addComponent(std::unique_ptr<T>&& component)
+            {
+                addChildComponent(component.get());
+                ownedComponents.push_back(std::forward<std::unique_ptr<Component>>(component));
+            }
+
+            bool removeComponent(Component* component)
+            {
+                return removeChildComponent(component);
+            }
+            template<class T> void removeComponent(const std::unique_ptr<T>& component)
+            {
+                remove(component.get());
+            }
             void removeAllComponents();
             const std::vector<Component*>& getComponents() const { return components; }
 
             Box3 getBoundingBox() const;
 
         protected:
+            virtual void addChildNode(Node* node) override;
+            void addChildComponent(Component* component);
+            bool removeChildComponent(Component* component);
+
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;
 

@@ -51,7 +51,7 @@ namespace ouzel
             }
         }
 
-        void Menu::addWidget(Widget* widget)
+        void Menu::addChildWidget(Widget* widget)
         {
             addChild(widget);
 
@@ -72,9 +72,9 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChild(Node* node)
+        bool Menu::removeChildNode(Node* node)
         {
-            if (!Node::removeChild(node))
+            if (!Node::removeChildNode(node))
             {
                 return false;
             }

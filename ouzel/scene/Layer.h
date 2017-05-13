@@ -26,8 +26,6 @@ namespace ouzel
 
             virtual void draw();
 
-            virtual void addChild(Node* node) override;
-
             const std::vector<Camera*>& getCameras() const { return cameras; }
 
             Node* pickNode(const Vector2& position) const;
@@ -41,6 +39,8 @@ namespace ouzel
             void removeFromScene();
 
         protected:
+            virtual void addChildNode(Node* node) override;
+
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
 

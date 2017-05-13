@@ -125,7 +125,7 @@ namespace ouzel
         {
         }
 
-        void Animator::addAnimator(Animator* animator)
+        void Animator::addChildAnimator(Animator* animator)
         {
             if (animator)
             {
@@ -140,13 +140,7 @@ namespace ouzel
             }
         }
 
-        void Animator::addAnimator(std::unique_ptr<Animator>&& animator)
-        {
-            addAnimator(animator.get());
-            ownedAnimators.push_back(std::forward<std::unique_ptr<Animator>>(animator));
-        }
-
-        bool Animator::removeAnimator(Animator* animator)
+        bool Animator::removeChildAnimator(Animator* animator)
         {
             bool result = false;
 

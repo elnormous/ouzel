@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        void SceneManager::setScene(Scene* scene)
+        void SceneManager::addChildScene(Scene* scene)
         {
             if (scene)
             {
@@ -31,13 +31,7 @@ namespace ouzel
             }
         }
 
-        void SceneManager::setScene(std::unique_ptr<Scene>&& scene)
-        {
-            setScene(scene.get());
-            ownedScenes.push_back(std::forward<std::unique_ptr<Scene>>(scene));
-        }
-
-        bool SceneManager::removeScene(Scene* scene)
+        bool SceneManager::removeChildScene(Scene* scene)
         {
             bool result = false;
 
