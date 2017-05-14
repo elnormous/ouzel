@@ -133,7 +133,7 @@ namespace ouzel
             template<class T> void addComponent(std::unique_ptr<T>&& component)
             {
                 addChildComponent(component.get());
-                ownedComponents.push_back(std::forward<std::unique_ptr<Component>>(component));
+                ownedComponents.push_back(std::move(component));
             }
 
             bool removeComponent(Component* component)

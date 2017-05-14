@@ -28,7 +28,7 @@ namespace ouzel
             template<class T> void addWidget(std::unique_ptr<T>&& widget)
             {
                 addChildWidget(widget.get());
-                ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(widget));
+                ownedChildren.push_back(std::move(widget));
             }
 
             void selectWidget(Widget* widget);

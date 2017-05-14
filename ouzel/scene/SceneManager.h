@@ -34,7 +34,7 @@ namespace ouzel
             template<class T> void setScene(std::unique_ptr<T>&& scene)
             {
                 addChildScene(scene.get());
-                ownedScenes.push_back(std::forward<std::unique_ptr<Scene>>(scene));
+                ownedScenes.push_back(std::move(scene));
             }
 
             bool removeScene(Scene* scene)

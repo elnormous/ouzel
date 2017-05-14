@@ -34,7 +34,7 @@ namespace ouzel
             template<class T> void addChild(std::unique_ptr<T>&& node)
             {
                 addChildNode(node.get());
-                ownedChildren.push_back(std::forward<std::unique_ptr<Node>>(node));
+                ownedChildren.push_back(std::move(node));
             }
 
             template<class T> bool removeChild(const std::unique_ptr<T>& node)

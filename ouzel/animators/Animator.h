@@ -54,7 +54,7 @@ namespace ouzel
             template<class T> void addAnimator(std::unique_ptr<T>&& animator)
             {
                 addChildAnimator(animator.get());
-                ownedAnimators.push_back(std::forward<std::unique_ptr<Animator>>(animator));
+                ownedAnimators.push_back(std::move(animator));
             }
 
             bool removeAnimator(Animator* animator)
