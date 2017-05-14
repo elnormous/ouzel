@@ -17,6 +17,11 @@ namespace ouzel
 
         SceneManager::~SceneManager()
         {
+            for (Scene* scene : scenes)
+            {
+                if (scene->entered) scene->leave();
+                scene->sceneManger = nullptr;
+            }
         }
 
         void SceneManager::addChildScene(Scene* scene)
