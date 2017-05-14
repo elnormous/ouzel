@@ -142,7 +142,7 @@ namespace ouzel
             }
             template<class T> void removeComponent(const std::unique_ptr<T>& component)
             {
-                remove(component.get());
+                removeChildComponent(component.get());
             }
             void removeAllComponents();
             const std::vector<Component*>& getComponents() const { return components; }
