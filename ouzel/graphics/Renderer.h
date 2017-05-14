@@ -132,9 +132,9 @@ namespace ouzel
                                (1.0f - position.v[1]) * size.v[1]);
             }
 
-            virtual bool saveScreenshot(const std::string& filename);
+            bool saveScreenshot(const std::string& filename);
 
-            virtual uint32_t getDrawCallCount() const { return drawCallCount; }
+            uint32_t getDrawCallCount() const { return drawCallCount; }
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
