@@ -47,6 +47,8 @@ namespace ouzel
                 return removeChildNode(node);
             }
 
+            bool moveChildToBack(Node* node);
+            bool moveChildToFront(Node* node);
             virtual void removeAllChildren();
             virtual bool hasChild(Node* node, bool recursive = false) const;
             virtual const std::vector<Node*>& getChildren() const { return children; }

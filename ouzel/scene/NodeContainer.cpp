@@ -67,6 +67,34 @@ namespace ouzel
             return result;
         }
 
+        bool NodeContainer::moveChildToBack(Node* node)
+        {
+            std::vector<Node*>::iterator i = std::find(children.begin(), children.end(), node);
+
+            if (i != children.end())
+            {
+                std::rotate(children.begin(), i, i + 1);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        bool NodeContainer::moveChildToFront(Node* node)
+        {
+            std::vector<Node*>::iterator i = std::find(children.begin(), children.end(), node);
+
+            if (i != children.end())
+            {
+                std::rotate(i, i + 1, children.end());
+
+                return true;
+            }
+
+            return false;
+        }
+
         void NodeContainer::removeAllChildren()
         {
             for (auto& node : children)
