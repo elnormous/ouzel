@@ -859,7 +859,7 @@ namespace ouzel
             return buffer;
         }
 
-        bool RendererD3D11::saveScreenshot(const std::string& filename)
+        bool RendererD3D11::generateScreenshot(const std::string& filename)
         {
             ID3D11Texture2D* backBufferTexture;
             HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));

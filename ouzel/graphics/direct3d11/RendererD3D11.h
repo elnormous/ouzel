@@ -62,7 +62,7 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
 
-            virtual bool saveScreenshot(const std::string& filename) override;
+            virtual bool generateScreenshot(const std::string& filename) override;
 
             IDXGIOutput* getOutput() const;
 
