@@ -415,7 +415,7 @@ namespace ouzel
 
     void Engine::pause()
     {
-        if (running)
+        if (active && running)
         {
             Event event;
             event.type = Event::Type::ENGINE_PAUSE;
@@ -427,7 +427,7 @@ namespace ouzel
 
     void Engine::resume()
     {
-        if (!running)
+        if (active && !running)
         {
             Event event;
             event.type = Event::Type::ENGINE_RESUME;
