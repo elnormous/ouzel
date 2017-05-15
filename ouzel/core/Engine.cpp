@@ -377,37 +377,65 @@ namespace ouzel
 
     void Engine::start()
     {
-        active = true;
-        running = true;
+        if (!active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_START;
+            eventDispatcher.postEvent(event);
 
-        previousUpdateTime = std::chrono::steady_clock::now();
+            active = true;
+            running = true;
+
+            previousUpdateTime = std::chrono::steady_clock::now();
 
 #if OUZEL_MULTITHREADED
-        updateThread = std::thread(&Engine::run, this);
+            updateThread = std::thread(&Engine::run, this);
 #endif
+        }
     }
 
     void Engine::stop()
     {
-        running = false;
-        active = false;
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+
+            running = false;
+            active = false;
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
+            if (updateThread.joinable()) updateThread.join();
 #endif
 
-        audio->stop();
+            audio->stop();
+        }
     }
 
     void Engine::pause()
     {
-        running = false;
+        if (running)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_PAUSE;
+            eventDispatcher.postEvent(event);
+
+            running = false;
+        }
     }
 
     void Engine::resume()
     {
-        previousUpdateTime = std::chrono::steady_clock::now();
-        running = true;
+        if (!running)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_RESUME;
+            eventDispatcher.postEvent(event);
+
+            previousUpdateTime = std::chrono::steady_clock::now();
+            running = true;
+        }
     }
 
     void Engine::update()

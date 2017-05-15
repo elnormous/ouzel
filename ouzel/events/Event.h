@@ -103,29 +103,45 @@ namespace ouzel
     {
         enum class Type
         {
+            // keyboard events
             KEY_DOWN,
             KEY_UP,
             KEY_REPEAT,
+
+            // mouse events
             MOUSE_DOWN,
             MOUSE_UP,
             MOUSE_SCROLL,
             MOUSE_MOVE,
+
+            // touch events
             TOUCH_BEGIN,
             TOUCH_MOVE,
             TOUCH_END,
             TOUCH_CANCEL,
+
+            // gamepad events
             GAMEPAD_CONNECT,
             GAMEPAD_DISCONNECT,
             GAMEPAD_BUTTON_CHANGE,
+
+            // window events
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
             WINDOW_FULLSCREEN_CHANGE,
             WINDOW_CONTENT_SCALE_CHANGE,
             WINDOW_SCREEN_CHANGE,
+
+            // system events
+            ENGINE_START, // engine started running (sent only once)
+            ENGINE_STOP, // engine stopped running (sent only once)
+            ENGINE_RESUME, // engine resumed running
+            ENGINE_PAUSE, // engine paused running
             ORIENTATION_CHANGE,
             LOW_MEMORY,
             OPEN_FILE,
 
+            // UI events
             UI_ENTER_NODE, // mouse or touch entered the scene node
             UI_LEAVE_NODE, // mouse or touch left the scene node
             UI_PRESS_NODE, // mouse or touch pressed on scene node

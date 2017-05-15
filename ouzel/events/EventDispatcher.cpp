@@ -126,6 +126,10 @@ namespace ouzel
                                 propagate = eventHandler->windowHandler(event.type, event.windowEvent);
                             }
                             break;
+                        case Event::Type::ENGINE_START:
+                        case Event::Type::ENGINE_STOP:
+                        case Event::Type::ENGINE_RESUME:
+                        case Event::Type::ENGINE_PAUSE:
                         case Event::Type::ORIENTATION_CHANGE:
                         case Event::Type::LOW_MEMORY:
                         case Event::Type::OPEN_FILE:
