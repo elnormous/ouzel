@@ -81,7 +81,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/EditBox.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Label.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Menu.cpp \
-	$(ROOT_DIR)/../ouzel/gui/Popup.cpp \
 	$(ROOT_DIR)/../ouzel/gui/RadioButton.cpp \
 	$(ROOT_DIR)/../ouzel/gui/RadioButtonGroup.cpp \
 	$(ROOT_DIR)/../ouzel/gui/ScrollArea.cpp \

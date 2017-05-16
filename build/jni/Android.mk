@@ -76,7 +76,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/gui/EditBox.cpp \
     ../../ouzel/gui/Label.cpp \
     ../../ouzel/gui/Menu.cpp \
-    ../../ouzel/gui/Popup.cpp \
     ../../ouzel/gui/RadioButton.cpp \
     ../../ouzel/gui/RadioButtonGroup.cpp \
     ../../ouzel/gui/ScrollArea.cpp \
