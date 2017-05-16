@@ -322,7 +322,14 @@ namespace ouzel
             {
                 for (const std::string& path : resourcePaths)
                 {
-                    str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+                    if (isAbsolutePath(path)) // if resource path is absolute
+                    {
+                        str = path + DIRECTORY_SEPARATOR + filename;
+                    }
+                    else
+                    {
+                        str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+                    }
 
                     if (fileExists(str))
                     {
