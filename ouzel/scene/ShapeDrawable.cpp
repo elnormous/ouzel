@@ -114,20 +114,22 @@ namespace ouzel
             float sinAngle = sinf(angle);
             float cosAngle = cosf(angle);
 
-            vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle + thickness * sinAngle,
-                                                                  -thickness * cosAngle - thickness * sinAngle),
+            float halfThickness = thickness / 2.0f;
+
+            vertices.push_back(graphics::VertexPC(start + Vector2(-halfThickness * cosAngle + halfThickness * sinAngle,
+                                                                  -halfThickness * cosAngle - halfThickness * sinAngle),
                                                   color));
 
-            vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle + thickness * sinAngle,
-                                                                   -thickness * cosAngle + thickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(finish + Vector2(halfThickness * cosAngle + halfThickness * sinAngle,
+                                                                   -halfThickness * cosAngle + halfThickness * sinAngle),
                                                   color));
 
-            vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle - thickness * sinAngle,
-                                                                  thickness * cosAngle - thickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(start + Vector2(-halfThickness * cosAngle - halfThickness * sinAngle,
+                                                                  halfThickness * cosAngle - halfThickness * sinAngle),
                                                   color));
 
-            vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle - thickness * sinAngle,
-                                                                   thickness * cosAngle + thickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(finish + Vector2(halfThickness * cosAngle - halfThickness * sinAngle,
+                                                                   halfThickness * cosAngle + halfThickness * sinAngle),
                                                   color));
 
             indices.push_back(startVertex + 0);
@@ -222,36 +224,83 @@ namespace ouzel
             if (fill && thickness <= 0.0f) return;
 
             DrawCommand command;
+            command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color));
-            vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color));
-            vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f), color));
-            vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f), color));
-
             if (fill)
             {
-                command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.bottom(), 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right(), rectangle.top(), 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f), color));
+
                 command.indexCount = 6;
 
                 indices.push_back(startVertex + 0);
                 indices.push_back(startVertex + 1);
-                indices.push_back(startVertex + 2);
-                indices.push_back(startVertex + 1);
                 indices.push_back(startVertex + 3);
+                indices.push_back(startVertex + 1);
                 indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 3);
             }
             else
             {
-                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                command.indexCount = 5;
+                float halfThickness = thickness / 2.0f;
+
+                // left bottom
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left() - halfThickness, rectangle.bottom() - halfThickness, 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left() + halfThickness, rectangle.bottom() + halfThickness, 0.0f), color));
+
+                // right bottom
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right() + halfThickness, rectangle.bottom() - halfThickness, 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right() - halfThickness, rectangle.bottom() + halfThickness, 0.0f), color));
+
+                // right top
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right() + halfThickness, rectangle.top() + halfThickness, 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.right() - halfThickness, rectangle.top() - halfThickness, 0.0f), color));
+
+                // left top
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left() - halfThickness, rectangle.top() + halfThickness, 0.0f), color));
+                vertices.push_back(graphics::VertexPC(Vector3(rectangle.left() + halfThickness, rectangle.top() - halfThickness, 0.0f), color));
+
+                command.indexCount = 24;
+                // bottom
+                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 1);
+
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 3);
+                indices.push_back(startVertex + 1);
+
+                // right
+                indices.push_back(startVertex + 2);
+                indices.push_back(startVertex + 4);
+                indices.push_back(startVertex + 3);
+
+                indices.push_back(startVertex + 4);
+                indices.push_back(startVertex + 5);
+                indices.push_back(startVertex + 3);
+
+                // top
+                indices.push_back(startVertex + 4);
+                indices.push_back(startVertex + 6);
+                indices.push_back(startVertex + 5);
+
+                indices.push_back(startVertex + 6);
+                indices.push_back(startVertex + 7);
+                indices.push_back(startVertex + 5);
+
+                // left
+                indices.push_back(startVertex + 6);
+                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 7);
+
                 indices.push_back(startVertex + 0);
                 indices.push_back(startVertex + 1);
-                indices.push_back(startVertex + 3);
-                indices.push_back(startVertex + 2);
-                indices.push_back(startVertex + 0);
+                indices.push_back(startVertex + 7);
             }
 
             drawCommands.push_back(command);

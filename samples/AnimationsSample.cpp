@@ -26,7 +26,7 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
 
     shapeDrawable.reset(new scene::ShapeDrawable());
     shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
-    shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false);
+    shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false, 2.0f);
     shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN, 2.0f);
 
     shapeDrawable->curve({Vector2(50.0f, 50.0f),
