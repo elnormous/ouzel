@@ -159,8 +159,8 @@ namespace ouzel
             if (segments < 3) return;
             if (fill && thickness <= 0.0f) return;
 
-
             DrawCommand command;
+            command.mode = graphics::Renderer::DrawMode::TRIANGLE_STRIP;
             command.indexCount = 0;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
@@ -169,18 +169,13 @@ namespace ouzel
             if (fill)
             {
                 vertices.push_back(graphics::VertexPC(position, color)); // center
-            }
 
-            for (uint32_t i = 0; i <= segments; ++i)
-            {
-                vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                              (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
-                                                              0.0f), color));
-            }
-
-            if (fill)
-            {
-                command.mode = graphics::Renderer::DrawMode::TRIANGLE_STRIP;
+                for (uint32_t i = 0; i <= segments; ++i)
+                {
+                    vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
+                                                                  (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
+                                                                  0.0f), color));
+                }
 
                 for (uint16_t i = 0; i < segments; ++i)
                 {
@@ -196,16 +191,44 @@ namespace ouzel
             }
             else
             {
-                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
+                float halfThickness = thickness / 2.0f;
+
+                for (uint32_t i = 0; i <= segments; ++i)
+                {
+                    vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                                                                  (position.v[1] + (radius - halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                                                                  0.0f), color));
+
+                    vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                                                                  (position.v[1] + (radius + halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                                                                  0.0f), color));
+                }
 
                 for (uint16_t i = 0; i < segments; ++i)
                 {
-                    indices.push_back(startVertex + i);
-                    ++command.indexCount;
-                }
+                    if (i < segments - 1)
+                    {
+                        indices.push_back(startVertex + i * 2 + 0);
+                        indices.push_back(startVertex + i * 2 + 1);
+                        indices.push_back(startVertex + i * 2 + 3);
 
-                indices.push_back(startVertex);
-                ++command.indexCount;
+                        indices.push_back(startVertex + i * 2 + 3);
+                        indices.push_back(startVertex + i * 2 + 2);
+                        indices.push_back(startVertex + i * 2 + 0);
+                    }
+                    else
+                    {
+                        indices.push_back(startVertex + i * 2 + 0);
+                        indices.push_back(startVertex + i * 2 + 1);
+                        indices.push_back(startVertex + 1);
+
+                        indices.push_back(startVertex + 1);
+                        indices.push_back(startVertex + 0);
+                        indices.push_back(startVertex + i * 2 + 0);
+                    }
+
+                    command.indexCount += 6;
+                }
             }
 
             drawCommands.push_back(command);
