@@ -371,8 +371,15 @@ namespace ouzel
 
     void Engine::exit()
     {
-        running = false;
-        active = false;
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+
+            running = false;
+            active = false;
+        }
     }
 
     void Engine::start()
@@ -404,13 +411,13 @@ namespace ouzel
 
             running = false;
             active = false;
+        }
 
 #if OUZEL_MULTITHREADED
-            if (updateThread.joinable()) updateThread.join();
+        if (updateThread.joinable()) updateThread.join();
 #endif
 
-            audio->stop();
-        }
+        audio->stop();
     }
 
     void Engine::pause()
