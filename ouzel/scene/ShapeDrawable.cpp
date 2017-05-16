@@ -98,26 +98,6 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::point(const Vector2& position, const Color& color)
-        {
-            DrawCommand command;
-
-            command.mode = graphics::Renderer::DrawMode::POINT_LIST;
-            command.indexCount = 1;
-            command.startIndex = static_cast<uint32_t>(indices.size());
-
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
-
-            indices.push_back(startVertex);
-            vertices.push_back(graphics::VertexPC(position, color));
-
-            drawCommands.push_back(command);
-
-            boundingBox.insertPoint(position);
-
-            dirty = true;
-        }
-
         void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
         {
             DrawCommand command;
