@@ -91,7 +91,6 @@
     <ClCompile Include="..\ouzel\gui\EditBox.cpp" />
     <ClCompile Include="..\ouzel\gui\Label.cpp" />
     <ClCompile Include="..\ouzel\gui\Menu.cpp" />
-    <ClCompile Include="..\ouzel\gui\Popup.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp" />
     <ClCompile Include="..\ouzel\gui\ScrollArea.cpp" />
@@ -236,7 +235,6 @@
     <ClInclude Include="..\ouzel\gui\EditBox.h" />
     <ClInclude Include="..\ouzel\gui\Label.h" />
     <ClInclude Include="..\ouzel\gui\Menu.h" />
-    <ClInclude Include="..\ouzel\gui\Popup.h" />
     <ClInclude Include="..\ouzel\gui\RadioButton.h" />
     <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h" />
     <ClInclude Include="..\ouzel\gui\ScrollArea.h" />

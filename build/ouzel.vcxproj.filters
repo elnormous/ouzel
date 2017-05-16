@@ -73,9 +73,6 @@
     <ClCompile Include="..\ouzel\gui\Menu.cpp">
       <Filter>gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\gui\Popup.cpp">
-      <Filter>gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp">
       <Filter>gui</Filter>
     </ClCompile>
@@ -437,9 +434,6 @@
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Menu.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Popup.h">
       <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\RadioButton.h">
