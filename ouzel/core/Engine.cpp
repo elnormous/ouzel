@@ -530,6 +530,8 @@ namespace ouzel
             }
         }
 
+        eventDispatcher.dispatchEvents();
+
 #if OUZEL_PLATFORM_ANDROID
         if (javaVM->DetachCurrentThread() != JNI_OK)
         {
