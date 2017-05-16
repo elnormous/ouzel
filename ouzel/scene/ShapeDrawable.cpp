@@ -100,75 +100,63 @@ namespace ouzel
 
         void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
         {
+            if (thickness <= 0.0f) return;
+
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
+            command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
+            command.indexCount = 6;
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            if (thickness > 0.0f)
-            {
-                command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
-                command.indexCount = 6;
+            Vector2 off = finish - start;
+            float angle = off.getAngle();
+            float sinAngle = sinf(angle);
+            float cosAngle = cosf(angle);
 
-                Vector2 off = finish - start;
-                float angle = off.getAngle();
-                float sinAngle = sinf(angle);
-                float cosAngle = cosf(angle);
+            vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle + thickness * sinAngle,
+                                                                  -thickness * cosAngle - thickness * sinAngle),
+                                                  color));
 
-                vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle + thickness * sinAngle,
-                                                                      -thickness * cosAngle - thickness * sinAngle),
-                                                      color));
+            vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle + thickness * sinAngle,
+                                                                   -thickness * cosAngle + thickness * sinAngle),
+                                                  color));
 
-                vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle + thickness * sinAngle,
-                                                                       -thickness * cosAngle + thickness * sinAngle),
-                                                      color));
+            vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle - thickness * sinAngle,
+                                                                  thickness * cosAngle - thickness * sinAngle),
+                                                  color));
 
-                vertices.push_back(graphics::VertexPC(start + Vector2(-thickness * cosAngle - thickness * sinAngle,
-                                                                      thickness * cosAngle - thickness * sinAngle),
-                                                      color));
+            vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle - thickness * sinAngle,
+                                                                   thickness * cosAngle + thickness * sinAngle),
+                                                  color));
 
-                vertices.push_back(graphics::VertexPC(finish + Vector2(thickness * cosAngle - thickness * sinAngle,
-                                                                       thickness * cosAngle + thickness * sinAngle),
-                                                      color));
+            indices.push_back(startVertex + 0);
+            indices.push_back(startVertex + 1);
+            indices.push_back(startVertex + 2);
+            indices.push_back(startVertex + 1);
+            indices.push_back(startVertex + 3);
+            indices.push_back(startVertex + 2);
 
-                indices.push_back(startVertex + 0);
-                indices.push_back(startVertex + 1);
-                indices.push_back(startVertex + 2);
-                indices.push_back(startVertex + 1);
-                indices.push_back(startVertex + 3);
-                indices.push_back(startVertex + 2);
-
-                boundingBox.insertPoint(vertices[startVertex + 0].position);
-                boundingBox.insertPoint(vertices[startVertex + 1].position);
-                boundingBox.insertPoint(vertices[startVertex + 2].position);
-                boundingBox.insertPoint(vertices[startVertex + 3].position);
-            }
-            else
-            {
-                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                command.indexCount = 2;
-
-                indices.push_back(startVertex);
-                vertices.push_back(graphics::VertexPC(start, color));
-
-                indices.push_back(startVertex + 1);
-                vertices.push_back(graphics::VertexPC(finish, color));
-
-                boundingBox.insertPoint(start);
-                boundingBox.insertPoint(finish);
-            }
+            boundingBox.insertPoint(vertices[startVertex + 0].position);
+            boundingBox.insertPoint(vertices[startVertex + 1].position);
+            boundingBox.insertPoint(vertices[startVertex + 2].position);
+            boundingBox.insertPoint(vertices[startVertex + 3].position);
 
             drawCommands.push_back(command);
 
             dirty = true;
         }
 
-        void ShapeDrawable::circle(const Vector2& position, float radius, const Color& color, bool fill, uint32_t segments)
+        void ShapeDrawable::circle(const Vector2& position,
+                                   float radius,
+                                   const Color& color,
+                                   bool fill,
+                                   uint32_t segments,
+                                   float thickness)
         {
-            if (segments < 3)
-            {
-                return;
-            }
+            if (segments < 3) return;
+            if (fill && thickness <= 0.0f) return;
+
 
             DrawCommand command;
             command.indexCount = 0;
@@ -226,8 +214,13 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::rectangle(const Rectangle& rectangle, const Color& color, bool fill)
+        void ShapeDrawable::rectangle(const Rectangle& rectangle,
+                                      const Color& color,
+                                      bool fill,
+                                      float thickness)
         {
+            if (fill && thickness <= 0.0f) return;
+
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
 
@@ -269,8 +262,13 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::triangle(const Vector2 (&positions)[3], const Color& color, bool fill)
+        void ShapeDrawable::triangle(const Vector2 (&positions)[3],
+                                     const Color& color,
+                                     bool fill,
+                                     float thickness)
         {
+            if (fill && thickness <= 0.0f) return;
+
             DrawCommand command;
             command.indexCount = 3;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -300,9 +298,13 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::polygon(const std::vector<Vector2>& edges, const Color& color, bool fill)
+        void ShapeDrawable::polygon(const std::vector<Vector2>& edges,
+                                    const Color& color,
+                                    bool fill,
+                                    float thickness)
         {
             if (edges.size() < 3) return;
+            if (fill && thickness <= 0.0f) return;
 
             DrawCommand command;
             command.startIndex = static_cast<uint32_t>(indices.size());
@@ -356,9 +358,13 @@ namespace ouzel
             return ret;
         }
 
-        void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints, const Color& color, uint32_t segments)
+        void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints,
+                                  const Color& color,
+                                  uint32_t segments,
+                                  float thickness)
         {
             if (controlPoints.size() < 2) return;
+            if (thickness <= 0.0f) return;
 
             DrawCommand command;
             command.mode = graphics::Renderer::DrawMode::LINE_STRIP;

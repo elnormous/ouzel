@@ -38,6 +38,11 @@ AnimationsSample::AnimationsSample(Samples& aSamples):
     shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE);
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
 
+    shapeDrawable->triangle({Vector2(15.0f, 75.0f),
+                             Vector2(25.0f, 75.0f),
+                             Vector2(25.0f, 55.0f)},
+                            Color::YELLOW, false);
+
     drawNode.reset(new scene::Node());
     drawNode->addComponent(shapeDrawable.get());
     drawNode->setPosition(Vector2(-300, 0.0f));

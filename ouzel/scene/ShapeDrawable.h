@@ -34,12 +34,37 @@ namespace ouzel
 
             void clear();
 
-            void line(const Vector2& start, const Vector2& finish, const Color& color, float thickness = 0.0f);
-            void circle(const Vector2& position, float radius, const Color& color, bool fill = false, uint32_t segments = 16);
-            void rectangle(const Rectangle& rectangle, const Color& color, bool fill = false);
-            void triangle(const Vector2 (&positions)[3], const Color& color, bool fill = false);
-            void polygon(const std::vector<Vector2>& edges, const Color& color, bool fill = false);
-            void curve(const std::vector<Vector2>& controlPoints, const Color& color, uint32_t segments = 16);
+            void line(const Vector2& start,
+                      const Vector2& finish,
+                      const Color& color,
+                      float thickness = 1.0f);
+
+            void circle(const Vector2& position,
+                        float radius,
+                        const Color& color,
+                        bool fill = false,
+                        uint32_t segments = 16,
+                        float thickness = 1.0f);
+
+            void rectangle(const Rectangle& rectangle,
+                           const Color& color,
+                           bool fill = false,
+                           float thickness = 1.0f);
+
+            void triangle(const Vector2 (&positions)[3],
+                          const Color& color,
+                          bool fill = false,
+                          float thickness = 1.0f);
+
+            void polygon(const std::vector<Vector2>& edges,
+                         const Color& color,
+                         bool fill = false,
+                         float thickness = 1.0f);
+
+            void curve(const std::vector<Vector2>& controlPoints,
+                       const Color& color,
+                       uint32_t segments = 16,
+                       float thickness = 1.0f);
 
             virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
             virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
