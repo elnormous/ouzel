@@ -24,10 +24,11 @@ namespace ouzel
         static std::string getStorageDirectory(const std::string& developer, const std::string& app);
         static std::string getTempDirectory();
 
-        bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
+        bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
         bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
-        std::string getPath(const std::string& filename) const;
+        bool resourceFileExists(const std::string& filename, bool searchResources) const;
+        std::string getPath(const std::string& filename, bool searchResources = true) const;
         void addResourcePath(const std::string& path);
         void addArchive(std::shared_ptr<Archive>& archive);
 

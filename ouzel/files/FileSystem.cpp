@@ -206,7 +206,7 @@ namespace ouzel
         return "";
     }
 
-    bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data) const
+    bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
 #if OUZEL_PLATFORM_ANDROID
         if (!isAbsolutePath(filename))
@@ -234,15 +234,18 @@ namespace ouzel
         }
 #endif
 
-        for (const auto& archive : archives)
+        if (searchResources)
         {
-            if (archive->readFile(filename, data))
+            for (const auto& archive : archives)
             {
-                return true;
+                if (archive->readFile(filename, data))
+                {
+                    return true;
+                }
             }
         }
 
-        std::string path = getPath(filename);
+        std::string path = getPath(filename, searchResources);
 
         // file does not exist
         if (path.empty())
@@ -279,6 +282,44 @@ namespace ouzel
         return true;
     }
 
+    bool FileSystem::resourceFileExists(const std::string& filename, bool searchResources) const
+    {
+        if (!searchResources || isAbsolutePath(filename))
+        {
+            return fileExists(filename);
+        }
+        else
+        {
+            std::string str = appPath + DIRECTORY_SEPARATOR + filename;
+
+            if (fileExists(str))
+            {
+                return true;
+            }
+            else
+            {
+                for (const std::string& path : resourcePaths)
+                {
+                    if (isAbsolutePath(path)) // if resource path is absolute
+                    {
+                        str = path + DIRECTORY_SEPARATOR + filename;
+                    }
+                    else
+                    {
+                        str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
+                    }
+
+                    if (fileExists(str))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+    }
+
     bool FileSystem::directoryExists(const std::string& filename)
     {
         struct stat buf;
@@ -301,9 +342,9 @@ namespace ouzel
         return (buf.st_mode & S_IFMT) == S_IFREG;
     }
 
-    std::string FileSystem::getPath(const std::string& filename) const
+    std::string FileSystem::getPath(const std::string& filename, bool searchResources) const
     {
-        if (isAbsolutePath(filename))
+        if (!searchResources || isAbsolutePath(filename))
         {
             if (fileExists(filename))
             {
