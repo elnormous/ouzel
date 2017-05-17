@@ -282,9 +282,9 @@ namespace ouzel
         return true;
     }
 
-    bool FileSystem::resourceFileExists(const std::string& filename, bool searchResources) const
+    bool FileSystem::resourceFileExists(const std::string& filename) const
     {
-        if (!searchResources || isAbsolutePath(filename))
+        if (isAbsolutePath(filename))
         {
             return fileExists(filename);
         }
