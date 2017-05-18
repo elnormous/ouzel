@@ -54,9 +54,9 @@ namespace ouzel
 
             virtual void recalculateProjection();
 
-            Node* pickNode(const Vector2& position) const;
-            std::vector<Node*> pickNodes(const Vector2& position) const;
-            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges) const;
+            Node* pickNode(const Vector2& position, bool renderTargets = false) const;
+            std::vector<Node*> pickNodes(const Vector2& position, bool renderTargets = false) const;
+            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
         protected:
             virtual void addChildLayer(Layer* layer);

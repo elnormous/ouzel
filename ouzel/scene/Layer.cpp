@@ -79,25 +79,28 @@ namespace ouzel
             }
         }
 
-        Node* Layer::pickNode(const Vector2& position) const
+        Node* Layer::pickNode(const Vector2& position, bool renderTargets) const
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
                 Camera* camera = *i;
 
-                std::vector<Node*> nodes;
+                if (renderTargets || !camera->getRenderTarget())
+                {
+                    std::vector<Node*> nodes;
 
-                Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                    Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                findNodes(worldPosition, nodes);
+                    findNodes(worldPosition, nodes);
 
-                if (!nodes.empty()) return nodes.front();
+                    if (!nodes.empty()) return nodes.front();
+                }
             }
 
             return nullptr;
         }
 
-        std::vector<Node*> Layer::pickNodes(const Vector2& position) const
+        std::vector<Node*> Layer::pickNodes(const Vector2& position, bool renderTargets) const
         {
             std::vector<Node*> result;
 
@@ -105,18 +108,21 @@ namespace ouzel
             {
                 Camera* camera = *i;
 
-                Vector2 worldPosition = camera->convertNormalizedToWorld(position);
+                if (renderTargets || !camera->getRenderTarget())
+                {
+                    Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                std::vector<Node*> nodes;
-                findNodes(worldPosition, nodes);
+                    std::vector<Node*> nodes;
+                    findNodes(worldPosition, nodes);
 
-                result.insert(result.end(), nodes.begin(), nodes.end());
+                    result.insert(result.end(), nodes.begin(), nodes.end());
+                }
             }
 
             return result;
         }
 
-        std::vector<Node*> Layer::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<Node*> Layer::pickNodes(const std::vector<Vector2>& edges, bool renderTargets) const
         {
             std::vector<Node*> result;
 
@@ -124,18 +130,21 @@ namespace ouzel
             {
                 Camera* camera = *i;
 
-                std::vector<Vector2> worldEdges;
-                worldEdges.reserve(edges.size());
-
-                for (const Vector2& edge : edges)
+                if (renderTargets || !camera->getRenderTarget())
                 {
-                    worldEdges.push_back(camera->convertNormalizedToWorld(edge));
+                    std::vector<Vector2> worldEdges;
+                    worldEdges.reserve(edges.size());
+
+                    for (const Vector2& edge : edges)
+                    {
+                        worldEdges.push_back(camera->convertNormalizedToWorld(edge));
+                    }
+
+                    std::vector<Node*> nodes;
+                    findNodes(worldEdges, nodes);
+
+                    result.insert(result.end(), nodes.begin(), nodes.end());
                 }
-
-                std::vector<Node*> nodes;
-                findNodes(worldEdges, nodes);
-
-                result.insert(result.end(), nodes.begin(), nodes.end());
             }
 
             return result;

@@ -117,13 +117,13 @@ namespace ouzel
             }
         }
 
-        Node* Scene::pickNode(const Vector2& position) const
+        Node* Scene::pickNode(const Vector2& position, bool renderTargets) const
         {
             for (std::vector<Layer*>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 Layer* layer = *i;
 
-                if (Node* result = layer->pickNode(position))
+                if (Node* result = layer->pickNode(position, renderTargets))
                 {
                     return result;
                 }
@@ -132,13 +132,13 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<Node*> Scene::pickNodes(const Vector2& position) const
+        std::vector<Node*> Scene::pickNodes(const Vector2& position, bool renderTargets) const
         {
             std::vector<Node*> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<Node*> nodes = (*i)->pickNodes(position);
+                std::vector<Node*> nodes = (*i)->pickNodes(position, renderTargets);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
@@ -146,13 +146,13 @@ namespace ouzel
             return result;
         }
 
-        std::vector<Node*> Scene::pickNodes(const std::vector<Vector2>& edges) const
+        std::vector<Node*> Scene::pickNodes(const std::vector<Vector2>& edges, bool renderTargets) const
         {
             std::vector<Node*> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<Node*> nodes = (*i)->pickNodes(edges);
+                std::vector<Node*> nodes = (*i)->pickNodes(edges, renderTargets);
 
                 result.insert(result.end(), nodes.begin(), nodes.end());
             }
