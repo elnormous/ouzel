@@ -271,7 +271,6 @@ namespace ouzel
                             settings.sampleCount,
                             settings.textureFilter,
                             settings.maxAnisotropy,
-                            settings.backBufferFormat,
                             settings.verticalSync,
                             settings.depth,
                             settings.debugRenderer))
