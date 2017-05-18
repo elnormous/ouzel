@@ -9,6 +9,7 @@
 #include <limits>
 #include <functional>
 #include <random>
+#include <sstream>
 
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_ANDROID
@@ -342,15 +343,13 @@ namespace ouzel
     }
 
 #if OUZEL_PLATFORM_ANDROID
-    std::string toString(int val);
-    std::string toString(unsigned val);
-    std::string toString(long val);
-    std::string toString(unsigned long val);
-    std::string toString(long long val);
-    std::string toString(unsigned long long val);
-    std::string toString(float val);
-    std::string toString(double val);
-    std::string toString(long double val);
+    template <typename T>
+    std::string toString(T value)
+    {
+        std::ostringstream os;
+        os << value;
+        return os.str();
+    }
     long stringToLong(const std::string& val);
     long long stringToLongLong(const std::string& val);
     float stringToFloat(const std::string& val);
