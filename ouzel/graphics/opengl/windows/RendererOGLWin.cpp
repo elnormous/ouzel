@@ -216,6 +216,7 @@ namespace ouzel
                     WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
                     WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
                     WGL_COLOR_BITS_ARB, 24,
+                    WGL_ALPHA_BITS_ARB, 8,
                     WGL_DEPTH_BITS_ARB, newDepth ? 24 : 0,
                     WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
                     WGL_SAMPLES_ARB, newSampleCount,
