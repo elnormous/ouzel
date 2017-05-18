@@ -73,6 +73,7 @@ namespace ouzel
                 NSOpenGLPFADoubleBuffer,
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
+                NSOpenGLPFAAlphaSize, 8
             };
 
             if (newDepth)
