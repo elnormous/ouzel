@@ -20,7 +20,6 @@
 #include "graphics/Vertex.h"
 #include "graphics/BlendState.h"
 #include "graphics/MeshBuffer.h"
-#include "graphics/PixelFormat.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
 
@@ -159,7 +158,6 @@ namespace ouzel
                               uint32_t newSampleCount,
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
-                              PixelFormat newBackBufferFormat,
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer);
@@ -201,7 +199,6 @@ namespace ouzel
             uint32_t sampleCount = 1; // MSAA sample count
             Texture::Filter textureFilter = Texture::Filter::POINT;
             uint32_t maxAnisotropy = 1;
-            PixelFormat backBufferFormat;
 
             bool verticalSync = true;
             bool depth = false;

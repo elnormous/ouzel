@@ -29,7 +29,6 @@ namespace ouzel
                                     uint32_t newSampleCount,
                                     Texture::Filter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
-                                    PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
                                     bool newDepth,
                                     bool newDebugRenderer)
@@ -59,6 +58,7 @@ namespace ouzel
                 GLX_RED_SIZE, 8,
                 GLX_GREEN_SIZE, 8,
                 GLX_BLUE_SIZE, 8,
+                GLX_ALPHA_SIZE, 8,
                 GLX_DEPTH_SIZE, newDepth ? 24 : 0,
                 GLX_SAMPLE_BUFFERS, (newSampleCount > 1) ? 1 : 0,
                 GLX_SAMPLES, static_cast<int>(newSampleCount),
@@ -139,7 +139,6 @@ namespace ouzel
                                      newSampleCount,
                                      newTextureFilter,
                                      newMaxAnisotropy,
-                                     newBackBufferFormat,
                                      newVerticalSync,
                                      newDepth,
                                      newDebugRenderer);

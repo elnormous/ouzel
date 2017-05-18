@@ -60,7 +60,6 @@ namespace ouzel
                                     uint32_t newSampleCount,
                                     Texture::Filter newTextureFilter,
                                     uint32_t newMaxAnisotropy,
-                                    PixelFormat newBackBufferFormat,
                                     bool newVerticalSync,
                                     bool newDepth,
                                     bool newDebugRenderer)
@@ -160,7 +159,6 @@ namespace ouzel
                                    newSampleCount,
                                    newTextureFilter,
                                    newMaxAnisotropy,
-                                   newBackBufferFormat,
                                    newVerticalSync,
                                    newDepth,
                                    newDebugRenderer))

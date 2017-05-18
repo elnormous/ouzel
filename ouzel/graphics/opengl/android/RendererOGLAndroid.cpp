@@ -46,7 +46,6 @@ namespace ouzel
                                       uint32_t newSampleCount,
                                       Texture::Filter newTextureFilter,
                                       uint32_t newMaxAnisotropy,
-                                      PixelFormat newBackBufferFormat,
                                       bool newVerticalSync,
                                       bool newDepth,
                                       bool newDebugRenderer)
@@ -70,6 +69,7 @@ namespace ouzel
                 EGL_RED_SIZE, 8,
                 EGL_GREEN_SIZE, 8,
                 EGL_BLUE_SIZE, 8,
+                EGL_ALPHA_SIZE, 8,
                 EGL_DEPTH_SIZE, newDepth ? 24 : 0,
                 EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
@@ -173,7 +173,6 @@ namespace ouzel
                                      newSampleCount,
                                      newTextureFilter,
                                      newMaxAnisotropy,
-                                     newBackBufferFormat,
                                      newVerticalSync,
                                      newDepth,
                                      newDebugRenderer);
