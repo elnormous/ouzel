@@ -64,10 +64,10 @@ namespace ouzel
 #endif
 
 #if OUZEL_PLATFORM_WINDOWS
-            wchar_t szBuffer[MAX_PATH];
-            MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer, MAX_PATH);
-            StringCchCatW(szBuffer, sizeof(szBuffer), L"\n");
-            OutputDebugStringW(szBuffer);
+            std::vector<wchar_t> szBuffer(s.length() + 2);
+            MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer.data(), static_cast<int>(szBuffer.size()));
+            StringCchCatW(szBuffer.data(), szBuffer.size(), L"\n");
+            OutputDebugStringW(szBuffer.data());
 
     #if DEBUG
             HANDLE handle = 0;
@@ -87,7 +87,7 @@ namespace ouzel
             if (handle)
             {
                 DWORD bytesWritten;
-                WriteConsoleW(handle, szBuffer, static_cast<DWORD>(wcslen(szBuffer)), &bytesWritten, nullptr);
+                WriteConsoleW(handle, szBuffer.data(), static_cast<DWORD>(wcslen(szBuffer.data())), &bytesWritten, nullptr);
             }
     #endif
 
