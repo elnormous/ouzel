@@ -503,7 +503,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
-            clearColorBuffer = clear;
+            clearDepthBuffer = clear;
             dirty |= DIRTY_PARAMETERS;
         }
 
