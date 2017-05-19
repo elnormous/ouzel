@@ -39,6 +39,13 @@ namespace ouzel
             initFromFile(filename, mipmaps, spritesX, spritesY, pivot);
         }
 
+        Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
+                       uint32_t spritesX, uint32_t spritesY,
+                       const Vector2& pivot)
+        {
+            initFromTexture(texture, spritesX, spritesY, pivot);
+        }
+
         bool Sprite::initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames)
         {
             frames = spriteFrames;
@@ -60,6 +67,40 @@ namespace ouzel
                                   const Vector2& pivot)
         {
             frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps, spritesX, spritesY, pivot);
+
+            updateBoundingBox();
+
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+
+            if (!blendState)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool Sprite::initFromTexture(std::shared_ptr<graphics::Texture> texture,
+                                     uint32_t spritesX, uint32_t spritesY,
+                                     const Vector2& pivot)
+        {
+            frames.clear();
+
+            Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
+
+            for (uint32_t x = 0; x < spritesX; ++x)
+            {
+                for (uint32_t y = 0; y < spritesY; ++y)
+                {
+                    Rectangle rectangle(spriteSize.v[0] * x,
+                                        spriteSize.v[1] * y,
+                                        spriteSize.v[0],
+                                        spriteSize.v[1]);
+
+                    scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, spriteSize, Vector2(), pivot);
+                    frames.push_back(frame);
+                }
+            }
 
             updateBoundingBox();
 
