@@ -461,8 +461,8 @@ namespace ouzel
             {
                 MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                 PipelineStateDesc pipelineStateDesc;
-                MTLLoadAction newColorBufferLoadAction = MTLLoadActionDontCare;
-                MTLLoadAction newDepthBufferLoadAction = MTLLoadActionDontCare;
+                MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
+                MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
 
                 NSUInteger renderTargetWidth = 0;
                 NSUInteger renderTargetHeight = 0;
