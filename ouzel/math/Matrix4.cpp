@@ -112,7 +112,7 @@ namespace ouzel
         dst.setZero();
 
         assert(aspectRatio);
-        dst.m[0] = aspectRatio * factor;
+        dst.m[0] = (1.0f / aspectRatio) * factor;
         dst.m[5] = factor;
         dst.m[10] = zFarPlane / (zFarPlane - zNearPlane);
         dst.m[11] = 1.0f;

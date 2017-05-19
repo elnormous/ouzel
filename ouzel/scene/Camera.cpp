@@ -107,7 +107,7 @@ namespace ouzel
                     Matrix4::createOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0f, 1.0f, projection);
                     break;
                 case Type::PERSPECTIVE:
-                    Matrix4::createPerspective(contentSize.v[0] / contentSize.v[1], fov, nearPlane, farPlane, projection);
+                    Matrix4::createPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane, projection);
                     break;
             }
 
