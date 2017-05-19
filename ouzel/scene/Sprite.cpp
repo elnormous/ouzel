@@ -41,7 +41,8 @@ namespace ouzel
 
         Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
                        uint32_t spritesX, uint32_t spritesY,
-                       const Vector2& pivot)
+                       const Vector2& pivot):
+            Sprite()
         {
             initFromTexture(texture, spritesX, spritesY, pivot);
         }
