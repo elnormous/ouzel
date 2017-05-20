@@ -38,10 +38,10 @@ namespace ouzel
                                         bool newMipmaps = true,
                                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            virtual bool setSize(const Size2& newSize);
+            bool setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
 
-            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             bool isDynamic() const { return dynamic; }
 
