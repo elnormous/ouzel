@@ -25,17 +25,17 @@ namespace ouzel
         public:
             virtual ~TextureResource();
 
-            virtual bool init(const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
-                              bool newRenderTarget = false,
+            bool init(const Size2& newSize,
+                      bool newDynamic,
+                      bool newMipmaps = true,
+                      bool newRenderTarget = false,
                               uint32_t newSampleCount = 1,
-                              bool newDepth = false,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
-                                        const Size2& newSize,
-                                        bool newDynamic,
-                                        bool newMipmaps = true,
+                      bool newDepth = false,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool initFromBuffer(const std::vector<uint8_t>& newData,
+                                     const Size2& newSize,
+                                bool newDynamic,
+                                bool newMipmaps = true,
                                         PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             bool setSize(const Size2& newSize);
