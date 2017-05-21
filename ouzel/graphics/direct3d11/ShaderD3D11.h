@@ -27,12 +27,12 @@ namespace ouzel
             const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
             const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            virtual ID3D11PixelShader* getPixelShader() const { return pixelShader; }
-            virtual ID3D11VertexShader* getVertexShader() const { return vertexShader; }
+            ID3D11PixelShader* getPixelShader() const { return pixelShader; }
+            ID3D11VertexShader* getVertexShader() const { return vertexShader; }
 
-            virtual ID3D11Buffer* getPixelShaderConstantBuffer() const { return pixelShaderConstantBuffer; }
-            virtual ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
-            virtual ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
+            ID3D11Buffer* getPixelShaderConstantBuffer() const { return pixelShaderConstantBuffer; }
+            ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
+            ID3D11InputLayout* getInputLayout() const { return inputLayout;  }
 
             bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
