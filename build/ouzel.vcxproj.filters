@@ -349,6 +349,9 @@
     <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\Timer.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -780,6 +783,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.h">
       <Filter>input\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\Timer.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

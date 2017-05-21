@@ -42,6 +42,7 @@
     <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
+    <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
     <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
     <ClInclude Include="..\ouzel\core\Settings.h" />
+    <ClInclude Include="..\ouzel\core\Timer.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
     <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h" />
