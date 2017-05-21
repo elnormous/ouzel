@@ -14,6 +14,7 @@
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"
+#include "core/Timer.h"
 #include "events/EventDispatcher.h"
 #include "scene/SceneManager.h"
 #include "core/Cache.h"
@@ -37,6 +38,7 @@ namespace ouzel
         bool init(Settings& settings);
 
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
+        Timer* getTimer() { return &timer; }
         Cache* getCache() { return &cache; }
         Window* getWindow() const { return window.get(); }
         graphics::Renderer* getRenderer() const { return renderer.get(); }
@@ -63,6 +65,7 @@ namespace ouzel
         void run();
 
         EventDispatcher eventDispatcher;
+        Timer timer;
         std::unique_ptr<Window> window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;

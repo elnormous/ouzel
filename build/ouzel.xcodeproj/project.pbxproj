@@ -622,6 +622,12 @@
 		30575ADB1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
 		30575ADC1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
 		30575ADD1C3B48740009C8A7 /* EventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 30575AD71C3B48740009C8A7 /* EventDispatcher.h */; };
+		305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
+		305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
+		305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B68D11ED1B31D003352A2 /* Timer.cpp */; };
+		305B68D61ED1B31D003352A2 /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.h */; };
+		305B68D71ED1B31D003352A2 /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.h */; };
+		305B68D81ED1B31D003352A2 /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.h */; };
 		305B99891C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
 		305B998A1C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
 		305B998B1C41EFFA008589E1 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B99871C41EFFA008589E1 /* Menu.cpp */; };
@@ -1043,6 +1049,8 @@
 		30575ACC1C3B175D0009C8A7 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 		30575AD61C3B48740009C8A7 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
 		30575AD71C3B48740009C8A7 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
+		305B68D11ED1B31D003352A2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		305B68D21ED1B31D003352A2 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		305B99871C41EFFA008589E1 /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
 		305B99881C41EFFA008589E1 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
@@ -1386,6 +1394,8 @@
 				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B751B1C29EDD900FEDE92 /* macos */,
 				303647631C3F218E0024DB5B /* Settings.h */,
+				305B68D11ED1B31D003352A2 /* Timer.cpp */,
+				305B68D21ED1B31D003352A2 /* Timer.h */,
 				303B76311C355A3400FEDE92 /* tvos */,
 				303821EC1D8500E500677CAB /* UpdateCallback.cpp */,
 				30C8B6211C6D0E350031B64F /* UpdateCallback.h */,
@@ -1862,6 +1872,7 @@
 				3038201E1D80A40700677CAB /* TextureVSIOS.h in Headers */,
 				303B75371C2A3C8200FEDE92 /* CompileConfig.h in Headers */,
 				3047F7731C4D2C3900774E3D /* Parallel.h in Headers */,
+				305B68D61ED1B31D003352A2 /* Timer.h in Headers */,
 				300C39ED1E51355000330E4F /* SoundDataWave.h in Headers */,
 				303B75681C2A3CBF00FEDE92 /* Sprite.h in Headers */,
 				30381F8E1D80A3EC00677CAB /* TextureOGL.h in Headers */,
@@ -2017,6 +2028,7 @@
 				303B76791C355A3B00FEDE92 /* Sprite.h in Headers */,
 				3047F7741C4D2C3900774E3D /* Parallel.h in Headers */,
 				303B767A1C355A3B00FEDE92 /* Matrix3.h in Headers */,
+				305B68D81ED1B31D003352A2 /* Timer.h in Headers */,
 				300C39EF1E51355000330E4F /* SoundDataWave.h in Headers */,
 				3098A54D1E9FD6E900528A54 /* AudioALTVOS.h in Headers */,
 				30381F901D80A3EC00677CAB /* TextureOGL.h in Headers */,
@@ -2075,6 +2087,7 @@
 				3082C3BE1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C3B81D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				305B99941C41F06F008589E1 /* Widget.h in Headers */,
+				305B68D71ED1B31D003352A2 /* Timer.h in Headers */,
 				303B04BD1E207B6D00011CBE /* RendererOGLMacOS.h in Headers */,
 				30381F151D8094F100677CAB /* BufferResource.h in Headers */,
 				30381FB91D80A3F900677CAB /* AudioAL.h in Headers */,
@@ -2375,6 +2388,7 @@
 				303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.mm in Sources */,
 				303821331D81876E00677CAB /* BlendStateEmpty.cpp in Sources */,
+				305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30381F6D1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
 				303933731E5F460A000C9A8E /* SoundListener.cpp in Sources */,
 				30A9C1321CAE80570084C4BF /* Localization.cpp in Sources */,
@@ -2500,6 +2514,7 @@
 				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
 				303B04C41E207B7800011CBE /* OpenGLView.mm in Sources */,
 				303821351D81876E00677CAB /* BlendStateEmpty.cpp in Sources */,
+				305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */,
 				303820021D80A40700677CAB /* RendererMetal.mm in Sources */,
 				303933751E5F460A000C9A8E /* SoundListener.cpp in Sources */,
 				30A9C1331CAE80570084C4BF /* Localization.cpp in Sources */,
@@ -2658,6 +2673,7 @@
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30381FFB1D80A40700677CAB /* MeshBufferMetal.mm in Sources */,
 				30381F861D80A3EC00677CAB /* ShaderOGL.cpp in Sources */,
+				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
 			);

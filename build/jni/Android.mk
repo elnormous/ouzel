@@ -36,6 +36,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/Application.cpp \
     ../../ouzel/core/Cache.cpp \
     ../../ouzel/core/Engine.cpp \
+    ../../ouzel/core/Timer.cpp \
     ../../ouzel/core/UpdateCallback.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
