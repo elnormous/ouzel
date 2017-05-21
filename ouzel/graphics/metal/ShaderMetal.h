@@ -35,10 +35,10 @@ namespace ouzel
             const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
             const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            virtual MTLFunctionPtr getPixelShader() const { return pixelShader; }
-            virtual MTLFunctionPtr getVertexShader() const { return vertexShader; }
+            MTLFunctionPtr getPixelShader() const { return pixelShader; }
+            MTLFunctionPtr getVertexShader() const { return vertexShader; }
 
-            virtual MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
+            MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
 
             uint32_t getPixelShaderConstantBufferSize() const { return pixelShaderConstantSize; }
             uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
