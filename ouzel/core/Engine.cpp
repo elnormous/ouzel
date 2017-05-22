@@ -492,13 +492,19 @@ namespace ouzel
 
             updateCallbackAddSet.clear();
 
-            for (const UpdateCallback* updateCallback : updateCallbacks)
+            for (UpdateCallback* updateCallback : updateCallbacks)
             {
                 auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
 
-                if (i == updateCallbackDeleteSet.end() && updateCallback->callback)
+                if (i == updateCallbackDeleteSet.end())
                 {
-                    updateCallback->callback(delta);
+                    updateCallback->timeSinceLastUpdate += delta;
+
+                    if (updateCallback->timeSinceLastUpdate >= updateCallback->interval)
+                    {
+                        if (updateCallback->callback) updateCallback->callback(delta);
+                        updateCallback->timeSinceLastUpdate = (updateCallback->interval > 0.0f) ? fmodf(updateCallback->timeSinceLastUpdate, updateCallback->interval) : 0.0f;
+                    }
                 }
             }
         }

@@ -20,9 +20,11 @@ namespace ouzel
         ~UpdateCallback();
 
         std::function<void(float)> callback;
+        float interval = 0.0f;
 
     protected:
         int32_t priority;
         Engine* engine = nullptr;
+        float timeSinceLastUpdate = 0.0f;
     };
 }
