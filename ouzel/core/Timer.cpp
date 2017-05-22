@@ -8,4 +8,8 @@ namespace ouzel
     Timer::Timer()
     {
     }
+
+    void Timer::update(float)
+    {
+    }
 }

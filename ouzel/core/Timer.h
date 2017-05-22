@@ -13,6 +13,8 @@ namespace ouzel
     {
         friend Engine;
     public:
+        void update(float delta);
+
     protected:
         Timer();
     };

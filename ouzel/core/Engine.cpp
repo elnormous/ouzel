@@ -455,6 +455,7 @@ namespace ouzel
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
 
             eventDispatcher.dispatchEvents();
+            timer.update(delta);
 
             if (renderer->getRefillDrawQueue())
             {
