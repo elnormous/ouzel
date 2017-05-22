@@ -189,7 +189,7 @@ namespace ouzel
                     }
                 }
             }
-            else if (dstWidth == 0 && dstHeight > 0)
+            else if (dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -202,7 +202,7 @@ namespace ouzel
                     dst[0] = static_cast<uint8_t>(a);
                 }
             }
-            else if (dstWidth > 0 && dstHeight == 0)
+            else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
@@ -239,7 +239,7 @@ namespace ouzel
                     }
                 }
             }
-            else if (dstWidth == 0 && dstHeight > 0)
+            else if (dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -253,7 +253,7 @@ namespace ouzel
                     dst[0] = static_cast<uint8_t>(r);
                 }
             }
-            else if (dstWidth > 0 && dstHeight == 0)
+            else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
@@ -304,7 +304,7 @@ namespace ouzel
                     }
                 }
             }
-            else if (dstWidth == 0 && dstHeight > 0)
+            else if (dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -327,7 +327,7 @@ namespace ouzel
                     dst[1] = static_cast<uint8_t>(g);
                 }
             }
-            else if (dstWidth > 0 && dstHeight == 0)
+            else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
@@ -424,7 +424,7 @@ namespace ouzel
                     }
                 }
             }
-            else if (dstWidth == 0 && dstHeight > 0)
+            else if (dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -471,7 +471,7 @@ namespace ouzel
                     dst[3] = static_cast<uint8_t>(a);
                 }
             }
-            else if (dstWidth > 0 && dstHeight == 0)
+            else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
