@@ -142,7 +142,7 @@ namespace ouzel
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t pitch = newWidth * pixelSize;
-            uint32_t bufferSize = newWidth * pitch;
+            uint32_t bufferSize = pitch * newHeight;
             levels.push_back({newSize, pitch, std::vector<uint8_t>(bufferSize)});
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
@@ -157,7 +157,7 @@ namespace ouzel
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * pixelSize;
-                    bufferSize = newWidth * pitch;
+                    bufferSize = pitch * newHeight;
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
                 }
             }
