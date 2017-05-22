@@ -502,8 +502,8 @@ namespace ouzel
 
                     if (updateCallback->timeSinceLastUpdate >= updateCallback->interval)
                     {
-                        if (updateCallback->callback) updateCallback->callback(delta);
                         updateCallback->timeSinceLastUpdate = (updateCallback->interval > 0.0f) ? fmodf(updateCallback->timeSinceLastUpdate, updateCallback->interval) : 0.0f;
+                        if (updateCallback->callback) updateCallback->callback(delta);
                     }
                 }
             }
