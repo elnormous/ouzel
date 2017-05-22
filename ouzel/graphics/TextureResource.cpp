@@ -133,17 +133,6 @@ namespace ouzel
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
-                uint32_t bufferSize = newWidth * newHeight * pixelSize;
-
-                if (newWidth == 1)
-                {
-                    bufferSize *= 2;
-                }
-                if (newHeight == 1)
-                {
-                    bufferSize *= 2;
-                }
-
                 while (newWidth >= 2 && newHeight >= 2)
                 {
                     newWidth >>= 1;
