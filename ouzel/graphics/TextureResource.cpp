@@ -61,7 +61,12 @@ namespace ouzel
             depth = false;
             pixelFormat = newPixelFormat;
 
-            if (!calculateData(newData, newSize))
+            if (!calculateSizes(newSize))
+            {
+                return false;
+            }
+
+            if (!calculateData(newData))
             {
                 return false;
             }
@@ -109,7 +114,15 @@ namespace ouzel
                 return false;
             }
 
-            if (!calculateData(newData, newSize))
+            if (newSize != size)
+            {
+                if (!calculateSizes(newSize))
+                {
+                    return false;
+                }
+            }
+
+            if (!calculateData(newData))
             {
                 return false;
             }
@@ -129,7 +142,8 @@ namespace ouzel
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t pitch = newWidth * pixelSize;
-            levels.push_back({newSize, pitch, std::vector<uint8_t>()});
+            uint32_t bufferSize = newWidth * pitch;
+            levels.push_back({newSize, pitch, std::vector<uint8_t>(bufferSize)});
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
@@ -143,8 +157,8 @@ namespace ouzel
 
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * pixelSize;
-                    
-                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
+                    bufferSize = newWidth * pitch;
+                    levels.push_back({mipMapSize, pitch, std::vector<uint8_t>(bufferSize)});
                 }
             }
 
@@ -156,24 +170,46 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth == 0 ||  dstHeight == 0)
+            if (dstWidth > 0 &&  dstHeight > 0)
             {
-                return;
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                {
+                    const uint8_t* rgb = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                    {
+                        float a = 0.0f;
+                        a += rgb[0];
+                        a += rgb[1];
+                        a += rgb[pitch + 0];
+                        a += rgb[pitch + 1];
+                        a /= 4.0f;
+                        dst[0] = static_cast<uint8_t>(a);
+                    }
+                }
             }
+            else if (dstWidth == 0 && dstHeight > 0)
+            {
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                {
+                    const uint8_t* rgb = src;
 
-            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                    float a = 0.0f;
+                    a += rgb[0];
+                    a += rgb[pitch];
+                    a /= 2.0f;
+                    dst[0] = static_cast<uint8_t>(a);
+                }
+            }
+            else if (dstWidth > 0 && dstHeight == 0)
             {
                 const uint8_t* rgb = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
                 {
-                    float r = 0.0f;
-                    r += rgb[0];
-                    r += rgb[1];
-                    r += rgb[pitch + 0];
-                    r += rgb[pitch + 1];
-                    r /= 4.0f;
-                    r = powf(r, 1.0f / 2.2f);
-                    dst[0] = static_cast<uint8_t>(r);
+                    float a = 0.0f;
+                    a += rgb[0];
+                    a += rgb[1];
+                    a /= 2.0f;
+                    dst[0] = static_cast<uint8_t>(a);
                 }
             }
         }
@@ -183,25 +219,31 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth == 0 ||  dstHeight == 0)
+            if (dstWidth > 0 &&  dstHeight > 0)
             {
-                return;
-            }
-
-            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
-            {
-                const uint8_t* rgb = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    float r = 0.0f;
-                    r += powf(rgb[0], 2.2f);
-                    r += powf(rgb[1], 2.2f);
-                    r += powf(rgb[pitch + 0], 2.2f);
-                    r += powf(rgb[pitch + 1], 2.2f);
-                    r /= 4.0f;
-                    r = powf(r, 1.0f / 2.2f);
-                    dst[0] = static_cast<uint8_t>(r);
+                    const uint8_t* rgb = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                    {
+                        float r = 0.0f;
+                        r += powf(rgb[0], 2.2f);
+                        r += powf(rgb[1], 2.2f);
+                        r += powf(rgb[pitch + 0], 2.2f);
+                        r += powf(rgb[pitch + 1], 2.2f);
+                        r /= 4.0f;
+                        r = powf(r, 1.0f / 2.2f);
+                        dst[0] = static_cast<uint8_t>(r);
+                    }
                 }
+            }
+            else if (dstWidth == 0 && dstHeight > 0)
+            {
+                // TODO: implement
+            }
+            else if (dstWidth > 0 && dstHeight == 0)
+            {
+                // TODO: implement
             }
         }
 
@@ -210,38 +252,44 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth == 0 ||  dstHeight == 0)
+            if (dstWidth > 0 &&  dstHeight > 0)
             {
-                return;
-            }
-
-            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
-            {
-                const uint8_t* rgb = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, rgb += 4, dst += 2)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    float r = 0.0f, g = 0.0f;
+                    const uint8_t* rgb = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 4, dst += 2)
+                    {
+                        float r = 0.0f, g = 0.0f;
 
-                    r += powf(rgb[0], 2.2f);
-                    g += powf(rgb[1], 2.2f);
+                        r += powf(rgb[0], 2.2f);
+                        g += powf(rgb[1], 2.2f);
 
-                    r += powf(rgb[2], 2.2f);
-                    g += powf(rgb[3], 2.2f);
+                        r += powf(rgb[2], 2.2f);
+                        g += powf(rgb[3], 2.2f);
 
-                    r += powf(rgb[pitch + 0], 2.2f);
-                    g += powf(rgb[pitch + 1], 2.2f);
+                        r += powf(rgb[pitch + 0], 2.2f);
+                        g += powf(rgb[pitch + 1], 2.2f);
 
-                    r += powf(rgb[pitch + 2], 2.2f);
-                    g += powf(rgb[pitch + 3], 2.2f);
+                        r += powf(rgb[pitch + 2], 2.2f);
+                        g += powf(rgb[pitch + 3], 2.2f);
 
-                    r /= 4.0f;
-                    g /= 4.0f;
+                        r /= 4.0f;
+                        g /= 4.0f;
 
-                    r = powf(r, 1.0f / 2.2f);
-                    g = powf(g, 1.0f / 2.2f);
-                    dst[0] = static_cast<uint8_t>(r);
-                    dst[1] = static_cast<uint8_t>(g);
+                        r = powf(r, 1.0f / 2.2f);
+                        g = powf(g, 1.0f / 2.2f);
+                        dst[0] = static_cast<uint8_t>(r);
+                        dst[1] = static_cast<uint8_t>(g);
+                    }
                 }
+            }
+            else if (dstWidth == 0 && dstHeight > 0)
+            {
+                // TODO: implement
+            }
+            else if (dstWidth > 0 && dstHeight == 0)
+            {
+                // TODO: implement
             }
         }
 
@@ -250,170 +298,100 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth == 0 ||  dstHeight == 0)
+            if (dstWidth > 0 &&  dstHeight > 0)
             {
-                return;
-            }
-
-            for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
-            {
-                const uint8_t* rgba = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, rgba += 8, dst += 4)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    float pixels = 0.0f;
-                    float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
-
-                    if (rgba[3] > 0)
+                    const uint8_t* rgba = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, rgba += 8, dst += 4)
                     {
-                        r += powf(rgba[0], 2.2f);
-                        g += powf(rgba[1], 2.2f);
-                        b += powf(rgba[2], 2.2f);
-                        pixels += 1.0f;
-                    }
-                    a = rgba[3];
+                        float pixels = 0.0f;
+                        float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
 
-                    if (rgba[7] > 0)
-                    {
-                        r += powf(rgba[4], 2.2f);
-                        g += powf(rgba[5], 2.2f);
-                        b += powf(rgba[6], 2.2f);
-                        pixels += 1.0f;
-                    }
-                    a += rgba[7];
+                        if (rgba[3] > 0)
+                        {
+                            r += powf(rgba[0], 2.2f);
+                            g += powf(rgba[1], 2.2f);
+                            b += powf(rgba[2], 2.2f);
+                            pixels += 1.0f;
+                        }
+                        a = rgba[3];
 
-                    if (rgba[pitch + 3] > 0)
-                    {
-                        r += powf(rgba[pitch + 0], 2.2f);
-                        g += powf(rgba[pitch + 1], 2.2f);
-                        b += powf(rgba[pitch + 2], 2.2f);
-                        pixels += 1.0f;
-                    }
-                    a += rgba[pitch + 3];
+                        if (rgba[7] > 0)
+                        {
+                            r += powf(rgba[4], 2.2f);
+                            g += powf(rgba[5], 2.2f);
+                            b += powf(rgba[6], 2.2f);
+                            pixels += 1.0f;
+                        }
+                        a += rgba[7];
 
-                    if (rgba[pitch + 7] > 0)
-                    {
-                        r += powf(rgba[pitch + 4], 2.2f);
-                        g += powf(rgba[pitch + 5], 2.2f);
-                        b += powf(rgba[pitch + 6], 2.2f);
-                        pixels += 1.0f;
-                    }
-                    a += rgba[pitch + 7];
+                        if (rgba[pitch + 3] > 0)
+                        {
+                            r += powf(rgba[pitch + 0], 2.2f);
+                            g += powf(rgba[pitch + 1], 2.2f);
+                            b += powf(rgba[pitch + 2], 2.2f);
+                            pixels += 1.0f;
+                        }
+                        a += rgba[pitch + 3];
 
-                    if (pixels > 0.0f)
-                    {
-                        r /= pixels;
-                        g /= pixels;
-                        b /= pixels;
-                    }
-                    else
-                    {
-                        r = g = b = 0.0f;
-                    }
+                        if (rgba[pitch + 7] > 0)
+                        {
+                            r += powf(rgba[pitch + 4], 2.2f);
+                            g += powf(rgba[pitch + 5], 2.2f);
+                            b += powf(rgba[pitch + 6], 2.2f);
+                            pixels += 1.0f;
+                        }
+                        a += rgba[pitch + 7];
 
-                    r = powf(r, 1.0f / 2.2f);
-                    g = powf(g, 1.0f / 2.2f);
-                    b = powf(b, 1.0f / 2.2f);
-                    a *= 0.25f;
-                    dst[0] = static_cast<uint8_t>(r);
-                    dst[1] = static_cast<uint8_t>(g);
-                    dst[2] = static_cast<uint8_t>(b);
-                    dst[3] = static_cast<uint8_t>(a);
+                        if (pixels > 0.0f)
+                        {
+                            r /= pixels;
+                            g /= pixels;
+                            b /= pixels;
+                        }
+                        else
+                        {
+                            r = g = b = 0.0f;
+                        }
+
+                        r = powf(r, 1.0f / 2.2f);
+                        g = powf(g, 1.0f / 2.2f);
+                        b = powf(b, 1.0f / 2.2f);
+                        a *= 0.25f;
+                        dst[0] = static_cast<uint8_t>(r);
+                        dst[1] = static_cast<uint8_t>(g);
+                        dst[2] = static_cast<uint8_t>(b);
+                        dst[3] = static_cast<uint8_t>(a);
+                    }
                 }
+            }
+            else if (dstWidth == 0 && dstHeight > 0)
+            {
+                // TODO: implement
+            }
+            else if (dstWidth > 0 && dstHeight == 0)
+            {
+                // TODO: implement
             }
         }
 
-        bool TextureResource::calculateData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        bool TextureResource::calculateData(const std::vector<uint8_t>& newData)
         {
-            levels.clear();
-            size = newSize;
+            levels[0].data = newData;
 
-            uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
-            uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
-
-            uint32_t pixelSize = getPixelSize(pixelFormat);
-            uint32_t pitch = newWidth * pixelSize;
-            levels.push_back({newSize, pitch, newData});
-
-            if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
+            for (uint32_t level = 1; level < static_cast<uint32_t>(levels.size()); ++level)
             {
-                uint32_t bufferSize = newWidth * newHeight * pixelSize;
+                uint32_t previousWidth = static_cast<uint32_t>(levels[level - 1].size.v[0]);
+                uint32_t previousHeight = static_cast<uint32_t>(levels[level - 1].size.v[1]);
+                uint32_t previousPitch = static_cast<uint32_t>(levels[level - 1].pitch);
 
-                if (newWidth == 1)
+                if (previousWidth >= 2 && previousHeight >= 2)
                 {
-                    bufferSize *= 2;
-                }
-                if (newHeight == 1)
-                {
-                    bufferSize *= 2;
-                }
-
-                std::vector<uint8_t> mipMapData(bufferSize);
-                std::copy(newData.begin(),
-                          newData.begin() + static_cast<std::vector<uint8_t>::difference_type>(newWidth * newHeight * pixelSize),
-                          mipMapData.begin());
-
-                while (newWidth >= 2 && newHeight >= 2)
-                {
-                    if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
-                    else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
-                    else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
-                    else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(newWidth, newHeight, pitch, mipMapData.data(), mipMapData.data());
-
-                    newWidth >>= 1;
-                    newHeight >>= 1;
-
-                    Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                    pitch = newWidth * pixelSize;
-
-                    levels.push_back({mipMapSize, pitch, mipMapData});
-                }
-
-                if (newWidth > newHeight) // height is 2
-                {
-                    for (; newWidth >= 2;)
-                    {
-                        std::copy(mipMapData.begin(),
-                                  mipMapData.begin() + newWidth * pixelSize,
-                                  mipMapData.begin() + newWidth * pixelSize);
-
-                        if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(newWidth, 2, pitch, mipMapData.data(), mipMapData.data());
-
-                        newWidth >>= 1;
-
-                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        pitch = newWidth * pixelSize;
-
-                        levels.push_back({mipMapSize, pitch, mipMapData});
-                    }
-                }
-                else // width is 2
-                {
-                    for (; newHeight >= 2;)
-                    {
-                        for (int32_t i = static_cast<int32_t>(newHeight) - 1; i >= 0; --i)
-                        {
-                            std::copy(mipMapData.begin() + static_cast<uint32_t>(i * 2) * pixelSize,
-                                      mipMapData.begin() + static_cast<uint32_t>(i * 2) * pixelSize + pixelSize,
-                                      mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
-
-                            std::copy(mipMapData.begin() + static_cast<uint32_t>(i * 2 + 1) * pixelSize,
-                                      mipMapData.begin() + static_cast<uint32_t>(i * 2 + 1) * pixelSize + pixelSize,
-                                      mipMapData.begin() + static_cast<uint32_t>(i) * pixelSize);
-                        }
-
-                        if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-                        else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(2, newHeight, 8, mipMapData.data(), mipMapData.data());
-
-                        newHeight >>= 1;
-
-                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({mipMapSize, pitch, mipMapData});
-                    }
+                    if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
+                    else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
+                    else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
+                    else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
                 }
             }
 
