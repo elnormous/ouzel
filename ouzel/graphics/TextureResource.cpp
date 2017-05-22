@@ -329,7 +329,7 @@ namespace ouzel
             else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 1)
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                 {
                     float r = 0.0f, g = 0.0f;
 
@@ -473,7 +473,7 @@ namespace ouzel
             else if (dstWidth > 0)
             {
                 const uint8_t* pixel = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 1)
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                 {
                     float pixels = 0.0f;
                     float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
