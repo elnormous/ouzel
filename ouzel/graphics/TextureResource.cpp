@@ -165,6 +165,8 @@ namespace ouzel
             return true;
         }
 
+        static const float GAMMA = 2.2f;
+
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
             const uint32_t dstWidth  = width / 2;
@@ -174,14 +176,14 @@ namespace ouzel
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    const uint8_t* rgb = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                    const uint8_t* pixel = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float a = 0.0f;
-                        a += rgb[0];
-                        a += rgb[1];
-                        a += rgb[pitch + 0];
-                        a += rgb[pitch + 1];
+                        a += pixel[0];
+                        a += pixel[1];
+                        a += pixel[pitch + 0];
+                        a += pixel[pitch + 1];
                         a /= 4.0f;
                         dst[0] = static_cast<uint8_t>(a);
                     }
@@ -191,23 +193,23 @@ namespace ouzel
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    const uint8_t* rgb = src;
+                    const uint8_t* pixel = src;
 
                     float a = 0.0f;
-                    a += rgb[0];
-                    a += rgb[pitch];
+                    a += pixel[0];
+                    a += pixel[pitch + 0];
                     a /= 2.0f;
                     dst[0] = static_cast<uint8_t>(a);
                 }
             }
             else if (dstWidth > 0 && dstHeight == 0)
             {
-                const uint8_t* rgb = src;
-                for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                const uint8_t* pixel = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                 {
                     float a = 0.0f;
-                    a += rgb[0];
-                    a += rgb[1];
+                    a += pixel[0];
+                    a += pixel[1];
                     a /= 2.0f;
                     dst[0] = static_cast<uint8_t>(a);
                 }
@@ -223,27 +225,46 @@ namespace ouzel
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    const uint8_t* rgb = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 2, dst += 1)
+                    const uint8_t* pixel = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float r = 0.0f;
-                        r += powf(rgb[0], 2.2f);
-                        r += powf(rgb[1], 2.2f);
-                        r += powf(rgb[pitch + 0], 2.2f);
-                        r += powf(rgb[pitch + 1], 2.2f);
+                        r += powf(pixel[0], GAMMA);
+                        r += powf(pixel[1], GAMMA);
+                        r += powf(pixel[pitch + 0], GAMMA);
+                        r += powf(pixel[pitch + 1], GAMMA);
                         r /= 4.0f;
-                        r = powf(r, 1.0f / 2.2f);
+                        r = powf(r, 1.0f / GAMMA);
                         dst[0] = static_cast<uint8_t>(r);
                     }
                 }
             }
             else if (dstWidth == 0 && dstHeight > 0)
             {
-                // TODO: implement
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                {
+                    const uint8_t* pixel = src;
+
+                    float r = 0.0f;
+                    r += powf(pixel[0], GAMMA);
+                    r += powf(pixel[pitch + 0], GAMMA);
+                    r /= 2.0f;
+                    r = powf(r, 1.0f / GAMMA);
+                    dst[0] = static_cast<uint8_t>(r);
+                }
             }
             else if (dstWidth > 0 && dstHeight == 0)
             {
-                // TODO: implement
+                const uint8_t* pixel = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                {
+                    float r = 0.0f;
+                    r += powf(pixel[0], GAMMA);
+                    r += powf(pixel[1], GAMMA);
+                    r /= 2.0f;
+                    r = powf(r, 1.0f / GAMMA);
+                    dst[0] = static_cast<uint8_t>(r);
+                }
             }
         }
 
@@ -256,28 +277,28 @@ namespace ouzel
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    const uint8_t* rgb = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, rgb += 4, dst += 2)
+                    const uint8_t* pixel = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                     {
                         float r = 0.0f, g = 0.0f;
 
-                        r += powf(rgb[0], 2.2f);
-                        g += powf(rgb[1], 2.2f);
+                        r += powf(pixel[0], GAMMA);
+                        g += powf(pixel[1], GAMMA);
 
-                        r += powf(rgb[2], 2.2f);
-                        g += powf(rgb[3], 2.2f);
+                        r += powf(pixel[2], GAMMA);
+                        g += powf(pixel[3], GAMMA);
 
-                        r += powf(rgb[pitch + 0], 2.2f);
-                        g += powf(rgb[pitch + 1], 2.2f);
+                        r += powf(pixel[pitch + 0], GAMMA);
+                        g += powf(pixel[pitch + 1], GAMMA);
 
-                        r += powf(rgb[pitch + 2], 2.2f);
-                        g += powf(rgb[pitch + 3], 2.2f);
+                        r += powf(pixel[pitch + 2], GAMMA);
+                        g += powf(pixel[pitch + 3], GAMMA);
 
                         r /= 4.0f;
                         g /= 4.0f;
 
-                        r = powf(r, 1.0f / 2.2f);
-                        g = powf(g, 1.0f / 2.2f);
+                        r = powf(r, 1.0f / GAMMA);
+                        g = powf(g, 1.0f / GAMMA);
                         dst[0] = static_cast<uint8_t>(r);
                         dst[1] = static_cast<uint8_t>(g);
                     }
@@ -285,11 +306,48 @@ namespace ouzel
             }
             else if (dstWidth == 0 && dstHeight > 0)
             {
-                // TODO: implement
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                {
+                    const uint8_t* pixel = src;
+
+                    float r = 0.0f, g = 0.0f;
+
+                    r += powf(pixel[0], GAMMA);
+                    g += powf(pixel[1], GAMMA);
+
+                    r += powf(pixel[pitch + 0], GAMMA);
+                    g += powf(pixel[pitch + 1], GAMMA);
+
+                    r /= 2.0f;
+                    g /= 2.0f;
+
+                    r = powf(r, 1.0f / GAMMA);
+                    g = powf(g, 1.0f / GAMMA);
+                    dst[0] = static_cast<uint8_t>(r);
+                    dst[1] = static_cast<uint8_t>(g);
+                }
             }
             else if (dstWidth > 0 && dstHeight == 0)
             {
-                // TODO: implement
+                const uint8_t* pixel = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                {
+                    float r = 0.0f, g = 0.0f;
+
+                    r += powf(pixel[0], GAMMA);
+                    g += powf(pixel[1], GAMMA);
+
+                    r += powf(pixel[2], GAMMA);
+                    g += powf(pixel[3], GAMMA);
+
+                    r /= 2.0f;
+                    g /= 2.0f;
+
+                    r = powf(r, 1.0f / GAMMA);
+                    g = powf(g, 1.0f / GAMMA);
+                    dst[0] = static_cast<uint8_t>(r);
+                    dst[1] = static_cast<uint8_t>(g);
+                }
             }
         }
 
@@ -302,63 +360,63 @@ namespace ouzel
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
-                    const uint8_t* rgba = src;
-                    for (uint32_t x = 0; x < dstWidth; ++x, rgba += 8, dst += 4)
+                    const uint8_t* pixel = src;
+                    for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                     {
                         float pixels = 0.0f;
                         float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
 
-                        if (rgba[3] > 0)
+                        if (pixel[3] > 0)
                         {
-                            r += powf(rgba[0], 2.2f);
-                            g += powf(rgba[1], 2.2f);
-                            b += powf(rgba[2], 2.2f);
+                            r += powf(pixel[0], GAMMA);
+                            g += powf(pixel[1], GAMMA);
+                            b += powf(pixel[2], GAMMA);
                             pixels += 1.0f;
                         }
-                        a = rgba[3];
+                        a += pixel[3];
 
-                        if (rgba[7] > 0)
+                        if (pixel[7] > 0)
                         {
-                            r += powf(rgba[4], 2.2f);
-                            g += powf(rgba[5], 2.2f);
-                            b += powf(rgba[6], 2.2f);
+                            r += powf(pixel[4], GAMMA);
+                            g += powf(pixel[5], GAMMA);
+                            b += powf(pixel[6], GAMMA);
                             pixels += 1.0f;
                         }
-                        a += rgba[7];
+                        a += pixel[7];
 
-                        if (rgba[pitch + 3] > 0)
+                        if (pixel[pitch + 3] > 0)
                         {
-                            r += powf(rgba[pitch + 0], 2.2f);
-                            g += powf(rgba[pitch + 1], 2.2f);
-                            b += powf(rgba[pitch + 2], 2.2f);
+                            r += powf(pixel[pitch + 0], GAMMA);
+                            g += powf(pixel[pitch + 1], GAMMA);
+                            b += powf(pixel[pitch + 2], GAMMA);
                             pixels += 1.0f;
                         }
-                        a += rgba[pitch + 3];
+                        a += pixel[pitch + 3];
 
-                        if (rgba[pitch + 7] > 0)
+                        if (pixel[pitch + 7] > 0)
                         {
-                            r += powf(rgba[pitch + 4], 2.2f);
-                            g += powf(rgba[pitch + 5], 2.2f);
-                            b += powf(rgba[pitch + 6], 2.2f);
+                            r += powf(pixel[pitch + 4], GAMMA);
+                            g += powf(pixel[pitch + 5], GAMMA);
+                            b += powf(pixel[pitch + 6], GAMMA);
                             pixels += 1.0f;
                         }
-                        a += rgba[pitch + 7];
+                        a += pixel[pitch + 7];
 
                         if (pixels > 0.0f)
                         {
                             r /= pixels;
                             g /= pixels;
                             b /= pixels;
+                            r = powf(r, 1.0f / GAMMA);
+                            g = powf(g, 1.0f / GAMMA);
+                            b = powf(b, 1.0f / GAMMA);
+                            a *= 0.25f;
                         }
                         else
                         {
-                            r = g = b = 0.0f;
+                            r = g = b = a = 0.0f;
                         }
 
-                        r = powf(r, 1.0f / 2.2f);
-                        g = powf(g, 1.0f / 2.2f);
-                        b = powf(b, 1.0f / 2.2f);
-                        a *= 0.25f;
                         dst[0] = static_cast<uint8_t>(r);
                         dst[1] = static_cast<uint8_t>(g);
                         dst[2] = static_cast<uint8_t>(b);
@@ -368,11 +426,97 @@ namespace ouzel
             }
             else if (dstWidth == 0 && dstHeight > 0)
             {
-                // TODO: implement
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                {
+                    const uint8_t* pixel = src;
+
+                    float pixels = 0.0f;
+                    float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
+
+                    if (pixel[3] > 0)
+                    {
+                        r += powf(pixel[0], GAMMA);
+                        g += powf(pixel[1], GAMMA);
+                        b += powf(pixel[2], GAMMA);
+                        pixels += 1.0f;
+                    }
+                    a = pixel[3];
+
+                    if (pixel[pitch + 3] > 0)
+                    {
+                        r += powf(pixel[pitch + 0], GAMMA);
+                        g += powf(pixel[pitch + 1], GAMMA);
+                        b += powf(pixel[pitch + 2], GAMMA);
+                    }
+                    a += pixel[pitch + 3];
+
+                    if (pixels > 0.0f)
+                    {
+                        r /= pixels;
+                        g /= pixels;
+                        b /= pixels;
+                        r = powf(r, 1.0f / GAMMA);
+                        g = powf(g, 1.0f / GAMMA);
+                        b = powf(b, 1.0f / GAMMA);
+                        a *= 0.5f;
+                    }
+                    else
+                    {
+                        r = g = b = a = 0.0f;
+                    }
+
+                    dst[0] = static_cast<uint8_t>(r);
+                    dst[1] = static_cast<uint8_t>(g);
+                    dst[2] = static_cast<uint8_t>(b);
+                    dst[3] = static_cast<uint8_t>(a);
+                }
             }
             else if (dstWidth > 0 && dstHeight == 0)
             {
-                // TODO: implement
+                const uint8_t* pixel = src;
+                for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
+                {
+                    float pixels = 0.0f;
+                    float r = 0.0f, g = 0.0f, b = 0.0f, a = 0.0f;
+
+                    if (pixel[3] > 0)
+                    {
+                        r += powf(pixel[0], GAMMA);
+                        g += powf(pixel[1], GAMMA);
+                        b += powf(pixel[2], GAMMA);
+                        pixels += 1.0f;
+                    }
+                    a += pixel[3];
+
+                    if (pixel[7] > 0)
+                    {
+                        r += powf(pixel[4], GAMMA);
+                        g += powf(pixel[5], GAMMA);
+                        b += powf(pixel[6], GAMMA);
+                        pixels += 1.0f;
+                    }
+                    a += pixel[7];
+
+                    if (pixels > 0.0f)
+                    {
+                        r /= pixels;
+                        g /= pixels;
+                        b /= pixels;
+                        r = powf(r, 1.0f / GAMMA);
+                        g = powf(g, 1.0f / GAMMA);
+                        b = powf(b, 1.0f / GAMMA);
+                        a *= 0.5f;
+                    }
+                    else
+                    {
+                        r = g = b = a = 0.0f;
+                    }
+
+                    dst[0] = static_cast<uint8_t>(r);
+                    dst[1] = static_cast<uint8_t>(g);
+                    dst[2] = static_cast<uint8_t>(b);
+                    dst[3] = static_cast<uint8_t>(a);
+                }
             }
         }
 
