@@ -133,38 +133,18 @@ namespace ouzel
 
             if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
-                while (newWidth >= 2 && newHeight >= 2)
+                while (newWidth > 1 || newHeight > 1)
                 {
                     newWidth >>= 1;
                     newHeight >>= 1;
 
+                    if (newWidth < 1) newWidth = 1;
+                    if (newHeight < 1) newHeight = 1;
+
                     Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
                     pitch = newWidth * pixelSize;
-
+                    
                     levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
-                }
-
-                if (newWidth > newHeight)
-                {
-                    for (; newWidth >= 2;)
-                    {
-                        newWidth >>= 1;
-
-                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        pitch = newWidth * pixelSize;
-
-                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
-                    }
-                }
-                else
-                {
-                    for (; newHeight >= 2;)
-                    {
-                        newHeight >>= 1;
-
-                        Size2 mipMapSize = Size2(static_cast<float>(newWidth), static_cast<float>(newHeight));
-                        levels.push_back({mipMapSize, pitch, std::vector<uint8_t>()});
-                    }
                 }
             }
 
