@@ -172,7 +172,7 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth > 0 &&  dstHeight > 0)
+            if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -221,7 +221,7 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth > 0 &&  dstHeight > 0)
+            if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -273,7 +273,7 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth > 0 &&  dstHeight > 0)
+            if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
@@ -356,7 +356,7 @@ namespace ouzel
             const uint32_t dstWidth  = width / 2;
             const uint32_t dstHeight = height / 2;
 
-            if (dstWidth > 0 &&  dstHeight > 0)
+            if (dstWidth > 0 && dstHeight > 0)
             {
                 for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
