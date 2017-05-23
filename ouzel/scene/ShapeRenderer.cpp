@@ -110,26 +110,18 @@ namespace ouzel
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             Vector2 off = finish - start;
-            float angle = off.getAngle();
-            float sinAngle = sinf(angle);
-            float cosAngle = cosf(angle);
+            Vector2 normal = off.normalize();
+            Vector2 tangent(-normal.v[1], normal.v[0]);
 
             float halfThickness = thickness / 2.0f;
 
-            vertices.push_back(graphics::VertexPC(start + Vector2(-halfThickness * cosAngle + halfThickness * sinAngle,
-                                                                  -halfThickness * cosAngle - halfThickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(start - normal * halfThickness - tangent * halfThickness,
                                                   color));
-
-            vertices.push_back(graphics::VertexPC(finish + Vector2(halfThickness * cosAngle + halfThickness * sinAngle,
-                                                                   -halfThickness * cosAngle + halfThickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(finish + normal * halfThickness - tangent * halfThickness,
                                                   color));
-
-            vertices.push_back(graphics::VertexPC(start + Vector2(-halfThickness * cosAngle - halfThickness * sinAngle,
-                                                                  halfThickness * cosAngle - halfThickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(start - normal * halfThickness + tangent * halfThickness,
                                                   color));
-
-            vertices.push_back(graphics::VertexPC(finish + Vector2(halfThickness * cosAngle - halfThickness * sinAngle,
-                                                                   halfThickness * cosAngle + halfThickness * sinAngle),
+            vertices.push_back(graphics::VertexPC(finish + normal * halfThickness + tangent * halfThickness,
                                                   color));
 
             indices.push_back(startVertex + 0);
