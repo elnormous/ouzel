@@ -67,6 +67,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageDataSTB.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
@@ -108,6 +109,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
+	$(ROOT_DIR)/../ouzel/scene/MeshDrawable.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Node.cpp \
 	$(ROOT_DIR)/../ouzel/scene/NodeContainer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleDefinition.cpp \

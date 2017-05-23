@@ -62,6 +62,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/BufferResource.cpp \
     ../../ouzel/graphics/ImageData.cpp \
     ../../ouzel/graphics/ImageDataSTB.cpp \
+    ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
     ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
@@ -105,6 +106,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Camera.cpp \
     ../../ouzel/scene/Component.cpp \
     ../../ouzel/scene/Layer.cpp \
+    ../../ouzel/scene/MeshDrawable.cpp \
     ../../ouzel/scene/Node.cpp \
     ../../ouzel/scene/NodeContainer.cpp \
     ../../ouzel/scene/ParticleDefinition.cpp \
