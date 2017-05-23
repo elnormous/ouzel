@@ -115,8 +115,8 @@ namespace ouzel
         if (windowSize.width <= 0.0f) windowSize.width = round(screen.frame.size.width * 0.6);
         if (windowSize.height <= 0.0f) windowSize.height = round(screen.frame.size.height * 0.6);
 
-        NSRect frame = NSMakeRect(static_cast<float>(screen.frame.size.width) / 2.0f - windowSize.width / 2.0f,
-                                  static_cast<float>(screen.frame.size.height) / 2.0f - windowSize.height / 2.0f,
+        NSRect frame = NSMakeRect(round(screen.frame.size.width / 2.0f - windowSize.width / 2.0f),
+                                  round(screen.frame.size.height / 2.0f - windowSize.height / 2.0f),
                                   windowSize.width, windowSize.height);
 
         NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
