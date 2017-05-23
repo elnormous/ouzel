@@ -160,9 +160,6 @@
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\TextDrawable.cpp">
-      <Filter>scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\Utils.cpp">
       <Filter>utils</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\core\Application.cpp">
       <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\scene\ShapeDrawable.cpp">
-      <Filter>scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>scene</Filter>
@@ -355,7 +349,13 @@
     <ClCompile Include="..\ouzel\graphics\Material.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\MeshDrawable.cpp">
+    <ClCompile Include="..\ouzel\scene\MeshRenderer.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\TextRenderer.cpp">
       <Filter>scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -532,9 +532,6 @@
     <ClInclude Include="..\ouzel\scene\SpriteFrame.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\TextDrawable.h">
-      <Filter>scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\utils\Noncopyable.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -555,9 +552,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Application.h">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ShapeDrawable.h">
-      <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Component.h">
       <Filter>scene</Filter>
@@ -796,7 +790,13 @@
     <ClInclude Include="..\ouzel\graphics\Material.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\MeshDrawable.h">
+    <ClInclude Include="..\ouzel\scene\MeshRenderer.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\ShapeRenderer.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\TextRenderer.h">
       <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
