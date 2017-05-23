@@ -51,11 +51,6 @@ namespace ouzel
                            bool fill = false,
                            float thickness = 1.0f);
 
-            void triangle(const Vector2 (&positions)[3],
-                          const Color& color,
-                          bool fill = false,
-                          float thickness = 1.0f);
-
             void polygon(const std::vector<Vector2>& edges,
                          const Color& color,
                          bool fill = false,

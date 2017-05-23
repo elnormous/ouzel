@@ -334,42 +334,6 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeRenderer::triangle(const Vector2 (&positions)[3],
-                                     const Color& color,
-                                     bool fill,
-                                     float thickness)
-        {
-            if (fill && thickness <= 0.0f) return;
-
-            DrawCommand command;
-            command.indexCount = 3;
-            command.startIndex = static_cast<uint32_t>(indices.size());
-
-            uint16_t startVertex = static_cast<uint16_t>(vertices.size());
-
-            for (uint16_t i = 0; i < 3; ++i)
-            {
-                indices.push_back(startVertex + i);
-                vertices.push_back(graphics::VertexPC(positions[i], color));
-                boundingBox.insertPoint(positions[i]);
-            }
-
-            if (fill)
-            {
-                command.mode = graphics::Renderer::DrawMode::TRIANGLE_LIST;
-            }
-            else
-            {
-                command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
-                indices.push_back(startVertex);
-                ++command.indexCount;
-            }
-
-            drawCommands.push_back(command);
-
-            dirty = true;
-        }
-
         void ShapeRenderer::polygon(const std::vector<Vector2>& edges,
                                     const Color& color,
                                     bool fill,
