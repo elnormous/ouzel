@@ -14,8 +14,9 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera():
-            type(Type::ORTHOGRAPHIC)
+        Camera::Camera(ScaleMode aScaleMode, const Size2& aTargetContentSize):
+            type(Type::ORTHOGRAPHIC), scaleMode(aScaleMode),
+            targetContentSize(aTargetContentSize)
         {
         }
 
@@ -25,7 +26,8 @@ namespace ouzel
         }
 
         Camera::Camera(float aFov, float aNearPlane, float aFarPlane):
-            type(Type::PERSPECTIVE), fov(aFov), nearPlane(aNearPlane), farPlane(aFarPlane)
+            type(Type::PERSPECTIVE), fov(aFov),
+            nearPlane(aNearPlane), farPlane(aFarPlane)
         {
         }
 
@@ -266,7 +268,6 @@ namespace ouzel
         void Camera::setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget)
         {
             renderTarget = newRenderTarget;
-
             recalculateProjection();
         }
     } // namespace scene
