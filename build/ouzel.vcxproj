@@ -70,6 +70,7 @@
     <ClCompile Include="..\ouzel\graphics\empty\TextureEmpty.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp" />
+    <ClCompile Include="..\ouzel\graphics\Material.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBufferResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="..\ouzel\scene\Camera.cpp" />
     <ClCompile Include="..\ouzel\scene\Component.cpp" />
     <ClCompile Include="..\ouzel\scene\Layer.cpp" />
+    <ClCompile Include="..\ouzel\scene\MeshDrawable.cpp" />
     <ClCompile Include="..\ouzel\scene\Node.cpp" />
     <ClCompile Include="..\ouzel\scene\NodeContainer.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleDefinition.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="..\ouzel\graphics\empty\TextureEmpty.h" />
     <ClInclude Include="..\ouzel\graphics\ImageData.h" />
     <ClInclude Include="..\ouzel\graphics\ImageDataSTB.h" />
+    <ClInclude Include="..\ouzel\graphics\Material.h" />
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.h" />
     <ClInclude Include="..\ouzel\graphics\MeshBufferResource.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.h" />
@@ -267,6 +270,7 @@
     <ClInclude Include="..\ouzel\scene\Camera.h" />
     <ClInclude Include="..\ouzel\scene\Component.h" />
     <ClInclude Include="..\ouzel\scene\Layer.h" />
+    <ClInclude Include="..\ouzel\scene\MeshDrawable.h" />
     <ClInclude Include="..\ouzel\scene\Node.h" />
     <ClInclude Include="..\ouzel\scene\NodeContainer.h" />
     <ClInclude Include="..\ouzel\scene\ParticleDefinition.h" />

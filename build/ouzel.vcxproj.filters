@@ -352,6 +352,12 @@
     <ClCompile Include="..\ouzel\core\Timer.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\Material.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\scene\MeshDrawable.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -786,6 +792,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Timer.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Material.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\MeshDrawable.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
