@@ -109,19 +109,19 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
-	$(ROOT_DIR)/../ouzel/scene/MeshDrawable.cpp \
+	$(ROOT_DIR)/../ouzel/scene/MeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Node.cpp \
 	$(ROOT_DIR)/../ouzel/scene/NodeContainer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleDefinition.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SceneManager.cpp \
-	$(ROOT_DIR)/../ouzel/scene/ShapeDrawable.cpp \
+	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SoundListener.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SoundPlayer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
-	$(ROOT_DIR)/../ouzel/scene/TextDrawable.cpp \
+	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp

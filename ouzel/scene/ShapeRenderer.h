@@ -16,10 +16,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class ShapeDrawable: public Component
+        class ShapeRenderer: public Component
         {
         public:
-            ShapeDrawable();
+            ShapeRenderer();
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,

@@ -6,7 +6,7 @@
 #include <functional>
 #include "gui/Widget.h"
 #include "scene/Sprite.h"
-#include "scene/TextDrawable.h"
+#include "scene/TextRenderer.h"
 #include "events/Event.h"
 #include "events/EventHandler.h"
 #include "math/Color.h"
@@ -36,7 +36,7 @@ namespace ouzel
             scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
             scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
             scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
-            scene::TextDrawable* getLabelDrawable() const { return labelDrawable.get(); }
+            scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
 
         protected:
             virtual void setSelected(bool newSelected) override;
@@ -49,7 +49,7 @@ namespace ouzel
             std::unique_ptr<scene::Sprite> selectedSprite;
             std::unique_ptr<scene::Sprite> pressedSprite;
             std::unique_ptr<scene::Sprite> disabledSprite;
-            std::unique_ptr<scene::TextDrawable> labelDrawable;
+            std::unique_ptr<scene::TextRenderer> labelDrawable;
 
             EventHandler eventHandler;
 

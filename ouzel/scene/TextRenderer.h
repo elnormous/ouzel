@@ -17,10 +17,10 @@ namespace ouzel
 {
     namespace scene
     {
-        class TextDrawable: public Component
+        class TextRenderer: public Component
         {
         public:
-            TextDrawable(const std::string& fontFile,
+            TextRenderer(const std::string& fontFile,
                          bool aMipmaps = true,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,

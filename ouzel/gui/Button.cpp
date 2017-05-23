@@ -4,13 +4,11 @@
 #include <functional>
 #include "Button.h"
 #include "core/Engine.h"
-#include "scene/Sprite.h"
 #include "events/EventHandler.h"
 #include "events/EventDispatcher.h"
 #include "scene/Layer.h"
 #include "scene/Camera.h"
 #include "Label.h"
-#include "scene/TextDrawable.h"
 
 namespace ouzel
 {
@@ -81,7 +79,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                labelDrawable.reset(new scene::TextDrawable(font, true, label));
+                labelDrawable.reset(new scene::TextRenderer(font, true, label));
                 labelDrawable->setColor(labelColor);
                 addComponent(labelDrawable.get());
             }

@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextDrawable.h"
+#include "TextRenderer.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "scene/Camera.h"
@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace scene
     {
-        TextDrawable::TextDrawable(const std::string& fontFile,
+        TextRenderer::TextRenderer(const std::string& fontFile,
                                    bool aMipmaps,
                                    const std::string& aText,
                                    Color aColor,
@@ -41,7 +41,7 @@ namespace ouzel
             updateText();
         }
 
-        void TextDrawable::setFont(const std::string& fontFile)
+        void TextRenderer::setFont(const std::string& fontFile)
         {
             font = sharedEngine->getCache()->getBMFont(fontFile);
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
@@ -49,21 +49,21 @@ namespace ouzel
             updateText();
         }
 
-        void TextDrawable::setTextAnchor(const Vector2& newTextAnchor)
+        void TextRenderer::setTextAnchor(const Vector2& newTextAnchor)
         {
             textAnchor = newTextAnchor;
 
             updateText();
         }
 
-        void TextDrawable::setTextScale(const Vector2& newTextScale)
+        void TextRenderer::setTextScale(const Vector2& newTextScale)
         {
             textScale = newTextScale;
 
             updateText();
         }
 
-        void TextDrawable::draw(const Matrix4& transformMatrix,
+        void TextRenderer::draw(const Matrix4& transformMatrix,
                                 const Color& drawColor,
                                 const Matrix4& renderViewProjection,
                                 const std::shared_ptr<graphics::Texture>& renderTarget,
@@ -120,21 +120,21 @@ namespace ouzel
                                                         scissorRectangle);
         }
 
-        void TextDrawable::setText(const std::string& newText)
+        void TextRenderer::setText(const std::string& newText)
         {
             text = newText;
 
             updateText();
         }
 
-        void TextDrawable::setColor(const Color& newColor)
+        void TextRenderer::setColor(const Color& newColor)
         {
             color = newColor;
 
             updateText();
         }
 
-        void TextDrawable::updateText()
+        void TextRenderer::updateText()
         {
             font.getVertices(text, color, textAnchor, textScale, indices, vertices);
             needsMeshUpdate = true;

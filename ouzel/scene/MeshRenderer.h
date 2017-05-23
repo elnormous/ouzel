@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class MeshDrawable: public Component
+        class MeshRenderer: public Component
         {
         public:
         };

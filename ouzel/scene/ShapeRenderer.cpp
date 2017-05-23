@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShapeDrawable.h"
+#include "ShapeRenderer.h"
 #include "core/Engine.h"
 #include "graphics/Renderer.h"
 #include "graphics/MeshBufferResource.h"
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace scene
     {
-        ShapeDrawable::ShapeDrawable()
+        ShapeRenderer::ShapeRenderer()
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
@@ -28,7 +28,7 @@ namespace ouzel
             meshBuffer->init(sizeof(uint16_t), indexBuffer, ouzel::graphics::VertexPC::ATTRIBUTES, vertexBuffer);
         }
 
-        void ShapeDrawable::draw(const Matrix4& transformMatrix,
+        void ShapeRenderer::draw(const Matrix4& transformMatrix,
                                  const Color& drawColor,
                                  const Matrix4& renderViewProjection,
                                  const std::shared_ptr<graphics::Texture>& renderTarget,
@@ -87,7 +87,7 @@ namespace ouzel
             }
         }
 
-        void ShapeDrawable::clear()
+        void ShapeRenderer::clear()
         {
             boundingBox.reset();
 
@@ -98,7 +98,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
+        void ShapeRenderer::line(const Vector2& start, const Vector2& finish, const Color& color, float thickness)
         {
             if (thickness <= 0.0f) return;
 
@@ -149,7 +149,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::circle(const Vector2& position,
+        void ShapeRenderer::circle(const Vector2& position,
                                    float radius,
                                    const Color& color,
                                    bool fill,
@@ -239,7 +239,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::rectangle(const Rectangle& rectangle,
+        void ShapeRenderer::rectangle(const Rectangle& rectangle,
                                       const Color& color,
                                       bool fill,
                                       float thickness)
@@ -334,7 +334,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::triangle(const Vector2 (&positions)[3],
+        void ShapeRenderer::triangle(const Vector2 (&positions)[3],
                                      const Color& color,
                                      bool fill,
                                      float thickness)
@@ -370,7 +370,7 @@ namespace ouzel
             dirty = true;
         }
 
-        void ShapeDrawable::polygon(const std::vector<Vector2>& edges,
+        void ShapeRenderer::polygon(const std::vector<Vector2>& edges,
                                     const Color& color,
                                     bool fill,
                                     float thickness)
@@ -430,7 +430,7 @@ namespace ouzel
             return ret;
         }
 
-        void ShapeDrawable::curve(const std::vector<Vector2>& controlPoints,
+        void ShapeRenderer::curve(const std::vector<Vector2>& controlPoints,
                                   const Color& color,
                                   uint32_t segments,
                                   float thickness)

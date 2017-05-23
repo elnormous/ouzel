@@ -7,7 +7,7 @@
 #include <string>
 #include "gui/Widget.h"
 #include "math/Color.h"
-#include "scene/TextDrawable.h"
+#include "scene/TextRenderer.h"
 
 namespace ouzel
 {
@@ -24,11 +24,11 @@ namespace ouzel
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
 
-            const std::shared_ptr<scene::TextDrawable>& getLabelDrawable() { return labelDrawable; }
+            const std::shared_ptr<scene::TextRenderer>& getLabelDrawable() { return labelDrawable; }
 
         protected:
             std::string text;
-            std::shared_ptr<scene::TextDrawable> labelDrawable;
+            std::shared_ptr<scene::TextRenderer> labelDrawable;
         };
     } // namespace gui
 } // namespace ouzel

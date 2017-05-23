@@ -20,7 +20,7 @@ private:
     std::unique_ptr<ouzel::scene::Layer> layer;
     std::unique_ptr<ouzel::scene::Camera> camera;
 
-    std::unique_ptr<ouzel::scene::ShapeDrawable> shapeDrawable;
+    std::unique_ptr<ouzel::scene::ShapeRenderer> shapeDrawable;
     std::unique_ptr<ouzel::scene::Node> drawNode;
 
     std::unique_ptr<ouzel::scene::Shake> shake;

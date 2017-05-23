@@ -19,7 +19,7 @@ namespace ouzel
                      Color color,
                      const Vector2& textAnchor):
             text(aText),
-            labelDrawable(std::make_shared<scene::TextDrawable>(fontFile, true, text, color, textAnchor))
+            labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, true, text, color, textAnchor))
         {
             addComponent(labelDrawable.get());
             labelDrawable->setText(text);
