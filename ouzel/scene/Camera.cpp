@@ -14,8 +14,18 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera(Type aType, float aFov, float aNearPlane, float aFarPlane):
-            type(aType), fov(aFov), nearPlane(aNearPlane), farPlane(aFarPlane)
+        Camera::Camera():
+            type(Type::ORTHOGRAPHIC)
+        {
+        }
+
+        Camera::Camera(Matrix4 aProjection):
+            type(Type::CUSTOM), projection(aProjection)
+        {
+        }
+
+        Camera::Camera(float aFov, float aNearPlane, float aFarPlane):
+            type(Type::PERSPECTIVE), fov(aFov), nearPlane(aNearPlane), farPlane(aFarPlane)
         {
         }
 
@@ -103,6 +113,9 @@ namespace ouzel
 
             switch (type)
             {
+                case Type::CUSTOM:
+                    // do nothing
+                    break;
                 case Type::ORTHOGRAPHIC:
                     Matrix4::createOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0f, 1.0f, projection);
                     break;
@@ -182,52 +195,54 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const
         {
-            if (type == Type::PERSPECTIVE)
+            if (type == Type::ORTHOGRAPHIC)
+            {
+                // calculate center point of the bounding box
+                Vector2 diff = boundingBox.max - boundingBox.min;
+
+                // offset the center point, so that it is relative to 0,0
+                Vector3 v3p(boundingBox.min.v[0] + diff.v[0] / 2.0f, boundingBox.min.v[1] + diff.v[1] / 2.0f, 0.0f);
+
+                // apply local transform to the center point
+                boxTransform.transformPoint(v3p);
+
+                // tranform the center to viewport's clip space
+                Vector4 clipPos;
+                getViewProjection().transformVector(Vector4(v3p.v[0], v3p.v[1], v3p.v[2], 1.0f), clipPos);
+
+                assert(clipPos.v[3] != 0.0f);
+
+                // normalize position of the center point
+                Vector2 v2p((clipPos.v[0] / clipPos.v[3] + 1.0f) * 0.5f,
+                            (clipPos.v[1] / clipPos.v[3] + 1.0f) * 0.5f);
+
+                // calculate half size
+                Size2 halfSize(diff.v[0] / 2.0f, diff.v[1] / 2.0f);
+
+                // convert content size to world coordinates
+                Size2 halfWorldSize;
+
+                halfWorldSize.v[0] = std::max(fabsf(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
+                                               fabsf(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
+                halfWorldSize.v[1] = std::max(fabsf(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
+                                                fabsf(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
+
+                // scale half size by camera projection to get the size in clip space coordinates
+                halfWorldSize.v[0] *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0f;
+                halfWorldSize.v[1] *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
+
+                // create visible rect in clip space
+                Rectangle visibleRect(-halfWorldSize.v[0],
+                                      -halfWorldSize.v[1],
+                                      1.0f + halfWorldSize.v[0] * 2.0f,
+                                      1.0f + halfWorldSize.v[1] * 2.0f);
+
+                return visibleRect.containsPoint(v2p);
+            }
+            else
             {
                 return true;
             }
-
-            // calculate center point of the bounding box
-            Vector2 diff = boundingBox.max - boundingBox.min;
-
-            // offset the center point, so that it is relative to 0,0
-            Vector3 v3p(boundingBox.min.v[0] + diff.v[0] / 2.0f, boundingBox.min.v[1] + diff.v[1] / 2.0f, 0.0f);
-
-            // apply local transform to the center point
-            boxTransform.transformPoint(v3p);
-
-            // tranform the center to viewport's clip space
-            Vector4 clipPos;
-            getViewProjection().transformVector(Vector4(v3p.v[0], v3p.v[1], v3p.v[2], 1.0f), clipPos);
-
-            assert(clipPos.v[3] != 0.0f);
-
-            // normalize position of the center point
-            Vector2 v2p((clipPos.v[0] / clipPos.v[3] + 1.0f) * 0.5f,
-                        (clipPos.v[1] / clipPos.v[3] + 1.0f) * 0.5f);
-
-            // calculate half size
-            Size2 halfSize(diff.v[0] / 2.0f, diff.v[1] / 2.0f);
-
-            // convert content size to world coordinates
-            Size2 halfWorldSize;
-
-            halfWorldSize.v[0] = std::max(fabsf(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
-                                           fabsf(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
-            halfWorldSize.v[1] = std::max(fabsf(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
-                                            fabsf(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
-
-            // scale half size by camera projection to get the size in clip space coordinates
-            halfWorldSize.v[0] *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0f;
-            halfWorldSize.v[1] *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
-
-            // create visible rect in clip space
-            Rectangle visibleRect(-halfWorldSize.v[0],
-                                  -halfWorldSize.v[1],
-                                  1.0f + halfWorldSize.v[0] * 2.0f,
-                                  1.0f + halfWorldSize.v[1] * 2.0f);
-
-            return visibleRect.containsPoint(v2p);
         }
 
         void Camera::setViewport(const Rectangle& newViewport)

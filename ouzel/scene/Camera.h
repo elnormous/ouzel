@@ -21,6 +21,7 @@ namespace ouzel
         public:
             enum class Type
             {
+                CUSTOM,
                 ORTHOGRAPHIC,
                 PERSPECTIVE
             };
@@ -33,7 +34,9 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera(Type aType = Type::ORTHOGRAPHIC, float aFov = TAU / 6.0f, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
+            Camera();
+            Camera(Matrix4 aProjection);
+            Camera(float aFov, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
             virtual ~Camera();
 
             void setType(Type newType) { type = newType; }
@@ -94,9 +97,9 @@ namespace ouzel
             void calculateViewProjection() const;
 
             Type type;
-            float fov;
-            float nearPlane;
-            float farPlane;
+            float fov = TAU / 6.0f;
+            float nearPlane = 1.0f;
+            float farPlane = 100.0f;
 
             Matrix4 projection;
 
