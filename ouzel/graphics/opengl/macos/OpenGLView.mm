@@ -39,6 +39,7 @@
     }
 
     [openGLContext makeCurrentContext];
+    [openGLContext update];
 }
 
 -(BOOL)acceptsFirstResponder
