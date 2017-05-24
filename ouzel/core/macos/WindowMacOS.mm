@@ -156,6 +156,7 @@ namespace ouzel
                 break;
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
+                [view setWantsBestResolutionOpenGLSurface:highDpi ? YES : NO];
                 break;
             case graphics::Renderer::Driver::METAL:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
@@ -170,8 +171,6 @@ namespace ouzel
 
         if (highDpi)
         {
-            [view setWantsBestResolutionOpenGLSurface:YES];
-
             contentScale = static_cast<float>(window.backingScaleFactor);
 
             size.v[0] = static_cast<float>(windowSize.width);
