@@ -2,9 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "OpenGLView.h"
-#include "core/Application.h"
 #include "core/Engine.h"
-#include "RendererOGLMacOS.h"
 #include "core/Window.h"
 #include "input/macos/InputMacOS.h"
 
@@ -18,23 +16,6 @@
 -(BOOL)acceptsFirstMouse:(__unused NSEvent*)event
 {
     return YES;
-}
-
--(void)lockFocus
-{
-    [super lockFocus];
-
-    ouzel::graphics::RendererOGLMacOS* rendererOGL = static_cast<ouzel::graphics::RendererOGLMacOS*>(ouzel::sharedEngine->getRenderer());
-
-    NSOpenGLContext* openGLContext = rendererOGL->getOpenGLContext();
-
-    if (openGLContext.view != self)
-    {
-        [openGLContext setView:self];
-    }
-
-    [openGLContext makeCurrentContext];
-    [openGLContext update];
 }
 
 -(BOOL)acceptsFirstResponder
