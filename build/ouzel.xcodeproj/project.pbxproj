@@ -54,6 +54,12 @@
 		30216B761ED464730073E3D5 /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.h */; };
 		30216B771ED464730073E3D5 /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.h */; };
 		30216B781ED464730073E3D5 /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B721ED464730073E3D5 /* Material.h */; };
+		30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
+		30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
+		30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30216B7E1ED5C3900073E3D5 /* Plane.cpp */; };
+		30216B831ED5C3900073E3D5 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.h */; };
+		30216B841ED5C3900073E3D5 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.h */; };
+		30216B851ED5C3900073E3D5 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.h */; };
 		302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
 		302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
 		302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
@@ -844,6 +850,8 @@
 		30216B621ED462B80073E3D5 /* MeshRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshRenderer.h; sourceTree = "<group>"; };
 		30216B711ED464730073E3D5 /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		30216B721ED464730073E3D5 /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
+		30216B7E1ED5C3900073E3D5 /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
+		30216B7F1ED5C3900073E3D5 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
 		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
 		302511A71CD36FBA00D04209 /* SpriteFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFrame.h; sourceTree = "<group>"; };
 		302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDefinition.cpp; sourceTree = "<group>"; };
@@ -1340,6 +1348,8 @@
 				304A8E331C237C70008B1151 /* Matrix3.h */,
 				304A8E341C237C70008B1151 /* Matrix4.cpp */,
 				304A8E351C237C70008B1151 /* Matrix4.h */,
+				30216B7E1ED5C3900073E3D5 /* Plane.cpp */,
+				30216B7F1ED5C3900073E3D5 /* Plane.h */,
 				30FE384C1DFDE49E00305B3B /* Quaternion.cpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.h */,
 				304A8E3B1C237C70008B1151 /* Rectangle.cpp */,
@@ -1842,6 +1852,7 @@
 				3047F7421C4C344A00774E3D /* Animator.h in Headers */,
 				304736DC1E0B4776009BC562 /* Box3.h in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* RendererMetalIOS.h in Headers */,
+				30216B831ED5C3900073E3D5 /* Plane.h in Headers */,
 				3082C3B71D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				303821421D81876E00677CAB /* MeshBufferEmpty.h in Headers */,
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
@@ -2000,6 +2011,7 @@
 				30575AC11C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				304736DE1E0B4776009BC562 /* Box3.h in Headers */,
 				3082C3B91D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
+				30216B851ED5C3900073E3D5 /* Plane.h in Headers */,
 				303821441D81876E00677CAB /* MeshBufferEmpty.h in Headers */,
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				3038215C1D81876E00677CAB /* TextureEmpty.h in Headers */,
@@ -2138,6 +2150,7 @@
 				30381FF81D80A40700677CAB /* MeshBufferMetal.h in Headers */,
 				3047F7491C4C350D00774E3D /* Move.h in Headers */,
 				30A883681E7432DA004A033F /* Archive.h in Headers */,
+				30216B841ED5C3900073E3D5 /* Plane.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.h in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.h in Headers */,
@@ -2448,6 +2461,7 @@
 				30381FBB1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
+				30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
 				30381FFA1D80A40700677CAB /* MeshBufferMetal.mm in Sources */,
 				30575A901C38BD370009C8A7 /* Box2.cpp in Sources */,
@@ -2576,6 +2590,7 @@
 				30381FBD1D80A3F900677CAB /* SoundAL.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
+				30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
 				30381FFC1D80A40700677CAB /* MeshBufferMetal.mm in Sources */,
 				30575A911C38BD370009C8A7 /* Box2.cpp in Sources */,
@@ -2702,6 +2717,7 @@
 				303696D51E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F7A1D80A3EC00677CAB /* RendererOGL.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
+				30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30381FFB1D80A40700677CAB /* MeshBufferMetal.mm in Sources */,
 				30381F861D80A3EC00677CAB /* ShaderOGL.cpp in Sources */,
