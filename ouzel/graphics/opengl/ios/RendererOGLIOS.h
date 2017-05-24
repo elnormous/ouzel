@@ -53,9 +53,6 @@ namespace ouzel
 
             GLuint depthRenderBufferId = 0;
 
-            GLsizei frameBufferWidth = 0;
-            GLsizei frameBufferHeight = 0;
-
         };
     } // namespace graphics
 } // namespace ouzel

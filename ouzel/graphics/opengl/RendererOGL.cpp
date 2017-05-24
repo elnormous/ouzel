@@ -179,6 +179,9 @@ namespace ouzel
                 return false;
             }
 
+            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
+            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+
             //const GLubyte* deviceVendor = glGetString(GL_VENDOR);
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
