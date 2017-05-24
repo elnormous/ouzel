@@ -170,6 +170,8 @@ namespace ouzel
 
         if (highDpi)
         {
+            [view setWantsBestResolutionOpenGLSurface:YES];
+
             contentScale = static_cast<float>(window.backingScaleFactor);
 
             size.v[0] = static_cast<float>(windowSize.width);

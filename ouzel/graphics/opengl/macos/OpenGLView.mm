@@ -20,11 +20,6 @@
     return YES;
 }
 
--(void)prepareOpenGL
-{
-    [self setWantsBestResolutionOpenGLSurface:YES];
-}
-
 -(void)lockFocus
 {
     [super lockFocus];
