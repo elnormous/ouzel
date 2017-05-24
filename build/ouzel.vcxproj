@@ -112,6 +112,7 @@
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix4.cpp" />
+    <ClCompile Include="..\ouzel\math\Plane.cpp" />
     <ClCompile Include="..\ouzel\math\Quaternion.cpp" />
     <ClCompile Include="..\ouzel\math\Rectangle.cpp" />
     <ClCompile Include="..\ouzel\math\Size2.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="..\ouzel\math\MathUtils.h" />
     <ClInclude Include="..\ouzel\math\Matrix3.h" />
     <ClInclude Include="..\ouzel\math\Matrix4.h" />
+    <ClInclude Include="..\ouzel\math\Plane.h" />
     <ClInclude Include="..\ouzel\math\Quaternion.h" />
     <ClInclude Include="..\ouzel\math\Rectangle.h" />
     <ClInclude Include="..\ouzel\math\Size2.h" />
