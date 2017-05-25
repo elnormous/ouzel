@@ -12,28 +12,58 @@ namespace ouzel
     {
         static GLint getOGLPixelFormat(PixelFormat pixelFormat)
         {
+#if OUZEL_SUPPORTS_OPENGL
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM: return GL_ALPHA8_EXT;
+
+                case PixelFormat::R8_UNORM: return GL_R8;
+                case PixelFormat::R8_SNORM: return GL_R8_SNORM;
+                case PixelFormat::R8_UINT: return GL_R8UI;
+                case PixelFormat::R8_SINT: return GL_R8I;
+
+                case PixelFormat::R16_UNORM: return GL_R16;
+                case PixelFormat::R16_SNORM: return GL_R16_SNORM;
+                case PixelFormat::R16_UINT: return GL_R16UI;
+                case PixelFormat::R16_SINT: return GL_R16I;
+                case PixelFormat::R16_FLOAT: return GL_R16F;
+                case PixelFormat::R32_UINT: return GL_R32UI;
+                case PixelFormat::R32_SINT: return GL_R32I;
+                case PixelFormat::R32_FLOAT: return GL_R32F;
+                case PixelFormat::RG8_UNORM: return GL_RG8;
+                case PixelFormat::RG8_SNORM: return GL_RG8_SNORM;
+                case PixelFormat::RG8_UINT: return GL_RG8UI;
+                case PixelFormat::RG8_SINT: return GL_RG8I;
+                case PixelFormat::RGBA8_UNORM: return GL_RGBA8;
+                case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
+                case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
+                case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
+
+                case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
+                case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
+                case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
+                case PixelFormat::RGBA16_SINT: return GL_RGBA16I;
+                case PixelFormat::RGBA16_FLOAT: return GL_RGBA16F;
+                case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
+                case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
+                case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
+                default: return GL_NONE;
+            }
+#elif OUZEL_SUPPORTS_OPENGLES
             uint32_t openGLVersion = sharedEngine->getRenderer()->getAPIMajorVersion();
 
             if (openGLVersion >= 3)
             {
                 switch (pixelFormat)
                 {
-#if OUZEL_SUPPORTS_OPENGL
-                    case PixelFormat::A8_UNORM: return GL_ALPHA8_EXT;
-#elif OUZEL_SUPPORTS_OPENGLES
                     case PixelFormat::A8_UNORM: return GL_ALPHA8_OES;
-#endif
                     case PixelFormat::R8_UNORM: return GL_R8;
                     case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                     case PixelFormat::R8_UINT: return GL_R8UI;
                     case PixelFormat::R8_SINT: return GL_R8I;
-#if OUZEL_SUPPORTS_OPENGL
-                    case PixelFormat::R16_UNORM: return GL_R16;
-                    case PixelFormat::R16_SNORM: return GL_R16_SNORM;
-#elif OUZEL_SUPPORTS_OPENGLES
+
                     case PixelFormat::R16_UNORM: return GL_NONE;
                     case PixelFormat::R16_SNORM: return GL_NONE;
-#endif
                     case PixelFormat::R16_UINT: return GL_R16UI;
                     case PixelFormat::R16_SINT: return GL_R16I;
                     case PixelFormat::R16_FLOAT: return GL_R16F;
@@ -48,13 +78,9 @@ namespace ouzel
                     case PixelFormat::RGBA8_SNORM: return GL_RGBA8_SNORM;
                     case PixelFormat::RGBA8_UINT: return GL_RGBA8UI;
                     case PixelFormat::RGBA8_SINT: return GL_RGBA8I;
-#if OUZEL_SUPPORTS_OPENGL
-                    case PixelFormat::RGBA16_UNORM: return GL_RGBA16;
-                    case PixelFormat::RGBA16_SNORM: return GL_RGBA16_SNORM;
-#elif OUZEL_SUPPORTS_OPENGLES
+
                     case PixelFormat::RGBA16_UNORM: return GL_NONE;
                     case PixelFormat::RGBA16_SNORM: return GL_NONE;
-#endif
                     case PixelFormat::RGBA16_UINT: return GL_RGBA16UI;
                     case PixelFormat::RGBA16_SINT: return GL_RGBA16I;
                     case PixelFormat::RGBA16_FLOAT: return GL_RGBA16F;
@@ -73,6 +99,7 @@ namespace ouzel
                     default: return GL_NONE;
                 }
             }
+#endif
         }
 
         static GLenum getOGLPixelDataFormat(PixelFormat pixelFormat)
