@@ -12,9 +12,17 @@ namespace ouzel
     {
         static GLint getOGLPixelFormat(PixelFormat pixelFormat)
         {
+#if OUZEL_PLATFORM_EMSCRIPTEN
             switch (pixelFormat)
             {
-                case PixelFormat::A8_UNORM: return GL_NONE;
+                case PixelFormat::A8_UNORM: return GL_ALPHA;
+                case PixelFormat::RGBA8_UNORM: return GL_RGBA;
+                default: return GL_NONE;
+            }
+#else
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM: return GL_ALPHA;
                 case PixelFormat::R8_UNORM: return GL_R8;
                 case PixelFormat::R8_SNORM: return GL_R8_SNORM;
                 case PixelFormat::R8_UINT: return GL_R8UI;
@@ -53,8 +61,9 @@ namespace ouzel
                 case PixelFormat::RGBA32_UINT: return GL_RGBA32UI;
                 case PixelFormat::RGBA32_SINT: return GL_RGBA32I;
                 case PixelFormat::RGBA32_FLOAT: return GL_RGBA32F;
-                default: return 0;
+                default: return GL_NONE;
             }
+#endif
         }
 
         static GLenum getOGLPixelDataFormat(PixelFormat pixelFormat)
@@ -205,7 +214,6 @@ namespace ouzel
                         {
                             if (!levels[level].data.empty())
                             {
-
                                 glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglPixelFormat,
                                              static_cast<GLsizei>(levels[level].size.v[0]),
                                              static_cast<GLsizei>(levels[level].size.v[1]), 0,
