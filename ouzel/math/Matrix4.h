@@ -7,8 +7,9 @@
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif
-#include "Vector3.h"
-#include "Vector4.h"
+#include "math/Plane.h"
+#include "math/Vector3.h"
+#include "math/Vector4.h"
 
 namespace ouzel
 {
@@ -66,6 +67,13 @@ namespace ouzel
         static void createRotationZ(float angle, Matrix4& dst);
         static void createTranslation(const Vector3& translation, Matrix4& dst);
         static void createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst);
+
+        bool getFrustumLeftPlane(Plane& plane) const;
+        bool getFrustumRightPlane(Plane& plane) const;
+        bool getFrustumBottomPlane(Plane& plane) const;
+        bool getFrustumTopPlane(Plane& plane) const;
+        bool getFrustumNearPlane(Plane& plane) const;
+        bool getFrustumFarPlane(Plane& plane) const;
 
         void add(float scalar);
         void add(float scalar, Matrix4& dst);

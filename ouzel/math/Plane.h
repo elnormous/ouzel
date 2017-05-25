@@ -10,6 +10,15 @@ namespace ouzel
     public:
         float v[4];
 
+        Plane()
+        {
+        }
+
+        Plane(float x, float y, float z, float w):
+            v{x, y, z, w}
+        {
+        }
+
         void flip()
         {
             v[0] = -v[0];

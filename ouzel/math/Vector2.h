@@ -23,16 +23,14 @@ namespace ouzel
 
         float v[2];
 
-        Vector2()
+        Vector2():
+            v{0.0f, 0.0f}
         {
-            v[0] = 0.0f;
-            v[1] = 0.0f;
         }
 
-        Vector2(float aX, float aY)
+        Vector2(float aX, float aY):
+            v{aX, aY}
         {
-            v[0] = aX;
-            v[1] = aY;
         }
 
         Vector2(const Vector2& p1, const Vector2& p2);

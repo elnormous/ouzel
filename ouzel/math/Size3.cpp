@@ -6,11 +6,9 @@
 
 namespace ouzel
 {
-    Size3::Size3(const Size2& s)
+    Size3::Size3(const Size2& s):
+        v{s.v[0], s.v[1], 0.0f}
     {
-        v[0] = s.v[0];
-        v[1] = s.v[1];
-        v[2] = 0.0f;
     }
 
     Size3& Size3::operator=(const Size2& s)
@@ -18,7 +16,6 @@ namespace ouzel
         v[0] = s.v[0];
         v[1] = s.v[1];
         v[2] = 0.0f;
-
         return *this;
     }
 }

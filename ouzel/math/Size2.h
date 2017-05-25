@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Vector2.h"
+#include "math/Vector2.h"
 
 namespace ouzel
 {
@@ -14,29 +14,25 @@ namespace ouzel
     public:
         float v[2];
 
-        Size2()
+        Size2():
+            v{0.0f, 0.0f}
         {
-            v[0] = 0.0f;
-            v[1] = 0.0f;
         }
 
-        Size2(float w, float h)
+        Size2(float w, float h):
+            v{w, h}
         {
-            v[0] = w;
-            v[1] = h;
         }
 
-        Size2(const Vector2& point)
+        Size2(const Vector2& point):
+            v{point.v[0], point.v[1]}
         {
-            v[0] = point.v[0];
-            v[1] = point.v[1];
         }
 
         Size2& operator=(const Vector2& point)
         {
             v[0] = point.v[0];
             v[1] = point.v[1];
-
             return *this;
         }
 
