@@ -368,7 +368,7 @@ namespace ouzel
 
     bool Matrix4::getFrustumNearPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[8], m[9], m[10], m[11], plane);
+        return makeFrustumPlane(m[12] + m[8], m[13] + m[9], m[14] + m[10], m[15] + m[11], plane);
     }
 
     bool Matrix4::getFrustumFarPlane(Plane& plane) const
