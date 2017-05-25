@@ -5,6 +5,8 @@
 
 namespace ouzel
 {
+    class Vector4;
+
     class Plane
     {
     public:
@@ -29,6 +31,8 @@ namespace ouzel
             v[2] = -v[2];
             v[3] = -v[3];
         }
+
+        float dot(const Vector4& vec) const;
 
         inline bool operator==(const Plane& plane) const
         {
