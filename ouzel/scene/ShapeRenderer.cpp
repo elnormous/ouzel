@@ -110,18 +110,18 @@ namespace ouzel
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
             Vector2 off = finish - start;
-            Vector2 normal = off.normalize();
-            Vector2 tangent(-normal.v[1], normal.v[0]);
+            Vector2 tangent = off.normalize();
+            Vector2 normal(-tangent.v[1], tangent.v[0]);
 
             float halfThickness = thickness / 2.0f;
 
-            vertices.push_back(graphics::VertexPC(start - normal * halfThickness - tangent * halfThickness,
+            vertices.push_back(graphics::VertexPC(start - tangent * halfThickness - normal * halfThickness,
                                                   color));
-            vertices.push_back(graphics::VertexPC(finish + normal * halfThickness - tangent * halfThickness,
+            vertices.push_back(graphics::VertexPC(finish + tangent * halfThickness - normal * halfThickness,
                                                   color));
-            vertices.push_back(graphics::VertexPC(start - normal * halfThickness + tangent * halfThickness,
+            vertices.push_back(graphics::VertexPC(start - tangent * halfThickness + normal * halfThickness,
                                                   color));
-            vertices.push_back(graphics::VertexPC(finish + normal * halfThickness + tangent * halfThickness,
+            vertices.push_back(graphics::VertexPC(finish + tangent * halfThickness + normal * halfThickness,
                                                   color));
 
             indices.push_back(startVertex + 0);
