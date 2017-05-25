@@ -17,9 +17,9 @@ namespace ouzel
         Plane(float aX, float aY, float aZ, float aW)
         {
             v[0] = aX;
-            v[0] = aY;
-            v[0] = aZ;
-            v[0] = aW;
+            v[1] = aY;
+            v[2] = aZ;
+            v[3] = aW;
         }
 
         void flip()
