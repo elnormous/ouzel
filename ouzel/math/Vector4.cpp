@@ -40,7 +40,6 @@ namespace ouzel
         v[1] = vec.v[1];
         v[2] = 0.0f;
         v[3] = 0.0f;
-
         return *this;
     }
 
@@ -58,7 +57,6 @@ namespace ouzel
         v[1] = vec.v[1];
         v[2] = vec.v[2];
         v[3] = 0.0f;
-
         return *this;
     }
 
@@ -76,7 +74,6 @@ namespace ouzel
         v[1] = color.normG();
         v[2] = color.normB();
         v[3] = color.normA();
-
         return *this;
     }
 

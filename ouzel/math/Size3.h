@@ -14,19 +14,25 @@ namespace ouzel
     public:
         float v[3];
 
-        Size3():
-            v{0.0f, 0.0f, 0.0f}
+        Size3()
         {
+            v[0] = 0.0f;
+            v[1] = 0.0f;
+            v[2] = 0.0f;
         }
 
-        Size3(float w, float h, float d):
-            v{w, h, d}
+        Size3(float w, float h, float d)
         {
+            v[0] = w;
+            v[1] = h;
+            v[2] = d;
         }
 
-        Size3(const Vector3& point):
-            v{point.v[0], point.v[1], point.v[2]}
+        Size3(const Vector3& point)
         {
+            v[0] = point.v[0];
+            v[1] = point.v[1];
+            v[2] = point.v[2];
         }
 
         Size3& operator=(const Vector3& point)
