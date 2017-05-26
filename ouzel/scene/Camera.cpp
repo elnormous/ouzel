@@ -246,6 +246,71 @@ namespace ouzel
             }
             else
             {
+                Matrix4 modelViewProjection = getViewProjection() * boxTransform;
+
+                Plane planes[6];
+
+                modelViewProjection.getFrustumLeftPlane(planes[0]);
+                modelViewProjection.getFrustumRightPlane(planes[1]);
+                modelViewProjection.getFrustumBottomPlane(planes[2]);
+                modelViewProjection.getFrustumTopPlane(planes[3]);
+                modelViewProjection.getFrustumNearPlane(planes[4]);
+                modelViewProjection.getFrustumFarPlane(planes[5]);
+
+                Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
+
+                for (const Plane& plane : planes)
+                {
+                    // point check
+                    /*if (plane.dot(pos) < 0.0f)
+                    {
+                        return false;
+                    }*/
+
+                    // box check
+                    if (plane.dot(Vector4(boundingBox.min.v[0], boundingBox.min.v[1], boundingBox.min.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.max.v[0], boundingBox.min.v[1], boundingBox.min.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.min.v[0], boundingBox.max.v[1], boundingBox.min.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.min.v[0], boundingBox.min.v[1], boundingBox.max.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.max.v[0], boundingBox.max.v[1], boundingBox.min.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.max.v[0], boundingBox.min.v[1], boundingBox.max.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.min.v[0], boundingBox.max.v[1], boundingBox.max.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    if (plane.dot(Vector4(boundingBox.max.v[0], boundingBox.max.v[1], boundingBox.max.v[2], 1.0f)) >= 0.0f)
+                    {
+                        continue;
+                    }
+
+                    return false;
+                }
+
                 return true;
             }
         }
