@@ -16,12 +16,12 @@ namespace ouzel
         {
         }
 
-        Plane(float aX, float aY, float aZ, float aW)
+        Plane(float aA, float aB, float aC, float aD)
         {
-            v[0] = aX;
-            v[1] = aY;
-            v[2] = aZ;
-            v[3] = aW;
+            v[0] = aA;
+            v[1] = aB;
+            v[2] = aC;
+            v[3] = aD;
         }
 
         void flip()
@@ -33,6 +33,7 @@ namespace ouzel
         }
 
         float dot(const Vector4& vec) const;
+        void normalize();
 
         inline bool operator==(const Plane& plane) const
         {

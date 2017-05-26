@@ -109,8 +109,8 @@ namespace ouzel
 
             uint16_t startVertex = static_cast<uint16_t>(vertices.size());
 
-            Vector2 off = finish - start;
-            Vector2 tangent = off.normalize();
+            Vector2 tangent = finish - start;
+            tangent.normalize();
             Vector2 normal(-tangent.v[1], tangent.v[0]);
 
             float halfThickness = thickness / 2.0f;

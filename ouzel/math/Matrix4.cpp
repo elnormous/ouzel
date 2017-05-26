@@ -334,46 +334,46 @@ namespace ouzel
 
     inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
     {
-        const float	lengthSquared = a * a + b * b + c * c;
-        if (lengthSquared < powf(EPSILON, 2.0f))
+        float n = sqrtf(a * a + b * b + c * c);
+        if (n < EPSILON)
         {
             return false;
         }
 
-        const float	invLength = 1.0f / sqrtf(lengthSquared);
-        plane = Plane(-a * invLength, -b * invLength, -c * invLength, d * invLength);
+        n = 1.0f / n;
+        plane = Plane(a * n, b * n, c * n, d * n);
 
         return true;
     }
 
     bool Matrix4::getFrustumLeftPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] + m[0], m[13] + m[1], m[14] + m[2], m[15] + m[3], plane);
+        return makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12], plane);
     }
 
     bool Matrix4::getFrustumRightPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] - m[0], m[13] - m[1], m[14] - m[2], m[15] - m[3], plane);
+        return makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12], plane);
     }
 
     bool Matrix4::getFrustumBottomPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] + m[4], m[13] + m[5], m[14] + m[6], m[15] + m[7], plane);
+        return makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13], plane);
     }
 
     bool Matrix4::getFrustumTopPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] - m[4], m[13] - m[5], m[14] - m[6], m[15] - m[7], plane);
+        return makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13], plane);
     }
 
     bool Matrix4::getFrustumNearPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] + m[8], m[13] + m[9], m[14] + m[10], m[15] + m[11], plane);
+        return makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14], plane);
     }
 
     bool Matrix4::getFrustumFarPlane(Plane& plane) const
     {
-        return makeFrustumPlane(m[12] - m[8], m[13] - m[9], m[14] - m[10], m[15] - m[11], plane);
+        return makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14], plane);
     }
 
     void Matrix4::add(float scalar)

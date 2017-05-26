@@ -163,23 +163,21 @@ namespace ouzel
         return sqrtf(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
     }
 
-    Vector4& Vector4::normalize()
+    void Vector4::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         if (n == 1.0f) // already normalized
-            return *this;
+            return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
-            return *this;
+            return;
 
         n = 1.0f / n;
         v[0] *= n;
         v[1] *= n;
         v[2] *= n;
         v[3] *= n;
-
-        return *this;
     }
 
     void Vector4::smooth(const Vector4& target, float elapsedTime, float responseTime)

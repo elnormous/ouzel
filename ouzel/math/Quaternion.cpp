@@ -10,23 +10,21 @@ namespace ouzel
     const Quaternion Quaternion::IDENTITY(0.0f, 0.0f, 0.0f, 1.0f);
     const Quaternion Quaternion::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
-    Quaternion& Quaternion::normalize()
+    void Quaternion::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
         if (n == 1.0f) // already normalized
-            return *this;
+            return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
-            return *this;
+            return;
 
         n = 1.0f / n;
         v[0] *= n;
         v[1] *= n;
         v[2] *= n;
         v[3] *= n;
-
-        return *this;
     }
 
     void Quaternion::rotate(float angle, Vector3 axis)

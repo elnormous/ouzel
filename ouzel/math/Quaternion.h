@@ -164,7 +164,7 @@ namespace ouzel
             v[2] = -v[2];
         }
 
-        Quaternion& normalize();
+        void normalize();
         void rotate(float angle, Vector3 axis);
 
         void setEulerAngles(const Vector3& angles);

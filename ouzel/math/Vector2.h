@@ -114,7 +114,7 @@ namespace ouzel
             v[1] = -v[1];
         }
 
-        Vector2& normalize();
+        void normalize();
 
         void scale(float scalar)
         {

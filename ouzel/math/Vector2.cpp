@@ -110,21 +110,19 @@ namespace ouzel
         return sqrtf(v[0] * v[0] + v[1] * v[1]);
     }
 
-    Vector2& Vector2::normalize()
+    void Vector2::normalize()
     {
         float n = v[0] * v[0] + v[1] * v[1];
         if (n == 1.0f) // already normalized
-            return *this;
+            return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
-            return *this;
+            return;
 
         n = 1.0f / n;
         v[0] *= n;
         v[1] *= n;
-
-        return *this;
     }
 
     void Vector2::rotate(float angle)
