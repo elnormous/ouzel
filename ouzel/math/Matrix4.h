@@ -7,6 +7,7 @@
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif
+#include "math/ConvexVolume.h"
 #include "math/Plane.h"
 #include "math/Vector3.h"
 #include "math/Vector4.h"
@@ -74,6 +75,31 @@ namespace ouzel
         bool getFrustumTopPlane(Plane& plane) const;
         bool getFrustumNearPlane(Plane& plane) const;
         bool getFrustumFarPlane(Plane& plane) const;
+        bool getFrustum(ConvexVolume& frustum) const
+        {
+            frustum.planes.clear();
+            Plane plane;
+
+            if (!getFrustumLeftPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            if (!getFrustumRightPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            if (!getFrustumBottomPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            if (!getFrustumTopPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            if (!getFrustumNearPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            if (!getFrustumFarPlane(plane)) return false;
+            frustum.planes.push_back(plane);
+
+            return true;
+        }
 
         void add(float scalar);
         void add(float scalar, Matrix4& dst);
@@ -261,7 +287,6 @@ namespace ouzel
         }
 
     private:
-
         static void createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
                                           const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
                                           Matrix4& dst);

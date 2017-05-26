@@ -58,6 +58,7 @@
 #include "math/Box2.h"
 #include "math/Box3.h"
 #include "math/Color.h"
+#include "math/ConvexVolume.h"
 #include "math/MathUtils.h"
 #include "math/Matrix3.h"
 #include "math/Matrix4.h"

@@ -531,6 +531,12 @@
 		3048398A1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
 		3048398B1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
 		3048398C1D53BE8F007D70FF /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 304839861D53BE8F007D70FF /* Resource.h */; };
+		3049DCB41ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
+		3049DCB51ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
+		3049DCB61ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
+		3049DCB71ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
+		3049DCB81ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
+		3049DCB91ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -1006,6 +1012,8 @@
 		3047F7751C4D39C500774E3D /* Repeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Repeat.cpp; sourceTree = "<group>"; };
 		3047F7761C4D39C500774E3D /* Repeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Repeat.h; sourceTree = "<group>"; };
 		304839861D53BE8F007D70FF /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
+		3049DCB21ED8687C0000997A /* ConvexVolume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvexVolume.cpp; sourceTree = "<group>"; };
+		3049DCB31ED8687C0000997A /* ConvexVolume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvexVolume.h; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -1342,6 +1350,8 @@
 				304736D81E0B4776009BC562 /* Box3.h */,
 				309B48351DEA5EE600A718C5 /* Color.cpp */,
 				309B48361DEA5EE600A718C5 /* Color.h */,
+				3049DCB21ED8687C0000997A /* ConvexVolume.cpp */,
+				3049DCB31ED8687C0000997A /* ConvexVolume.h */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.h */,
 				304A8E321C237C70008B1151 /* Matrix3.cpp */,
@@ -1910,6 +1920,7 @@
 				30381F8E1D80A3EC00677CAB /* TextureOGL.h in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.h in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.h in Headers */,
+				3049DCB71ED8687C0000997A /* ConvexVolume.h in Headers */,
 				3082C3B11D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				303821481D81876E00677CAB /* RendererEmpty.h in Headers */,
@@ -2069,6 +2080,7 @@
 				30381F901D80A3EC00677CAB /* TextureOGL.h in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.h in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.h in Headers */,
+				3049DCB91ED8687C0000997A /* ConvexVolume.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
 				3082C3B31D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				3038214A1D81876E00677CAB /* RendererEmpty.h in Headers */,
@@ -2180,6 +2192,7 @@
 				303933771E5F460A000C9A8E /* SoundListener.h in Headers */,
 				30381FE61D80A40700677CAB /* ColorPSIOS.h in Headers */,
 				303B04BB1E207B6D00011CBE /* OpenGLView.h in Headers */,
+				3049DCB81ED8687C0000997A /* ConvexVolume.h in Headers */,
 				303696D01E32DD9C007F4211 /* BlendState.h in Headers */,
 				303696E81E32DDC1007F4211 /* MeshBuffer.h in Headers */,
 				30419DF41D162BEF00A63759 /* SoundData.h in Headers */,
@@ -2378,6 +2391,7 @@
 				303821391D81876E00677CAB /* BufferEmpty.cpp in Sources */,
 				303696C41E32DD8F007F4211 /* Texture.cpp in Sources */,
 				30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
+				3049DCB41ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				303696EC1E32DE08007F4211 /* Shader.cpp in Sources */,
 				303820651D816C7700677CAB /* main.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
@@ -2507,6 +2521,7 @@
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
+				3049DCB61ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				3038200E1D80A40700677CAB /* ShaderMetal.mm in Sources */,
 				301EB3A41CCD691800466E92 /* Component.cpp in Sources */,
@@ -2683,6 +2698,7 @@
 				30419DF11D162BEF00A63759 /* SoundData.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* BufferOGL.cpp in Sources */,
+				3049DCB51ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.mm in Sources */,
 				30ADCBB61E9A9479000DC9AC /* RendererMetalMacOS.mm in Sources */,
