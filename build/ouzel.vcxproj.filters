@@ -361,6 +361,9 @@
     <ClCompile Include="..\ouzel\math\Plane.cpp">
       <Filter>math</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\math\ConvexVolume.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -803,6 +806,9 @@
       <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Plane.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\math\ConvexVolume.h">
       <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>
