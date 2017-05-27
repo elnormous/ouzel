@@ -20,9 +20,9 @@ namespace ouzel
             calculateViewProjection();
         }
 
-        Camera::Camera(ScaleMode aScaleMode, const Size2& aTargetContentSize):
-            type(Type::ORTHOGRAPHIC), scaleMode(aScaleMode),
-            targetContentSize(aTargetContentSize)
+        Camera::Camera(const Size2& aTargetContentSize, ScaleMode aScaleMode):
+            type(Type::ORTHOGRAPHIC), targetContentSize(aTargetContentSize),
+            scaleMode(aScaleMode)
         {
             calculateViewProjection();
         }
