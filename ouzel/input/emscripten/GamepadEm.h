@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <html5.h>
+#include <emscripten/html5.h>
 #include "input/Gamepad.h"
 
 namespace ouzel

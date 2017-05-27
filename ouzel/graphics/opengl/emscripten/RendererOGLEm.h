@@ -4,7 +4,7 @@
 #pragma once
 
 #include <emscripten.h>
-#include <html5.h>
+#include <emscripten/html5.h>
 #include "graphics/opengl/RendererOGL.h"
 
 namespace ouzel

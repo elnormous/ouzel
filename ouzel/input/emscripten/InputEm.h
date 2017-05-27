@@ -5,7 +5,7 @@
 
 #include <map>
 #include <string>
-#include <html5.h>
+#include <emscripten/html5.h>
 #include "input/Input.h"
 
 namespace ouzel

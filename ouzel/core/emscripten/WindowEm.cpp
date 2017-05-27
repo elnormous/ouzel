@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <emscripten.h>
-#include <html5.h>
+#include <emscripten/html5.h>
 #include "WindowEm.h"
 #include "core/Engine.h"
 
