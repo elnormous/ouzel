@@ -163,7 +163,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp
+	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
 endif
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)

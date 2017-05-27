@@ -3,6 +3,7 @@
 
 #include <emscripten.h>
 #include "InputEm.h"
+#include "GamepadEm.h"
 #include "core/Engine.h"
 #include "core/Application.h"
 #include "core/Window.h"
@@ -99,6 +100,24 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
         ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
         inputEm->pointerLockChanged(pointerlockChangeEvent->isActive);
 
+        return true;
+    }
+
+    return false;
+}
+
+static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
+{
+    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+
+    if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
+    {
+        inputEm->handleGamepadConnected(gamepadEvent->index);
+        return true;
+    }
+    else if (eventType == EMSCRIPTEN_EVENT_GAMEPADDISCONNECTED)
+    {
+        inputEm->handleGamepadDisconnected(gamepadEvent->index);
         return true;
     }
 
@@ -227,10 +246,11 @@ namespace ouzel
             emscripten_set_mousedown_callback("#canvas", this, true, emMouseCallback);
             emscripten_set_mouseup_callback("#canvas", this, true, emMouseCallback);
             emscripten_set_mousemove_callback("#canvas", this, true, emMouseCallback);
-
             emscripten_set_wheel_callback("#canvas", this, true, emWheelCallback);
-
             emscripten_set_pointerlockchange_callback(nullptr, this, true, emPointerLockChangeCallback);
+
+            emscripten_set_gamepadconnected_callback(this, true, emGamepadCallback);
+            emscripten_set_gamepaddisconnected_callback(this, true, emGamepadCallback);
 
             return true;
         }
@@ -324,6 +344,40 @@ namespace ouzel
         void InputEm::pointerLockChanged(bool locked)
         {
             cursorLocked = locked;
+        }
+
+        void InputEm::handleGamepadConnected(long index)
+        {
+            Event event;
+            event.type = Event::Type::GAMEPAD_CONNECT;
+
+            std::unique_ptr<GamepadEm> gamepad(new GamepadEm(index));
+
+            event.gamepadEvent.gamepad = gamepad.get();
+
+            gamepads.push_back(std::move(gamepad));
+
+            sharedEngine->getEventDispatcher()->postEvent(event);
+        }
+
+        void InputEm::handleGamepadDisconnected(long index)
+        {
+            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
+                GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());
+                return currentGamepad->getIndex() == index;
+            });
+
+            if (i != gamepads.end())
+            {
+                Event event;
+                event.type = Event::Type::GAMEPAD_DISCONNECT;
+
+                event.gamepadEvent.gamepad = (*i).get();
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+
+                gamepads.erase(i);
+            }
         }
     } // namespace input
 } // namespace ouzel

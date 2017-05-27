@@ -6,10 +6,10 @@
 #import <GameController/GameController.h>
 #import <Carbon/Carbon.h>
 #include "InputMacOS.h"
+#include "GamepadMacOS.h"
 #include "core/macos/WindowMacOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "GamepadMacOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 

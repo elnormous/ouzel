@@ -4,10 +4,10 @@
 #include <algorithm>
 #import <GameController/GameController.h>
 #include "InputTVOS.h"
+#include "GamepadTVOS.h"
 #include "core/tvos/WindowTVOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "GamepadTVOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 

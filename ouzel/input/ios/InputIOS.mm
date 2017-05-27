@@ -4,10 +4,10 @@
 #include <algorithm>
 #import <GameController/GameController.h>
 #include "InputIOS.h"
+#include "GamepadIOS.h"
 #include "core/ios/WindowIOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
-#include "GamepadIOS.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 

@@ -32,6 +32,9 @@ namespace ouzel
 
             void pointerLockChanged(bool locked);
 
+            void handleGamepadConnected(long device);
+            void handleGamepadDisconnected(long device);
+
         protected:
             InputEm();
             virtual bool init() override;
