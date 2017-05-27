@@ -27,7 +27,7 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        input::InputRasp* input = static_cast<input::InputRasp*>(sharedEngine->getInput());
+        input::InputRasp* inputRasp = static_cast<input::InputRasp*>(sharedEngine->getInput());
 
         while (active)
         {
@@ -38,7 +38,7 @@ namespace ouzel
                 break;
             }
 
-            input->update();
+            inputRasp->update();
         }
 
         if (sharedEngine)

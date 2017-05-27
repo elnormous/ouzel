@@ -259,6 +259,15 @@ namespace ouzel
         {
         }
 
+        void InputEm::update()
+        {
+            for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
+            {
+                GamepadEm* gamepadEm = static_cast<GamepadEm*>(gamepad.get());
+                gamepadEm->update();
+            }
+        }
+
         KeyboardKey InputEm::convertKeyCode(const EM_UTF8 key[32])
         {
             auto i = keyMap.find(key);

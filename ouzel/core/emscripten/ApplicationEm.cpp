@@ -5,6 +5,7 @@
 #include <emscripten.h>
 #include "ApplicationEm.h"
 #include "core/Engine.h"
+#include "input/emscripten/InputEm.h"
 #include "utils/Utils.h"
 
 static void loop(void)
@@ -57,6 +58,9 @@ namespace ouzel
         {
             return false;
         }
+
+        input::InputEm* inputEm = static_cast<input::InputEm*>(sharedEngine->getInput());
+        inputEm->update();
 
         return active;
     }

@@ -24,6 +24,9 @@ namespace ouzel
             GamepadEm(long aIndex);
 
             long index = 0;
+            double axis[64];
+            double analogButton[64];
+            EM_BOOL digitalButton[64];
         };
     } // namespace input
 } // namespace ouzel
