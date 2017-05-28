@@ -765,6 +765,14 @@ namespace ouzel
                     return false;
                 }
 
+                if (!setColorMask(blendStateOGL->getRedMask(),
+                                  blendStateOGL->getGreenMask(),
+                                  blendStateOGL->getBlueMask(),
+                                  blendStateOGL->getAlphaMask()))
+                {
+                    return false;
+                }
+
                 // textures
                 bool texturesValid = true;
 

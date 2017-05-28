@@ -41,16 +41,26 @@ namespace ouzel
             GLenum getDestFactorAlpha() const { return destFactorAlpha; }
             bool isGLBlendEnabled() const { return glBlendEnabled; }
 
+            GLboolean getRedMask() const { return redMask; }
+            GLboolean getGreenMask() const { return greenMask; }
+            GLboolean getBlueMask() const { return blueMask; }
+            GLboolean getAlphaMask() const { return alphaMask; }
+
         protected:
             virtual bool upload() override;
 
-            GLenum modeRGB;
-            GLenum modeAlpha;
-            GLenum sourceFactorRGB;
-            GLenum destFactorRGB;
-            GLenum sourceFactorAlpha;
-            GLenum destFactorAlpha;
-            bool glBlendEnabled;
+            GLenum modeRGB = GL_NONE;
+            GLenum modeAlpha = GL_NONE;
+            GLenum sourceFactorRGB = GL_NONE;
+            GLenum destFactorRGB = GL_NONE;
+            GLenum sourceFactorAlpha = GL_NONE;
+            GLenum destFactorAlpha = GL_NONE;
+            bool glBlendEnabled = false;
+
+            GLboolean redMask = GL_FALSE;
+            GLboolean greenMask = GL_FALSE;
+            GLboolean blueMask = GL_FALSE;
+            GLboolean alphaMask = GL_FALSE;
         };
     } // namespace graphics
 } // namespace ouzel
