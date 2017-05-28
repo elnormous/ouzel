@@ -3,9 +3,11 @@
 
 #pragma once
 
+#include "core/CursorResource.h"
+
 namespace ouzel
 {
-    class CursorResourceMacOS
+    class CursorResourceMacOS: public CursorResource
     {
     public:
     };

@@ -35,6 +35,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/android/WindowAndroid.cpp \
     ../../ouzel/core/Application.cpp \
     ../../ouzel/core/Cache.cpp \
+    ../../ouzel/core/Cursor.cpp \
+    ../../ouzel/core/CursorResource.cpp \
     ../../ouzel/core/Engine.cpp \
     ../../ouzel/core/Timer.cpp \
     ../../ouzel/core/UpdateCallback.cpp \
