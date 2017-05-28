@@ -40,6 +40,7 @@ typedef NSUInteger MTLPixelFormat;
 #define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
 #define MTLLoadActionDontCare 0
+typedef NSUInteger MTLColorWriteMask;
 #endif
 
 #include "graphics/Renderer.h"
@@ -111,7 +112,8 @@ namespace ouzel
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
-                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) < std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
+                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) <
+                        std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
                 }
             };
 

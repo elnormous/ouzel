@@ -19,7 +19,8 @@ namespace ouzel
                                       BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
                                       BlendState::BlendOperation newColorOperation,
                                       BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                                      BlendState::BlendOperation newAlphaOperation)
+                                      BlendState::BlendOperation newAlphaOperation,
+                                      uint8_t newColorMask)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -30,6 +31,7 @@ namespace ouzel
             alphaBlendSource = newAlphaBlendSource;
             alphaBlendDest = newAlphaBlendDest;
             alphaOperation = newAlphaOperation;
+            colorMask = newColorMask;
 
             dirty |= 0x01;
 

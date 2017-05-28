@@ -61,6 +61,12 @@ namespace ouzel
                 destinationAlphaBlendFactor = getBlendFactor(alphaBlendDest);
                 metalBlendingEnabled = enableBlending;
 
+                colorWriteMask = MTLColorWriteMaskNone;
+                if (colorMask & BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
+                if (colorMask & BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
+                if (colorMask & BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
+                if (colorMask & BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
+
                 dirty = 0;
             }
 

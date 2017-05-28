@@ -12,6 +12,7 @@
 #include <objc/objc.h>
 typedef NSUInteger MTLBlendFactor;
 typedef NSUInteger MTLBlendOperation;
+typedef NSUInteger MTLColorWriteMask;
 #endif
 
 namespace ouzel
@@ -29,6 +30,7 @@ namespace ouzel
             MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
             MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
             MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
+            MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
             bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         protected:
@@ -40,6 +42,7 @@ namespace ouzel
             MTLBlendFactor destinationRGBBlendFactor;
             MTLBlendFactor sourceAlphaBlendFactor;
             MTLBlendFactor destinationAlphaBlendFactor;
+            MTLColorWriteMask colorWriteMask;
             bool metalBlendingEnabled;
         };
     } // namespace graphics

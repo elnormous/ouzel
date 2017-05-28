@@ -24,13 +24,15 @@ namespace ouzel
                               BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
                               BlendOperation newColorOperation,
                               BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation)
+                              BlendOperation newAlphaOperation,
+                              uint8_t newColorMask)
         {
             if (!resource->init(newEnableBlending,
                                 newColorBlendSource, newColorBlendDest,
                                 newColorOperation,
                                 newAlphaBlendSource, newAlphaBlendDest,
-                                newAlphaOperation))
+                                newAlphaOperation,
+                                newColorMask))
             {
                 return false;
             }
@@ -75,5 +77,9 @@ namespace ouzel
             return resource->getAlphaOperation();
         }
 
+        uint8_t BlendState::getColorMask() const
+        {
+            return resource->getColorMask();
+        }
     } // namespace graphics
 } // namespace ouzel

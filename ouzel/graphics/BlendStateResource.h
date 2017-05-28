@@ -24,7 +24,8 @@ namespace ouzel
                       BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
                       BlendState::BlendOperation newColorOperation,
                       BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                      BlendState::BlendOperation newAlphaOperation);
+                      BlendState::BlendOperation newAlphaOperation,
+                      uint8_t newColorMask);
 
             bool isBlendingEnabled() const { return enableBlending; }
             BlendState::BlendFactor getColorBlendSource() const { return colorBlendSource; }
@@ -33,6 +34,7 @@ namespace ouzel
             BlendState::BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
             BlendState::BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
             BlendState::BlendOperation getAlphaOperation() const { return alphaOperation; }
+            uint8_t getColorMask() const { return colorMask; }
 
         protected:
             BlendStateResource();
@@ -44,6 +46,7 @@ namespace ouzel
             BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
             BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
             BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
 
             std::mutex uploadMutex;

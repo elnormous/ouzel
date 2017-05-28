@@ -853,7 +853,7 @@ namespace ouzel
                 pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
                 pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].writeMask = MTLColorWriteMaskAll;
+                pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
 
                 NSError* error = Nil;
                 id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
