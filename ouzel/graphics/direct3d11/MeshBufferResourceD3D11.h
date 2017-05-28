@@ -11,26 +11,26 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BufferD3D11;
+        class BufferResourceD3D11;
 
-        class MeshBufferD3D11: public MeshBufferResource
+        class MeshBufferResourceD3D11: public MeshBufferResource
         {
         public:
-            MeshBufferD3D11();
-            virtual ~MeshBufferD3D11();
+            MeshBufferResourceD3D11();
+            virtual ~MeshBufferResourceD3D11();
 
             DXGI_FORMAT getIndexFormat() const { return indexFormat; }
 
-            BufferD3D11* getIndexBufferD3D11() const { return indexBufferD3D11; }
-            BufferD3D11* getVertexBufferD3D11() const { return vertexBufferD3D11; }
+            BufferResourceD3D11* getIndexBufferD3D11() const { return indexBufferD3D11; }
+            BufferResourceD3D11* getVertexBufferD3D11() const { return vertexBufferD3D11; }
 
         protected:
             virtual bool upload() override;
 
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
 
-            BufferD3D11* indexBufferD3D11 = nullptr;
-            BufferD3D11* vertexBufferD3D11 = nullptr;
+            BufferResourceD3D11* indexBufferD3D11 = nullptr;
+            BufferResourceD3D11* vertexBufferD3D11 = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

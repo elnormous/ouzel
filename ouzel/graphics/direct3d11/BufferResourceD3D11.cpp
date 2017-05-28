@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BufferD3D11.h"
+#include "BufferResourceD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -10,11 +10,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferD3D11::BufferD3D11()
+        BufferResourceD3D11::BufferResourceD3D11()
         {
         }
 
-        BufferD3D11::~BufferD3D11()
+        BufferResourceD3D11::~BufferResourceD3D11()
         {
             if (buffer)
             {
@@ -22,7 +22,7 @@ namespace ouzel
             }
         }
 
-        bool BufferD3D11::upload()
+        bool BufferResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

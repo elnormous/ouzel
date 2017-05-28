@@ -5,24 +5,25 @@
 
 #define NOMINMAX
 #include <d3d11.h>
-#include "graphics/BlendStateResource.h"
+#include "graphics/BufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateD3D11: public BlendStateResource
+        class BufferResourceD3D11: public BufferResource
         {
         public:
-            BlendStateD3D11();
-            virtual ~BlendStateD3D11();
+            BufferResourceD3D11();
+            virtual ~BufferResourceD3D11();
 
-            ID3D11BlendState* getBlendState() const { return blendState; }
+            ID3D11Buffer* getBuffer() const { return buffer; }
 
         protected:
             virtual bool upload() override;
 
-            ID3D11BlendState* blendState = nullptr;
+            ID3D11Buffer* buffer = nullptr;
+            UINT bufferSize = 0;
         };
     } // namespace graphics
 } // namespace ouzel

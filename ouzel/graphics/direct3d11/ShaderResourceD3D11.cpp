@@ -1,20 +1,20 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShaderD3D11.h"
-#include "core/Engine.h"
+#include "ShaderResourceD3D11.h"
 #include "RendererD3D11.h"
+#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderD3D11::ShaderD3D11()
+        ShaderResourceD3D11::ShaderResourceD3D11()
         {
         }
 
-        ShaderD3D11::~ShaderD3D11()
+        ShaderResourceD3D11::~ShaderResourceD3D11()
         {
             if (pixelShader)
             {
@@ -42,7 +42,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
+        bool ShaderResourceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
@@ -133,7 +133,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderD3D11::upload()
+        bool ShaderResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

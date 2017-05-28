@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class TextureD3D11: public TextureResource
+        class TextureResourceD3D11: public TextureResource
         {
         public:
-            TextureD3D11();
-            virtual ~TextureD3D11();
+            TextureResourceD3D11();
+            virtual ~TextureResourceD3D11();
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }

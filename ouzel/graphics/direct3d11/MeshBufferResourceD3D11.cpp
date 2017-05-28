@@ -1,23 +1,23 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBufferD3D11.h"
-#include "BufferD3D11.h"
+#include "MeshBufferResourceD3D11.h"
+#include "BufferResourceD3D11.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferD3D11::MeshBufferD3D11()
+        MeshBufferResourceD3D11::MeshBufferResourceD3D11()
         {
         }
 
-        MeshBufferD3D11::~MeshBufferD3D11()
+        MeshBufferResourceD3D11::~MeshBufferResourceD3D11()
         {
         }
 
-        bool MeshBufferD3D11::upload()
+        bool MeshBufferResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -37,8 +37,8 @@ namespace ouzel
                     return false;
                 }
 
-                indexBufferD3D11 = static_cast<BufferD3D11*>(indexBuffer);
-                vertexBufferD3D11 = static_cast<BufferD3D11*>(vertexBuffer);
+                indexBufferD3D11 = static_cast<BufferResourceD3D11*>(indexBuffer);
+                vertexBufferD3D11 = static_cast<BufferResourceD3D11*>(vertexBuffer);
 
                 dirty = 0;
             }

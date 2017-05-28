@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendStateD3D11.h"
+#include "BlendStateResourceD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -10,11 +10,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateD3D11::BlendStateD3D11()
+        BlendStateResourceD3D11::BlendStateResourceD3D11()
         {
         }
 
-        BlendStateD3D11::~BlendStateD3D11()
+        BlendStateResourceD3D11::~BlendStateResourceD3D11()
         {
             if (blendState)
             {
@@ -56,7 +56,7 @@ namespace ouzel
             }
         }
 
-        bool BlendStateD3D11::upload()
+        bool BlendStateResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

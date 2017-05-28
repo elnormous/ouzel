@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextureD3D11.h"
-#include "core/Engine.h"
+#include "TextureResourceD3D11.h"
 #include "RendererD3D11.h"
+#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -47,11 +47,11 @@ namespace ouzel
             }
         }
 
-        TextureD3D11::TextureD3D11()
+        TextureResourceD3D11::TextureResourceD3D11()
         {
         }
 
-        TextureD3D11::~TextureD3D11()
+        TextureResourceD3D11::~TextureResourceD3D11()
         {
             if (depthStencilTexture)
             {
@@ -87,7 +87,7 @@ namespace ouzel
             height = 0;
         }
 
-        bool TextureD3D11::upload()
+        bool TextureResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

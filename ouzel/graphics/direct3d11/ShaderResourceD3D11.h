@@ -12,11 +12,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ShaderD3D11: public ShaderResource
+        class ShaderResourceD3D11: public ShaderResource
         {
         public:
-            ShaderD3D11();
-            virtual ~ShaderD3D11();
+            ShaderResourceD3D11();
+            virtual ~ShaderResourceD3D11();
 
             struct Location
             {
