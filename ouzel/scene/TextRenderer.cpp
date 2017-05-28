@@ -41,11 +41,18 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::setFont(const std::string& fontFile)
+        void TextRenderer::setFont(const std::string& fontFile, int pt = 0)
         {
-            font = sharedEngine->getCache()->getBMFont(fontFile);
-            texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+			//If a Freetype font is requested a font size is required, if there is no font size its a Bitmap font	
+			if (pt == 0)
+			{
+				font = sharedEngine->getCache()->getBMFont(fontFile);
+				texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+			}
+			else
+			{
 
+			}
             updateText();
         }
 

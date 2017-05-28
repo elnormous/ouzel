@@ -288,6 +288,11 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
+	void Cache::preLoadFFTFont(const std::string& filename)
+	{
+
+	}
+
     void Cache::preloadBMFont(const std::string& filename)
     {
         std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
