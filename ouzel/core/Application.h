@@ -42,11 +42,23 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
+        template<class T>
+        void setCursor(const std::unique_ptr<T>& cursor)
+        {
+            setCurrentCursor(cursor.get());
+        }
+
+        void setCursor(Cursor* cursor)
+        {
+            setCurrentCursor(cursor);
+        }
+
     protected:
         void executeAll();
 
+        virtual void setCurrentCursor(Cursor* cursor);
         virtual CursorResource* createCursorResource();
-        void deleteCursorResource(CursorResource* cursorResource);
+        void deleteCursorResource(CursorResource* resource);
 
         bool active = true;
         bool screenSaverEnabled = true;
@@ -59,7 +71,10 @@ namespace ouzel
 
         FileSystem fileSystem;
 
-        std::vector<CursorResource> cursorResources;
+        std::mutex resourceMutex;
+        std::vector<std::unique_ptr<CursorResource>> resources;
+        std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
+        CursorResource* currentCursor = nullptr;
     };
 
     extern Application* sharedApplication;

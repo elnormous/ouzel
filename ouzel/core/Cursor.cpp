@@ -3,6 +3,7 @@
 
 #include "Cursor.h"
 #include "Application.h"
+#include "CursorResource.h"
 
 namespace ouzel
 {
@@ -14,5 +15,15 @@ namespace ouzel
     Cursor::~Cursor()
     {
         if (resource) sharedApplication->deleteCursorResource(resource);
+    }
+
+    bool Cursor::init(SystemCursor systemCursor)
+    {
+        return resource->init(systemCursor);
+    }
+
+    bool Cursor::init(const std::string& filename, const Vector2& hotSpot)
+    {
+        return resource->init(filename, hotSpot);
     }
 }

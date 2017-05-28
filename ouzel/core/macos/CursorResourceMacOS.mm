@@ -5,4 +5,12 @@
 
 namespace ouzel
 {
+    CursorResourceMacOS::~CursorResourceMacOS()
+    {
+    }
+
+    bool CursorResourceMacOS::upload()
+    {
+        return true;
+    }
 }

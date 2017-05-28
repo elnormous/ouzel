@@ -8,4 +8,19 @@ namespace ouzel
     CursorResource::CursorResource()
     {
     }
+
+    bool CursorResource::init(SystemCursor systemCursor)
+    {
+        return true;
+    }
+
+    bool CursorResource::init(const std::string& filename, const Vector2& hotSpot)
+    {
+        return true;
+    }
+
+    bool CursorResource::upload()
+    {
+        return true;
+    }
 }

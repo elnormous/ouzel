@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <X11/cursorfont.h>
 #include "core/CursorResource.h"
 
 namespace ouzel
@@ -10,5 +11,13 @@ namespace ouzel
     class CursorResourceLinux: public CursorResource
     {
     public:
+        virtual ~CursorResourceLinux();
+
+        HCURSOR getNativeCursor() const { return cursor; }
+
+    protected:
+        virtual bool upload() override;
+
+        ::Cursor emptyCursor = None;
     };
 }

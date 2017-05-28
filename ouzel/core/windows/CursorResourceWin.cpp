@@ -5,4 +5,12 @@
 
 namespace ouzel
 {
+    CursorResourceWin::~CursorResourceWin()
+    {
+    }
+
+    bool CursorResourceWin::upload()
+    {
+        return true;
+    }
 }

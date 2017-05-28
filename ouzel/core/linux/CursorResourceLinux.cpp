@@ -5,4 +5,12 @@
 
 namespace ouzel
 {
+    CursorResourceLinux::~CursorResourceLinux()
+    {
+    }
+
+    bool CursorResourceLinux::upload()
+    {
+        return true;
+    }
 }

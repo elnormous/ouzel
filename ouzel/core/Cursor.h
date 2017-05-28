@@ -3,17 +3,36 @@
 
 #pragma once
 
+#include <string>
 #include "utils/Noncopyable.h"
+#include "math/Vector2.h"
 
 namespace ouzel
 {
     class CursorResource;
 
+    enum class SystemCursor
+    {
+        DEFAULT,
+        ARROW,
+        HAND,
+        HORIZONTAL_RESIZE,
+        VERTICAL_RESIZE,
+        CROSS
+    };
+
     class Cursor: public Noncopyable
     {
     public:
         Cursor();
+        Cursor(SystemCursor systemCursor);
+        Cursor(const std::string& filename, const Vector2& hotSpot);
         virtual ~Cursor();
+
+        bool init(SystemCursor systemCursor);
+        bool init(const std::string& filename, const Vector2& hotSpot);
+
+        CursorResource* getResource() const { return resource; }
 
     private:
         CursorResource* resource = nullptr;
