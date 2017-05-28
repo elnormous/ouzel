@@ -77,7 +77,11 @@ namespace ouzel
                 targetBlendDesc.SrcBlendAlpha = getBlendFactor(alphaBlendSource);
                 targetBlendDesc.DestBlendAlpha = getBlendFactor(alphaBlendDest);
                 targetBlendDesc.BlendOpAlpha = getBlendOperation(alphaOperation);
-                targetBlendDesc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+                targetBlendDesc.RenderTargetWriteMask = 0;
+                if (colorMask & BlendState::COLOR_MASK_RED) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_RED;
+                if (colorMask & BlendState::COLOR_MASK_GREEN) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_GREEN;
+                if (colorMask & BlendState::COLOR_MASK_BLUE) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_BLUE;
+                if (colorMask & BlendState::COLOR_MASK_ALPHA) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
 
                 blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
