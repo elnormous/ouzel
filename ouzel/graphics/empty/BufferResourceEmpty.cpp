@@ -1,0 +1,19 @@
+// Copyright (C) 2017 Elviss Strazdins
+// This file is part of the Ouzel engine.
+
+#include "BufferResourceEmpty.h"
+
+namespace ouzel
+{
+    namespace graphics
+    {
+        BufferResourceEmpty::BufferResourceEmpty()
+        {
+        }
+
+        bool BufferResourceEmpty::upload()
+        {
+            return true;
+        }
+    }
+}

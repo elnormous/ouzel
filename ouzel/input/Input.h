@@ -191,10 +191,10 @@ namespace ouzel
             FACE2, // B on Xbox controller, circle on PS controller
             FACE3, // X on Xbox controller, square on PS controller
             FACE4, // Y on Xbox controller, triangle on PS controller
-            LEFT_SHOULDER,  // L1 for Apple
-            LEFT_TRIGGER,   // L2 for Apple
-            RIGHT_SHOULDER, // R1 for Apple
-            RIGHT_TRIGGER,  // R2 for Apple
+            LEFT_SHOULDER,  // L1 for Apple and PS controller
+            LEFT_TRIGGER,   // L2 for Apple and PS controller
+            RIGHT_SHOULDER, // R1 for Apple and PS controller
+            RIGHT_TRIGGER,  // R2 for Apple and PS controller
             LEFT_THUMB,
             RIGHT_THUMB,
             START,

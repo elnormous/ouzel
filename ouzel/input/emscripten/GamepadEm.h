@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <emscripten/html5.h>
 #include "input/Gamepad.h"
 
 namespace ouzel
@@ -22,11 +21,12 @@ namespace ouzel
 
         protected:
             GamepadEm(long aIndex);
+            void handleThumbAxisChange(double oldValue, double newValue,
+                                       GamepadButton negativeButton, GamepadButton positiveButton);
 
             long index = 0;
             double axis[64];
             double analogButton[64];
-            EM_BOOL digitalButton[64];
         };
     } // namespace input
 } // namespace ouzel

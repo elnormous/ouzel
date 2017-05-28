@@ -36,6 +36,11 @@ typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
+typedef NSUInteger MTLPixelFormat;
+#define MTLPixelFormatInvalid 0
+typedef NSUInteger MTLLoadAction;
+#define MTLLoadActionDontCare 0
+typedef NSUInteger MTLColorWriteMask;
 #endif
 
 #include "graphics/Renderer.h"
@@ -46,8 +51,8 @@ namespace ouzel
 
     namespace graphics
     {
-        class BlendStateMetal;
-        class ShaderMetal;
+        class BlendStateResourceMetal;
+        class ShaderResourceMetal;
 
         class RendererMetal: public Renderer
         {
@@ -99,15 +104,16 @@ namespace ouzel
 
             struct PipelineStateDesc
             {
-                BlendStateMetal* blendState;
-                ShaderMetal* shader;
+                BlendStateResourceMetal* blendState;
+                ShaderResourceMetal* shader;
                 NSUInteger sampleCount;
-                NSUInteger colorFormat;
-                NSUInteger depthFormat;
+                MTLPixelFormat colorFormat;
+                MTLPixelFormat depthFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
-                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) < std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
+                    return std::tie(blendState, shader, sampleCount, colorFormat, depthFormat) <
+                        std::tie(other.blendState, other.shader, other.sampleCount, colorFormat, other.depthFormat);
                 }
             };
 
@@ -135,11 +141,11 @@ namespace ouzel
             MTLTexturePtr depthTexture = Nil;
             std::map<SamplerStateDesc, MTLSamplerStatePtr> samplerStates;
 
-            NSUInteger colorFormat = 0;
-            NSUInteger depthFormat = 0;
+            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
 
-            NSUInteger colorBufferLoadAction = 0;
-            NSUInteger depthBufferLoadAction = 0;
+            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
 
             dispatch_semaphore_t inflightSemaphore;
 

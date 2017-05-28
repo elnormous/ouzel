@@ -439,6 +439,33 @@ namespace ouzel
                 return true;
             }
 
+            static inline bool setColorMask(GLboolean redMask,
+                                            GLboolean greenMask,
+                                            GLboolean blueMask,
+                                            GLboolean alphaMask)
+            {
+                if (stateCache.redMask != redMask ||
+                    stateCache.greenMask != greenMask ||
+                    stateCache.blueMask != blueMask ||
+                    stateCache.alphaMask != alphaMask)
+                {
+                    glColorMask(redMask, greenMask, blueMask, alphaMask);
+
+                    stateCache.redMask = redMask;
+                    stateCache.greenMask = greenMask;
+                    stateCache.blueMask = blueMask;
+                    stateCache.alphaMask = alphaMask;
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set color mask";
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
             static void deleteBuffer(GLuint bufferId)
             {
                 GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
@@ -555,6 +582,10 @@ namespace ouzel
                 GLenum blendDestFactorRGB = 0;
                 GLenum blendSourceFactorAlpha = 0;
                 GLenum blendDestFactorAlpha = 0;
+                GLboolean redMask = GL_TRUE;
+                GLboolean greenMask = GL_TRUE;
+                GLboolean blueMask = GL_TRUE;
+                GLboolean alphaMask = GL_TRUE;
 
 #ifdef OUZEL_SUPPORTS_OPENGL
                 GLenum polygonFillMode = GL_FILL;

@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererEmpty.h"
+#include "BlendStateResourceEmpty.h"
+#include "TextureResourceEmpty.h"
+#include "ShaderResourceEmpty.h"
+#include "MeshBufferResourceEmpty.h"
+#include "BufferResourceEmpty.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
-#include "BlendStateEmpty.h"
-#include "TextureEmpty.h"
-#include "ShaderEmpty.h"
-#include "MeshBufferEmpty.h"
-#include "BufferEmpty.h"
 
 namespace ouzel
 {
@@ -116,7 +116,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateEmpty();
+            BlendStateResource* blendState = new BlendStateResourceEmpty();
             resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
@@ -125,7 +125,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture(new TextureEmpty());
+            TextureResource* texture(new TextureResourceEmpty());
             resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
@@ -134,7 +134,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderEmpty();
+            ShaderResource* shader = new ShaderResourceEmpty();
             resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
@@ -143,7 +143,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferResource* meshBuffer = new MeshBufferEmpty();
+            MeshBufferResource* meshBuffer = new MeshBufferResourceEmpty();
             resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
@@ -152,7 +152,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferEmpty();
+            BufferResource* buffer = new BufferResourceEmpty();
             resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }

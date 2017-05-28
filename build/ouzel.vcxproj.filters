@@ -187,19 +187,7 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\TextureD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
@@ -208,19 +196,7 @@
     <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\BlendStateEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\MeshBufferEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\ShaderEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\TextureEmpty.cpp">
       <Filter>graphics\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp">
@@ -289,31 +265,10 @@
     <ClCompile Include="..\ouzel\graphics\BufferResource.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\direct3d11\BufferD3D11.cpp">
-      <Filter>graphics\direct3d11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\empty\BufferEmpty.cpp">
-      <Filter>graphics\empty</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\BlendStateOGL.cpp">
-      <Filter>graphics\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\BufferOGL.cpp">
-      <Filter>graphics\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\MeshBufferOGL.cpp">
-      <Filter>graphics\opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\RendererOGL.cpp">
-      <Filter>graphics\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\ShaderOGL.cpp">
-      <Filter>graphics\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\graphics\opengl\TextureOGL.cpp">
       <Filter>graphics\opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.cpp">
@@ -363,6 +318,51 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\math\ConvexVolume.cpp">
       <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\BufferResourceEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\MeshBufferResourceEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\ShaderResourceEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\TextureResourceEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\empty\BlendStateResourceEmpty.cpp">
+      <Filter>graphics\empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\TextureResourceOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\BufferResourceOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\opengl\ShaderResourceOGL.cpp">
+      <Filter>graphics\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\MeshBufferResourceD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.cpp">
+      <Filter>graphics\direct3d11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,25 +568,13 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h">
@@ -601,19 +589,7 @@
     <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BlendStateEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\MeshBufferEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\ShaderEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\TextureEmpty.h">
       <Filter>graphics\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h">
@@ -682,12 +658,6 @@
     <ClInclude Include="..\ouzel\graphics\Buffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BufferD3D11.h">
-      <Filter>graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BufferEmpty.h">
-      <Filter>graphics\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\Resource.h">
       <Filter>audio</Filter>
     </ClInclude>
@@ -696,12 +666,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\DataType.h">
       <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateOGL.h">
-      <Filter>graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\BufferOGL.h">
-      <Filter>graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h">
       <Filter>graphics\opengl</Filter>
@@ -727,16 +691,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferOGL.h">
-      <Filter>graphics\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\RendererOGL.h">
-      <Filter>graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ShaderOGL.h">
-      <Filter>graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureOGL.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h">
@@ -810,6 +765,51 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\math\ConvexVolume.h">
       <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\BlendStateResourceEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\BufferResourceEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\MeshBufferResourceEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\ShaderResourceEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\empty\TextureResourceEmpty.h">
+      <Filter>graphics\empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferResourceD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.h">
+      <Filter>graphics\direct3d11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

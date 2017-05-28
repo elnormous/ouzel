@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -40,6 +41,15 @@ namespace ouzel
                 MAX
             };
 
+            enum ColorMask
+            {
+                COLOR_MASK_RED = 0x01,
+                COLOR_MASK_GREEN = 0x02,
+                COLOR_MASK_BLUE = 0x04,
+                COLOR_MASK_ALPHA = 0x08,
+                COLOR_MASK_ALL = COLOR_MASK_RED | COLOR_MASK_GREEN | COLOR_MASK_BLUE | COLOR_MASK_ALPHA
+            };
+
             BlendState();
             virtual ~BlendState();
 
@@ -47,7 +57,8 @@ namespace ouzel
                       BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
                       BlendOperation newColorOperation,
                       BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                      BlendOperation newAlphaOperation);
+                      BlendOperation newAlphaOperation,
+                      uint8_t newColorMask = COLOR_MASK_ALL);
 
             BlendStateResource* getResource() const { return resource; }
 
@@ -58,6 +69,7 @@ namespace ouzel
             BlendFactor getAlphaBlendSource() const;
             BlendFactor getAlphaBlendDest() const;
             BlendOperation getAlphaOperation() const;
+            uint8_t getColorMask() const;
 
         private:
             BlendStateResource* resource = nullptr;

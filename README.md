@@ -13,7 +13,7 @@ Supported platforms:
 * Linux
 * iOS 8+
 * tvOS 9+
-* Android 2.3+
+* Android 3.0+
 * Emscripten ([sample](http://www.ouzelengine.org/samples/))
 
 Supported rendering backends:
@@ -33,7 +33,7 @@ Windows Phone platform support is under development.
 
 ## Features
 
-* Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux and Emscripten targets supported)
+* Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux, and Emscripten targets supported)
 * Multi-threaded (separate threads for rendering, sound and game)
 * 2D and 3D scene management
 * GUI helper classes and management
@@ -43,8 +43,9 @@ Windows Phone platform support is under development.
 * Node animation (including tweening) system
 * Particle systems
 * Resource caching system
-* Localization support via loading string translations
+* Localization support via loading string translations and UTF-8 string support
 * Audio engine for sound effect playback
+* High DPI support on Windows, macOS, and iOS
 * Easy to install (just pull the repository and it's subrepositories and build it)
 
 ## Example app

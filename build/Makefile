@@ -49,18 +49,18 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BufferEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/BufferResourceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RendererEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/TextureEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/TextureResourceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RendererOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
@@ -148,12 +148,12 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BufferMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/TextureMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadMacOS.mm \
