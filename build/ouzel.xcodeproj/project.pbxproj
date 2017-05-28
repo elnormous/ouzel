@@ -549,6 +549,8 @@
 		3049DCC91EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
 		3049DCCA1EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
 		3049DCCB1EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
+		3049DCCE1EDB784D0000997A /* CursorResourceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */; };
+		3049DCCF1EDB784D0000997A /* CursorResourceMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -1030,6 +1032,8 @@
 		3049DCBD1EDB52750000997A /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
 		3049DCC41EDB52B90000997A /* CursorResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CursorResource.cpp; sourceTree = "<group>"; };
 		3049DCC51EDB52B90000997A /* CursorResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResource.h; sourceTree = "<group>"; };
+		3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CursorResourceMacOS.mm; sourceTree = "<group>"; };
+		3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResourceMacOS.h; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -1519,6 +1523,8 @@
 			children = (
 				303820701D816C9E00677CAB /* ApplicationMacOS.h */,
 				303820711D816C9E00677CAB /* ApplicationMacOS.mm */,
+				3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */,
+				3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */,
 				303820721D816C9E00677CAB /* main.cpp */,
 				303820791D816C9E00677CAB /* WindowMacOS.h */,
 				3038207A1D816C9E00677CAB /* WindowMacOS.mm */,
@@ -2155,6 +2161,7 @@
 				3082C3941D9565DE0090FC9D /* ColorPSGL2.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				30EF364E1CA76ACD00F04F29 /* ScrollArea.h in Headers */,
+				3049DCCF1EDB784D0000997A /* CursorResourceMacOS.h in Headers */,
 				3039336F1E5F45F2000C9A8E /* SoundPlayer.h in Headers */,
 				3082C3BE1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C3B81D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
@@ -2655,6 +2662,7 @@
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				30381F741D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
+				3049DCCE1EDB784D0000997A /* CursorResourceMacOS.mm in Sources */,
 				30381FB61D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
