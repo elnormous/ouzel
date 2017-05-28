@@ -13,7 +13,7 @@ namespace ouzel
     public:
         virtual ~CursorResourceLinux();
 
-        HCURSOR getNativeCursor() const { return cursor; }
+        ::Cursor getNativeCursor() const { return cursor; }
 
     protected:
         virtual bool upload() override;
