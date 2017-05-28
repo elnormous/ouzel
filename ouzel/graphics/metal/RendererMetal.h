@@ -36,6 +36,10 @@ typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
+typedef NSUInteger MTLPixelFormat;
+#define MTLPixelFormatInvalid 0
+typedef NSUInteger MTLLoadAction;
+#define MTLLoadActionDontCare 0
 #endif
 
 #include "graphics/Renderer.h"
@@ -102,8 +106,8 @@ namespace ouzel
                 BlendStateResourceMetal* blendState;
                 ShaderResourceMetal* shader;
                 NSUInteger sampleCount;
-                NSUInteger colorFormat;
-                NSUInteger depthFormat;
+                MTLPixelFormat colorFormat;
+                MTLPixelFormat depthFormat;
 
                 bool operator<(const PipelineStateDesc& other) const
                 {
@@ -135,11 +139,11 @@ namespace ouzel
             MTLTexturePtr depthTexture = Nil;
             std::map<SamplerStateDesc, MTLSamplerStatePtr> samplerStates;
 
-            NSUInteger colorFormat = 0;
-            NSUInteger depthFormat = 0;
+            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
 
-            NSUInteger colorBufferLoadAction = 0;
-            NSUInteger depthBufferLoadAction = 0;
+            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
 
             dispatch_semaphore_t inflightSemaphore;
 

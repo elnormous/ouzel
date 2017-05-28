@@ -13,6 +13,10 @@ typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLTextureResourcePtr;
 typedef id MTLRenderPassDescriptorPtr;
+typedef NSUInteger MTLPixelFormat;
+#define MTLPixelFormatInvalid 0
+typedef NSUInteger MTLLoadAction;
+#define MTLLoadActionDontCare 0
 #endif
 
 #include "core/CompileConfig.h"
@@ -29,8 +33,8 @@ namespace ouzel
             virtual ~TextureResourceMetal();
 
             MTLTextureResourcePtr getTexture() const { return texture; }
-            NSUInteger getColorFormat() const { return colorFormat; }
-            NSUInteger getDepthFormat() const { return depthFormat; }
+            MTLPixelFormat getColorFormat() const { return colorFormat; }
+            MTLPixelFormat getDepthFormat() const { return depthFormat; }
 
             MTLSamplerStatePtr getSamplerState() const { return samplerState; }
             MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
@@ -38,8 +42,8 @@ namespace ouzel
             NSUInteger getWidth() const { return width; }
             NSUInteger getHeight() const { return height; }
 
-            NSUInteger getColorBufferLoadAction() const { return colorBufferLoadAction; }
-            NSUInteger getDepthBufferLoadAction() const { return depthBufferLoadAction; }
+            MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
+            MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         protected:
             virtual bool upload() override;
@@ -54,11 +58,11 @@ namespace ouzel
             MTLTextureResourcePtr msaaTexture = Nil;
             MTLTextureResourcePtr depthTexture = Nil;
 
-            NSUInteger colorFormat = 0;
-            NSUInteger depthFormat = 0;
+            MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
+            MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
 
-            NSUInteger colorBufferLoadAction = 0;
-            NSUInteger depthBufferLoadAction = 0;
+            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
         };
     } // namespace graphics
 } // namespace ouzel

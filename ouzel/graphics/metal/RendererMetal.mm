@@ -454,8 +454,8 @@ namespace ouzel
                     [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
                 }
 
-                currentRenderPassDescriptor.colorAttachments[0].loadAction = static_cast<MTLLoadAction>(colorBufferLoadAction);
-                currentRenderPassDescriptor.depthAttachment.loadAction = static_cast<MTLLoadAction>(depthBufferLoadAction);
+                currentRenderPassDescriptor.colorAttachments[0].loadAction = colorBufferLoadAction;
+                currentRenderPassDescriptor.depthAttachment.loadAction = depthBufferLoadAction;
             }
             else for (const DrawCommand& drawCommand : drawCommands)
             {
@@ -489,8 +489,8 @@ namespace ouzel
                     if (renderTargetMetal->getFrameBufferClearedFrame() != currentFrame)
                     {
                         renderTargetMetal->setFrameBufferClearedFrame(currentFrame);
-                        newColorBufferLoadAction = static_cast<MTLLoadAction>(renderTargetMetal->getColorBufferLoadAction());
-                        newDepthBufferLoadAction = static_cast<MTLLoadAction>(renderTargetMetal->getDepthBufferLoadAction());
+                        newColorBufferLoadAction = renderTargetMetal->getColorBufferLoadAction();
+                        newDepthBufferLoadAction = renderTargetMetal->getDepthBufferLoadAction();
                     }
                 }
                 else
@@ -506,8 +506,8 @@ namespace ouzel
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        newColorBufferLoadAction = static_cast<MTLLoadAction>(colorBufferLoadAction);
-                        newDepthBufferLoadAction = static_cast<MTLLoadAction>(depthBufferLoadAction);
+                        newColorBufferLoadAction = colorBufferLoadAction;
+                        newDepthBufferLoadAction = depthBufferLoadAction;
                     }
                 }
 
@@ -838,8 +838,8 @@ namespace ouzel
                 pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
                 pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
 
-                pipelineStateDescriptor.colorAttachments[0].pixelFormat = static_cast<MTLPixelFormat>(desc.colorFormat);
-                pipelineStateDescriptor.depthAttachmentPixelFormat = static_cast<MTLPixelFormat>(desc.depthFormat);
+                pipelineStateDescriptor.colorAttachments[0].pixelFormat = desc.colorFormat;
+                pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
                 pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
                 // blending
