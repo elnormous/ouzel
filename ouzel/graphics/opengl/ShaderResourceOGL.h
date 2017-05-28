@@ -27,11 +27,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ShaderOGL: public ShaderResource
+        class ShaderResourceOGL: public ShaderResource
         {
         public:
-            ShaderOGL();
-            virtual ~ShaderOGL();
+            ShaderResourceOGL();
+            virtual ~ShaderResourceOGL();
 
             struct Location
             {

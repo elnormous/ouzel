@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include "graphics/BufferResource.h"
+#include "graphics/TextureResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BufferEmpty: public BufferResource
+        class TextureResourceEmpty: public TextureResource
         {
         public:
-            BufferEmpty();
+            TextureResourceEmpty();
 
             virtual bool upload() override;
         };
-    }
-}
+    } // namespace graphics
+} // namespace ouzel

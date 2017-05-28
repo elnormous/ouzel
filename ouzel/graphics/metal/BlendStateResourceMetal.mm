@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendStateMetal.h"
+#include "BlendStateResourceMetal.h"
 
 namespace ouzel
 {
@@ -43,11 +43,11 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        BlendStateMetal::BlendStateMetal()
+        BlendStateResourceMetal::BlendStateResourceMetal()
         {
         }
 
-        bool BlendStateMetal::upload()
+        bool BlendStateResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

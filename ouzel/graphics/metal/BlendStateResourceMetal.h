@@ -18,10 +18,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateMetal: public BlendStateResource
+        class BlendStateResourceMetal: public BlendStateResource
         {
         public:
-            BlendStateMetal();
+            BlendStateResourceMetal();
 
             MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
             MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }

@@ -3,16 +3,16 @@
 
 #pragma once
 
-#include "graphics/TextureResource.h"
+#include "graphics/ShaderResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class TextureEmpty: public TextureResource
+        class ShaderResourceEmpty: public ShaderResource
         {
         public:
-            TextureEmpty();
+            ShaderResourceEmpty();
 
             virtual bool upload() override;
         };

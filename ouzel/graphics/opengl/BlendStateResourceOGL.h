@@ -27,10 +27,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateOGL: public BlendStateResource
+        class BlendStateResourceOGL: public BlendStateResource
         {
         public:
-            BlendStateOGL();
+            BlendStateResourceOGL();
 
             GLenum getModeRGB() const { return modeRGB; }
             GLenum getModeAlpha() const { return modeAlpha; }

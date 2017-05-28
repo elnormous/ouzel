@@ -43,19 +43,19 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/events/EventHandler.cpp \
     ../../ouzel/files/Archive.cpp \
     ../../ouzel/files/FileSystem.cpp \
-    ../../ouzel/graphics/empty/BlendStateEmpty.cpp \
-    ../../ouzel/graphics/empty/BufferEmpty.cpp \
-    ../../ouzel/graphics/empty/MeshBufferEmpty.cpp \
+    ../../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/BufferResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
     ../../ouzel/graphics/empty/RendererEmpty.cpp \
-    ../../ouzel/graphics/empty/ShaderEmpty.cpp \
-    ../../ouzel/graphics/empty/TextureEmpty.cpp \
+    ../../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/TextureResourceEmpty.cpp \
     ../../ouzel/graphics/opengl/android/RendererOGLAndroid.cpp \
-    ../../ouzel/graphics/opengl/BlendStateOGL.cpp \
-    ../../ouzel/graphics/opengl/BufferOGL.cpp \
-    ../../ouzel/graphics/opengl/MeshBufferOGL.cpp \
+    ../../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/BufferResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
     ../../ouzel/graphics/opengl/RendererOGL.cpp \
-    ../../ouzel/graphics/opengl/ShaderOGL.cpp \
-    ../../ouzel/graphics/opengl/TextureOGL.cpp \
+    ../../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/TextureResourceOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
     ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Buffer.cpp \

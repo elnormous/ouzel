@@ -22,11 +22,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class TextureMetal: public TextureResource
+        class TextureResourceMetal: public TextureResource
         {
         public:
-            TextureMetal();
-            virtual ~TextureMetal();
+            TextureResourceMetal();
+            virtual ~TextureResourceMetal();
 
             MTLTextureResourcePtr getTexture() const { return texture; }
             NSUInteger getColorFormat() const { return colorFormat; }

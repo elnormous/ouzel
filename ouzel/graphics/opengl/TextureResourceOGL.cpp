@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextureOGL.h"
+#include "TextureResourceOGL.h"
 #include "core/Engine.h"
 #include "RendererOGL.h"
 #include "utils/Log.h"
@@ -190,11 +190,11 @@ namespace ouzel
             }
         }
 
-        TextureOGL::TextureOGL()
+        TextureResourceOGL::TextureResourceOGL()
         {
         }
 
-        TextureOGL::~TextureOGL()
+        TextureResourceOGL::~TextureResourceOGL()
         {
             if (depthBufferId)
             {
@@ -212,7 +212,7 @@ namespace ouzel
             }
         }
 
-        bool TextureOGL::upload()
+        bool TextureResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

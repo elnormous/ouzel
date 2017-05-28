@@ -27,14 +27,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferOGL;
+        class MeshBufferResourceOGL;
 
-        class BufferOGL: public BufferResource
+        class BufferResourceOGL: public BufferResource
         {
-            friend MeshBufferOGL;
+            friend MeshBufferResourceOGL;
         public:
-            BufferOGL();
-            virtual ~BufferOGL();
+            BufferResourceOGL();
+            virtual ~BufferResourceOGL();
 
             GLuint getBufferId() const { return bufferId; }
             GLuint getBufferType() const { return bufferType; }

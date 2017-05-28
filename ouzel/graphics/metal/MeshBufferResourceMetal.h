@@ -17,19 +17,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BufferMetal;
+        class BufferResourceMetal;
 
-        class MeshBufferMetal: public MeshBufferResource
+        class MeshBufferResourceMetal: public MeshBufferResource
         {
         public:
-            MeshBufferMetal();
-            virtual ~MeshBufferMetal();
+            MeshBufferResourceMetal();
+            virtual ~MeshBufferResourceMetal();
 
             MTLIndexType getIndexType() const { return indexType; }
             NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 
-            BufferMetal* getIndexBufferMetal() const { return indexBufferMetal; }
-            BufferMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
+            BufferResourceMetal* getIndexBufferMetal() const { return indexBufferMetal; }
+            BufferResourceMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
 
         protected:
             virtual bool upload() override;
@@ -37,8 +37,8 @@ namespace ouzel
             MTLIndexType indexType;
             NSUInteger bytesPerIndex = 0;
 
-            BufferMetal* indexBufferMetal = nullptr;
-            BufferMetal* vertexBufferMetal = nullptr;
+            BufferResourceMetal* indexBufferMetal = nullptr;
+            BufferResourceMetal* vertexBufferMetal = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

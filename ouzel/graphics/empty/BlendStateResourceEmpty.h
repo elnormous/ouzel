@@ -9,10 +9,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateEmpty: public BlendStateResource
+        class BlendStateResourceEmpty: public BlendStateResource
         {
         public:
-            BlendStateEmpty();
+            BlendStateResourceEmpty();
 
             virtual bool upload() override;
         };

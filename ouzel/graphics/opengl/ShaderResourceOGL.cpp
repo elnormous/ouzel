@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShaderOGL.h"
-#include "core/Engine.h"
+#include "ShaderResourceOGL.h"
 #include "RendererOGL.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderOGL::ShaderOGL()
+        ShaderResourceOGL::ShaderResourceOGL()
         {
         }
 
-        ShaderOGL::~ShaderOGL()
+        ShaderResourceOGL::~ShaderResourceOGL()
         {
             if (programId)
             {
@@ -33,7 +33,7 @@ namespace ouzel
             }
         }
 
-        void ShaderOGL::printShaderMessage(GLuint shaderId)
+        void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;
             glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
@@ -47,7 +47,7 @@ namespace ouzel
             }
         }
 
-        void ShaderOGL::printProgramMessage()
+        void ShaderResourceOGL::printProgramMessage()
         {
             GLint logLength = 0;
             glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
@@ -61,7 +61,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderOGL::upload()
+        bool ShaderResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

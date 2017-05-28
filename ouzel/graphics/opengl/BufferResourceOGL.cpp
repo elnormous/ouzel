@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "BufferOGL.h"
+#include "BufferResourceOGL.h"
 #include "RendererOGL.h"
 #include "utils/Log.h"
 
@@ -10,11 +10,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferOGL::BufferOGL()
+        BufferResourceOGL::BufferResourceOGL()
         {
         }
 
-        BufferOGL::~BufferOGL()
+        BufferResourceOGL::~BufferResourceOGL()
         {
             if (bufferId)
             {
@@ -22,7 +22,7 @@ namespace ouzel
             }
         }
 
-        bool BufferOGL::upload()
+        bool BufferResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

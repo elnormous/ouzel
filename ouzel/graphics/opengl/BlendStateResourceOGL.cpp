@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendStateOGL.h"
+#include "BlendStateResourceOGL.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -48,11 +48,11 @@ namespace ouzel
             }
         }
 
-        BlendStateOGL::BlendStateOGL()
+        BlendStateResourceOGL::BlendStateResourceOGL()
         {
         }
 
-        bool BlendStateOGL::upload()
+        bool BlendStateResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

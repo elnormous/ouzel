@@ -20,11 +20,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ShaderMetal: public ShaderResource
+        class ShaderResourceMetal: public ShaderResource
         {
         public:
-            ShaderMetal();
-            virtual ~ShaderMetal();
+            ShaderResourceMetal();
+            virtual ~ShaderResourceMetal();
 
             struct Location
             {

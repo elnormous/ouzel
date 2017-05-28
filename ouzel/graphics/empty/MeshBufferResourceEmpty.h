@@ -9,10 +9,10 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferEmpty: public MeshBufferResource
+        class MeshBufferResourceEmpty: public MeshBufferResource
         {
         public:
-            MeshBufferEmpty();
+            MeshBufferResourceEmpty();
 
             virtual bool upload() override;
         };

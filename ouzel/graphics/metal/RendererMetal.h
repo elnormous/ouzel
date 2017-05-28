@@ -46,8 +46,8 @@ namespace ouzel
 
     namespace graphics
     {
-        class BlendStateMetal;
-        class ShaderMetal;
+        class BlendStateResourceMetal;
+        class ShaderResourceMetal;
 
         class RendererMetal: public Renderer
         {
@@ -99,8 +99,8 @@ namespace ouzel
 
             struct PipelineStateDesc
             {
-                BlendStateMetal* blendState;
-                ShaderMetal* shader;
+                BlendStateResourceMetal* blendState;
+                ShaderResourceMetal* shader;
                 NSUInteger sampleCount;
                 NSUInteger colorFormat;
                 NSUInteger depthFormat;

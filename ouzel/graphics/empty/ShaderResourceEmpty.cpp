@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBufferEmpty.h"
+#include "ShaderResourceEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferEmpty::MeshBufferEmpty()
+        ShaderResourceEmpty::ShaderResourceEmpty()
         {
         }
 
-        bool MeshBufferEmpty::upload()
+        bool ShaderResourceEmpty::upload()
         {
             return true;
         }

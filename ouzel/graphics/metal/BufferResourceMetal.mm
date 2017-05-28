@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "BufferMetal.h"
+#include "BufferResourceMetal.h"
 #include "RendererMetal.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferMetal::BufferMetal()
+        BufferResourceMetal::BufferResourceMetal()
         {
         }
 
-        BufferMetal::~BufferMetal()
+        BufferResourceMetal::~BufferResourceMetal()
         {
             if (buffer)
             {
@@ -23,7 +23,7 @@ namespace ouzel
             }
         }
 
-        bool BufferMetal::upload()
+        bool BufferResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

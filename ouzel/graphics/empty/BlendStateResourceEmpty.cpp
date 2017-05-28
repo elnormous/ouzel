@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShaderEmpty.h"
+#include "BlendStateResourceEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderEmpty::ShaderEmpty()
+        BlendStateResourceEmpty::BlendStateResourceEmpty()
         {
         }
 
-        bool ShaderEmpty::upload()
+        bool BlendStateResourceEmpty::upload()
         {
             return true;
         }

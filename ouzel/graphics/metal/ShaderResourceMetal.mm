@@ -2,22 +2,21 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include "ShaderResourceMetal.h"
+#include "RendererMetal.h"
 #include "core/Engine.h"
-#include "RendererMetal.h"
 #include "files/FileSystem.h"
-#include "ShaderMetal.h"
-#include "RendererMetal.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderMetal::ShaderMetal()
+        ShaderResourceMetal::ShaderResourceMetal()
         {
         }
 
-        ShaderMetal::~ShaderMetal()
+        ShaderResourceMetal::~ShaderResourceMetal()
         {
             if (vertexShader)
             {
@@ -97,7 +96,7 @@ namespace ouzel
             }
         }
 
-        bool ShaderMetal::upload()
+        bool ShaderResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

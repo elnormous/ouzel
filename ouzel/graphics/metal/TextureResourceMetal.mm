@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextureMetal.h"
-#include "core/Engine.h"
+#include "TextureResourceMetal.h"
 #include "RendererMetal.h"
+#include "core/Engine.h"
 #include "math/MathUtils.h"
 #include "utils/Log.h"
 
@@ -48,11 +48,11 @@ namespace ouzel
             }
         }
 
-        TextureMetal::TextureMetal()
+        TextureResourceMetal::TextureResourceMetal()
         {
         }
 
-        TextureMetal::~TextureMetal()
+        TextureResourceMetal::~TextureResourceMetal()
         {
             if (msaaTexture)
             {
@@ -75,7 +75,7 @@ namespace ouzel
             }
         }
 
-        bool TextureMetal::upload()
+        bool TextureResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

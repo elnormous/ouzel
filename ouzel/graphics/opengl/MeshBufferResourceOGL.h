@@ -28,13 +28,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BufferOGL;
+        class BufferResourceOGL;
 
-        class MeshBufferOGL: public MeshBufferResource
+        class MeshBufferResourceOGL: public MeshBufferResource
         {
         public:
-            MeshBufferOGL();
-            virtual ~MeshBufferOGL();
+            MeshBufferResourceOGL();
+            virtual ~MeshBufferResourceOGL();
 
             bool bindBuffers();
 
@@ -42,8 +42,8 @@ namespace ouzel
             GLuint getBytesPerIndex() const { return bytesPerIndex; }
             GLuint getVertexArrayId() const { return vertexArrayId; }
 
-            BufferOGL* getIndexBufferOGL() const { return indexBufferOGL; }
-            BufferOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
+            BufferResourceOGL* getIndexBufferOGL() const { return indexBufferOGL; }
+            BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
             virtual bool upload() override;
@@ -63,8 +63,8 @@ namespace ouzel
 
             GLuint vertexArrayId = 0;
 
-            BufferOGL* indexBufferOGL = nullptr;
-            BufferOGL* vertexBufferOGL = nullptr;
+            BufferResourceOGL* indexBufferOGL = nullptr;
+            BufferResourceOGL* vertexBufferOGL = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

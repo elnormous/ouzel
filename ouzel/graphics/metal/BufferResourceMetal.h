@@ -17,14 +17,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferMetal;
+        class MeshBufferResourceMetal;
 
-        class BufferMetal: public BufferResource
+        class BufferResourceMetal: public BufferResource
         {
-            friend MeshBufferMetal;
+            friend MeshBufferResourceMetal;
         public:
-            BufferMetal();
-            virtual ~BufferMetal();
+            BufferResourceMetal();
+            virtual ~BufferResourceMetal();
 
             MTLBufferPtr getBuffer() const { return buffer; }
 

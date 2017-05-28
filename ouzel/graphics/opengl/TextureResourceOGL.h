@@ -27,11 +27,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class TextureOGL: public TextureResource
+        class TextureResourceOGL: public TextureResource
         {
         public:
-            TextureOGL();
-            virtual ~TextureOGL();
+            TextureResourceOGL();
+            virtual ~TextureResourceOGL();
 
             GLuint getTextureId() const { return textureId; }
 

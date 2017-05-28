@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendStateEmpty.h"
+#include "TextureResourceEmpty.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BlendStateEmpty::BlendStateEmpty()
+        TextureResourceEmpty::TextureResourceEmpty()
         {
         }
 
-        bool BlendStateEmpty::upload()
+        bool TextureResourceEmpty::upload()
         {
             return true;
         }

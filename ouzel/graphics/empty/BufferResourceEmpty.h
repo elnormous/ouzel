@@ -3,18 +3,18 @@
 
 #pragma once
 
-#include "graphics/ShaderResource.h"
+#include "graphics/BufferResource.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class ShaderEmpty: public ShaderResource
+        class BufferResourceEmpty: public BufferResource
         {
         public:
-            ShaderEmpty();
+            BufferResourceEmpty();
 
             virtual bool upload() override;
         };
-    } // namespace graphics
-} // namespace ouzel
+    }
+}

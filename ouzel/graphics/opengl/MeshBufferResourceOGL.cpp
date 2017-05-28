@@ -1,22 +1,22 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBufferOGL.h"
+#include "MeshBufferResourceOGL.h"
+#include "RendererOGL.h"
+#include "BufferResourceOGL.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
-#include "RendererOGL.h"
-#include "BufferOGL.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferOGL::MeshBufferOGL()
+        MeshBufferResourceOGL::MeshBufferResourceOGL()
         {
         }
 
-        MeshBufferOGL::~MeshBufferOGL()
+        MeshBufferResourceOGL::~MeshBufferResourceOGL()
         {
             if (vertexArrayId)
             {
@@ -24,7 +24,7 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferOGL::bindBuffers()
+        bool MeshBufferResourceOGL::bindBuffers()
         {
             if (vertexArrayId)
             {
@@ -182,7 +182,7 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferOGL::upload()
+        bool MeshBufferResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -237,14 +237,14 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to create vertex array";
                 }
 
-                indexBufferOGL = static_cast<BufferOGL*>(indexBuffer);
+                indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
 
                 if (indexBufferOGL && !indexBufferOGL->upload())
                 {
                     return false;
                 }
 
-                vertexBufferOGL = static_cast<BufferOGL*>(vertexBuffer);
+                vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
 
                 if (vertexBufferOGL && !vertexBufferOGL->upload())
                 {

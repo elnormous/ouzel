@@ -1,25 +1,25 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBufferMetal.h"
-#include "core/Engine.h"
+#include "MeshBufferResourceMetal.h"
 #include "RendererMetal.h"
-#include "BufferMetal.h"
+#include "BufferResourceMetal.h"
+#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferMetal::MeshBufferMetal()
+        MeshBufferResourceMetal::MeshBufferResourceMetal()
         {
         }
 
-        MeshBufferMetal::~MeshBufferMetal()
+        MeshBufferResourceMetal::~MeshBufferResourceMetal()
         {
         }
 
-        bool MeshBufferMetal::upload()
+        bool MeshBufferResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -41,8 +41,8 @@ namespace ouzel
                         return false;
                 }
 
-                indexBufferMetal = static_cast<BufferMetal*>(indexBuffer);
-                vertexBufferMetal = static_cast<BufferMetal*>(vertexBuffer);
+                indexBufferMetal = static_cast<BufferResourceMetal*>(indexBuffer);
+                vertexBufferMetal = static_cast<BufferResourceMetal*>(vertexBuffer);
 
                 dirty = 0;
             }
