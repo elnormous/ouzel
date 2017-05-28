@@ -21,7 +21,7 @@ namespace ouzel
         public:
             struct ConstantInfo
             {
-                ConstantInfo(std::string aName, DataType aDataType):
+                ConstantInfo(const std::string& aName, DataType aDataType):
                     name(aName), dataType(aDataType), size(getDataTypeSize(aDataType)) {}
 
                 std::string name;
