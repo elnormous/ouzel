@@ -126,12 +126,6 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
-            virtual BufferResource* createBuffer() override;
-
             static inline bool checkOpenGLError(bool logError = true)
             {
                 GLenum error = glGetError();
@@ -554,8 +548,13 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();
-
             virtual bool generateScreenshot(const std::string& filename) override;
+
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             void* getProcAddress(const std::string& name) const;
 

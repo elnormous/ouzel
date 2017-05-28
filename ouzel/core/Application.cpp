@@ -5,6 +5,7 @@
 #include <cstdint>
 #include "Application.h"
 #include "Engine.h"
+#include "CursorResource.h"
 
 namespace ouzel
 {
@@ -92,5 +93,17 @@ namespace ouzel
     void Application::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         screenSaverEnabled = newScreenSaverEnabled;
+    }
+
+    CursorResource* Application::createCursorResource()
+    {
+        std::unique_ptr<CursorResource> cursorResource(new CursorResource());
+        CursorResource* result = cursorResource.get();
+
+        return result;
+    }
+
+    void Application::deleteCursorResource(CursorResource* cursorResource)
+    {
     }
 }

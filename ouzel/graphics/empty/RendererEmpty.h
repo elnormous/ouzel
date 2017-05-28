@@ -14,13 +14,6 @@ namespace ouzel
         class RendererEmpty: public Renderer
         {
             friend Engine;
-        public:
-            virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
-            virtual BufferResource* createBuffer() override;
-
         protected:
             RendererEmpty();
 
@@ -34,6 +27,12 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
+
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
         };
     } // namespace graphics
 } // namespace ouzel

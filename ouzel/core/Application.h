@@ -13,8 +13,12 @@
 
 namespace ouzel
 {
+    class Cursor;
+    class CursorResource;
+
     class Application: public Noncopyable
     {
+        friend Cursor;
     public:
         Application();
         Application(int aArgc, char* aArgv[]);
@@ -41,6 +45,9 @@ namespace ouzel
     protected:
         void executeAll();
 
+        virtual CursorResource* createCursorResource();
+        void deleteCursorResource(CursorResource* cursorResource);
+
         bool active = true;
         bool screenSaverEnabled = true;
         int argc = 0;
@@ -51,6 +58,8 @@ namespace ouzel
         std::mutex executeMutex;
 
         FileSystem fileSystem;
+
+        std::vector<CursorResource> cursorResources;
     };
 
     extern Application* sharedApplication;

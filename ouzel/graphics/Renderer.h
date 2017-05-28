@@ -42,15 +42,20 @@ namespace ouzel
 
         class Resource;
         class BlendStateResource;
-        class TextureResource;
-        class ShaderResource;
-        class MeshBufferResource;
         class BufferResource;
+        class MeshBufferResource;
+        class ShaderResource;
+        class TextureResource;
 
         class Renderer: public Noncopyable
         {
             friend Engine;
             friend Window;
+            friend BlendState;
+            friend Buffer;
+            friend MeshBuffer;
+            friend Shader;
+            friend Texture;
         public:
             enum class Driver
             {
@@ -91,14 +96,6 @@ namespace ouzel
             uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
-
-            virtual BlendStateResource* createBlendState() = 0;
-            virtual TextureResource* createTexture() = 0;
-            virtual ShaderResource* createShader() = 0;
-            virtual MeshBufferResource* createMeshBuffer() = 0;
-            virtual BufferResource* createBuffer() = 0;
-            virtual void uploadResource(Resource* resource);
-            virtual void deleteResource(Resource* resource);
 
             bool getRefillDrawQueue() const { return refillDrawQueue; }
             bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
@@ -163,6 +160,14 @@ namespace ouzel
                               bool newDebugRenderer);
 
             virtual void setSize(const Size2& newSize);
+
+            virtual BlendStateResource* createBlendState() = 0;
+            virtual TextureResource* createTexture() = 0;
+            virtual ShaderResource* createShader() = 0;
+            virtual MeshBufferResource* createMeshBuffer() = 0;
+            virtual BufferResource* createBuffer() = 0;
+            virtual void uploadResource(Resource* resource);
+            virtual void deleteResource(Resource* resource);
 
             struct DrawCommand
             {

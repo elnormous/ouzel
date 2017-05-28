@@ -22,12 +22,6 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
-            virtual BufferResource* createBuffer() override;
-
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
 
@@ -60,8 +54,13 @@ namespace ouzel
             virtual bool upload() override;
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
-
             virtual bool generateScreenshot(const std::string& filename) override;
+
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             IDXGIOutput* getOutput() const;
 
