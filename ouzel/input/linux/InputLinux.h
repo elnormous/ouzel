@@ -38,7 +38,7 @@ namespace ouzel
 
             bool cursorVisible = true;
             bool cursorLocked = false;
-            Cursor emptyCursor = None;
+            ::Cursor emptyCursor = None;
         };
     } // namespace input
 } // namespace ouzel
