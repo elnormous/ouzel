@@ -19,7 +19,7 @@ ifeq ($(platform),raspbian)
 CXXFLAGS+=-DRASPBIAN
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
 else ifeq ($(platform),linux)
-LDFLAGS+=-lX11 -lGL -lopenal -lpthread -lxcursor
+LDFLAGS+=-lX11 -lGL -lopenal -lpthread -lXcursor
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioToolbox \
