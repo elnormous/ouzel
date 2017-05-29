@@ -13,6 +13,18 @@ namespace ouzel
         resource = sharedApplication->createCursorResource();
     }
 
+    Cursor::Cursor(SystemCursor systemCursor):
+        Cursor()
+    {
+        init(systemCursor);
+    }
+
+    Cursor::Cursor(const std::string& filename, const Vector2& hotSpot):
+        Cursor()
+    {
+        init(filename, hotSpot);
+    }
+    
     Cursor::~Cursor()
     {
         if (sharedApplication && resource) sharedApplication->deleteCursorResource(resource);
