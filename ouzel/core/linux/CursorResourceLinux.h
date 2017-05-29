@@ -18,6 +18,6 @@ namespace ouzel
     protected:
         virtual bool upload() override;
 
-        ::Cursor emptyCursor = None;
+        ::Cursor cursor = None;
     };
 }
