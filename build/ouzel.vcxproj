@@ -91,6 +91,7 @@
     <ClCompile Include="..\ouzel\gui\CheckBox.cpp" />
     <ClCompile Include="..\ouzel\gui\ComboBox.cpp" />
     <ClCompile Include="..\ouzel\gui\EditBox.cpp" />
+    <ClCompile Include="..\ouzel\gui\FTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Label.cpp" />
     <ClCompile Include="..\ouzel\gui\Menu.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="..\ouzel\gui\CheckBox.h" />
     <ClInclude Include="..\ouzel\gui\ComboBox.h" />
     <ClInclude Include="..\ouzel\gui\EditBox.h" />
+    <ClInclude Include="..\ouzel\gui\FTFont.h" />
     <ClInclude Include="..\ouzel\gui\Label.h" />
     <ClInclude Include="..\ouzel\gui\Menu.h" />
     <ClInclude Include="..\ouzel\gui\RadioButton.h" />
@@ -303,24 +305,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -343,19 +345,19 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

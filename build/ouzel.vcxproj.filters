@@ -364,6 +364,9 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\gui\FTFont.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -810,6 +813,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.h">
       <Filter>graphics\direct3d11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\gui\FTFont.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
