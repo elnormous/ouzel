@@ -75,7 +75,7 @@ namespace ouzel
                     break;
                 }
 
-                func = executeQueue.front();
+                func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
