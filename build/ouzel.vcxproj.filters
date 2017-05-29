@@ -364,14 +364,14 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\Cursor.cpp">
-      <Filter>core</Filter>
+    <ClCompile Include="..\ouzel\input\Cursor.cpp">
+      <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\CursorResource.cpp">
-      <Filter>core</Filter>
+    <ClCompile Include="..\ouzel\input\CursorResource.cpp">
+      <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\windows\CursorResourceWin.cpp">
-      <Filter>core\windows</Filter>
+    <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp">
+      <Filter>input\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -820,14 +820,14 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Cursor.h">
-      <Filter>core</Filter>
+    <ClInclude Include="..\ouzel\input\Cursor.h">
+      <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\CursorResource.h">
-      <Filter>core</Filter>
+    <ClInclude Include="..\ouzel\input\CursorResource.h">
+      <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\CursorResourceWin.h">
-      <Filter>core\windows</Filter>
+    <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.h">
+      <Filter>input\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

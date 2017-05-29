@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "CursorResource.h"
-#include "Application.h"
 
 namespace ouzel
 {
