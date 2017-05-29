@@ -8,6 +8,7 @@
 #include <queue>
 #include <functional>
 #include <mutex>
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Noncopyable.h"
 
@@ -72,6 +73,7 @@ namespace ouzel
         std::mutex executeMutex;
 
         FileSystem fileSystem;
+        Engine engine;
 
         std::mutex resourceMutex;
         std::vector<std::unique_ptr<CursorResource>> resources;

@@ -52,13 +52,11 @@ Windows Phone platform support is under development.
 
 The following code will open a 800px x 600px window:
 
-    ouzel::Engine engine;
-
     void ouzelMain(const std::vector<std::string>& args)
     {
         ouzel::Settings settings;
         settings.size = ouzel::Size2(800.0f, 600.0f);
-        engine.init(settings);
+        ouzel::sharedEngine->init(settings);
     }
 
 ## Showcase

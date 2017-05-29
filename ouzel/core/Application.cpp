@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <algorithm>
 #include "Application.h"
-#include "Engine.h"
 #include "CursorResource.h"
 
 namespace ouzel
