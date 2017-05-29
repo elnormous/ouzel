@@ -3,7 +3,9 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
+#include <vector>
 #include "utils/Noncopyable.h"
 #include "math/Size2.h"
 #include "math/Vector2.h"
