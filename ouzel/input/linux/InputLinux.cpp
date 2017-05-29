@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <X11/cursorfont.h>
 #include "InputLinux.h"
 #include "events/Event.h"
 #include "core/Application.h"

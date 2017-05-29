@@ -20,6 +20,8 @@
 #include "core/Application.h"
 #include "core/Cache.h"
 #include "core/CompileConfig.h"
+#include "core/Cursor.h"
+#include "core/CursorResource.h"
 #include "core/Engine.h"
 #include "core/Settings.h"
 #include "core/Timer.h"

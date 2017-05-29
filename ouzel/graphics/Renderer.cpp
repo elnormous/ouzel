@@ -151,7 +151,7 @@ namespace ouzel
 
                     if (screenshotQueue.empty()) break;
 
-                    filename = screenshotQueue.front();
+                    filename = std::move(screenshotQueue.front());
                     screenshotQueue.pop();
                 }
 

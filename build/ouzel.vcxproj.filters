@@ -364,8 +364,19 @@
     <ClCompile Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\ouzel\gui\FTFont.cpp">
       <Filter>scene</Filter>
+=======
+    <ClCompile Include="..\ouzel\core\Cursor.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\CursorResource.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\CursorResourceWin.cpp">
+      <Filter>core\windows</Filter>
+>>>>>>> upstream/master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,8 +825,19 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\ouzel\gui\FTFont.h">
       <Filter>scene</Filter>
+=======
+    <ClInclude Include="..\ouzel\core\Cursor.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\CursorResource.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\CursorResourceWin.h">
+      <Filter>core\windows</Filter>
+>>>>>>> upstream/master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

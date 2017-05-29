@@ -13,8 +13,12 @@
 
 namespace ouzel
 {
+    class Cursor;
+    class CursorResource;
+
     class Application: public Noncopyable
     {
+        friend Cursor;
     public:
         Application();
         Application(int aArgc, char* aArgv[]);
@@ -38,8 +42,25 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
+        template<class T>
+        void setCursor(const std::unique_ptr<T>& cursor)
+        {
+            setCurrentCursor(cursor.get());
+        }
+
+        void setCursor(Cursor* cursor)
+        {
+            setCurrentCursor(cursor);
+        }
+
     protected:
         void executeAll();
+
+        void setCurrentCursor(Cursor* cursor);
+        virtual void activateCursorResource(CursorResource* resource);
+        virtual CursorResource* createCursorResource();
+        void deleteCursorResource(CursorResource* resource);
+        void uploadCursorResource(CursorResource* resource);
 
         bool active = true;
         bool screenSaverEnabled = true;
@@ -51,6 +72,11 @@ namespace ouzel
         std::mutex executeMutex;
 
         FileSystem fileSystem;
+
+        std::mutex resourceMutex;
+        std::vector<std::unique_ptr<CursorResource>> resources;
+        std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
+        CursorResource* currentCursor = nullptr;
     };
 
     extern Application* sharedApplication;

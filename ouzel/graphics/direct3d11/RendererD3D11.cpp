@@ -812,51 +812,6 @@ namespace ouzel
             return result;
         }
 
-        BlendStateResource* RendererD3D11::createBlendState()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            BlendStateResource* blendState = new BlendStateResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(blendState));
-            return blendState;
-        }
-
-        TextureResource* RendererD3D11::createTexture()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            TextureResource* texture = new TextureResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(texture));
-            return texture;
-        }
-
-        ShaderResource* RendererD3D11::createShader()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            ShaderResource* shader = new ShaderResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(shader));
-            return shader;
-        }
-
-        MeshBufferResource* RendererD3D11::createMeshBuffer()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
-            return meshBuffer;
-        }
-
-        BufferResource* RendererD3D11::createBuffer()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            BufferResource* buffer = new BufferResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(buffer));
-            return buffer;
-        }
-
         bool RendererD3D11::generateScreenshot(const std::string& filename)
         {
             ID3D11Texture2D* backBufferTexture;
@@ -943,6 +898,51 @@ namespace ouzel
             texture->Release();
 
             return true;
+        }
+
+        BlendStateResource* RendererD3D11::createBlendState()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BlendStateResource* blendState = new BlendStateResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(blendState));
+            return blendState;
+        }
+
+        TextureResource* RendererD3D11::createTexture()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            TextureResource* texture = new TextureResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(texture));
+            return texture;
+        }
+
+        ShaderResource* RendererD3D11::createShader()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            ShaderResource* shader = new ShaderResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(shader));
+            return shader;
+        }
+
+        MeshBufferResource* RendererD3D11::createMeshBuffer()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
+            return meshBuffer;
+        }
+
+        BufferResource* RendererD3D11::createBuffer()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            BufferResource* buffer = new BufferResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(buffer));
+            return buffer;
         }
 
         bool RendererD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)

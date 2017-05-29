@@ -214,6 +214,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                     SetCursor(nullptr);
                     return TRUE;
                 }
+                else if (windowWin->getCursor())
+                {
+                    SetCursor(windowWin->getCursor());
+                    return TRUE;
+                }
             }
             break;
         }

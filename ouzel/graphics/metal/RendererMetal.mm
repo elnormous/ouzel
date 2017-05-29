@@ -777,6 +777,40 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
+        bool RendererMetal::generateScreenshot(const std::string& filename)
+        {
+            if (!currentMetalTexture)
+            {
+                return false;
+            }
+
+            NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
+            NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
+
+            std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
+            [currentMetalTexture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
+
+            uint8_t temp;
+            for (uint32_t y = 0; y < height; ++y)
+            {
+                for (uint32_t x = 0; x < width; ++x)
+                {
+                    temp = data.get()[((y * width + x) * 4)];
+                    data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
+                    data.get()[((y * width + x) * 4) + 2] = temp;
+                    data.get()[((y * width + x) * 4) + 3] = 255;
+                }
+            }
+
+            if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
+            {
+                Log(Log::Level::ERR) << "Failed to save image to file";
+                return false;
+            }
+            
+            return true;
+        }
+
         BlendStateResource* RendererMetal::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
@@ -870,40 +904,6 @@ namespace ouzel
                 
                 return pipelineState;
             }
-        }
-
-        bool RendererMetal::generateScreenshot(const std::string& filename)
-        {
-            if (!currentMetalTexture)
-            {
-                return false;
-            }
-
-            NSUInteger width = static_cast<NSUInteger>(currentMetalTexture.width);
-            NSUInteger height = static_cast<NSUInteger>(currentMetalTexture.height);
-
-            std::shared_ptr<uint8_t> data(new uint8_t[width * height * 4]);
-            [currentMetalTexture getBytes:data.get() bytesPerRow:width * 4 fromRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0];
-
-            uint8_t temp;
-            for (uint32_t y = 0; y < height; ++y)
-            {
-                for (uint32_t x = 0; x < width; ++x)
-                {
-                    temp = data.get()[((y * width + x) * 4)];
-                    data.get()[((y * width + x) * 4)] = data.get()[((y * width + x) * 4) + 2];
-                    data.get()[((y * width + x) * 4) + 2] = temp;
-                    data.get()[((y * width + x) * 4) + 3] = 255;
-                }
-            }
-
-            if (!stbi_write_png(filename.c_str(), static_cast<int>(width), static_cast<int>(height), 4, data.get(), static_cast<int>(width * 4)))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
         }
 
         MTLSamplerStatePtr RendererMetal::getSamplerState(const SamplerStateDesc& desc)

@@ -34,12 +34,12 @@ Windows Phone platform support is under development.
 ## Features
 
 * Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux, and Emscripten targets supported)
-* Multi-threaded (separate threads for rendering, sound and game)
+* Multi-threaded (separate threads for rendering, sound, and game)
 * 2D and 3D scene management
 * GUI helper classes and management
 * Multiple side-by-side viewport support
 * Bitmap font support
-* XInput, DirectInput, IOKit and Apple GameController gamepad support
+* XInput, DirectInput, IOKit, and Apple GameController gamepad support
 * Node animation (including tweening) system
 * Particle systems
 * Resource caching system

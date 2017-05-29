@@ -1083,6 +1083,45 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
+        bool RendererOGL::generateScreenshot(const std::string& filename)
+        {
+            bindFrameBuffer(frameBufferId);
+
+            const GLsizei depth = 4;
+
+            std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * depth));
+
+            glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+
+            if (checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
+                return false;
+            }
+
+            uint8_t temp;
+            for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
+            {
+                for (GLsizei col = 0; col < frameBufferWidth; ++col)
+                {
+                    for (GLsizei z = 0; z < depth; ++z)
+                    {
+                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)];
+                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
+                        data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)] = temp;
+                    }
+                }
+            }
+
+            if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, depth, data.data(), frameBufferWidth * depth))
+            {
+                Log(Log::Level::ERR) << "Failed to save image to file";
+                return false;
+            }
+            
+            return true;
+        }
+
         BlendStateResource* RendererOGL::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
@@ -1121,45 +1160,6 @@ namespace ouzel
 
             BufferResource* buffer = new BufferResourceOGL();
             return buffer;
-        }
-
-        bool RendererOGL::generateScreenshot(const std::string& filename)
-        {
-            bindFrameBuffer(frameBufferId);
-
-            const GLsizei depth = 4;
-
-            std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * depth));
-
-            glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-
-            if (checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to read pixels from frame buffer";
-                return false;
-            }
-
-            uint8_t temp;
-            for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
-            {
-                for (GLsizei col = 0; col < frameBufferWidth; ++col)
-                {
-                    for (GLsizei z = 0; z < depth; ++z)
-                    {
-                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)] = temp;
-                    }
-                }
-            }
-
-            if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, depth, data.data(), frameBufferWidth * depth))
-            {
-                Log(Log::Level::ERR) << "Failed to save image to file";
-                return false;
-            }
-
-            return true;
         }
 
         void* RendererOGL::getProcAddress(const std::string& name) const
