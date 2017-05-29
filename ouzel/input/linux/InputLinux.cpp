@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <X11/cursorfont.h>
-#include <X11/XKBlib.h>
 #include "InputLinux.h"
 #include "events/Event.h"
 #include "core/Application.h"
