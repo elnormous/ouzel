@@ -4,6 +4,7 @@
 #include "Cursor.h"
 #include "Application.h"
 #include "CursorResource.h"
+#include "graphics/ImageDataSTB.h"
 
 namespace ouzel
 {
@@ -19,11 +20,44 @@ namespace ouzel
 
     bool Cursor::init(SystemCursor systemCursor)
     {
-        return resource->init(systemCursor);
+        if (!resource->init(systemCursor))
+        {
+            return false;
+        }
+
+        sharedApplication->execute([this] {
+            resource->upload();
+        });
+
+        return true;
     }
 
     bool Cursor::init(const std::string& filename, const Vector2& hotSpot)
     {
-        return resource->init(filename, hotSpot);
+        graphics::ImageDataSTB image;
+        if (!image.initFromFile(filename))
+        {
+            return false;
+        }
+
+        return init(image.getData(),
+                    image.getSize(),
+                    hotSpot);
+    }
+
+    bool Cursor::init(const std::vector<uint8_t>& data,
+                      const Size2& size,
+                      const Vector2& hotSpot)
+    {
+        if (!resource->init(data, size, hotSpot))
+        {
+            return false;
+        }
+
+        sharedApplication->execute([this] {
+            resource->upload();
+        });
+
+        return true;
     }
 }

@@ -10,6 +10,9 @@ using namespace ouzel;
 InputSample::InputSample(Samples& aSamples):
     samples(aSamples)
 {
+    cursor.init(SystemCursor::CROSS);
+    sharedApplication->setCursor(&cursor);
+
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
     eventHandler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2);

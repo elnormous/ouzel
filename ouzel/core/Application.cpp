@@ -98,6 +98,8 @@ namespace ouzel
 
     void Application::setCurrentCursor(Cursor* cursor)
     {
+        std::lock_guard<std::mutex> lock(resourceMutex);
+
         if (cursor)
         {
             currentCursor = cursor->getResource();
@@ -134,9 +136,9 @@ namespace ouzel
                 resourceDeleteSet.push_back(std::move(*i));
                 resources.erase(i);
             }
-
-            if (resource == currentCursor) setCurrentCursor(nullptr);
         }
+
+        if (resource == currentCursor) setCurrentCursor(nullptr);
 
         execute([this] {
             std::lock_guard<std::mutex> lock(resourceMutex);

@@ -11,6 +11,13 @@ namespace ouzel
 
     bool CursorResourceWin::upload()
     {
+        std::lock_guard<std::mutex> lock(uploadMutex);
+
+        if (dirty)
+        {
+            dirty = false;
+        }
+
         return true;
     }
 }

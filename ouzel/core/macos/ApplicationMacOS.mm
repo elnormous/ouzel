@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "ApplicationMacOS.h"
+#include "CursorResourceMacOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
@@ -150,5 +151,35 @@ namespace ouzel
                 }
             }
         });
+    }
+
+    void ApplicationMacOS::setCurrentCursor(Cursor* cursor)
+    {
+        Application::setCurrentCursor(cursor);
+
+        CursorResourceMacOS* cursorMacOS = cursor ? static_cast<CursorResourceMacOS*>(cursor->getResource()) : nullptr;
+
+        execute([cursorMacOS] {
+            if (cursorMacOS && cursorMacOS->getNativeCursor())
+            {
+                [cursorMacOS->getNativeCursor() set];
+            }
+            else
+            {
+                [[NSCursor arrowCursor] set];
+            }
+        });
+    }
+
+    CursorResource* ApplicationMacOS::createCursorResource()
+    {
+        std::lock_guard<std::mutex> lock(resourceMutex);
+
+        std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
+        CursorResource* result = cursorResource.get();
+
+        resources.push_back(std::move(cursorResource));
+
+        return result;
     }
 }

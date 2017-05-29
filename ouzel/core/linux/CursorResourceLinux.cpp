@@ -12,6 +12,13 @@ namespace ouzel
 
     bool CursorResourceLinux::upload()
     {
+        std::lock_guard<std::mutex> lock(uploadMutex);
+
+        if (dirty)
+        {
+            dirty = false;
+        }
+
         return true;
     }
 }
