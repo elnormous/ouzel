@@ -56,7 +56,8 @@ namespace ouzel
     protected:
         void executeAll();
 
-        virtual void setCurrentCursor(Cursor* cursor);
+        void setCurrentCursor(Cursor* cursor);
+        virtual void setCursorResource(CursorResource* cursor);
         virtual CursorResource* createCursorResource();
         void deleteCursorResource(CursorResource* resource);
 

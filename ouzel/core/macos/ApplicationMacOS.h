@@ -23,7 +23,7 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
     protected:
-        virtual void setCurrentCursor(Cursor* cursor) override;
+        virtual void setCursorResource(CursorResource* cursor) override;
         virtual CursorResource* createCursorResource() override;
 
         dispatch_queue_t mainQueue;

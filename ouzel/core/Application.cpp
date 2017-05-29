@@ -108,6 +108,12 @@ namespace ouzel
         {
             currentCursor = nullptr;
         }
+
+        setCursorResource(currentCursor);
+    }
+
+    void Application::setCursorResource(CursorResource*)
+    {
     }
 
     CursorResource* Application::createCursorResource()
