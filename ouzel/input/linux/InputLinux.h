@@ -4,8 +4,6 @@
 #pragma once
 
 #include <X11/keysym.h>
-#include <X11/XKBlib.h>
-#include <X11/cursorfont.h>
 #include <X11/X.h>
 #include "input/Input.h"
 
