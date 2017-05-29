@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-RTSample::RTSample(Samples& aSamples):
-    samples(aSamples)
+RTSample::RTSample()
 {
     eventHandler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -79,7 +78,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE2)
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -90,7 +89,7 @@ bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
     {
-        samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+        sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }
 
     return true;
@@ -103,7 +102,7 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

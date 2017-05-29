@@ -3,18 +3,14 @@
 
 #pragma once
 
-#include "Samples.h"
-
 class MainMenu: public ouzel::scene::Scene
 {
 public:
-    MainMenu(Samples& aSamples);
+    MainMenu();
 
 private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
-
-    Samples& samples;
 
     std::unique_ptr<ouzel::scene::Layer> layer;
     std::unique_ptr<ouzel::scene::Camera> camera;

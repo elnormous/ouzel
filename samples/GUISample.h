@@ -3,19 +3,15 @@
 
 #pragma once
 
-#include "Samples.h"
-
 class GUISample: public ouzel::scene::Scene
 {
 public:
-    GUISample(Samples& aSamples);
+    GUISample();
 
 private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
-
-    Samples& samples;
 
     ouzel::EventHandler eventHandler;
 

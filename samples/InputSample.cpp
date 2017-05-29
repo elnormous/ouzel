@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample(Samples& aSamples):
-    samples(aSamples)
+InputSample::InputSample()
 {
     cursor.init(SystemCursor::CROSS);
     sharedApplication->setCursor(&cursor);
@@ -97,7 +96,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
             case input::KeyboardKey::ESCAPE:
                 sharedEngine->getInput()->setCursorVisible(true);
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
                 break;
@@ -147,7 +146,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         switch (event.button)
         {
             case input::GamepadButton::FACE2:
-                if (event.pressed) samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                if (event.pressed) sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -187,7 +186,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.node == backButton.get())
         {
             sharedEngine->getInput()->setCursorVisible(true);
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.node == button.get())
         {

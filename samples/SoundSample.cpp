@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-SoundSample::SoundSample(Samples& aSamples):
-    samples(aSamples)
+SoundSample::SoundSample()
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -78,7 +77,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE2)
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -91,7 +90,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.node == test8BitButton.get())
         {
@@ -121,7 +120,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

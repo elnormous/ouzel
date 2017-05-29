@@ -3,19 +3,15 @@
 
 #pragma once
 
-#include "Samples.h"
-
 class SpritesSample: public ouzel::scene::Scene
 {
 public:
-    SpritesSample(Samples& aSamples);
+    SpritesSample();
 
 private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
-
-    Samples& samples;
 
     std::unique_ptr<ouzel::scene::Layer> layer;
     std::unique_ptr<ouzel::scene::Camera> camera;
