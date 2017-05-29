@@ -248,9 +248,12 @@ namespace ouzel
 
         InputLinux::~InputLinux()
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
-            Display* display = windowLinux->getDisplay();
-            if (emptyCursor != None) XFreeCursor(display, emptyCursor);
+            if (sharedEngine)
+            {
+                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                Display* display = windowLinux->getDisplay();
+                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
+            }
         }
 
         void InputLinux::activateCursorResource(CursorResource* resource)
