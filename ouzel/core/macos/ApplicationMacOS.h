@@ -12,6 +12,7 @@ namespace ouzel
     {
     public:
         ApplicationMacOS(int aArgc, char* aArgv[]);
+        virtual ~ApplicationMacOS();
 
         virtual int run() override;
         virtual void exit() override;

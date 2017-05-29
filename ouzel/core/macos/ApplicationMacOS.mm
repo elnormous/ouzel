@@ -78,6 +78,12 @@ namespace ouzel
         mainQueue = dispatch_get_main_queue();
     }
 
+    ApplicationMacOS::~ApplicationMacOS()
+    {
+        resourceDeleteSet.clear();
+        resources.clear();
+    }
+
     int ApplicationMacOS::run()
     {
         @autoreleasepool
