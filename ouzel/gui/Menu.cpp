@@ -26,7 +26,7 @@ namespace ouzel
 
         void Menu::leave()
         {
-            sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
+            eventHandler.remove();
         }
 
         void Menu::setEnabled(bool newEnabled)

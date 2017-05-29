@@ -132,7 +132,7 @@ namespace ouzel
             else if (active && !particleCount)
             {
                 active = false;
-                sharedEngine->unscheduleUpdate(&updateCallback);
+                updateCallback.remove();
                 if (finishHandler) finishHandler();
                 return;
             }

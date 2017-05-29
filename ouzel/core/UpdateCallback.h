@@ -19,6 +19,8 @@ namespace ouzel
         UpdateCallback(int32_t aPriority = 0): priority(aPriority) {}
         ~UpdateCallback();
 
+        void remove();
+
         std::function<void(float)> callback;
         float interval = 0.0f;
 
