@@ -41,8 +41,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundResource.cpp \
 	$(ROOT_DIR)/../ouzel/core/Application.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cache.cpp \
-	$(ROOT_DIR)/../ouzel/core/Cursor.cpp \
-	$(ROOT_DIR)/../ouzel/core/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/UpdateCallback.cpp \
@@ -91,6 +89,8 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/ScrollBar.cpp \
 	$(ROOT_DIR)/../ouzel/gui/SlideBar.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
+	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
+	$(ROOT_DIR)/../ouzel/input/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/Input.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
@@ -139,15 +139,14 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
-	$(ROOT_DIR)/../ouzel/core/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
-	$(ROOT_DIR)/../ouzel/core/macos/CursorResourceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
@@ -160,6 +159,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)

@@ -29,5 +29,5 @@ private:
     std::unique_ptr<ouzel::gui::Menu> menu;
     std::unique_ptr<ouzel::gui::Button> backButton;
 
-    ouzel::Cursor cursor;
+    ouzel::input::Cursor cursor;
 };

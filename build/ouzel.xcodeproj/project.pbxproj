@@ -537,20 +537,20 @@
 		3049DCB71ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
 		3049DCB81ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
 		3049DCB91ED8687C0000997A /* ConvexVolume.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.h */; };
-		3049DCBE1EDB52750000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCBC1EDB52750000997A /* Cursor.cpp */; };
-		3049DCBF1EDB52750000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCBC1EDB52750000997A /* Cursor.cpp */; };
-		3049DCC01EDB52750000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCBC1EDB52750000997A /* Cursor.cpp */; };
-		3049DCC11EDB52750000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCBD1EDB52750000997A /* Cursor.h */; };
-		3049DCC21EDB52750000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCBD1EDB52750000997A /* Cursor.h */; };
-		3049DCC31EDB52750000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCBD1EDB52750000997A /* Cursor.h */; };
-		3049DCC61EDB52B90000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCC41EDB52B90000997A /* CursorResource.cpp */; };
-		3049DCC71EDB52B90000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCC41EDB52B90000997A /* CursorResource.cpp */; };
-		3049DCC81EDB52B90000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCC41EDB52B90000997A /* CursorResource.cpp */; };
-		3049DCC91EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
-		3049DCCA1EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
-		3049DCCB1EDB52B90000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCC51EDB52B90000997A /* CursorResource.h */; };
-		3049DCCE1EDB784D0000997A /* CursorResourceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */; };
-		3049DCCF1EDB784D0000997A /* CursorResourceMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */; };
+		3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD61EDCD0450000997A /* Cursor.cpp */; };
+		3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD61EDCD0450000997A /* Cursor.cpp */; };
+		3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD61EDCD0450000997A /* Cursor.cpp */; };
+		3049DCDD1EDCD0450000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.h */; };
+		3049DCDE1EDCD0450000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.h */; };
+		3049DCDF1EDCD0450000997A /* Cursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD71EDCD0450000997A /* Cursor.h */; };
+		3049DCE01EDCD0450000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* CursorResource.cpp */; };
+		3049DCE11EDCD0450000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* CursorResource.cpp */; };
+		3049DCE21EDCD0450000997A /* CursorResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCD81EDCD0450000997A /* CursorResource.cpp */; };
+		3049DCE31EDCD0450000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* CursorResource.h */; };
+		3049DCE41EDCD0450000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* CursorResource.h */; };
+		3049DCE51EDCD0450000997A /* CursorResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCD91EDCD0450000997A /* CursorResource.h */; };
+		3049DCE81EDCD1FA0000997A /* CursorResourceMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCE61EDCD1FA0000997A /* CursorResourceMacOS.h */; };
+		3049DCE91EDCD1FA0000997A /* CursorResourceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCE71EDCD1FA0000997A /* CursorResourceMacOS.mm */; };
 		304A8E501C237C70008B1151 /* ouzel.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2A1C237C70008B1151 /* ouzel.h */; };
 		304A8E511C237C70008B1151 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		304A8E521C237C70008B1151 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2C1C237C70008B1151 /* Camera.h */; };
@@ -1028,12 +1028,12 @@
 		304839861D53BE8F007D70FF /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
 		3049DCB21ED8687C0000997A /* ConvexVolume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvexVolume.cpp; sourceTree = "<group>"; };
 		3049DCB31ED8687C0000997A /* ConvexVolume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvexVolume.h; sourceTree = "<group>"; };
-		3049DCBC1EDB52750000997A /* Cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cpp; sourceTree = "<group>"; };
-		3049DCBD1EDB52750000997A /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
-		3049DCC41EDB52B90000997A /* CursorResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CursorResource.cpp; sourceTree = "<group>"; };
-		3049DCC51EDB52B90000997A /* CursorResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResource.h; sourceTree = "<group>"; };
-		3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CursorResourceMacOS.mm; sourceTree = "<group>"; };
-		3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResourceMacOS.h; sourceTree = "<group>"; };
+		3049DCD61EDCD0450000997A /* Cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cpp; sourceTree = "<group>"; };
+		3049DCD71EDCD0450000997A /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
+		3049DCD81EDCD0450000997A /* CursorResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CursorResource.cpp; sourceTree = "<group>"; };
+		3049DCD91EDCD0450000997A /* CursorResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResource.h; sourceTree = "<group>"; };
+		3049DCE61EDCD1FA0000997A /* CursorResourceMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CursorResourceMacOS.h; sourceTree = "<group>"; };
+		3049DCE71EDCD1FA0000997A /* CursorResourceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CursorResourceMacOS.mm; sourceTree = "<group>"; };
 		304A8E251C237C30008B1151 /* libouzel_macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_macos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E2A1C237C70008B1151 /* ouzel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ouzel.h; sourceTree = "<group>"; };
 		304A8E2B1C237C70008B1151 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
@@ -1449,10 +1449,6 @@
 				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
 				30DADE9B1C5167BC001A63B4 /* Cache.h */,
 				304A8E871C248204008B1151 /* CompileConfig.h */,
-				3049DCBC1EDB52750000997A /* Cursor.cpp */,
-				3049DCBD1EDB52750000997A /* Cursor.h */,
-				3049DCC41EDB52B90000997A /* CursorResource.cpp */,
-				3049DCC51EDB52B90000997A /* CursorResource.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
@@ -1523,8 +1519,6 @@
 			children = (
 				303820701D816C9E00677CAB /* ApplicationMacOS.h */,
 				303820711D816C9E00677CAB /* ApplicationMacOS.mm */,
-				3049DCCD1EDB784D0000997A /* CursorResourceMacOS.h */,
-				3049DCCC1EDB784D0000997A /* CursorResourceMacOS.mm */,
 				303820721D816C9E00677CAB /* main.cpp */,
 				303820791D816C9E00677CAB /* WindowMacOS.h */,
 				3038207A1D816C9E00677CAB /* WindowMacOS.mm */,
@@ -1547,6 +1541,10 @@
 		303B76051C34A91B00FEDE92 /* input */ = {
 			isa = PBXGroup;
 			children = (
+				3049DCD61EDCD0450000997A /* Cursor.cpp */,
+				3049DCD71EDCD0450000997A /* Cursor.h */,
+				3049DCD81EDCD0450000997A /* CursorResource.cpp */,
+				3049DCD91EDCD0450000997A /* CursorResource.h */,
 				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
 				303647131C3DFEAF0024DB5B /* Gamepad.h */,
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
@@ -1760,6 +1758,8 @@
 		3098A5511EA01C6600528A54 /* macos */ = {
 			isa = PBXGroup;
 			children = (
+				3049DCE61EDCD1FA0000997A /* CursorResourceMacOS.h */,
+				3049DCE71EDCD1FA0000997A /* CursorResourceMacOS.mm */,
 				3098A5531EA01C8A00528A54 /* GamepadMacOS.h */,
 				3098A5541EA01C8A00528A54 /* GamepadMacOS.mm */,
 				3098A5551EA01C8A00528A54 /* InputMacOS.h */,
@@ -1819,6 +1819,7 @@
 				303821361D81876E00677CAB /* BlendStateResourceEmpty.h in Headers */,
 				3082C3931D9565DE0090FC9D /* ColorPSGL2.h in Headers */,
 				30216B761ED464730073E3D5 /* Material.h in Headers */,
+				3049DCE31EDCD0450000997A /* CursorResource.h in Headers */,
 				3048398B1D53BE8F007D70FF /* Resource.h in Headers */,
 				3082C3C01D9565DE0090FC9D /* TextureVSGLES3.h in Headers */,
 				306B0E631C567D05005C75C1 /* ShapeRenderer.h in Headers */,
@@ -1875,6 +1876,7 @@
 				309B483A1DEA5EE600A718C5 /* Color.h in Headers */,
 				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
+				3049DCDD1EDCD0450000997A /* Cursor.h in Headers */,
 				3082C3BD1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C3991D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
@@ -1889,7 +1891,6 @@
 				304736DC1E0B4776009BC562 /* Box3.h in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* RendererMetalIOS.h in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.h in Headers */,
-				3049DCC11EDB52750000997A /* Cursor.h in Headers */,
 				3082C3B71D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				303821421D81876E00677CAB /* MeshBufferResourceEmpty.h in Headers */,
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
@@ -1917,7 +1918,6 @@
 				303696C71E32DD8F007F4211 /* Texture.h in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.h in Headers */,
 				3047F74A1C4C350D00774E3D /* Move.h in Headers */,
-				3049DCC91EDB52B90000997A /* CursorResource.h in Headers */,
 				303B75821C2B17DC00FEDE92 /* Event.h in Headers */,
 				3082C3B41D9565DE0090FC9D /* TexturePSGLES3.h in Headers */,
 				30381FE51D80A40700677CAB /* ColorPSIOS.h in Headers */,
@@ -1981,6 +1981,7 @@
 				3048398C1D53BE8F007D70FF /* Resource.h in Headers */,
 				303821381D81876E00677CAB /* BlendStateResourceEmpty.h in Headers */,
 				30216B781ED464730073E3D5 /* Material.h in Headers */,
+				3049DCE51EDCD0450000997A /* CursorResource.h in Headers */,
 				3082C3951D9565DE0090FC9D /* ColorPSGL2.h in Headers */,
 				306B0E641C567D05005C75C1 /* ShapeRenderer.h in Headers */,
 				3082C3C21D9565DE0090FC9D /* TextureVSGLES3.h in Headers */,
@@ -2037,6 +2038,7 @@
 				309B483C1DEA5EE600A718C5 /* Color.h in Headers */,
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
+				3049DCDF1EDCD0450000997A /* Cursor.h in Headers */,
 				3082C3BF1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C39B1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30381FC01D80A3F900677CAB /* SoundAL.h in Headers */,
@@ -2051,7 +2053,6 @@
 				304736DE1E0B4776009BC562 /* Box3.h in Headers */,
 				3082C3B91D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
 				30216B851ED5C3900073E3D5 /* Plane.h in Headers */,
-				3049DCC31EDB52750000997A /* Cursor.h in Headers */,
 				303821441D81876E00677CAB /* MeshBufferResourceEmpty.h in Headers */,
 				303B76661C355A3B00FEDE92 /* Node.h in Headers */,
 				3038215C1D81876E00677CAB /* TextureResourceEmpty.h in Headers */,
@@ -2079,7 +2080,6 @@
 				303696C91E32DD8F007F4211 /* Texture.h in Headers */,
 				3047F74B1C4C350D00774E3D /* Move.h in Headers */,
 				30381FE71D80A40700677CAB /* ColorPSIOS.h in Headers */,
-				3049DCCB1EDB52B90000997A /* CursorResource.h in Headers */,
 				3082C3B61D9565DE0090FC9D /* TexturePSGLES3.h in Headers */,
 				303B76711C355A3B00FEDE92 /* ImageData.h in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.h in Headers */,
@@ -2137,6 +2137,7 @@
 			files = (
 				3082C39D1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
 				303647171C3DFEAF0024DB5B /* Gamepad.h in Headers */,
+				3049DCDE1EDCD0450000997A /* Cursor.h in Headers */,
 				30381F7D1D80A3EC00677CAB /* RendererOGL.h in Headers */,
 				305B999F1C42A695008589E1 /* BMFont.h in Headers */,
 				30419DEC1D162BDC00A63759 /* Sound.h in Headers */,
@@ -2161,7 +2162,6 @@
 				3082C3941D9565DE0090FC9D /* ColorPSGL2.h in Headers */,
 				304A8E711C237C70008B1151 /* Vector2.h in Headers */,
 				30EF364E1CA76ACD00F04F29 /* ScrollArea.h in Headers */,
-				3049DCCF1EDB784D0000997A /* CursorResourceMacOS.h in Headers */,
 				3039336F1E5F45F2000C9A8E /* SoundPlayer.h in Headers */,
 				3082C3BE1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C3B81D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
@@ -2178,6 +2178,7 @@
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				30B328871C4E9EAC00040927 /* Ease.h in Headers */,
+				3049DCE81EDCD1FA0000997A /* CursorResourceMacOS.h in Headers */,
 				30EF36561CA76AE200F04F29 /* ScrollBar.h in Headers */,
 				301456E31E38BEB200BA75DB /* SoundResource.h in Headers */,
 				30216B671ED462B80073E3D5 /* MeshRenderer.h in Headers */,
@@ -2192,7 +2193,6 @@
 				304A8E9B1C26F5CF008B1151 /* Size2.h in Headers */,
 				30381FF81D80A40700677CAB /* MeshBufferResourceMetal.h in Headers */,
 				3047F7491C4C350D00774E3D /* Move.h in Headers */,
-				3049DCCA1EDB52B90000997A /* CursorResource.h in Headers */,
 				30A883681E7432DA004A033F /* Archive.h in Headers */,
 				30216B841ED5C3900073E3D5 /* Plane.h in Headers */,
 				304A8E731C237C70008B1151 /* Vector3.h in Headers */,
@@ -2232,6 +2232,7 @@
 				304A8E691C237C70008B1151 /* ShaderResource.h in Headers */,
 				303821371D81876E00677CAB /* BlendStateResourceEmpty.h in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.h in Headers */,
+				3049DCE41EDCD0450000997A /* CursorResource.h in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.h in Headers */,
 				3038215B1D81876E00677CAB /* TextureResourceEmpty.h in Headers */,
 				303820161D80A40700677CAB /* TexturePSIOS.h in Headers */,
@@ -2256,7 +2257,6 @@
 				303696D81E32DDA9007F4211 /* Buffer.h in Headers */,
 				3038201C1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
 				30A9C13D1CAEBA540084C4BF /* Language.h in Headers */,
-				3049DCC21EDB52750000997A /* Cursor.h in Headers */,
 				3030D5061DAEF1FA007CC8EB /* Log.h in Headers */,
 				300C39EE1E51355000330E4F /* SoundDataWave.h in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.h in Headers */,
@@ -2394,6 +2394,7 @@
 				30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				30381F731D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
+				3049DCE01EDCD0450000997A /* CursorResource.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioEmpty.cpp in Sources */,
 				3038213F1D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioAL.cpp in Sources */,
@@ -2436,7 +2437,6 @@
 				3047F74F1C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				301EB3AB1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
 				303B75481C2A3C9200FEDE92 /* ShaderResource.cpp in Sources */,
-				3049DCBE1EDB52750000997A /* Cursor.cpp in Sources */,
 				303821ED1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
 				303B75651C2A3CBF00FEDE92 /* SceneManager.cpp in Sources */,
 				3038202B1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
@@ -2452,7 +2452,6 @@
 				30575AC61C3B17540009C8A7 /* Button.cpp in Sources */,
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303821451D81876E00677CAB /* RendererEmpty.cpp in Sources */,
-				3049DCC61EDB52B90000997A /* CursorResource.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* TextureResource.cpp in Sources */,
 				303821071D817F6400677CAB /* AudioALIOS.mm in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
@@ -2512,6 +2511,7 @@
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
 				30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
+				3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30381FFA1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
 				30575A901C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F851D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
@@ -2526,6 +2526,7 @@
 				30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				30381F751D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
+				3049DCE21EDCD0450000997A /* CursorResource.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioEmpty.cpp in Sources */,
 				303821411D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB71D80A3F900677CAB /* AudioAL.cpp in Sources */,
@@ -2568,7 +2569,6 @@
 				3038202D1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
 				303820141D80A40700677CAB /* TextureResourceMetal.mm in Sources */,
 				303821EF1D8500E500677CAB /* UpdateCallback.cpp in Sources */,
-				3049DCC01EDB52750000997A /* Cursor.cpp in Sources */,
 				303B763D1C355A3B00FEDE92 /* ShaderResource.cpp in Sources */,
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				303B763F1C355A3B00FEDE92 /* MathUtils.cpp in Sources */,
@@ -2584,7 +2584,6 @@
 				303B76431C355A3B00FEDE92 /* TextureResource.cpp in Sources */,
 				303821471D81876E00677CAB /* RendererEmpty.cpp in Sources */,
 				303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */,
-				3049DCC81EDB52B90000997A /* CursorResource.cpp in Sources */,
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				303B04C61E207B7800011CBE /* RendererOGLTVOS.mm in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
@@ -2644,6 +2643,7 @@
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
+				3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30381FFC1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
 				30575A911C38BD370009C8A7 /* Box2.cpp in Sources */,
 				30381F871D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
@@ -2658,11 +2658,11 @@
 				30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				3038207E1D816C9E00677CAB /* ApplicationMacOS.mm in Sources */,
 				3038216A1D81876E00677CAB /* AudioEmpty.cpp in Sources */,
+				3049DCE11EDCD0450000997A /* CursorResource.cpp in Sources */,
 				303821401D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				30381F741D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
-				3049DCCE1EDB784D0000997A /* CursorResourceMacOS.mm in Sources */,
 				30381FB61D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
@@ -2684,8 +2684,8 @@
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
 				304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
-				3049DCBF1EDB52750000997A /* Cursor.cpp in Sources */,
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
+				3049DCE91EDCD1FA0000997A /* CursorResourceMacOS.mm in Sources */,
 				3038213A1D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				303696C51E32DD8F007F4211 /* Texture.cpp in Sources */,
@@ -2776,8 +2776,8 @@
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30381FFB1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
 				30381F861D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
+				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
-				3049DCC71EDB52B90000997A /* CursorResource.cpp in Sources */,
 				304A8E5A1C237C70008B1151 /* Matrix4.cpp in Sources */,
 				304A8EA21C270833008B1151 /* Vertex.cpp in Sources */,
 			);
