@@ -16,7 +16,6 @@ namespace ouzel
     class CursorResource
     {
         friend Application;
-        friend Cursor;
     public:
         CursorResource();
 

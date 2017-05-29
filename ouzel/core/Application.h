@@ -57,9 +57,10 @@ namespace ouzel
         void executeAll();
 
         void setCurrentCursor(Cursor* cursor);
-        virtual void setCursorResource(CursorResource* cursor);
+        virtual void activateCursorResource(CursorResource* resource);
         virtual CursorResource* createCursorResource();
         void deleteCursorResource(CursorResource* resource);
+        void uploadCursorResource(CursorResource* resource);
 
         bool active = true;
         bool screenSaverEnabled = true;

@@ -25,9 +25,7 @@ namespace ouzel
             return false;
         }
 
-        sharedApplication->execute([this] {
-            resource->upload();
-        });
+        sharedApplication->uploadCursorResource(resource);
 
         return true;
     }
@@ -54,9 +52,7 @@ namespace ouzel
             return false;
         }
 
-        sharedApplication->execute([this] {
-            resource->upload();
-        });
+        sharedApplication->uploadCursorResource(resource);
 
         return true;
     }

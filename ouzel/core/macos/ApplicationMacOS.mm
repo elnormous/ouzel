@@ -153,22 +153,20 @@ namespace ouzel
         });
     }
 
-    void ApplicationMacOS::setCursorResource(CursorResource* cursor)
+    void ApplicationMacOS::activateCursorResource(CursorResource* resource)
     {
-        Application::setCursorResource(cursor);
+        Application::activateCursorResource(resource);
 
-        CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(cursor);
+        CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
 
-        execute([cursorMacOS] {
-            if (cursorMacOS && cursorMacOS->getNativeCursor())
-            {
-                [cursorMacOS->getNativeCursor() set];
-            }
-            else
-            {
-                [[NSCursor arrowCursor] set];
-            }
-        });
+        if (cursorMacOS && cursorMacOS->getNativeCursor())
+        {
+            [cursorMacOS->getNativeCursor() set];
+        }
+        else
+        {
+            [[NSCursor arrowCursor] set];
+        }
     }
 
     CursorResource* ApplicationMacOS::createCursorResource()

@@ -109,10 +109,14 @@ namespace ouzel
             currentCursor = nullptr;
         }
 
-        setCursorResource(currentCursor);
+        CursorResource* resource = currentCursor;
+
+        execute([this, resource] {
+            activateCursorResource(resource);
+        });
     }
 
-    void Application::setCursorResource(CursorResource*)
+    void Application::activateCursorResource(CursorResource*)
     {
     }
 
@@ -142,13 +146,29 @@ namespace ouzel
                 resourceDeleteSet.push_back(std::move(*i));
                 resources.erase(i);
             }
-        }
 
-        if (resource == currentCursor) setCurrentCursor(nullptr);
+            if (resource == currentCursor)
+            {
+                // remove the cursor
+                currentCursor = nullptr;
+
+                execute([this] {
+                    activateCursorResource(nullptr);
+                });
+            }
+        }
 
         execute([this] {
             std::lock_guard<std::mutex> lock(resourceMutex);
             resourceDeleteSet.clear();
+        });
+    }
+
+    void Application::uploadCursorResource(CursorResource* resource)
+    {
+        execute([this, resource] {
+            resource->upload();
+            if (resource == currentCursor) activateCursorResource(currentCursor);
         });
     }
 }
