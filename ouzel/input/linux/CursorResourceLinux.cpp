@@ -5,6 +5,7 @@
 #include <X11/Xcursor/Xcursor.h>
 #include "CursorResourceLinux.h"
 #include "core/Engine.h"
+#include "core/linux/WindowLinux.h"
 
 namespace ouzel
 {
