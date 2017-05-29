@@ -257,6 +257,10 @@ namespace ouzel
         {
             Input::activateCursorResource(resource);
 
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            Display* display = windowLinux->getDisplay();
+            ::Window window = windowLinux->getNativeWindow();
+
             CursorResourceLinux* cursorLinux = static_cast<CursorResourceLinux*>(resource);
 
             if (cursorLinux && cursorLinux->getNativeCursor())
