@@ -20,5 +20,6 @@ namespace ouzel
         virtual bool upload() override;
 
         HCURSOR cursor = 0;
+        bool shared = false;
     };
 }
