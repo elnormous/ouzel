@@ -10,8 +10,6 @@
 #include "SoundSample.h"
 #include "PerspectiveSample.h"
 
-ouzel::Engine engine;
-
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver
@@ -86,7 +84,7 @@ void ouzelMain(const std::vector<std::string>& args)
         }
     }
 
-    if (engine.init(settings))
+    if (ouzel::sharedEngine->init(settings))
     {
         ouzel::sharedEngine->getInput()->startGamepadDiscovery();
 
