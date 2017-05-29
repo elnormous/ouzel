@@ -24,12 +24,13 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
+    class Application;
     class Window;
 
     class Engine: public Noncopyable
     {
+        friend Application;
     public:
-        Engine();
         ~Engine();
 
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
@@ -62,6 +63,7 @@ namespace ouzel
         void update();
 
     protected:
+        Engine();
         void run();
 
         EventDispatcher eventDispatcher;
