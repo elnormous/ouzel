@@ -9,7 +9,6 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PerspectiveSample.cpp" />
     <ClCompile Include="RTSample.cpp" />
-    <ClCompile Include="Samples.cpp" />
     <ClCompile Include="SoundSample.cpp" />
     <ClCompile Include="SpritesSample.cpp" />
     <ClCompile Include="windows\stdafx.cpp">
@@ -24,7 +23,6 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PerspectiveSample.h" />
     <ClInclude Include="RTSample.h" />
-    <ClInclude Include="Samples.h" />
     <ClInclude Include="SoundSample.h" />
     <ClInclude Include="SpritesSample.h" />
     <ClInclude Include="win\resource.h" />
