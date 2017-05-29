@@ -36,6 +36,7 @@ namespace ouzel
 
     Application::~Application()
     {
+        sharedApplication = nullptr;
     }
 
     int Application::run()

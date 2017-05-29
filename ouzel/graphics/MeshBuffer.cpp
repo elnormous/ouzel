@@ -18,7 +18,7 @@ namespace ouzel
 
         MeshBuffer::~MeshBuffer()
         {
-            if (resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,

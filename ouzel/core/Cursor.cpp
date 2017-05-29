@@ -15,7 +15,7 @@ namespace ouzel
 
     Cursor::~Cursor()
     {
-        if (resource) sharedApplication->deleteCursorResource(resource);
+        if (sharedApplication && resource) sharedApplication->deleteCursorResource(resource);
     }
 
     bool Cursor::init(SystemCursor systemCursor)
