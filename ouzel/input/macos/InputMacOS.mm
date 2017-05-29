@@ -236,9 +236,9 @@ namespace ouzel
 
             std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
             CursorResource* result = cursorResource.get();
-            
+
             resources.push_back(std::move(cursorResource));
-            
+
             return result;
         }
 

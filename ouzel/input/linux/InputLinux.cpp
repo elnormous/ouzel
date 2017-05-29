@@ -3,6 +3,7 @@
 
 #include <X11/cursorfont.h>
 #include "InputLinux.h"
+#include "CursorResourceLinux.h"
 #include "events/Event.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -252,6 +253,35 @@ namespace ouzel
             if (emptyCursor != None) XFreeCursor(display, emptyCursor);
         }
 
+        void InputLinux::activateCursorResource(CursorResource* resource)
+        {
+            Input::activateCursorResource(resource);
+
+            CursorResourceLinux* cursorLinux = static_cast<CursorResourceLinux*>(resource);
+
+            if (cursorLinux && cursorLinux->getNativeCursor())
+            {
+                currentCursor = cursorLinux->getNativeCursor();
+                XDefineCursor(display, window, currentCursor);
+            }
+            else
+            {
+                XUndefineCursor(display, window);
+            }
+        }
+
+        CursorResource* InputLinux::createCursorResource()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
+            CursorResource* result = cursorResource.get();
+
+            resources.push_back(std::move(cursorResource));
+
+            return result;
+        }
+
         void InputLinux::setCursorVisible(bool visible)
         {
             if (visible != cursorVisible)
@@ -265,7 +295,14 @@ namespace ouzel
 
                     if (visible)
                     {
-                        XUndefineCursor(display, window);
+                        if (currentCursor)
+                        {
+                            XDefineCursor(display, window, currentCursor);
+                        }
+                        else
+                        {
+                            XUndefineCursor(display, window);
+                        }
                     }
                     else
                     {
