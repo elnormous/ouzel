@@ -13,8 +13,7 @@
 using namespace std;
 using namespace ouzel;
 
-MainMenu::MainMenu(Samples& aSamples):
-    samples(aSamples),
+MainMenu::MainMenu():
     layer(new ouzel::scene::Layer()),
     camera(new ouzel::scene::Camera()),
     menu(new ouzel::gui::Menu()),
@@ -90,31 +89,31 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
         }
         else if (event.node == spritesButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new SpritesSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
         }
         else if (event.node == guiButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new GUISample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
         }
         else if (event.node == renderTargetButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new RTSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
         }
         else if (event.node == animationsButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new AnimationsSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
         }
         else if (event.node == inputButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new InputSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
         }
         else if (event.node == soundButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new SoundSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
         }
         else if (event.node == perspectiveButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new PerspectiveSample(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
         }
     }
 

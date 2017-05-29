@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-GUISample::GUISample(Samples& aSamples):
-    samples(aSamples),
+GUISample::GUISample():
     backButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK))
 {
     eventHandler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
@@ -68,7 +67,7 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE2)
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -81,7 +80,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.node == backButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.node == button.get())
         {
@@ -104,7 +103,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

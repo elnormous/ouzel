@@ -12,6 +12,7 @@ namespace ouzel
     {
     public:
         ApplicationMacOS(int aArgc, char* aArgv[]);
+        virtual ~ApplicationMacOS();
 
         virtual int run() override;
         virtual void exit() override;
@@ -23,6 +24,9 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
     protected:
+        virtual void activateCursorResource(CursorResource* resource) override;
+        virtual CursorResource* createCursorResource() override;
+
         dispatch_queue_t mainQueue;
         uint32_t noSleepAssertionID = 0;
     };

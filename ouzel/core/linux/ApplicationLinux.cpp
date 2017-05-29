@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
+#include <X11/XKBlib.h>
 #include "ApplicationLinux.h"
 #include "core/Engine.h"
 #include "events/Event.h"

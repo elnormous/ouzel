@@ -3,10 +3,21 @@
 
 #pragma once
 
+#include <X11/X.h>
+#include "core/CursorResource.h"
+
 namespace ouzel
 {
-    class CursorResourceLinux
+    class CursorResourceLinux: public CursorResource
     {
     public:
+        virtual ~CursorResourceLinux();
+
+        ::Cursor getNativeCursor() const { return cursor; }
+
+    protected:
+        virtual bool upload() override;
+
+        ::Cursor cursor = None;
     };
 }

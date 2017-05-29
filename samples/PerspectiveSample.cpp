@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-PerspectiveSample::PerspectiveSample(Samples& aSamples):
-    samples(aSamples)
+PerspectiveSample::PerspectiveSample()
 {
     eventHandler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -94,7 +93,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     {
         if (event.node == backButton.get())
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -122,7 +121,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 rotation.setEulerAngles(Vector3(0.0f, TAU / 100.0f, 0.0f));
                 break;
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::KeyboardKey::TAB:
                 jumpSound->play();
@@ -183,7 +182,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
         if (event.pressed &&
             event.button == input::GamepadButton::FACE2)
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 

@@ -31,6 +31,8 @@ namespace ouzel
         void removeAccelerator(HACCEL accelerator);
 
         HMONITOR getMonitor() const { return monitor; }
+        HCURSOR getCursor() const { return cursor; }
+        void setCursor(HCURSOR newCursor) { cursor = newCursor; }
 
     protected:
         WindowWin(const Size2& aSize,
@@ -48,6 +50,7 @@ namespace ouzel
         DWORD windowWindowedStyle = 0;
         DWORD windowFullscreenStyle = 0;
         HMONITOR monitor = 0;
+        HCURSOR cursor = 0;
 
         int windowX = 0;
         int windowY = 0;

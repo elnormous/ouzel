@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cstdint>
+#include <algorithm>
 #include "Application.h"
 #include "Engine.h"
 #include "CursorResource.h"
@@ -74,7 +75,7 @@ namespace ouzel
                     break;
                 }
 
-                func = executeQueue.front();
+                func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
@@ -95,15 +96,79 @@ namespace ouzel
         screenSaverEnabled = newScreenSaverEnabled;
     }
 
+    void Application::setCurrentCursor(Cursor* cursor)
+    {
+        std::lock_guard<std::mutex> lock(resourceMutex);
+
+        if (cursor)
+        {
+            currentCursor = cursor->getResource();
+        }
+        else
+        {
+            currentCursor = nullptr;
+        }
+
+        CursorResource* resource = currentCursor;
+
+        execute([this, resource] {
+            activateCursorResource(resource);
+        });
+    }
+
+    void Application::activateCursorResource(CursorResource*)
+    {
+    }
+
     CursorResource* Application::createCursorResource()
     {
+        std::lock_guard<std::mutex> lock(resourceMutex);
+
         std::unique_ptr<CursorResource> cursorResource(new CursorResource());
         CursorResource* result = cursorResource.get();
+
+        resources.push_back(std::move(cursorResource));
 
         return result;
     }
 
-    void Application::deleteCursorResource(CursorResource* cursorResource)
+    void Application::deleteCursorResource(CursorResource* resource)
     {
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                return ptr.get() == resource;
+            });
+
+            if (i != resources.end())
+            {
+                resourceDeleteSet.push_back(std::move(*i));
+                resources.erase(i);
+            }
+
+            if (resource == currentCursor)
+            {
+                // remove the cursor
+                currentCursor = nullptr;
+
+                execute([this] {
+                    activateCursorResource(nullptr);
+                });
+            }
+        }
+
+        execute([this] {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+            resourceDeleteSet.clear();
+        });
+    }
+
+    void Application::uploadCursorResource(CursorResource* resource)
+    {
+        execute([this, resource] {
+            resource->upload();
+            if (resource == currentCursor) activateCursorResource(currentCursor);
+        });
     }
 }

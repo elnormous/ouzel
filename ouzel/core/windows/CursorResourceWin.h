@@ -3,10 +3,23 @@
 
 #pragma once
 
+#define NOMINMAX
+#include <windows.h>
+#include "core/CursorResource.h"
+
 namespace ouzel
 {
-    class CursorResourceWin
+    class CursorResourceWin: public CursorResource
     {
     public:
+        virtual ~CursorResourceWin();
+
+        HCURSOR getNativeCursor() const { return cursor; }
+
+    protected:
+        virtual bool upload() override;
+
+        HCURSOR cursor = 0;
+        bool shared = false;
     };
 }

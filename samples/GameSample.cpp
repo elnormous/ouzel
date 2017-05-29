@@ -7,8 +7,7 @@
 using namespace std;
 using namespace ouzel;
 
-GameSample::GameSample(Samples& aSamples):
-    samples(aSamples)
+GameSample::GameSample()
 {
     eventHandler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -29,7 +28,7 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
-                samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;
@@ -63,7 +62,7 @@ bool GameSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE2)
         {
-            samples.setScene(std::shared_ptr<scene::Scene>(new MainMenu(samples)));
+            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 

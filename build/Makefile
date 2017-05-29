@@ -42,7 +42,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/core/Application.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cursor.cpp \
-	$(ROOT_DIR)/../ouzel/core/CursorResources.cpp \
+	$(ROOT_DIR)/../ouzel/core/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/UpdateCallback.cpp \

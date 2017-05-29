@@ -3,19 +3,15 @@
 
 #pragma once
 
-#include "Samples.h"
-
 class SoundSample: public ouzel::scene::Scene
 {
 public:
-    SoundSample(Samples& aSamples);
+    SoundSample();
 
 private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
-
-    Samples& samples;
 
     std::unique_ptr<ouzel::audio::Sound> test8BitSound;
     std::unique_ptr<ouzel::audio::Sound> test24BitSound;

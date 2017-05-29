@@ -67,7 +67,7 @@ namespace ouzel
                     break;
                 }
 
-                event = eventQueue.front();
+                event = std::move(eventQueue.front());
                 eventQueue.pop();
             }
 
