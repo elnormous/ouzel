@@ -11,6 +11,7 @@
 #include "scene/SpriteFrame.h"
 #include "scene/ParticleDefinition.h"
 #include "gui/BMFont.h"
+#include "gui/FTFont.h"
 #include "graphics/BlendState.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
@@ -49,10 +50,12 @@ namespace ouzel
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
         void releaseParticleDefinitions();
-		void preLoadFFTFont(const std::string & filename);
+		void preLoadFTFont(const std::string & filename, int pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
+		const FTFont& getFTFont(const std::string& filename, int pt) const;
         void releaseBMFonts();
+		void releaseFTFonts();
 
     protected:
         mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
@@ -61,5 +64,7 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::map<std::string, BMFont> bmFonts;
+		mutable std::map<std::string, BMFont> ftFonts;
+
     };
 }

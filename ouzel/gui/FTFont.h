@@ -7,9 +7,9 @@
 namespace ouzel
 {
 
-	class FFTFont 
+	class FTFont 
 	{
 	public:
-		FFTFont(std::string& filename, int pt);
+		FTFont(std::string& filename, int pt);
 	};
 }

@@ -25,6 +25,7 @@ namespace ouzel
         releaseBlendStates();
         releaseSpriteFrames();
         releaseBMFonts();
+		releaseFTFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -288,10 +289,11 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-	void Cache::preLoadFFTFont(const std::string& filename)
+	void Cache::preLoadFTFont(const std::string & filename, int pt)
 	{
-
 	}
+
+
 
     void Cache::preloadBMFont(const std::string& filename)
     {
