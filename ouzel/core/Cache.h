@@ -64,7 +64,7 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::map<std::string, BMFont> bmFonts;
-		mutable std::map<std::string, BMFont> ftFonts;
+		mutable std::map<std::string, FTFont> ftFonts;
 
     };
 }

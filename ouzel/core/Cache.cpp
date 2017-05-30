@@ -291,6 +291,13 @@ namespace ouzel
 
 	void Cache::preLoadFTFont(const std::string & filename, int pt)
 	{
+		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+
+		if (i == ftFonts.end())
+		{
+			ftFonts[filename] = FTFont(filename, pt);
+		}
+
 	}
 
 
@@ -321,8 +328,30 @@ namespace ouzel
         }
     }
 
+	const FTFont & Cache::getFTFont(const std::string & filename, int pt) const
+	{
+		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+
+		if (i != ftFonts.end())
+		{
+			return i->second;
+		}
+		else
+		{
+			i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
+
+			return i->second;
+		}
+	}
+
     void Cache::releaseBMFonts()
     {
         bmFonts.clear();
     }
+
+	void Cache::releaseFTFonts()
+	{
+		ftFonts.clear();
+	}
+
 }

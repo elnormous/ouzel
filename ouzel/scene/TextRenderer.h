@@ -20,11 +20,18 @@ namespace ouzel
         class TextRenderer: public Component
         {
         public:
-            TextRenderer(const std::string& fontFile,
+			TextRenderer(const std::string& fontFile,
                          bool aMipmaps = true,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
+
+			TextRenderer(const std::string& fontFile,
+						 int pt,
+						 bool aMipmaps = true,
+						 const std::string& aText = std::string(),
+						 Color aColor = Color::WHITE,
+						 const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
