@@ -24,6 +24,7 @@ namespace ouzel
             bool init(SystemCursor newSystemCursor);
             bool init(const std::vector<uint8_t>& newData,
                       const Size2& newSize,
+                      graphics::PixelFormat newPixelFormat,
                       const Vector2& newHotSpot);
 
         protected:
@@ -33,6 +34,7 @@ namespace ouzel
             SystemCursor systemCursor = SystemCursor::DEFAULT;
             std::vector<uint8_t> data;
             Size2 size;
+            graphics::PixelFormat pixelFormat;
             Vector2 hotSpot;
 
             std::mutex uploadMutex;

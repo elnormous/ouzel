@@ -23,6 +23,7 @@ namespace ouzel
 
         bool CursorResource::init(const std::vector<uint8_t>& newData,
                                   const Size2& newSize,
+                                  graphics::PixelFormat newPixelFormat,
                                   const Vector2& newHotSpot)
         {
             {
@@ -30,6 +31,7 @@ namespace ouzel
 
                 data = newData;
                 size = newSize;
+                pixelFormat = newPixelFormat;
                 hotSpot = newHotSpot;
                 dirty = true;
             }

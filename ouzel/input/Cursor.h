@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "utils/Noncopyable.h"
+#include "graphics/PixelFormat.h"
 #include "math/Size2.h"
 #include "math/Vector2.h"
 
@@ -39,6 +40,7 @@ namespace ouzel
             bool init(const std::string& filename, const Vector2& hotSpot);
             bool init(const std::vector<uint8_t>& data,
                       const Size2& size,
+                      graphics::PixelFormat pixelFormat,
                       const Vector2& hotSpot);
 
             CursorResource* getResource() const { return resource; }

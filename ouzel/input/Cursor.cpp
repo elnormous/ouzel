@@ -55,14 +55,16 @@ namespace ouzel
 
             return init(image.getData(),
                         image.getSize(),
+                        image.getPixelFormat(),
                         hotSpot);
         }
 
         bool Cursor::init(const std::vector<uint8_t>& data,
                           const Size2& size,
+                          graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            if (!resource->init(data, size, hotSpot))
+            if (!resource->init(data, size, pixelFormat, hotSpot))
             {
                 return false;
             }
