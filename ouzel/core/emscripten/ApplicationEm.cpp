@@ -66,7 +66,7 @@ namespace ouzel
 
     void ApplicationEm::execute(const std::function<void(void)>& func)
     {
-        func();
+        if (func) func();
     }
 
     bool ApplicationEm::openURL(const std::string& url)

@@ -88,11 +88,14 @@ namespace ouzel
 
     void ApplicationIOS::execute(const std::function<void(void)>& func)
     {
-        std::function<void(void)> localFunction = func;
+        if (func)
+        {
+            std::function<void(void)> localFunction = func;
 
-        dispatch_async(mainQueue, ^{
-            localFunction();
-        });
+            dispatch_async(mainQueue, ^{
+                localFunction();
+            });
+        }
     }
 
     bool ApplicationIOS::openURL(const std::string& url)
