@@ -10,6 +10,8 @@
 #include "scene/ParticleDefinition.h"
 #include "scene/SpriteFrame.h"
 #include "files/FileSystem.h"
+#include "utils/Log.h"
+
 
 namespace ouzel
 {
