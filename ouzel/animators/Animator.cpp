@@ -53,7 +53,7 @@ namespace ouzel
             }
             else
             {
-                sharedEngine->unscheduleUpdate(&updateCallback);
+                updateCallback.remove();
             }
         }
 

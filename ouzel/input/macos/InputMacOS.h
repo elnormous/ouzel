@@ -39,6 +39,9 @@ namespace ouzel
             InputMacOS();
             virtual bool init() override;
 
+            virtual void activateCursorResource(CursorResource* resource) override;
+            virtual CursorResource* createCursorResource() override;
+
             IOHIDManagerRef hidManager = nullptr;
 
             bool discovering = false;

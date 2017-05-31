@@ -82,7 +82,7 @@ $ git submodule update
 
 Makefiles and Xcode and Visual Studio project files are located in the "build" directory. Makefiles and project files for sample project are located in the "samples" directory.
 
-You will need to download OpenGL (e.g. Mesa) and OpenAL drivers in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to "make" as follows:
+You will need to download OpenGL (e.g. Mesa), OpenAL drivers, and libxcursor installed in order to build Ouzel on Linux. To build it for Raspbian pass "platform=raspbian" to "make" as follows:
 
 ```
 $ make platform=raspbian

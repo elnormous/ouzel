@@ -9,8 +9,8 @@ using namespace ouzel;
 
 InputSample::InputSample()
 {
-    cursor.init(SystemCursor::CROSS);
-    sharedApplication->setCursor(&cursor);
+    cursor.init(input::SystemCursor::CROSS);
+    sharedEngine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);

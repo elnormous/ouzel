@@ -111,6 +111,8 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
         if (updateThread.joinable()) updateThread.join();
 #endif
+
+        sharedEngine = nullptr;
     }
 
     std::set<graphics::Renderer::Driver> Engine::getAvailableRenderDrivers()

@@ -17,7 +17,7 @@ namespace ouzel
 
         Buffer::~Buffer()
         {
-            if (resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
         bool Buffer::init(Usage newUsage, bool newDynamic)

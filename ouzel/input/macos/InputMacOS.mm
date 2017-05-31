@@ -6,6 +6,7 @@
 #import <GameController/GameController.h>
 #import <Carbon/Carbon.h>
 #include "InputMacOS.h"
+#include "CursorResourceMacOS.h"
 #include "GamepadMacOS.h"
 #include "core/macos/WindowMacOS.h"
 #include "core/Application.h"
@@ -177,6 +178,9 @@ namespace ouzel
 
         InputMacOS::~InputMacOS()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             if (hidManager)
             {
                 IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
@@ -208,6 +212,34 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void InputMacOS::activateCursorResource(CursorResource* resource)
+        {
+            Input::activateCursorResource(resource);
+
+            CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
+
+            if (cursorMacOS && cursorMacOS->getNativeCursor())
+            {
+                [cursorMacOS->getNativeCursor() set];
+            }
+            else
+            {
+                [[NSCursor arrowCursor] set];
+            }
+        }
+
+        CursorResource* InputMacOS::createCursorResource()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
+            CursorResource* result = cursorResource.get();
+
+            resources.push_back(std::move(cursorResource));
+
+            return result;
         }
 
         void InputMacOS::setCursorVisible(bool visible)

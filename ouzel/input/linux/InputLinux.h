@@ -34,9 +34,13 @@ namespace ouzel
             InputLinux();
             virtual bool init() override;
 
+            virtual void activateCursorResource(CursorResource* resource) override;
+            virtual CursorResource* createCursorResource() override;
+
             bool cursorVisible = true;
             bool cursorLocked = false;
             ::Cursor emptyCursor = None;
+            ::Cursor currentCursor = None;
         };
     } // namespace input
 } // namespace ouzel

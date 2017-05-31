@@ -3,7 +3,9 @@
 
 #include <algorithm>
 #include "Input.h"
+#include "CursorResource.h"
 #include "Gamepad.h"
+#include "core/Application.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "math/MathUtils.h"
@@ -25,6 +27,82 @@ namespace ouzel
         bool Input::init()
         {
             return true;
+        }
+
+        void Input::setCurrentCursor(Cursor* cursor)
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            if (cursor)
+            {
+                currentCursor = cursor->getResource();
+            }
+            else
+            {
+                currentCursor = nullptr;
+            }
+
+            CursorResource* resource = currentCursor;
+
+            sharedApplication->execute([this, resource] {
+                activateCursorResource(resource);
+            });
+        }
+
+        void Input::activateCursorResource(CursorResource*)
+        {
+        }
+
+        CursorResource* Input::createCursorResource()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::unique_ptr<CursorResource> cursorResource(new CursorResource());
+            CursorResource* result = cursorResource.get();
+
+            resources.push_back(std::move(cursorResource));
+
+            return result;
+        }
+
+        void Input::deleteCursorResource(CursorResource* resource)
+        {
+            {
+                std::lock_guard<std::mutex> lock(resourceMutex);
+
+                std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                    return ptr.get() == resource;
+                });
+
+                if (i != resources.end())
+                {
+                    resourceDeleteSet.push_back(std::move(*i));
+                    resources.erase(i);
+                }
+
+                if (resource == currentCursor)
+                {
+                    // remove the cursor
+                    currentCursor = nullptr;
+
+                    sharedApplication->execute([this] {
+                        activateCursorResource(nullptr);
+                    });
+                }
+            }
+
+            sharedApplication->execute([this] {
+                std::lock_guard<std::mutex> lock(resourceMutex);
+                resourceDeleteSet.clear();
+            });
+        }
+        
+        void Input::uploadCursorResource(CursorResource* resource)
+        {
+            sharedApplication->execute([this, resource] {
+                resource->upload();
+                if (resource == currentCursor) activateCursorResource(currentCursor);
+            });
         }
 
         void Input::setCursorVisible(bool)

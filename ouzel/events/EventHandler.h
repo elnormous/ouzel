@@ -20,6 +20,8 @@ namespace ouzel
         EventHandler(int32_t aPriority = 0): priority(aPriority) {}
         ~EventHandler();
 
+        void remove();
+
         std::function<bool(Event::Type, const KeyboardEvent&)> keyboardHandler;
         std::function<bool(Event::Type, const MouseEvent&)> mouseHandler;
         std::function<bool(Event::Type, const TouchEvent&)> touchHandler;

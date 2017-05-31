@@ -5,7 +5,6 @@
 #include <windows.h>
 #include <cstdlib>
 #include "ApplicationWin.h"
-#include "CursorResourceWin.h"
 #include "WindowWin.h"
 #include "input/windows/InputWin.h"
 #include "core/Engine.h"
@@ -20,8 +19,6 @@ namespace ouzel
 
     ApplicationWin::~ApplicationWin()
     {
-        resourceDeleteSet.clear();
-        resources.clear();
         //CoUninitialize();
     }
 
@@ -130,36 +127,5 @@ namespace ouzel
         int result = reinterpret_cast<int>(ShellExecute(NULL, L"open", urlBuffer, NULL, NULL, SW_SHOWNORMAL));
 
         return result > 32;
-    }
-
-    void ApplicationWin::activateCursorResource(CursorResource* resource)
-    {
-        Application::activateCursorResource(resource);
-
-        CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
-        WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
-
-        if (cursorWin && cursorWin->getNativeCursor())
-        {
-            SetCursor(cursorWin->getNativeCursor());
-            window->setCursor(cursorWin->getNativeCursor());
-        }
-        else
-        {
-            SetCursor(LoadCursor(nullptr, IDC_ARROW));
-            window->setCursor(nullptr);
-        }
-    }
-
-    CursorResource* ApplicationWin::createCursorResource()
-    {
-        std::lock_guard<std::mutex> lock(resourceMutex);
-
-        std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
-        CursorResource* result = cursorResource.get();
-
-        resources.push_back(std::move(cursorResource));
-
-        return result;
     }
 }

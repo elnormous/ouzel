@@ -6,6 +6,7 @@
 #include <wbemidl.h>
 #include <oleauto.h>
 #include "InputWin.h"
+#include "CursorResourceWin.h"
 #include "GamepadDI.h"
 #include "GamepadXI.h"
 #include "core/Application.h"
@@ -211,6 +212,9 @@ namespace ouzel
 
         InputWin::~InputWin()
         {
+            resourceDeleteSet.clear();
+            resources.clear();
+
             if (directInput) directInput->Release();
         }
 
@@ -299,6 +303,37 @@ namespace ouzel
                     i = gamepadsDI.erase(i);
                 }
             }
+        }
+
+        void InputWin::activateCursorResource(CursorResource* resource)
+        {
+            Input::activateCursorResource(resource);
+
+            CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
+            WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
+
+            if (cursorWin && cursorWin->getNativeCursor())
+            {
+                SetCursor(cursorWin->getNativeCursor());
+                window->setCursor(cursorWin->getNativeCursor());
+            }
+            else
+            {
+                SetCursor(LoadCursor(nullptr, IDC_ARROW));
+                window->setCursor(nullptr);
+            }
+        }
+
+        CursorResource* InputWin::createCursorResource()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
+            CursorResource* result = cursorResource.get();
+
+            resources.push_back(std::move(cursorResource));
+
+            return result;
         }
 
         void InputWin::setCursorVisible(bool visible)

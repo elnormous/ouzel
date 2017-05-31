@@ -45,6 +45,9 @@ namespace ouzel
             InputWin();
             virtual bool init() override;
 
+            virtual void activateCursorResource(CursorResource* resource) override;
+            virtual CursorResource* createCursorResource() override;
+
             IDirectInput8* directInput = nullptr;
             std::vector<GamepadDI*> gamepadsDI;
             GamepadXI* gamepadsXI[XUSER_MAX_COUNT];

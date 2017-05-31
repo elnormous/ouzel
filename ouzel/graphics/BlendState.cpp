@@ -17,7 +17,7 @@ namespace ouzel
 
         BlendState::~BlendState()
         {
-            if (resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
         bool BlendState::init(bool newEnableBlending,

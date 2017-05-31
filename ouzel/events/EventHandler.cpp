@@ -11,4 +11,13 @@ namespace ouzel
     {
         if (eventDispatcher) eventDispatcher->removeEventHandler(this);
     }
+
+    void EventHandler::remove()
+    {
+        if (eventDispatcher)
+        {
+            eventDispatcher->removeEventHandler(this);
+            eventDispatcher = nullptr;
+        }
+    }
 }

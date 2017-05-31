@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <unordered_map>
 #include "utils/Noncopyable.h"
@@ -12,8 +13,12 @@
 namespace ouzel
 {
     class Engine;
+
     namespace input
     {
+        class Cursor;
+        class CursorResource;
+
         enum class KeyboardKey
         {
             NONE,
@@ -217,8 +222,20 @@ namespace ouzel
         class Input: public Noncopyable
         {
             friend Engine;
+            friend Cursor;
         public:
             virtual ~Input();
+
+            template<class T>
+            void setCursor(const std::unique_ptr<T>& cursor)
+            {
+                setCurrentCursor(cursor.get());
+            }
+
+            void setCursor(Cursor* cursor)
+            {
+                setCurrentCursor(cursor);
+            }
 
             virtual void setCursorVisible(bool visible);
             virtual bool isCursorVisible() const;
@@ -256,12 +273,23 @@ namespace ouzel
             Input();
             virtual bool init();
 
+            void setCurrentCursor(Cursor* cursor);
+            virtual void activateCursorResource(CursorResource* resource);
+            virtual CursorResource* createCursorResource();
+            void deleteCursorResource(CursorResource* resource);
+            void uploadCursorResource(CursorResource* resource);
+
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
             std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;
+
+            std::mutex resourceMutex;
+            std::vector<std::unique_ptr<CursorResource>> resources;
+            std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
+            CursorResource* currentCursor = nullptr;
         };
     } // namespace input
 } // namespace ouzel

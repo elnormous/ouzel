@@ -18,7 +18,7 @@ namespace ouzel
 
         Texture::~Texture()
         {
-            if (resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
         bool Texture::init(const Size2& newSize,

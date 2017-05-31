@@ -19,7 +19,7 @@ namespace ouzel
 
         Shader::~Shader()
         {
-            if (resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
         bool Shader::initFromFiles(const std::string& newPixelShader,

@@ -177,7 +177,7 @@ namespace ouzel
         {
             entered = false;
 
-            sharedEngine->getEventDispatcher()->removeEventHandler(&eventHandler);
+            eventHandler.remove();
 
             for (Layer* layer : layers)
             {

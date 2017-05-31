@@ -10,4 +10,13 @@ namespace ouzel
     {
         if (engine) engine->unscheduleUpdate(this);
     }
+
+    void UpdateCallback::remove()
+    {
+        if (engine)
+        {
+            engine->unscheduleUpdate(this);
+            engine = nullptr;
+        }
+    }
 }

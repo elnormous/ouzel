@@ -16,9 +16,5 @@ namespace ouzel
         virtual int run() override;
 
         virtual bool openURL(const std::string& url) override;
-
-    protected:
-        virtual void activateCursorResource(CursorResource* resource) override;
-        virtual CursorResource* createCursorResource() override;
     };
 }
