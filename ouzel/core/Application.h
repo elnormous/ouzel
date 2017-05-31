@@ -30,7 +30,7 @@ namespace ouzel
         char** getArgv() const { return argv; }
         const std::vector<std::string>& getArgs() { return args; }
 
-        virtual void execute(const std::function<void(void)>& func);
+        virtual void execute(const std::function<void(void)>& func) = 0;
 
         FileSystem* getFileSystem() { return &fileSystem; }
 
@@ -40,16 +40,11 @@ namespace ouzel
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
     protected:
-        void executeAll();
-
         bool active = true;
         bool screenSaverEnabled = true;
         int argc = 0;
         char** argv = nullptr;
         std::vector<std::string> args;
-
-        std::queue<std::function<void(void)>> executeQueue;
-        std::mutex executeMutex;
 
         FileSystem fileSystem;
         Engine engine;

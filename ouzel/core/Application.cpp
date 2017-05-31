@@ -53,38 +53,6 @@ namespace ouzel
         }
     }
 
-    void Application::execute(const std::function<void(void)>& func)
-    {
-        std::lock_guard<std::mutex> lock(executeMutex);
-
-        executeQueue.push(func);
-    }
-
-    void Application::executeAll()
-    {
-        std::function<void(void)> func;
-
-        for (;;)
-        {
-            {
-                std::lock_guard<std::mutex> lock(executeMutex);
-
-                if (executeQueue.empty())
-                {
-                    break;
-                }
-
-                func = std::move(executeQueue.front());
-                executeQueue.pop();
-            }
-
-            if (func)
-            {
-                func();
-            }
-        }
-    }
-
     bool Application::openURL(const std::string&)
     {
         return false;

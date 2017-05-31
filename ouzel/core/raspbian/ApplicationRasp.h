@@ -13,5 +13,13 @@ namespace ouzel
         ApplicationRasp(int aArgc, char* aArgv[]);
 
         virtual int run() override;
+
+        virtual void execute(const std::function<void(void)>& func) override;
+
+    protected:
+        void executeAll();
+
+        std::queue<std::function<void(void)>> executeQueue;
+        std::mutex executeMutex;
     };
 }

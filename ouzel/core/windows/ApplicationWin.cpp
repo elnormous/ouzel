@@ -120,6 +120,38 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
+    void ApplicationWin::execute(const std::function<void(void)>& func)
+    {
+        std::lock_guard<std::mutex> lock(executeMutex);
+
+        executeQueue.push(func);
+    }
+
+    void ApplicationWin::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                std::lock_guard<std::mutex> lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
+    }
+
     bool ApplicationWin::openURL(const std::string& url)
     {
         wchar_t urlBuffer[256];
