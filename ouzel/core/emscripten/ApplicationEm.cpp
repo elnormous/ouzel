@@ -50,7 +50,6 @@ namespace ouzel
 
     bool ApplicationEm::step()
     {
-        executeAll();
         sharedEngine->update();
         sharedEngine->getAudio()->update();
 
