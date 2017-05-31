@@ -26,24 +26,27 @@ namespace ouzel
 
                 switch (systemCursor)
                 {
-                case SystemCursor::DEFAULT:
-                    cursor = LoadCursor(nullptr, IDC_ARROW);
-                    break;
-                case SystemCursor::ARROW:
-                    cursor = LoadCursor(nullptr, IDC_ARROW);
-                    break;
-                case SystemCursor::HAND:
-                    cursor = LoadCursor(nullptr, IDC_HAND);
-                    break;
-                case SystemCursor::HORIZONTAL_RESIZE:
-                    cursor = LoadCursor(nullptr, IDC_SIZEWE);
-                    break;
-                case SystemCursor::VERTICAL_RESIZE:
-                    cursor = LoadCursor(nullptr, IDC_SIZENS);
-                    break;
-                case SystemCursor::CROSS:
-                    cursor = LoadCursor(nullptr, IDC_CROSS);
-                    break;
+                    case SystemCursor::DEFAULT:
+                        cursor = LoadCursor(nullptr, IDC_ARROW);
+                        break;
+                    case SystemCursor::ARROW:
+                        cursor = LoadCursor(nullptr, IDC_ARROW);
+                        break;
+                    case SystemCursor::HAND:
+                        cursor = LoadCursor(nullptr, IDC_HAND);
+                        break;
+                    case SystemCursor::HORIZONTAL_RESIZE:
+                        cursor = LoadCursor(nullptr, IDC_SIZEWE);
+                        break;
+                    case SystemCursor::VERTICAL_RESIZE:
+                        cursor = LoadCursor(nullptr, IDC_SIZENS);
+                        break;
+                    case SystemCursor::CROSS:
+                        cursor = LoadCursor(nullptr, IDC_CROSS);
+                        break;
+                    case SystemCursor::I_BEAM:
+                        cursor = LoadCursor(nullptr, IDC_IBEAM);
+                        break;
                 }
 
                 shared = true;

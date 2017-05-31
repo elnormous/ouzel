@@ -29,7 +29,7 @@ namespace ouzel
                     switch (systemCursor)
                     {
                         case SystemCursor::DEFAULT:
-                            cursor = [NSCursor currentSystemCursor];
+                            cursor = [NSCursor arrowCursor];
                             break;
                         case SystemCursor::ARROW:
                             cursor = [NSCursor arrowCursor];
@@ -45,6 +45,9 @@ namespace ouzel
                             break;
                         case SystemCursor::CROSS:
                             cursor = [NSCursor crosshairCursor];
+                            break;
+                        case SystemCursor::I_BEAM:
+                            cursor = [NSCursor IBeamCursor];
                             break;
                     }
 

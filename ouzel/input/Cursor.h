@@ -23,7 +23,8 @@ namespace ouzel
             HAND,
             HORIZONTAL_RESIZE,
             VERTICAL_RESIZE,
-            CROSS
+            CROSS,
+            I_BEAM
         };
 
         class Cursor: public Noncopyable

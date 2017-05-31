@@ -60,6 +60,9 @@ namespace ouzel
                             case SystemCursor::CROSS:
                                 cursor = XcursorLibraryLoadCursor(display, "crosshair");
                                 break;
+                            case SystemCursor::I_BEAM:
+                                cursor = XcursorLibraryLoadCursor(display, "xterm");
+                                break;
                         }
                     }
                 }
