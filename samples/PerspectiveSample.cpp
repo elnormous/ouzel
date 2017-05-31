@@ -9,6 +9,9 @@ using namespace ouzel;
 
 PerspectiveSample::PerspectiveSample()
 {
+    cursor.init(input::SystemCursor::CROSS);
+    sharedEngine->getInput()->setCursor(&cursor);
+
     eventHandler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
     eventHandler.touchHandler = bind(&PerspectiveSample::handleTouch, this, placeholders::_1, placeholders::_2);

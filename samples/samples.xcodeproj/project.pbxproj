@@ -105,6 +105,9 @@
 		304736D41E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
 		304736D51E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
 		304736D61E0AE4CE009BC562 /* floor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 304736D31E0AE4CE009BC562 /* floor.jpg */; };
+		3049DCEF1EDF865B0000997A /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 3049DCEE1EDF865B0000997A /* cursor.png */; };
+		3049DCF01EDF865B0000997A /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 3049DCEE1EDF865B0000997A /* cursor.png */; };
+		3049DCF11EDF865B0000997A /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 3049DCEE1EDF865B0000997A /* cursor.png */; };
 		305B99B31C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
 		305B99B41C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
 		305B99B51C433061008589E1 /* button_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 305B99B11C433061008589E1 /* button_down.png */; };
@@ -233,6 +236,7 @@
 		304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerspectiveSample.cpp; sourceTree = "<group>"; };
 		304736CC1E0AD89E009BC562 /* PerspectiveSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveSample.h; sourceTree = "<group>"; };
 		304736D31E0AE4CE009BC562 /* floor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = floor.jpg; sourceTree = "<group>"; };
+		3049DCEE1EDF865B0000997A /* cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cursor.png; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		304A8E161C237B96008B1151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		304A8E1B1C237B96008B1151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -412,6 +416,7 @@
 				308493A11D63D0C100B7C515 /* button_selected.png */,
 				305B99B21C433061008589E1 /* button.png */,
 				30C56C701CAB48A4007AEF8F /* checkbox.png */,
+				3049DCEE1EDF865B0000997A /* cursor.png */,
 				30C56C851CAB4E4E007AEF8F /* dot.png */,
 				30C56C711CAB48A4007AEF8F /* edit_box.png */,
 				303B75F51C33756100FEDE92 /* fire.json */,
@@ -601,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30419E601D1D541900A63759 /* jump.wav in Resources */,
+				3049DCEF1EDF865B0000997A /* cursor.png in Resources */,
 				305B99B41C433061008589E1 /* button_down.png in Resources */,
 				305B99B71C433061008589E1 /* button.png in Resources */,
 				303B76161C34CFE300FEDE92 /* flame.png in Resources */,
@@ -637,6 +643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30419E611D1D541900A63759 /* jump.wav in Resources */,
+				3049DCF11EDF865B0000997A /* cursor.png in Resources */,
 				305B99B51C433061008589E1 /* button_down.png in Resources */,
 				305B99B81C433061008589E1 /* button.png in Resources */,
 				303B76961C355AA400FEDE92 /* flame.png in Resources */,
@@ -673,6 +680,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30419E5F1D1D541900A63759 /* jump.wav in Resources */,
+				3049DCF01EDF865B0000997A /* cursor.png in Resources */,
 				305B99B31C433061008589E1 /* button_down.png in Resources */,
 				305B99B61C433061008589E1 /* button.png in Resources */,
 				303B76041C349CA800FEDE92 /* flame.png in Resources */,

@@ -55,6 +55,34 @@ namespace ouzel
                 }
                 else
                 {
+                    NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
+                    NSInteger channelSize = graphics::getChannelSize(pixelFormat);
+                    NSInteger channelCount = graphics::getChannelCount(pixelFormat);
+                    NSInteger width = static_cast<NSInteger>(size.v[0]);
+                    NSInteger height = static_cast<NSInteger>(size.v[1]);
+
+                    unsigned char* rgba = reinterpret_cast<unsigned char*>(data.data());
+
+                    NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+                    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                                             initWithBitmapDataPlanes:&rgba
+                                             pixelsWide:width
+                                             pixelsHigh:height
+                                             bitsPerSample:channelSize * 8
+                                             samplesPerPixel:channelCount
+                                             hasAlpha:YES
+                                             isPlanar:NO
+                                             colorSpaceName:NSDeviceRGBColorSpace
+                                             bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                             bytesPerRow:width * bytesPerPixel
+                                             bitsPerPixel:bytesPerPixel * 8];
+
+                    [image addRepresentation:rep];
+                    cursor = [[NSCursor alloc] initWithImage:image
+                                                     hotSpot:NSMakePoint(hotSpot.v[0], size.v[1] - hotSpot.v[1] - 1.0f)];
+
+                    [image release];
+                    [rep release];
                 }
 
                 dirty = false;

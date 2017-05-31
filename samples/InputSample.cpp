@@ -9,7 +9,7 @@ using namespace ouzel;
 
 InputSample::InputSample()
 {
-    cursor.init(input::SystemCursor::CROSS);
+    cursor.init("cursor.png", Vector2(0.0f, 63.0f));
     sharedEngine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
