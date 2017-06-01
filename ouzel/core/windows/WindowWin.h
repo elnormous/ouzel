@@ -45,12 +45,12 @@ namespace ouzel
         void switchFullscreen(bool newFullscreen);
 
         ATOM windowClass = 0;
-        HWND window = 0;
+        HWND window = nullptr;
         DWORD windowStyle = 0;
         DWORD windowWindowedStyle = 0;
         DWORD windowFullscreenStyle = 0;
-        HMONITOR monitor = 0;
-        HCURSOR cursor = 0;
+        HMONITOR monitor = nullptr;
+        HCURSOR cursor = nullptr;
 
         int windowX = 0;
         int windowY = 0;
