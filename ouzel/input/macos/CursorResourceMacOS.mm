@@ -18,14 +18,14 @@ namespace ouzel
 
             if (dirty)
             {
+                if (cursor)
+                {
+                    [cursor release];
+                    cursor = Nil;
+                }
+
                 if (data.empty())
                 {
-                    if (cursor)
-                    {
-                        [cursor release];
-                        cursor = Nil;
-                    }
-
                     switch (systemCursor)
                     {
                         case SystemCursor::DEFAULT:
