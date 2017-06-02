@@ -83,12 +83,14 @@ namespace ouzel
                         cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
                         cursorImage->delay = 0;
 
+                        unsigned char* target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
+
                         for (int i = 0; i < width * height; ++i)
                         {
-                            cursorImage->pixels[i * 4 + 0] = data[i * 4 + 2];
-                            cursorImage->pixels[i * 4 + 1] = data[i * 4 + 1];
-                            cursorImage->pixels[i * 4 + 2] = data[i * 4 + 0];
-                            cursorImage->pixels[i * 4 + 3] = data[i * 4 + 3];
+                            target[i * 4 + 0] = data[i * 4 + 3];
+                            target[i * 4 + 1] = data[i * 4 + 0];
+                            target[i * 4 + 2] = data[i * 4 + 1];
+                            target[i * 4 + 3] = data[i * 4 + 2];
                         }
 
                         cursor = XcursorImageLoadCursor(display, cursorImage);
