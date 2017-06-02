@@ -87,10 +87,10 @@ namespace ouzel
 
                         for (int i = 0; i < width * height; ++i)
                         {
-                            target[i * 4 + 0] = data[i * 4 + 3];
-                            target[i * 4 + 1] = data[i * 4 + 0];
-                            target[i * 4 + 2] = data[i * 4 + 1];
-                            target[i * 4 + 3] = data[i * 4 + 2];
+                            target[i * 4 + 0] = data[i * 4 + 2];
+                            target[i * 4 + 1] = data[i * 4 + 1];
+                            target[i * 4 + 2] = data[i * 4 + 0];
+                            target[i * 4 + 3] = data[i * 4 + 3];
                         }
 
                         cursor = XcursorImageLoadCursor(display, cursorImage);
