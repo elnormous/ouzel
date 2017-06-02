@@ -84,6 +84,8 @@ namespace ouzel
                 case PixelFormat::DEFAULT:
                     return 0;
             }
+
+            return 0;
         }
 
         inline uint32_t getChannelSize(PixelFormat pixelFormat)
@@ -125,6 +127,8 @@ namespace ouzel
                 case PixelFormat::DEFAULT:
                     return 0;
             }
+
+            return 0;
         }
 
         inline uint32_t getChannelCount(PixelFormat pixelFormat)
@@ -166,6 +170,8 @@ namespace ouzel
                 case PixelFormat::DEFAULT:
                     return 0;
             }
+
+            return 0;
         }
     } // namespace graphics
 } // namespace ouzel
