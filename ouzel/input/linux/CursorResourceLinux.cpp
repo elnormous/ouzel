@@ -91,9 +91,9 @@ namespace ouzel
                             cursorImage->pixels[i * 4 + 3] = data[i * 4 + 3];
                         }
 
-                        cursor = X11_XcursorImageLoadCursor(display, cursorImage);
+                        cursor = XcursorImageLoadCursor(display, cursorImage);
 
-                        X11_XcursorImageDestroy(cursorImage);
+                        XcursorImageDestroy(cursorImage);
                     }
                 }
 
