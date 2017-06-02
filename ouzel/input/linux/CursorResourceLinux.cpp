@@ -32,14 +32,14 @@ namespace ouzel
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
 
+                    if (cursor != None)
+                    {
+                        XFreeCursor(display, cursor);
+                        cursor = None;
+                    }
+
                     if (data.empty())
                     {
-                        if (cursor != None)
-                        {
-                            XFreeCursor(display, cursor);
-                            cursor = None;
-                        }
-
                         switch (systemCursor)
                         {
                             case SystemCursor::DEFAULT:
@@ -64,6 +64,9 @@ namespace ouzel
                                 cursor = XcursorLibraryLoadCursor(display, "xterm");
                                 break;
                         }
+                    }
+                    else
+                    {
                     }
                 }
 
