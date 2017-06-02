@@ -83,7 +83,7 @@ namespace ouzel
                         cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
                         cursorImage->delay = 0;
 
-                        for (int i = 0; i < width * height; i++)
+                        for (int i = 0; i < width * height; ++i)
                         {
                             cursorImage->pixels[i * 4 + 0] = data[i * 4 + 2];
                             cursorImage->pixels[i * 4 + 1] = data[i * 4 + 1];
