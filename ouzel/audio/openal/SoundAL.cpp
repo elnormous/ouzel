@@ -64,32 +64,9 @@ namespace ouzel
                         return false;
                     }
 
-                    ALenum format = 0;
+                    AudioAL* audioAL = static_cast<AudioAL*>(sharedEngine->getAudio());
 
-                    if (soundData->getChannels() == 1)
-                    {
-                        format = AL_FORMAT_MONO16;
-                    }
-                    else if (soundData->getChannels() == 2)
-                    {
-                        format = AL_FORMAT_STEREO16;
-                    }
-                    else if (soundData->getChannels() == 4)
-                    {
-                        format = alGetEnumValue("AL_FORMAT_QUAD16");
-                    }
-                    else if (soundData->getChannels() == 6)
-                    {
-                        format = alGetEnumValue("AL_FORMAT_51CHN16");
-                    }
-                    else if (soundData->getChannels() == 7)
-                    {
-                        format = alGetEnumValue("AL_FORMAT_61CHN16");
-                    }
-                    else if (soundData->getChannels() == 8)
-                    {
-                        format = alGetEnumValue("AL_FORMAT_71CHN16");
-                    }
+                    ALenum format = audioAL->getFormatForChannels(soundData->getChannels());
 
                     if (format == 0)
                     {
