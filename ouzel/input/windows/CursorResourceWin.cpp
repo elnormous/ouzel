@@ -62,11 +62,14 @@ namespace ouzel
                 }
                 else
                 {
+                    LONG width = static_cast<LONG>(size.v[0]);
+                    LONG height = static_cast<LONG>(size.v[1]);
+
                     BITMAPV5HEADER bitmapHeader;
                     ZeroMemory(&bitmapHeader, sizeof(bitmapHeader));
                     bitmapHeader.bV5Size = sizeof(BITMAPV5HEADER);
-                    bitmapHeader.bV5Width = static_cast<LONG>(size.v[0]);
-                    bitmapHeader.bV5Height = -static_cast<LONG>(size.v[1]);
+                    bitmapHeader.bV5Width = width;
+                    bitmapHeader.bV5Height = -height;
                     bitmapHeader.bV5Planes = 1;
                     bitmapHeader.bV5BitCount = 32;
                     bitmapHeader.bV5Compression = BI_BITFIELDS;
@@ -91,9 +94,7 @@ namespace ouzel
                         return false;
                     }
 
-                    HBITMAP mask = CreateBitmap(static_cast<LONG>(size.v[0]),
-                                                static_cast<LONG>(size.v[1]),
-                                                1, 1, nullptr);
+                    HBITMAP mask = CreateBitmap(width, height, 1, 1, nullptr);
                     if (!mask)
                     {
                         Log(Log::Level::ERR) << "Failed to create mask bitmap";
@@ -101,7 +102,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (int i = 0; i < static_cast<int>(size.v[0]) * static_cast<int>(size.v[1]); i++)
+                    for (LONG i = 0; i < width * height; i++)
                     {
                         target[i * 4 + 0] = data[i * 4 + 2];
                         target[i * 4 + 1] = data[i * 4 + 1];

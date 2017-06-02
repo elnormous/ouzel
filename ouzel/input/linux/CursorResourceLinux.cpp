@@ -6,6 +6,7 @@
 #include "CursorResourceLinux.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -67,6 +68,32 @@ namespace ouzel
                     }
                     else
                     {
+                        int width = static_cast<int>(size.v[0]);
+                        int height = static_cast<int>(size.v[1]);
+
+                        XcursorImage* cursorImage = XcursorImageCreate(width, height);
+
+                        if (!cursorImage)
+                        {
+                            Log(Log::Level::ERR) << "Failed to create cursor image";
+                            return false;
+                        }
+
+                        cursorImage->xhot = static_cast<int>(hotSpot.v[0]);
+                        cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
+                        cursorImage->delay = 0;
+
+                        for (int i = 0; i < width * height; i++)
+                        {
+                            cursorImage->pixels[i * 4 + 0] = data[i * 4 + 2];
+                            cursorImage->pixels[i * 4 + 1] = data[i * 4 + 1];
+                            cursorImage->pixels[i * 4 + 2] = data[i * 4 + 0];
+                            cursorImage->pixels[i * 4 + 3] = data[i * 4 + 3];
+                        }
+
+                        cursor = X11_XcursorImageLoadCursor(display, cursorImage);
+
+                        X11_XcursorImageDestroy(cursorImage);
                     }
                 }
 
