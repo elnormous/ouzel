@@ -92,7 +92,7 @@ namespace ouzel
                             target[i * 4 + 0] = static_cast<unsigned char>(data[i * 4 + 2] * opacity);
                             target[i * 4 + 1] = static_cast<unsigned char>(data[i * 4 + 1] * opacity);
                             target[i * 4 + 2] = static_cast<unsigned char>(data[i * 4 + 0] * opacity);
-                            target[i * 4 + 3] = static_cast<unsigned char>(data[i * 4 + 3] * opacity);
+                            target[i * 4 + 3] = data[i * 4 + 3];
                         }
 
                         cursor = XcursorImageLoadCursor(display, cursorImage);
