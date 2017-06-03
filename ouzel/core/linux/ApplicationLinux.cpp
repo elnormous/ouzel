@@ -177,6 +177,38 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
+    void ApplicationLinux::execute(const std::function<void(void)>& func)
+    {
+        std::lock_guard<std::mutex> lock(executeMutex);
+
+        executeQueue.push(func);
+    }
+
+    void ApplicationLinux::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                std::lock_guard<std::mutex> lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
+    }
+
     bool ApplicationLinux::openURL(const std::string& url)
     {
 		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));

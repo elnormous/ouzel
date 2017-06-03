@@ -104,11 +104,14 @@ namespace ouzel
 
     void ApplicationMacOS::execute(const std::function<void(void)>& func)
     {
-        std::function<void(void)> localFunction = func;
+        if (func)
+        {
+            std::function<void(void)> localFunction = func;
 
-        dispatch_async(mainQueue, ^{
-            localFunction();
-        });
+            dispatch_async(mainQueue, ^{
+                localFunction();
+            });
+        }
     }
 
     bool ApplicationMacOS::openURL(const std::string& url)

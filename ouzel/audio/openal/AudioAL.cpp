@@ -123,6 +123,11 @@ namespace ouzel
                 return false;
             }
 
+            format40 = alGetEnumValue("AL_FORMAT_QUAD16");
+            format51 = alGetEnumValue("AL_FORMAT_51CHN16");
+            format61 = alGetEnumValue("AL_FORMAT_61CHN16");
+            format71 = alGetEnumValue("AL_FORMAT_71CHN16");
+
             return Audio::init();
         }
 

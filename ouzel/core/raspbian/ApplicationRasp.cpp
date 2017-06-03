@@ -48,4 +48,36 @@ namespace ouzel
 
         return EXIT_SUCCESS;
     }
+
+    void ApplicationRasp::execute(const std::function<void(void)>& func)
+    {
+        std::lock_guard<std::mutex> lock(executeMutex);
+
+        executeQueue.push(func);
+    }
+
+    void ApplicationRasp::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                std::lock_guard<std::mutex> lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
+    }
 }

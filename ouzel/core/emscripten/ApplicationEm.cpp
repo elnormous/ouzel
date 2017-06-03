@@ -50,7 +50,6 @@ namespace ouzel
 
     bool ApplicationEm::step()
     {
-        executeAll();
         sharedEngine->update();
         sharedEngine->getAudio()->update();
 
@@ -63,6 +62,11 @@ namespace ouzel
         inputEm->update();
 
         return active;
+    }
+
+    void ApplicationEm::execute(const std::function<void(void)>& func)
+    {
+        if (func) func();
     }
 
     bool ApplicationEm::openURL(const std::string& url)

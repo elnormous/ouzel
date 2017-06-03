@@ -34,4 +34,6 @@ private:
     std::unique_ptr<ouzel::scene::Camera> guiCamera;
     std::unique_ptr<ouzel::gui::Menu> menu;
     std::unique_ptr<ouzel::gui::Button> backButton;
+
+    ouzel::input::Cursor cursor;
 };

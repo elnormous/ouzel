@@ -346,9 +346,9 @@ namespace ouzel
         {
             wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         }
-        wc.lpszMenuName = 0;
+        wc.lpszMenuName = nullptr;
         wc.lpszClassName = WINDOW_CLASS_NAME;
-        wc.hIconSm = 0;
+        wc.hIconSm = nullptr;
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)

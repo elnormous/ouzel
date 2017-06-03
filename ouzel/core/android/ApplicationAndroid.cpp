@@ -111,6 +111,14 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
+    void ApplicationAndroid::execute(const std::function<void(void)>& func)
+    {
+        if (func)
+        {
+            // TODO: implement running on UI thread (Activity.runOnUiThread)
+        }
+    }
+
     bool ApplicationAndroid::openURL(const std::string& url)
     {
         JNIEnv* jniEnv;
@@ -147,23 +155,24 @@ namespace ouzel
     {
         Application::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        // TODO: run on UI thread (Activity.runOnUiThread)
-        /*JNIEnv* jniEnv;
+        execute([newScreenSaverEnabled, this]() {
+            JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return;
+            }
 
-        if (newScreenSaverEnabled)
-        {
-            jniEnv->CallVoidMethod(window, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
-        }
-        else
-        {
-            jniEnv->CallVoidMethod(window, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
-        }*/
+            if (newScreenSaverEnabled)
+            {
+                jniEnv->CallVoidMethod(window, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+            }
+            else
+            {
+                jniEnv->CallVoidMethod(window, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+            }
+        });
     }
 
     void ApplicationAndroid::update()
@@ -191,8 +200,6 @@ namespace ouzel
 
         while (active)
         {
-            executeAll();
-
             if (!sharedEngine->draw())
             {
                 break;

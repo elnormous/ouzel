@@ -6,6 +6,7 @@
 #include "CursorResourceLinux.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -32,14 +33,14 @@ namespace ouzel
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
 
+                    if (cursor != None)
+                    {
+                        XFreeCursor(display, cursor);
+                        cursor = None;
+                    }
+
                     if (data.empty())
                     {
-                        if (cursor != None)
-                        {
-                            XFreeCursor(display, cursor);
-                            cursor = None;
-                        }
-
                         switch (systemCursor)
                         {
                             case SystemCursor::DEFAULT:
@@ -64,6 +65,40 @@ namespace ouzel
                                 cursor = XcursorLibraryLoadCursor(display, "xterm");
                                 break;
                         }
+                    }
+                    else
+                    {
+                        int width = static_cast<int>(size.v[0]);
+                        int height = static_cast<int>(size.v[1]);
+
+                        XcursorImage* cursorImage = XcursorImageCreate(width, height);
+
+                        if (!cursorImage)
+                        {
+                            Log(Log::Level::ERR) << "Failed to create cursor image";
+                            return false;
+                        }
+
+                        cursorImage->xhot = static_cast<int>(hotSpot.v[0]);
+                        cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;
+                        cursorImage->delay = 0;
+
+                        unsigned char* target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
+
+                        for (int i = 0; i < width * height; ++i)
+                        {
+                            // premultiply alpha
+                            float opacity = data[i * 4 + 3] / 255.0f;
+
+                            target[i * 4 + 0] = static_cast<unsigned char>(data[i * 4 + 2] * opacity);
+                            target[i * 4 + 1] = static_cast<unsigned char>(data[i * 4 + 1] * opacity);
+                            target[i * 4 + 2] = static_cast<unsigned char>(data[i * 4 + 0] * opacity);
+                            target[i * 4 + 3] = data[i * 4 + 3];
+                        }
+
+                        cursor = XcursorImageLoadCursor(display, cursorImage);
+
+                        XcursorImageDestroy(cursorImage);
                     }
                 }
 

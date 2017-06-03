@@ -81,9 +81,97 @@ namespace ouzel
                 case PixelFormat::RGBA32_SINT:
                 case PixelFormat::RGBA32_FLOAT:
                     return 16;
-                default:
+                case PixelFormat::DEFAULT:
                     return 0;
             }
+
+            return 0;
+        }
+
+        inline uint32_t getChannelSize(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM:
+                case PixelFormat::R8_UNORM:
+                case PixelFormat::R8_SNORM:
+                case PixelFormat::R8_UINT:
+                case PixelFormat::R8_SINT:
+                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RG8_SNORM:
+                case PixelFormat::RG8_UINT:
+                case PixelFormat::RG8_SINT:
+                case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_SNORM:
+                case PixelFormat::RGBA8_UINT:
+                case PixelFormat::RGBA8_SINT:
+                    return 1;
+                case PixelFormat::R16_UNORM:
+                case PixelFormat::R16_SNORM:
+                case PixelFormat::R16_UINT:
+                case PixelFormat::R16_SINT:
+                case PixelFormat::R16_FLOAT:
+                case PixelFormat::RGBA16_UNORM:
+                case PixelFormat::RGBA16_SNORM:
+                case PixelFormat::RGBA16_UINT:
+                case PixelFormat::RGBA16_SINT:
+                case PixelFormat::RGBA16_FLOAT:
+                    return 2;
+                case PixelFormat::R32_UINT:
+                case PixelFormat::R32_SINT:
+                case PixelFormat::R32_FLOAT:
+                case PixelFormat::RGBA32_UINT:
+                case PixelFormat::RGBA32_SINT:
+                case PixelFormat::RGBA32_FLOAT:
+                    return 4;
+                case PixelFormat::DEFAULT:
+                    return 0;
+            }
+
+            return 0;
+        }
+
+        inline uint32_t getChannelCount(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM:
+                case PixelFormat::R8_UNORM:
+                case PixelFormat::R8_SNORM:
+                case PixelFormat::R8_UINT:
+                case PixelFormat::R8_SINT:
+                case PixelFormat::R16_UNORM:
+                case PixelFormat::R16_SNORM:
+                case PixelFormat::R16_UINT:
+                case PixelFormat::R16_SINT:
+                case PixelFormat::R16_FLOAT:
+                case PixelFormat::R32_UINT:
+                case PixelFormat::R32_SINT:
+                case PixelFormat::R32_FLOAT:
+                    return 1;
+                case PixelFormat::RG8_UNORM:
+                case PixelFormat::RG8_SNORM:
+                case PixelFormat::RG8_UINT:
+                case PixelFormat::RG8_SINT:
+                    return 2;
+                case PixelFormat::RGBA8_UNORM:
+                case PixelFormat::RGBA8_SNORM:
+                case PixelFormat::RGBA8_UINT:
+                case PixelFormat::RGBA8_SINT:
+                case PixelFormat::RGBA16_UNORM:
+                case PixelFormat::RGBA16_SNORM:
+                case PixelFormat::RGBA16_UINT:
+                case PixelFormat::RGBA16_SINT:
+                case PixelFormat::RGBA16_FLOAT:
+                case PixelFormat::RGBA32_UINT:
+                case PixelFormat::RGBA32_SINT:
+                case PixelFormat::RGBA32_FLOAT:
+                    return 4;
+                case PixelFormat::DEFAULT:
+                    return 0;
+            }
+
+            return 0;
         }
     } // namespace graphics
 } // namespace ouzel

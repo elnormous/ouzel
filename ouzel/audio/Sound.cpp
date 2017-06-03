@@ -16,7 +16,7 @@ namespace ouzel
 
         Sound::~Sound()
         {
-            sharedEngine->getAudio()->deleteResource(resource);
+            if (sharedEngine) sharedEngine->getAudio()->deleteResource(resource);
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
