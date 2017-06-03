@@ -87,10 +87,12 @@ namespace ouzel
 
                         for (int i = 0; i < width * height; ++i)
                         {
-                            target[i * 4 + 0] = data[i * 4 + 2];
-                            target[i * 4 + 1] = data[i * 4 + 1];
-                            target[i * 4 + 2] = data[i * 4 + 0];
-                            target[i * 4 + 3] = data[i * 4 + 3];
+                            float opacity = data[i * 4 + 3] / 255.0f;
+
+                            target[i * 4 + 0] = static_cast<unsigned char>(data[i * 4 + 2] * opacity);
+                            target[i * 4 + 1] = static_cast<unsigned char>(data[i * 4 + 1] * opacity);
+                            target[i * 4 + 2] = static_cast<unsigned char>(data[i * 4 + 0] * opacity);
+                            target[i * 4 + 3] = static_cast<unsigned char>(data[i * 4 + 3] * opacity);
                         }
 
                         cursor = XcursorImageLoadCursor(display, cursorImage);
