@@ -26,6 +26,7 @@ namespace ouzel
         void clear();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
+		const std::shared_ptr<graphics::Texture>& getTextureFromData(const std::string& name, const std::vector<uint8_t>& data = std::vector<uint8_t>(), Size2 inSize = Size2(), bool dynamic = false, bool mipmaps = true) const;
         const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
         void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
         void releaseTextures();

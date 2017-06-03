@@ -70,7 +70,7 @@ namespace ouzel
 
 			font = sharedEngine->getCache()->getFTFont(fontFile, pt);
 
-			texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+			texture = sharedEngine->getCache()->getTextureFromData(font.getTexture());
 
 			updateText();
 		}

@@ -110,6 +110,7 @@
     <ClCompile Include="..\ouzel\input\windows\InputWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
+    <ClCompile Include="..\ouzel\LodePng.cpp" />
     <ClCompile Include="..\ouzel\math\Box2.cpp" />
     <ClCompile Include="..\ouzel\math\Box3.cpp" />
     <ClCompile Include="..\ouzel\math\Color.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.h" />
@@ -263,6 +265,7 @@
     <ClInclude Include="..\ouzel\input\windows\InputWin.h" />
     <ClInclude Include="..\ouzel\localization\Language.h" />
     <ClInclude Include="..\ouzel\localization\Localization.h" />
+    <ClInclude Include="..\ouzel\LodePng.h" />
     <ClInclude Include="..\ouzel\math\Box2.h" />
     <ClInclude Include="..\ouzel\math\Box3.h" />
     <ClInclude Include="..\ouzel\math\Color.h" />
