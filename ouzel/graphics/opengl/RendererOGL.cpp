@@ -46,7 +46,7 @@
 #endif
 
 #if OUZEL_PLATFORM_MACOS
-#include "dlfcn.h"
+#include <dlfcn.h>
 #endif
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
