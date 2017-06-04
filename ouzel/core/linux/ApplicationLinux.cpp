@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
+#include <X11/extensions/scrnsaver.h>
 #include "ApplicationLinux.h"
 #include "core/Engine.h"
 #include "events/Event.h"
