@@ -215,4 +215,15 @@ namespace ouzel
 
 		return true;
 	}
+
+	void ApplicationLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        execute([newScreenSaverEnabled](){
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+
+            XScreenSaverSuspend(windowLinux->getDisplay(), newScreenSaverEnabled);
+        });
+    }
 }

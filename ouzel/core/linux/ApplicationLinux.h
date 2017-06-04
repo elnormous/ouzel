@@ -17,6 +17,8 @@ namespace ouzel
         virtual void execute(const std::function<void(void)>& func) override;
         virtual bool openURL(const std::string& url) override;
 
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
+
     protected:
         void executeAll();
 
