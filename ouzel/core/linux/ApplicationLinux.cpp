@@ -224,7 +224,7 @@ namespace ouzel
         execute([newScreenSaverEnabled]() {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
 
-            XScreenSaverSuspend(windowLinux->getDisplay(), newScreenSaverEnabled);
+            XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });
     }
 }
