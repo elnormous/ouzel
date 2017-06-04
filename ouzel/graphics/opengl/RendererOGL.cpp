@@ -39,7 +39,7 @@
 #include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_GLX
 #define GL_GLEXT_PROTOTYPES 1
-#include <GL/glx.h>
+#include "GL/glx.h"
 #include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
 #include "GL/wglext.h"
