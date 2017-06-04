@@ -94,7 +94,6 @@ namespace ouzel
 
             // request the X window to be displayed on the screen
             XMapWindow(display, window);
-            XStoreName(display, window, title.c_str());
 
             deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
             XSetWMProtocols(display, window, &deleteMessage, 1);
