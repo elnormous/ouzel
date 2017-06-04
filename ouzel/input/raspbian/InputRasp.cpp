@@ -498,7 +498,6 @@ namespace ouzel
             if (retval == -1)
             {
                 Log(Log::Level::ERR) << "Select failed";
-                return false;
             }
             else if (retval > 0)
             {
