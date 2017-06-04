@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_MACOS
 #include <dlfcn.h>
