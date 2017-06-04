@@ -1,7 +1,23 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "CompileConfig.h"
+
+#if OUZEL_PLATFORM_MACOS
+#include <dlfcn.h>
+#endif
+
 #include <sstream>
+
+#if OUZEL_OPENGL_INTERFACE_EGL
+#include "EGL/egl.h"
+#elif OUZEL_OPENGL_INTERFACE_GLX
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glx.h"
+#include "GL/glxext.h"
+#elif OUZEL_OPENGL_INTERFACE_WGL
+#include "GL/wglext.h"
+#endif
 
 #include "RendererOGL.h"
 #include "TextureResourceOGL.h"
@@ -33,20 +49,6 @@
 #include "ColorVSGLES3.h"
 #include "TexturePSGLES3.h"
 #include "TextureVSGLES3.h"
-#endif
-
-#if OUZEL_OPENGL_INTERFACE_EGL
-#include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_GLX
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glx.h"
-#include "GL/glxext.h"
-#elif OUZEL_OPENGL_INTERFACE_WGL
-#include "GL/wglext.h"
-#endif
-
-#if OUZEL_PLATFORM_MACOS
-#include <dlfcn.h>
 #endif
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
