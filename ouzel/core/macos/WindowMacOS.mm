@@ -66,12 +66,7 @@
 
 namespace ouzel
 {
-    WindowMacOS::WindowMacOS(const Size2& aSize,
-                             bool aResizable,
-                             bool aFullscreen,
-                             const std::string& aTitle,
-                             bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowMacOS::WindowMacOS()
     {
     }
 
@@ -95,8 +90,18 @@ namespace ouzel
         }
     }
 
-    bool WindowMacOS::init()
+    bool WindowMacOS::init(const Size2& newSize,
+                           bool newResizable,
+                           bool newFullscreen,
+                           const std::string& newTitle,
+                           bool newHighDpi,
+                           bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         NSScreen* screen = [NSScreen mainScreen];
 
         CGSize windowSize;
@@ -195,7 +200,7 @@ namespace ouzel
 
         [NSApplication sharedApplication].mainMenu = mainMenu;
 
-        return Window::init();
+        return true;
     }
 
     void WindowMacOS::close()

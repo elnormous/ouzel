@@ -7,16 +7,7 @@
 
 namespace ouzel
 {
-    Window::Window(const Size2& aSize,
-                   bool aResizable,
-                   bool aFullscreen,
-                   const std::string& aTitle,
-                   bool aHighDpi):
-        size(aSize),
-        resizable(aResizable),
-        fullscreen(aFullscreen),
-        highDpi(aHighDpi),
-        title(aTitle),
+    Window::Window():
         eventHandler(EventHandler::PRIORITY_MAX + 1)
     {
         eventHandler.windowHandler = std::bind(&Window::handleWindowChange, this, std::placeholders::_1, std::placeholders::_2);
@@ -27,8 +18,19 @@ namespace ouzel
     {
     }
 
-    bool Window::init()
+    bool Window::init(const Size2& newSize,
+                      bool newResizable,
+                      bool newFullscreen,
+                      const std::string& newTitle,
+                      bool newHighDpi,
+                      bool)
     {
+        size = newSize;
+        resizable = newResizable;
+        fullscreen = newFullscreen;
+        highDpi = newHighDpi;
+        title = newTitle;
+
         return true;
     }
 

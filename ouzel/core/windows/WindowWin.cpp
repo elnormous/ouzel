@@ -286,12 +286,7 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowWin::WindowWin(const Size2& aSize,
-                         bool aResizable,
-                         bool aFullscreen,
-                         const std::string& aTitle,
-                         bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowWin::WindowWin()
     {
     }
 
@@ -308,8 +303,18 @@ namespace ouzel
         }
     }
 
-    bool WindowWin::init()
+    bool WindowWin::init(const Size2& newSize,
+                         bool newResizable,
+                         bool newFullscreen,
+                         const std::string& newTitle,
+                         bool newHighDpi,
+                         bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         if (highDpi)
         {
             HMODULE shcore = LoadLibraryW(L"shcore.dll");
@@ -410,7 +415,7 @@ namespace ouzel
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
-        return Window::init();
+        return true;
     }
 
     void WindowWin::close()

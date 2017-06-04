@@ -42,12 +42,7 @@
 
 namespace ouzel
 {
-    WindowTVOS::WindowTVOS(const Size2& aSize,
-                           bool aResizable,
-                           bool aFullscreen,
-                           const std::string& aTitle,
-                           bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowTVOS::WindowTVOS()
     {
     }
 
@@ -59,8 +54,18 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowTVOS::init()
+    bool WindowTVOS::init(const Size2& newSize,
+                          bool newResizable,
+                          bool newFullscreen,
+                          const std::string& newTitle,
+                          bool newHighDpi,
+                          bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         UIScreen* screen = [UIScreen mainScreen];
 
         window = [[UIWindow alloc] initWithFrame:[screen bounds]];
@@ -104,7 +109,7 @@ namespace ouzel
             contentScale = static_cast<float>(screen.scale);
         }
 
-        return Window::init();
+        return true;
     }
 
     void WindowTVOS::handleResize(const Size2& newSize)

@@ -98,12 +98,7 @@
 
 namespace ouzel
 {
-    WindowIOS::WindowIOS(const Size2& aSize,
-                         bool aResizable,
-                         bool aFullscreen,
-                         const std::string& aTitle,
-                         bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowIOS::WindowIOS()
     {
     }
 
@@ -115,8 +110,18 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowIOS::init()
+    bool WindowIOS::init(const Size2& newSize,
+                         bool newResizable,
+                         bool newFullscreen,
+                         const std::string& newTitle,
+                         bool newHighDpi,
+                         bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         UIScreen* screen = [UIScreen mainScreen];
 
         window = [[UIWindow alloc] initWithFrame:[screen bounds]];
@@ -165,7 +170,7 @@ namespace ouzel
             contentScale = static_cast<float>(screen.scale);
         }
 
-        return Window::init();
+        return true;
     }
 
     void WindowIOS::handleResize(const Size2& newSize)

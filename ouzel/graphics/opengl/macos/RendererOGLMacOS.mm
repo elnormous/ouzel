@@ -72,14 +72,9 @@ namespace ouzel
                 NSOpenGLPFADoubleBuffer,
                 NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                 NSOpenGLPFAColorSize, 24,
-                NSOpenGLPFAAlphaSize, 8
+                NSOpenGLPFAAlphaSize, 8,
+                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0)
             };
-
-            if (newDepth)
-            {
-                openGL3Attributes.push_back(NSOpenGLPFADepthSize);
-                openGL3Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0));
-            }
 
             if (newSampleCount)
             {
@@ -109,13 +104,8 @@ namespace ouzel
                     NSOpenGLPFADoubleBuffer,
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
                     NSOpenGLPFAColorSize, 24,
+                    NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0)
                 };
-
-                if (newDepth)
-                {
-                    openGL2Attributes.push_back(NSOpenGLPFADepthSize);
-                    openGL2Attributes.push_back(static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0));
-                }
 
                 if (newSampleCount)
                 {
