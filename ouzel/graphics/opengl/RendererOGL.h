@@ -11,19 +11,19 @@
 #include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_WINDOWS
-    #define NOMINMAX
+#define NOMINMAX
 #endif
 
 #if OUZEL_SUPPORTS_OPENGL
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GL/glcorearb.h"
-    #include "GL/glext.h"
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #elif OUZEL_SUPPORTS_OPENGLES
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GLES/gl.h"
-    #include "GLES2/gl2.h"
-    #include "GLES2/gl2ext.h"
-    #include "GLES3/gl3.h"
+#define GL_GLEXT_PROTOTYPES 1
+#include "GLES/gl.h"
+#include "GLES2/gl2.h"
+#include "GLES2/gl2ext.h"
+#include "GLES3/gl3.h"
 #endif
 
 extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
