@@ -118,9 +118,10 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
             position.v[1] = static_cast<float>(touch.y);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
-            {}
+            {
                 ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
                                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+            }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
