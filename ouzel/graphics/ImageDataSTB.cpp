@@ -77,7 +77,7 @@ namespace ouzel
 
         bool ImageDataSTB::writeToFile(const std::string& newFilename)
         {
-            int depth = getPixelSize(pixelFormat);
+            int depth = static_cast<int>(getPixelSize(pixelFormat));
             int width = static_cast<int>(size.v[0]);
             int height = static_cast<int>(size.v[1]);
 
