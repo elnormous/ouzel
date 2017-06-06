@@ -114,13 +114,14 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
         for (const TOUCHINPUT& touch : touches)
         {
-            position.v[0] = static_cast<float>(touch.x);
-            position.v[1] = static_cast<float>(touch.y);
+            position.v[0] = static_cast<float>(touch.x / 100);
+            position.v[1] = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
-            {}
+            {
                 ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
                                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+            }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
@@ -145,6 +146,9 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
         ouzel::Log(ouzel::Log::Level::ERR) << "Failed to get touch info";
     }
 }
+
+static const LONG_PTR SIGNATURE_MASK = 0x0FFFFFF00;
+static const LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -182,17 +186,29 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_XBUTTONDOWN:
         case WM_XBUTTONUP:
         {
-            handleMouseButtonEvent(msg, wParam, lParam);
+            LONG_PTR extraInfo = GetMessageExtraInfo();
 
-            if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
-                return TRUE;
+            // don't handle mouse event that came from touch
+            if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
+            {
+                handleMouseButtonEvent(msg, wParam, lParam);
 
-            return 0;
+                if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
+                    return TRUE;
+
+                return 0;
+            }
         }
         case WM_MOUSEMOVE:
         {
-            handleMouseMoveEvent(msg, wParam, lParam);
-            return 0;
+            LONG_PTR extraInfo = GetMessageExtraInfo();
+
+            // don't handle mouse event that came from touch
+            if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
+            {
+                handleMouseMoveEvent(msg, wParam, lParam);
+                return 0;
+            }
         }
         case WM_MOUSEWHEEL:
         case WM_MOUSEHWHEEL:
@@ -286,12 +302,7 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowWin::WindowWin(const Size2& aSize,
-                         bool aResizable,
-                         bool aFullscreen,
-                         const std::string& aTitle,
-                         bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowWin::WindowWin()
     {
     }
 
@@ -308,8 +319,18 @@ namespace ouzel
         }
     }
 
-    bool WindowWin::init()
+    bool WindowWin::init(const Size2& newSize,
+                         bool newResizable,
+                         bool newFullscreen,
+                         const std::string& newTitle,
+                         bool newHighDpi,
+                         bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         if (highDpi)
         {
             HMODULE shcore = LoadLibraryW(L"shcore.dll");
@@ -410,7 +431,7 @@ namespace ouzel
         ShowWindow(window, SW_SHOW);
         SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
-        return Window::init();
+        return true;
     }
 
     void WindowWin::close()

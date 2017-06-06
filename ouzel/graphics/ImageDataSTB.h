@@ -13,10 +13,11 @@ namespace ouzel
         class ImageDataSTB: public ImageData
         {
         public:
-            virtual bool initFromFile(const std::string& newFilename,
-                                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData,
-                                        PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool initFromFile(const std::string& newFilename,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool initFromBuffer(const std::vector<uint8_t>& newData,
+                                PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool writeToFile(const std::string& newFilename);
         };
     } // namespace graphics
 } // namespace ouzel

@@ -11,12 +11,7 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux(const Size2& aSize,
-                             bool aResizable,
-                             bool aFullscreen,
-                             const std::string& aTitle,
-                             bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowLinux::WindowLinux()
     {
     }
 
@@ -38,8 +33,18 @@ namespace ouzel
         }
     }
 
-    bool WindowLinux::init()
+    bool WindowLinux::init(const Size2& newSize,
+                           bool newResizable,
+                           bool newFullscreen,
+                           const std::string& newTitle,
+                           bool newHighDpi,
+                           bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             // open a connection to the X server
@@ -57,6 +62,7 @@ namespace ouzel
                 GLX_RED_SIZE, 8,
                 GLX_GREEN_SIZE, 8,
                 GLX_BLUE_SIZE, 8,
+                GLX_DEPTH_SIZE, depth ? 24 : 0,
                 GLX_DOUBLEBUFFER,
                 None
             };
@@ -107,7 +113,7 @@ namespace ouzel
             }
         }
 
-        return Window::init();
+        return true;
     }
 
     void WindowLinux::close()

@@ -18,6 +18,8 @@ private:
     std::unique_ptr<ouzel::scene::Layer> layer;
     std::unique_ptr<ouzel::scene::Camera> camera;
 
+    ouzel::Vector3 cameraRotation;
+
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
     std::unique_ptr<ouzel::scene::Node> character;
 

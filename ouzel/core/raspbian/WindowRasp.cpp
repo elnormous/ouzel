@@ -7,12 +7,7 @@
 
 namespace ouzel
 {
-    WindowRasp::WindowRasp(const Size2& aSize,
-                           bool aResizable,
-                           bool aFullscreen,
-                           const std::string& aTitle,
-                           bool aHighDpi):
-        Window(aSize, aResizable, aFullscreen, aTitle, aHighDpi)
+    WindowRasp::WindowRasp()
     {
         bcm_host_init();
     }
@@ -22,8 +17,18 @@ namespace ouzel
         bcm_host_deinit();
     }
 
-    bool WindowRasp::init()
+    bool WindowRasp::init(const Size2& newSize,
+                          bool newResizable,
+                          bool newFullscreen,
+                          const std::string& newTitle,
+                          bool newHighDpi,
+                          bool depth)
     {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         uint32_t screenWidth;
         uint32_t screenHeight;
         int32_t success = graphics_get_display_size(0, &screenWidth, &screenHeight);
@@ -37,6 +42,6 @@ namespace ouzel
         size.v[0] = static_cast<float>(screenWidth);
         size.v[1] = static_cast<float>(screenHeight);
 
-        return Window::init();
+        return true;
     }
 }

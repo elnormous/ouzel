@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
+#include <X11/extensions/scrnsaver.h>
 #include "ApplicationLinux.h"
 #include "core/Engine.h"
 #include "events/Event.h"
@@ -215,4 +216,15 @@ namespace ouzel
 
 		return true;
 	}
+
+	void ApplicationLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        execute([newScreenSaverEnabled]() {
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+
+            XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
+        });
+    }
 }

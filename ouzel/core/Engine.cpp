@@ -191,23 +191,23 @@ namespace ouzel
         }
 
 #if OUZEL_PLATFORM_MACOS
-        window.reset(new WindowMacOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowMacOS());
 #elif OUZEL_PLATFORM_IOS
-        window.reset(new WindowIOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowIOS());
 #elif OUZEL_PLATFORM_TVOS
-        window.reset(new WindowTVOS(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowTVOS());
 #elif OUZEL_PLATFORM_ANDROID
-        window.reset(new WindowAndroid(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowAndroid());
 #elif OUZEL_PLATFORM_LINUX
-        window.reset(new WindowLinux(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowLinux());
 #elif OUZEL_PLATFORM_WINDOWS
-        window.reset(new WindowWin(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowWin());
 #elif OUZEL_PLATFORM_RASPBIAN
-        window.reset(new WindowRasp(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        window.reset(new WindowEm(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new WindowEm());
 #else
-        window.reset(new Window(settings.size, settings.resizable, settings.fullscreen, settings.title, settings.highDpi));
+        window.reset(new Window());
 #endif
 
         switch (settings.renderDriver)
@@ -263,7 +263,12 @@ namespace ouzel
                 return false;
         }
 
-        if (!window->init())
+        if (!window->init(settings.size,
+                          settings.resizable,
+                          settings.fullscreen,
+                          settings.title,
+                          settings.highDpi,
+                          settings.depth))
         {
             return false;
         }

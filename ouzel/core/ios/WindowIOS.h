@@ -34,12 +34,13 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        WindowIOS(const Size2& aSize,
-                  bool aResizable,
-                  bool aFullscreen,
-                  const std::string& aTitle,
-                  bool aHighDpi);
-        virtual bool init() override;
+        WindowIOS();
+        virtual bool init(const Size2& newSize,
+                          bool newResizable,
+                          bool newFullscreen,
+                          const std::string& newTitle,
+                          bool newHighDpi,
+                          bool depth) override;
 
         UIWindowPtr window = Nil;
         UIViewPtr view = Nil;
