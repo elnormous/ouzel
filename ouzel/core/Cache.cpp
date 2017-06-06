@@ -43,7 +43,7 @@ namespace ouzel
         }
     }
 
-	const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
+	const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps, graphics::PixelFormat p) const
 	{
 		Log(Log::Level::INFO) << "Attempted to get texture from data: " << name;
 		std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
@@ -60,7 +60,7 @@ namespace ouzel
 
 			Log(Log::Level::INFO) << "Generated data for: " << name;
 			std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-			result->initFromBuffer(data, size, dynamic, mipmaps);
+			result->initFromBuffer(data, size, dynamic, mipmaps, p);
 
 			i = textures.insert(std::make_pair(name, result)).first;
 

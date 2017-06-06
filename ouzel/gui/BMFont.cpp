@@ -215,6 +215,15 @@ namespace ouzel
                              std::vector<uint16_t>& indices,
                              std::vector<graphics::VertexPCT>& vertices)
     {
+		Log(Log::Level::INFO)
+			<< "line height: " << lineHeight << "\n"
+			<< " base: " << base<< "\n"
+			<< " width: " << width<< "\n"
+			<< " height: " << height<< "\n"
+			<< " pages: " << pages<< "\n"
+			<< " outline: " << outline<< "\n"
+			<< "  kernCount: " << kernCount << "\n";
+	
         Vector2 position;
 
         std::vector<uint32_t> utf32Text = utf8to32(text);
@@ -271,6 +280,7 @@ namespace ouzel
 
                 if ((i + 1) != utf32Text.end())
                 {
+
                     position.v[0] += static_cast<float>(getKerningPair(*i, *(i + 1)));
                 }
 

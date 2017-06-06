@@ -127,7 +127,6 @@
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="..\ouzel\LodePng.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.h" />
@@ -283,6 +282,5 @@
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\OBF.h" />
     <ClInclude Include="..\ouzel\utils\Utils.h" />
-    <ClInclude Include="..\ouzel\LodePng.h" />
   </ItemGroup>
 </Project>
