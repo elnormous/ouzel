@@ -149,21 +149,6 @@ namespace ouzel
 
                                 break;
                             }
-                            case TouchBegin:
-                            {
-                                // TODO: implement
-                                break;
-                            }
-                            case TouchEnd:
-                            {
-                                // TODO: implement
-                                break;
-                            }
-                            case TouchUpdate:
-                            {
-                                // TODO: implement
-                                break;
-                            }
                             case ConfigureNotify:
                             {
                                 windowLinux->handleResize(Size2(static_cast<float>(event.xconfigure.width),
