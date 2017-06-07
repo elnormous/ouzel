@@ -1,7 +1,7 @@
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
-	UNAME := $(shell uname -s)
+	UNAME:=$(shell uname -s)
 	ifeq ($(UNAME),Linux)
 		platform=linux
 	endif
