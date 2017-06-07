@@ -254,14 +254,8 @@ namespace ouzel
                 currentCursor = defaultCursor;
             }
 
-            if (cursorVisible)
-            {
-                [currentCursor set];
-            }
-            else
-            {
-                [emptyCursor set];
-            }
+            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+            [windowMacOS->getNativeView() resetCursorRects];
         }
 
         CursorResource* InputMacOS::createCursorResource()
@@ -309,8 +303,8 @@ namespace ouzel
             sharedApplication->execute([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-                NSWindow* window = static_cast<WindowMacOS*>(sharedEngine->getWindow())->getNativeWindow();
-                CGPoint windowOrigin = [window frame].origin;
+                WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+                CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
                                                       screenOrigin.y + windowOrigin.y + windowLocation.v[1]));

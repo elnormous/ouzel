@@ -38,6 +38,9 @@ namespace ouzel
             static KeyboardKey convertKeyCode(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 
+            NSCursorPtr getNativeCursor() const { return currentCursor; }
+            NSCursorPtr getEmptyCursor() const { return emptyCursor; }
+
         protected:
             InputMacOS();
             virtual bool init() override;
