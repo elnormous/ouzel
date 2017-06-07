@@ -10,7 +10,6 @@
     #include <pwd.h>
     #include <CoreServices/CoreServices.h>
 #elif OUZEL_PLATFORM_WINDOWS
-    #define NOMINMAX
     #include <windows.h>
     #include <Shlobj.h>
     #include <Shlwapi.h>

@@ -9,10 +9,6 @@
 
 #include <sstream>
 
-#if OUZEL_PLATFORM_WINDOWS
-#define NOMINMAX
-#endif
-
 #if OUZEL_SUPPORTS_OPENGL
 #define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"

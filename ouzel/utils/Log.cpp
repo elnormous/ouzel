@@ -10,7 +10,6 @@
 #endif
 
 #if OUZEL_PLATFORM_WINDOWS
-#define NOMINMAX
 #include <windows.h>
 #include <strsafe.h>
 #endif

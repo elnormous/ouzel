@@ -3,7 +3,6 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <d3d11.h>
 #include "graphics/MeshBufferResource.h"
 

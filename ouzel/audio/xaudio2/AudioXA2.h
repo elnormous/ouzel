@@ -3,9 +3,7 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <xaudio2.h>
-
 #include "audio/Audio.h"
 
 namespace ouzel

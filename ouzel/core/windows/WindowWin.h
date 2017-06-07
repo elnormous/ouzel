@@ -3,7 +3,6 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <windows.h>
 #include <set>
 #include "core/Window.h"

@@ -5,7 +5,6 @@
 
 #include <atomic>
 #include <map>
-#define NOMINMAX
 #include <d3d11.h>
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
