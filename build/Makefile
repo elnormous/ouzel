@@ -142,7 +142,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/windows/ApplicationWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RendererOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
 else ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
