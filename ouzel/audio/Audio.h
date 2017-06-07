@@ -34,6 +34,7 @@ namespace ouzel
                 DEFAULT,
                 EMPTY,
                 OPENAL,
+                DIRECTSOUND,
                 XAUDIO2,
                 OPENSL
             };
