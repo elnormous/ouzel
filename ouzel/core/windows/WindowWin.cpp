@@ -225,14 +225,15 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                if (!ouzel::sharedEngine->getInput()->isCursorVisible())
+                ouzel::input::InputWin* inputWin = static_cast<ouzel::input::InputWin*>(ouzel::sharedEngine->getInput());
+                if (!inputWin->isCursorVisible())
                 {
                     SetCursor(nullptr);
                     return TRUE;
                 }
-                else if (windowWin->getCursor())
+                else if (windowWin->getCurrentCursor())
                 {
-                    SetCursor(windowWin->getCursor());
+                    SetCursor(windowWin->getCurrentCursor());
                     return TRUE;
                 }
             }

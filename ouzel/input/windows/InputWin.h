@@ -29,6 +29,8 @@ namespace ouzel
 
             void update();
 
+            HCURSOR getCurrentCursor() const { return currentCursor; }
+
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
@@ -54,6 +56,7 @@ namespace ouzel
 
             bool cursorVisible = true;
             bool cursorLocked = false;
+            HCURSOR currentCursor = nullptr;
         };
     } // namespace input
 } // namespace ouzel

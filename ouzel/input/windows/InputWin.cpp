@@ -310,17 +310,23 @@ namespace ouzel
             Input::activateCursorResource(resource);
 
             CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
-            WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
 
-            if (cursorWin && cursorWin->getNativeCursor())
+            if (cursorWin)
             {
-                SetCursor(cursorWin->getNativeCursor());
-                window->setCursor(cursorWin->getNativeCursor());
+                currentCursor = cursorWin->getNativeCursor();
             }
             else
             {
-                SetCursor(LoadCursor(nullptr, IDC_ARROW));
-                window->setCursor(nullptr);
+                currentCursor = LoadCursor(nullptr, IDC_ARROW);
+            }
+
+            if (cursorVisible)
+            {
+                SetCursor(currentCursor);
+            }
+            else
+            {
+                SetCursor(nullptr);
             }
         }
 
@@ -343,7 +349,7 @@ namespace ouzel
             sharedApplication->execute([visible] {
                 if (visible)
                 {
-                    SetCursor(LoadCursor(nullptr, IDC_ARROW));
+                    SetCursor(currentCursor);
                 }
                 else
                 {
