@@ -274,7 +274,7 @@ namespace ouzel
                 }
                 else
                 {
-                    currentCursor = nullptr;
+                    currentCursor = None;
                 }
 
                 if (cursorVisible)
