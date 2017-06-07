@@ -1,13 +1,13 @@
 ifeq ($(OS),Windows_NT)
-    platform=windows
+	platform=windows
 else
-    UNAME := $(shell uname -s)
-    ifeq ($(UNAME),Linux)
-        platform=linux
-    endif
-    ifeq ($(UNAME),Darwin)
-        platform=macos
-    endif
+	UNAME := $(shell uname -s)
+	ifeq ($(UNAME),Linux)
+		platform=linux
+	endif
+	ifeq ($(UNAME),Darwin)
+		platform=macos
+	endif
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
