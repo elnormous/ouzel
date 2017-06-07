@@ -1,4 +1,5 @@
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
+ROOT_DIR:=$(dir MAKEFILE_PATH)
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
