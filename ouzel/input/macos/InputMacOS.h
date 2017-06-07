@@ -52,6 +52,7 @@ namespace ouzel
             bool cursorLocked = false;
 
             NSCursorPtr emptyCursor = Nil;
+            NSCursorPtr defaultCursor = Nil;
             NSCursorPtr currentCursor = Nil;
         };
     } // namespace input

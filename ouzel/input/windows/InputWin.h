@@ -56,6 +56,7 @@ namespace ouzel
 
             bool cursorVisible = true;
             bool cursorLocked = false;
+            HCURSOR defaultCursor = nullptr;
             HCURSOR currentCursor = nullptr;
         };
     } // namespace input

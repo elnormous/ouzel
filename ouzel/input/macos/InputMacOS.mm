@@ -174,7 +174,7 @@ namespace ouzel
 
         InputMacOS::InputMacOS()
         {
-            currentCursor = [NSCursor arrowCursor];
+            currentCursor = defaultCursor = [NSCursor arrowCursor];
         }
 
         InputMacOS::~InputMacOS()
@@ -251,7 +251,7 @@ namespace ouzel
             }
             else
             {
-                currentCursor = [NSCursor arrowCursor];
+                currentCursor = defaultCursor;
             }
 
             if (cursorVisible)

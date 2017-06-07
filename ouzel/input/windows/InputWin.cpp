@@ -208,7 +208,7 @@ namespace ouzel
         InputWin::InputWin()
         {
             std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
-            currentCursor = LoadCursor(nullptr, IDC_ARROW);
+            currentCursor = defaultCursor = LoadCursor(nullptr, IDC_ARROW);
         }
 
         InputWin::~InputWin()
@@ -318,7 +318,7 @@ namespace ouzel
             }
             else
             {
-                currentCursor = LoadCursor(nullptr, IDC_ARROW);
+                currentCursor = defaultCursor;
             }
 
             if (cursorVisible)
