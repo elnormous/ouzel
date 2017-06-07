@@ -212,11 +212,11 @@ namespace ouzel
                 IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
             }
 
-            unsigned char aa[4] = {0, 0, 0, 0};
-            unsigned char* rgba = aa;
+            unsigned char data[4] = {0, 0, 0, 0};
+            unsigned char* rgba = data;
 
-            NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
-            NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+            NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
+            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
                                      initWithBitmapDataPlanes:&rgba
                                      pixelsWide:1
                                      pixelsHigh:1
