@@ -321,14 +321,7 @@ namespace ouzel
                 currentCursor = defaultCursor;
             }
 
-            if (cursorVisible)
-            {
-                SetCursor(currentCursor);
-            }
-            else
-            {
-                SetCursor(nullptr);
-            }
+            updateCursor();
         }
 
         CursorResource* InputWin::createCursorResource()
@@ -547,6 +540,18 @@ namespace ouzel
 
                     sharedEngine->getEventDispatcher()->postEvent(event);
                 }
+            }
+        }
+
+        void InputWin::updateCursor()
+        {
+            if (cursorVisible)
+            {
+                SetCursor(currentCursor);
+            }
+            else
+            {
+                SetCursor(nullptr);
             }
         }
     } // namespace input

@@ -29,8 +29,6 @@ namespace ouzel
 
             void update();
 
-            HCURSOR getCurrentCursor() const { return currentCursor; }
-
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
@@ -42,6 +40,8 @@ namespace ouzel
 
             IDirectInput8* getDirectInput() const { return directInput; }
             void handleDeviceConnect(const DIDEVICEINSTANCE* didInstance);
+
+            void updateCursor();
 
         protected:
             InputWin();
