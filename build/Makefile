@@ -129,7 +129,22 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
-ifeq ($(platform),raspbian)
+ifeq ($(platform),windows)
+SOURCES+=$(ROOT_DIR)/../ouzel/core/windows/ApplicationWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RendererD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RendererOGLWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
+else ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
