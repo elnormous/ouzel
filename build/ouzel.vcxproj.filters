@@ -373,6 +373,12 @@
     <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
+      <Filter>audio\dsound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp">
+      <Filter>audio\dsound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -829,6 +835,12 @@
     <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.h">
       <Filter>input\windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
+      <Filter>audio\dsound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h">
+      <Filter>audio\dsound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -890,6 +902,9 @@
     </Filter>
     <Filter Include="graphics\opengl\windows">
       <UniqueIdentifier>{a1a9f225-eb74-471a-b7e8-e5996b467b50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="audio\dsound">
+      <UniqueIdentifier>{47d36b3c-5ab6-4c63-b63b-f66cb5c9fa5f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

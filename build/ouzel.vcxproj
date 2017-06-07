@@ -30,6 +30,8 @@
     <ClCompile Include="..\ouzel\animators\Sequence.cpp" />
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
+    <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
+    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -156,6 +158,8 @@
     <ClInclude Include="..\ouzel\animators\Sequence.h" />
     <ClInclude Include="..\ouzel\animators\Shake.h" />
     <ClInclude Include="..\ouzel\audio\Audio.h" />
+    <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h" />
+    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
     <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h" />
     <ClInclude Include="..\ouzel\audio\Resource.h" />
