@@ -174,6 +174,7 @@ namespace ouzel
 
         InputMacOS::InputMacOS()
         {
+            currentCursor = [NSCursor arrowCursor];
         }
 
         InputMacOS::~InputMacOS()
@@ -246,22 +247,16 @@ namespace ouzel
             if (cursorMacOS)
             {
                 currentCursor = cursorMacOS->getNativeCursor();
+                if (!currentCursor) currentCursor = emptyCursor;
             }
             else
             {
-                currentCursor = nullptr;
+                currentCursor = [NSCursor arrowCursor];
             }
 
             if (cursorVisible)
             {
-                if (currentCursor)
-                {
-                    [currentCursor set];
-                }
-                else
-                {
-                    [[NSCursor arrowCursor] set];
-                }
+                [currentCursor set];
             }
             else
             {
@@ -290,14 +285,7 @@ namespace ouzel
                 sharedApplication->execute([this, visible] {
                     if (visible)
                     {
-                        if (currentCursor)
-                        {
-                            [currentCursor set];
-                        }
-                        else
-                        {
-                            [[NSCursor arrowCursor] set];
-                        }
+                        [currentCursor set];
                     }
                     else
                     {

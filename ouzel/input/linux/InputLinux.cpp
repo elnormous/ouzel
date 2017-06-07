@@ -271,6 +271,7 @@ namespace ouzel
                 if (cursorLinux)
                 {
                     currentCursor = cursorLinux->getNativeCursor();
+                    if (!currentCursor) currentCursor = emptyCursor;
                 }
                 else
                 {
