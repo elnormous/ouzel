@@ -346,7 +346,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedApplication->execute([visible] {
+            sharedApplication->execute([this, visible] {
                 if (visible)
                 {
                     SetCursor(currentCursor);
