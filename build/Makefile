@@ -33,8 +33,6 @@ SOURCES=$(ROOT_DIR)../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)../ouzel/animators/Shake.cpp \
 	$(ROOT_DIR)../ouzel/audio/empty/AudioEmpty.cpp \
 	$(ROOT_DIR)../ouzel/audio/empty/SoundEmpty.cpp \
-	$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \
 	$(ROOT_DIR)../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)../ouzel/audio/SoundData.cpp \
@@ -131,7 +129,10 @@ SOURCES=$(ROOT_DIR)../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)../ouzel/utils/Utils.cpp
 ifeq ($(platform),windows)
-SOURCES+=$(ROOT_DIR)../ouzel/core/windows/ApplicationWin.cpp \
+SOURCES+=$(ROOT_DIR)../ouzel/audio/xaudio2/AudioXA2.cpp \
+	$(ROOT_DIR)../ouzel/audio/xaudio2/SoundXA2.cpp \
+	$(ROOT_DIR)../ouzel/audio/xaudio2/XAudio27.cpp \
+	$(ROOT_DIR)../ouzel/core/windows/ApplicationWin.cpp \
 	$(ROOT_DIR)../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)../ouzel/core/windows/WindowWin.cpp \
 	$(ROOT_DIR)../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
@@ -146,7 +147,9 @@ SOURCES+=$(ROOT_DIR)../ouzel/core/windows/ApplicationWin.cpp \
 	$(ROOT_DIR)../ouzel/input/windows/InputWin.cpp \
 	$(ROOT_DIR)../ouzel/input/windows/CursorResourceWin.cpp
 else ifeq ($(platform),raspbian)
-SOURCES+=$(ROOT_DIR)../ouzel/core/raspbian/ApplicationRasp.cpp \
+SOURCES+=$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)../ouzel/core/raspbian/WindowRasp.cpp \
 	$(ROOT_DIR)../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
@@ -154,7 +157,9 @@ SOURCES+=$(ROOT_DIR)../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
-SOURCES+=$(ROOT_DIR)../ouzel/core/linux/ApplicationLinux.cpp \
+SOURCES+=$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
@@ -162,7 +167,9 @@ SOURCES+=$(ROOT_DIR)../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=$(ROOT_DIR)../ouzel/core/macos/ApplicationMacOS.mm \
+SOURCES+=$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)../ouzel/graphics/metal/macos/MetalView.mm \
@@ -179,7 +186,9 @@ SOURCES+=$(ROOT_DIR)../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)../ouzel/input/macos/GamepadMacOS.mm \
 	$(ROOT_DIR)../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)
-SOURCES+=$(ROOT_DIR)../ouzel/core/emscripten/ApplicationEm.cpp \
+SOURCES+=$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)../ouzel/core/emscripten/WindowEm.cpp \
 	$(ROOT_DIR)../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
