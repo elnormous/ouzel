@@ -5,9 +5,12 @@
 
 #if defined(__OBJC__)
 #import <IOKit/hid/IOHIDManager.h>
+#import <AppKit/NSCursor.h>
+typedef NSCursor* NSCursorPtr;
 #else
 typedef void* IOHIDManagerRef;
 typedef void* IOHIDDeviceRef;
+typedef id NSCursorPtr;
 #endif
 
 #include "input/Input.h"
@@ -47,6 +50,9 @@ namespace ouzel
             bool discovering = false;
             bool cursorVisible = true;
             bool cursorLocked = false;
+
+            NSCursorPtr emptyCursor = Nil;
+            NSCursorPtr currentCursor = Nil;
         };
     } // namespace input
 } // namespace ouzel

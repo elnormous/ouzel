@@ -211,6 +211,29 @@ namespace ouzel
                 IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
             }
 
+            unsigned char aa[4] = {0, 0, 0, 0};
+            unsigned char* rgba = aa;
+
+            NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
+            NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                                     initWithBitmapDataPlanes:&rgba
+                                     pixelsWide:1
+                                     pixelsHigh:1
+                                     bitsPerSample:32
+                                     samplesPerPixel:4
+                                     hasAlpha:YES
+                                     isPlanar:NO
+                                     colorSpaceName:NSDeviceRGBColorSpace
+                                     bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                     bytesPerRow:4
+                                     bitsPerPixel:32];
+
+            [image addRepresentation:rep];
+            emptyCursor = [[NSCursor alloc] initWithImage:image hotSpot:NSMakePoint(0, 0)];
+
+            [image release];
+            [rep release];
+
             return true;
         }
 
@@ -220,13 +243,29 @@ namespace ouzel
 
             CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
 
-            if (cursorMacOS && cursorMacOS->getNativeCursor())
+            if (cursorMacOS)
             {
-                [cursorMacOS->getNativeCursor() set];
+                currentCursor = cursorMacOS->getNativeCursor();
             }
             else
             {
-                [[NSCursor arrowCursor] set];
+                currentCursor = nullptr;
+            }
+
+            if (cursorVisible)
+            {
+                if (currentCursor)
+                {
+                    [currentCursor set];
+                }
+                else
+                {
+                    [[NSCursor arrowCursor] set];
+                }
+            }
+            else
+            {
+                [emptyCursor set];
             }
         }
 
@@ -248,14 +287,21 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedApplication->execute([visible] {
+                sharedApplication->execute([this, visible] {
                     if (visible)
                     {
-                        [NSCursor unhide];
+                        if (currentCursor)
+                        {
+                            [currentCursor set];
+                        }
+                        else
+                        {
+                            [[NSCursor arrowCursor] set];
+                        }
                     }
                     else
                     {
-                        [NSCursor hide];
+                        [emptyCursor set];
                     }
                 });
             }

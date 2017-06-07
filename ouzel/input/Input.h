@@ -289,7 +289,7 @@ namespace ouzel
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<CursorResource>> resources;
             std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
-            CursorResource* currentCursor = nullptr;
+            CursorResource* currentCursorResource = nullptr;
         };
     } // namespace input
 } // namespace ouzel
