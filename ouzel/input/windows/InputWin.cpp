@@ -208,6 +208,7 @@ namespace ouzel
         InputWin::InputWin()
         {
             std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
+            currentCursor = LoadCursor(nullptr, IDC_ARROW);
         }
 
         InputWin::~InputWin()
