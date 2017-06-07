@@ -208,6 +208,8 @@ $(LIBRARY): $(OBJECTS)
 
 .PHONY: clean
 clean:
+ifeq ($(platform),windows)
+else
 	rm -rf $(LIBRARY) \
 	$(ROOT_DIR)../ouzel/audio/*.o \
 	$(ROOT_DIR)../ouzel/audio/openal/*.o \
@@ -242,3 +244,4 @@ clean:
 	$(ROOT_DIR)../ouzel/scene/*.o \
 	$(ROOT_DIR)../ouzel/utils/*.o \
 	$(ROOT_DIR)../ouzel/*.o
+endif

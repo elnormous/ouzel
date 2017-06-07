@@ -91,5 +91,8 @@ ouzel:
 .PHONY: clean
 clean:
 	$(MAKE) -f ../build/Makefile clean
+ifeq ($(platform),windows)
+else
 	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
 	rm -rf samples.app
+endif
