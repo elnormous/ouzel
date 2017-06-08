@@ -53,9 +53,9 @@ namespace ouzel
 
         appPath = std::string(TEMP_BUFFER);
 #elif OUZEL_PLATFORM_WINDOWS
-        char* exePath;
+        char* exePath = _pgmptr;
 
-        if (_get_pgmptr(&exePath) == 0)
+        if (exePath)
         {
             appPath = getDirectoryPart(exePath);
         }
