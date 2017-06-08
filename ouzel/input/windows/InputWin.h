@@ -37,8 +37,8 @@ namespace ouzel
             virtual void setCursorPosition(const Vector2& position) override;
             virtual void startGamepadDiscovery() override;
 
-            IDirectInput8* getDirectInput() const { return directInput; }
-            void handleDeviceConnect(const DIDEVICEINSTANCE* didInstance);
+            IDirectInput8W* getDirectInput() const { return directInput; }
+            void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
 
             void updateCursor();
 
@@ -49,7 +49,7 @@ namespace ouzel
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;
 
-            IDirectInput8* directInput = nullptr;
+            IDirectInput8W* directInput = nullptr;
             std::vector<GamepadDI*> gamepadsDI;
             GamepadXI* gamepadsXI[XUSER_MAX_COUNT];
 

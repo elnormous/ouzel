@@ -349,7 +349,7 @@ namespace ouzel
         wc.cbWndExtra = 0;
         wc.hInstance = instance;
         // Application icon should be the first resource
-        wc.hIcon = LoadIconW(instance, MAKEINTRESOURCE(101));
+        wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {

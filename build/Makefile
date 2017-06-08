@@ -145,7 +145,7 @@ SOURCES+=$(ROOT_DIR)../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)../ouzel/input/windows/InputWin.cpp \
 	$(ROOT_DIR)../ouzel/input/windows/CursorResourceWin.cpp
-CXXFLAGS+=-DNOMINMAX
+CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)../ouzel/audio/openal/SoundAL.cpp \

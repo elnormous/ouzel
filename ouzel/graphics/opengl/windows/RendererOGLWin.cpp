@@ -40,7 +40,7 @@ namespace ouzel
                 wc.lpszMenuName = nullptr;
                 wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
 
-                windowClass = RegisterClass(&wc);
+                windowClass = RegisterClassW(&wc);
 
                 if (!windowClass)
                 {

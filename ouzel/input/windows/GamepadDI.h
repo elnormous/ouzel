@@ -22,12 +22,12 @@ namespace ouzel
             virtual ~GamepadDI();
             bool update();
 
-            const DIDEVICEINSTANCE* getInstance() const { return instance; }
+            const DIDEVICEINSTANCEW* getInstance() const { return instance; }
 
-            void handleObject(const DIDEVICEOBJECTINSTANCE* didObjectInstance);
+            void handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance);
 
         protected:
-            GamepadDI(const DIDEVICEINSTANCE* aInstance);
+            GamepadDI(const DIDEVICEINSTANCEW* aInstance);
             bool checkInputBuffered();
             bool checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,
@@ -37,9 +37,9 @@ namespace ouzel
                                     int64_t min, int64_t max,
                                     GamepadButton button);
 
-            const DIDEVICEINSTANCE* instance = nullptr;
+            const DIDEVICEINSTANCEW* instance = nullptr;
             bool isXInputDevice = false;
-            IDirectInputDevice8* device = nullptr;
+            IDirectInputDevice8W* device = nullptr;
             DIJOYSTATE2 diState;
             GamepadButton buttonMap[24];
 

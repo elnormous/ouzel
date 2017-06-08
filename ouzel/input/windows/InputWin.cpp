@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include <windows.h>
 #include <wbemidl.h>
 #include <oleauto.h>
@@ -14,7 +15,7 @@
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 
-static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCE* didInstance, VOID* context)
+static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
 {
     ouzel::input::InputWin* inputWin = reinterpret_cast<ouzel::input::InputWin*>(context);
     inputWin->handleDeviceConnect(didInstance);
@@ -221,7 +222,7 @@ namespace ouzel
         bool InputWin::init()
         {
             HINSTANCE instance = GetModuleHandleW(nullptr);
-            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
+            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
             {
                 Log(Log::Level::ERR) << "Failed to initialize DirectInput";
                 return false;
@@ -417,7 +418,7 @@ namespace ouzel
             }
         }
 
-        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCE* didInstance)
+        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
         {
             bool isXInputDevice = false;
 
