@@ -85,7 +85,7 @@ namespace ouzel
         }
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
-        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, szBuffer)))
+        if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, 0, szBuffer)))
         {
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             return TEMP_BUFFER;
@@ -126,7 +126,7 @@ namespace ouzel
         //TODO: implement
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
-        if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szBuffer)))
+        if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_COMMON_APPDATA, nullptr, 0, szBuffer)))
         {
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
             path = TEMP_BUFFER;
@@ -137,7 +137,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
-            CreateDirectory(szBuffer, NULL);
+            CreateDirectoryW(szBuffer, nullptr);
         }
 
         path += DIRECTORY_SEPARATOR + app;
@@ -145,7 +145,7 @@ namespace ouzel
         if (!directoryExists(path))
         {
             MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
-            CreateDirectory(szBuffer, NULL);
+            CreateDirectoryW(szBuffer, nullptr);
         }
 #elif OUZEL_PLATFORM_ANDROID
         OUZEL_UNUSED(developer);
