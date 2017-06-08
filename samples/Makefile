@@ -94,7 +94,7 @@ ouzel:
 clean:
 	$(MAKE) -f ../build/Makefile clean
 ifeq ($(platform),windows)
-	del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
+	-del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
 else
 	$(RM) $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
 	$(RM) -r samples.app

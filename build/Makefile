@@ -218,7 +218,7 @@ $(LIBRARY): $(OBJECTS)
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\*.o" \
+	-del /f /q "$(ROOT_DIR)\..\ouzel\audio\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\dsound\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\empty\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\openal\*.o" \
