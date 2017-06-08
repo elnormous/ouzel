@@ -218,42 +218,42 @@ $(LIBRARY): $(OBJECTS)
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\dsound\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\empty\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\openal\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\audio\xaudio2\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\animators\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\emscripten\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\linux\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\macos\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\raspbian\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\core\windows\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\events\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\files\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\empty\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\emscripten\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\linux\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\macos\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\raspbian\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\opengl\windows\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\metal\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\graphics\metal\macos\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\gui\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\emscripten\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\linux\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\macos\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\raspbian\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\input\windows\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\localization\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\math\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\scene\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\utils\*.o"
-	del /f /q "$(ROOT_DIR)\..\ouzel\*.o"
+	del /f /q "$(ROOT_DIR)\..\ouzel\audio\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\dsound\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\empty\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\openal\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\xaudio2\*.o" \
+	"$(ROOT_DIR)\..\ouzel\animators\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\events\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\empty\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\metal\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\metal\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\gui\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\localization\*.o" \
+	"$(ROOT_DIR)\..\ouzel\math\*.o" \
+	"$(ROOT_DIR)\..\ouzel\scene\*.o" \
+	"$(ROOT_DIR)\..\ouzel\utils\*.o" \
+	"$(ROOT_DIR)\..\ouzel\*.o"
 else
 	rm -rf $(LIBRARY) \
 	$(ROOT_DIR)/../ouzel/audio/*.o \
