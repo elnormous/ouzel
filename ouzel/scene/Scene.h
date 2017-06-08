@@ -73,7 +73,8 @@ namespace ouzel
             void pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position);
             void pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position);
             void pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position);
-            void pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position, const Vector2& difference);
+            void pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position,
+                                 const Vector2& difference, const ouzel::Vector3& localPosition);
 
             SceneManager* sceneManger = nullptr;
 
@@ -81,7 +82,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Layer>> ownedLayers;
             ouzel::EventHandler eventHandler;
 
-            std::unordered_map<uint64_t, Node*> pointerDownOnNodes;
+            std::unordered_map<uint64_t, std::pair<ouzel::Vector3, Node*>> pointerDownOnNodes;
 
             bool entered = false;
         };

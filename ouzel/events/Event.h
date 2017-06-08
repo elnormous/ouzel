@@ -92,6 +92,7 @@ namespace ouzel
         uint64_t touchId = 0;
         Vector2 difference;
         Vector2 position;
+        Vector3 localPosition;
     };
 
     struct UserEvent
