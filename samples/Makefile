@@ -47,7 +47,9 @@ SOURCES=AnimationsSample.cpp \
 	RTSample.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
-ifeq ($(platform),emscripten)
+ifeq ($(platform),windows)
+EXECUTABLE=samples.exe
+else ifeq ($(platform),emscripten)
 EXECUTABLE=samples.js
 else
 EXECUTABLE=samples
@@ -94,6 +96,11 @@ ouzel:
 clean:
 	$(MAKE) -f ../build/Makefile clean
 ifeq ($(platform),windows)
+	del /f $(EXECUTABLE)
+	del /f *.o
+	del /f *.js.mem
+	del /f *.js
+	del /f *.hpp.gch
 else
 	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
 	rm -rf samples.app
