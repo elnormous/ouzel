@@ -79,7 +79,7 @@ namespace ouzel
             }
         }
 
-        Node* Layer::pickNode(const Vector2& position, bool renderTargets) const
+        std::pair<Node*, ouzel::Vector3> Layer::pickNode(const Vector2& position, bool renderTargets) const
         {
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -87,7 +87,7 @@ namespace ouzel
 
                 if (renderTargets || !camera->getRenderTarget())
                 {
-                    std::vector<Node*> nodes;
+                    std::vector<std::pair<Node*, ouzel::Vector3>> nodes;
 
                     Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
@@ -97,12 +97,12 @@ namespace ouzel
                 }
             }
 
-            return nullptr;
+            return std::make_pair(nullptr, Vector3());
         }
 
-        std::vector<Node*> Layer::pickNodes(const Vector2& position, bool renderTargets) const
+        std::vector<std::pair<Node*, ouzel::Vector3>> Layer::pickNodes(const Vector2& position, bool renderTargets) const
         {
-            std::vector<Node*> result;
+            std::vector<std::pair<Node*, ouzel::Vector3>> result;
 
             for (auto i = cameras.rbegin(); i != cameras.rend(); ++i)
             {
@@ -112,7 +112,7 @@ namespace ouzel
                 {
                     Vector2 worldPosition = camera->convertNormalizedToWorld(position);
 
-                    std::vector<Node*> nodes;
+                    std::vector<std::pair<Node*, ouzel::Vector3>> nodes;
                     findNodes(worldPosition, nodes);
 
                     result.insert(result.end(), nodes.begin(), nodes.end());

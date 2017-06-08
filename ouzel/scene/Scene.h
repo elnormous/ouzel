@@ -54,8 +54,8 @@ namespace ouzel
 
             virtual void recalculateProjection();
 
-            Node* pickNode(const Vector2& position, bool renderTargets = false) const;
-            std::vector<Node*> pickNodes(const Vector2& position, bool renderTargets = false) const;
+            std::pair<Node*, ouzel::Vector3> pickNode(const Vector2& position, bool renderTargets = false) const;
+            std::vector<std::pair<Node*, ouzel::Vector3>> pickNodes(const Vector2& position, bool renderTargets = false) const;
             std::vector<Node*> pickNodes(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
         protected:
@@ -71,7 +71,7 @@ namespace ouzel
 
             void pointerEnterNode(uint64_t pointerId, Node* node, const Vector2& position);
             void pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position);
-            void pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position);
+            void pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position, const Vector3& localPosition);
             void pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position);
             void pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position,
                                  const Vector2& difference, const ouzel::Vector3& localPosition);
@@ -82,7 +82,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Layer>> ownedLayers;
             ouzel::EventHandler eventHandler;
 
-            std::unordered_map<uint64_t, std::pair<ouzel::Vector3, Node*>> pointerDownOnNodes;
+            std::unordered_map<uint64_t, std::pair<Node*, ouzel::Vector3>> pointerDownOnNodes;
 
             bool entered = false;
         };

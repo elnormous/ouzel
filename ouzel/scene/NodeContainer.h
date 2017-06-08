@@ -60,7 +60,7 @@ namespace ouzel
             virtual bool removeChildNode(Node* node);
 
             virtual void setLayer(Layer* newLayer);
-            void findNodes(const Vector2& position, std::vector<Node*>& nodes) const;
+            void findNodes(const Vector2& position, std::vector<std::pair<Node*, ouzel::Vector3>>& nodes) const;
             void findNodes(const std::vector<Vector2>& edges, std::vector<Node*>& nodes) const;
 
             virtual void enter();
