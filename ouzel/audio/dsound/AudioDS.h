@@ -24,6 +24,8 @@ namespace ouzel
         protected:
             AudioDS();
             virtual bool init() override;
+
+            IDirectSound8* directSound = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

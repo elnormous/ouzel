@@ -18,10 +18,18 @@ namespace ouzel
         {
             resourceDeleteSet.clear();
             resources.clear();
+
+            if (directSound) directSound->Release();
         }
 
         bool AudioDS::init()
         {
+            if (FAILED(DirectSoundCreate8(nullptr, &directSound, nullptr)))
+            {
+                Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance";
+                return false;
+            }
+
             return Audio::init();
         }
 
