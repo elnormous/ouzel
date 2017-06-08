@@ -96,6 +96,6 @@ clean:
 ifeq ($(platform),windows)
 	del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
 else
-	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
-	rm -rf samples.app
+	$(RM) $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
+	$(RM) -r samples.app
 endif

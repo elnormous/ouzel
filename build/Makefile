@@ -256,7 +256,7 @@ ifeq ($(platform),windows)
 	"$(ROOT_DIR)\..\ouzel\utils\*.o" \
 	"$(ROOT_DIR)\..\ouzel\*.o"
 else
-	rm -rf $(LIBRARY) \
+	$(RM) $(LIBRARY) \
 	$(ROOT_DIR)/../ouzel/audio/*.o \
 	$(ROOT_DIR)/../ouzel/audio/dsound/*.o \
 	$(ROOT_DIR)/../ouzel/audio/empty/*.o \
