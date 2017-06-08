@@ -233,6 +233,7 @@ ifeq ($(platform),windows)
 	"$(ROOT_DIR)\..\ouzel\events\*.o" \
 	"$(ROOT_DIR)\..\ouzel\files\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\direct3d11\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\empty\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\opengl\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\opengl\emscripten\*.o" \
@@ -273,6 +274,7 @@ else
 	$(ROOT_DIR)/../ouzel/events/*.o \
 	$(ROOT_DIR)/../ouzel/files/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/empty/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/*.o \
