@@ -220,7 +220,7 @@ namespace ouzel
                                      initWithBitmapDataPlanes:&rgba
                                      pixelsWide:1
                                      pixelsHigh:1
-                                     bitsPerSample:32
+                                     bitsPerSample:8
                                      samplesPerPixel:4
                                      hasAlpha:YES
                                      isPlanar:NO
