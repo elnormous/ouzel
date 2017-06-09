@@ -65,14 +65,14 @@ debug: bundle
 bundle: $(EXECUTABLE)
 ifeq ($(platform),macos)
 bundle:
-	mkdir -p samples.app
-	mkdir -p samples.app/Contents
-	cp -f macos/app/Info.plist samples.app/Contents
-	mkdir -p samples.app/Contents/MacOS
-	cp -f $(EXECUTABLE) samples.app/Contents/MacOS
-	mkdir -p samples.app/Contents/Resources
-	cp -f Resources/* samples.app/Contents/Resources/
-	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
+	mkdir -p $(EXECUTABLE).app
+	mkdir -p $(EXECUTABLE).app/Contents
+	cp -f macos/app/Info.plist $(EXECUTABLE).app/Contents
+	mkdir -p $(EXECUTABLE).app/Contents/MacOS
+	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
+	mkdir -p $(EXECUTABLE).app/Contents/Resources
+	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
+	cp -f macos/app/AppIcon.icns $(EXECUTABLE).app/Contents/Resources
 endif
 
 $(EXECUTABLE): ouzel $(OBJECTS)
@@ -97,5 +97,5 @@ ifeq ($(platform),windows)
 	-del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
 else
 	$(RM) $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
-	$(RM) -r samples.app
+	$(RM) -r $(EXECUTABLE).app
 endif
