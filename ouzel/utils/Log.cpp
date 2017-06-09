@@ -37,6 +37,7 @@ namespace ouzel
     {
         if (!s.empty())
         {
+#if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
             switch (level)
             {
                 case Level::ERR:
@@ -49,7 +50,7 @@ namespace ouzel
                     break;
                 default: break;
             }
-#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
             int priority = 0;
             switch (level)
             {
@@ -60,9 +61,7 @@ namespace ouzel
                 default: break;
             }
             syslog(priority, "%s", s.c_str());
-#endif
-
-#if OUZEL_PLATFORM_WINDOWS
+#elif OUZEL_PLATFORM_WINDOWS
             std::vector<wchar_t> szBuffer(s.length() + 2);
             MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer.data(), static_cast<int>(szBuffer.size()));
             StringCchCatW(szBuffer.data(), szBuffer.size(), L"\n");

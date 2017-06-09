@@ -33,8 +33,7 @@ namespace ouzel
 #ifdef DEBUG
         if (!AllocConsole())
         {
-            Log(Log::Level::ERR) << "Failed to allocate console";
-            return EXIT_FAILURE;
+            Log(Log::Level::INFO) << "Attached to console";
         }
 #endif
 
