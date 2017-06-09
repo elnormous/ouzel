@@ -3,6 +3,8 @@
 
 #include "AudioDS.h"
 #include "SoundDS.h"
+#include "core/Engine.h"
+#include "core/windows/WindowWin.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -27,6 +29,14 @@ namespace ouzel
             if (FAILED(DirectSoundCreate8(nullptr, &directSound, nullptr)))
             {
                 Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance";
+                return false;
+            }
+
+            WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
+
+            if (FAILED(directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY)))
+            {
+                Log(Log::Level::ERR) << "Failed to set cooperative level for DirectSound 8";
                 return false;
             }
 
