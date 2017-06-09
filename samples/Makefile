@@ -36,10 +36,10 @@ else ifeq ($(platform),emscripten)
 	LDFLAGS+=--embed-file Resources -s TOTAL_MEMORY=33554432
 endif
 SOURCES=AnimationsSample.cpp \
-	main.cpp \
 	GameSample.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
+	main.cpp \
 	MainMenu.cpp \
 	PerspectiveSample.cpp \
 	SoundSample.cpp \
