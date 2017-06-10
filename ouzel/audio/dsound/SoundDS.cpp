@@ -17,10 +17,21 @@ namespace ouzel
 
         SoundDS::~SoundDS()
         {
+            if (listener3D) listener3D->Release();
+            if (buffer3D) buffer3D->Release();
+            if (buffer) buffer->Release();
         }
 
         bool SoundDS::update()
         {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (dirty & DIRTY_SOUND_DATA)
+            {
+            }
+
+            dirty = 0;
+
             return true;
         }
     } // namespace audio
