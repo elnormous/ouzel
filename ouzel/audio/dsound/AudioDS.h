@@ -21,6 +21,8 @@ namespace ouzel
 
             virtual SoundResource* createSound() override;
 
+            IDirectSound8* getDirectSound() const { return directSound; }
+
         protected:
             AudioDS();
             virtual bool init() override;
