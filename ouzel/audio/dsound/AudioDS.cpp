@@ -21,6 +21,8 @@ namespace ouzel
             resourceDeleteSet.clear();
             resources.clear();
 
+            if (listener3D) listener3D->Release();
+            if (buffer) buffer->Release();
             if (directSound) directSound->Release();
         }
 
