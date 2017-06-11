@@ -28,6 +28,9 @@ namespace ouzel
             virtual bool init() override;
 
             IDirectSound8* directSound = nullptr;
+            
+            IDirectSoundBuffer* buffer = nullptr;
+            IDirectSound3DListener8* listener3D = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
