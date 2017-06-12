@@ -143,32 +143,33 @@ namespace ouzel
 
             Audio::update();
 
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (dirty & DIRTY_LISTENER_POSITION)
+            {
+                alListenerfv(AL_POSITION, listenerPosition.v);
+            }
+
+            if (dirty & DIRTY_LISTENER_ROTATION)
+            {
+                Vector3 forwardVector = listenerRotation.getForwardVector();
+                Vector3 upVector = listenerRotation.getUpVector();
+
+                float values[] = {
+                    forwardVector.v[0],
+                    forwardVector.v[1],
+                    -forwardVector.v[2],
+                    upVector.v[0],
+                    upVector.v[1],
+                    -upVector.v[2]
+                };
+
+                alListenerfv(AL_ORIENTATION, values);
+            }
+            
+            dirty = 0;
+
             return true;
-        }
-
-        void AudioAL::setListenerPosition(const Vector3& newPosition)
-        {
-            Audio::setListenerPosition(newPosition);
-            alListenerfv(AL_POSITION, listenerPosition.v);
-        }
-
-        void AudioAL::setListenerRotation(const Quaternion& newRotation)
-        {
-            Audio::setListenerRotation(newRotation);
-
-            Vector3 forwardVector = listenerRotation.getForwardVector();
-            Vector3 upVector = listenerRotation.getUpVector();
-
-            float values[] = {
-                forwardVector.v[0],
-                forwardVector.v[1],
-                -forwardVector.v[2],
-                upVector.v[0],
-                upVector.v[1],
-                -upVector.v[2]
-            };
-
-            alListenerfv(AL_ORIENTATION, values);
         }
 
         SoundResource* AudioAL::createSound()

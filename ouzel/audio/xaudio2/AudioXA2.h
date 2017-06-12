@@ -16,9 +16,6 @@ namespace ouzel
         public:
             virtual ~AudioXA2();
 
-            virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerRotation(const Quaternion& newRotation);
-
             virtual SoundResource* createSound() override;
 
             IXAudio2SourceVoice* createSourceVoice(const WAVEFORMATEX& sourceFormat);

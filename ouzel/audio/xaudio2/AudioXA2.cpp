@@ -98,16 +98,6 @@ namespace ouzel
             return Audio::init();
         }
 
-        void AudioXA2::setListenerPosition(const Vector3& newPosition)
-        {
-            Audio::setListenerPosition(newPosition);
-        }
-
-        void AudioXA2::setListenerRotation(const Quaternion& newRotation)
-        {
-            Audio::setListenerRotation(newRotation);
-        }
-
         SoundResource* AudioXA2::createSound()
         {
             SoundResource* sound = new SoundXA2();
