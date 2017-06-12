@@ -23,7 +23,6 @@ namespace ouzel
 
             uint32_t channels = 0;
             IXAudio2SourceVoice* sourceVoice = nullptr;
-            std::vector<uint8_t> buffer;
             float gain = 1.0f;
         };
     } // namespace audio

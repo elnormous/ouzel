@@ -24,7 +24,7 @@ namespace ouzel
             virtual bool initFromFile(const std::string& newFilename);
             virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
 
-            virtual void getData(std::vector<uint8_t>& buffer);
+            virtual const std::vector<uint8_t>& getData();
 
         protected:
             std::string filename;

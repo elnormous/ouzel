@@ -201,9 +201,9 @@ namespace ouzel
             return true;
         }
 
-        void SoundDataWave::getData(std::vector<uint8_t>& buffer)
+        const std::vector<uint8_t>& SoundDataWave::getData()
         {
-            buffer = data;
+            return data;
         }
     } // namespace audio
 } // namespace ouzel
