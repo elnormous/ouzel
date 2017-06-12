@@ -80,14 +80,38 @@ namespace ouzel
             return Audio::init();
         }
 
-        void AudioDS::setListenerPosition(const Vector3& newPosition)
+        bool AudioDS::update()
         {
-            Audio::setListenerPosition(newPosition);
-        }
+            Audio::update();
 
-        void AudioDS::setListenerRotation(const Quaternion& newRotation)
-        {
-            Audio::setListenerRotation(newRotation);
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            if (dirty & DIRTY_LISTENER_POSITION)
+            {
+                if (FAILED(listener3D->SetPosition(listenerPosition.v[0], listenerPosition.v[1], listenerPosition.v[2], DS3D_IMMEDIATE)))
+                {
+                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position";
+                    return false;
+                }
+            }
+
+            if (dirty & DIRTY_LISTENER_ROTATION)
+            {
+                Vector3 forwardVector = listenerRotation.getForwardVector();
+                Vector3 upVector = listenerRotation.getUpVector();
+
+                if (FAILED(listener3D->SetOrientation(forwardVector.v[0], forwardVector.v[1], forwardVector.v[2],
+                                                      upVector.v[0], upVector.v[1], upVector.v[2],
+                                                      DS3D_IMMEDIATE)))
+                {
+                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position";
+                    return false;
+                }
+            }
+
+            dirty = 0;
+
+            return true;
         }
 
         SoundResource* AudioDS::createSound()

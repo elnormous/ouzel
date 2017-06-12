@@ -16,8 +16,7 @@ namespace ouzel
         public:
             virtual ~AudioDS();
 
-            virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerRotation(const Quaternion& newRotation);
+            virtual bool update() override;
 
             virtual SoundResource* createSound() override;
 

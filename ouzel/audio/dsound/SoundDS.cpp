@@ -106,7 +106,7 @@ namespace ouzel
                     {
                         if (FAILED(buffer->QueryInterface(IID_IDirectSound3DBuffer8, reinterpret_cast<void**>(&buffer3D))))
                         {
-                            Log(Log::Level::ERR) << "Failed to get DirectSound listener";
+                            Log(Log::Level::ERR) << "Failed to get DirectSound 3D buffer";
                             return false;
                         }
                     }
@@ -117,7 +117,11 @@ namespace ouzel
             {
                 if (buffer3D)
                 {
-                    buffer3D->SetPosition(position.v[0], position.v[1], position.v[2], DS3D_IMMEDIATE);
+                    if (FAILED(buffer3D->SetPosition(position.v[0], position.v[1], position.v[2], DS3D_IMMEDIATE)))
+                    {
+                        Log(Log::Level::ERR) << "Failed to set DirectSound buffer position";
+                        return false;
+                    }
                 }
             }
 
