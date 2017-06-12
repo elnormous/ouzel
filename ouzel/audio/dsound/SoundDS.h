@@ -20,8 +20,7 @@ namespace ouzel
         protected:
             virtual bool update() override;
 
-            IDirectSoundBuffer* buffer = nullptr;
-
+            IDirectSoundBuffer8* buffer = nullptr;
             IDirectSound3DBuffer8* buffer3D = nullptr;
         };
     } // namespace audio
