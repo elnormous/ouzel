@@ -26,6 +26,7 @@ Supported rendering backends:
 Supported audio backends:
 
 * XAudio 2
+* DirectSound
 * OpenAL
 * OpenSL ES
 
