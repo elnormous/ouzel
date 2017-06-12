@@ -100,6 +100,8 @@ namespace ouzel
 
         SoundResource* AudioXA2::createSound()
         {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
             SoundResource* sound = new SoundXA2();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;

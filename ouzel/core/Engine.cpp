@@ -301,13 +301,13 @@ namespace ouzel
             {
                 settings.audioDriver = audio::Audio::Driver::OPENAL;
             }
-            else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
-            {
-                settings.audioDriver = audio::Audio::Driver::XAUDIO2;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
             {
                 settings.audioDriver = audio::Audio::Driver::DIRECTSOUND;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
+            {
+                settings.audioDriver = audio::Audio::Driver::XAUDIO2;
             }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
             {
