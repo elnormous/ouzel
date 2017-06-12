@@ -32,9 +32,9 @@ namespace ouzel
                     waveFormat.wFormatTag = soundData->getFormatTag();
                     waveFormat.nChannels = soundData->getChannels();
                     waveFormat.nSamplesPerSec = soundData->getSamplesPerSecond();
-                    waveFormat.nBlockAlign = soundData->getChannels() * 2; // 16 bits
-                    waveFormat.nAvgBytesPerSec = soundData->getSamplesPerSecond() * waveFormat.nBlockAlign; // 16 bits
                     waveFormat.wBitsPerSample = 16;
+                    waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+                    waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                     waveFormat.cbSize = 0;
 
                     AudioXA2* audioXA2 = static_cast<AudioXA2*>(sharedEngine->getAudio());

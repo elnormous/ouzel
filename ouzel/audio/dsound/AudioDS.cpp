@@ -42,6 +42,41 @@ namespace ouzel
                 return false;
             }
 
+            DSBUFFERDESC bufferDesc;
+            bufferDesc.dwSize = sizeof(bufferDesc);
+            bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRL3D;
+            bufferDesc.dwBufferBytes = 0;
+            bufferDesc.dwReserved = 0;
+            bufferDesc.lpwfxFormat = nullptr;
+            bufferDesc.guid3DAlgorithm = GUID_NULL;
+
+            if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &buffer, nullptr)))
+            {
+                Log(Log::Level::ERR) << "Failed to create DirectSound buffer";
+                return false;
+            }
+
+            WAVEFORMATEX waveFormat;
+            waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+            waveFormat.nChannels = 2;
+            waveFormat.nSamplesPerSec = 44100;
+            waveFormat.wBitsPerSample = 16;
+            waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+            waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+            waveFormat.cbSize = 0;
+
+            if (FAILED(buffer->SetFormat(&waveFormat)))
+            {
+                Log(Log::Level::ERR) << "Failed to set DirectSound buffer format";
+                return false;
+            }
+
+            if (FAILED(buffer->QueryInterface(IID_IDirectSound3DListener, reinterpret_cast<void**>(&listener3D))))
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectSound listener";
+                return false;
+            }
+
             return Audio::init();
         }
 
