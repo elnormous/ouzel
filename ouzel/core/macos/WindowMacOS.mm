@@ -4,6 +4,7 @@
 #include "WindowMacOS.h"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
+#include "input/macos/InputMacOS.h"
 #include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Log.h"

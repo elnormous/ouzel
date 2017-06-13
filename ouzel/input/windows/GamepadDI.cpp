@@ -10,7 +10,7 @@
 static const float THUMB_DEADZONE = 0.2f;
 static const size_t INPUT_QUEUE_SIZE = 32;
 
-BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCE* didObjectInstance, VOID* context)
+BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCEW* didObjectInstance, VOID* context)
 {
     ouzel::input::GamepadDI* gamepadDI = static_cast<ouzel::input::GamepadDI*>(context);
     gamepadDI->handleObject(didObjectInstance);
@@ -22,7 +22,7 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadDI::GamepadDI(const DIDEVICEINSTANCE* aInstance):
+        GamepadDI::GamepadDI(const DIDEVICEINSTANCEW* aInstance):
             instance(aInstance)
         {
             ZeroMemory(&diState, sizeof(diState));
@@ -30,7 +30,7 @@ namespace ouzel
             vendorId = LOWORD(instance->guidProduct.Data1);
             productId = HIWORD(instance->guidProduct.Data1);
 
-            int bytesNeeded = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, NULL, 0, NULL, NULL);
+            int bytesNeeded = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
             name.resize(bytesNeeded);
             WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, &name.front(), bytesNeeded, nullptr, nullptr);
             
@@ -422,7 +422,7 @@ namespace ouzel
             {
                 for (uint32_t i = 0; i < 24; ++i)
                 {
-                    if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgbButtons[i]))
+                    if (events[e].dwOfs == offsetof(DIJOYSTATE2, rgbButtons) + i)
                     {
                         GamepadButton button = buttonMap[i];
 
@@ -724,7 +724,7 @@ namespace ouzel
             }
         }
 
-        void GamepadDI::handleObject(const DIDEVICEOBJECTINSTANCE* didObjectInstance)
+        void GamepadDI::handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance)
         {
             if (didObjectInstance->dwType & DIDFT_AXIS)
             {

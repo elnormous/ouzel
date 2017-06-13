@@ -32,9 +32,9 @@ namespace ouzel
                     waveFormat.wFormatTag = soundData->getFormatTag();
                     waveFormat.nChannels = soundData->getChannels();
                     waveFormat.nSamplesPerSec = soundData->getSamplesPerSecond();
-                    waveFormat.nBlockAlign = soundData->getChannels() * 2; // 16 bits
-                    waveFormat.nAvgBytesPerSec = soundData->getSamplesPerSecond() * waveFormat.nBlockAlign; // 16 bits
                     waveFormat.wBitsPerSample = 16;
+                    waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
+                    waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
                     waveFormat.cbSize = 0;
 
                     AudioXA2* audioXA2 = static_cast<AudioXA2*>(sharedEngine->getAudio());
@@ -75,12 +75,12 @@ namespace ouzel
 
                         }
 
-                        soundData->getData(buffer);
+                        const std::vector<uint8_t> data = soundData->getData();
 
                         XAUDIO2_BUFFER bufferData;
                         bufferData.Flags = XAUDIO2_END_OF_STREAM;
-                        bufferData.AudioBytes = static_cast<UINT32>(buffer.size());
-                        bufferData.pAudioData = buffer.data();
+                        bufferData.AudioBytes = static_cast<UINT32>(data.size());
+                        bufferData.pAudioData = data.data();
                         bufferData.PlayBegin = 0;
                         bufferData.PlayLength = 0;
                         bufferData.LoopBegin = 0;

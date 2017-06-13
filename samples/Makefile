@@ -1,13 +1,13 @@
 ifeq ($(OS),Windows_NT)
-    platform=windows
+	platform=windows
 else
-    UNAME := $(shell uname -s)
-    ifeq ($(UNAME),Linux)
-        platform=linux
-    endif
-    ifeq ($(UNAME),Darwin)
-        platform=macos
-    endif
+	UNAME:=$(shell uname -s)
+	ifeq ($(UNAME),Linux)
+		platform=linux
+	endif
+	ifeq ($(UNAME),Darwin)
+		platform=macos
+	endif
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
@@ -15,7 +15,9 @@ CXX=em++
 endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 -I../ouzel -Winvalid-pch -include Prefix.hpp
 LDFLAGS=-O2 -L. -louzel
-ifeq ($(platform),raspbian)
+ifeq ($(platform),windows)
+LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound
+else ifeq ($(platform),raspbian)
 CXXFLAGS+=-DRASPBIAN
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
 else ifeq ($(platform),linux)
@@ -34,10 +36,10 @@ else ifeq ($(platform),emscripten)
 	LDFLAGS+=--embed-file Resources -s TOTAL_MEMORY=33554432
 endif
 SOURCES=AnimationsSample.cpp \
-	main.cpp \
 	GameSample.cpp \
 	GUISample.cpp \
 	InputSample.cpp \
+	main.cpp \
 	MainMenu.cpp \
 	PerspectiveSample.cpp \
 	SoundSample.cpp \
@@ -63,14 +65,14 @@ debug: bundle
 bundle: $(EXECUTABLE)
 ifeq ($(platform),macos)
 bundle:
-	mkdir -p samples.app
-	mkdir -p samples.app/Contents
-	cp -f macos/app/Info.plist samples.app/Contents
-	mkdir -p samples.app/Contents/MacOS
-	cp -f $(EXECUTABLE) samples.app/Contents/MacOS
-	mkdir -p samples.app/Contents/Resources
-	cp -f Resources/* samples.app/Contents/Resources/
-	cp -f macos/app/AppIcon.icns samples.app/Contents/Resources
+	mkdir -p $(EXECUTABLE).app
+	mkdir -p $(EXECUTABLE).app/Contents
+	cp -f macos/app/Info.plist $(EXECUTABLE).app/Contents
+	mkdir -p $(EXECUTABLE).app/Contents/MacOS
+	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
+	mkdir -p $(EXECUTABLE).app/Contents/Resources
+	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
+	cp -f macos/app/AppIcon.icns $(EXECUTABLE).app/Contents/Resources
 endif
 
 $(EXECUTABLE): ouzel $(OBJECTS)
@@ -91,5 +93,9 @@ ouzel:
 .PHONY: clean
 clean:
 	$(MAKE) -f ../build/Makefile clean
-	rm -f $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch
-	rm -rf samples.app
+ifeq ($(platform),windows)
+	-del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
+else
+	$(RM) $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
+	$(RM) -r $(EXECUTABLE).app
+endif

@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include <xaudio2.h>
-#include <vector>
+#include <dsound.h>
 
 #include "audio/SoundResource.h"
 
@@ -12,18 +11,17 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundXA2: public SoundResource
+        class SoundDS: public SoundResource
         {
         public:
-            SoundXA2();
-            virtual ~SoundXA2();
+            SoundDS();
+            virtual ~SoundDS();
 
         protected:
             virtual bool update() override;
 
-            uint32_t channels = 0;
-            IXAudio2SourceVoice* sourceVoice = nullptr;
-            float gain = 1.0f;
+            IDirectSoundBuffer8* buffer = nullptr;
+            IDirectSound3DBuffer8* buffer3D = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

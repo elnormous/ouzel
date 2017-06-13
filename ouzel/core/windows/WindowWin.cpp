@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#define NOMINMAX
 #include <windowsx.h>
 #include "WindowWin.h"
 #include "core/Application.h"
@@ -225,16 +224,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                if (!ouzel::sharedEngine->getInput()->isCursorVisible())
-                {
-                    SetCursor(nullptr);
-                    return TRUE;
-                }
-                else if (windowWin->getCursor())
-                {
-                    SetCursor(windowWin->getCursor());
-                    return TRUE;
-                }
+                ouzel::input::InputWin* inputWin = static_cast<ouzel::input::InputWin*>(ouzel::sharedEngine->getInput());
+                inputWin->updateCursor();
+                return TRUE;
             }
             break;
         }
@@ -357,7 +349,7 @@ namespace ouzel
         wc.cbWndExtra = 0;
         wc.hInstance = instance;
         // Application icon should be the first resource
-        wc.hIcon = LoadIconW(instance, MAKEINTRESOURCE(101));
+        wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {

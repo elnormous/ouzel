@@ -35,14 +35,14 @@ namespace ouzel
 
             if (cursor)
             {
-                currentCursor = cursor->getResource();
+                currentCursorResource = cursor->getResource();
             }
             else
             {
-                currentCursor = nullptr;
+                currentCursorResource = nullptr;
             }
 
-            CursorResource* resource = currentCursor;
+            CursorResource* resource = currentCursorResource;
 
             sharedApplication->execute([this, resource] {
                 activateCursorResource(resource);
@@ -80,10 +80,10 @@ namespace ouzel
                     resources.erase(i);
                 }
 
-                if (resource == currentCursor)
+                if (resource == currentCursorResource)
                 {
                     // remove the cursor
-                    currentCursor = nullptr;
+                    currentCursorResource = nullptr;
 
                     sharedApplication->execute([this] {
                         activateCursorResource(nullptr);
@@ -101,7 +101,7 @@ namespace ouzel
         {
             sharedApplication->execute([this, resource] {
                 resource->upload();
-                if (resource == currentCursor) activateCursorResource(currentCursor);
+                if (resource == currentCursorResource) activateCursorResource(currentCursorResource);
             });
         }
 

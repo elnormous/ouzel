@@ -108,8 +108,6 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
     if (type == Event::Type::KEY_DOWN ||
         type == Event::Type::KEY_REPEAT)
     {
-        Quaternion rotation = Quaternion::IDENTITY;
-
         switch (event.key)
         {
             case input::KeyboardKey::UP:

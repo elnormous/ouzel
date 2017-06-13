@@ -5,9 +5,12 @@
 
 #if defined(__OBJC__)
 #import <IOKit/hid/IOHIDManager.h>
+#import <AppKit/NSCursor.h>
+typedef NSCursor* NSCursorPtr;
 #else
 typedef void* IOHIDManagerRef;
 typedef void* IOHIDDeviceRef;
+typedef id NSCursorPtr;
 #endif
 
 #include "input/Input.h"
@@ -35,6 +38,9 @@ namespace ouzel
             static KeyboardKey convertKeyCode(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 
+            NSCursorPtr getNativeCursor() const { return currentCursor; }
+            NSCursorPtr getEmptyCursor() const { return emptyCursor; }
+
         protected:
             InputMacOS();
             virtual bool init() override;
@@ -47,6 +53,10 @@ namespace ouzel
             bool discovering = false;
             bool cursorVisible = true;
             bool cursorLocked = false;
+
+            NSCursorPtr emptyCursor = Nil;
+            NSCursorPtr defaultCursor = Nil;
+            NSCursorPtr currentCursor = Nil;
         };
     } // namespace input
 } // namespace ouzel

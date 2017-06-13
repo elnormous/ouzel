@@ -74,12 +74,11 @@ namespace ouzel
                         return false;
                     }
 
-                    std::vector<uint8_t> buffer;
-                    soundData->getData(buffer);
+                    const std::vector<uint8_t>& data = soundData->getData();
 
                     alBufferData(outputBuffer, format,
-                                 buffer.data(),
-                                 static_cast<ALsizei>(buffer.size()),
+                                 data.data(),
+                                 static_cast<ALsizei>(data.size()),
                                  static_cast<ALsizei>(soundData->getSamplesPerSecond()));
 
                     if (AudioAL::checkOpenALError())

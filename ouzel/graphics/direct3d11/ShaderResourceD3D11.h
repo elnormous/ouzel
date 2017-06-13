@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#define NOMINMAX
 #include <d3d11.h>
 #include "graphics/ShaderResource.h"
 

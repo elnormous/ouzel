@@ -174,6 +174,7 @@ namespace ouzel
 
         InputMacOS::InputMacOS()
         {
+            currentCursor = defaultCursor = [NSCursor arrowCursor];
         }
 
         InputMacOS::~InputMacOS()
@@ -211,6 +212,29 @@ namespace ouzel
                 IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
             }
 
+            unsigned char data[4] = {0, 0, 0, 0};
+            unsigned char* rgba = data;
+
+            NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
+            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
+                                     initWithBitmapDataPlanes:&rgba
+                                     pixelsWide:1
+                                     pixelsHigh:1
+                                     bitsPerSample:8
+                                     samplesPerPixel:4
+                                     hasAlpha:YES
+                                     isPlanar:NO
+                                     colorSpaceName:NSDeviceRGBColorSpace
+                                     bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                     bytesPerRow:4
+                                     bitsPerPixel:32];
+
+            [image addRepresentation:rep];
+            emptyCursor = [[NSCursor alloc] initWithImage:image hotSpot:NSMakePoint(0, 0)];
+
+            [image release];
+            [rep release];
+
             return true;
         }
 
@@ -220,14 +244,18 @@ namespace ouzel
 
             CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
 
-            if (cursorMacOS && cursorMacOS->getNativeCursor())
+            if (cursorMacOS)
             {
-                [cursorMacOS->getNativeCursor() set];
+                currentCursor = cursorMacOS->getNativeCursor();
+                if (!currentCursor) currentCursor = emptyCursor;
             }
             else
             {
-                [[NSCursor arrowCursor] set];
+                currentCursor = defaultCursor;
             }
+
+            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+            [windowMacOS->getNativeView() resetCursorRects];
         }
 
         CursorResource* InputMacOS::createCursorResource()
@@ -248,14 +276,14 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedApplication->execute([visible] {
+                sharedApplication->execute([this, visible] {
                     if (visible)
                     {
-                        [NSCursor unhide];
+                        [currentCursor set];
                     }
                     else
                     {
-                        [NSCursor hide];
+                        [emptyCursor set];
                     }
                 });
             }
@@ -275,8 +303,8 @@ namespace ouzel
             sharedApplication->execute([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-                NSWindow* window = static_cast<WindowMacOS*>(sharedEngine->getWindow())->getNativeWindow();
-                CGPoint windowOrigin = [window frame].origin;
+                WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+                CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
                                                       screenOrigin.y + windowOrigin.y + windowLocation.v[1]));

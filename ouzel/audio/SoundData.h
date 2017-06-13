@@ -20,16 +20,18 @@ namespace ouzel
             SoundData();
             virtual ~SoundData();
 
-            virtual void getData(std::vector<uint8_t>& buffer) = 0;
+            virtual const std::vector<uint8_t>& getData() = 0;
 
             uint16_t getFormatTag() const { return formatTag; }
             uint16_t getChannels() const { return channels; }
             uint32_t getSamplesPerSecond() const { return samplesPerSecond; }
+            bool isStream() const { return stream; }
 
         protected:
             uint16_t formatTag = 0;
             uint16_t channels = 0;
             uint32_t samplesPerSecond = 0;
+            bool stream = false;
         };
     } // namespace audio
 } // namespace ouzel

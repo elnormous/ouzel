@@ -152,7 +152,7 @@ namespace ouzel
             }
         }
 
-        void NodeContainer::findNodes(const Vector2& position, std::vector<Node*>& nodes) const
+        void NodeContainer::findNodes(const Vector2& position, std::vector<std::pair<Node*, ouzel::Vector3>>& nodes) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
@@ -164,12 +164,15 @@ namespace ouzel
 
                     if (node->isPickable() && node->pointOn(position))
                     {
-                        auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), node,
-                                                           [](Node* a, Node* b) {
-                                                               return a->worldOrder < b->worldOrder;
+                        std::pair<Node*, ouzel::Vector3> result = std::make_pair(node, node->convertWorldToLocal(position));
+
+                        auto upperBound = std::upper_bound(nodes.begin(), nodes.end(), result,
+                                                           [](const std::pair<Node*, Vector3>& a,
+                                                              const std::pair<Node*, Vector3>& b) {
+                                                               return a.first->worldOrder < b.first->worldOrder;
                                                            });
 
-                        nodes.insert(upperBound, node);
+                        nodes.insert(upperBound, result);
                     }
                 }
             }

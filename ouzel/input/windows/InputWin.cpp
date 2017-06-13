@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#define NOMINMAX
+#include <algorithm>
 #include <windows.h>
 #include <wbemidl.h>
 #include <oleauto.h>
@@ -15,7 +15,7 @@
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 
-static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCE* didInstance, VOID* context)
+static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
 {
     ouzel::input::InputWin* inputWin = reinterpret_cast<ouzel::input::InputWin*>(context);
     inputWin->handleDeviceConnect(didInstance);
@@ -208,6 +208,7 @@ namespace ouzel
         InputWin::InputWin()
         {
             std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
+            currentCursor = defaultCursor = LoadCursor(nullptr, IDC_ARROW);
         }
 
         InputWin::~InputWin()
@@ -221,7 +222,7 @@ namespace ouzel
         bool InputWin::init()
         {
             HINSTANCE instance = GetModuleHandleW(nullptr);
-            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
+            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
             {
                 Log(Log::Level::ERR) << "Failed to initialize DirectInput";
                 return false;
@@ -310,18 +311,17 @@ namespace ouzel
             Input::activateCursorResource(resource);
 
             CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
-            WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
 
-            if (cursorWin && cursorWin->getNativeCursor())
+            if (cursorWin)
             {
-                SetCursor(cursorWin->getNativeCursor());
-                window->setCursor(cursorWin->getNativeCursor());
+                currentCursor = cursorWin->getNativeCursor();
             }
             else
             {
-                SetCursor(LoadCursor(nullptr, IDC_ARROW));
-                window->setCursor(nullptr);
+                currentCursor = defaultCursor;
             }
+
+            updateCursor();
         }
 
         CursorResource* InputWin::createCursorResource()
@@ -340,10 +340,10 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedApplication->execute([visible] {
+            sharedApplication->execute([this, visible] {
                 if (visible)
                 {
-                    SetCursor(LoadCursor(nullptr, IDC_ARROW));
+                    SetCursor(currentCursor);
                 }
                 else
                 {
@@ -418,7 +418,7 @@ namespace ouzel
             }
         }
 
-        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCE* didInstance)
+        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
         {
             bool isXInputDevice = false;
 
@@ -540,6 +540,18 @@ namespace ouzel
 
                     sharedEngine->getEventDispatcher()->postEvent(event);
                 }
+            }
+        }
+
+        void InputWin::updateCursor()
+        {
+            if (cursorVisible)
+            {
+                SetCursor(currentCursor);
+            }
+            else
+            {
+                SetCursor(nullptr);
             }
         }
     } // namespace input

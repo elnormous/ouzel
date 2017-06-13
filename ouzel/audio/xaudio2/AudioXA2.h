@@ -3,9 +3,7 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <xaudio2.h>
-
 #include "audio/Audio.h"
 
 namespace ouzel
@@ -17,9 +15,6 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~AudioXA2();
-
-            virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerRotation(const Quaternion& newRotation);
 
             virtual SoundResource* createSound() override;
 

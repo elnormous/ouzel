@@ -71,6 +71,8 @@ namespace ouzel
 
         SoundResource* AudioSL::createSound()
         {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
             SoundResource* sound = new SoundSL();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;

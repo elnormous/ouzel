@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#define NOMINMAX
 #include <string.h>
 #define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"
@@ -41,7 +40,7 @@ namespace ouzel
                 wc.lpszMenuName = nullptr;
                 wc.lpszClassName = TEMP_WINDOW_CLASS_NAME;
 
-                windowClass = RegisterClass(&wc);
+                windowClass = RegisterClassW(&wc);
 
                 if (!windowClass)
                 {
@@ -219,7 +218,7 @@ namespace ouzel
                     WGL_ALPHA_BITS_ARB, 8,
                     WGL_DEPTH_BITS_ARB, newDepth ? 24 : 0,
                     WGL_SAMPLE_BUFFERS_ARB, newSampleCount > 0 ? 1 : 0,
-                    WGL_SAMPLES_ARB, newSampleCount,
+                    WGL_SAMPLES_ARB, static_cast<int>(newSampleCount),
                     0,
                 };
 

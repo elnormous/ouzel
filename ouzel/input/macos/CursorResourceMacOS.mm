@@ -61,10 +61,10 @@ namespace ouzel
                     NSInteger width = static_cast<NSInteger>(size.v[0]);
                     NSInteger height = static_cast<NSInteger>(size.v[1]);
 
-                    unsigned char* rgba = reinterpret_cast<unsigned char*>(data.data());
+                    unsigned char* rgba = data.data();
 
-                    NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-                    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                    NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+                    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
                                              initWithBitmapDataPlanes:&rgba
                                              pixelsWide:width
                                              pixelsHigh:height

@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#define NOMINMAX
 #include <windows.h>
 #include <cstdlib>
 #include "ApplicationWin.h"
@@ -34,8 +33,7 @@ namespace ouzel
 #ifdef DEBUG
         if (!AllocConsole())
         {
-            Log(Log::Level::ERR) << "Failed to allocate console";
-            return EXIT_FAILURE;
+            Log(Log::Level::INFO) << "Attached to console";
         }
 #endif
 
@@ -156,8 +154,7 @@ namespace ouzel
     {
         wchar_t urlBuffer[256];
         MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256);
-        int result = reinterpret_cast<int>(ShellExecute(NULL, L"open", urlBuffer, NULL, NULL, SW_SHOWNORMAL));
-
+        intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", urlBuffer, nullptr, nullptr, SW_SHOWNORMAL));
         return result > 32;
     }
 }

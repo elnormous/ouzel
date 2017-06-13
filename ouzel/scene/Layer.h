@@ -28,8 +28,8 @@ namespace ouzel
 
             const std::vector<Camera*>& getCameras() const { return cameras; }
 
-            Node* pickNode(const Vector2& position, bool renderTargets = false) const;
-            std::vector<Node*> pickNodes(const Vector2& position, bool renderTargets = false) const;
+            std::pair<Node*, ouzel::Vector3> pickNode(const Vector2& position, bool renderTargets = false) const;
+            std::vector<std::pair<Node*, ouzel::Vector3>> pickNodes(const Vector2& position, bool renderTargets = false) const;
             std::vector<Node*> pickNodes(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
             int32_t getOrder() const { return order; }

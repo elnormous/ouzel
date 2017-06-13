@@ -70,6 +70,10 @@
 #include "audio/openal/AudioAL.h"
 #endif
 
+#if OUZEL_SUPPORTS_DIRECTSOUND
+#include "audio/dsound/AudioDS.h"
+#endif
+
 #if OUZEL_SUPPORTS_XAUDIO2
 #include "audio/xaudio2/AudioXA2.h"
 #endif
@@ -152,6 +156,10 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_OPENAL
             availableDrivers.insert(audio::Audio::Driver::OPENAL);
+#endif
+
+#if OUZEL_SUPPORTS_DIRECTSOUND
+            availableDrivers.insert(audio::Audio::Driver::DIRECTSOUND);
 #endif
 
 #if OUZEL_SUPPORTS_XAUDIO2
@@ -293,6 +301,10 @@ namespace ouzel
             {
                 settings.audioDriver = audio::Audio::Driver::OPENAL;
             }
+            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
+            {
+                settings.audioDriver = audio::Audio::Driver::DIRECTSOUND;
+            }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
             {
                 settings.audioDriver = audio::Audio::Driver::XAUDIO2;
@@ -323,6 +335,12 @@ namespace ouzel
     #else
                 audio.reset(new audio::AudioAL());
     #endif
+                break;
+#endif
+#if OUZEL_SUPPORTS_DIRECTSOUND
+            case audio::Audio::Driver::DIRECTSOUND:
+                Log(Log::Level::INFO) << "Using DirectSound audio driver";
+                audio.reset(new audio::AudioDS());
                 break;
 #endif
 #if OUZEL_SUPPORTS_XAUDIO2

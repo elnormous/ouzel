@@ -268,14 +268,30 @@ namespace ouzel
 
                 CursorResourceLinux* cursorLinux = static_cast<CursorResourceLinux*>(resource);
 
-                if (cursorLinux && cursorLinux->getNativeCursor())
+                if (cursorLinux)
                 {
                     currentCursor = cursorLinux->getNativeCursor();
-                    XDefineCursor(display, window, currentCursor);
+                    if (!currentCursor) currentCursor = emptyCursor;
                 }
                 else
                 {
-                    XUndefineCursor(display, window);
+                    currentCursor = None;
+                }
+
+                if (cursorVisible)
+                {
+                    if (currentCursor)
+                    {
+                        XDefineCursor(display, window, currentCursor);
+                    }
+                    else
+                    {
+                        XUndefineCursor(display, window);
+                    }
+                }
+                else
+                {
+                    XDefineCursor(display, window, emptyCursor);
                 }
             }
         }

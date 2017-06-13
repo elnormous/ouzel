@@ -30,9 +30,6 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual void setListenerPosition(const Vector3& newPosition) override;
-            virtual void setListenerRotation(const Quaternion& newRotation) override;
-
             virtual SoundResource* createSound() override;
 
             ALCdevice* getDevice() const { return device; }

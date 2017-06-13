@@ -1,14 +1,15 @@
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+MAKEFILE_PATH:=$(abspath $(lastword $(MAKEFILE_LIST)))
+ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
 ifeq ($(OS),Windows_NT)
-    platform=windows
+	platform=windows
 else
-    UNAME := $(shell uname -s)
-    ifeq ($(UNAME),Linux)
-        platform=linux
-    endif
-    ifeq ($(UNAME),Darwin)
-        platform=macos
-    endif
+	UNAME:=$(shell uname -s)
+	ifeq ($(UNAME),Linux)
+		platform=linux
+	endif
+	ifeq ($(UNAME),Darwin)
+		platform=macos
+	endif
 endif
 ifeq ($(platform),emscripten)
 CC=emcc
@@ -32,8 +33,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/SoundEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
@@ -129,8 +128,28 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
-ifeq ($(platform),raspbian)
-SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
+ifeq ($(platform),windows)
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
+	$(ROOT_DIR)/../ouzel/audio/dsound/SoundDS.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/ApplicationWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RendererD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RendererOGLWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
+CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
+else ifeq ($(platform),raspbian)
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
@@ -138,7 +157,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
-SOURCES+=$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
@@ -146,7 +167,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
@@ -163,7 +186,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)
-SOURCES+=$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/SoundAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
@@ -192,37 +217,83 @@ $(LIBRARY): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(LIBRARY) \
+ifeq ($(platform),windows)
+	-del /f /q "$(ROOT_DIR)\..\ouzel\audio\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\dsound\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\empty\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\openal\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\xaudio2\*.o" \
+	"$(ROOT_DIR)\..\ouzel\animators\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\core\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\events\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\direct3d11\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\empty\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\opengl\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\metal\*.o" \
+	"$(ROOT_DIR)\..\ouzel\graphics\metal\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\gui\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\macos\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\input\windows\*.o" \
+	"$(ROOT_DIR)\..\ouzel\localization\*.o" \
+	"$(ROOT_DIR)\..\ouzel\math\*.o" \
+	"$(ROOT_DIR)\..\ouzel\scene\*.o" \
+	"$(ROOT_DIR)\..\ouzel\utils\*.o" \
+	"$(ROOT_DIR)\..\ouzel\*.o"
+else
+	$(RM) $(LIBRARY) \
 	$(ROOT_DIR)/../ouzel/audio/*.o \
-	$(ROOT_DIR)/../ouzel/audio/openal/*.o \
-	$(ROOT_DIR)/../ouzel/audio/openal/apple/*.o \
+	$(ROOT_DIR)/../ouzel/audio/dsound/*.o \
 	$(ROOT_DIR)/../ouzel/audio/empty/*.o \
+	$(ROOT_DIR)/../ouzel/audio/openal/*.o \
+	$(ROOT_DIR)/../ouzel/audio/openal/ios/*.o \
+	$(ROOT_DIR)/../ouzel/audio/openal/tvos/*.o \
+	$(ROOT_DIR)/../ouzel/audio/xaudio2/*.o \
 	$(ROOT_DIR)/../ouzel/animators/*.o \
 	$(ROOT_DIR)/../ouzel/core/*.o \
-	$(ROOT_DIR)/../ouzel/core/apple/*.o \
 	$(ROOT_DIR)/../ouzel/core/emscripten/*.o \
 	$(ROOT_DIR)/../ouzel/core/linux/*.o \
 	$(ROOT_DIR)/../ouzel/core/macos/*.o \
 	$(ROOT_DIR)/../ouzel/core/raspbian/*.o \
+	$(ROOT_DIR)/../ouzel/core/windows/*.o \
 	$(ROOT_DIR)/../ouzel/events/*.o \
 	$(ROOT_DIR)/../ouzel/files/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/empty/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/*.o \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/metal/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/*.o \
 	$(ROOT_DIR)/../ouzel/gui/*.o \
 	$(ROOT_DIR)/../ouzel/input/*.o \
-	$(ROOT_DIR)/../ouzel/input/apple/*.o \
 	$(ROOT_DIR)/../ouzel/input/emscripten/*.o \
 	$(ROOT_DIR)/../ouzel/input/linux/*.o \
+	$(ROOT_DIR)/../ouzel/input/macos/*.o \
 	$(ROOT_DIR)/../ouzel/input/raspbian/*.o \
+	$(ROOT_DIR)/../ouzel/input/windows/*.o \
 	$(ROOT_DIR)/../ouzel/localization/*.o \
 	$(ROOT_DIR)/../ouzel/math/*.o \
 	$(ROOT_DIR)/../ouzel/scene/*.o \
 	$(ROOT_DIR)/../ouzel/utils/*.o \
 	$(ROOT_DIR)/../ouzel/*.o
+endif

@@ -70,12 +70,48 @@ void ouzelMain(const std::vector<std::string>& args)
                 }
                 else
                 {
-                    ouzel::Log(ouzel::Log::Level::WARN) << "Invalid renderer specified";
+                    ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
                 }
             }
             else
             {
-                ouzel::Log(ouzel::Log::Level::WARN) << "No renderer specified";
+                ouzel::Log(ouzel::Log::Level::WARN) << "No graphics driver specified";
+            }
+        }
+        else if (*arg == "-audio")
+        {
+            auto nextArg = ++arg;
+
+            if (nextArg != args.end())
+            {
+                if (*nextArg == "empty")
+                {
+                    settings.audioDriver = ouzel::audio::Audio::Driver::EMPTY;
+                }
+                else if (*nextArg == "openal")
+                {
+                    settings.audioDriver = ouzel::audio::Audio::Driver::OPENAL;
+                }
+                else if (*nextArg == "directsound")
+                {
+                    settings.audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
+                }
+                else if (*nextArg == "xaudio2")
+                {
+                    settings.audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
+                }
+                else if (*nextArg == "opensl")
+                {
+                    settings.audioDriver = ouzel::audio::Audio::Driver::OPENSL;
+                }
+                else
+                {
+                    ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
+                }
+            }
+            else
+            {
+                ouzel::Log(ouzel::Log::Level::WARN) << "No audio driver specified";
             }
         }
         else

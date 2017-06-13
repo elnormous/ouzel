@@ -3,7 +3,6 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <windows.h>
 #include <set>
 #include "core/Window.h"
@@ -31,8 +30,6 @@ namespace ouzel
         void removeAccelerator(HACCEL accelerator);
 
         HMONITOR getMonitor() const { return monitor; }
-        HCURSOR getCursor() const { return cursor; }
-        void setCursor(HCURSOR newCursor) { cursor = newCursor; }
 
     protected:
         WindowWin();
@@ -51,7 +48,6 @@ namespace ouzel
         DWORD windowWindowedStyle = 0;
         DWORD windowFullscreenStyle = 0;
         HMONITOR monitor = nullptr;
-        HCURSOR cursor = nullptr;
 
         int windowX = 0;
         int windowY = 0;

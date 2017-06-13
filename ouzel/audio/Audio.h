@@ -34,6 +34,7 @@ namespace ouzel
                 DEFAULT,
                 EMPTY,
                 OPENAL,
+                DIRECTSOUND,
                 XAUDIO2,
                 OPENSL
             };
@@ -45,8 +46,8 @@ namespace ouzel
             virtual SoundResource* createSound() = 0;
             virtual void deleteResource(Resource* resource);
 
-            virtual void setListenerPosition(const Vector3& newPosition);
-            virtual void setListenerRotation(const Quaternion& newRotation);
+            void setListenerPosition(const Vector3& newPosition);
+            void setListenerRotation(const Quaternion& newRotation);
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
@@ -60,11 +61,21 @@ namespace ouzel
 
             Driver driver;
 
+            enum Dirty
+            {
+                DIRTY_LISTENER_POSITION = 0x01,
+                DIRTY_LISTENER_ROTATION = 0x02
+            };
+
+            uint32_t dirty = 0;
+
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
             Vector3 listenerPosition;
             Quaternion listenerRotation;
+
+            std::mutex uploadMutex;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;

@@ -3,7 +3,7 @@
 
 #include "OpenGLView.h"
 #include "core/Engine.h"
-#include "core/Window.h"
+#include "core/macos/WindowMacOS.h"
 #include "input/macos/InputMacOS.h"
 
 @implementation OpenGLView
@@ -21,6 +21,25 @@
 -(BOOL)acceptsFirstResponder
 {
     return YES;
+}
+
+-(void)resetCursorRects
+{
+    [super resetCursorRects];
+    [self discardCursorRects];
+
+    ouzel::input::InputMacOS* inputMacOS = static_cast<ouzel::input::InputMacOS*>(ouzel::sharedEngine->getInput());
+
+    if (inputMacOS->isCursorVisible())
+    {
+        [self addCursorRect:[self bounds] cursor:inputMacOS->getNativeCursor()];
+        [inputMacOS->getNativeCursor() set];
+    }
+    else
+    {
+        [self addCursorRect:[self bounds] cursor:inputMacOS->getEmptyCursor()];
+        [inputMacOS->getEmptyCursor() set];
+    }
 }
 
 -(void)keyDown:(NSEvent*)event

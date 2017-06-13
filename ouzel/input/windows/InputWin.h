@@ -3,7 +3,6 @@
 
 #pragma once
 
-#define NOMINMAX
 #include <memory>
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
@@ -38,8 +37,10 @@ namespace ouzel
             virtual void setCursorPosition(const Vector2& position) override;
             virtual void startGamepadDiscovery() override;
 
-            IDirectInput8* getDirectInput() const { return directInput; }
-            void handleDeviceConnect(const DIDEVICEINSTANCE* didInstance);
+            IDirectInput8W* getDirectInput() const { return directInput; }
+            void handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance);
+
+            void updateCursor();
 
         protected:
             InputWin();
@@ -48,12 +49,14 @@ namespace ouzel
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;
 
-            IDirectInput8* directInput = nullptr;
+            IDirectInput8W* directInput = nullptr;
             std::vector<GamepadDI*> gamepadsDI;
             GamepadXI* gamepadsXI[XUSER_MAX_COUNT];
 
             bool cursorVisible = true;
             bool cursorLocked = false;
+            HCURSOR defaultCursor = nullptr;
+            HCURSOR currentCursor = nullptr;
         };
     } // namespace input
 } // namespace ouzel
