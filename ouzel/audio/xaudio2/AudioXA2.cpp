@@ -98,6 +98,25 @@ namespace ouzel
             return Audio::init();
         }
 
+        bool AudioXA2::update()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            if (dirty & DIRTY_LISTENER_POSITION)
+            {
+
+            }
+
+            if (dirty & DIRTY_LISTENER_ROTATION)
+            {
+
+            }
+
+            dirty = 0;
+
+            return true;
+        }
+
         SoundResource* AudioXA2::createSound()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
