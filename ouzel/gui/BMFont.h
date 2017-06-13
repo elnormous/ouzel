@@ -31,7 +31,7 @@ namespace ouzel
 
         float getHeight() { return lineHeight; }
 
-        void getVertices(const std::string& text,
+        virtual void getVertices(const std::string& text,
                          const Color& color,
                          const Vector2& anchor,
                          const Vector2& scale,
@@ -42,7 +42,7 @@ namespace ouzel
 
     protected:
         bool parseFont(const std::string& filename);
-        int16_t getKerningPair(uint32_t, uint32_t);
+        virtual int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 
         int16_t lineHeight = 0;
