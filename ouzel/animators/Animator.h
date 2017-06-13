@@ -41,8 +41,6 @@ namespace ouzel
 
             Node* getTargetNode() const { return targetNode; }
 
-            void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
-
             void addAnimator(Animator* animator)
             {
                 addChildAnimator(animator);
@@ -84,8 +82,6 @@ namespace ouzel
 
             Animator* parent = nullptr;
             Node* targetNode = nullptr;
-
-            std::function<void()> finishHandler;
 
             UpdateCallback updateCallback;
 

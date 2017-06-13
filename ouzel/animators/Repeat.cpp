@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Repeat.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
@@ -40,6 +41,11 @@ namespace ouzel
 
                     float remainingTime = currentTime - animators[0]->getLength() * static_cast<float>(currentCount);
                     animators[0]->setProgress(remainingTime / animators[0]->getLength());
+
+                    Event resetEvent;
+                    resetEvent.type = Event::Type::RESET;
+                    resetEvent.animationEvent.component = this;
+                    sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                 }
                 else
                 {
@@ -47,7 +53,11 @@ namespace ouzel
                     running = false;
                     currentTime = length;
                     progress = 1.0f;
-                    if (finishHandler) finishHandler();
+
+                    Event finishEvent;
+                    finishEvent.type = Event::Type::FINISH;
+                    finishEvent.animationEvent.component = this;
+                    sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                 }
             }
         }

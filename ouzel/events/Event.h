@@ -95,6 +95,11 @@ namespace ouzel
         Vector3 localPosition;
     };
 
+    struct AnimationEvent
+    {
+        scene::Component* component;
+    };
+
     struct UserEvent
     {
         std::vector<std::string> parameters;
@@ -143,13 +148,17 @@ namespace ouzel
             OPEN_FILE,
 
             // UI events
-            UI_ENTER_NODE, // mouse or touch entered the scene node
-            UI_LEAVE_NODE, // mouse or touch left the scene node
-            UI_PRESS_NODE, // mouse or touch pressed on scene node
-            UI_RELEASE_NODE,  // mouse or touch released on scene node
-            UI_CLICK_NODE, // mouse or touch clicked on scene node
-            UI_DRAG_NODE, // mouse or touch dragged scene node
-            UI_WIDGET_CHANGE, // widget changed its value
+            ENTER_NODE, // mouse or touch entered the scene node
+            LEAVE_NODE, // mouse or touch left the scene node
+            PRESS_NODE, // mouse or touch pressed on scene node
+            RELEASE_NODE,  // mouse or touch released on scene node
+            CLICK_NODE, // mouse or touch clicked on scene node
+            DRAG_NODE, // mouse or touch dragged scene node
+            WIDGET_CHANGE, // widget changed its value
+
+            // animation events
+            RESET, // animation has reset
+            FINISH, // animation has finished
 
             USER // user defined event
         };
@@ -163,6 +172,7 @@ namespace ouzel
         WindowEvent windowEvent;
         SystemEvent systemEvent;
         UIEvent uiEvent;
+        AnimationEvent animationEvent;
         UserEvent userEvent;
     };
 }

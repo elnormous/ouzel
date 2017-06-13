@@ -286,7 +286,7 @@ namespace ouzel
             if (node)
             {
                 Event event;
-                event.type = Event::Type::UI_ENTER_NODE;
+                event.type = Event::Type::ENTER_NODE;
 
                 event.uiEvent.node = node;
                 event.uiEvent.touchId = pointerId;
@@ -301,7 +301,7 @@ namespace ouzel
             if (node)
             {
                 Event event;
-                event.type = Event::Type::UI_LEAVE_NODE;
+                event.type = Event::Type::LEAVE_NODE;
 
                 event.uiEvent.node = node;
                 event.uiEvent.touchId = pointerId;
@@ -318,7 +318,7 @@ namespace ouzel
                 pointerDownOnNodes[pointerId] = std::make_pair(node, localPosition);
 
                 Event event;
-                event.type = Event::Type::UI_PRESS_NODE;
+                event.type = Event::Type::PRESS_NODE;
 
                 event.uiEvent.node = node;
                 event.uiEvent.touchId = pointerId;
@@ -340,7 +340,7 @@ namespace ouzel
                 if (pointerDownOnNode.first)
                 {
                     Event releaseEvent;
-                    releaseEvent.type = Event::Type::UI_RELEASE_NODE;
+                    releaseEvent.type = Event::Type::RELEASE_NODE;
 
                     releaseEvent.uiEvent.node = pointerDownOnNode.first;
                     releaseEvent.uiEvent.touchId = pointerId;
@@ -352,7 +352,7 @@ namespace ouzel
                     if (pointerDownOnNode.first == node)
                     {
                         Event clickEvent;
-                        clickEvent.type = Event::Type::UI_CLICK_NODE;
+                        clickEvent.type = Event::Type::CLICK_NODE;
 
                         clickEvent.uiEvent.node = node;
                         clickEvent.uiEvent.touchId = pointerId;
@@ -372,7 +372,7 @@ namespace ouzel
             if (node)
             {
                 Event event;
-                event.type = Event::Type::UI_DRAG_NODE;
+                event.type = Event::Type::DRAG_NODE;
 
                 event.uiEvent.node = node;
                 event.uiEvent.touchId = pointerId;

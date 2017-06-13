@@ -181,7 +181,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE)
+    if (type == Event::Type::CLICK_NODE)
     {
         if (event.node == backButton.get())
         {
