@@ -240,7 +240,7 @@ namespace ouzel
                     }
                 }
 
-                if (dirty & DIRTY_DATA)
+                if (dirty & DIRTY_PARAMETERS)
                 {
                     clearFrameBufferView = clearColorBuffer;
                     clearDepthBufferView = clearDepthBuffer;
