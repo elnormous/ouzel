@@ -139,11 +139,32 @@ namespace ouzel
                             textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
                             textureDesc.MiscFlags = 0;
 
-                            HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
-                            if (FAILED(hr))
+                            if (levels.empty() || renderTarget)
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
-                                return false;
+                                HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                                if (FAILED(hr))
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                std::vector<D3D11_SUBRESOURCE_DATA> subresourceData(levels.size());
+
+                                for (size_t level = 0; level < levels.size(); ++level)
+                                {
+                                    subresourceData[level].pSysMem = levels[level].data.data();
+                                    subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].pitch);
+                                    subresourceData[level].SysMemSlicePitch = 0;
+                                }
+
+                                HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
+                                if (FAILED(hr))
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
+                                    return false;
+                                }
                             }
 
                             D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
@@ -156,7 +177,7 @@ namespace ouzel
                                 resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                             }
 
-                            hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
+                            HRESULT hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                             if (FAILED(hr))
                             {
                                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;
@@ -227,8 +248,7 @@ namespace ouzel
                                 }
                             }
                         }
-
-                        if (!renderTarget)
+                        else if (!renderTarget)
                         {
                             if (dynamic)
                             {
