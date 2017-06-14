@@ -274,9 +274,9 @@ namespace ouzel
                                                 start += levels[level].pitch;
                                                 target += mappedSubresource.RowPitch;
                                             }
-                                    
-                                            rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
                                         }
+
+                                        rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
                                     }
                                 }
                             }
