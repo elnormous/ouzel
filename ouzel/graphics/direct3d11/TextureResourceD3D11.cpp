@@ -228,60 +228,63 @@ namespace ouzel
                             }
                         }
 
-                        if (dynamic)
+                        if (!renderTarget)
                         {
-                            for (size_t level = 0; level < levels.size(); ++level)
+                            if (dynamic)
                             {
-                                if (!levels[level].data.empty())
+                                for (size_t level = 0; level < levels.size(); ++level)
                                 {
-                                    D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                                    mappedSubresource.pData = 0;
-                                    mappedSubresource.RowPitch = 0;
-                                    mappedSubresource.DepthPitch = 0;
+                                    if (!levels[level].data.empty())
+                                    {
+                                        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+                                        mappedSubresource.pData = 0;
+                                        mappedSubresource.RowPitch = 0;
+                                        mappedSubresource.DepthPitch = 0;
                                     
-                                    HRESULT hr = rendererD3D11->getContext()->Map(texture, static_cast<UINT>(level),
-                                                                                  (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
-                                                                                  0, &mappedSubresource);
+                                        HRESULT hr = rendererD3D11->getContext()->Map(texture, static_cast<UINT>(level),
+                                                                                      (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                                      0, &mappedSubresource);
 
-                                    if (FAILED(hr))
-                                    {
-                                        Log(Log::Level::ERR) << "Failed to map Direct3D 11 texture, error: " << hr;
-                                        return false;
-                                    }
-
-                                    uint8_t* target = reinterpret_cast<uint8_t*>(mappedSubresource.pData);
-                                    
-                                    if (mappedSubresource.RowPitch == levels[level].pitch)
-                                    {
-                                        std::copy(levels[level].data.begin(),
-                                                  levels[level].data.end(),
-                                                  target);
-                                    }
-                                    else
-                                    {
-                                        for (UINT row = 0; row < height; ++row)
+                                        if (FAILED(hr))
                                         {
-                                            std::copy(levels[level].data.begin() + row * levels[level].pitch,
-                                                      levels[level].data.begin() + (row + 1) * levels[level].pitch,
-                                                      target);
-
-                                            target += mappedSubresource.RowPitch;
+                                            Log(Log::Level::ERR) << "Failed to map Direct3D 11 texture, error: " << hr;
+                                            return false;
                                         }
+
+                                        uint8_t* target = reinterpret_cast<uint8_t*>(mappedSubresource.pData);
                                     
-                                        rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                                        if (mappedSubresource.RowPitch == levels[level].pitch)
+                                        {
+                                            std::copy(levels[level].data.begin(),
+                                                      levels[level].data.end(),
+                                                      target);
+                                        }
+                                        else
+                                        {
+                                            for (UINT row = 0; row < height; ++row)
+                                            {
+                                                std::copy(levels[level].data.begin() + row * levels[level].pitch,
+                                                          levels[level].data.begin() + (row + 1) * levels[level].pitch,
+                                                          target);
+
+                                                target += mappedSubresource.RowPitch;
+                                            }
+                                    
+                                            rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            for (size_t level = 0; level < levels.size(); ++level)
+                            else
                             {
-                                if (!levels[level].data.empty())
+                                for (size_t level = 0; level < levels.size(); ++level)
                                 {
-                                    rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
-                                                                                   nullptr, levels[level].data.data(),
-                                                                                   static_cast<UINT>(levels[level].pitch), 0);
+                                    if (!levels[level].data.empty())
+                                    {
+                                        rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                                       nullptr, levels[level].data.data(),
+                                                                                       static_cast<UINT>(levels[level].pitch), 0);
+                                    }
                                 }
                             }
                         }
