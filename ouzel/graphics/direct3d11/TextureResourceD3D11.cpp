@@ -249,8 +249,16 @@ namespace ouzel
                                         return false;
                                     }
 
-                                    std::copy(levels[level].data.begin(), levels[level].data.end(),
-                                              reinterpret_cast<uint8_t*>(mappedSubresource.pData));
+                                    uint8_t* target = reinterpret_cast<uint8_t*>(mappedSubresource.pData);
+                                    
+                                    for (UINT row = 0; row < height; ++row)
+                                    {
+                                        std::copy(levels[level].data.begin() + row * levels[level].pitch,
+                                                  levels[level].data.begin() + (row + 1) * levels[level].pitch,
+                                                  target);
+
+                                        target += mappedSubresource.RowPitch;
+                                    }
                                     
                                     rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
                                 }
