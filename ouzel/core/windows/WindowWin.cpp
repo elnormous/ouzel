@@ -160,11 +160,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (wParam)
             {
-                ouzel::sharedEngine->resume();
+                if (ouzel::sharedEngine) ouzel::sharedEngine->resume();
             }
             else
             {
-                ouzel::sharedEngine->pause();
+                if (ouzel::sharedEngine) ouzel::sharedEngine->pause();
             }
             break;
         }
@@ -300,7 +300,6 @@ namespace ouzel
     {
         if (window)
         {
-            SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(nullptr));
             DestroyWindow(window);
         }
 
