@@ -261,12 +261,17 @@ namespace ouzel
                                         }
                                         else
                                         {
-                                            for (UINT row = 0; row < height; ++row)
+                                            auto start = levels[level].data.begin();
+                                            UINT currentWidth = static_cast<UINT>(levels[level].size.v[0]);
+                                            UINT currentHeight = static_cast<UINT>(levels[level].size.v[1]);
+
+                                            for (UINT row = 0; row < currentHeight; ++row)
                                             {
-                                                std::copy(levels[level].data.begin() + row * levels[level].pitch,
-                                                          levels[level].data.begin() + (row + 1) * levels[level].pitch,
+                                                std::copy(start,
+                                                          start + currentWidth,
                                                           target);
 
+                                                start += levels[level].pitch;
                                                 target += mappedSubresource.RowPitch;
                                             }
                                     
