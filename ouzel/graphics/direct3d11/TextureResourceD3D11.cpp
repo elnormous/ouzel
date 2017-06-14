@@ -142,7 +142,7 @@ namespace ouzel
                             HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
                             if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
                                 return false;
                             }
 
@@ -159,7 +159,7 @@ namespace ouzel
                             hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                             if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view";
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;
                                 return false;
                             }
 
@@ -179,10 +179,10 @@ namespace ouzel
                                     renderTargetViewDesc.Texture2D.MipSlice = 0;
                                 }
 
-                                HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                                hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
                                     return false;
                                 }
                             }
@@ -215,26 +215,57 @@ namespace ouzel
                                 hr = rendererD3D11->getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
                                     return false;
                                 }
 
                                 hr = rendererD3D11->getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                                     return false;
                                 }
                             }
                         }
 
-                        for (size_t level = 0; level < levels.size(); ++level)
+                        if (dynamic)
                         {
-                            if (!levels[level].data.empty())
+                            for (size_t level = 0; level < levels.size(); ++level)
                             {
-                                rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
-                                                                               nullptr, levels[level].data.data(),
-                                                                               static_cast<UINT>(levels[level].pitch), 0);
+                                if (!levels[level].data.empty())
+                                {
+                                    D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+                                    mappedSubresource.pData = 0;
+                                    mappedSubresource.RowPitch = 0;
+                                    mappedSubresource.DepthPitch = 0;
+                                    
+                                    HRESULT hr = rendererD3D11->getContext()->Map(texture, static_cast<UINT>(level),
+                                                                                  (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                                  0, &mappedSubresource);
+
+                                    if (FAILED(hr))
+                                    {
+                                        Log(Log::Level::ERR) << "Failed to map Direct3D 11 texture, error: " << hr;
+                                        return false;
+                                    }
+
+                                    std::copy(levels[level].data.begin(), levels[level].data.end(),
+                                              reinterpret_cast<uint8_t*>(mappedSubresource.pData));
+                                    
+                                    rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (size_t level = 0; level < levels.size(); ++level)
+                            {
+                                if (!levels[level].data.empty())
+                                {
+                                    rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                                   nullptr, levels[level].data.data(),
+                                                                                   static_cast<UINT>(levels[level].pitch), 0);
+                                }
                             }
                         }
                     }

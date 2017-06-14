@@ -28,17 +28,19 @@ namespace ouzel
 
         bool AudioDS::init()
         {
-            if (FAILED(DirectSoundCreate8(nullptr, &directSound, nullptr)))
+            HRESULT hr = DirectSoundCreate8(nullptr, &directSound, nullptr);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance";
+                Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance, error: " << hr;
                 return false;
             }
 
             WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
 
-            if (FAILED(directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY)))
+            hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to set cooperative level for DirectSound 8";
+                Log(Log::Level::ERR) << "Failed to set cooperative level for DirectSound 8, error: " << hr;
                 return false;
             }
 
@@ -50,9 +52,10 @@ namespace ouzel
             bufferDesc.lpwfxFormat = nullptr;
             bufferDesc.guid3DAlgorithm = GUID_NULL;
 
-            if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &buffer, nullptr)))
+            hr = directSound->CreateSoundBuffer(&bufferDesc, &buffer, nullptr);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create DirectSound buffer";
+                Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
                 return false;
             }
 
@@ -65,15 +68,17 @@ namespace ouzel
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
 
-            if (FAILED(buffer->SetFormat(&waveFormat)))
+            hr = buffer->SetFormat(&waveFormat);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to set DirectSound buffer format";
+                Log(Log::Level::ERR) << "Failed to set DirectSound buffer format, error: " << hr;
                 return false;
             }
 
-            if (FAILED(buffer->QueryInterface(IID_IDirectSound3DListener, reinterpret_cast<void**>(&listener3D))))
+            hr = buffer->QueryInterface(IID_IDirectSound3DListener, reinterpret_cast<void**>(&listener3D));
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get DirectSound listener";
+                Log(Log::Level::ERR) << "Failed to get DirectSound listener, error: " << hr;
                 return false;
             }
 
@@ -88,9 +93,10 @@ namespace ouzel
 
             if (dirty & DIRTY_LISTENER_POSITION)
             {
-                if (FAILED(listener3D->SetPosition(listenerPosition.v[0], listenerPosition.v[1], listenerPosition.v[2], DS3D_IMMEDIATE)))
+                HRESULT hr = listener3D->SetPosition(listenerPosition.v[0], listenerPosition.v[1], listenerPosition.v[2], DS3D_IMMEDIATE);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position";
+                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position, error: " << hr;
                     return false;
                 }
             }
@@ -100,11 +106,12 @@ namespace ouzel
                 Vector3 forwardVector = listenerRotation.getForwardVector();
                 Vector3 upVector = listenerRotation.getUpVector();
 
-                if (FAILED(listener3D->SetOrientation(forwardVector.v[0], forwardVector.v[1], forwardVector.v[2],
-                                                      upVector.v[0], upVector.v[1], upVector.v[2],
-                                                      DS3D_IMMEDIATE)))
+                HRESULT hr = listener3D->SetOrientation(forwardVector.v[0], forwardVector.v[1], forwardVector.v[2],
+                                                        upVector.v[0], upVector.v[1], upVector.v[2],
+                                                        DS3D_IMMEDIATE);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position";
+                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position, error: " << hr;
                     return false;
                 }
             }

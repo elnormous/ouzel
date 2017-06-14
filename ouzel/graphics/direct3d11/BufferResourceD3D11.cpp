@@ -67,7 +67,7 @@ namespace ouzel
                         HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer";
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
                             return false;
                         }
                     }
@@ -77,7 +77,7 @@ namespace ouzel
                         HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
+                            Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
                             return false;
                         }
 
