@@ -300,6 +300,7 @@ namespace ouzel
     {
         if (window)
         {
+            SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(nullptr));
             DestroyWindow(window);
         }
 
@@ -351,11 +352,11 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
-            wc.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
+            wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
         }
         else
         {
-            wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+            wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
         }
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = WINDOW_CLASS_NAME;
