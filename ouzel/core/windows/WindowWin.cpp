@@ -156,15 +156,13 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
     switch (msg)
     {
-        case WM_ACTIVATE:
+        case WM_ACTIVATEAPP:
         {
-            UINT state = LOWORD(wParam);
-
-            if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
+            if (wParam)
             {
                 ouzel::sharedEngine->resume();
             }
-            else if (state == WA_INACTIVE)
+            else
             {
                 ouzel::sharedEngine->pause();
             }
