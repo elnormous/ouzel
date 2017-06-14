@@ -237,7 +237,7 @@ namespace ouzel
                                     if (!levels[level].data.empty())
                                     {
                                         D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                                        mappedSubresource.pData = 0;
+                                        mappedSubresource.pData = nullptr;
                                         mappedSubresource.RowPitch = 0;
                                         mappedSubresource.DepthPitch = 0;
                                     
@@ -251,28 +251,28 @@ namespace ouzel
                                             return false;
                                         }
 
-                                        uint8_t* target = reinterpret_cast<uint8_t*>(mappedSubresource.pData);
+                                        uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
                                     
                                         if (mappedSubresource.RowPitch == levels[level].pitch)
                                         {
                                             std::copy(levels[level].data.begin(),
                                                       levels[level].data.end(),
-                                                      target);
+                                                      destination);
                                         }
                                         else
                                         {
-                                            auto start = levels[level].data.begin();
+                                            auto source = levels[level].data.begin();
                                             UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
                                             UINT rows = static_cast<UINT>(levels[level].size.v[1]);
 
                                             for (UINT row = 0; row < rows; ++row)
                                             {
-                                                std::copy(start,
-                                                          start + rowSize,
-                                                          target);
+                                                std::copy(source,
+                                                          source + rowSize,
+                                                          destination);
 
-                                                start += levels[level].pitch;
-                                                target += mappedSubresource.RowPitch;
+                                                source += levels[level].pitch;
+                                                destination += mappedSubresource.RowPitch;
                                             }
                                         }
 
