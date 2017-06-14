@@ -262,13 +262,13 @@ namespace ouzel
                                         else
                                         {
                                             auto start = levels[level].data.begin();
-                                            UINT currentWidth = static_cast<UINT>(levels[level].size.v[0]);
-                                            UINT currentHeight = static_cast<UINT>(levels[level].size.v[1]);
+                                            UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
+                                            UINT rows = static_cast<UINT>(levels[level].size.v[1]);
 
-                                            for (UINT row = 0; row < currentHeight; ++row)
+                                            for (UINT row = 0; row < rows; ++row)
                                             {
                                                 std::copy(start,
-                                                          start + currentWidth,
+                                                          start + rowSize,
                                                           target);
 
                                                 start += levels[level].pitch;
