@@ -60,8 +60,8 @@ namespace ouzel
             const Matrix4& getRenderViewProjection() const;
             const Matrix4& getInverseViewProjection() const;
 
-            Vector3 convertNormalizedToWorld(const Vector2& position) const;
-            Vector2 convertWorldToNormalized(const Vector3& position) const;
+            Vector3 convertNormalizedToWorld(const Vector2& normalizedPosition) const;
+            Vector2 convertWorldToNormalized(const Vector3& worldPosition) const;
 
             bool checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const;
 

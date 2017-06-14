@@ -12,9 +12,9 @@ namespace ouzel
             pickable = true;
         }
 
-        void RadioButton::setEnabled(bool enabled)
+        void RadioButton::setEnabled(bool newEnabled)
         {
-            Widget::setEnabled(enabled);
+            Widget::setEnabled(newEnabled);
 
             selected = false;
             pointerOver = false;

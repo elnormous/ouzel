@@ -67,9 +67,9 @@ namespace ouzel
             updateSprite();
         }
 
-        void CheckBox::setEnabled(bool enabled)
+        void CheckBox::setEnabled(bool newEnabled)
         {
-            Widget::setEnabled(enabled);
+            Widget::setEnabled(newEnabled);
 
             selected = false;
             pointerOver = false;
