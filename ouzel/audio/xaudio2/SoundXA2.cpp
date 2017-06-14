@@ -67,9 +67,10 @@ namespace ouzel
                     {
                         if (reset)
                         {
-                            if (FAILED(sourceVoice->FlushSourceBuffers()))
+                            HRESULT hr = sourceVoice->FlushSourceBuffers();
+                            if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to flush sound buffer";
+                                Log(Log::Level::ERR) << "Failed to flush sound buffer, error: " << hr;
                                 return false;
                             }
 
@@ -88,31 +89,35 @@ namespace ouzel
                         bufferData.LoopCount = repeat ? XAUDIO2_LOOP_INFINITE : 0;
                         bufferData.pContext = nullptr;
 
-                        if (FAILED(sourceVoice->SubmitSourceBuffer(&bufferData)))
+                        HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to upload sound data";
+                            Log(Log::Level::ERR) << "Failed to upload sound data, error: " << hr;
                             return false;
                         }
 
-                        if (FAILED(sourceVoice->Start()))
+                        hr = sourceVoice->Start();
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to start consuming sound data";
+                            Log(Log::Level::ERR) << "Failed to start consuming sound data, error: " << hr;
                             return false;
                         }
                     }
                     else
                     {
-                        if (FAILED(sourceVoice->Stop()))
+                        HRESULT hr = sourceVoice->Stop();
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to stop sound buffer";
+                            Log(Log::Level::ERR) << "Failed to stop sound buffer, error: " << hr;
                             return false;
                         }
 
                         if (reset)
                         {
-                            if (FAILED(sourceVoice->FlushSourceBuffers()))
+                            hr = sourceVoice->FlushSourceBuffers();
+                            if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to flush sound buffer";
+                                Log(Log::Level::ERR) << "Failed to flush sound buffer, error: " << hr;
                                 return false;
                             }
                         

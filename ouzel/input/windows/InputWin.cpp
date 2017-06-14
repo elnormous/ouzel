@@ -222,9 +222,10 @@ namespace ouzel
         bool InputWin::init()
         {
             HINSTANCE instance = GetModuleHandleW(nullptr);
-            if (FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr)))
+            HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to initialize DirectInput";
+                Log(Log::Level::ERR) << "Failed to initialize DirectInput, error: hr" << hr;
                 return false;
             }
 
@@ -412,9 +413,10 @@ namespace ouzel
 
         void InputWin::startGamepadDiscovery()
         {
-            if (FAILED(directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY)))
+            HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to enumerate devices";
+                Log(Log::Level::ERR) << "Failed to enumerate devices: " << hr;
             }
         }
 
