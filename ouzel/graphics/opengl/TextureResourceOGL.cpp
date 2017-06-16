@@ -387,6 +387,9 @@ namespace ouzel
                         case Texture::Address::REPEAT:
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                             break;
+                        case Texture::Address::MIRROR_REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                            break;
                     }
 
                     switch (addressY)
@@ -396,6 +399,9 @@ namespace ouzel
                             break;
                         case Texture::Address::REPEAT:
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                            break;
+                        case Texture::Address::MIRROR_REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                             break;
                     }
 

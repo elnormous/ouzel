@@ -950,6 +950,9 @@ namespace ouzel
                     case Texture::Address::REPEAT:
                         samplerDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
                         break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerDescriptor.sAddressMode = MTLSamplerAddressModeMirrorRepeat;
+                        break;
                 }
 
                 switch (desc.addressY)
@@ -959,6 +962,9 @@ namespace ouzel
                         break;
                     case Texture::Address::REPEAT:
                         samplerDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
+                        break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerDescriptor.tAddressMode = MTLSamplerAddressModeMirrorRepeat;
                         break;
                 }
 

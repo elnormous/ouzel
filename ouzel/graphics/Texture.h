@@ -32,7 +32,8 @@ namespace ouzel
             enum class Address
             {
                 CLAMP,
-                REPEAT
+                REPEAT,
+                MIRROR_REPEAT
             };
 
             static const uint32_t LAYERS = 4;

@@ -1076,6 +1076,9 @@ namespace ouzel
                     case Texture::Address::REPEAT:
                         samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
                         break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
+                        break;
                 }
 
                 switch (desc.addressY)
@@ -1085,6 +1088,9 @@ namespace ouzel
                         break;
                     case Texture::Address::REPEAT:
                         samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+                        break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
                         break;
                 }
 
