@@ -98,6 +98,18 @@ namespace ouzel
                                 texture = Nil;
                             }
 
+                            if (msaaTexture)
+                            {
+                                [msaaTexture release];
+                                msaaTexture = Nil;
+                            }
+
+                            if (depthTexture)
+                            {
+                                [depthTexture release];
+                                depthTexture = Nil;
+                            }
+
                             width = static_cast<NSUInteger>(size.v[0]);
                             height = static_cast<NSUInteger>(size.v[1]);
 
@@ -143,8 +155,6 @@ namespace ouzel
 
                                 if (sampleCount > 1)
                                 {
-                                    if (msaaTexture) [msaaTexture release];
-
                                     MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
                                                                                                                     width:static_cast<NSUInteger>(size.v[0])
                                                                                                                    height:static_cast<NSUInteger>(size.v[1])
@@ -174,8 +184,6 @@ namespace ouzel
 
                                 if (depth)
                                 {
-                                    if (depthTexture) [depthTexture release];
-
                                     depthFormat = MTLPixelFormatDepth32Float;
 
                                     MTLTextureDescriptor* desc = [MTLTextureDescriptor
