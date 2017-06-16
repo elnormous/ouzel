@@ -249,15 +249,18 @@ namespace ouzel
                         width = static_cast<GLsizei>(size.v[0]);
                         height = static_cast<GLsizei>(size.v[1]);
 
-                        for (size_t level = 0; level < levels.size(); ++level)
+                        if (!renderTarget)
                         {
-                            if (!levels[level].data.empty())
+                            for (size_t level = 0; level < levels.size(); ++level)
                             {
-                                glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                             static_cast<GLsizei>(levels[level].size.v[0]),
-                                             static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                             getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
-                                             levels[level].data.data());
+                                if (!levels[level].data.empty())
+                                {
+                                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                                 static_cast<GLsizei>(levels[level].size.v[0]),
+                                                 static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                                 getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
+                                                 levels[level].data.data());
+                                }
                             }
                         }
 
@@ -319,7 +322,7 @@ namespace ouzel
                             }
                         }
                     }
-                    else
+                    else if (!renderTarget)
                     {
                         for (size_t level = 0; level < levels.size(); ++level)
                         {
@@ -384,6 +387,9 @@ namespace ouzel
                         case Texture::Address::REPEAT:
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                             break;
+                        case Texture::Address::MIRROR_REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                            break;
                     }
 
                     switch (addressY)
@@ -393,6 +399,9 @@ namespace ouzel
                             break;
                         case Texture::Address::REPEAT:
                             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                            break;
+                        case Texture::Address::MIRROR_REPEAT:
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                             break;
                     }
 

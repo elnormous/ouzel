@@ -69,16 +69,17 @@ namespace ouzel
                     bufferDesc.guid3DAlgorithm = GUID_NULL;
 
                     AudioDS* audioDS = static_cast<AudioDS*>(sharedEngine->getAudio());
-                    HRESULT hr;
-                    if (FAILED(hr = audioDS->getDirectSound()->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr)))
+                    HRESULT hr = audioDS->getDirectSound()->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr);
+                    if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create DirectSound buffer";
+                        Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
                         return false;
                     }
 
-                    if (FAILED(tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&buffer))))
+                    hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&buffer));
+                    if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create DirectSound buffer";
+                        Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
                         tempBuffer->Release();
                         return false;
                     }
@@ -87,26 +88,28 @@ namespace ouzel
 
                     uint8_t* bufferPointer;
                     DWORD bufferSize;
-
-                    if (FAILED(buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferPointer), &bufferSize, nullptr, 0, 0)))
+                    hr = buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferPointer), &bufferSize, nullptr, 0, 0);
+                    if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to lock DirectSound buffer";
+                        Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
                         return false;
                     }
 
                     std::copy(data.begin(), data.end(), bufferPointer);
 
-                    if (FAILED(buffer->Unlock(bufferPointer, bufferSize, nullptr, 0)))
+                    hr = buffer->Unlock(bufferPointer, bufferSize, nullptr, 0);
+                    if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer";
+                        Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
                         return false;
                     }
 
                     if (bufferDesc.dwFlags & DSBCAPS_CTRL3D)
                     {
-                        if (FAILED(buffer->QueryInterface(IID_IDirectSound3DBuffer8, reinterpret_cast<void**>(&buffer3D))))
+                        hr = buffer->QueryInterface(IID_IDirectSound3DBuffer8, reinterpret_cast<void**>(&buffer3D));
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to get DirectSound 3D buffer";
+                            Log(Log::Level::ERR) << "Failed to get DirectSound 3D buffer, error: " << hr;
                             return false;
                         }
                     }
@@ -117,9 +120,10 @@ namespace ouzel
             {
                 if (buffer3D)
                 {
-                    if (FAILED(buffer3D->SetPosition(position.v[0], position.v[1], position.v[2], DS3D_IMMEDIATE)))
+                    HRESULT hr = buffer3D->SetPosition(position.v[0], position.v[1], position.v[2], DS3D_IMMEDIATE);
+                    if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to set DirectSound buffer position";
+                        Log(Log::Level::ERR) << "Failed to set DirectSound buffer position, error: " << hr;
                         return false;
                     }
                 }
@@ -133,30 +137,34 @@ namespace ouzel
                     {
                         if (reset)
                         {
-                            if (FAILED(buffer->SetCurrentPosition(0)))
+                            HRESULT hr = buffer->SetCurrentPosition(0);
+                            if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to set DirectSound buffer current position";
+                                Log(Log::Level::ERR) << "Failed to set DirectSound buffer current position, error: " << hr;
                                 return false;
                             }
                         }
 
-                        if (FAILED(buffer->Play(0, 0, 0)))
+                        HRESULT hr = buffer->Play(0, 0, 0);
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to play DirectSound buffer";
+                            Log(Log::Level::ERR) << "Failed to play DirectSound buffer, error: " << hr;
                             return false;
                         }
                     }
                     else
                     {
-                        if (FAILED(buffer->Stop()))
+                        HRESULT hr = buffer->Stop();
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to stop DirectSound buffer";
+                            Log(Log::Level::ERR) << "Failed to stop DirectSound buffer, error: " << hr;
                             return false;
                         }
 
-                        if (FAILED(buffer->SetCurrentPosition(0)))
+                        hr = buffer->SetCurrentPosition(0);
+                        if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to set DirectSound buffer current position";
+                            Log(Log::Level::ERR) << "Failed to set DirectSound buffer current position, error: " << hr;
                             return false;
                         }
                     }

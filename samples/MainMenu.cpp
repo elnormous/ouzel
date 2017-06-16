@@ -81,7 +81,7 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
 bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
-    if (type == Event::Type::UI_CLICK_NODE)
+    if (type == Event::Type::CLICK_NODE)
     {
         if (event.node == gitHubButton.get())
         {

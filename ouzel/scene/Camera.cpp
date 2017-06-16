@@ -176,11 +176,11 @@ namespace ouzel
             viewProjectionDirty = false;
         }
 
-        Vector3 Camera::convertNormalizedToWorld(const Vector2& position) const
+        Vector3 Camera::convertNormalizedToWorld(const Vector2& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((position.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5f) * 2.0f,
-                                     ((position.v[1] - viewport.position.v[1]) / viewport.size.v[1] - 0.5f) * 2.0f,
+            Vector3 result = Vector3(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5f) * 2.0f,
+                                     ((normalizedPosition.v[1] - viewport.position.v[1]) / viewport.size.v[1] - 0.5f) * 2.0f,
                                      0.0f);
 
             getInverseViewProjection().transformPoint(result);
@@ -188,9 +188,9 @@ namespace ouzel
             return result;
         }
 
-        Vector2 Camera::convertWorldToNormalized(const Vector3& position) const
+        Vector2 Camera::convertWorldToNormalized(const Vector3& normalizedPosition) const
         {
-            Vector3 result = position;
+            Vector3 result = normalizedPosition;
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized

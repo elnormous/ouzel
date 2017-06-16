@@ -156,17 +156,15 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
     switch (msg)
     {
-        case WM_ACTIVATE:
+        case WM_ACTIVATEAPP:
         {
-            UINT state = LOWORD(wParam);
-
-            if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
+            if (wParam)
             {
-                ouzel::sharedEngine->resume();
+                if (ouzel::sharedEngine) ouzel::sharedEngine->resume();
             }
-            else if (state == WA_INACTIVE)
+            else
             {
-                ouzel::sharedEngine->pause();
+                if (ouzel::sharedEngine) ouzel::sharedEngine->pause();
             }
             break;
         }
@@ -353,11 +351,11 @@ namespace ouzel
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
-            wc.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
+            wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
         }
         else
         {
-            wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+            wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
         }
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = WINDOW_CLASS_NAME;

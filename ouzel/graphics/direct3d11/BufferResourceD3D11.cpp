@@ -40,7 +40,7 @@ namespace ouzel
 
                         D3D11_BUFFER_DESC bufferDesc;
                         bufferDesc.ByteWidth = bufferSize;
-                        bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                        bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                         switch (usage)
                         {
@@ -67,21 +67,25 @@ namespace ouzel
                         HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer";
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
                             return false;
                         }
                     }
                     else
                     {
-                        D3D11_MAPPED_SUBRESOURCE mappedSubResource;
-                        HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubResource);
+                        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+                        mappedSubresource.pData = nullptr;
+                        mappedSubresource.RowPitch = 0;
+                        mappedSubresource.DepthPitch = 0;
+
+                        HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                         if (FAILED(hr))
                         {
-                            Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer";
+                            Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
                             return false;
                         }
 
-                        std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubResource.pData));
+                        std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
                         rendererD3D11->getContext()->Unmap(buffer, 0);
                     }

@@ -41,7 +41,11 @@ namespace ouzel
                     running = false;
                     progress = 1.0f;
                     currentTime = length;
-                    if (finishHandler) finishHandler();
+
+                    Event finishEvent;
+                    finishEvent.type = Event::Type::FINISH;
+                    finishEvent.animationEvent.component = this;
+                    sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                 }
                 else
                 {

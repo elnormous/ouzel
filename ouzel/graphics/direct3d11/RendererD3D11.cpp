@@ -140,7 +140,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 device";
+                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 device, error: " << hr;
                 return false;
             }
 
@@ -157,7 +157,7 @@ namespace ouzel
             hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get the DXGI factory";
+                Log(Log::Level::ERR) << "Failed to get the DXGI factory, error: " << hr;
                 return false;
             }
 
@@ -165,7 +165,7 @@ namespace ouzel
             hr = adapter->GetDesc(&adapterDesc);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get the DXGI adapter description";
+                Log(Log::Level::ERR) << "Failed to get the DXGI adapter description, error: " << hr;
             }
             else
             {
@@ -180,10 +180,10 @@ namespace ouzel
             frameBufferHeight = static_cast<UINT>(newSize.v[1]);
 
             UINT qualityLevels;
-
-            if (FAILED(device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &qualityLevels)))
+            hr = device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &qualityLevels);
+            if (FAILED(hr))
             {
-                Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels";
+                Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
             }
 
             if (qualityLevels == 0)
@@ -214,7 +214,7 @@ namespace ouzel
             hr = factory->CreateSwapChain(device, &swapChainDesc, &swapChain);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 swap chain";
+                Log(Log::Level::ERR) << "Failed to create the Direct3D 11 swap chain, error: " << hr;
                 return false;
             }
 
@@ -227,14 +227,14 @@ namespace ouzel
             hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer";
+                Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer, error: " << hr;
                 return false;
             }
 
             hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
                 return false;
             }
 
@@ -254,7 +254,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
                 return false;
             }
 
@@ -265,7 +265,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[1]);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
                 return false;
             }
 
@@ -276,7 +276,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[2]);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
                 return false;
             }
 
@@ -287,7 +287,7 @@ namespace ouzel
             hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[3]);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
                 return false;
             }
 
@@ -308,14 +308,14 @@ namespace ouzel
                 hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
                     return false;
                 }
 
                 hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                     return false;
                 }
 
@@ -340,7 +340,7 @@ namespace ouzel
                     hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[state]);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state";
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
                         return false;
                     }
                 }
@@ -790,7 +790,7 @@ namespace ouzel
             HRESULT hr = output->GetDisplayModeList(format, 0, &numModes, nullptr);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get display mode list";
+                Log(Log::Level::ERR) << "Failed to get display mode list, error: " << hr;
                 output->Release();
                 return result;
             }
@@ -816,10 +816,9 @@ namespace ouzel
         {
             ID3D11Texture2D* backBufferTexture;
             HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
-
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get Direct3D 11 back buffer texture";
+                Log(Log::Level::ERR) << "Failed to get Direct3D 11 back buffer texture, error: " << hr;
                 return false;
             }
 
@@ -840,7 +839,7 @@ namespace ouzel
 
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
                 return false;
             }
 
@@ -855,7 +854,7 @@ namespace ouzel
                 if (FAILED(hr))
                 {
                     texture->Release();
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
                     return false;
                 }
 
@@ -878,11 +877,10 @@ namespace ouzel
 
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             hr = context->Map(texture, 0, D3D11_MAP_READ, 0, &mappedSubresource);
-
             if (FAILED(hr))
             {
                 texture->Release();
-                Log(Log::Level::ERR) << "Failed to map Direct3D 11 resource";
+                Log(Log::Level::ERR) << "Failed to map Direct3D 11 resource, error: " << hr;
                 return false;
             }
 
@@ -965,21 +963,21 @@ namespace ouzel
                 HRESULT hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to resize Direct3D 11 backbuffer";
+                    Log(Log::Level::ERR) << "Failed to resize Direct3D 11 backbuffer, error: " << hr;
                     return false;
                 }
 
                 hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer";
+                    Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer, error: " << hr;
                     return false;
                 }
 
                 hr = device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
                     return false;
                 }
 
@@ -1018,14 +1016,14 @@ namespace ouzel
                     hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
                         return false;
                     }
 
                     hr = device->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                     if (FAILED(hr))
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                         return false;
                     }
                 }
@@ -1078,6 +1076,9 @@ namespace ouzel
                     case Texture::Address::REPEAT:
                         samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
                         break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerStateDesc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
+                        break;
                 }
 
                 switch (desc.addressY)
@@ -1087,6 +1088,9 @@ namespace ouzel
                         break;
                     case Texture::Address::REPEAT:
                         samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+                        break;
+                    case Texture::Address::MIRROR_REPEAT:
+                        samplerStateDesc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
                         break;
                 }
 
@@ -1108,7 +1112,7 @@ namespace ouzel
                 HRESULT hr = device->CreateSamplerState(&samplerStateDesc, &samplerState);
                 if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 sampler state";
+                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 sampler state, error: " << hr;
                     return nullptr;
                 }
 

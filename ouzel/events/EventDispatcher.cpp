@@ -138,16 +138,23 @@ namespace ouzel
                                 propagate = eventHandler->systemHandler(event.type, event.systemEvent);
                             }
                             break;
-                        case Event::Type::UI_ENTER_NODE:
-                        case Event::Type::UI_LEAVE_NODE:
-                        case Event::Type::UI_PRESS_NODE:
-                        case Event::Type::UI_RELEASE_NODE:
-                        case Event::Type::UI_CLICK_NODE:
-                        case Event::Type::UI_DRAG_NODE:
-                        case Event::Type::UI_WIDGET_CHANGE:
+                        case Event::Type::ENTER_NODE:
+                        case Event::Type::LEAVE_NODE:
+                        case Event::Type::PRESS_NODE:
+                        case Event::Type::RELEASE_NODE:
+                        case Event::Type::CLICK_NODE:
+                        case Event::Type::DRAG_NODE:
+                        case Event::Type::WIDGET_CHANGE:
                             if (eventHandler->uiHandler)
                             {
                                 propagate = eventHandler->uiHandler(event.type, event.uiEvent);
+                            }
+                            break;
+                        case Event::Type::RESET:
+                        case Event::Type::FINISH:
+                            if (eventHandler->animationHandler)
+                            {
+                                propagate = eventHandler->animationHandler(event.type, event.animationEvent);
                             }
                             break;
                         case Event::Type::USER:

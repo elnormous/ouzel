@@ -96,7 +96,7 @@ bool SpritesSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
 {
-    if (type == Event::Type::UI_CLICK_NODE)
+    if (type == Event::Type::CLICK_NODE)
     {
         if (event.node == backButton.get())
         {

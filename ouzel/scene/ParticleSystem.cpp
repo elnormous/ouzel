@@ -133,7 +133,12 @@ namespace ouzel
             {
                 active = false;
                 updateCallback.remove();
-                if (finishHandler) finishHandler();
+
+                Event finishEvent;
+                finishEvent.type = Event::Type::FINISH;
+                finishEvent.animationEvent.component = this;
+                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
+
                 return;
             }
 

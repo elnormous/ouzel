@@ -36,9 +36,10 @@ namespace ouzel
             
             InputWin* inputWin = static_cast<InputWin*>(sharedEngine->getInput());
 
-            if (FAILED(inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr)))
+            HRESULT hr = inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to create DirectInput device";
+                Log(Log::Level::ERR) << "Failed to create DirectInput device, error: " << hr;
                 return;
             }
 
@@ -270,44 +271,50 @@ namespace ouzel
             WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
 
             // Exclusive access is needed for force feedback
-            if (FAILED(device->SetCooperativeLevel(windowWin->getNativeWindow(),
-                                                   DISCL_BACKGROUND | DISCL_EXCLUSIVE)))
+            hr = device->SetCooperativeLevel(windowWin->getNativeWindow(),
+                                             DISCL_BACKGROUND | DISCL_EXCLUSIVE);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to set DirectInput device format";
+                Log(Log::Level::ERR) << "Failed to set DirectInput device format, error: " << hr;
                 return;
             }
 
-            if (FAILED(device->SetDataFormat(&c_dfDIJoystick2)))
+            hr = device->SetDataFormat(&c_dfDIJoystick2);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to set DirectInput device format";
+                Log(Log::Level::ERR) << "Failed to set DirectInput device format, error: " << hr;
                 return;
             }
 
             DIDEVCAPS capabilities;
             capabilities.dwSize = sizeof(capabilities);
-            if (FAILED(device->GetCapabilities(&capabilities)))
+            hr = device->GetCapabilities(&capabilities);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get DirectInput device capabilities";
+                Log(Log::Level::ERR) << "Failed to get DirectInput device capabilities, error: " << hr;
                 return;
             }
 
             if (capabilities.dwFlags & DIDC_FORCEFEEDBACK)
             {
-                if (FAILED(device->Acquire()))
+                hr = device->Acquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device, error: " << hr;
                     return;
                 }
 
-                if (FAILED(device->SendForceFeedbackCommand(DISFFC_RESET)))
+                hr = device->SendForceFeedbackCommand(DISFFC_RESET);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to set DirectInput device force feedback command";
+                    Log(Log::Level::ERR) << "Failed to set DirectInput device force feedback command, error: " << hr;
                     return;
                 }
 
-                if (FAILED(device->Unacquire()))
+                hr = device->Unacquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device, error: " << hr;
                     return;
                 }
 
@@ -318,15 +325,17 @@ namespace ouzel
                 propertyAutoCenter.diph.dwObj = 0;
                 propertyAutoCenter.dwData = DIPROPAUTOCENTER_ON;
 
-                if (FAILED(device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph)))
+                hr = device->SetProperty(DIPROP_AUTOCENTER, &propertyAutoCenter.diph);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property";
+                    Log(Log::Level::WARN) << "Failed to set DirectInput device autocenter property, error: " << hr;
                 }
             }
 
-            if (FAILED(device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL)))
+            hr = device->EnumObjects(enumObjectsCallback, this, DIDFT_ALL);
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects";
+                Log(Log::Level::ERR) << "Failed to enumerate DirectInput device objects, error: " << hr;
                 return;
             }
 
@@ -337,15 +346,15 @@ namespace ouzel
             propertyBufferSize.diph.dwObj = 0;
             propertyBufferSize.dwData = INPUT_QUEUE_SIZE;
 
-            HRESULT result = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
+            hr = device->SetProperty(DIPROP_BUFFERSIZE, &propertyBufferSize.diph);
 
-            if (result == DI_POLLEDDEVICE)
+            if (hr == DI_POLLEDDEVICE)
             {
                 buffered = false;
             }
-            else if (FAILED(result))
+            else if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to set DirectInput device buffer size property";
+                Log(Log::Level::ERR) << "Failed to set DirectInput device buffer size property, error: " << hr;
                 return;
             }
             else
@@ -358,9 +367,10 @@ namespace ouzel
         {
             if (device)
             {
-                if (FAILED(device->Unacquire()))
+                HRESULT hr = device->Unacquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to unacquire DirectInput device, error: " << hr;
                 }
                 device->Release();
             }
@@ -372,9 +382,10 @@ namespace ouzel
 
             if (result == DIERR_NOTACQUIRED)
             {
-                if (FAILED(device->Acquire()))
+                HRESULT hr = device->Acquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device, error: " << hr;
                     return false;
                 }
 
@@ -399,22 +410,23 @@ namespace ouzel
             DWORD eventCount = INPUT_QUEUE_SIZE;
             DIDEVICEOBJECTDATA events[INPUT_QUEUE_SIZE];
 
-            HRESULT result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+            HRESULT hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
 
-            if (result == DIERR_NOTACQUIRED)
+            if (hr == DIERR_NOTACQUIRED)
             {
-                if (FAILED(device->Acquire()))
+                hr = device->Acquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device, error: " << hr;
                     return false;
                 }
 
-                result = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
+                hr = device->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), events, &eventCount, 0);
             }
 
-            if (result != DI_OK)
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get DirectInput device state";
+                Log(Log::Level::ERR) << "Failed to get DirectInput device state, error: " << hr;
                 return false;
             }
 
@@ -548,22 +560,23 @@ namespace ouzel
         {
             DIJOYSTATE2 newDIState;
 
-            HRESULT result = device->GetDeviceState(sizeof(newDIState), &newDIState);
+            HRESULT hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
 
-            if (result == DIERR_NOTACQUIRED)
+            if (hr == DIERR_NOTACQUIRED)
             {
-                if (FAILED(device->Acquire()))
+                hr = device->Acquire();
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device";
+                    Log(Log::Level::ERR) << "Failed to acquire DirectInput device, error: " << hr;
                     return false;
                 }
 
-                result = device->GetDeviceState(sizeof(newDIState), &newDIState);
+                hr = device->GetDeviceState(sizeof(newDIState), &newDIState);
             }
 
-            if (result != DI_OK)
+            if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get DirectInput device state";
+                Log(Log::Level::ERR) << "Failed to get DirectInput device state, error: " << hr;
                 return false;
             }
 
@@ -736,9 +749,10 @@ namespace ouzel
                 propertyDeadZone.dwData = 0;
                 
                 // Set the range for the axis
-                if (FAILED(device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph)))
+                HRESULT hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property";
+                    Log(Log::Level::WARN) << "Failed to set DirectInput device dead zone property, error: " << hr;
                 }
 
                 DIPROPRANGE propertyAxisRange;
@@ -747,9 +761,10 @@ namespace ouzel
                 propertyAxisRange.diph.dwObj = didObjectInstance->dwType;
                 propertyAxisRange.diph.dwHow = DIPH_BYID;
 
-                if (FAILED(device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph)))
+                hr = device->GetProperty(DIPROP_RANGE, &propertyAxisRange.diph);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to get DirectInput device axis range property";
+                    Log(Log::Level::ERR) << "Failed to get DirectInput device axis range property, error: " << hr;
                     return;
                 }
 

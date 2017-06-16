@@ -134,12 +134,22 @@ namespace ouzel
                             if (repeating)
                             {
                                 currentFrame = 0;
+
+                                Event resetEvent;
+                                resetEvent.type = Event::Type::RESET;
+                                resetEvent.animationEvent.component = this;
+                                sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                             }
                             else
                             {
                                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
                                 playing = false;
                                 updateCallback.remove();
+
+                                Event finishEvent;
+                                finishEvent.type = Event::Type::FINISH;
+                                finishEvent.animationEvent.component = this;
+                                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                             }
                         }
                     }
@@ -152,12 +162,22 @@ namespace ouzel
                             if (repeating)
                             {
                                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
+
+                                Event resetEvent;
+                                resetEvent.type = Event::Type::RESET;
+                                resetEvent.animationEvent.component = this;
+                                sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                             }
                             else
                             {
                                 currentFrame = 0;
                                 playing = false;
                                 updateCallback.remove();
+
+                                Event finishEvent;
+                                finishEvent.type = Event::Type::FINISH;
+                                finishEvent.animationEvent.component = this;
+                                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                             }
                         }
                     }

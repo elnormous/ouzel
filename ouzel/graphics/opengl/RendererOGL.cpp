@@ -1101,9 +1101,9 @@ namespace ouzel
         {
             bindFrameBuffer(frameBufferId);
 
-            const GLsizei depth = 4;
+            const GLsizei pixelSize = 4;
 
-            std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * depth));
+            std::vector<uint8_t> data(static_cast<size_t>(frameBufferWidth * frameBufferHeight * pixelSize));
 
             glReadPixels(0, 0, frameBufferWidth, frameBufferHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
@@ -1118,16 +1118,16 @@ namespace ouzel
             {
                 for (GLsizei col = 0; col < frameBufferWidth; ++col)
                 {
-                    for (GLsizei z = 0; z < depth; ++z)
+                    for (GLsizei z = 0; z < pixelSize; ++z)
                     {
-                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * depth + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)] = temp;
+                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)];
+                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
+                        data[static_cast<size_t>((row * frameBufferWidth + col) * pixelSize + z)] = temp;
                     }
                 }
             }
 
-            if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, depth, data.data(), frameBufferWidth * depth))
+            if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
             {
                 Log(Log::Level::ERR) << "Failed to save image to file";
                 return false;

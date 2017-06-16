@@ -54,8 +54,6 @@ namespace ouzel
             void setPositionType(ParticleDefinition::PositionType newPositionType) { particleDefinition.positionType = newPositionType; }
             ParticleDefinition::PositionType getPositionType() const { return particleDefinition.positionType; }
 
-            void setFinishHandler(const std::function<void()>& handler) { finishHandler = handler; }
-
         protected:
             bool createParticleMesh();
             bool updateParticleMesh();
@@ -123,8 +121,6 @@ namespace ouzel
             bool needsMeshUpdate = false;
 
             UpdateCallback updateCallback;
-
-            std::function<void()> finishHandler;
         };
     } // namespace scene
 } // namespace ouzel

@@ -132,18 +132,41 @@ namespace ouzel
                             textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
                             textureDesc.ArraySize = 1;
                             textureDesc.Format = d3d11PixelFormat;
-                            textureDesc.Usage = (dynamic && !renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                            if (renderTarget) textureDesc.Usage = D3D11_USAGE_DEFAULT;
+                            else if (dynamic) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+                            else textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
                             textureDesc.CPUAccessFlags = (dynamic && !renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                             textureDesc.SampleDesc.Count = sampleCount;
                             textureDesc.SampleDesc.Quality = 0;
                             textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
                             textureDesc.MiscFlags = 0;
 
-                            HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
-                            if (FAILED(hr))
+                            if (levels.empty() || renderTarget)
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture";
-                                return false;
+                                HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                                if (FAILED(hr))
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                std::vector<D3D11_SUBRESOURCE_DATA> subresourceData(levels.size());
+
+                                for (size_t level = 0; level < levels.size(); ++level)
+                                {
+                                    subresourceData[level].pSysMem = levels[level].data.data();
+                                    subresourceData[level].SysMemPitch = static_cast<UINT>(levels[level].pitch);
+                                    subresourceData[level].SysMemSlicePitch = 0;
+                                }
+
+                                HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
+                                if (FAILED(hr))
+                                {
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
+                                    return false;
+                                }
                             }
 
                             D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
@@ -156,10 +179,10 @@ namespace ouzel
                                 resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                             }
 
-                            hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
+                            HRESULT hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                             if (FAILED(hr))
                             {
-                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view";
+                                Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;
                                 return false;
                             }
 
@@ -179,10 +202,10 @@ namespace ouzel
                                     renderTargetViewDesc.Texture2D.MipSlice = 0;
                                 }
 
-                                HRESULT hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                                hr = rendererD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
                                     return false;
                                 }
                             }
@@ -215,32 +238,87 @@ namespace ouzel
                                 hr = rendererD3D11->getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
                                     return false;
                                 }
 
                                 hr = rendererD3D11->getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                                 if (FAILED(hr))
                                 {
-                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view";
+                                    Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                                     return false;
                                 }
                             }
                         }
-
-                        for (size_t level = 0; level < levels.size(); ++level)
+                        else if (!renderTarget)
                         {
-                            if (!levels[level].data.empty())
+                            if (dynamic)
                             {
-                                rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
-                                                                               nullptr, levels[level].data.data(),
-                                                                               static_cast<UINT>(levels[level].pitch), 0);
+                                for (size_t level = 0; level < levels.size(); ++level)
+                                {
+                                    if (!levels[level].data.empty())
+                                    {
+                                        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+                                        mappedSubresource.pData = nullptr;
+                                        mappedSubresource.RowPitch = 0;
+                                        mappedSubresource.DepthPitch = 0;
+                                    
+                                        HRESULT hr = rendererD3D11->getContext()->Map(texture, static_cast<UINT>(level),
+                                                                                      (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                                      0, &mappedSubresource);
+
+                                        if (FAILED(hr))
+                                        {
+                                            Log(Log::Level::ERR) << "Failed to map Direct3D 11 texture, error: " << hr;
+                                            return false;
+                                        }
+
+                                        uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
+                                    
+                                        if (mappedSubresource.RowPitch == levels[level].pitch)
+                                        {
+                                            std::copy(levels[level].data.begin(),
+                                                      levels[level].data.end(),
+                                                      destination);
+                                        }
+                                        else
+                                        {
+                                            auto source = levels[level].data.begin();
+                                            UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
+                                            UINT rows = static_cast<UINT>(levels[level].size.v[1]);
+
+                                            for (UINT row = 0; row < rows; ++row)
+                                            {
+                                                std::copy(source,
+                                                          source + rowSize,
+                                                          destination);
+
+                                                source += levels[level].pitch;
+                                                destination += mappedSubresource.RowPitch;
+                                            }
+                                        }
+
+                                        rendererD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for (size_t level = 0; level < levels.size(); ++level)
+                                {
+                                    if (!levels[level].data.empty())
+                                    {
+                                        rendererD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                                       nullptr, levels[level].data.data(),
+                                                                                       static_cast<UINT>(levels[level].pitch), 0);
+                                    }
+                                }
                             }
                         }
                     }
                 }
 
-                if (dirty & DIRTY_DATA)
+                if (dirty & DIRTY_PARAMETERS)
                 {
                     clearFrameBufferView = clearColorBuffer;
                     clearDepthBufferView = clearDepthBuffer;

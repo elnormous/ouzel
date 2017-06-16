@@ -51,9 +51,10 @@ namespace ouzel
                     return false;
                 }
 
-                if (FAILED(xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+                HRESULT hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to initialize XAudio2";
+                    Log(Log::Level::ERR) << "Failed to initialize XAudio2, error: " << hr;
                     return false;
                 }
             }
@@ -74,28 +75,53 @@ namespace ouzel
                     return false;
                 }
 
-                if (FAILED(XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+                HRESULT hr = XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to initialize XAudio2";
+                    Log(Log::Level::ERR) << "Failed to initialize XAudio2, error: " << hr;
                     return false;
                 }
             }
 
             if (apiMajorVersion == 2 && apiMinorVersion == 7)
             {
-                if (FAILED(IXAudio2CreateMasteringVoice(xAudio, &masteringVoice)))
+                HRESULT hr = IXAudio2CreateMasteringVoice(xAudio, &masteringVoice);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice";
+                    Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice, error: " << hr;
                     return false;
                 }
             }
-            else if (FAILED(xAudio->CreateMasteringVoice(&masteringVoice)))
+            else
             {
-                Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice";
-                return false;
+                HRESULT hr = xAudio->CreateMasteringVoice(&masteringVoice);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create XAudio2 mastering voice, error: " << hr;
+                    return false;
+                }
             }
 
             return Audio::init();
+        }
+
+        bool AudioXA2::update()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            if (dirty & DIRTY_LISTENER_POSITION)
+            {
+
+            }
+
+            if (dirty & DIRTY_LISTENER_ROTATION)
+            {
+
+            }
+
+            dirty = 0;
+
+            return true;
         }
 
         SoundResource* AudioXA2::createSound()
@@ -113,16 +139,21 @@ namespace ouzel
 
             if (apiMajorVersion == 2 && apiMinorVersion == 7)
             {
-                if (FAILED(IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat)))
+                HRESULT hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat);
+                if (FAILED(hr))
                 {
-                    Log(Log::Level::ERR) << "Failed to create source voice";
+                    Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;
                     return nullptr;
                 }
             }
-            else if (FAILED(xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat)))
+            else
             {
-                Log(Log::Level::ERR) << "Failed to create source voice";
-                return nullptr;
+                HRESULT hr = xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;
+                    return nullptr;
+                }
             }
 
             return sourceVoice;

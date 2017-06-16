@@ -87,7 +87,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::UI_CLICK_NODE && event.node == backButton.get())
+    if (type == Event::Type::CLICK_NODE && event.node == backButton.get())
     {
         sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }

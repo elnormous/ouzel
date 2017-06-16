@@ -14,7 +14,7 @@ namespace ouzel
         public:
             RadioButton();
 
-            virtual void setEnabled(bool enabled) override;
+            virtual void setEnabled(bool newEnabled) override;
 
             virtual void setChecked(bool newChecked);
             virtual bool isChecked() const { return checked; }

@@ -92,7 +92,11 @@ namespace ouzel
                             static_cast<NSUInteger>(size.v[0]) != width ||
                             static_cast<NSUInteger>(size.v[1]) != height)
                         {
-                            if (texture) [texture release];
+                            if (texture)
+                            {
+                                [texture release];
+                                texture = Nil;
+                            }
 
                             width = static_cast<NSUInteger>(size.v[0]);
                             height = static_cast<NSUInteger>(size.v[1]);
@@ -200,15 +204,18 @@ namespace ouzel
                             }
                         }
 
-                        for (size_t level = 0; level < levels.size(); ++level)
+                        if (!renderTarget)
                         {
-                            if (!levels[level].data.empty())
+                            for (size_t level = 0; level < levels.size(); ++level)
                             {
-                                [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                                       static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                                       static_cast<NSUInteger>(levels[level].size.v[1]))
-                                           mipmapLevel:level withBytes:levels[level].data.data()
-                                           bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                                if (!levels[level].data.empty())
+                                {
+                                    [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                                           static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                                           static_cast<NSUInteger>(levels[level].size.v[1]))
+                                               mipmapLevel:level withBytes:levels[level].data.data()
+                                               bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                                }
                             }
                         }
                     }

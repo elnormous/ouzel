@@ -92,7 +92,7 @@ PerspectiveSample::PerspectiveSample()
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
 {
-    if (type == Event::Type::UI_CLICK_NODE)
+    if (type == Event::Type::CLICK_NODE)
     {
         if (event.node == backButton.get())
         {

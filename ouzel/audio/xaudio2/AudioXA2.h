@@ -16,6 +16,8 @@ namespace ouzel
         public:
             virtual ~AudioXA2();
 
+            virtual bool update() override;
+
             virtual SoundResource* createSound() override;
 
             IXAudio2SourceVoice* createSourceVoice(const WAVEFORMATEX& sourceFormat);
