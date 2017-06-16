@@ -41,7 +41,7 @@ namespace ouzel
             updateText();
         }
 		TextRenderer::TextRenderer(const std::string& fontFile,
-								   int pt,
+								   int16_t pt,
                                    bool aMipmaps,
                                    const std::string& aText,
                                    Color aColor,
@@ -70,7 +70,7 @@ namespace ouzel
             updateText();
         }
 
-		void TextRenderer::setFont(const std::string& fontFile, int pt)
+		void TextRenderer::setFont(const std::string& fontFile, int16_t pt)
 		{
 			if (pt == 0)
 			{

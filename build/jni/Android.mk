@@ -9,7 +9,8 @@ LOCAL_CPPFLAGS += -std=c++11
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/rapidjson/include \
-    $(LOCAL_PATH)/../../external/khronos
+    $(LOCAL_PATH)/../../external/khronos \
+	$(LOCAL_PATH)/../../external/Freetype
 
 LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Ease.cpp \

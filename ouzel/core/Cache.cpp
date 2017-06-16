@@ -298,7 +298,7 @@ namespace ouzel
             bmFonts[filename] = BMFont(filename);
         }
    }
-	void Cache::preloadFTFont(std::string filename, int pt)
+	void Cache::preloadFTFont(std::string filename, int16_t pt)
 	{
 
 		filename += std::to_string(pt);
@@ -326,7 +326,9 @@ namespace ouzel
 			i = textures.insert(std::make_pair(name, result)).first;
 			return i->second;
 		}
-		return nullptr;
+		std::shared_ptr<graphics::Texture> f = nullptr;
+		i = textures.emplace("failed", f).first;
+		return i->second;
 	}
     const BMFont& Cache::getBMFont(const std::string& filename) const
     {
@@ -343,7 +345,7 @@ namespace ouzel
             return i->second;
         }
     }
-	const FTFont & Cache::getFTFont(const std::string & filename, int pt) const
+	const FTFont & Cache::getFTFont(const std::string & filename, int16_t pt) const
 	{
 		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
 		if (i != ftFonts.end())

@@ -20,7 +20,8 @@ CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I$(ROOT_DIR)/../ouzel \
 	-I$(ROOT_DIR)/../external/stb \
 	-I$(ROOT_DIR)/../external/rapidjson/include \
-	-I$(ROOT_DIR)/../external/khronos
+	-I$(ROOT_DIR)/../external/khronos \
+	-I$(ROOT_DIR)/../external/Freetype
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Fade.cpp \
