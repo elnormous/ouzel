@@ -132,7 +132,9 @@ namespace ouzel
                             textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
                             textureDesc.ArraySize = 1;
                             textureDesc.Format = d3d11PixelFormat;
-                            textureDesc.Usage = (dynamic && !renderTarget) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                            if (renderTarget) textureDesc.Usage = D3D11_USAGE_DEFAULT;
+                            else if (dynamic) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+                            else textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
                             textureDesc.CPUAccessFlags = (dynamic && !renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
                             textureDesc.SampleDesc.Count = sampleCount;
                             textureDesc.SampleDesc.Quality = 0;

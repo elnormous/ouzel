@@ -40,7 +40,7 @@ namespace ouzel
 
                         D3D11_BUFFER_DESC bufferDesc;
                         bufferDesc.ByteWidth = bufferSize;
-                        bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+                        bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                         switch (usage)
                         {
