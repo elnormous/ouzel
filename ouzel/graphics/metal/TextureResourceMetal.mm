@@ -88,8 +88,8 @@ namespace ouzel
                     if (size.v[0] > 0 &&
                         size.v[1] > 0)
                     {
-                        if (!texture ||
-                            static_cast<NSUInteger>(size.v[0]) != width ||
+                        if (!texture || // texture not initialized
+                            static_cast<NSUInteger>(size.v[0]) != width || // size changed
                             static_cast<NSUInteger>(size.v[1]) != height)
                         {
                             if (texture)
@@ -102,6 +102,12 @@ namespace ouzel
                             {
                                 [msaaTexture release];
                                 msaaTexture = Nil;
+                            }
+
+                            if (renderPassDescriptor)
+                            {
+                                [renderPassDescriptor release];
+                                renderPassDescriptor = Nil;
                             }
 
                             if (depthTexture)
@@ -142,15 +148,12 @@ namespace ouzel
 
                             if (renderTarget)
                             {
+                                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
                                 if (!renderPassDescriptor)
                                 {
-                                    renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
-
-                                    if (!renderPassDescriptor)
-                                    {
-                                        Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
-                                        return false;
-                                    }
+                                    Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                                    return false;
                                 }
 
                                 if (sampleCount > 1)
