@@ -1,8 +1,5 @@
 #pragma once
-
-
-
-#include "BMFont.h"
+#include "gui/BMFont.h"
 
 
 namespace ouzel
@@ -13,7 +10,6 @@ namespace ouzel
 		ASCIIPLUS = 1 << 1
 
 	};
-
 	class FTFont : public BMFont
 	{
 	public:
@@ -23,4 +19,4 @@ namespace ouzel
 	protected:
 		bool parseFont(const std::string& filename, int pt, UTFChars flag = ASCII);
 	};
-}
+} 

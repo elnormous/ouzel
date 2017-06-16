@@ -146,7 +146,6 @@
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.h" />
@@ -316,24 +315,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -356,23 +355,19 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\lib\$(Configuration)\</OutDir>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\lib\$(Configuration)\</OutDir>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\lib\$(Configuration)\</OutDir>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>C:\Users\Marley\Documents\Projects\Ouzul\fork\ouzel\external\freetype;..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\khronos;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\lib\$(Configuration)\</OutDir>
+    <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

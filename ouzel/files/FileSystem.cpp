@@ -371,9 +371,6 @@ namespace ouzel
                         str = appPath + DIRECTORY_SEPARATOR + path + DIRECTORY_SEPARATOR + filename;
                     }
 
-					Log(Log::Level::INFO) << "Checking " <<str;
-
-
                     if (fileExists(str))
                     {
                         return str;

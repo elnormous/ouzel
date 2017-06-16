@@ -15,7 +15,6 @@
 #include "graphics/BlendState.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
-#include "graphics/PixelFormat.h"
 
 namespace ouzel
 {
@@ -27,8 +26,13 @@ namespace ouzel
         void clear();
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-		const std::shared_ptr<graphics::Texture>& getTextureFromData(const std::string& name, const std::vector<uint8_t>& data = std::vector<uint8_t>(), Size2 inSize = Size2(), bool dynamic = false, bool mipmaps = true, graphics::PixelFormat p = graphics::PixelFormat::RGBA8_UNORM) const;
         const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
+		const std::shared_ptr<graphics::Texture>& getTextureFromData(
+			const std::string& name,
+			const std::vector<uint8_t>& data = std::vector<uint8_t>(),
+			Size2 inSize = Size2(),
+			bool dynamic = false,
+			bool mipmaps = true) const;
         void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
         void releaseTextures();
 
@@ -52,12 +56,13 @@ namespace ouzel
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
         void releaseParticleDefinitions();
-		void preLoadFTFont(const std::string & filename, int pt);
+		
+		void preloadFTFont(const std::string& filename, int pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
 		const FTFont& getFTFont(const std::string& filename, int pt) const;
-        void releaseBMFonts();
 		void releaseFTFonts();
+        void releaseBMFonts();
 
     protected:
         mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;

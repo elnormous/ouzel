@@ -26,7 +26,6 @@ namespace ouzel
 
             pickable = true;
         }
-
 		Label::Label(const std::string & aText, const std::string & fontFile, int pt, Color color, const Vector2 & textAnchor) :
 			text(aText),
 			labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, pt,true, text, color, textAnchor))

@@ -10,8 +10,6 @@
 #include "scene/ParticleDefinition.h"
 #include "scene/SpriteFrame.h"
 #include "files/FileSystem.h"
-#include "utils/Log.h"
-
 
 namespace ouzel
 {
@@ -42,39 +40,6 @@ namespace ouzel
             textures[filename] = texture;
         }
     }
-
-	const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps, graphics::PixelFormat p) const
-	{
-		Log(Log::Level::INFO) << "Attempted to get texture from data: " << name;
-		std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
-
-		if (i != textures.end())
-		{
-
-			Log(Log::Level::INFO) << "Got data from: " << name;
-			return i->second;
-
-		}
-		else if (data.size() != 0)
-		{
-
-			Log(Log::Level::INFO) << "Generated data for: " << name;
-			std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-			result->initFromBuffer(data, size, dynamic, mipmaps, p);
-
-			i = textures.insert(std::make_pair(name, result)).first;
-
-			return i->second;
-		}
-
-		Log(Log::Level::INFO) << "Failed to get texture from data: " << name;
-		
-		return nullptr;
-
-
-	}
-
-
 
     const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
@@ -324,10 +289,18 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-	void Cache::preLoadFTFont(const std::string & filename, int pt)
+    void Cache::preloadBMFont(const std::string& filename)
+    {
+        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
+
+        if (i == bmFonts.end())
+        {
+            bmFonts[filename] = BMFont(filename);
+        }
+   }
+	void Cache::preloadFTFont(const std::string & filename, int pt)
 	{
 		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
-
 		if (i == ftFonts.end())
 		{
 			ftFonts[filename] = FTFont(filename, pt);
@@ -337,16 +310,22 @@ namespace ouzel
 
 
 
-    void Cache::preloadBMFont(const std::string& filename)
-    {
-        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
-
-        if (i == bmFonts.end())
-        {
-            bmFonts[filename] = BMFont(filename);
-        }
-    }
-
+	const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
+	{
+		std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
+		if (i != textures.end())
+		{
+			return i->second;
+		}
+		else if (data.size() != 0)
+		{
+			std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
+			result->initFromBuffer(data, size, dynamic, mipmaps);
+			i = textures.insert(std::make_pair(name, result)).first;
+			return i->second;
+		}
+		return nullptr;
+	}
     const BMFont& Cache::getBMFont(const std::string& filename) const
     {
         std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
@@ -362,11 +341,9 @@ namespace ouzel
             return i->second;
         }
     }
-
 	const FTFont & Cache::getFTFont(const std::string & filename, int pt) const
 	{
 		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
-
 		if (i != ftFonts.end())
 		{
 			return i->second;
@@ -374,19 +351,17 @@ namespace ouzel
 		else
 		{
 			i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
-
 			return i->second;
 		}
 	}
+
 
     void Cache::releaseBMFonts()
     {
         bmFonts.clear();
     }
-
-	void Cache::releaseFTFonts()
+		void Cache::releaseFTFonts()
 	{
 		ftFonts.clear();
 	}
-
 }

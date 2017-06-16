@@ -13,10 +13,6 @@
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
-		FT_Library library;
-		FT_Face	   face;
-
-
 
 
 		namespace ouzel {
@@ -36,6 +32,8 @@
 
 			bool FTFont::parseFont(const std::string & filename, int pt, UTFChars flag)
 			{
+				FT_Library library;
+				FT_Face	   face;
 				std::string f = ouzel::sharedApplication->getFileSystem()->getPath(filename);
 
 				if (FT_Init_FreeType(&library))
@@ -71,8 +69,6 @@
 				kern = std::map<std::pair<uint32_t, uint32_t>, int16_t>();
 				std::vector<uint16_t> glyphs;
 
-
-				
 				if (flag && UTFChars::ASCII)
 				{
 					for (int i = 32; i < 127; i++)
@@ -94,23 +90,16 @@
 					{
 						Log(Log::Level::ERR) << "Couldn't load char " << c;
 					}
-
-
 					FT_Vector v;
 					for (uint16_t j : glyphs)
 					{
 						FT_Get_Kerning(face, j, c, FT_KERNING_DEFAULT, &v);
 						if (v.x == 0) continue;
-
 						kern.emplace(std::pair<uint32_t, uint32_t>(j, c), v.x >> 6);
 					}
-
-
 					FT_Bitmap bitmap = face->glyph->bitmap;
-
 					CharDescriptor nd;
 					nd.xAdvance = face->glyph->metrics.horiAdvance>>6;
-
 					nd.height = bitmap.rows;
 					nd.width = bitmap.width;
 					nd.xOffset = face->glyph->metrics.horiBearingX>>6;
@@ -120,28 +109,18 @@
 					memcpy(current_buffer.data(), bitmap.buffer, (bitmap.rows * bitmap.width));
 
 					glyph_to_bitmap_data.emplace(c, std::make_pair(Size2(bitmap.width, bitmap.rows), current_buffer));
-
 					chars.emplace(c, nd);
-
 					height = height < bitmap.rows ? bitmap.rows : height;
-
 					width += bitmap.width;
 				}
-
 				std::vector<std::vector<uint8_t> > scanlines(height, std::vector<uint8_t>());
-
-
 				int x = 0;
-
 				for (const auto &c : glyph_to_bitmap_data)
 				{
 					int char_height = c.second.first.height();
 					int char_width = c.second.first.width();
-
 					chars.at(c.first).x = x;
 					chars.at(c.first).y = 0;
-
-
 					x += char_width;
 
 
@@ -173,23 +152,13 @@
 
 				std::vector<uint8_t> b2(b1.size() * 4);
 				memcpy(b2.data(), b1.data(), b1.size() * 4);
-
 				std::string name_and_pt = filename + toString(pt);
-
 				sharedEngine->getCache()->getTextureFromData(name_and_pt, b2, Size2(width, height));
 				texture = name_and_pt;
-
 				pages = 1;
 				lineHeight = pt;
-
-
 				kernCount = kern.size();
-
 				base = 0;
-
-
 				return false;
 			}
-
-
-		}
+		} 

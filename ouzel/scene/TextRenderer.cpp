@@ -35,51 +35,43 @@ namespace ouzel
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
-		
-			font = sharedEngine->getCache()->getBMFont(fontFile);
-	
+            font = sharedEngine->getCache()->getBMFont(fontFile);
+            texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+
+            updateText();
+        }
+		TextRenderer::TextRenderer(const std::string& fontFile,
+								   int pt,
+                                   bool aMipmaps,
+                                   const std::string& aText,
+                                   Color aColor,
+                                   const Vector2& aTextAnchor):
+            text(aText),
+            textAnchor(aTextAnchor),
+            color(aColor),
+            mipmaps(aMipmaps)
+        {
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+
+            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer->init(graphics::Buffer::Usage::INDEX);
+
+            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX);
+
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+			font = sharedEngine->getCache()->getFTFont(fontFile, pt);
+
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
             updateText();
         }
 
-		TextRenderer::TextRenderer(const std::string & fontFile, 
-			int pt, 
-			bool aMipmaps, 
-			const std::string & aText, 
-			Color aColor, 
-			const Vector2 & aTextAnchor) :
-			text(aText),
-			textAnchor(aTextAnchor),
-			color(aColor),
-			mipmaps(aMipmaps)
+		void TextRenderer::setFont(const std::string& fontFile, int pt)
 		{
-			shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-			blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-			whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
-
-			indexBuffer = std::make_shared<graphics::Buffer>();
-			indexBuffer->init(graphics::Buffer::Usage::INDEX);
-
-			vertexBuffer = std::make_shared<graphics::Buffer>();
-			vertexBuffer->init(graphics::Buffer::Usage::VERTEX);
-
-			meshBuffer = std::make_shared<graphics::MeshBuffer>();
-			meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
-
-
-			font = sharedEngine->getCache()->getFTFont(fontFile, pt);
-
-			texture = sharedEngine->getCache()->getTextureFromData(font.getTexture());
-
-			updateText();
-		}
-
-
-
-        void TextRenderer::setFont(const std::string& fontFile, int pt)
-        {
-			//If a Freetype font is requested a font size is required, if there is no font size its a Bitmap font	
 			if (pt == 0)
 			{
 				font = sharedEngine->getCache()->getBMFont(fontFile);
@@ -90,6 +82,7 @@ namespace ouzel
 				font = sharedEngine->getCache()->getFTFont(fontFile, pt);
 				texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 			}
+
             updateText();
         }
 

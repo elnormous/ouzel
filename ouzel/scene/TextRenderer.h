@@ -20,12 +20,11 @@ namespace ouzel
         class TextRenderer: public Component
         {
         public:
-			TextRenderer(const std::string& fontFile,
+            TextRenderer(const std::string& fontFile,
                          bool aMipmaps = true,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
-
 			TextRenderer(const std::string& fontFile,
 						 int pt,
 						 bool aMipmaps = true,
@@ -44,7 +43,7 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void setFont(const std::string& fontFile, int pt);
+            virtual void setFont(const std::string& fontFile, int pt = 0);
 
             virtual void setTextAnchor(const Vector2& newTextAnchor);
             virtual const Vector2& getTextAnchor() const { return textAnchor; }

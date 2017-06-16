@@ -6,7 +6,6 @@
 #include <cstdint>
 #include "utils/Noncopyable.h"
 
-
 namespace ouzel
 {
     namespace graphics
