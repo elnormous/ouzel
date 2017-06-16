@@ -57,7 +57,7 @@ namespace ouzel
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
         void releaseParticleDefinitions();
 		
-		void preloadFTFont(const std::string& filename, int pt);
+		void preloadFTFont(std::string filename, int pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
 		const FTFont& getFTFont(const std::string& filename, int pt) const;

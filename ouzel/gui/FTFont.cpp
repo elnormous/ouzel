@@ -152,9 +152,8 @@
 
 				std::vector<uint8_t> b2(b1.size() * 4);
 				memcpy(b2.data(), b1.data(), b1.size() * 4);
-				std::string name_and_pt = filename + toString(pt);
-				sharedEngine->getCache()->getTextureFromData(name_and_pt, b2, Size2(width, height));
-				texture = name_and_pt;
+				sharedEngine->getCache()->getTextureFromData(filename, b2, Size2(width, height));
+				texture = filename;
 				pages = 1;
 				lineHeight = pt;
 				kernCount = kern.size();

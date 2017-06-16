@@ -298,8 +298,10 @@ namespace ouzel
             bmFonts[filename] = BMFont(filename);
         }
    }
-	void Cache::preloadFTFont(const std::string & filename, int pt)
+	void Cache::preloadFTFont(std::string filename, int pt)
 	{
+
+		filename += std::to_string(pt);
 		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
 		if (i == ftFonts.end())
 		{
