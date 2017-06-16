@@ -5,17 +5,17 @@
 
 namespace ouzel
 {
-    bool Archive::readFile(const std::string& filename, std::vector<uint8_t>& data) const
+    bool Archive::readFile(const std::string&, std::vector<uint8_t>&) const
     {
         return false;
     }
 
-    bool Archive::writeFile(const std::string& filename, const std::vector<uint8_t>& data) const
+    bool Archive::writeFile(const std::string&, const std::vector<uint8_t>&) const
     {
         return false;
     }
 
-    bool Archive::fileExists(const std::string& filename) const
+    bool Archive::fileExists(const std::string&) const
     {
         return false;
     }
