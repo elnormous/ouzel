@@ -92,7 +92,11 @@ namespace ouzel
                             static_cast<NSUInteger>(size.v[0]) != width ||
                             static_cast<NSUInteger>(size.v[1]) != height)
                         {
-                            if (texture) [texture release];
+                            if (texture)
+                            {
+                                [texture release];
+                                texture = Nil;
+                            }
 
                             width = static_cast<NSUInteger>(size.v[0]);
                             height = static_cast<NSUInteger>(size.v[1]);
