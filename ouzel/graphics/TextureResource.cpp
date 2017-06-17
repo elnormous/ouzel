@@ -119,12 +119,12 @@ namespace ouzel
 
             if (newSize != size)
             {
-                dirty |= DIRTY_SIZE;
-
                 if (!calculateSizes(newSize))
                 {
                     return false;
                 }
+
+                dirty |= DIRTY_SIZE;
             }
 
             if (!calculateData(newData))
