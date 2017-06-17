@@ -90,12 +90,15 @@ namespace ouzel
                 return false;
             }
 
-            if (!calculateSizes(newSize))
+            if (newSize != size)
             {
-                return false;
-            }
+                if (!calculateSizes(newSize))
+                {
+                    return false;
+                }
 
-            dirty |= DIRTY_SIZE;
+                dirty |= DIRTY_SIZE;
+            }
 
             return true;
         }
