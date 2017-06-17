@@ -68,7 +68,7 @@ namespace ouzel
                 data.resize(newSize);
             }
 
-            dirty |= DIRTY_ATTRIBUTES | DIRTY_DATA;
+            dirty |= DIRTY_DATA;
 
             return true;
         }
