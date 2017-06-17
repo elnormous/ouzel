@@ -41,7 +41,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
+            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
 
             return true;
         }
