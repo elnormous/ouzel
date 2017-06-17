@@ -233,7 +233,8 @@ namespace ouzel
 
                 RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                if (dirty & DIRTY_DATA)
+                if (dirty & DIRTY_DATA ||
+                    dirty & DIRTY_SIZE)
                 {
                     GLint oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
 
@@ -243,8 +244,7 @@ namespace ouzel
                         return false;
                     }
 
-                    if (static_cast<GLsizei>(size.v[0]) != width ||
-                        static_cast<GLsizei>(size.v[1]) != height)
+                    if (dirty & DIRTY_SIZE)
                     {
                         width = static_cast<GLsizei>(size.v[0]);
                         height = static_cast<GLsizei>(size.v[1]);

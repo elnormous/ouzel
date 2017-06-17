@@ -83,14 +83,13 @@ namespace ouzel
             {
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-                if (dirty & DIRTY_DATA)
+                if ((dirty & DIRTY_DATA) ||
+                    (dirty & DIRTY_SIZE))
                 {
                     if (size.v[0] > 0 &&
                         size.v[1] > 0)
                     {
-                        if (!texture || // texture not initialized
-                            static_cast<NSUInteger>(size.v[0]) != width || // size changed
-                            static_cast<NSUInteger>(size.v[1]) != height)
+                        if (!texture || (dirty & DIRTY_SIZE))
                         {
                             if (texture)
                             {

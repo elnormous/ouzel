@@ -71,7 +71,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
+            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
 
             return true;
         }
@@ -95,7 +95,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA;
+            dirty |= DIRTY_SIZE;
 
             return true;
         }
@@ -116,6 +116,8 @@ namespace ouzel
 
             if (newSize != size)
             {
+                dirty |= DIRTY_SIZE;
+
                 if (!calculateSizes(newSize))
                 {
                     return false;

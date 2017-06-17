@@ -95,14 +95,13 @@ namespace ouzel
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (dirty & DIRTY_DATA)
+                if ((dirty & DIRTY_DATA) ||
+                    (dirty & DIRTY_SIZE))
                 {
                     if (size.v[0] > 0 &&
                         size.v[1] > 0)
                     {
-                        if (!texture ||
-                            static_cast<UINT>(size.v[0]) != width ||
-                            static_cast<UINT>(size.v[1]) != height)
+                        if (!texture || (dirty & DIRTY_SIZE))
                         {
                             if (texture)
                             {
