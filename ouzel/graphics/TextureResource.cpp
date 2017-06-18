@@ -41,7 +41,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
+            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
 
             return true;
         }
@@ -71,7 +71,7 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_PARAMETERS;
+            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
 
             return true;
         }
@@ -90,12 +90,15 @@ namespace ouzel
                 return false;
             }
 
-            if (!calculateSizes(newSize))
+            if (newSize != size)
             {
-                return false;
-            }
+                if (!calculateSizes(newSize))
+                {
+                    return false;
+                }
 
-            dirty |= DIRTY_DATA;
+                dirty |= DIRTY_SIZE;
+            }
 
             return true;
         }
@@ -120,6 +123,8 @@ namespace ouzel
                 {
                     return false;
                 }
+
+                dirty |= DIRTY_SIZE;
             }
 
             if (!calculateData(newData))

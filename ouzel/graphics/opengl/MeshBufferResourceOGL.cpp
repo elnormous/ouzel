@@ -216,7 +216,7 @@ namespace ouzel
                     vertexAttribs.push_back({
                         getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
                         static_cast<GLsizei>(vertexSize),
-                        reinterpret_cast<const GLvoid*>(offset)
+                        static_cast<const GLchar*>(nullptr) + offset
                     });
                     offset += getDataTypeSize(vertexAttribute.dataType);
                 }

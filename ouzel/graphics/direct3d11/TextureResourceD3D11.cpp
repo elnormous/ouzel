@@ -95,14 +95,13 @@ namespace ouzel
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (dirty & DIRTY_DATA)
+                if ((dirty & DIRTY_DATA) ||
+                    (dirty & DIRTY_SIZE))
                 {
                     if (size.v[0] > 0 &&
                         size.v[1] > 0)
                     {
-                        if (!texture ||
-                            static_cast<UINT>(size.v[0]) != width ||
-                            static_cast<UINT>(size.v[1]) != height)
+                        if (!texture || (dirty & DIRTY_SIZE))
                         {
                             if (texture)
                             {
@@ -113,6 +112,24 @@ namespace ouzel
                             {
                                 resourceView->Release();
                                 resourceView = nullptr;
+                            }
+
+                            if (renderTargetView)
+                            {
+                                renderTargetView->Release();
+                                renderTargetView = nullptr;
+                            }
+
+                            if (depthStencilTexture)
+                            {
+                                depthStencilTexture->Release();
+                                depthStencilTexture = nullptr;
+                            }
+
+                            if (depthStencilView)
+                            {
+                                depthStencilView->Release();
+                                depthStencilView = nullptr;
                             }
 
                             width = static_cast<UINT>(size.v[0]);
@@ -188,11 +205,6 @@ namespace ouzel
 
                             if (renderTarget)
                             {
-                                if (renderTargetView)
-                                {
-                                    renderTargetView->Release();
-                                }
-
                                 D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
                                 renderTargetViewDesc.Format = d3d11PixelFormat;
                                 renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
@@ -212,17 +224,6 @@ namespace ouzel
 
                             if (depth)
                             {
-                                if (depthStencilTexture)
-                                {
-                                    depthStencilTexture->Release();
-                                }
-
-                                if (depthStencilView)
-                                {
-                                    depthStencilView->Release();
-                                    depthStencilView = nullptr;
-                                }
-
                                 D3D11_TEXTURE2D_DESC depthStencilDesc;
                                 depthStencilDesc.Width = width;
                                 depthStencilDesc.Height = height;

@@ -116,6 +116,21 @@ namespace ouzel
                 }
             }
 
+            if (dirty & DIRTY_PITCH)
+            {
+                if (soundData)
+                {
+                    DWORD frequency = static_cast<DWORD>(soundData->getSamplesPerSecond() * pitch);
+                    buffer->SetFrequency(frequency);
+                }
+            }
+
+            if (dirty & DIRTY_GAIN)
+            {
+                LONG volume = DSBVOLUME_MIN + static_cast<LONG>((DSBVOLUME_MAX - DSBVOLUME_MIN) * gain);
+                buffer->SetVolume(volume);
+            }
+
             if (dirty & DIRTY_POSITION)
             {
                 if (buffer3D)
