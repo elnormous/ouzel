@@ -10,7 +10,6 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/rapidjson/include \
     $(LOCAL_PATH)/../../external/khronos \
-	$(LOCAL_PATH)/../../external/Freetype
 
 LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Ease.cpp \
@@ -73,6 +72,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/gui/BMFont.cpp \
+	../../ouzel/gui/FMFont.cpp \
     ../../ouzel/gui/Button.cpp \
     ../../ouzel/gui/CheckBox.cpp \
     ../../ouzel/gui/ComboBox.cpp \
