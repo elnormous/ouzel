@@ -234,19 +234,19 @@ namespace ouzel
 
         void InputWin::update()
         {
-            for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+            for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
                 XINPUT_STATE state;
                 ZeroMemory(&state, sizeof(XINPUT_STATE));
 
-                DWORD result = XInputGetState(i, &state);
+                DWORD result = XInputGetState(userIndex, &state);
 
                 if (result == ERROR_SUCCESS)
                 {
-                    if (!gamepadsXI[i])
+                    if (!gamepadsXI[userIndex])
                     {
-                        std::unique_ptr<GamepadXI> gamepad(new GamepadXI(i));
-                        gamepadsXI[i] = gamepad.get();
+                        std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                        gamepadsXI[userIndex] = gamepad.get();
 
                         Event event;
                         event.type = Event::Type::GAMEPAD_CONNECT;
@@ -257,13 +257,13 @@ namespace ouzel
                         sharedEngine->getEventDispatcher()->postEvent(event);
                     }
 
-                    gamepadsXI[i]->update(state);
+                    gamepadsXI[userIndex]->update(state);
                 }
                 else if (result == ERROR_DEVICE_NOT_CONNECTED)
                 {
-                    if (gamepadsXI[i])
+                    if (gamepadsXI[userIndex])
                     {
-                        GamepadXI* gamepadXI = gamepadsXI[i];
+                        GamepadXI* gamepadXI = gamepadsXI[userIndex];
 
                         Event event;
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
@@ -283,7 +283,7 @@ namespace ouzel
                 }
                 else
                 {
-                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << i;
+                    Log(Log::Level::WARN) << "Failed to get state for gamepad " << userIndex;
                 }
             }
 

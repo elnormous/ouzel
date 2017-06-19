@@ -104,6 +104,28 @@ namespace ouzel
                         return false;
                     }
 
+                    if (pitch != 1.0f)
+                    {
+                        DWORD frequency = static_cast<DWORD>(soundData->getSamplesPerSecond() * pitch);
+                        hr = buffer->SetFrequency(frequency);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to set DirectSound buffer frequency, error: " << hr;
+                            return false;
+                        }
+                    }
+
+                    if (gain != 1.0f)
+                    {
+                        LONG volume = DSBVOLUME_MIN + static_cast<LONG>((DSBVOLUME_MAX - DSBVOLUME_MIN) * gain);
+                        hr = buffer->SetVolume(volume);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to set DirectSound buffer volume, error: " << hr;
+                            return false;
+                        }
+                    }
+
                     if (bufferDesc.dwFlags & DSBCAPS_CTRL3D)
                     {
                         hr = buffer->QueryInterface(IID_IDirectSound3DBuffer8, reinterpret_cast<void**>(&buffer3D));
@@ -112,23 +134,43 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to get DirectSound 3D buffer, error: " << hr;
                             return false;
                         }
+
+                        hr = buffer3D->SetPosition(position.v[0], position.v[1], position.v[2], DS3D_IMMEDIATE);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to set DirectSound buffer position, error: " << hr;
+                            return false;
+                        }
                     }
                 }
             }
 
             if (dirty & DIRTY_PITCH)
             {
-                if (soundData)
+                if (buffer && soundData)
                 {
                     DWORD frequency = static_cast<DWORD>(soundData->getSamplesPerSecond() * pitch);
-                    buffer->SetFrequency(frequency);
+                    HRESULT hr = buffer->SetFrequency(frequency);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to set DirectSound buffer frequency, error: " << hr;
+                        return false;
+                    }
                 }
             }
 
             if (dirty & DIRTY_GAIN)
             {
-                LONG volume = DSBVOLUME_MIN + static_cast<LONG>((DSBVOLUME_MAX - DSBVOLUME_MIN) * gain);
-                buffer->SetVolume(volume);
+                if (buffer)
+                {
+                    LONG volume = DSBVOLUME_MIN + static_cast<LONG>((DSBVOLUME_MAX - DSBVOLUME_MIN) * gain);
+                    HRESULT hr = buffer->SetVolume(volume);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to set DirectSound buffer volume, error: " << hr;
+                        return false;
+                    }
+                }
             }
 
             if (dirty & DIRTY_POSITION)
