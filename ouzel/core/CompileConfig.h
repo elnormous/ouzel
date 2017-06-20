@@ -3,7 +3,7 @@
 
 #pragma once
 
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32)
     #define OUZEL_PLATFORM_WINDOWS 1
     #define OUZEL_SUPPORTS_DIRECT3D 1
     #define OUZEL_SUPPORTS_DIRECT3D11 1
