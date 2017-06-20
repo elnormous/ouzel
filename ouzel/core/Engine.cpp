@@ -482,12 +482,6 @@ namespace ouzel
             eventDispatcher.dispatchEvents();
             timer.update(delta);
 
-            if (renderer->getRefillDrawQueue())
-            {
-                sceneManager.draw();
-                renderer->flushDrawCommands();
-            }
-
             for (UpdateCallback* updateCallback : updateCallbackDeleteSet)
             {
                 auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
@@ -531,6 +525,12 @@ namespace ouzel
                         if (updateCallback->callback) updateCallback->callback(delta);
                     }
                 }
+            }
+
+            if (renderer->getRefillDrawQueue())
+            {
+                sceneManager.draw();
+                renderer->flushDrawCommands();
             }
         }
     }
