@@ -401,7 +401,7 @@ namespace ouzel
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            MTLCommandBufferPtr currentCommandBuffer = [commandQueue commandBuffer];
+            id<MTLCommandBuffer> currentCommandBuffer = [commandQueue commandBuffer];
 
             if (!currentCommandBuffer)
             {
@@ -416,7 +416,7 @@ namespace ouzel
              }];
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
+            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = Nil;
             
             MTLScissorRect scissorRect;
 
