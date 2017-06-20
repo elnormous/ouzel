@@ -251,17 +251,29 @@ namespace ouzel
 
             if (wglCreateContextAttribsProc)
             {
-                std::vector<int> contextAttribs;
-                
-                if (newDebugRenderer)
+                for (int openGLVersion = 4; openGLVersion >= 2; --openGLVersion)
                 {
-                    contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
-                    contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
+                    std::vector<int> contextAttribs = {
+                        WGL_CONTEXT_MAJOR_VERSION_ARB, openGLVersion,
+                        WGL_CONTEXT_MINOR_VERSION_ARB, 0,
+                    };
+
+                    if (newDebugRenderer)
+                    {
+                        contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
+                        contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
+                    }
+
+                    contextAttribs.push_back(0);
+
+                    renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
+
+                    if (renderContext)
+                    {
+                        Log(Log::Level::INFO) << "OpenGL " << openGLVersion << " context created";
+                        break;
+                    }
                 }
-
-                contextAttribs.push_back(0);
-
-                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
             }
             else
             {
