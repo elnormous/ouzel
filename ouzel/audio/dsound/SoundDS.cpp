@@ -56,7 +56,7 @@ namespace ouzel
 
                     DSBUFFERDESC bufferDesc;
                     bufferDesc.dwSize = sizeof(bufferDesc);
-                    bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME;
+                    bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLFREQUENCY;
 
                     if (soundData->getChannels() < 2)
                     {
