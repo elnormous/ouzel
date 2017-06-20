@@ -52,6 +52,10 @@
 #include "ColorVSGL3.h"
 #include "TexturePSGL3.h"
 #include "TextureVSGL3.h"
+#include "ColorPSGL4.h"
+#include "ColorVSGL4.h"
+#include "TexturePSGL4.h"
+#include "TextureVSGL4.h"
 #elif OUZEL_SUPPORTS_OPENGLES
 #include "ColorPSGLES2.h"
 #include "ColorVSGLES2.h"
@@ -531,36 +535,44 @@ namespace ouzel
 
             switch (apiMajorVersion)
             {
-                case 2:
 #if OUZEL_SUPPORTS_OPENGL
+                case 2:
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", DataType::FLOAT_VECTOR4}},
                                                    {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#elif OUZEL_SUPPORTS_OPENGLES
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#endif
                     break;
                 case 3:
-#if OUZEL_SUPPORTS_OPENGL
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", DataType::FLOAT_VECTOR4}},
                                                    {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 4:
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
 #elif OUZEL_SUPPORTS_OPENGLES
+                case 2:
+                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
+                                                   std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
+                                                   VertexPCT::ATTRIBUTES,
+                                                   {{"color", DataType::FLOAT_VECTOR4}},
+                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 3:
                     textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
                                                    std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
                                                    VertexPCT::ATTRIBUTES,
                                                    {{"color", DataType::FLOAT_VECTOR4}},
                                                    {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#endif
                     break;
+#endif
                 default:
                     Log(Log::Level::ERR) << "Unsupported OpenGL version";
                     return false;
@@ -583,6 +595,13 @@ namespace ouzel
                 case 3:
                     colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
                                                  std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
+                                                 VertexPC::ATTRIBUTES,
+                                                 {{"color", DataType::FLOAT_VECTOR4}},
+                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 4:
+                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
+                                                 std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
                                                  VertexPC::ATTRIBUTES,
                                                  {{"color", DataType::FLOAT_VECTOR4}},
                                                  {{"modelViewProj", DataType::FLOAT_MATRIX4}});

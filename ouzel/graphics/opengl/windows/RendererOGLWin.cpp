@@ -308,7 +308,8 @@ namespace ouzel
             apiMajorVersion = static_cast<uint16_t>(stoi(majorVersion));
             apiMinorVersion = static_cast<uint16_t>(stoi(minorVersion));
 
-            if (apiMajorVersion < 2)
+            if (apiMajorVersion < 2 ||
+                apiMajorVersion > 4)
             {
                 Log(Log::Level::ERR) << "Unsupported OpenGL version";
                 return false;
