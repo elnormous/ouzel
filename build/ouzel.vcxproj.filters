@@ -841,6 +841,18 @@
     <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">

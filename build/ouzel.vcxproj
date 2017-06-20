@@ -215,10 +215,12 @@
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.h" />
@@ -226,11 +228,13 @@
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h" />
