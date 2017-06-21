@@ -1132,17 +1132,15 @@ namespace ouzel
                 return false;
             }
 
-            uint8_t temp;
+            uint32_t temp;
+            uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
             for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
             {
                 for (GLsizei col = 0; col < frameBufferWidth; ++col)
                 {
-                    for (GLsizei z = 0; z < pixelSize; ++z)
-                    {
-                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)];
-                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>((row * frameBufferWidth + col) * pixelSize + z)] = temp;
-                    }
+                    temp = rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)];
+                    rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)] = rgba[static_cast<size_t>(row * frameBufferWidth + col)];
+                    rgba[static_cast<size_t>(row * frameBufferWidth + col)] = temp;
                 }
             }
 
