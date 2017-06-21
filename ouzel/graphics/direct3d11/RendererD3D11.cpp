@@ -825,17 +825,22 @@ namespace ouzel
             D3D11_TEXTURE2D_DESC backBufferDesc;
             backBufferTexture->GetDesc(&backBufferDesc);
 
-            D3D11_TEXTURE2D_DESC desc = backBufferDesc;
-            desc.SampleDesc.Count = sampleCount;
-            desc.SampleDesc.Quality = 0;
-            desc.Usage = D3D11_USAGE_STAGING;
-            desc.BindFlags = 0;
-            desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-            desc.MiscFlags = 0;
+            D3D11_TEXTURE2D_DESC textureDesc;
+            textureDesc.Width = backBufferDesc.Width;
+            textureDesc.Height = backBufferDesc.Height;
+            textureDesc.MipLevels = 1;
+            textureDesc.ArraySize = 1;
+            textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            textureDesc.SampleDesc.Count = 1;
+            textureDesc.SampleDesc.Quality = 0;
+            textureDesc.Usage = D3D11_USAGE_STAGING;
+            textureDesc.BindFlags = 0;
+            textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+            textureDesc.MiscFlags = 0;
 
             ID3D11Texture2D* texture;
 
-            hr = device->CreateTexture2D(&desc, nullptr, &texture);
+            hr = device->CreateTexture2D(&textureDesc, nullptr, &texture);
 
             if (FAILED(hr))
             {
@@ -845,12 +850,23 @@ namespace ouzel
 
             if (backBufferDesc.SampleDesc.Count > 1)
             {
-                D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
-                tempDesc.SampleDesc.Count = 1;
-                tempDesc.SampleDesc.Quality = 0;
+                D3D11_TEXTURE2D_DESC resolveTextureDesc;
+                resolveTextureDesc.Width = backBufferDesc.Width;
+                resolveTextureDesc.Height = backBufferDesc.Height;
+                resolveTextureDesc.MipLevels = 1;
+                resolveTextureDesc.ArraySize = 1;
+                resolveTextureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                resolveTextureDesc.SampleDesc.Count = 1;
+                resolveTextureDesc.SampleDesc.Quality = 0;
+                resolveTextureDesc.Usage = D3D11_USAGE_DEFAULT;
+                resolveTextureDesc.BindFlags = 0;
+                resolveTextureDesc.CPUAccessFlags = 0;
+                resolveTextureDesc.MiscFlags = 0;
 
-                ID3D11Texture2D* temp;
-                hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
+                ID3D11Texture2D* resolveTexture;
+
+                hr = device->CreateTexture2D(&resolveTextureDesc, nullptr, &resolveTexture);
+
                 if (FAILED(hr))
                 {
                     texture->Release();
@@ -858,17 +874,9 @@ namespace ouzel
                     return false;
                 }
 
-                for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
-                {
-                    for (UINT level = 0; level < desc.MipLevels; ++level)
-                    {
-                        UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
-                        context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
-                    }
-                }
-
-                context->CopyResource(texture, temp);
-                temp->Release();
+                context->ResolveSubresource(resolveTexture, 0, backBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+                context->CopyResource(texture, resolveTexture);
+                resolveTexture->Release();
             }
             else
             {
@@ -884,7 +892,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+            if (!stbi_write_png(filename.c_str(), textureDesc.Width, textureDesc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
             {
                 context->Unmap(texture, 0);
                 texture->Release();
