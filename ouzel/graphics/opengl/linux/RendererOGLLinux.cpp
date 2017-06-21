@@ -88,7 +88,7 @@ namespace ouzel
 
                     contextAttribs.push_back(0);
 
-                    context = glXCreateContextAttribsProc(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(display, *framebufferConfig, NULL, True, contextAttribs.data());
 
                     if (context)
                     {
