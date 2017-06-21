@@ -66,33 +66,29 @@ namespace ouzel
             };
 
             std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(display, screenIndex, attributes, &fbcount), XFree);
-            if (!framebufferConfig)
+            if (framebufferConfig)
             {
-                Log(Log::Level::ERR) << "Failed to get frame buffer";
-            }
-            else
-            {
-                // create an OpenGL rendering context
-                std::vector<int> contextAttribs = {
-                    GLX_CONTEXT_PROFILE_MASK_ARB,
-                    GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-                    GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
-                    GLX_CONTEXT_MINOR_VERSION_ARB, 2
-                };
+                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
 
-                if (newDebugRenderer)
+                if (glXCreateContextAttribsProc)
                 {
-                    contextAttribs.push_back(GL_CONTEXT_FLAGS);
-                    contextAttribs.push_back(GL_CONTEXT_FLAG_DEBUG_BIT);
-                }
+                    // create an OpenGL rendering context
+                    std::vector<int> contextAttribs = {
+                        GLX_CONTEXT_PROFILE_MASK_ARB,
+                        GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+                        GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
+                        GLX_CONTEXT_MINOR_VERSION_ARB, 2
+                    };
 
-                contextAttribs.push_back(0);
+                    if (newDebugRenderer)
+                    {
+                        contextAttribs.push_back(GL_CONTEXT_FLAGS);
+                        contextAttribs.push_back(GL_CONTEXT_FLAG_DEBUG_BIT);
+                    }
 
-                PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsARB = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
+                    contextAttribs.push_back(0);
 
-                if (glXCreateContextAttribsARB)
-                {
-                    context = glXCreateContextAttribsARB(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(display, *framebufferConfig, NULL, GL_TRUE, contextAttribs.data());
 
                     if (context)
                     {
@@ -101,6 +97,10 @@ namespace ouzel
                         Log(Log::Level::INFO) << "GLX OpenGL 3.2 context created";
                     }
                 }
+            }
+            else
+            {
+                Log(Log::Level::ERR) << "Failed to get frame buffer";
             }
 
             if (!context)
