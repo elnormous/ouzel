@@ -63,6 +63,7 @@ namespace ouzel
         }
 
         Screen* screen = XDefaultScreenOfDisplay(display);
+        int screenIndex = XScreenNumberOfScreen(screen);
 
         if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
         if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
@@ -72,12 +73,12 @@ namespace ouzel
             case graphics::Renderer::Driver::EMPTY:
             {
                 XSetWindowAttributes swa;
-                swa.background_pixel = XWhitePixel(display, screen);
+                swa.background_pixel = XWhitePixel(display, screenIndex);
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-                window = XCreateWindow(display, RootWindow(display, screen), 0, 0,
+                window = XCreateWindow(display, RootWindow(display, screenIndex), 0, 0,
                                        static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
-                                       0, DefaultDepth(display, screen), InputOutput, DefaultVisual(display, screen),
+                                       0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
                                        CWBackPixel | CWEventMask, &swa);
 
                 break;
@@ -96,7 +97,6 @@ namespace ouzel
                     None
                 };
 
-                int screenIndex = XScreenNumberOfScreen(screen);
                 visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
                 if (!visualInfo)
                 {
