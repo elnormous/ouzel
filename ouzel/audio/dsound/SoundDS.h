@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECTSOUND
+
 #include <dsound.h>
 
 #include "audio/SoundResource.h"
@@ -25,3 +29,5 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
+
+#endif

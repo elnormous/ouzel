@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECTSOUND
+
 #include "AudioDS.h"
 #include "SoundDS.h"
 #include "core/Engine.h"
@@ -131,3 +135,5 @@ namespace ouzel
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif

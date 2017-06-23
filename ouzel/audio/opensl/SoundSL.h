@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENSL
+
 #include <vector>
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
@@ -35,3 +39,5 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
+
+#endif

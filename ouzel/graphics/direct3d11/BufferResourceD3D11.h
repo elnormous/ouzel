@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+
 #include <d3d11.h>
 #include "graphics/BufferResource.h"
 
@@ -26,3 +30,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

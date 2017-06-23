@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+
 #include "BlendStateResourceD3D11.h"
 #include "RendererD3D11.h"
 #include "core/Engine.h"
@@ -100,3 +104,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

@@ -3,8 +3,12 @@
 
 #pragma once
 
-#include <xaudio2.h>
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_XAUDIO2
+
 #include <vector>
+#include <xaudio2.h>
 
 #include "audio/SoundResource.h"
 
@@ -27,3 +31,5 @@ namespace ouzel
         };
     } // namespace audio
 } // namespace ouzel
+
+#endif

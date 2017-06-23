@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_XAUDIO2
+
 #include <objbase.h>
 
 const GUID CLSID_XAudio2 = { 0x5a508685, 0xa254, 0x4fba, 0x9b, 0x82, 0x9a, 0x24, 0xb0, 0x03, 0x06, 0xaf };
@@ -102,3 +106,5 @@ HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2, IXAudio2SourceVoice** ppSo
 {
     return pXAudio2->CreateSourceVoice(ppSourceVoice, pSourceFormat);
 }
+
+#endif

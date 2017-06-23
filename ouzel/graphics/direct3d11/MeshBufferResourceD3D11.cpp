@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+
 #include "MeshBufferResourceD3D11.h"
 #include "BufferResourceD3D11.h"
 #include "utils/Log.h"
@@ -47,3 +51,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

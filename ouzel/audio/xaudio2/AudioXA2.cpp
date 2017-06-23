@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_XAUDIO2
+
 #include "AudioXA2.h"
 #include "SoundXA2.h"
 #include "XAudio27.h"
@@ -160,3 +164,5 @@ namespace ouzel
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif

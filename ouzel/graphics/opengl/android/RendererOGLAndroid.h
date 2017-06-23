@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "graphics/opengl/RendererOGL.h"
@@ -36,3 +40,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

@@ -52,27 +52,14 @@
 
 #include "graphics/empty/RendererEmpty.h"
 #include "graphics/opengl/RendererOGL.h"
-
-#if OUZEL_SUPPORTS_DIRECT3D11
 #include "graphics/direct3d11/RendererD3D11.h"
-#endif
-
 #include "graphics/metal/RendererMetal.h"
 
 #include "audio/empty/AudioEmpty.h"
 #include "audio/openal/AudioAL.h"
-
-#if OUZEL_SUPPORTS_DIRECTSOUND
 #include "audio/dsound/AudioDS.h"
-#endif
-
-#if OUZEL_SUPPORTS_XAUDIO2
 #include "audio/xaudio2/AudioXA2.h"
-#endif
-
-#if OUZEL_SUPPORTS_OPENSL
 #include "audio/opensl/AudioSL.h"
-#endif
 
 #ifdef OPENAL
 #undef OPENAL
