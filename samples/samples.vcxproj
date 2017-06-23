@@ -100,8 +100,8 @@
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(OutDir)Resources
-copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
+      <Command>mkdir "$(OutDir)Resources"
+copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -119,8 +119,8 @@ copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(OutDir)Resources
-copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
+      <Command>mkdir "$(OutDir)Resources"
+copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,8 +140,8 @@ copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(OutDir)Resources
-copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
+      <Command>mkdir "$(OutDir)Resources"
+copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,8 +161,8 @@ copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(OutDir)Resources
-copy $(ProjectDir)Resources\* $(OutDir)Resources\</Command>
+      <Command>mkdir "$(OutDir)Resources"
+copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
