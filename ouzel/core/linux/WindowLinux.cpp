@@ -2,6 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include <memory>
+
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+    #define GL_GLEXT_PROTOTYPES 1
+    #include <GL/glx.h>
+#endif
+
 #include "WindowLinux.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -45,6 +53,7 @@ namespace ouzel
             return false;
         }
 
+#if OUZEL_SUPPORTS_OPENGL
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             // open a connection to the X server
@@ -112,6 +121,7 @@ namespace ouzel
                 toggleFullscreen();
             }
         }
+#endif
 
         return true;
     }
