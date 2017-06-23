@@ -4,6 +4,9 @@
 #pragma once
 
 #include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include "graphics/ShaderResource.h"
 
 #if defined(__OBJC__)
@@ -61,3 +64,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

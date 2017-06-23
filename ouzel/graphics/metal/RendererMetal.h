@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include <map>
 #include <vector>
 #include <dispatch/dispatch.h>
@@ -150,3 +154,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

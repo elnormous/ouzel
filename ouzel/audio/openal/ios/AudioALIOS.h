@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENAL
+
 #include "audio/openal/AudioAL.h"
 
 namespace ouzel
@@ -16,3 +20,5 @@ namespace ouzel
         };
     }
 }
+
+#endif

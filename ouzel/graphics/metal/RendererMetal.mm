@@ -2,6 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include "RendererMetal.h"
 #include "TextureResourceMetal.h"
 #include "ShaderResourceMetal.h"
@@ -986,3 +989,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

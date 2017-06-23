@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #include "OpenGLView.h"
 #include "core/Engine.h"
 #include "core/Window.h"
@@ -96,3 +100,5 @@
 }
 
 @end
+
+#endif

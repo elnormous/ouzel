@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #if defined(__OBJC__)
 #import <Metal/Metal.h>
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
@@ -66,3 +70,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

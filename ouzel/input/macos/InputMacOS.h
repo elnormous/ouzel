@@ -8,6 +8,7 @@
 #import <AppKit/NSCursor.h>
 typedef NSCursor* NSCursorPtr;
 #else
+#import <objc/NSObjCRuntime.h>
 typedef void* IOHIDManagerRef;
 typedef void* IOHIDDeviceRef;
 typedef id NSCursorPtr;

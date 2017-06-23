@@ -1,10 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #include "MeshBufferResourceOGL.h"
 #include "RendererOGL.h"
 #include "BufferResourceOGL.h"
-#include "core/CompileConfig.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -303,3 +306,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

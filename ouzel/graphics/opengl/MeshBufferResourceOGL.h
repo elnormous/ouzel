@@ -3,19 +3,22 @@
 
 #pragma once
 
-#include <vector>
 #include "core/CompileConfig.h"
 
 #if OUZEL_SUPPORTS_OPENGL
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GL/glcorearb.h"
-    #include "GL/glext.h"
-#elif OUZEL_SUPPORTS_OPENGLES
+
+#include <vector>
+
+#if OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
     #include "GLES/gl.h"
     #include "GLES2/gl2.h"
     #include "GLES2/gl2ext.h"
     #include "GLES3/gl3.h"
+#else
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GL/glcorearb.h"
+    #include "GL/glext.h"
 #endif
 
 #include "graphics/MeshBufferResource.h"
@@ -64,3 +67,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

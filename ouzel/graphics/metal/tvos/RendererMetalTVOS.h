@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include "graphics/metal/RendererMetal.h"
 
 namespace ouzel
@@ -23,3 +27,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

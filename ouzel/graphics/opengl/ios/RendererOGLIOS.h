@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #include "graphics/opengl/RendererOGL.h"
 
 #if defined(__OBJC__)
@@ -56,3 +60,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

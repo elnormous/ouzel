@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include "RendererMetalMacOS.h"
 #include "MetalView.h"
 #include "core/Application.h"
@@ -146,3 +150,5 @@ namespace ouzel
 
     } // namespace graphics
 } // namespace ouzel
+
+#endif

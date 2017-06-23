@@ -51,24 +51,16 @@
 #endif
 
 #include "graphics/empty/RendererEmpty.h"
-
-#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
 #include "graphics/opengl/RendererOGL.h"
-#endif
 
 #if OUZEL_SUPPORTS_DIRECT3D11
 #include "graphics/direct3d11/RendererD3D11.h"
 #endif
 
-#if OUZEL_SUPPORTS_METAL
 #include "graphics/metal/RendererMetal.h"
-#endif
 
 #include "audio/empty/AudioEmpty.h"
-
-#if OUZEL_SUPPORTS_OPENAL
 #include "audio/openal/AudioAL.h"
-#endif
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 #include "audio/dsound/AudioDS.h"
@@ -127,7 +119,7 @@ namespace ouzel
         {
             availableDrivers.insert(graphics::Renderer::Driver::EMPTY);
 
-#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGL
             availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
 #endif
 
@@ -224,7 +216,7 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Not using render driver";
                 renderer.reset(new graphics::RendererEmpty());
                 break;
-#if OUZEL_SUPPORTS_OPENGL || OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGL
             case graphics::Renderer::Driver::OPENGL:
                 Log(Log::Level::INFO) << "Using OpenGL render driver";
     #if OUZEL_PLATFORM_MACOS

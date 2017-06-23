@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #if defined(__OBJC__)
 #import <CoreVideo/CoreVideo.h>
 #import <AppKit/NSOpenGL.h>
@@ -56,3 +60,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

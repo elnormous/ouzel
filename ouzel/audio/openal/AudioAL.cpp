@@ -3,6 +3,8 @@
 
 #include "core/CompileConfig.h"
 
+#if OUZEL_SUPPORTS_OPENAL
+
 #include "AudioAL.h"
 #include "SoundAL.h"
 #include "utils/Log.h"
@@ -182,3 +184,5 @@ namespace ouzel
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif
