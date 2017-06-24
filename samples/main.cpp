@@ -10,6 +10,9 @@
 #include "SoundSample.h"
 #include "PerspectiveSample.h"
 
+std::string DEVELOPER_NAME = "org.ouzelengine";
+std::string APPLICATION_NAME = "samples";
+
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver

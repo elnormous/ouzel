@@ -21,7 +21,7 @@ namespace ouzel
         static const std::string DIRECTORY_SEPARATOR;
 
         static std::string getHomeDirectory();
-        static std::string getStorageDirectory(const std::string& developer, const std::string& app);
+        static std::string getStorageDirectory();
         static std::string getTempDirectory();
 
         bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;

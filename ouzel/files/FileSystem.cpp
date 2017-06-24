@@ -27,6 +27,9 @@
 #include "core/android/ApplicationAndroid.h"
 #endif
 
+extern std::string DEVELOPER_NAME;
+extern std::string APPLICATION_NAME;
+
 namespace ouzel
 {
     static char TEMP_BUFFER[1024];
@@ -94,13 +97,13 @@ namespace ouzel
         return "";
     }
 
-    std::string FileSystem::getStorageDirectory(const std::string& developer, const std::string& app)
+    std::string FileSystem::getStorageDirectory()
     {
         std::string path;
 
 #if OUZEL_PLATFORM_MACOS
-        OUZEL_UNUSED(developer);
-        OUZEL_UNUSED(app);
+        OUZEL_UNUSED(DEVELOPER_NAME);
+        OUZEL_UNUSED(APPLICATION_NAME);
 
         FSRef ref;
         OSType folderType = kApplicationSupportFolderType;
@@ -121,8 +124,8 @@ namespace ouzel
             mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        OUZEL_UNUSED(developer);
-        OUZEL_UNUSED(app);
+        OUZEL_UNUSED(DEVELOPER_NAME);
+        OUZEL_UNUSED(APPLICATION_NAME);
         //TODO: implement
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
@@ -133,7 +136,7 @@ namespace ouzel
             path = TEMP_BUFFER;
         }
 
-        path += DIRECTORY_SEPARATOR + developer;
+        path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
 
         if (!directoryExists(path))
         {
@@ -145,7 +148,7 @@ namespace ouzel
             }
         }
 
-        path += DIRECTORY_SEPARATOR + app;
+        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
 
         if (!directoryExists(path))
         {
@@ -157,12 +160,12 @@ namespace ouzel
             }
         }
 #elif OUZEL_PLATFORM_ANDROID
-        OUZEL_UNUSED(developer);
-        OUZEL_UNUSED(app);
+        OUZEL_UNUSED(DEVELOPER_NAME);
+        OUZEL_UNUSED(APPLICATION_NAME);
         //TODO: implement
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
-        OUZEL_UNUSED(developer);
-        OUZEL_UNUSED(app);
+        OUZEL_UNUSED(DEVELOPER_NAME);
+        OUZEL_UNUSED(APPLICATION_NAME);
         //TODO: implement
 #endif
         return path;

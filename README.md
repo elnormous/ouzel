@@ -53,6 +53,9 @@ Windows Phone platform support is under development.
 
 The following code will open a 800px x 600px window:
 
+    std::string DEVELOPER_NAME = "foo";
+    std::string APPLICATION_NAME = "bar";
+
     void ouzelMain(const std::vector<std::string>& args)
     {
         ouzel::Settings settings;
