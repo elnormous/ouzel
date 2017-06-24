@@ -15,7 +15,6 @@ namespace ouzel
         graphics::Renderer::Driver renderDriver = graphics::Renderer::Driver::DEFAULT;
         audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
 
-        std::string title = "ouzel";
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;

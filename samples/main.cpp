@@ -24,7 +24,6 @@ void ouzelMain(const std::vector<std::string>& args)
     settings.sampleCount = 4;
     settings.textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
     settings.depth = true;
-    settings.title = "Samples";
 
     std::string sample;
 

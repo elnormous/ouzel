@@ -61,6 +61,8 @@
 #include "audio/xaudio2/AudioXA2.h"
 #include "audio/opensl/AudioSL.h"
 
+extern std::string APPLICATION_NAME;
+
 namespace ouzel
 {
     ouzel::Engine* sharedEngine = nullptr;
@@ -249,7 +251,7 @@ namespace ouzel
         if (!window->init(settings.size,
                           settings.resizable,
                           settings.fullscreen,
-                          settings.title,
+                          APPLICATION_NAME,
                           settings.highDpi,
                           settings.depth))
         {
