@@ -8,12 +8,13 @@
 #if OUZEL_SUPPORTS_OPENAL
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#include <OpenAl/al.h>
-#include <OpenAl/alc.h>
+    #include <OpenAl/al.h>
+    #include <OpenAl/alc.h>
 #else
-#include <AL/al.h>
-#include <AL/alc.h>
+    #include <AL/al.h>
+    #include <AL/alc.h>
 #endif
+#undef OPENAL
 
 #include "audio/SoundResource.h"
 

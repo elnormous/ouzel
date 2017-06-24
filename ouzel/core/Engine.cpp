@@ -61,10 +61,6 @@
 #include "audio/xaudio2/AudioXA2.h"
 #include "audio/opensl/AudioSL.h"
 
-#ifdef OPENAL
-#undef OPENAL
-#endif
-
 namespace ouzel
 {
     ouzel::Engine* sharedEngine = nullptr;
