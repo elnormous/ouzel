@@ -126,6 +126,7 @@ namespace ouzel
         //TODO: implement
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
+        // TODO: use CSIDL_LOCAL_APPDATA
         if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_COMMON_APPDATA, nullptr, 0, szBuffer)))
         {
             WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
