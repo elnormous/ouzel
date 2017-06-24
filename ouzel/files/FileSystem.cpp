@@ -138,7 +138,11 @@ namespace ouzel
         if (!directoryExists(path))
         {
             MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
-            CreateDirectoryW(szBuffer, nullptr);
+            if (!CreateDirectoryW(szBuffer, nullptr))
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
         }
 
         path += DIRECTORY_SEPARATOR + app;
@@ -146,7 +150,11 @@ namespace ouzel
         if (!directoryExists(path))
         {
             MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
-            CreateDirectoryW(szBuffer, nullptr);
+            if (!CreateDirectoryW(szBuffer, nullptr))
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
         }
 #elif OUZEL_PLATFORM_ANDROID
         OUZEL_UNUSED(developer);
