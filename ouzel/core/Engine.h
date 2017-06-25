@@ -15,6 +15,7 @@
 #include "core/UpdateCallback.h"
 #include "core/Settings.h"
 #include "core/Timer.h"
+#include "files/FileSystem.h"
 #include "events/EventDispatcher.h"
 #include "scene/SceneManager.h"
 #include "core/Cache.h"
@@ -36,7 +37,7 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-
+        FileSystem* getFileSystem() { return &fileSystem; }
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
         Cache* getCache() { return &cache; }
@@ -66,6 +67,7 @@ namespace ouzel
         bool init(Settings& settings);
         void run();
 
+        FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         Timer timer;
         std::unique_ptr<Window> window;

@@ -9,7 +9,6 @@
 #include <functional>
 #include <mutex>
 #include "core/Engine.h"
-#include "files/FileSystem.h"
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -33,8 +32,6 @@ namespace ouzel
 
         virtual void execute(const std::function<void(void)>& func) = 0;
 
-        FileSystem* getFileSystem() { return &fileSystem; }
-
         virtual bool openURL(const std::string& url);
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
@@ -47,7 +44,6 @@ namespace ouzel
         char** argv = nullptr;
         std::vector<std::string> args;
 
-        FileSystem fileSystem;
         Engine engine;
     };
 

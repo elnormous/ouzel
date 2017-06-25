@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Language.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
@@ -25,7 +25,7 @@ namespace ouzel
 
         std::vector<uint8_t> data;
 
-        if (!sharedApplication->getFileSystem()->readFile(filename, data))
+        if (!sharedEngine->getFileSystem()->readFile(filename, data))
         {
             return false;
         }

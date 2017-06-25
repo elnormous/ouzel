@@ -3,7 +3,6 @@
 
 #include "Cache.h"
 #include "Engine.h"
-#include "Application.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureResource.h"
 #include "graphics/ShaderResource.h"
@@ -162,7 +161,7 @@ namespace ouzel
                                     uint32_t spritesX, uint32_t spritesY,
                                     const Vector2& pivot)
     {
-        std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
+        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
         std::vector<scene::SpriteFrame> frames;
 
@@ -209,7 +208,7 @@ namespace ouzel
         }
         else
         {
-            std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
             std::vector<scene::SpriteFrame> frames;
 

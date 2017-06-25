@@ -6,7 +6,6 @@
 #include <rapidjson/document.h>
 #include "SpriteFrame.h"
 #include "core/Engine.h"
-#include "core/Application.h"
 #include "core/Cache.h"
 #include "files/FileSystem.h"
 #include "graphics/TextureResource.h"
@@ -23,7 +22,7 @@ namespace ouzel
             std::vector<SpriteFrame> frames;
 
             std::vector<uint8_t> data;
-            if (!sharedApplication->getFileSystem()->readFile(filename, data))
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
             {
                 return frames;
             }

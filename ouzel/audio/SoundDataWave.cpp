@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundDataWave.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 #include "utils/Utils.h"
@@ -24,7 +24,7 @@ namespace ouzel
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedApplication->getFileSystem()->readFile(newFilename, newData))
+            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
             {
                 return false;
             }

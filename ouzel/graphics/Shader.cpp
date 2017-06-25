@@ -4,7 +4,6 @@
 #include "Shader.h"
 #include "ShaderResource.h"
 #include "Renderer.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "files/FileSystem.h"
 
@@ -37,14 +36,14 @@ namespace ouzel
 
             std::vector<uint8_t> pixelShaderData;
 
-            if (!sharedApplication->getFileSystem()->readFile(newPixelShader, pixelShaderData))
+            if (!sharedEngine->getFileSystem()->readFile(newPixelShader, pixelShaderData))
             {
                 return false;
             }
 
             std::vector<uint8_t> vertexShaderData;
 
-            if (!sharedApplication->getFileSystem()->readFile(newVertexShader, vertexShaderData))
+            if (!sharedEngine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
             {
                 return false;
             }

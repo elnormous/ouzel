@@ -11,12 +11,12 @@
 
 namespace ouzel
 {
-    class Application;
+    class Engine;
     class Archive;
 
     class FileSystem: public Noncopyable
     {
-        friend Application;
+        friend Engine;
     public:
         static const std::string DIRECTORY_SEPARATOR;
 

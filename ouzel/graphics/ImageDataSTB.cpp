@@ -3,7 +3,7 @@
 
 #include "ImageDataSTB.h"
 #include "utils/Log.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -20,7 +20,7 @@ namespace ouzel
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedApplication->getFileSystem()->readFile(newFilename, newData))
+            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
             {
                 return false;
             }

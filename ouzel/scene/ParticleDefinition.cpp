@@ -5,7 +5,7 @@
 #include <rapidjson/memorystream.h>
 #include <rapidjson/document.h>
 #include "ParticleDefinition.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
@@ -18,7 +18,7 @@ namespace ouzel
             ParticleDefinition result;
 
             std::vector<uint8_t> data;
-            if (!sharedApplication->getFileSystem()->readFile(filename, data))
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
             {
                 return result;
             }
