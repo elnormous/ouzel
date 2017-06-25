@@ -88,11 +88,15 @@ namespace ouzel
         }
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
-        if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, SHGFP_TYPE_CURRENT, szBuffer)))
+        HRESULT hr = SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
+        if (FAILED(hr))
         {
-            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-            return TEMP_BUFFER;
+            Log(Log::Level::ERR) << "Failed to get the path of the profile directory, error: " << hr;
+            return "";
         }
+
+        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+        return TEMP_BUFFER;
 #endif
         return "";
     }
@@ -130,11 +134,15 @@ namespace ouzel
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         // TODO: use CSIDL_LOCAL_APPDATA
-        if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer)))
+        HRESULT hr = SHGetFolderPathW(nullptr, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
+        if (FAILED(hr))
         {
-            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-            path = TEMP_BUFFER;
+            Log(Log::Level::ERR) << "Failed to get the path of the AppData directory, error: " << hr;
+            return "";
         }
+
+        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+        path = TEMP_BUFFER;
 
         path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
 
