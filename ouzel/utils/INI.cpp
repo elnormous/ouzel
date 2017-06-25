@@ -237,7 +237,7 @@ namespace ouzel
         return true;
     }
 
-    std::string INI::getValue(const std::string& section, const std::string& key)
+    std::string INI::getValue(const std::string& section, const std::string& key) const
     {
         auto sectionIterator = sections.find(section);
         if (sectionIterator != sections.end())
