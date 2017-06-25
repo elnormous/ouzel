@@ -7,6 +7,8 @@
 #include "CompileConfig.h"
 #include "Window.h"
 #include "utils/Log.h"
+#include "utils/INI.h"
+#include "utils/Utils.h"
 #include "graphics/Renderer.h"
 #include "audio/Audio.h"
 
@@ -152,27 +154,165 @@ namespace ouzel
         return availableDrivers;
     }
 
-    bool Engine::init(Settings& settings)
+    bool Engine::init()
     {
-        if (settings.graphicsDriver == graphics::Renderer::Driver::DEFAULT)
+        graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
+        audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
+
+        Size2 size;
+        uint32_t sampleCount = 1; // MSAA sample count
+        graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
+        uint32_t maxAnisotropy = 1;
+        bool resizable = false;
+        bool fullscreen = false;
+        bool verticalSync = true;
+        bool depth = false;
+        bool debugRenderer = false;
+        bool highDpi = true; // should high DPI resolution be used
+
+        INI settingsIni("settings.ini");
+
+        std::string graphicsDriverValue = settingsIni.getValue("engine", "graphicsDriver");
+
+        if (!graphicsDriverValue.empty())
+        {
+            if (graphicsDriverValue == "default")
+            {
+                graphicsDriver = ouzel::graphics::Renderer::Driver::DEFAULT;
+            }
+            else if (graphicsDriverValue == "empty")
+            {
+                graphicsDriver = ouzel::graphics::Renderer::Driver::EMPTY;
+            }
+            else if (graphicsDriverValue == "opengl")
+            {
+                graphicsDriver = ouzel::graphics::Renderer::Driver::OPENGL;
+            }
+            else if (graphicsDriverValue == "direct3d11")
+            {
+                graphicsDriver = ouzel::graphics::Renderer::Driver::DIRECT3D11;
+            }
+            else if (graphicsDriverValue == "metal")
+            {
+                graphicsDriver = ouzel::graphics::Renderer::Driver::METAL;
+            }
+            else
+            {
+                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
+                return false;
+            }
+        }
+
+        std::string audioDriverValue = settingsIni.getValue("engine", "audioDriver");
+
+        if (!audioDriverValue.empty())
+        {
+            if (audioDriverValue == "default")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
+            }
+            else if (audioDriverValue == "empty")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::EMPTY;
+            }
+            else if (audioDriverValue == "openal")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::OPENAL;
+            }
+            else if (audioDriverValue == "directsound")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
+            }
+            else if (audioDriverValue == "xaudio2")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
+            }
+            else if (audioDriverValue == "opensl")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::OPENSL;
+            }
+            else
+            {
+                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
+                return false;
+            }
+        }
+
+        std::string widthValue = settingsIni.getValue("engine", "width");
+        if (!widthValue.empty()) size.v[0] = stringToFloat(widthValue);
+
+        std::string heightValue = settingsIni.getValue("engine", "height");
+        if (!heightValue.empty()) size.v[1] = stringToFloat(heightValue);
+
+        std::string sampleCountValue = settingsIni.getValue("engine", "sampleCount");
+        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(stringToLong(sampleCountValue));
+
+        std::string textureFilterValue = settingsIni.getValue("engine", "textureFilter");
+        if (!textureFilterValue.empty())
+        {
+            if (textureFilterValue == "point")
+            {
+                textureFilter = ouzel::graphics::Texture::Filter::POINT;
+            }
+            else if (textureFilterValue == "linear")
+            {
+                textureFilter = ouzel::graphics::Texture::Filter::LINEAR;
+            }
+            else if (textureFilterValue == "bilinear")
+            {
+                textureFilter = ouzel::graphics::Texture::Filter::BILINEAR;
+            }
+            else if (textureFilterValue == "trilinear")
+            {
+                textureFilter = ouzel::graphics::Texture::Filter::TRILINEAR;
+            }
+            else
+            {
+                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid texture filter specified";
+                return false;
+            }
+        }
+
+        std::string maxAnisotropyValue = settingsIni.getValue("engine", "maxAnisotropy");
+        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(stringToLong(maxAnisotropyValue));
+
+        std::string resizableValue = settingsIni.getValue("engine", "resizable");
+        if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
+
+        std::string fullscreenValue = settingsIni.getValue("engine", "fullscreen");
+        if (!fullscreenValue.empty()) fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
+
+        std::string verticalSyncValue = settingsIni.getValue("engine", "verticalSync");
+        if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
+
+        std::string depthValue = settingsIni.getValue("engine", "depth");
+        if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
+
+        std::string debugRendererValue = settingsIni.getValue("engine", "debugRenderer");
+        if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
+
+        std::string highDpiValue = settingsIni.getValue("engine", "highDpi");
+        if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
+
+        if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
         {
             auto availableDrivers = getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
             {
-                settings.graphicsDriver = graphics::Renderer::Driver::METAL;
+                graphicsDriver = graphics::Renderer::Driver::METAL;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
             {
-                settings.graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
+                graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
             {
-                settings.graphicsDriver = graphics::Renderer::Driver::OPENGL;
+                graphicsDriver = graphics::Renderer::Driver::OPENGL;
             }
             else
             {
-                settings.graphicsDriver = graphics::Renderer::Driver::EMPTY;
+                graphicsDriver = graphics::Renderer::Driver::EMPTY;
             }
         }
 
@@ -196,7 +336,7 @@ namespace ouzel
         window.reset(new Window());
 #endif
 
-        switch (settings.graphicsDriver)
+        switch (graphicsDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
                 Log(Log::Level::INFO) << "Not using render driver";
@@ -249,55 +389,55 @@ namespace ouzel
                 return false;
         }
 
-        if (!window->init(settings.size,
-                          settings.resizable,
-                          settings.fullscreen,
+        if (!window->init(size,
+                          resizable,
+                          fullscreen,
                           APPLICATION_NAME,
-                          settings.highDpi,
-                          settings.depth))
+                          highDpi,
+                          depth))
         {
             return false;
         }
 
         if (!renderer->init(window.get(),
                             window->getSize() * window->getContentScale(),
-                            settings.sampleCount,
-                            settings.textureFilter,
-                            settings.maxAnisotropy,
-                            settings.verticalSync,
-                            settings.depth,
-                            settings.debugRenderer))
+                            sampleCount,
+                            textureFilter,
+                            maxAnisotropy,
+                            verticalSync,
+                            depth,
+                            debugRenderer))
         {
             return false;
         }
 
-        if (settings.audioDriver == audio::Audio::Driver::DEFAULT)
+        if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
             auto availableDrivers = getAvailableAudioDrivers();
 
             if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
             {
-                settings.audioDriver = audio::Audio::Driver::OPENAL;
+                audioDriver = audio::Audio::Driver::OPENAL;
             }
             else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
             {
-                settings.audioDriver = audio::Audio::Driver::DIRECTSOUND;
+                audioDriver = audio::Audio::Driver::DIRECTSOUND;
             }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
             {
-                settings.audioDriver = audio::Audio::Driver::XAUDIO2;
+                audioDriver = audio::Audio::Driver::XAUDIO2;
             }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
             {
-                settings.audioDriver = audio::Audio::Driver::OPENSL;
+                audioDriver = audio::Audio::Driver::OPENSL;
             }
             else
             {
-                settings.audioDriver = audio::Audio::Driver::EMPTY;
+                audioDriver = audio::Audio::Driver::EMPTY;
             }
         }
 
-        switch (settings.audioDriver)
+        switch (audioDriver)
         {
             case audio::Audio::Driver::EMPTY:
                 Log(Log::Level::INFO) << "Not using audio driver";

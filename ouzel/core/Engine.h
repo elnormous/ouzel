@@ -13,8 +13,9 @@
 #include "CompileConfig.h"
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
-#include "core/Settings.h"
 #include "core/Timer.h"
+#include "graphics/Renderer.h"
+#include "audio/Audio.h"
 #include "files/FileSystem.h"
 #include "events/EventDispatcher.h"
 #include "scene/SceneManager.h"
@@ -64,7 +65,7 @@ namespace ouzel
 
     protected:
         Engine();
-        bool init(Settings& settings);
+        bool init();
         void run();
 
         FileSystem fileSystem;

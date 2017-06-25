@@ -21,7 +21,6 @@
 #include "core/Cache.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"
-#include "core/Settings.h"
 #include "core/Timer.h"
 #include "core/UpdateCallback.h"
 #include "core/Window.h"

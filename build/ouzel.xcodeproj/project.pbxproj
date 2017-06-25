@@ -93,9 +93,6 @@
 		303647171C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
 		303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
 		303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647131C3DFEAF0024DB5B /* Gamepad.h */; };
-		303647641C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
-		303647651C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
-		303647661C3F218E0024DB5B /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 303647631C3F218E0024DB5B /* Settings.h */; };
 		303696C41E32DD8F007F4211 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303696C21E32DD8F007F4211 /* Texture.cpp */; };
 		303696C51E32DD8F007F4211 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303696C21E32DD8F007F4211 /* Texture.cpp */; };
 		303696C61E32DD8F007F4211 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303696C21E32DD8F007F4211 /* Texture.cpp */; };
@@ -889,7 +886,6 @@
 		30324E131CB2898E00601A64 /* BlendStateResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendStateResource.h; sourceTree = "<group>"; };
 		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
 		303647131C3DFEAF0024DB5B /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
-		303647631C3F218E0024DB5B /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		303696C21E32DD8F007F4211 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		303696C31E32DD8F007F4211 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		303696CA1E32DD9C007F4211 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
@@ -1461,7 +1457,6 @@
 				304A8E2E1C237C70008B1151 /* Engine.h */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B751B1C29EDD900FEDE92 /* macos */,
-				303647631C3F218E0024DB5B /* Settings.h */,
 				305B68D11ED1B31D003352A2 /* Timer.cpp */,
 				305B68D21ED1B31D003352A2 /* Timer.h */,
 				303B76311C355A3400FEDE92 /* tvos */,
@@ -1915,7 +1910,6 @@
 				3047F77B1C4D39C500774E3D /* Repeat.h in Headers */,
 				3047F7621C4C60B900774E3D /* Fade.h in Headers */,
 				3039335A1E5C446E000C9A8E /* ImageDataSTB.h in Headers */,
-				303647651C3F218E0024DB5B /* Settings.h in Headers */,
 				303820151D80A40700677CAB /* TexturePSIOS.h in Headers */,
 				305B99951C41F06F008589E1 /* Widget.h in Headers */,
 				303820FB1D817F4900677CAB /* InputIOS.h in Headers */,
@@ -2078,7 +2072,6 @@
 				3047F7631C4C60B900774E3D /* Fade.h in Headers */,
 				3039335C1E5C446E000C9A8E /* ImageDataSTB.h in Headers */,
 				303820171D80A40700677CAB /* TexturePSIOS.h in Headers */,
-				303647661C3F218E0024DB5B /* Settings.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.h in Headers */,
 				3038201D1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
 				305B99961C41F06F008589E1 /* Widget.h in Headers */,
@@ -2164,7 +2157,6 @@
 				30324E171CB2898E00601A64 /* BlendStateResource.h in Headers */,
 				304A8E501C237C70008B1151 /* ouzel.h in Headers */,
 				30575ABF1C39D9850009C8A7 /* NodeContainer.h in Headers */,
-				303647641C3F218E0024DB5B /* Settings.h in Headers */,
 				3038216D1D81876E00677CAB /* AudioEmpty.h in Headers */,
 				30DADE9F1C5167BC001A63B4 /* Cache.h in Headers */,
 				30C56C5E1CAA88F8007AEF8F /* CheckBox.h in Headers */,
