@@ -424,9 +424,6 @@
     <ClInclude Include="..\ouzel\core\Engine.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Settings.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\core\UpdateCallback.h">
       <Filter>core</Filter>
     </ClInclude>

@@ -175,7 +175,6 @@
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
-    <ClInclude Include="..\ouzel\core\Settings.h" />
     <ClInclude Include="..\ouzel\core\Timer.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
