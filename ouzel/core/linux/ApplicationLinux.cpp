@@ -23,7 +23,10 @@ namespace ouzel
 
     int ApplicationLinux::run()
     {
-        ouzelMain(args);
+        if (!init())
+        {
+            return EXIT_FAILURE;
+        }
 
         if (sharedEngine)
         {

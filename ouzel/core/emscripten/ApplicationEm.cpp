@@ -25,7 +25,10 @@ namespace ouzel
 
     int ApplicationEm::run()
     {
-        ouzelMain(args);
+        if (!init())
+        {
+            return EXIT_FAILURE;
+        }
 
         if (sharedEngine)
         {

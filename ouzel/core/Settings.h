@@ -12,7 +12,7 @@ namespace ouzel
 {
     struct Settings
     {
-        graphics::Renderer::Driver renderDriver = graphics::Renderer::Driver::DEFAULT;
+        graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
         audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
 
         Size2 size;

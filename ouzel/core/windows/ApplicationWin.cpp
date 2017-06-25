@@ -37,7 +37,10 @@ namespace ouzel
         }
 #endif
 
-        ouzelMain(args);
+        if (!init())
+        {
+            return EXIT_FAILURE;
+        }
 
         if (sharedEngine)
         {

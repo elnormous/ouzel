@@ -16,7 +16,10 @@ namespace ouzel
 
     int ApplicationRasp::run()
     {
-        ouzelMain(args);
+        if (!init())
+        {
+            return EXIT_FAILURE;
+        }
 
         if (sharedEngine)
         {

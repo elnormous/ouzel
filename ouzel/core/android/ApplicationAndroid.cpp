@@ -187,7 +187,7 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
         }
 
-        ouzelMain(sharedApplication->getArgs());
+        init();
 
         if (sharedEngine)
         {

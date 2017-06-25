@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "Engine.h"
+#include "Application.h"
 #include "CompileConfig.h"
 #include "Window.h"
 #include "utils/Log.h"
@@ -153,25 +154,25 @@ namespace ouzel
 
     bool Engine::init(Settings& settings)
     {
-        if (settings.renderDriver == graphics::Renderer::Driver::DEFAULT)
+        if (settings.graphicsDriver == graphics::Renderer::Driver::DEFAULT)
         {
             auto availableDrivers = getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
             {
-                settings.renderDriver = graphics::Renderer::Driver::METAL;
+                settings.graphicsDriver = graphics::Renderer::Driver::METAL;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::DIRECT3D11) != availableDrivers.end())
             {
-                settings.renderDriver = graphics::Renderer::Driver::DIRECT3D11;
+                settings.graphicsDriver = graphics::Renderer::Driver::DIRECT3D11;
             }
             else if (availableDrivers.find(graphics::Renderer::Driver::OPENGL) != availableDrivers.end())
             {
-                settings.renderDriver = graphics::Renderer::Driver::OPENGL;
+                settings.graphicsDriver = graphics::Renderer::Driver::OPENGL;
             }
             else
             {
-                settings.renderDriver = graphics::Renderer::Driver::EMPTY;
+                settings.graphicsDriver = graphics::Renderer::Driver::EMPTY;
             }
         }
 
@@ -195,7 +196,7 @@ namespace ouzel
         window.reset(new Window());
 #endif
 
-        switch (settings.renderDriver)
+        switch (settings.graphicsDriver)
         {
             case graphics::Renderer::Driver::EMPTY:
                 Log(Log::Level::INFO) << "Not using render driver";
@@ -398,6 +399,8 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             updateThread = std::thread(&Engine::run, this);
+#else
+            run();
 #endif
         }
     }
@@ -528,6 +531,9 @@ namespace ouzel
         }
 #endif
 
+        ouzelMain(sharedApplication->getArgs());
+
+#if OUZEL_MULTITHREADED
         while (active)
         {
             if (running)
@@ -539,6 +545,7 @@ namespace ouzel
         }
 
         eventDispatcher.dispatchEvents();
+#endif
 
 #if OUZEL_PLATFORM_ANDROID
         if (javaVM->DetachCurrentThread() != JNI_OK)

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3011E1CA1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
+		3011E1CB1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
+		3011E1CC1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
 		3013FAAF1DDD20AC0069E2BD /* GameSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */; };
 		3013FAB01DDD20AC0069E2BD /* GameSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */; };
 		3013FAB11DDD20AC0069E2BD /* GameSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */; };
@@ -183,6 +186,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3011E1C91F00444500CB1DDC /* settings.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.ini; sourceTree = SOURCE_ROOT; };
 		3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSample.cpp; sourceTree = "<group>"; };
 		3013FAAE1DDD20AC0069E2BD /* GameSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSample.h; sourceTree = "<group>"; };
 		30224DED1D78F4DB0067DE35 /* triangle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = triangle.json; sourceTree = "<group>"; };
@@ -429,6 +433,7 @@
 				30C56C731CAB48A4007AEF8F /* radio_button.png */,
 				303B75EB1C33581700FEDE92 /* run.json */,
 				303B75EC1C33581700FEDE92 /* run.png */,
+				3011E1C91F00444500CB1DDC /* settings.ini */,
 				30C56C861CAB4E4E007AEF8F /* tick.png */,
 				30224DED1D78F4DB0067DE35 /* triangle.json */,
 				30224DEE1D78F4DB0067DE35 /* triangle.png */,
@@ -622,6 +627,7 @@
 				30224DF01D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */,
 				303822591D86D83300677CAB /* arial.png in Resources */,
+				3011E1CA1F00444500CB1DDC /* settings.ini in Resources */,
 				303B761B1C34CFE300FEDE92 /* run.png in Resources */,
 				30A883571E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
@@ -659,6 +665,7 @@
 				30224DF11D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */,
 				3038225B1D86D83300677CAB /* arial.png in Resources */,
+				3011E1CC1F00444500CB1DDC /* settings.ini in Resources */,
 				303B769B1C355AA400FEDE92 /* run.png in Resources */,
 				30A883591E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
@@ -696,6 +703,7 @@
 				30224DEF1D78F4DB0067DE35 /* triangle.json in Resources */,
 				30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */,
 				3038225A1D86D83300677CAB /* arial.png in Resources */,
+				3011E1CB1F00444500CB1DDC /* settings.ini in Resources */,
 				303B75EE1C33581700FEDE92 /* run.png in Resources */,
 				30A883581E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,

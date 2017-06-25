@@ -36,7 +36,6 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-        bool init(Settings& settings);
 
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
@@ -64,6 +63,7 @@ namespace ouzel
 
     protected:
         Engine();
+        bool init(Settings& settings);
         void run();
 
         EventDispatcher eventDispatcher;

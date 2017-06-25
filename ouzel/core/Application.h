@@ -21,6 +21,7 @@ namespace ouzel
         Application(int aArgc, char* aArgv[]);
         Application(const std::vector<std::string>& aArgs);
         virtual ~Application();
+        bool init();
 
         virtual int run();
         virtual void exit();

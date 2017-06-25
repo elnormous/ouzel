@@ -14,7 +14,7 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    ouzelMain(ouzel::sharedApplication->getArgs());
+    ouzel::sharedApplication->init();
 
     return YES;
 }
