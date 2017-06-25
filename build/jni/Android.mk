@@ -123,6 +123,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Sprite.cpp \
     ../../ouzel/scene/SpriteFrame.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
+    ../../ouzel/utils/INI.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/OBF.cpp \
     ../../ouzel/utils/Utils.cpp

@@ -21,6 +21,12 @@
 		300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
 		300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
 		300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300C39EC1E51355000330E4F /* SoundDataWave.cpp */; };
+		3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
+		3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
+		3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1C11EFFE6DE00CB1DDC /* INI.cpp */; };
+		3011E1C61EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
+		3011E1C71EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
+		3011E1C81EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
 		301456DF1E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E01E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E11E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
@@ -858,6 +864,8 @@
 		3009342D1C88978D00CC50D3 /* WindowTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowTVOS.h; sourceTree = "<group>"; };
 		300C39EB1E51355000330E4F /* SoundDataWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataWave.h; sourceTree = "<group>"; };
 		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
+		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
+		3011E1C21EFFE6DE00CB1DDC /* INI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INI.h; sourceTree = "<group>"; };
 		301456DD1E38BEB200BA75DB /* SoundResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundResource.cpp; sourceTree = "<group>"; };
 		301456DE1E38BEB200BA75DB /* SoundResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundResource.h; sourceTree = "<group>"; };
 		301456ED1E38BFB300BA75DB /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
@@ -1782,6 +1790,8 @@
 		30A5BF0C1CFCE3F800A977CA /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				3011E1C11EFFE6DE00CB1DDC /* INI.cpp */,
+				3011E1C21EFFE6DE00CB1DDC /* INI.h */,
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.h */,
 				304A8E381C237C70008B1151 /* Noncopyable.h */,
@@ -1874,6 +1884,7 @@
 				30381FB81D80A3F900677CAB /* AudioAL.h in Headers */,
 				30575AD11C3B175D0009C8A7 /* Label.h in Headers */,
 				309B483A1DEA5EE600A718C5 /* Color.h in Headers */,
+				3011E1C61EFFE6DE00CB1DDC /* INI.h in Headers */,
 				303647181C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
 				3049DCDD1EDCD0450000997A /* Cursor.h in Headers */,
@@ -2036,6 +2047,7 @@
 				30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
 				309B483C1DEA5EE600A718C5 /* Color.h in Headers */,
+				3011E1C81EFFE6DE00CB1DDC /* INI.h in Headers */,
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
 				3049DCDF1EDCD0450000997A /* Cursor.h in Headers */,
@@ -2252,6 +2264,7 @@
 				303B760A1C34A92B00FEDE92 /* Input.h in Headers */,
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				3048398A1D53BE8F007D70FF /* Resource.h in Headers */,
+				3011E1C71EFFE6DE00CB1DDC /* INI.h in Headers */,
 				3098A5571EA01C8A00528A54 /* GamepadMacOS.h in Headers */,
 				3082C3AC1D9565DE0090FC9D /* TexturePSGL2.h in Headers */,
 				303696D81E32DDA9007F4211 /* Buffer.h in Headers */,
@@ -2511,6 +2524,7 @@
 				30419DE21D162BCF00A63759 /* Audio.cpp in Sources */,
 				30216B801ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B75611C2A3CBF00FEDE92 /* Node.cpp in Sources */,
+				3011E1C31EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDA1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30381FFA1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
 				30575A901C38BD370009C8A7 /* Box2.cpp in Sources */,
@@ -2643,6 +2657,7 @@
 				30419DE31D162BCF00A63759 /* Audio.cpp in Sources */,
 				30216B821ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				303B76881C355A5800FEDE92 /* main.cpp in Sources */,
+				3011E1C51EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				3049DCDC1EDCD0450000997A /* Cursor.cpp in Sources */,
 				30381FFC1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
 				30575A911C38BD370009C8A7 /* Box2.cpp in Sources */,
@@ -2775,6 +2790,7 @@
 				30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */,
 				304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */,
 				30381FFB1D80A40700677CAB /* MeshBufferResourceMetal.mm in Sources */,
+				3011E1C41EFFE6DE00CB1DDC /* INI.cpp in Sources */,
 				30381F861D80A3EC00677CAB /* ShaderResourceOGL.cpp in Sources */,
 				3049DCDB1EDCD0450000997A /* Cursor.cpp in Sources */,
 				305B68D41ED1B31D003352A2 /* Timer.cpp in Sources */,
