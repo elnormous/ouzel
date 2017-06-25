@@ -100,7 +100,8 @@
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(OutDir)Resources"
+      <Command>copy "$(ProjectDir)settings.ini" "$(OutDir)settings.ini"
+mkdir "$(OutDir)Resources"
 copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -119,7 +120,8 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(OutDir)Resources"
+      <Command>copy "$(ProjectDir)settings.ini" "$(OutDir)settings.ini"
+mkdir "$(OutDir)Resources"
 copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -140,7 +142,8 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(OutDir)Resources"
+      <Command>copy "$(ProjectDir)settings.ini" "$(OutDir)settings.ini"
+mkdir "$(OutDir)Resources"
 copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -161,7 +164,8 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <AdditionalDependencies>d3d11.lib;opengl32.lib;dxguid.lib;xinput9_1_0.lib;shlwapi.lib;dinput8.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(OutDir)Resources"
+      <Command>copy "$(ProjectDir)settings.ini" "$(OutDir)settings.ini"
+mkdir "$(OutDir)Resources"
 copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

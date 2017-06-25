@@ -71,6 +71,7 @@ bundle:
 	mkdir -p $(EXECUTABLE).app/Contents/MacOS
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
+	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
 	cp -f macos/app/AppIcon.icns $(EXECUTABLE).app/Contents/Resources
 endif
