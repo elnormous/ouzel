@@ -170,9 +170,10 @@ namespace ouzel
         bool debugRenderer = false;
         bool highDpi = true; // should high DPI resolution be used
 
-        INI settingsIni("settings.ini");
+        INI defaultSettings("settings.ini");
+        INI settings(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
-        std::string graphicsDriverValue = settingsIni.getValue("engine", "graphicsDriver");
+        std::string graphicsDriverValue = settings.getValue("engine", "graphicsDriver", defaultSettings.getValue("engine", "graphicsDriver"));
 
         if (!graphicsDriverValue.empty())
         {
@@ -203,7 +204,7 @@ namespace ouzel
             }
         }
 
-        std::string audioDriverValue = settingsIni.getValue("engine", "audioDriver");
+        std::string audioDriverValue = settings.getValue("engine", "audioDriver", defaultSettings.getValue("engine", "audioDriver"));
 
         if (!audioDriverValue.empty())
         {
@@ -238,16 +239,16 @@ namespace ouzel
             }
         }
 
-        std::string widthValue = settingsIni.getValue("engine", "width");
+        std::string widthValue = settings.getValue("engine", "width", defaultSettings.getValue("engine", "width"));
         if (!widthValue.empty()) size.v[0] = stringToFloat(widthValue);
 
-        std::string heightValue = settingsIni.getValue("engine", "height");
+        std::string heightValue = settings.getValue("engine", "height", defaultSettings.getValue("engine", "height"));
         if (!heightValue.empty()) size.v[1] = stringToFloat(heightValue);
 
-        std::string sampleCountValue = settingsIni.getValue("engine", "sampleCount");
+        std::string sampleCountValue = settings.getValue("engine", "sampleCount", defaultSettings.getValue("engine", "sampleCount"));
         if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(stringToLong(sampleCountValue));
 
-        std::string textureFilterValue = settingsIni.getValue("engine", "textureFilter");
+        std::string textureFilterValue = settings.getValue("engine", "textureFilter", defaultSettings.getValue("engine", "textureFilter"));
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
@@ -273,25 +274,25 @@ namespace ouzel
             }
         }
 
-        std::string maxAnisotropyValue = settingsIni.getValue("engine", "maxAnisotropy");
+        std::string maxAnisotropyValue = settings.getValue("engine", "maxAnisotropy", defaultSettings.getValue("engine", "maxAnisotropy"));
         if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(stringToLong(maxAnisotropyValue));
 
-        std::string resizableValue = settingsIni.getValue("engine", "resizable");
+        std::string resizableValue = settings.getValue("engine", "resizable", defaultSettings.getValue("engine", "resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
 
-        std::string fullscreenValue = settingsIni.getValue("engine", "fullscreen");
+        std::string fullscreenValue = settings.getValue("engine", "fullscreen", defaultSettings.getValue("engine", "fullscreen"));
         if (!fullscreenValue.empty()) fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
 
-        std::string verticalSyncValue = settingsIni.getValue("engine", "verticalSync");
+        std::string verticalSyncValue = settings.getValue("engine", "verticalSync", defaultSettings.getValue("engine", "verticalSync"));
         if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
 
-        std::string depthValue = settingsIni.getValue("engine", "depth");
+        std::string depthValue = settings.getValue("engine", "depth", defaultSettings.getValue("engine", "depth"));
         if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
-        std::string debugRendererValue = settingsIni.getValue("engine", "debugRenderer");
+        std::string debugRendererValue = settings.getValue("engine", "debugRenderer", defaultSettings.getValue("engine", "debugRenderer"));
         if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
 
-        std::string highDpiValue = settingsIni.getValue("engine", "highDpi");
+        std::string highDpiValue = settings.getValue("engine", "highDpi", defaultSettings.getValue("engine", "highDpi"));
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
 
         if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
