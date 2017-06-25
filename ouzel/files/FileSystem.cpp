@@ -82,10 +82,13 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         passwd* pw = getpwuid(getuid());
-        if (pw)
+        if (!pw)
         {
-            return pw->pw_dir;
+            Log(Log::Level::ERR) << "Failed to get home directory";
+            return "";
         }
+
+        return pw->pw_dir;
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
         HRESULT hr = SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
@@ -190,7 +193,38 @@ namespace ouzel
         OUZEL_UNUSED(DEVELOPER_NAME);
         OUZEL_UNUSED(APPLICATION_NAME);
         //TODO: implement
-#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN || OUZEL_PLATFORM_EMSCRIPTEN
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        passwd* pw = getpwuid(getuid());
+        if (!pw)
+        {
+            Log(Log::Level::ERR) << "Failed to get home directory";
+            return "";
+        }
+
+        path = pw->pw_dir;
+
+        path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+#elif OUZEL_PLATFORM_EMSCRIPTEN
         OUZEL_UNUSED(DEVELOPER_NAME);
         OUZEL_UNUSED(APPLICATION_NAME);
         //TODO: implement
