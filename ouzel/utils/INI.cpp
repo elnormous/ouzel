@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cctype>
+#include <algorithm>
 #include "INI.h"
 #include "core/Application.h"
 #include "utils/Log.h"
