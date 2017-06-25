@@ -237,6 +237,38 @@ namespace ouzel
         return true;
     }
 
+    bool INI::save(const std::string& filename)
+    {
+        std::vector<uint8_t> data;
+        encode(data);
+
+        return sharedEngine->getFileSystem()->writeFile(filename, data);
+    }
+
+    bool INI::encode(std::vector<uint8_t>& data)
+    {
+        std::string result;
+
+        for (const auto& section : sections)
+        {
+            data.push_back('[');
+            std::copy(section.first.begin(), section.first.end(), std::back_inserter(data));
+            data.push_back(']');
+            data.push_back('\n');
+
+            for (const auto& value : section.second)
+            {
+                std::copy(value.first.begin(), value.first.end(), std::back_inserter(data));
+                data.push_back('=');
+                std::copy(value.second.begin(), value.second.end(), std::back_inserter(data));
+                data.push_back('\n');
+            }
+        }
+
+
+        return true;
+    }
+
     std::string INI::getValue(const std::string& section, const std::string& key, const std::string& defaultValue) const
     {
         auto sectionIterator = sections.find(section);
