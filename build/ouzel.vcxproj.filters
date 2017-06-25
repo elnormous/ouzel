@@ -379,6 +379,9 @@
     <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\utils\INI.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -852,6 +855,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h">
       <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\INI.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
