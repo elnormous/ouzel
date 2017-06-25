@@ -168,7 +168,7 @@ void ouzelMain(const std::vector<std::string>& args)
         {
             currentScene.reset(new MainMenu());
         }
-        
+
         ouzel::sharedEngine->getSceneManager()->setScene(std::move(currentScene));
     }
 }

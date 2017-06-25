@@ -101,31 +101,51 @@ namespace ouzel
         return "";
     }
 
-    std::string FileSystem::getStorageDirectory()
+    std::string FileSystem::getStorageDirectory(bool user)
     {
         std::string path;
 
 #if OUZEL_PLATFORM_MACOS
-        OUZEL_UNUSED(DEVELOPER_NAME);
-        OUZEL_UNUSED(APPLICATION_NAME);
-
         FSRef ref;
-        OSType folderType = kApplicationSupportFolderType;
 
-        FSFindFolder(kUserDomain, folderType, kCreateFolder, &ref);
+        OSErr err = FSFindFolder(user ? kUserDomain : kLocalDomain, kApplicationSupportFolderType, kCreateFolder, &ref);
 
-        FSRefMakePath(&ref, reinterpret_cast<UInt8*>(&TEMP_BUFFER), sizeof(TEMP_BUFFER));
+        if (err != noErr)
+        {
+            Log(Log::Level::ERR) << "Failed to get the path of the Application Support directory, error: " << err;
+            return "";
+        }
+
+        err = FSRefMakePath(&ref, reinterpret_cast<UInt8*>(&TEMP_BUFFER), sizeof(TEMP_BUFFER));
+
+        if (err != noErr)
+        {
+            Log(Log::Level::ERR) << "Failed to make path from FSRef, error: " << err;
+            return "";
+        }
 
         path = TEMP_BUFFER;
 
-        CFStringRef bundleIdentifier = CFBundleGetIdentifier(CFBundleGetMainBundle());
-        CFStringGetCString(bundleIdentifier, TEMP_BUFFER, sizeof(TEMP_BUFFER), kCFStringEncodingUTF8);
-
-        path += DIRECTORY_SEPARATOR + TEMP_BUFFER;
+        path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
 
         if (!directoryExists(path))
         {
-            mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
         }
 #elif OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         OUZEL_UNUSED(DEVELOPER_NAME);
@@ -133,8 +153,7 @@ namespace ouzel
         //TODO: implement
 #elif OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
-        // TODO: use CSIDL_LOCAL_APPDATA
-        HRESULT hr = SHGetFolderPathW(nullptr, CSIDL_COMMON_APPDATA | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
+        HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
         if (FAILED(hr))
         {
             Log(Log::Level::ERR) << "Failed to get the path of the AppData directory, error: " << hr;

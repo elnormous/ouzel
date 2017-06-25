@@ -782,7 +782,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_ios;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -803,7 +803,7 @@
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_ios;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
@@ -823,7 +823,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -843,7 +843,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = tvos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
 				STRIP_PNG_TEXT = NO;
@@ -967,7 +967,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Debug;
@@ -981,7 +981,7 @@
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = macos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ouzelengine.samples;
 				PRODUCT_NAME = samples_macos;
 			};
 			name = Release;
