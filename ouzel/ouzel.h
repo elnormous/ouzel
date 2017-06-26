@@ -84,6 +84,7 @@
 #include "scene/SoundPlayer.h"
 #include "scene/Sprite.h"
 #include "scene/TextRenderer.h"
+#include "utils/INI.h"
 #include "utils/Log.h"
 #include "utils/OBF.h"
 #include "utils/Utils.h"
