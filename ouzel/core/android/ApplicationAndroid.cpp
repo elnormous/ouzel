@@ -73,47 +73,26 @@ namespace ouzel
         addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
         clearFlagsMethod = jniEnv->GetMethodID(windowClass, "clearFlags", "(I)V");
 
-        // get package manager
-        jmethodID getPackageManagerMethod = jniEnv->GetMethodID(mainActivityClass, "getPackageManager", "()Landroid/content/pm/PackageManager;");
-        jobject packageManager  = jniEnv->CallObjectMethod(mainActivity, getPackageManagerMethod);
-        jclass packageManagerClass = jniEnv->GetObjectClass(packageManager);
-        jmethodID getPackageInfoMethod = jniEnv->GetMethodID(packageManagerClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
-
-        // get package name
-        jmethodID getPackageNameMethod = jniEnv->GetMethodID(mainActivityClass,"getPackageName","()Ljava/lang/String;");
-        jstring packageName = static_cast<jstring>(jniEnv->CallObjectMethod(mainActivity, getPackageNameMethod));
-
-        // get package info
-        jobject packageInfo = jniEnv->CallObjectMethod(packageManager, getPackageInfoMethod, packageName, 0);
-        jclass packageInfoClass = jniEnv->GetObjectClass(packageInfo);
-
-        // get application info
-        jfieldID applicationInfoField = jniEnv->GetFieldID(packageInfoClass, "applicationInfo", "Landroid/content/pm/ApplicationInfo;");
-        jobject applicationInfo = jniEnv->GetObjectField(packageInfo, applicationInfoField);
-        jclass applicationInfoClass = jniEnv->GetObjectClass(applicationInfo);
+        // File class
+        jclass fileClass = jniEnv->FindClass("java/io/File");
+        jmethodID getAbsolutePathMethod = jniEnv->GetMethodID(fileClass,"getAbsolutePath","()Ljava/lang/String;");
 
         // dataDir
-        jfieldID dataDirField = jniEnv->GetFieldID(applicationInfoClass, "dataDir", "Ljava/lang/String;");
-        jstring dataDirString = static_cast<jstring>(jniEnv->GetObjectField(applicationInfo, dataDirField));
+        jmethodID getFilesDirMethod = jniEnv->GetMethodID(mainActivityClass,"getFilesDir","()Ljava/io/File;");
+        jobject filesDirFile = jniEnv->CallObjectMethod(mainActivity, getFilesDirMethod);
 
-        const char* dataDirCString = jniEnv->GetStringUTFChars(dataDirString, 0);
-
-        dataDirectory = dataDirCString;
-
-        jniEnv->ReleaseStringUTFChars(dataDirString, dataDirCString);
+        jstring filesDirString = static_cast<jstring>(jniEnv->CallObjectMethod(filesDirFile, getAbsolutePathMethod));
+        const char* filesDirCString = jniEnv->GetStringUTFChars(filesDirString, 0);
+        filesDirectory = filesDirCString;
+        jniEnv->ReleaseStringUTFChars(filesDirString, filesDirCString);
 
         // cacheDir
         jmethodID getCacheDirMethod = jniEnv->GetMethodID(mainActivityClass,"getCacheDir","()Ljava/io/File;");
         jobject cacheDirFile = jniEnv->CallObjectMethod(mainActivity, getCacheDirMethod);
-        jclass fileClass = jniEnv->GetObjectClass(cacheDirFile);
-        jmethodID getAbsolutePathMethod = jniEnv->GetMethodID(fileClass,"getAbsolutePath","()Ljava/lang/String;");
 
         jstring cacheDirString = static_cast<jstring>(jniEnv->CallObjectMethod(cacheDirFile, getAbsolutePathMethod));
-
         const char* cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
-
         cacheDirectory = cacheDirCString;
-
         jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
     }
 

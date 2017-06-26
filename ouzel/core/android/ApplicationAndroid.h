@@ -32,7 +32,7 @@ namespace ouzel
         jobject getSurface() const { return surface; }
         AAssetManager* getAssetManager() const { return assetManager; }
 
-        const std::string& getDataDirectory() const { return dataDirectory; }
+        const std::string& getFilesDirectory() const { return filesDirectory; }
         const std::string& getCacheDirectory() const { return cacheDirectory; }
 
     private:
@@ -51,7 +51,7 @@ namespace ouzel
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
 
-        std::string dataDirectory;
+        std::string filesDirectory;
         std::string cacheDirectory;
 
         std::thread updateThread;

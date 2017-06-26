@@ -17,7 +17,7 @@ namespace ouzel
     {
         ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
 
-        return applicationAndroid->getDataDirectory();
+        return applicationAndroid->getFilesDirectory();
     }
 
     std::string FileSystemAndroid::getTempDirectory() const
