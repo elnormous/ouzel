@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
 #include "EGL/egl.h"
 #include "EGL/eglext.h"

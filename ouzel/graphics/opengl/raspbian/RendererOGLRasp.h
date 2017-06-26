@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_RASPBIAN && OUZEL_SUPPORTS_OPENGL
 
 #include <bcm_host.h>
 #include "EGL/egl.h"

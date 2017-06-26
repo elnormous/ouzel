@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
 #include "RendererOGLAndroid.h"
 #include "core/android/WindowAndroid.h"

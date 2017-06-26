@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
 
 #include <windows.h>
 #include "graphics/opengl/RendererOGL.h"

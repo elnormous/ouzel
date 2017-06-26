@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENAL
+#if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENAL
 
 #include "audio/openal/AudioAL.h"
 

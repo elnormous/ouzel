@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
 
 #include "RendererOGLEm.h"
 #include "core/Engine.h"

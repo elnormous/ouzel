@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENAL
+#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENAL
 
 #include "AudioALTVOS.h"
 #import <AVFoundation/AVFoundation.h>

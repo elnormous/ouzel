@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
 
 #include <string.h>
 #define GL_GLEXT_PROTOTYPES 1

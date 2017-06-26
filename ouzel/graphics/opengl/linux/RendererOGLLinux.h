@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/glx.h>

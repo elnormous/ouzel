@@ -5,7 +5,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_METAL
 
 #if defined(__OBJC__)
 #import <CoreVideo/CoreVideo.h>

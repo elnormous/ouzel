@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_METAL
 
 #include "RendererMetalTVOS.h"
 #include "MetalView.h"

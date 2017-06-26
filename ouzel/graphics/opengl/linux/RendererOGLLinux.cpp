@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 
 #include "RendererOGLLinux.h"
 #include "core/linux/WindowLinux.h"

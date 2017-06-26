@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_OPENGL
 
 #include "RendererOGLMacOS.h"
 #include "core/macos/WindowMacOS.h"

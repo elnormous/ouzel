@@ -3,7 +3,7 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENGL
 
 #include "RendererOGLIOS.h"
 #include "core/Engine.h"
