@@ -73,11 +73,11 @@ namespace ouzel
                 case kVK_Tab: return KeyboardKey::TAB;
                 case kVK_Return: return KeyboardKey::RETURN;
                 case kVK_Escape: return KeyboardKey::ESCAPE;
-                case kVK_Control: return KeyboardKey::CONTROL;
+                case kVK_Control: return KeyboardKey::LCONTROL;
                 case kVK_RightControl: return KeyboardKey::RCONTROL;
                 case kVK_Command: return KeyboardKey::LSUPER;
                 case kVK_RightCommand: return KeyboardKey::RSUPER;
-                case kVK_Shift: return KeyboardKey::SHIFT;
+                case kVK_Shift: return KeyboardKey::LSHIFT;
                 case kVK_RightShift: return KeyboardKey::RSHIFT;
                 case kVK_Option: return KeyboardKey::LALT;
                 case kVK_RightOption: return KeyboardKey::RALT;
