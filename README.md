@@ -51,10 +51,10 @@ Windows Phone platform support is under development.
 
 ## Example app
 
-The following code will open create a scene with:
+The following code will open create a scene with a sprite in the center of it:
 
-    std::string DEVELOPER_NAME = "foo";
-    std::string APPLICATION_NAME = "bar";
+    std::string DEVELOPER_NAME = "developer";
+    std::string APPLICATION_NAME = "game";
 
     class MainScene: public ouzel::scene::Scene
     {
