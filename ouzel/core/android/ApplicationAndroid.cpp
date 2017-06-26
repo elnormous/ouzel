@@ -45,7 +45,7 @@ namespace ouzel
         if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
     }
 
-    void ApplicationAndroid::setMainActivity(jobject aMainActivity)
+    void ApplicationAndroid::onCreate(jobject aMainActivity)
     {
         JNIEnv* jniEnv;
 
@@ -59,36 +59,19 @@ namespace ouzel
 
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
         startActivityMethod = jniEnv->GetMethodID(mainActivityClass, "startActivity", "(Landroid/content/Intent;)V");
-    }
 
-    void ApplicationAndroid::setWindow(jobject aWindow)
-    {
-        JNIEnv* jniEnv;
+        // get asset manager
+        jmethodID getAssetsMethod = jniEnv->GetMethodID(mainActivityClass, "getAssets", "()Landroid/content/res/AssetManager;");
+        jobject assetManagerObject = jniEnv->CallObjectMethod(mainActivity, getAssetsMethod);
+        assetManager = AAssetManager_fromJava(jniEnv, assetManagerObject);
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
-
-        window = jniEnv->NewGlobalRef(aWindow);
+        // get window
+        jmethodID getWindowMethod = jniEnv->GetMethodID(mainActivityClass, "getWindow", "()Landroid/view/Window;");
+        window = jniEnv->CallObjectMethod(mainActivity, getWindowMethod);
 
         jclass windowClass = jniEnv->GetObjectClass(window);
         addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
         clearFlagsMethod = jniEnv->GetMethodID(windowClass, "clearFlags", "(I)V");
-    }
-
-    void ApplicationAndroid::setAssetManager(jobject aAssetManager)
-    {
-        JNIEnv* jniEnv;
-
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
-
-        assetManager = AAssetManager_fromJava(jniEnv, aAssetManager);
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)

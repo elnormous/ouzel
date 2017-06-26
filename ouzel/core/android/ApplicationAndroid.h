@@ -17,9 +17,7 @@ namespace ouzel
         ApplicationAndroid(JavaVM* aJavaVM);
         virtual ~ApplicationAndroid();
 
-        void setMainActivity(jobject aMainActivity);
-        void setWindow(jobject aWindow);
-        void setAssetManager(jobject aAssetManager);
+        void onCreate(jobject aMainActivity);
         void setSurface(jobject aSurface);
 
         virtual int run() override;

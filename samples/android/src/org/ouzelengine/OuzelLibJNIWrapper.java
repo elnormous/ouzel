@@ -3,7 +3,6 @@
 
 package org.ouzelengine;
 
-import android.content.res.AssetManager;
 import android.view.Surface;
 import android.view.Window;
 
@@ -14,7 +13,7 @@ public class OuzelLibJNIWrapper
         System.loadLibrary("samples");
     }
 
-    public static native void onCreate(MainActivity mainActivity, Window window, AssetManager assetManager);
+    public static native void onCreate(MainActivity mainActivity);
     public static native void setSurface(Surface surface);
     public static native void onSurfaceChanged(Surface surface, int width, int height);
 
