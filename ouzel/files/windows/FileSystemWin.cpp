@@ -52,7 +52,7 @@ namespace ouzel
         }
 
         WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-        path = TEMP_BUFFER;
+        std::string path = TEMP_BUFFER;
 
         path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
 
