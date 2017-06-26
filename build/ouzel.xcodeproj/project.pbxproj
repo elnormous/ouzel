@@ -27,6 +27,12 @@
 		3011E1C61EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
 		3011E1C71EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
 		3011E1C81EFFE6DE00CB1DDC /* INI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1C21EFFE6DE00CB1DDC /* INI.h */; };
+		3011E1E51F01790000CB1DDC /* FileSystemIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1E31F01790000CB1DDC /* FileSystemIOS.cpp */; };
+		3011E1E61F01790000CB1DDC /* FileSystemIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1E41F01790000CB1DDC /* FileSystemIOS.h */; };
+		3011E1E91F01790C00CB1DDC /* FileSystemMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1E71F01790C00CB1DDC /* FileSystemMacOS.cpp */; };
+		3011E1EA1F01790C00CB1DDC /* FileSystemMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1E81F01790C00CB1DDC /* FileSystemMacOS.h */; };
+		3011E1ED1F01791500CB1DDC /* FileSystemTVOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3011E1EB1F01791500CB1DDC /* FileSystemTVOS.cpp */; };
+		3011E1EE1F01791500CB1DDC /* FileSystemTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011E1EC1F01791500CB1DDC /* FileSystemTVOS.h */; };
 		301456DF1E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E01E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
 		301456E11E38BEB200BA75DB /* SoundResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301456DD1E38BEB200BA75DB /* SoundResource.cpp */; };
@@ -863,6 +869,12 @@
 		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
 		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
 		3011E1C21EFFE6DE00CB1DDC /* INI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INI.h; sourceTree = "<group>"; };
+		3011E1E31F01790000CB1DDC /* FileSystemIOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileSystemIOS.cpp; path = ios/FileSystemIOS.cpp; sourceTree = "<group>"; };
+		3011E1E41F01790000CB1DDC /* FileSystemIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSystemIOS.h; path = ios/FileSystemIOS.h; sourceTree = "<group>"; };
+		3011E1E71F01790C00CB1DDC /* FileSystemMacOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileSystemMacOS.cpp; path = macos/FileSystemMacOS.cpp; sourceTree = "<group>"; };
+		3011E1E81F01790C00CB1DDC /* FileSystemMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSystemMacOS.h; path = macos/FileSystemMacOS.h; sourceTree = "<group>"; };
+		3011E1EB1F01791500CB1DDC /* FileSystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileSystemTVOS.cpp; path = tvos/FileSystemTVOS.cpp; sourceTree = "<group>"; };
+		3011E1EC1F01791500CB1DDC /* FileSystemTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSystemTVOS.h; path = tvos/FileSystemTVOS.h; sourceTree = "<group>"; };
 		301456DD1E38BEB200BA75DB /* SoundResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundResource.cpp; sourceTree = "<group>"; };
 		301456DE1E38BEB200BA75DB /* SoundResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundResource.h; sourceTree = "<group>"; };
 		301456ED1E38BFB300BA75DB /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
@@ -1210,6 +1222,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3011E1E01F0178DB00CB1DDC /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				3011E1E31F01790000CB1DDC /* FileSystemIOS.cpp */,
+				3011E1E41F01790000CB1DDC /* FileSystemIOS.h */,
+			);
+			name = ios;
+			sourceTree = "<group>";
+		};
+		3011E1E11F0178E600CB1DDC /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+				3011E1EB1F01791500CB1DDC /* FileSystemTVOS.cpp */,
+				3011E1EC1F01791500CB1DDC /* FileSystemTVOS.h */,
+			);
+			name = tvos;
+			sourceTree = "<group>";
+		};
+		3011E1E21F0178EC00CB1DDC /* macos */ = {
+			isa = PBXGroup;
+			children = (
+				3011E1E71F01790C00CB1DDC /* FileSystemMacOS.cpp */,
+				3011E1E81F01790C00CB1DDC /* FileSystemMacOS.h */,
+			);
+			name = macos;
+			sourceTree = "<group>";
+		};
 		303820881D816EAB00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1475,6 +1514,9 @@
 				30A883631E7432DA004A033F /* Archive.h */,
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.h */,
+				3011E1E01F0178DB00CB1DDC /* ios */,
+				3011E1E21F0178EC00CB1DDC /* macos */,
+				3011E1E11F0178E600CB1DDC /* tvos */,
 			);
 			path = files;
 			sourceTree = "<group>";
@@ -1957,6 +1999,7 @@
 				3082C3B11D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				303821481D81876E00677CAB /* RendererEmpty.h in Headers */,
+				3011E1E61F01790000CB1DDC /* FileSystemIOS.h in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
 				3082C39C1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
 				301EB3A61CCD691800466E92 /* Component.h in Headers */,
@@ -2037,6 +2080,7 @@
 				3082C3AA1D9565DE0090FC9D /* ColorVSGLES3.h in Headers */,
 				303B76631C355A3B00FEDE92 /* Engine.h in Headers */,
 				3038216E1D81876E00677CAB /* AudioEmpty.h in Headers */,
+				3011E1EE1F01791500CB1DDC /* FileSystemTVOS.h in Headers */,
 				30381FBA1D80A3F900677CAB /* AudioAL.h in Headers */,
 				30C56C601CAA88F8007AEF8F /* CheckBox.h in Headers */,
 				30575AD21C3B175D0009C8A7 /* Label.h in Headers */,
@@ -2145,6 +2189,7 @@
 				3049DCDE1EDCD0450000997A /* Cursor.h in Headers */,
 				30381F7D1D80A3EC00677CAB /* RendererOGL.h in Headers */,
 				305B999F1C42A695008589E1 /* BMFont.h in Headers */,
+				3011E1EA1F01790C00CB1DDC /* FileSystemMacOS.h in Headers */,
 				30419DEC1D162BDC00A63759 /* Sound.h in Headers */,
 				304A8E5E1C237C70008B1151 /* Noncopyable.h in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.h in Headers */,
@@ -2435,6 +2480,7 @@
 				303820651D816C7700677CAB /* main.cpp in Sources */,
 				303B75591C2A3CB700FEDE92 /* Vector3.cpp in Sources */,
 				30216B731ED464730073E3D5 /* Material.cpp in Sources */,
+				3011E1E51F01790000CB1DDC /* FileSystemIOS.cpp in Sources */,
 				303B755D1C2A3CB700FEDE92 /* Vertex.cpp in Sources */,
 				30FE384E1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				3038200C1D80A40700677CAB /* ShaderResourceMetal.mm in Sources */,
@@ -2546,6 +2592,7 @@
 				3047F7401C4C344A00774E3D /* Animator.cpp in Sources */,
 				303B76361C355A3B00FEDE92 /* MeshBufferResource.cpp in Sources */,
 				303696E61E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
+				3011E1ED1F01791500CB1DDC /* FileSystemTVOS.cpp in Sources */,
 				30A883661E7432DA004A033F /* Archive.cpp in Sources */,
 				30EA710E1D5268C600AE8C3E /* Application.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
@@ -2689,6 +2736,7 @@
 				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,
+				3011E1E91F01790C00CB1DDC /* FileSystemMacOS.cpp in Sources */,
 				304AA8BF1E1190E4006FA70E /* OBF.cpp in Sources */,
 				305B99891C41EFFA008589E1 /* Menu.cpp in Sources */,
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,

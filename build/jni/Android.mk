@@ -41,6 +41,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
+    ../../ouzel/files/android/FileSystemAndroid.cpp \
     ../../ouzel/files/Archive.cpp \
     ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \

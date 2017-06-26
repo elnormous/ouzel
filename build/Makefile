@@ -135,6 +135,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/ApplicationWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
+	$(ROOT_DIR)/../ouzel/files/windows/FileSystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
@@ -153,6 +154,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
+	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRaps.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
@@ -163,6 +165,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
+	$(ROOT_DIR)/../ouzel/files/linux/FileSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
@@ -173,6 +176,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
+	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
@@ -192,6 +196,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
+	$(ROOT_DIR)/../ouzel/files/emscripten/FileSystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
