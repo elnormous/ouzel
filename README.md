@@ -51,16 +51,33 @@ Windows Phone platform support is under development.
 
 ## Example app
 
-The following code will open a 800px x 600px window:
+The following code will open create a scene with:
 
     std::string DEVELOPER_NAME = "foo";
     std::string APPLICATION_NAME = "bar";
 
+    class MainScene: public ouzel::scene::Scene
+    {
+    public:
+        MainScene()
+        {
+            addLayer(&layer);
+            layer.addChild(&camera);
+            playerSprite.initFromFile("player.png");
+            player.addComponent(&playerSprite);
+            layer.addChild(&player);
+        }
+
+    private:
+        ouzel::scene::Layer layer;
+        ouzel::scene::Camera camera;
+        ouzel::scene::Sprite playerSprite;
+        ouzel::scene::Node player;
+    };
+
     void ouzelMain(const std::vector<std::string>& args)
     {
-        ouzel::Settings settings;
-        settings.size = ouzel::Size2(800.0f, 600.0f);
-        ouzel::sharedEngine->init(settings);
+        ouzel::sharedEngine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
     }
 
 ## Showcase
