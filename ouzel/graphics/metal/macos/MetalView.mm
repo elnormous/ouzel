@@ -13,9 +13,6 @@
 #include "input/macos/InputMacOS.h"
 #include "graphics/metal/RendererMetal.h"
 
-#include "Log.h"
-
-
 @implementation MetalView
 
 -(id)initWithFrame:(NSRect)frameRect
