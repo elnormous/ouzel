@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <windows.h>
+#include <Shlobj.h>
+#include <Shlwapi.h>
 #include "files/FileSystem.h"
 
 namespace ouzel
@@ -13,6 +16,11 @@ namespace ouzel
     {
         friend Engine;
     public:
+        virtual std::string getHomeDirectory() const override;
+        virtual std::string getStorageDirectory(bool user = true) const override;
+        virtual std::string getTempDirectory() const override;
+
+        virtual bool isAbsolutePath(const std::string& path) const override;
 
     protected:
         FileSystemWin();

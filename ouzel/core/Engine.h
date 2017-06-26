@@ -39,7 +39,7 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-        FileSystem* getFileSystem() { return &fileSystem; }
+        FileSystem* getFileSystem() { return fileSystem.get(); }
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
         Cache* getCache() { return &cache; }
@@ -72,7 +72,7 @@ namespace ouzel
         bool init();
         void run();
 
-        FileSystem fileSystem;
+        std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;
         Timer timer;
         std::unique_ptr<Window> window;

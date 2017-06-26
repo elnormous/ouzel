@@ -14,17 +14,20 @@
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.h"
+#include "files/macos/FileSystemMacOS.h"
 #include "graphics/metal/macos/RendererMetalMacOS.h"
 #include "graphics/opengl/macos/RendererOGLMacOS.h"
 #include "input/macos/InputMacOS.h"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.h"
+#include "files/ios/FileSystemIOS.h"
 #include "audio/openal/ios/AudioALIOS.h"
 #include "graphics/metal/ios/RendererMetalIOS.h"
 #include "graphics/opengl/ios/RendererOGLIOS.h"
 #include "input/ios/InputIOS.h"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.h"
+#include "files/tvos/FileSystemTVOS.h"
 #include "audio/openal/tvos/AudioALTVOS.h"
 #include "graphics/metal/tvos/RendererMetalTVOS.h"
 #include "graphics/opengl/tvos/RendererOGLTVOS.h"
@@ -33,22 +36,27 @@
 #include <jni.h>
 #include "android/ApplicationAndroid.h"
 #include "android/WindowAndroid.h"
+#include "files/android/FileSystemAndroid.h"
 #include "graphics/opengl/android/RendererOGLAndroid.h"
 #include "input/android/InputAndroid.h"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.h"
+#include "files/linux/FileSystemLinux.h"
 #include "graphics/opengl/linux/RendererOGLLinux.h"
 #include "input/linux/InputLinux.h"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.h"
+#include "files/windows/FileSystemWin.h"
 #include "graphics/opengl/windows/RendererOGLWin.h"
 #include "input/windows/InputWin.h"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "raspbian/WindowRasp.h"
+#include "files/raspbian/FileSystemRasp.h"
 #include "graphics/opengl/raspbian/RendererOGLRasp.h"
 #include "input/raspbian/InputRasp.h"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "emscripten/WindowEm.h"
+#include "files/emscripten/FileSystemEm.h"
 #include "graphics/opengl/emscripten/RendererOGLEm.h"
 #include "input/emscripten/InputEm.h"
 #endif
@@ -156,6 +164,26 @@ namespace ouzel
 
     bool Engine::init()
     {
+#if OUZEL_PLATFORM_MACOS
+        fileSystem.reset(new FileSystemMacOS());
+#elif OUZEL_PLATFORM_IOS
+        fileSystem.reset(new FileSystemIOS());
+#elif OUZEL_PLATFORM_TVOS
+        fileSystem.reset(new FileSystemTVOS());
+#elif OUZEL_PLATFORM_ANDROID
+        fileSystem.reset(new FileSystemAndroid());
+#elif OUZEL_PLATFORM_LINUX
+        fileSystem.reset(new FileSystemLinux());
+#elif OUZEL_PLATFORM_WINDOWS
+        fileSystem.reset(new FileSystemWin());
+#elif OUZEL_PLATFORM_RASPBIAN
+        fileSystem.reset(new FileSystemRasp());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+        fileSystem.reset(new FileSystemEm());
+#else
+        fileSystem.reset(new FileSystem());
+#endif
+
         graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
         audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
 
@@ -171,7 +199,7 @@ namespace ouzel
         bool highDpi = true; // should high DPI resolution be used
 
         defaultSettings.init("settings.ini");
-        userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+        userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
         std::string graphicsDriverValue = userSettings.getValue("engine", "graphicsDriver", defaultSettings.getValue("engine", "graphicsDriver"));
 

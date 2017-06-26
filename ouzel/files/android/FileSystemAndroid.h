@@ -13,6 +13,9 @@ namespace ouzel
     {
         friend Engine;
     public:
+        virtual std::string getStorageDirectory(bool user = true) const override;
+
+        virtual bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
 
     protected:
         FileSystemAndroid();
