@@ -682,13 +682,13 @@ namespace ouzel
                     {
                         buffer.push_back(static_cast<uint8_t>(Marker::LONG_STRING));
                         size += 1;
-                        ret = writeString(buffer, stringValue);
+                        ret = writeLongString(buffer, stringValue);
                     }
                     else
                     {
                         buffer.push_back(static_cast<uint8_t>(Marker::STRING));
                         size += 1;
-                        ret = writeLongString(buffer, stringValue);
+                        ret = writeString(buffer, stringValue);
                     }
                     break;
                 }
