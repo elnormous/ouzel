@@ -154,7 +154,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
-	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRaps.cpp \
+	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRasp.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
