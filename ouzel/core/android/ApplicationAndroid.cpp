@@ -72,6 +72,37 @@ namespace ouzel
         jclass windowClass = jniEnv->GetObjectClass(window);
         addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
         clearFlagsMethod = jniEnv->GetMethodID(windowClass, "clearFlags", "(I)V");
+
+        // get package manager
+        jmethodID getPackageManagerMethod = jniEnv->GetMethodID(mainActivityClass, "getPackageManager", "()Landroid/content/pm/PackageManager;");
+        jobject packageManager  = jniEnv->CallObjectMethod(mainActivity, getPackageManagerMethod);
+        jclass packageManagerClass = jniEnv->GetObjectClass(packageManager);
+        jmethodID getPackageInfoMethod = jniEnv->GetMethodID(packageManagerClass, "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+
+        // get package name
+        jmethodID getPackageNameMethod = jniEnv->GetMethodID(mainActivityClass,"getPackageName","()Ljava/lang/String;");
+        jstring packageName = static_cast<jstring>(jniEnv->CallObjectMethod(mainActivity, getPackageNameMethod));
+
+        // get package info
+        jobject packageInfo = jniEnv->CallObjectMethod(packageManager, getPackageInfoMethod, packageName, 0);
+        jclass packageInfoClass = jniEnv->GetObjectClass(packageInfo);
+
+        // get application info
+        jfieldID applicationInfoField = jniEnv->GetFieldID(packageInfoClass, "applicationInfo", "Landroid/content/pm/ApplicationInfo;");
+        jobject applicationInfo = jniEnv->GetObjectField(packageInfo, applicationInfoField);
+        jclass applicationInfoClass = jniEnv->GetObjectClass(applicationInfo);
+
+        // dataDir
+        jfieldID dataDirField = jniEnv->GetFieldID(applicationInfoClass, "dataDir", "Ljava/lang/String;");
+        jstring dataDirString = static_cast<jstring>(jniEnv->GetObjectField(applicationInfo, dataDirField));
+
+        const char* dataDirCString = jniEnv->GetStringUTFChars(dataDirString, 0);
+
+        dataDirectory = dataDirCString;
+
+        jniEnv->ReleaseStringUTFChars(dataDirString, dataDirCString);
+
+        Log() << "DIIIIIIIIRECTORYYYYYYYYYY " << dataDirectory;
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)

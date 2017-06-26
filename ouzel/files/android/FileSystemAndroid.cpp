@@ -15,8 +15,9 @@ namespace ouzel
 
     std::string FileSystemAndroid::getStorageDirectory(bool) const
     {
-        // TODO: implement
-        return "";
+        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+
+        return applicationAndroid->getDataDirectory();
     }
 
     bool FileSystemAndroid::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const

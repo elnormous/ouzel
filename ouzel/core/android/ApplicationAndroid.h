@@ -32,6 +32,8 @@ namespace ouzel
         jobject getSurface() const { return surface; }
         AAssetManager* getAssetManager() const { return assetManager; }
 
+        const std::string& getDataDirectory() const { return dataDirectory; }
+
     private:
         void update();
 
@@ -47,6 +49,8 @@ namespace ouzel
         jobject window = nullptr;
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
+
+        std::string dataDirectory;
 
         std::thread updateThread;
     };

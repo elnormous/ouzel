@@ -1,7 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-package org.ouzelengine;
+package org.ouzelengine.samples;
+
+import org.ouzelengine.OuzelLibJNIWrapper;
+import org.ouzelengine.View;
 
 import android.app.Activity;
 import android.os.Bundle;
