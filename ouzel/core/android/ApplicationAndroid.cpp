@@ -101,8 +101,6 @@ namespace ouzel
         dataDirectory = dataDirCString;
 
         jniEnv->ReleaseStringUTFChars(dataDirString, dataDirCString);
-
-        Log() << "DIIIIIIIIRECTORYYYYYYYYYY " << dataDirectory;
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)
