@@ -13,6 +13,9 @@
 #include "input/macos/InputMacOS.h"
 #include "graphics/metal/RendererMetal.h"
 
+#include "Log.h"
+
+
 @implementation MetalView
 
 -(id)initWithFrame:(NSRect)frameRect
@@ -96,6 +99,23 @@
 {
     ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
                                            ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+}
+
+-(void)flagsChanged:(NSEvent*)event
+{
+    if (NSInteger mask = ouzel::input::InputMacOS::getKeyMask(event.keyCode))
+    {
+        if (event.modifierFlags & mask)
+        {
+            ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                     ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+        }
+        else
+        {
+            ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                   ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+        }
+    }
 }
 
 -(void)mouseDown:(NSEvent*)event
