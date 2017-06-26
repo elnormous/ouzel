@@ -20,6 +20,13 @@ namespace ouzel
         return applicationAndroid->getDataDirectory();
     }
 
+    std::string FileSystemAndroid::getTempDirectory() const
+    {
+        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+
+        return applicationAndroid->getCacheDirectory();
+    }
+
     bool FileSystemAndroid::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
         if (!isAbsolutePath(filename))

@@ -101,6 +101,20 @@ namespace ouzel
         dataDirectory = dataDirCString;
 
         jniEnv->ReleaseStringUTFChars(dataDirString, dataDirCString);
+
+        // cacheDir
+        jmethodID getCacheDirMethod = jniEnv->GetMethodID(mainActivityClass,"getCacheDir","()Ljava/io/File;");
+        jobject cacheDirFile = jniEnv->CallObjectMethod(mainActivity, getCacheDirMethod);
+        jclass fileClass = jniEnv->GetObjectClass(cacheDirFile);
+        jmethodID getAbsolutePathMethod = jniEnv->GetMethodID(fileClass,"getAbsolutePath","()Ljava/lang/String;");
+
+        jstring cacheDirString = static_cast<jstring>(jniEnv->CallObjectMethod(cacheDirFile, getAbsolutePathMethod));
+
+        const char* cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
+
+        cacheDirectory = cacheDirCString;
+
+        jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)

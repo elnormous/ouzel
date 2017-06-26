@@ -33,6 +33,7 @@ namespace ouzel
         AAssetManager* getAssetManager() const { return assetManager; }
 
         const std::string& getDataDirectory() const { return dataDirectory; }
+        const std::string& getCacheDirectory() const { return cacheDirectory; }
 
     private:
         void update();
@@ -51,6 +52,7 @@ namespace ouzel
         jmethodID clearFlagsMethod = nullptr;
 
         std::string dataDirectory;
+        std::string cacheDirectory;
 
         std::thread updateThread;
     };
