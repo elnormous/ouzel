@@ -57,7 +57,22 @@ namespace ouzel
 
     bool INI::init(const std::vector<uint8_t>& data)
     {
-        std::vector<uint32_t> utf32 = utf8to32(data);
+        std::vector<uint32_t> utf32;
+
+        // BOM
+        if (data.size() >= 3 &&
+            data[0] == 0xEF &&
+            data[1] == 0xBB &&
+            data[2] == 0xBF)
+        {
+            std::vector<uint8_t> newData(data.begin() + 3, data.end());
+
+            utf32 = utf8to32(newData);
+        }
+        else
+        {
+            utf32 = utf8to32(data);
+        }
 
         std::string section;
 
