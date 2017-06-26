@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <pwd.h>
+#include <sys/stat.h>
 #include "FileSystemLinux.h"
 #include "utils/Log.h"
 
