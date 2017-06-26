@@ -12,6 +12,16 @@
 
 @implementation OpenGLView
 
+-(BOOL)isOpaque
+{
+    return YES;
+}
+
+-(BOOL)mouseDownCanMoveWindow
+{
+    return YES;
+}
+
 -(BOOL)isFlipped
 {
     return YES;
