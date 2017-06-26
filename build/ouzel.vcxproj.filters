@@ -382,6 +382,9 @@
     <ClCompile Include="..\ouzel\utils\INI.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp">
+      <Filter>files\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -856,6 +859,9 @@
     <ClInclude Include="..\ouzel\utils\INI.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.h">
+      <Filter>files\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="events">
@@ -920,6 +926,9 @@
     </Filter>
     <Filter Include="audio\dsound">
       <UniqueIdentifier>{47d36b3c-5ab6-4c63-b63b-f66cb5c9fa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="files\windows">
+      <UniqueIdentifier>{3b0f92fd-d1df-4929-a216-eb759a9b8a9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
