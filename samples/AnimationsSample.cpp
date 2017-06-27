@@ -34,8 +34,9 @@ AnimationsSample::AnimationsSample():
                           Vector2(100.0f, 0.0f)},
                          Color::YELLOW);
 
-    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
+    shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::WHITE, false);
+    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
 
     shapeDrawable->polygon({Vector2(15.0f, 75.0f),
                             Vector2(25.0f, 75.0f),
