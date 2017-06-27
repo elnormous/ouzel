@@ -20,7 +20,8 @@ namespace ouzel
 
     std::string FileSystemIOS::getHomeDirectory() const
     {
-        return "";
+        NSString* path = NSTemporaryDirectory();
+        return [path UTF8String];
     }
 
     std::string FileSystemIOS::getStorageDirectory(bool user) const
