@@ -22,11 +22,6 @@ namespace ouzel
     {
     }
 
-    std::string FileSystem::getHomeDirectory() const
-    {
-        return "";
-    }
-
     std::string FileSystem::getStorageDirectory(bool) const
     {
         return "";

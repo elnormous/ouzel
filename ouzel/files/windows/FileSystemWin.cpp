@@ -27,20 +27,6 @@ namespace ouzel
         }
     }
 
-    std::string FileSystemWin::getHomeDirectory() const
-    {
-        WCHAR szBuffer[MAX_PATH];
-        HRESULT hr = SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
-        if (FAILED(hr))
-        {
-            Log(Log::Level::ERR) << "Failed to get the path of the profile directory, error: " << hr;
-            return "";
-        }
-
-        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
-        return TEMP_BUFFER;
-    }
-
     std::string FileSystemWin::getStorageDirectory(bool user) const
     {
         WCHAR szBuffer[MAX_PATH];

@@ -3,6 +3,7 @@
 
 #include <Foundation/Foundation.h>
 #include "FileSystemTVOS.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
@@ -17,6 +18,13 @@ namespace ouzel
     std::string FileSystemTVOS::getStorageDirectory(bool user) const
     {
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, YES);
+
+        if ([paths count] == 0)
+        {
+            Log(Log::Level::ERR) << "Failed to get application support directory";
+            return "";
+        }
+
         NSString* documentsDirectory = [paths objectAtIndex:0];
 
         return [documentsDirectory UTF8String];

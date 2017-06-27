@@ -25,18 +25,6 @@ namespace ouzel
         }
     }
 
-    std::string FileSystemLinux::getHomeDirectory() const
-    {
-        passwd* pw = getpwuid(getuid());
-        if (!pw)
-        {
-            Log(Log::Level::ERR) << "Failed to get home directory";
-            return "";
-        }
-
-        return pw->pw_dir;
-    }
-
     std::string FileSystemLinux::getStorageDirectory(bool user) const
     {
         std::string path;
