@@ -322,7 +322,7 @@ namespace ouzel
             {
                 if (thickness == 0.0f)
                 {
-                    command.mode = graphics::Renderer::DrawMode::LINE_LIST;
+                    command.mode = graphics::Renderer::DrawMode::LINE_STRIP;
 
                     // left bottom
                     vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.bottom(), 0.0f), color));
@@ -336,12 +336,13 @@ namespace ouzel
                     // left top
                     vertices.push_back(graphics::VertexPC(Vector3(rectangle.left(), rectangle.top(), 0.0f), color));
 
-                    command.indexCount = 4;
+                    command.indexCount = 5;
 
                     indices.push_back(startVertex + 0);
                     indices.push_back(startVertex + 1);
                     indices.push_back(startVertex + 2);
                     indices.push_back(startVertex + 3);
+                    indices.push_back(startVertex + 0);
 
                     boundingBox.insertPoint(rectangle.bottomLeft());
                     boundingBox.insertPoint(rectangle.topRight());
