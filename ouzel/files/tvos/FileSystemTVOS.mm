@@ -18,11 +18,6 @@ namespace ouzel
         appPath = [path UTF8String];
     }
 
-    std::string FileSystemTVOS::getHomeDirectory() const
-    {
-        return "";
-    }
-
     std::string FileSystemTVOS::getStorageDirectory(bool user) const
     {
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, YES);
