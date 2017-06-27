@@ -19,7 +19,7 @@ Supported platforms:
 Supported rendering backends:
 
 * Direct3D 11
-* OpenGL 2 and OpenGL 3
+* OpenGL 2, OpenGL 3 and OpenGL 4
 * OpenGL ES 2 and OpenGL ES 3
 * Metal 
 
