@@ -37,7 +37,7 @@ namespace ouzel
             bool line(const Vector2& start,
                       const Vector2& finish,
                       const Color& color,
-                      float thickness = 1.0f);
+                      float thickness = 0.0f);
 
             bool circle(const Vector2& position,
                         float radius,
