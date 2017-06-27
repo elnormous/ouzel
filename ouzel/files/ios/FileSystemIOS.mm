@@ -1,12 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <unistd.h>
-#include <pwd.h>
 #include <Foundation/Foundation.h>
 #include "FileSystemIOS.h"
-
-static char TEMP_BUFFER[1024];
 
 namespace ouzel
 {

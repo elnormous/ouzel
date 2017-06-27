@@ -1,13 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <unistd.h>
 #include <pwd.h>
 #include <Foundation/Foundation.h>
 #include "FileSystemMacOS.h"
 #include "utils/Log.h"
-
-static char TEMP_BUFFER[1024];
 
 namespace ouzel
 {
@@ -41,21 +38,7 @@ namespace ouzel
 
     std::string FileSystemMacOS::getTempDirectory() const
     {
-        if (confstr(_CS_DARWIN_USER_TEMP_DIR, TEMP_BUFFER, sizeof(TEMP_BUFFER)))
-        {
-            return TEMP_BUFFER;
-        }
-        else
-        {
-            char const* path = getenv("TMPDIR");
-            if (path)
-            {
-                return path;
-            }
-            else
-            {
-                return "/tmp";
-            }
-        }
+        NSString* temporaryDirectory = NSTemporaryDirectory();
+        return [temporaryDirectory UTF8String];
     }
 }
