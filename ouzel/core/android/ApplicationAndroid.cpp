@@ -20,10 +20,15 @@ namespace ouzel
             return;
         }
 
-        uriClass = reinterpret_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/net/Uri")));
+        uriClass = jniEnv->FindClass("android/net/Uri");
+        uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(uriClass));
         parseMethod = jniEnv->GetStaticMethodID(uriClass, "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
-        intentClass = reinterpret_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/content/Intent")));
+        intentClass = jniEnv->FindClass("android/content/Intent");
+        intentClass = static_cast<jclass>(jniEnv->NewGlobalRef(intentClass));
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
+        runnerClass = jniEnv->FindClass("org/ouzelengine/Runner");
+        runnerClass = static_cast<jclass>(jniEnv->NewGlobalRef(runnerClass));
+        runnerConstructor = jniEnv->GetMethodID(runnerClass, "<init>", "()V");
     }
 
     ApplicationAndroid::~ApplicationAndroid()
@@ -42,7 +47,9 @@ namespace ouzel
         if (window) jniEnv->DeleteGlobalRef(window);
         if (surface) jniEnv->DeleteGlobalRef(surface);
         if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
+        if (runnerClass) jniEnv->DeleteGlobalRef(runnerClass);
         if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
+        if (handler) jniEnv->DeleteGlobalRef(handler);
     }
 
     void ApplicationAndroid::onCreate(jobject aMainActivity)
@@ -68,6 +75,7 @@ namespace ouzel
         // get window
         jmethodID getWindowMethod = jniEnv->GetMethodID(mainActivityClass, "getWindow", "()Landroid/view/Window;");
         window = jniEnv->CallObjectMethod(mainActivity, getWindowMethod);
+        window = jniEnv->NewGlobalRef(window);
 
         jclass windowClass = jniEnv->GetObjectClass(window);
         addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
@@ -75,10 +83,10 @@ namespace ouzel
 
         // File class
         jclass fileClass = jniEnv->FindClass("java/io/File");
-        jmethodID getAbsolutePathMethod = jniEnv->GetMethodID(fileClass,"getAbsolutePath","()Ljava/lang/String;");
+        jmethodID getAbsolutePathMethod = jniEnv->GetMethodID(fileClass, "getAbsolutePath", "()Ljava/lang/String;");
 
         // dataDir
-        jmethodID getFilesDirMethod = jniEnv->GetMethodID(mainActivityClass,"getFilesDir","()Ljava/io/File;");
+        jmethodID getFilesDirMethod = jniEnv->GetMethodID(mainActivityClass, "getFilesDir", "()Ljava/io/File;");
         jobject filesDirFile = jniEnv->CallObjectMethod(mainActivity, getFilesDirMethod);
 
         jstring filesDirString = static_cast<jstring>(jniEnv->CallObjectMethod(filesDirFile, getAbsolutePathMethod));
@@ -87,13 +95,24 @@ namespace ouzel
         jniEnv->ReleaseStringUTFChars(filesDirString, filesDirCString);
 
         // cacheDir
-        jmethodID getCacheDirMethod = jniEnv->GetMethodID(mainActivityClass,"getCacheDir","()Ljava/io/File;");
+        jmethodID getCacheDirMethod = jniEnv->GetMethodID(mainActivityClass, "getCacheDir", "()Ljava/io/File;");
         jobject cacheDirFile = jniEnv->CallObjectMethod(mainActivity, getCacheDirMethod);
 
         jstring cacheDirString = static_cast<jstring>(jniEnv->CallObjectMethod(cacheDirFile, getAbsolutePathMethod));
         const char* cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
         cacheDirectory = cacheDirCString;
         jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
+
+        // main looper
+        jmethodID getMainLooperMethod = jniEnv->GetMethodID(mainActivityClass, "getMainLooper", "()Landroid/os/Looper;");
+        jobject mainLooper = jniEnv->CallObjectMethod(mainActivity, getMainLooperMethod);
+
+        // handler
+        jclass handlerClass = jniEnv->FindClass("android/os/Handler");
+        jmethodID handlerConstructor = jniEnv->GetMethodID(handlerClass, "<init>", "(Landroid/os/Looper;)V");
+        postMethod = jniEnv->GetMethodID(handlerClass, "post", "(Ljava/lang/Runnable;)Z");
+        handler = jniEnv->NewObject(handlerClass, handlerConstructor, mainLooper);
+        handler = jniEnv->NewGlobalRef(handler);
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)
@@ -118,9 +137,25 @@ namespace ouzel
 
     void ApplicationAndroid::execute(const std::function<void(void)>& func)
     {
-        if (func)
         {
-            // TODO: implement running on UI thread (Activity.runOnUiThread)
+            std::lock_guard<std::mutex> lock(executeMutex);
+
+            executeQueue.push(func);
+        }
+
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        jobject runner = jniEnv->NewObject(runnerClass, runnerConstructor);
+
+        if (!jniEnv->CallBooleanMethod(handler, postMethod, runner))
+        {
+            Log(Log::Level::ERR) << "Failed to post a task on main thread";
         }
     }
 
@@ -178,6 +213,26 @@ namespace ouzel
                 jniEnv->CallVoidMethod(window, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
             }
         });
+    }
+
+    void ApplicationAndroid::executeAll()
+    {
+        std::function<void(void)> func;
+
+        {
+            std::lock_guard<std::mutex> lock(executeMutex);
+
+            if (!executeQueue.empty())
+            {
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+        }
+
+        if (func)
+        {
+            func();
+        }
     }
 
     void ApplicationAndroid::update()

@@ -35,6 +35,8 @@ namespace ouzel
         const std::string& getFilesDirectory() const { return filesDirectory; }
         const std::string& getCacheDirectory() const { return cacheDirectory; }
 
+        void executeAll();
+
     private:
         void update();
 
@@ -43,6 +45,8 @@ namespace ouzel
         jmethodID parseMethod = nullptr;
         jclass intentClass = nullptr;
         jmethodID intentConstructor = nullptr;
+        jclass runnerClass = nullptr;
+        jmethodID runnerConstructor = nullptr;
         jobject mainActivity = nullptr;
         jmethodID startActivityMethod = nullptr;
         jobject surface = nullptr;
@@ -50,10 +54,15 @@ namespace ouzel
         jobject window = nullptr;
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
+        jobject handler = nullptr;
+        jmethodID postMethod = nullptr;
 
         std::string filesDirectory;
         std::string cacheDirectory;
 
         std::thread updateThread;
+
+        std::queue<std::function<void(void)>> executeQueue;
+        std::mutex executeMutex;
     };
 }
