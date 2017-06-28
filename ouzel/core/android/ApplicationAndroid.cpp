@@ -2,16 +2,37 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
+#include <unistd.h>
 #include <android/window.h>
 #include "ApplicationAndroid.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
+
+static int looperCallback(int fd, int events, void* data)
+{
+    if (events & ALOOPER_EVENT_INPUT)
+    {
+        char message;
+        if (read(fd, &message, sizeof(message)) == -1)
+        {
+            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to read from pipe";
+            return 1;
+        }
+
+        ouzel::ApplicationAndroid* applicationAndroid = static_cast<ouzel::ApplicationAndroid*>(data);
+        applicationAndroid->executeAll();
+    }
+
+    return 1;
+}
 
 namespace ouzel
 {
     ApplicationAndroid::ApplicationAndroid(JavaVM* aJavaVM):
         javaVM(aJavaVM)
     {
+        std::fill(std::begin(fd), std::end(fd), 0);
+
         JNIEnv* jniEnv;
 
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
@@ -26,9 +47,6 @@ namespace ouzel
         intentClass = jniEnv->FindClass("android/content/Intent");
         intentClass = static_cast<jclass>(jniEnv->NewGlobalRef(intentClass));
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
-        runnerClass = jniEnv->FindClass("org/ouzelengine/Runner");
-        runnerClass = static_cast<jclass>(jniEnv->NewGlobalRef(runnerClass));
-        runnerConstructor = jniEnv->GetMethodID(runnerClass, "<init>", "()V");
     }
 
     ApplicationAndroid::~ApplicationAndroid()
@@ -47,9 +65,10 @@ namespace ouzel
         if (window) jniEnv->DeleteGlobalRef(window);
         if (surface) jniEnv->DeleteGlobalRef(surface);
         if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
-        if (runnerClass) jniEnv->DeleteGlobalRef(runnerClass);
         if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
-        if (handler) jniEnv->DeleteGlobalRef(handler);
+        if (looper) ALooper_release(looper);
+        if (fd[0]) close(fd[0]);
+        if (fd[1]) close(fd[1]);
     }
 
     void ApplicationAndroid::onCreate(jobject aMainActivity)
@@ -103,16 +122,11 @@ namespace ouzel
         cacheDirectory = cacheDirCString;
         jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
 
-        // main looper
-        jmethodID getMainLooperMethod = jniEnv->GetMethodID(mainActivityClass, "getMainLooper", "()Landroid/os/Looper;");
-        jobject mainLooper = jniEnv->CallObjectMethod(mainActivity, getMainLooperMethod);
-
-        // handler
-        jclass handlerClass = jniEnv->FindClass("android/os/Handler");
-        jmethodID handlerConstructor = jniEnv->GetMethodID(handlerClass, "<init>", "(Landroid/os/Looper;)V");
-        postMethod = jniEnv->GetMethodID(handlerClass, "post", "(Ljava/lang/Runnable;)Z");
-        handler = jniEnv->NewObject(handlerClass, handlerConstructor, mainLooper);
-        handler = jniEnv->NewGlobalRef(handler);
+        // looper
+        looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
+        ALooper_acquire(looper);
+        pipe(fd);
+        ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this);
     }
 
     void ApplicationAndroid::setSurface(jobject aSurface)
@@ -143,19 +157,10 @@ namespace ouzel
             executeQueue.push(func);
         }
 
-        JNIEnv* jniEnv;
-
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        char message = 1;
+        if (write(fd[1], &message, sizeof(message)) == -1)
         {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
-        }
-
-        jobject runner = jniEnv->NewObject(runnerClass, runnerConstructor);
-
-        if (!jniEnv->CallBooleanMethod(handler, postMethod, runner))
-        {
-            Log(Log::Level::ERR) << "Failed to post a task on main thread";
+            Log(Log::Level::ERR) << "Failed to write to pipe";
         }
     }
 

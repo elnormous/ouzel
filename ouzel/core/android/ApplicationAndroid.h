@@ -7,6 +7,7 @@
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+#include <android/looper.h>
 #include "core/Application.h"
 
 namespace ouzel
@@ -45,8 +46,6 @@ namespace ouzel
         jmethodID parseMethod = nullptr;
         jclass intentClass = nullptr;
         jmethodID intentConstructor = nullptr;
-        jclass runnerClass = nullptr;
-        jmethodID runnerConstructor = nullptr;
         jobject mainActivity = nullptr;
         jmethodID startActivityMethod = nullptr;
         jobject surface = nullptr;
@@ -54,8 +53,8 @@ namespace ouzel
         jobject window = nullptr;
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
-        jobject handler = nullptr;
-        jmethodID postMethod = nullptr;
+        ALooper* looper = nullptr;
+        int fd[2];
 
         std::string filesDirectory;
         std::string cacheDirectory;

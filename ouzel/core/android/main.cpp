@@ -86,8 +86,3 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handle
     ouzel::sharedEngine->getInput()->touchCancel(static_cast<uint64_t>(pointerId),
                                                  ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
 }
-
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_Runner_run(JNIEnv*, jclass)
-{
-    application->executeAll();
-}
