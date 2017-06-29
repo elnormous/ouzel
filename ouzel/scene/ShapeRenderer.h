@@ -19,6 +19,8 @@ namespace ouzel
         class ShapeRenderer: public Component
         {
         public:
+            static const uint32_t componentType = Component::SHAPE_RENDERER;
+
             ShapeRenderer();
 
             virtual void draw(const Matrix4& transformMatrix,

@@ -18,7 +18,7 @@ namespace ouzel
     namespace scene
     {
         Sprite::Sprite():
-            Component(Component::SPRITE)
+            Component(componentType)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);

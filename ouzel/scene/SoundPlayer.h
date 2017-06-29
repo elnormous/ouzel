@@ -12,6 +12,9 @@ namespace ouzel
         class SoundPlayer: public Component
         {
         public:
+            static const uint32_t componentType = Component::SOUND_PLAYER;
+
+            SoundPlayer();
         };
     } // namespace scene
 } // namespace ouzel

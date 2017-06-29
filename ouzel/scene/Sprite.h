@@ -21,6 +21,8 @@ namespace ouzel
         class Sprite: public Component
         {
         public:
+            static const uint32_t componentType = Component::SPRITE;
+
             Sprite();
             Sprite(const std::vector<SpriteFrame>& spriteFrames);
             Sprite(const std::string& filename, bool mipmaps = true,
