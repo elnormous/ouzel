@@ -25,15 +25,16 @@ namespace ouzel
         public:
             enum Type
             {
-                ANIMATOR,
-                CAMERA,
-                MESH_RENDERER,
-                PARTICLE_SYSTEM,
-                SHAPE_RENDERER,
-                SOUND_LISTENER,
-                SOUND_PLAYER,
-                SPRITE,
-                TEXT_RENDERER
+                NONE = 0,
+                ANIMATOR = 1,
+                CAMERA = 2,
+                MESH_RENDERER = 3,
+                PARTICLE_SYSTEM = 4,
+                SHAPE_RENDERER = 5,
+                SOUND_LISTENER = 6,
+                SOUND_PLAYER = 7,
+                SPRITE = 8,
+                TEXT_RENDERER = 9
             };
 
             Component(uint32_t aType);
