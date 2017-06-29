@@ -8,7 +8,7 @@ namespace ouzel
     namespace scene
     {
         SoundPlayer::SoundPlayer():
-            Component(componentType)
+            Component(TYPE)
         {
         }
     } // namespace scene

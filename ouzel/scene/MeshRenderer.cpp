@@ -8,7 +8,7 @@ namespace ouzel
     namespace scene
     {
         MeshRenderer::MeshRenderer():
-            Component(componentType)
+            Component(TYPE)
         {
         }
     } // namespace scene

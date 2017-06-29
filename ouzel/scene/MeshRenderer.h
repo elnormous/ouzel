@@ -12,7 +12,7 @@ namespace ouzel
         class MeshRenderer: public Component
         {
         public:
-            static const uint32_t componentType = Component::MESH_RENDERER;
+            static const uint32_t TYPE = Component::MESH_RENDERER;
 
             MeshRenderer();
         };

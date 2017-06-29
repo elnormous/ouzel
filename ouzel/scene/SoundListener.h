@@ -12,7 +12,7 @@ namespace ouzel
         class SoundListener: public Component
         {
         public:
-            static const uint32_t componentType = Component::SOUND_LISTENER;
+            static const uint32_t TYPE = Component::SOUND_LISTENER;
 
             SoundListener();
         };
