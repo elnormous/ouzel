@@ -11,7 +11,7 @@ namespace ouzel
     namespace scene
     {
         Animator::Animator(float aLength):
-            length(aLength)
+            Component(Component::ANIMATOR), length(aLength)
         {
             updateCallback.callback = std::bind(&Animator::update, this, std::placeholders::_1);
         }

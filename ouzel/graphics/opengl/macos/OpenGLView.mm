@@ -70,7 +70,7 @@
 
 -(void)flagsChanged:(NSEvent*)event
 {
-    if (NSInteger mask = ouzel::input::InputMacOS::getKeyMask(event.keyCode))
+    if (NSUInteger mask = ouzel::input::InputMacOS::getKeyMask(event.keyCode))
     {
         if (event.modifierFlags & mask)
         {

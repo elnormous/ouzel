@@ -19,7 +19,8 @@ namespace ouzel
 {
     namespace scene
     {
-        ParticleSystem::ParticleSystem()
+        ParticleSystem::ParticleSystem():
+            Component(Component::PARTICLE_SYSTEM)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);

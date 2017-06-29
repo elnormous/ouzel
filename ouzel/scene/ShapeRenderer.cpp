@@ -13,7 +13,8 @@ namespace ouzel
 {
     namespace scene
     {
-        ShapeRenderer::ShapeRenderer()
+        ShapeRenderer::ShapeRenderer():
+            Component(Component::SHAPE_RENDERER)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
