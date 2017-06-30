@@ -15,25 +15,25 @@ SoundSample::SoundSample()
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
-    test8BitData->initFromFile("8-bit.wav");
+    test8BitData->init("8-bit.wav");
 
     test8BitSound.reset(new audio::Sound());
     test8BitSound->init(test8BitData);
 
     std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
-    test24BitData->initFromFile("24-bit.wav");
+    test24BitData->init("24-bit.wav");
 
     test24BitSound.reset(new audio::Sound());
     test24BitSound->init(test24BitData);
 
     std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
-    jumpData->initFromFile("jump.wav");
+    jumpData->init("jump.wav");
 
     jumpSound.reset(new audio::Sound());
     jumpSound->init(jumpData);
 
     std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
-    ambientData->initFromFile("ambient.wav");
+    ambientData->init("ambient.wav");
 
     ambientSound.reset(new audio::Sound());
     ambientSound->init(ambientData);

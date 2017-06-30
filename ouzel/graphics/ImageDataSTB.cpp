@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool ImageDataSTB::initFromFile(const std::string& newFilename,
-                                        PixelFormat newPixelFormat)
+        bool ImageDataSTB::init(const std::string& newFilename,
+                                PixelFormat newPixelFormat)
         {
             filename = newFilename;
 
@@ -25,11 +25,11 @@ namespace ouzel
                 return false;
             }
 
-            return initFromBuffer(newData, newPixelFormat);
+            return init(newData, newPixelFormat);
         }
 
-        bool ImageDataSTB::initFromBuffer(const std::vector<uint8_t>& newData,
-                                          PixelFormat newPixelFormat)
+        bool ImageDataSTB::init(const std::vector<uint8_t>& newData,
+                                PixelFormat newPixelFormat)
         {
             int width;
             int height;

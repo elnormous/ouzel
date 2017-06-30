@@ -47,24 +47,24 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::initFromFile(const std::string& newFilename,
-                                   bool newDynamic,
-                                   bool newMipmaps,
-                                   PixelFormat newPixelFormat)
+        bool Texture::init(const std::string& newFilename,
+                           bool newDynamic,
+                           bool newMipmaps,
+                           PixelFormat newPixelFormat)
         {
             filename = newFilename;
 
             ImageDataSTB image;
-            if (!image.initFromFile(filename, newPixelFormat))
+            if (!image.init(filename, newPixelFormat))
             {
                 return false;
             }
 
-            if (!resource->initFromBuffer(image.getData(),
-                                          image.getSize(),
-                                          newDynamic,
-                                          newMipmaps,
-                                          image.getPixelFormat()))
+            if (!resource->init(image.getData(),
+                                image.getSize(),
+                                newDynamic,
+                                newMipmaps,
+                                image.getPixelFormat()))
             {
                 return false;
             }
@@ -74,19 +74,19 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::initFromBuffer(const std::vector<uint8_t>& newData,
-                                     const Size2& newSize,
-                                     bool newDynamic,
-                                     bool newMipmaps,
-                                     PixelFormat newPixelFormat)
+        bool Texture::init(const std::vector<uint8_t>& newData,
+                           const Size2& newSize,
+                           bool newDynamic,
+                           bool newMipmaps,
+                           PixelFormat newPixelFormat)
         {
             filename.clear();
 
-            if (!resource->initFromBuffer(newData,
-                                          newSize,
-                                          newDynamic,
-                                          newMipmaps,
-                                          newPixelFormat))
+            if (!resource->init(newData,
+                                newSize,
+                                newDynamic,
+                                newMipmaps,
+                                newPixelFormat))
             {
                 return false;
             }

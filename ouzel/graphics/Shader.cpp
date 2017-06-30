@@ -21,15 +21,15 @@ namespace ouzel
             if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
-        bool Shader::initFromFiles(const std::string& newPixelShader,
-                                   const std::string& newVertexShader,
-                                   const std::vector<VertexAttribute>& newVertexAttributes,
-                                   const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                   const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                                   uint32_t newPixelShaderDataAlignment,
-                                   uint32_t newVertexShaderDataAlignment,
-                                   const std::string& newPixelShaderFunction,
-                                   const std::string& newVertexShaderFunction)
+        bool Shader::init(const std::string& newPixelShader,
+                          const std::string& newVertexShader,
+                          const std::vector<VertexAttribute>& newVertexAttributes,
+                          const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                          const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                          uint32_t newPixelShaderDataAlignment,
+                          uint32_t newVertexShaderDataAlignment,
+                          const std::string& newPixelShaderFunction,
+                          const std::string& newVertexShaderFunction)
         {
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
@@ -48,14 +48,14 @@ namespace ouzel
                 return false;
             }
 
-            if (!resource->initFromBuffers(pixelShaderData, vertexShaderData,
-                                           newVertexAttributes,
-                                           newPixelShaderConstantInfo,
-                                           newVertexShaderConstantInfo,
-                                           newPixelShaderDataAlignment,
-                                           newVertexShaderDataAlignment,
-                                           newPixelShaderFunction,
-                                           newVertexShaderFunction))
+            if (!resource->init(pixelShaderData, vertexShaderData,
+                                newVertexAttributes,
+                                newPixelShaderConstantInfo,
+                                newVertexShaderConstantInfo,
+                                newPixelShaderDataAlignment,
+                                newVertexShaderDataAlignment,
+                                newPixelShaderFunction,
+                                newVertexShaderFunction))
             {
                 return false;
             }
@@ -65,27 +65,27 @@ namespace ouzel
             return true;
         }
 
-        bool Shader::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                     const std::vector<uint8_t>& newVertexShader,
-                                     const std::vector<VertexAttribute>& newVertexAttributes,
-                                     const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
-                                     const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t newPixelShaderDataAlignment,
-                                     uint32_t newVertexShaderDataAlignment,
-                                     const std::string& newPixelShaderFunction,
-                                     const std::string& newVertexShaderFunction)
+        bool Shader::init(const std::vector<uint8_t>& newPixelShader,
+                          const std::vector<uint8_t>& newVertexShader,
+                          const std::vector<VertexAttribute>& newVertexAttributes,
+                          const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                          const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                          uint32_t newPixelShaderDataAlignment,
+                          uint32_t newVertexShaderDataAlignment,
+                          const std::string& newPixelShaderFunction,
+                          const std::string& newVertexShaderFunction)
         {
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            if (!resource->initFromBuffers(newPixelShader, newVertexShader,
-                                           newVertexAttributes,
-                                           newPixelShaderConstantInfo,
-                                           newVertexShaderConstantInfo,
-                                           newPixelShaderDataAlignment,
-                                           newVertexShaderDataAlignment,
-                                           newPixelShaderFunction,
-                                           newVertexShaderFunction))
+            if (!resource->init(newPixelShader, newVertexShader,
+                                newVertexAttributes,
+                                newPixelShaderConstantInfo,
+                                newVertexShaderConstantInfo,
+                                newPixelShaderDataAlignment,
+                                newVertexShaderDataAlignment,
+                                newPixelShaderFunction,
+                                newVertexShaderFunction))
             {
                 return false;
             }

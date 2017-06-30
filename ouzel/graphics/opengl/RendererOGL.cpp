@@ -539,40 +539,40 @@ namespace ouzel
             {
 #if OUZEL_SUPPORTS_OPENGLES
                 case 2:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
 #else
                 case 2:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 4:
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
 #endif
                 default:
@@ -588,41 +588,41 @@ namespace ouzel
             {
 #if OUZEL_SUPPORTS_OPENGLES
                 case 2:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
                     break;
                 case 3:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
 #else
                 case 2:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 4:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
 #endif
                 default:
@@ -673,7 +673,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             glDisable(GL_DITHER);

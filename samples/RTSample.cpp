@@ -50,7 +50,7 @@ RTSample::RTSample()
     rtLayer->addChild(rtCharacter.get());
 
     rtSprite.reset(new scene::Sprite());
-    rtSprite->initFromTexture(renderTarget);
+    rtSprite->init(renderTarget);
     rtNode.reset(new scene::Node());
     rtNode->addComponent(rtSprite.get());
     layer->addChild(rtNode.get());

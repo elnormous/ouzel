@@ -43,8 +43,8 @@ namespace ouzel
 
             virtual void update(float delta);
 
-            bool initFromParticleDefinition(const ParticleDefinition& newParticleDefinition);
-            bool initFromFile(const std::string& filename);
+            bool init(const ParticleDefinition& newParticleDefinition);
+            bool init(const std::string& filename);
 
             void resume();
             void stop();

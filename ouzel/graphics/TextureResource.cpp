@@ -46,11 +46,11 @@ namespace ouzel
             return true;
         }
 
-        bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData,
-                                             const Size2& newSize,
-                                             bool newDynamic,
-                                             bool newMipmaps,
-                                             PixelFormat newPixelFormat)
+        bool TextureResource::init(const std::vector<uint8_t>& newData,
+                                   const Size2& newSize,
+                                   bool newDynamic,
+                                   bool newMipmaps,
+                                   PixelFormat newPixelFormat)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

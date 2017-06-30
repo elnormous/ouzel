@@ -21,8 +21,8 @@ namespace ouzel
             SoundDataWave();
             virtual ~SoundDataWave();
 
-            virtual bool initFromFile(const std::string& newFilename);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
+            virtual bool init(const std::string& newFilename);
+            virtual bool init(const std::vector<uint8_t>& newData);
 
             virtual const std::vector<uint8_t>& getData();
 

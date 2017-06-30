@@ -15,15 +15,15 @@ namespace ouzel
         {
         }
 
-        bool ShaderResource::initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                             const std::vector<uint8_t>& newVertexShader,
-                                             const std::vector<VertexAttribute>& newVertexAttributes,
-                                             const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
-                                             const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                             uint32_t newPixelShaderDataAlignment,
-                                             uint32_t newVertexShaderDataAlignment,
-                                             const std::string& newPixelShaderFunction,
-                                             const std::string& newVertexShaderFunction)
+        bool ShaderResource::init(const std::vector<uint8_t>& newPixelShader,
+                                  const std::vector<uint8_t>& newVertexShader,
+                                  const std::vector<VertexAttribute>& newVertexAttributes,
+                                  const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                  const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                  uint32_t newPixelShaderDataAlignment,
+                                  uint32_t newVertexShaderDataAlignment,
+                                  const std::string& newPixelShaderFunction,
+                                  const std::string& newVertexShaderFunction)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

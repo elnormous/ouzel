@@ -33,7 +33,7 @@ namespace ouzel
         if (i == textures.end())
         {
             std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
-            texture->initFromFile(filename, dynamic, mipmaps);
+            texture->init(filename, dynamic, mipmaps);
 
             textures[filename] = texture;
         }
@@ -50,7 +50,7 @@ namespace ouzel
         else
         {
             std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-            result->initFromFile(filename, dynamic, mipmaps);
+            result->init(filename, dynamic, mipmaps);
 
             i = textures.insert(std::make_pair(filename, result)).first;
 

@@ -26,7 +26,7 @@ namespace ouzel
             virtual ~Buffer();
 
             bool init(Usage newUsage, bool newDynamic = true);
-            bool initFromBuffer(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
+            bool init(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
 
             BufferResource* getResource() const { return resource; }
 

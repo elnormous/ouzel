@@ -36,7 +36,7 @@ PerspectiveSample::PerspectiveSample()
 
     // floor
     floorSprite.reset(new scene::Sprite());
-    floorSprite->initFromFile("floor.jpg");
+    floorSprite->init("floor.jpg");
 
     for (const scene::SpriteFrame& spriteFrame : floorSprite->getFrames())
     {
@@ -51,7 +51,7 @@ PerspectiveSample::PerspectiveSample()
     
     // character
     characterSprite.reset(new scene::Sprite());
-    characterSprite->initFromFile("run.json");
+    characterSprite->init("run.json");
     characterSprite->play(true);
 
     for (const scene::SpriteFrame& spriteFrame : characterSprite->getFrames())
@@ -66,7 +66,7 @@ PerspectiveSample::PerspectiveSample()
 
     jumpSound.reset(new audio::Sound());
     std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
-    soundData->initFromFile("jump.wav");
+    soundData->init("jump.wav");
     jumpSound->init(soundData);
     jumpSound->setPosition(character->getPosition());
 

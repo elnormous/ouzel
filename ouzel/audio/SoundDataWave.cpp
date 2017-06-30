@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        bool SoundDataWave::initFromFile(const std::string& newFilename)
+        bool SoundDataWave::init(const std::string& newFilename)
         {
             filename = newFilename;
 
@@ -29,10 +29,10 @@ namespace ouzel
                 return false;
             }
 
-            return initFromBuffer(newData);
+            return init(newData);
         }
 
-        bool SoundDataWave::initFromBuffer(const std::vector<uint8_t>& newData)
+        bool SoundDataWave::init(const std::vector<uint8_t>& newData)
         {
             uint32_t offset = 0;
 

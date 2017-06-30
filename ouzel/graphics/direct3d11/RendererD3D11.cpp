@@ -351,20 +351,20 @@ namespace ouzel
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-            textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                           std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                           VertexPCT::ATTRIBUTES,
-                                           {{"color", DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
+                                std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
+                                VertexPCT::ATTRIBUTES,
+                                {{"color", DataType::FLOAT_VECTOR4}},
+                                {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-            colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
-                                         std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
-                                         VertexPC::ATTRIBUTES,
-                                         {{"color", DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
+                              std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
+                              VertexPC::ATTRIBUTES,
+                              {{"color", DataType::FLOAT_VECTOR4}},
+                              {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -409,7 +409,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;

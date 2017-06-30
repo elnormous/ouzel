@@ -53,7 +53,7 @@ AnimationsSample::AnimationsSample():
     shake->start();
 
     witchSprite.reset(new scene::Sprite());
-    witchSprite->initFromFile("witch.png");
+    witchSprite->init("witch.png");
 
     witch.reset(new scene::Node());
     witch->setPosition(Vector2(200, 0.0f));
@@ -84,7 +84,7 @@ AnimationsSample::AnimationsSample():
     witchSequence->start();
 
     ballSprite.reset(new scene::Sprite());
-    ballSprite->initFromFile("ball.png");
+    ballSprite->init("ball.png");
 
     ball.reset(new scene::Node());
     ball->addComponent(ballSprite.get());

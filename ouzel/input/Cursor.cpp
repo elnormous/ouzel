@@ -48,7 +48,7 @@ namespace ouzel
         bool Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
             graphics::ImageDataSTB image;
-            if (!image.initFromFile(filename))
+            if (!image.init(filename))
             {
                 return false;
             }

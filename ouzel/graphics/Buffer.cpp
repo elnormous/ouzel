@@ -32,9 +32,9 @@ namespace ouzel
             return true;
         }
 
-        bool Buffer::initFromBuffer(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        bool Buffer::init(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
-            if (!resource->initFromBuffer(newUsage, newData, newSize, newDynamic))
+            if (!resource->init(newUsage, newData, newSize, newDynamic))
             {
                 return false;
             }
