@@ -11,7 +11,8 @@ namespace ouzel
     class Language
     {
     public:
-        bool initFromFile(const std::string& filename);
+        bool init(const std::string& filename);
+        bool init(const std::vector<uint8_t>& data);
 
         std::string getString(const std::string& str);
 

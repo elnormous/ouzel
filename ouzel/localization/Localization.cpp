@@ -10,7 +10,7 @@ namespace ouzel
     {
         std::shared_ptr<Language> language = std::make_shared<Language>();
 
-        if (language->initFromFile(filename))
+        if (language->init(filename))
         {
             languages[name] = language;
         }
