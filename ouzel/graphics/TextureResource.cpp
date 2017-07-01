@@ -451,6 +451,7 @@ namespace ouzel
                         r += powf(pixel[pitch + 0], GAMMA);
                         g += powf(pixel[pitch + 1], GAMMA);
                         b += powf(pixel[pitch + 2], GAMMA);
+                        pixels += 1.0f;
                     }
                     a += pixel[pitch + 3];
 
