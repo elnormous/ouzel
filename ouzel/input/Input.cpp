@@ -67,7 +67,7 @@ namespace ouzel
 
         void Input::deleteCursorResource(CursorResource* resource)
         {
-            {
+            sharedApplication->execute([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
                 std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
@@ -89,10 +89,7 @@ namespace ouzel
                         activateCursorResource(nullptr);
                     });
                 }
-            }
 
-            sharedApplication->execute([this] {
-                std::lock_guard<std::mutex> lock(resourceMutex);
                 resourceDeleteSet.clear();
             });
         }
