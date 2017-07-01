@@ -85,6 +85,11 @@
     }
 }
 
+-(void)doCommandBySelector:(__unused SEL)selector
+{
+    // implement this method to not beep on Command-Escape
+}
+
 -(void)mouseDown:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
