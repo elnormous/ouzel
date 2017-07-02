@@ -385,6 +385,12 @@
     <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp">
       <Filter>files\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Stream.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\StreamWave.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -861,6 +867,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\files\windows\FileSystemWin.h">
       <Filter>files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Stream.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\StreamWave.h">
+      <Filter>audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

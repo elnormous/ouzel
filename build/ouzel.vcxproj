@@ -38,6 +38,8 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp" />
+    <ClCompile Include="..\ouzel\audio\Stream.cpp" />
+    <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp" />
@@ -169,6 +171,8 @@
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
     <ClInclude Include="..\ouzel\audio\SoundDataWave.h" />
     <ClInclude Include="..\ouzel\audio\SoundResource.h" />
+    <ClInclude Include="..\ouzel\audio\Stream.h" />
+    <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
