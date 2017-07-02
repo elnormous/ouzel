@@ -29,6 +29,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataWave.cpp \
+    ../../ouzel/audio/Stream.cpp \
+    ../../ouzel/audio/StreamWave.cpp \
     ../../ouzel/audio/SoundResource.cpp \
     ../../ouzel/core/android/ApplicationAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
