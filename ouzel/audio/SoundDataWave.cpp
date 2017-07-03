@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundDataWave.h"
+#include "StreamWave.h"
 #include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
@@ -199,6 +200,13 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        std::unique_ptr<Stream> SoundDataWave::createStream()
+        {
+            std::unique_ptr<Stream> stream(new StreamWave());
+
+            return stream;
         }
 
         const std::vector<uint8_t>& SoundDataWave::getData()

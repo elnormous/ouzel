@@ -17,6 +17,7 @@ namespace ouzel
     {
         SoundAL::SoundAL()
         {
+            std::fill(std::begin(buffers), std::end(buffers), 0);
         }
 
         SoundAL::~SoundAL()
@@ -33,13 +34,16 @@ namespace ouzel
                 }
             }
 
-            if (outputBuffer)
+            for (ALuint buffer : buffers)
             {
-                alDeleteBuffers(1, &outputBuffer);
-
-                if (AudioAL::checkOpenALError())
+                if (buffer)
                 {
-                    Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                    alDeleteBuffers(1, &buffer);
+
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                    }
                 }
             }
         }
@@ -60,12 +64,18 @@ namespace ouzel
                         return false;
                     }
 
-                    if (!outputBuffer) alGenBuffers(1, &outputBuffer);
-
-                    if (AudioAL::checkOpenALError())
+                    for (ALuint buffer : buffers)
                     {
-                        Log(Log::Level::ERR) << "Failed to create OpenAL buffer";
-                        return false;
+                        if (buffer)
+                        {
+                            alDeleteBuffers(1, &buffer);
+
+                            if (AudioAL::checkOpenALError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                                return false;
+                            }
+                        }
                     }
 
                     AudioAL* audioAL = static_cast<AudioAL*>(sharedEngine->getAudio());
@@ -78,25 +88,52 @@ namespace ouzel
                         return false;
                     }
 
-                    const std::vector<uint8_t>& data = soundData->getData();
-
-                    alBufferData(outputBuffer, format,
-                                 data.data(),
-                                 static_cast<ALsizei>(data.size()),
-                                 static_cast<ALsizei>(soundData->getSamplesPerSecond()));
-
-                    if (AudioAL::checkOpenALError())
+                    if (streaming)
                     {
-                        Log(Log::Level::ERR) << "Failed to upload OpenAL data";
-                        return false;
+                        alGenBuffers(2, buffers);
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                            return false;
+                        }
+
+                        currentBuffer = buffers[0];
+
+                        alSourceQueueBuffers(sourceId, 2, buffers);
                     }
-
-                    alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(outputBuffer));
-
-                    if (AudioAL::checkOpenALError())
+                    else
                     {
-                        Log(Log::Level::ERR) << "Failed to set OpenAL buffer";
-                        return false;
+                        alGenBuffers(1, buffers);
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                            return false;
+                        }
+
+                        currentBuffer = buffers[0];
+
+                        const std::vector<uint8_t>& data = soundData->getData();
+
+                        alBufferData(currentBuffer, format,
+                                     data.data(),
+                                     static_cast<ALsizei>(data.size()),
+                                     static_cast<ALsizei>(soundData->getSamplesPerSecond()));
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to upload OpenAL data";
+                            return false;
+                        }
+
+                        alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(currentBuffer));
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to set OpenAL buffer";
+                            return false;
+                        }
                     }
                 }
             }

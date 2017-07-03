@@ -15,6 +15,7 @@ namespace ouzel
     {
         class Audio;
         class SoundData;
+        class Stream;
         
         class SoundResource: public Resource, public Noncopyable
         {
@@ -49,6 +50,7 @@ namespace ouzel
             uint32_t dirty = 0;
 
             std::shared_ptr<SoundData> soundData;
+            std::unique_ptr<Stream> stream;
             bool streaming = false;
             bool shouldPlay = false;
             bool repeat = false;

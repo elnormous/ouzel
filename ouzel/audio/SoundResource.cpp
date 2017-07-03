@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundResource.h"
+#include "SoundData.h"
+#include "Stream.h"
 
 namespace ouzel
 {
@@ -21,6 +23,11 @@ namespace ouzel
 
             soundData = newSoundData;
             streaming = newStreaming;
+
+            if (streaming && soundData)
+            {
+                stream = std::move(soundData->createStream());
+            }
 
             dirty |= DIRTY_SOUND_DATA | DIRTY_POSITION | DIRTY_PITCH | DIRTY_GAIN | DIRTY_PLAY_STATE;
 
