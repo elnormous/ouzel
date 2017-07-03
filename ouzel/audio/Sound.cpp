@@ -22,9 +22,8 @@ namespace ouzel
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool newStreaming)
         {
             soundData = newSoundData;
-            streaming = newStreaming;
             
-            return resource->init(newSoundData);
+            return resource->init(newSoundData, newStreaming);
         }
 
         void Sound::setPosition(const Vector3& newPosition)

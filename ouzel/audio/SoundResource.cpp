@@ -15,11 +15,12 @@ namespace ouzel
         {
         }
 
-        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
+        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool newStreaming)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             soundData = newSoundData;
+            streaming = newStreaming;
 
             dirty |= DIRTY_SOUND_DATA | DIRTY_POSITION | DIRTY_PITCH | DIRTY_GAIN | DIRTY_PLAY_STATE;
 
