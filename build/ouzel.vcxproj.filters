@@ -391,6 +391,12 @@
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp">
       <Filter>audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.h" />
@@ -872,6 +878,12 @@
       <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\StreamWave.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\StreamVorbis.h">
       <Filter>audio</Filter>
     </ClInclude>
   </ItemGroup>

@@ -36,9 +36,11 @@
     <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp" />
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
+    <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp" />
@@ -169,9 +171,11 @@
     <ClInclude Include="..\ouzel\audio\Resource.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
+    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h" />
     <ClInclude Include="..\ouzel\audio\SoundDataWave.h" />
     <ClInclude Include="..\ouzel\audio\SoundResource.h" />
     <ClInclude Include="..\ouzel\audio\Stream.h" />
+    <ClInclude Include="..\ouzel\audio\StreamVorbis.h" />
     <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h" />
