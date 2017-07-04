@@ -206,7 +206,7 @@ namespace ouzel
                             }
                         }
 
-                        HRESULT hr = buffer->Play(0, 0, 0);
+                        HRESULT hr = buffer->Play(0, 0, repeat ? DSBPLAY_LOOPING : 0);
                         if (FAILED(hr))
                         {
                             Log(Log::Level::ERR) << "Failed to play DirectSound buffer, error: " << hr;
