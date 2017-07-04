@@ -24,8 +24,7 @@ namespace ouzel
             SoundResourceSL();
             virtual ~SoundResourceSL();
 
-            SLPlayItf getPlayer() const { return player; }
-            const std::vector<uint8_t>& getBuffer() const { return buffer; }
+            void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
         protected:
             virtual bool update() override;
@@ -35,7 +34,8 @@ namespace ouzel
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
             SLVolumeItf playerVolume = nullptr;
-            std::vector<uint8_t> buffer;
+
+            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel

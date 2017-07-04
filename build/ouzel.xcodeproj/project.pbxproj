@@ -87,6 +87,18 @@
 		3030D5051DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
 		3030D5061DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
 		3030D5071DAEF1FA007CC8EB /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 3030D5011DAEF1FA007CC8EB /* Log.h */; };
+		3031C1341F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C1321F0C4350002CA717 /* SoundDataVorbis.cpp */; };
+		3031C1351F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C1321F0C4350002CA717 /* SoundDataVorbis.cpp */; };
+		3031C1361F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C1321F0C4350002CA717 /* SoundDataVorbis.cpp */; };
+		3031C1371F0C4350002CA717 /* SoundDataVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C1331F0C4350002CA717 /* SoundDataVorbis.h */; };
+		3031C1381F0C4350002CA717 /* SoundDataVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C1331F0C4350002CA717 /* SoundDataVorbis.h */; };
+		3031C1391F0C4350002CA717 /* SoundDataVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C1331F0C4350002CA717 /* SoundDataVorbis.h */; };
+		3031C13C1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C13A1F0C43D0002CA717 /* StreamVorbis.cpp */; };
+		3031C13D1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C13A1F0C43D0002CA717 /* StreamVorbis.cpp */; };
+		3031C13E1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3031C13A1F0C43D0002CA717 /* StreamVorbis.cpp */; };
+		3031C13F1F0C43D0002CA717 /* StreamVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C13B1F0C43D0002CA717 /* StreamVorbis.h */; };
+		3031C1401F0C43D0002CA717 /* StreamVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C13B1F0C43D0002CA717 /* StreamVorbis.h */; };
+		3031C1411F0C43D0002CA717 /* StreamVorbis.h in Headers */ = {isa = PBXBuildFile; fileRef = 3031C13B1F0C43D0002CA717 /* StreamVorbis.h */; };
 		30324E141CB2898E00601A64 /* BlendStateResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendStateResource.cpp */; };
 		30324E151CB2898E00601A64 /* BlendStateResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendStateResource.cpp */; };
 		30324E161CB2898E00601A64 /* BlendStateResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30324E121CB2898E00601A64 /* BlendStateResource.cpp */; };
@@ -906,6 +918,10 @@
 		302511AF1CD3CA2200D04209 /* ParticleDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleDefinition.cpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
 		3030D5011DAEF1FA007CC8EB /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		3031C1321F0C4350002CA717 /* SoundDataVorbis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataVorbis.cpp; sourceTree = "<group>"; };
+		3031C1331F0C4350002CA717 /* SoundDataVorbis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDataVorbis.h; sourceTree = "<group>"; };
+		3031C13A1F0C43D0002CA717 /* StreamVorbis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamVorbis.cpp; sourceTree = "<group>"; };
+		3031C13B1F0C43D0002CA717 /* StreamVorbis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamVorbis.h; sourceTree = "<group>"; };
 		30324E121CB2898E00601A64 /* BlendStateResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResource.cpp; sourceTree = "<group>"; };
 		30324E131CB2898E00601A64 /* BlendStateResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlendStateResource.h; sourceTree = "<group>"; };
 		303647121C3DFEAF0024DB5B /* Gamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gamepad.cpp; sourceTree = "<group>"; };
@@ -1641,12 +1657,16 @@
 				30419DE81D162BDC00A63759 /* Sound.h */,
 				30419DEF1D162BEF00A63759 /* SoundData.cpp */,
 				30419DF01D162BEF00A63759 /* SoundData.h */,
+				3031C1321F0C4350002CA717 /* SoundDataVorbis.cpp */,
+				3031C1331F0C4350002CA717 /* SoundDataVorbis.h */,
 				300C39EC1E51355000330E4F /* SoundDataWave.cpp */,
 				300C39EB1E51355000330E4F /* SoundDataWave.h */,
 				301456DD1E38BEB200BA75DB /* SoundResource.cpp */,
 				301456DE1E38BEB200BA75DB /* SoundResource.h */,
 				30F5DD361F09756400E14E84 /* Stream.cpp */,
 				30F5DD371F09756400E14E84 /* Stream.h */,
+				3031C13A1F0C43D0002CA717 /* StreamVorbis.cpp */,
+				3031C13B1F0C43D0002CA717 /* StreamVorbis.h */,
 				30F5DD3E1F09757100E14E84 /* StreamWave.cpp */,
 				30F5DD3F1F09757100E14E84 /* StreamWave.h */,
 			);
@@ -1947,6 +1967,7 @@
 				30DADEA01C5167BC001A63B4 /* Cache.h in Headers */,
 				3049DCDD1EDCD0450000997A /* Cursor.h in Headers */,
 				3082C3BD1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
+				3031C13F1F0C43D0002CA717 /* StreamVorbis.h in Headers */,
 				3082C3991D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.h in Headers */,
 				30381FBE1D80A3F900677CAB /* SoundResourceAL.h in Headers */,
@@ -2021,6 +2042,7 @@
 				3082C3B11D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				300934201C88698500CC50D3 /* Window.h in Headers */,
 				303821481D81876E00677CAB /* RendererEmpty.h in Headers */,
+				3031C1371F0C4350002CA717 /* SoundDataVorbis.h in Headers */,
 				3011E1E61F01790000CB1DDC /* FileSystemIOS.h in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.h in Headers */,
 				3082C39C1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
@@ -2112,6 +2134,7 @@
 				303647191C3DFEAF0024DB5B /* Gamepad.h in Headers */,
 				30DADEA11C5167BC001A63B4 /* Cache.h in Headers */,
 				3049DCDF1EDCD0450000997A /* Cursor.h in Headers */,
+				3031C1411F0C43D0002CA717 /* StreamVorbis.h in Headers */,
 				3082C3BF1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C39B1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30381FC01D80A3F900677CAB /* SoundResourceAL.h in Headers */,
@@ -2186,6 +2209,7 @@
 				3049DCB91ED8687C0000997A /* ConvexVolume.h in Headers */,
 				300934211C88698500CC50D3 /* Window.h in Headers */,
 				3082C3B31D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
+				3031C1391F0C4350002CA717 /* SoundDataVorbis.h in Headers */,
 				3038214A1D81876E00677CAB /* RendererEmpty.h in Headers */,
 				301EB3A71CCD691800466E92 /* Component.h in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.h in Headers */,
@@ -2287,6 +2311,7 @@
 				30575AC81C3B17540009C8A7 /* Button.h in Headers */,
 				303B75811C2B17DC00FEDE92 /* Event.h in Headers */,
 				30381F891D80A3EC00677CAB /* ShaderResourceOGL.h in Headers */,
+				3031C1381F0C4350002CA717 /* SoundDataVorbis.h in Headers */,
 				30381F8F1D80A3EC00677CAB /* TextureResourceOGL.h in Headers */,
 				305B998C1C41EFFA008589E1 /* Menu.h in Headers */,
 				3038202F1D80A55700677CAB /* BufferResourceMetal.h in Headers */,
@@ -2346,6 +2371,7 @@
 				3082C3A91D9565DE0090FC9D /* ColorVSGLES3.h in Headers */,
 				304B27581C9384A600BA162D /* Size3.h in Headers */,
 				3038213D1D81876E00677CAB /* BufferResourceEmpty.h in Headers */,
+				3031C1401F0C43D0002CA717 /* StreamVorbis.h in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.h in Headers */,
 				304A8E621C237C70008B1151 /* Rectangle.h in Headers */,
 				30FE38521DFDE49E00305B3B /* Quaternion.h in Headers */,
@@ -2549,6 +2575,8 @@
 				3047F7571C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				301456DF1E38BEB200BA75DB /* SoundResource.cpp in Sources */,
 				30EF364C1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
+				3031C1341F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */,
+				3031C13C1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */,
 				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* SoundData.cpp in Sources */,
 				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
@@ -2685,6 +2713,8 @@
 				303821531D81876E00677CAB /* ShaderResourceEmpty.cpp in Sources */,
 				30419DF31D162BEF00A63759 /* SoundData.cpp in Sources */,
 				301456E11E38BEB200BA75DB /* SoundResource.cpp in Sources */,
+				3031C1361F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */,
+				3031C13E1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */,
 				3047F7581C4C4FBA00774E3D /* Scale.cpp in Sources */,
 				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
 				30381F6F1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
@@ -2821,6 +2851,8 @@
 				301456E01E38BEB200BA75DB /* SoundResource.cpp in Sources */,
 				30C56C651CAB3F2D007AEF8F /* RadioButton.cpp in Sources */,
 				30419DF11D162BEF00A63759 /* SoundData.cpp in Sources */,
+				3031C1351F0C4350002CA717 /* SoundDataVorbis.cpp in Sources */,
+				3031C13D1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
 				3049DCB51ED8687C0000997A /* ConvexVolume.cpp in Sources */,

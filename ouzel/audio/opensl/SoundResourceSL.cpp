@@ -8,6 +8,7 @@
 #include "SoundResourceSL.h"
 #include "AudioSL.h"
 #include "audio/SoundData.h"
+#include "audio/Stream.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -15,27 +16,15 @@ static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* cont
 {
     ouzel::audio::SoundResourceSL* soundResourceSL = reinterpret_cast<ouzel::audio::SoundResourceSL*>(context);
 
-    if ((*bufferQueue)->Enqueue(bufferQueue, soundResourceSL->getBuffer().data(),
-                                soundResourceSL->getBuffer().size()) != SL_RESULT_SUCCESS)
-    {
-        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
-    }
-
-    if (!soundResourceSL->isRepeating())
-    {
-        SLPlayItf player = soundResourceSL->getPlayer();
-
-        if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
-        {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
-        }
-    }
+    soundResourceSL->enqueue(bufferQueue);
 }
 
 namespace ouzel
 {
     namespace audio
     {
+        static const uint32_t BUFFER_SIZE = 16384;
+
         SoundResourceSL::SoundResourceSL()
         {
         }
@@ -146,9 +135,9 @@ namespace ouzel
                         return false;
                     }
 
-                    buffer = soundData->getData();
+                    data = soundData->getData(stream.get(), BUFFER_SIZE);
 
-                    if ((*bufferQueue)->Enqueue(bufferQueue, buffer.data(), buffer.size()) != SL_RESULT_SUCCESS)
+                    if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
                     {
                         Log(Log::Level::ERR) << "Failed to enqueue OpenSL data";
                         return false;
@@ -228,6 +217,33 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void SoundResourceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
+        {
+            data = soundData->getData(stream.get(), BUFFER_SIZE);
+
+            // if stream has ended but we should repeat it
+            if (repeat && data.empty())
+            {
+                stream->reset();
+                data = soundData->getData(stream.get(), BUFFER_SIZE);
+            }
+            else
+            {
+                if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
+                }
+            }
+
+            if (!data.empty())
+            {
+                if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
+                {
+                    ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
+                }
+            }
         }
     } // namespace audio
 } // namespace ouzel

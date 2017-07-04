@@ -12,11 +12,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundDataWave: public SoundData
+        class SoundDataVorbis: public SoundData
         {
         public:
-            SoundDataWave();
-            virtual ~SoundDataWave();
+            SoundDataVorbis();
+            virtual ~SoundDataVorbis();
 
             virtual bool init(const std::string& newFilename);
             virtual bool init(const std::vector<uint8_t>& newData);
