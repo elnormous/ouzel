@@ -44,7 +44,7 @@ namespace ouzel
         {
             data = newData;
 
-            vorbisStream = stb_vorbis_open_memory(data.data(), data.size(), nullptr, nullptr);
+            vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
             stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
             channels = static_cast<uint16_t>(info.channels);
