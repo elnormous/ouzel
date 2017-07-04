@@ -25,12 +25,10 @@ namespace ouzel
             virtual std::unique_ptr<Stream> createStream() = 0;
             virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) = 0;
 
-            uint16_t getFormatTag() const { return formatTag; }
             uint16_t getChannels() const { return channels; }
             uint32_t getSamplesPerSecond() const { return samplesPerSecond; }
 
         protected:
-            uint16_t formatTag = 0;
             uint16_t channels = 0;
             uint32_t samplesPerSecond = 0;
         };

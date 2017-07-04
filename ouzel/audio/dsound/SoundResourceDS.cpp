@@ -48,7 +48,7 @@ namespace ouzel
                     IDirectSoundBuffer* tempBuffer = nullptr;
 
                     WAVEFORMATEX waveFormat;
-                    waveFormat.wFormatTag = soundData->getFormatTag();
+                    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                     waveFormat.nChannels = soundData->getChannels();
                     waveFormat.nSamplesPerSec = soundData->getSamplesPerSecond();
                     waveFormat.wBitsPerSample = 16;

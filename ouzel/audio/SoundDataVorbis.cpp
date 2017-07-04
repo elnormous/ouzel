@@ -36,12 +36,22 @@ namespace ouzel
 
         bool SoundDataVorbis::init(const std::vector<uint8_t>& newData)
         {
+            data = newData;
+
+            stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), data.size(), nullptr, nullptr);
+            stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
+
+            channels = static_cast<uint16_t>(info.channels);
+            samplesPerSecond = info.sample_rate;
+
+            stb_vorbis_close(vorbisStream);
+
             return true;
         }
 
         std::unique_ptr<Stream> SoundDataVorbis::createStream()
         {
-            std::unique_ptr<Stream> stream(new StreamVorbis());
+            std::unique_ptr<Stream> stream(new StreamVorbis(data));
 
             return stream;
         }
@@ -56,7 +66,11 @@ namespace ouzel
             {
                 StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
-                std::vector<uint8_t> result;
+                std::vector<uint8_t> result(size);
+
+                int n = stb_vorbis_get_samples_short_interleaved(streamVorbis->getVorbisStream(), channels, reinterpret_cast<short*>(result.data()), size / 2);
+
+                result.resize(n * 2 * channels);
 
                 return result;
             }

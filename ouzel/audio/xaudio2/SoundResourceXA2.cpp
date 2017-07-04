@@ -33,7 +33,7 @@ namespace ouzel
                     if (sourceVoice) sourceVoice->DestroyVoice();
 
                     WAVEFORMATEX waveFormat;
-                    waveFormat.wFormatTag = soundData->getFormatTag();
+                    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
                     waveFormat.nChannels = soundData->getChannels();
                     waveFormat.nSamplesPerSec = soundData->getSamplesPerSecond();
                     waveFormat.wBitsPerSample = 16;

@@ -23,7 +23,7 @@ namespace ouzel
 {
     namespace audio
     {
-        static const uint32_t BUFFER_SIZE = 16384;
+        static const uint32_t BUFFER_SIZE = 32 * 4096;
 
         SoundResourceSL::SoundResourceSL()
         {

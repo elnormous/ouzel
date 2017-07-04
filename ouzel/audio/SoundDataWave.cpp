@@ -115,7 +115,7 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    formatTag = decodeUInt16Little(newData.data() + i);
+                    uint16_t formatTag = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
                     if (formatTag != 1)

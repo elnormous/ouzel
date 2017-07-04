@@ -4,7 +4,10 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include "Stream.h"
+
+struct stb_vorbis;
 
 namespace ouzel
 {
@@ -13,13 +16,14 @@ namespace ouzel
         class StreamVorbis: public Stream
         {
         public:
+            StreamVorbis(const std::vector<uint8_t>& data);
+            virtual ~StreamVorbis();
             virtual void reset() override;
 
-            uint32_t getOffset() const { return offset; }
-            void setOffset(uint32_t newOffset) { offset = newOffset; }
+            stb_vorbis* getVorbisStream() const { return vorbisStream; }
 
         private:
-            uint32_t offset = 0;
+            stb_vorbis* vorbisStream = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
