@@ -18,11 +18,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundSL: public SoundResource
+        class SoundResourceSL: public SoundResource
         {
         public:
-            SoundSL();
-            virtual ~SoundSL();
+            SoundResourceSL();
+            virtual ~SoundResourceSL();
 
             SLPlayItf getPlayer() const { return player; }
             const std::vector<uint8_t>& getBuffer() const { return buffer; }

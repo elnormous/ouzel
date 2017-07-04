@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_OPENAL
 
-#include "SoundAL.h"
+#include "SoundResourceAL.h"
 #include "AudioAL.h"
 #include "audio/SoundData.h"
 #include "audio/Stream.h"
@@ -18,12 +18,12 @@ namespace ouzel
     {
         static const uint32_t BUFFER_SIZE = 16384;
 
-        SoundAL::SoundAL()
+        SoundResourceAL::SoundResourceAL()
         {
             std::fill(std::begin(buffers), std::end(buffers), 0);
         }
 
-        SoundAL::~SoundAL()
+        SoundResourceAL::~SoundResourceAL()
         {
             if (sourceId)
             {
@@ -51,7 +51,7 @@ namespace ouzel
             }
         }
 
-        bool SoundAL::update()
+        bool SoundResourceAL::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

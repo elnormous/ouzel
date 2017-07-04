@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "AudioEmpty.h"
-#include "SoundEmpty.h"
+#include "SoundResourceEmpty.h"
 
 namespace ouzel
 {
@@ -15,7 +15,7 @@ namespace ouzel
 
         SoundResource* AudioEmpty::createSound()
         {
-            SoundResource* sound = new SoundEmpty();
+            SoundResource* sound = new SoundResourceEmpty();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }

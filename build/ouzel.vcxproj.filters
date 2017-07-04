@@ -184,7 +184,7 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp">
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
@@ -376,7 +376,7 @@
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp">
+    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\INI.cpp">
@@ -589,7 +589,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h">
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
@@ -847,7 +847,7 @@
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h">
+    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">

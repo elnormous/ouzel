@@ -31,7 +31,7 @@
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
-    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp" />
+    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -41,7 +41,7 @@
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp" />
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp" />
     <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
@@ -163,7 +163,7 @@
     <ClInclude Include="..\ouzel\animators\Shake.h" />
     <ClInclude Include="..\ouzel\audio\Audio.h" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h" />
-    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h" />
+    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
     <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h" />
     <ClInclude Include="..\ouzel\audio\Resource.h" />
@@ -174,7 +174,7 @@
     <ClInclude Include="..\ouzel\audio\Stream.h" />
     <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h" />
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
     <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />

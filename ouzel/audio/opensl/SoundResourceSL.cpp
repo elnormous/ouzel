@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_OPENSL
 
-#include "SoundSL.h"
+#include "SoundResourceSL.h"
 #include "AudioSL.h"
 #include "audio/SoundData.h"
 #include "core/Engine.h"
@@ -13,16 +13,17 @@
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
 {
-    ouzel::audio::SoundSL* soundSL = reinterpret_cast<ouzel::audio::SoundSL*>(context);
+    ouzel::audio::SoundResourceSL* soundResourceSL = reinterpret_cast<ouzel::audio::SoundResourceSL*>(context);
 
-    if ((*bufferQueue)->Enqueue(bufferQueue, soundSL->getBuffer().data(), soundSL->getBuffer().size()) != SL_RESULT_SUCCESS)
+    if ((*bufferQueue)->Enqueue(bufferQueue, soundResourceSL->getBuffer().data(),
+                                soundResourceSL->getBuffer().size()) != SL_RESULT_SUCCESS)
     {
         ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
     }
 
-    if (!soundSL->isRepeating())
+    if (!soundResourceSL->isRepeating())
     {
-        SLPlayItf player = soundSL->getPlayer();
+        SLPlayItf player = soundResourceSL->getPlayer();
 
         if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
         {
@@ -35,11 +36,11 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundSL::SoundSL()
+        SoundResourceSL::SoundResourceSL()
         {
         }
 
-        SoundSL::~SoundSL()
+        SoundResourceSL::~SoundResourceSL()
         {
             if (playerObject)
             {
@@ -47,7 +48,7 @@ namespace ouzel
             }
         }
 
-        bool SoundSL::update()
+        bool SoundResourceSL::update()
         {
             AudioSL* audioSL = static_cast<AudioSL*>(sharedEngine->getAudio());
 

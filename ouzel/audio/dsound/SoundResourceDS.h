@@ -5,10 +5,9 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_XAUDIO2
+#if OUZEL_SUPPORTS_DIRECTSOUND
 
-#include <vector>
-#include <xaudio2.h>
+#include <dsound.h>
 
 #include "audio/SoundResource.h"
 
@@ -16,18 +15,17 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundXA2: public SoundResource
+        class SoundResourceDS: public SoundResource
         {
         public:
-            SoundXA2();
-            virtual ~SoundXA2();
+            SoundResourceDS();
+            virtual ~SoundResourceDS();
 
         protected:
             virtual bool update() override;
 
-            uint32_t channels = 0;
-            IXAudio2SourceVoice* sourceVoice = nullptr;
-            float gain = 1.0f;
+            IDirectSoundBuffer8* buffer = nullptr;
+            IDirectSound3DBuffer8* buffer3D = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

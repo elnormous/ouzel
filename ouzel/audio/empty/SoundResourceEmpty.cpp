@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundEmpty.h"
+#include "SoundResourceEmpty.h"
 
 namespace ouzel
 {
     namespace audio
     {
-        SoundEmpty::SoundEmpty()
+        SoundResourceEmpty::SoundResourceEmpty()
         {
         }
 
-        bool SoundEmpty::update()
+        bool SoundResourceEmpty::update()
         {
             return true;
         }

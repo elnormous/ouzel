@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
-#include "SoundDS.h"
+#include "SoundResourceDS.h"
 #include "AudioDS.h"
 #include "audio/SoundData.h"
 #include "core/Engine.h"
@@ -15,17 +15,17 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundDS::SoundDS()
+        SoundResourceDS::SoundResourceDS()
         {
         }
 
-        SoundDS::~SoundDS()
+        SoundResourceDS::~SoundResourceDS()
         {
             if (buffer3D) buffer3D->Release();
             if (buffer) buffer->Release();
         }
 
-        bool SoundDS::update()
+        bool SoundResourceDS::update()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

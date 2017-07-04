@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
-#include "SoundXA2.h"
+#include "SoundResourceXA2.h"
 #include "AudioXA2.h"
 #include "audio/SoundData.h"
 #include "core/Engine.h"
@@ -15,16 +15,16 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundXA2::SoundXA2()
+        SoundResourceXA2::SoundResourceXA2()
         {
         }
 
-        SoundXA2::~SoundXA2()
+        SoundResourceXA2::~SoundResourceXA2()
         {
             if (sourceVoice) sourceVoice->DestroyVoice();
         }
 
-        bool SoundXA2::update()
+        bool SoundResourceXA2::update()
         {
             if (dirty & DIRTY_SOUND_DATA)
             {

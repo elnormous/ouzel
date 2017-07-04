@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_XAUDIO2
 
 #include "AudioXA2.h"
-#include "SoundXA2.h"
+#include "SoundResourceXA2.h"
 #include "XAudio27.h"
 #include "utils/Log.h"
 
@@ -132,7 +132,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundXA2();
+            SoundResource* sound = new SoundResourceXA2();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }

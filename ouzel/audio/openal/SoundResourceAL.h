@@ -22,11 +22,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class SoundAL: public SoundResource
+        class SoundResourceAL: public SoundResource
         {
         public:
-            SoundAL();
-            virtual ~SoundAL();
+            SoundResourceAL();
+            virtual ~SoundResourceAL();
 
         protected:
             virtual bool update() override;
