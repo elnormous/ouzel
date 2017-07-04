@@ -229,7 +229,7 @@ namespace ouzel
 
                 std::copy(data.begin() + offset, data.end(), std::back_inserter(result));
 
-                streamWave->setOffset(0);
+                streamWave->setOffset(offset + remainingSize);
             }
             else
             {
