@@ -33,7 +33,7 @@
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
-    <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp" />
+    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h" />
     <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
-    <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h" />
+    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h" />
     <ClInclude Include="..\ouzel\audio\Resource.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
