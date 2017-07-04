@@ -25,7 +25,7 @@ namespace ouzel
 
             if (streaming && soundData)
             {
-                stream = std::move(soundData->createStream());
+                stream = soundData->createStream();
             }
 
             dirty |= DIRTY_SOUND_DATA | DIRTY_POSITION | DIRTY_PITCH | DIRTY_GAIN | DIRTY_PLAY_STATE;
