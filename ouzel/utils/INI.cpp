@@ -169,12 +169,6 @@ namespace ouzel
             }
             else // key, value pair
             {
-                if (section.empty())
-                {
-                    Log(Log::Level::ERR) << "No section";
-                    return false;
-                }
-
                 std::vector<uint32_t> keyUtf32;
                 std::vector<uint32_t> valueUtf32;
                 bool parsedKey = false;
