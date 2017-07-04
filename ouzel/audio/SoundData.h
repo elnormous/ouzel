@@ -23,8 +23,7 @@ namespace ouzel
             virtual ~SoundData();
 
             virtual std::unique_ptr<Stream> createStream() = 0;
-            virtual const std::vector<uint8_t>& getData() = 0;
-            virtual std::vector<uint8_t> getData(Stream* stream, uint32_t size) = 0;
+            virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) = 0;
 
             uint16_t getFormatTag() const { return formatTag; }
             uint16_t getChannels() const { return channels; }

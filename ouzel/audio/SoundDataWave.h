@@ -25,8 +25,7 @@ namespace ouzel
             virtual bool init(const std::vector<uint8_t>& newData);
 
             virtual std::unique_ptr<Stream> createStream() override;
-            virtual const std::vector<uint8_t>& getData() override;
-            virtual std::vector<uint8_t> getData(Stream* stream, uint32_t size) override;
+            virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) override;
 
         protected:
             std::string filename;
