@@ -13,12 +13,18 @@ namespace ouzel
 {
     namespace audio
     {
+        static const uint32_t DECODE_BUFFER_SIZE = 32 * 4096;
+
         SoundDataVorbis::SoundDataVorbis()
         {
         }
 
         SoundDataVorbis::~SoundDataVorbis()
         {
+            if (vorbisStream)
+            {
+                stb_vorbis_close(vorbisStream);
+            }
         }
 
         bool SoundDataVorbis::init(const std::string& newFilename)
@@ -38,13 +44,11 @@ namespace ouzel
         {
             data = newData;
 
-            stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), data.size(), nullptr, nullptr);
+            vorbisStream = stb_vorbis_open_memory(data.data(), data.size(), nullptr, nullptr);
             stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
             channels = static_cast<uint16_t>(info.channels);
             samplesPerSecond = info.sample_rate;
-
-            stb_vorbis_close(vorbisStream);
 
             return true;
         }
@@ -60,7 +64,30 @@ namespace ouzel
         {
             if (!stream)
             {
-                return data;
+                stb_vorbis_seek(vorbisStream, 0);
+
+                std::vector<uint8_t> result(DECODE_BUFFER_SIZE);
+                uint32_t currentSize = 0;
+
+                for (;;)
+                {
+                    int n = stb_vorbis_get_samples_short_interleaved(vorbisStream, channels, reinterpret_cast<short*>(result.data() + currentSize), DECODE_BUFFER_SIZE / 2);
+
+                    if (n != 0)
+                    {
+                        currentSize += n * 2 * channels;
+
+                        result.resize(currentSize + DECODE_BUFFER_SIZE);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                result.resize(currentSize);
+
+                return result;
             }
             else
             {
