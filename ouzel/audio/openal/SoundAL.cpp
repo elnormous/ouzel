@@ -91,7 +91,7 @@ namespace ouzel
                         return false;
                     }
 
-                    if (streaming)
+                    if (stream)
                     {
                         alGenBuffers(2, buffers);
 
@@ -238,7 +238,7 @@ namespace ouzel
             
             dirty = 0;
 
-            if (streaming && shouldPlay && soundData && stream && sourceId)
+            if (shouldPlay && soundData && stream && sourceId)
             {
                 ALint buffersProcessed;
                 alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
