@@ -36,7 +36,7 @@ SoundSample::SoundSample()
     ambientData->init("ambient.wav");
 
     ambientSound.reset(new audio::Sound());
-    ambientSound->init(ambientData);
+    ambientSound->init(ambientData, true);
 
     guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

@@ -213,5 +213,34 @@ namespace ouzel
         {
             return data;
         }
+
+        std::vector<uint8_t> SoundDataWave::getData(Stream* stream, uint32_t size)
+        {
+            StreamWave* streamWave = static_cast<StreamWave*>(stream);
+
+            std::vector<uint8_t> result;
+
+            uint32_t offset = streamWave->getOffset();
+            uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
+
+            if (remainingSize < size)
+            {
+                result.reserve(remainingSize);
+
+                std::copy(data.begin() + offset, data.end(), std::back_inserter(result));
+
+                streamWave->setOffset(0);
+            }
+            else
+            {
+                result.reserve(size);
+
+                std::copy(data.begin() + offset, data.begin() + offset + size, std::back_inserter(result));
+
+                streamWave->setOffset(offset + size);
+            }
+
+            return result;
+        }
     } // namespace audio
 } // namespace ouzel

@@ -8,6 +8,7 @@
 #include "SoundAL.h"
 #include "AudioAL.h"
 #include "audio/SoundData.h"
+#include "audio/Stream.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -15,6 +16,8 @@ namespace ouzel
 {
     namespace audio
     {
+        static const uint32_t BUFFER_SIZE = 16384;
+
         SoundAL::SoundAL()
         {
             std::fill(std::begin(buffers), std::end(buffers), 0);
@@ -80,7 +83,7 @@ namespace ouzel
 
                     AudioAL* audioAL = static_cast<AudioAL*>(sharedEngine->getAudio());
 
-                    ALenum format = audioAL->getFormatForChannels(soundData->getChannels());
+                    format = audioAL->getFormatForChannels(soundData->getChannels());
 
                     if (format == 0)
                     {
@@ -94,13 +97,33 @@ namespace ouzel
 
                         if (AudioAL::checkOpenALError())
                         {
-                            Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                            Log(Log::Level::ERR) << "Failed to create OpenAL buffers";
                             return false;
                         }
 
-                        currentBuffer = buffers[0];
+                        std::vector<uint8_t> data = soundData->getData(stream.get(), BUFFER_SIZE);
+
+                        alBufferData(buffers[0], format,
+                                     data.data(),
+                                     static_cast<ALsizei>(data.size()),
+                                     static_cast<ALsizei>(soundData->getSamplesPerSecond()));
+
+                        data = soundData->getData(stream.get(), BUFFER_SIZE);
+
+                        alBufferData(buffers[1], format,
+                                     data.data(),
+                                     static_cast<ALsizei>(data.size()),
+                                     static_cast<ALsizei>(soundData->getSamplesPerSecond()));
+
+                        nextBuffer = 0;
 
                         alSourceQueueBuffers(sourceId, 2, buffers);
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to queue OpenAL buffers";
+                            return false;
+                        }
                     }
                     else
                     {
@@ -108,15 +131,13 @@ namespace ouzel
 
                         if (AudioAL::checkOpenALError())
                         {
-                            Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
+                            Log(Log::Level::ERR) << "Failed to create OpenAL buffer";
                             return false;
                         }
 
-                        currentBuffer = buffers[0];
-
                         const std::vector<uint8_t>& data = soundData->getData();
 
-                        alBufferData(currentBuffer, format,
+                        alBufferData(buffers[0], format,
                                      data.data(),
                                      static_cast<ALsizei>(data.size()),
                                      static_cast<ALsizei>(soundData->getSamplesPerSecond()));
@@ -127,7 +148,7 @@ namespace ouzel
                             return false;
                         }
 
-                        alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(currentBuffer));
+                        alSourcei(sourceId, AL_BUFFER, static_cast<ALint>(buffers[0]));
 
                         if (AudioAL::checkOpenALError())
                         {
@@ -193,6 +214,11 @@ namespace ouzel
                                 Log(Log::Level::ERR) << "Failed to stop OpenAL source";
                                 return false;
                             }
+
+                            if (stream)
+                            {
+                                stream->reset();
+                            }
                         }
                         else
                         {
@@ -211,6 +237,65 @@ namespace ouzel
             }
             
             dirty = 0;
+
+            if (streaming && shouldPlay && soundData && stream && sourceId)
+            {
+                ALint buffersProcessed;
+                alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
+
+                // requeue all processed buffers
+                for (; buffersProcessed > 0; --buffersProcessed)
+                {
+                    alSourceUnqueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+
+                    if (AudioAL::checkOpenALError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to unqueue OpenAL buffer";
+                        return false;
+                    }
+
+                    std::vector<uint8_t> data = soundData->getData(stream.get(), BUFFER_SIZE);
+
+                    // if stream has ended but we should repeat it
+                    if (repeat && data.empty())
+                    {
+                        stream->reset();
+                        data = soundData->getData(stream.get(), BUFFER_SIZE);
+                    }
+
+                    if (!data.empty())
+                    {
+                        alBufferData(buffers[nextBuffer], format,
+                                     data.data(),
+                                     static_cast<ALsizei>(data.size()),
+                                     static_cast<ALsizei>(soundData->getSamplesPerSecond()));
+
+                        alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+
+                        if (AudioAL::checkOpenALError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
+                            return false;
+                        }
+
+                        ALint state;
+                        alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+                        if (state != AL_PLAYING)
+                        {
+                            alSourcePlay(sourceId);
+
+                            if (AudioAL::checkOpenALError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to play OpenAL source";
+                                return false;
+                            }
+                        }
+                    }
+
+                    // swap the buffer
+                    nextBuffer = (nextBuffer == 0) ? 1 : 0;
+                }
+            }
 
             return true;
         }

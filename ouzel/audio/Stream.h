@@ -10,6 +10,7 @@ namespace ouzel
         class Stream
         {
         public:
+            virtual void reset() = 0;
         };
     } // namespace audio
 } // namespace ouzel

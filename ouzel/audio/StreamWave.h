@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "Stream.h"
 
 namespace ouzel
@@ -12,6 +13,13 @@ namespace ouzel
         class StreamWave: public Stream
         {
         public:
+            virtual void reset() override;
+
+            uint32_t getOffset() const { return offset; }
+            void setOffset(uint32_t newOffset) { offset = newOffset; }
+
+        private:
+            uint32_t offset = 0;
         };
     } // namespace audio
 } // namespace ouzel

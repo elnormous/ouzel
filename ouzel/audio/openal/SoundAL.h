@@ -32,7 +32,8 @@ namespace ouzel
             virtual bool update() override;
 
             ALuint sourceId = 0;
-            ALuint currentBuffer = 0;
+            ALenum format = 0;
+            uint32_t nextBuffer = 0;
             ALuint buffers[2];
         };
     } // namespace audio
