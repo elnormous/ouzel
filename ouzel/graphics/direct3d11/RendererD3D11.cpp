@@ -40,11 +40,11 @@ namespace ouzel
             resourceDeleteSet.clear();
             resources.clear();
 
-            for (uint32_t state = 0; state < 4; ++state)
+            for (ID3D11DepthStencilState* depthStencilState : depthStencilStates)
             {
-                if (depthStencilStates[state])
+                if (depthStencilState)
                 {
-                    depthStencilStates[state]->Release();
+                    depthStencilState->Release();
                 }
             }
 
@@ -58,11 +58,11 @@ namespace ouzel
                 depthStencilTexture->Release();
             }
 
-            for (uint32_t i = 0; i < 4; ++i)
+            for (ID3D11RasterizerState* rasterizerState : rasterizerStates)
             {
-                if (rasterizerStates[i])
+                if (rasterizerState)
                 {
-                    rasterizerStates[i]->Release();
+                    rasterizerState->Release();
                 }
             }
 
@@ -244,55 +244,74 @@ namespace ouzel
 
             // Rasterizer state
             D3D11_RASTERIZER_DESC rasterStateDesc;
-            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
-            rasterStateDesc.CullMode = D3D11_CULL_NONE;
             rasterStateDesc.FrontCounterClockwise = FALSE;
             rasterStateDesc.DepthBias = 0;
             rasterStateDesc.DepthBiasClamp = 0;
             rasterStateDesc.SlopeScaledDepthBias = 0;
             rasterStateDesc.DepthClipEnable = TRUE;
-            rasterStateDesc.ScissorEnable = FALSE;
             rasterStateDesc.MultisampleEnable = (sampleCount > 1) ? TRUE : FALSE;
             rasterStateDesc.AntialiasedLineEnable = TRUE;
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
-            if (FAILED(hr))
+            uint32_t rasterStateIndex = 0;
+
+            for (uint32_t fillMode = 0; fillMode < 2; ++fillMode)
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
+                for (uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
+                {
+                    for (uint32_t cullMode = 0; cullMode < 3; ++cullMode)
+                    {
+                        rasterStateDesc.FillMode = (fillMode == 0) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
+                        rasterStateDesc.ScissorEnable = (scissorEnable == 0) ? FALSE : TRUE;
+                        switch (cullMode)
+                        {
+                            case 0: rasterStateDesc.CullMode = D3D11_CULL_NONE; break;
+                            case 1: rasterStateDesc.CullMode = D3D11_CULL_FRONT; break;
+                            case 2: rasterStateDesc.CullMode = D3D11_CULL_BACK; break;
+                        }
+
+                        hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[rasterStateIndex]);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
+                            return false;
+                        }
+
+                        ++rasterStateIndex;
+                    }
+                }
             }
 
-            // wireframe
-            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
-            rasterStateDesc.ScissorEnable = FALSE;
+            uint32_t depthStencilStateIndex = 0;
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[1]);
-            if (FAILED(hr))
+            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
-            }
+                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
+                {
+                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
+                    depthStencilStateDesc.DepthEnable = (depthEnable == 0) ? FALSE : TRUE;
+                    depthStencilStateDesc.DepthWriteMask = (depthWriteMask == 0) ? D3D11_DEPTH_WRITE_MASK_ZERO : D3D11_DEPTH_WRITE_MASK_ALL;
+                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+                    depthStencilStateDesc.StencilEnable = FALSE;
+                    depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+                    depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+                    depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+                    depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+                    depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
-            // scissor test
-            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
-            rasterStateDesc.ScissorEnable = TRUE;
+                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[depthStencilStateIndex]);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
+                        return false;
+                    }
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[2]);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
-            }
-
-            // wireframe and scissor test
-            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
-            rasterStateDesc.ScissorEnable = TRUE;
-
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[3]);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
+                    ++depthStencilStateIndex;
+                }
             }
 
             if (depth)
@@ -321,32 +340,6 @@ namespace ouzel
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                     return false;
-                }
-
-                for (uint32_t state = 0; state < 4; ++state)
-                {
-                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
-                    depthStencilStateDesc.DepthEnable = (state & 0x01) ? TRUE : FALSE;
-                    depthStencilStateDesc.DepthWriteMask = (state & 0x02) ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-                    depthStencilStateDesc.StencilEnable = FALSE;
-                    depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-                    depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-                    depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-
-                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[state]);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
-                        return false;
-                    }
                 }
             }
 
@@ -449,8 +442,6 @@ namespace ouzel
             std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
             std::fill(std::begin(samplers), std::end(samplers), nullptr);
 
-            context->RSSetState(rasterizerStates[0]);
-
             std::vector<float> shaderData;
 
             D3D11_VIEWPORT viewport;
@@ -462,7 +453,8 @@ namespace ouzel
                 frameBufferClearedFrame = currentFrame;
 
                 context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
-                context->OMSetDepthStencilState(depthStencilStates[3], 0);
+                context->RSSetState(rasterizerStates[0]);
+                context->OMSetDepthStencilState(depthStencilStates[1], 0); // enable depth write
 
                 viewport.TopLeftX = viewport.TopLeftY = 0.0f;
                 viewport.Width = static_cast<FLOAT>(frameBufferWidth);
@@ -550,14 +542,9 @@ namespace ouzel
                     context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
 
-                uint32_t rasterizerStateIndex = 0;
-                if (drawCommand.wireframe) rasterizerStateIndex |= 0x01;
-
                 // scissor test
                 if (drawCommand.scissorTest)
                 {
-                    rasterizerStateIndex |= 0x02;
-
                     D3D11_RECT rect;
                     rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
                     rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]));
@@ -566,6 +553,17 @@ namespace ouzel
                     context->RSSetScissorRects(1, &rect);
                 }
 
+                uint32_t fillModeIndex = (drawCommand.wireframe) ? 1 : 0;
+                uint32_t scissorEnableIndex = (drawCommand.scissorTest) ? 1 : 0;
+                uint32_t cullModeIndex;
+                switch (drawCommand.cullMode)
+                {
+                    case CullMode::NONE: cullModeIndex = 0; break;
+                    case CullMode::FRONT: cullModeIndex = 2; break; // flip the faces, because of the flipped y-axis
+                    case CullMode::BACK: cullModeIndex = 1; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                }
+                uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                 // shader
@@ -697,9 +695,10 @@ namespace ouzel
                 context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                 // depth-stencil state
-                uint32_t depthStencilStateIndex = 0;
-                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
-                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                uint32_t depthTestIndex = drawCommand.depthTest ? 1 : 0;
+                uint32_t depthWriteIndex = drawCommand.depthWrite ? 1 : 0;
+                uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                 // draw// mesh buffer
