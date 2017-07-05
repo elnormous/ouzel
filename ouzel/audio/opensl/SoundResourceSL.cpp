@@ -221,27 +221,47 @@ namespace ouzel
 
         void SoundResourceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            data = soundData->getData(stream.get(), BUFFER_SIZE);
-
-            // if stream has ended but we should repeat it
-            if (repeat && data.empty())
+            if (stream)
             {
-                stream->reset();
                 data = soundData->getData(stream.get(), BUFFER_SIZE);
+
+                // if stream has ended but we should repeat it
+                if (repeat && data.empty())
+                {
+                    stream->reset();
+                    data = soundData->getData(stream.get(), BUFFER_SIZE);
+                }
+
+                if (!data.empty())
+                {
+                    if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
+                    }
+                }
+                else
+                {
+                    if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
+                    }
+                }
             }
             else
             {
-                if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
+                if (repeat && !data.empty())
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
+                    if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
+                    }
                 }
-            }
-
-            if (!data.empty())
-            {
-                if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
+                else
                 {
-                    ouzel::Log(ouzel::Log::Level::ERR) << "Failed to enqueue OpenSL data";
+                    if ((*player)->SetPlayState(player, SL_PLAYSTATE_STOPPED) != SL_RESULT_SUCCESS)
+                    {
+                        ouzel::Log(ouzel::Log::Level::ERR) << "Failed to stop sound";
+                    }
                 }
             }
         }
