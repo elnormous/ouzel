@@ -16,10 +16,6 @@ namespace ouzel
         {
         }
 
-        SoundDataWave::~SoundDataWave()
-        {
-        }
-
         bool SoundDataWave::init(const std::string& newFilename)
         {
             filename = newFilename;

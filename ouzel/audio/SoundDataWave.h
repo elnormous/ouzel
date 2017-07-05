@@ -16,7 +16,6 @@ namespace ouzel
         {
         public:
             SoundDataWave();
-            virtual ~SoundDataWave();
 
             virtual bool init(const std::string& newFilename);
             virtual bool init(const std::vector<uint8_t>& newData);

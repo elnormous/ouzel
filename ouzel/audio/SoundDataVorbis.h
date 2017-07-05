@@ -8,8 +8,6 @@
 #include <vector>
 #include "audio/SoundData.h"
 
-struct stb_vorbis;
-
 namespace ouzel
 {
     namespace audio
@@ -18,7 +16,6 @@ namespace ouzel
         {
         public:
             SoundDataVorbis();
-            virtual ~SoundDataVorbis();
 
             virtual bool init(const std::string& newFilename);
             virtual bool init(const std::vector<uint8_t>& newData);
@@ -30,7 +27,6 @@ namespace ouzel
             std::string filename;
 
             std::vector<uint8_t> data;
-            stb_vorbis* vorbisStream = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

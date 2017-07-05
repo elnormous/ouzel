@@ -7,5 +7,8 @@ namespace ouzel
 {
     namespace audio
     {
+        Stream::~Stream()
+        {
+        }
     } // namespace audio
 } // namespace ouzel

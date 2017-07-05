@@ -3,13 +3,17 @@
 
 #pragma once
 
+#include "utils/Noncopyable.h"
+
 namespace ouzel
 {
     namespace audio
     {
-        class Stream
+        class Stream: public Noncopyable
         {
         public:
+        	virtual ~Stream();
+
             virtual void reset() = 0;
         };
     } // namespace audio
