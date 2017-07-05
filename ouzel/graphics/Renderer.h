@@ -79,8 +79,7 @@ namespace ouzel
             {
                 NONE,
                 FRONT,
-                BACK,
-                FRONT_AND_BACK
+                BACK
             };
 
             virtual ~Renderer();

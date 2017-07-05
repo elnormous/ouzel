@@ -815,7 +815,6 @@ namespace ouzel
                     case CullFace::NONE: cullFace = GL_NONE; break;
                     case CullFace::FRONT: cullFace = GL_FRONT; break;
                     case CullFace::BACK: cullFace = GL_BACK; break;
-                    case CullFace::FRONT_AND_BACK: cullFace = GL_FRONT_AND_BACK; break;
                     default: Log(Log::Level::ERR) << "Invalid cull face"; return false;
                 }
 

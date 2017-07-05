@@ -572,6 +572,18 @@ namespace ouzel
                     [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
                 }
 
+                MTLCullMode cullMode;
+
+                switch (drawCommand.cullFace)
+                {
+                    case CullFace::NONE: cullMode = MTLCullModeNone; break;
+                    case CullFace::FRONT: cullMode = MTLCullModeBack; break; // flip the faces, because of the flipped y-axis
+                    case CullFace::BACK: cullMode = MTLCullModeFront; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull face"; return false;
+                }
+
+                [currentRenderCommandEncoder setCullMode:cullMode];
+
                 // shader
                 ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand.shader);
 
