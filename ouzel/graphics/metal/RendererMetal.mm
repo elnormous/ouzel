@@ -85,11 +85,11 @@ namespace ouzel
                 [shaderConstantBuffer.buffer release];
             }
 
-            for (uint32_t state = 0; state < 4; ++state)
+            for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
             {
-                if (depthStencilStates[state])
+                if (depthStencilState)
                 {
-                    [depthStencilStates[state] release];
+                    [depthStencilState release];
                 }
             }
 
