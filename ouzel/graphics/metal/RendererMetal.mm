@@ -181,14 +181,22 @@ namespace ouzel
             if (depth)
             {
                 depthFormat = MTLPixelFormatDepth32Float;
+            }
 
-                for (uint32_t state = 0; state < 4; ++state)
+            uint32_t depthStencilStateIndex = 0;
+
+            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
+            {
+                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
                 {
                     MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
-                    depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
-                    depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
-                    depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+
+                    depthStencilDescriptor.depthCompareFunction = (depthEnable == 0) ? MTLCompareFunctionAlways : MTLCompareFunctionLessEqual; // depth read
+                    depthStencilDescriptor.depthWriteEnabled = (depthWriteMask == 0) ? NO : YES; // depth write
+                    depthStencilStates[depthStencilStateIndex] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
                     [depthStencilDescriptor release];
+
+                    ++depthStencilStateIndex;
                 }
             }
 
@@ -451,11 +459,7 @@ namespace ouzel
                 viewport.height = static_cast<double>(frameBufferHeight);
 
                 [currentRenderCommandEncoder setViewport: viewport];
-
-                if (depthStencilStates[3])
-                {
-                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
-                }
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[1]]; // enable depth write
 
                 currentRenderPassDescriptor.colorAttachments[0].loadAction = colorBufferLoadAction;
                 currentRenderPassDescriptor.depthAttachment.loadAction = depthBufferLoadAction;
@@ -563,14 +567,11 @@ namespace ouzel
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];
 
-                uint32_t depthStencilStateIndex = 0;
-                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
-                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                uint32_t depthTestIndex = drawCommand.depthTest ? 1 : 0;
+                uint32_t depthWriteIndex = drawCommand.depthWrite ? 1 : 0;
+                uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
 
-                if (depthStencilStates[depthStencilStateIndex])
-                {
-                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
-                }
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
 
                 MTLCullMode cullMode;
 
