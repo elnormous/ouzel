@@ -73,8 +73,7 @@ namespace ouzel
                                 bool depthTest,
                                 bool wireframe,
                                 bool scissorTest,
-                                const Rectangle& scissorRectangle,
-                                graphics::Renderer::CullMode cullMode)
+                                const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -85,8 +84,7 @@ namespace ouzel
                             depthTest,
                             wireframe,
                             scissorTest,
-                            scissorRectangle,
-                            cullMode);
+                            scissorRectangle);
 
             if (needsMeshUpdate)
             {
@@ -120,8 +118,7 @@ namespace ouzel
                                                         depthTest,
                                                         wireframe,
                                                         scissorTest,
-                                                        scissorRectangle,
-                                                        cullMode);
+                                                        scissorRectangle);
         }
 
         void TextRenderer::setText(const std::string& newText)

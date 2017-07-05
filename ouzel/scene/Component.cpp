@@ -28,8 +28,7 @@ namespace ouzel
                              bool,
                              bool,
                              bool,
-                             const Rectangle&,
-                             graphics::Renderer::CullMode)
+                             const Rectangle&)
         {
         }
 

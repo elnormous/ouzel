@@ -37,8 +37,7 @@ namespace ouzel
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle,
-                              graphics::Renderer::CullMode cullMode) override;
+                              const Rectangle& scissorRectangle) override;
 
             virtual void setFont(const std::string& fontFile);
 

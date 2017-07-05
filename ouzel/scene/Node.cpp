@@ -94,8 +94,7 @@ namespace ouzel
                                     camera->getDepthTest(),
                                     wireframe,
                                     false,
-                                    Rectangle(),
-                                    camera->getCullMode());
+                                    Rectangle());
                 }
             }
         }

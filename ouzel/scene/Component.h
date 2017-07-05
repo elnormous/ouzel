@@ -10,7 +10,6 @@
 #include "math/Matrix4.h"
 #include "math/Color.h"
 #include "math/Rectangle.h"
-#include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 
 namespace ouzel
@@ -51,8 +50,7 @@ namespace ouzel
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle,
-                              graphics::Renderer::CullMode cullMode);
+                              const Rectangle& scissorRectangle);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }
