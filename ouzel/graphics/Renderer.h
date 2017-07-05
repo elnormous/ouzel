@@ -111,17 +111,17 @@ namespace ouzel
                                 const std::vector<std::vector<float>>& vertexShaderConstants,
                                 const std::shared_ptr<BlendState>& blendState,
                                 const std::shared_ptr<MeshBuffer>& meshBuffer,
-                                uint32_t indexCount = 0,
-                                DrawMode drawMode = DrawMode::TRIANGLE_LIST,
-                                uint32_t startIndex = 0,
-                                const std::shared_ptr<Texture>& renderTarget = nullptr,
-                                const Rectangle& viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f),
-                                bool depthWrite = false,
-                                bool depthTest = false,
-                                bool wireframe = false,
-                                bool scissorTest = false,
-                                const Rectangle& scissorRectangle = Rectangle(),
-                                CullMode cullMode = CullMode::BACK);
+                                uint32_t indexCount,
+                                DrawMode drawMode,
+                                uint32_t startIndex,
+                                const std::shared_ptr<Texture>& renderTarget,
+                                const Rectangle& viewport,
+                                bool depthWrite,
+                                bool depthTest,
+                                bool wireframe,
+                                bool scissorTest,
+                                const Rectangle& scissorRectangle,
+                                CullMode cullMode);
             void flushDrawCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)

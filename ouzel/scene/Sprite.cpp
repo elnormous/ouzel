@@ -238,7 +238,8 @@ namespace ouzel
                                                             depthTest,
                                                             wireframe,
                                                             scissorTest,
-                                                            scissorRectangle);
+                                                            scissorRectangle,
+                                                            graphics::Renderer::CullMode::NONE);
             }
         }
 

@@ -118,7 +118,8 @@ namespace ouzel
                                                         depthTest,
                                                         wireframe,
                                                         scissorTest,
-                                                        scissorRectangle);
+                                                        scissorRectangle,
+                                                        graphics::Renderer::CullMode::NONE);
         }
 
         void TextRenderer::setText(const std::string& newText)
