@@ -199,7 +199,8 @@ namespace ouzel
                           bool depthTest,
                           bool wireframe,
                           bool scissorTest,
-                          const Rectangle& scissorRectangle)
+                          const Rectangle& scissorRectangle,
+                          graphics::Renderer::CullMode cullMode)
         {
             Component::draw(transformMatrix,
                             drawColor,
@@ -210,7 +211,8 @@ namespace ouzel
                             depthTest,
                             wireframe,
                             scissorTest,
-                            scissorRectangle);
+                            scissorRectangle,
+                            cullMode);
 
             if (currentFrame < frames.size())
             {
@@ -238,7 +240,8 @@ namespace ouzel
                                                             depthTest,
                                                             wireframe,
                                                             scissorTest,
-                                                            scissorRectangle);
+                                                            scissorRectangle,
+                                                            cullMode);
             }
         }
 

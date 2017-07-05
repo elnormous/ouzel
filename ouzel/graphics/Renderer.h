@@ -121,7 +121,7 @@ namespace ouzel
                                 bool wireframe = false,
                                 bool scissorTest = false,
                                 const Rectangle& scissorRectangle = Rectangle(),
-                                CullMode cullMode = CullMode::BACK);
+                                CullMode cullMode = CullMode::NONE);
             void flushDrawCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)

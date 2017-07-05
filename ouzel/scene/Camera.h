@@ -7,6 +7,7 @@
 #include "scene/Node.h"
 #include "math/MathUtils.h"
 #include "math/Rectangle.h"
+#include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 
 namespace ouzel
@@ -90,6 +91,9 @@ namespace ouzel
             bool getWireframe() const { return wireframe; }
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
+            graphics::Renderer::CullMode getCullMode() const { return cullMode; }
+            void setCullMode(graphics::Renderer::CullMode newCullMode) { cullMode = newCullMode; }
+
         protected:
             virtual void setLayer(Layer* newLayer) override;
 
@@ -115,6 +119,7 @@ namespace ouzel
             bool depthWrite = false;
             bool depthTest = false;
             bool wireframe = false;
+            graphics::Renderer::CullMode cullMode = graphics::Renderer::CullMode::NONE;
 
             mutable bool viewProjectionDirty = false;
             mutable Matrix4 viewProjection;

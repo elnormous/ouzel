@@ -32,7 +32,8 @@ namespace ouzel
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
+                              const Rectangle& scissorRectangle,
+                              graphics::Renderer::CullMode cullMode) override;
 
             void clear();
 
