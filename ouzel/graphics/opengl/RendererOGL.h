@@ -372,8 +372,6 @@ namespace ouzel
                                              GLenum sfactorAlpha,
                                              GLenum dfactorAlpha)
             {
-                bool checkError = false;
-
                 if (stateCache.blendEnabled != blendEnabled)
                 {
                     if (blendEnabled)
@@ -387,7 +385,11 @@ namespace ouzel
 
                     stateCache.blendEnabled = blendEnabled;
 
-                    checkError = true;
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable blend state";
+                        return false;
+                    }
                 }
 
                 if (blendEnabled)
@@ -400,8 +402,6 @@ namespace ouzel
 
                         stateCache.blendModeRGB = modeRGB;
                         stateCache.blendModeAlpha = modeAlpha;
-
-                        checkError = true;
                     }
 
                     if (stateCache.blendSourceFactorRGB != sfactorRGB ||
@@ -418,15 +418,13 @@ namespace ouzel
                         stateCache.blendDestFactorRGB = dfactorRGB;
                         stateCache.blendSourceFactorAlpha = sfactorAlpha;
                         stateCache.blendDestFactorAlpha = dfactorAlpha;
-
-                        checkError = true;
                     }
-                }
 
-                if (checkError && checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set blend state";
-                    return false;
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set blend state";
+                        return false;
+                    }
                 }
 
                 return true;
@@ -452,6 +450,48 @@ namespace ouzel
                     if (checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to set color mask";
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            static inline bool setCullFace(bool cullEnabled,
+                                           GLenum cullFace)
+            {
+                if (stateCache.cullEnabled != cullEnabled)
+                {
+                    if (cullEnabled)
+                    {
+                        glEnable(GL_CULL_FACE);
+                    }
+                    else
+                    {
+                        glDisable(GL_CULL_FACE);
+                    }
+
+                    stateCache.cullEnabled = cullEnabled;
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        return false;
+                    }
+                }
+
+                if (cullEnabled)
+                {
+                    if (stateCache.cullFace != cullFace)
+                    {
+                        glCullFace(cullFace);
+
+                        stateCache.cullFace = cullFace;
+                    }
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set cull face";
                         return false;
                     }
                 }
@@ -602,6 +642,8 @@ namespace ouzel
                 GLint viewportY = 0;
                 GLsizei viewportWidth = 0;
                 GLsizei viewportHeight = 0;
+                bool cullEnabled;
+                GLenum cullFace = GL_NONE;
             };
 
             static StateCache stateCache;

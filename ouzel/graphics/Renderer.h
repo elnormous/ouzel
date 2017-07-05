@@ -75,6 +75,14 @@ namespace ouzel
                 TRIANGLE_STRIP
             };
 
+            enum class CullFace
+            {
+                NONE,
+                FRONT,
+                BACK,
+                FRONT_AND_BACK
+            };
+
             virtual ~Renderer();
 
             Driver getDriver() const { return driver; }
@@ -113,7 +121,8 @@ namespace ouzel
                                 bool depthTest = false,
                                 bool wireframe = false,
                                 bool scissorTest = false,
-                                const Rectangle& scissorRectangle = Rectangle());
+                                const Rectangle& scissorRectangle = Rectangle(),
+                                CullFace cullFace = CullFace::BACK);
             void flushDrawCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -187,6 +196,7 @@ namespace ouzel
                 bool wireframe;
                 bool scissorTest;
                 Rectangle scissorRectangle;
+                CullFace cullFace;
             };
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
