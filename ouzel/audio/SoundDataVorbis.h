@@ -17,8 +17,8 @@ namespace ouzel
         public:
             SoundDataVorbis();
 
-            virtual bool init(const std::string& newFilename);
-            virtual bool init(const std::vector<uint8_t>& newData);
+            virtual bool init(const std::string& newFilename) override;
+            virtual bool init(const std::vector<uint8_t>& newData) override;
 
             virtual std::unique_ptr<Stream> createStream() override;
             virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) override;

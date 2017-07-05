@@ -14,6 +14,7 @@
 #include "graphics/BlendState.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
+#include "audio/SoundData.h"
 
 namespace ouzel
 {
@@ -48,11 +49,18 @@ namespace ouzel
 
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
+        void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
+        void setBMFont(const std::string& filename, const BMFont& bmFont);
         void releaseBMFonts();
+
+        void preloadSoundData(const std::string& filename);
+        const std::shared_ptr<audio::SoundData>& getSoundData(const std::string& filename) const;
+        void setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData);
+        void releaseSoundData();
 
     protected:
         mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
@@ -61,5 +69,6 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::map<std::string, BMFont> bmFonts;
+        mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };
 }

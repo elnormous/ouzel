@@ -22,6 +22,9 @@ namespace ouzel
             SoundData();
             virtual ~SoundData();
 
+            virtual bool init(const std::string& newFilename);
+            virtual bool init(const std::vector<uint8_t>& newData);
+
             virtual std::unique_ptr<Stream> createStream() = 0;
             virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) = 0;
 

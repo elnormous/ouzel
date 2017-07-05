@@ -14,35 +14,20 @@ SoundSample::SoundSample()
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
-    test8BitData->init("8-bit.wav");
-
     test8BitSound.reset(new audio::Sound());
-    test8BitSound->init(test8BitData);
-
-    std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
-    test24BitData->init("24-bit.wav");
+    test8BitSound->init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
 
     test24BitSound.reset(new audio::Sound());
-    test24BitSound->init(test24BitData);
-
-    std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
-    jumpData->init("jump.wav");
+    test24BitSound->init(sharedEngine->getCache()->getSoundData("24-bit"));
 
     jumpSound.reset(new audio::Sound());
-    jumpSound->init(jumpData);
-
-    std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
-    ambientData->init("ambient.wav");
+    jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
 
     ambientSound.reset(new audio::Sound());
-    ambientSound->init(ambientData, true);
-
-    std::shared_ptr<audio::SoundDataVorbis> musicData(new audio::SoundDataVorbis());
-    musicData->init("music.ogg");
+    ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"), true);
 
     music.reset(new audio::Sound());
-    music->init(musicData, true);
+    music->init(sharedEngine->getCache()->getSoundData("music.ogg"), true);
 
     guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
