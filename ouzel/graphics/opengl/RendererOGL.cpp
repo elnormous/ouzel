@@ -810,12 +810,12 @@ namespace ouzel
 
                 GLenum cullFace = GL_NONE;
 
-                switch (drawCommand.cullFace)
+                switch (drawCommand.cullMode)
                 {
-                    case CullFace::NONE: cullFace = GL_NONE; break;
-                    case CullFace::FRONT: cullFace = GL_FRONT; break;
-                    case CullFace::BACK: cullFace = GL_BACK; break;
-                    default: Log(Log::Level::ERR) << "Invalid cull face"; return false;
+                    case CullMode::NONE: cullFace = GL_NONE; break;
+                    case CullMode::FRONT: cullFace = GL_FRONT; break;
+                    case CullMode::BACK: cullFace = GL_BACK; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 
                 if (!setCullFace(cullFace != GL_NONE, cullFace))

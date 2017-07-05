@@ -75,7 +75,7 @@ namespace ouzel
                 TRIANGLE_STRIP
             };
 
-            enum class CullFace
+            enum class CullMode
             {
                 NONE,
                 FRONT,
@@ -121,7 +121,7 @@ namespace ouzel
                                 bool wireframe = false,
                                 bool scissorTest = false,
                                 const Rectangle& scissorRectangle = Rectangle(),
-                                CullFace cullFace = CullFace::BACK);
+                                CullMode cullMode = CullMode::BACK);
             void flushDrawCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -195,7 +195,7 @@ namespace ouzel
                 bool wireframe;
                 bool scissorTest;
                 Rectangle scissorRectangle;
-                CullFace cullFace;
+                CullMode cullMode;
             };
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;

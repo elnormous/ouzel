@@ -242,7 +242,7 @@ namespace ouzel
                                       bool wireframe,
                                       bool scissorTest,
                                       const Rectangle& scissorRectangle,
-                                      CullFace cullFace)
+                                      CullMode cullMode)
         {
 
             if (!shader)
@@ -288,7 +288,7 @@ namespace ouzel
                 wireframe,
                 scissorTest,
                 scissorRectangle,
-                cullFace
+                cullMode
             });
 
             return true;

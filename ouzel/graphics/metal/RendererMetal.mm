@@ -574,12 +574,12 @@ namespace ouzel
 
                 MTLCullMode cullMode;
 
-                switch (drawCommand.cullFace)
+                switch (drawCommand.cullMode)
                 {
-                    case CullFace::NONE: cullMode = MTLCullModeNone; break;
-                    case CullFace::FRONT: cullMode = MTLCullModeBack; break; // flip the faces, because of the flipped y-axis
-                    case CullFace::BACK: cullMode = MTLCullModeFront; break;
-                    default: Log(Log::Level::ERR) << "Invalid cull face"; return false;
+                    case CullMode::NONE: cullMode = MTLCullModeNone; break;
+                    case CullMode::FRONT: cullMode = MTLCullModeBack; break; // flip the faces, because of the flipped y-axis
+                    case CullMode::BACK: cullMode = MTLCullModeFront; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 
                 [currentRenderCommandEncoder setCullMode:cullMode];
