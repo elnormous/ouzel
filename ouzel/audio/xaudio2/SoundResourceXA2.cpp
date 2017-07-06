@@ -80,7 +80,7 @@ namespace ouzel
 
                         }
 
-                        const std::vector<uint8_t> data = soundData->getData();
+                        data = soundData->getData();
 
                         XAUDIO2_BUFFER bufferData;
                         bufferData.Flags = XAUDIO2_END_OF_STREAM;

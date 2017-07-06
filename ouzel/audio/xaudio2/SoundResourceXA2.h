@@ -7,6 +7,7 @@
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
+#include <cstdint>
 #include <vector>
 #include <xaudio2.h>
 
@@ -28,6 +29,7 @@ namespace ouzel
             uint32_t channels = 0;
             IXAudio2SourceVoice* sourceVoice = nullptr;
             float gain = 1.0f;
+            const std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel
