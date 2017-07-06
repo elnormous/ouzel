@@ -102,9 +102,12 @@ HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2, IXAudio2MasteringVoice*
     return pXAudio2->CreateMasteringVoice(ppMasteringVoice);
 }
 
-HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2, IXAudio2SourceVoice** ppSourceVoice, const WAVEFORMATEX* pSourceFormat)
+HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
+                                  IXAudio2SourceVoice** ppSourceVoice,
+                                  const WAVEFORMATEX* pSourceFormat,
+                                  UINT32 Flags)
 {
-    return pXAudio2->CreateSourceVoice(ppSourceVoice, pSourceFormat);
+    return pXAudio2->CreateSourceVoice(ppSourceVoice, pSourceFormat, Flags);
 }
 
 #endif

@@ -143,7 +143,7 @@ namespace ouzel
 
             if (apiMajorVersion == 2 && apiMinorVersion == 7)
             {
-                HRESULT hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat);
+                HRESULT hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat, XAUDIO2_VOICE_USEFILTER);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;
@@ -152,7 +152,7 @@ namespace ouzel
             }
             else
             {
-                HRESULT hr = xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat);
+                HRESULT hr = xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat, XAUDIO2_VOICE_USEFILTER);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;

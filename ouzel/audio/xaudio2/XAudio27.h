@@ -12,6 +12,9 @@
 HRESULT XAudio27CreateProc(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
 ULONG IXAudio2Release(IXAudio2* pXAudio2);
 HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2, IXAudio2MasteringVoice** ppMasteringVoice);
-HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2, IXAudio2SourceVoice** ppSourceVoice, const WAVEFORMATEX* pSourceFormat);
+HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
+								  IXAudio2SourceVoice** ppSourceVoice,
+								  const WAVEFORMATEX* pSourceFormat,
+								  UINT32 Flags = 0);
 
 #endif
