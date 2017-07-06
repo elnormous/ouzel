@@ -642,7 +642,7 @@ namespace ouzel
                 GLint viewportY = 0;
                 GLsizei viewportWidth = 0;
                 GLsizei viewportHeight = 0;
-                bool cullEnabled;
+                bool cullEnabled = false;
                 GLenum cullFace = GL_NONE;
             };
 
