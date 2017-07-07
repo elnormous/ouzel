@@ -111,6 +111,8 @@ namespace ouzel
 
         bool AudioXA2::update()
         {
+            Audio::update();
+
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             if (dirty & DIRTY_LISTENER_POSITION)
