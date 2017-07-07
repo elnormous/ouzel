@@ -34,6 +34,7 @@ namespace ouzel
             SLPlayItf player = nullptr;
             SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
             SLVolumeItf playerVolume = nullptr;
+            SLPitchItf playerPitch = nullptr;
 
             std::vector<uint8_t> data;
         };
