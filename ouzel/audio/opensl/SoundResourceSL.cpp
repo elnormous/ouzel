@@ -91,7 +91,7 @@ namespace ouzel
 
                     const SLuint32 playerIIDCount = 4;
                     const SLInterfaceID playerIIDs[] = { SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME, SL_IID_RATEPITCH };
-                    const SLboolean playerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE, SL_BOOLEAN_FALSE };
+                    const SLboolean playerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE };
 
                     if ((*audioSL->getEngine())->CreateAudioPlayer(audioSL->getEngine(), &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs) != SL_RESULT_SUCCESS)
                     {
@@ -120,6 +120,7 @@ namespace ouzel
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_VOLUME, &playerVolume) != SL_RESULT_SUCCESS)
                     {
                         Log(Log::Level::ERR) << "Failed to get OpenSL volume interface";
+                        return false;
                     }
 
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_RATEPITCH, &playerPitch) != SL_RESULT_SUCCESS)
