@@ -125,7 +125,7 @@ namespace ouzel
 
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_RATEPITCH, &playerPitch) != SL_RESULT_SUCCESS)
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenSL pitch interface";
+                        Log(Log::Level::WARN) << "Failed to get OpenSL pitch interface";
                     }
 
                     if ((*bufferQueue)->Clear(bufferQueue) != SL_RESULT_SUCCESS)
