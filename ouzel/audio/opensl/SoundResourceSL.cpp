@@ -174,6 +174,7 @@ namespace ouzel
                     if ((*playerPitch)->SetPitch(playerPitch, frequency) != SL_RESULT_SUCCESS)
                     {
                         Log(Log::Level::ERR) << "Failed to set pitch";
+                        return false;
                     }
                 }
             }
@@ -185,6 +186,7 @@ namespace ouzel
                     if ((*playerVolume)->SetVolumeLevel(playerVolume, gain) != SL_RESULT_SUCCESS)
                     {
                         Log(Log::Level::ERR) << "Failed to set volume";
+                        return false;
                     }
                 }
             }
