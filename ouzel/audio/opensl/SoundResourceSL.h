@@ -27,7 +27,7 @@ namespace ouzel
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
         protected:
-            virtual bool update() override;
+            virtual bool update();
 
             uint32_t channels = 0;
             SLObjectItf playerObject = nullptr;
