@@ -24,7 +24,7 @@ namespace ouzel
             virtual ~SoundResourceXA2();
 
         protected:
-            virtual bool update() override;
+            virtual bool update();
 
             uint32_t channels = 0;
             IXAudio2SourceVoice* sourceVoice = nullptr;
