@@ -54,10 +54,10 @@ namespace ouzel
                     switch (error)
                     {
                         case AL_INVALID_NAME: errorStr = "AL_INVALID_NAME"; break;
-                        case AL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
-                        case AL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
-                        case AL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
-                        case AL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                        case AL_INVALID_ENUM: errorStr = "AL_INVALID_ENUM"; break;
+                        case AL_INVALID_VALUE: errorStr = "AL_INVALID_VALUE"; break;
+                        case AL_INVALID_OPERATION: errorStr = "AL_INVALID_OPERATION"; break;
+                        case AL_OUT_OF_MEMORY: errorStr = "AL_OUT_OF_MEMORY"; break;
                         default: errorStr = "Unknown error"; break;
                     }
 
