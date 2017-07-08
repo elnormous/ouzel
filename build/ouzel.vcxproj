@@ -173,7 +173,6 @@
     <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
     <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h" />
-    <ClInclude Include="..\ouzel\audio\Resource.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
     <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h" />

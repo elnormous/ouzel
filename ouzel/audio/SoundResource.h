@@ -5,6 +5,7 @@
 
 #include <mutex>
 #include <memory>
+#include <vector>
 #include "utils/Noncopyable.h"
 #include "math/Vector3.h"
 
