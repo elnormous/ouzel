@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_OPENAL
 
 #include "AudioAL.h"
-#include "SoundResource.h"
+#include "audio/SoundResource.h"
 #include "utils/Log.h"
 
 namespace ouzel
