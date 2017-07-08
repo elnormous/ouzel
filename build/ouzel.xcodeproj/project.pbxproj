@@ -39,9 +39,6 @@
 		301456E21E38BEB200BA75DB /* SoundResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456DE1E38BEB200BA75DB /* SoundResource.h */; };
 		301456E31E38BEB200BA75DB /* SoundResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456DE1E38BEB200BA75DB /* SoundResource.h */; };
 		301456E41E38BEB200BA75DB /* SoundResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456DE1E38BEB200BA75DB /* SoundResource.h */; };
-		301456EE1E38BFB300BA75DB /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456ED1E38BFB300BA75DB /* Resource.h */; };
-		301456EF1E38BFB300BA75DB /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456ED1E38BFB300BA75DB /* Resource.h */; };
-		301456F01E38BFB300BA75DB /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = 301456ED1E38BFB300BA75DB /* Resource.h */; };
 		301EB3A21CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
 		301EB3A31CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
 		301EB3A41CCD691800466E92 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301EB3A01CCD691800466E92 /* Component.cpp */; };
@@ -901,7 +898,6 @@
 		3011E1EC1F01791500CB1DDC /* FileSystemTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileSystemTVOS.h; path = tvos/FileSystemTVOS.h; sourceTree = "<group>"; };
 		301456DD1E38BEB200BA75DB /* SoundResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundResource.cpp; sourceTree = "<group>"; };
 		301456DE1E38BEB200BA75DB /* SoundResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundResource.h; sourceTree = "<group>"; };
-		301456ED1E38BFB300BA75DB /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
 		301457091E40FB5100BA75DB /* DataType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataType.h; sourceTree = "<group>"; };
 		301EB3A01CCD691800466E92 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		301EB3A11CCD691800466E92 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
@@ -1652,7 +1648,6 @@
 				30419DE01D162BCF00A63759 /* Audio.h */,
 				3038210A1D81874D00677CAB /* empty */,
 				30419E6C1D20254100A63759 /* openal */,
-				301456ED1E38BFB300BA75DB /* Resource.h */,
 				30419DE71D162BDC00A63759 /* Sound.cpp */,
 				30419DE81D162BDC00A63759 /* Sound.h */,
 				30419DEF1D162BEF00A63759 /* SoundData.cpp */,
@@ -1987,7 +1982,6 @@
 				30575AC01C39D9850009C8A7 /* NodeContainer.h in Headers */,
 				3038215A1D81876E00677CAB /* TextureResourceEmpty.h in Headers */,
 				303933761E5F460A000C9A8E /* SoundListener.h in Headers */,
-				301456EE1E38BFB300BA75DB /* Resource.h in Headers */,
 				30381FEE1D80A40700677CAB /* ColorVSIOS.h in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Node.h in Headers */,
 				303696E71E32DDC1007F4211 /* MeshBuffer.h in Headers */,
@@ -2155,7 +2149,6 @@
 				3038215C1D81876E00677CAB /* TextureResourceEmpty.h in Headers */,
 				303933781E5F460A000C9A8E /* SoundListener.h in Headers */,
 				30381FF01D80A40700677CAB /* ColorVSIOS.h in Headers */,
-				301456F01E38BFB300BA75DB /* Resource.h in Headers */,
 				3009342F1C88978D00CC50D3 /* WindowTVOS.h in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.h in Headers */,
 				303696E91E32DDC1007F4211 /* MeshBuffer.h in Headers */,
@@ -2273,7 +2266,6 @@
 				304A8E5D1C237C70008B1151 /* Node.h in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.h in Headers */,
 				304B277C1C95C54D00BA162D /* EditBox.h in Headers */,
-				301456EF1E38BFB300BA75DB /* Resource.h in Headers */,
 				304A8E6B1C237C70008B1151 /* Sprite.h in Headers */,
 				304A8E751C237C70008B1151 /* Vector4.h in Headers */,
 				30B328871C4E9EAC00040927 /* Ease.h in Headers */,

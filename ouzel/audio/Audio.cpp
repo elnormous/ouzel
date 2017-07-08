@@ -34,21 +34,14 @@ namespace ouzel
 
         bool Audio::update()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            for (const std::unique_ptr<Resource>& resource : resources)
-            {
-                resource->update();
-            }
-
             return true;
         }
 
-        void Audio::deleteResource(Resource* resource)
+        void Audio::deleteResource(SoundResource* resource)
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::vector<std::unique_ptr<Resource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+            std::vector<std::unique_ptr<SoundResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<SoundResource>& ptr) {
                 return ptr.get() == resource;
             });
 
@@ -94,6 +87,32 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
             if (audioThread.joinable()) audioThread.join();
 #endif
+        }
+
+        std::vector<uint8_t> Audio::getData(uint32_t size)
+        {
+            std::vector<uint8_t> data(size, 0);
+
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            for (const auto& resource : resources)
+            {
+                std::vector<uint8_t> resourceData = resource->getData(bufferSize, channels, samplesPerSecond);
+
+                int16_t* resourceDataPtr = reinterpret_cast<int16_t*>(resourceData.data());
+                int16_t* dataPtr = reinterpret_cast<int16_t*>(data.data());
+
+                for (uint32_t i = 0; i < resourceData.size() / sizeof(int16_t) && i < data.size() / sizeof(int16_t); ++i)
+                {
+                    // mix the resource sound into the buffer
+                    *dataPtr += *resourceDataPtr;
+
+                    ++resourceDataPtr;
+                    ++dataPtr;
+                }
+            }
+
+            return data;
         }
     } // namespace audio
 } // namespace ouzel

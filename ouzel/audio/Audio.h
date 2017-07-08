@@ -42,7 +42,7 @@ namespace ouzel
             virtual bool update();
 
             virtual SoundResource* createSound() = 0;
-            virtual void deleteResource(Resource* resource);
+            virtual void deleteResource(SoundResource* resource);
 
             void setListenerPosition(const Vector3& newPosition);
             void setListenerRotation(const Quaternion& newRotation);
@@ -56,6 +56,8 @@ namespace ouzel
             Audio(Driver aDriver);
             virtual bool init();
             void run();
+
+            std::vector<uint8_t> getData(uint32_t size);
 
             Driver driver;
 
@@ -76,13 +78,17 @@ namespace ouzel
             std::mutex uploadMutex;
 
             std::mutex resourceMutex;
-            std::vector<std::unique_ptr<Resource>> resources;
-            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<SoundResource>> resources;
+            std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
 
             bool running = true;
 #if OUZEL_MULTITHREADED
             std::thread audioThread;
 #endif
+
+            const uint32_t bufferSize = 32 * 4096;
+            const uint32_t samplesPerSecond = 44100;
+            const uint16_t channels = 2;
         };
     } // namespace audio
 } // namespace ouzel
