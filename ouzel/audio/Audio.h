@@ -86,7 +86,7 @@ namespace ouzel
             std::thread audioThread;
 #endif
 
-            const uint32_t bufferSize = 32 * 4096;
+            const uint32_t bufferSize = 2 * 4096;
             const uint32_t samplesPerSecond = 44100;
             const uint16_t channels = 2;
         };
