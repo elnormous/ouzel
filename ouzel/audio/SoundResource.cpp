@@ -97,6 +97,8 @@ namespace ouzel
 
         std::vector<uint8_t> SoundResource::getData(uint32_t size, uint16_t channels, uint32_t samplesPerSecond)
         {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
             std::vector<uint8_t> result;
 
             if (!shouldPlay)
@@ -302,6 +304,21 @@ namespace ouzel
                     if (samplesPerSecond != soundData->getSamplesPerSecond())
                     {
                         // TODO: resample
+                    }
+
+                    std::vector<float> channelVolume(channels, gain);
+
+                    uint32_t samples = static_cast<uint32_t>(result.size()) / sizeof(uint16_t);
+                    uint16_t* buffer = reinterpret_cast<uint16_t*>(result.data());
+
+                    for (uint32_t i = 0; i < samples / channels; ++i)
+                    {
+                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        {
+                            *buffer = static_cast<uint16_t>(*buffer * channelVolume[channel]);
+
+                            ++buffer;
+                        }
                     }
                 }
             }
