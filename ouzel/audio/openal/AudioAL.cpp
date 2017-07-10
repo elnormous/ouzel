@@ -233,8 +233,6 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to make OpenAL context current";
                 return false;
             }
-            
-            dirty = 0;
 
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
@@ -290,6 +288,9 @@ namespace ouzel
                 // swap the buffer
                 nextBuffer = (nextBuffer == 0) ? 1 : 0;
             }
+
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            dirty = 0;
 
             return true;
         }
