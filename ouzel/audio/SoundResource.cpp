@@ -17,13 +17,13 @@ namespace ouzel
         {
         }
 
-        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool streaming)
+        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             soundData = newSoundData;
 
-            if (streaming && soundData)
+            if (soundData)
             {
                 stream = soundData->createStream();
             }
@@ -119,13 +119,67 @@ namespace ouzel
                 if (channels == soundData->getChannels() &&
                     samplesPerSecond == soundData->getSamplesPerSecond())
                 {
-                    result = data;
+                    result = std::move(data);
                 }
                 else
                 {
+                    // channel map
+                    // 0 - Front left
+                    // 1 - Front right
+                    // 2 - Rear left
+                    // 3 - Rear right
+                    // 4 - Center
+                    // 5 - Low-frequency effects
+
+                    result.resize(size);
+
                     if (channels != soundData->getChannels())
                     {
-                        // TODO: add missing channels
+                        uint32_t dstSamples = size / sizeof(uint16_t);
+                        uint32_t srcSamples = static_cast<uint32_t>(data.size()) / sizeof(uint16_t);
+
+                        // left channel
+                        if (channels >= 1)
+                        {
+                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+
+                            for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                            {
+                                *dstBuffer = *srcBuffer;
+                                dstBuffer += channels;
+                            }
+                        }
+
+                        // right channel
+                        if (channels >= 2)
+                        {
+                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+
+                            // sound data has right channel
+                            if (soundData->getChannels() >= 2)
+                            {
+                                for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                                {
+                                    *(dstBuffer + 1) = *(srcBuffer + 1);
+                                    dstBuffer += channels;
+                                }
+                            }
+                            else
+                            {
+                                // copy the left channel in to the right one
+                                for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                                {
+                                    *(dstBuffer + 1) = *srcBuffer;
+                                    dstBuffer += channels;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result = std::move(data);
                     }
 
                     if (samplesPerSecond != soundData->getSamplesPerSecond())
