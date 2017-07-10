@@ -17,17 +17,38 @@ ULONG IXAudio2Release(IXAudio2* pXAudio2)
     return pXAudio2->Release();
 }
 
-HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2, IXAudio2MasteringVoice** ppMasteringVoice)
+HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2,
+                                     IXAudio2MasteringVoice** ppMasteringVoice,
+                                     UINT32 InputChannels,
+                                     UINT32 InputSampleRate,
+                                     UINT32 Flags,
+                                     UINT32 DeviceIndex,
+                                     const XAUDIO2_EFFECT_CHAIN* pEffectChain)
 {
-    return pXAudio2->CreateMasteringVoice(ppMasteringVoice);
+    return pXAudio2->CreateMasteringVoice(ppMasteringVoice,
+                                          InputChannels,
+                                          InputSampleRate,
+                                          Flags,
+                                          DeviceIndex,
+                                          pEffectChain);
 }
 
 HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
                                   IXAudio2SourceVoice** ppSourceVoice,
                                   const WAVEFORMATEX* pSourceFormat,
-                                  UINT32 Flags)
+                                  UINT32 Flags,
+                                  float MaxFrequencyRatio,
+                                  IXAudio2VoiceCallback* pCallback = nullptr,
+                                  const XAUDIO2_VOICE_SENDS* pSendList = nullptr,
+                                  const XAUDIO2_EFFECT_CHAIN* pEffectChain = nullptr)
 {
-    return pXAudio2->CreateSourceVoice(ppSourceVoice, pSourceFormat, Flags);
+    return pXAudio2->CreateSourceVoice(ppSourceVoice,
+                                       pSourceFormat,
+                                       Flags,
+                                       MaxFrequencyRatio,
+                                       pCallback,
+                                       pSendList,
+                                       pEffectChain);
 }
 
 #endif
