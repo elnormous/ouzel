@@ -89,9 +89,9 @@ namespace ouzel
                     dataSink.pLocator = &dataLocatorOut;
                     dataSink.pFormat = NULL;
 
-                    const SLuint32 playerIIDCount = 3;
-                    const SLInterfaceID playerIIDs[] = { SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME };
-                    const SLboolean playerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
+                    const SLuint32 playerIIDCount = 4;
+                    const SLInterfaceID playerIIDs[] = { SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME, SL_IID_RATEPITCH };
+                    const SLboolean playerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE };
 
                     if ((*audioSL->getEngine())->CreateAudioPlayer(audioSL->getEngine(), &playerObject, &dataSource, &dataSink, playerIIDCount, playerIIDs, playerReqs) != SL_RESULT_SUCCESS)
                     {
@@ -107,20 +107,25 @@ namespace ouzel
 
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_PLAY, &player) != SL_RESULT_SUCCESS)
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenSL player";
+                        Log(Log::Level::ERR) << "Failed to get OpenSL player interface";
                         return false;
                     }
 
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_BUFFERQUEUE, &bufferQueue) != SL_RESULT_SUCCESS)
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenSL buffer queue";
+                        Log(Log::Level::ERR) << "Failed to get OpenSL buffer queue interface";
                         return false;
                     }
 
                     if ((*playerObject)->GetInterface(playerObject, SL_IID_VOLUME, &playerVolume) != SL_RESULT_SUCCESS)
                     {
-                        Log(Log::Level::ERR) << "Failed to get OpenSL volume";
+                        Log(Log::Level::ERR) << "Failed to get OpenSL volume interface";
                         return false;
+                    }
+
+                    if ((*playerObject)->GetInterface(playerObject, SL_IID_RATEPITCH, &playerPitch) != SL_RESULT_SUCCESS)
+                    {
+                        Log(Log::Level::WARN) << "Failed to get OpenSL pitch interface";
                     }
 
                     if ((*bufferQueue)->Clear(bufferQueue) != SL_RESULT_SUCCESS)
@@ -160,6 +165,20 @@ namespace ouzel
                 }
             }
 
+            if (dirty & DIRTY_PITCH)
+            {
+                if (playerPitch && soundData)
+                {
+                    SLpermille frequency = static_cast<SLpermille>(soundData->getSamplesPerSecond() * pitch);
+
+                    if ((*playerPitch)->SetPitch(playerPitch, frequency) != SL_RESULT_SUCCESS)
+                    {
+                        Log(Log::Level::ERR) << "Failed to set pitch";
+                        return false;
+                    }
+                }
+            }
+
             if (dirty & DIRTY_GAIN)
             {
                 if (playerVolume)
@@ -167,6 +186,7 @@ namespace ouzel
                     if ((*playerVolume)->SetVolumeLevel(playerVolume, gain) != SL_RESULT_SUCCESS)
                     {
                         Log(Log::Level::ERR) << "Failed to set volume";
+                        return false;
                     }
                 }
             }

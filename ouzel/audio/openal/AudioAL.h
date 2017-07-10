@@ -38,20 +38,6 @@ namespace ouzel
             ALCdevice* getDevice() const { return device; }
             ALCcontext* getContext() const { return context; }
 
-            ALenum getFormatForChannels(uint16_t channels)
-            {
-                switch (channels)
-                {
-                    case 1: return AL_FORMAT_MONO16;
-                    case 2: return AL_FORMAT_STEREO16;
-                    case 4: return format40;
-                    case 6: return format51;
-                    case 7: return format61;
-                    case 8: return format71;
-                    default: return 0;
-                }
-            }
-
         protected:
             AudioAL();
             virtual bool init() override;
@@ -63,6 +49,11 @@ namespace ouzel
             ALenum format51 = 0;
             ALenum format61 = 0;
             ALenum format71 = 0;
+
+            ALuint sourceId = 0;
+            ALenum format = 0;
+            uint32_t nextBuffer = 0;
+            ALuint buffers[2];
         };
     } // namespace audio
 } // namespace ouzel

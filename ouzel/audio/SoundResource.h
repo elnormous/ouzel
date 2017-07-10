@@ -5,8 +5,8 @@
 
 #include <mutex>
 #include <memory>
+#include <vector>
 #include "utils/Noncopyable.h"
-#include "audio/Resource.h"
 #include "math/Vector3.h"
 
 namespace ouzel
@@ -17,10 +17,11 @@ namespace ouzel
         class SoundData;
         class Stream;
         
-        class SoundResource: public Resource, public Noncopyable
+        class SoundResource: public Noncopyable
         {
             friend Audio;
         public:
+            SoundResource();
             virtual ~SoundResource();
 
             virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool streaming);
@@ -35,9 +36,9 @@ namespace ouzel
 
             bool isRepeating() const { return repeat; }
 
-        protected:
-            SoundResource();
+            std::vector<uint8_t> getData(uint32_t size, uint16_t channels, uint32_t samplesPerSecond);
 
+        protected:
             enum Dirty
             {
                 DIRTY_SOUND_DATA = 0x01,

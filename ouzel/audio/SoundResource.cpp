@@ -94,5 +94,48 @@ namespace ouzel
 
             return true;
         }
+
+        std::vector<uint8_t> SoundResource::getData(uint32_t size, uint16_t channels, uint32_t samplesPerSecond)
+        {
+            std::vector<uint8_t> result;
+
+            if (!shouldPlay)
+            {
+                result = std::vector<uint8_t>();
+            }
+            else if (soundData)
+            {
+                std::vector<uint8_t> data;
+
+                if (stream)
+                {
+                    data = soundData->getData(stream.get(), size);
+                }
+                else
+                {
+                    data = soundData->getData();
+                }
+
+                if (channels == soundData->getChannels() &&
+                    samplesPerSecond == soundData->getSamplesPerSecond())
+                {
+                    result = data;
+                }
+                else
+                {
+                    if (channels != soundData->getChannels())
+                    {
+                        // TODO: add missing channels
+                    }
+
+                    if (samplesPerSecond != soundData->getSamplesPerSecond())
+                    {
+                        // TODO: resample
+                    }
+                }
+            }
+
+            return result;
+        }
     } // namespace audio
 } // namespace ouzel

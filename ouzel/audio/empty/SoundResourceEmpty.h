@@ -13,9 +13,6 @@ namespace ouzel
         {
         public:
             SoundResourceEmpty();
-
-        protected:
-            virtual bool update() override;
         };
     } // namespace audio
 } // namespace ouzel

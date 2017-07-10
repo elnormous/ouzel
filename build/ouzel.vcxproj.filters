@@ -691,9 +691,6 @@
     <ClInclude Include="..\ouzel\graphics\Buffer.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Resource.h">
-      <Filter>audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundResource.h">
       <Filter>audio</Filter>
     </ClInclude>

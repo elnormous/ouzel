@@ -10,10 +10,5 @@ namespace ouzel
         SoundResourceEmpty::SoundResourceEmpty()
         {
         }
-
-        bool SoundResourceEmpty::update()
-        {
-            return true;
-        }
     } // namespace audio
 } // namespace ouzel

@@ -22,7 +22,7 @@ namespace ouzel
             virtual ~SoundResourceDS();
 
         protected:
-            virtual bool update() override;
+            virtual bool update();
 
             IDirectSoundBuffer8* buffer = nullptr;
             IDirectSound3DBuffer8* buffer3D = nullptr;
