@@ -103,18 +103,9 @@ namespace ouzel
             {
                 result = std::vector<uint8_t>();
             }
-            else if (soundData)
+            else if (soundData && stream)
             {
-                std::vector<uint8_t> data;
-
-                if (stream)
-                {
-                    data = soundData->getData(stream.get(), size);
-                }
-                else
-                {
-                    data = soundData->getData();
-                }
+                std::vector<uint8_t> data = soundData->getData(stream.get(), size);
 
                 if (channels == soundData->getChannels() &&
                     samplesPerSecond == soundData->getSamplesPerSecond())
@@ -139,7 +130,7 @@ namespace ouzel
                         uint32_t srcSamples = static_cast<uint32_t>(data.size()) / sizeof(uint16_t);
 
                         // left channel
-                        if (channels >= 1)
+                        if (channels >= 1 && soundData->getChannels() >= 1)
                         {
                             uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
                             uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
@@ -148,6 +139,7 @@ namespace ouzel
                             {
                                 *dstBuffer = *srcBuffer;
                                 dstBuffer += channels;
+                                srcBuffer += soundData->getChannels();
                             }
                         }
 
@@ -164,15 +156,17 @@ namespace ouzel
                                 {
                                     *(dstBuffer + 1) = *(srcBuffer + 1);
                                     dstBuffer += channels;
+                                    srcBuffer += soundData->getChannels();
                                 }
                             }
-                            else
+                            else if (soundData->getChannels() >= 1)
                             {
                                 // copy the left channel in to the right one
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
                                     *(dstBuffer + 1) = *srcBuffer;
                                     dstBuffer += channels;
+                                    srcBuffer += soundData->getChannels();
                                 }
                             }
                         }
