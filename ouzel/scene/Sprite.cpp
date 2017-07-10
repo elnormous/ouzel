@@ -17,9 +17,9 @@ namespace ouzel
 {
     namespace scene
     {
-        Sprite::Sprite()
+        Sprite::Sprite():
+            Component(TYPE)
         {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
@@ -28,7 +28,7 @@ namespace ouzel
         Sprite::Sprite(const std::vector<SpriteFrame>& spriteFrames):
             Sprite()
         {
-            initFromSpriteFrames(spriteFrames);
+            init(spriteFrames);
         }
 
         Sprite::Sprite(const std::string& filename, bool mipmaps,
@@ -36,7 +36,7 @@ namespace ouzel
                        const Vector2& pivot):
             Sprite()
         {
-            initFromFile(filename, mipmaps, spritesX, spritesY, pivot);
+            init(filename, mipmaps, spritesX, spritesY, pivot);
         }
 
         Sprite::Sprite(std::shared_ptr<graphics::Texture> texture,
@@ -44,15 +44,16 @@ namespace ouzel
                        const Vector2& pivot):
             Sprite()
         {
-            initFromTexture(texture, spritesX, spritesY, pivot);
+            init(texture, spritesX, spritesY, pivot);
         }
 
-        bool Sprite::initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames)
+        bool Sprite::init(const std::vector<SpriteFrame>& spriteFrames)
         {
             frames = spriteFrames;
 
             updateBoundingBox();
 
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!blendState)
@@ -63,14 +64,15 @@ namespace ouzel
             return true;
         }
 
-        bool Sprite::initFromFile(const std::string& filename, bool mipmaps,
-                                  uint32_t spritesX, uint32_t spritesY,
-                                  const Vector2& pivot)
+        bool Sprite::init(const std::string& filename, bool mipmaps,
+                          uint32_t spritesX, uint32_t spritesY,
+                          const Vector2& pivot)
         {
             frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps, spritesX, spritesY, pivot);
 
             updateBoundingBox();
 
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!blendState)
@@ -81,9 +83,9 @@ namespace ouzel
             return true;
         }
 
-        bool Sprite::initFromTexture(std::shared_ptr<graphics::Texture> texture,
-                                     uint32_t spritesX, uint32_t spritesY,
-                                     const Vector2& pivot)
+        bool Sprite::init(std::shared_ptr<graphics::Texture> texture,
+                          uint32_t spritesX, uint32_t spritesY,
+                          const Vector2& pivot)
         {
             frames.clear();
 
@@ -105,6 +107,7 @@ namespace ouzel
 
             updateBoundingBox();
 
+            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             if (!blendState)
@@ -235,7 +238,8 @@ namespace ouzel
                                                             depthTest,
                                                             wireframe,
                                                             scissorTest,
-                                                            scissorRectangle);
+                                                            scissorRectangle,
+                                                            graphics::Renderer::CullMode::NONE);
             }
         }
 

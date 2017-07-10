@@ -21,6 +21,8 @@ namespace ouzel
         class Sprite: public Component
         {
         public:
+            static const uint32_t TYPE = Component::SPRITE;
+
             Sprite();
             Sprite(const std::vector<SpriteFrame>& spriteFrames);
             Sprite(const std::string& filename, bool mipmaps = true,
@@ -30,13 +32,13 @@ namespace ouzel
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                    const Vector2& pivot = Vector2(0.5f, 0.5f));
 
-            bool initFromSpriteFrames(const std::vector<SpriteFrame>& spriteFrames);
-            bool initFromFile(const std::string& filename, bool mipmaps = true,
-                              uint32_t spritesX = 1, uint32_t spritesY = 1,
-                              const Vector2& pivot = Vector2(0.5f, 0.5f));
-            bool initFromTexture(std::shared_ptr<graphics::Texture> texture,
-                                 uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                 const Vector2& pivot = Vector2(0.5f, 0.5f));
+            bool init(const std::vector<SpriteFrame>& spriteFrames);
+            bool init(const std::string& filename, bool mipmaps = true,
+                      uint32_t spritesX = 1, uint32_t spritesY = 1,
+                      const Vector2& pivot = Vector2(0.5f, 0.5f));
+            bool init(std::shared_ptr<graphics::Texture> texture,
+                      uint32_t spritesX = 1, uint32_t spritesY = 1,
+                      const Vector2& pivot = Vector2(0.5f, 0.5f));
 
             virtual void update(float delta);
 

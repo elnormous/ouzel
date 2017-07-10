@@ -2,6 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include "RendererMetal.h"
 #include "TextureResourceMetal.h"
 #include "ShaderResourceMetal.h"
@@ -82,11 +85,11 @@ namespace ouzel
                 [shaderConstantBuffer.buffer release];
             }
 
-            for (uint32_t state = 0; state < 4; ++state)
+            for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
             {
-                if (depthStencilStates[state])
+                if (depthStencilState)
                 {
-                    [depthStencilStates[state] release];
+                    [depthStencilState release];
                 }
             }
 
@@ -178,14 +181,22 @@ namespace ouzel
             if (depth)
             {
                 depthFormat = MTLPixelFormatDepth32Float;
+            }
 
-                for (uint32_t state = 0; state < 4; ++state)
+            uint32_t depthStencilStateIndex = 0;
+
+            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
+            {
+                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
                 {
                     MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
-                    depthStencilDescriptor.depthCompareFunction = (state & 0x01) ? MTLCompareFunctionLessEqual : MTLCompareFunctionAlways; // read
-                    depthStencilDescriptor.depthWriteEnabled = (state & 0x02) ? YES : NO; // write
-                    depthStencilStates[state] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+
+                    depthStencilDescriptor.depthCompareFunction = (depthEnable == 0) ? MTLCompareFunctionAlways : MTLCompareFunctionLessEqual; // depth read
+                    depthStencilDescriptor.depthWriteEnabled = (depthWriteMask == 0) ? NO : YES; // depth write
+                    depthStencilStates[depthStencilStateIndex] = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
                     [depthStencilDescriptor release];
+
+                    ++depthStencilStateIndex;
                 }
             }
 
@@ -205,24 +216,24 @@ namespace ouzel
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-            textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
-                                           std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                           VertexPCT::ATTRIBUTES,
-                                           {{"color", DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", DataType::FLOAT_MATRIX4}},
-                                           256, 256,
-                                           "mainPS", "mainVS");
+            textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL), std::end(TEXTURE_PIXEL_SHADER_METAL)),
+                                std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL), std::end(TEXTURE_VERTEX_SHADER_METAL)),
+                                VertexPCT::ATTRIBUTES,
+                                {{"color", DataType::FLOAT_VECTOR4}},
+                                {{"modelViewProj", DataType::FLOAT_MATRIX4}},
+                                256, 256,
+                                "mainPS", "mainVS");
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-            colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
-                                         std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
-                                         VertexPC::ATTRIBUTES,
-                                         {{"color", DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}},
-                                         256, 256,
-                                         "mainPS", "mainVS");
+            colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
+                              std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL), std::end(COLOR_VERTEX_SHADER_METAL)),
+                              VertexPC::ATTRIBUTES,
+                              {{"color", DataType::FLOAT_VECTOR4}},
+                              {{"modelViewProj", DataType::FLOAT_MATRIX4}},
+                              256, 256,
+                              "mainPS", "mainVS");
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -267,7 +278,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             for (uint32_t i = 0; i < BUFFER_COUNT; ++i)
@@ -401,7 +412,7 @@ namespace ouzel
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
 
-            MTLCommandBufferPtr currentCommandBuffer = [commandQueue commandBuffer];
+            id<MTLCommandBuffer> currentCommandBuffer = [commandQueue commandBuffer];
 
             if (!currentCommandBuffer)
             {
@@ -416,7 +427,7 @@ namespace ouzel
              }];
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
-            MTLRenderCommandEncoderPtr currentRenderCommandEncoder = Nil;
+            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = Nil;
             
             MTLScissorRect scissorRect;
 
@@ -448,11 +459,7 @@ namespace ouzel
                 viewport.height = static_cast<double>(frameBufferHeight);
 
                 [currentRenderCommandEncoder setViewport: viewport];
-
-                if (depthStencilStates[3])
-                {
-                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[3]];
-                }
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[1]]; // enable depth write
 
                 currentRenderPassDescriptor.colorAttachments[0].loadAction = colorBufferLoadAction;
                 currentRenderPassDescriptor.depthAttachment.loadAction = depthBufferLoadAction;
@@ -560,14 +567,23 @@ namespace ouzel
 
                 [currentRenderCommandEncoder setScissorRect: scissorRect];
 
-                uint32_t depthStencilStateIndex = 0;
-                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
-                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                uint32_t depthTestIndex = drawCommand.depthTest ? 1 : 0;
+                uint32_t depthWriteIndex = drawCommand.depthWrite ? 1 : 0;
+                uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
 
-                if (depthStencilStates[depthStencilStateIndex])
+                [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
+
+                MTLCullMode cullMode;
+
+                switch (drawCommand.cullMode)
                 {
-                    [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
+                    case CullMode::NONE: cullMode = MTLCullModeNone; break;
+                    case CullMode::FRONT: cullMode = MTLCullModeBack; break; // flip the faces, because of the flipped y-axis
+                    case CullMode::BACK: cullMode = MTLCullModeFront; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
+
+                [currentRenderCommandEncoder setCullMode:cullMode];
 
                 // shader
                 ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand.shader);
@@ -986,3 +1002,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

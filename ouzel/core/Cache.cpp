@@ -3,13 +3,14 @@
 
 #include "Cache.h"
 #include "Engine.h"
-#include "Application.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureResource.h"
 #include "graphics/ShaderResource.h"
 #include "scene/ParticleDefinition.h"
 #include "scene/SpriteFrame.h"
 #include "files/FileSystem.h"
+#include "audio/SoundDataWave.h"
+#include "audio/SoundDataVorbis.h"
 
 namespace ouzel
 {
@@ -25,25 +26,20 @@ namespace ouzel
         releaseBlendStates();
         releaseSpriteFrames();
         releaseBMFonts();
-		releaseFTFonts();
+        releaseFTFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
-        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
+        std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
+        texture->init(filename, dynamic, mipmaps);
 
-        if (i == textures.end())
-        {
-            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
-            texture->initFromFile(filename, dynamic, mipmaps);
-
-            textures[filename] = texture;
-        }
+        textures[filename] = texture;
     }
 
     const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
     {
-        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(filename);
+        auto i = textures.find(filename);
 
         if (i != textures.end())
         {
@@ -52,7 +48,7 @@ namespace ouzel
         else
         {
             std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-            result->initFromFile(filename, dynamic, mipmaps);
+            result->init(filename, dynamic, mipmaps);
 
             i = textures.insert(std::make_pair(filename, result)).first;
 
@@ -83,7 +79,7 @@ namespace ouzel
 
     const std::shared_ptr<graphics::Shader>& Cache::getShader(const std::string& shaderName) const
     {
-        std::map<std::string, std::shared_ptr<graphics::Shader>>::const_iterator i = shaders.find(shaderName);
+        auto i = shaders.find(shaderName);
 
         if (i != shaders.end())
         {
@@ -121,7 +117,7 @@ namespace ouzel
 
     const std::shared_ptr<graphics::BlendState>& Cache::getBlendState(const std::string& blendStateName) const
     {
-        std::map<std::string, std::shared_ptr<graphics::BlendState>>::const_iterator i = blendStates.find(blendStateName);
+        auto i = blendStates.find(blendStateName);
 
         if (i != blendStates.end())
         {
@@ -163,7 +159,7 @@ namespace ouzel
                                     uint32_t spritesX, uint32_t spritesY,
                                     const Vector2& pivot)
     {
-        std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
+        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
         std::vector<scene::SpriteFrame> frames;
 
@@ -210,7 +206,7 @@ namespace ouzel
         }
         else
         {
-            std::string extension = sharedApplication->getFileSystem()->getExtensionPart(filename);
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
             std::vector<scene::SpriteFrame> frames;
 
@@ -260,12 +256,7 @@ namespace ouzel
 
     void Cache::preloadParticleDefinition(const std::string& filename)
     {
-        std::map<std::string, scene::ParticleDefinition>::const_iterator i = particleDefinitions.find(filename);
-
-        if (i == particleDefinitions.end())
-        {
-            particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
-        }
+        particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
     }
 
     const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename) const
@@ -284,6 +275,11 @@ namespace ouzel
         }
     }
 
+    void Cache::setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition)
+    {
+        particleDefinitions[filename] = particleDefinition;
+    }
+
     void Cache::releaseParticleDefinitions()
     {
         particleDefinitions.clear();
@@ -291,48 +287,48 @@ namespace ouzel
 
     void Cache::preloadBMFont(const std::string& filename)
     {
-        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
+        auto i = bmFonts.find(filename);
 
         if (i == bmFonts.end())
         {
             bmFonts[filename] = BMFont(filename);
         }
    }
-	void Cache::preloadFTFont(std::string filename, int16_t pt)
-	{
+    void Cache::preloadFTFont(std::string filename, int16_t pt)
+    {
 
-		filename += std::to_string(pt);
-		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
-		if (i == ftFonts.end())
-		{
-			ftFonts[filename] = FTFont(filename, pt);
-		}
+        filename += std::to_string(pt);
+        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        if (i == ftFonts.end())
+        {
+            ftFonts[filename] = FTFont(filename, pt);
+        }
 
-	}
+    }
 
 
 
-	const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
-	{
-		std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
-		if (i != textures.end())
-		{
-			return i->second;
-		}
-		else if (data.size() != 0)
-		{
-			std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-			result->initFromBuffer(data, size, dynamic, mipmaps);
-			i = textures.insert(std::make_pair(name, result)).first;
-			return i->second;
-		}
-		std::shared_ptr<graphics::Texture> f = nullptr;
-		i = textures.emplace("failed", f).first;
-		return i->second;
-	}
+    const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
+    {
+        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
+        if (i != textures.end())
+        {
+            return i->second;
+        }
+        else if (data.size() != 0)
+        {
+            std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
+            result->init(data, size, dynamic, mipmaps);
+            i = textures.insert(std::make_pair(name, result)).first;
+            return i->second;
+        }
+        std::shared_ptr<graphics::Texture> f = nullptr;
+        i = textures.emplace("failed", f).first;
+        return i->second;
+    }
     const BMFont& Cache::getBMFont(const std::string& filename) const
     {
-        std::map<std::string, BMFont>::const_iterator i = bmFonts.find(filename);
+        auto i = bmFonts.find(filename);
 
         if (i != bmFonts.end())
         {
@@ -345,27 +341,93 @@ namespace ouzel
             return i->second;
         }
     }
-	const FTFont & Cache::getFTFont(const std::string & filename, int16_t pt) const
-	{
-		std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
-		if (i != ftFonts.end())
-		{
-			return i->second;
-		}
-		else
-		{
-			i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
-			return i->second;
-		}
-	}
+    const FTFont & Cache::getFTFont(const std::string & filename, int16_t pt) const
+    {
+        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        if (i != ftFonts.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
+            return i->second;
+        }
+    }
 
+
+    void Cache::setBMFont(const std::string& filename, const BMFont& bmFont)
+    {
+        bmFonts[filename] = bmFont;
+    }
 
     void Cache::releaseBMFonts()
     {
         bmFonts.clear();
     }
-		void Cache::releaseFTFonts()
-	{
-		ftFonts.clear();
-	}
+
+    void Cache::preloadSoundData(const std::string& filename)
+    {
+        std::string extension = FileSystem::getExtensionPart(filename);
+
+        if (extension == "wav")
+        {
+            std::shared_ptr<audio::SoundDataWave> newSoundData = std::make_shared<audio::SoundDataWave>();
+            newSoundData->init(filename);
+            soundData[filename] = newSoundData;
+        }
+        else if (extension == "ogg")
+        {
+            std::shared_ptr<audio::SoundDataVorbis> newSoundData = std::make_shared<audio::SoundDataVorbis>();
+            newSoundData->init(filename);
+            soundData[filename] = newSoundData;
+        }
+    }
+
+    const std::shared_ptr<audio::SoundData>& Cache::getSoundData(const std::string& filename) const
+    {
+        auto i = soundData.find(filename);
+
+        if (i != soundData.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            std::shared_ptr<audio::SoundData> newSoundData;
+
+            std::string extension = FileSystem::getExtensionPart(filename);
+
+            if (extension == "wav")
+            {
+                newSoundData = std::make_shared<audio::SoundDataWave>();
+                newSoundData->init(filename);
+                soundData[filename] = newSoundData;
+            }
+            else if (extension == "ogg")
+            {
+                newSoundData = std::make_shared<audio::SoundDataVorbis>();
+                newSoundData->init(filename);
+                soundData[filename] = newSoundData;
+            }
+
+            i = soundData.insert(std::make_pair(filename, newSoundData)).first;
+
+            return i->second;
+        }
+    }
+
+    void Cache::setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData)
+    {
+        soundData[filename] = newSoundData;
+    }
+
+    void Cache::releaseSoundData()
+    {
+        soundData.clear();
+    }
+        void Cache::releaseFTFonts()
+    {
+        ftFonts.clear();
+    }
 }

@@ -3,7 +3,7 @@
 
 #include "ImageDataSTB.h"
 #include "utils/Log.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -14,22 +14,22 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool ImageDataSTB::initFromFile(const std::string& newFilename,
-                                        PixelFormat newPixelFormat)
+        bool ImageDataSTB::init(const std::string& newFilename,
+                                PixelFormat newPixelFormat)
         {
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedApplication->getFileSystem()->readFile(newFilename, newData))
+            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
             {
                 return false;
             }
 
-            return initFromBuffer(newData, newPixelFormat);
+            return init(newData, newPixelFormat);
         }
 
-        bool ImageDataSTB::initFromBuffer(const std::vector<uint8_t>& newData,
-                                          PixelFormat newPixelFormat)
+        bool ImageDataSTB::init(const std::vector<uint8_t>& newData,
+                                PixelFormat newPixelFormat)
         {
             int width;
             int height;

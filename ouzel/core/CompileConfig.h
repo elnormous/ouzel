@@ -3,7 +3,7 @@
 
 #pragma once
 
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32)
     #define OUZEL_PLATFORM_WINDOWS 1
     #define OUZEL_SUPPORTS_DIRECT3D 1
     #define OUZEL_SUPPORTS_DIRECT3D11 1
@@ -22,24 +22,22 @@
     #endif
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
+    #define OUZEL_SUPPORTS_OPENGL 1
+    #define OUZEL_SUPPORTS_METAL 1
+    #define OUZEL_SUPPORTS_OPENAL 1
+
     #if TARGET_OS_IOS
         #define OUZEL_PLATFORM_IOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
-        #define OUZEL_SUPPORTS_METAL 1
-        #define OUZEL_SUPPORTS_OPENAL 1
     #elif TARGET_OS_TV
         #define OUZEL_PLATFORM_TVOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
-        #define OUZEL_SUPPORTS_METAL 1
-        #define OUZEL_SUPPORTS_OPENAL 1
+
     #elif TARGET_OS_MAC
         #define OUZEL_PLATFORM_MACOS 1
-        #define OUZEL_SUPPORTS_OPENGL 1
         #define OUZEL_OPENGL_INTERFACE_CGL 1
-        #define OUZEL_SUPPORTS_METAL 1
-        #define OUZEL_SUPPORTS_OPENAL 1
     #endif
 
     #define OUZEL_MULTITHREADED 1
@@ -57,12 +55,13 @@
             #define OUZEL_32BITS 1
         #endif
     #endif
-
 #elif defined(__ANDROID__)
     #define OUZEL_PLATFORM_ANDROID 1
+    #define OUZEL_SUPPORTS_OPENGL 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENSL 1
+    #define OUZEL_SUPPORTS_OPENSLES 1
     #define OUZEL_MULTITHREADED 1
 
     #if defined(__x86_64__)
@@ -81,6 +80,7 @@
     #endif
 #elif defined(RASPBIAN)
     #define OUZEL_PLATFORM_RASPBIAN 1
+    #define OUZEL_SUPPORTS_OPENGL 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENAL 1
@@ -101,9 +101,8 @@
     #endif
 #elif defined(__linux__)
     #define OUZEL_PLATFORM_LINUX 1
-    #if defined(__i386__) || defined(__x86_64__)
-        #define OUZEL_SUPPORTS_OPENGL 1
-    #elif defined(__arm__) || defined(__aarch64__)
+    #define OUZEL_SUPPORTS_OPENGL 1
+    #if defined(__arm__) || defined(__aarch64__)
         #define OUZEL_SUPPORTS_OPENGLES 1
     #endif
     #define OUZEL_OPENGL_INTERFACE_GLX 1
@@ -125,6 +124,7 @@
     #endif
 #elif defined(EMSCRIPTEN)
     #define OUZEL_PLATFORM_EMSCRIPTEN 1
+    #define OUZEL_SUPPORTS_OPENGL 1
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENAL 1

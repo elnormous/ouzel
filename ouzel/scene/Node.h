@@ -140,12 +140,15 @@ namespace ouzel
             {
                 return removeChildComponent(component);
             }
+
             template<class T> void removeComponent(const std::unique_ptr<T>& component)
             {
                 removeChildComponent(component.get());
             }
+
             void removeAllComponents();
             const std::vector<Component*>& getComponents() const { return components; }
+            std::vector<Component*> getComponents(uint32_t type) const;
 
             Box3 getBoundingBox() const;
 

@@ -19,7 +19,8 @@ namespace ouzel
 {
     namespace scene
     {
-        ParticleSystem::ParticleSystem()
+        ParticleSystem::ParticleSystem():
+            Component(TYPE)
         {
             shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
@@ -31,7 +32,7 @@ namespace ouzel
         ParticleSystem::ParticleSystem(const std::string& filename):
             ParticleSystem()
         {
-            initFromFile(filename);
+            init(filename);
         }
 
         void ParticleSystem::draw(const Matrix4& transformMatrix,
@@ -99,7 +100,8 @@ namespace ouzel
                                                             depthTest,
                                                             wireframe,
                                                             scissorTest,
-                                                            scissorRectangle);
+                                                            scissorRectangle,
+                                                            graphics::Renderer::CullMode::NONE);
             }
         }
 
@@ -241,7 +243,7 @@ namespace ouzel
             }
         }
 
-        bool ParticleSystem::initFromParticleDefinition(const ParticleDefinition& newParticleDefinition)
+        bool ParticleSystem::init(const ParticleDefinition& newParticleDefinition)
         {
             particleDefinition = newParticleDefinition;
 
@@ -258,7 +260,7 @@ namespace ouzel
             return true;
         }
 
-        bool ParticleSystem::initFromFile(const std::string& filename)
+        bool ParticleSystem::init(const std::string& filename)
         {
             particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
@@ -324,10 +326,10 @@ namespace ouzel
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);

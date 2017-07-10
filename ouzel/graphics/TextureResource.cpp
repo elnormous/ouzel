@@ -46,11 +46,11 @@ namespace ouzel
             return true;
         }
 
-        bool TextureResource::initFromBuffer(const std::vector<uint8_t>& newData,
-                                             const Size2& newSize,
-                                             bool newDynamic,
-                                             bool newMipmaps,
-                                             PixelFormat newPixelFormat)
+        bool TextureResource::init(const std::vector<uint8_t>& newData,
+                                   const Size2& newSize,
+                                   bool newDynamic,
+                                   bool newMipmaps,
+                                   PixelFormat newPixelFormat)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -196,7 +196,7 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
                 {
                     const uint8_t* pixel = src;
 
@@ -246,7 +246,7 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
                 {
                     const uint8_t* pixel = src;
 
@@ -311,7 +311,7 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 2)
                 {
                     const uint8_t* pixel = src;
                     float r = 0.0f, g = 0.0f;
@@ -430,7 +430,7 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 4)
                 {
                     const uint8_t* pixel = src;
 
@@ -451,6 +451,7 @@ namespace ouzel
                         r += powf(pixel[pitch + 0], GAMMA);
                         g += powf(pixel[pitch + 1], GAMMA);
                         b += powf(pixel[pitch + 2], GAMMA);
+                        pixels += 1.0f;
                     }
                     a += pixel[pitch + 3];
 

@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_OPENGL
+
 #include "RendererOGLMacOS.h"
 #include "core/macos/WindowMacOS.h"
 #include "core/Application.h"
@@ -64,67 +68,60 @@ namespace ouzel
                                     bool newDepth,
                                     bool newDebugRenderer)
         {
-            // Create pixel format
-            std::vector<NSOpenGLPixelFormatAttribute> openGL3Attributes =
-            {
-                NSOpenGLPFAAccelerated,
-                NSOpenGLPFANoRecovery,
-                NSOpenGLPFADoubleBuffer,
-                NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-                NSOpenGLPFAColorSize, 24,
-                NSOpenGLPFAAlphaSize, 8,
-                NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0)
+            NSOpenGLPixelFormatAttribute openGLVersions[] = {
+                NSOpenGLProfileVersion4_1Core,
+                NSOpenGLProfileVersion3_2Core,
+                NSOpenGLProfileVersionLegacy
             };
 
-            if (newSampleCount)
+            for (NSOpenGLPixelFormatAttribute openGLVersion : openGLVersions)
             {
-                openGL3Attributes.push_back(NSOpenGLPFAMultisample);
-                openGL3Attributes.push_back(NSOpenGLPFASampleBuffers);
-                openGL3Attributes.push_back(1);
-                openGL3Attributes.push_back(NSOpenGLPFASamples);
-                openGL3Attributes.push_back(newSampleCount);
-            }
-
-            openGL3Attributes.push_back(0);
-
-            pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL3Attributes.data()];
-
-            if (pixelFormat)
-            {
-                apiMajorVersion = 3;
-                apiMinorVersion = 2;
-                Log(Log::Level::INFO) << "OpenGL 3.2 pixel format created";
-            }
-            else
-            {
-                std::vector<NSOpenGLPixelFormatAttribute> openGL2Attributes =
+                // Create pixel format
+                std::vector<NSOpenGLPixelFormatAttribute> attributes =
                 {
                     NSOpenGLPFAAccelerated,
                     NSOpenGLPFANoRecovery,
                     NSOpenGLPFADoubleBuffer,
-                    NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+                    NSOpenGLPFAOpenGLProfile, openGLVersion,
                     NSOpenGLPFAColorSize, 24,
+                    NSOpenGLPFAAlphaSize, 8,
                     NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(newDepth ? 24 : 0)
                 };
 
                 if (newSampleCount)
                 {
-                    openGL2Attributes.push_back(NSOpenGLPFAMultisample);
-                    openGL2Attributes.push_back(NSOpenGLPFASampleBuffers);
-                    openGL2Attributes.push_back(1);
-                    openGL2Attributes.push_back(NSOpenGLPFASamples);
-                    openGL2Attributes.push_back(newSampleCount);
+                    attributes.push_back(NSOpenGLPFAMultisample);
+                    attributes.push_back(NSOpenGLPFASampleBuffers);
+                    attributes.push_back(1);
+                    attributes.push_back(NSOpenGLPFASamples);
+                    attributes.push_back(newSampleCount);
                 }
+                
+                attributes.push_back(0);
 
-                openGL2Attributes.push_back(0);
-
-                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:openGL2Attributes.data()];
+                pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes.data()];
 
                 if (pixelFormat)
                 {
-                    apiMajorVersion = 2;
-                    apiMinorVersion = 0;
-                    Log(Log::Level::INFO) << "OpenGL 2 pixel format created";
+                    switch (openGLVersion)
+                    {
+                        case NSOpenGLProfileVersionLegacy:
+                            apiMajorVersion = 2;
+                            apiMinorVersion = 0;
+                            Log(Log::Level::INFO) << "OpenGL 2 pixel format created";
+                            break;
+                        case NSOpenGLProfileVersion3_2Core:
+                            apiMajorVersion = 3;
+                            apiMinorVersion = 2;
+                            Log(Log::Level::INFO) << "OpenGL 3.2 pixel format created";
+                            break;
+                        case NSOpenGLProfileVersion4_1Core:
+                            apiMajorVersion = 4;
+                            apiMinorVersion = 1;
+                            Log(Log::Level::INFO) << "OpenGL 4.1 pixel format created";
+                            break;
+                    }
+                    break;
                 }
             }
 
@@ -245,3 +242,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

@@ -3,23 +3,26 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+
 #include <map>
 #include <queue>
 #include <utility>
 #include <mutex>
 #include <atomic>
-#include "core/CompileConfig.h"
 
-#if OUZEL_SUPPORTS_OPENGL
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#elif OUZEL_SUPPORTS_OPENGLES
-#define GL_GLEXT_PROTOTYPES 1
-#include "GLES/gl.h"
-#include "GLES2/gl2.h"
-#include "GLES2/gl2ext.h"
-#include "GLES3/gl3.h"
+#if OUZEL_SUPPORTS_OPENGLES
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GLES/gl.h"
+    #include "GLES2/gl2.h"
+    #include "GLES2/gl2ext.h"
+    #include "GLES3/gl3.h"
+#else
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GL/glcorearb.h"
+    #include "GL/glext.h"
 #endif
 
 extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
@@ -52,10 +55,10 @@ extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
 extern PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 
-#if OUZEL_SUPPORTS_OPENGL
-extern PFNGLCLEARDEPTHPROC glClearDepthProc;
-#elif OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 extern PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+#else
+extern PFNGLCLEARDEPTHPROC glClearDepthProc;
 #endif
 
 extern PFNGLCREATESHADERPROC glCreateShaderProc;
@@ -91,15 +94,15 @@ extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 extern PFNGLGETSTRINGIPROC glGetStringiProc;
 
-#if OUZEL_SUPPORTS_OPENGL
-    extern PFNGLMAPBUFFERPROC glMapBufferProc;
-    extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-    extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-#elif OUZEL_SUPPORTS_OPENGLES
-    extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
-    extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-    extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-    extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+#if OUZEL_SUPPORTS_OPENGLES
+extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
+extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+extern PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+#else
+extern PFNGLMAPBUFFERPROC glMapBufferProc;
+extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #endif
 
 #include "graphics/Renderer.h"
@@ -369,8 +372,6 @@ namespace ouzel
                                              GLenum sfactorAlpha,
                                              GLenum dfactorAlpha)
             {
-                bool checkError = false;
-
                 if (stateCache.blendEnabled != blendEnabled)
                 {
                     if (blendEnabled)
@@ -384,7 +385,11 @@ namespace ouzel
 
                     stateCache.blendEnabled = blendEnabled;
 
-                    checkError = true;
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable blend state";
+                        return false;
+                    }
                 }
 
                 if (blendEnabled)
@@ -397,8 +402,6 @@ namespace ouzel
 
                         stateCache.blendModeRGB = modeRGB;
                         stateCache.blendModeAlpha = modeAlpha;
-
-                        checkError = true;
                     }
 
                     if (stateCache.blendSourceFactorRGB != sfactorRGB ||
@@ -415,15 +418,13 @@ namespace ouzel
                         stateCache.blendDestFactorRGB = dfactorRGB;
                         stateCache.blendSourceFactorAlpha = sfactorAlpha;
                         stateCache.blendDestFactorAlpha = dfactorAlpha;
-
-                        checkError = true;
                     }
-                }
 
-                if (checkError && checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set blend state";
-                    return false;
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set blend state";
+                        return false;
+                    }
                 }
 
                 return true;
@@ -449,6 +450,48 @@ namespace ouzel
                     if (checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to set color mask";
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            static inline bool setCullFace(bool cullEnabled,
+                                           GLenum cullFace)
+            {
+                if (stateCache.cullEnabled != cullEnabled)
+                {
+                    if (cullEnabled)
+                    {
+                        glEnable(GL_CULL_FACE);
+                    }
+                    else
+                    {
+                        glDisable(GL_CULL_FACE);
+                    }
+
+                    stateCache.cullEnabled = cullEnabled;
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        return false;
+                    }
+                }
+
+                if (cullEnabled)
+                {
+                    if (stateCache.cullFace != cullFace)
+                    {
+                        glCullFace(cullFace);
+
+                        stateCache.cullFace = cullFace;
+                    }
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set cull face";
                         return false;
                     }
                 }
@@ -509,7 +552,7 @@ namespace ouzel
                 glDeleteTextures(1, &textureId);
             }
 
-#ifdef OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
             static inline bool setPolygonFillMode(GLenum polygonFillMode)
             {
                 if (stateCache.polygonFillMode != polygonFillMode)
@@ -582,7 +625,7 @@ namespace ouzel
                 GLboolean blueMask = GL_TRUE;
                 GLboolean alphaMask = GL_TRUE;
 
-#ifdef OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
                 GLenum polygonFillMode = GL_FILL;
 #endif
 
@@ -599,9 +642,13 @@ namespace ouzel
                 GLint viewportY = 0;
                 GLsizei viewportWidth = 0;
                 GLsizei viewportHeight = 0;
+                bool cullEnabled = false;
+                GLenum cullFace = GL_NONE;
             };
 
             static StateCache stateCache;
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

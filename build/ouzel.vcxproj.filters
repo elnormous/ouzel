@@ -184,7 +184,7 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp">
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
@@ -193,7 +193,7 @@
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp">
+    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
@@ -376,8 +376,26 @@
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp">
+    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp">
       <Filter>audio\dsound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\utils\INI.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp">
+      <Filter>files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Stream.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\StreamWave.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp">
+      <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp">
+      <Filter>audio</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\FTFont.cpp">
       <Filter>gui</Filter>
@@ -422,9 +440,6 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Engine.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\core\Settings.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\UpdateCallback.h">
@@ -583,7 +598,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h">
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
@@ -604,7 +619,7 @@
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h">
+    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
@@ -841,8 +856,38 @@
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h">
+    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h">
       <Filter>audio\dsound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h">
+      <Filter>graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\INI.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.h">
+      <Filter>files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Stream.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\StreamWave.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h">
+      <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\StreamVorbis.h">
+      <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\FTFont.h">
       <Filter>gui</Filter>
@@ -911,6 +956,9 @@
     </Filter>
     <Filter Include="audio\dsound">
       <UniqueIdentifier>{47d36b3c-5ab6-4c63-b63b-f66cb5c9fa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="files\windows">
+      <UniqueIdentifier>{3b0f92fd-d1df-4929-a216-eb759a9b8a9b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

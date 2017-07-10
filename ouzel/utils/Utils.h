@@ -269,7 +269,8 @@ namespace ouzel
         buffer[0] = static_cast<uint8_t>(value);
     };
 
-    inline std::vector<uint32_t> utf8to32(const std::string& text)
+    template<class T>
+    inline std::vector<uint32_t> utf8to32(const T& text)
     {
         std::vector<uint32_t> result;
 

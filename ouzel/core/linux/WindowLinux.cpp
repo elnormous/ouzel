@@ -2,6 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include <memory>
+
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_OPENGL
+    #define GL_GLEXT_PROTOTYPES 1
+    #include <GL/glx.h>
+#endif
+
 #include "WindowLinux.h"
 #include "core/Application.h"
 #include "core/Engine.h"
@@ -45,72 +53,95 @@ namespace ouzel
             return false;
         }
 
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        // open a connection to the X server
+        display = XOpenDisplay(nullptr);
+
+        if (!display)
         {
-            // open a connection to the X server
-            display = XOpenDisplay(nullptr);
+            Log(Log::Level::ERR) << "Failed to open display";
+            return false;
+        }
 
-            if (!display)
+        Screen* screen = XDefaultScreenOfDisplay(display);
+        int screenIndex = XScreenNumberOfScreen(screen);
+
+        if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
+        if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
+
+        switch(sharedEngine->getRenderer()->getDriver())
+        {
+            case graphics::Renderer::Driver::EMPTY:
             {
-                Log(Log::Level::ERR) << "Failed to open display";
+                XSetWindowAttributes swa;
+                swa.background_pixel = XWhitePixel(display, screenIndex);
+                swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+
+                window = XCreateWindow(display, RootWindow(display, screenIndex), 0, 0,
+                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
+                                       0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
+                                       CWBackPixel | CWEventMask, &swa);
+
+                break;
+            }
+#if OUZEL_SUPPORTS_OPENGL
+            case graphics::Renderer::Driver::OPENGL:
+            {
+                // find an OpenGL-capable RGB visual
+                static int doubleBuffer[] = {
+                    GLX_RGBA,
+                    GLX_RED_SIZE, 8,
+                    GLX_GREEN_SIZE, 8,
+                    GLX_BLUE_SIZE, 8,
+                    GLX_DEPTH_SIZE, depth ? 24 : 0,
+                    GLX_DOUBLEBUFFER,
+                    None
+                };
+
+                visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
+                if (!visualInfo)
+                {
+                    Log(Log::Level::ERR) << "Failed to choose visual";
+                    return false;
+                }
+                if (visualInfo->c_class != TrueColor)
+                {
+                    Log(Log::Level::ERR) << "TrueColor visual required for this program";
+                    return false;
+                }
+
+                // create an X colormap since probably not using default visual
+                Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
+                XSetWindowAttributes swa;
+                swa.colormap = cmap;
+                swa.border_pixel = 0;
+                swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+
+                window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
+                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
+                                       0, visualInfo->depth, InputOutput, visualInfo->visual,
+                                       CWBorderPixel | CWColormap | CWEventMask, &swa);
+                break;
+            }
+#endif
+            default:
+                Log(Log::Level::ERR) << "Unsupported render driver";
                 return false;
-            }
+        }
 
-            // find an OpenGL-capable RGB visual
-            static int doubleBuffer[] = {
-                GLX_RGBA,
-                GLX_RED_SIZE, 8,
-                GLX_GREEN_SIZE, 8,
-                GLX_BLUE_SIZE, 8,
-                GLX_DEPTH_SIZE, depth ? 24 : 0,
-                GLX_DOUBLEBUFFER,
-                None
-            };
+        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
 
-            Screen* screen = XDefaultScreenOfDisplay(display);
-            int screenIndex = XScreenNumberOfScreen(screen);
+        // request the X window to be displayed on the screen
+        XMapWindow(display, window);
 
-            visualInfo = glXChooseVisual(display, screenIndex, doubleBuffer);
-            if (!visualInfo)
-            {
-                Log(Log::Level::ERR) << "Failed to choose visual";
-                return false;
-            }
-            if (visualInfo->c_class != TrueColor)
-            {
-                Log(Log::Level::ERR) << "TrueColor visual required for this program";
-                return false;
-            }
+        deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+        XSetWMProtocols(display, window, &deleteMessage, 1);
+        protocols = XInternAtom(display, "WM_PROTOCOLS", False);
+        state = XInternAtom(display, "_NET_WM_STATE", False);
+        stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
 
-            // create an X colormap since probably not using default visual
-            Colormap cmap = XCreateColormap(display, RootWindow(display, visualInfo->screen), visualInfo->visual, AllocNone);
-            XSetWindowAttributes swa;
-            swa.colormap = cmap;
-            swa.border_pixel = 0;
-            swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
-
-            if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
-            if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
-
-            window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
-                                   static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
-                                   0, visualInfo->depth, InputOutput, visualInfo->visual,
-                                   CWBorderPixel | CWColormap | CWEventMask, &swa);
-            XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
-
-            // request the X window to be displayed on the screen
-            XMapWindow(display, window);
-
-            deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
-            XSetWMProtocols(display, window, &deleteMessage, 1);
-            protocols = XInternAtom(display, "WM_PROTOCOLS", False);
-            state = XInternAtom(display, "_NET_WM_STATE", False);
-            stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
-
-            if (fullscreen)
-            {
-                toggleFullscreen();
-            }
+        if (fullscreen)
+        {
+            toggleFullscreen();
         }
 
         return true;

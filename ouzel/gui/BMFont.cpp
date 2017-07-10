@@ -7,7 +7,6 @@
 #include <iterator>
 #include "BMFont.h"
 #include "core/Engine.h"
-#include "core/Application.h"
 #include "files/FileSystem.h"
 #include "graphics/Vertex.h"
 #include "core/Cache.h"
@@ -32,7 +31,7 @@ namespace ouzel
     bool BMFont::parseFont(const std::string& filename)
     {
         std::vector<uint8_t> data;
-        if (!sharedApplication->getFileSystem()->readFile(filename, data))
+        if (!sharedEngine->getFileSystem()->readFile(filename, data))
         {
             return false;
         }
@@ -252,22 +251,19 @@ namespace ouzel
                 Vector2 rightBottom((f.x + f.width) / static_cast<float>(width),
                                     (f.y + f.height) / static_cast<float>(height));
 
-                textCoords[0] = Vector2(leftTop.v[0], leftTop.v[1]);
-                textCoords[1] = Vector2(rightBottom.v[0], leftTop.v[1]);
-                textCoords[2] = Vector2(leftTop.v[0], rightBottom.v[1]);
-                textCoords[3] = Vector2(rightBottom.v[0], rightBottom.v[1]);
-
-                vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0f),
-                                             color, textCoords[0]));
-
-                vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0f),
-                                             color, textCoords[1]));
+                textCoords[0] = Vector2(leftTop.v[0], rightBottom.v[1]);
+                textCoords[1] = Vector2(rightBottom.v[0], rightBottom.v[1]);
+                textCoords[2] = Vector2(leftTop.v[0], leftTop.v[1]);
+                textCoords[3] = Vector2(rightBottom.v[0], leftTop.v[1]);
 
                 vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0f),
-                                             color, textCoords[2]));
-
+                                                       color, textCoords[0]));
                 vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0f),
-                                             color, textCoords[3]));
+                                                       color, textCoords[1]));
+                vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0f),
+                                                       color, textCoords[2]));
+                vertices.push_back(graphics::VertexPCT(Vector3(position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0f),
+                                                       color, textCoords[3]));
 
                 if ((i + 1) != utf32Text.end())
                 {

@@ -38,6 +38,13 @@ namespace ouzel
         sharedApplication = nullptr;
     }
 
+    bool Application::init()
+    {
+        engine.init();
+
+        return true;
+    }
+
     int Application::run()
     {
         return EXIT_SUCCESS;

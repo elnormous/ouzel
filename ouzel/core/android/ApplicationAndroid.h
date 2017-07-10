@@ -7,6 +7,7 @@
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+#include <android/looper.h>
 #include "core/Application.h"
 
 namespace ouzel
@@ -17,9 +18,7 @@ namespace ouzel
         ApplicationAndroid(JavaVM* aJavaVM);
         virtual ~ApplicationAndroid();
 
-        void setMainActivity(jobject aMainActivity);
-        void setWindow(jobject aWindow);
-        void setAssetManager(jobject aAssetManager);
+        void onCreate(jobject aMainActivity);
         void setSurface(jobject aSurface);
 
         virtual int run() override;
@@ -33,6 +32,11 @@ namespace ouzel
         jobject getMainActivity() const { return mainActivity; }
         jobject getSurface() const { return surface; }
         AAssetManager* getAssetManager() const { return assetManager; }
+
+        const std::string& getFilesDirectory() const { return filesDirectory; }
+        const std::string& getCacheDirectory() const { return cacheDirectory; }
+
+        void executeAll();
 
     private:
         void update();
@@ -49,7 +53,15 @@ namespace ouzel
         jobject window = nullptr;
         jmethodID addFlagsMethod = nullptr;
         jmethodID clearFlagsMethod = nullptr;
+        ALooper* looper = nullptr;
+        int fd[2];
+
+        std::string filesDirectory;
+        std::string cacheDirectory;
 
         std::thread updateThread;
+
+        std::queue<std::function<void(void)>> executeQueue;
+        std::mutex executeMutex;
     };
 }

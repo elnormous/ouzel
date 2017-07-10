@@ -14,29 +14,20 @@ SoundSample::SoundSample()
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    std::shared_ptr<audio::SoundDataWave> test8BitData(new audio::SoundDataWave());
-    test8BitData->initFromFile("8-bit.wav");
-
     test8BitSound.reset(new audio::Sound());
-    test8BitSound->init(test8BitData);
-
-    std::shared_ptr<audio::SoundDataWave> test24BitData(new audio::SoundDataWave());
-    test24BitData->initFromFile("24-bit.wav");
+    test8BitSound->init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
 
     test24BitSound.reset(new audio::Sound());
-    test24BitSound->init(test24BitData);
-
-    std::shared_ptr<audio::SoundDataWave> jumpData(new audio::SoundDataWave());
-    jumpData->initFromFile("jump.wav");
+    test24BitSound->init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
 
     jumpSound.reset(new audio::Sound());
-    jumpSound->init(jumpData);
-
-    std::shared_ptr<audio::SoundDataWave> ambientData(new audio::SoundDataWave());
-    ambientData->initFromFile("ambient.wav");
+    jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
 
     ambientSound.reset(new audio::Sound());
-    ambientSound->init(ambientData);
+    ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"), true);
+
+    music.reset(new audio::Sound());
+    music->init(sharedEngine->getCache()->getSoundData("music.ogg"), true);
 
     guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -64,6 +55,10 @@ SoundSample::SoundSample()
     ambientButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     menu->addWidget(ambientButton.get());
+
+    musicButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    musicButton->setPosition(Vector2(0.0f, -80.0f));
+    menu->addWidget(musicButton.get());
 
     backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
@@ -107,6 +102,10 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
         else if (event.node == ambientButton.get())
         {
             ambientSound->play();
+        }
+        else if (event.node == musicButton.get())
+        {
+            music->play();
         }
     }
 

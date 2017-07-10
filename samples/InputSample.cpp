@@ -29,7 +29,7 @@ InputSample::InputSample()
     addLayer(layer.get());
 
     flameParticleSystem.reset(new scene::ParticleSystem());
-    flameParticleSystem->initFromFile("flame.json");
+    flameParticleSystem->init("flame.json");
 
     flame.reset(new scene::Node());
     flame->addComponent(flameParticleSystem.get());

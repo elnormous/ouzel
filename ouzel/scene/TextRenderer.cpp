@@ -17,6 +17,7 @@ namespace ouzel
                                    const std::string& aText,
                                    Color aColor,
                                    const Vector2& aTextAnchor):
+            Component(TYPE),
             text(aText),
             textAnchor(aTextAnchor),
             color(aColor),
@@ -40,12 +41,13 @@ namespace ouzel
 
             updateText();
         }
-		TextRenderer::TextRenderer(const std::string& fontFile,
-								   int16_t pt,
+        TextRenderer::TextRenderer(const std::string& fontFile,
+                                   int16_t pt,
                                    bool aMipmaps,
                                    const std::string& aText,
                                    Color aColor,
                                    const Vector2& aTextAnchor):
+            Component(TYPE),
             text(aText),
             textAnchor(aTextAnchor),
             color(aColor),
@@ -63,25 +65,25 @@ namespace ouzel
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
-			font = sharedEngine->getCache()->getFTFont(fontFile, pt);
+            font = sharedEngine->getCache()->getFTFont(fontFile, pt);
 
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
             updateText();
         }
 
-		void TextRenderer::setFont(const std::string& fontFile, int16_t pt)
-		{
-			if (pt == 0)
-			{
-				font = sharedEngine->getCache()->getBMFont(fontFile);
-				texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
-			}
-			else
-			{
-				font = sharedEngine->getCache()->getFTFont(fontFile, pt);
-				texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
-			}
+        void TextRenderer::setFont(const std::string& fontFile, int16_t pt)
+        {
+            if (pt == 0)
+            {
+                font = sharedEngine->getCache()->getBMFont(fontFile);
+                texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+            }
+            else
+            {
+                font = sharedEngine->getCache()->getFTFont(fontFile, pt);
+                texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
+            }
 
             updateText();
         }
@@ -154,7 +156,8 @@ namespace ouzel
                                                         depthTest,
                                                         wireframe,
                                                         scissorTest,
-                                                        scissorRectangle);
+                                                        scissorRectangle,
+                                                        graphics::Renderer::CullMode::NONE);
         }
 
         void TextRenderer::setText(const std::string& newText)

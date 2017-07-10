@@ -17,6 +17,7 @@ private:
     std::unique_ptr<ouzel::audio::Sound> test24BitSound;
     std::unique_ptr<ouzel::audio::Sound> jumpSound;
     std::unique_ptr<ouzel::audio::Sound> ambientSound;
+    std::unique_ptr<ouzel::audio::Sound> music;
 
     std::unique_ptr<ouzel::scene::Layer> guiLayer;
     std::unique_ptr<ouzel::scene::Camera> guiCamera;
@@ -27,6 +28,7 @@ private:
     std::unique_ptr<ouzel::gui::Button> test24BitButton;
     std::unique_ptr<ouzel::gui::Button> jumpButton;
     std::unique_ptr<ouzel::gui::Button> ambientButton;
+    std::unique_ptr<ouzel::gui::Button> musicButton;
 
     ouzel::EventHandler eventHandler;
 };

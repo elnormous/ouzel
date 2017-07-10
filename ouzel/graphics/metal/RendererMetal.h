@@ -3,7 +3,12 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #include <map>
+#include <vector>
 #include <dispatch/dispatch.h>
 
 #if defined(__OBJC__)
@@ -17,8 +22,6 @@ typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLCommandQueue> MTLCommandQueuePtr;
 typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
-typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
-typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
 typedef id<MTLTexture> MTLTexturePtr;
 typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
@@ -32,8 +35,6 @@ typedef id MTLRenderPassDescriptorPtr;
 typedef id MTLSamplerStatePtr;
 typedef id MTLCommandQueuePtr;
 typedef id MTLRenderPipelineStatePtr;
-typedef id MTLCommandBufferPtr;
-typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
 typedef NSUInteger MTLPixelFormat;
@@ -153,3 +154,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

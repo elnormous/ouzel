@@ -12,19 +12,16 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-
         class SoundDataWave: public SoundData
         {
-            friend Audio;
         public:
             SoundDataWave();
-            virtual ~SoundDataWave();
 
-            virtual bool initFromFile(const std::string& newFilename);
-            virtual bool initFromBuffer(const std::vector<uint8_t>& newData);
+            virtual bool init(const std::string& newFilename) override;
+            virtual bool init(const std::vector<uint8_t>& newData) override;
 
-            virtual const std::vector<uint8_t>& getData();
+            virtual std::unique_ptr<Stream> createStream() override;
+            virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) override;
 
         protected:
             std::string filename;

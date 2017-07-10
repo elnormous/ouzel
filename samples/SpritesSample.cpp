@@ -25,7 +25,7 @@ SpritesSample::SpritesSample():
 
     // character
     characterSprite.reset(new scene::Sprite());
-    characterSprite->initFromFile("run.json");
+    characterSprite->init("run.json");
     characterSprite->play(true);
 
     character.reset(new scene::Node());
@@ -39,7 +39,7 @@ SpritesSample::SpritesSample():
 
     // fire
     fireSprite.reset(new scene::Sprite());
-    fireSprite->initFromFile("fire.json");
+    fireSprite->init("fire.json");
     fireSprite->setOffset(Vector2(0.0f, 20.0f));
     fireSprite->play(true);
 
@@ -50,7 +50,7 @@ SpritesSample::SpritesSample():
 
     // triangle
     triangleSprite.reset(new scene::Sprite());
-    triangleSprite->initFromFile("triangle.json");
+    triangleSprite->init("triangle.json");
 
     triangleNode.reset(new scene::Node());
     triangleNode->addComponent(triangleSprite.get());

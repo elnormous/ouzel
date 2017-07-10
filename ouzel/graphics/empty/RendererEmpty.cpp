@@ -42,21 +42,21 @@ namespace ouzel
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
 
-            textureShader->initFromBuffers({},
-                                           {},
-                                           VertexPCT::ATTRIBUTES,
-                                           {{"color", DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            textureShader->init(std::vector<uint8_t>(),
+                                std::vector<uint8_t>(),
+                                VertexPCT::ATTRIBUTES,
+                                {{"color", DataType::FLOAT_VECTOR4}},
+                                {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
 
-            colorShader->initFromBuffers({},
-                                         {},
-                                         VertexPC::ATTRIBUTES,
-                                         {{"color", DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            colorShader->init(std::vector<uint8_t>(),
+                              std::vector<uint8_t>(),
+                              VertexPC::ATTRIBUTES,
+                              {{"color", DataType::FLOAT_VECTOR4}},
+                              {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -101,7 +101,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;

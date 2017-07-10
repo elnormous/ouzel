@@ -25,6 +25,8 @@ namespace ouzel
         class ParticleSystem: public Component
         {
         public:
+            static const uint32_t TYPE = Component::PARTICLE_SYSTEM;
+
             ParticleSystem();
             ParticleSystem(const std::string& filename);
 
@@ -41,8 +43,8 @@ namespace ouzel
 
             virtual void update(float delta);
 
-            bool initFromParticleDefinition(const ParticleDefinition& newParticleDefinition);
-            bool initFromFile(const std::string& filename);
+            bool init(const ParticleDefinition& newParticleDefinition);
+            bool init(const std::string& filename);
 
             void resume();
             void stop();

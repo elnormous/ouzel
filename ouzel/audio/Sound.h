@@ -21,7 +21,7 @@ namespace ouzel
             Sound();
             virtual ~Sound();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool newStreaming = false);
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 

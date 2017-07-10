@@ -14,6 +14,13 @@
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
 
+#if !defined(MAC_OS_X_VERSION_10_12) || MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_12
+enum
+{
+    kVK_RightCommand = 0x36
+};
+#endif
+
 static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {
     ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
@@ -73,11 +80,14 @@ namespace ouzel
                 case kVK_Tab: return KeyboardKey::TAB;
                 case kVK_Return: return KeyboardKey::RETURN;
                 case kVK_Escape: return KeyboardKey::ESCAPE;
-                case kVK_Control: return KeyboardKey::CONTROL;
+                case kVK_Control: return KeyboardKey::LCONTROL;
                 case kVK_RightControl: return KeyboardKey::RCONTROL;
                 case kVK_Command: return KeyboardKey::LSUPER;
-                case kVK_Shift: return KeyboardKey::SHIFT;
+                case kVK_RightCommand: return KeyboardKey::RSUPER;
+                case kVK_Shift: return KeyboardKey::LSHIFT;
                 case kVK_RightShift: return KeyboardKey::RSHIFT;
+                case kVK_Option: return KeyboardKey::LALT;
+                case kVK_RightOption: return KeyboardKey::RALT;
                 case kVK_Space: return KeyboardKey::SPACE;
 
                 case kVK_ANSI_A: return KeyboardKey::KEY_A;
@@ -149,6 +159,23 @@ namespace ouzel
                 case kVK_ANSI_Backslash: return KeyboardKey::BACKSLASH;
                 case kVK_ANSI_RightBracket: return KeyboardKey::BRACKET_RIGHT;
                 default: return KeyboardKey::NONE;
+            }
+        }
+
+        NSUInteger InputMacOS::getKeyMask(unsigned short keyCode)
+        {
+            switch (keyCode)
+            {
+                case kVK_Control: return NX_DEVICELCTLKEYMASK;
+                case kVK_RightControl: return NX_DEVICERCTLKEYMASK;
+                case kVK_Command: return NX_DEVICELCMDKEYMASK;
+                case kVK_RightCommand: return NX_DEVICERCMDKEYMASK;
+                case kVK_Shift: return NX_DEVICELSHIFTKEYMASK;
+                case kVK_RightShift: return NX_DEVICERSHIFTKEYMASK;
+                case kVK_Option: return NX_DEVICELALTKEYMASK;
+                case kVK_RightOption: return NX_DEVICERALTKEYMASK;
+            default:
+                return 0;
             }
         }
 

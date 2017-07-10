@@ -18,5 +18,15 @@ namespace ouzel
         SoundData::~SoundData()
         {
         }
+
+        bool SoundData::init(const std::string&)
+        {
+            return true;
+        }
+
+        bool SoundData::init(const std::vector<uint8_t>&)
+        {
+            return true;
+        }
     } // namespace audio
 } // namespace ouzel

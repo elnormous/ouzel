@@ -34,8 +34,9 @@ AnimationsSample::AnimationsSample():
                           Vector2(100.0f, 0.0f)},
                          Color::YELLOW);
 
-    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
     shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
+    shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::WHITE, false);
+    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
 
     shapeDrawable->polygon({Vector2(15.0f, 75.0f),
                             Vector2(25.0f, 75.0f),
@@ -52,7 +53,7 @@ AnimationsSample::AnimationsSample():
     shake->start();
 
     witchSprite.reset(new scene::Sprite());
-    witchSprite->initFromFile("witch.png");
+    witchSprite->init("witch.png");
 
     witch.reset(new scene::Node());
     witch->setPosition(Vector2(200, 0.0f));
@@ -83,7 +84,7 @@ AnimationsSample::AnimationsSample():
     witchSequence->start();
 
     ballSprite.reset(new scene::Sprite());
-    ballSprite->initFromFile("ball.png");
+    ballSprite->init("ball.png");
 
     ball.reset(new scene::Node());
     ball->addComponent(ballSprite.get());

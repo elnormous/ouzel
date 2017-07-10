@@ -13,12 +13,15 @@
 #include "CompileConfig.h"
 #include "utils/Noncopyable.h"
 #include "core/UpdateCallback.h"
-#include "core/Settings.h"
 #include "core/Timer.h"
+#include "graphics/Renderer.h"
+#include "audio/Audio.h"
+#include "files/FileSystem.h"
 #include "events/EventDispatcher.h"
 #include "scene/SceneManager.h"
 #include "core/Cache.h"
 #include "localization/Localization.h"
+#include "utils/INI.h"
 
 void ouzelMain(const std::vector<std::string>& args);
 
@@ -36,8 +39,7 @@ namespace ouzel
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-        bool init(Settings& settings);
-
+        FileSystem* getFileSystem() { return fileSystem.get(); }
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
         Cache* getCache() { return &cache; }
@@ -47,6 +49,9 @@ namespace ouzel
         scene::SceneManager* getSceneManager() { return &sceneManager; }
         input::Input* getInput() const { return input.get(); }
         Localization* getLocalization() { return &localization; }
+
+        const INI& getDefaultSettings() const { return defaultSettings; }
+        const INI& getUserSettings() const { return userSettings; }
 
         void exit();
         void start();
@@ -64,8 +69,10 @@ namespace ouzel
 
     protected:
         Engine();
+        bool init();
         void run();
 
+        std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;
         Timer timer;
         std::unique_ptr<Window> window;
@@ -75,6 +82,9 @@ namespace ouzel
         Localization localization;
         Cache cache;
         scene::SceneManager sceneManager;
+
+        INI defaultSettings;
+        INI userSettings;
 
         std::chrono::steady_clock::time_point previousUpdateTime;
 

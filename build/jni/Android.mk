@@ -22,13 +22,17 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Sequence.cpp \
     ../../ouzel/animators/Shake.cpp \
     ../../ouzel/audio/empty/AudioEmpty.cpp \
-    ../../ouzel/audio/empty/SoundEmpty.cpp \
+    ../../ouzel/audio/empty/SoundResourceEmpty.cpp \
     ../../ouzel/audio/opensl/AudioSL.cpp \
-    ../../ouzel/audio/opensl/SoundSL.cpp \
+    ../../ouzel/audio/opensl/SoundResourceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
+    ../../ouzel/audio/SoundDataVorbis.cpp \
     ../../ouzel/audio/SoundDataWave.cpp \
+    ../../ouzel/audio/Stream.cpp \
+    ../../ouzel/audio/StreamVorbis.cpp \
+    ../../ouzel/audio/StreamWave.cpp \
     ../../ouzel/audio/SoundResource.cpp \
     ../../ouzel/core/android/ApplicationAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
@@ -41,6 +45,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
+    ../../ouzel/files/android/FileSystemAndroid.cpp \
     ../../ouzel/files/Archive.cpp \
     ../../ouzel/files/FileSystem.cpp \
     ../../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
@@ -124,6 +129,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Sprite.cpp \
     ../../ouzel/scene/SpriteFrame.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
+    ../../ouzel/utils/INI.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/OBF.cpp \
     ../../ouzel/utils/Utils.cpp

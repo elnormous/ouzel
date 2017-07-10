@@ -15,6 +15,7 @@ namespace ouzel
     {
         class Audio;
         class SoundData;
+        class Stream;
         
         class SoundResource: public Resource, public Noncopyable
         {
@@ -22,7 +23,7 @@ namespace ouzel
         public:
             virtual ~SoundResource();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData);
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool streaming);
 
             virtual void setPosition(const Vector3& newPosition);
             virtual void setPitch(float newPitch);
@@ -49,6 +50,7 @@ namespace ouzel
             uint32_t dirty = 0;
 
             std::shared_ptr<SoundData> soundData;
+            std::unique_ptr<Stream> stream;
             bool shouldPlay = false;
             bool repeat = false;
             bool reset = false;

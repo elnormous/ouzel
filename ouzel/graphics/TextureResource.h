@@ -32,11 +32,11 @@ namespace ouzel
                       uint32_t newSampleCount = 1,
                       bool newDepth = false,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool initFromBuffer(const std::vector<uint8_t>& newData,
-                                const Size2& newSize,
-                                bool newDynamic,
-                                bool newMipmaps = true,
-                                PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool init(const std::vector<uint8_t>& newData,
+                      const Size2& newSize,
+                      bool newDynamic,
+                      bool newMipmaps = true,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             bool setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }

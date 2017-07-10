@@ -347,6 +347,21 @@ namespace ouzel
             ownedComponents.clear();
         }
 
+        std::vector<Component*> Node::getComponents(uint32_t type) const
+        {
+            std::vector<Component*> result;
+
+            for (Component* component : components)
+            {
+                if (component->getType() == type)
+                {
+                    result.push_back(component);
+                }
+            }
+
+            return result;
+        }
+
         Box3 Node::getBoundingBox() const
         {
             Box3 boundingBox;

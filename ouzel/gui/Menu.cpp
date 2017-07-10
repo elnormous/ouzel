@@ -74,21 +74,24 @@ namespace ouzel
 
         bool Menu::removeChildNode(Node* node)
         {
-            if (!Node::removeChildNode(node))
-            {
-                return false;
-            }
-
             auto i = std::find(widgets.begin(), widgets.end(), node);
 
             if (i != widgets.end())
             {
                 widgets.erase(i);
+
+                Widget* widget = static_cast<Widget*>(node);
+                widget->menu = nullptr;
             }
 
             if (selectedWidget == node)
             {
                 selectWidget(nullptr);
+            }
+
+            if (!Node::removeChildNode(node))
+            {
+                return false;
             }
 
             return true;

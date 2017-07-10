@@ -19,11 +19,11 @@ namespace ouzel
             if (sharedEngine) sharedEngine->getAudio()->deleteResource(resource);
         }
 
-        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
+        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool newStreaming)
         {
             soundData = newSoundData;
             
-            return resource->init(newSoundData);
+            return resource->init(newSoundData, newStreaming);
         }
 
         void Sound::setPosition(const Vector3& newPosition)

@@ -4,9 +4,9 @@
 #pragma once
 
 #include <cstdint>
-#define GL_GLEXT_PROTOTYPES 1
-#include <GL/glx.h>
-#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
 #include "core/Window.h"
 
 namespace ouzel

@@ -16,7 +16,7 @@
 
 -(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
-    ouzelMain(ouzel::sharedApplication->getArgs());
+    ouzel::sharedApplication->init();
 }
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification

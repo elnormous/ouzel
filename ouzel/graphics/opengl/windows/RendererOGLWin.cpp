@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
+
 #include <string.h>
 #define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"
@@ -251,17 +255,29 @@ namespace ouzel
 
             if (wglCreateContextAttribsProc)
             {
-                std::vector<int> contextAttribs;
-                
-                if (newDebugRenderer)
+                for (int openGLVersion = 4; openGLVersion >= 2; --openGLVersion)
                 {
-                    contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
-                    contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
+                    std::vector<int> contextAttribs = {
+                        WGL_CONTEXT_MAJOR_VERSION_ARB, openGLVersion,
+                        WGL_CONTEXT_MINOR_VERSION_ARB, 0,
+                    };
+
+                    if (newDebugRenderer)
+                    {
+                        contextAttribs.push_back(WGL_CONTEXT_FLAGS_ARB);
+                        contextAttribs.push_back(WGL_CONTEXT_DEBUG_BIT_ARB);
+                    }
+
+                    contextAttribs.push_back(0);
+
+                    renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
+
+                    if (renderContext)
+                    {
+                        Log(Log::Level::INFO) << "OpenGL " << openGLVersion << " context created";
+                        break;
+                    }
                 }
-
-                contextAttribs.push_back(0);
-
-                renderContext = wglCreateContextAttribsProc(deviceContext, 0, contextAttribs.data());
             }
             else
             {
@@ -308,7 +324,8 @@ namespace ouzel
             apiMajorVersion = static_cast<uint16_t>(stoi(majorVersion));
             apiMinorVersion = static_cast<uint16_t>(stoi(minorVersion));
 
-            if (apiMajorVersion < 2)
+            if (apiMajorVersion < 2 ||
+                apiMajorVersion > 4)
             {
                 Log(Log::Level::ERR) << "Unsupported OpenGL version";
                 return false;
@@ -347,3 +364,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

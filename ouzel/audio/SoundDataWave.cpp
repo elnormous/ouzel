@@ -2,7 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundDataWave.h"
-#include "core/Application.h"
+#include "StreamWave.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 #include "utils/Utils.h"
@@ -15,24 +16,20 @@ namespace ouzel
         {
         }
 
-        SoundDataWave::~SoundDataWave()
-        {
-        }
-
-        bool SoundDataWave::initFromFile(const std::string& newFilename)
+        bool SoundDataWave::init(const std::string& newFilename)
         {
             filename = newFilename;
 
             std::vector<uint8_t> newData;
-            if (!sharedApplication->getFileSystem()->readFile(newFilename, newData))
+            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
             {
                 return false;
             }
 
-            return initFromBuffer(newData);
+            return init(newData);
         }
 
-        bool SoundDataWave::initFromBuffer(const std::vector<uint8_t>& newData)
+        bool SoundDataWave::init(const std::vector<uint8_t>& newData)
         {
             uint32_t offset = 0;
 
@@ -114,7 +111,7 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    formatTag = decodeUInt16Little(newData.data() + i);
+                    uint16_t formatTag = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
                     if (formatTag != 1)
@@ -201,9 +198,47 @@ namespace ouzel
             return true;
         }
 
-        const std::vector<uint8_t>& SoundDataWave::getData()
+        std::unique_ptr<Stream> SoundDataWave::createStream()
         {
-            return data;
+            std::unique_ptr<Stream> stream(new StreamWave());
+
+            return stream;
+        }
+
+        std::vector<uint8_t> SoundDataWave::getData(Stream* stream, uint32_t size)
+        {
+            if (!stream)
+            {
+                return data;
+            }
+            else
+            {
+                StreamWave* streamWave = static_cast<StreamWave*>(stream);
+
+                std::vector<uint8_t> result;
+
+                uint32_t offset = streamWave->getOffset();
+                uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
+
+                if (remainingSize < size)
+                {
+                    result.reserve(remainingSize);
+
+                    std::copy(data.begin() + offset, data.end(), std::back_inserter(result));
+
+                    streamWave->setOffset(offset + remainingSize);
+                }
+                else
+                {
+                    result.reserve(size);
+
+                    std::copy(data.begin() + offset, data.begin() + offset + size, std::back_inserter(result));
+
+                    streamWave->setOffset(offset + size);
+                }
+
+                return result;
+            }
         }
     } // namespace audio
 } // namespace ouzel

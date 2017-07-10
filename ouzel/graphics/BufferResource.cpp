@@ -27,7 +27,7 @@ namespace ouzel
             return true;
         }
 
-        bool BufferResource::initFromBuffer(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        bool BufferResource::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 

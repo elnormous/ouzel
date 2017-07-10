@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "SoundResource.h"
+#include "SoundData.h"
+#include "Stream.h"
 
 namespace ouzel
 {
@@ -15,11 +17,16 @@ namespace ouzel
         {
         }
 
-        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
+        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool streaming)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             soundData = newSoundData;
+
+            if (streaming && soundData)
+            {
+                stream = soundData->createStream();
+            }
 
             dirty |= DIRTY_SOUND_DATA | DIRTY_POSITION | DIRTY_PITCH | DIRTY_GAIN | DIRTY_PLAY_STATE;
 

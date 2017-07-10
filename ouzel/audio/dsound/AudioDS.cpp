@@ -1,8 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECTSOUND
+
 #include "AudioDS.h"
-#include "SoundDS.h"
+#include "SoundResourceDS.h"
 #include "core/Engine.h"
 #include "core/windows/WindowWin.h"
 #include "utils/Log.h"
@@ -125,9 +129,11 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundDS();
+            SoundResource* sound = new SoundResourceDS();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif

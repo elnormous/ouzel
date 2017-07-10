@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -12,6 +13,7 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class Stream;
 
         class SoundData
         {
@@ -20,18 +22,18 @@ namespace ouzel
             SoundData();
             virtual ~SoundData();
 
-            virtual const std::vector<uint8_t>& getData() = 0;
+            virtual bool init(const std::string& newFilename);
+            virtual bool init(const std::vector<uint8_t>& newData);
 
-            uint16_t getFormatTag() const { return formatTag; }
+            virtual std::unique_ptr<Stream> createStream() = 0;
+            virtual std::vector<uint8_t> getData(Stream* stream = nullptr, uint32_t size = 0) = 0;
+
             uint16_t getChannels() const { return channels; }
             uint32_t getSamplesPerSecond() const { return samplesPerSecond; }
-            bool isStream() const { return stream; }
 
         protected:
-            uint16_t formatTag = 0;
             uint16_t channels = 0;
             uint32_t samplesPerSecond = 0;
-            bool stream = false;
         };
     } // namespace audio
 } // namespace ouzel

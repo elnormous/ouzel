@@ -160,13 +160,17 @@ namespace ouzel
             case graphics::Renderer::Driver::EMPTY:
                 view = [[NSView alloc] initWithFrame:windowFrame];
                 break;
+#if OUZEL_SUPPORTS_OPENGL
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 [view setWantsBestResolutionOpenGLSurface:highDpi ? YES : NO];
                 break;
+#endif
+#if OUZEL_SUPPORTS_METAL
             case graphics::Renderer::Driver::METAL:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;
+#endif
             default:
                 Log(Log::Level::ERR) << "Unsupported render driver";
                 return false;

@@ -6,7 +6,6 @@
 #include <rapidjson/document.h>
 #include "SpriteFrame.h"
 #include "core/Engine.h"
-#include "core/Application.h"
 #include "core/Cache.h"
 #include "files/FileSystem.h"
 #include "graphics/TextureResource.h"
@@ -23,7 +22,7 @@ namespace ouzel
             std::vector<SpriteFrame> frames;
 
             std::vector<uint8_t> data;
-            if (!sharedApplication->getFileSystem()->readFile(filename, data))
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
             {
                 return frames;
             }
@@ -184,10 +183,10 @@ namespace ouzel
                                   sourceSize.v[0], sourceSize.v[1]);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
@@ -215,10 +214,10 @@ namespace ouzel
                                   sourceSize.v[0], sourceSize.v[1]);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->initFromBuffer(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), false);
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->initFromBuffer(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), true);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);

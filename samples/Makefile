@@ -33,7 +33,7 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenGL \
 	-framework QuartzCore
 else ifeq ($(platform),emscripten)
-	LDFLAGS+=--embed-file Resources -s TOTAL_MEMORY=33554432
+	LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=33554432
 endif
 SOURCES=AnimationsSample.cpp \
 	GameSample.cpp \
@@ -71,6 +71,7 @@ bundle:
 	mkdir -p $(EXECUTABLE).app/Contents/MacOS
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
+	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
 	cp -f macos/app/AppIcon.icns $(EXECUTABLE).app/Contents/Resources
 endif

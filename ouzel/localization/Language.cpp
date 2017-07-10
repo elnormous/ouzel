@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Language.h"
-#include "core/Application.h"
+#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
@@ -18,17 +18,22 @@ namespace ouzel
         uint32_t translationOffset;
     };
 
-    bool Language::initFromFile(const std::string& filename)
+    bool Language::init(const std::string& filename)
     {
-        const unsigned long MAGIC_BIG = 0xde120495;
-        const unsigned long MAGIC_LITTLE = 0x950412de;
-
         std::vector<uint8_t> data;
 
-        if (!sharedApplication->getFileSystem()->readFile(filename, data))
+        if (!sharedEngine->getFileSystem()->readFile(filename, data))
         {
             return false;
         }
+
+        return init(data);
+    }
+
+    bool Language::init(const std::vector<uint8_t>& data)
+    {
+        const unsigned long MAGIC_BIG = 0xde120495;
+        const unsigned long MAGIC_LITTLE = 0x950412de;
 
         uint32_t offset = 0;
 
@@ -37,7 +42,7 @@ namespace ouzel
             return false;
         }
 
-        uint32_t magic = *reinterpret_cast<uint32_t*>(data.data() + offset);
+        uint32_t magic = *reinterpret_cast<const uint32_t*>(data.data() + offset);
         offset += sizeof(magic);
 
         uint32_t (*decodeUInt32)(const uint8_t*) = nullptr;
@@ -116,9 +121,9 @@ namespace ouzel
                 return false;
             }
 
-            std::string str(reinterpret_cast<char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
-            std::string translation(reinterpret_cast<char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
-
+            std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
+            std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
+            
             strings[str] = translation;
         }
 

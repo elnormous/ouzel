@@ -3,6 +3,10 @@
 
 #pragma once
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+
 #include <atomic>
 #include <map>
 #include <d3d11.h>
@@ -70,7 +74,7 @@ namespace ouzel
             ID3D11Texture2D* backBuffer = nullptr;
             ID3D11RenderTargetView* renderTargetView = nullptr;
             std::map<SamplerStateDesc, ID3D11SamplerState*> samplerStates;
-            ID3D11RasterizerState* rasterizerStates[4];
+            ID3D11RasterizerState* rasterizerStates[12];
             ID3D11Texture2D* depthStencilTexture = nullptr;
             ID3D11DepthStencilView* depthStencilView = nullptr;
             ID3D11DepthStencilState* depthStencilStates[4];
@@ -85,3 +89,5 @@ namespace ouzel
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

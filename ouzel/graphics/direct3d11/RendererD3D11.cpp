@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+
 #include "RendererD3D11.h"
 #include "BlendStateResourceD3D11.h"
 #include "TextureResourceD3D11.h"
@@ -36,11 +40,11 @@ namespace ouzel
             resourceDeleteSet.clear();
             resources.clear();
 
-            for (uint32_t state = 0; state < 4; ++state)
+            for (ID3D11DepthStencilState* depthStencilState : depthStencilStates)
             {
-                if (depthStencilStates[state])
+                if (depthStencilState)
                 {
-                    depthStencilStates[state]->Release();
+                    depthStencilState->Release();
                 }
             }
 
@@ -54,11 +58,11 @@ namespace ouzel
                 depthStencilTexture->Release();
             }
 
-            for (uint32_t i = 0; i < 4; ++i)
+            for (ID3D11RasterizerState* rasterizerState : rasterizerStates)
             {
-                if (rasterizerStates[i])
+                if (rasterizerState)
                 {
-                    rasterizerStates[i]->Release();
+                    rasterizerState->Release();
                 }
             }
 
@@ -240,55 +244,74 @@ namespace ouzel
 
             // Rasterizer state
             D3D11_RASTERIZER_DESC rasterStateDesc;
-            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
-            rasterStateDesc.CullMode = D3D11_CULL_NONE;
             rasterStateDesc.FrontCounterClockwise = FALSE;
             rasterStateDesc.DepthBias = 0;
             rasterStateDesc.DepthBiasClamp = 0;
             rasterStateDesc.SlopeScaledDepthBias = 0;
             rasterStateDesc.DepthClipEnable = TRUE;
-            rasterStateDesc.ScissorEnable = FALSE;
             rasterStateDesc.MultisampleEnable = (sampleCount > 1) ? TRUE : FALSE;
             rasterStateDesc.AntialiasedLineEnable = TRUE;
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[0]);
-            if (FAILED(hr))
+            uint32_t rasterStateIndex = 0;
+
+            for (uint32_t fillMode = 0; fillMode < 2; ++fillMode)
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
+                for (uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
+                {
+                    for (uint32_t cullMode = 0; cullMode < 3; ++cullMode)
+                    {
+                        rasterStateDesc.FillMode = (fillMode == 0) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
+                        rasterStateDesc.ScissorEnable = (scissorEnable == 0) ? FALSE : TRUE;
+                        switch (cullMode)
+                        {
+                            case 0: rasterStateDesc.CullMode = D3D11_CULL_NONE; break;
+                            case 1: rasterStateDesc.CullMode = D3D11_CULL_FRONT; break;
+                            case 2: rasterStateDesc.CullMode = D3D11_CULL_BACK; break;
+                        }
+
+                        hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[rasterStateIndex]);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
+                            return false;
+                        }
+
+                        ++rasterStateIndex;
+                    }
+                }
             }
 
-            // wireframe
-            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
-            rasterStateDesc.ScissorEnable = FALSE;
+            uint32_t depthStencilStateIndex = 0;
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[1]);
-            if (FAILED(hr))
+            for (uint32_t depthEnable = 0; depthEnable < 2; ++depthEnable)
             {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
-            }
+                for (uint32_t depthWriteMask = 0; depthWriteMask < 2; ++depthWriteMask)
+                {
+                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
+                    depthStencilStateDesc.DepthEnable = (depthEnable == 0) ? FALSE : TRUE;
+                    depthStencilStateDesc.DepthWriteMask = (depthWriteMask == 0) ? D3D11_DEPTH_WRITE_MASK_ZERO : D3D11_DEPTH_WRITE_MASK_ALL;
+                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+                    depthStencilStateDesc.StencilEnable = FALSE;
+                    depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+                    depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+                    depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+                    depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+                    depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 
-            // scissor test
-            rasterStateDesc.FillMode = D3D11_FILL_SOLID;
-            rasterStateDesc.ScissorEnable = TRUE;
+                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[depthStencilStateIndex]);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
+                        return false;
+                    }
 
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[2]);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
-            }
-
-            // wireframe and scissor test
-            rasterStateDesc.FillMode = D3D11_FILL_WIREFRAME;
-            rasterStateDesc.ScissorEnable = TRUE;
-
-            hr = device->CreateRasterizerState(&rasterStateDesc, &rasterizerStates[3]);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to create Direct3D 11 rasterizer state, error: " << hr;
-                return false;
+                    ++depthStencilStateIndex;
+                }
             }
 
             if (depth)
@@ -318,49 +341,23 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
                     return false;
                 }
-
-                for (uint32_t state = 0; state < 4; ++state)
-                {
-                    D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
-                    depthStencilStateDesc.DepthEnable = (state & 0x01) ? TRUE : FALSE;
-                    depthStencilStateDesc.DepthWriteMask = (state & 0x02) ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-                    depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-                    depthStencilStateDesc.StencilEnable = FALSE;
-                    depthStencilStateDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-                    depthStencilStateDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-                    depthStencilStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-                    depthStencilStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-                    depthStencilStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-
-                    hr = device->CreateDepthStencilState(&depthStencilStateDesc, &depthStencilStates[state]);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil state, error: " << hr;
-                        return false;
-                    }
-                }
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
-            textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
-                                           std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                           VertexPCT::ATTRIBUTES,
-                                           {{"color", DataType::FLOAT_VECTOR4}},
-                                           {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
+                                std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
+                                VertexPCT::ATTRIBUTES,
+                                {{"color", DataType::FLOAT_VECTOR4}},
+                                {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
-            colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
-                                         std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
-                                         VertexPC::ATTRIBUTES,
-                                         {{"color", DataType::FLOAT_VECTOR4}},
-                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+            colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
+                              std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
+                              VertexPC::ATTRIBUTES,
+                              {{"color", DataType::FLOAT_VECTOR4}},
+                              {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
@@ -405,7 +402,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             return true;
@@ -445,8 +442,6 @@ namespace ouzel
             std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
             std::fill(std::begin(samplers), std::end(samplers), nullptr);
 
-            context->RSSetState(rasterizerStates[0]);
-
             std::vector<float> shaderData;
 
             D3D11_VIEWPORT viewport;
@@ -458,7 +453,8 @@ namespace ouzel
                 frameBufferClearedFrame = currentFrame;
 
                 context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
-                context->OMSetDepthStencilState(depthStencilStates[3], 0);
+                context->RSSetState(rasterizerStates[0]);
+                context->OMSetDepthStencilState(depthStencilStates[1], 0); // enable depth write
 
                 viewport.TopLeftX = viewport.TopLeftY = 0.0f;
                 viewport.Width = static_cast<FLOAT>(frameBufferWidth);
@@ -546,14 +542,9 @@ namespace ouzel
                     context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 }
 
-                uint32_t rasterizerStateIndex = 0;
-                if (drawCommand.wireframe) rasterizerStateIndex |= 0x01;
-
                 // scissor test
                 if (drawCommand.scissorTest)
                 {
-                    rasterizerStateIndex |= 0x02;
-
                     D3D11_RECT rect;
                     rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
                     rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]));
@@ -562,6 +553,17 @@ namespace ouzel
                     context->RSSetScissorRects(1, &rect);
                 }
 
+                uint32_t fillModeIndex = (drawCommand.wireframe) ? 1 : 0;
+                uint32_t scissorEnableIndex = (drawCommand.scissorTest) ? 1 : 0;
+                uint32_t cullModeIndex;
+                switch (drawCommand.cullMode)
+                {
+                    case CullMode::NONE: cullModeIndex = 0; break;
+                    case CullMode::FRONT: cullModeIndex = 2; break; // flip the faces, because of the flipped y-axis
+                    case CullMode::BACK: cullModeIndex = 1; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                }
+                uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                 // shader
@@ -693,9 +695,10 @@ namespace ouzel
                 context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                 // depth-stencil state
-                uint32_t depthStencilStateIndex = 0;
-                if (drawCommand.depthTest) depthStencilStateIndex |= 0x01;
-                if (drawCommand.depthWrite) depthStencilStateIndex |= 0x02;
+                uint32_t depthTestIndex = drawCommand.depthTest ? 1 : 0;
+                uint32_t depthWriteIndex = drawCommand.depthWrite ? 1 : 0;
+                uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                 // draw// mesh buffer
@@ -825,17 +828,22 @@ namespace ouzel
             D3D11_TEXTURE2D_DESC backBufferDesc;
             backBufferTexture->GetDesc(&backBufferDesc);
 
-            D3D11_TEXTURE2D_DESC desc = backBufferDesc;
-            desc.SampleDesc.Count = sampleCount;
-            desc.SampleDesc.Quality = 0;
-            desc.Usage = D3D11_USAGE_STAGING;
-            desc.BindFlags = 0;
-            desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-            desc.MiscFlags = 0;
+            D3D11_TEXTURE2D_DESC textureDesc;
+            textureDesc.Width = backBufferDesc.Width;
+            textureDesc.Height = backBufferDesc.Height;
+            textureDesc.MipLevels = 1;
+            textureDesc.ArraySize = 1;
+            textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            textureDesc.SampleDesc.Count = 1;
+            textureDesc.SampleDesc.Quality = 0;
+            textureDesc.Usage = D3D11_USAGE_STAGING;
+            textureDesc.BindFlags = 0;
+            textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+            textureDesc.MiscFlags = 0;
 
             ID3D11Texture2D* texture;
 
-            hr = device->CreateTexture2D(&desc, nullptr, &texture);
+            hr = device->CreateTexture2D(&textureDesc, nullptr, &texture);
 
             if (FAILED(hr))
             {
@@ -845,12 +853,23 @@ namespace ouzel
 
             if (backBufferDesc.SampleDesc.Count > 1)
             {
-                D3D11_TEXTURE2D_DESC tempDesc = backBufferDesc;
-                tempDesc.SampleDesc.Count = 1;
-                tempDesc.SampleDesc.Quality = 0;
+                D3D11_TEXTURE2D_DESC resolveTextureDesc;
+                resolveTextureDesc.Width = backBufferDesc.Width;
+                resolveTextureDesc.Height = backBufferDesc.Height;
+                resolveTextureDesc.MipLevels = 1;
+                resolveTextureDesc.ArraySize = 1;
+                resolveTextureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                resolveTextureDesc.SampleDesc.Count = 1;
+                resolveTextureDesc.SampleDesc.Quality = 0;
+                resolveTextureDesc.Usage = D3D11_USAGE_DEFAULT;
+                resolveTextureDesc.BindFlags = 0;
+                resolveTextureDesc.CPUAccessFlags = 0;
+                resolveTextureDesc.MiscFlags = 0;
 
-                ID3D11Texture2D* temp;
-                hr = device->CreateTexture2D(&tempDesc, nullptr, &temp);
+                ID3D11Texture2D* resolveTexture;
+
+                hr = device->CreateTexture2D(&resolveTextureDesc, nullptr, &resolveTexture);
+
                 if (FAILED(hr))
                 {
                     texture->Release();
@@ -858,17 +877,9 @@ namespace ouzel
                     return false;
                 }
 
-                for (UINT item = 0; item < backBufferDesc.ArraySize; ++item)
-                {
-                    for (UINT level = 0; level < desc.MipLevels; ++level)
-                    {
-                        UINT index = D3D11CalcSubresource(level, item, backBufferDesc.MipLevels);
-                        context->ResolveSubresource(temp, index, backBuffer, index, DXGI_FORMAT_R8G8B8A8_UNORM);
-                    }
-                }
-
-                context->CopyResource(texture, temp);
-                temp->Release();
+                context->ResolveSubresource(resolveTexture, 0, backBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+                context->CopyResource(texture, resolveTexture);
+                resolveTexture->Release();
             }
             else
             {
@@ -884,7 +895,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!stbi_write_png(filename.c_str(), desc.Width, desc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+            if (!stbi_write_png(filename.c_str(), textureDesc.Width, textureDesc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
             {
                 context->Unmap(texture, 0);
                 texture->Release();
@@ -1123,3 +1134,5 @@ namespace ouzel
         }
     } // namespace graphics
 } // namespace ouzel
+
+#endif

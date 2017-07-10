@@ -1,6 +1,6 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.35
+# Ouzel v0.36
 
 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel)
 
@@ -19,7 +19,7 @@ Supported platforms:
 Supported rendering backends:
 
 * Direct3D 11
-* OpenGL 2 and OpenGL 3
+* OpenGL 2, OpenGL 3 and OpenGL 4
 * OpenGL ES 2 and OpenGL ES 3
 * Metal 
 
@@ -51,13 +51,33 @@ Windows Phone platform support is under development.
 
 ## Example app
 
-The following code will open a 800px x 600px window:
+The following code will open create a scene with a sprite in the center of it:
+
+    std::string DEVELOPER_NAME = "developer";
+    std::string APPLICATION_NAME = "game";
+
+    class MainScene: public ouzel::scene::Scene
+    {
+    public:
+        MainScene()
+        {
+            addLayer(&layer);
+            layer.addChild(&camera);
+            playerSprite.initFromFile("player.png");
+            player.addComponent(&playerSprite);
+            layer.addChild(&player);
+        }
+
+    private:
+        ouzel::scene::Layer layer;
+        ouzel::scene::Camera camera;
+        ouzel::scene::Sprite playerSprite;
+        ouzel::scene::Node player;
+    };
 
     void ouzelMain(const std::vector<std::string>& args)
     {
-        ouzel::Settings settings;
-        settings.size = ouzel::Size2(800.0f, 600.0f);
-        ouzel::sharedEngine->init(settings);
+        ouzel::sharedEngine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
     }
 
 ## Showcase

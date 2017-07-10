@@ -8,6 +8,7 @@
 #import <AppKit/NSCursor.h>
 typedef NSCursor* NSCursorPtr;
 #else
+#import <objc/NSObjCRuntime.h>
 typedef void* IOHIDManagerRef;
 typedef void* IOHIDDeviceRef;
 typedef id NSCursorPtr;
@@ -36,6 +37,7 @@ namespace ouzel
             void handleGamepadDisconnected(IOHIDDeviceRef device);
             
             static KeyboardKey convertKeyCode(unsigned short keyCode);
+            static NSUInteger getKeyMask(unsigned short keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 
             NSCursorPtr getNativeCursor() const { return currentCursor; }

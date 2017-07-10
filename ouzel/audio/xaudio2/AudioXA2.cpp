@@ -1,8 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_XAUDIO2
+
 #include "AudioXA2.h"
-#include "SoundXA2.h"
+#include "SoundResourceXA2.h"
 #include "XAudio27.h"
 #include "utils/Log.h"
 
@@ -128,7 +132,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundXA2();
+            SoundResource* sound = new SoundResourceXA2();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
@@ -139,7 +143,7 @@ namespace ouzel
 
             if (apiMajorVersion == 2 && apiMinorVersion == 7)
             {
-                HRESULT hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat);
+                HRESULT hr = IXAudio2CreateSourceVoice(xAudio, &sourceVoice, &sourceFormat, XAUDIO2_VOICE_USEFILTER);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;
@@ -148,7 +152,7 @@ namespace ouzel
             }
             else
             {
-                HRESULT hr = xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat);
+                HRESULT hr = xAudio->CreateSourceVoice(&sourceVoice, &sourceFormat, XAUDIO2_VOICE_USEFILTER);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create source voice, error: " << hr;
@@ -160,3 +164,5 @@ namespace ouzel
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif

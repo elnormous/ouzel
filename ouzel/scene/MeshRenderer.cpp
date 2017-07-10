@@ -7,5 +7,9 @@ namespace ouzel
 {
     namespace scene
     {
+        MeshRenderer::MeshRenderer():
+            Component(TYPE)
+        {
+        }
     } // namespace scene
 } // namespace ouzel

@@ -31,16 +31,25 @@
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
-    <ClCompile Include="..\ouzel\audio\dsound\SoundDS.cpp" />
+    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
-    <ClCompile Include="..\ouzel\audio\empty\SoundEmpty.cpp" />
+    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
+    <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundResource.cpp" />
+    <ClCompile Include="..\ouzel\audio\Stream.cpp" />
+    <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
+    <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundXA2.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp" />
+    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp" />
+    <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
@@ -54,6 +63,7 @@
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\Archive.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
+    <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
@@ -143,6 +153,7 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
+    <ClCompile Include="..\ouzel\utils\INI.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
@@ -160,22 +171,25 @@
     <ClInclude Include="..\ouzel\animators\Shake.h" />
     <ClInclude Include="..\ouzel\audio\Audio.h" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h" />
-    <ClInclude Include="..\ouzel\audio\dsound\SoundDS.h" />
+    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
-    <ClInclude Include="..\ouzel\audio\empty\SoundEmpty.h" />
+    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h" />
     <ClInclude Include="..\ouzel\audio\Resource.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
+    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h" />
     <ClInclude Include="..\ouzel\audio\SoundDataWave.h" />
     <ClInclude Include="..\ouzel\audio\SoundResource.h" />
+    <ClInclude Include="..\ouzel\audio\Stream.h" />
+    <ClInclude Include="..\ouzel\audio\StreamVorbis.h" />
+    <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundXA2.h" />
+    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
     <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
-    <ClInclude Include="..\ouzel\core\Settings.h" />
     <ClInclude Include="..\ouzel\core\Timer.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
@@ -186,6 +200,7 @@
     <ClInclude Include="..\ouzel\events\EventHandler.h" />
     <ClInclude Include="..\ouzel\files\Archive.h" />
     <ClInclude Include="..\ouzel\files\FileSystem.h" />
+    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.h" />
     <ClInclude Include="..\ouzel\graphics\BlendState.h" />
     <ClInclude Include="..\ouzel\graphics\BlendStateResource.h" />
     <ClInclude Include="..\ouzel\graphics\Buffer.h" />
@@ -216,10 +231,12 @@
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.h" />
@@ -227,11 +244,13 @@
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h" />
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h" />
@@ -299,6 +318,7 @@
     <ClInclude Include="..\ouzel\scene\Sprite.h" />
     <ClInclude Include="..\ouzel\scene\SpriteFrame.h" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.h" />
+    <ClInclude Include="..\ouzel\utils\INI.h" />
     <ClInclude Include="..\ouzel\utils\Log.h" />
     <ClInclude Include="..\ouzel\utils\Noncopyable.h" />
     <ClInclude Include="..\ouzel\utils\OBF.h" />
@@ -356,10 +376,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <IncludePath>..\ouzel\;..\external\stb;..\external\rapidjson\include;..\external\Freetype;..\external\khronos;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>

@@ -3,32 +3,34 @@
 
 #include "core/CompileConfig.h"
 
+#if OUZEL_SUPPORTS_OPENGL
+
 #if OUZEL_PLATFORM_MACOS
 #include <dlfcn.h>
 #endif
 
 #include <sstream>
 
-#if OUZEL_SUPPORTS_OPENGL
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#elif OUZEL_SUPPORTS_OPENGLES
-#define GL_GLEXT_PROTOTYPES 1
-#include "GLES/gl.h"
-#include "GLES2/gl2.h"
-#include "GLES2/gl2ext.h"
-#include "GLES3/gl3.h"
+#if OUZEL_SUPPORTS_OPENGLES
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GLES/gl.h"
+    #include "GLES2/gl2.h"
+    #include "GLES2/gl2ext.h"
+    #include "GLES3/gl3.h"
+#else
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GL/glcorearb.h"
+    #include "GL/glext.h"
 #endif
 
 #if OUZEL_OPENGL_INTERFACE_EGL
-#include "EGL/egl.h"
+    #include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_GLX
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glx.h"
-#include "GL/glxext.h"
+    #define GL_GLEXT_PROTOTYPES 1
+    #include "GL/glx.h"
+    #include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
-#include "GL/wglext.h"
+    #include "GL/wglext.h"
 #endif
 
 #include "RendererOGL.h"
@@ -43,16 +45,7 @@
 #include "utils/Log.h"
 #include "stb_image_write.h"
 
-#if OUZEL_SUPPORTS_OPENGL
-#include "ColorPSGL2.h"
-#include "ColorVSGL2.h"
-#include "TexturePSGL2.h"
-#include "TextureVSGL2.h"
-#include "ColorPSGL3.h"
-#include "ColorVSGL3.h"
-#include "TexturePSGL3.h"
-#include "TextureVSGL3.h"
-#elif OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 #include "ColorPSGLES2.h"
 #include "ColorVSGLES2.h"
 #include "TexturePSGLES2.h"
@@ -61,6 +54,19 @@
 #include "ColorVSGLES3.h"
 #include "TexturePSGLES3.h"
 #include "TextureVSGLES3.h"
+#else
+#include "ColorPSGL2.h"
+#include "ColorVSGL2.h"
+#include "TexturePSGL2.h"
+#include "TextureVSGL2.h"
+#include "ColorPSGL3.h"
+#include "ColorVSGL3.h"
+#include "TexturePSGL3.h"
+#include "TextureVSGL3.h"
+#include "ColorPSGL4.h"
+#include "ColorVSGL4.h"
+#include "TexturePSGL4.h"
+#include "TextureVSGL4.h"
 #endif
 
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparateProc;
@@ -93,10 +99,10 @@ PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
-#if OUZEL_SUPPORTS_OPENGL
-PFNGLCLEARDEPTHPROC glClearDepthProc;
-#elif OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 PFNGLCLEARDEPTHFPROC glClearDepthfProc;
+#else
+PFNGLCLEARDEPTHPROC glClearDepthProc;
 #endif
 
 PFNGLCREATESHADERPROC glCreateShaderProc;
@@ -132,15 +138,15 @@ PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 PFNGLGETSTRINGIPROC glGetStringiProc;
 
-#if OUZEL_SUPPORTS_OPENGL
-    PFNGLMAPBUFFERPROC glMapBufferProc;
-    PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
-    PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
-#elif OUZEL_SUPPORTS_OPENGLES
-    PFNGLMAPBUFFEROESPROC glMapBufferProc;
-    PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
-    PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
-    PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+#if OUZEL_SUPPORTS_OPENGLES
+PFNGLMAPBUFFEROESPROC glMapBufferProc;
+PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
+PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
+PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc;
+#else
+PFNGLMAPBUFFERPROC glMapBufferProc;
+PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
+PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #endif
 
 namespace ouzel
@@ -283,7 +289,7 @@ namespace ouzel
             glDisableVertexAttribArrayProc = glDisableVertexAttribArray;
             glVertexAttribPointerProc = glVertexAttribPointer;
 
-#elif OUZEL_SUPPORTS_OPENGL
+#else
             glUniform1iProc = reinterpret_cast<PFNGLUNIFORM1IPROC>(getProcAddress("glUniform1i"));
             glUniform1fvProc = reinterpret_cast<PFNGLUNIFORM1FVPROC>(getProcAddress("glUniform1fv"));
             glUniform2fvProc = reinterpret_cast<PFNGLUNIFORM2FVPROC>(getProcAddress("glUniform2fv"));
@@ -415,7 +421,7 @@ namespace ouzel
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
     #if OUZEL_OPENGL_INTERFACE_EGL
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBuffer"));
-    #elif OUZEL_SUPPORTS_OPENGL
+    #elif !OUZEL_SUPPORTS_OPENGLES
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(getProcAddress("glMapBuffer"));
 
                 glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
@@ -445,7 +451,7 @@ namespace ouzel
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
 
-#if OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
                 renderTargetsSupported = false;
 #endif
 
@@ -460,7 +466,7 @@ namespace ouzel
                     {
                         npotTexturesSupported = true;
                     }
-#if OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
                     else if (extension == "GL_EXT_framebuffer_object")
                     {
                         renderTargetsSupported = true;
@@ -531,36 +537,44 @@ namespace ouzel
 
             switch (apiMajorVersion)
             {
+#if OUZEL_SUPPORTS_OPENGLES
                 case 2:
-#if OUZEL_SUPPORTS_OPENGL
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#elif OUZEL_SUPPORTS_OPENGLES
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#endif
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
-#if OUZEL_SUPPORTS_OPENGL
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#elif OUZEL_SUPPORTS_OPENGLES
-                    textureShader->initFromBuffers(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
-                                                   std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
-                                                   VertexPCT::ATTRIBUTES,
-                                                   {{"color", DataType::FLOAT_VECTOR4}},
-                                                   {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-#endif
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
+#else
+                case 2:
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 3:
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 4:
+                    textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
+                                        std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
+                                        VertexPCT::ATTRIBUTES,
+                                        {{"color", DataType::FLOAT_VECTOR4}},
+                                        {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+#endif
                 default:
                     Log(Log::Level::ERR) << "Unsupported OpenGL version";
                     return false;
@@ -572,36 +586,43 @@ namespace ouzel
 
             switch (apiMajorVersion)
             {
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_SUPPORTS_OPENGLES
                 case 2:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-                case 3:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
-                    break;
-#elif OUZEL_SUPPORTS_OPENGLES
-                case 2:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
                     break;
                 case 3:
-                    colorShader->initFromBuffers(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
-                                                 std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
-                                                 VertexPC::ATTRIBUTES,
-                                                 {{"color", DataType::FLOAT_VECTOR4}},
-                                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+#else
+                case 2:
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 3:
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
+                    break;
+                case 4:
+                    colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
+                                      std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
+                                      VertexPC::ATTRIBUTES,
+                                      {{"color", DataType::FLOAT_VECTOR4}},
+                                      {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
 #endif
                 default:
@@ -652,7 +673,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->initFromBuffer({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             glDisable(GL_DITHER);
@@ -664,7 +685,7 @@ namespace ouzel
                 return false;
             }
 
-#if OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
             {
                 glEnable(GL_MULTISAMPLE);
@@ -750,7 +771,7 @@ namespace ouzel
             }
             else for (const DrawCommand& drawCommand : drawCommands)
             {
-#ifdef OUZEL_SUPPORTS_OPENGL
+#if !OUZEL_SUPPORTS_OPENGLES
                 setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
 #else
                 if (drawCommand.wireframe)
@@ -783,6 +804,21 @@ namespace ouzel
                                   blendStateOGL->getGreenMask(),
                                   blendStateOGL->getBlueMask(),
                                   blendStateOGL->getAlphaMask()))
+                {
+                    return false;
+                }
+
+                GLenum cullFace = GL_NONE;
+
+                switch (drawCommand.cullMode)
+                {
+                    case CullMode::NONE: cullFace = GL_NONE; break;
+                    case CullMode::FRONT: cullFace = GL_FRONT; break;
+                    case CullMode::BACK: cullFace = GL_BACK; break;
+                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                }
+
+                if (!setCullFace(cullFace != GL_NONE, cullFace))
                 {
                     return false;
                 }
@@ -992,10 +1028,10 @@ namespace ouzel
                     {
                         // allow clearing the depth buffer
                         depthMask(true);
-#if OUZEL_SUPPORTS_OPENGL
-                        glClearDepthProc(1.0);
-#elif OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                         glClearDepthfProc(1.0f);
+#else
+                        glClearDepthProc(1.0);
 #endif
                     }
 
@@ -1113,17 +1149,15 @@ namespace ouzel
                 return false;
             }
 
-            uint8_t temp;
+            uint32_t temp;
+            uint32_t* rgba = reinterpret_cast<uint32_t*>(data.data());
             for (GLsizei row = 0; row < frameBufferHeight / 2; ++row)
             {
                 for (GLsizei col = 0; col < frameBufferWidth; ++col)
                 {
-                    for (GLsizei z = 0; z < pixelSize; ++z)
-                    {
-                        temp = data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)];
-                        data[static_cast<size_t>(((frameBufferHeight - row - 1) * frameBufferWidth + col) * pixelSize + z)] = data[static_cast<size_t>((row * frameBufferWidth + col) * depth + z)];
-                        data[static_cast<size_t>((row * frameBufferWidth + col) * pixelSize + z)] = temp;
-                    }
+                    temp = rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)];
+                    rgba[static_cast<size_t>((frameBufferHeight - row - 1) * frameBufferWidth + col)] = rgba[static_cast<size_t>(row * frameBufferWidth + col)];
+                    rgba[static_cast<size_t>(row * frameBufferWidth + col)] = temp;
                 }
             }
 
@@ -1206,3 +1240,5 @@ namespace ouzel
         RendererOGL::StateCache RendererOGL::stateCache;
     } // namespace graphics
 } // namespace ouzel
+
+#endif

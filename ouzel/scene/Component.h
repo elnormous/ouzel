@@ -23,7 +23,23 @@ namespace ouzel
         {
             friend Node;
         public:
+            enum Type
+            {
+                NONE = 0,
+                ANIMATOR = 1,
+                MESH_RENDERER = 2,
+                PARTICLE_SYSTEM = 3,
+                SHAPE_RENDERER = 4,
+                SOUND_LISTENER = 5,
+                SOUND_PLAYER = 6,
+                SPRITE = 7,
+                TEXT_RENDERER = 8
+            };
+
+            Component(uint32_t aType);
             virtual ~Component();
+
+            uint32_t getType() const { return type; }
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
@@ -49,6 +65,8 @@ namespace ouzel
             void removeFromNode();
 
         protected:
+            uint32_t type;
+
             Box3 boundingBox;
             bool hidden = false;
 

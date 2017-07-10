@@ -32,24 +32,24 @@ namespace ouzel
             Shader();
             virtual ~Shader();
 
-            bool initFromBuffers(const std::vector<uint8_t>& newPixelShader,
-                                 const std::vector<uint8_t>& newVertexShader,
-                                 const std::vector<VertexAttribute>& newVertexAttributes,
-                                 const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                                 const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                                 uint32_t newPixelShaderDataAlignment = 0,
-                                 uint32_t newVertexShaderDataAlignment = 0,
-                                 const std::string& pixelShaderFunction = "",
-                                 const std::string& vertexShaderFunction = "");
-            bool initFromFiles(const std::string& newPixelShader,
-                               const std::string& newVertexShader,
-                               const std::vector<VertexAttribute>& newVertexAttributes,
-                               const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
-                               const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                               uint32_t newPixelShaderDataAlignment = 0,
-                               uint32_t newVertexShaderDataAlignment = 0,
-                               const std::string& newPixelShaderFunction = "",
-                               const std::string& newVertexShaderFunction = "");
+            bool init(const std::vector<uint8_t>& newPixelShader,
+                      const std::vector<uint8_t>& newVertexShader,
+                      const std::vector<VertexAttribute>& newVertexAttributes,
+                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newVertexShaderDataAlignment = 0,
+                      const std::string& pixelShaderFunction = "",
+                      const std::string& vertexShaderFunction = "");
+            bool init(const std::string& newPixelShader,
+                      const std::string& newVertexShader,
+                      const std::vector<VertexAttribute>& newVertexAttributes,
+                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
+                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newVertexShaderDataAlignment = 0,
+                      const std::string& newPixelShaderFunction = "",
+                      const std::string& newVertexShaderFunction = "");
 
             ShaderResource* getResource() const { return resource; }
 

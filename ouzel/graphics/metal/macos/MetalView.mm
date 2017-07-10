@@ -1,6 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/CompileConfig.h"
+
+#if OUZEL_SUPPORTS_METAL
+
 #import <Metal/Metal.h>
 #include "MetalView.h"
 #include "core/Application.h"
@@ -92,6 +96,28 @@
 {
     ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
                                            ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+}
+
+-(void)flagsChanged:(NSEvent*)event
+{
+    if (NSUInteger mask = ouzel::input::InputMacOS::getKeyMask(event.keyCode))
+    {
+        if (event.modifierFlags & mask)
+        {
+            ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                     ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+        }
+        else
+        {
+            ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                   ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+        }
+    }
+}
+
+-(void)doCommandBySelector:(__unused SEL)selector
+{
+    // implement this method to not beep on Command-Escape
 }
 
 -(void)mouseDown:(NSEvent*)event
@@ -214,3 +240,5 @@
 }
 
 @end
+
+#endif

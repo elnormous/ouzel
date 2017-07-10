@@ -3,8 +3,10 @@
 
 #include "core/CompileConfig.h"
 
+#if OUZEL_SUPPORTS_OPENAL
+
 #include "AudioAL.h"
-#include "SoundAL.h"
+#include "SoundResourceAL.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -176,9 +178,11 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundAL();
+            SoundResource* sound = new SoundResourceAL();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
     } // namespace audio
 } // namespace ouzel
+
+#endif
