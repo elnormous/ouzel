@@ -41,10 +41,12 @@ namespace ouzel
             {
                 CHANNEL_FRONT_LEFT = 0,
                 CHANNEL_FRONT_RIGHT = 1,
-                CHANNEL_REAR_LEFT = 2,
-                CHANNEL_REAR_RIGHT = 3,
-                CHANNEL_CENTER = 4,
-                CHANNEL_LFE = 5
+                CHANNEL_CENTER = 2,
+                CHANNEL_LFE = 3,
+                CHANNEL_BACK_LEFT = 4,
+                CHANNEL_BACK_RIGHT = 5,
+                CHANNEL_SIDE_LEFT = 6,
+                CHANNEL_SIDE_RIGHT = 7
             };
 
             virtual ~Audio();

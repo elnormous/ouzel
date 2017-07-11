@@ -178,12 +178,11 @@ namespace ouzel
                             }
                         }
 
-                        // rear left channel
+                        // center channel
                         if (channels >= 3)
                         {
                             uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
 
-                            // sound data has rear left channel
                             if (soundData->getChannels() >= 3)
                             {
                                 uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
@@ -195,9 +194,18 @@ namespace ouzel
                                     srcBuffer += soundData->getChannels();
                                 }
                             }
+                            else if (channels >= 2)
+                            {
+                                // calculate the average of the front left and the front right channel
+                                for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                                {
+                                    *(dstBuffer + 2) = (*dstBuffer + *(dstBuffer + 1)) / 2;
+                                    dstBuffer += channels;
+                                }
+                            }
                             else
                             {
-                                // copy the front left channel in to the rear left one
+                                // copy the front left channel in to the center one
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
                                     *(dstBuffer + 2) = *dstBuffer;
@@ -206,12 +214,11 @@ namespace ouzel
                             }
                         }
 
-                        // rear right channel
+                        // LFE channel
                         if (channels >= 4)
                         {
                             uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
 
-                            // sound data has rear right channel
                             if (soundData->getChannels() >= 4)
                             {
                                 uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
@@ -225,20 +232,21 @@ namespace ouzel
                             }
                             else
                             {
-                                // copy the front right channel in to the rear right one
+                                // fill the LFE channel with zeros
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
-                                    *(dstBuffer + 2) = *(dstBuffer + 1);
+                                    *(dstBuffer + 3) = 0;
                                     dstBuffer += channels;
                                 }
                             }
                         }
 
-                        // center channel
+                        // back left channel
                         if (channels >= 5)
                         {
                             uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
 
+                            // sound data has back left channel
                             if (soundData->getChannels() >= 5)
                             {
                                 uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
@@ -250,18 +258,9 @@ namespace ouzel
                                     srcBuffer += soundData->getChannels();
                                 }
                             }
-                            else if (channels >= 2)
-                            {
-                                // calculate the average of the front left and the front right channel
-                                for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
-                                {
-                                    *(dstBuffer + 4) = (*dstBuffer + *(dstBuffer + 1)) / 2;
-                                    dstBuffer += channels;
-                                }
-                            }
                             else
                             {
-                                // copy the front left channel in to the center one
+                                // copy the front left channel in to the back left one
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
                                     *(dstBuffer + 4) = *dstBuffer;
@@ -270,11 +269,12 @@ namespace ouzel
                             }
                         }
 
-                        // LFE channel
+                        // back right channel
                         if (channels >= 6)
                         {
                             uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
 
+                            // sound data has back right channel
                             if (soundData->getChannels() >= 6)
                             {
                                 uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
@@ -288,10 +288,10 @@ namespace ouzel
                             }
                             else
                             {
-                                // fill the LFE channel with zeros
+                                // copy the front right channel in to the back right one
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
-                                    *(dstBuffer + 5) = 0;
+                                    *(dstBuffer + 5) = *(dstBuffer + 1);
                                     dstBuffer += channels;
                                 }
                             }
