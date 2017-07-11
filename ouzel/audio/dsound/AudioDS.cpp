@@ -25,8 +25,8 @@ namespace ouzel
             resourceDeleteSet.clear();
             resources.clear();
 
-            if (listener3D) listener3D->Release();
             if (buffer) buffer->Release();
+            if (primaryBuffer) primaryBuffer->Release();
             if (directSound) directSound->Release();
         }
 
@@ -48,15 +48,15 @@ namespace ouzel
                 return false;
             }
 
-            DSBUFFERDESC bufferDesc;
-            bufferDesc.dwSize = sizeof(bufferDesc);
-            bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME | DSBCAPS_CTRL3D;
-            bufferDesc.dwBufferBytes = 0;
-            bufferDesc.dwReserved = 0;
-            bufferDesc.lpwfxFormat = nullptr;
-            bufferDesc.guid3DAlgorithm = GUID_NULL;
+            DSBUFFERDESC primaryBufferDesc;
+            primaryBufferDesc.dwSize = sizeof(primaryBufferDesc);
+            primaryBufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME;
+            primaryBufferDesc.dwBufferBytes = 0;
+            primaryBufferDesc.dwReserved = 0;
+            primaryBufferDesc.lpwfxFormat = nullptr;
+            primaryBufferDesc.guid3DAlgorithm = GUID_NULL;
 
-            hr = directSound->CreateSoundBuffer(&bufferDesc, &buffer, nullptr);
+            hr = directSound->CreateSoundBuffer(&primaryBufferDesc, &primaryBuffer, nullptr);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
@@ -65,24 +65,72 @@ namespace ouzel
 
             WAVEFORMATEX waveFormat;
             waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-            waveFormat.nChannels = 2;
-            waveFormat.nSamplesPerSec = 44100;
+            waveFormat.nChannels = channels;
+            waveFormat.nSamplesPerSec = samplesPerSecond;
             waveFormat.wBitsPerSample = 16;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
 
-            hr = buffer->SetFormat(&waveFormat);
+            hr = primaryBuffer->SetFormat(&waveFormat);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to set DirectSound buffer format, error: " << hr;
                 return false;
             }
 
-            hr = buffer->QueryInterface(IID_IDirectSound3DListener, reinterpret_cast<void**>(&listener3D));
+            IDirectSoundBuffer* tempBuffer = nullptr;
+
+            DSBUFFERDESC bufferDesc;
+            bufferDesc.dwSize = sizeof(bufferDesc);
+            bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME;
+            bufferDesc.dwBufferBytes = 2 * bufferSize;
+            bufferDesc.dwReserved = 0;
+            bufferDesc.lpwfxFormat = &waveFormat;
+            bufferDesc.guid3DAlgorithm = GUID_NULL;
+
+            hr = directSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to get DirectSound listener, error: " << hr;
+                Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
+                return false;
+            }
+
+            hr = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&buffer));
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to create DirectSound buffer, error: " << hr;
+                tempBuffer->Release();
+                return false;
+            }
+
+            tempBuffer->Release();
+
+            uint8_t* bufferPointer;
+            DWORD lockedBufferSize;
+            hr = buffer->Lock(0, bufferDesc.dwBufferBytes, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
+                return false;
+            }
+
+            const std::vector<uint8_t> data = getData(lockedBufferSize);
+            std::copy(data.begin(), data.end(), bufferPointer);
+
+            hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
+                return false;
+            }
+
+            nextBuffer = 0;
+
+            hr = buffer->Play(0, 0, DSBPLAY_LOOPING);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to play DirectSound buffer, error: " << hr;
                 return false;
             }
 
@@ -93,32 +141,42 @@ namespace ouzel
         {
             Audio::update();
 
+            DWORD playCursorPosition;
+            DWORD writeCursorPosition;
+            HRESULT hr = buffer->GetCurrentPosition(&playCursorPosition, &writeCursorPosition);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectSound buffer cursor position, error: " << hr;
+                return false;
+            }
+
+            uint32_t currentBuffer = playCursorPosition / bufferSize;
+
+            if (currentBuffer != nextBuffer)
+            {
+                uint8_t* bufferPointer;
+                DWORD lockedBufferSize;
+                hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
+                    return false;
+                }
+
+                const std::vector<uint8_t> data = getData(lockedBufferSize);
+                std::copy(data.begin(), data.end(), bufferPointer);
+
+                hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
+                    return false;
+                }
+
+                nextBuffer = currentBuffer;
+            }
+
             std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (dirty & DIRTY_LISTENER_POSITION)
-            {
-                HRESULT hr = listener3D->SetPosition(listenerPosition.v[0], listenerPosition.v[1], listenerPosition.v[2], DS3D_IMMEDIATE);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position, error: " << hr;
-                    return false;
-                }
-            }
-
-            if (dirty & DIRTY_LISTENER_ROTATION)
-            {
-                Vector3 forwardVector = listenerRotation.getForwardVector();
-                Vector3 upVector = listenerRotation.getUpVector();
-
-                HRESULT hr = listener3D->SetOrientation(forwardVector.v[0], forwardVector.v[1], forwardVector.v[2],
-                                                        upVector.v[0], upVector.v[1], upVector.v[2],
-                                                        DS3D_IMMEDIATE);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to set DirectSound listener position, error: " << hr;
-                    return false;
-                }
-            }
 
             dirty = 0;
 

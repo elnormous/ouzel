@@ -20,12 +20,6 @@ namespace ouzel
         public:
             SoundResourceDS();
             virtual ~SoundResourceDS();
-
-        protected:
-            virtual bool update();
-
-            IDirectSoundBuffer8* buffer = nullptr;
-            IDirectSound3DBuffer8* buffer3D = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

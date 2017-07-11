@@ -32,8 +32,10 @@ namespace ouzel
 
             IDirectSound8* directSound = nullptr;
             
-            IDirectSoundBuffer* buffer = nullptr;
-            IDirectSound3DListener8* listener3D = nullptr;
+            IDirectSoundBuffer* primaryBuffer = nullptr;
+            IDirectSoundBuffer8* buffer = nullptr;
+
+            uint32_t nextBuffer = 0;
         };
     } // namespace audio
 } // namespace ouzel
