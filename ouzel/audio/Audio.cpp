@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Audio.h"
 #include "SoundResource.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {
@@ -118,7 +119,7 @@ namespace ouzel
 
             for (uint32_t i = 0; i < data.size() / sizeof(int16_t); ++i)
             {
-                *dataPtr = static_cast<int16_t>(*bufferPtr);
+                *dataPtr = static_cast<int16_t>(clamp(*bufferPtr, INT16_MIN, INT16_MAX));
 
                 ++dataPtr;
                 ++bufferPtr;
