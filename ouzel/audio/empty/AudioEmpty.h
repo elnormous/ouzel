@@ -15,7 +15,6 @@ namespace ouzel
         class AudioEmpty: public Audio
         {
             friend Engine;
-
         protected:
             AudioEmpty();
         };

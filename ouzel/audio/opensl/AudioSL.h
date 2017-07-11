@@ -23,8 +23,6 @@ namespace ouzel
         public:
             virtual ~AudioSL();
 
-            virtual SoundResource* createSound() override;
-
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
             SLEngineItf getEngine() const { return engine; }

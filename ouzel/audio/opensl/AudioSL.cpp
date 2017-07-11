@@ -6,7 +6,6 @@
 #if OUZEL_SUPPORTS_OPENSL
 
 #include "AudioSL.h"
-#include "SoundResourceSL.h"
 #include "utils/Log.h"
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
@@ -27,9 +26,6 @@ namespace ouzel
 
         AudioSL::~AudioSL()
         {
-            resourceDeleteSet.clear();
-            resources.clear();
-
             if (playerObject)
             {
                 (*playerObject)->Destroy(playerObject);
@@ -173,15 +169,6 @@ namespace ouzel
             }
 
             return Audio::init();
-        }
-
-        SoundResource* AudioSL::createSound()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            SoundResource* sound = new SoundResourceSL();
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
-            return sound;
         }
 
         void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)

@@ -6,7 +6,6 @@
 #if OUZEL_SUPPORTS_OPENAL
 
 #include "AudioAL.h"
-#include "audio/SoundResource.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -78,9 +77,6 @@ namespace ouzel
 
         AudioAL::~AudioAL()
         {
-            resourceDeleteSet.clear();
-            resources.clear();
-
             if (sourceId)
             {
                 alSourceStop(sourceId);
@@ -293,15 +289,6 @@ namespace ouzel
             dirty = 0;
 
             return true;
-        }
-
-        SoundResource* AudioAL::createSound()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            SoundResource* sound = new SoundResource();
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
-            return sound;
         }
     } // namespace audio
 } // namespace ouzel

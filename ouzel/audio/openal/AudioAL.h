@@ -33,8 +33,6 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual SoundResource* createSound() override;
-
             ALCdevice* getDevice() const { return device; }
             ALCcontext* getContext() const { return context; }
 
