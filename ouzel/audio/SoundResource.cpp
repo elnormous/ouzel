@@ -116,14 +116,6 @@ namespace ouzel
                 }
                 else
                 {
-                    // channel map
-                    // 0 - Front left
-                    // 1 - Front right
-                    // 2 - Rear left
-                    // 3 - Rear right
-                    // 4 - Center
-                    // 5 - Low-frequency effects (LFE)
-
                     result.resize(size);
 
                     if (channels != soundData->getChannels())

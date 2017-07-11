@@ -37,6 +37,16 @@ namespace ouzel
                 OPENSL
             };
 
+            enum Channel
+            {
+                CHANNEL_FRONT_LEFT = 0,
+                CHANNEL_FRONT_RIGHT = 1,
+                CHANNEL_REAR_LEFT = 2,
+                CHANNEL_REAR_RIGHT = 3,
+                CHANNEL_CENTER = 4,
+                CHANNEL_LFE = 5
+            };
+
             virtual ~Audio();
 
             virtual bool update();
