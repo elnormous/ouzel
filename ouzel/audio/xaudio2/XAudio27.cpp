@@ -38,9 +38,9 @@ HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
                                   const WAVEFORMATEX* pSourceFormat,
                                   UINT32 Flags,
                                   float MaxFrequencyRatio,
-                                  IXAudio2VoiceCallback* pCallback = nullptr,
-                                  const XAUDIO2_VOICE_SENDS* pSendList = nullptr,
-                                  const XAUDIO2_EFFECT_CHAIN* pEffectChain = nullptr)
+                                  IXAudio2VoiceCallback* pCallback,
+                                  const XAUDIO2_VOICE_SENDS* pSendList,
+                                  const XAUDIO2_EFFECT_CHAIN* pEffectChain)
 {
     return pXAudio2->CreateSourceVoice(ppSourceVoice,
                                        pSourceFormat,

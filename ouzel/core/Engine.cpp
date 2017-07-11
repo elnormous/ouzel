@@ -448,13 +448,13 @@ namespace ouzel
             {
                 audioDriver = audio::Audio::Driver::OPENAL;
             }
-            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
-            {
-                audioDriver = audio::Audio::Driver::DIRECTSOUND;
-            }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
             {
                 audioDriver = audio::Audio::Driver::XAUDIO2;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
+            {
+                audioDriver = audio::Audio::Driver::DIRECTSOUND;
             }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
             {

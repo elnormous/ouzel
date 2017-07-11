@@ -22,14 +22,6 @@ namespace ouzel
         public:
             SoundResourceXA2();
             virtual ~SoundResourceXA2();
-
-        protected:
-            virtual bool update();
-
-            uint32_t channels = 0;
-            IXAudio2SourceVoice* sourceVoice = nullptr;
-            float gain = 1.0f;
-            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel
