@@ -121,17 +121,17 @@ namespace ouzel
 
                     if (channels != soundData->getChannels())
                     {
-                        uint32_t dstSamples = size / sizeof(uint16_t);
-                        uint32_t srcSamples = static_cast<uint32_t>(data.size()) / sizeof(uint16_t);
+                        uint32_t dstSamples = size / sizeof(int16_t);
+                        uint32_t srcSamples = static_cast<uint32_t>(data.size()) / sizeof(int16_t);
 
                         // front left channel
                         if (channels >= 1)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             if (soundData->getChannels() >= 1)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -154,12 +154,12 @@ namespace ouzel
                         // front right channel
                         if (channels >= 2)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             // sound data has front right channel
                             if (soundData->getChannels() >= 2)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -182,11 +182,11 @@ namespace ouzel
                         // center channel
                         if (channels >= 3)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             if (soundData->getChannels() >= 3)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -218,11 +218,11 @@ namespace ouzel
                         // LFE channel
                         if (channels >= 4)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             if (soundData->getChannels() >= 4)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -245,12 +245,12 @@ namespace ouzel
                         // back left channel
                         if (channels >= 5)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             // sound data has back left channel
                             if (soundData->getChannels() >= 5)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -273,12 +273,12 @@ namespace ouzel
                         // back right channel
                         if (channels >= 6)
                         {
-                            uint16_t* dstBuffer = reinterpret_cast<uint16_t*>(result.data());
+                            int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
 
                             // sound data has back right channel
                             if (soundData->getChannels() >= 6)
                             {
-                                uint16_t* srcBuffer = reinterpret_cast<uint16_t*>(data.data());
+                                int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
 
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
@@ -310,14 +310,14 @@ namespace ouzel
 
                     std::vector<float> channelVolume(channels, gain);
 
-                    uint32_t samples = static_cast<uint32_t>(result.size()) / sizeof(uint16_t);
-                    uint16_t* buffer = reinterpret_cast<uint16_t*>(result.data());
+                    uint32_t samples = static_cast<uint32_t>(result.size()) / sizeof(int16_t);
+                    int16_t* buffer = reinterpret_cast<int16_t*>(result.data());
 
                     for (uint32_t i = 0; i < samples / channels; ++i)
                     {
                         for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            *buffer = static_cast<uint16_t>(*buffer * channelVolume[channel]);
+                            *buffer = static_cast<int16_t>(*buffer * channelVolume[channel]);
 
                             ++buffer;
                         }

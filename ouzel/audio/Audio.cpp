@@ -92,7 +92,7 @@ namespace ouzel
         std::vector<uint8_t> Audio::getData(uint32_t size)
         {
             std::vector<uint8_t> data(size);
-            std::vector<uint32_t> buffer(size / 2, 0);
+            std::vector<int32_t> buffer(size / 2, 0);
 
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -100,10 +100,10 @@ namespace ouzel
             {
                 std::vector<uint8_t> resourceData = resource->getData(bufferSize, channels, samplesPerSecond);
 
-                uint16_t* resourceDataPtr = reinterpret_cast<uint16_t*>(resourceData.data());
-                uint32_t* bufferPtr = buffer.data();
+                int16_t* resourceDataPtr = reinterpret_cast<int16_t*>(resourceData.data());
+                int32_t* bufferPtr = buffer.data();
 
-                for (uint32_t i = 0; i < resourceData.size() / sizeof(uint16_t) && i < data.size() / sizeof(uint16_t); ++i)
+                for (uint32_t i = 0; i < resourceData.size() / sizeof(int16_t) && i < data.size() / sizeof(int16_t); ++i)
                 {
                     // mix the resource sound into the buffer
                     *bufferPtr += *resourceDataPtr;
@@ -113,12 +113,12 @@ namespace ouzel
                 }
             }
 
-            uint16_t* dataPtr = reinterpret_cast<uint16_t*>(data.data());
-            uint32_t* bufferPtr = buffer.data();
+            int16_t* dataPtr = reinterpret_cast<int16_t*>(data.data());
+            int32_t* bufferPtr = buffer.data();
 
             for (uint32_t i = 0; i < data.size() / sizeof(int16_t); ++i)
             {
-                *dataPtr = static_cast<uint16_t>(*bufferPtr);
+                *dataPtr = static_cast<int16_t>(*bufferPtr);
 
                 ++dataPtr;
                 ++bufferPtr;
