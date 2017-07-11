@@ -17,11 +17,12 @@ namespace ouzel
         {
         }
 
-        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
+        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             soundData = newSoundData;
+            relativePosition = newRelativePosition;
 
             if (soundData)
             {
