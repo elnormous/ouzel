@@ -260,7 +260,7 @@ namespace ouzel
                             }
                             else if (channels >= 2)
                             {
-                                // calculate the average of the left and the right channel
+                                // calculate the average of the front left and the front right channel
                                 for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
                                 {
                                     *(dstBuffer + 4) = (*dstBuffer + *(dstBuffer + 1)) / 2;
