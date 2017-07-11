@@ -258,6 +258,15 @@ namespace ouzel
                                     srcBuffer += soundData->getChannels();
                                 }
                             }
+                            else if (channels >= 2)
+                            {
+                                // calculate the average of the left and the right channel
+                                for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                                {
+                                    *(dstBuffer + 4) = (*dstBuffer + *(dstBuffer + 1)) / 2;
+                                    dstBuffer += channels;
+                                }
+                            }
                             else
                             {
                                 // copy the front left channel in to the center one
