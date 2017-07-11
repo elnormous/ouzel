@@ -108,7 +108,7 @@ namespace ouzel
             }
             else if (soundData && stream)
             {
-                std::vector<uint8_t> data = soundData->getData(stream.get(), size);
+                std::vector<uint8_t> data = soundData->getData(stream.get(), (size / channels) * soundData->getChannels());
 
                 if (channels == soundData->getChannels() &&
                     samplesPerSecond == soundData->getSamplesPerSecond())
