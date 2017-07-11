@@ -41,7 +41,7 @@ namespace ouzel
 
             virtual bool update();
 
-            virtual SoundResource* createSound() = 0;
+            virtual SoundResource* createSound();
             virtual void deleteResource(SoundResource* resource);
 
             void setListenerPosition(const Vector3& newPosition);

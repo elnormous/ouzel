@@ -22,8 +22,6 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual SoundResource* createSound() override;
-
             IDirectSound8* getDirectSound() const { return directSound; }
 
         protected:

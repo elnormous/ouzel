@@ -184,16 +184,10 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp">
-      <Filter>audio\xaudio2</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
-      <Filter>audio\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
@@ -374,9 +368,6 @@
       <Filter>input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
-      <Filter>audio\dsound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\INI.cpp">
@@ -595,9 +586,6 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h">
-      <Filter>audio\xaudio2</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
@@ -614,9 +602,6 @@
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
-      <Filter>audio\empty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
@@ -848,9 +833,6 @@
       <Filter>input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
-      <Filter>audio\dsound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">

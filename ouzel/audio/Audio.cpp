@@ -114,5 +114,14 @@ namespace ouzel
 
             return data;
         }
+
+        SoundResource* Audio::createSound()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            SoundResource* sound = new SoundResource();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
+            return sound;
+        }
     } // namespace audio
 } // namespace ouzel

@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
 #include "AudioDS.h"
-#include "SoundResourceDS.h"
+#include "audio/SoundResource.h"
 #include "core/Engine.h"
 #include "core/windows/WindowWin.h"
 #include "utils/Log.h"
@@ -22,9 +22,6 @@ namespace ouzel
 
         AudioDS::~AudioDS()
         {
-            resourceDeleteSet.clear();
-            resources.clear();
-
             if (buffer) buffer->Release();
             if (primaryBuffer) primaryBuffer->Release();
             if (directSound) directSound->Release();
@@ -180,15 +177,6 @@ namespace ouzel
             dirty = 0;
 
             return true;
-        }
-
-        SoundResource* AudioDS::createSound()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            SoundResource* sound = new SoundResourceDS();
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
-            return sound;
         }
     } // namespace audio
 } // namespace ouzel

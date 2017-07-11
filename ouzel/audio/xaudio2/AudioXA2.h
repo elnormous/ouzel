@@ -22,8 +22,6 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual SoundResource* createSound() override;
-
         protected:
             AudioXA2();
             virtual bool init() override;

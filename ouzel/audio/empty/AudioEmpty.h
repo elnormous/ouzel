@@ -15,8 +15,6 @@ namespace ouzel
         class AudioEmpty: public Audio
         {
             friend Engine;
-        public:
-            virtual SoundResource* createSound() override;
 
         protected:
             AudioEmpty();

@@ -6,8 +6,8 @@
 #if OUZEL_SUPPORTS_XAUDIO2
 
 #include "AudioXA2.h"
-#include "SoundResourceXA2.h"
 #include "XAudio27.h"
+#include "audio/SoundResource.h"
 #include "utils/Log.h"
 
 static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
@@ -26,9 +26,6 @@ namespace ouzel
 
         AudioXA2::~AudioXA2()
         {
-            resourceDeleteSet.clear();
-            resources.clear();
-
             if (sourceVoice) sourceVoice->DestroyVoice();
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio)
@@ -181,15 +178,6 @@ namespace ouzel
             dirty = 0;
 
             return true;
-        }
-
-        SoundResource* AudioXA2::createSound()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            SoundResource* sound = new SoundResourceXA2();
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
-            return sound;
         }
 
         void AudioXA2::OnVoiceProcessingPassStart(UINT32)
