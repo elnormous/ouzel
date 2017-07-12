@@ -119,7 +119,7 @@ namespace ouzel
 
             for (uint32_t i = 0; i < data.size() / sizeof(int16_t); ++i)
             {
-                *dataPtr = static_cast<int16_t>(clamp(*bufferPtr, INT16_MIN, INT16_MAX));
+                *dataPtr = static_cast<int16_t>(clamp(*bufferPtr, static_cast<int32_t>(INT16_MIN), static_cast<int32_t>(INT16_MAX)));
 
                 ++dataPtr;
                 ++bufferPtr;
