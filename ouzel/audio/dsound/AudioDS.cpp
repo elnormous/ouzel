@@ -143,7 +143,7 @@ namespace ouzel
             }
 
 #if OUZEL_MULTITHREADED
-            audioThread = std::thread(&AudioAL::run, this);
+            audioThread = std::thread(&AudioDS::run, this);
 #endif
 
             return true;
@@ -194,7 +194,7 @@ namespace ouzel
             return true;
         }
 
-        void AudioAL::run()
+        void AudioDS::run()
         {
             while (running)
             {
