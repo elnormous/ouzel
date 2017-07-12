@@ -17,19 +17,10 @@ namespace ouzel
 
         Audio::~Audio()
         {
-            running = false;
-
-#if OUZEL_MULTITHREADED
-            if (audioThread.joinable()) audioThread.join();
-#endif
         }
 
         bool Audio::init()
         {
-#if OUZEL_MULTITHREADED
-            audioThread = std::thread(&Audio::run, this);
-#endif
-
             return true;
         }
 
@@ -69,23 +60,6 @@ namespace ouzel
             listenerRotation = newRotation;
 
             dirty |= DIRTY_LISTENER_ROTATION;
-        }
-
-        void Audio::run()
-        {
-            while (running)
-            {
-                update();
-            }
-        }
-
-        void Audio::stop()
-        {
-            running = false;
-
-#if OUZEL_MULTITHREADED
-            if (audioThread.joinable()) audioThread.join();
-#endif
         }
 
         std::vector<uint8_t> Audio::getData(uint32_t size)

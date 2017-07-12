@@ -44,10 +44,7 @@ namespace ouzel
             inputRasp->update();
         }
 
-        if (sharedEngine)
-        {
-            sharedEngine->stop();
-        }
+        exit();
 
         return EXIT_SUCCESS;
     }

@@ -30,11 +30,6 @@
 -(void)applicationWillTerminate:(__unused NSNotification*)notification
 {
     ouzel::sharedApplication->exit();
-
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->stop();
-    }
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender

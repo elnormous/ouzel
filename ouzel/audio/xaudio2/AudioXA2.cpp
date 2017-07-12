@@ -170,16 +170,6 @@ namespace ouzel
             return Audio::init();
         }
 
-        bool AudioXA2::update()
-        {
-            Audio::update();
-
-            std::lock_guard<std::mutex> lock(resourceMutex);
-            dirty = 0;
-
-            return true;
-        }
-
         void AudioXA2::OnVoiceProcessingPassStart(UINT32)
         {
         }

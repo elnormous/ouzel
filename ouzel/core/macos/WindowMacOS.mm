@@ -312,7 +312,7 @@ namespace ouzel
 
     void WindowMacOS::handleClose()
     {
-        sharedEngine->stop();
+        sharedApplication->exit();
     }
 
     void WindowMacOS::handleFullscreenChange(bool newFullscreen)

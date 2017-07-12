@@ -11,13 +11,15 @@ namespace ouzel
     ouzel::Application* sharedApplication = nullptr;
 
     Application::Application():
-        screenSaverEnabled(false)
+        screenSaverEnabled(false),
+        engine(new Engine())
     {
         sharedApplication = this;
     }
 
     Application::Application(int aArgc, char* aArgv[]):
-        argc(aArgc), argv(aArgv)
+        argc(aArgc), argv(aArgv),
+        engine(new Engine())
     {
         sharedApplication = this;
 
@@ -28,7 +30,8 @@ namespace ouzel
     }
 
     Application::Application(const std::vector<std::string>& aArgs):
-        args(aArgs)
+        args(aArgs),
+        engine(new Engine())
     {
         sharedApplication = this;
     }
@@ -40,7 +43,7 @@ namespace ouzel
 
     bool Application::init()
     {
-        engine.init();
+        engine->init();
 
         return true;
     }
@@ -54,9 +57,9 @@ namespace ouzel
     {
         active = false;
 
-        if (sharedEngine)
+        if (engine)
         {
-            sharedEngine->exit();
+            engine.release();
         }
     }
 

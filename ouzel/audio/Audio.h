@@ -4,7 +4,6 @@
 #pragma once
 
 #include <cstdint>
-#include <thread>
 #include <memory>
 #include <mutex>
 #include <set>
@@ -62,12 +61,9 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            void stop();
-
         protected:
             Audio(Driver aDriver);
             virtual bool init();
-            void run();
 
             std::vector<uint8_t> getData(uint32_t size);
 
@@ -92,11 +88,6 @@ namespace ouzel
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<SoundResource>> resources;
             std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
-
-            bool running = true;
-#if OUZEL_MULTITHREADED
-            std::thread audioThread;
-#endif
 
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t samplesPerSecond = 44100;

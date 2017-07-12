@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <string>
 #include <queue>
@@ -44,7 +45,7 @@ namespace ouzel
         char** argv = nullptr;
         std::vector<std::string> args;
 
-        Engine engine;
+        std::unique_ptr<Engine> engine;
     };
 
     extern Application* sharedApplication;

@@ -86,8 +86,19 @@ namespace ouzel
 
     Engine::~Engine()
     {
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+        }
+
         running = false;
         active = false;
+
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
 
         for (UpdateCallback* updateCallback : updateCallbackAddSet)
         {
@@ -99,10 +110,6 @@ namespace ouzel
             auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
             if (i == updateCallbackDeleteSet.end()) updateCallback->engine = nullptr;
         }
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
 
         sharedEngine = nullptr;
     }
@@ -540,19 +547,6 @@ namespace ouzel
         return true;
     }
 
-    void Engine::exit()
-    {
-        if (active)
-        {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
-
-            running = false;
-            active = false;
-        }
-    }
-
     void Engine::start()
     {
         if (!active)
@@ -572,25 +566,6 @@ namespace ouzel
             run();
 #endif
         }
-    }
-
-    void Engine::stop()
-    {
-        if (active)
-        {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
-
-            running = false;
-            active = false;
-        }
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
-
-        audio->stop();
     }
 
     void Engine::pause()

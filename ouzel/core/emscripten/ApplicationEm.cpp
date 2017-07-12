@@ -43,11 +43,6 @@ namespace ouzel
 
         exit();
 
-        if (sharedEngine)
-        {
-            sharedEngine->stop();
-        }
-
         return EXIT_SUCCESS;
     }
 

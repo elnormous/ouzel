@@ -77,6 +77,12 @@ namespace ouzel
 
         AudioAL::~AudioAL()
         {
+            running = false;
+
+#if OUZEL_MULTITHREADED
+            if (audioThread.joinable()) audioThread.join();
+#endif
+
             if (sourceId)
             {
                 alSourceStop(sourceId);
@@ -116,6 +122,11 @@ namespace ouzel
 
         bool AudioAL::init()
         {
+            if (!Audio::init())
+            {
+                return false;
+            }
+
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
@@ -215,13 +226,23 @@ namespace ouzel
                 return false;
             }
 
-            return Audio::init();
+#if OUZEL_MULTITHREADED
+            audioThread = std::thread(&AudioAL::run, this);
+#endif
+
+            return true;
+        }
+
+        void AudioAL::run()
+        {
+            while (running)
+            {
+                update();
+            }
         }
 
         bool AudioAL::update()
         {
-            Audio::update();
-
             alcMakeContextCurrent(context);
 
             if (checkALCError())

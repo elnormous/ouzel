@@ -113,10 +113,7 @@ namespace ouzel
             }
         }
 
-        if (sharedEngine)
-        {
-            sharedEngine->stop();
-        }
+        exit();
 
         return EXIT_SUCCESS;
     }

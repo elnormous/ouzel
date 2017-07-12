@@ -22,6 +22,12 @@ namespace ouzel
 
         AudioDS::~AudioDS()
         {
+            running = false;
+
+#if OUZEL_MULTITHREADED
+            if (audioThread.joinable()) audioThread.join();
+#endif
+
             if (buffer) buffer->Release();
             if (primaryBuffer) primaryBuffer->Release();
             if (directSound) directSound->Release();
@@ -29,6 +35,11 @@ namespace ouzel
 
         bool AudioDS::init()
         {
+            if (!Audio::init())
+            {
+                return false;
+            }
+
             HRESULT hr = DirectSoundCreate8(nullptr, &directSound, nullptr);
             if (FAILED(hr))
             {
@@ -131,7 +142,11 @@ namespace ouzel
                 return false;
             }
 
-            return Audio::init();
+#if OUZEL_MULTITHREADED
+            audioThread = std::thread(&AudioAL::run, this);
+#endif
+
+            return true;
         }
 
         bool AudioDS::update()
@@ -177,6 +192,14 @@ namespace ouzel
             dirty = 0;
 
             return true;
+        }
+
+        void AudioAL::run()
+        {
+            while (running)
+            {
+                update();
+            }
         }
     } // namespace audio
 } // namespace ouzel

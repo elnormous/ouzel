@@ -53,9 +53,7 @@ namespace ouzel
         const INI& getDefaultSettings() const { return defaultSettings; }
         const INI& getUserSettings() const { return userSettings; }
 
-        void exit();
         void start();
-        void stop();
         void pause();
         void resume();
         bool draw();

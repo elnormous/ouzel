@@ -20,8 +20,6 @@ namespace ouzel
         public:
             virtual ~AudioXA2();
 
-            virtual bool update() override;
-
         protected:
             AudioXA2();
             virtual bool init() override;
