@@ -13,8 +13,6 @@ namespace ouzel
 {
     namespace audio
     {
-        static const uint32_t DECODE_BUFFER_SIZE = 32 * 4096;
-
         SoundDataVorbis::SoundDataVorbis()
         {
         }
