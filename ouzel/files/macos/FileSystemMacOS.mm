@@ -5,10 +5,15 @@
 #include "FileSystemMacOS.h"
 #include "utils/Log.h"
 
+extern std::string DEVELOPER_NAME;
+extern std::string APPLICATION_NAME;
+
 namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
     {
+        fileManager = [NSFileManager defaultManager];
+
         NSBundle* bundle = [NSBundle mainBundle];
         NSString* path = [bundle resourcePath];
 
@@ -26,8 +31,14 @@ namespace ouzel
         }
 
         NSString* applicationSupportDirectory = [paths firstObject];
+        NSString* path = [NSString stringWithFormat:@"%@/%s/%s", applicationSupportDirectory, DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
 
-        return [applicationSupportDirectory UTF8String];
+        if (![fileManager fileExistsAtPath:path isDirectory:Nil])
+        {
+            [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:Nil error:Nil];
+        }
+
+        return [path UTF8String];
     }
 
     std::string FileSystemMacOS::getTempDirectory() const

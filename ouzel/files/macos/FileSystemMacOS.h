@@ -5,6 +5,15 @@
 
 #include "files/FileSystem.h"
 
+#if defined(__OBJC__)
+#include <Foundation/Foundation.h>
+typedef NSFileManager* NSFileManagerPtr;
+#else
+#include <objc/objc.h>
+typedef id NSFileManagerPtr;
+#endif
+
+
 namespace ouzel
 {
     class Engine;
@@ -18,5 +27,7 @@ namespace ouzel
 
     protected:
         FileSystemMacOS();
+
+        NSFileManagerPtr fileManager = Nil;
     };
 }
