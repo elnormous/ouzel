@@ -3,25 +3,43 @@
 
 #include <windows.h>
 #include <cstdlib>
-#include "ApplicationWin.h"
+#include "EngineWin.h"
 #include "WindowWin.h"
 #include "input/windows/InputWin.h"
-#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
-    ApplicationWin::ApplicationWin(const std::vector<std::string>& pArgs):
-        Application(pArgs)
+    EngineWin::EngineWin()
     {
+        LPWSTR* argList;
+        int nArgs;
+        int i;
+
+        argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+
+        std::vector<std::string> args;
+
+        if (argList)
+        {
+            for (i = 0; i < nArgs; i++)
+            {
+                char temporaryCString[256];
+                WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+
+                args.push_back(temporaryCString);
+            }
+
+            LocalFree(argList);
+        }
     }
 
-    ApplicationWin::~ApplicationWin()
+    EngineWin::~EngineWin()
     {
         //CoUninitialize();
     }
 
-    int ApplicationWin::run()
+    int EngineWin::run()
     {
         HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
         if (FAILED(hr))
@@ -42,17 +60,10 @@ namespace ouzel
             return EXIT_FAILURE;
         }
 
-        if (sharedEngine)
-        {
-            sharedEngine->start();
-        }
-        else
-        {
-            return EXIT_FAILURE;
-        }
+        start();
 
-        input::InputWin* input = static_cast<input::InputWin*>(sharedEngine->getInput());
-        WindowWin* window = static_cast<WindowWin*>(sharedEngine->getWindow());
+        input::InputWin* inputWin = static_cast<input::InputWin*>(input.get());
+        WindowWin* windowWin = static_cast<WindowWin*>(window.get());
 
         MSG msg;
 
@@ -60,14 +71,13 @@ namespace ouzel
         {
             executeAll();
 
-            if (sharedEngine->isActive() &&
-                sharedEngine->getRenderer()->process())
+            if (renderer->process())
             {
-                std::set<HACCEL> accelerators = window->getAccelerators();
+                std::set<HACCEL> accelerators = windowWin->getAccelerators();
 
-                while (sharedEngine->isActive())
+                while (active)
                 {
-                    if (sharedEngine->isRunning())
+                    if (running)
                     {
                         if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                         {
@@ -87,7 +97,7 @@ namespace ouzel
 
                     for (HACCEL accelerator : accelerators)
                     {
-                        if (TranslateAccelerator(window->getNativeWindow(), accelerator, &msg))
+                        if (TranslateAccelerator(windowWin->getNativeWindow(), accelerator, &msg))
                         {
                             translate = false;
                         }
@@ -106,7 +116,7 @@ namespace ouzel
                     }
                 }
 
-                input->update();
+                inputWin->update();
             }
             else
             {
@@ -119,14 +129,14 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void ApplicationWin::execute(const std::function<void(void)>& func)
+    void EngineWin::execute(const std::function<void(void)>& func)
     {
         std::lock_guard<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
     }
 
-    void ApplicationWin::executeAll()
+    void EngineWin::executeAll()
     {
         std::function<void(void)> func;
 
@@ -151,7 +161,7 @@ namespace ouzel
         }
     }
 
-    bool ApplicationWin::openURL(const std::string& url)
+    bool EngineWin::openURL(const std::string& url)
     {
         wchar_t urlBuffer[256];
         MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, urlBuffer, 256);

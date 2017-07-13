@@ -47,13 +47,12 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\main.cpp" />
     <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
@@ -178,14 +177,13 @@
     <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
-    <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
     <ClInclude Include="..\ouzel\core\Timer.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
-    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h" />
+    <ClInclude Include="..\ouzel\core\windows\EngineWin.h" />
     <ClInclude Include="..\ouzel\core\windows\WindowWin.h" />
     <ClInclude Include="..\ouzel\events\Event.h" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.h" />

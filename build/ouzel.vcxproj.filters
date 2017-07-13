@@ -172,9 +172,6 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\Application.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>scene</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp">
-      <Filter>core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\windows\main.cpp">
       <Filter>core\windows</Filter>
@@ -387,6 +381,9 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp">
       <Filter>audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp">
+      <Filter>core\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,9 +574,6 @@
     <ClInclude Include="..\ouzel\events\EventHandler.h">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Application.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Component.h">
       <Filter>scene</Filter>
     </ClInclude>
@@ -612,9 +606,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h">
       <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h">
-      <Filter>core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\windows\WindowWin.h">
       <Filter>core\windows</Filter>
@@ -864,6 +855,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\StreamVorbis.h">
       <Filter>audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\windows\EngineWin.h">
+      <Filter>core\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

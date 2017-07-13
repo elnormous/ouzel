@@ -3,15 +3,15 @@
 
 #pragma once
 
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationWin: public Application
+    class EngineWin : public Engine
     {
     public:
-        ApplicationWin(const std::vector<std::string>& pArgs);
-        virtual ~ApplicationWin();
+        EngineWin();
+        virtual ~EngineWin();
 
         virtual int run() override;
 

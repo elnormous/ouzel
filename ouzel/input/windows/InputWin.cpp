@@ -9,7 +9,6 @@
 #include "CursorResourceWin.h"
 #include "GamepadDI.h"
 #include "GamepadXI.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/windows/WindowWin.h"
 #include "events/EventDispatcher.h"
@@ -341,7 +340,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedApplication->execute([this, visible] {
+            sharedEngine->execute([this, visible] {
                 if (visible)
                 {
                     SetCursor(currentCursor);
@@ -360,7 +359,7 @@ namespace ouzel
 
         void InputWin::setCursorLocked(bool locked)
         {
-            sharedApplication->execute([locked] {
+            sharedEngine->execute([locked] {
                 if (locked)
                 {
                     HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
@@ -398,7 +397,7 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedApplication->execute([position] {
+            sharedEngine->execute([position] {
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
                 HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
 
