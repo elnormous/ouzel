@@ -33,7 +33,7 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenGL \
 	-framework QuartzCore
 else ifeq ($(platform),emscripten)
-	LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=33554432
+	LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=134217728
 endif
 SOURCES=AnimationsSample.cpp \
 	GameSample.cpp \
