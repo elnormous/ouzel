@@ -11,12 +11,11 @@
 
 namespace ouzel
 {
-    class ApplicationLinux;
+    class EngineLinux;
 
     class WindowLinux: public Window
     {
-        friend Engine;
-        friend ApplicationLinux;
+        friend EngineLinux;
     public:
         virtual ~WindowLinux();
 
