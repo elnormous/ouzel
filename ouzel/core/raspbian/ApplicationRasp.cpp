@@ -36,7 +36,8 @@ namespace ouzel
         {
             executeAll();
 
-            if (!sharedEngine->draw())
+            if (!sharedEngine->isActive() ||
+                !sharedEngine->getRenderer()->process())
             {
                 break;
             }

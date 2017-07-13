@@ -56,7 +56,6 @@ namespace ouzel
         void start();
         void pause();
         void resume();
-        bool draw();
         bool isRunning() const { return running; }
         bool isActive() const { return active; }
 

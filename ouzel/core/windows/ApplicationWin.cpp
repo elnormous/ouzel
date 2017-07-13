@@ -60,7 +60,8 @@ namespace ouzel
         {
             executeAll();
 
-            if (sharedEngine->draw())
+            if (sharedEngine->isActive() &&
+                sharedEngine->getRenderer()->process())
             {
                 std::set<HACCEL> accelerators = window->getAccelerators();
 

@@ -62,9 +62,9 @@
 
 -(void)draw:(__unused id)sender
 {
-    if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
+    if (ouzel::sharedEngine)
     {
-        // tvOS app should not be exited
+        ouzel::sharedEngine->getRenderer()->process();
     }
 }
 

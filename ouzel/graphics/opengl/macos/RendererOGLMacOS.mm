@@ -16,15 +16,20 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
                                CVOptionFlags,
                                CVOptionFlags*,
-                               void*)
+                               void* userInfo)
 {
+    if (!ouzel::sharedEngine || !ouzel::sharedEngine->isActive())
+    {
+        return kCVReturnSuccess;
+    }
+
     @autoreleasepool
     {
-        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
+        ouzel::graphics::RendererOGLMacOS* renderer = static_cast<ouzel::graphics::RendererOGLMacOS*>(userInfo);
+
+        if (!renderer->process())
         {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
+            return kCVReturnError;
         }
     }
 
@@ -164,7 +169,7 @@ namespace ouzel
                 return false;
             }
 
-            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
+            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                 return false;

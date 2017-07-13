@@ -699,16 +699,6 @@ namespace ouzel
 #endif
     }
 
-    bool Engine::draw()
-    {
-        if (!renderer->process())
-        {
-            return false;
-        }
-
-        return active;
-    }
-
     void Engine::scheduleUpdate(UpdateCallback* callback)
     {
         if (callback->engine)

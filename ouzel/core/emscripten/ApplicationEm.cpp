@@ -51,7 +51,8 @@ namespace ouzel
         sharedEngine->update();
         sharedEngine->getAudio()->update();
 
-        if (!sharedEngine->draw())
+        if (!sharedEngine->isActive() ||
+            !sharedEngine->getRenderer()->process())
         {
             return false;
         }
