@@ -163,6 +163,11 @@ namespace ouzel
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
+            if (AudioAL::checkOpenALError())
+            {
+                Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
+            }
+
             alGenSources(1, &sourceId);
 
             if (AudioAL::checkOpenALError())
