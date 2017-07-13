@@ -3,14 +3,14 @@
 
 #pragma once
 
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationLinux: public Application
+    class EngineLinux: public Engine
     {
     public:
-        ApplicationLinux(int aArgc, char* aArgv[]);
+        EngineLinux(int aArgc, char* aArgv[]);
 
         virtual int run() override;
 
@@ -19,10 +19,16 @@ namespace ouzel
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
+        int getArgc() const { return argc; }
+        char** getArgv() const { return argv; }
+
     protected:
         void executeAll();
 
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
+
+        int argc = 0;
+        char** argv = nullptr;
     };
 }

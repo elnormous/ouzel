@@ -41,7 +41,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
-	$(ROOT_DIR)/../ouzel/core/Application.cpp \
 	$(ROOT_DIR)/../ouzel/core/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
@@ -135,7 +134,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)/../ouzel/audio/dsound/SoundResourceDS.cpp \
-	$(ROOT_DIR)/../ouzel/core/windows/ApplicationWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
 	$(ROOT_DIR)/../ouzel/files/windows/FileSystemWin.cpp \
@@ -153,7 +152,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)/../ouzel/core/raspbian/ApplicationRasp.cpp \
+	$(ROOT_DIR)/../ouzel/core/raspbian/EngineRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
 	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRasp.cpp \
@@ -163,7 +162,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)/../ouzel/core/linux/ApplicationLinux.cpp \
+	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/files/linux/FileSystemLinux.cpp \
@@ -173,7 +172,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)/../ouzel/core/macos/ApplicationMacOS.mm \
+	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
@@ -192,7 +191,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
-	$(ROOT_DIR)/../ouzel/core/emscripten/ApplicationEm.cpp \
+	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/files/emscripten/FileSystemEm.cpp \

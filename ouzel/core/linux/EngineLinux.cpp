@@ -7,8 +7,7 @@
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
-#include "ApplicationLinux.h"
-#include "core/Engine.h"
+#include "EngineLinux.h"
 #include "events/Event.h"
 #include "input/Input.h"
 #include "input/linux/InputLinux.h"
@@ -16,34 +15,33 @@
 
 namespace ouzel
 {
-    ApplicationLinux::ApplicationLinux(int aArgc, char* aArgv[]):
-        Application(aArgc, aArgv)
+    EngineLinux::EngineLinux(int aArgc, char* aArgv[])
     {
+        argc = aArgc;
+        argv = aArgv;
+
+        for (int i = 0; i < aArgc; ++i)
+        {
+            args.push_back(aArgv[i]);
+        }
     }
 
-    int ApplicationLinux::run()
+    int EngineLinux::run()
     {
         if (!init())
         {
             return EXIT_FAILURE;
         }
 
-        if (sharedEngine)
-        {
-            sharedEngine->start();
-        }
-        else
-        {
-            return EXIT_FAILURE;
-        }
+        start();
 
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
+        if (renderer->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
             for (;;)
             {
                 executeAll();
 
-                if (!sharedEngine->draw())
+                if (!renderer->process())
                 {
                     break;
                 }
@@ -53,19 +51,19 @@ namespace ouzel
         {
             XEvent event;
 
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
 
             while (active)
             {
                 executeAll();
 
-                if (sharedEngine->isActive() &&
-                    sharedEngine->getRenderer()->process())
+                if (active &&
+                    renderer->process())
                 {
-                    while (sharedEngine->isActive())
+                    while (active)
                     {
                         // XNextEvent will block if there is no event pending, so don't call it if engine is running
-                        if (sharedEngine->isRunning() && !XPending(windowLinux->getDisplay()))
+                        if (running && !XPending(windowLinux->getDisplay()))
                         {
                             break;
                         }
@@ -83,10 +81,10 @@ namespace ouzel
                                 break;
                             }
                             case FocusIn:
-                                sharedEngine->resume();
+                                resume();
                                 break;
                             case FocusOut:
-                                sharedEngine->pause();
+                                pause();
                                 break;
                             case KeyPress: // keyboard
                             case KeyRelease:
@@ -95,13 +93,13 @@ namespace ouzel
 
                                 if (event.type == KeyPress)
                                 {
-                                    sharedEngine->getInput()->keyDown(input::InputLinux::convertKeyCode(keySym),
-                                                                      input::InputLinux::getModifiers(event.xkey.state));
+                                    input->keyDown(input::InputLinux::convertKeyCode(keySym),
+                                                   input::InputLinux::getModifiers(event.xkey.state));
                                 }
                                 else
                                 {
-                                    sharedEngine->getInput()->keyUp(input::InputLinux::convertKeyCode(keySym),
-                                                                    input::InputLinux::getModifiers(event.xkey.state));
+                                    input->keyUp(input::InputLinux::convertKeyCode(keySym),
+                                                 input::InputLinux::getModifiers(event.xkey.state));
                                 }
                                 break;
                             }
@@ -131,15 +129,15 @@ namespace ouzel
 
                                 if (event.type == ButtonPress)
                                 {
-                                    sharedEngine->getInput()->mouseDown(button,
-                                                                        sharedEngine->getWindow()->convertWindowToNormalizedLocation(pos),
-                                                                        input::InputLinux::getModifiers(event.xbutton.state));
+                                    input->mouseDown(button,
+                                                     window->convertWindowToNormalizedLocation(pos),
+                                                     input::InputLinux::getModifiers(event.xbutton.state));
                                 }
                                 else
                                 {
-                                    sharedEngine->getInput()->mouseUp(button,
-                                                                      sharedEngine->getWindow()->convertWindowToNormalizedLocation(pos),
-                                                                      input::InputLinux::getModifiers(event.xbutton.state));
+                                    input->mouseUp(button,
+                                                   window->convertWindowToNormalizedLocation(pos),
+                                                   input::InputLinux::getModifiers(event.xbutton.state));
                                 }
                                 break;
                             }
@@ -148,8 +146,8 @@ namespace ouzel
                                 Vector2 pos(static_cast<float>(event.xmotion.x),
                                             static_cast<float>(event.xmotion.y));
 
-                                sharedEngine->getInput()->mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(pos),
-                                                                    input::InputLinux::getModifiers(event.xmotion.state));
+                                input->mouseMove(window->convertWindowToNormalizedLocation(pos),
+                                                 input::InputLinux::getModifiers(event.xmotion.state));
 
                                 break;
                             }
@@ -179,14 +177,14 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void ApplicationLinux::execute(const std::function<void(void)>& func)
+    void EngineLinux::execute(const std::function<void(void)>& func)
     {
         std::lock_guard<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
     }
 
-    void ApplicationLinux::executeAll()
+    void EngineLinux::executeAll()
     {
         std::function<void(void)> func;
 
@@ -211,19 +209,19 @@ namespace ouzel
         }
     }
 
-    bool ApplicationLinux::openURL(const std::string& url)
+    bool EngineLinux::openURL(const std::string& url)
     {
 		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
 
 		return true;
 	}
 
-	void ApplicationLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         execute([newScreenSaverEnabled]() {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });

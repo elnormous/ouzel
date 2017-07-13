@@ -78,7 +78,7 @@ namespace ouzel
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
     protected:
-        void main();
+        virtual void main();
 
         std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;

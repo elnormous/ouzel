@@ -32,10 +32,9 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/StreamVorbis.cpp \
     ../../ouzel/audio/StreamWave.cpp \
     ../../ouzel/audio/SoundResource.cpp \
-    ../../ouzel/core/android/ApplicationAndroid.cpp \
+    ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/WindowAndroid.cpp \
-    ../../ouzel/core/Application.cpp \
     ../../ouzel/core/Cache.cpp \
     ../../ouzel/core/Engine.cpp \
     ../../ouzel/core/Timer.cpp \

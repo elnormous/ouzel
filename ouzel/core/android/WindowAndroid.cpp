@@ -2,24 +2,23 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowAndroid.h"
-#include "ApplicationAndroid.h"
-#include "core/Engine.h"
+#include "EngineAndroid.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     WindowAndroid::WindowAndroid()
     {
-        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
         JNIEnv* jniEnv;
 
-        if (applicationAndroid->getJavaVM()->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        if (engineAndroid->getJavaVM()->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to get JNI environment";
             return;
         }
 
-        window = ANativeWindow_fromSurface(jniEnv, applicationAndroid->getSurface());
+        window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
     }
 
     WindowAndroid::~WindowAndroid()

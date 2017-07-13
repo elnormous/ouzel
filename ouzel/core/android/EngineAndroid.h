@@ -8,15 +8,15 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 #include <android/looper.h>
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationAndroid: public Application
+    class EngineAndroid: public Engine
     {
     public:
-        ApplicationAndroid(JavaVM* aJavaVM);
-        virtual ~ApplicationAndroid();
+        EngineAndroid(JavaVM* aJavaVM);
+        virtual ~EngineAndroid();
 
         void onCreate(jobject aMainActivity);
         void setSurface(jobject aSurface);
@@ -39,7 +39,8 @@ namespace ouzel
         void executeAll();
 
     private:
-        void update();
+        virtual void main() override;
+        void loop();
 
         JavaVM* javaVM = nullptr;
         jclass uriClass = nullptr;

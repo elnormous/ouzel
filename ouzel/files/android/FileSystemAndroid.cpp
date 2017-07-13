@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "FileSystemAndroid.h"
-#include "core/android/ApplicationAndroid.h"
+#include "core/android/EngineAndroid.h"
 #include "utils/Log.h"
 
 static char TEMP_BUFFER[1024];
@@ -15,25 +15,25 @@ namespace ouzel
 
     std::string FileSystemAndroid::getStorageDirectory(bool) const
     {
-        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
 
-        return applicationAndroid->getFilesDirectory();
+        return engineAndroid->getFilesDirectory();
     }
 
     std::string FileSystemAndroid::getTempDirectory() const
     {
-        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
 
-        return applicationAndroid->getCacheDirectory();
+        return engineAndroid->getCacheDirectory();
     }
 
     bool FileSystemAndroid::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
         if (!isAbsolutePath(filename))
         {
-            ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
+            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
 
-            AAsset* asset = AAssetManager_open(applicationAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+            AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
             {

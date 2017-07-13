@@ -70,9 +70,9 @@ namespace ouzel
         argc = aArgc;
         argv = aArgv;
 
-        for (int i = 0; i < argc; ++i)
+        for (int i = 0; i < aArgc; ++i)
         {
-            args.push_back(argv[i]);
+            args.push_back(aArgv[i]);
         }
 
         mainQueue = dispatch_get_main_queue();

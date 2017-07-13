@@ -33,7 +33,6 @@
 #include "input/tvos/InputTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "android/ApplicationAndroid.h"
 #include "android/WindowAndroid.h"
 #include "files/android/FileSystemAndroid.h"
 #include "graphics/opengl/android/RendererOGLAndroid.h"
@@ -682,20 +681,6 @@ namespace ouzel
 
     void Engine::main()
     {
-#if OUZEL_PLATFORM_ANDROID
-        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
-        JavaVM* javaVM = applicationAndroid->getJavaVM();
-        JNIEnv* jniEnv;
-        JavaVMAttachArgs attachArgs;
-        attachArgs.version = JNI_VERSION_1_6;
-        attachArgs.name = NULL; // thread name
-        attachArgs.group = NULL; // thread group
-        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
-        }
-#endif
-
         ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
@@ -710,13 +695,6 @@ namespace ouzel
         }
 
         eventDispatcher.dispatchEvents();
-#endif
-
-#if OUZEL_PLATFORM_ANDROID
-        if (javaVM->DetachCurrentThread() != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
-        }
 #endif
     }
 

@@ -5,7 +5,6 @@
 #include "InputEm.h"
 #include "GamepadEm.h"
 #include "core/Engine.h"
-#include "core/Application.h"
 #include "core/Window.h"
 #include "events/Event.h"
 #include "utils/Log.h"
@@ -328,7 +327,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedApplication->execute([visible] {
+            sharedEngine->execute([visible] {
                 if (!visible)
                 {
                     emscripten_hide_mouse();
@@ -356,7 +355,7 @@ namespace ouzel
 
         void InputEm::setCursorLocked(bool locked)
         {
-            sharedApplication->execute([locked] {
+            sharedEngine->execute([locked] {
                 if (locked)
                 {
                     emscripten_request_pointerlock(nullptr, false);
