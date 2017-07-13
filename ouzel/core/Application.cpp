@@ -59,7 +59,7 @@ namespace ouzel
 
         if (engine)
         {
-            engine.release();
+            engine.reset();
         }
     }
 
