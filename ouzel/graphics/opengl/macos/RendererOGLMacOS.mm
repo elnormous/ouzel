@@ -7,7 +7,6 @@
 
 #include "RendererOGLMacOS.h"
 #include "core/macos/WindowMacOS.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -209,7 +208,7 @@ namespace ouzel
         {
             if (type == Event::Type::WINDOW_SCREEN_CHANGE)
             {
-                sharedApplication->execute([this, event]() {
+                sharedEngine->execute([this, event]() {
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)

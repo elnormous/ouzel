@@ -7,7 +7,6 @@
 
 #import <Metal/Metal.h>
 #include "MetalView.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/macos/WindowMacOS.h"
 #include "input/macos/InputMacOS.h"

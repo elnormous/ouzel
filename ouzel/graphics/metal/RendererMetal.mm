@@ -40,7 +40,6 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
 #include "utils/Log.h"

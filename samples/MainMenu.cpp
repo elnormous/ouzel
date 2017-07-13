@@ -70,7 +70,7 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     {
         if (type == Event::Type::KEY_DOWN)
         {
-            sharedApplication->exit();
+            sharedEngine->exit();
         }
 
         return false;
@@ -85,7 +85,7 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
     {
         if (event.node == gitHubButton.get())
         {
-            sharedApplication->openURL("https://github.com/elnormous/ouzel");
+            sharedEngine->openURL("https://github.com/elnormous/ouzel");
         }
         else if (event.node == spritesButton.get())
         {

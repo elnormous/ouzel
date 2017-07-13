@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include "Engine.h"
-#include "Application.h"
 #include "CompileConfig.h"
 #include "Window.h"
 #include "utils/Log.h"
@@ -79,7 +78,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(false)
+        running(false), active(false), screenSaverEnabled(false)
     {
         sharedEngine = this;
     }
@@ -547,6 +546,11 @@ namespace ouzel
         return true;
     }
 
+    int Engine::run()
+    {
+        return EXIT_SUCCESS;
+    }
+
     void Engine::start()
     {
         if (!active)
@@ -561,9 +565,9 @@ namespace ouzel
             previousUpdateTime = std::chrono::steady_clock::now();
 
 #if OUZEL_MULTITHREADED
-            updateThread = std::thread(&Engine::run, this);
+            updateThread = std::thread(&Engine::main, this);
 #else
-            run();
+            main();
 #endif
         }
     }
@@ -591,6 +595,23 @@ namespace ouzel
             previousUpdateTime = std::chrono::steady_clock::now();
             running = true;
         }
+    }
+
+    void Engine::exit()
+    {
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+        }
+
+        running = false;
+        active = false;
+
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
     }
 
     void Engine::update()
@@ -659,7 +680,7 @@ namespace ouzel
         }
     }
 
-    void Engine::run()
+    void Engine::main()
     {
 #if OUZEL_PLATFORM_ANDROID
         ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
@@ -675,7 +696,7 @@ namespace ouzel
         }
 #endif
 
-        ouzelMain(sharedApplication->getArgs());
+        ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
         while (active)
@@ -733,5 +754,15 @@ namespace ouzel
         {
             updateCallbackAddSet.erase(setIterator);
         }
+    }
+
+    bool Engine::openURL(const std::string&)
+    {
+        return false;
+    }
+
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        screenSaverEnabled = newScreenSaverEnabled;
     }
 }

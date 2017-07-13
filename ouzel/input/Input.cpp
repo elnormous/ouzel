@@ -5,7 +5,6 @@
 #include "Input.h"
 #include "CursorResource.h"
 #include "Gamepad.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "math/MathUtils.h"
@@ -44,7 +43,7 @@ namespace ouzel
 
             CursorResource* resource = currentCursorResource;
 
-            sharedApplication->execute([this, resource] {
+            sharedEngine->execute([this, resource] {
                 activateCursorResource(resource);
             });
         }
@@ -67,7 +66,7 @@ namespace ouzel
 
         void Input::deleteCursorResource(CursorResource* resource)
         {
-            sharedApplication->execute([this, resource] {
+            sharedEngine->execute([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
                 std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
@@ -85,7 +84,7 @@ namespace ouzel
                     // remove the cursor
                     currentCursorResource = nullptr;
 
-                    sharedApplication->execute([this] {
+                    sharedEngine->execute([this] {
                         activateCursorResource(nullptr);
                     });
                 }
@@ -96,7 +95,7 @@ namespace ouzel
         
         void Input::uploadCursorResource(CursorResource* resource)
         {
-            sharedApplication->execute([this, resource] {
+            sharedEngine->execute([this, resource] {
                 resource->upload();
                 if (resource == currentCursorResource) activateCursorResource(currentCursorResource);
             });

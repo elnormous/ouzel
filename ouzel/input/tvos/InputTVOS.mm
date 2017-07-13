@@ -6,7 +6,6 @@
 #include "InputTVOS.h"
 #include "GamepadTVOS.h"
 #include "core/tvos/WindowTVOS.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
@@ -112,7 +111,7 @@ namespace ouzel
 
         bool InputTVOS::showVirtualKeyboard()
         {
-            sharedApplication->execute([]() {
+            sharedEngine->execute([]() {
                 WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField becomeFirstResponder];
@@ -123,7 +122,7 @@ namespace ouzel
 
         bool InputTVOS::hideVirtualKeyboard()
         {
-            sharedApplication->execute([]() {
+            sharedEngine->execute([]() {
                 WindowTVOS* windowTVOS = static_cast<WindowTVOS*>(sharedEngine->getWindow());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField resignFirstResponder];

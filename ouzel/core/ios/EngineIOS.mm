@@ -2,9 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
-#include "ApplicationIOS.h"
-#include "core/Application.h"
-#include "core/Engine.h"
+#include "EngineIOS.h"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 
@@ -14,7 +12,7 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    ouzel::sharedApplication->init();
+    ouzel::sharedEngine->init();
 
     return YES;
 }
@@ -49,7 +47,7 @@
 
 -(void)applicationWillTerminate:(__unused UIApplication*)application
 {
-    ouzel::sharedApplication->exit();
+    ouzel::sharedEngine->exit();
 }
 
 -(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
@@ -67,13 +65,20 @@
 
 namespace ouzel
 {
-    ApplicationIOS::ApplicationIOS(int aArgc, char* aArgv[]):
-        Application(aArgc, aArgv)
+    EngineIOS::EngineIOS(int aArgc, char* aArgv[])
     {
+        argc = aArgc;
+        argv = aArgv;
+
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+
         mainQueue = dispatch_get_main_queue();
     }
 
-    int ApplicationIOS::run()
+    int EngineIOS::run()
     {
         @autoreleasepool
         {
@@ -81,7 +86,7 @@ namespace ouzel
         }
     }
 
-    void ApplicationIOS::execute(const std::function<void(void)>& func)
+    void EngineIOS::execute(const std::function<void(void)>& func)
     {
         if (func)
         {
@@ -93,7 +98,7 @@ namespace ouzel
         }
     }
 
-    bool ApplicationIOS::openURL(const std::string& url)
+    bool EngineIOS::openURL(const std::string& url)
     {
         NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
         NSURL* nsURL = [NSURL URLWithString:nsStringURL];
@@ -101,9 +106,9 @@ namespace ouzel
         return [[UIApplication sharedApplication] openURL:nsURL] == YES;
     }
 
-    void ApplicationIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void EngineIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         dispatch_async(mainQueue, ^{
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;

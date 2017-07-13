@@ -27,14 +27,17 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
-    class Application;
     class Window;
 
     class Engine: public Noncopyable
     {
-        friend Application;
     public:
-        ~Engine();
+        Engine();
+        virtual ~Engine();
+
+        bool init();
+
+        const std::vector<std::string>& getArgs() { return args; }
 
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
         static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
@@ -53,9 +56,12 @@ namespace ouzel
         const INI& getDefaultSettings() const { return defaultSettings; }
         const INI& getUserSettings() const { return userSettings; }
 
+        virtual int run();
         void start();
         void pause();
         void resume();
+        virtual void exit();
+
         bool isRunning() const { return running; }
         bool isActive() const { return active; }
 
@@ -64,10 +70,15 @@ namespace ouzel
 
         void update();
 
+        virtual void execute(const std::function<void(void)>& func) = 0;
+
+        virtual bool openURL(const std::string& url);
+
+        virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
+        bool isScreenSaverEnabled() const { return screenSaverEnabled; }
+
     protected:
-        Engine();
-        bool init();
-        void run();
+        void main();
 
         std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;
@@ -95,6 +106,11 @@ namespace ouzel
 
         std::atomic<bool> running;
         std::atomic<bool> active;
+
+        // from application
+        bool screenSaverEnabled = true;
+        std::vector<std::string> args;
+        // from application
     };
 
     extern Engine* sharedEngine;
