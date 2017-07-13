@@ -17,17 +17,18 @@ namespace ouzel
 
     std::string FileSystemIOS::getStorageDirectory(bool user) const
     {
-        NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, YES);
+        NSFileManager* fileManager = [NSFileManager defaultManager];
 
-        if ([paths count] == 0)
+        NSError* error;
+        NSURL* documentDirectory = [fileManager URLForDirectory:NSDocumentDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
+
+        if (!documentDirectory)
         {
-            Log(Log::Level::ERR) << "Failed to get application support directory";
+            Log(Log::Level::ERR) << "Failed to get document directory";
             return "";
         }
 
-        NSString* documentsDirectory = [paths objectAtIndex:0];
-
-        return [documentsDirectory UTF8String];
+        return [[documentDirectory path] UTF8String];
     }
 
     std::string FileSystemIOS::getTempDirectory() const

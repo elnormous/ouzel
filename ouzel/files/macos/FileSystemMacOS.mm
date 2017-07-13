@@ -9,8 +9,6 @@ namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
     {
-        fileManager = [NSFileManager defaultManager];
-
         NSBundle* bundle = [NSBundle mainBundle];
         NSString* path = [bundle resourcePath];
 
@@ -19,6 +17,8 @@ namespace ouzel
 
     std::string FileSystemMacOS::getStorageDirectory(bool user) const
     {
+        NSFileManager* fileManager = [NSFileManager defaultManager];
+
         NSError* error;
         NSURL* applicationSupportDirectory = [fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
 
