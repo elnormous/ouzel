@@ -278,32 +278,29 @@ namespace ouzel
 
                 std::vector<uint8_t> data = getData(bufferSize);
 
-                if (!data.empty())
-                {
-                    alBufferData(buffers[nextBuffer], format,
-                                 data.data(),
-                                 static_cast<ALsizei>(data.size()),
-                                 static_cast<ALsizei>(samplesPerSecond));
+                alBufferData(buffers[nextBuffer], format,
+                             data.data(),
+                             static_cast<ALsizei>(data.size()),
+                             static_cast<ALsizei>(samplesPerSecond));
 
-                    alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+                alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+
+                if (AudioAL::checkOpenALError())
+                {
+                    Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
+                    return false;
+                }
+
+                ALint state;
+                alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+                if (state != AL_PLAYING)
+                {
+                    alSourcePlay(sourceId);
 
                     if (AudioAL::checkOpenALError())
                     {
-                        Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
+                        Log(Log::Level::ERR) << "Failed to play OpenAL source";
                         return false;
-                    }
-
-                    ALint state;
-                    alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
-                    if (state != AL_PLAYING)
-                    {
-                        alSourcePlay(sourceId);
-
-                        if (AudioAL::checkOpenALError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to play OpenAL source";
-                            return false;
-                        }
                     }
                 }
 
