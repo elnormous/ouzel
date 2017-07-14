@@ -148,6 +148,11 @@ namespace ouzel
             HGLRC renderContext = 0;
         };
 
+        RendererOGLWin::RendererOGLWin():
+            running(false)
+        {
+        }
+
         RendererOGLWin::~RendererOGLWin()
         {
             running = false;
@@ -335,13 +340,13 @@ namespace ouzel
             }
 
             if (!RendererOGL::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer))
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newDebugRenderer))
             {
                 return false;
             }

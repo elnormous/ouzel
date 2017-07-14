@@ -25,6 +25,7 @@ namespace ouzel
             virtual ~RendererOGLWin();
 
         private:
+            RendererOGLWin();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,

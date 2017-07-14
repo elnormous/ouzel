@@ -31,12 +31,6 @@ namespace ouzel
         {
             executeAll();
 
-            if (!active ||
-                !renderer->process())
-            {
-                break;
-            }
-
             inputRasp->update();
         }
 

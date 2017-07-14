@@ -12,8 +12,16 @@ namespace ouzel
 {
     namespace graphics
     {
+        RendererOGLLinux::RendererOGLLinux():
+            running(false)
+        {
+        }
+
         RendererOGLLinux::~RendererOGLLinux()
         {
+            running = false;
+            if (renderThread.joinable()) renderThread.join();
+
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
             Display* display = windowLinux->getDisplay();
 
@@ -138,14 +146,22 @@ namespace ouzel
                 glXSwapIntervalEXT(display, windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
             }
 
-            return RendererOGL::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer);
+            if (RendererOGL::init(newWindow,
+                                  newSize,
+                                  newSampleCount,
+                                  newTextureFilter,
+                                  newMaxAnisotropy,
+                                  newVerticalSync,
+                                  newDepth,
+                                  newDebugRenderer))
+            {
+                return false;
+            }
+
+            running = true;
+            renderThread = std::thread(&RendererOGLWin::main, this);
+
+            return true;
         }
 
         bool RendererOGLLinux::swapBuffers()
@@ -155,6 +171,14 @@ namespace ouzel
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
 
             return true;
+        }
+
+        void RendererOGLLinux::main()
+        {
+            while (running)
+            {
+                process();
+            }
         }
     } // namespace graphics
 } // namespace ouzel
