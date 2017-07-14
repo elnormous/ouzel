@@ -128,6 +128,8 @@
 		3098A5481E9FD54000528A54 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1521CB5DD0400478AA2 /* UIKit.framework */; };
 		3098A5491E9FD56A00528A54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE14C1CB5DCDC00478AA2 /* Foundation.framework */; };
 		3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3098A54F1EA01B4B00528A54 /* IOKit.framework */; };
+		309BA31A1F184198006F2240 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 309BA3191F184198006F2240 /* CoreAudio.framework */; };
+		309BA31E1F1841E8006F2240 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 309BA31D1F1841E8006F2240 /* AudioUnit.framework */; };
 		30A883571E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883581E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
 		30A883591E70E004004A033F /* 8-bit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30A883561E70E004004A033F /* 8-bit.wav */; };
@@ -255,6 +257,9 @@
 		305F6DBA1C66C50000B76A03 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		308493A11D63D0C100B7C515 /* button_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_selected.png; sourceTree = "<group>"; };
 		3098A54F1EA01B4B00528A54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		309BA3191F184198006F2240 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		309BA31B1F1841CB006F2240 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		309BA31D1F1841E8006F2240 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		30A883561E70E004004A033F /* 8-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "8-bit.wav"; sourceTree = "<group>"; };
 		30A8835D1E70E5B1004A033F /* 24-bit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "24-bit.wav"; sourceTree = "<group>"; };
 		30AFE1311CB5DC2B00478AA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -317,10 +322,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				309BA31E1F1841E8006F2240 /* AudioUnit.framework in Frameworks */,
+				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
+				309BA31A1F184198006F2240 /* CoreAudio.framework in Frameworks */,
 				3098A5501EA01B4B00528A54 /* IOKit.framework in Frameworks */,
 				304659F11E996AAD00D7FEA0 /* QuartzCore.framework in Frameworks */,
 				30647D931D7D94EC00DC7E61 /* libouzel_macos.a in Frameworks */,
-				30419E631D1F3DED00A63759 /* AudioToolbox.framework in Frameworks */,
 				305F6DBB1C66C50000B76A03 /* CoreVideo.framework in Frameworks */,
 				303B74F31C27F6EB00FEDE92 /* Cocoa.framework in Frameworks */,
 				30AFE1321CB5DC2B00478AA2 /* Metal.framework in Frameworks */,
@@ -335,6 +342,9 @@
 		303B74EF1C27F6B000FEDE92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				309BA31D1F1841E8006F2240 /* AudioUnit.framework */,
+				309BA31B1F1841CB006F2240 /* CoreAudioKit.framework */,
+				309BA3191F184198006F2240 /* CoreAudio.framework */,
 				3098A54F1EA01B4B00528A54 /* IOKit.framework */,
 				30419E3E1D1A106900A63759 /* AudioToolbox.framework */,
 				30419E621D1F3DED00A63759 /* AudioToolbox.framework */,
@@ -555,6 +565,9 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
+					303B760C1C34CFE300FEDE92 = {
+						DevelopmentTeam = XHH29823R9;
+					};
 					304A8E091C237B95008B1151 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -792,7 +805,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XHH29823R9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = ios/Info.plist;
@@ -813,7 +826,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XHH29823R9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.hpp;
 				INFOPLIST_FILE = ios/Info.plist;

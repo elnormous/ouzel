@@ -11,8 +11,7 @@
 #endif
 
 #include "WindowLinux.h"
-#include "core/Application.h"
-#include "core/Engine.h"
+#include "EngineLinux.h"
 #include "utils/Log.h"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
@@ -128,7 +127,9 @@ namespace ouzel
                 return false;
         }
 
-        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, sharedApplication->getArgv(), sharedApplication->getArgc(), nullptr);
+        EngineLinux* engineLinux = static_cast<EngineLinux*>(sharedEngine);
+
+        XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, engineLinux->getArgv(), engineLinux->getArgc(), nullptr);
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
@@ -151,7 +152,7 @@ namespace ouzel
     {
         Window::close();
 
-        ouzel::sharedApplication->execute([this] {
+        sharedEngine->execute([this] {
             XEvent event;
             event.type = ClientMessage;
             event.xclient.window = window;
@@ -173,7 +174,7 @@ namespace ouzel
     {
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            sharedApplication->execute([this, newSize] {
+            sharedEngine->execute([this, newSize] {
                 XWindowChanges changes;
                 changes.width = static_cast<int>(newSize.v[0]);
                 changes.height = static_cast<int>(newSize.v[1]);
@@ -203,7 +204,7 @@ namespace ouzel
         {
             if (title != newTitle)
             {
-                sharedApplication->execute([this, newTitle] {
+                sharedEngine->execute([this, newTitle] {
                     XStoreName(display, window, newTitle.c_str());
                 });
             }
@@ -221,7 +222,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedApplication->execute([this] {
+            sharedEngine->execute([this] {
                 XEvent event;
                 event.type = ClientMessage;
                 event.xclient.window = window;

@@ -4,17 +4,16 @@
 #pragma once
 
 #include <dispatch/dispatch.h>
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationMacOS: public Application
+    class EngineTVOS: public Engine
     {
     public:
-        ApplicationMacOS(int aArgc, char* aArgv[]);
+        EngineTVOS(int aArgc, char* aArgv[]);
 
         virtual int run() override;
-        virtual void exit() override;
 
         virtual void execute(const std::function<void(void)>& func) override;
 
@@ -24,6 +23,8 @@ namespace ouzel
 
     protected:
         dispatch_queue_t mainQueue;
-        uint32_t noSleepAssertionID = 0;
+
+        int argc = 0;
+        char** argv = nullptr;
     };
 }

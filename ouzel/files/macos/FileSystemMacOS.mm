@@ -5,6 +5,9 @@
 #include "FileSystemMacOS.h"
 #include "utils/Log.h"
 
+extern std::string DEVELOPER_NAME;
+extern std::string APPLICATION_NAME;
+
 namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
@@ -17,17 +20,29 @@ namespace ouzel
 
     std::string FileSystemMacOS::getStorageDirectory(bool user) const
     {
-        NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, YES);
+        NSFileManager* fileManager = [NSFileManager defaultManager];
 
-        if ([paths count] == 0)
+        NSError* error;
+        NSURL* applicationSupportDirectory = [fileManager URLForDirectory:NSApplicationSupportDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
+
+        if (!applicationSupportDirectory)
         {
             Log(Log::Level::ERR) << "Failed to get application support directory";
             return "";
         }
 
-        NSString* applicationSupportDirectory = [paths firstObject];
+        NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
 
-        return [applicationSupportDirectory UTF8String];
+        if (!identifier)
+        {
+            identifier = [NSString stringWithFormat:@"%s.%s", DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
+        }
+
+        NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
+
+        [fileManager createDirectoryAtURL:path withIntermediateDirectories:YES attributes:Nil error:Nil];
+
+        return [[path path] UTF8String];
     }
 
     std::string FileSystemMacOS::getTempDirectory() const

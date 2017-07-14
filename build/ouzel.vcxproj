@@ -31,9 +31,7 @@
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
-    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
-    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp" />
@@ -43,20 +41,18 @@
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp" />
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp" />
     <ClCompile Include="..\ouzel\audio\xaudio2\XAudio27.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\Application.cpp" />
     <ClCompile Include="..\ouzel\core\Cache.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\main.cpp" />
     <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
@@ -171,9 +167,7 @@
     <ClInclude Include="..\ouzel\animators\Shake.h" />
     <ClInclude Include="..\ouzel\audio\Audio.h" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h" />
-    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h" />
-    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h" />
     <ClInclude Include="..\ouzel\audio\Sound.h" />
     <ClInclude Include="..\ouzel\audio\SoundData.h" />
     <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h" />
@@ -183,16 +177,14 @@
     <ClInclude Include="..\ouzel\audio\StreamVorbis.h" />
     <ClInclude Include="..\ouzel\audio\StreamWave.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h" />
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h" />
-    <ClInclude Include="..\ouzel\core\Application.h" />
     <ClInclude Include="..\ouzel\core\Cache.h" />
     <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.h" />
     <ClInclude Include="..\ouzel\core\Timer.h" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.h" />
     <ClInclude Include="..\ouzel\core\Window.h" />
-    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h" />
+    <ClInclude Include="..\ouzel\core\windows\EngineWin.h" />
     <ClInclude Include="..\ouzel\core\windows\WindowWin.h" />
     <ClInclude Include="..\ouzel\events\Event.h" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.h" />

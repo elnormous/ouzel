@@ -3,9 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
-#include "ApplicationMacOS.h"
-#include "core/Application.h"
-#include "core/Engine.h"
+#include "EngineMacOS.h"
 #include "utils/Log.h"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
@@ -16,7 +14,7 @@
 
 -(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
-    ouzel::sharedApplication->init();
+    ouzel::sharedEngine->init();
 }
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
@@ -29,12 +27,7 @@
 
 -(void)applicationWillTerminate:(__unused NSNotification*)notification
 {
-    ouzel::sharedApplication->exit();
-
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->stop();
-    }
+    ouzel::sharedEngine->exit();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
@@ -71,13 +64,17 @@
 
 namespace ouzel
 {
-    ApplicationMacOS::ApplicationMacOS(int aArgc, char* aArgv[]):
-        Application(aArgc, aArgv)
+    EngineMacOS::EngineMacOS(int argc, char* argv[])
     {
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+
         mainQueue = dispatch_get_main_queue();
     }
 
-    int ApplicationMacOS::run()
+    int EngineMacOS::run()
     {
         @autoreleasepool
         {
@@ -92,17 +89,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void ApplicationMacOS::exit()
-    {
-        Application::exit();
-
-        dispatch_async(mainQueue, ^{
-            NSApplication* application = [NSApplication sharedApplication];
-            [application terminate:Nil];
-        });
-    }
-
-    void ApplicationMacOS::execute(const std::function<void(void)>& func)
+    void EngineMacOS::execute(const std::function<void(void)>& func)
     {
         if (func)
         {
@@ -114,7 +101,7 @@ namespace ouzel
         }
     }
 
-    bool ApplicationMacOS::openURL(const std::string& url)
+    bool EngineMacOS::openURL(const std::string& url)
     {
         NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
         NSURL* nsURL = [NSURL URLWithString:nsStringURL];
@@ -122,9 +109,9 @@ namespace ouzel
         return [[NSWorkspace sharedWorkspace] openURL:nsURL] == YES;
     }
 
-    void ApplicationMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void EngineMacOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         dispatch_async(mainQueue, ^{
             if (newScreenSaverEnabled)
@@ -152,6 +139,16 @@ namespace ouzel
                     }
                 }
             }
+        });
+    }
+
+    void EngineMacOS::main()
+    {
+        Engine::main();
+
+        dispatch_async(mainQueue, ^{
+            NSApplication* application = [NSApplication sharedApplication];
+            if ([application isRunning]) [application terminate:Nil];
         });
     }
 }

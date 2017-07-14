@@ -7,6 +7,8 @@
 
 #if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
 
+#include <thread>
+#include <atomic>
 #include <windows.h>
 #include "graphics/opengl/RendererOGL.h"
 
@@ -23,6 +25,7 @@ namespace ouzel
             virtual ~RendererOGLWin();
 
         private:
+            RendererOGLWin();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -34,9 +37,13 @@ namespace ouzel
 
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
+            void main();
 
             HDC deviceContext = 0;
             HGLRC renderContext = 0;
+
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

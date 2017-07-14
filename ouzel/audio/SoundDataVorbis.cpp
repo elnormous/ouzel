@@ -13,8 +13,6 @@ namespace ouzel
 {
     namespace audio
     {
-        static const uint32_t DECODE_BUFFER_SIZE = 32 * 4096;
-
         SoundDataVorbis::SoundDataVorbis()
         {
         }
@@ -56,47 +54,15 @@ namespace ouzel
 
         std::vector<uint8_t> SoundDataVorbis::getData(Stream* stream, uint32_t size)
         {
-            if (!stream)
-            {
-                stb_vorbis* vorbisStream = stb_vorbis_open_memory(data.data(), static_cast<int>(data.size()), nullptr, nullptr);
+            StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
-                std::vector<uint8_t> result(DECODE_BUFFER_SIZE);
-                uint32_t currentSize = 0;
+            std::vector<uint8_t> result(size);
 
-                for (;;)
-                {
-                    int n = stb_vorbis_get_samples_short_interleaved(vorbisStream, channels, reinterpret_cast<short*>(result.data() + currentSize), DECODE_BUFFER_SIZE / 2);
+            int n = stb_vorbis_get_samples_short_interleaved(streamVorbis->getVorbisStream(), channels, reinterpret_cast<short*>(result.data()), size / 2);
 
-                    if (n != 0)
-                    {
-                        currentSize += n * 2 * channels;
+            result.resize(n * 2 * channels);
 
-                        result.resize(currentSize + DECODE_BUFFER_SIZE);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                result.resize(currentSize);
-
-                stb_vorbis_close(vorbisStream);
-
-                return result;
-            }
-            else
-            {
-                StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
-
-                std::vector<uint8_t> result(size);
-
-                int n = stb_vorbis_get_samples_short_interleaved(streamVorbis->getVorbisStream(), channels, reinterpret_cast<short*>(result.data()), size / 2);
-
-                result.resize(n * 2 * channels);
-
-                return result;
-            }
+            return result;
         }
     } // namespace audio
 } // namespace ouzel

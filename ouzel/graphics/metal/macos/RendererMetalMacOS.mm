@@ -7,7 +7,6 @@
 
 #include "RendererMetalMacOS.h"
 #include "MetalView.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/macos/WindowMacOS.h"
 #include "utils/Log.h"
@@ -17,15 +16,20 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,
                                CVOptionFlags,
                                CVOptionFlags*,
-                               void*)
+                               void* userInfo)
 {
+    if (!ouzel::sharedEngine || !ouzel::sharedEngine->isActive())
+    {
+        return kCVReturnSuccess;
+    }
+
     @autoreleasepool
     {
-        if (ouzel::sharedEngine->isRunning() && !ouzel::sharedEngine->draw())
+        ouzel::graphics::RendererMetalMacOS* renderer = static_cast<ouzel::graphics::RendererMetalMacOS*>(userInfo);
+
+        if (!renderer->process())
         {
-            ouzel::sharedApplication->execute([] {
-                ouzel::sharedEngine->getWindow()->close();
-            });
+            return kCVReturnError;
         }
     }
 
@@ -92,7 +96,7 @@ namespace ouzel
                 return false;
             }
 
-            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
+            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                 return false;
@@ -111,7 +115,7 @@ namespace ouzel
         {
             if (type == Event::Type::WINDOW_SCREEN_CHANGE)
             {
-                sharedApplication->execute([this, event]() {
+                sharedEngine->execute([this, event]() {
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
@@ -131,7 +135,7 @@ namespace ouzel
                         return;
                     }
 
-                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
+                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
                     {
                         Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                         return;

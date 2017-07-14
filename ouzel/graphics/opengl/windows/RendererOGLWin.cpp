@@ -148,8 +148,16 @@ namespace ouzel
             HGLRC renderContext = 0;
         };
 
+        RendererOGLWin::RendererOGLWin():
+            running(false)
+        {
+        }
+
         RendererOGLWin::~RendererOGLWin()
         {
+            running = false;
+            if (renderThread.joinable()) renderThread.join();
+
             if (renderContext)
             {
                 wglMakeCurrent(deviceContext, nullptr);
@@ -331,14 +339,22 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer);
+            if (!RendererOGL::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newDebugRenderer))
+            {
+                return false;
+            }
+
+            running = true;
+            renderThread = std::thread(&RendererOGLWin::main, this);
+
+            return true;
         }
 
         bool RendererOGLWin::lockContext()
@@ -361,6 +377,14 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGLWin::main()
+        {
+            while (running)
+            {
+                process();
+            }
         }
     } // namespace graphics
 } // namespace ouzel

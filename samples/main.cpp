@@ -16,7 +16,7 @@ std::string APPLICATION_NAME = "samples";
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver
-    ouzel::sharedApplication->setScreenSaverEnabled(false);
+    ouzel::sharedEngine->setScreenSaverEnabled(false);
 
     std::string sample;
 

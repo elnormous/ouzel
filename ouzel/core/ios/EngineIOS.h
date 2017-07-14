@@ -4,14 +4,14 @@
 #pragma once
 
 #include <dispatch/dispatch.h>
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationIOS: public Application
+    class EngineIOS: public Engine
     {
     public:
-        ApplicationIOS(int aArgc, char* aArgv[]);
+        EngineIOS(int aArgc, char* aArgv[]);
 
         virtual int run() override;
 
@@ -23,5 +23,8 @@ namespace ouzel
 
     protected:
         dispatch_queue_t mainQueue;
+
+        int argc = 0;
+        char** argv = nullptr;
     };
 }

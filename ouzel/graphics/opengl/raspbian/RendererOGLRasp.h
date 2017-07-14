@@ -7,6 +7,8 @@
 
 #if OUZEL_PLATFORM_RASPBIAN && OUZEL_SUPPORTS_OPENGL
 
+#include <thread>
+#include <atomic>
 #include <bcm_host.h>
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
@@ -31,6 +33,7 @@ namespace ouzel
             virtual ~RendererOGLRasp();
 
         private:
+            RendererOGLRasp();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -39,13 +42,19 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
+
+            virtual bool lockContext() override;
             virtual bool swapBuffers() override;
+            void main();
 
             EGLDisplay display = 0;
             EGLSurface surface = 0;
             EGLContext context = 0;
 
             EGL_DISPMANX_WINDOW_T nativewindow;
+
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

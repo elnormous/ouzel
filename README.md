@@ -27,6 +27,7 @@ Supported audio backends:
 
 * XAudio 2
 * DirectSound
+* CoreAudio
 * OpenAL
 * OpenSL ES
 

@@ -7,6 +7,8 @@
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
+#include <thread>
+
 #include <dsound.h>
 #include "audio/Audio.h"
 
@@ -22,18 +24,25 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual SoundResource* createSound() override;
-
             IDirectSound8* getDirectSound() const { return directSound; }
 
         protected:
             AudioDS();
             virtual bool init() override;
 
+            void run();
+
             IDirectSound8* directSound = nullptr;
             
-            IDirectSoundBuffer* buffer = nullptr;
-            IDirectSound3DListener8* listener3D = nullptr;
+            IDirectSoundBuffer* primaryBuffer = nullptr;
+            IDirectSoundBuffer8* buffer = nullptr;
+
+            uint32_t nextBuffer = 0;
+
+            bool running = true;
+#if OUZEL_MULTITHREADED
+            std::thread audioThread;
+#endif
         };
     } // namespace audio
 } // namespace ouzel

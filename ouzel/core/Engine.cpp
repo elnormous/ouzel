@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include "Engine.h"
-#include "Application.h"
 #include "CompileConfig.h"
 #include "Window.h"
 #include "utils/Log.h"
@@ -34,7 +33,6 @@
 #include "input/tvos/InputTVOS.h"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "android/ApplicationAndroid.h"
 #include "android/WindowAndroid.h"
 #include "files/android/FileSystemAndroid.h"
 #include "graphics/opengl/android/RendererOGLAndroid.h"
@@ -71,6 +69,7 @@
 #include "audio/dsound/AudioDS.h"
 #include "audio/xaudio2/AudioXA2.h"
 #include "audio/opensl/AudioSL.h"
+#include "audio/coreaudio/AudioCA.h"
 
 extern std::string APPLICATION_NAME;
 
@@ -79,15 +78,26 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(false)
+        running(false), active(false), screenSaverEnabled(false)
     {
         sharedEngine = this;
     }
 
     Engine::~Engine()
     {
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+        }
+
         running = false;
         active = false;
+
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
 
         for (UpdateCallback* updateCallback : updateCallbackAddSet)
         {
@@ -99,10 +109,6 @@ namespace ouzel
             auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
             if (i == updateCallbackDeleteSet.end()) updateCallback->engine = nullptr;
         }
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
 
         sharedEngine = nullptr;
     }
@@ -156,6 +162,9 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_OPENSL
             availableDrivers.insert(audio::Audio::Driver::OPENSL);
+#endif
+#if OUZEL_SUPPORTS_COREAUDIO
+            availableDrivers.insert(audio::Audio::Driver::COREAUDIO);
 #endif
         }
 
@@ -260,6 +269,10 @@ namespace ouzel
             else if (audioDriverValue == "opensl")
             {
                 audioDriver = ouzel::audio::Audio::Driver::OPENSL;
+            }
+            else if (audioDriverValue == "coreaudio")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
             }
             else
             {
@@ -445,17 +458,21 @@ namespace ouzel
         {
             auto availableDrivers = getAvailableAudioDrivers();
 
-            if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
+            if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
+            {
+                audioDriver = audio::Audio::Driver::COREAUDIO;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
             {
                 audioDriver = audio::Audio::Driver::OPENAL;
-            }
-            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
-            {
-                audioDriver = audio::Audio::Driver::DIRECTSOUND;
             }
             else if (availableDrivers.find(audio::Audio::Driver::XAUDIO2) != availableDrivers.end())
             {
                 audioDriver = audio::Audio::Driver::XAUDIO2;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::DIRECTSOUND) != availableDrivers.end())
+            {
+                audioDriver = audio::Audio::Driver::DIRECTSOUND;
             }
             else if (availableDrivers.find(audio::Audio::Driver::OPENSL) != availableDrivers.end())
             {
@@ -503,6 +520,12 @@ namespace ouzel
                 audio.reset(new audio::AudioSL());
                 break;
 #endif
+#if OUZEL_SUPPORTS_COREAUDIO
+            case audio::Audio::Driver::COREAUDIO:
+                Log(Log::Level::INFO) << "Using CoreAudio audio driver";
+                audio.reset(new audio::AudioCA());
+                break;
+#endif
             default:
                 Log(Log::Level::ERR) << "Unsupported audio driver";
                 return false;
@@ -541,17 +564,9 @@ namespace ouzel
         return true;
     }
 
-    void Engine::exit()
+    int Engine::run()
     {
-        if (active)
-        {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
-
-            running = false;
-            active = false;
-        }
+        return EXIT_SUCCESS;
     }
 
     void Engine::start()
@@ -568,30 +583,11 @@ namespace ouzel
             previousUpdateTime = std::chrono::steady_clock::now();
 
 #if OUZEL_MULTITHREADED
-            updateThread = std::thread(&Engine::run, this);
+            updateThread = std::thread(&Engine::main, this);
 #else
-            run();
+            main();
 #endif
         }
-    }
-
-    void Engine::stop()
-    {
-        if (active)
-        {
-            Event event;
-            event.type = Event::Type::ENGINE_STOP;
-            eventDispatcher.postEvent(event);
-
-            running = false;
-            active = false;
-        }
-
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
-
-        audio->stop();
     }
 
     void Engine::pause()
@@ -617,6 +613,19 @@ namespace ouzel
             previousUpdateTime = std::chrono::steady_clock::now();
             running = true;
         }
+    }
+
+    void Engine::exit()
+    {
+        if (active)
+        {
+            Event event;
+            event.type = Event::Type::ENGINE_STOP;
+            eventDispatcher.postEvent(event);
+        }
+
+        running = false;
+        active = false;
     }
 
     void Engine::update()
@@ -685,23 +694,9 @@ namespace ouzel
         }
     }
 
-    void Engine::run()
+    void Engine::main()
     {
-#if OUZEL_PLATFORM_ANDROID
-        ApplicationAndroid* applicationAndroid = static_cast<ApplicationAndroid*>(sharedApplication);
-        JavaVM* javaVM = applicationAndroid->getJavaVM();
-        JNIEnv* jniEnv;
-        JavaVMAttachArgs attachArgs;
-        attachArgs.version = JNI_VERSION_1_6;
-        attachArgs.name = NULL; // thread name
-        attachArgs.group = NULL; // thread group
-        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
-        }
-#endif
-
-        ouzelMain(sharedApplication->getArgs());
+        ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
         while (active)
@@ -716,23 +711,6 @@ namespace ouzel
 
         eventDispatcher.dispatchEvents();
 #endif
-
-#if OUZEL_PLATFORM_ANDROID
-        if (javaVM->DetachCurrentThread() != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
-        }
-#endif
-    }
-
-    bool Engine::draw()
-    {
-        if (!renderer->process())
-        {
-            return false;
-        }
-
-        return active;
     }
 
     void Engine::scheduleUpdate(UpdateCallback* callback)
@@ -769,5 +747,15 @@ namespace ouzel
         {
             updateCallbackAddSet.erase(setIterator);
         }
+    }
+
+    bool Engine::openURL(const std::string&)
+    {
+        return false;
+    }
+
+    void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        screenSaverEnabled = newScreenSaverEnabled;
     }
 }

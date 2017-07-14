@@ -1,4 +1,5 @@
 *.o
+*.d
 *.a
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace

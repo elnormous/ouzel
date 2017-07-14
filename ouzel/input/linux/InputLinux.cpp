@@ -5,7 +5,6 @@
 #include "InputLinux.h"
 #include "CursorResourceLinux.h"
 #include "events/Event.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
 #include "utils/Log.h"
@@ -314,7 +313,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedApplication->execute([visible, this] {
+                sharedEngine->execute([visible, this] {
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
@@ -347,7 +346,7 @@ namespace ouzel
 
         void InputLinux::setCursorLocked(bool locked)
         {
-            sharedApplication->execute([locked] {
+            sharedEngine->execute([locked] {
                 WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
@@ -381,7 +380,7 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedApplication->execute([position] {
+            sharedEngine->execute([position] {
                 WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();

@@ -14,18 +14,26 @@ namespace ouzel
 {
     namespace graphics
     {
+        RendererOGLRasp::RendererOGLRasp():
+            running(false)
+        {
+        }
+
         RendererOGLRasp::~RendererOGLRasp()
         {
+            running = false;
+            if (renderThread.joinable()) renderThread.join();
+
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
                 {
-                    Log(Log::Level::ERR) << "Failed to unset EGL context";
+                    Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
                 }
 
                 if (!eglDestroyContext(display, context))
                 {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context, error: " << eglGetError();
                 }
             }
 
@@ -33,7 +41,7 @@ namespace ouzel
             {
                 if (!eglDestroySurface(display, surface))
                 {
-                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
+                    Log(Log::Level::ERR) << "Failed to destroy EGL surface, error: " << eglGetError();
                 }
             }
 
@@ -59,13 +67,13 @@ namespace ouzel
 
             if (!display)
             {
-                Log(Log::Level::ERR) << "Failed to get display";
+                Log(Log::Level::ERR) << "Failed to get display, error: " << eglGetError();
                 return false;
             }
 
             if (!eglInitialize(display, nullptr, nullptr))
             {
-                Log(Log::Level::ERR) << "Failed to initialize EGL";
+                Log(Log::Level::ERR) << "Failed to initialize EGL, error: " << eglGetError();
                 return false;
             }
 
@@ -85,13 +93,13 @@ namespace ouzel
             EGLint numConfig;
             if (!eglChooseConfig(display, attributeList, &config, 1, &numConfig))
             {
-                Log(Log::Level::ERR) << "Failed to choose EGL config";
+                Log(Log::Level::ERR) << "Failed to choose EGL config, error: " << eglGetError();
                 return false;
             }
 
             if (!eglBindAPI(EGL_OPENGL_ES_API))
             {
-                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API";
+                Log(Log::Level::ERR) << "Failed to bind OpenGL ES API, error: " << eglGetError();
                 return false;
             }
 
@@ -126,7 +134,7 @@ namespace ouzel
             surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&nativewindow), nullptr);
             if (surface == EGL_NO_SURFACE)
             {
-                Log(Log::Level::ERR) << "Failed to create EGL window surface";
+                Log(Log::Level::ERR) << "Failed to create EGL window surface, error: " << eglGetError();
                 return false;
             }
 
@@ -158,41 +166,74 @@ namespace ouzel
 
             if (context == EGL_NO_CONTEXT)
             {
-                Log(Log::Level::ERR) << "Failed to create EGL context";
+                Log(Log::Level::ERR) << "Failed to create EGL context, error: " << eglGetError();
                 return false;
             }
 
             if (!eglMakeCurrent(display, surface, surface, context))
             {
-                Log(Log::Level::ERR) << "Failed to set current EGL context";
+                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
                 return false;
             }
 
             if (!eglSwapInterval(display, newVerticalSync ? 1 : 0))
             {
-                Log(Log::Level::ERR) << "Failed to set EGL frame interval";
+                Log(Log::Level::ERR) << "Failed to set EGL frame interval, error: " << eglGetError();
                 return false;
             }
 
-            return RendererOGL::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer);
+            if (!RendererOGL::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newDebugRenderer))
+            {
+                return false;
+            }
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
+                return false;
+            }
+
+            running = true;
+            renderThread = std::thread(&RendererOGLRasp::main, this);
+
+            return true;
+        }
+
+        bool RendererOGLRasp::lockContext()
+        {
+            if (!eglMakeCurrent(display, surface, surface, context))
+            {
+                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
+                return false;
+            }
+
+            return true;
         }
 
         bool RendererOGLRasp::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
             {
-                Log(Log::Level::ERR) << "Failed to swap buffers " << eglGetError();
+                Log(Log::Level::ERR) << "Failed to swap buffers, error: " << eglGetError();
                 return false;
             }
 
             return true;
+        }
+
+        void RendererOGLRasp::main()
+        {
+            while (running)
+            {
+                process();
+            }
         }
     } // namespace graphics
 } // namespace ouzel

@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <android/window.h>
-#include "ApplicationAndroid.h"
-#include "core/Engine.h"
+#include "EngineAndroid.h"
 #include "utils/Log.h"
 
 static int looperCallback(int fd, int events, void* data)
@@ -19,8 +18,8 @@ static int looperCallback(int fd, int events, void* data)
             return 1;
         }
 
-        ouzel::ApplicationAndroid* applicationAndroid = static_cast<ouzel::ApplicationAndroid*>(data);
-        applicationAndroid->executeAll();
+        ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
+        engineAndroid->executeAll();
     }
 
     return 1;
@@ -28,7 +27,7 @@ static int looperCallback(int fd, int events, void* data)
 
 namespace ouzel
 {
-    ApplicationAndroid::ApplicationAndroid(JavaVM* aJavaVM):
+    EngineAndroid::EngineAndroid(JavaVM* aJavaVM):
         javaVM(aJavaVM)
     {
         std::fill(std::begin(fd), std::end(fd), 0);
@@ -49,7 +48,7 @@ namespace ouzel
         intentConstructor = jniEnv->GetMethodID(intentClass, "<init>", "(Ljava/lang/String;Landroid/net/Uri;)V");
     }
 
-    ApplicationAndroid::~ApplicationAndroid()
+    EngineAndroid::~EngineAndroid()
     {
         if (updateThread.joinable()) updateThread.join();
 
@@ -71,7 +70,7 @@ namespace ouzel
         if (fd[1]) close(fd[1]);
     }
 
-    void ApplicationAndroid::onCreate(jobject aMainActivity)
+    void EngineAndroid::onCreate(jobject aMainActivity)
     {
         JNIEnv* jniEnv;
 
@@ -129,7 +128,7 @@ namespace ouzel
         ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this);
     }
 
-    void ApplicationAndroid::setSurface(jobject aSurface)
+    void EngineAndroid::setSurface(jobject aSurface)
     {
         JNIEnv* jniEnv;
 
@@ -142,14 +141,14 @@ namespace ouzel
         surface = jniEnv->NewGlobalRef(aSurface);
     }
 
-    int ApplicationAndroid::run()
+    int EngineAndroid::run()
     {
-        updateThread = std::thread(&ApplicationAndroid::update, this);
+        updateThread = std::thread(&EngineAndroid::loop, this);
 
         return EXIT_SUCCESS;
     }
 
-    void ApplicationAndroid::execute(const std::function<void(void)>& func)
+    void EngineAndroid::execute(const std::function<void(void)>& func)
     {
         {
             std::lock_guard<std::mutex> lock(executeMutex);
@@ -164,7 +163,7 @@ namespace ouzel
         }
     }
 
-    bool ApplicationAndroid::openURL(const std::string& url)
+    bool EngineAndroid::openURL(const std::string& url)
     {
         JNIEnv* jniEnv;
 
@@ -196,9 +195,9 @@ namespace ouzel
         return true;
     }
 
-    void ApplicationAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void EngineAndroid::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         execute([newScreenSaverEnabled, this]() {
             JNIEnv* jniEnv;
@@ -220,7 +219,7 @@ namespace ouzel
         });
     }
 
-    void ApplicationAndroid::executeAll()
+    void EngineAndroid::executeAll()
     {
         std::function<void(void)> func;
 
@@ -240,7 +239,7 @@ namespace ouzel
         }
     }
 
-    void ApplicationAndroid::update()
+    void EngineAndroid::main()
     {
         JNIEnv* jniEnv;
         JavaVMAttachArgs attachArgs;
@@ -252,28 +251,39 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
         }
 
-        init();
+        Engine::main();
 
-        if (sharedEngine)
+        if (javaVM->DetachCurrentThread() != JNI_OK)
         {
-            sharedEngine->start();
+            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
         }
-        else
+    }
+
+    void EngineAndroid::loop()
+    {
+        JNIEnv* jniEnv;
+        JavaVMAttachArgs attachArgs;
+        attachArgs.version = JNI_VERSION_1_6;
+        attachArgs.name = NULL; // thread name
+        attachArgs.group = NULL; // thread group
+        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
+        }
+
+        if (!init())
         {
             ::exit(EXIT_FAILURE);
         }
 
+        start();
+
         while (active)
         {
-            if (!sharedEngine->draw())
+            if (!renderer->process())
             {
                 break;
             }
-        }
-
-        if (sharedEngine)
-        {
-            sharedEngine->stop();
         }
 
         if (javaVM->DetachCurrentThread() != JNI_OK)

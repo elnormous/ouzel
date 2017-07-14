@@ -5,7 +5,6 @@
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
 #include "input/macos/InputMacOS.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -212,7 +211,7 @@ namespace ouzel
     {
         Window::close();
 
-        ouzel::sharedApplication->execute([this] {
+        sharedEngine->execute([this] {
             if (view)
             {
                 [view release];
@@ -237,7 +236,7 @@ namespace ouzel
 
     void WindowMacOS::setSize(const Size2& newSize)
     {
-        ouzel::sharedApplication->execute([this, newSize] {
+        sharedEngine->execute([this, newSize] {
             NSRect frame = [window frame];
 
             NSRect newFrame = [NSWindow frameRectForContentRect:
@@ -258,7 +257,7 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            ouzel::sharedApplication->execute([this, newFullscreen] {
+            sharedEngine->execute([this, newFullscreen] {
                 NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
                 bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
@@ -276,7 +275,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            ouzel::sharedApplication->execute([this, newTitle] {
+            sharedEngine->execute([this, newTitle] {
                 NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
                 window.title = objCTitle;
@@ -312,7 +311,7 @@ namespace ouzel
 
     void WindowMacOS::handleClose()
     {
-        sharedEngine->stop();
+        sharedEngine->exit();
     }
 
     void WindowMacOS::handleFullscreenChange(bool newFullscreen)

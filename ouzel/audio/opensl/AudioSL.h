@@ -23,7 +23,7 @@ namespace ouzel
         public:
             virtual ~AudioSL();
 
-            virtual SoundResource* createSound() override;
+            void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
             SLEngineItf getEngine() const { return engine; }
             SLObjectItf getOutputMix() const { return outputMixObject; }
@@ -35,6 +35,11 @@ namespace ouzel
             SLObjectItf engineObject = nullptr;
             SLEngineItf engine = nullptr;
             SLObjectItf outputMixObject = nullptr;
+
+            SLObjectItf playerObject = nullptr;
+            SLPlayItf player = nullptr;
+            SLAndroidSimpleBufferQueueItf bufferQueue = nullptr;
+            SLVolumeItf playerVolume = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

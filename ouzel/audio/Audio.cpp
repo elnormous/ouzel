@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Audio.h"
 #include "SoundResource.h"
+#include "math/MathUtils.h"
 
 namespace ouzel
 {
@@ -16,19 +17,10 @@ namespace ouzel
 
         Audio::~Audio()
         {
-            running = false;
-
-#if OUZEL_MULTITHREADED
-            if (audioThread.joinable()) audioThread.join();
-#endif
         }
 
         bool Audio::init()
         {
-#if OUZEL_MULTITHREADED
-            audioThread = std::thread(&Audio::run, this);
-#endif
-
             return true;
         }
 
@@ -70,49 +62,51 @@ namespace ouzel
             dirty |= DIRTY_LISTENER_ROTATION;
         }
 
-        void Audio::run()
-        {
-            while (running)
-            {
-                update();
-
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-        }
-
-        void Audio::stop()
-        {
-            running = false;
-
-#if OUZEL_MULTITHREADED
-            if (audioThread.joinable()) audioThread.join();
-#endif
-        }
-
         std::vector<uint8_t> Audio::getData(uint32_t size)
         {
-            std::vector<uint8_t> data(size, 0);
+            std::vector<uint8_t> data(size);
+            std::vector<int32_t> buffer(size / 2, 0);
 
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             for (const auto& resource : resources)
             {
-                std::vector<uint8_t> resourceData = resource->getData(bufferSize, channels, samplesPerSecond);
+                std::vector<uint8_t> resourceData = resource->getData(size, channels, samplesPerSecond);
 
                 int16_t* resourceDataPtr = reinterpret_cast<int16_t*>(resourceData.data());
-                int16_t* dataPtr = reinterpret_cast<int16_t*>(data.data());
+                int32_t* bufferPtr = buffer.data();
 
                 for (uint32_t i = 0; i < resourceData.size() / sizeof(int16_t) && i < data.size() / sizeof(int16_t); ++i)
                 {
                     // mix the resource sound into the buffer
-                    *dataPtr += *resourceDataPtr;
+                    *bufferPtr += *resourceDataPtr;
 
                     ++resourceDataPtr;
-                    ++dataPtr;
+                    ++bufferPtr;
                 }
             }
 
+            int16_t* dataPtr = reinterpret_cast<int16_t*>(data.data());
+            int32_t* bufferPtr = buffer.data();
+
+            for (uint32_t i = 0; i < data.size() / sizeof(int16_t); ++i)
+            {
+                *dataPtr = static_cast<int16_t>(clamp(*bufferPtr, static_cast<int32_t>(std::numeric_limits<int16_t>::min()), static_cast<int32_t>(std::numeric_limits<int16_t>::max())));
+
+                ++dataPtr;
+                ++bufferPtr;
+            }
+
             return data;
+        }
+
+        SoundResource* Audio::createSound()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            SoundResource* sound = new SoundResource();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
+            return sound;
         }
     } // namespace audio
 } // namespace ouzel

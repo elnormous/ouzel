@@ -7,6 +7,8 @@
 
 #if OUZEL_SUPPORTS_OPENAL
 
+#include <thread>
+
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <OpenAl/al.h>
 #include <OpenAl/alc.h>
@@ -33,14 +35,14 @@ namespace ouzel
 
             virtual bool update() override;
 
-            virtual SoundResource* createSound() override;
-
             ALCdevice* getDevice() const { return device; }
             ALCcontext* getContext() const { return context; }
 
         protected:
             AudioAL();
             virtual bool init() override;
+
+            void run();
 
             ALCdevice* device = nullptr;
             ALCcontext* context = nullptr;
@@ -54,6 +56,11 @@ namespace ouzel
             ALenum format = 0;
             uint32_t nextBuffer = 0;
             ALuint buffers[2];
+
+            bool running = true;
+#if OUZEL_MULTITHREADED
+            std::thread audioThread;
+#endif
         };
     } // namespace audio
 } // namespace ouzel

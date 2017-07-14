@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ApplicationRasp.h"
+#include "EngineRasp.h"
 
 int main(int argc, char* argv[])
 {
-    ouzel::ApplicationRasp application(argc, argv);
+    ouzel::EngineRasp engine(argc, argv);
 
-    return application.run();
+    return engine.run();
 }

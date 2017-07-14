@@ -3,18 +3,20 @@
 
 #pragma once
 
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationRasp: public Application
+    class EngineWin : public Engine
     {
     public:
-        ApplicationRasp(int aArgc, char* aArgv[]);
+        EngineWin();
+        virtual ~EngineWin();
 
         virtual int run() override;
 
         virtual void execute(const std::function<void(void)>& func) override;
+        virtual bool openURL(const std::string& url) override;
 
     protected:
         void executeAll();

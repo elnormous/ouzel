@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ApplicationEm.h"
+#include "EngineEm.h"
 
 int main(int argc, char* argv[])
 {
-    ouzel::ApplicationEm application(argc, argv);
+    ouzel::EngineEm engine(argc, argv);
 
-    return application.run();
+    return engine.run();
 }

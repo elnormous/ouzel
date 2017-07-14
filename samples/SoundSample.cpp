@@ -24,10 +24,10 @@ SoundSample::SoundSample()
     jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
 
     ambientSound.reset(new audio::Sound());
-    ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"), true);
+    ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"));
 
     music.reset(new audio::Sound());
-    music->init(sharedEngine->getCache()->getSoundData("music.ogg"), true);
+    music->init(sharedEngine->getCache()->getSoundData("music.ogg"));
 
     guiCamera.reset(new scene::Camera());
     guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

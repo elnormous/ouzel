@@ -24,7 +24,7 @@ namespace ouzel
             SoundResource();
             virtual ~SoundResource();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool streaming);
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
 
             virtual void setPosition(const Vector3& newPosition);
             virtual void setPitch(float newPitch);
@@ -52,6 +52,7 @@ namespace ouzel
 
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
+            bool relativePosition = false;
             bool shouldPlay = false;
             bool repeat = false;
             bool reset = false;

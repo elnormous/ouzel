@@ -3,7 +3,6 @@
 
 #include <windowsx.h>
 #include "WindowWin.h"
-#include "core/Application.h"
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "input/windows/InputWin.h"
@@ -265,7 +264,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             case SC_SCREENSAVE:
             case SC_MONITORPOWER:
             {
-                if (!ouzel::sharedApplication->isScreenSaverEnabled())
+                if (!ouzel::sharedEngine->isScreenSaverEnabled())
                 {
                     // Disable screensaver
                     return 0;
@@ -428,14 +427,14 @@ namespace ouzel
     {
         Window::close();
 
-        sharedApplication->execute([this] {
+        sharedEngine->execute([this] {
             SendMessage(window, WM_CLOSE, 0, 0);
         });
     }
 
     void WindowWin::setSize(const Size2& newSize)
     {
-        sharedApplication->execute([this, newSize] {
+        sharedEngine->execute([this, newSize] {
             UINT width = static_cast<UINT>(newSize.v[0]);
             UINT height = static_cast<UINT>(newSize.v[1]);
 
@@ -454,7 +453,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            sharedApplication->execute([this, newTitle] {
+            sharedEngine->execute([this, newTitle] {
                 wchar_t titleBuffer[256];
                 MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
 
@@ -469,7 +468,7 @@ namespace ouzel
     {
         Window::setFullscreen(newFullscreen);
 
-        sharedApplication->execute([this, newFullscreen] {
+        sharedEngine->execute([this, newFullscreen] {
             switchFullscreen(newFullscreen);
         });
     }

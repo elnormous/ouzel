@@ -4,14 +4,14 @@
 #pragma once
 
 #include <dispatch/dispatch.h>
-#include "core/Application.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
-    class ApplicationTVOS: public Application
+    class EngineMacOS: public Engine
     {
     public:
-        ApplicationTVOS(int aArgc, char* aArgv[]);
+        EngineMacOS(int argc, char* argv[]);
 
         virtual int run() override;
 
@@ -22,6 +22,9 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
     protected:
+        virtual void main() override;
+
         dispatch_queue_t mainQueue;
+        uint32_t noSleepAssertionID = 0;
     };
 }

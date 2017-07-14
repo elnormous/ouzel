@@ -18,7 +18,6 @@
 #include "audio/SoundData.h"
 #include "audio/SoundDataVorbis.h"
 #include "audio/SoundDataWave.h"
-#include "core/Application.h"
 #include "core/Cache.h"
 #include "core/CompileConfig.h"
 #include "core/Engine.h"

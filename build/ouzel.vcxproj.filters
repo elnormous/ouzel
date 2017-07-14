@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\ouzel\animators\Animator.cpp">
@@ -172,9 +172,6 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\Application.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>scene</Filter>
     </ClCompile>
@@ -184,16 +181,10 @@
     <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
       <Filter>audio\xaudio2</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\SoundResourceXA2.cpp">
-      <Filter>audio\xaudio2</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\direct3d11\RendererD3D11.cpp">
       <Filter>graphics\direct3d11</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
-      <Filter>audio\empty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\SoundResourceEmpty.cpp">
       <Filter>audio\empty</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\empty\RendererEmpty.cpp">
@@ -207,9 +198,6 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\core\windows\ApplicationWin.cpp">
-      <Filter>core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\core\windows\main.cpp">
       <Filter>core\windows</Filter>
@@ -376,9 +364,6 @@
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
       <Filter>audio\dsound</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\SoundResourceDS.cpp">
-      <Filter>audio\dsound</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\utils\INI.cpp">
       <Filter>utils</Filter>
     </ClCompile>
@@ -399,6 +384,8 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\FTFont.cpp">
       <Filter>gui</Filter>
+    <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp">
+      <Filter>core\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,16 +576,10 @@
     <ClInclude Include="..\ouzel\events\EventHandler.h">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Application.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\Component.h">
       <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
-      <Filter>audio\xaudio2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\SoundResourceXA2.h">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
@@ -619,9 +600,6 @@
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
       <Filter>audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\SoundResourceEmpty.h">
-      <Filter>audio\empty</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
       <Filter>graphics\empty</Filter>
     </ClInclude>
@@ -630,9 +608,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h">
       <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\ApplicationWin.h">
-      <Filter>core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\windows\WindowWin.h">
       <Filter>core\windows</Filter>
@@ -853,9 +828,6 @@
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
       <Filter>audio\dsound</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\SoundResourceDS.h">
-      <Filter>audio\dsound</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
@@ -888,6 +860,8 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\FTFont.h">
       <Filter>gui</Filter>
+    <ClInclude Include="..\ouzel\core\windows\EngineWin.h">
+      <Filter>core\windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

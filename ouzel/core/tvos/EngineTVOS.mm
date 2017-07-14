@@ -2,9 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
-#include "ApplicationIOS.h"
-#include "core/Application.h"
-#include "core/Engine.h"
+#include "EngineTVOS.h"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 
@@ -14,7 +12,7 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    ouzel::sharedApplication->init();
+    ouzel::sharedEngine->init();
 
     return YES;
 }
@@ -49,12 +47,6 @@
 
 -(void)applicationWillTerminate:(__unused UIApplication*)application
 {
-    ouzel::sharedApplication->exit();
-
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->stop();
-    }
 }
 
 -(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
@@ -72,13 +64,20 @@
 
 namespace ouzel
 {
-    ApplicationIOS::ApplicationIOS(int aArgc, char* aArgv[]):
-        Application(aArgc, aArgv)
+    EngineTVOS::EngineTVOS(int aArgc, char* aArgv[])
     {
+        argc = aArgc;
+        argv = aArgv;
+
+        for (int i = 0; i < aArgc; ++i)
+        {
+            args.push_back(aArgv[i]);
+        }
+
         mainQueue = dispatch_get_main_queue();
     }
 
-    int ApplicationIOS::run()
+    int EngineTVOS::run()
     {
         @autoreleasepool
         {
@@ -86,7 +85,7 @@ namespace ouzel
         }
     }
 
-    void ApplicationIOS::execute(const std::function<void(void)>& func)
+    void EngineTVOS::execute(const std::function<void(void)>& func)
     {
         if (func)
         {
@@ -98,7 +97,7 @@ namespace ouzel
         }
     }
 
-    bool ApplicationIOS::openURL(const std::string& url)
+    bool EngineTVOS::openURL(const std::string& url)
     {
         NSString* nsStringURL = [NSString stringWithUTF8String:url.c_str()];
         NSURL* nsURL = [NSURL URLWithString:nsStringURL];
@@ -106,9 +105,9 @@ namespace ouzel
         return [[UIApplication sharedApplication] openURL:nsURL] == YES;
     }
 
-    void ApplicationIOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    void EngineTVOS::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
-        Application::setScreenSaverEnabled(newScreenSaverEnabled);
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         dispatch_async(mainQueue, ^{
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;

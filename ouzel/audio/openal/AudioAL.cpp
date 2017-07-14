@@ -6,7 +6,6 @@
 #if OUZEL_SUPPORTS_OPENAL
 
 #include "AudioAL.h"
-#include "audio/SoundResource.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -78,8 +77,11 @@ namespace ouzel
 
         AudioAL::~AudioAL()
         {
-            resourceDeleteSet.clear();
-            resources.clear();
+            running = false;
+
+#if OUZEL_MULTITHREADED
+            if (audioThread.joinable()) audioThread.join();
+#endif
 
             if (sourceId)
             {
@@ -120,6 +122,11 @@ namespace ouzel
 
         bool AudioAL::init()
         {
+            if (!Audio::init())
+            {
+                return false;
+            }
+
             const ALCchar* deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             if (deviceName)
@@ -155,6 +162,11 @@ namespace ouzel
             format51 = alGetEnumValue("AL_FORMAT_51CHN16");
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
+
+            if (AudioAL::checkOpenALError())
+            {
+                Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
+            }
 
             alGenSources(1, &sourceId);
 
@@ -219,13 +231,23 @@ namespace ouzel
                 return false;
             }
 
-            return Audio::init();
+#if OUZEL_MULTITHREADED
+            audioThread = std::thread(&AudioAL::run, this);
+#endif
+
+            return true;
+        }
+
+        void AudioAL::run()
+        {
+            while (running)
+            {
+                update();
+            }
         }
 
         bool AudioAL::update()
         {
-            Audio::update();
-
             alcMakeContextCurrent(context);
 
             if (checkALCError())
@@ -233,8 +255,6 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to make OpenAL context current";
                 return false;
             }
-            
-            dirty = 0;
 
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
@@ -258,32 +278,29 @@ namespace ouzel
 
                 std::vector<uint8_t> data = getData(bufferSize);
 
-                if (!data.empty())
-                {
-                    alBufferData(buffers[nextBuffer], format,
-                                 data.data(),
-                                 static_cast<ALsizei>(data.size()),
-                                 static_cast<ALsizei>(samplesPerSecond));
+                alBufferData(buffers[nextBuffer], format,
+                             data.data(),
+                             static_cast<ALsizei>(data.size()),
+                             static_cast<ALsizei>(samplesPerSecond));
 
-                    alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+                alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+
+                if (AudioAL::checkOpenALError())
+                {
+                    Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
+                    return false;
+                }
+
+                ALint state;
+                alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
+                if (state != AL_PLAYING)
+                {
+                    alSourcePlay(sourceId);
 
                     if (AudioAL::checkOpenALError())
                     {
-                        Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
+                        Log(Log::Level::ERR) << "Failed to play OpenAL source";
                         return false;
-                    }
-
-                    ALint state;
-                    alGetSourcei(sourceId, AL_SOURCE_STATE, &state);
-                    if (state != AL_PLAYING)
-                    {
-                        alSourcePlay(sourceId);
-
-                        if (AudioAL::checkOpenALError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to play OpenAL source";
-                            return false;
-                        }
                     }
                 }
 
@@ -291,16 +308,10 @@ namespace ouzel
                 nextBuffer = (nextBuffer == 0) ? 1 : 0;
             }
 
+            std::lock_guard<std::mutex> lock(uploadMutex);
+            dirty = 0;
+
             return true;
-        }
-
-        SoundResource* AudioAL::createSound()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            SoundResource* sound = new SoundResource();
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
-            return sound;
         }
     } // namespace audio
 } // namespace ouzel
