@@ -135,7 +135,7 @@ namespace ouzel
                         return;
                     }
 
-                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, nullptr) != kCVReturnSuccess)
+                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
                     {
                         Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                         return;
