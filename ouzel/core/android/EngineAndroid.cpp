@@ -287,8 +287,6 @@ namespace ouzel
             }
         }
 
-        exit();
-
         if (javaVM->DetachCurrentThread() != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";

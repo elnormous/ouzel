@@ -40,8 +40,6 @@ namespace ouzel
             inputRasp->update();
         }
 
-        exit();
-
         return EXIT_SUCCESS;
     }
 

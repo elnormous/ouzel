@@ -124,7 +124,10 @@ namespace ouzel
             }
         }
 
-        exit();
+        // must join the update thread before exiting
+#if OUZEL_MULTITHREADED
+        if (updateThread.joinable()) updateThread.join();
+#endif
 
         return EXIT_SUCCESS;
     }

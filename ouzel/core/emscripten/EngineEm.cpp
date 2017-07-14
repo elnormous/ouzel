@@ -36,8 +36,6 @@ namespace ouzel
 
         emscripten_set_main_loop(loop, 0, 1);
 
-        exit();
-
         return EXIT_SUCCESS;
     }
 

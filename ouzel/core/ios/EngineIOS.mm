@@ -47,7 +47,6 @@
 
 -(void)applicationWillTerminate:(__unused UIApplication*)application
 {
-    ouzel::sharedEngine->exit();
 }
 
 -(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application

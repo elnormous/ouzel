@@ -172,8 +172,6 @@ namespace ouzel
             }
         }
 
-        exit();
-
         return EXIT_SUCCESS;
     }
 
