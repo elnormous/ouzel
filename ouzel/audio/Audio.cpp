@@ -71,7 +71,7 @@ namespace ouzel
 
             for (const auto& resource : resources)
             {
-                std::vector<uint8_t> resourceData = resource->getData(bufferSize, channels, samplesPerSecond);
+                std::vector<uint8_t> resourceData = resource->getData(size, channels, samplesPerSecond);
 
                 int16_t* resourceDataPtr = reinterpret_cast<int16_t*>(resourceData.data());
                 int32_t* bufferPtr = buffer.data();
