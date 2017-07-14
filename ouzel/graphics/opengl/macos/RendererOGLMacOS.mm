@@ -17,19 +17,11 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                CVOptionFlags*,
                                void* userInfo)
 {
-    if (!ouzel::sharedEngine || !ouzel::sharedEngine->isActive())
-    {
-        return kCVReturnSuccess;
-    }
-
     @autoreleasepool
     {
         ouzel::graphics::RendererOGLMacOS* renderer = static_cast<ouzel::graphics::RendererOGLMacOS*>(userInfo);
 
-        if (!renderer->process())
-        {
-            return kCVReturnError;
-        }
+        renderer->renderCallback();
     }
 
     return kCVReturnSuccess;
@@ -39,8 +31,16 @@ namespace ouzel
 {
     namespace graphics
     {
+        RendererOGLMacOS::RendererOGLMacOS():
+            running(false)
+        {
+        }
+
         RendererOGLMacOS::~RendererOGLMacOS()
         {
+            running = false;
+            flushDrawCommands();
+
             if (displayLink)
             {
                 if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
@@ -168,11 +168,13 @@ namespace ouzel
                 return false;
             }
 
-            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
+            if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                 return false;
             }
+
+            running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
             {
@@ -228,7 +230,7 @@ namespace ouzel
                         return;
                     }
 
-                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
+                    if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
                     {
                         Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                         return;
@@ -243,6 +245,14 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGLMacOS::renderCallback()
+        {
+            if (running)
+            {
+                process();
+            }
         }
     } // namespace graphics
 } // namespace ouzel
