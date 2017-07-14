@@ -194,6 +194,12 @@ namespace ouzel
                 return false;
             }
 
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context";
+                return false;
+            }
+
             running = true;
             renderThread = std::thread(&RendererOGLRasp::main, this);
 
