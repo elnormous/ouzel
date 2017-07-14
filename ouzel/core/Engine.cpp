@@ -69,6 +69,7 @@
 #include "audio/dsound/AudioDS.h"
 #include "audio/xaudio2/AudioXA2.h"
 #include "audio/opensl/AudioSL.h"
+#include "audio/coreaudio/AudioCA.h"
 
 extern std::string APPLICATION_NAME;
 
@@ -161,6 +162,9 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_OPENSL
             availableDrivers.insert(audio::Audio::Driver::OPENSL);
+#endif
+#if OUZEL_SUPPORTS_COREAUDIO
+            availableDrivers.insert(audio::Audio::Driver::COREAUDIO);
 #endif
         }
 
@@ -449,7 +453,11 @@ namespace ouzel
         {
             auto availableDrivers = getAvailableAudioDrivers();
 
-            if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
+            if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
+            {
+                audioDriver = audio::Audio::Driver::COREAUDIO;
+            }
+            else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
             {
                 audioDriver = audio::Audio::Driver::OPENAL;
             }
@@ -505,6 +513,12 @@ namespace ouzel
             case audio::Audio::Driver::OPENSL:
                 Log(Log::Level::INFO) << "Using OpenSL ES audio driver";
                 audio.reset(new audio::AudioSL());
+                break;
+#endif
+#if OUZEL_SUPPORTS_COREAUDIO
+            case audio::Audio::Driver::COREAUDIO:
+                Log(Log::Level::INFO) << "Using CoreAudio audio driver";
+                audio.reset(new audio::AudioCA());
                 break;
 #endif
             default:
