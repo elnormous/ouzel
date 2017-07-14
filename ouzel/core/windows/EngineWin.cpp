@@ -71,63 +71,51 @@ namespace ouzel
         {
             executeAll();
 
-            if (renderer->process())
+            std::set<HACCEL> accelerators = windowWin->getAccelerators();
+
+            while (active)
             {
-                std::set<HACCEL> accelerators = windowWin->getAccelerators();
-
-                while (active)
+                if (running)
                 {
-                    if (running)
+                    if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                     {
-                        if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                        {
-                            break;
-                        }
+                        break;
                     }
-                    else
-                    {
-                        if (GetMessage(&msg, nullptr, 0, 0) <= 0)
-                        {
-                            exit();
-                            break;
-                        }
-                    }
-
-                    bool translate = true;
-
-                    for (HACCEL accelerator : accelerators)
-                    {
-                        if (TranslateAccelerator(windowWin->getNativeWindow(), accelerator, &msg))
-                        {
-                            translate = false;
-                        }
-                    }
-
-                    if (translate)
-                    {
-                        TranslateMessage(&msg);
-                        DispatchMessage(&msg);
-                    }
-
-                    if (msg.message == WM_QUIT)
+                }
+                else
+                {
+                    if (GetMessage(&msg, nullptr, 0, 0) <= 0)
                     {
                         exit();
                         break;
                     }
                 }
 
-                inputWin->update();
-            }
-            else
-            {
-                break;
-            }
-        }
+                bool translate = true;
 
-        // must join the update thread before exiting
-#if OUZEL_MULTITHREADED
-        if (updateThread.joinable()) updateThread.join();
-#endif
+                for (HACCEL accelerator : accelerators)
+                {
+                    if (TranslateAccelerator(windowWin->getNativeWindow(), accelerator, &msg))
+                    {
+                        translate = false;
+                    }
+                }
+
+                if (translate)
+                {
+                    TranslateMessage(&msg);
+                    DispatchMessage(&msg);
+                }
+
+                if (msg.message == WM_QUIT)
+                {
+                    exit();
+                    break;
+                }
+            }
+
+            inputWin->update();
+        }
 
         return EXIT_SUCCESS;
     }

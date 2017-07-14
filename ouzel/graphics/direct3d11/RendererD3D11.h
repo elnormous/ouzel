@@ -7,6 +7,7 @@
 
 #if OUZEL_SUPPORTS_DIRECT3D11
 
+#include <thread>
 #include <atomic>
 #include <map>
 #include <d3d11.h>
@@ -58,6 +59,7 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
             virtual bool generateScreenshot(const std::string& filename) override;
+            void main();
 
             virtual BlendStateResource* createBlendState() override;
             virtual TextureResource* createTexture() override;
@@ -86,6 +88,9 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
             bool clearFrameBufferView = true;
             bool clearDepthBufferView = false;
+
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

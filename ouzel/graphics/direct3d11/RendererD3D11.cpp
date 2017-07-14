@@ -26,7 +26,7 @@ namespace ouzel
     namespace graphics
     {
         RendererD3D11::RendererD3D11():
-            Renderer(Driver::DIRECT3D11)
+            Renderer(Driver::DIRECT3D11), running(false)
         {
             apiMajorVersion = 11;
             apiMinorVersion = 0;
@@ -37,6 +37,9 @@ namespace ouzel
 
         RendererD3D11::~RendererD3D11()
         {
+            running = false;
+            if (renderThread.joinable()) renderThread.join();
+
             resourceDeleteSet.clear();
             resources.clear();
 
@@ -404,6 +407,9 @@ namespace ouzel
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
             whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
+
+            running = true;
+            renderThread = std::thread(&RendererD3D11::main, this);
 
             return true;
         }
@@ -1130,6 +1136,14 @@ namespace ouzel
                 samplerStates[desc] = samplerState;
 
                 return samplerState;
+            }
+        }
+
+        void RendererD3D11::main()
+        {
+            while (running)
+            {
+                process();
             }
         }
     } // namespace graphics

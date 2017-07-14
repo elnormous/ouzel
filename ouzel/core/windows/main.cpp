@@ -6,7 +6,10 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-    ouzel::EngineWin engine;
+    std::unique_ptr<ouzel::EngineWin> engine(new ouzel::EngineWin());
 
-    return engine.run();
+    int result = engine->run();
+    engine.release(); // must release engine instance before exit on Windows
+
+    return result;
 }
