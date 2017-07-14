@@ -269,6 +269,10 @@ namespace ouzel
             {
                 audioDriver = ouzel::audio::Audio::Driver::OPENSL;
             }
+            else if (audioDriverValue == "coreaudio")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
+            }
             else
             {
                 ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
