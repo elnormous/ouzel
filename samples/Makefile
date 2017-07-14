@@ -48,6 +48,7 @@ SOURCES=AnimationsSample.cpp \
 	RTSample.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
+DEPENDENCIES=$(OBJECTS:.o=.d)
 ifeq ($(platform),emscripten)
 EXECUTABLE=samples.js
 else
@@ -82,11 +83,13 @@ $(EXECUTABLE): ouzel $(OBJECTS)
 
 $(OBJECTS): Prefix.hpp.gch
 
+-include $(DEPENDENCIES)
+
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD $< -o $@
 
 %.hpp.gch: %.hpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD $< -o $@
 
 .PHONY: ouzel
 ouzel:
@@ -96,8 +99,8 @@ ouzel:
 clean:
 	$(MAKE) -f ../build/Makefile clean
 ifeq ($(platform),windows)
-	-del /f /q $(EXECUTABLE).exe *.o *.js.mem *.js *.hpp.gch
+	-del /f /q $(EXECUTABLE).exe *.o *.d *.js.mem *.js *.hpp.gch
 else
-	$(RM) $(EXECUTABLE) *.o *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
+	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
 	$(RM) -r $(EXECUTABLE).app
 endif
