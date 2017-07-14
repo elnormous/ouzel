@@ -60,7 +60,7 @@ namespace ouzel
         void start();
         void pause();
         void resume();
-        virtual void exit();
+        void exit();
 
         bool isRunning() const { return running; }
         bool isActive() const { return active; }

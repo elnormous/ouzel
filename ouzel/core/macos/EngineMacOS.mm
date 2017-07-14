@@ -89,16 +89,6 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineMacOS::exit()
-    {
-        Engine::exit();
-
-        dispatch_async(mainQueue, ^{
-            NSApplication* application = [NSApplication sharedApplication];
-            [application terminate:Nil];
-        });
-    }
-
     void EngineMacOS::execute(const std::function<void(void)>& func)
     {
         if (func)
@@ -149,6 +139,16 @@ namespace ouzel
                     }
                 }
             }
+        });
+    }
+
+    void EngineMacOS::main()
+    {
+        Engine::main();
+
+        dispatch_async(mainQueue, ^{
+            NSApplication* application = [NSApplication sharedApplication];
+            [application terminate:Nil];
         });
     }
 }
