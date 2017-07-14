@@ -12,6 +12,7 @@
 #include "input/Input.h"
 #include "input/linux/InputLinux.h"
 #include "WindowLinux.h"
+#include "utils/Log.h"
 
 namespace ouzel
 {
