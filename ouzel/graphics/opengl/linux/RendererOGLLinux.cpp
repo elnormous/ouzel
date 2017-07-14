@@ -146,14 +146,14 @@ namespace ouzel
                 glXSwapIntervalEXT(display, windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
             }
 
-            if (RendererOGL::init(newWindow,
-                                  newSize,
-                                  newSampleCount,
-                                  newTextureFilter,
-                                  newMaxAnisotropy,
-                                  newVerticalSync,
-                                  newDepth,
-                                  newDebugRenderer))
+            if (!RendererOGL::init(newWindow,
+                                   newSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newDebugRenderer))
             {
                 return false;
             }
