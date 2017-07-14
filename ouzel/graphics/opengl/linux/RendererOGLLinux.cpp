@@ -159,7 +159,7 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RendererOGLWin::main, this);
+            renderThread = std::thread(&RendererOGLLinux::main, this);
 
             return true;
         }
