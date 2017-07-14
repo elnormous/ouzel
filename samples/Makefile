@@ -24,8 +24,9 @@ else ifeq ($(platform),linux)
 LDFLAGS+=-lX11 -lGL -lopenal -lpthread -lXcursor -lXss
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
-	-framework AudioToolbox \
+	-framework AudioUnit \
 	-framework Cocoa \
+	-framework CoreAudio \
 	-framework CoreVideo \
 	-framework IOKit \
 	-framework Metal \
