@@ -280,8 +280,7 @@ namespace ouzel
 
         while (active)
         {
-            if (!active ||
-                !renderer->process())
+            if (!renderer->process())
             {
                 break;
             }
