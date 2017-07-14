@@ -5,6 +5,9 @@
 #include "FileSystemMacOS.h"
 #include "utils/Log.h"
 
+extern std::string DEVELOPER_NAME;
+extern std::string APPLICATION_NAME;
+
 namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
@@ -29,6 +32,11 @@ namespace ouzel
         }
 
         NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
+
+        if (!identifier)
+        {
+            identifier = [NSString stringWithFormat:@"%s.%s", DEVELOPER_NAME.c_str(), APPLICATION_NAME.c_str()];
+        }
 
         NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
 
