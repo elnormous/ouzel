@@ -148,7 +148,7 @@ namespace ouzel
 
         dispatch_async(mainQueue, ^{
             NSApplication* application = [NSApplication sharedApplication];
-            [application terminate:Nil];
+            if ([application isRunning]) [application terminate:Nil];
         });
     }
 }
