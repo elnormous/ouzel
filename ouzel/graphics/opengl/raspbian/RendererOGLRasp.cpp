@@ -200,6 +200,17 @@ namespace ouzel
             return true;
         }
 
+        bool RendererOGLRasp::lockContext()
+        {
+            if (!eglMakeCurrent(display, surface, surface, context))
+            {
+                Log(Log::Level::ERR) << "Failed to set current EGL context";
+                return false;
+            }
+
+            return true;
+        }
+
         bool RendererOGLRasp::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)

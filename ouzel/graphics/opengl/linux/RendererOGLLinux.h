@@ -36,6 +36,8 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
+
+            virtual bool lockContext() override;
             virtual bool swapBuffers() override;
             void main();
 

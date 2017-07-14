@@ -23,16 +23,15 @@ namespace ouzel
             if (renderThread.joinable()) renderThread.join();
 
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
-            Display* display = windowLinux->getDisplay();
 
-            if (display && context)
+            if (windowLinux->getDisplay() && context)
             {
-                if (!glXMakeCurrent(display, None, nullptr))
+                if (!glXMakeCurrent(windowLinux->getDisplay(), None, nullptr))
                 {
                     Log(Log::Level::ERR) << "Failed to unset GLX context";
                 }
 
-                glXDestroyContext(display, context);
+                glXDestroyContext(windowLinux->getDisplay(), context);
             }
         }
 
@@ -46,17 +45,16 @@ namespace ouzel
                                     bool newDebugRenderer)
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(newWindow);
-            Display* display = windowLinux->getDisplay();
 
             // make sure OpenGL's GLX extension supported
             int dummy;
-            if (!glXQueryExtension(display, &dummy, &dummy))
+            if (!glXQueryExtension(windowLinux->getDisplay(), &dummy, &dummy))
             {
                 Log(Log::Level::ERR) << "X server has no OpenGL GLX extension";
                 return false;
             }
 
-            Screen* screen = XDefaultScreenOfDisplay(display);
+            Screen* screen = XDefaultScreenOfDisplay(windowLinux->getDisplay());
             int screenIndex = XScreenNumberOfScreen(screen);
 
             int fbcount = 0;
@@ -77,7 +75,7 @@ namespace ouzel
                 0
             };
 
-            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(display, screenIndex, attributes, &fbcount), XFree);
+            std::unique_ptr<GLXFBConfig, int(*)(void*)> framebufferConfig(glXChooseFBConfig(windowLinux->getDisplay(), screenIndex, attributes, &fbcount), XFree);
             if (framebufferConfig)
             {
                 PFNGLXCREATECONTEXTATTRIBSARBPROC glXCreateContextAttribsProc = reinterpret_cast<PFNGLXCREATECONTEXTATTRIBSARBPROC>(glXGetProcAddress(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
@@ -100,7 +98,7 @@ namespace ouzel
 
                     contextAttribs.push_back(0);
 
-                    context = glXCreateContextAttribsProc(display, *framebufferConfig, NULL, True, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(windowLinux->getDisplay(), *framebufferConfig, NULL, True, contextAttribs.data());
 
                     if (context)
                     {
@@ -117,7 +115,7 @@ namespace ouzel
 
             if (!context)
             {
-                context = glXCreateContext(display, windowLinux->getVisualInfo(), None, GL_TRUE);
+                context = glXCreateContext(windowLinux->getDisplay(), windowLinux->getVisualInfo(), None, GL_TRUE);
 
                 if (context)
                 {
@@ -133,7 +131,7 @@ namespace ouzel
             }
 
             // bind the rendering context to the window
-            if (!glXMakeCurrent(display, windowLinux->getNativeWindow(), context))
+            if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
             {
                 Log(Log::Level::ERR) << "Failed to make GLX context current";
                 return false;
@@ -143,7 +141,7 @@ namespace ouzel
 
             if (glXSwapIntervalEXT)
             {
-                glXSwapIntervalEXT(display, windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
+                glXSwapIntervalEXT(windowLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
             }
 
             if (!RendererOGL::init(newWindow,
@@ -160,6 +158,19 @@ namespace ouzel
 
             running = true;
             renderThread = std::thread(&RendererOGLLinux::main, this);
+
+            return true;
+        }
+
+        bool RendererOGLLinux::lockContext()
+        {
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
+
+            if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
+            {
+                Log(Log::Level::ERR) << "Failed to make GLX context current";
+                return false;
+            }
 
             return true;
         }
