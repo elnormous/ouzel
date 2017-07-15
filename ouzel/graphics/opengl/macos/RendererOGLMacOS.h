@@ -24,8 +24,6 @@ typedef id NSOpenGLPixelFormatPtr;
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RendererOGLMacOS: public RendererOGL
@@ -36,7 +34,10 @@ namespace ouzel
 
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
+            void renderCallback();
+
         protected:
+            RendererOGLMacOS();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -57,6 +58,8 @@ namespace ouzel
 
             CVDisplayLinkRef displayLink = nullptr;
             EventHandler eventHandler;
+
+            std::atomic<bool> running;
         };
     } // namespace graphics
 } // namespace ouzel

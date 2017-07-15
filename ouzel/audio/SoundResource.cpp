@@ -102,6 +102,12 @@ namespace ouzel
 
             std::vector<uint8_t> result;
 
+            if (channels == 0 ||
+                soundData->getChannels() == 0)
+            {
+                return result;
+            }
+
             if (!shouldPlay)
             {
                 result = std::vector<uint8_t>();

@@ -18,19 +18,11 @@ static CVReturn renderCallback(CVDisplayLinkRef,
                                CVOptionFlags*,
                                void* userInfo)
 {
-    if (!ouzel::sharedEngine || !ouzel::sharedEngine->isActive())
-    {
-        return kCVReturnSuccess;
-    }
-
     @autoreleasepool
     {
         ouzel::graphics::RendererMetalMacOS* renderer = static_cast<ouzel::graphics::RendererMetalMacOS*>(userInfo);
 
-        if (!renderer->process())
-        {
-            return kCVReturnError;
-        }
+        renderer->renderCallback();
     }
 
     return kCVReturnSuccess;
@@ -40,8 +32,16 @@ namespace ouzel
 {
     namespace graphics
     {
+        RendererMetalMacOS::RendererMetalMacOS():
+            running(false)
+        {
+        }
+
         RendererMetalMacOS::~RendererMetalMacOS()
         {
+            running = false;
+            flushDrawCommands();
+
             if (displayLink)
             {
                 if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
@@ -96,11 +96,13 @@ namespace ouzel
                 return false;
             }
 
-            if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
+            if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                 return false;
             }
+
+            running = true;
 
             if (CVDisplayLinkStart(displayLink) != kCVReturnSuccess)
             {
@@ -135,7 +137,7 @@ namespace ouzel
                         return;
                     }
 
-                    if (CVDisplayLinkSetOutputCallback(displayLink, renderCallback, this) != kCVReturnSuccess)
+                    if (CVDisplayLinkSetOutputCallback(displayLink, ::renderCallback, this) != kCVReturnSuccess)
                     {
                         Log(Log::Level::ERR) << "Failed to set output callback for the display link";
                         return;
@@ -152,6 +154,13 @@ namespace ouzel
             return true;
         }
 
+        void RendererMetalMacOS::renderCallback()
+        {
+            if (running)
+            {
+                process();
+            }
+        }
     } // namespace graphics
 } // namespace ouzel
 

@@ -22,6 +22,7 @@ namespace ouzel
         RendererOGLRasp::~RendererOGLRasp()
         {
             running = false;
+            flushDrawCommands();
             if (renderThread.joinable()) renderThread.join();
 
             if (context)

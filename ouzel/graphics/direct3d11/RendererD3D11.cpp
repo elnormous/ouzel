@@ -192,8 +192,7 @@ namespace ouzel
             {
                 Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
             }
-
-            if (qualityLevels == 0)
+            else if (qualityLevels == 0)
             {
                 Log(Log::Level::WARN) << "Direct3D 11 device does not support chosen sample count, multisampling disabled";
                 sampleCount = 1;

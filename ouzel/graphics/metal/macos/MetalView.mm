@@ -24,9 +24,12 @@
         CAMetalLayer* metalLayer = [[[CAMetalLayer alloc] init] autorelease];
 
         CGFloat bgColor[] = { 0.0, 0.0, 0.0, 0.0 };
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        CGColorRef backgroundColor = CGColorCreate(colorSpace, bgColor);
+
         metalLayer.edgeAntialiasingMask = 0;
         metalLayer.masksToBounds = YES;
-        metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+        metalLayer.backgroundColor = backgroundColor;
         metalLayer.presentsWithTransaction = NO;
         metalLayer.anchorPoint = CGPointMake(0.5, 0.5);
         metalLayer.frame = frameRect;
@@ -36,6 +39,9 @@
         metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
 
         [self setLayer:metalLayer];
+
+        CGColorRelease(backgroundColor);
+        CGColorSpaceRelease(colorSpace);
     }
 
     return self;
