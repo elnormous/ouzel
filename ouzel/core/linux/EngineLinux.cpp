@@ -46,11 +46,6 @@ namespace ouzel
             for (;;)
             {
                 executeAll();
-
-                if (!renderer->process())
-                {
-                    break;
-                }
             }
         }
         else
