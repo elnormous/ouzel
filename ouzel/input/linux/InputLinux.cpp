@@ -13,198 +13,207 @@ namespace ouzel
 {
     namespace input
     {
+        static const std::map<KeySym, KeyboardKey> keyMap = {
+            {XK_BackSpace, KeyboardKey::BACKSPACE},
+            {XK_Tab, KeyboardKey::TAB},
+            {XK_ISO_Left_Tab, KeyboardKey::TAB},
+            {XK_Linefeed, KeyboardKey::NONE}, // ?
+            {XK_Clear, KeyboardKey::CLEAR},
+            {XK_Return, KeyboardKey::RETURN},
+            {XK_Pause, KeyboardKey::PAUSE},
+            {XK_Scroll_Lock, KeyboardKey::SCROLL},
+            {XK_Sys_Req, KeyboardKey::NONE}, // ?
+            {XK_Escape, KeyboardKey::ESCAPE},
+            {XK_Insert, KeyboardKey::INSERT},
+            {XK_Delete, KeyboardKey::DEL},
+            {XK_Home, KeyboardKey::HOME},
+            {XK_Left, KeyboardKey::LEFT},
+            {XK_Up, KeyboardKey::UP},
+            {XK_Right, KeyboardKey::RIGHT},
+            {XK_Down, KeyboardKey::DOWN},
+            {XK_Prior, KeyboardKey::PRIOR}, // also XK_Page_Up
+            {XK_Next, KeyboardKey::NEXT}, // also XK_Page_Down
+            {XK_End, KeyboardKey::END},
+            {XK_Begin, KeyboardKey::HOME},
+            {XK_Num_Lock, KeyboardKey::NUMLOCK},
+            {XK_KP_Space, KeyboardKey::SPACE},
+            {XK_KP_Tab, KeyboardKey::TAB},
+            {XK_KP_Enter, KeyboardKey::RETURN},
+            {XK_KP_F1, KeyboardKey::F1},
+            {XK_KP_F2, KeyboardKey::F2},
+            {XK_KP_F3, KeyboardKey::F3},
+            {XK_KP_F4, KeyboardKey::F4},
+            {XK_KP_Home, KeyboardKey::HOME},
+            {XK_KP_Left, KeyboardKey::LEFT},
+            {XK_KP_Up, KeyboardKey::UP},
+            {XK_KP_Right, KeyboardKey::RIGHT},
+            {XK_KP_Down, KeyboardKey::DOWN},
+            {XK_Print, KeyboardKey::PRINT},
+            {XK_KP_Prior, KeyboardKey::PRIOR}, // alos XK_KP_Page_Up
+            {XK_KP_Next, KeyboardKey::NEXT}, // also XK_KP_Page_Down
+            {XK_KP_End, KeyboardKey::END},
+            {XK_KP_Begin, KeyboardKey::HOME},
+            {XK_KP_Insert, KeyboardKey::INSERT},
+            {XK_KP_Delete, KeyboardKey::DEL},
+            {XK_KP_Equal, KeyboardKey::EQUAL},
+            {XK_KP_Multiply, KeyboardKey::MULTIPLY},
+            {XK_KP_Add, KeyboardKey::ADD},
+            {XK_KP_Separator, KeyboardKey::SEPARATOR},
+            {XK_KP_Subtract, KeyboardKey::SUBTRACT},
+            {XK_KP_Decimal, KeyboardKey::DECIMAL},
+            {XK_KP_Divide, KeyboardKey::DIVIDE},
+            {XK_KP_0, KeyboardKey::NUMPAD0},
+            {XK_KP_1, KeyboardKey::NUMPAD1},
+            {XK_KP_2, KeyboardKey::NUMPAD2},
+            {XK_KP_3, KeyboardKey::NUMPAD3},
+            {XK_KP_4, KeyboardKey::NUMPAD4},
+            {XK_KP_5, KeyboardKey::NUMPAD5},
+            {XK_KP_6, KeyboardKey::NUMPAD6},
+            {XK_KP_7, KeyboardKey::NUMPAD7},
+            {XK_KP_8, KeyboardKey::NUMPAD8},
+            {XK_KP_9, KeyboardKey::NUMPAD9},
+            {XK_F1, KeyboardKey::F1},
+            {XK_F2, KeyboardKey::F2},
+            {XK_F3, KeyboardKey::F3},
+            {XK_F4, KeyboardKey::F4},
+            {XK_F5, KeyboardKey::F5},
+            {XK_F6, KeyboardKey::F6},
+            {XK_F7, KeyboardKey::F7},
+            {XK_F8, KeyboardKey::F8},
+            {XK_F9, KeyboardKey::F9},
+            {XK_F10, KeyboardKey::F10},
+            {XK_F11, KeyboardKey::F11},
+            {XK_F12, KeyboardKey::F12},
+            {XK_Shift_L, KeyboardKey::LSHIFT},
+            {XK_Shift_R, KeyboardKey::RSHIFT},
+            {XK_Control_L, KeyboardKey::LCONTROL},
+            {XK_Control_R, KeyboardKey::RCONTROL},
+            {XK_Caps_Lock, KeyboardKey::CAPITAL},
+            {XK_Shift_Lock, KeyboardKey::CAPITAL},
+            {XK_Meta_L, KeyboardKey::LSUPER},
+            {XK_Meta_R, KeyboardKey::RSUPER},
+            {XK_Alt_L, KeyboardKey::LALT},
+            {XK_Alt_R, KeyboardKey::RALT},
+            {XK_ISO_Level3_Shift, KeyboardKey::RSUPER},
+            {XK_Menu, KeyboardKey::LSUPER},
+            {XK_space, KeyboardKey::SPACE},
+            {XK_exclam, KeyboardKey::KEY_1},
+            {XK_quotedbl, KeyboardKey::KEY_2},
+            {XK_section, KeyboardKey::NONE}, // ?
+            {XK_numbersign, KeyboardKey::SLASH},
+            {XK_dollar, KeyboardKey::KEY_4},
+            {XK_percent, KeyboardKey::KEY_5},
+            {XK_ampersand, KeyboardKey::KEY_7},
+            {XK_apostrophe, KeyboardKey::QUOTE},
+            {XK_parenleft, KeyboardKey::KEY_9},
+            {XK_parenright, KeyboardKey::KEY_0},
+            {XK_asterisk, KeyboardKey::KEY_8},
+            {XK_plus, KeyboardKey::PLUS},
+            {XK_comma, KeyboardKey::COMMA},
+            {XK_minus, KeyboardKey::MINUS},
+            {XK_period, KeyboardKey::PERIOD},
+            {XK_slash, KeyboardKey::SLASH},
+            {XK_0, KeyboardKey::KEY_0},
+            {XK_1, KeyboardKey::KEY_1},
+            {XK_2, KeyboardKey::KEY_2},
+            {XK_3, KeyboardKey::KEY_3},
+            {XK_4, KeyboardKey::KEY_4},
+            {XK_5, KeyboardKey::KEY_5},
+            {XK_6, KeyboardKey::KEY_6},
+            {XK_7, KeyboardKey::KEY_7},
+            {XK_8, KeyboardKey::KEY_8},
+            {XK_9, KeyboardKey::KEY_9},
+            {XK_colon, KeyboardKey::SEMICOLON},
+            {XK_semicolon, KeyboardKey::SEMICOLON},
+            {XK_less, KeyboardKey::COMMA},
+            {XK_equal, KeyboardKey::PLUS},
+            {XK_greater, KeyboardKey::PERIOD},
+            {XK_question, KeyboardKey::SLASH},
+            {XK_at, KeyboardKey::KEY_2}, // ?
+            {XK_mu, KeyboardKey::NONE}, // ?
+            {XK_EuroSign, KeyboardKey::NONE}, // ?
+            {XK_A, KeyboardKey::KEY_A},
+            {XK_B, KeyboardKey::KEY_B},
+            {XK_C, KeyboardKey::KEY_C},
+            {XK_D, KeyboardKey::KEY_D},
+            {XK_E, KeyboardKey::KEY_E},
+            {XK_F, KeyboardKey::KEY_F},
+            {XK_G, KeyboardKey::KEY_G},
+            {XK_H, KeyboardKey::KEY_H},
+            {XK_I, KeyboardKey::KEY_I},
+            {XK_J, KeyboardKey::KEY_J},
+            {XK_K, KeyboardKey::KEY_K},
+            {XK_L, KeyboardKey::KEY_L},
+            {XK_M, KeyboardKey::KEY_M},
+            {XK_N, KeyboardKey::KEY_N},
+            {XK_O, KeyboardKey::KEY_O},
+            {XK_P, KeyboardKey::KEY_P},
+            {XK_Q, KeyboardKey::KEY_Q},
+            {XK_R, KeyboardKey::KEY_R},
+            {XK_S, KeyboardKey::KEY_S},
+            {XK_T, KeyboardKey::KEY_T},
+            {XK_U, KeyboardKey::KEY_U},
+            {XK_V, KeyboardKey::KEY_V},
+            {XK_W, KeyboardKey::KEY_W},
+            {XK_X, KeyboardKey::KEY_X},
+            {XK_Y, KeyboardKey::KEY_Y},
+            {XK_Z, KeyboardKey::KEY_Z},
+            {XK_bracketleft, KeyboardKey::BRACKET_LEFT},
+            {XK_backslash, KeyboardKey::BACKSLASH},
+            {XK_bracketright, KeyboardKey::BRACKET_RIGHT},
+            {XK_asciicircum, KeyboardKey::BACKSLASH},
+            {XK_dead_circumflex, KeyboardKey::BACKSLASH},
+            {XK_degree, KeyboardKey::NONE}, // ?
+            {XK_underscore, KeyboardKey::MINUS},
+            {XK_grave, KeyboardKey::GRAVE},
+            {XK_dead_grave, KeyboardKey::GRAVE},
+            {XK_acute, KeyboardKey::BRACKET_RIGHT},
+            {XK_dead_acute, KeyboardKey::BRACKET_RIGHT},
+            {XK_a, KeyboardKey::KEY_A},
+            {XK_b, KeyboardKey::KEY_B},
+            {XK_c, KeyboardKey::KEY_C},
+            {XK_d, KeyboardKey::KEY_D},
+            {XK_e, KeyboardKey::KEY_E},
+            {XK_f, KeyboardKey::KEY_F},
+            {XK_g, KeyboardKey::KEY_G},
+            {XK_h, KeyboardKey::KEY_H},
+            {XK_i, KeyboardKey::KEY_I},
+            {XK_j, KeyboardKey::KEY_J},
+            {XK_k, KeyboardKey::KEY_K},
+            {XK_l, KeyboardKey::KEY_L},
+            {XK_m, KeyboardKey::KEY_M},
+            {XK_n, KeyboardKey::KEY_N},
+            {XK_o, KeyboardKey::KEY_O},
+            {XK_p, KeyboardKey::KEY_P},
+            {XK_q, KeyboardKey::KEY_Q},
+            {XK_r, KeyboardKey::KEY_R},
+            {XK_s, KeyboardKey::KEY_S},
+            {XK_t, KeyboardKey::KEY_T},
+            {XK_u, KeyboardKey::KEY_U},
+            {XK_v, KeyboardKey::KEY_V},
+            {XK_w, KeyboardKey::KEY_W},
+            {XK_x, KeyboardKey::KEY_X},
+            {XK_y, KeyboardKey::KEY_Y},
+            {XK_z, KeyboardKey::KEY_Z},
+            {XK_ssharp, KeyboardKey::BRACKET_LEFT},
+            {XK_adiaeresis, KeyboardKey::QUOTE},
+            {XK_odiaeresis, KeyboardKey::GRAVE},
+            {XK_udiaeresis, KeyboardKey::SEMICOLON},
+            {XK_Super_L, KeyboardKey::LSUPER},
+            {XK_Super_R, KeyboardKey::RSUPER}
+        };
+
         KeyboardKey InputLinux::convertKeyCode(KeySym keyCode)
         {
-            switch(keyCode)
+            auto i = keyMap.find(keyCode);
+
+            if (i != keyMap.end())
             {
-                case XK_BackSpace: return KeyboardKey::BACKSPACE;
-                case XK_Tab: return KeyboardKey::TAB;
-                case XK_ISO_Left_Tab: return KeyboardKey::TAB;
-                case XK_Linefeed: return KeyboardKey::NONE; // ??
-                case XK_Clear: return KeyboardKey::CLEAR;
-                case XK_Return: return KeyboardKey::RETURN;
-                case XK_Pause: return KeyboardKey::PAUSE;
-                case XK_Scroll_Lock: return KeyboardKey::SCROLL;
-                case XK_Sys_Req: return KeyboardKey::NONE; // ??
-                case XK_Escape: return KeyboardKey::ESCAPE;
-                case XK_Insert: return KeyboardKey::INSERT;
-                case XK_Delete: return KeyboardKey::DEL;
-                case XK_Home: return KeyboardKey::HOME;
-                case XK_Left: return KeyboardKey::LEFT;
-                case XK_Up: return KeyboardKey::UP;
-                case XK_Right: return KeyboardKey::RIGHT;
-                case XK_Down: return KeyboardKey::DOWN;
-                case XK_Prior: return KeyboardKey::PRIOR; // also XK_Page_Up
-                case XK_Next: return KeyboardKey::NEXT; // also XK_Page_Down
-                case XK_End: return KeyboardKey::END;
-                case XK_Begin: return KeyboardKey::HOME;
-                case XK_Num_Lock: return KeyboardKey::NUMLOCK;
-                case XK_KP_Space: return KeyboardKey::SPACE;
-                case XK_KP_Tab: return KeyboardKey::TAB;
-                case XK_KP_Enter: return KeyboardKey::RETURN;
-                case XK_KP_F1: return KeyboardKey::F1;
-                case XK_KP_F2: return KeyboardKey::F2;
-                case XK_KP_F3: return KeyboardKey::F3;
-                case XK_KP_F4: return KeyboardKey::F4;
-                case XK_KP_Home: return KeyboardKey::HOME;
-                case XK_KP_Left: return KeyboardKey::LEFT;
-                case XK_KP_Up: return KeyboardKey::UP;
-                case XK_KP_Right: return KeyboardKey::RIGHT;
-                case XK_KP_Down: return KeyboardKey::DOWN;
-                case XK_Print: return KeyboardKey::PRINT;
-                case XK_KP_Prior: return KeyboardKey::PRIOR; // alos XK_KP_Page_Up
-                case XK_KP_Next: return KeyboardKey::NEXT; // also XK_KP_Page_Down
-                case XK_KP_End: return KeyboardKey::END;
-                case XK_KP_Begin: return KeyboardKey::HOME;
-                case XK_KP_Insert: return KeyboardKey::INSERT;
-                case XK_KP_Delete: return KeyboardKey::DEL;
-                case XK_KP_Equal: return KeyboardKey::EQUAL;
-                case XK_KP_Multiply: return KeyboardKey::MULTIPLY;
-                case XK_KP_Add: return KeyboardKey::ADD;
-                case XK_KP_Separator: return KeyboardKey::SEPARATOR;
-                case XK_KP_Subtract: return KeyboardKey::SUBTRACT;
-                case XK_KP_Decimal: return KeyboardKey::DECIMAL;
-                case XK_KP_Divide: return KeyboardKey::DIVIDE;
-                case XK_KP_0: return KeyboardKey::NUMPAD0;
-                case XK_KP_1: return KeyboardKey::NUMPAD1;
-                case XK_KP_2: return KeyboardKey::NUMPAD2;
-                case XK_KP_3: return KeyboardKey::NUMPAD3;
-                case XK_KP_4: return KeyboardKey::NUMPAD4;
-                case XK_KP_5: return KeyboardKey::NUMPAD5;
-                case XK_KP_6: return KeyboardKey::NUMPAD6;
-                case XK_KP_7: return KeyboardKey::NUMPAD7;
-                case XK_KP_8: return KeyboardKey::NUMPAD8;
-                case XK_KP_9: return KeyboardKey::NUMPAD9;
-                case XK_F1: return KeyboardKey::F1;
-                case XK_F2: return KeyboardKey::F2;
-                case XK_F3: return KeyboardKey::F3;
-                case XK_F4: return KeyboardKey::F4;
-                case XK_F5: return KeyboardKey::F5;
-                case XK_F6: return KeyboardKey::F6;
-                case XK_F7: return KeyboardKey::F7;
-                case XK_F8: return KeyboardKey::F8;
-                case XK_F9: return KeyboardKey::F9;
-                case XK_F10: return KeyboardKey::F10;
-                case XK_F11: return KeyboardKey::F11;
-                case XK_F12: return KeyboardKey::F12;
-                case XK_Shift_L: return KeyboardKey::LSHIFT;
-                case XK_Shift_R: return KeyboardKey::RSHIFT;
-                case XK_Control_L: return KeyboardKey::LCONTROL;
-                case XK_Control_R: return KeyboardKey::RCONTROL;
-                case XK_Caps_Lock: return KeyboardKey::CAPITAL;
-                case XK_Shift_Lock: return KeyboardKey::CAPITAL;
-                case XK_Meta_L: return KeyboardKey::LSUPER;
-                case XK_Meta_R: return KeyboardKey::RSUPER;
-                case XK_Alt_L: return KeyboardKey::LALT;
-                case XK_Alt_R: return KeyboardKey::RALT;
-                case XK_ISO_Level3_Shift: return KeyboardKey::RSUPER;
-                case XK_Menu: return KeyboardKey::LSUPER;
-                case XK_space: return KeyboardKey::SPACE;
-                case XK_exclam: return KeyboardKey::KEY_1;
-                case XK_quotedbl: return KeyboardKey::KEY_2;
-                case XK_section: return KeyboardKey::NONE; //?
-                case XK_numbersign: return KeyboardKey::SLASH;
-                case XK_dollar: return KeyboardKey::KEY_4;
-                case XK_percent: return KeyboardKey::KEY_5;
-                case XK_ampersand: return KeyboardKey::KEY_7;
-                case XK_apostrophe: return KeyboardKey::QUOTE;
-                case XK_parenleft: return KeyboardKey::KEY_9;
-                case XK_parenright: return KeyboardKey::KEY_0;
-                case XK_asterisk: return KeyboardKey::KEY_8;
-                case XK_plus: return KeyboardKey::PLUS;
-                case XK_comma: return KeyboardKey::COMMA;
-                case XK_minus: return KeyboardKey::MINUS;
-                case XK_period: return KeyboardKey::PERIOD;
-                case XK_slash: return KeyboardKey::SLASH;
-                case XK_0: return KeyboardKey::KEY_0;
-                case XK_1: return KeyboardKey::KEY_1;
-                case XK_2: return KeyboardKey::KEY_2;
-                case XK_3: return KeyboardKey::KEY_3;
-                case XK_4: return KeyboardKey::KEY_4;
-                case XK_5: return KeyboardKey::KEY_5;
-                case XK_6: return KeyboardKey::KEY_6;
-                case XK_7: return KeyboardKey::KEY_7;
-                case XK_8: return KeyboardKey::KEY_8;
-                case XK_9: return KeyboardKey::KEY_9;
-                case XK_colon: return KeyboardKey::SEMICOLON;
-                case XK_semicolon: return KeyboardKey::SEMICOLON;
-                case XK_less: return KeyboardKey::COMMA;
-                case XK_equal: return KeyboardKey::PLUS;
-                case XK_greater: return KeyboardKey::PERIOD;
-                case XK_question: return KeyboardKey::SLASH;
-                case XK_at: return KeyboardKey::KEY_2; //?
-                case XK_mu: return KeyboardKey::NONE; //?
-                case XK_EuroSign: return KeyboardKey::NONE; //?
-                case XK_A: return KeyboardKey::KEY_A;
-                case XK_B: return KeyboardKey::KEY_B;
-                case XK_C: return KeyboardKey::KEY_C;
-                case XK_D: return KeyboardKey::KEY_D;
-                case XK_E: return KeyboardKey::KEY_E;
-                case XK_F: return KeyboardKey::KEY_F;
-                case XK_G: return KeyboardKey::KEY_G;
-                case XK_H: return KeyboardKey::KEY_H;
-                case XK_I: return KeyboardKey::KEY_I;
-                case XK_J: return KeyboardKey::KEY_J;
-                case XK_K: return KeyboardKey::KEY_K;
-                case XK_L: return KeyboardKey::KEY_L;
-                case XK_M: return KeyboardKey::KEY_M;
-                case XK_N: return KeyboardKey::KEY_N;
-                case XK_O: return KeyboardKey::KEY_O;
-                case XK_P: return KeyboardKey::KEY_P;
-                case XK_Q: return KeyboardKey::KEY_Q;
-                case XK_R: return KeyboardKey::KEY_R;
-                case XK_S: return KeyboardKey::KEY_S;
-                case XK_T: return KeyboardKey::KEY_T;
-                case XK_U: return KeyboardKey::KEY_U;
-                case XK_V: return KeyboardKey::KEY_V;
-                case XK_W: return KeyboardKey::KEY_W;
-                case XK_X: return KeyboardKey::KEY_X;
-                case XK_Y: return KeyboardKey::KEY_Y;
-                case XK_Z: return KeyboardKey::KEY_Z;
-                case XK_bracketleft: return KeyboardKey::BRACKET_LEFT;
-                case XK_backslash: return KeyboardKey::BACKSLASH;
-                case XK_bracketright: return KeyboardKey::BRACKET_RIGHT;
-                case XK_asciicircum: return KeyboardKey::BACKSLASH;
-                case XK_dead_circumflex: return KeyboardKey::BACKSLASH;
-                case XK_degree: return KeyboardKey::NONE; //?
-                case XK_underscore: return KeyboardKey::MINUS;
-                case XK_grave: return KeyboardKey::GRAVE;
-                case XK_dead_grave: return KeyboardKey::GRAVE;
-                case XK_acute: return KeyboardKey::BRACKET_RIGHT;
-                case XK_dead_acute: return KeyboardKey::BRACKET_RIGHT;
-                case XK_a: return KeyboardKey::KEY_A;
-                case XK_b: return KeyboardKey::KEY_B;
-                case XK_c: return KeyboardKey::KEY_C;
-                case XK_d: return KeyboardKey::KEY_D;
-                case XK_e: return KeyboardKey::KEY_E;
-                case XK_f: return KeyboardKey::KEY_F;
-                case XK_g: return KeyboardKey::KEY_G;
-                case XK_h: return KeyboardKey::KEY_H;
-                case XK_i: return KeyboardKey::KEY_I;
-                case XK_j: return KeyboardKey::KEY_J;
-                case XK_k: return KeyboardKey::KEY_K;
-                case XK_l: return KeyboardKey::KEY_L;
-                case XK_m: return KeyboardKey::KEY_M;
-                case XK_n: return KeyboardKey::KEY_N;
-                case XK_o: return KeyboardKey::KEY_O;
-                case XK_p: return KeyboardKey::KEY_P;
-                case XK_q: return KeyboardKey::KEY_Q;
-                case XK_r: return KeyboardKey::KEY_R;
-                case XK_s: return KeyboardKey::KEY_S;
-                case XK_t: return KeyboardKey::KEY_T;
-                case XK_u: return KeyboardKey::KEY_U;
-                case XK_v: return KeyboardKey::KEY_V;
-                case XK_w: return KeyboardKey::KEY_W;
-                case XK_x: return KeyboardKey::KEY_X;
-                case XK_y: return KeyboardKey::KEY_Y;
-                case XK_z: return KeyboardKey::KEY_Z;
-                case XK_ssharp: return KeyboardKey::BRACKET_LEFT;
-                case XK_adiaeresis: return KeyboardKey::QUOTE;
-                case XK_odiaeresis: return KeyboardKey::GRAVE;
-                case XK_udiaeresis: return KeyboardKey::SEMICOLON;
-                case XK_Super_L: return KeyboardKey::LSUPER;
-                case XK_Super_R: return KeyboardKey::RSUPER;
-                default: return KeyboardKey::NONE;
+                return i->second;
+            }
+            else
+            {
+                return KeyboardKey::NONE;
             }
         }
 
