@@ -26,157 +26,161 @@ namespace ouzel
 {
     namespace input
     {
-        KeyboardKey InputWin::convertKeyCode(WPARAM wParam)
+        static const std::map<uint16_t, KeyboardKey> keyMap = {
+            {VK_CANCEL, KeyboardKey::CANCEL},
+            {VK_BACK, KeyboardKey::BACKSPACE},
+            {VK_TAB, KeyboardKey::TAB},
+            {VK_CLEAR, KeyboardKey::CLEAR},
+            {VK_RETURN, KeyboardKey::RETURN},
+            {VK_SHIFT, KeyboardKey::SHIFT},
+            {VK_CONTROL, KeyboardKey::CONTROL},
+            {VK_MENU, KeyboardKey::LALT},
+            {VK_PAUSE, KeyboardKey::PAUSE},
+            {VK_CAPITAL, KeyboardKey::CAPITAL},
+
+            {VK_ESCAPE, KeyboardKey::ESCAPE},
+            {VK_SPACE, KeyboardKey::SPACE},
+            {VK_PRIOR, KeyboardKey::PRIOR},
+            {VK_NEXT, KeyboardKey::NEXT},
+            {VK_END, KeyboardKey::END},
+            {VK_HOME, KeyboardKey::HOME},
+            {VK_LEFT, KeyboardKey::LEFT},
+            {VK_UP, KeyboardKey::UP},
+            {VK_RIGHT, KeyboardKey::RIGHT},
+            {VK_DOWN, KeyboardKey::DOWN},
+
+            {VK_SELECT, KeyboardKey::SELECT},
+            {VK_PRINT, KeyboardKey::PRINT},
+            {VK_EXECUTE, KeyboardKey::EXECUTE},
+
+            {VK_SNAPSHOT, KeyboardKey::SNAPSHOT},
+            {VK_INSERT, KeyboardKey::INSERT},
+            {VK_DELETE, KeyboardKey::DEL},
+            {VK_HELP, KeyboardKey::HELP},
+
+            {'0', KeyboardKey::KEY_0},
+            {'1', KeyboardKey::KEY_1},
+            {'2', KeyboardKey::KEY_2},
+            {'3', KeyboardKey::KEY_3},
+            {'4', KeyboardKey::KEY_4},
+            {'5', KeyboardKey::KEY_5},
+            {'6', KeyboardKey::KEY_6},
+            {'7', KeyboardKey::KEY_7},
+            {'8', KeyboardKey::KEY_8},
+            {'9', KeyboardKey::KEY_9},
+
+            {'A', KeyboardKey::KEY_A},
+            {'B', KeyboardKey::KEY_B},
+            {'C', KeyboardKey::KEY_C},
+            {'D', KeyboardKey::KEY_D},
+            {'E', KeyboardKey::KEY_E},
+            {'F', KeyboardKey::KEY_F},
+            {'G', KeyboardKey::KEY_G},
+            {'H', KeyboardKey::KEY_H},
+            {'I', KeyboardKey::KEY_I},
+            {'J', KeyboardKey::KEY_J},
+            {'K', KeyboardKey::KEY_K},
+            {'L', KeyboardKey::KEY_L},
+            {'M', KeyboardKey::KEY_M},
+            {'N', KeyboardKey::KEY_N},
+            {'O', KeyboardKey::KEY_O},
+            {'P', KeyboardKey::KEY_P},
+            {'Q', KeyboardKey::KEY_Q},
+            {'R', KeyboardKey::KEY_R},
+            {'S', KeyboardKey::KEY_S},
+            {'T', KeyboardKey::KEY_T},
+            {'U', KeyboardKey::KEY_U},
+            {'V', KeyboardKey::KEY_V},
+            {'W', KeyboardKey::KEY_W},
+            {'X', KeyboardKey::KEY_X},
+            {'Y', KeyboardKey::KEY_Y},
+            {'Z', KeyboardKey::KEY_Z},
+
+            {VK_LWIN, KeyboardKey::LSUPER},
+            {VK_RWIN, KeyboardKey::RSUPER},
+            {VK_APPS, KeyboardKey::APPS},
+            {VK_SLEEP, KeyboardKey::SLEEP},
+
+            {VK_NUMPAD0, KeyboardKey::NUMPAD0},
+            {VK_NUMPAD1, KeyboardKey::NUMPAD1},
+            {VK_NUMPAD2, KeyboardKey::NUMPAD2},
+            {VK_NUMPAD3, KeyboardKey::NUMPAD3},
+            {VK_NUMPAD4, KeyboardKey::NUMPAD4},
+            {VK_NUMPAD5, KeyboardKey::NUMPAD5},
+            {VK_NUMPAD6, KeyboardKey::NUMPAD6},
+            {VK_NUMPAD7, KeyboardKey::NUMPAD7},
+            {VK_NUMPAD8, KeyboardKey::NUMPAD8},
+            {VK_NUMPAD9, KeyboardKey::NUMPAD9},
+
+            {VK_MULTIPLY, KeyboardKey::MULTIPLY},
+            {VK_ADD, KeyboardKey::ADD},
+            {VK_SEPARATOR, KeyboardKey::SEPARATOR},
+            {VK_SUBTRACT, KeyboardKey::SUBTRACT},
+            {VK_DECIMAL, KeyboardKey::DECIMAL},
+            {VK_DIVIDE, KeyboardKey::DIVIDE},
+
+            {VK_F1, KeyboardKey::F1},
+            {VK_F2, KeyboardKey::F2},
+            {VK_F3, KeyboardKey::F3},
+            {VK_F4, KeyboardKey::F4},
+            {VK_F5, KeyboardKey::F5},
+            {VK_F6, KeyboardKey::F6},
+            {VK_F7, KeyboardKey::F7},
+            {VK_F8, KeyboardKey::F8},
+            {VK_F9, KeyboardKey::F9},
+            {VK_F10, KeyboardKey::F10},
+            {VK_F11, KeyboardKey::F11},
+            {VK_F12, KeyboardKey::F12},
+            {VK_F13, KeyboardKey::F13},
+            {VK_F14, KeyboardKey::F14},
+            {VK_F15, KeyboardKey::F15},
+            {VK_F16, KeyboardKey::F16},
+            {VK_F17, KeyboardKey::F17},
+            {VK_F18, KeyboardKey::F18},
+            {VK_F19, KeyboardKey::F19},
+            {VK_F20, KeyboardKey::F20},
+            {VK_F21, KeyboardKey::F21},
+            {VK_F22, KeyboardKey::F22},
+            {VK_F23, KeyboardKey::F23},
+            {VK_F24, KeyboardKey::F24},
+
+            {VK_NUMLOCK, KeyboardKey::NUMLOCK},
+            {VK_SCROLL, KeyboardKey::SCROLL},
+            {VK_LSHIFT, KeyboardKey::LSHIFT},
+            {VK_RSHIFT, KeyboardKey::RSHIFT},
+            {VK_LCONTROL, KeyboardKey::LCONTROL},
+            {VK_RCONTROL, KeyboardKey::RCONTROL},
+            {VK_LMENU, KeyboardKey::LALT},
+            {VK_RMENU, KeyboardKey::RALT},
+
+            {VK_OEM_1, KeyboardKey::SEMICOLON},
+            {VK_OEM_PLUS, KeyboardKey::PLUS},
+            {VK_OEM_COMMA, KeyboardKey::COMMA},
+            {VK_OEM_MINUS, KeyboardKey::MINUS},
+            {VK_OEM_PERIOD, KeyboardKey::PERIOD},
+            {VK_OEM_2, KeyboardKey::SLASH},
+            {VK_OEM_3, KeyboardKey::GRAVE},
+            {VK_OEM_4, KeyboardKey::BRACKET_LEFT},
+            {VK_OEM_5, KeyboardKey::BACKSLASH},
+            {VK_OEM_6, KeyboardKey::BRACKET_RIGHT},
+            {VK_OEM_7, KeyboardKey::QUOTE},
+            {VK_OEM_8, KeyboardKey::GRAVE},
+            {VK_OEM_AX, KeyboardKey::OEM_AX},
+            {VK_OEM_102, KeyboardKey::LESS}
+        };
+
+        KeyboardKey InputWin::convertKeyCode(uint16_t keyCode)
         {
-            switch (wParam)
+            auto i = keyMap.find(keyCode);
+
+            if (i != keyMap.end())
             {
-                case VK_CANCEL: return KeyboardKey::CANCEL;
-                case VK_BACK: return KeyboardKey::BACKSPACE;
-                case VK_TAB: return KeyboardKey::TAB;
-                case VK_CLEAR: return KeyboardKey::CLEAR;
-                case VK_RETURN: return KeyboardKey::RETURN;
-                case VK_SHIFT: return KeyboardKey::SHIFT;
-                case VK_CONTROL: return KeyboardKey::CONTROL;
-                case VK_MENU: return KeyboardKey::LALT;
-                case VK_PAUSE: return KeyboardKey::PAUSE;
-                case VK_CAPITAL: return KeyboardKey::CAPITAL;
-
-                    // ... Japanese ...
-
-                case VK_ESCAPE: return KeyboardKey::ESCAPE;
-
-                    // ... IME ...
-
-                case VK_SPACE: return KeyboardKey::SPACE;
-                case VK_PRIOR: return KeyboardKey::PRIOR;
-                case VK_NEXT: return KeyboardKey::NEXT;
-                case VK_END: return KeyboardKey::END;
-                case VK_HOME: return KeyboardKey::HOME;
-                case VK_LEFT: return KeyboardKey::LEFT;
-                case VK_UP: return KeyboardKey::UP;
-                case VK_RIGHT: return KeyboardKey::RIGHT;
-                case VK_DOWN: return KeyboardKey::DOWN;
-
-                case VK_SELECT: return KeyboardKey::SELECT;
-                case VK_PRINT: return KeyboardKey::PRINT;
-                case VK_EXECUTE: return KeyboardKey::EXECUTE;
-
-                case VK_SNAPSHOT: return KeyboardKey::SNAPSHOT;
-                case VK_INSERT: return KeyboardKey::INSERT;
-                case VK_DELETE: return KeyboardKey::DEL;
-                case VK_HELP: return KeyboardKey::HELP;
-
-                case '0': return KeyboardKey::KEY_0;
-                case '1': return KeyboardKey::KEY_1;
-                case '2': return KeyboardKey::KEY_2;
-                case '3': return KeyboardKey::KEY_3;
-                case '4': return KeyboardKey::KEY_4;
-                case '5': return KeyboardKey::KEY_5;
-                case '6': return KeyboardKey::KEY_6;
-                case '7': return KeyboardKey::KEY_7;
-                case '8': return KeyboardKey::KEY_8;
-                case '9': return KeyboardKey::KEY_9;
-
-                case 'A': return KeyboardKey::KEY_A;
-                case 'B': return KeyboardKey::KEY_B;
-                case 'C': return KeyboardKey::KEY_C;
-                case 'D': return KeyboardKey::KEY_D;
-                case 'E': return KeyboardKey::KEY_E;
-                case 'F': return KeyboardKey::KEY_F;
-                case 'G': return KeyboardKey::KEY_G;
-                case 'H': return KeyboardKey::KEY_H;
-                case 'I': return KeyboardKey::KEY_I;
-                case 'J': return KeyboardKey::KEY_J;
-                case 'K': return KeyboardKey::KEY_K;
-                case 'L': return KeyboardKey::KEY_L;
-                case 'M': return KeyboardKey::KEY_M;
-                case 'N': return KeyboardKey::KEY_N;
-                case 'O': return KeyboardKey::KEY_O;
-                case 'P': return KeyboardKey::KEY_P;
-                case 'Q': return KeyboardKey::KEY_Q;
-                case 'R': return KeyboardKey::KEY_R;
-                case 'S': return KeyboardKey::KEY_S;
-                case 'T': return KeyboardKey::KEY_T;
-                case 'U': return KeyboardKey::KEY_U;
-                case 'V': return KeyboardKey::KEY_V;
-                case 'W': return KeyboardKey::KEY_W;
-                case 'X': return KeyboardKey::KEY_X;
-                case 'Y': return KeyboardKey::KEY_Y;
-                case 'Z': return KeyboardKey::KEY_Z;
-
-                case VK_LWIN: return KeyboardKey::LSUPER;
-                case VK_RWIN: return KeyboardKey::RSUPER;
-                case VK_APPS: return KeyboardKey::APPS;
-                case VK_SLEEP: return KeyboardKey::SLEEP;
-
-                case VK_NUMPAD0: return KeyboardKey::NUMPAD0;
-                case VK_NUMPAD1: return KeyboardKey::NUMPAD1;
-                case VK_NUMPAD2: return KeyboardKey::NUMPAD2;
-                case VK_NUMPAD3: return KeyboardKey::NUMPAD3;
-                case VK_NUMPAD4: return KeyboardKey::NUMPAD4;
-                case VK_NUMPAD5: return KeyboardKey::NUMPAD5;
-                case VK_NUMPAD6: return KeyboardKey::NUMPAD6;
-                case VK_NUMPAD7: return KeyboardKey::NUMPAD7;
-                case VK_NUMPAD8: return KeyboardKey::NUMPAD8;
-                case VK_NUMPAD9: return KeyboardKey::NUMPAD9;
-
-                case VK_MULTIPLY: return KeyboardKey::MULTIPLY;
-                case VK_ADD: return KeyboardKey::ADD;
-                case VK_SEPARATOR: return KeyboardKey::SEPARATOR;
-                case VK_SUBTRACT: return KeyboardKey::SUBTRACT;
-                case VK_DECIMAL: return KeyboardKey::DECIMAL;
-                case VK_DIVIDE: return KeyboardKey::DIVIDE;
-
-                case VK_F1: return KeyboardKey::F1;
-                case VK_F2: return KeyboardKey::F2;
-                case VK_F3: return KeyboardKey::F3;
-                case VK_F4: return KeyboardKey::F4;
-                case VK_F5: return KeyboardKey::F5;
-                case VK_F6: return KeyboardKey::F6;
-                case VK_F7: return KeyboardKey::F7;
-                case VK_F8: return KeyboardKey::F8;
-                case VK_F9: return KeyboardKey::F9;
-                case VK_F10: return KeyboardKey::F10;
-                case VK_F11: return KeyboardKey::F11;
-                case VK_F12: return KeyboardKey::F12;
-                case VK_F13: return KeyboardKey::F13;
-                case VK_F14: return KeyboardKey::F14;
-                case VK_F15: return KeyboardKey::F15;
-                case VK_F16: return KeyboardKey::F16;
-                case VK_F17: return KeyboardKey::F17;
-                case VK_F18: return KeyboardKey::F18;
-                case VK_F19: return KeyboardKey::F19;
-                case VK_F20: return KeyboardKey::F20;
-                case VK_F21: return KeyboardKey::F21;
-                case VK_F22: return KeyboardKey::F22;
-                case VK_F23: return KeyboardKey::F23;
-                case VK_F24: return KeyboardKey::F24;
-
-                case VK_NUMLOCK: return KeyboardKey::NUMLOCK;
-                case VK_SCROLL: return KeyboardKey::SCROLL;
-                case VK_LSHIFT: return KeyboardKey::LSHIFT;
-                case VK_RSHIFT: return KeyboardKey::RSHIFT;
-                case VK_LCONTROL: return KeyboardKey::LCONTROL;
-                case VK_RCONTROL: return KeyboardKey::RCONTROL;
-                case VK_LMENU: return KeyboardKey::LALT;
-                case VK_RMENU: return KeyboardKey::RALT;
-
-                case VK_OEM_1: return KeyboardKey::SEMICOLON;
-                case VK_OEM_PLUS: return KeyboardKey::PLUS;
-                case VK_OEM_COMMA: return KeyboardKey::COMMA;
-                case VK_OEM_MINUS: return KeyboardKey::MINUS;
-                case VK_OEM_PERIOD: return KeyboardKey::PERIOD;
-                case VK_OEM_2: return KeyboardKey::SLASH;
-                case VK_OEM_3: return KeyboardKey::GRAVE;
-                case VK_OEM_4: return KeyboardKey::BRACKET_LEFT;
-                case VK_OEM_5: return KeyboardKey::BACKSLASH;
-                case VK_OEM_6: return KeyboardKey::BRACKET_RIGHT;
-                case VK_OEM_7: return KeyboardKey::QUOTE;
-                case VK_OEM_8: return KeyboardKey::GRAVE;
-                case VK_OEM_AX: return KeyboardKey::OEM_AX;
-                case VK_OEM_102: return KeyboardKey::LESS;
+                return i->second;
             }
-            return KeyboardKey::NONE;
+            else
+            {
+                return KeyboardKey::NONE;
+            }
         }
 
         uint32_t InputWin::getKeyboardModifiers(WPARAM wParam)

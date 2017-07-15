@@ -36,7 +36,7 @@ namespace ouzel
 {
     namespace input
     {
-        static std::map<unsigned short, KeyboardKey> keyMap = {
+        static const std::map<uint16_t, KeyboardKey> keyMap = {
             {kVK_UpArrow, KeyboardKey::UP},
             {kVK_DownArrow, KeyboardKey::DOWN},
             {kVK_LeftArrow, KeyboardKey::LEFT},
@@ -156,7 +156,7 @@ namespace ouzel
             {kVK_ANSI_RightBracket, KeyboardKey::BRACKET_RIGHT}
         };
 
-        static std::map<unsigned short, NSUInteger> maskMap = {
+        static const std::map<uint16_t, NSUInteger> maskMap = {
             {kVK_Control, NX_DEVICELCTLKEYMASK},
             {kVK_RightControl, NX_DEVICERCTLKEYMASK},
             {kVK_Command, NX_DEVICELCMDKEYMASK},
@@ -167,7 +167,7 @@ namespace ouzel
             {kVK_RightOption, NX_DEVICERALTKEYMASK}
         };
 
-        KeyboardKey InputMacOS::convertKeyCode(unsigned short keyCode)
+        KeyboardKey InputMacOS::convertKeyCode(uint16_t keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -181,7 +181,7 @@ namespace ouzel
             }
         }
 
-        NSUInteger InputMacOS::getKeyMask(unsigned short keyCode)
+        NSUInteger InputMacOS::getKeyMask(uint16_t keyCode)
         {
             auto i = maskMap.find(keyCode);
 

@@ -14,12 +14,12 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 {
     if (msg == WM_KEYDOWN)
     {
-        ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputWin::convertKeyCode(wParam),
+        ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
                                                  ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputWin::convertKeyCode(wParam),
+        ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam),
                                                ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
 }
