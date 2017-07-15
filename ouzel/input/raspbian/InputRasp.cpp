@@ -365,7 +365,7 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to get grab device";
                 }
 
-                memset(TEMP_BUFFER, 0, sizeof(TEMP_BUFFER));
+                std::fill(std::begin(TEMP_BUFFER), std::end(TEMP_BUFFER), 0);
                 if (ioctl(inputDevice.fd, EVIOCGNAME(sizeof(TEMP_BUFFER) - 1), TEMP_BUFFER) == -1)
                 {
                     Log(Log::Level::WARN) << "Failed to get device name";

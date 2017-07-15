@@ -16,8 +16,8 @@ namespace ouzel
         GamepadXI::GamepadXI(DWORD aPlayerIndex):
             playerIndex(aPlayerIndex)
         {
-            memset(&state, 0, sizeof(XINPUT_STATE));
-            memset(&vibration, 0, sizeof(XINPUT_VIBRATION));
+            ZeroMemory(&state, sizeof(XINPUT_STATE));
+            ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         }
 
         void GamepadXI::update(const XINPUT_STATE& newState)
