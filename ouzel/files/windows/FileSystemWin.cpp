@@ -44,7 +44,12 @@ namespace ouzel
 
         if (!directoryExists(path))
         {
-            MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return false;
+            }
+
             if (!CreateDirectoryW(szBuffer, nullptr))
             {
                 Log(Log::Level::ERR) << "Failed to create directory " << path;
@@ -56,7 +61,12 @@ namespace ouzel
 
         if (!directoryExists(path))
         {
-            MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+            if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return false;
+            }
+
             if (!CreateDirectoryW(szBuffer, nullptr))
             {
                 Log(Log::Level::ERR) << "Failed to create directory " << path;
@@ -72,7 +82,11 @@ namespace ouzel
         WCHAR szBuffer[MAX_PATH];
         if (GetTempPathW(MAX_PATH, szBuffer))
         {
-            WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr);
+            if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return "";
+            }
 
             return TEMP_BUFFER;
         }

@@ -390,7 +390,16 @@ namespace ouzel
         if (size.v[1] > 0.0f) height = windowRect.bottom - windowRect.top;
 
         wchar_t titleBuffer[256];
-        MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256);
+
+        if (title.empty())
+        {
+            std::fill(std::begin(titleBuffer), std::end(titleBuffer), 0);
+        }
+        else if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer, 256) == 0)
+        {
+            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+            return false;
+        }
 
         window = CreateWindowExW(WS_EX_APPWINDOW, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
@@ -455,7 +464,19 @@ namespace ouzel
         {
             sharedEngine->execute([this, newTitle] {
                 wchar_t titleBuffer[256];
-                MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256);
+
+                if (newTitle.empty())
+                {
+
+                }
+                else
+                {
+                    if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
+                    {
+                        Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                        return false;
+                    }
+                }
 
                 SetWindowTextW(window, titleBuffer);
             });
