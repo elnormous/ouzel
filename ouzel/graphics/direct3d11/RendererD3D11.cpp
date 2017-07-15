@@ -765,16 +765,19 @@ namespace ouzel
             DXGI_OUTPUT_DESC outputDesc;
             HRESULT hr;
 
-            while (adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
+            while ((hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND)
             {
-                hr = output->GetDesc(&outputDesc);
-
-                if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
+                if (SUCCEEDED(hr))
                 {
-                    return output;
-                }
+                    hr = output->GetDesc(&outputDesc);
 
-                output->Release();
+                    if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
+                    {
+                        return output;
+                    }
+
+                    output->Release();
+                }
 
                 ++i;
             }
