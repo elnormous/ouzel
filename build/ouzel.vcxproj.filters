@@ -384,6 +384,7 @@
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\FTFont.cpp">
       <Filter>gui</Filter>
+	  </ClCompile>
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp">
       <Filter>core\windows</Filter>
     </ClCompile>
@@ -860,6 +861,7 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\FTFont.h">
       <Filter>gui</Filter>
+	  </ClInclude>
     <ClInclude Include="..\ouzel\core\windows\EngineWin.h">
       <Filter>core\windows</Filter>
     </ClInclude>

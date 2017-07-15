@@ -8,7 +8,6 @@
 #include "../../external/stb/stb_truetype.h"
 
 #include "core/Engine.h"
-#include "core/Application.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
