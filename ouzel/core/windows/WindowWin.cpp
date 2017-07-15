@@ -19,7 +19,7 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam),
+        ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
                                                ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
 }
