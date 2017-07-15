@@ -467,14 +467,14 @@ namespace ouzel
 
                 if (newTitle.empty())
                 {
-
+                    std::fill(std::begin(titleBuffer), std::end(titleBuffer), 0);
                 }
                 else
                 {
                     if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
                     {
                         Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                        return false;
+                        return;
                     }
                 }
 
