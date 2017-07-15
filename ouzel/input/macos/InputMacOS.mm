@@ -36,144 +36,161 @@ namespace ouzel
 {
     namespace input
     {
+        static std::map<unsigned short, KeyboardKey> keyMap = {
+            {kVK_UpArrow, KeyboardKey::UP},
+            {kVK_DownArrow, KeyboardKey::DOWN},
+            {kVK_LeftArrow, KeyboardKey::LEFT},
+            {kVK_RightArrow, KeyboardKey::RIGHT},
+            {kVK_F1, KeyboardKey::F1},
+            {kVK_F2, KeyboardKey::F2},
+            {kVK_F3, KeyboardKey::F3},
+            {kVK_F4, KeyboardKey::F4},
+            {kVK_F5, KeyboardKey::F5},
+            {kVK_F6, KeyboardKey::F6},
+            {kVK_F7, KeyboardKey::F7},
+            {kVK_F8, KeyboardKey::F8},
+            {kVK_F9, KeyboardKey::F9},
+            {kVK_F10, KeyboardKey::F10},
+            {kVK_F11, KeyboardKey::F11},
+            {kVK_F12, KeyboardKey::F12},
+            {kVK_F13, KeyboardKey::F13},
+            {kVK_F14, KeyboardKey::F14},
+            {kVK_F15, KeyboardKey::F15},
+            {kVK_F16, KeyboardKey::F16},
+            {kVK_F17, KeyboardKey::F17},
+            {kVK_F18, KeyboardKey::F18},
+            {kVK_F19, KeyboardKey::F19},
+            {kVK_F20, KeyboardKey::F20},
+            {kVK_Home, KeyboardKey::HOME},
+            {kVK_End, KeyboardKey::END},
+            {NSInsertFunctionKey, KeyboardKey::INSERT},
+            {kVK_ForwardDelete, KeyboardKey::DEL},
+            {kVK_Help, KeyboardKey::HELP},
+            {NSSelectFunctionKey, KeyboardKey::SELECT},
+            {NSPrintFunctionKey, KeyboardKey::PRINT},
+            {NSExecuteFunctionKey, KeyboardKey::EXECUTE},
+            {NSPrintScreenFunctionKey, KeyboardKey::SNAPSHOT},
+            {NSPauseFunctionKey, KeyboardKey::PAUSE},
+            {NSScrollLockFunctionKey, KeyboardKey::SCROLL},
+            {kVK_Delete, KeyboardKey::BACKSPACE},
+            {kVK_Tab, KeyboardKey::TAB},
+            {kVK_Return, KeyboardKey::RETURN},
+            {kVK_Escape, KeyboardKey::ESCAPE},
+            {kVK_Control, KeyboardKey::LCONTROL},
+            {kVK_RightControl, KeyboardKey::RCONTROL},
+            {kVK_Command, KeyboardKey::LSUPER},
+            {kVK_RightCommand, KeyboardKey::RSUPER},
+            {kVK_Shift, KeyboardKey::LSHIFT},
+            {kVK_RightShift, KeyboardKey::RSHIFT},
+            {kVK_Option, KeyboardKey::LALT},
+            {kVK_RightOption, KeyboardKey::RALT},
+            {kVK_Space, KeyboardKey::SPACE},
+
+            {kVK_ANSI_A, KeyboardKey::KEY_A},
+            {kVK_ANSI_B, KeyboardKey::KEY_B},
+            {kVK_ANSI_C, KeyboardKey::KEY_C},
+            {kVK_ANSI_D, KeyboardKey::KEY_D},
+            {kVK_ANSI_E, KeyboardKey::KEY_E},
+            {kVK_ANSI_F, KeyboardKey::KEY_F},
+            {kVK_ANSI_G, KeyboardKey::KEY_G},
+            {kVK_ANSI_H, KeyboardKey::KEY_H},
+            {kVK_ANSI_I, KeyboardKey::KEY_I},
+            {kVK_ANSI_J, KeyboardKey::KEY_J},
+            {kVK_ANSI_K, KeyboardKey::KEY_K},
+            {kVK_ANSI_L, KeyboardKey::KEY_L},
+            {kVK_ANSI_M, KeyboardKey::KEY_M},
+            {kVK_ANSI_N, KeyboardKey::KEY_N},
+            {kVK_ANSI_O, KeyboardKey::KEY_O},
+            {kVK_ANSI_P, KeyboardKey::KEY_P},
+            {kVK_ANSI_Q, KeyboardKey::KEY_Q},
+            {kVK_ANSI_R, KeyboardKey::KEY_R},
+            {kVK_ANSI_S, KeyboardKey::KEY_S},
+            {kVK_ANSI_T, KeyboardKey::KEY_T},
+            {kVK_ANSI_U, KeyboardKey::KEY_U},
+            {kVK_ANSI_V, KeyboardKey::KEY_V},
+            {kVK_ANSI_W, KeyboardKey::KEY_W},
+            {kVK_ANSI_X, KeyboardKey::KEY_X},
+            {kVK_ANSI_Y, KeyboardKey::KEY_Y},
+            {kVK_ANSI_Z, KeyboardKey::KEY_Z},
+
+            {kVK_ANSI_0, KeyboardKey::KEY_0},
+            {kVK_ANSI_1, KeyboardKey::KEY_1},
+            {kVK_ANSI_2, KeyboardKey::KEY_2},
+            {kVK_ANSI_3, KeyboardKey::KEY_3},
+            {kVK_ANSI_4, KeyboardKey::KEY_4},
+            {kVK_ANSI_5, KeyboardKey::KEY_5},
+            {kVK_ANSI_6, KeyboardKey::KEY_6},
+            {kVK_ANSI_7, KeyboardKey::KEY_7},
+            {kVK_ANSI_8, KeyboardKey::KEY_8},
+            {kVK_ANSI_9, KeyboardKey::KEY_9},
+
+            {kVK_ANSI_Comma, KeyboardKey::COMMA},
+            {kVK_ANSI_Period, KeyboardKey::PERIOD},
+            {kVK_PageUp, KeyboardKey::PRIOR},
+            {kVK_PageDown, KeyboardKey::NEXT},
+
+            {kVK_ANSI_Keypad0, KeyboardKey::NUMPAD0},
+            {kVK_ANSI_Keypad1, KeyboardKey::NUMPAD1},
+            {kVK_ANSI_Keypad2, KeyboardKey::NUMPAD2},
+            {kVK_ANSI_Keypad3, KeyboardKey::NUMPAD3},
+            {kVK_ANSI_Keypad4, KeyboardKey::NUMPAD4},
+            {kVK_ANSI_Keypad5, KeyboardKey::NUMPAD5},
+            {kVK_ANSI_Keypad6, KeyboardKey::NUMPAD6},
+            {kVK_ANSI_Keypad7, KeyboardKey::NUMPAD7},
+            {kVK_ANSI_Keypad8, KeyboardKey::NUMPAD8},
+            {kVK_ANSI_Keypad9, KeyboardKey::NUMPAD9},
+
+            {kVK_ANSI_KeypadDecimal, KeyboardKey::DECIMAL},
+            {kVK_ANSI_KeypadMultiply, KeyboardKey::MULTIPLY},
+            {kVK_ANSI_KeypadPlus, KeyboardKey::PLUS},
+            {kVK_ANSI_KeypadClear, KeyboardKey::OEM_CLEAR},
+            {kVK_ANSI_KeypadDivide, KeyboardKey::DIVIDE},
+            {kVK_ANSI_KeypadEnter, KeyboardKey::RETURN},
+            {kVK_ANSI_KeypadMinus, KeyboardKey::SUBTRACT},
+
+            {kVK_ANSI_Semicolon, KeyboardKey::SEMICOLON},
+            {kVK_ANSI_Slash, KeyboardKey::SLASH},
+            {kVK_ANSI_Grave, KeyboardKey::GRAVE},
+            {kVK_ANSI_LeftBracket, KeyboardKey::BRACKET_LEFT},
+            {kVK_ANSI_Backslash, KeyboardKey::BACKSLASH},
+            {kVK_ANSI_RightBracket, KeyboardKey::BRACKET_RIGHT}
+        };
+
+        static std::map<unsigned short, NSUInteger> maskMap = {
+            {kVK_Control, NX_DEVICELCTLKEYMASK},
+            {kVK_RightControl, NX_DEVICERCTLKEYMASK},
+            {kVK_Command, NX_DEVICELCMDKEYMASK},
+            {kVK_RightCommand, NX_DEVICERCMDKEYMASK},
+            {kVK_Shift, NX_DEVICELSHIFTKEYMASK},
+            {kVK_RightShift, NX_DEVICERSHIFTKEYMASK},
+            {kVK_Option, NX_DEVICELALTKEYMASK},
+            {kVK_RightOption, NX_DEVICERALTKEYMASK}
+        };
+
         KeyboardKey InputMacOS::convertKeyCode(unsigned short keyCode)
         {
-            switch (keyCode)
+            auto i = keyMap.find(keyCode);
+
+            if (i != keyMap.end())
             {
-                case kVK_UpArrow: return KeyboardKey::UP;
-                case kVK_DownArrow: return KeyboardKey::DOWN;
-                case kVK_LeftArrow: return KeyboardKey::LEFT;
-                case kVK_RightArrow: return KeyboardKey::RIGHT;
-                case kVK_F1: return KeyboardKey::F1;
-                case kVK_F2: return KeyboardKey::F2;
-                case kVK_F3: return KeyboardKey::F3;
-                case kVK_F4: return KeyboardKey::F4;
-                case kVK_F5: return KeyboardKey::F5;
-                case kVK_F6: return KeyboardKey::F6;
-                case kVK_F7: return KeyboardKey::F7;
-                case kVK_F8: return KeyboardKey::F8;
-                case kVK_F9: return KeyboardKey::F9;
-                case kVK_F10: return KeyboardKey::F10;
-                case kVK_F11: return KeyboardKey::F11;
-                case kVK_F12: return KeyboardKey::F12;
-                case kVK_F13: return KeyboardKey::F13;
-                case kVK_F14: return KeyboardKey::F14;
-                case kVK_F15: return KeyboardKey::F15;
-                case kVK_F16: return KeyboardKey::F16;
-                case kVK_F17: return KeyboardKey::F17;
-                case kVK_F18: return KeyboardKey::F18;
-                case kVK_F19: return KeyboardKey::F19;
-                case kVK_F20: return KeyboardKey::F20;
-                case kVK_Home: return KeyboardKey::HOME;
-                case kVK_End: return KeyboardKey::END;
-                case NSInsertFunctionKey: return KeyboardKey::INSERT;
-                case kVK_ForwardDelete: return KeyboardKey::DEL;
-                case kVK_Help: return KeyboardKey::HELP;
-                case NSSelectFunctionKey: return KeyboardKey::SELECT;
-                case NSPrintFunctionKey: return KeyboardKey::PRINT;
-                case NSExecuteFunctionKey: return KeyboardKey::EXECUTE;
-                case NSPrintScreenFunctionKey: return KeyboardKey::SNAPSHOT;
-                case NSPauseFunctionKey: return KeyboardKey::PAUSE;
-                case NSScrollLockFunctionKey: return KeyboardKey::SCROLL;
-                case kVK_Delete: return KeyboardKey::BACKSPACE;
-                case kVK_Tab: return KeyboardKey::TAB;
-                case kVK_Return: return KeyboardKey::RETURN;
-                case kVK_Escape: return KeyboardKey::ESCAPE;
-                case kVK_Control: return KeyboardKey::LCONTROL;
-                case kVK_RightControl: return KeyboardKey::RCONTROL;
-                case kVK_Command: return KeyboardKey::LSUPER;
-                case kVK_RightCommand: return KeyboardKey::RSUPER;
-                case kVK_Shift: return KeyboardKey::LSHIFT;
-                case kVK_RightShift: return KeyboardKey::RSHIFT;
-                case kVK_Option: return KeyboardKey::LALT;
-                case kVK_RightOption: return KeyboardKey::RALT;
-                case kVK_Space: return KeyboardKey::SPACE;
-
-                case kVK_ANSI_A: return KeyboardKey::KEY_A;
-                case kVK_ANSI_B: return KeyboardKey::KEY_B;
-                case kVK_ANSI_C: return KeyboardKey::KEY_C;
-                case kVK_ANSI_D: return KeyboardKey::KEY_D;
-                case kVK_ANSI_E: return KeyboardKey::KEY_E;
-                case kVK_ANSI_F: return KeyboardKey::KEY_F;
-                case kVK_ANSI_G: return KeyboardKey::KEY_G;
-                case kVK_ANSI_H: return KeyboardKey::KEY_H;
-                case kVK_ANSI_I: return KeyboardKey::KEY_I;
-                case kVK_ANSI_J: return KeyboardKey::KEY_J;
-                case kVK_ANSI_K: return KeyboardKey::KEY_K;
-                case kVK_ANSI_L: return KeyboardKey::KEY_L;
-                case kVK_ANSI_M: return KeyboardKey::KEY_M;
-                case kVK_ANSI_N: return KeyboardKey::KEY_N;
-                case kVK_ANSI_O: return KeyboardKey::KEY_O;
-                case kVK_ANSI_P: return KeyboardKey::KEY_P;
-                case kVK_ANSI_Q: return KeyboardKey::KEY_Q;
-                case kVK_ANSI_R: return KeyboardKey::KEY_R;
-                case kVK_ANSI_S: return KeyboardKey::KEY_S;
-                case kVK_ANSI_T: return KeyboardKey::KEY_T;
-                case kVK_ANSI_U: return KeyboardKey::KEY_U;
-                case kVK_ANSI_V: return KeyboardKey::KEY_V;
-                case kVK_ANSI_W: return KeyboardKey::KEY_W;
-                case kVK_ANSI_X: return KeyboardKey::KEY_X;
-                case kVK_ANSI_Y: return KeyboardKey::KEY_Y;
-                case kVK_ANSI_Z: return KeyboardKey::KEY_Z;
-
-                case kVK_ANSI_0: return KeyboardKey::KEY_0;
-                case kVK_ANSI_1: return KeyboardKey::KEY_1;
-                case kVK_ANSI_2: return KeyboardKey::KEY_2;
-                case kVK_ANSI_3: return KeyboardKey::KEY_3;
-                case kVK_ANSI_4: return KeyboardKey::KEY_4;
-                case kVK_ANSI_5: return KeyboardKey::KEY_5;
-                case kVK_ANSI_6: return KeyboardKey::KEY_6;
-                case kVK_ANSI_7: return KeyboardKey::KEY_7;
-                case kVK_ANSI_8: return KeyboardKey::KEY_8;
-                case kVK_ANSI_9: return KeyboardKey::KEY_9;
-
-                case kVK_ANSI_Comma: return KeyboardKey::COMMA;
-                case kVK_ANSI_Period: return KeyboardKey::PERIOD;
-                case kVK_PageUp: return KeyboardKey::PRIOR;
-                case kVK_PageDown: return KeyboardKey::NEXT;
-
-                case kVK_ANSI_Keypad0: return KeyboardKey::NUMPAD0;
-                case kVK_ANSI_Keypad1: return KeyboardKey::NUMPAD1;
-                case kVK_ANSI_Keypad2: return KeyboardKey::NUMPAD2;
-                case kVK_ANSI_Keypad3: return KeyboardKey::NUMPAD3;
-                case kVK_ANSI_Keypad4: return KeyboardKey::NUMPAD4;
-                case kVK_ANSI_Keypad5: return KeyboardKey::NUMPAD5;
-                case kVK_ANSI_Keypad6: return KeyboardKey::NUMPAD6;
-                case kVK_ANSI_Keypad7: return KeyboardKey::NUMPAD7;
-                case kVK_ANSI_Keypad8: return KeyboardKey::NUMPAD8;
-                case kVK_ANSI_Keypad9: return KeyboardKey::NUMPAD9;
-
-                case kVK_ANSI_KeypadDecimal: return KeyboardKey::DECIMAL;
-                case kVK_ANSI_KeypadMultiply: return KeyboardKey::MULTIPLY;
-                case kVK_ANSI_KeypadPlus: return KeyboardKey::PLUS;
-                case kVK_ANSI_KeypadClear: return KeyboardKey::OEM_CLEAR;
-                case kVK_ANSI_KeypadDivide: return KeyboardKey::DIVIDE;
-                case kVK_ANSI_KeypadEnter: return KeyboardKey::RETURN;
-                case kVK_ANSI_KeypadMinus: return KeyboardKey::SUBTRACT;
-
-                case kVK_ANSI_Semicolon: return KeyboardKey::SEMICOLON;
-                case kVK_ANSI_Slash: return KeyboardKey::SLASH;
-                case kVK_ANSI_Grave: return KeyboardKey::GRAVE;
-                case kVK_ANSI_LeftBracket: return KeyboardKey::BRACKET_LEFT;
-                case kVK_ANSI_Backslash: return KeyboardKey::BACKSLASH;
-                case kVK_ANSI_RightBracket: return KeyboardKey::BRACKET_RIGHT;
-                default: return KeyboardKey::NONE;
+                return i->second;
+            }
+            else
+            {
+                return KeyboardKey::NONE;
             }
         }
 
         NSUInteger InputMacOS::getKeyMask(unsigned short keyCode)
         {
-            switch (keyCode)
+            auto i = maskMap.find(keyCode);
+
+            if (i != maskMap.end())
             {
-                case kVK_Control: return NX_DEVICELCTLKEYMASK;
-                case kVK_RightControl: return NX_DEVICERCTLKEYMASK;
-                case kVK_Command: return NX_DEVICELCMDKEYMASK;
-                case kVK_RightCommand: return NX_DEVICERCMDKEYMASK;
-                case kVK_Shift: return NX_DEVICELSHIFTKEYMASK;
-                case kVK_RightShift: return NX_DEVICERSHIFTKEYMASK;
-                case kVK_Option: return NX_DEVICELALTKEYMASK;
-                case kVK_RightOption: return NX_DEVICERALTKEYMASK;
-            default:
+                return i->second;
+            }
+            else
+            {
                 return 0;
             }
         }
