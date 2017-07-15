@@ -97,7 +97,11 @@ namespace ouzel
     bool FileSystemWin::isAbsolutePath(const std::string& path) const
     {
         WCHAR szBuffer[MAX_PATH];
-        MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH);
+        if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+        {
+            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+            return false;
+        }
         return PathIsRelativeW(szBuffer) == FALSE;
     }
 }
