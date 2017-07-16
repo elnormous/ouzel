@@ -14,13 +14,13 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 {
     if (msg == WM_KEYDOWN)
     {
-        ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
-                                                 ouzel::input::InputWin::getKeyboardModifiers(wParam));
+        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
+                                                  ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
-                                               ouzel::input::InputWin::getKeyboardModifiers(wParam));
+        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
+                                                    ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
 }
 
@@ -68,15 +68,15 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
-        ouzel::sharedEngine->getInput()->mouseDown(button,
-                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                   ouzel::input::InputWin::getMouseModifiers(wParam));
+        ouzel::sharedEngine->getInput()->mouseButtonPress(button,
+                                                          ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                          ouzel::input::InputWin::getMouseModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
-        ouzel::sharedEngine->getInput()->mouseUp(button,
-                                                 ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                 ouzel::input::InputWin::getMouseModifiers(wParam));
+        ouzel::sharedEngine->getInput()->mouseButtonRelease(button,
+                                                            ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                            ouzel::input::InputWin::getMouseModifiers(wParam));
     }
 }
 

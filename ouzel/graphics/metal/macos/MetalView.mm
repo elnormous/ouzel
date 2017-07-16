@@ -93,14 +93,14 @@
 
 -(void)keyDown:(NSEvent*)event
 {
-    ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
-                                             ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                              ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)keyUp:(NSEvent*)event
 {
-    ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
-                                           ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)flagsChanged:(NSEvent*)event
@@ -109,13 +109,13 @@
     {
         if (event.modifierFlags & mask)
         {
-            ouzel::sharedEngine->getInput()->keyDown(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
-                                                     ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+            ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                      ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
         }
         else
         {
-            ouzel::sharedEngine->getInput()->keyUp(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
-                                                   ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+            ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputMacOS::convertKeyCode(event.keyCode),
+                                                        ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
         }
     }
 }
@@ -129,60 +129,60 @@
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseDown(ouzel::input::MouseButton::LEFT,
-                                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                  static_cast<float>(location.y))),
-                                               ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonPress(ouzel::input::MouseButton::LEFT,
+                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                         static_cast<float>(location.y))),
+                                                      ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)mouseUp:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseUp(ouzel::input::MouseButton::LEFT,
-                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                static_cast<float>(location.y))),
-                                             ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonRelease(ouzel::input::MouseButton::LEFT,
+                                                        ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                           static_cast<float>(location.y))),
+                                                        ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)rightMouseDown:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseDown(ouzel::input::MouseButton::RIGHT,
-                                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                           static_cast<float>(location.y))),
-                                               ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonPress(ouzel::input::MouseButton::RIGHT,
+                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                         static_cast<float>(location.y))),
+                                                      ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)rightMouseUp:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseUp(ouzel::input::MouseButton::RIGHT,
-                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                static_cast<float>(location.y))),
-                                             ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonRelease(ouzel::input::MouseButton::RIGHT,
+                                                        ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                           static_cast<float>(location.y))),
+                                                        ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)otherMouseDown:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseDown(ouzel::input::MouseButton::MIDDLE,
-                                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                  static_cast<float>(location.y))),
-                                               ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonPress(ouzel::input::MouseButton::MIDDLE,
+                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                         static_cast<float>(location.y))),
+                                                      ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)otherMouseUp:(NSEvent*)event
 {
     NSPoint location = [self convertPoint:event.locationInWindow fromView: nil];
 
-    ouzel::sharedEngine->getInput()->mouseUp(ouzel::input::MouseButton::MIDDLE,
-                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                static_cast<float>(location.y))),
-                                             ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
+    ouzel::sharedEngine->getInput()->mouseButtonRelease(ouzel::input::MouseButton::MIDDLE,
+                                                        ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                           static_cast<float>(location.y))),
+                                                        ouzel::input::InputMacOS::getModifiers(event.modifierFlags, 0));
 }
 
 -(void)mouseMoved:(NSEvent*)event

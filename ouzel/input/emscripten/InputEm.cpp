@@ -17,12 +17,12 @@ static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEv
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            inputEm->keyDown(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                             ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyPress(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
+                              ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
             return true;
         case EMSCRIPTEN_EVENT_KEYUP:
-            inputEm->keyUp(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                           ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyRelease(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
+                                ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
             return true;
     }
 
@@ -56,14 +56,14 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
     switch (eventType)
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
-            inputEm->mouseDown(button,
-                               ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                               ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+            inputEm->mouseButtonPress(button,
+                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                      ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
-            inputEm->mouseUp(button,
-                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                             ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+            inputEm->mouseButtonRelease(button,
+                                        ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
             inputEm->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),

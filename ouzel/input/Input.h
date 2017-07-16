@@ -252,11 +252,11 @@ namespace ouzel
             bool isKeyboardKeyDown(KeyboardKey key) const { return keyboardKeyStates[static_cast<uint32_t>(key)]; }
             bool isMouseButtonDown(MouseButton button) const { return mouseButtonStates[static_cast<uint32_t>(button)]; }
 
-            virtual void keyDown(KeyboardKey key, uint32_t modifiers);
-            virtual void keyUp(KeyboardKey key, uint32_t modifiers);
+            virtual void keyPress(KeyboardKey key, uint32_t modifiers);
+            virtual void keyRelease(KeyboardKey key, uint32_t modifiers);
 
-            virtual void mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers);
-            virtual void mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers);
+            virtual void mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers);
+            virtual void mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers);
             virtual void mouseMove(const Vector2& position, uint32_t modifiers);
             virtual void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
             virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);

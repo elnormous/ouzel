@@ -130,7 +130,7 @@ namespace ouzel
         {
         }
 
-        void Input::keyDown(KeyboardKey key, uint32_t modifiers)
+        void Input::keyPress(KeyboardKey key, uint32_t modifiers)
         {
             Event event;
 
@@ -151,7 +151,7 @@ namespace ouzel
             }
         }
 
-        void Input::keyUp(KeyboardKey key, uint32_t modifiers)
+        void Input::keyRelease(KeyboardKey key, uint32_t modifiers)
         {
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
@@ -164,7 +164,7 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseDown(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void Input::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
@@ -178,7 +178,7 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseUp(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void Input::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 

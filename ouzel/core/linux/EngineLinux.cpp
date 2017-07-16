@@ -91,13 +91,13 @@ namespace ouzel
 
                             if (event.type == KeyPress)
                             {
-                                input->keyDown(input::InputLinux::convertKeyCode(keySym),
-                                               input::InputLinux::getModifiers(event.xkey.state));
+                                input->keyPress(input::InputLinux::convertKeyCode(keySym),
+                                                input::InputLinux::getModifiers(event.xkey.state));
                             }
                             else
                             {
-                                input->keyUp(input::InputLinux::convertKeyCode(keySym),
-                                             input::InputLinux::getModifiers(event.xkey.state));
+                                input->keyRelease(input::InputLinux::convertKeyCode(keySym),
+                                                  input::InputLinux::getModifiers(event.xkey.state));
                             }
                             break;
                         }
@@ -127,15 +127,15 @@ namespace ouzel
 
                             if (event.type == ButtonPress)
                             {
-                                input->mouseDown(button,
-                                                 window->convertWindowToNormalizedLocation(pos),
-                                                 input::InputLinux::getModifiers(event.xbutton.state));
+                                input->mouseButtonPress(button,
+                                                        window->convertWindowToNormalizedLocation(pos),
+                                                        input::InputLinux::getModifiers(event.xbutton.state));
                             }
                             else
                             {
-                                input->mouseUp(button,
-                                               window->convertWindowToNormalizedLocation(pos),
-                                               input::InputLinux::getModifiers(event.xbutton.state));
+                                input->mouseButtonRelease(button,
+                                                          window->convertWindowToNormalizedLocation(pos),
+                                                          input::InputLinux::getModifiers(event.xbutton.state));
                             }
                             break;
                         }

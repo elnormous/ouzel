@@ -382,12 +382,12 @@ namespace ouzel
                                     if (event->value == 1 || event->value == 2) // press or repeat
                                     {
                                         if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = true;
-                                        keyDown(convertKeyCode(event->code), getModifiers());
+                                        keyPress(convertKeyCode(event->code), getModifiers());
                                     }
                                     else if (event->value == 0) // release
                                     {
                                         if (event->value >= 0 && event->value < 256) keyboardKeyDown[event->value] = false;
-                                        keyUp(convertKeyCode(event->code), getModifiers());
+                                        keyRelease(convertKeyCode(event->code), getModifiers());
                                     }
                                 }
                             }
@@ -449,12 +449,12 @@ namespace ouzel
                                     if (event->value == 1)
                                     {
                                         if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = true;
-                                        mouseDown(button, cursorPosition, getModifiers());
+                                        mouseButtonPress(button, cursorPosition, getModifiers());
                                     }
                                     else if (event->value == 0)
                                     {
                                         if (buttonIndex >= 0 && buttonIndex < 3) mouseButtonDown[buttonIndex] = false;
-                                        mouseUp(button, cursorPosition, getModifiers());
+                                        mouseButtonRelease(button, cursorPosition, getModifiers());
                                     }
                                 }
                             }
