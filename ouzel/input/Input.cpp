@@ -94,6 +94,7 @@ namespace ouzel
         {
             sharedEngine->executeOnMainThread([this, resource] {
                 resource->upload();
+                std::lock_guard<std::mutex> lock(resourceMutex);
                 if (resource == currentCursorResource) activateCursorResource(currentCursorResource);
             });
         }
