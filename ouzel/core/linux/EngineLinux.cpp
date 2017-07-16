@@ -211,7 +211,7 @@ namespace ouzel
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        execute([this, newScreenSaverEnabled]() {
+        executeOnMainThread([this, newScreenSaverEnabled]() {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);

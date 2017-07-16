@@ -199,7 +199,7 @@ namespace ouzel
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        execute([newScreenSaverEnabled, this]() {
+        executeOnMainThread([newScreenSaverEnabled, this]() {
             JNIEnv* jniEnv;
 
             if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
