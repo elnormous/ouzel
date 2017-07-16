@@ -14,7 +14,7 @@ namespace ouzel
 
         virtual int run() override;
 
-        virtual void execute(const std::function<void(void)>& func) override;
+        virtual void executeOnMainThread(const std::function<void(void)>& func) override;
 
     protected:
         void executeAll();

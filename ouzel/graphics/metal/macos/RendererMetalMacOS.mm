@@ -117,7 +117,7 @@ namespace ouzel
         {
             if (type == Event::Type::WINDOW_SCREEN_CHANGE)
             {
-                sharedEngine->execute([this, event]() {
+                sharedEngine->executeOnMainThread([this, event]() {
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)

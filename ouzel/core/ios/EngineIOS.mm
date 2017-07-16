@@ -85,7 +85,7 @@ namespace ouzel
         }
     }
 
-    void EngineIOS::execute(const std::function<void(void)>& func)
+    void EngineIOS::executeOnMainThread(const std::function<void(void)>& func)
     {
         if (func)
         {

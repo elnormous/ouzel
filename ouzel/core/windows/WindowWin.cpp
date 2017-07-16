@@ -432,14 +432,14 @@ namespace ouzel
     {
         Window::close();
 
-        sharedEngine->execute([this] {
+        sharedEngine->executeOnMainThread([this] {
             SendMessage(window, WM_CLOSE, 0, 0);
         });
     }
 
     void WindowWin::setSize(const Size2& newSize)
     {
-        sharedEngine->execute([this, newSize] {
+        sharedEngine->executeOnMainThread([this, newSize] {
             UINT width = static_cast<UINT>(newSize.v[0]);
             UINT height = static_cast<UINT>(newSize.v[1]);
 
@@ -458,7 +458,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            sharedEngine->execute([this, newTitle] {
+            sharedEngine->executeOnMainThread([this, newTitle] {
                 wchar_t titleBuffer[256] = L"";
 
                 if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
@@ -478,7 +478,7 @@ namespace ouzel
     {
         Window::setFullscreen(newFullscreen);
 
-        sharedEngine->execute([this, newFullscreen] {
+        sharedEngine->executeOnMainThread([this, newFullscreen] {
             switchFullscreen(newFullscreen);
         });
     }

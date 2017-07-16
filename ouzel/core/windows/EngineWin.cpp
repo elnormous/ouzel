@@ -120,7 +120,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineWin::execute(const std::function<void(void)>& func)
+    void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
     {
         std::lock_guard<std::mutex> lock(executeMutex);
 

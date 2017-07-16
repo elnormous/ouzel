@@ -152,7 +152,7 @@ namespace ouzel
     {
         Window::close();
 
-        sharedEngine->execute([this] {
+        sharedEngine->executeOnMainThread([this] {
             XEvent event;
             event.type = ClientMessage;
             event.xclient.window = window;
@@ -174,7 +174,7 @@ namespace ouzel
     {
         if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            sharedEngine->execute([this, newSize] {
+            sharedEngine->executeOnMainThread([this, newSize] {
                 XWindowChanges changes;
                 changes.width = static_cast<int>(newSize.v[0]);
                 changes.height = static_cast<int>(newSize.v[1]);
@@ -204,7 +204,7 @@ namespace ouzel
         {
             if (title != newTitle)
             {
-                sharedEngine->execute([this, newTitle] {
+                sharedEngine->executeOnMainThread([this, newTitle] {
                     XStoreName(display, window, newTitle.c_str());
                 });
             }
@@ -222,7 +222,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine->execute([this] {
+            sharedEngine->executeOnMainThread([this] {
                 XEvent event;
                 event.type = ClientMessage;
                 event.xclient.window = window;

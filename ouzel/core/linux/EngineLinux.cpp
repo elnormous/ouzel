@@ -168,7 +168,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineLinux::execute(const std::function<void(void)>& func)
+    void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
         std::lock_guard<std::mutex> lock(executeMutex);
 

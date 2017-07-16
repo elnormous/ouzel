@@ -327,7 +327,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedEngine->execute([visible] {
+            sharedEngine->executeOnMainThread([visible] {
                 if (!visible)
                 {
                     emscripten_hide_mouse();
@@ -355,7 +355,7 @@ namespace ouzel
 
         void InputEm::setCursorLocked(bool locked)
         {
-            sharedEngine->execute([locked] {
+            sharedEngine->executeOnMainThread([locked] {
                 if (locked)
                 {
                     emscripten_request_pointerlock(nullptr, false);

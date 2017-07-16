@@ -70,7 +70,7 @@ namespace ouzel
 
         void update();
 
-        virtual void execute(const std::function<void(void)>& func) = 0;
+        virtual void executeOnMainThread(const std::function<void(void)>& func) = 0;
 
         virtual bool openURL(const std::string& url);
 

@@ -322,7 +322,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedEngine->execute([visible, this] {
+                sharedEngine->executeOnMainThread([visible, this] {
                     WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
@@ -355,7 +355,7 @@ namespace ouzel
 
         void InputLinux::setCursorLocked(bool locked)
         {
-            sharedEngine->execute([locked] {
+            sharedEngine->executeOnMainThread([locked] {
                 WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
@@ -389,7 +389,7 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedEngine->execute([position] {
+            sharedEngine->executeOnMainThread([position] {
                 WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();

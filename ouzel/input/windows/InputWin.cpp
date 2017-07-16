@@ -344,7 +344,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedEngine->execute([this, visible] {
+            sharedEngine->executeOnMainThread([this, visible] {
                 if (visible)
                 {
                     SetCursor(currentCursor);
@@ -363,7 +363,7 @@ namespace ouzel
 
         void InputWin::setCursorLocked(bool locked)
         {
-            sharedEngine->execute([locked] {
+            sharedEngine->executeOnMainThread([locked] {
                 if (locked)
                 {
                     HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
@@ -401,7 +401,7 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedEngine->execute([position] {
+            sharedEngine->executeOnMainThread([position] {
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
                 HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
 

@@ -85,7 +85,7 @@ namespace ouzel
         }
     }
 
-    void EngineTVOS::execute(const std::function<void(void)>& func)
+    void EngineTVOS::executeOnMainThread(const std::function<void(void)>& func)
     {
         if (func)
         {

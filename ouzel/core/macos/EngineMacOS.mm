@@ -89,7 +89,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineMacOS::execute(const std::function<void(void)>& func)
+    void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
     {
         if (func)
         {

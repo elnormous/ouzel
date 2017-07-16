@@ -43,7 +43,7 @@ namespace ouzel
 
             CursorResource* resource = currentCursorResource;
 
-            sharedEngine->execute([this, resource] {
+            sharedEngine->executeOnMainThread([this, resource] {
                 activateCursorResource(resource);
             });
         }
@@ -66,7 +66,7 @@ namespace ouzel
 
         void Input::deleteCursorResource(CursorResource* resource)
         {
-            sharedEngine->execute([this, resource] {
+            sharedEngine->executeOnMainThread([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
                 std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
@@ -84,7 +84,7 @@ namespace ouzel
                     // remove the cursor
                     currentCursorResource = nullptr;
 
-                    sharedEngine->execute([this] {
+                    sharedEngine->executeOnMainThread([this] {
                         activateCursorResource(nullptr);
                     });
                 }
@@ -95,7 +95,7 @@ namespace ouzel
         
         void Input::uploadCursorResource(CursorResource* resource)
         {
-            sharedEngine->execute([this, resource] {
+            sharedEngine->executeOnMainThread([this, resource] {
                 resource->upload();
                 if (resource == currentCursorResource) activateCursorResource(currentCursorResource);
             });

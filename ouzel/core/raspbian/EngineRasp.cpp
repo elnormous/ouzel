@@ -37,7 +37,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineRasp::execute(const std::function<void(void)>& func)
+    void EngineRasp::executeOnMainThread(const std::function<void(void)>& func)
     {
         std::lock_guard<std::mutex> lock(executeMutex);
 

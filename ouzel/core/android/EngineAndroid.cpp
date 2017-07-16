@@ -148,7 +148,7 @@ namespace ouzel
         return EXIT_SUCCESS;
     }
 
-    void EngineAndroid::execute(const std::function<void(void)>& func)
+    void EngineAndroid::executeOnMainThread(const std::function<void(void)>& func)
     {
         {
             std::lock_guard<std::mutex> lock(executeMutex);

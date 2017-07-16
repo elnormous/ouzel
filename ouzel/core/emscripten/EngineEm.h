@@ -16,7 +16,7 @@ namespace ouzel
 
         bool step();
 
-        virtual void execute(const std::function<void(void)>& func) override;
+        virtual void executeOnMainThread(const std::function<void(void)>& func) override;
         virtual bool openURL(const std::string& url) override;
     };
 }

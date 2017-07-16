@@ -211,7 +211,7 @@ namespace ouzel
     {
         Window::close();
 
-        sharedEngine->execute([this] {
+        sharedEngine->executeOnMainThread([this] {
             if (view)
             {
                 [view release];
@@ -236,7 +236,7 @@ namespace ouzel
 
     void WindowMacOS::setSize(const Size2& newSize)
     {
-        sharedEngine->execute([this, newSize] {
+        sharedEngine->executeOnMainThread([this, newSize] {
             NSRect frame = [window frame];
 
             NSRect newFrame = [NSWindow frameRectForContentRect:
@@ -257,7 +257,7 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            sharedEngine->execute([this, newFullscreen] {
+            sharedEngine->executeOnMainThread([this, newFullscreen] {
                 NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
                 bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
@@ -275,7 +275,7 @@ namespace ouzel
     {
         if (title != newTitle)
         {
-            sharedEngine->execute([this, newTitle] {
+            sharedEngine->executeOnMainThread([this, newTitle] {
                 NSString* objCTitle = [NSString stringWithCString:newTitle.c_str() encoding:NSUTF8StringEncoding];
 
                 window.title = objCTitle;

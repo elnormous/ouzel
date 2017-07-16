@@ -56,7 +56,7 @@ namespace ouzel
         return active;
     }
 
-    void EngineEm::execute(const std::function<void(void)>& func)
+    void EngineEm::executeOnMainThread(const std::function<void(void)>& func)
     {
         if (func) func();
     }

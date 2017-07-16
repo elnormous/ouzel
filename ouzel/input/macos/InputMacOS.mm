@@ -319,7 +319,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedEngine->execute([this, visible] {
+                sharedEngine->executeOnMainThread([this, visible] {
                     if (visible)
                     {
                         [currentCursor set];
@@ -343,7 +343,7 @@ namespace ouzel
 
             ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
 
-            sharedEngine->execute([windowLocation] {
+            sharedEngine->executeOnMainThread([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
                 WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
@@ -356,7 +356,7 @@ namespace ouzel
 
         void InputMacOS::setCursorLocked(bool locked)
         {
-            sharedEngine->execute([locked] {
+            sharedEngine->executeOnMainThread([locked] {
                 CGAssociateMouseAndMouseCursorPosition(!locked);
             });
             cursorLocked = locked;
