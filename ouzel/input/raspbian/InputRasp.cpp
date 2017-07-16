@@ -169,7 +169,7 @@ namespace ouzel
             {KEY_F22, KeyboardKey::F22},
             {KEY_F23, KeyboardKey::F23},
             {KEY_F24, KeyboardKey::F24}
-        }
+        };
 
         static KeyboardKey convertKeyCode(uint16_t keyCode)
         {
