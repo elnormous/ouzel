@@ -83,10 +83,7 @@ namespace ouzel
                 {
                     // remove the cursor
                     currentCursorResource = nullptr;
-
-                    sharedEngine->executeOnMainThread([this] {
-                        activateCursorResource(nullptr);
-                    });
+                    activateCursorResource(nullptr);
                 }
 
                 resourceDeleteSet.clear();
