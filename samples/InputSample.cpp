@@ -76,19 +76,19 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::RIGHT:
                 flamePosition.x() += 0.01f;
                 break;
-            case input::KeyboardKey::KEY_W:
+            case input::KeyboardKey::W:
                 position.y() += 10.0f;
                 break;
-            case input::KeyboardKey::KEY_S:
+            case input::KeyboardKey::S:
                 position.y() -= 10.0f;
                 break;
-            case input::KeyboardKey::KEY_A:
+            case input::KeyboardKey::A:
                 position.x() -= 10.0f;
                 break;
-            case input::KeyboardKey::KEY_D:
+            case input::KeyboardKey::D:
                 position.x() += 10.0f;
                 break;
-            case input::KeyboardKey::KEY_R:
+            case input::KeyboardKey::R:
                 sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:

@@ -128,7 +128,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
             case input::KeyboardKey::TAB:
                 jumpSound->play();
                 break;
-            case input::KeyboardKey::KEY_S:
+            case input::KeyboardKey::S:
                 sharedEngine->getRenderer()->saveScreenshot("test.png");
                 break;
             default:

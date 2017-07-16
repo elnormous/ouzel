@@ -60,56 +60,56 @@ namespace ouzel
             DEL,            // DEL key
             EQUAL,          // EQUAL key
             HELP,           // HELP key
-            KEY_0,          // 0 key
-            KEY_1,          // 1 key
-            KEY_2,          // 2 key
-            KEY_3,          // 3 key
-            KEY_4,          // 4 key
-            KEY_5,          // 5 key
-            KEY_6,          // 6 key
-            KEY_7,          // 7 key
-            KEY_8,          // 8 key
-            KEY_9,          // 9 key
-            KEY_A,          // A key
-            KEY_B,          // B key
-            KEY_C,          // C key
-            KEY_D,          // D key
-            KEY_E,          // E key
-            KEY_F,          // F key
-            KEY_G,          // G key
-            KEY_H,          // H key
-            KEY_I,          // I key
-            KEY_J,          // J key
-            KEY_K,          // K key
-            KEY_L,          // L key
-            KEY_M,          // M key
-            KEY_N,          // N key
-            KEY_O,          // O key
-            KEY_P,          // P key
-            KEY_Q,          // Q key
-            KEY_R,          // R key
-            KEY_S,          // S key
-            KEY_T,          // T key
-            KEY_U,          // U key
-            KEY_V,          // V key
-            KEY_W,          // W key
-            KEY_X,          // X key
-            KEY_Y,          // Y key
-            KEY_Z,          // Z key
+            NUM_0,          // 0 key
+            NUM_1,          // 1 key
+            NUM_2,          // 2 key
+            NUM_3,          // 3 key
+            NUM_4,          // 4 key
+            NUM_5,          // 5 key
+            NUM_6,          // 6 key
+            NUM_7,          // 7 key
+            NUM_8,          // 8 key
+            NUM_9,          // 9 key
+            A,              // A key
+            B,              // B key
+            C,              // C key
+            D,              // D key
+            E,              // E key
+            F,              // F key
+            G,              // G key
+            H,              // H key
+            I,              // I key
+            J,              // J key
+            K,              // K key
+            L,              // L key
+            M,              // M key
+            N,              // N key
+            O,              // O key
+            P,              // P key
+            Q,              // Q key
+            R,              // R key
+            S,              // S key
+            T,              // T key
+            U,              // U key
+            V,              // V key
+            W,              // W key
+            X,              // X key
+            Y,              // Y key
+            Z,              // Z key
             LSUPER,         // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
             RSUPER,         // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
             APPS,           // Applications key (Natural keyboard)
             SLEEP,          // Computer Sleep key
-            NUMPAD0,        // Numeric keypad 0 key
-            NUMPAD1,        // Numeric keypad 1 key
-            NUMPAD2,        // Numeric keypad 2 key
-            NUMPAD3,        // Numeric keypad 3 key
-            NUMPAD4,        // Numeric keypad 4 key
-            NUMPAD5,        // Numeric keypad 5 key
-            NUMPAD6,        // Numeric keypad 6 key
-            NUMPAD7,        // Numeric keypad 7 key
-            NUMPAD8,        // Numeric keypad 8 key
-            NUMPAD9,        // Numeric keypad 9 key
+            NUMPAD_0,       // Numeric keypad 0 key
+            NUMPAD_1,       // Numeric keypad 1 key
+            NUMPAD_2,       // Numeric keypad 2 key
+            NUMPAD_3,       // Numeric keypad 3 key
+            NUMPAD_4,       // Numeric keypad 4 key
+            NUMPAD_5,       // Numeric keypad 5 key
+            NUMPAD_6,       // Numeric keypad 6 key
+            NUMPAD_7,       // Numeric keypad 7 key
+            NUMPAD_8,       // Numeric keypad 8 key
+            NUMPAD_9,       // Numeric keypad 9 key
             MULTIPLY,       // Multiply key
             ADD,            // Add key
             SEPARATOR,      // Separator key
