@@ -201,13 +201,13 @@ namespace ouzel
         {
             switch (type)
             {
-                case Event::Type::MOUSE_DOWN:
+                case Event::Type::MOUSE_PRESS:
                 {
                     std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
                     pointerDownOnNode(0, node.first, event.position, node.second);
                     break;
                 }
-                case Event::Type::MOUSE_UP:
+                case Event::Type::MOUSE_RELEASE:
                 {
                     std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
                     pointerUpOnNode(0, node.first, event.position);

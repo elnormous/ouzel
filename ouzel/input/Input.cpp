@@ -143,7 +143,7 @@ namespace ouzel
             {
                 keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
-                event.type = Event::Type::KEY_DOWN;
+                event.type = Event::Type::KEY_PRESS;
                 sharedEngine->getEventDispatcher()->postEvent(event);
             }
             else
@@ -158,7 +158,7 @@ namespace ouzel
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
             Event event;
-            event.type = Event::Type::KEY_UP;
+            event.type = Event::Type::KEY_RELEASE;
 
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
@@ -171,7 +171,7 @@ namespace ouzel
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
             Event event;
-            event.type = Event::Type::MOUSE_DOWN;
+            event.type = Event::Type::MOUSE_PRESS;
 
             event.mouseEvent.button = button;
             event.mouseEvent.position = position;
@@ -185,7 +185,7 @@ namespace ouzel
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 
             Event event;
-            event.type = Event::Type::MOUSE_UP;
+            event.type = Event::Type::MOUSE_RELEASE;
 
             event.mouseEvent.button = button;
             event.mouseEvent.position = position;

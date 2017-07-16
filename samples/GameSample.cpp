@@ -23,7 +23,7 @@ GameSample::GameSample()
 
 bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_DOWN)
+    if (type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
@@ -39,7 +39,7 @@ bool GameSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
 bool GameSample::handleMouse(Event::Type type, const MouseEvent&)
 {
-    if (type == Event::Type::MOUSE_DOWN)
+    if (type == Event::Type::MOUSE_PRESS)
     {
 
     }

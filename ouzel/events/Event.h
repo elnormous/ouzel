@@ -110,13 +110,13 @@ namespace ouzel
         enum class Type
         {
             // keyboard events
-            KEY_DOWN,
-            KEY_UP,
+            KEY_PRESS,
+            KEY_RELEASE,
             KEY_REPEAT,
 
             // mouse events
-            MOUSE_DOWN,
-            MOUSE_UP,
+            MOUSE_PRESS,
+            MOUSE_RELEASE,
             MOUSE_SCROLL,
             MOUSE_MOVE,
 

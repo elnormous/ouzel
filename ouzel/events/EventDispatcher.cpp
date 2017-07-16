@@ -81,8 +81,8 @@ namespace ouzel
                 {
                     switch (event.type)
                     {
-                        case Event::Type::KEY_DOWN:
-                        case Event::Type::KEY_UP:
+                        case Event::Type::KEY_PRESS:
+                        case Event::Type::KEY_RELEASE:
                         case Event::Type::KEY_REPEAT:
                             if (eventHandler->keyboardHandler)
                             {
@@ -90,8 +90,8 @@ namespace ouzel
                             }
                             break;
 
-                        case Event::Type::MOUSE_DOWN:
-                        case Event::Type::MOUSE_UP:
+                        case Event::Type::MOUSE_PRESS:
+                        case Event::Type::MOUSE_RELEASE:
                         case Event::Type::MOUSE_SCROLL:
                         case Event::Type::MOUSE_MOVE:
                             if (eventHandler->mouseHandler)

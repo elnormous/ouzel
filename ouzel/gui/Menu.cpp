@@ -175,7 +175,7 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (type == Event::Type::KEY_DOWN && !widgets.empty())
+            if (type == Event::Type::KEY_PRESS && !widgets.empty())
             {
                 switch (event.key)
                 {

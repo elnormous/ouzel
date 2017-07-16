@@ -57,7 +57,7 @@ InputSample::InputSample()
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
-    if (type == Event::Type::KEY_DOWN)
+    if (type == Event::Type::KEY_PRESS)
     {
         Vector2 position = camera->getPosition();
         Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());

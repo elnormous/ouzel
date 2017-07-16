@@ -97,7 +97,7 @@ bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 
 bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) const
 {
-    if (type == Event::Type::KEY_DOWN)
+    if (type == Event::Type::KEY_PRESS)
     {
         switch (event.key)
         {
