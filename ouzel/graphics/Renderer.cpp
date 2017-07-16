@@ -124,6 +124,8 @@ namespace ouzel
             // refills draw and upload queues
             refillDrawQueue = true;
 
+            executeAll();
+
             for (Resource* resource : uploadResources)
             {
                 // upload data to GPU
@@ -321,6 +323,38 @@ namespace ouzel
         bool Renderer::generateScreenshot(const std::string&)
         {
             return true;
+        }
+
+        void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
+        {
+            std::lock_guard<std::mutex> lock(executeMutex);
+
+            executeQueue.push(func);
+        }
+
+        void Renderer::executeAll()
+        {
+            std::function<void(void)> func;
+
+            for (;;)
+            {
+                {
+                    std::lock_guard<std::mutex> lock(executeMutex);
+
+                    if (executeQueue.empty())
+                    {
+                        break;
+                    }
+
+                    func = std::move(executeQueue.front());
+                    executeQueue.pop();
+                }
+                
+                if (func)
+                {
+                    func();
+                }
+            }
         }
     } // namespace graphics
 } // namespace ouzel

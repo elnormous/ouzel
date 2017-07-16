@@ -156,6 +156,8 @@ namespace ouzel
             float getFPS() const { return currentFPS; }
             float getAccumulatedFPS() const { return accumulatedFPS; }
 
+            void executeOnRenderThread(const std::function<void(void)>& func);
+
         protected:
             Renderer(Driver aDriver);
             virtual bool init(Window* newWindow,
@@ -239,6 +241,8 @@ namespace ouzel
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
         private:
+            void executeAll();
+
             uint32_t drawCallCount = 0;
 
             std::vector<DrawCommand> drawQueue;
@@ -256,6 +260,9 @@ namespace ouzel
 
             std::queue<std::string> screenshotQueue;
             std::mutex screenshotMutex;
+
+            std::queue<std::function<void(void)>> executeQueue;
+            std::mutex executeMutex;
         };
     } // namespace graphics
 } // namespace ouzel
