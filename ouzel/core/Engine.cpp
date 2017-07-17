@@ -287,7 +287,7 @@ namespace ouzel
         if (!heightValue.empty()) size.v[1] = stringToFloat(heightValue);
 
         std::string sampleCountValue = userSettings.getValue("engine", "sampleCount", defaultSettings.getValue("engine", "sampleCount"));
-        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(stringToLong(sampleCountValue));
+        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(stringToUnsignedLong(sampleCountValue));
 
         std::string textureFilterValue = userSettings.getValue("engine", "textureFilter", defaultSettings.getValue("engine", "textureFilter"));
         if (!textureFilterValue.empty())
@@ -316,7 +316,7 @@ namespace ouzel
         }
 
         std::string maxAnisotropyValue = userSettings.getValue("engine", "maxAnisotropy", defaultSettings.getValue("engine", "maxAnisotropy"));
-        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(stringToLong(maxAnisotropyValue));
+        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(stringToUnsignedLong(maxAnisotropyValue));
 
         std::string resizableValue = userSettings.getValue("engine", "resizable", defaultSettings.getValue("engine", "resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");

@@ -42,7 +42,7 @@ namespace ouzel
                         }
                     }
 
-                    result |= (static_cast<uint32_t>(stringToLong(currentValue))) << ((3 - component) * 8);
+                    result |= (static_cast<uint32_t>(stringToUnsignedLong(currentValue))) << ((3 - component) * 8);
                 }
 
                 result |= 0xff; // alpha
