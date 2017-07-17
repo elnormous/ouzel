@@ -49,7 +49,7 @@ namespace ouzel
             }
             else
             {
-                result = static_cast<uint32_t>(stringToLong(value));
+                result = static_cast<uint32_t>(stringToLongLong(value));
             }
         }
 
