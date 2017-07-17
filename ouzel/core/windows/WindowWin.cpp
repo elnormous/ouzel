@@ -251,6 +251,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         }
         case WM_ERASEBKGND:
         {
+            // Erase background only for the Empty renderer
             if (ouzel::sharedEngine->getRenderer()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
             {
                 return TRUE;
@@ -261,19 +262,19 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             switch (wParam)
             {
-            case SC_SCREENSAVE:
-            case SC_MONITORPOWER:
-            {
-                if (!ouzel::sharedEngine->isScreenSaverEnabled())
+                case SC_SCREENSAVE:
+                case SC_MONITORPOWER:
                 {
-                    // Disable screensaver
-                    return 0;
+                    if (!ouzel::sharedEngine->isScreenSaverEnabled())
+                    {
+                        // Disable screensaver
+                        return 0;
+                    }
+                    break;
                 }
-                break;
-            }
-            // Disable accessing menu using alt key
-            case SC_KEYMENU:
-                return 0;
+                // Disable accessing menu using alt key
+                case SC_KEYMENU:
+                    return 0;
             }
             break;
         }
