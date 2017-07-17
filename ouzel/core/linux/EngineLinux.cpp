@@ -58,14 +58,9 @@ namespace ouzel
             {
                 executeAll();
 
-                while (active)
+                // XNextEvent will block if there is no event pending, so don't call it if engine is running
+                if (!running || XPending(windowLinux->getDisplay()))
                 {
-                    // XNextEvent will block if there is no event pending, so don't call it if engine is running
-                    if (running && !XPending(windowLinux->getDisplay()))
-                    {
-                        break;
-                    }
-
                     XNextEvent(windowLinux->getDisplay(), &event);
 
                     switch (event.type)

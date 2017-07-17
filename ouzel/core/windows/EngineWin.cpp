@@ -39,6 +39,25 @@ namespace ouzel
         //CoUninitialize();
     }
 
+    static void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& msg)
+    {
+        bool translate = true;
+
+        for (HACCEL accelerator : accelerators)
+        {
+            if (TranslateAccelerator(window, accelerator, &msg))
+            {
+                translate = false;
+            }
+        }
+
+        if (translate)
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
     int EngineWin::run()
     {
         HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
@@ -71,46 +90,38 @@ namespace ouzel
         {
             executeAll();
 
-            std::set<HACCEL> accelerators = windowWin->getAccelerators();
-
-            while (active)
+            if (running)
             {
-                if (running)
+                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                 {
-                    if (!PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if (GetMessage(&msg, nullptr, 0, 0) <= 0)
+                    translateMessage(windowWin->getNativeWindow(),
+                                     windowWin->accelerators, msg);
+
+                    if (msg.message == WM_QUIT)
                     {
                         exit();
                         break;
                     }
                 }
-
-                bool translate = true;
-
-                for (HACCEL accelerator : accelerators)
-                {
-                    if (TranslateAccelerator(windowWin->getNativeWindow(), accelerator, &msg))
-                    {
-                        translate = false;
-                    }
-                }
-
-                if (translate)
-                {
-                    TranslateMessage(&msg);
-                    DispatchMessage(&msg);
-                }
-
-                if (msg.message == WM_QUIT)
+            }
+            else
+            {
+                BOOL ret = GetMessage(&msg, nullptr, 0, 0);
+                if (ret == 0)
                 {
                     exit();
                     break;
+                }
+                else if (ret == -1)
+                {
+                    exit();
+                    Log(Log::Level::ERR) << "Failed to get message";
+                    return EXIT_FAILURE;
+                }
+                else
+                {
+                    translateMessage(windowWin->getNativeWindow(),
+                                     windowWin->accelerators, msg);
                 }
             }
 

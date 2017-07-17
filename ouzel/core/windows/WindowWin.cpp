@@ -535,11 +535,15 @@ namespace ouzel
 
     void WindowWin::addAccelerator(HACCEL accelerator)
     {
-        accelerators.insert(accelerator);
+        sharedEngine->executeOnMainThread([this, accelerator]() {
+            accelerators.insert(accelerator);
+        });
     }
 
     void WindowWin::removeAccelerator(HACCEL accelerator)
     {
-        accelerators.erase(accelerator);
+        sharedEngine->executeOnMainThread([this, accelerator]() {
+            accelerators.erase(accelerator);
+        });
     }
 }

@@ -9,9 +9,12 @@
 
 namespace ouzel
 {
+    class EngineWin;
+
     class WindowWin : public Window
     {
         friend Engine;
+        friend EngineWin;
     public:
         virtual ~WindowWin();
 
@@ -25,7 +28,6 @@ namespace ouzel
         void handleMove();
 
         HWND getNativeWindow() const { return window; }
-        const std::set<HACCEL>& getAccelerators() const { return accelerators; }
         void addAccelerator(HACCEL accelerator);
         void removeAccelerator(HACCEL accelerator);
 
