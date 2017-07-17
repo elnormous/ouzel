@@ -365,6 +365,11 @@ namespace ouzel
         return strtol(val.c_str(), nullptr, 0);
     }
 
+    inline unsigned long stringToUnsignedLong(const std::string& val)
+    {
+        return strtoul(val.c_str(), nullptr, 0);
+    }
+
     inline long long stringToLongLong(const std::string& val)
     {
         return strtoll(val.c_str(), nullptr, 0);
