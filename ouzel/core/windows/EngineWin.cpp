@@ -15,8 +15,6 @@ namespace ouzel
         int nArgs;
         LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
 
-        std::vector<std::string> args;
-
         if (argList)
         {
             char temporaryCString[256];
