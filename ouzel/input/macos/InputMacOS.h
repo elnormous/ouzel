@@ -63,7 +63,7 @@ namespace ouzel
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;
 
-            id connectDelegate = nullptr;
+            id connectDelegate = Nil;
             IOHIDManagerRef hidManager = nullptr;
 
             std::vector<GamepadGC*> gamepadsGC;

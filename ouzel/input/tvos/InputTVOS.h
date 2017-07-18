@@ -38,7 +38,7 @@ namespace ouzel
             InputTVOS();
             virtual bool init() override;
 
-            id connectDelegate = nullptr;
+            id connectDelegate = Nil;
 
             bool discovering = false;
             bool cursorVisible = true;
