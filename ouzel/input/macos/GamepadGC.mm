@@ -1,12 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <objc/message.h>
 #include "GamepadGC.h"
 #include "core/Engine.h"
-#include "core/CompileConfig.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
 
 namespace ouzel
 {
