@@ -6,13 +6,10 @@
 #if defined(__OBJC__)
 #include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
-@class ConnectDelegate;
-typedef ConnectDelegate* ConnectDelegatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
 typedef id GCControllerPtr;
-typedef id ConnectDelegatePtr;
 #endif
 
 #include "input/Input.h"
@@ -41,7 +38,7 @@ namespace ouzel
             InputTVOS();
             virtual bool init() override;
 
-            ConnectDelegatePtr connectDelegate = nullptr;
+            ConnectDelegate connectDelegate = nullptr;
 
             bool discovering = false;
             bool cursorVisible = true;
