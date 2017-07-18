@@ -118,7 +118,7 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::FACE4, pressed, value);
                 };
             }
-#if defined(__MAC_10_11) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_11
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             else if (controller.microGamepad)
             {
                 // D-pad
