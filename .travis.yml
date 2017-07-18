@@ -30,6 +30,9 @@ matrix:
       osx_image: xcode7.3
       before_script:
         - export CXX=clang++
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
 addons:
   sonarcloud:
     organization: "elnormous-github"
