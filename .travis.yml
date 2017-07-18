@@ -18,6 +18,7 @@ matrix:
             - g++-4.9
       before_install:
         - sudo apt-get install -y libopenal-dev
+        - sudo apt-get install -y libasound2-dev
       before_script:
         - export CXX=g++-4.9
     - compiler: gcc
@@ -30,6 +31,7 @@ matrix:
             - g++-5
       before_install:
         - sudo apt-get install -y libopenal-dev
+        - sudo apt-get install -y libasound2-dev
       before_script:
         - export CXX=g++-5
     - compiler: clang
