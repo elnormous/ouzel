@@ -3,13 +3,49 @@
 
 #include <algorithm>
 #import <Carbon/Carbon.h>
+#import <GameController/GameController.h>
 #include "InputMacOS.h"
 #include "CursorResourceMacOS.h"
-#include "GamepadMacOS.h"
+#include "GamepadGC.h"
+#include "GamepadIOKit.h"
 #include "core/macos/WindowMacOS.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
+
+@interface ConnectDelegate: NSObject
+{
+    ouzel::input::InputMacOS* input;
+}
+
+-(void)handleControllerConnected:(NSNotification*)notification;
+-(void)handleControllerDisconnected:(NSNotification*)notification;
+
+@end
+
+@implementation ConnectDelegate
+
+-(id)initWithInput:(ouzel::input::InputMacOS*)newInput
+{
+    if (self = [super init])
+    {
+        input = newInput;
+    }
+
+    return self;
+}
+
+-(void)handleControllerConnected:(NSNotification*)notification
+{
+    input->handleGamepadConnected(notification.object);
+}
+
+-(void)handleControllerDisconnected:(NSNotification*)notification
+{
+    input->handleGamepadDisconnected(notification.object);
+}
+
+@end
 
 #if !defined(MAC_OS_X_VERSION_10_12) || MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_12
 enum
@@ -216,12 +252,31 @@ namespace ouzel
         InputMacOS::InputMacOS()
         {
             currentCursor = defaultCursor = [NSCursor arrowCursor];
+
+            connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
+
+            [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
+                                                     selector:@selector(handleControllerConnected:)
+                                                         name:GCControllerDidConnectNotification
+                                                       object:Nil];
+
+            [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
+                                                     selector:@selector(handleControllerDisconnected:)
+                                                         name:GCControllerDidDisconnectNotification
+                                                       object:Nil];
+
+            startGamepadDiscovery();
         }
 
         InputMacOS::~InputMacOS()
         {
             resourceDeleteSet.clear();
             resources.clear();
+
+            if (connectDelegate)
+            {
+                [connectDelegate release];
+            }
 
             if (hidManager)
             {
@@ -366,12 +421,41 @@ namespace ouzel
             return cursorLocked;
         }
 
-        void InputMacOS::handleGamepadConnected(IOHIDDeviceRef device)
+        void InputMacOS::startGamepadDiscovery()
+        {
+            Log(Log::Level::INFO) << "Started gamepad discovery";
+
+            discovering = true;
+
+            [GCController startWirelessControllerDiscoveryWithCompletionHandler:
+             ^(void){ handleGamepadDiscoveryCompleted(); }];
+        }
+
+        void InputMacOS::stopGamepadDiscovery()
+        {
+            if (discovering)
+            {
+                Log(Log::Level::INFO) << "Stopped gamepad discovery";
+
+                [GCController stopWirelessControllerDiscovery];
+
+                discovering = false;
+            }
+        }
+
+        void InputMacOS::handleGamepadDiscoveryCompleted()
+        {
+            Log(Log::Level::INFO) << "Gamepad discovery completed";
+            discovering = false;
+        }
+
+        void InputMacOS::handleGamepadConnected(GCControllerPtr controller)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            std::unique_ptr<GamepadMacOS> gamepad(new GamepadMacOS(device));
+            std::unique_ptr<GamepadGC> gamepad(new GamepadGC(controller));
+            gamepadsGC.push_back(gamepad.get());
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -380,23 +464,96 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
+        void InputMacOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
-            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [device](const std::unique_ptr<Gamepad>& gamepad) {
-                GamepadMacOS* currentGamepad = static_cast<GamepadMacOS*>(gamepad.get());
-                return currentGamepad->getDevice() == device;
+            auto i = std::find_if(gamepadsGC.begin(), gamepadsGC.end(), [controller](GamepadGC* gamepad) {
+                return gamepad->getController() == controller;
             });
 
-            if (i != gamepads.end())
+            if (i != gamepadsGC.end())
             {
+                GamepadGC* gamepadGC = *i;
+
                 Event event;
                 event.type = Event::Type::GAMEPAD_DISCONNECT;
 
-                event.gamepadEvent.gamepad = (*i).get();
+                event.gamepadEvent.gamepad = gamepadGC;
 
                 sharedEngine->getEventDispatcher()->postEvent(event);
 
-                gamepads.erase(i);
+                gamepadsGC.erase(i);
+
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadGC](const std::unique_ptr<Gamepad>& gamepad) {
+                    return gamepad.get() == gamepadGC;
+                });
+
+                if (gamepadIterator != gamepads.end())
+                {
+                    gamepads.erase(gamepadIterator);
+                }
+            }
+        }
+
+        void InputMacOS::handleGamepadConnected(IOHIDDeviceRef device)
+        {
+            int32_t vendorId = 0;
+            CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
+            if (vendor)
+            {
+                CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
+            }
+
+            int32_t productId = 0;
+            CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
+            if (product)
+            {
+                CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
+            }
+
+            // Use GameController framework for controllers that support it
+            if (vendorId != 0x1038 && productId != 0x1420) // SteelSeries Nimbus
+            {
+                Event event;
+                event.type = Event::Type::GAMEPAD_CONNECT;
+
+                std::unique_ptr<GamepadIOKit> gamepad(new GamepadIOKit(device));
+                gamepadsIOKit.push_back(gamepad.get());
+
+                event.gamepadEvent.gamepad = gamepad.get();
+
+                gamepads.push_back(std::move(gamepad));
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
+        }
+
+        void InputMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
+        {
+            auto i = std::find_if(gamepadsIOKit.begin(), gamepadsIOKit.end(), [device](GamepadIOKit* gamepad) {
+                return gamepad->getDevice() == device;
+            });
+
+            if (i != gamepadsIOKit.end())
+            {
+                GamepadIOKit* gamepadIOKit = *i;
+
+                Event event;
+                event.type = Event::Type::GAMEPAD_DISCONNECT;
+
+                event.gamepadEvent.gamepad = gamepadIOKit;
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+
+                gamepadsIOKit.erase(i);
+
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadIOKit](const std::unique_ptr<Gamepad>& gamepad) {
+                    return gamepad.get() == gamepadIOKit;
+                });
+
+                if (gamepadIterator != gamepads.end())
+                {
+                    gamepads.erase(gamepadIterator);
+                }
             }
         }
     } // namespace input

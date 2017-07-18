@@ -52,8 +52,8 @@ namespace ouzel
 
             ButtonState buttonStates[static_cast<uint32_t>(GamepadButton::BUTTON_COUNT)];
             std::string name;
-            uint64_t vendorId = 0;
-            uint64_t productId = 0;
+            int32_t vendorId = 0;
+            int32_t productId = 0;
             bool attached = false;
         };
     } // namespace input

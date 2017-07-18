@@ -696,6 +696,8 @@
 		306B0E621C567D05005C75C1 /* ShapeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */; };
 		306B0E631C567D05005C75C1 /* ShapeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */; };
 		306B0E641C567D05005C75C1 /* ShapeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */; };
+		307F9FFE1F1E9CA000BA73CB /* GamepadGC.h in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadGC.h */; };
+		307F9FFF1F1E9CA000BA73CB /* GamepadGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */; };
 		3082C3931D9565DE0090FC9D /* ColorPSGL2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3831D9565DE0090FC9D /* ColorPSGL2.h */; };
 		3082C3941D9565DE0090FC9D /* ColorPSGL2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3831D9565DE0090FC9D /* ColorPSGL2.h */; };
 		3082C3951D9565DE0090FC9D /* ColorPSGL2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3831D9565DE0090FC9D /* ColorPSGL2.h */; };
@@ -746,8 +748,8 @@
 		3082C3C21D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
 		3098A54D1E9FD6E900528A54 /* AudioALTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A54B1E9FD6E900528A54 /* AudioALTVOS.h */; };
 		3098A54E1E9FD6E900528A54 /* AudioALTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A54C1E9FD6E900528A54 /* AudioALTVOS.mm */; };
-		3098A5571EA01C8A00528A54 /* GamepadMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5531EA01C8A00528A54 /* GamepadMacOS.h */; };
-		3098A5581EA01C8A00528A54 /* GamepadMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadMacOS.mm */; };
+		3098A5571EA01C8A00528A54 /* GamepadIOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5531EA01C8A00528A54 /* GamepadIOKit.h */; };
+		3098A5581EA01C8A00528A54 /* GamepadIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */; };
 		3098A5591EA01C8A00528A54 /* InputMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5551EA01C8A00528A54 /* InputMacOS.h */; };
 		3098A55A1EA01C8A00528A54 /* InputMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5561EA01C8A00528A54 /* InputMacOS.mm */; };
 		3098A55F1EA01CA900528A54 /* GamepadTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadTVOS.h */; };
@@ -1135,6 +1137,8 @@
 		305B999B1C42A695008589E1 /* BMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMFont.h; sourceTree = "<group>"; };
 		306B0E5D1C567D05005C75C1 /* ShapeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderer.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeRenderer.h; sourceTree = "<group>"; };
+		307F9FFC1F1E9CA000BA73CB /* GamepadGC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamepadGC.h; sourceTree = "<group>"; };
+		307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadGC.mm; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelFormat.h; sourceTree = "<group>"; };
 		3082C3831D9565DE0090FC9D /* ColorPSGL2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSGL2.h; sourceTree = "<group>"; };
 		3082C3841D9565DE0090FC9D /* ColorPSGL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPSGL3.h; sourceTree = "<group>"; };
@@ -1154,8 +1158,8 @@
 		3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES3.h; sourceTree = "<group>"; };
 		3098A54B1E9FD6E900528A54 /* AudioALTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioALTVOS.h; sourceTree = "<group>"; };
 		3098A54C1E9FD6E900528A54 /* AudioALTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioALTVOS.mm; sourceTree = "<group>"; };
-		3098A5531EA01C8A00528A54 /* GamepadMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamepadMacOS.h; sourceTree = "<group>"; };
-		3098A5541EA01C8A00528A54 /* GamepadMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadMacOS.mm; sourceTree = "<group>"; };
+		3098A5531EA01C8A00528A54 /* GamepadIOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamepadIOKit.h; sourceTree = "<group>"; };
+		3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadIOKit.cpp; sourceTree = "<group>"; };
 		3098A5551EA01C8A00528A54 /* InputMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputMacOS.h; sourceTree = "<group>"; };
 		3098A5561EA01C8A00528A54 /* InputMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputMacOS.mm; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamepadTVOS.h; sourceTree = "<group>"; };
@@ -1819,8 +1823,10 @@
 			children = (
 				3049DCE61EDCD1FA0000997A /* CursorResourceMacOS.h */,
 				3049DCE71EDCD1FA0000997A /* CursorResourceMacOS.mm */,
-				3098A5531EA01C8A00528A54 /* GamepadMacOS.h */,
-				3098A5541EA01C8A00528A54 /* GamepadMacOS.mm */,
+				307F9FFC1F1E9CA000BA73CB /* GamepadGC.h */,
+				307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */,
+				3098A5531EA01C8A00528A54 /* GamepadIOKit.h */,
+				3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */,
 				3098A5551EA01C8A00528A54 /* InputMacOS.h */,
 				3098A5561EA01C8A00528A54 /* InputMacOS.mm */,
 			);
@@ -2329,7 +2335,7 @@
 				304A8E541C237C70008B1151 /* Engine.h in Headers */,
 				3048398A1D53BE8F007D70FF /* Resource.h in Headers */,
 				3011E1C71EFFE6DE00CB1DDC /* INI.h in Headers */,
-				3098A5571EA01C8A00528A54 /* GamepadMacOS.h in Headers */,
+				3098A5571EA01C8A00528A54 /* GamepadIOKit.h in Headers */,
 				3082C3AC1D9565DE0090FC9D /* TexturePSGL2.h in Headers */,
 				303696D81E32DDA9007F4211 /* Buffer.h in Headers */,
 				3038201C1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
@@ -2367,6 +2373,7 @@
 				303696C81E32DD8F007F4211 /* Texture.h in Headers */,
 				303820251D80A40700677CAB /* TextureVSTVOS.h in Headers */,
 				304A8E551C237C70008B1151 /* EventHandler.h in Headers */,
+				307F9FFE1F1E9CA000BA73CB /* GamepadGC.h in Headers */,
 				303821491D81876E00677CAB /* RendererEmpty.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2746,6 +2753,7 @@
 				3049DCE11EDCD0450000997A /* CursorResource.cpp in Sources */,
 				303821401D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
+				307F9FFF1F1E9CA000BA73CB /* GamepadGC.mm in Sources */,
 				30381F741D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioAL.cpp in Sources */,
@@ -2781,7 +2789,7 @@
 				30216B741ED464730073E3D5 /* Material.cpp in Sources */,
 				30FE384F1DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				30547E781CB47E050055EE79 /* Shake.cpp in Sources */,
-				3098A5581EA01C8A00528A54 /* GamepadMacOS.mm in Sources */,
+				3098A5581EA01C8A00528A54 /* GamepadIOKit.cpp in Sources */,
 				301EB3A21CCD691800466E92 /* Component.cpp in Sources */,
 				304A8E6A1C237C70008B1151 /* Sprite.cpp in Sources */,
 				301EB3AA1CCD77F600466E92 /* TextRenderer.cpp in Sources */,

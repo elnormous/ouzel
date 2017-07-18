@@ -188,7 +188,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/GamepadMacOS.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
+	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
