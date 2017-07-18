@@ -1,5 +1,5 @@
-dist: trusty
-sudo: required
+#dist: trusty
+#sudo: required
 addons:
   sonarcloud:
     organization: "elnormous-github"
@@ -37,9 +37,9 @@ matrix:
       osx_image: xcode7.3
       before_script:
         - export CXX=clang++
-cache:
-  directories:
-    - '$HOME/.sonar/cache'
+#cache:
+#  directories:
+#    - '$HOME/.sonar/cache'
 script:
   - cd samples && make -j2 && cd ..
-  - sonar-scanner
+#  - sonar-scanner
