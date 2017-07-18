@@ -156,12 +156,18 @@ namespace ouzel
 
         void GamepadGC::setAbsoluteDpadValues(bool absoluteDpadValues)
         {
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
+#endif
         }
 
         bool GamepadGC::isAbsoluteDpadValues() const
         {
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
             return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+#else
+            return false;
+#endif
         }
 
         int32_t GamepadGC::getPlayerIndex() const
