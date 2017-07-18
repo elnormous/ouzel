@@ -118,6 +118,7 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::FACE4, pressed, value);
                 };
             }
+#if defined(__MAC_10_11) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_11
             else if (controller.microGamepad)
             {
                 // D-pad
@@ -142,6 +143,7 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::FACE3, pressed, value);
                 };
             }
+#endif
 
             controller.controllerPausedHandler = ^(GCController*) {
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);

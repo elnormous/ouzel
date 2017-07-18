@@ -118,6 +118,32 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::FACE4, pressed, value);
                 };
             }
+#if defined(__IPHONE_9_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+            else if (controller.microGamepad)
+            {
+                // D-pad
+                controller.microGamepad.dpad.up.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::DPAD_UP, pressed, value);
+                };
+                controller.microGamepad.dpad.down.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::DPAD_DOWN, pressed, value);
+                };
+                controller.microGamepad.dpad.left.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::DPAD_LEFT, pressed, value);
+                };
+                controller.microGamepad.dpad.right.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::DPAD_RIGHT, pressed, value);
+                };
+
+                // buttons
+                controller.microGamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::FACE1, pressed, value);
+                };
+                controller.microGamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput*, float value, BOOL pressed) {
+                    handleButtonValueChange(GamepadButton::FACE3, pressed, value);
+                };
+            }
+#endif
 
             controller.controllerPausedHandler = ^(GCController*) {
                 handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
