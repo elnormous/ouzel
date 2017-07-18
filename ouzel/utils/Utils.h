@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <cstdlib>
 #include <limits>
 #include <functional>
 #include <random>
@@ -345,41 +346,42 @@ namespace ouzel
 
 #if OUZEL_PLATFORM_ANDROID
     template <typename T>
-    std::string toString(T value)
+    inline std::string toString(T value)
     {
         std::ostringstream os;
         os << value;
         return os.str();
     }
-    long stringToLong(const std::string& val);
-    long long stringToLongLong(const std::string& val);
-    float stringToFloat(const std::string& val);
-    double stringToDouble(const std::string& val);
 #else
     template<class T>
     inline std::string toString(T val)
     {
         return std::to_string(val);
     }
+#endif
 
     inline long stringToLong(const std::string& val)
     {
-        return std::stol(val, nullptr, 0);
+        return strtol(val.c_str(), nullptr, 0);
+    }
+
+    inline unsigned long stringToUnsignedLong(const std::string& val)
+    {
+        return strtoul(val.c_str(), nullptr, 0);
     }
 
     inline long long stringToLongLong(const std::string& val)
     {
-        return std::stoll(val, nullptr, 0);
+        return strtoll(val.c_str(), nullptr, 0);
     }
 
     inline float stringToFloat(const std::string& val)
     {
-        return std::stof(val, nullptr);
+        return strtof(val.c_str(), nullptr);
     }
 
     inline double stringToDouble(const std::string& val)
     {
-        return std::stod(val, nullptr);
+        return strtod(val.c_str(), nullptr);
     }
-#endif
 }

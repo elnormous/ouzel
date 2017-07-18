@@ -4,13 +4,7 @@
 #pragma once
 
 #include <unordered_map>
-
-#if defined(__OBJC__)
 #import <IOKit/hid/IOHIDManager.h>
-#else
-typedef void* IOHIDDeviceRef;
-typedef void* IOHIDElementRef;
-#endif
 
 #include "input/Gamepad.h"
 
@@ -20,7 +14,7 @@ namespace ouzel
     {
         class InputMacOS;
 
-        class GamepadMacOS: public Gamepad
+        class GamepadIOKit: public Gamepad
         {
             friend InputMacOS;
         public:
@@ -29,7 +23,7 @@ namespace ouzel
             void handleInput(IOHIDValueRef value);
 
         protected:
-            GamepadMacOS(IOHIDDeviceRef aDevice);
+            GamepadIOKit(IOHIDDeviceRef aDevice);
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                        int64_t min, int64_t max,
                                        GamepadButton negativeButton, GamepadButton positiveButton);

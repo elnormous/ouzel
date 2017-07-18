@@ -1,8 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#import <Foundation/Foundation.h>
-#include "GamepadMacOS.h"
+#include "GamepadIOKit.h"
 #include "core/Engine.h"
 #include "core/CompileConfig.h"
 #include "events/EventDispatcher.h"
@@ -12,7 +11,7 @@ static const float THUMB_DEADZONE = 0.2f;
 
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {
-    ouzel::input::GamepadMacOS* gamepad = reinterpret_cast<ouzel::input::GamepadMacOS*>(ctx);
+    ouzel::input::GamepadIOKit* gamepad = reinterpret_cast<ouzel::input::GamepadIOKit*>(ctx);
     gamepad->handleInput(value);
 }
 
@@ -20,31 +19,34 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
+        GamepadIOKit::GamepadIOKit(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
-            if (IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+            IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
+            if (ret != kIOReturnSuccess)
             {
-                Log(Log::Level::ERR) << "Failed to open HID device";
+                Log(Log::Level::ERR) << "Failed to open HID device, error: " << ret;
                 return;
             }
 
-            NSString* productName = (NSString*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
+            CFStringRef productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
             if (productName)
             {
-                name = [productName cStringUsingEncoding:NSUTF8StringEncoding];
+                char temp[256];
+                CFStringGetCString(productName, temp, sizeof(temp), kCFStringEncodingUTF8);
+                name = temp;
             }
 
-            NSNumber* vendor = (NSNumber*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey));
+            CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
             {
-                vendorId = [vendor unsignedIntValue];
+                CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
             }
 
-            NSNumber* product = (NSNumber*)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
+            CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
             {
-                productId = [product unsignedIntValue];
+                CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
             }
 
             uint32_t leftThumbXMap = 0;
@@ -287,7 +289,7 @@ namespace ouzel
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
         }
 
-        void GamepadMacOS::handleInput(IOHIDValueRef value)
+        void GamepadIOKit::handleInput(IOHIDValueRef value)
         {
             IOHIDElementRef elementRef = IOHIDValueGetElement(value);
 
@@ -370,7 +372,7 @@ namespace ouzel
             }
         }
 
-        void GamepadMacOS::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
+        void GamepadIOKit::handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                                  int64_t min, int64_t max,
                                                  GamepadButton negativeButton, GamepadButton positiveButton)
         {

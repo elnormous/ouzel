@@ -12,19 +12,14 @@ namespace ouzel
 {
     EngineWin::EngineWin()
     {
-        LPWSTR* argList;
         int nArgs;
-        int i;
-
-        argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
-
-        std::vector<std::string> args;
+        LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
 
         if (argList)
         {
-            for (i = 0; i < nArgs; i++)
+            char temporaryCString[256];
+            for (int i = 0; i < nArgs; i++)
             {
-                char temporaryCString[256];
                 WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
 
                 args.push_back(temporaryCString);
