@@ -265,6 +265,11 @@ namespace ouzel
                                                          name:GCControllerDidDisconnectNotification
                                                        object:Nil];
 
+            for (GCController* controller in [GCController controllers])
+            {
+                handleGamepadConnected(controller);
+            }
+
             startGamepadDiscovery();
         }
 
