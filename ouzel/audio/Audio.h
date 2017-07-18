@@ -34,7 +34,8 @@ namespace ouzel
                 DIRECTSOUND,
                 XAUDIO2,
                 OPENSL,
-                COREAUDIO
+                COREAUDIO,
+                ALSA
             };
 
             enum Channel

@@ -161,7 +161,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioALSA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
@@ -228,6 +229,7 @@ clean:
 ifeq ($(platform),windows)
 	-del /f /q "$(ROOT_DIR)\..\ouzel\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\*.o" \
+	"$(ROOT_DIR)\..\ouzel\audio\alsa\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\coreaudio\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\dsound\*.o" \
 	"$(ROOT_DIR)\..\ouzel\audio\empty\*.o" \
@@ -265,6 +267,7 @@ ifeq ($(platform),windows)
 	"$(ROOT_DIR)\..\ouzel\scene\*.o" \
 	"$(ROOT_DIR)\..\ouzel\utils\*.o" \
 	"$(ROOT_DIR)\..\ouzel\*.d" \
+	"$(ROOT_DIR)\..\ouzel\audio\alsa\*.d" \
 	"$(ROOT_DIR)\..\ouzel\audio\coreaudio\*.d" \
 	"$(ROOT_DIR)\..\ouzel\audio\dsound\*.d" \
 	"$(ROOT_DIR)\..\ouzel\audio\empty\*.d" \
@@ -305,6 +308,7 @@ else
 	$(RM) $(LIBRARY) \
 	$(ROOT_DIR)/../ouzel/*.o \
 	$(ROOT_DIR)/../ouzel/audio/*.o \
+	$(ROOT_DIR)/../ouzel/audio/alsa/*.o \
 	$(ROOT_DIR)/../ouzel/audio/coreaudio/*.o \
 	$(ROOT_DIR)/../ouzel/audio/dsound/*.o \
 	$(ROOT_DIR)/../ouzel/audio/empty/*.o \
@@ -345,6 +349,7 @@ else
 	$(ROOT_DIR)/../ouzel/utils/*.o \
 	$(ROOT_DIR)/../ouzel/*.d \
 	$(ROOT_DIR)/../ouzel/audio/*.d \
+	$(ROOT_DIR)/../ouzel/audio/alsa/*.d \
 	$(ROOT_DIR)/../ouzel/audio/coreaudio/*.d \
 	$(ROOT_DIR)/../ouzel/audio/dsound/*.d \
 	$(ROOT_DIR)/../ouzel/audio/empty/*.d \

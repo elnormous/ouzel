@@ -70,6 +70,7 @@
 #include "audio/xaudio2/AudioXA2.h"
 #include "audio/opensl/AudioSL.h"
 #include "audio/coreaudio/AudioCA.h"
+#include "audio/alsa/AudioALSA.h"
 
 extern std::string APPLICATION_NAME;
 
@@ -165,6 +166,9 @@ namespace ouzel
 #endif
 #if OUZEL_SUPPORTS_COREAUDIO
             availableDrivers.insert(audio::Audio::Driver::COREAUDIO);
+#endif
+#if OUZEL_SUPPORTS_ALSA
+            availableDrivers.insert(audio::Audio::Driver::ALSA);
 #endif
         }
 
@@ -272,6 +276,10 @@ namespace ouzel
             else if (audioDriverValue == "coreaudio")
             {
                 audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
+            }
+            else if (audioDriverValue == "alsa")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::ALSA;
             }
             else
             {
@@ -461,6 +469,10 @@ namespace ouzel
             {
                 audioDriver = audio::Audio::Driver::COREAUDIO;
             }
+            else if (availableDrivers.find(audio::Audio::Driver::ALSA) != availableDrivers.end())
+            {
+                audioDriver = audio::Audio::Driver::ALSA;
+            }
             else if (availableDrivers.find(audio::Audio::Driver::OPENAL) != availableDrivers.end())
             {
                 audioDriver = audio::Audio::Driver::OPENAL;
@@ -523,6 +535,12 @@ namespace ouzel
             case audio::Audio::Driver::COREAUDIO:
                 Log(Log::Level::INFO) << "Using CoreAudio audio driver";
                 audio.reset(new audio::AudioCA());
+                break;
+#endif
+#if OUZEL_SUPPORTS_ALSA
+            case audio::Audio::Driver::ALSA:
+                Log(Log::Level::INFO) << "Using ALSA audio driver";
+                audio.reset(new audio::AudioALSA());
                 break;
 #endif
             default:
