@@ -2,8 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#import <CoreGraphics/CoreGraphics.h>
-#import <GameController/GameController.h>
 #import <Carbon/Carbon.h>
 #include "InputMacOS.h"
 #include "CursorResourceMacOS.h"
@@ -243,9 +241,10 @@ namespace ouzel
             hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 
             IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
-            if (IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+            IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
+            if (ret != kIOReturnSuccess)
             {
-                Log(Log::Level::ERR) << "Failed to initialize manager";
+                Log(Log::Level::ERR) << "Failed to initialize manager, error: " << ret;
                 return false;
             }
             else

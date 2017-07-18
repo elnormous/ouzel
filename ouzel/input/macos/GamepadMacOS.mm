@@ -23,9 +23,10 @@ namespace ouzel
         GamepadMacOS::GamepadMacOS(IOHIDDeviceRef aDevice):
             device(aDevice)
         {
-            if (IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+            IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
+            if (ret != kIOReturnSuccess)
             {
-                Log(Log::Level::ERR) << "Failed to open HID device";
+                Log(Log::Level::ERR) << "Failed to open HID device, error: " << ret;
                 return;
             }
 
