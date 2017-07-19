@@ -515,8 +515,8 @@ namespace ouzel
                 CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
             }
 
-            bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420) || // SteelSeries Nimbus
-                                          (vendorId == 0x0090 && productId == 0x0F0D); // HoriPad Ultimate
+            bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420); // SteelSeries Nimbus
+                                          /*(vendorId == 0x0090 && productId == 0x0F0D)*/; // HoriPad Ultimate
 
             // Use IOKit only if the controller does not support GameController framework
             if (!supportsGameController)
