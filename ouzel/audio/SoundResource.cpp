@@ -29,8 +29,6 @@ namespace ouzel
                 stream = soundData->createStream();
             }
 
-            dirty |= DIRTY_SOUND_DATA | DIRTY_POSITION | DIRTY_PITCH | DIRTY_GAIN | DIRTY_PLAY_STATE;
-
             return true;
         }
 
@@ -39,8 +37,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             position = newPosition;
-
-            dirty |= DIRTY_POSITION;
         }
 
         void SoundResource::setPitch(float newPitch)
@@ -48,8 +44,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             pitch = newPitch;
-
-            dirty |= DIRTY_PITCH;
         }
 
         void SoundResource::setGain(float newGain)
@@ -57,8 +51,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             gain = newGain;
-
-            dirty |= DIRTY_GAIN;
         }
 
         bool SoundResource::play(bool repeatSound)
@@ -67,8 +59,6 @@ namespace ouzel
 
             shouldPlay = true;
             repeat = repeatSound;
-
-            dirty |= DIRTY_PLAY_STATE;
 
             return true;
         }
@@ -79,8 +69,6 @@ namespace ouzel
 
             shouldPlay = false;
 
-            dirty |= DIRTY_PLAY_STATE;
-
             return true;
         }
 
@@ -90,8 +78,6 @@ namespace ouzel
 
             shouldPlay = false;
             reset = true;
-
-            dirty |= DIRTY_PLAY_STATE;
 
             return true;
         }

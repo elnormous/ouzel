@@ -49,8 +49,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             listenerPosition = newPosition;
-
-            dirty |= DIRTY_LISTENER_POSITION;
         }
 
         void Audio::setListenerRotation(const Quaternion& newRotation)
@@ -58,8 +56,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             listenerRotation = newRotation;
-
-            dirty |= DIRTY_LISTENER_ROTATION;
         }
 
         std::vector<uint8_t> Audio::getData(uint32_t size)

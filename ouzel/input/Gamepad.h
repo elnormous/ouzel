@@ -30,8 +30,8 @@ namespace ouzel
             virtual ~Gamepad();
 
             const std::string& getName() const { return name; }
-            uint64_t getVendorId() const { return vendorId; }
-            uint64_t getProductId() const { return productId; }
+            int32_t getVendorId() const { return vendorId; }
+            int32_t getProductId() const { return productId; }
             bool isAttached() const { return attached; }
             
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues);

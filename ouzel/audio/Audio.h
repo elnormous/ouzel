@@ -71,14 +71,6 @@ namespace ouzel
 
             Driver driver;
 
-            enum Dirty
-            {
-                DIRTY_LISTENER_POSITION = 0x01,
-                DIRTY_LISTENER_ROTATION = 0x02
-            };
-
-            uint32_t dirty = 0;
-
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 

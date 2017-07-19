@@ -39,17 +39,6 @@ namespace ouzel
             std::vector<uint8_t> getData(uint32_t size, uint16_t channels, uint32_t samplesPerSecond);
 
         protected:
-            enum Dirty
-            {
-                DIRTY_SOUND_DATA = 0x01,
-                DIRTY_POSITION = 0x02,
-                DIRTY_PITCH = 0x04,
-                DIRTY_GAIN = 0x08,
-                DIRTY_PLAY_STATE = 0x10
-            };
-
-            uint32_t dirty = 0;
-
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
             bool relativePosition = false;

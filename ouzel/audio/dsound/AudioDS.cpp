@@ -188,9 +188,6 @@ namespace ouzel
                 nextBuffer = currentBuffer;
             }
 
-            std::lock_guard<std::mutex> lock(uploadMutex);
-            dirty = 0;
-
             return true;
         }
 

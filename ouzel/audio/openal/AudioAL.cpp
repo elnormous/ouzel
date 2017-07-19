@@ -308,9 +308,6 @@ namespace ouzel
                 nextBuffer = (nextBuffer == 0) ? 1 : 0;
             }
 
-            std::lock_guard<std::mutex> lock(uploadMutex);
-            dirty = 0;
-
             return true;
         }
     } // namespace audio
