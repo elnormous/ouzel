@@ -25,54 +25,54 @@ namespace ouzel
         public:
             virtual ~TextureResource();
 
-            bool init(const Size2& newSize,
-                      bool newDynamic,
-                      bool newMipmaps = true,
-                      bool newRenderTarget = false,
-                      uint32_t newSampleCount = 1,
-                      bool newDepth = false,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
-                      bool newDynamic,
-                      bool newMipmaps = true,
-                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            virtual bool init(const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              bool newRenderTarget = false,
+                              uint32_t newSampleCount = 1,
+                              bool newDepth = false,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            virtual bool init(const std::vector<uint8_t>& newData,
+                              const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            bool setSize(const Size2& newSize);
+            virtual bool setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
 
-            bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
+            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
             bool isDynamic() const { return dynamic; }
 
             Texture::Filter getFilter() const { return filter; }
-            bool setFilter(Texture::Filter newFilter);
+            virtual bool setFilter(Texture::Filter newFilter);
 
             Texture::Address getAddressX() const { return addressX; }
-            bool setAddressX(Texture::Address newAddressX);
+            virtual bool setAddressX(Texture::Address newAddressX);
 
             Texture::Address getAddressY() const { return addressY; }
-            bool setAddressY(Texture::Address newAddressY);
+            virtual bool setAddressY(Texture::Address newAddressY);
 
             uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
-            bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
+            virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             bool getClearColorBuffer() const { return clearColorBuffer; }
-            void setClearColorBuffer(bool clear);
+            virtual void setClearColorBuffer(bool clear);
 
             bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            void setClearDepthBuffer(bool clear);
+            virtual void setClearDepthBuffer(bool clear);
 
             Color getClearColor() const { return clearColor; }
-            void setClearColor(Color color);
+            virtual void setClearColor(Color color);
 
             uint32_t getSampleCount() const { return sampleCount; }
             bool getDepth() const { return depth; }
 
             PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
+            virtual void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
 
         protected:
             TextureResource();

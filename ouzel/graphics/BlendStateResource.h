@@ -20,12 +20,12 @@ namespace ouzel
         public:
             virtual ~BlendStateResource();
 
-            bool init(bool newEnableBlending,
-                      BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
-                      BlendState::BlendOperation newColorOperation,
-                      BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                      BlendState::BlendOperation newAlphaOperation,
-                      uint8_t newColorMask);
+            virtual bool init(bool newEnableBlending,
+                              BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                              BlendState::BlendOperation newColorOperation,
+                              BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                              BlendState::BlendOperation newAlphaOperation,
+                              uint8_t newColorMask);
 
             bool isBlendingEnabled() const { return enableBlending; }
             BlendState::BlendFactor getColorBlendSource() const { return colorBlendSource; }

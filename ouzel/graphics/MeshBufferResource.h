@@ -21,21 +21,21 @@ namespace ouzel
         public:
             virtual ~MeshBufferResource();
 
-            bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                      const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer);
+            virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                              const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer);
 
             uint32_t getIndexSize() const { return indexSize; }
-            bool setIndexSize(uint32_t newIndexSize);
+            virtual bool setIndexSize(uint32_t newIndexSize);
 
             BufferResource* getIndexBuffer() const { return indexBuffer; }
-            bool setIndexBuffer(BufferResource* newIndexBuffer);
+            virtual bool setIndexBuffer(BufferResource* newIndexBuffer);
 
             uint32_t getVertexSize() const { return vertexSize; }
             const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
-            bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
+            virtual bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
 
             BufferResource* getVertexBuffer() const { return vertexBuffer; }
-            bool setVertexBuffer(BufferResource* newVertexBuffer);
+            virtual bool setVertexBuffer(BufferResource* newVertexBuffer);
 
         protected:
             MeshBufferResource();

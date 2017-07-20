@@ -21,10 +21,10 @@ namespace ouzel
         public:
             virtual ~BufferResource();
 
-            bool init(Buffer::Usage newUsage, bool newDynamic = true);
-            bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
+            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true);
+            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
 
-            bool setData(const void* newData, uint32_t newSize);
+            virtual bool setData(const void* newData, uint32_t newSize);
 
             bool isDynamic() const { return dynamic; }
             Buffer::Usage getUsage() const { return usage; }
