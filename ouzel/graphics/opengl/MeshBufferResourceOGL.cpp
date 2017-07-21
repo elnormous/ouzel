@@ -27,94 +27,6 @@ namespace ouzel
             }
         }
 
-        bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                         const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
-        {
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
-        {
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::setIndexBuffer(BufferResource* newIndexBuffer)
-        {
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
-        {
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::setVertexBuffer(BufferResource* newVertexBuffer)
-        {
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::bindBuffers()
-        {
-            if (vertexArrayId)
-            {
-                if (!RendererOGL::bindVertexArray(vertexArrayId))
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                // TODO: return false for OpenGL 3.1 and up
-                if (!indexBufferOGL || !indexBufferOGL->getBufferId())
-                {
-                    Log(Log::Level::ERR) << "Index buffer not initialized";
-                    return false;
-                }
-
-                if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                {
-                    return false;
-                }
-
-                if (!vertexBufferOGL || !vertexBufferOGL->getBufferId())
-                {
-                    Log(Log::Level::ERR) << "Vertex buffer not initialized";
-                    return false;
-                }
-
-                if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                {
-                    return false;
-                }
-
-                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
-                {
-                    if (index < vertexAttribs.size())
-                    {
-                        glEnableVertexAttribArrayProc(index);
-                        glVertexAttribPointerProc(index,
-                                                  vertexAttribs[index].size,
-                                                  vertexAttribs[index].type,
-                                                  vertexAttribs[index].normalized,
-                                                  vertexAttribs[index].stride,
-                                                  vertexAttribs[index].pointer);
-                    }
-                    else
-                    {
-                        glDisableVertexAttribArrayProc(index);
-                    }
-                }
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to update vertex attributes";
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         static GLenum getVertexFormat(DataType dataType)
         {
             switch (dataType)
@@ -205,10 +117,103 @@ namespace ouzel
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
                 case DataType::FLOAT_VECTOR4:
                     return 4;
-
+                    
                 default:
                     return 0;
             }
+        }
+
+        bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                                         const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+        {
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setIndexBuffer(BufferResource* newIndexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setVertexBuffer(BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::bindBuffers()
+        {
+            if (vertexArrayId)
+            {
+                if (!RendererOGL::bindVertexArray(vertexArrayId))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                // TODO: return false for OpenGL 3.1 and up
+                if (!indexBufferOGL || !indexBufferOGL->getBufferId())
+                {
+                    Log(Log::Level::ERR) << "Index buffer not initialized";
+                    return false;
+                }
+
+                if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                {
+                    return false;
+                }
+
+                if (!vertexBufferOGL || !vertexBufferOGL->getBufferId())
+                {
+                    Log(Log::Level::ERR) << "Vertex buffer not initialized";
+                    return false;
+                }
+
+                if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                {
+                    return false;
+                }
+
+                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                {
+                    if (index < vertexAttribs.size())
+                    {
+                        glEnableVertexAttribArrayProc(index);
+                        glVertexAttribPointerProc(index,
+                                                  vertexAttribs[index].size,
+                                                  vertexAttribs[index].type,
+                                                  vertexAttribs[index].normalized,
+                                                  vertexAttribs[index].stride,
+                                                  vertexAttribs[index].pointer);
+                    }
+                    else
+                    {
+                        glDisableVertexAttribArrayProc(index);
+                    }
+                }
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         bool MeshBufferResourceOGL::upload()

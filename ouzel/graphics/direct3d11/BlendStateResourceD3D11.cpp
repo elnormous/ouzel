@@ -67,6 +67,47 @@ namespace ouzel
                                            BlendState::BlendOperation newAlphaOperation,
                                            uint8_t newColorMask)
         {
+            if (!BlendStateResource::init(newEnableBlending,
+                                          newColorBlendSource, newColorBlendDest,
+                                          newColorOperation,
+                                          newAlphaBlendSource, newAlphaBlendDest,
+                                          newAlphaOperation,
+                                          newColorMask))
+            {
+                return false;
+            }
+
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+
+            // Blending state
+            D3D11_BLEND_DESC blendStateDesc;
+            blendStateDesc.AlphaToCoverageEnable = FALSE;
+            blendStateDesc.IndependentBlendEnable = FALSE;
+
+            D3D11_RENDER_TARGET_BLEND_DESC targetBlendDesc;
+            targetBlendDesc.BlendEnable = enableBlending ? TRUE : FALSE;
+            targetBlendDesc.SrcBlend = getBlendFactor(colorBlendSource);
+            targetBlendDesc.DestBlend = getBlendFactor(colorBlendDest);
+            targetBlendDesc.BlendOp = getBlendOperation(colorOperation);
+            targetBlendDesc.SrcBlendAlpha = getBlendFactor(alphaBlendSource);
+            targetBlendDesc.DestBlendAlpha = getBlendFactor(alphaBlendDest);
+            targetBlendDesc.BlendOpAlpha = getBlendOperation(alphaOperation);
+            targetBlendDesc.RenderTargetWriteMask = 0;
+            if (colorMask & BlendState::COLOR_MASK_RED) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_RED;
+            if (colorMask & BlendState::COLOR_MASK_GREEN) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_GREEN;
+            if (colorMask & BlendState::COLOR_MASK_BLUE) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_BLUE;
+            if (colorMask & BlendState::COLOR_MASK_ALPHA) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
+            blendStateDesc.RenderTarget[0] = targetBlendDesc;
+
+            if (blendState) blendState->Release();
+
+            HRESULT hr = rendererD3D11->getDevice()->CreateBlendState(&blendStateDesc, &blendState);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to create Direct3D 11 blend state, error: " << hr;
+                return false;
+            }
+
             return true;
         }
 

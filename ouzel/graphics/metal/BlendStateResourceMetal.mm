@@ -58,6 +58,30 @@ namespace ouzel
                                            BlendState::BlendOperation newAlphaOperation,
                                            uint8_t newColorMask)
         {
+            if (!BlendStateResource::init(newEnableBlending,
+                                          newColorBlendSource, newColorBlendDest,
+                                          newColorOperation,
+                                          newAlphaBlendSource, newAlphaBlendDest,
+                                          newAlphaOperation,
+                                          newColorMask))
+            {
+                return false;
+            }
+
+            rgbBlendOperation = getBlendOperation(colorOperation);
+            alphaBlendOperation = getBlendOperation(alphaOperation);
+            sourceRGBBlendFactor = getBlendFactor(colorBlendSource);
+            destinationRGBBlendFactor = getBlendFactor(colorBlendDest);
+            sourceAlphaBlendFactor = getBlendFactor(alphaBlendSource);
+            destinationAlphaBlendFactor = getBlendFactor(alphaBlendDest);
+            metalBlendingEnabled = enableBlending;
+
+            colorWriteMask = MTLColorWriteMaskNone;
+            if (colorMask & BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
+            if (colorMask & BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
+            if (colorMask & BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
+            if (colorMask & BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
+            
             return true;
         }
 

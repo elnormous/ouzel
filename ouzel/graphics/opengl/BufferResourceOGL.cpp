@@ -28,16 +28,31 @@ namespace ouzel
 
         bool BufferResourceOGL::init(Buffer::Usage newUsage, bool newDynamic)
         {
+            if (!BufferResource::init(newUsage, newDynamic))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool BufferResourceOGL::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
+            if (!BufferResource::init(newUsage, newData, newSize, newDynamic))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool BufferResourceOGL::setData(const void* newData, uint32_t newSize)
         {
+            if (!BufferResource::setData(newData, newSize))
+            {
+                return false;
+            }
+
             return true;
         }
 

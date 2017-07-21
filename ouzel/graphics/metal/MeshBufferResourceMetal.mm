@@ -26,6 +26,11 @@ namespace ouzel
         bool MeshBufferResourceMetal::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                                            const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
         {
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            {
+                return false;
+            }
+
             return true;
         }
 

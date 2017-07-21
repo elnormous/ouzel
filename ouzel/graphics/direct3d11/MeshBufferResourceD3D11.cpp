@@ -24,6 +24,11 @@ namespace ouzel
         bool MeshBufferResourceD3D11::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                                            const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
         {
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            {
+                return false;
+            }
+
             return true;
         }
 
