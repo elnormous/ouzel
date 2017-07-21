@@ -20,6 +20,11 @@ namespace ouzel
             BufferResourceD3D11();
             virtual ~BufferResourceD3D11();
 
+            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true) override;
+            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic) override;
+
+            virtual bool setData(const void* newData, uint32_t newSize) override;
+
             ID3D11Buffer* getBuffer() const { return buffer; }
 
         protected:

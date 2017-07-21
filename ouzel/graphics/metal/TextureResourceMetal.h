@@ -36,6 +36,30 @@ namespace ouzel
             TextureResourceMetal();
             virtual ~TextureResourceMetal();
 
+            virtual bool init(const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              bool newRenderTarget = false,
+                              uint32_t newSampleCount = 1,
+                              bool newDepth = false,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+            virtual bool init(const std::vector<uint8_t>& newData,
+                              const Size2& newSize,
+                              bool newDynamic,
+                              bool newMipmaps = true,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+
+            virtual bool setSize(const Size2& newSize) override;
+            virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;
+            virtual bool setFilter(Texture::Filter newFilter) override;
+            virtual bool setAddressX(Texture::Address newAddressX) override;
+            virtual bool setAddressY(Texture::Address newAddressY) override;
+            virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
+            virtual void setClearColorBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+            virtual void setClearColor(Color color) override;
+            virtual void setFrameBufferClearedFrame(uint32_t clearedFrame) override;
+
             MTLTextureResourcePtr getTexture() const { return texture; }
             MTLPixelFormat getColorFormat() const { return colorFormat; }
             MTLPixelFormat getDepthFormat() const { return depthFormat; }

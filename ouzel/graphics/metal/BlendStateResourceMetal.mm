@@ -11,6 +11,10 @@ namespace ouzel
 {
     namespace graphics
     {
+        BlendStateResourceMetal::BlendStateResourceMetal()
+        {
+        }
+
         static MTLBlendFactor getBlendFactor(BlendState::BlendFactor blendFactor)
         {
             switch (blendFactor)
@@ -47,8 +51,14 @@ namespace ouzel
             return MTLBlendOperationAdd;
         }
 
-        BlendStateResourceMetal::BlendStateResourceMetal()
+        bool BlendStateResourceMetal::init(bool newEnableBlending,
+                                           BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                                           BlendState::BlendOperation newColorOperation,
+                                           BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                                           BlendState::BlendOperation newAlphaOperation,
+                                           uint8_t newColorMask)
         {
+            return true;
         }
 
         bool BlendStateResourceMetal::upload()

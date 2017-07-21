@@ -100,6 +100,19 @@ namespace ouzel
             }
         }
 
+        bool ShaderResourceMetal::init(const std::vector<uint8_t>& newPixelShader,
+                                       const std::vector<uint8_t>& newVertexShader,
+                                       const std::vector<VertexAttribute>& newVertexAttributes,
+                                       const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                       uint32_t newPixelShaderDataAlignment,
+                                       uint32_t newVertexShaderDataAlignment,
+                                       const std::string& pixelShaderFunction,
+                                       const std::string& vertexShaderFunction)
+        {
+            return true;
+        }
+
         bool ShaderResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

@@ -27,6 +27,32 @@ namespace ouzel
             }
         }
 
+        bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                                         const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setIndexBuffer(BufferResource* newIndexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::setVertexBuffer(BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
         bool MeshBufferResourceOGL::bindBuffers()
         {
             if (vertexArrayId)

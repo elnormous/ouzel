@@ -23,6 +23,32 @@ namespace ouzel
         {
         }
 
+        bool MeshBufferResourceMetal::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                                           const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceMetal::setIndexSize(uint32_t newIndexSize)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceMetal::setIndexBuffer(BufferResource* newIndexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceMetal::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceMetal::setVertexBuffer(BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
         bool MeshBufferResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

@@ -46,6 +46,19 @@ namespace ouzel
             }
         }
 
+        bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newPixelShader,
+                                       const std::vector<uint8_t>& newVertexShader,
+                                       const std::vector<VertexAttribute>& newVertexAttributes,
+                                       const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                       const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                       uint32_t newPixelShaderDataAlignment,
+                                       uint32_t newVertexShaderDataAlignment,
+                                       const std::string& pixelShaderFunction,
+                                       const std::string& vertexShaderFunction)
+        {
+            return true;
+        }
+
         bool ShaderResourceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
         {
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());

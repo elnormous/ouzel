@@ -60,6 +60,16 @@ namespace ouzel
             }
         }
 
+        bool BlendStateResourceD3D11::init(bool newEnableBlending,
+                                           BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
+                                           BlendState::BlendOperation newColorOperation,
+                                           BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
+                                           BlendState::BlendOperation newAlphaOperation,
+                                           uint8_t newColorMask)
+        {
+            return true;
+        }
+
         bool BlendStateResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

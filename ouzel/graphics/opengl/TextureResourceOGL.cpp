@@ -216,6 +216,72 @@ namespace ouzel
             }
         }
 
+        bool TextureResourceOGL::init(const Size2& newSize,
+                                      bool newDynamic,
+                                      bool newMipmaps,
+                                      bool newRenderTarget,
+                                      uint32_t newSampleCount,
+                                      bool newDepth,
+                                      PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::init(const std::vector<uint8_t>& newData,
+                                      const Size2& newSize,
+                                      bool newDynamic,
+                                      bool newMipmaps,
+                                      PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setSize(const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setFilter(Texture::Filter newFilter)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setAddressX(Texture::Address newAddressX)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setAddressY(Texture::Address newAddressY)
+        {
+            return true;
+        }
+
+        bool TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        {
+            return true;
+        }
+
+        void TextureResourceOGL::setClearColorBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceOGL::setClearDepthBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceOGL::setClearColor(Color color)
+        {
+        }
+
+        void TextureResourceOGL::setFrameBufferClearedFrame(uint32_t clearedFrame)
+        {
+        }
+
         bool TextureResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

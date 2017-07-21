@@ -26,6 +26,21 @@ namespace ouzel
             }
         }
 
+        bool BufferResourceOGL::init(Buffer::Usage newUsage, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceOGL::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceOGL::setData(const void* newData, uint32_t newSize)
+        {
+            return true;
+        }
+
         bool BufferResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

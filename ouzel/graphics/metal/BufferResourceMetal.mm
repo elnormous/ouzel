@@ -27,6 +27,21 @@ namespace ouzel
             }
         }
 
+        bool BufferResourceMetal::init(Buffer::Usage newUsage, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceMetal::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceMetal::setData(const void* newData, uint32_t newSize)
+        {
+            return true;
+        }
+
         bool BufferResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

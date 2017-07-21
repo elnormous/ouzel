@@ -37,6 +37,19 @@ namespace ouzel
             }
         }
 
+        bool ShaderResourceOGL::init(const std::vector<uint8_t>& newPixelShader,
+                                     const std::vector<uint8_t>& newVertexShader,
+                                     const std::vector<VertexAttribute>& newVertexAttributes,
+                                     const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                     const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                                     uint32_t newPixelShaderDataAlignment,
+                                     uint32_t newVertexShaderDataAlignment,
+                                     const std::string& pixelShaderFunction,
+                                     const std::string& vertexShaderFunction)
+        {
+            return true;
+        }
+
         void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;

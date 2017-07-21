@@ -35,6 +35,14 @@ namespace ouzel
             MeshBufferResourceOGL();
             virtual ~MeshBufferResourceOGL();
 
+            virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                              const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer) override;
+
+            virtual bool setIndexSize(uint32_t newIndexSize) override;
+            virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;
+            virtual bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes) override;
+            virtual bool setVertexBuffer(BufferResource* newVertexBuffer) override;
+
             bool bindBuffers();
 
             GLenum getIndexType() const { return indexType; }

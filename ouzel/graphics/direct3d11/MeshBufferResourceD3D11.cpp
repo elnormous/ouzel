@@ -21,6 +21,32 @@ namespace ouzel
         {
         }
 
+        bool MeshBufferResourceD3D11::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                                           const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceD3D11::setIndexSize(uint32_t newIndexSize)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceD3D11::setIndexBuffer(BufferResource* newIndexBuffer)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceD3D11::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        {
+            return true;
+        }
+
+        bool MeshBufferResourceD3D11::setVertexBuffer(BufferResource* newVertexBuffer)
+        {
+            return true;
+        }
+
         bool MeshBufferResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

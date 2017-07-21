@@ -31,6 +31,16 @@ namespace ouzel
             ShaderResourceOGL();
             virtual ~ShaderResourceOGL();
 
+            virtual bool init(const std::vector<uint8_t>& newPixelShader,
+                              const std::vector<uint8_t>& newVertexShader,
+                              const std::vector<VertexAttribute>& newVertexAttributes,
+                              const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                              const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
+                              uint32_t newPixelShaderDataAlignment = 0,
+                              uint32_t newVertexShaderDataAlignment = 0,
+                              const std::string& pixelShaderFunction = "",
+                              const std::string& vertexShaderFunction = "") override;
+
             struct Location
             {
                 GLint location;

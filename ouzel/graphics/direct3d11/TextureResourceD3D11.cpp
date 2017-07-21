@@ -14,43 +14,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
-        {
-            switch (pixelFormat)
-            {
-                case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
-                case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
-                case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
-                case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
-                case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
-                case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
-                case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
-                case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
-                case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
-                case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
-                case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
-                case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
-                case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
-                case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
-                case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
-                case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
-                case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
-                case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
-                case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
-                case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
-                case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
-                case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
-                case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
-                case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
-                case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
-                case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
-                case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                default: return DXGI_FORMAT_UNKNOWN;
-            }
-        }
-
         TextureResourceD3D11::TextureResourceD3D11()
         {
         }
@@ -89,6 +52,109 @@ namespace ouzel
 
             width = 0;
             height = 0;
+        }
+
+        static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
+                case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
+                case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
+                case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
+                case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
+                case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
+                case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
+                case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
+                case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
+                case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
+                case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
+                case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
+                case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
+                case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
+                case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
+                case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
+                case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
+                case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
+                case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
+                case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
+                case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
+                case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
+                case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
+                case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                default: return DXGI_FORMAT_UNKNOWN;
+            }
+        }
+
+        bool TextureResourceD3D11::init(const Size2& newSize,
+                                        bool newDynamic,
+                                        bool newMipmaps,
+                                        bool newRenderTarget,
+                                        uint32_t newSampleCount,
+                                        bool newDepth,
+                                        PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::init(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize,
+                                        bool newDynamic,
+                                        bool newMipmaps,
+                                        PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setSize(const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setFilter(Texture::Filter newFilter)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
+        {
+            return true;
+        }
+
+        bool TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        {
+            return true;
+        }
+
+        void TextureResourceD3D11::setClearColorBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceD3D11::setClearDepthBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceD3D11::setClearColor(Color color)
+        {
+        }
+
+        void TextureResourceD3D11::setFrameBufferClearedFrame(uint32_t clearedFrame)
+        {
         }
 
         bool TextureResourceD3D11::upload()

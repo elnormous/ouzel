@@ -29,6 +29,14 @@ namespace ouzel
             MeshBufferResourceMetal();
             virtual ~MeshBufferResourceMetal();
 
+            virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                              const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer) override;
+
+            virtual bool setIndexSize(uint32_t newIndexSize) override;
+            virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;
+            virtual bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes) override;
+            virtual bool setVertexBuffer(BufferResource* newVertexBuffer) override;
+
             MTLIndexType getIndexType() const { return indexType; }
             NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 

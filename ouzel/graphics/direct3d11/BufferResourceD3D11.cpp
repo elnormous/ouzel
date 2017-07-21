@@ -26,6 +26,21 @@ namespace ouzel
             }
         }
 
+        bool BufferResourceD3D11::init(Buffer::Usage newUsage, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceD3D11::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        {
+            return true;
+        }
+
+        bool BufferResourceD3D11::setData(const void* newData, uint32_t newSize)
+        {
+            return true;
+        }
+
         bool BufferResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

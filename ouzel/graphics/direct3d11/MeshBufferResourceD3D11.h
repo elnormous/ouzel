@@ -22,6 +22,14 @@ namespace ouzel
             MeshBufferResourceD3D11();
             virtual ~MeshBufferResourceD3D11();
 
+            virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
+                              const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer) override;
+
+            virtual bool setIndexSize(uint32_t newIndexSize) override;
+            virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;
+            virtual bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes) override;
+            virtual bool setVertexBuffer(BufferResource* newVertexBuffer) override;
+
             DXGI_FORMAT getIndexFormat() const { return indexFormat; }
 
             BufferResourceD3D11* getIndexBufferD3D11() const { return indexBufferD3D11; }

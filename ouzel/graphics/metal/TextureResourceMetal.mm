@@ -79,6 +79,72 @@ namespace ouzel
             }
         }
 
+        bool TextureResourceMetal::init(const Size2& newSize,
+                                        bool newDynamic,
+                                        bool newMipmaps,
+                                        bool newRenderTarget,
+                                        uint32_t newSampleCount,
+                                        bool newDepth,
+                                        PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::init(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize,
+                                        bool newDynamic,
+                                        bool newMipmaps,
+                                        PixelFormat newPixelFormat)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setSize(const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setFilter(Texture::Filter newFilter)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setAddressX(Texture::Address newAddressX)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setAddressY(Texture::Address newAddressY)
+        {
+            return true;
+        }
+
+        bool TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
+        {
+            return true;
+        }
+
+        void TextureResourceMetal::setClearColorBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceMetal::setClearDepthBuffer(bool clear)
+        {
+        }
+
+        void TextureResourceMetal::setClearColor(Color color)
+        {
+        }
+
+        void TextureResourceMetal::setFrameBufferClearedFrame(uint32_t clearedFrame)
+        {
+        }
+
         bool TextureResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

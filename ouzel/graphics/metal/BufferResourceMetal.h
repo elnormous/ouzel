@@ -30,6 +30,11 @@ namespace ouzel
             BufferResourceMetal();
             virtual ~BufferResourceMetal();
 
+            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true) override;
+            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic) override;
+
+            virtual bool setData(const void* newData, uint32_t newSize) override;
+
             MTLBufferPtr getBuffer() const { return buffer; }
 
         protected:
