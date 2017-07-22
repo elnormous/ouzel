@@ -183,10 +183,6 @@ namespace ouzel
         {
         }
 
-        void TextureResourceD3D11::setFrameBufferClearedFrame(uint32_t clearedFrame)
-        {
-        }
-
         bool TextureResourceD3D11::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

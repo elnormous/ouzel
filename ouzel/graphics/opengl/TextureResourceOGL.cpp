@@ -308,10 +308,6 @@ namespace ouzel
         {
         }
 
-        void TextureResourceOGL::setFrameBufferClearedFrame(uint32_t clearedFrame)
-        {
-        }
-
         bool TextureResourceOGL::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

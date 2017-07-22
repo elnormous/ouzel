@@ -42,7 +42,6 @@ namespace ouzel
             virtual void setClearColorBuffer(bool clear) override;
             virtual void setClearDepthBuffer(bool clear) override;
             virtual void setClearColor(Color color) override;
-            virtual void setFrameBufferClearedFrame(uint32_t clearedFrame) override;
 
             ID3D11Texture2D* getTexture() const { return texture; }
             ID3D11ShaderResourceView* getResourceView() const { return resourceView; }

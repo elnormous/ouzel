@@ -171,10 +171,6 @@ namespace ouzel
         {
         }
 
-        void TextureResourceMetal::setFrameBufferClearedFrame(uint32_t clearedFrame)
-        {
-        }
-
         bool TextureResourceMetal::upload()
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

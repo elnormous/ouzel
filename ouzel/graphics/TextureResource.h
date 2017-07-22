@@ -72,7 +72,7 @@ namespace ouzel
             PixelFormat getPixelFormat() const { return pixelFormat; }
 
             uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
-            virtual void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
+            void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
 
         protected:
             TextureResource();

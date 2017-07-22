@@ -58,7 +58,6 @@ namespace ouzel
             virtual void setClearColorBuffer(bool clear) override;
             virtual void setClearDepthBuffer(bool clear) override;
             virtual void setClearColor(Color color) override;
-            virtual void setFrameBufferClearedFrame(uint32_t clearedFrame) override;
 
             MTLTextureResourcePtr getTexture() const { return texture; }
             MTLPixelFormat getColorFormat() const { return colorFormat; }
