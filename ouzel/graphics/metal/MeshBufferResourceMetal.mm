@@ -86,7 +86,6 @@ namespace ouzel
                 return false;
             }
 
-
             indexBufferMetal = static_cast<BufferResourceMetal*>(indexBuffer);
 
             return true;

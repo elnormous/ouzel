@@ -153,34 +153,72 @@ namespace ouzel
 
         bool TextureResourceD3D11::setFilter(Texture::Filter newFilter)
         {
+            if (!TextureResource::setFilter(newFilter))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
         {
+            if (!TextureResource::setAddressX(newAddressX))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
         {
+            if (!TextureResource::setAddressY(newAddressY))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
+            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
+            {
+                return false;
+            }
+
             return true;
         }
 
-        void TextureResourceD3D11::setClearColorBuffer(bool clear)
+        bool TextureResourceD3D11::setClearColorBuffer(bool clear)
         {
+            if (!TextureResource::setClearColorBuffer(clear))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        void TextureResourceD3D11::setClearDepthBuffer(bool clear)
+        bool TextureResourceD3D11::setClearDepthBuffer(bool clear)
         {
+            if (!TextureResource::setClearDepthBuffer(clear))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        void TextureResourceD3D11::setClearColor(Color color)
+        bool TextureResourceD3D11::setClearColor(Color color)
         {
+            if (!TextureResource::setClearColor(color))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         bool TextureResourceD3D11::upload()

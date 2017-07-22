@@ -58,13 +58,13 @@ namespace ouzel
             virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             bool getClearColorBuffer() const { return clearColorBuffer; }
-            virtual void setClearColorBuffer(bool clear);
+            virtual bool setClearColorBuffer(bool clear);
 
             bool getClearDepthBuffer() const { return clearDepthBuffer; }
-            virtual void setClearDepthBuffer(bool clear);
+            virtual bool setClearDepthBuffer(bool clear);
 
             Color getClearColor() const { return clearColor; }
-            virtual void setClearColor(Color color);
+            virtual bool setClearColor(Color color);
 
             uint32_t getSampleCount() const { return sampleCount; }
             bool getDepth() const { return depth; }

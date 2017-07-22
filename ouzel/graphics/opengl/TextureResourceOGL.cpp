@@ -278,34 +278,72 @@ namespace ouzel
 
         bool TextureResourceOGL::setFilter(Texture::Filter newFilter)
         {
+            if (!TextureResource::setFilter(newFilter))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceOGL::setAddressX(Texture::Address newAddressX)
         {
+            if (!TextureResource::setAddressX(newAddressX))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceOGL::setAddressY(Texture::Address newAddressY)
         {
+            if (!TextureResource::setAddressY(newAddressY))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceOGL::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
+            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
+            {
+                return false;
+            }
+
             return true;
         }
 
-        void TextureResourceOGL::setClearColorBuffer(bool clear)
+        bool TextureResourceOGL::setClearColorBuffer(bool clear)
         {
+            if (!TextureResource::setClearColorBuffer(clear))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        void TextureResourceOGL::setClearDepthBuffer(bool clear)
+        bool TextureResourceOGL::setClearDepthBuffer(bool clear)
         {
+            if (!TextureResource::setClearDepthBuffer(clear))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        void TextureResourceOGL::setClearColor(Color color)
+        bool TextureResourceOGL::setClearColor(Color color)
         {
+            if (!TextureResource::setClearColor(color))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         bool TextureResourceOGL::upload()

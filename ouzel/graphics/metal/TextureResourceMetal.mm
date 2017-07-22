@@ -141,34 +141,144 @@ namespace ouzel
 
         bool TextureResourceMetal::setFilter(Texture::Filter newFilter)
         {
+            if (!TextureResource::setFilter(newFilter))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceMetal::setAddressX(Texture::Address newAddressX)
         {
+            if (!TextureResource::setAddressX(newAddressX))
+            {
+                return false;
+            }
+
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            RendererMetal::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+
+            if (samplerState) [samplerState release];
+            samplerState = rendererMetal->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get Metal sampler state";
+                return false;
+            }
+
+            [samplerState retain];
+
             return true;
         }
 
         bool TextureResourceMetal::setAddressY(Texture::Address newAddressY)
         {
+            if (!TextureResource::setAddressY(newAddressY))
+            {
+                return false;
+            }
+
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            RendererMetal::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+
+            if (samplerState) [samplerState release];
+            samplerState = rendererMetal->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get Metal sampler state";
+                return false;
+            }
+            
+            [samplerState retain];
+
             return true;
         }
 
         bool TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
+            if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
+            {
+                return false;
+            }
+
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            RendererMetal::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+
+            if (samplerState) [samplerState release];
+            samplerState = rendererMetal->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get Metal sampler state";
+                return false;
+            }
+            
+            [samplerState retain];
+
             return true;
         }
 
-        void TextureResourceMetal::setClearColorBuffer(bool clear)
+        bool TextureResourceMetal::setClearColorBuffer(bool clear)
         {
+            if (!TextureResource::setClearColorBuffer(clear))
+            {
+                return false;
+            }
+
+            colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+
+            return true;
         }
 
-        void TextureResourceMetal::setClearDepthBuffer(bool clear)
+        bool TextureResourceMetal::setClearDepthBuffer(bool clear)
         {
+            if (!TextureResource::setClearDepthBuffer(clear))
+            {
+                return false;
+            }
+
+            depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+
+            return true;
         }
 
-        void TextureResourceMetal::setClearColor(Color color)
+        bool TextureResourceMetal::setClearColor(Color color)
         {
+            if (!TextureResource::setClearColor(color))
+            {
+                return false;
+            }
+
+            if (renderPassDescriptor)
+            {
+                Log(Log::Level::ERR) << "Render pass descriptor not initialized";
+                return false;
+            }
+
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                    clearColor.normG(),
+                                                                                    clearColor.normB(),
+                                                                                    clearColor.normA());
+
+            return true;
         }
 
         bool TextureResourceMetal::upload()

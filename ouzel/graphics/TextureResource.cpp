@@ -584,28 +584,34 @@ namespace ouzel
             return true;
         }
 
-        void TextureResource::setClearColorBuffer(bool clear)
+        bool TextureResource::setClearColorBuffer(bool clear)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColorBuffer = clear;
             dirty |= DIRTY_PARAMETERS;
+
+            return true;
         }
 
-        void TextureResource::setClearDepthBuffer(bool clear)
+        bool TextureResource::setClearDepthBuffer(bool clear)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearDepthBuffer = clear;
             dirty |= DIRTY_PARAMETERS;
+
+            return true;
         }
 
-        void TextureResource::setClearColor(Color color)
+        bool TextureResource::setClearColor(Color color)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColor = color;
             dirty |= DIRTY_PARAMETERS;
+
+            return true;
         }
     } // namespace graphics
 } // namespace ouzel

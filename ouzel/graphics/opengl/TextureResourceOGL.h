@@ -50,9 +50,9 @@ namespace ouzel
             virtual bool setAddressX(Texture::Address newAddressX) override;
             virtual bool setAddressY(Texture::Address newAddressY) override;
             virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy) override;
-            virtual void setClearColorBuffer(bool clear) override;
-            virtual void setClearDepthBuffer(bool clear) override;
-            virtual void setClearColor(Color color) override;
+            virtual bool setClearColorBuffer(bool clear) override;
+            virtual bool setClearDepthBuffer(bool clear) override;
+            virtual bool setClearColor(Color color) override;
 
             GLuint getTextureId() const { return textureId; }
 
