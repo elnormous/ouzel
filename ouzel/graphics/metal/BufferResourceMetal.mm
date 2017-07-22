@@ -46,11 +46,11 @@ namespace ouzel
 
             if (!data.empty())
             {
-                if (buffer) [buffer release];
-
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                 bufferSize = static_cast<uint32_t>(data.size());
+
+                if (buffer) [buffer release];
 
                 buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                  options:MTLResourceCPUCacheModeWriteCombined];
@@ -78,11 +78,11 @@ namespace ouzel
             {
                 if (!buffer || data.size() > bufferSize)
                 {
-                    if (buffer) [buffer release];
-
                     RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                     bufferSize = static_cast<uint32_t>(data.size());
+
+                    if (buffer) [buffer release];
 
                     buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                      options:MTLResourceCPUCacheModeWriteCombined];
@@ -112,11 +112,11 @@ namespace ouzel
                 {
                     if (!buffer || data.size() > bufferSize)
                     {
-                        if (buffer) [buffer release];
-
                         RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                         bufferSize = static_cast<uint32_t>(data.size());
+
+                        if (buffer) [buffer release];
 
                         buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                          options:MTLResourceCPUCacheModeWriteCombined];

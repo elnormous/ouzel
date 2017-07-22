@@ -143,35 +143,7 @@ namespace ouzel
 
             RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-            if (pixelShader)
-            {
-                pixelShader->Release();
-                pixelShader = nullptr;
-            }
-
-            if (vertexShader)
-            {
-                vertexShader->Release();
-                vertexShader = nullptr;
-            }
-
-            if (inputLayout)
-            {
-                inputLayout->Release();
-                inputLayout = nullptr;
-            }
-
-            if (pixelShaderConstantBuffer)
-            {
-                pixelShaderConstantBuffer->Release();
-                pixelShaderConstantBuffer = nullptr;
-            }
-
-            if (vertexShaderConstantBuffer)
-            {
-                vertexShaderConstantBuffer->Release();
-                vertexShaderConstantBuffer = nullptr;
-            }
+            if (pixelShader) pixelShader->Release();
 
             HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
             if (FAILED(hr))
@@ -180,6 +152,8 @@ namespace ouzel
                 return false;
             }
             
+            if (vertexShader) vertexShader->Release();
+
             hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
             if (FAILED(hr))
             {
@@ -248,6 +222,8 @@ namespace ouzel
                 offset += getDataTypeSize(vertexAttribute.dataType);
             }
 
+            if (inputLayout) inputLayout->Release();
+
             hr = rendererD3D11->getDevice()->CreateInputLayout(
                 vertexInputElements.data(),
                 static_cast<UINT>(vertexInputElements.size()),
@@ -282,6 +258,8 @@ namespace ouzel
             pixelShaderConstantBufferDesc.MiscFlags = 0;
             pixelShaderConstantBufferDesc.StructureByteStride = 0;
 
+            if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
+
             hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
             if (FAILED(hr))
             {
@@ -310,6 +288,8 @@ namespace ouzel
             vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
             vertexShaderConstantBufferDesc.MiscFlags = 0;
             vertexShaderConstantBufferDesc.StructureByteStride = 0;
+
+            if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
             hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
@@ -348,35 +328,7 @@ namespace ouzel
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
-                if (pixelShader)
-                {
-                    pixelShader->Release();
-                    pixelShader = nullptr;
-                }
-
-                if (vertexShader)
-                {
-                    vertexShader->Release();
-                    vertexShader = nullptr;
-                }
-
-                if (inputLayout)
-                {
-                    inputLayout->Release();
-                    inputLayout = nullptr;
-                }
-
-                if (pixelShaderConstantBuffer)
-                {
-                    pixelShaderConstantBuffer->Release();
-                    pixelShaderConstantBuffer = nullptr;
-                }
-
-                if (vertexShaderConstantBuffer)
-                {
-                    vertexShaderConstantBuffer->Release();
-                    vertexShaderConstantBuffer = nullptr;
-                }
+                if (pixelShader) pixelShader->Release();
 
                 HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
                 if (FAILED(hr))
@@ -384,7 +336,9 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
                     return false;
                 }
-                
+
+                if (vertexShader) vertexShader->Release();
+
                 hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
                 if (FAILED(hr))
                 {
@@ -453,6 +407,8 @@ namespace ouzel
                     offset += getDataTypeSize(vertexAttribute.dataType);
                 }
 
+                if (inputLayout) inputLayout->Release();
+
                 hr = rendererD3D11->getDevice()->CreateInputLayout(
                     vertexInputElements.data(),
                     static_cast<UINT>(vertexInputElements.size()),
@@ -487,6 +443,8 @@ namespace ouzel
                 pixelShaderConstantBufferDesc.MiscFlags = 0;
                 pixelShaderConstantBufferDesc.StructureByteStride = 0;
 
+                if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
+
                 hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
                 if (FAILED(hr))
                 {
@@ -515,6 +473,8 @@ namespace ouzel
                 vertexShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
                 vertexShaderConstantBufferDesc.MiscFlags = 0;
                 vertexShaderConstantBufferDesc.StructureByteStride = 0;
+
+                if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
                 hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
                 if (FAILED(hr))

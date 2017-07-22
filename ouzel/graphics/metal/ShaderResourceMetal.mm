@@ -123,18 +123,6 @@ namespace ouzel
                 return false;
             }
 
-            if (pixelShader)
-            {
-                [pixelShader release];
-                pixelShader = Nil;
-            }
-
-            if (vertexShader)
-            {
-                [vertexShader release];
-                vertexShader = Nil;
-            }
-
             RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
             uint32_t index = 0;
@@ -176,6 +164,8 @@ namespace ouzel
                 return false;
             }
 
+            if (pixelShader) [pixelShader release];
+
             pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pixelShaderFunction.c_str()])];
 
             [pixelShaderLibrary release];
@@ -211,6 +201,8 @@ namespace ouzel
                 return false;
             }
 
+            if (vertexShader) [vertexShader release];
+
             vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 
             [vertexShaderLibrary release];
@@ -244,18 +236,6 @@ namespace ouzel
 
             if (dirty)
             {
-                if (pixelShader)
-                {
-                    [pixelShader release];
-                    pixelShader = Nil;
-                }
-
-                if (vertexShader)
-                {
-                    [vertexShader release];
-                    vertexShader = Nil;
-                }
-
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                 uint32_t index = 0;
@@ -297,6 +277,8 @@ namespace ouzel
                     return false;
                 }
 
+                if (pixelShader) [pixelShader release];
+
                 pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pixelShaderFunction.c_str()])];
 
                 [pixelShaderLibrary release];
@@ -331,6 +313,8 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to load vertex shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
                     return false;
                 }
+
+                if (vertexShader) [vertexShader release];
 
                 vertexShader = [vertexShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 

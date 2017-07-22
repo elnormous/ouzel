@@ -49,8 +49,6 @@ namespace ouzel
 
                 if (!buffer || data.size() > bufferSize)
                 {
-                    if (buffer) buffer->Release();
-
                     bufferSize = static_cast<UINT>(data.size());
 
                     D3D11_BUFFER_DESC bufferDesc;
@@ -78,6 +76,8 @@ namespace ouzel
                     bufferResourceData.pSysMem = data.data();
                     bufferResourceData.SysMemPitch = 0;
                     bufferResourceData.SysMemSlicePitch = 0;
+
+                    if (buffer) buffer->Release();
 
                     HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                     if (FAILED(hr))
@@ -122,8 +122,6 @@ namespace ouzel
 
                 if (!buffer || data.size() > bufferSize)
                 {
-                    if (buffer) buffer->Release();
-
                     bufferSize = static_cast<UINT>(data.size());
 
                     D3D11_BUFFER_DESC bufferDesc;
@@ -151,6 +149,8 @@ namespace ouzel
                     bufferResourceData.pSysMem = data.data();
                     bufferResourceData.SysMemPitch = 0;
                     bufferResourceData.SysMemSlicePitch = 0;
+
+                    if (buffer) buffer->Release();
 
                     HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                     if (FAILED(hr))
@@ -194,8 +194,6 @@ namespace ouzel
 
                     if (!buffer || data.size() > bufferSize)
                     {
-                        if (buffer) buffer->Release();
-
                         bufferSize = static_cast<UINT>(data.size());
 
                         D3D11_BUFFER_DESC bufferDesc;
@@ -223,6 +221,8 @@ namespace ouzel
                         bufferResourceData.pSysMem = data.data();
                         bufferResourceData.SysMemPitch = 0;
                         bufferResourceData.SysMemSlicePitch = 0;
+
+                        if (buffer) buffer->Release();
 
                         HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                         if (FAILED(hr))
