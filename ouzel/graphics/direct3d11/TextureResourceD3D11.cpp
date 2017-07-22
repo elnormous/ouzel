@@ -99,6 +99,17 @@ namespace ouzel
                                         bool newDepth,
                                         PixelFormat newPixelFormat)
         {
+            if (!TextureResource::init(newSize,
+                                       newDynamic,
+                                       newMipmaps,
+                                       newRenderTarget,
+                                       newSampleCount,
+                                       newDepth,
+                                       newPixelFormat))
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -108,16 +119,35 @@ namespace ouzel
                                         bool newMipmaps,
                                         PixelFormat newPixelFormat)
         {
+            if (!TextureResource::init(newData,
+                                       newSize,
+                                       newDynamic,
+                                       newMipmaps,
+                                       newPixelFormat))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceD3D11::setSize(const Size2& newSize)
         {
+            if (!TextureResource::setSize(newSize))
+            {
+                return false;
+            }
+
             return true;
         }
 
         bool TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
+            if (!TextureResource::setData(newData, newSize))
+            {
+                return false;
+            }
+
             return true;
         }
 

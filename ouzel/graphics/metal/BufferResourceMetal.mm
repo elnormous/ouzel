@@ -44,6 +44,26 @@ namespace ouzel
                 return false;
             }
 
+            if (!data.empty())
+            {
+                if (buffer) [buffer release];
+
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+                buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                 options:MTLResourceCPUCacheModeWriteCombined];
+
+                if (!buffer)
+                {
+                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                    return false;
+                }
+
+                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
+
+                bufferSize = static_cast<uint32_t>(data.size());
+            }
+
             return true;
         }
 
@@ -52,6 +72,29 @@ namespace ouzel
             if (!BufferResource::setData(newData, newSize))
             {
                 return false;
+            }
+
+            if (!data.empty())
+            {
+                if (!buffer || data.size() > bufferSize)
+                {
+                    if (buffer) [buffer release];
+
+                    RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+                    buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                     options:MTLResourceCPUCacheModeWriteCombined];
+
+                    if (!buffer)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                        return false;
+                    }
+
+                    bufferSize = static_cast<uint32_t>(data.size());
+                }
+
+                std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
             }
 
             return true;
@@ -63,15 +106,13 @@ namespace ouzel
 
             if (dirty)
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
                 if (!data.empty())
                 {
                     if (!buffer || data.size() > bufferSize)
                     {
                         if (buffer) [buffer release];
 
-                        bufferSize = static_cast<uint32_t>(data.size());
+                        RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
                         buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                          options:MTLResourceCPUCacheModeWriteCombined];
@@ -81,6 +122,8 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to create Metal buffer";
                             return false;
                         }
+
+                        bufferSize = static_cast<uint32_t>(data.size());
                     }
 
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));

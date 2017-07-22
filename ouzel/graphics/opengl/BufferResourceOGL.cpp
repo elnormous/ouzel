@@ -33,6 +33,25 @@ namespace ouzel
                 return false;
             }
 
+            if (!bufferId)
+            {
+                glGenBuffersProc(1, &bufferId);
+            }
+
+            switch (usage)
+            {
+                case Buffer::Usage::INDEX:
+                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
+                    break;
+                case Buffer::Usage::VERTEX:
+                    bufferType = GL_ARRAY_BUFFER;
+                    break;
+                default:
+                    bufferType = 0;
+                    Log(Log::Level::ERR) << "Unsupported buffer type";
+                    return false;
+            }
+
             return true;
         }
 
@@ -43,6 +62,59 @@ namespace ouzel
                 return false;
             }
 
+            if (!bufferId)
+            {
+                glGenBuffersProc(1, &bufferId);
+            }
+
+            switch (usage)
+            {
+                case Buffer::Usage::INDEX:
+                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
+                    break;
+                case Buffer::Usage::VERTEX:
+                    bufferType = GL_ARRAY_BUFFER;
+                    break;
+                default:
+                    bufferType = 0;
+                    Log(Log::Level::ERR) << "Unsupported buffer type";
+                    return false;
+            }
+
+            if (!data.empty())
+            {
+                RendererOGL::bindVertexArray(0);
+
+                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                {
+                    return false;
+                }
+
+                if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
+                {
+                    glBufferDataProc(bufferType, bufferSize, data.data(),
+                                     dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create buffer";
+                        return false;
+                    }
+
+                    bufferSize = static_cast<GLsizeiptr>(data.size());
+                }
+                else
+                {
+                    glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to upload buffer";
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -51,6 +123,46 @@ namespace ouzel
             if (!BufferResource::setData(newData, newSize))
             {
                 return false;
+            }
+
+            if (!bufferId)
+            {
+                Log(Log::Level::ERR) << "Buffer not initialized";
+                return false;
+            }
+
+            if (!data.empty())
+            {
+                RendererOGL::bindVertexArray(0);
+
+                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                {
+                    return false;
+                }
+
+                if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
+                {
+                    glBufferDataProc(bufferType, bufferSize, data.data(),
+                                     dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to create buffer";
+                        return false;
+                    }
+
+                    bufferSize = static_cast<GLsizeiptr>(data.size());
+                }
+                else
+                {
+                    glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to upload buffer";
+                        return false;
+                    }
+                }
             }
 
             return true;
@@ -92,8 +204,6 @@ namespace ouzel
 
                     if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
                     {
-                        bufferSize = static_cast<GLsizeiptr>(data.size());
-
                         glBufferDataProc(bufferType, bufferSize, data.data(),
                                          dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
@@ -102,6 +212,8 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to create buffer";
                             return false;
                         }
+
+                        bufferSize = static_cast<GLsizeiptr>(data.size());
                     }
                     else
                     {

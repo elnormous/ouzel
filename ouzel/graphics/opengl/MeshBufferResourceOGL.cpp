@@ -136,6 +136,11 @@ namespace ouzel
 
         bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
         {
+            if (MeshBufferResource::setIndexSize(newIndexSize))
+            {
+                return false;
+            }
+            
             return true;
         }
 

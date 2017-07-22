@@ -34,6 +34,11 @@ namespace ouzel
 
         bool MeshBufferResourceD3D11::setIndexSize(uint32_t newIndexSize)
         {
+            if (MeshBufferResource::setIndexSize(newIndexSize))
+            {
+                return false;
+            }
+
             return true;
         }
 

@@ -36,6 +36,11 @@ namespace ouzel
 
         bool MeshBufferResourceMetal::setIndexSize(uint32_t newIndexSize)
         {
+            if (MeshBufferResource::setIndexSize(newIndexSize))
+            {
+                return false;
+            }
+
             return true;
         }
 
