@@ -51,6 +51,8 @@ namespace ouzel
                 {
                     if (buffer) buffer->Release();
 
+                    bufferSize = static_cast<UINT>(data.size());
+
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = bufferSize;
                     bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
@@ -83,8 +85,6 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
                         return false;
                     }
-
-                    bufferSize = static_cast<UINT>(data.size());
                 }
                 else
                 {
@@ -124,6 +124,8 @@ namespace ouzel
                 {
                     if (buffer) buffer->Release();
 
+                    bufferSize = static_cast<UINT>(data.size());
+
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = bufferSize;
                     bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
@@ -156,8 +158,6 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
                         return false;
                     }
-
-                    bufferSize = static_cast<UINT>(data.size());
                 }
                 else
                 {
@@ -196,6 +196,8 @@ namespace ouzel
                     {
                         if (buffer) buffer->Release();
 
+                        bufferSize = static_cast<UINT>(data.size());
+
                         D3D11_BUFFER_DESC bufferDesc;
                         bufferDesc.ByteWidth = bufferSize;
                         bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
@@ -228,8 +230,6 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
                             return false;
                         }
-
-                        bufferSize = static_cast<UINT>(data.size());
                     }
                     else
                     {

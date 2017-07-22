@@ -131,6 +131,114 @@ namespace ouzel
                 return false;
             }
 
+            switch (indexSize)
+            {
+                case 2:
+                    indexType = GL_UNSIGNED_SHORT;
+                    bytesPerIndex = 2;
+                    break;
+                case 4:
+                    indexType = GL_UNSIGNED_INT;
+                    bytesPerIndex = 4;
+                    break;
+                default:
+                    indexType = 0;
+                    bytesPerIndex = 0;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
+            }
+
+            vertexAttribs.clear();
+
+            GLuint offset = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
+
+                vertexAttribs.push_back({
+                    getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
+                    static_cast<GLsizei>(vertexSize),
+                    static_cast<const GLchar*>(nullptr) + offset
+                });
+                offset += getDataTypeSize(vertexAttribute.dataType);
+            }
+
+            if (offset != vertexSize)
+            {
+                Log(Log::Level::ERR) << "Invalid vertex size";
+                return false;
+            }
+
+            if (!vertexArrayId)
+            {
+                if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::WARN) << "Failed to create vertex array";
+            }
+
+            indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
+
+            if (indexBufferOGL && !indexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
+
+            if (vertexBufferOGL && !vertexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            if (vertexArrayId)
+            {
+                RendererOGL::bindVertexArray(vertexArrayId);
+
+                if (indexBufferOGL && indexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+                }
+
+                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+
+                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    {
+                        if (index < vertexAttribs.size())
+                        {
+                            glEnableVertexAttribArrayProc(index);
+                            glVertexAttribPointerProc(index,
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
+                        }
+                        else
+                        {
+                            glDisableVertexAttribArrayProc(index);
+                        }
+                    }
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -140,22 +248,183 @@ namespace ouzel
             {
                 return false;
             }
-            
+
+            switch (indexSize)
+            {
+                case 2:
+                    indexType = GL_UNSIGNED_SHORT;
+                    bytesPerIndex = 2;
+                    break;
+                case 4:
+                    indexType = GL_UNSIGNED_INT;
+                    bytesPerIndex = 4;
+                    break;
+                default:
+                    indexType = 0;
+                    bytesPerIndex = 0;
+                    Log(Log::Level::ERR) << "Invalid index size";
+                    return false;
+            }
+
             return true;
         }
 
         bool MeshBufferResourceOGL::setIndexBuffer(BufferResource* newIndexBuffer)
         {
+            if (MeshBufferResource::setIndexBuffer(newIndexBuffer))
+            {
+                return false;
+            }
+
+            indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
+
+            if (indexBufferOGL && !indexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            if (vertexArrayId)
+            {
+                RendererOGL::bindVertexArray(vertexArrayId);
+
+                if (indexBufferOGL && indexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
         bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
         {
+            if (MeshBufferResource::setVertexAttributes(newVertexAttributes))
+            {
+                return false;
+            }
+
+            vertexAttribs.clear();
+
+            GLuint offset = 0;
+
+            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            {
+                GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
+
+                vertexAttribs.push_back({
+                    getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
+                    static_cast<GLsizei>(vertexSize),
+                    static_cast<const GLchar*>(nullptr) + offset
+                });
+                offset += getDataTypeSize(vertexAttribute.dataType);
+            }
+
+            if (offset != vertexSize)
+            {
+                Log(Log::Level::ERR) << "Invalid vertex size";
+                return false;
+            }
+
+            if (vertexArrayId)
+            {
+                RendererOGL::bindVertexArray(vertexArrayId);
+
+                if (indexBufferOGL && indexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+                }
+
+                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+
+                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    {
+                        if (index < vertexAttribs.size())
+                        {
+                            glEnableVertexAttribArrayProc(index);
+                            glVertexAttribPointerProc(index,
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
+                        }
+                        else
+                        {
+                            glDisableVertexAttribArrayProc(index);
+                        }
+                    }
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
         bool MeshBufferResourceOGL::setVertexBuffer(BufferResource* newVertexBuffer)
         {
+            if (MeshBufferResource::setVertexBuffer(newVertexBuffer))
+            {
+                return false;
+            }
+
+            vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
+
+            if (vertexBufferOGL && !vertexBufferOGL->upload())
+            {
+                return false;
+            }
+
+            if (vertexArrayId)
+            {
+                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
+                {
+                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+
+                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    {
+                        if (index < vertexAttribs.size())
+                        {
+                            glEnableVertexAttribArrayProc(index);
+                            glVertexAttribPointerProc(index,
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
+                        }
+                        else
+                        {
+                            glDisableVertexAttribArrayProc(index);
+                        }
+                    }
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                        return false;
+                    }
+                }
+            }
+
             return true;
         }
 
