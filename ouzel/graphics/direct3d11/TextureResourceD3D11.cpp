@@ -160,6 +160,7 @@ namespace ouzel
 
             if (samplerState) samplerState->Release();
 
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
             RendererD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
@@ -188,6 +189,7 @@ namespace ouzel
 
             if (samplerState) samplerState->Release();
 
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
             RendererD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
@@ -216,6 +218,7 @@ namespace ouzel
 
             if (samplerState) samplerState->Release();
 
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
             RendererD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
@@ -244,6 +247,7 @@ namespace ouzel
 
             if (samplerState) samplerState->Release();
 
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
             RendererD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
