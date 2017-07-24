@@ -283,6 +283,42 @@ namespace ouzel
                 return false;
             }
 
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+
+            switch (finalFilter)
+            {
+                case Texture::Filter::DEFAULT:
+                case Texture::Filter::POINT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::LINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::BILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+                case Texture::Filter::TRILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture filter";
+                return false;
+            }
+
             return true;
         }
 
@@ -290,6 +326,33 @@ namespace ouzel
         {
             if (!TextureResource::setAddressX(newAddressX))
             {
+                return false;
+            }
+
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            RendererOGL::bindTexture(textureId, 0);
+
+            switch (addressX)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
             }
 
@@ -303,6 +366,33 @@ namespace ouzel
                 return false;
             }
 
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            RendererOGL::bindTexture(textureId, 0);
+
+            switch (addressY)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
             return true;
         }
 
@@ -311,6 +401,28 @@ namespace ouzel
             if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
             {
                 return false;
+            }
+
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            RendererOGL::bindTexture(textureId, 0);
+
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+
+            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
+                    return false;
+                }
             }
 
             return true;
@@ -323,6 +435,15 @@ namespace ouzel
                 return false;
             }
 
+            if (clearColorBuffer)
+            {
+                clearMask |= GL_COLOR_BUFFER_BIT;
+            }
+            else
+            {
+                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
+            }
+
             return true;
         }
 
@@ -331,6 +452,15 @@ namespace ouzel
             if (!TextureResource::setClearDepthBuffer(clear))
             {
                 return false;
+            }
+
+            if (clearDepthBuffer)
+            {
+                clearMask |= GL_DEPTH_BUFFER_BIT;
+            }
+            else
+            {
+                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
             }
 
             return true;
@@ -342,6 +472,11 @@ namespace ouzel
             {
                 return false;
             }
+
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
 
             return true;
         }
