@@ -158,6 +158,24 @@ namespace ouzel
                 return false;
             }
 
+            if (samplerState) samplerState->Release();
+
+            RendererD3D11::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
+
+            samplerState = rendererD3D11->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
+                return false;
+            }
+
+            samplerState->AddRef();
+
             return true;
         }
 
@@ -167,6 +185,24 @@ namespace ouzel
             {
                 return false;
             }
+
+            if (samplerState) samplerState->Release();
+
+            RendererD3D11::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
+
+            samplerState = rendererD3D11->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
+                return false;
+            }
+
+            samplerState->AddRef();
 
             return true;
         }
@@ -178,6 +214,24 @@ namespace ouzel
                 return false;
             }
 
+            if (samplerState) samplerState->Release();
+
+            RendererD3D11::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
+
+            samplerState = rendererD3D11->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
+                return false;
+            }
+
+            samplerState->AddRef();
+
             return true;
         }
 
@@ -187,6 +241,24 @@ namespace ouzel
             {
                 return false;
             }
+
+            if (samplerState) samplerState->Release();
+
+            RendererD3D11::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
+
+            samplerState = rendererD3D11->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
+                return false;
+            }
+
+            samplerState->AddRef();
 
             return true;
         }
@@ -198,6 +270,8 @@ namespace ouzel
                 return false;
             }
 
+            clearFrameBufferView = clearColorBuffer;
+
             return true;
         }
 
@@ -208,6 +282,8 @@ namespace ouzel
                 return false;
             }
 
+            clearDepthBufferView = clearDepthBuffer;
+
             return true;
         }
 
@@ -217,6 +293,11 @@ namespace ouzel
             {
                 return false;
             }
+
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
 
             return true;
         }

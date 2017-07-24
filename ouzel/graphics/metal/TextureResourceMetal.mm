@@ -146,6 +146,25 @@ namespace ouzel
                 return false;
             }
 
+            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+            RendererMetal::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+
+            if (samplerState) [samplerState release];
+            samplerState = rendererMetal->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get Metal sampler state";
+                return false;
+            }
+            
+            [samplerState retain];
+
             return true;
         }
 
