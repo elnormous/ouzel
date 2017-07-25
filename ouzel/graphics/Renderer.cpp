@@ -246,7 +246,6 @@ namespace ouzel
                                       const Rectangle& scissorRectangle,
                                       CullMode cullMode)
         {
-
             if (!shader)
             {
                 Log(Log::Level::ERR) << "No shader passed to render queue";
@@ -259,8 +258,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer() ||
-                shader->getVertexSize() != meshBuffer->getVertexSize())
+            if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer())
             {
                 Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
                 return false;
@@ -280,7 +278,7 @@ namespace ouzel
                 vertexShaderConstants,
                 blendState->getResource(),
                 meshBuffer->getResource(),
-                (indexCount > 0) ? indexCount : (meshBuffer->getIndexBuffer()->getSize() / meshBuffer->getIndexSize()) - startIndex,
+                indexCount,
                 drawMode,
                 startIndex,
                 renderTarget ? renderTarget->getResource() : nullptr,

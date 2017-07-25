@@ -35,16 +35,14 @@ namespace ouzel
             virtual ~BufferResourceOGL();
 
             virtual bool init(Buffer::Usage newUsage, bool newDynamic = true) override;
-            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic) override;
+            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic) override;
 
-            virtual bool setData(const void* newData, uint32_t newSize) override;
+            virtual bool setData(const std::vector<uint8_t>& newData) override;
             
             GLuint getBufferId() const { return bufferId; }
             GLuint getBufferType() const { return bufferType; }
 
         protected:
-            virtual bool upload() override;
-
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;
 

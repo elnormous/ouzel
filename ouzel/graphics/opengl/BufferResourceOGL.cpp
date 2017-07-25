@@ -55,9 +55,9 @@ namespace ouzel
             return true;
         }
 
-        bool BufferResourceOGL::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        bool BufferResourceOGL::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
         {
-            if (!BufferResource::init(newUsage, newData, newSize, newDynamic))
+            if (!BufferResource::init(newUsage, newData, newDynamic))
             {
                 return false;
             }
@@ -118,9 +118,9 @@ namespace ouzel
             return true;
         }
 
-        bool BufferResourceOGL::setData(const void* newData, uint32_t newSize)
+        bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
-            if (!BufferResource::setData(newData, newSize))
+            if (!BufferResource::setData(newData))
             {
                 return false;
             }
@@ -163,71 +163,6 @@ namespace ouzel
                         return false;
                     }
                 }
-            }
-
-            return true;
-        }
-
-        bool BufferResourceOGL::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (dirty)
-            {
-                if (!bufferId)
-                {
-                    glGenBuffersProc(1, &bufferId);
-                }
-
-                switch (usage)
-                {
-                    case Buffer::Usage::INDEX:
-                        bufferType = GL_ELEMENT_ARRAY_BUFFER;
-                        break;
-                    case Buffer::Usage::VERTEX:
-                        bufferType = GL_ARRAY_BUFFER;
-                        break;
-                    default:
-                        bufferType = 0;
-                        Log(Log::Level::ERR) << "Unsupported buffer type";
-                        return false;
-                }
-
-                if (!data.empty())
-                {
-                    RendererOGL::bindVertexArray(0);
-
-                    if (!RendererOGL::bindBuffer(bufferType, bufferId))
-                    {
-                        return false;
-                    }
-
-                    if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
-                    {
-                        glBufferDataProc(bufferType, bufferSize, data.data(),
-                                         dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to create buffer";
-                            return false;
-                        }
-
-                        bufferSize = static_cast<GLsizeiptr>(data.size());
-                    }
-                    else
-                    {
-                        glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to upload buffer";
-                            return false;
-                        }
-                    }
-                }
-
-                dirty = 0;
             }
 
             return true;

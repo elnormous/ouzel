@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 #include "utils/Noncopyable.h"
 
 namespace ouzel
@@ -27,10 +28,12 @@ namespace ouzel
 
             bool init(Usage newUsage, bool newDynamic = true);
             bool init(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
-
-            BufferResource* getResource() const { return resource; }
+            bool init(Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic);
 
             bool setData(const void* newData, uint32_t newSize);
+            bool setData(const std::vector<uint8_t>& newData);
+
+            BufferResource* getResource() const { return resource; }
 
             bool isDynamic() const;
             Usage getUsage() const;

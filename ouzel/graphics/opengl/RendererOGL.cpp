@@ -1098,8 +1098,15 @@ namespace ouzel
                     return false;
                 }
 
+                uint32_t indexCount = drawCommand.indexCount;
+
+                if (!indexCount)
+                {
+                    indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - drawCommand.startIndex;
+                }
+
                 glDrawElements(mode,
-                               static_cast<GLsizei>(drawCommand.indexCount),
+                               static_cast<GLsizei>(indexCount),
                                meshBufferOGL->getIndexType(),
                                static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getBytesPerIndex()));
 

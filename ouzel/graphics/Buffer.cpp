@@ -34,24 +34,40 @@ namespace ouzel
 
         bool Buffer::init(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
         {
-            if (!resource->init(newUsage, newData, newSize, newDynamic))
-            {
-                return false;
-            }
+            return init(newUsage,
+                        std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                             static_cast<const uint8_t*>(newData) + newSize),
+                        newDynamic);
+        }
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+        bool Buffer::init(Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        {
+            BufferResource* bufferResource = resource;
+
+            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
+                                                                newUsage,
+                                                                newData,
+                                                                newDynamic]() {
+                bufferResource->init(newUsage, newData, newDynamic);
+            });
 
             return true;
         }
 
         bool Buffer::setData(const void* newData, uint32_t newSize)
         {
-            if (!resource->setData(newData, newSize))
-            {
-                return false;
-            }
+            return setData(std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                static_cast<const uint8_t*>(newData) + newSize));
+        }
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+        bool Buffer::setData(const std::vector<uint8_t>& newData)
+        {
+            BufferResource* bufferResource = resource;
+
+            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
+                                                                newData]() {
+                bufferResource->setData(newData);
+            });
 
             return true;
         }

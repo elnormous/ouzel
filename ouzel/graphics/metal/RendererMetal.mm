@@ -766,8 +766,15 @@ namespace ouzel
                     default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                 }
 
+                uint32_t indexCount = drawCommand.indexCount;
+
+                if (!indexCount)
+                {
+                    indexCount = (indexBufferMetal->getSize() / meshBufferMetal->getIndexSize()) - drawCommand.startIndex;
+                }
+
                 [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                        indexCount:drawCommand.indexCount
+                                                        indexCount:indexCount
                                                          indexType:meshBufferMetal->getIndexType()
                                                        indexBuffer:indexBufferMetal->getBuffer()
                                                  indexBufferOffset:drawCommand.startIndex * meshBufferMetal->getBytesPerIndex()];

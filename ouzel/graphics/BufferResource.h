@@ -22,9 +22,9 @@ namespace ouzel
             virtual ~BufferResource();
 
             virtual bool init(Buffer::Usage newUsage, bool newDynamic = true);
-            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic);
+            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic);
 
-            virtual bool setData(const void* newData, uint32_t newSize);
+            virtual bool setData(const std::vector<uint8_t>& newData);
 
             bool isDynamic() const { return dynamic; }
             Buffer::Usage getUsage() const { return usage; }
@@ -33,13 +33,6 @@ namespace ouzel
         protected:
             BufferResource();
 
-            enum Dirty
-            {
-                DIRTY_ATTRIBUTES = 0x01,
-                DIRTY_DATA = 0x02
-            };
-
-            uint32_t dirty = 0;
             std::vector<uint8_t> data;
             Buffer::Usage usage;
             bool dynamic = true;

@@ -69,8 +69,6 @@ namespace ouzel
             pixelShaderFunction = newPixelShaderFunction;
             vertexShaderFunction = newVertexShaderFunction;
 
-            dirty |= 0x01;
-
             return  true;
         }
     } // namespace graphics

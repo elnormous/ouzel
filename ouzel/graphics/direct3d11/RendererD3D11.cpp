@@ -740,7 +740,14 @@ namespace ouzel
 
                 context->IASetPrimitiveTopology(topology);
 
-                context->DrawIndexed(drawCommand.indexCount, drawCommand.startIndex, 0);
+                uint32_t indexCount = drawCommand.indexCount;
+
+                if (!indexCount)
+                {
+                    indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand.startIndex;
+                }
+
+                context->DrawIndexed(indexCount, drawCommand.startIndex, 0);
             }
 
             swapChain->Present(swapInterval, 0);

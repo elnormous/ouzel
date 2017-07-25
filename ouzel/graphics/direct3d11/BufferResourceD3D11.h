@@ -21,15 +21,13 @@ namespace ouzel
             virtual ~BufferResourceD3D11();
 
             virtual bool init(Buffer::Usage newUsage, bool newDynamic = true) override;
-            virtual bool init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic) override;
+            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic) override;
 
-            virtual bool setData(const void* newData, uint32_t newSize) override;
+            virtual bool setData(const std::vector<uint8_t>& newData) override;
 
             ID3D11Buffer* getBuffer() const { return buffer; }
 
         protected:
-            virtual bool upload() override;
-
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;
         };

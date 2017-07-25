@@ -45,8 +45,6 @@ namespace ouzel
         protected:
             ShaderResource();
 
-            uint32_t dirty = 0;
-
             std::vector<VertexAttribute> vertexAttributes;
             uint32_t vertexSize = 0;
 

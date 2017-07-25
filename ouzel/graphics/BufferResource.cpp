@@ -22,34 +22,21 @@ namespace ouzel
             usage = newUsage;
             dynamic = newDynamic;
 
-            dirty |= DIRTY_ATTRIBUTES;
-
             return true;
         }
 
-        bool BufferResource::init(Buffer::Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        bool BufferResource::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             usage = newUsage;
             dynamic = newDynamic;
-
-            if (newData && newSize)
-            {
-                data.assign(static_cast<const uint8_t*>(newData),
-                            static_cast<const uint8_t*>(newData) + newSize);
-            }
-            else
-            {
-                data.resize(newSize);
-            }
-
-            dirty |= DIRTY_ATTRIBUTES | DIRTY_DATA;
+            data = newData;
 
             return true;
         }
 
-        bool BufferResource::setData(const void* newData, uint32_t newSize)
+        bool BufferResource::setData(const std::vector<uint8_t>& newData)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -58,17 +45,7 @@ namespace ouzel
                 return false;
             }
 
-            if (newData && newSize)
-            {
-                data.assign(static_cast<const uint8_t*>(newData),
-                            static_cast<const uint8_t*>(newData) + newSize);
-            }
-            else
-            {
-                data.resize(newSize);
-            }
-
-            dirty |= DIRTY_DATA;
+            data = newData;
 
             return true;
         }
