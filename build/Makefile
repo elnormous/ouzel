@@ -50,32 +50,32 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/BufferResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateInterfaceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/BufferInterfaceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferInterfaceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RendererEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/TextureResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderInterfaceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/TextureInterfaceEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateInterfaceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferInterfaceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferInterfaceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RendererOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderInterfaceOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureInterfaceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/BlendStateResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/BlendStateInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Buffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/BufferResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/BufferInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageDataSTB.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/MeshBufferInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/ShaderResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/ShaderInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/TextureResource.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/TextureInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
@@ -138,12 +138,12 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
 	$(ROOT_DIR)/../ouzel/files/windows/FileSystemWin.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateInterfaceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferInterfaceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferInterfaceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RendererD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderInterfaceD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureInterfaceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RendererOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
@@ -180,12 +180,12 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateInterfaceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BufferInterfaceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferInterfaceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderInterfaceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/TextureInterfaceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
