@@ -54,13 +54,14 @@ namespace ouzel
             ShaderResource* getResource() const { return resource; }
 
             const std::vector<VertexAttribute>& getVertexAttributes() const;
-            uint32_t getVertexSize() const;
 
         private:
-            ShaderResource* resource = nullptr;
+            std::vector<VertexAttribute> vertexAttributes;
 
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;
+
+            ShaderResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

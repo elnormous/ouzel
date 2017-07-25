@@ -17,8 +17,6 @@ namespace ouzel
 
         bool BufferResource::init(Buffer::Usage newUsage, bool newDynamic)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             usage = newUsage;
             dynamic = newDynamic;
 
@@ -27,8 +25,6 @@ namespace ouzel
 
         bool BufferResource::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             usage = newUsage;
             dynamic = newDynamic;
             data = newData;
@@ -38,8 +34,6 @@ namespace ouzel
 
         bool BufferResource::setData(const std::vector<uint8_t>& newData)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             if (!dynamic)
             {
                 return false;

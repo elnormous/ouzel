@@ -27,8 +27,6 @@ namespace ouzel
                                    bool newDepth,
                                    PixelFormat newPixelFormat)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = newRenderTarget;
@@ -50,8 +48,6 @@ namespace ouzel
                                    bool newMipmaps,
                                    PixelFormat newPixelFormat)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             dynamic = newDynamic;
             mipmaps = newMipmaps;
             renderTarget = false;
@@ -74,8 +70,6 @@ namespace ouzel
 
         bool TextureResource::setSize(const Size2& newSize)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             if (!dynamic)
             {
                 return false;
@@ -99,8 +93,6 @@ namespace ouzel
 
         bool TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             if (!dynamic)
             {
                 return false;
@@ -536,8 +528,6 @@ namespace ouzel
 
         bool TextureResource::setFilter(Texture::Filter newFilter)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             filter = newFilter;
 
             return true;
@@ -545,8 +535,6 @@ namespace ouzel
 
         bool TextureResource::setAddressX(Texture::Address newAddressX)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             addressX = newAddressX;
 
             return true;
@@ -554,8 +542,6 @@ namespace ouzel
 
         bool TextureResource::setAddressY(Texture::Address newAddressY)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             addressY = newAddressY;
 
             return true;
@@ -563,8 +549,6 @@ namespace ouzel
 
         bool TextureResource::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             maxAnisotropy = newMaxAnisotropy;
 
             return true;
@@ -572,8 +556,6 @@ namespace ouzel
 
         bool TextureResource::setClearColorBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColorBuffer = clear;
 
             return true;
@@ -581,8 +563,6 @@ namespace ouzel
 
         bool TextureResource::setClearDepthBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearDepthBuffer = clear;
 
             return true;
@@ -590,8 +570,6 @@ namespace ouzel
 
         bool TextureResource::setClearColor(Color color)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColor = color;
 
             return true;

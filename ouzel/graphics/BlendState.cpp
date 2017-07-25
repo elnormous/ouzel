@@ -27,6 +27,15 @@ namespace ouzel
                               BlendOperation newAlphaOperation,
                               uint8_t newColorMask)
         {
+            enableBlending = newEnableBlending;
+            colorBlendSource = newColorBlendSource;
+            colorBlendDest = newColorBlendDest;
+            colorOperation = newColorOperation;
+            alphaBlendSource = newAlphaBlendSource;
+            alphaBlendDest = newAlphaBlendDest;
+            alphaOperation = newAlphaOperation;
+            colorMask = newColorMask;
+
             BlendStateResource* blendStateResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([blendStateResource,
@@ -49,42 +58,42 @@ namespace ouzel
 
         bool BlendState::isBlendingEnabled() const
         {
-            return resource->isBlendingEnabled();
+            return enableBlending;
         }
 
         BlendState::BlendFactor BlendState::getColorBlendSource() const
         {
-            return resource->getColorBlendSource();
+            return colorBlendSource;
         }
 
         BlendState::BlendFactor BlendState::getColorBlendDest() const
         {
-            return resource->getColorBlendDest();
+            return colorBlendDest;
         }
 
         BlendState::BlendOperation BlendState::getColorOperation() const
         {
-            return resource->getColorOperation();
+            return colorOperation;
         }
 
         BlendState::BlendFactor BlendState::getAlphaBlendSource() const
         {
-            return resource->getAlphaBlendSource();
+            return alphaBlendSource;
         }
 
         BlendState::BlendFactor BlendState::getAlphaBlendDest() const
         {
-            return resource->getAlphaBlendDest();
+            return alphaBlendDest;
         }
 
         BlendState::BlendOperation BlendState::getAlphaOperation() const
         {
-            return resource->getAlphaOperation();
+            return alphaOperation;
         }
 
         uint8_t BlendState::getColorMask() const
         {
-            return resource->getColorMask();
+            return colorMask;
         }
     } // namespace graphics
 } // namespace ouzel

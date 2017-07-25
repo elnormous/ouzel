@@ -36,8 +36,6 @@ namespace ouzel
             std::vector<uint8_t> data;
             Buffer::Usage usage;
             bool dynamic = true;
-
-            std::mutex uploadMutex;
         };
     } // namespace graphics
 } // namespace ouzel

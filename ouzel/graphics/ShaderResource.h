@@ -3,10 +3,9 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
-#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "graphics/Shader.h"
@@ -57,8 +56,6 @@ namespace ouzel
             uint32_t pixelShaderAlignment = 0;
             std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
             uint32_t vertexShaderAlignment = 0;
-
-            std::mutex uploadMutex;
         };
     } // namespace graphics
 } // namespace ouzel

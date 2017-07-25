@@ -22,6 +22,9 @@ namespace ouzel
 
         bool Buffer::init(Usage newUsage, bool newDynamic)
         {
+            usage = newUsage;
+            dynamic = newDynamic;
+
             BufferResource* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
@@ -43,6 +46,9 @@ namespace ouzel
 
         bool Buffer::init(Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
         {
+            usage = newUsage;
+            dynamic = newDynamic;
+
             BufferResource* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
@@ -75,17 +81,12 @@ namespace ouzel
 
         bool Buffer::isDynamic() const
         {
-            return resource->isDynamic();
+            return dynamic;
         }
 
         Buffer::Usage Buffer::getUsage() const
         {
-            return resource->getUsage();
-        }
-
-        uint32_t Buffer::getSize() const
-        {
-            return resource->getSize();
+            return usage;
         }
     } // namespace graphics
 } // namespace ouzel

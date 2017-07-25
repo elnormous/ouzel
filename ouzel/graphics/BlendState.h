@@ -73,6 +73,15 @@ namespace ouzel
 
         private:
             BlendStateResource* resource = nullptr;
+
+            BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
+            BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
+            BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
+            BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            uint8_t colorMask = BlendState::COLOR_MASK_ALL;
+            bool enableBlending = false;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -37,9 +37,11 @@ namespace ouzel
 
             bool isDynamic() const;
             Usage getUsage() const;
-            uint32_t getSize() const;
 
         private:
+            Buffer::Usage usage;
+            bool dynamic = true;
+
             BufferResource* resource = nullptr;
         };
     } // namespace graphics

@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include <mutex>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "graphics/Texture.h"
@@ -102,8 +101,6 @@ namespace ouzel
             Texture::Address addressX = Texture::Address::CLAMP;
             Texture::Address addressY = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
-
-            std::mutex uploadMutex;
 
             uint32_t frameBufferClearedFrame = 0;
         };

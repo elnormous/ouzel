@@ -25,8 +25,6 @@ namespace ouzel
                                   const std::string& newPixelShaderFunction,
                                   const std::string& newVertexShaderFunction)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             pixelShaderData = newPixelShader;
             vertexShaderData = newVertexShader;
             vertexAttributes = newVertexAttributes;

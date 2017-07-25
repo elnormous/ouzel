@@ -22,8 +22,6 @@ namespace ouzel
                                       BlendState::BlendOperation newAlphaOperation,
                                       uint8_t newColorMask)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             enableBlending = newEnableBlending;
             colorBlendSource = newColorBlendSource;
             colorBlendDest = newColorBlendDest;

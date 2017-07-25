@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <mutex>
+#include <cstdint>
 #include "utils/Noncopyable.h"
 #include "graphics/Resource.h"
 #include "graphics/BlendState.h"
@@ -47,8 +47,6 @@ namespace ouzel
             BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
-
-            std::mutex uploadMutex;
         };
     } // namespace graphics
 } // namespace ouzel

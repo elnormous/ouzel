@@ -94,10 +94,24 @@ namespace ouzel
             void setClearColor(Color color);
 
         private:
-            TextureResource* resource = nullptr;
+            Size2 size;
+            bool dynamic = false;
+            bool mipmaps = false;
+            bool renderTarget = false;
+            bool clearColorBuffer = true;
+            bool clearDepthBuffer = false;
+            bool depth = false;
+            uint32_t sampleCount = 1;
+            PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
+            Color clearColor;
+            Filter filter = Texture::Filter::DEFAULT;
+            Address addressX = Texture::Address::CLAMP;
+            Address addressY = Texture::Address::CLAMP;
+            uint32_t maxAnisotropy = 0;
 
             std::string filename;
-            Size2 size;
+
+            TextureResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

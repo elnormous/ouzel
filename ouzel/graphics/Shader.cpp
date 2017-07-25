@@ -31,6 +31,8 @@ namespace ouzel
                           const std::string& newPixelShaderFunction,
                           const std::string& newVertexShaderFunction)
         {
+            vertexAttributes = newVertexAttributes;
+
             pixelShaderFilename = newPixelShader;
             vertexShaderFilename = newVertexShader;
 
@@ -82,6 +84,7 @@ namespace ouzel
                           const std::string& newPixelShaderFunction,
                           const std::string& newVertexShaderFunction)
         {
+            vertexAttributes = newVertexAttributes;
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
@@ -112,12 +115,7 @@ namespace ouzel
 
         const std::vector<VertexAttribute>& Shader::getVertexAttributes() const
         {
-            return resource->getVertexAttributes();
-        }
-
-        uint32_t Shader::getVertexSize() const
-        {
-            return resource->getVertexSize();
+            return vertexAttributes;
         }
     } // namespace graphics
 } // namespace ouzel

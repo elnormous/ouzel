@@ -31,6 +31,12 @@ namespace ouzel
         {
             filename.clear();
             size = newSize;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
+            renderTarget = newRenderTarget;
+            sampleCount = newSampleCount;
+            depth = newDepth;
+            pixelFormat = newPixelFormat;
 
             TextureResource* textureResource = resource;
 
@@ -68,6 +74,12 @@ namespace ouzel
             }
 
             size = image.getSize();
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
+            renderTarget = false;
+            sampleCount = 1;
+            depth = false;
+            pixelFormat = image.getPixelFormat();
 
             TextureResource* textureResource = resource;
 
@@ -94,6 +106,12 @@ namespace ouzel
         {
             filename.clear();
             size = newSize;
+            dynamic = newDynamic;
+            mipmaps = newMipmaps;
+            renderTarget = false;
+            sampleCount = 1;
+            depth = false;
+            pixelFormat = newPixelFormat;
 
             TextureResource* textureResource = resource;
 
@@ -134,6 +152,8 @@ namespace ouzel
 
         bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
+            size = newSize;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -147,16 +167,18 @@ namespace ouzel
 
         bool Texture::isDynamic() const
         {
-            return resource->isDynamic();
+            return dynamic;
         }
 
         Texture::Filter Texture::getFilter() const
         {
-            return resource->getFilter();
+            return filter;
         }
 
         bool Texture::setFilter(Filter newFilter)
         {
+            filter = newFilter;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -169,11 +191,13 @@ namespace ouzel
 
         Texture::Address Texture::getAddressX() const
         {
-            return resource->getAddressX();
+            return addressX;
         }
 
         bool Texture::setAddressX(Address newAddressX)
         {
+            addressX = newAddressX;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -186,11 +210,13 @@ namespace ouzel
 
         Texture::Address Texture::getAddressY() const
         {
-            return resource->getAddressY();
+            return addressY;
         }
 
         bool Texture::setAddressY(Address newAddressY)
         {
+            addressY = newAddressY;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -203,11 +229,13 @@ namespace ouzel
 
         uint32_t Texture::getMaxAnisotropy() const
         {
-            return resource->getMaxAnisotropy();
+            return maxAnisotropy;
         }
 
         bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
+            maxAnisotropy = newMaxAnisotropy;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -220,26 +248,28 @@ namespace ouzel
 
         uint32_t Texture::getSampleCount() const
         {
-            return resource->getSampleCount();
+            return sampleCount;
         }
 
         PixelFormat Texture::getPixelFormat() const
         {
-            return resource->getPixelFormat();
+            return pixelFormat;
         }
 
         bool Texture::getDepth() const
         {
-            return resource->getDepth();
+            return depth;
         }
 
         bool Texture::getClearColorBuffer() const
         {
-            return resource->getClearColorBuffer();
+            return clearColorBuffer;
         }
 
         void Texture::setClearColorBuffer(bool clear)
         {
+            clearColorBuffer = clear;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -250,11 +280,13 @@ namespace ouzel
 
         bool Texture::getClearDepthBuffer() const
         {
-            return resource->getClearDepthBuffer();
+            return clearDepthBuffer;
         }
 
         void Texture::setClearDepthBuffer(bool clear)
         {
+            clearDepthBuffer = clear;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
@@ -265,11 +297,13 @@ namespace ouzel
 
         Color Texture::getClearColor() const
         {
-            return resource->getClearColor();
+            return clearColor;
         }
 
         void Texture::setClearColor(Color color)
         {
+            clearColor = color;
+
             TextureResource* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
