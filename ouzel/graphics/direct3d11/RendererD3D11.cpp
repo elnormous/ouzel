@@ -442,7 +442,7 @@ namespace ouzel
 
         bool RendererD3D11::draw(const std::vector<DrawCommand>& drawCommands)
         {
-            ID3D11ShaderInterfaceView* resourceViews[Texture::LAYERS];
+            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
             std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
             std::fill(std::begin(samplers), std::end(samplers), nullptr);
@@ -696,7 +696,7 @@ namespace ouzel
                     continue;
                 }
 
-                context->PSSetShaderInterfaces(0, Texture::LAYERS, resourceViews);
+                context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
                 context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                 // depth-stencil state

@@ -347,7 +347,7 @@ namespace ouzel
                     resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                 }
 
-                HRESULT hr = rendererD3D11->getDevice()->CreateShaderInterfaceView(texture, &resourceViewDesc, &resourceView);
+                HRESULT hr = rendererD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;

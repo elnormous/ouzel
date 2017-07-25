@@ -44,7 +44,7 @@ namespace ouzel
             virtual bool setClearColor(Color color) override;
 
             ID3D11Texture2D* getTexture() const { return texture; }
-            ID3D11ShaderInterfaceView* getResourceView() const { return resourceView; }
+            ID3D11ShaderResourceView* getResourceView() const { return resourceView; }
             ID3D11SamplerState* getSamplerState() const { return samplerState; }
 
             ID3D11RenderTargetView* getRenderTargetView() const { return renderTargetView; }
@@ -64,7 +64,7 @@ namespace ouzel
             bool updateSamplerState();
 
             ID3D11Texture2D* texture = nullptr;
-            ID3D11ShaderInterfaceView* resourceView = nullptr;
+            ID3D11ShaderResourceView* resourceView = nullptr;
             ID3D11SamplerState* samplerState = nullptr;
 
             UINT width = 0;
