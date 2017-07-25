@@ -235,6 +235,12 @@ namespace ouzel
             {
                 process();
             }
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
+                return false;
+            }
         }
     } // namespace graphics
 } // namespace ouzel
