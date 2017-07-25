@@ -50,8 +50,6 @@ namespace ouzel
             bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size);
 
         protected:
-            virtual bool upload() override;
-
             ID3D11PixelShader* pixelShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
             ID3D11InputLayout* inputLayout = nullptr;

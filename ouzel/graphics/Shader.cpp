@@ -48,19 +48,26 @@ namespace ouzel
                 return false;
             }
 
-            if (!resource->init(pixelShaderData, vertexShaderData,
-                                newVertexAttributes,
-                                newPixelShaderConstantInfo,
-                                newVertexShaderConstantInfo,
-                                newPixelShaderDataAlignment,
-                                newVertexShaderDataAlignment,
-                                newPixelShaderFunction,
-                                newVertexShaderFunction))
-            {
-                return false;
-            }
+            ShaderResource* shaderResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
+                                                                pixelShaderData, vertexShaderData,
+                                                                newVertexAttributes,
+                                                                newPixelShaderConstantInfo,
+                                                                newVertexShaderConstantInfo,
+                                                                newPixelShaderDataAlignment,
+                                                                newVertexShaderDataAlignment,
+                                                                newPixelShaderFunction,
+                                                                newVertexShaderFunction]() {
+                shaderResource->init(pixelShaderData, vertexShaderData,
+                                     newVertexAttributes,
+                                     newPixelShaderConstantInfo,
+                                     newVertexShaderConstantInfo,
+                                     newPixelShaderDataAlignment,
+                                     newVertexShaderDataAlignment,
+                                     newPixelShaderFunction,
+                                     newVertexShaderFunction);
+            });
 
             return true;
         }
@@ -78,19 +85,27 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            if (!resource->init(newPixelShader, newVertexShader,
-                                newVertexAttributes,
-                                newPixelShaderConstantInfo,
-                                newVertexShaderConstantInfo,
-                                newPixelShaderDataAlignment,
-                                newVertexShaderDataAlignment,
-                                newPixelShaderFunction,
-                                newVertexShaderFunction))
-            {
-                return false;
-            }
+            ShaderResource* shaderResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
+                                                                newPixelShader, newVertexShader,
+                                                                newVertexAttributes,
+                                                                newPixelShaderConstantInfo,
+                                                                newVertexShaderConstantInfo,
+                                                                newPixelShaderDataAlignment,
+                                                                newVertexShaderDataAlignment,
+                                                                newPixelShaderFunction,
+                                                                newVertexShaderFunction]() {
+                shaderResource->init(newPixelShader, newVertexShader,
+                                     newVertexAttributes,
+                                     newPixelShaderConstantInfo,
+                                     newVertexShaderConstantInfo,
+                                     newPixelShaderDataAlignment,
+                                     newVertexShaderDataAlignment,
+                                     newPixelShaderFunction,
+                                     newVertexShaderFunction);
+            });
+
 
             return  true;
         }

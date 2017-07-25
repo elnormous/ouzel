@@ -27,19 +27,21 @@ namespace ouzel
                               BlendOperation newAlphaOperation,
                               uint8_t newColorMask)
         {
-            sharedEngine->getRenderer()->executeOnRenderThread([this,
+            BlendStateResource* blendStateResource = resource;
+
+            sharedEngine->getRenderer()->executeOnRenderThread([blendStateResource,
                                                                 newEnableBlending,
                                                                 newColorBlendSource, newColorBlendDest,
                                                                 newColorOperation,
                                                                 newAlphaBlendSource, newAlphaBlendDest,
                                                                 newAlphaOperation,
                                                                 newColorMask]() {
-                resource->init(newEnableBlending,
-                               newColorBlendSource, newColorBlendDest,
-                               newColorOperation,
-                               newAlphaBlendSource, newAlphaBlendDest,
-                               newAlphaOperation,
-                               newColorMask);
+                blendStateResource->init(newEnableBlending,
+                                         newColorBlendSource, newColorBlendDest,
+                                         newColorOperation,
+                                         newAlphaBlendSource, newAlphaBlendDest,
+                                         newAlphaOperation,
+                                         newColorMask);
             });
 
             return true;

@@ -57,11 +57,6 @@ namespace ouzel
             uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
         protected:
-            virtual bool upload() override;
-
-            bool createPixelShaderConstantBuffer();
-            bool createVertexShaderConstantBuffer();
-
             MTLFunctionPtr pixelShader = Nil;
             MTLFunctionPtr vertexShader = Nil;
 

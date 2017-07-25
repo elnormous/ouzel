@@ -53,8 +53,6 @@ namespace ouzel
             GLuint getProgramId() const { return programId; }
 
         protected:
-            virtual bool upload() override;
-
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
 
