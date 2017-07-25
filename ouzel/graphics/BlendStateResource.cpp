@@ -33,8 +33,6 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            dirty |= 0x01;
-
             return true;
         }
     } // namespace graphics

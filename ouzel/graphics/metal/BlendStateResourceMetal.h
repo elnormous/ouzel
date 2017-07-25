@@ -44,8 +44,6 @@ namespace ouzel
             bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         protected:
-            virtual bool upload() override;
-
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;

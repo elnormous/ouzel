@@ -13,8 +13,6 @@ namespace ouzel
         {
         public:
             BufferResourceEmpty();
-
-            virtual bool upload() override;
         };
     }
 }

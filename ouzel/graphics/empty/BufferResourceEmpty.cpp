@@ -10,10 +10,5 @@ namespace ouzel
         BufferResourceEmpty::BufferResourceEmpty()
         {
         }
-
-        bool BufferResourceEmpty::upload()
-        {
-            return true;
-        }
     }
 }

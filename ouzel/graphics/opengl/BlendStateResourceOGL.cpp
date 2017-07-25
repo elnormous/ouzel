@@ -90,33 +90,6 @@ namespace ouzel
 
             return true;
         }
-
-        bool BlendStateResourceOGL::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (dirty)
-            {
-                modeRGB = getBlendOperation(colorOperation);
-                modeAlpha = getBlendOperation(alphaOperation);
-
-                sourceFactorRGB = getBlendFactor(colorBlendSource);
-                destFactorRGB = getBlendFactor(colorBlendDest);
-                sourceFactorAlpha = getBlendFactor(alphaBlendDest);
-                destFactorAlpha = getBlendFactor(alphaBlendDest);
-
-                glBlendEnabled = enableBlending;
-
-                redMask = (colorMask & BlendState::COLOR_MASK_RED) ? GL_TRUE : GL_FALSE;
-                greenMask = (colorMask & BlendState::COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE;
-                blueMask = (colorMask & BlendState::COLOR_MASK_BLUE) ? GL_TRUE : GL_FALSE;
-                alphaMask = (colorMask & BlendState::COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE;
-
-                dirty = 0;
-            }
-
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel
 

@@ -73,6 +73,7 @@ namespace ouzel
             MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         protected:
+            bool updateTexture();
             bool updateSamplerState();
 
             virtual bool upload() override;

@@ -10,10 +10,5 @@ namespace ouzel
         BlendStateResourceEmpty::BlendStateResourceEmpty()
         {
         }
-
-        bool BlendStateResourceEmpty::upload()
-        {
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

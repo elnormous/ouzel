@@ -39,7 +39,6 @@ namespace ouzel
         protected:
             BlendStateResource();
 
-            uint32_t dirty = 0;
             BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
             BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
             BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;

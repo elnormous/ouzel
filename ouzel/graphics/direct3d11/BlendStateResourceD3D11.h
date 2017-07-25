@@ -30,8 +30,6 @@ namespace ouzel
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
-            virtual bool upload() override;
-
             ID3D11BlendState* blendState = nullptr;
         };
     } // namespace graphics

@@ -84,33 +84,6 @@ namespace ouzel
             
             return true;
         }
-
-        bool BlendStateResourceMetal::upload()
-        {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (dirty)
-            {
-                rgbBlendOperation = getBlendOperation(colorOperation);
-                alphaBlendOperation = getBlendOperation(alphaOperation);
-                sourceRGBBlendFactor = getBlendFactor(colorBlendSource);
-                destinationRGBBlendFactor = getBlendFactor(colorBlendDest);
-                sourceAlphaBlendFactor = getBlendFactor(alphaBlendSource);
-                destinationAlphaBlendFactor = getBlendFactor(alphaBlendDest);
-                metalBlendingEnabled = enableBlending;
-
-                colorWriteMask = MTLColorWriteMaskNone;
-                if (colorMask & BlendState::COLOR_MASK_RED) colorWriteMask |= MTLColorWriteMaskRed;
-                if (colorMask & BlendState::COLOR_MASK_GREEN) colorWriteMask |= MTLColorWriteMaskGreen;
-                if (colorMask & BlendState::COLOR_MASK_BLUE) colorWriteMask |= MTLColorWriteMaskBlue;
-                if (colorMask & BlendState::COLOR_MASK_ALPHA) colorWriteMask |= MTLColorWriteMaskAlpha;
-
-                dirty = 0;
-            }
-
-            return true;
-        }
-
     } // namespace graphics
 } // namespace ouzel
 

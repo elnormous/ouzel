@@ -52,8 +52,6 @@ namespace ouzel
             GLboolean getAlphaMask() const { return alphaMask; }
 
         protected:
-            virtual bool upload() override;
-
             GLenum modeRGB = GL_NONE;
             GLenum modeAlpha = GL_NONE;
             GLenum sourceFactorRGB = GL_NONE;

@@ -13,8 +13,6 @@ namespace ouzel
         {
         public:
             ShaderResourceEmpty();
-
-            virtual bool upload() override;
         };
     } // namespace graphics
 } // namespace ouzel
