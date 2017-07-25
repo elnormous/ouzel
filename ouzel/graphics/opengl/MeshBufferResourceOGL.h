@@ -53,8 +53,6 @@ namespace ouzel
             BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
-            virtual bool upload() override;
-
             GLenum indexType = 0;
             GLuint bytesPerIndex = 0;
 

@@ -22,12 +22,13 @@ namespace ouzel
 
         bool Buffer::init(Usage newUsage, bool newDynamic)
         {
-            if (!resource->init(newUsage, newDynamic))
-            {
-                return false;
-            }
+            BufferResource* bufferResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
+                                                                newUsage,
+                                                                newDynamic](){
+                bufferResource->init(newUsage, newDynamic);
+            });
 
             return true;
         }

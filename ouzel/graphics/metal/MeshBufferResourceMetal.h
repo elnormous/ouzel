@@ -44,8 +44,6 @@ namespace ouzel
             BufferResourceMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
 
         protected:
-            virtual bool upload() override;
-
             MTLIndexType indexType;
             NSUInteger bytesPerIndex = 0;
 

@@ -36,8 +36,6 @@ namespace ouzel
             BufferResourceD3D11* getVertexBufferD3D11() const { return vertexBufferD3D11; }
 
         protected:
-            virtual bool upload() override;
-
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
 
             BufferResourceD3D11* indexBufferD3D11 = nullptr;

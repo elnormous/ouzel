@@ -33,8 +33,6 @@ namespace ouzel
                 vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            dirty |= DIRTY_INDEX_ATTRIBUTES | DIRTY_INDEX_BUFFER | DIRTY_VERTEX_ATTRIBUTES | DIRTY_VERTEX_BUFFER;
-
             return true;
         }
 
@@ -43,8 +41,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             indexSize = newIndexSize;
-
-            dirty |= DIRTY_INDEX_ATTRIBUTES;
 
             return true;
         }
@@ -61,8 +57,6 @@ namespace ouzel
                 vertexSize += getDataTypeSize(vertexAttribute.dataType);
             }
 
-            dirty |= DIRTY_VERTEX_ATTRIBUTES;
-
             return true;
         }
 
@@ -77,8 +71,6 @@ namespace ouzel
 
             indexBuffer = newIndexBuffer;
 
-            dirty |= DIRTY_INDEX_BUFFER;
-
             return true;
         }
 
@@ -92,8 +84,6 @@ namespace ouzel
             }
 
             vertexBuffer = newVertexBuffer;
-
-            dirty |= DIRTY_VERTEX_BUFFER;
 
             return true;
         }

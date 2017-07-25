@@ -27,13 +27,18 @@ namespace ouzel
             indexBuffer = newIndexBuffer;
             vertexBuffer = newVertexBuffer;
 
-            if (!resource->init(newIndexSize, newIndexBuffer ? newIndexBuffer->getResource() : nullptr,
-                                newVertexAttributes, newVertexBuffer ? newVertexBuffer->getResource() : nullptr))
-            {
-                return false;
-            }
+            MeshBufferResource* meshBufferResource = resource;
+            BufferResource* indexBufferResource = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
+            BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
+                                                                newIndexSize,
+                                                                indexBufferResource,
+                                                                newVertexAttributes,
+                                                                vertexBufferResource]() {
+                meshBufferResource->init(newIndexSize, indexBufferResource,
+                                         newVertexAttributes, vertexBufferResource);
+            });
 
             return true;
         }
@@ -45,26 +50,25 @@ namespace ouzel
 
         bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
-            if (!resource->setIndexSize(newIndexSize))
-            {
-                return false;
-            }
+            MeshBufferResource* meshBufferResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
+                                                                newIndexSize]() {
+                meshBufferResource->setIndexSize(newIndexSize);
+            });
 
             return true;
         }
 
         bool MeshBuffer::setIndexBuffer(const std::shared_ptr<Buffer>& newIndexBuffer)
         {
-            indexBuffer = newIndexBuffer;
+            MeshBufferResource* meshBufferResource = resource;
+            BufferResource* indexBufferResource = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
 
-            if (!resource->setIndexBuffer(newIndexBuffer ? newIndexBuffer->getResource() : nullptr))
-            {
-                return false;
-            }
-
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
+                                                                indexBufferResource]() {
+                meshBufferResource->setIndexBuffer(indexBufferResource);
+            });
 
             return true;
         }
@@ -81,26 +85,25 @@ namespace ouzel
 
         bool MeshBuffer::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
         {
-            if (!resource->setVertexAttributes(newVertexAttributes))
-            {
-                return false;
-            }
+            MeshBufferResource* meshBufferResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
+                                                                newVertexAttributes]() {
+                meshBufferResource->setVertexAttributes(newVertexAttributes);
+            });
 
             return true;
         }
 
         bool MeshBuffer::setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer)
         {
-            vertexBuffer = newVertexBuffer;
+            MeshBufferResource* meshBufferResource = resource;
+            BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
-            if (!resource->setVertexBuffer(newVertexBuffer ? newVertexBuffer->getResource() : nullptr))
-            {
-                return false;
-            }
-
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
+                                                                vertexBufferResource]() {
+                meshBufferResource->setVertexBuffer(vertexBufferResource);
+            });
 
             return true;
         }
