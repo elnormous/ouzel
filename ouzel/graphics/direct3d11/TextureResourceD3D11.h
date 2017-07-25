@@ -60,6 +60,8 @@ namespace ouzel
             bool getClearDepthBufferView() const { return clearDepthBufferView; }
 
         protected:
+            bool updateSamplerState();
+
             virtual bool upload() override;
 
             ID3D11Texture2D* texture = nullptr;

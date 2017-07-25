@@ -158,26 +158,7 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            RendererD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
-
-            if (samplerState) samplerState->Release();
-            samplerState = rendererD3D11->getSamplerState(samplerDesc);
-
-            if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
-                return false;
-            }
-
-            samplerState->AddRef();
-
-            return true;
+            return updateSamplerState();
         }
 
         bool TextureResourceD3D11::setAddressX(Texture::Address newAddressX)
@@ -187,26 +168,7 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            RendererD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
-
-            if (samplerState) samplerState->Release();
-            samplerState = rendererD3D11->getSamplerState(samplerDesc);
-
-            if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
-                return false;
-            }
-
-            samplerState->AddRef();
-
-            return true;
+            return updateSamplerState();
         }
 
         bool TextureResourceD3D11::setAddressY(Texture::Address newAddressY)
@@ -216,26 +178,7 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            RendererD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
-
-            if (samplerState) samplerState->Release();
-            samplerState = rendererD3D11->getSamplerState(samplerDesc);
-
-            if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
-                return false;
-            }
-
-            samplerState->AddRef();
-
-            return true;
+            return updateSamplerState();
         }
 
         bool TextureResourceD3D11::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -245,26 +188,7 @@ namespace ouzel
                 return false;
             }
 
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            RendererD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
-            samplerDesc.addressX = addressX;
-            samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
-
-            if (samplerState) samplerState->Release();
-            samplerState = rendererD3D11->getSamplerState(samplerDesc);
-
-            if (!samplerState)
-            {
-                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
-                return false;
-            }
-
-            samplerState->AddRef();
-
-            return true;
+            return updateSamplerState();
         }
 
         bool TextureResourceD3D11::setClearColorBuffer(bool clear)
@@ -302,6 +226,30 @@ namespace ouzel
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+
+            return true;
+        }
+
+        bool TextureResourceD3D11::updateSamplerState()
+        {
+            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
+
+            RendererD3D11::SamplerStateDesc samplerDesc;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
+            samplerDesc.addressX = addressX;
+            samplerDesc.addressY = addressY;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? rendererD3D11->getMaxAnisotropy() : maxAnisotropy;
+
+            if (samplerState) samplerState->Release();
+            samplerState = rendererD3D11->getSamplerState(samplerDesc);
+
+            if (!samplerState)
+            {
+                Log(Log::Level::ERR) << "Failed to get D3D11 sampler state";
+                return false;
+            }
+
+            samplerState->AddRef();
 
             return true;
         }
