@@ -41,8 +41,6 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
-
             return true;
         }
 
@@ -71,8 +69,6 @@ namespace ouzel
                 return false;
             }
 
-            dirty |= DIRTY_DATA | DIRTY_SIZE | DIRTY_PARAMETERS;
-
             return true;
         }
 
@@ -96,8 +92,6 @@ namespace ouzel
                 {
                     return false;
                 }
-
-                dirty |= DIRTY_SIZE;
             }
 
             return true;
@@ -123,16 +117,12 @@ namespace ouzel
                 {
                     return false;
                 }
-
-                dirty |= DIRTY_SIZE;
             }
 
             if (!calculateData(newData))
             {
                 return false;
             }
-
-            dirty |= DIRTY_DATA;
 
             return true;
         }
@@ -549,7 +539,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             filter = newFilter;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -559,7 +548,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             addressX = newAddressX;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -569,7 +557,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             addressY = newAddressY;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -579,7 +566,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             maxAnisotropy = newMaxAnisotropy;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -589,7 +575,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColorBuffer = clear;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -599,7 +584,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearDepthBuffer = clear;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }
@@ -609,7 +593,6 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(uploadMutex);
 
             clearColor = color;
-            dirty |= DIRTY_PARAMETERS;
 
             return true;
         }

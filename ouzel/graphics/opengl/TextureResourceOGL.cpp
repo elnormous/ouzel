@@ -235,6 +235,112 @@ namespace ouzel
                 return false;
             }
 
+            if (!textureId)
+            {
+                glGenTextures(1, &textureId);
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create texture";
+                    return false;
+                }
+            }
+
+            if (!updateTexture())
+            {
+                return false;
+            }
+
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+
+            switch (finalFilter)
+            {
+                case Texture::Filter::DEFAULT:
+                case Texture::Filter::POINT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::LINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::BILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+                case Texture::Filter::TRILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture filter";
+                return false;
+            }
+
+            switch (addressX)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            switch (addressY)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+
+            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
+                    return false;
+                }
+            }
+
+            clearMask = 0;
+            if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
+            if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
+
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
+
             return true;
         }
 
@@ -253,6 +359,103 @@ namespace ouzel
                 return false;
             }
 
+            if (!textureId)
+            {
+                glGenTextures(1, &textureId);
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create texture";
+                    return false;
+                }
+            }
+
+            if (!updateTexture())
+            {
+                return false;
+            }
+
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+
+            switch (finalFilter)
+            {
+                case Texture::Filter::DEFAULT:
+                case Texture::Filter::POINT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::LINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::BILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+                case Texture::Filter::TRILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture filter";
+                return false;
+            }
+
+            switch (addressX)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            switch (addressY)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+
+            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -263,7 +466,13 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            return updateTexture();
         }
 
         bool TextureResourceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
@@ -273,7 +482,13 @@ namespace ouzel
                 return false;
             }
 
-            return true;
+            if (!textureId)
+            {
+                Log(Log::Level::ERR) << "Texture not initialized";
+                return false;
+            }
+
+            return updateTexture();
         }
 
         bool TextureResourceOGL::setFilter(Texture::Filter newFilter)
@@ -291,6 +506,8 @@ namespace ouzel
 
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+
+            RendererOGL::bindTexture(textureId, 0);
 
             switch (finalFilter)
             {
@@ -481,214 +698,121 @@ namespace ouzel
             return true;
         }
 
-        bool TextureResourceOGL::upload()
+        bool TextureResourceOGL::updateTexture()
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
+            RendererOGL::bindTexture(textureId, 0);
 
-            if (dirty)
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            GLsizei newWidth = static_cast<GLsizei>(size.v[0]);
+            GLsizei newHeight = static_cast<GLsizei>(size.v[1]);
+
+            GLint oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
+
+            if (oglInternalPixelFormat == GL_NONE)
             {
-                if (!textureId)
+                Log(Log::Level::ERR) << "Invalid pixel format";
+                return false;
+            }
+
+            if (newWidth != width ||
+                newHeight != height)
+            {
+                width = newWidth;
+                height = newHeight;
+
+                if (!renderTarget)
                 {
-                    glGenTextures(1, &textureId);
-
-                    if (RendererOGL::checkOpenGLError())
+                    for (size_t level = 0; level < levels.size(); ++level)
                     {
-                        Log(Log::Level::ERR) << "Failed to create texture";
-                        return false;
-                    }
-                }
-
-                RendererOGL::bindTexture(textureId, 0);
-
-                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
-                if (dirty & DIRTY_DATA ||
-                    dirty & DIRTY_SIZE)
-                {
-                    GLint oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
-
-                    if (oglInternalPixelFormat == GL_NONE)
-                    {
-                        Log(Log::Level::ERR) << "Invalid pixel format";
-                        return false;
-                    }
-
-                    if (dirty & DIRTY_SIZE)
-                    {
-                        width = static_cast<GLsizei>(size.v[0]);
-                        height = static_cast<GLsizei>(size.v[1]);
-
-                        if (!renderTarget)
+                        if (!levels[level].data.empty())
                         {
-                            for (size_t level = 0; level < levels.size(); ++level)
-                            {
-                                if (!levels[level].data.empty())
-                                {
-                                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                                 static_cast<GLsizei>(levels[level].size.v[0]),
-                                                 static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                                 getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
-                                                 levels[level].data.data());
-                                }
-                            }
-                        }
-
-                        if (renderTarget && rendererOGL->isRenderTargetsSupported())
-                        {
-                            if (!frameBufferId)
-                            {
-                                glGenFramebuffersProc(1, &frameBufferId);
-
-                                if (RendererOGL::checkOpenGLError())
-                                {
-                                    Log(Log::Level::ERR) << "Failed to create frame buffer";
-                                    return false;
-                                }
-                            }
-
-                            RendererOGL::bindFrameBuffer(frameBufferId);
-
-                            if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                            {
-                                RendererOGL::bindTexture(textureId, 0);
-
-                                glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                             static_cast<GLsizei>(size.v[0]),
-                                             static_cast<GLsizei>(size.v[1]), 0,
-                                             getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat), 0);
-
-                                // TODO: blit multisample render buffer to texture
-                                glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-                                
-                                if (depth)
-                                {
-                                    glGenRenderbuffersProc(1, &depthBufferId);
-                                    glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-
-                                    if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
-                                    {
-                                        glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                             static_cast<GLsizei>(sampleCount),
-                                                                             GL_DEPTH_COMPONENT,
-                                                                             static_cast<GLsizei>(size.v[0]),
-                                                                             static_cast<GLsizei>(size.v[1]));
-                                    }
-                                    else
-                                    {
-                                        glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                                  static_cast<GLsizei>(size.v[0]),
-                                                                  static_cast<GLsizei>(size.v[1]));
-                                    }
-
-                                    glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-                                }
-
-                                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                                {
-                                    Log(Log::Level::ERR) << "Failed to create frame buffer";
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    else if (!renderTarget)
-                    {
-                        for (size_t level = 0; level < levels.size(); ++level)
-                        {
-                            if (!levels[level].data.empty())
-                            {
-                                glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                                static_cast<GLsizei>(levels[level].size.v[0]),
-                                                static_cast<GLsizei>(levels[level].size.v[1]),
-                                                getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
-                                                levels[level].data.data());
-
-                                if (RendererOGL::checkOpenGLError())
-                                {
-                                    Log(Log::Level::ERR) << "Failed to upload texture data";
-                                    return false;
-                                }
-                            }
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                         static_cast<GLsizei>(levels[level].size.v[0]),
+                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                         getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
+                                         levels[level].data.data());
                         }
                     }
                 }
 
-                if (dirty & DIRTY_PARAMETERS)
+                if (renderTarget && rendererOGL->isRenderTargetsSupported())
                 {
-                    clearMask = 0;
-
-                    if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
-                    if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
-
-                    frameBufferClearColor[0] = clearColor.normR();
-                    frameBufferClearColor[1] = clearColor.normG();
-                    frameBufferClearColor[2] = clearColor.normB();
-                    frameBufferClearColor[3] = clearColor.normA();
-
-                    Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
-
-                    switch (finalFilter)
+                    if (!frameBufferId)
                     {
-                        case Texture::Filter::DEFAULT:
-                        case Texture::Filter::POINT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                            break;
-                        case Texture::Filter::LINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                            break;
-                        case Texture::Filter::BILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                            break;
-                        case Texture::Filter::TRILINEAR:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                            break;
+                        glGenFramebuffersProc(1, &frameBufferId);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to create frame buffer";
+                            return false;
+                        }
                     }
 
-                    switch (addressX)
-                    {
-                        case Texture::Address::CLAMP:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                            break;
-                        case Texture::Address::REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                            break;
-                        case Texture::Address::MIRROR_REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-                            break;
-                    }
+                    RendererOGL::bindFrameBuffer(frameBufferId);
 
-                    switch (addressY)
+                    if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                     {
-                        case Texture::Address::CLAMP:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                            break;
-                        case Texture::Address::REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-                            break;
-                        case Texture::Address::MIRROR_REPEAT:
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-                            break;
-                    }
+                        RendererOGL::bindTexture(textureId, 0);
 
-                    uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+                        glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
+                                     static_cast<GLsizei>(size.v[0]),
+                                     static_cast<GLsizei>(size.v[1]), 0,
+                                     getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat), 0);
 
-                    if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
-                    {
-                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
-                    }
-                    
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture parameters";
-                        return false;
+                        // TODO: blit multisample render buffer to texture
+                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+
+                        if (depth)
+                        {
+                            glGenRenderbuffersProc(1, &depthBufferId);
+                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+
+                            if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
+                            {
+                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                     static_cast<GLsizei>(sampleCount),
+                                                                     GL_DEPTH_COMPONENT,
+                                                                     static_cast<GLsizei>(size.v[0]),
+                                                                     static_cast<GLsizei>(size.v[1]));
+                            }
+                            else
+                            {
+                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                          static_cast<GLsizei>(size.v[0]),
+                                                          static_cast<GLsizei>(size.v[1]));
+                            }
+
+                            glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                        }
+
+                        if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                        {
+                            Log(Log::Level::ERR) << "Failed to create frame buffer";
+                            return false;
+                        }
                     }
                 }
+            }
+            else if (!renderTarget)
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(levels[level].size.v[0]),
+                                        static_cast<GLsizei>(levels[level].size.v[1]),
+                                        getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
+                                        levels[level].data.data());
 
-                dirty = 0;
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to upload texture data";
+                            return false;
+                        }
+                    }
+                }
             }
 
             return true;

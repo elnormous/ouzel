@@ -15,9 +15,6 @@ namespace ouzel
         public:
             Resource() {}
             virtual ~Resource() {}
-
-        protected:
-            virtual bool upload() { return true; }
         };
     } // graphics
 } // ouzel

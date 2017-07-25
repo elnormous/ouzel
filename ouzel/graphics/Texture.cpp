@@ -30,19 +30,26 @@ namespace ouzel
                            PixelFormat newPixelFormat)
         {
             filename.clear();
+            size = newSize;
 
-            if (!resource->init(newSize,
-                                newDynamic,
-                                newMipmaps,
-                                newRenderTarget,
-                                newSampleCount,
-                                newDepth,
-                                newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newSize,
+                                                                newDynamic,
+                                                                newMipmaps,
+                                                                newRenderTarget,
+                                                                newSampleCount,
+                                                                newDepth,
+                                                                newPixelFormat]() {
+                textureResource->init(newSize,
+                                      newDynamic,
+                                      newMipmaps,
+                                      newRenderTarget,
+                                      newSampleCount,
+                                      newDepth,
+                                      newPixelFormat);
+            });
 
             return true;
         }
@@ -60,16 +67,21 @@ namespace ouzel
                 return false;
             }
 
-            if (!resource->init(image.getData(),
-                                image.getSize(),
-                                newDynamic,
-                                newMipmaps,
-                                image.getPixelFormat()))
-            {
-                return false;
-            }
+            size = image.getSize();
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            TextureResource* textureResource = resource;
+
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newDynamic,
+                                                                newMipmaps,
+                                                                newPixelFormat,
+                                                                image]() {
+                textureResource->init(image.getData(),
+                                      image.getSize(),
+                                      newDynamic,
+                                      newMipmaps,
+                                      image.getPixelFormat());
+            });
 
             return true;
         }
@@ -81,46 +93,54 @@ namespace ouzel
                            PixelFormat newPixelFormat)
         {
             filename.clear();
+            size = newSize;
 
-            if (!resource->init(newData,
-                                newSize,
-                                newDynamic,
-                                newMipmaps,
-                                newPixelFormat))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newData,
+                                                                newSize,
+                                                                newDynamic,
+                                                                newMipmaps,
+                                                                newPixelFormat]() {
+                textureResource->init(newData,
+                                      newSize,
+                                      newDynamic,
+                                      newMipmaps,
+                                      newPixelFormat);
+            });
 
             return true;
         }
 
         const Size2& Texture::getSize() const
         {
-            return resource->getSize();
+            return size;
         }
 
         bool Texture::setSize(const Size2& newSize)
         {
-            if (!resource->setSize(newSize))
-            {
-                return false;
-            }
+            size = newSize;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            TextureResource* textureResource = resource;
+
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newSize]() {
+                textureResource->setSize(newSize);
+            });
 
             return true;
         }
 
         bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!resource->setData(newData, newSize))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newData,
+                                                                newSize]() {
+                textureResource->setData(newData, newSize);
+            });
 
             return true;
         }
@@ -137,12 +157,12 @@ namespace ouzel
 
         bool Texture::setFilter(Filter newFilter)
         {
-            if (!resource->setFilter(newFilter))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newFilter]() {
+                textureResource->setFilter(newFilter);
+            });
 
             return true;
         }
@@ -154,12 +174,12 @@ namespace ouzel
 
         bool Texture::setAddressX(Address newAddressX)
         {
-            if (!resource->setAddressX(newAddressX))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newAddressX]() {
+                textureResource->setAddressX(newAddressX);
+            });
 
             return true;
         }
@@ -171,12 +191,12 @@ namespace ouzel
 
         bool Texture::setAddressY(Address newAddressY)
         {
-            if (!resource->setAddressY(newAddressY))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newAddressY]() {
+                textureResource->setAddressY(newAddressY);
+            });
 
             return true;
         }
@@ -188,12 +208,12 @@ namespace ouzel
 
         bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
-            if (!resource->setMaxAnisotropy(newMaxAnisotropy))
-            {
-                return false;
-            }
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                newMaxAnisotropy]() {
+                textureResource->setMaxAnisotropy(newMaxAnisotropy);
+            });
 
             return true;
         }
@@ -220,9 +240,12 @@ namespace ouzel
 
         void Texture::setClearColorBuffer(bool clear)
         {
-            resource->setClearColorBuffer(clear);
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                clear]() {
+                textureResource->setClearColorBuffer(clear);
+            });
         }
 
         bool Texture::getClearDepthBuffer() const
@@ -232,9 +255,12 @@ namespace ouzel
 
         void Texture::setClearDepthBuffer(bool clear)
         {
-            resource->setClearDepthBuffer(clear);
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                clear]() {
+                textureResource->setClearDepthBuffer(clear);
+            });
         }
 
         Color Texture::getClearColor() const
@@ -244,9 +270,12 @@ namespace ouzel
 
         void Texture::setClearColor(Color color)
         {
-            resource->setClearColor(color);
+            TextureResource* textureResource = resource;
 
-            sharedEngine->getRenderer()->uploadResource(resource);
+            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
+                                                                color]() {
+                textureResource->setClearColor(color);
+            });
         }
     } // namespace graphics
 } // namespace ouzel

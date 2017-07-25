@@ -26,7 +26,7 @@ namespace ouzel
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
-                                                                newDynamic](){
+                                                                newDynamic]() {
                 bufferResource->init(newUsage, newDynamic);
             });
 

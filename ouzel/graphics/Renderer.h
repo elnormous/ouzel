@@ -176,7 +176,6 @@ namespace ouzel
             virtual ShaderResource* createShader() = 0;
             virtual MeshBufferResource* createMeshBuffer() = 0;
             virtual BufferResource* createBuffer() = 0;
-            virtual void uploadResource(Resource* resource);
             virtual void deleteResource(Resource* resource);
 
             struct DrawCommand
@@ -237,7 +236,6 @@ namespace ouzel
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
-            std::set<Resource*> resourceUploadSet;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
         private:

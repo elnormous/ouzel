@@ -62,7 +62,7 @@ namespace ouzel
             const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
-            virtual bool upload() override;
+            bool updateTexture();
 
             GLuint textureId = 0;
 

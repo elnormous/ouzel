@@ -76,8 +76,6 @@ namespace ouzel
             bool updateTexture();
             bool updateSamplerState();
 
-            virtual bool upload() override;
-
             MTLTextureResourcePtr texture = Nil;
 
             NSUInteger width = 0;

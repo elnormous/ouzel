@@ -181,18 +181,7 @@ namespace ouzel
             }
 
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
-
-            if (indexBufferOGL && !indexBufferOGL->upload())
-            {
-                return false;
-            }
-
             vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
-
-            if (vertexBufferOGL && !vertexBufferOGL->upload())
-            {
-                return false;
-            }
 
             if (vertexArrayId)
             {
@@ -277,11 +266,6 @@ namespace ouzel
             }
 
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
-
-            if (indexBufferOGL && !indexBufferOGL->upload())
-            {
-                return false;
-            }
 
             if (vertexArrayId)
             {
@@ -384,11 +368,6 @@ namespace ouzel
             }
 
             vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
-
-            if (vertexBufferOGL && !vertexBufferOGL->upload())
-            {
-                return false;
-            }
 
             if (vertexArrayId)
             {

@@ -113,11 +113,9 @@ namespace ouzel
                 drawQueueFinished = false;
             }
 
-            std::set<Resource*> uploadResources;
             std::vector<std::unique_ptr<Resource>> deleteResources;
             {
                 std::lock_guard<std::mutex> lock(resourceMutex);
-                uploadResources = std::move(resourceUploadSet);
                 deleteResources = std::move(resourceDeleteSet);
             }
 
@@ -125,15 +123,6 @@ namespace ouzel
             refillDrawQueue = true;
 
             executeAll();
-
-            for (Resource* resource : uploadResources)
-            {
-                // upload data to GPU
-                if (!resource->upload())
-                {
-                    return false;
-                }
-            }
 
             ++currentFrame;
 
@@ -204,13 +193,6 @@ namespace ouzel
         std::vector<Size2> Renderer::getSupportedResolutions() const
         {
             return std::vector<Size2>();
-        }
-
-        void Renderer::uploadResource(Resource* resource)
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            resourceUploadSet.insert(resource);
         }
 
         void Renderer::deleteResource(Resource* resource)

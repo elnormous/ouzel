@@ -97,6 +97,7 @@ namespace ouzel
             TextureResource* resource = nullptr;
 
             std::string filename;
+            Size2 size;
         };
     } // namespace graphics
 } // namespace ouzel

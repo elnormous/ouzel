@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ImageData: public Noncopyable
+        class ImageData
         {
         public:
             ImageData();

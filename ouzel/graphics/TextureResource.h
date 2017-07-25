@@ -87,15 +87,6 @@ namespace ouzel
                 std::vector<uint8_t> data;
             };
 
-            enum Dirty
-            {
-                DIRTY_DATA = 0x01,
-                DIRTY_SIZE = 0x02,
-                DIRTY_PARAMETERS = 0x04
-            };
-
-            uint32_t dirty = 0;
-
             Size2 size;
             bool dynamic = false;
             bool mipmaps = false;
