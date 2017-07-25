@@ -1,10 +1,5 @@
-//
-//  ResourceInterface.h
-//  ouzel
-//
-//  Created by Elviss Strazdins on 26/07/2017.
-//  Copyright (c) 2017 Elviss Strazdins. All rights reserved.
-//
+// Copyright (C) 2017 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
 #pragma once
 
