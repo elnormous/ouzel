@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class MeshBufferResource;
+        class MeshBufferInterface;
         class Buffer;
 
         class MeshBuffer: public Noncopyable
@@ -24,7 +24,7 @@ namespace ouzel
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
                       const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer);
 
-            MeshBufferResource* getResource() const { return resource; }
+            MeshBufferInterface* getResource() const { return resource; }
 
             uint32_t getIndexSize() const;
             bool setIndexSize(uint32_t newIndexSize);
@@ -44,7 +44,7 @@ namespace ouzel
             uint32_t indexSize = 0;
             std::vector<VertexAttribute> vertexAttributes;
 
-            MeshBufferResource* resource = nullptr;
+            MeshBufferInterface* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

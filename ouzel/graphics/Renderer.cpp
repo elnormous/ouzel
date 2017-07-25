@@ -4,12 +4,11 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "core/Engine.h"
-#include "Resource.h"
-#include "TextureResource.h"
-#include "ShaderResource.h"
-#include "BlendStateResource.h"
-#include "MeshBufferResource.h"
-#include "BufferResource.h"
+#include "TextureInterface.h"
+#include "ShaderInterface.h"
+#include "BlendStateInterface.h"
+#include "MeshBufferInterface.h"
+#include "BufferInterface.h"
 #include "events/EventHandler.h"
 #include "events/EventDispatcher.h"
 #include "core/Window.h"
@@ -113,7 +112,7 @@ namespace ouzel
                 drawQueueFinished = false;
             }
 
-            std::vector<std::unique_ptr<Resource>> deleteResources;
+            std::vector<std::unique_ptr<ResourceInterface>> deleteResources;
             {
                 std::lock_guard<std::mutex> lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
@@ -195,11 +194,11 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        void Renderer::deleteResource(Resource* resource)
+        void Renderer::deleteResource(ResourceInterface* resource)
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::vector<std::unique_ptr<Resource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+            auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<ResourceInterface>& ptr) {
                 return ptr.get() == resource;
             });
 
@@ -246,7 +245,7 @@ namespace ouzel
                 return false;
             }
 
-            std::vector<TextureResource*> drawTextures;
+            std::vector<TextureInterface*> drawTextures;
 
             for (const std::shared_ptr<Texture>& texture : textures)
             {

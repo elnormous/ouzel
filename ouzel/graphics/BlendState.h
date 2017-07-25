@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateResource;
+        class BlendStateInterface;
 
         class BlendState: public Noncopyable
         {
@@ -60,7 +60,7 @@ namespace ouzel
                       BlendOperation newAlphaOperation,
                       uint8_t newColorMask = COLOR_MASK_ALL);
 
-            BlendStateResource* getResource() const { return resource; }
+            BlendStateInterface* getResource() const { return resource; }
 
             bool isBlendingEnabled() const;
             BlendFactor getColorBlendSource() const;
@@ -72,8 +72,6 @@ namespace ouzel
             uint8_t getColorMask() const;
 
         private:
-            BlendStateResource* resource = nullptr;
-
             BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
             BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
             BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
@@ -82,6 +80,8 @@ namespace ouzel
             BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
+
+            BlendStateInterface* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

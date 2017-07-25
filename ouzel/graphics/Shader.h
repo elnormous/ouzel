@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class ShaderResource;
+        class ShaderInterface;
 
         class Shader: public Noncopyable
         {
@@ -51,7 +51,7 @@ namespace ouzel
                       const std::string& newPixelShaderFunction = "",
                       const std::string& newVertexShaderFunction = "");
 
-            ShaderResource* getResource() const { return resource; }
+            ShaderInterface* getResource() const { return resource; }
 
             const std::vector<VertexAttribute>& getVertexAttributes() const;
 
@@ -61,7 +61,7 @@ namespace ouzel
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;
 
-            ShaderResource* resource = nullptr;
+            ShaderInterface* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

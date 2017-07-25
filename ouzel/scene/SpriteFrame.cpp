@@ -8,9 +8,9 @@
 #include "core/Engine.h"
 #include "core/Cache.h"
 #include "files/FileSystem.h"
-#include "graphics/TextureResource.h"
-#include "graphics/MeshBufferResource.h"
-#include "graphics/BufferResource.h"
+#include "graphics/TextureInterface.h"
+#include "graphics/MeshBufferInterface.h"
+#include "graphics/BufferInterface.h"
 #include "utils/Log.h"
 
 namespace ouzel

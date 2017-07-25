@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BufferResource;
+        class BufferInterface;
 
         class Buffer: public Noncopyable
         {
@@ -33,7 +33,7 @@ namespace ouzel
             bool setData(const void* newData, uint32_t newSize);
             bool setData(const std::vector<uint8_t>& newData);
 
-            BufferResource* getResource() const { return resource; }
+            BufferInterface* getResource() const { return resource; }
 
             bool isDynamic() const;
             Usage getUsage() const;
@@ -42,7 +42,7 @@ namespace ouzel
             Buffer::Usage usage;
             bool dynamic = true;
 
-            BufferResource* resource = nullptr;
+            BufferInterface* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

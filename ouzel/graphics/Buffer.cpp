@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Buffer.h"
-#include "BufferResource.h"
+#include "BufferInterface.h"
 #include "Renderer.h"
 #include "core/Engine.h"
 
@@ -25,7 +25,7 @@ namespace ouzel
             usage = newUsage;
             dynamic = newDynamic;
 
-            BufferResource* bufferResource = resource;
+            BufferInterface* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
@@ -49,7 +49,7 @@ namespace ouzel
             usage = newUsage;
             dynamic = newDynamic;
 
-            BufferResource* bufferResource = resource;
+            BufferInterface* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
@@ -69,7 +69,7 @@ namespace ouzel
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            BufferResource* bufferResource = resource;
+            BufferInterface* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newData]() {

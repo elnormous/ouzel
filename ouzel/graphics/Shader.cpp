@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Shader.h"
-#include "ShaderResource.h"
+#include "ShaderInterface.h"
 #include "Renderer.h"
 #include "core/Engine.h"
 #include "files/FileSystem.h"
@@ -50,7 +50,7 @@ namespace ouzel
                 return false;
             }
 
-            ShaderResource* shaderResource = resource;
+            ShaderInterface* shaderResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
                                                                 pixelShaderData, vertexShaderData,
@@ -88,7 +88,7 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            ShaderResource* shaderResource = resource;
+            ShaderInterface* shaderResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
                                                                 newPixelShader, newVertexShader,

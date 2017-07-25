@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class TextureResource;
+        class TextureInterface;
 
         class Texture: public Noncopyable
         {
@@ -57,7 +57,7 @@ namespace ouzel
                               bool newMipmaps = true,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            TextureResource* getResource() const { return resource; }
+            TextureInterface* getResource() const { return resource; }
 
             const std::string& getFilename() const { return filename; }
 
@@ -111,7 +111,7 @@ namespace ouzel
 
             std::string filename;
 
-            TextureResource* resource = nullptr;
+            TextureInterface* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

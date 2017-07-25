@@ -106,7 +106,7 @@ extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #endif
 
 #include "graphics/Renderer.h"
-#include "graphics/TextureResource.h"
+#include "graphics/TextureInterface.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -589,11 +589,11 @@ namespace ouzel
             virtual bool swapBuffers();
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
-            virtual BufferResource* createBuffer() override;
+            virtual BlendStateInterface* createBlendState() override;
+            virtual TextureInterface* createTexture() override;
+            virtual ShaderInterface* createShader() override;
+            virtual MeshBufferInterface* createMeshBuffer() override;
+            virtual BufferInterface* createBuffer() override;
 
             void* getProcAddress(const std::string& name) const;
 

@@ -18,6 +18,7 @@
 #include "math/Size2.h"
 #include "math/Color.h"
 #include "graphics/Vertex.h"
+#include "graphics/ResourceInterface.h"
 #include "graphics/BlendState.h"
 #include "graphics/MeshBuffer.h"
 #include "graphics/Shader.h"
@@ -40,12 +41,11 @@ namespace ouzel
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
 
-        class Resource;
-        class BlendStateResource;
-        class BufferResource;
-        class MeshBufferResource;
-        class ShaderResource;
-        class TextureResource;
+        class BlendStateInterface;
+        class BufferInterface;
+        class MeshBufferInterface;
+        class ShaderInterface;
+        class TextureInterface;
 
         class Renderer: public Noncopyable
         {
@@ -171,25 +171,25 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize);
 
-            virtual BlendStateResource* createBlendState() = 0;
-            virtual TextureResource* createTexture() = 0;
-            virtual ShaderResource* createShader() = 0;
-            virtual MeshBufferResource* createMeshBuffer() = 0;
-            virtual BufferResource* createBuffer() = 0;
-            virtual void deleteResource(Resource* resource);
+            virtual BlendStateInterface* createBlendState() = 0;
+            virtual TextureInterface* createTexture() = 0;
+            virtual ShaderInterface* createShader() = 0;
+            virtual MeshBufferInterface* createMeshBuffer() = 0;
+            virtual BufferInterface* createBuffer() = 0;
+            virtual void deleteResource(ResourceInterface* resource);
 
             struct DrawCommand
             {
-                std::vector<TextureResource*> textures;
-                ShaderResource* shader;
+                std::vector<TextureInterface*> textures;
+                ShaderInterface* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStateResource* blendState;
-                MeshBufferResource* meshBuffer;
+                BlendStateInterface* blendState;
+                MeshBufferInterface* meshBuffer;
                 uint32_t indexCount;
                 DrawMode drawMode;
                 uint32_t startIndex;
-                TextureResource* renderTarget;
+                TextureInterface* renderTarget;
                 Rectangle viewport;
                 bool depthWrite;
                 bool depthTest;
@@ -235,8 +235,8 @@ namespace ouzel
             std::mutex uploadMutex;
 
             std::mutex resourceMutex;
-            std::vector<std::unique_ptr<Resource>> resources;
-            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<ResourceInterface>> resources;
+            std::vector<std::unique_ptr<ResourceInterface>> resourceDeleteSet;
 
         private:
             void executeAll();

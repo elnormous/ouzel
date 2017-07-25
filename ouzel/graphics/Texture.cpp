@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Texture.h"
-#include "TextureResource.h"
+#include "TextureInterface.h"
 #include "Renderer.h"
 #include "ImageDataSTB.h"
 #include "core/Engine.h"
@@ -38,7 +38,7 @@ namespace ouzel
             depth = newDepth;
             pixelFormat = newPixelFormat;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newSize,
@@ -81,7 +81,7 @@ namespace ouzel
             depth = false;
             pixelFormat = image.getPixelFormat();
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newDynamic,
@@ -113,7 +113,7 @@ namespace ouzel
             depth = false;
             pixelFormat = newPixelFormat;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newData,
@@ -140,7 +140,7 @@ namespace ouzel
         {
             size = newSize;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newSize]() {
@@ -154,7 +154,7 @@ namespace ouzel
         {
             size = newSize;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newData,
@@ -179,7 +179,7 @@ namespace ouzel
         {
             filter = newFilter;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newFilter]() {
@@ -198,7 +198,7 @@ namespace ouzel
         {
             addressX = newAddressX;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newAddressX]() {
@@ -217,7 +217,7 @@ namespace ouzel
         {
             addressY = newAddressY;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newAddressY]() {
@@ -236,7 +236,7 @@ namespace ouzel
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newMaxAnisotropy]() {
@@ -270,7 +270,7 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 clear]() {
@@ -287,7 +287,7 @@ namespace ouzel
         {
             clearDepthBuffer = clear;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 clear]() {
@@ -304,7 +304,7 @@ namespace ouzel
         {
             clearColor = color;
 
-            TextureResource* textureResource = resource;
+            TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 color]() {

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "BlendState.h"
-#include "BlendStateResource.h"
+#include "BlendStateInterface.h"
 #include "Renderer.h"
 #include "core/Engine.h"
 
@@ -36,7 +36,7 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            BlendStateResource* blendStateResource = resource;
+            BlendStateInterface* blendStateResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([blendStateResource,
                                                                 newEnableBlending,

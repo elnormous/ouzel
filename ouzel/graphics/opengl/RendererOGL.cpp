@@ -34,11 +34,11 @@
 #endif
 
 #include "RendererOGL.h"
-#include "TextureResourceOGL.h"
-#include "ShaderResourceOGL.h"
-#include "MeshBufferResourceOGL.h"
-#include "BufferResourceOGL.h"
-#include "BlendStateResourceOGL.h"
+#include "TextureInterfaceOGL.h"
+#include "ShaderInterfaceOGL.h"
+#include "MeshBufferInterfaceOGL.h"
+#include "BufferInterfaceOGL.h"
+#include "BlendStateInterfaceOGL.h"
 #include "core/Engine.h"
 #include "core/Window.h"
 #include "core/Cache.h"
@@ -781,7 +781,7 @@ namespace ouzel
 #endif
 
                 // blend state
-                BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand.blendState);
+                BlendStateInterfaceOGL* blendStateOGL = static_cast<BlendStateInterfaceOGL*>(drawCommand.blendState);
 
                 if (!blendStateOGL)
                 {
@@ -828,11 +828,11 @@ namespace ouzel
 
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    TextureResourceOGL* textureOGL = nullptr;
+                    TextureInterfaceOGL* textureOGL = nullptr;
 
                     if (drawCommand.textures.size() > layer)
                     {
-                        textureOGL = static_cast<TextureResourceOGL*>(drawCommand.textures[layer]);
+                        textureOGL = static_cast<TextureInterfaceOGL*>(drawCommand.textures[layer]);
                     }
 
                     if (textureOGL)
@@ -863,7 +863,7 @@ namespace ouzel
                 }
 
                 // shader
-                ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(drawCommand.shader);
+                ShaderInterfaceOGL* shaderOGL = static_cast<ShaderInterfaceOGL*>(drawCommand.shader);
 
                 if (!shaderOGL || !shaderOGL->getProgramId())
                 {
@@ -874,7 +874,7 @@ namespace ouzel
                 useProgram(shaderOGL->getProgramId());
 
                 // pixel shader constants
-                const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
+                const std::vector<ShaderInterfaceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
@@ -884,7 +884,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                    const ShaderInterfaceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
                     switch (pixelShaderConstantLocation.dataType)
@@ -926,7 +926,7 @@ namespace ouzel
                 }
 
                 // vertex shader constants
-                const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
+                const std::vector<ShaderInterfaceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
@@ -936,7 +936,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                    const ShaderInterfaceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
                     switch (vertexShaderConstantLocation.dataType)
@@ -984,7 +984,7 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(drawCommand.renderTarget);
+                    TextureInterfaceOGL* renderTargetOGL = static_cast<TextureInterfaceOGL*>(drawCommand.renderTarget);
 
                     if (!renderTargetOGL->getFrameBufferId())
                     {
@@ -1066,9 +1066,9 @@ namespace ouzel
                                static_cast<GLsizei>(drawCommand.scissorRectangle.size.v[1]));
 
                 // mesh buffer
-                MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand.meshBuffer);
-                BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
-                BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
+                MeshBufferInterfaceOGL* meshBufferOGL = static_cast<MeshBufferInterfaceOGL*>(drawCommand.meshBuffer);
+                BufferInterfaceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
+                BufferInterfaceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
 
                 if (!meshBufferOGL ||
                     !indexBufferOGL ||
@@ -1177,43 +1177,48 @@ namespace ouzel
             return true;
         }
 
-        BlendStateResource* RendererOGL::createBlendState()
+        BlendStateInterface* RendererOGL::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BlendStateResource* blendState = new BlendStateResourceOGL();
+            BlendStateInterface* blendState = new BlendStateInterfaceOGL();
+            resources.push_back(std::unique_ptr<ResourceInterface>(blendState));
             return blendState;
         }
 
-        TextureResource* RendererOGL::createTexture()
+        TextureInterface* RendererOGL::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceOGL();
+            TextureInterface* texture = new TextureInterfaceOGL();
+            resources.push_back(std::unique_ptr<ResourceInterface>(texture));
             return texture;
         }
 
-        ShaderResource* RendererOGL::createShader()
+        ShaderInterface* RendererOGL::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceOGL();
+            ShaderInterface* shader = new ShaderInterfaceOGL();
+            resources.push_back(std::unique_ptr<ResourceInterface>(shader));
             return shader;
         }
 
-        MeshBufferResource* RendererOGL::createMeshBuffer()
+        MeshBufferInterface* RendererOGL::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferResource* meshBuffer = new MeshBufferResourceOGL();
+            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceOGL();
+            resources.push_back(std::unique_ptr<ResourceInterface>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferResource* RendererOGL::createBuffer()
+        BufferInterface* RendererOGL::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceOGL();
+            BufferInterface* buffer = new BufferInterfaceOGL();
+            resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
             return buffer;
         }
 
