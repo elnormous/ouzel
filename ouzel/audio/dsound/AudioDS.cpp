@@ -40,7 +40,7 @@ namespace ouzel
                 return false;
             }
 
-            HRESULT hr = DirectSoundCreate8(nullptr, &directSound, nullptr);
+            HRESULT hr = DirectSoundCreate8(DSDEVID_DefaultPlayback, &directSound, nullptr);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance, error: " << hr;
