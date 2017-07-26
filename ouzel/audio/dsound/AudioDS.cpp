@@ -11,6 +11,15 @@
 #include "core/windows/WindowWin.h"
 #include "utils/Log.h"
 
+BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
+{
+    char temp[256];
+    WideCharToMultiByte(CP_UTF8, 0, description, -1, temp, sizeof(temp), nullptr, nullptr);
+
+    ouzel::Log(ouzel::Log::Level::INFO) << "Using " << temp << " for audio";
+    return FALSE;
+}
+
 namespace ouzel
 {
     namespace audio
@@ -40,7 +49,14 @@ namespace ouzel
                 return false;
             }
 
-            HRESULT hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr);
+            HRESULT hr = DirectSoundEnumerateW(enumCallback, this);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to enumerate DirectSound 8 devices, error: " << hr;
+                return false;
+            }
+                
+            hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create DirectSound 8 instance, error: " << hr;
