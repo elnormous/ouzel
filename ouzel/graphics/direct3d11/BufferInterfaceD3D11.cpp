@@ -28,7 +28,7 @@ namespace ouzel
 
         bool BufferInterfaceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
-            if (!BufferInterface::init(newUsage, newFlags, uint32_t newSize))
+            if (!BufferInterface::init(newUsage, newFlags, newSize))
             {
                 return false;
             }
