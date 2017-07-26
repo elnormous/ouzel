@@ -33,23 +33,30 @@ namespace ouzel
                 return false;
             }
 
-            if (!bufferId)
+            if (!createBuffer())
             {
-                glGenBuffersProc(1, &bufferId);
+                return false;
             }
 
-            switch (usage)
+            bufferSize = static_cast<GLsizeiptr>(data.size());
+
+            if (!data.empty())
             {
-                case Buffer::Usage::INDEX:
-                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
-                    break;
-                case Buffer::Usage::VERTEX:
-                    bufferType = GL_ARRAY_BUFFER;
-                    break;
-                default:
-                    bufferType = 0;
-                    Log(Log::Level::ERR) << "Unsupported buffer type";
+                RendererOGL::bindVertexArray(0);
+
+                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                {
                     return false;
+                }
+
+                glBufferDataProc(bufferType, bufferSize, nullptr,
+                                 (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create buffer";
+                    return false;
+                }
             }
 
             return true;
@@ -62,24 +69,12 @@ namespace ouzel
                 return false;
             }
 
-            if (!bufferId)
+            if (!createBuffer())
             {
-                glGenBuffersProc(1, &bufferId);
+                return false;
             }
 
-            switch (usage)
-            {
-                case Buffer::Usage::INDEX:
-                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
-                    break;
-                case Buffer::Usage::VERTEX:
-                    bufferType = GL_ARRAY_BUFFER;
-                    break;
-                default:
-                    bufferType = 0;
-                    Log(Log::Level::ERR) << "Unsupported buffer type";
-                    return false;
-            }
+            bufferSize = static_cast<GLsizeiptr>(data.size());
 
             if (!data.empty())
             {
@@ -90,28 +85,13 @@ namespace ouzel
                     return false;
                 }
 
-                if (static_cast<GLsizeiptr>(data.size()) > bufferSize)
+                glBufferDataProc(bufferType, bufferSize, data.data(),
+                                 (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                if (RendererOGL::checkOpenGLError())
                 {
-                    bufferSize = static_cast<GLsizeiptr>(data.size());
-
-                    glBufferDataProc(bufferType, bufferSize, data.data(),
-                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create buffer";
-                        return false;
-                    }
-                }
-                else
-                {
-                    glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
-
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to upload buffer";
-                        return false;
-                    }
+                    Log(Log::Level::ERR) << "Failed to create buffer";
+                    return false;
                 }
             }
 
@@ -163,6 +143,35 @@ namespace ouzel
                         return false;
                     }
                 }
+            }
+
+            return true;
+        }
+
+        bool BufferInterfaceOGL::createBuffer()
+        {
+            if (bufferId) RendererOGL::deleteBuffer(bufferId);
+
+            glGenBuffersProc(1, &bufferId);
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to create buffer";
+                return false;
+            }
+
+            switch (usage)
+            {
+                case Buffer::Usage::INDEX:
+                    bufferType = GL_ELEMENT_ARRAY_BUFFER;
+                    break;
+                case Buffer::Usage::VERTEX:
+                    bufferType = GL_ARRAY_BUFFER;
+                    break;
+                default:
+                    bufferType = 0;
+                    Log(Log::Level::ERR) << "Unsupported buffer type";
+                    return false;
             }
 
             return true;

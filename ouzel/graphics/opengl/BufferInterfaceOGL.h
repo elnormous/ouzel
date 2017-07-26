@@ -43,6 +43,8 @@ namespace ouzel
             GLuint getBufferType() const { return bufferType; }
 
         protected:
+            bool createBuffer();
+
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;
 

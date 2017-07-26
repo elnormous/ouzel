@@ -102,11 +102,11 @@ namespace ouzel
                 buffer = nullptr;
             }
 
+            bufferSize = static_cast<UINT>(data.size());
+
             if (!data.empty())
             {
                 RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-                bufferSize = static_cast<UINT>(data.size());
 
                 D3D11_BUFFER_DESC bufferDesc;
                 bufferDesc.ByteWidth = bufferSize;

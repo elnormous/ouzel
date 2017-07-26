@@ -93,11 +93,11 @@ namespace ouzel
                 buffer = Nil;
             }
 
+            bufferSize = static_cast<uint32_t>(data.size());
+
             if (!data.empty())
             {
                 RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-                bufferSize = static_cast<uint32_t>(data.size());
 
                 buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                  options:MTLResourceCPUCacheModeWriteCombined];
