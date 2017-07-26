@@ -23,7 +23,7 @@ namespace ouzel
 
         protected:
             AudioALSA();
-            virtual bool init() override;
+            virtual bool init(bool debugAudio) override;
         };
     } // namespace audio
 } // namespace ouzel

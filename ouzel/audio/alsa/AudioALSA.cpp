@@ -21,9 +21,9 @@ namespace ouzel
         {
         }
 
-        bool AudioALSA::init()
+        bool AudioALSA::init(bool debugAudio)
         {
-            if (!Audio::init())
+            if (!Audio::init(debugAudio))
             {
                 return false;
             }
