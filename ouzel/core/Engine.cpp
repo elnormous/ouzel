@@ -552,7 +552,7 @@ namespace ouzel
                 return false;
         }
 
-        if (!audio->init())
+        if (!audio->init(debugAudio))
         {
             return false;
         }

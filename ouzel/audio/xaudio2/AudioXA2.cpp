@@ -43,9 +43,6 @@ namespace ouzel
                 return false;
             }
 
-            UINT32 flags = 0;
-            if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
-
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
             if (xAudio2Library)
@@ -61,11 +58,24 @@ namespace ouzel
                     return false;
                 }
 
-                HRESULT hr = xAudio2CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR);
+                HRESULT hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to initialize XAudio2, error: " << hr;
                     return false;
+                }
+
+                if (debugAudio)
+                {
+                    XAUDIO2_DEBUG_CONFIGURATION debugConfiguration;
+                    debugConfiguration.TraceMask = XAUDIO2_LOG_WARNINGS | XAUDIO2_LOG_DETAIL;
+                    debugConfiguration.BreakMask = XAUDIO2_LOG_ERRORS;
+                    debugConfiguration.LogThreadID = FALSE;
+                    debugConfiguration.LogFileline = FALSE;
+                    debugConfiguration.LogFunctionName = FALSE;
+                    debugConfiguration.LogTiming = FALSE;
+
+                    xAudio->SetDebugConfiguration(&debugConfiguration);
                 }
             }
             else
@@ -84,6 +94,11 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to load " << XAUDIO2_DLL_27;
                     return false;
                 }
+
+                const UINT XAUDIO2_DEBUG_ENGINE = 0x0001;
+
+                UINT32 flags = 0;
+                if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
 
                 HRESULT hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR);
                 if (FAILED(hr))
