@@ -14,23 +14,11 @@
 #include "utils/Log.h"
 
 #if OUZEL_PLATFORM_MACOS
-static const AudioObjectPropertyAddress devlistAddress = {
-    kAudioHardwarePropertyDevices,
-    kAudioObjectPropertyScopeGlobal,
-    kAudioObjectPropertyElementMaster
-};
 
 static OSStatus deviceListChanged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
 {
     return 0;
 }
-
-static const AudioObjectPropertyAddress aliveAddress =
-{
-    kAudioDevicePropertyDeviceIsAlive,
-    kAudioObjectPropertyScopeGlobal,
-    kAudioObjectPropertyElementMaster
-};
 
 static OSStatus deviceUnplugged(AudioObjectID, UInt32, const AudioObjectPropertyAddress*, void*)
 {
@@ -80,10 +68,22 @@ namespace ouzel
             }
 
 #if OUZEL_PLATFORM_MACOS
-            AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
+            static const AudioObjectPropertyAddress deviceListAddress = {
+                kAudioHardwarePropertyDevices,
+                kAudioObjectPropertyScopeGlobal,
+                kAudioObjectPropertyElementMaster
+            };
+
+            AudioObjectRemovePropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
 
             if (deviceId)
             {
+                static const AudioObjectPropertyAddress aliveAddress = {
+                    kAudioDevicePropertyDeviceIsAlive,
+                    kAudioDevicePropertyScopeOutput,
+                    kAudioObjectPropertyElementMaster
+                };
+
                 AudioObjectRemovePropertyListener(deviceId, &aliveAddress, deviceUnplugged, this);
             }
 #endif
@@ -99,18 +99,28 @@ namespace ouzel
             OSStatus result;
 
 #if OUZEL_PLATFORM_MACOS
-            AudioObjectAddPropertyListener(kAudioObjectSystemObject, &devlistAddress, deviceListChanged, this);
+            static const AudioObjectPropertyAddress deviceListAddress = {
+                kAudioHardwarePropertyDevices,
+                kAudioObjectPropertyScopeGlobal,
+                kAudioObjectPropertyElementMaster
+            };
 
-            AudioObjectPropertyAddress addr = {
-                0,
+            result = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &deviceListAddress, deviceListChanged, this);
+            if (result != noErr)
+            {
+                Log(Log::Level::ERR) << "Failed to add CoreAudio property listener, error: " << result;
+                return false;
+            }
+
+            static const AudioObjectPropertyAddress defaultDeviceAddress = {
+                kAudioHardwarePropertyDefaultOutputDevice,
                 kAudioObjectPropertyScopeGlobal,
                 kAudioObjectPropertyElementMaster
             };
 
             UInt32 size = sizeof(AudioDeviceID);
-            addr.mSelector = kAudioHardwarePropertyDefaultOutputDevice;
-            result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &addr,
-                                                         0, NULL, &size, &deviceId);
+            result = AudioObjectGetPropertyData(kAudioObjectSystemObject, &defaultDeviceAddress,
+                                                0, nullptr, &size, &deviceId);
 
             if (result != noErr)
             {
@@ -118,12 +128,15 @@ namespace ouzel
                 return false;
             }
 
-            addr.mSelector = kAudioDevicePropertyDeviceIsAlive;
-            addr.mScope = kAudioDevicePropertyScopeOutput;
+            static const AudioObjectPropertyAddress aliveAddress = {
+                kAudioDevicePropertyDeviceIsAlive,
+                kAudioDevicePropertyScopeOutput,
+                kAudioObjectPropertyElementMaster
+            };
 
             UInt32 alive = 0;
             size = sizeof(alive);
-            result = AudioObjectGetPropertyData(deviceId, &addr, 0, NULL, &size, &alive);
+            result = AudioObjectGetPropertyData(deviceId, &aliveAddress, 0, nullptr, &size, &alive);
 
             if (result != noErr)
             {
@@ -137,10 +150,15 @@ namespace ouzel
                 return false;
             }
 
-            addr.mSelector = kAudioDevicePropertyHogMode;
+            static const AudioObjectPropertyAddress hogModeAddress = {
+                kAudioDevicePropertyHogMode,
+                kAudioDevicePropertyScopeOutput,
+                kAudioObjectPropertyElementMaster
+            };
+
             pid_t pid = 0;
             size = sizeof(pid);
-            result = AudioObjectGetPropertyData(deviceId, &addr, 0, NULL, &size, &pid);
+            result = AudioObjectGetPropertyData(deviceId, &hogModeAddress, 0, nullptr, &size, &pid);
 
             if (result != noErr)
             {
@@ -153,6 +171,35 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Requested CoreAudio device is being hogged";
                 return false;
             }
+
+            static const AudioObjectPropertyAddress nameAddress = {
+                kAudioObjectPropertyName,
+                kAudioDevicePropertyScopeOutput,
+                kAudioObjectPropertyElementMaster
+            };
+
+            CFStringRef tempStringRef = nullptr;
+            size = sizeof(CFStringRef);
+
+            result = AudioObjectGetPropertyData(deviceId, &nameAddress,
+                                                0, nullptr, &size, &tempStringRef);
+
+            if (result != noErr)
+            {
+                Log(Log::Level::ERR) << "Failed to get CoreAudio device name, error: " << result;
+                return false;
+            }
+
+            if (tempStringRef)
+            {
+                char temp[256];
+                CFStringGetCString(tempStringRef, temp, sizeof(temp), kCFStringEncodingUTF8);
+
+                Log(Log::Level::ERR) << "Using " << temp << " for audio";
+
+                CFRelease(tempStringRef);
+            }
+
 #else
             [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
 #endif
@@ -170,7 +217,7 @@ namespace ouzel
             desc.componentFlags = 0;
             desc.componentFlagsMask = 0;
 
-            audioComponent = AudioComponentFindNext(NULL, &desc);
+            audioComponent = AudioComponentFindNext(nullptr, &desc);
 
             if (!audioComponent)
             {
