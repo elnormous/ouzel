@@ -195,7 +195,7 @@ namespace ouzel
                 char temp[256];
                 CFStringGetCString(tempStringRef, temp, sizeof(temp), kCFStringEncodingUTF8);
 
-                Log(Log::Level::ERR) << "Using " << temp << " for audio";
+                Log(Log::Level::INFO) << "Using " << temp << " for audio";
 
                 CFRelease(tempStringRef);
             }
