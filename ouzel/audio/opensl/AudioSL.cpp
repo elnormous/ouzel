@@ -42,7 +42,7 @@ namespace ouzel
             }
         }
 
-        bool AudioSL::init(debugAudio)
+        bool AudioSL::init(bool debugAudio)
         {
             if (!Audio::init(debugAudio))
             {
