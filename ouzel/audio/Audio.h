@@ -65,7 +65,7 @@ namespace ouzel
 
         protected:
             Audio(Driver aDriver);
-            virtual bool init();
+            virtual bool init(bool debugAudio);
 
             std::vector<uint8_t> getData(uint32_t size);
 

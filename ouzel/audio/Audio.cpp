@@ -19,7 +19,7 @@ namespace ouzel
         {
         }
 
-        bool Audio::init()
+        bool Audio::init(bool)
         {
             return true;
         }

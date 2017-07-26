@@ -120,9 +120,9 @@ namespace ouzel
             }
         }
 
-        bool AudioAL::init()
+        bool AudioAL::init(bool debugAudio)
         {
-            if (!Audio::init())
+            if (!Audio::init(debugAudio))
             {
                 return false;
             }

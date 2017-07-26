@@ -29,7 +29,7 @@ namespace ouzel
 
         protected:
             AudioCA();
-            virtual bool init() override;
+            virtual bool init(bool debugAudio) override;
 
 #if OUZEL_PLATFORM_MACOS
             AudioDeviceID deviceId = 0;

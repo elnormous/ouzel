@@ -89,9 +89,9 @@ namespace ouzel
 #endif
         }
 
-        bool AudioCA::init()
+        bool AudioCA::init(bool debugAudio)
         {
-            if (!Audio::init())
+            if (!Audio::init(debugAudio))
             {
                 return false;
             }

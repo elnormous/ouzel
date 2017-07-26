@@ -42,9 +42,9 @@ namespace ouzel
             if (directSound) directSound->Release();
         }
 
-        bool AudioDS::init()
+        bool AudioDS::init(bool debugAudio)
         {
-            if (!Audio::init())
+            if (!Audio::init(debugAudio))
             {
                 return false;
             }

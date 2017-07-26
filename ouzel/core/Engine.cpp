@@ -210,6 +210,7 @@ namespace ouzel
         bool depth = false;
         bool debugRenderer = false;
         bool highDpi = true; // should high DPI resolution be used
+        bool debugAudio = false;
 
         defaultSettings.init("settings.ini");
         userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
@@ -343,6 +344,9 @@ namespace ouzel
 
         std::string highDpiValue = userSettings.getValue("engine", "highDpi", defaultSettings.getValue("engine", "highDpi"));
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
+
+        std::string debugAudioValue = userSettings.getValue("engine", "debugAudio", defaultSettings.getValue("engine", "debugAudio"));
+        if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
         if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
         {

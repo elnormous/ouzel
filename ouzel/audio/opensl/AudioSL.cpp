@@ -42,8 +42,13 @@ namespace ouzel
             }
         }
 
-        bool AudioSL::init()
+        bool AudioSL::init(debugAudio)
         {
+            if (!Audio::init(debugAudio))
+            {
+                return false;
+            }
+
             const SLuint32 engineMixIIDCount = 1;
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
             const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
@@ -168,7 +173,7 @@ namespace ouzel
                 return false;
             }
 
-            return Audio::init();
+            return true;
         }
 
         void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)

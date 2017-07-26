@@ -22,7 +22,7 @@ namespace ouzel
 
         protected:
             AudioXA2();
-            virtual bool init() override;
+            virtual bool init(bool debugAudio) override;
 
             virtual void OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
             virtual void OnVoiceProcessingPassEnd() override;

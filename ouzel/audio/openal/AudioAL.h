@@ -40,7 +40,7 @@ namespace ouzel
 
         protected:
             AudioAL();
-            virtual bool init() override;
+            virtual bool init(bool debugAudio) override;
 
             void run();
 

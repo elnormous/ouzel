@@ -36,8 +36,16 @@ namespace ouzel
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
-        bool AudioXA2::init()
+        bool AudioXA2::init(bool debugAudio)
         {
+            if (!Audio::init(debugAudio))
+            {
+                return false;
+            }
+
+            UINT32 flags = 0;
+            if (debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;
+
             xAudio2Library = LoadLibraryA(XAUDIO2_DLL_28);
 
             if (xAudio2Library)
@@ -53,7 +61,7 @@ namespace ouzel
                     return false;
                 }
 
-                HRESULT hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
+                HRESULT hr = xAudio2CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to initialize XAudio2, error: " << hr;
@@ -77,7 +85,7 @@ namespace ouzel
                     return false;
                 }
 
-                HRESULT hr = XAudio27CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR);
+                HRESULT hr = XAudio27CreateProc(&xAudio, flags, XAUDIO2_DEFAULT_PROCESSOR);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to initialize XAudio2, error: " << hr;
@@ -167,7 +175,7 @@ namespace ouzel
                 return false;
             }
 
-            return Audio::init();
+            return true;
         }
 
         void AudioXA2::OnVoiceProcessingPassStart(UINT32)
