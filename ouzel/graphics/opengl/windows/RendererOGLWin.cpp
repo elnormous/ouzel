@@ -126,8 +126,15 @@ namespace ouzel
             {
                 if (renderContext)
                 {
-                    wglMakeCurrent(deviceContext, nullptr);
-                    wglDeleteContext(renderContext);
+                    if (wglMakeCurrent(deviceContext, nullptr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to unset OpenGL context";
+                    }
+
+                    if (!wglDeleteContext(renderContext))
+                    {
+                        Log(Log::Level::ERR) << "Failed to delete OpenGL context";
+                    }
                 }
 
                 if (window)
@@ -161,8 +168,15 @@ namespace ouzel
 
             if (renderContext)
             {
-                wglMakeCurrent(deviceContext, nullptr);
-                wglDeleteContext(renderContext);
+                if (!wglMakeCurrent(deviceContext, nullptr))
+                {
+                    Log(Log::Level::ERR) << "Failed to unset OpenGL context";
+                }
+
+                if (!wglDeleteContext(renderContext))
+                {
+                    Log(Log::Level::ERR) << "Failed to delete OpenGL context";
+                }
             }
         }
 
@@ -349,6 +363,12 @@ namespace ouzel
                                    newDepth,
                                    newDebugRenderer))
             {
+                return false;
+            }
+
+            if (!wglMakeCurrent(deviceContext, nullptr))
+            {
+                Log(Log::Level::ERR) << "Failed to unset OpenGL context";
                 return false;
             }
 
