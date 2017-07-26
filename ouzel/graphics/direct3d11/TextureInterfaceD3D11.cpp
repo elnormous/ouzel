@@ -359,8 +359,8 @@ namespace ouzel
                 depthStencilView = nullptr;
             }
 
-            width = newWidth;
-            height = newHeight;
+            width = static_cast<UINT>(size[0]);
+            height = static_cast<UINT>(size[1]);
 
             if (width > 0 && height > 0)
             {
@@ -386,6 +386,8 @@ namespace ouzel
                 textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | ((flags & Texture::RENDER_TARGET) ? D3D11_BIND_RENDER_TARGET : 0);
                 textureDesc.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDesc.MiscFlags = 0;
+
+                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
