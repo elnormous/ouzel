@@ -702,6 +702,9 @@ namespace ouzel
         {
             RendererOGL::bindTexture(textureId, 0);
 
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLint>(levels.size()) - 1);
+
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
             GLsizei newWidth = static_cast<GLsizei>(size.v[0]);
