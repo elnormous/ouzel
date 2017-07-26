@@ -186,7 +186,7 @@ namespace ouzel
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), graphics::Buffer::DYNAMIC);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
@@ -217,7 +217,7 @@ namespace ouzel
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), graphics::Buffer::DYNAMIC);
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
