@@ -247,8 +247,12 @@ namespace ouzel
 
             UINT newWidth = static_cast<UINT>(size.v[0]);
             UINT newHeight = static_cast<UINT>(size.v[1]);
+            UINT newMipmapLevelCount = static_cast<UINT>(levels.size());
 
-            if (!texture || newWidth != width || newHeight != height)
+            if (!texture ||
+                newWidth != width ||
+                newHeight != height ||
+                newMipmapLevelCount != mipmapLevelCount)
             {
                 if (texture)
                 {
@@ -281,6 +285,7 @@ namespace ouzel
 
                 width = newWidth;
                 height = newHeight;
+                mipmapLevelCount = newMipmapLevelCount;
 
                 DXGI_FORMAT d3d11PixelFormat = getD3D11PixelFormat(pixelFormat);
 
@@ -293,7 +298,7 @@ namespace ouzel
                 D3D11_TEXTURE2D_DESC textureDesc;
                 textureDesc.Width = width;
                 textureDesc.Height = height;
-                textureDesc.MipLevels = static_cast<UINT>(levels.size());
+                textureDesc.MipLevels = mipmapLevelCount;
                 textureDesc.ArraySize = 1;
                 textureDesc.Format = d3d11PixelFormat;
                 textureDesc.SampleDesc.Count = sampleCount;

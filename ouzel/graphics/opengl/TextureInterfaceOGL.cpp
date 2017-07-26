@@ -698,13 +698,11 @@ namespace ouzel
         {
             RendererOGL::bindTexture(textureId, 0);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLint>(levels.size()) - 1);
-
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
             GLsizei newWidth = static_cast<GLsizei>(size.v[0]);
             GLsizei newHeight = static_cast<GLsizei>(size.v[1]);
+            GLsizei newMipmapLevelCount = static_cast<GLsizei>(levels.size());
 
             GLint oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
 
@@ -715,10 +713,15 @@ namespace ouzel
             }
 
             if (newWidth != width ||
-                newHeight != height)
+                newHeight != height ||
+                newMipmapLevelCount != mipmapLevelCount)
             {
                 width = newWidth;
                 height = newHeight;
+                mipmapLevelCount = newMipmapLevelCount;
+
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, mipmapLevelCount - 1);
 
                 if (!(flags & Texture::RENDER_TARGET))
                 {

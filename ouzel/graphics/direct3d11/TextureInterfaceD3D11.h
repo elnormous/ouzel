@@ -67,6 +67,7 @@ namespace ouzel
 
             UINT width = 0;
             UINT height = 0;
+            UINT mipmapLevelCount = 0;
 
             ID3D11RenderTargetView* renderTargetView = nullptr;
             ID3D11Texture2D* depthStencilTexture = nullptr;

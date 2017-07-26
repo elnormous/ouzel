@@ -66,6 +66,7 @@ namespace ouzel
 
             GLsizei width = 0;
             GLsizei height = 0;
+            GLsizei mipmapLevelCount = 0;
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;

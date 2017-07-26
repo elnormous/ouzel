@@ -267,8 +267,12 @@ namespace ouzel
 
             NSUInteger newWidth = static_cast<NSUInteger>(size.v[0]);
             NSUInteger newHeight = static_cast<NSUInteger>(size.v[1]);
+            NSUInteger newMipmapLevelCount = static_cast<NSUInteger>(levels.size());
 
-            if (!texture || newWidth != width || newHeight != height)
+            if (!texture ||
+                newWidth != width ||
+                newHeight != height ||
+                newMipmapLevelCount != mipmapLevelCount)
             {
                 if (texture)
                 {
@@ -296,6 +300,7 @@ namespace ouzel
 
                 width = newWidth;
                 height = newHeight;
+                mipmapLevelCount = newMipmapLevelCount;
 
                 if (width > 0 && height > 0)
                 {
@@ -312,7 +317,7 @@ namespace ouzel
                                                                                                                 height:height
                                                                                                              mipmapped:(levels.size() > 1) ? YES : NO];
                     textureDescriptor.textureType = MTLTextureType2D;
-                    textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
+                    textureDescriptor.mipmapLevelCount = mipmapLevelCount;
                     textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
                     colorFormat = textureDescriptor.pixelFormat;
 

@@ -78,6 +78,7 @@ namespace ouzel
 
             NSUInteger width = 0;
             NSUInteger height = 0;
+            NSUInteger mipmapLevelCount = 0;
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
