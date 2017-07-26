@@ -67,20 +67,20 @@ namespace ouzel
 
             MTLDevicePtr getDevice() const { return device; }
 
-            struct SamplerStateDesc
+            struct SamplerStateDescriptor
             {
                 Texture::Filter filter;
                 Texture::Address addressX;
                 Texture::Address addressY;
                 uint32_t maxAnisotropy;
 
-                bool operator<(const SamplerStateDesc& other) const
+                bool operator<(const SamplerStateDescriptor& other) const
                 {
                     return std::tie(filter, addressX, addressY, maxAnisotropy) < std::tie(other.filter, other.addressX, other.addressY, other.maxAnisotropy);
                 }
             };
 
-            MTLSamplerStatePtr getSamplerState(const SamplerStateDesc& desc);
+            MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         protected:
             RendererMetal();
@@ -140,7 +140,7 @@ namespace ouzel
 
             MTLTexturePtr msaaTexture = Nil;
             MTLTexturePtr depthTexture = Nil;
-            std::map<SamplerStateDesc, MTLSamplerStatePtr> samplerStates;
+            std::map<SamplerStateDescriptor, MTLSamplerStatePtr> samplerStates;
 
             MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
             MTLPixelFormat depthFormat = MTLPixelFormatInvalid;

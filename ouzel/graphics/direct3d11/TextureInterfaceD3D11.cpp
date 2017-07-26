@@ -293,7 +293,7 @@ namespace ouzel
                 D3D11_TEXTURE2D_DESC textureDesc;
                 textureDesc.Width = width;
                 textureDesc.Height = height;
-                textureDesc.MipLevels = (levels.size() > 1) ? 0 : 1;
+                textureDesc.MipLevels = static_cast<UINT>(levels.size());
                 textureDesc.ArraySize = 1;
                 textureDesc.Format = d3d11PixelFormat;
                 textureDesc.SampleDesc.Count = sampleCount;

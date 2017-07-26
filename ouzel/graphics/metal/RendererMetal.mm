@@ -930,9 +930,9 @@ namespace ouzel
             }
         }
 
-        MTLSamplerStatePtr RendererMetal::getSamplerState(const SamplerStateDesc& desc)
+        MTLSamplerStatePtr RendererMetal::getSamplerState(const SamplerStateDescriptor& descriptor)
         {
-            auto samplerStatesIterator = samplerStates.find(desc);
+            auto samplerStatesIterator = samplerStates.find(descriptor);
 
             if (samplerStatesIterator != samplerStates.end())
             {
@@ -941,7 +941,7 @@ namespace ouzel
             else
             {
                 MTLSamplerDescriptor* samplerDescriptor = [MTLSamplerDescriptor new];
-                switch (desc.filter)
+                switch (descriptor.filter)
                 {
                     case Texture::Filter::DEFAULT:
                     case Texture::Filter::POINT:
@@ -966,7 +966,7 @@ namespace ouzel
                         break;
                 }
 
-                switch (desc.addressX)
+                switch (descriptor.addressX)
                 {
                     case Texture::Address::CLAMP:
                         samplerDescriptor.sAddressMode = MTLSamplerAddressModeClampToEdge;
@@ -979,7 +979,7 @@ namespace ouzel
                         break;
                 }
 
-                switch (desc.addressY)
+                switch (descriptor.addressY)
                 {
                     case Texture::Address::CLAMP:
                         samplerDescriptor.tAddressMode = MTLSamplerAddressModeClampToEdge;
@@ -992,7 +992,7 @@ namespace ouzel
                         break;
                 }
 
-                samplerDescriptor.maxAnisotropy = desc.maxAnisotropy;
+                samplerDescriptor.maxAnisotropy = descriptor.maxAnisotropy;
 
                 MTLSamplerStatePtr samplerState = [device newSamplerStateWithDescriptor:samplerDescriptor];
                 [samplerDescriptor release];
@@ -1003,7 +1003,7 @@ namespace ouzel
                     return Nil;
                 }
 
-                samplerStates[desc] = samplerState;
+                samplerStates[descriptor] = samplerState;
 
                 return samplerState;
             }
