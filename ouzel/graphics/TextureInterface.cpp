@@ -87,7 +87,7 @@ namespace ouzel
 
         bool TextureInterface::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!(flags & Texture::DYNAMIC))
+            if (!(flags & Texture::DYNAMIC) || !(flags & Texture::RENDER_TARGET))
             {
                 return false;
             }

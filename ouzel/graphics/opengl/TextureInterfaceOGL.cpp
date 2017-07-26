@@ -231,20 +231,29 @@ namespace ouzel
                 return false;
             }
 
-            if (!textureId)
-            {
-                glGenTextures(1, &textureId);
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create texture";
-                    return false;
-                }
-            }
-
-            if (!updateTexture())
+            if (!createTexture())
             {
                 return false;
+            }
+
+            RendererOGL::bindTexture(textureId, 0);
+
+            if (!levels.empty())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+            }
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                 static_cast<GLsizei>(levels[level].size.v[0]),
+                                 static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                 oglPixelFormat, oglPixelType,
+                                 nullptr);
+                }
             }
 
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
@@ -254,19 +263,19 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
             }
@@ -355,20 +364,40 @@ namespace ouzel
                 return false;
             }
 
-            if (!textureId)
-            {
-                glGenTextures(1, &textureId);
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to create texture";
-                    return false;
-                }
-            }
-
-            if (!updateTexture())
+            if (!createTexture())
             {
                 return false;
+            }
+
+            RendererOGL::bindTexture(textureId, 0);
+
+            if (!levels.empty())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+            }
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.v[0]),
+                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     oglPixelFormat, oglPixelType,
+                                     levels[level].data.data());
+                    }
+                    else
+                    {
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.v[0]),
+                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     oglPixelFormat, oglPixelType,
+                                     nullptr);
+                    }
+                }
             }
 
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
@@ -378,19 +407,19 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
             }
@@ -468,7 +497,63 @@ namespace ouzel
                 return false;
             }
 
-            return updateTexture();
+            RendererOGL::bindTexture(textureId, 0);
+
+            if (static_cast<GLsizei>(size.v[0]) != width ||
+                static_cast<GLsizei>(size.v[1]) != height)
+            {
+                width = static_cast<GLsizei>(size.v[0]);
+                height = static_cast<GLsizei>(size.v[1]);
+
+                if (!levels.empty())
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                }
+
+                if (flags & Texture::RENDER_TARGET)
+                {
+                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
+                                 static_cast<GLsizei>(size.v[0]),
+                                 static_cast<GLsizei>(size.v[1]), 0,
+                                 getOGLPixelFormat(pixelFormat), oglPixelType, 0);
+
+                    if (flags & Texture::DEPTH_BUFFER)
+                    {
+                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+
+                        RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+                        if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
+                        {
+                            glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                 static_cast<GLsizei>(sampleCount),
+                                                                 GL_DEPTH_COMPONENT,
+                                                                 static_cast<GLsizei>(size.v[0]),
+                                                                 static_cast<GLsizei>(size.v[1]));
+                        }
+                        else
+                        {
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                      static_cast<GLsizei>(size.v[0]),
+                                                      static_cast<GLsizei>(size.v[1]));
+                        }
+                    }
+                }
+                else
+                {
+                    for (size_t level = 0; level < levels.size(); ++level)
+                    {
+                        // resize all the mip levels
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.v[0]),
+                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     oglPixelFormat, oglPixelType,
+                                     nullptr);
+                    }
+                }
+            }
+
+            return true;
         }
 
         bool TextureInterfaceOGL::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
@@ -484,7 +569,64 @@ namespace ouzel
                 return false;
             }
 
-            return updateTexture();
+            RendererOGL::bindTexture(textureId, 0);
+
+            if (static_cast<GLsizei>(size.v[0]) != width ||
+                static_cast<GLsizei>(size.v[1]) != height)
+            {
+                width = static_cast<GLsizei>(size.v[0]);
+                height = static_cast<GLsizei>(size.v[1]);
+
+                if (!levels.empty())
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                }
+
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        // resize and fill all the mip levels with data
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.v[0]),
+                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     oglPixelFormat, oglPixelType,
+                                     levels[level].data.data());
+                    }
+                    else
+                    {
+                        // resize all the mip levels
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.v[0]),
+                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     oglPixelFormat, oglPixelType,
+                                     nullptr);
+                    }
+                }
+            }
+            else if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                        static_cast<GLsizei>(levels[level].size.v[0]),
+                                        static_cast<GLsizei>(levels[level].size.v[1]),
+                                        oglPixelFormat, oglPixelType,
+                                        levels[level].data.data());
+                    }
+                }
+            }
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to upload texture data";
+                return false;
+            }
+
+            return true;
         }
 
         bool TextureInterfaceOGL::setFilter(Texture::Filter newFilter)
@@ -509,19 +651,19 @@ namespace ouzel
             {
                 case Texture::Filter::DEFAULT:
                 case Texture::Filter::POINT:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::LINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     break;
                 case Texture::Filter::BILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
                 case Texture::Filter::TRILINEAR:
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
             }
@@ -694,16 +836,40 @@ namespace ouzel
             return true;
         }
 
-        bool TextureInterfaceOGL::updateTexture()
+        bool TextureInterfaceOGL::createTexture()
         {
+            if (depthBufferId)
+            {
+                RendererOGL::deleteRenderBuffer(depthBufferId);
+                depthBufferId = 0;
+            }
+
+            if (frameBufferId)
+            {
+                RendererOGL::deleteFrameBuffer(frameBufferId);
+                frameBufferId = 0;
+            }
+
+            if (textureId)
+            {
+                RendererOGL::deleteTexture(textureId);
+                textureId = 0;
+            }
+
+            glGenTextures(1, &textureId);
+
+            if (RendererOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to create texture";
+                return false;
+            }
+
             RendererOGL::bindTexture(textureId, 0);
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            width = static_cast<GLsizei>(size.v[0]);
+            height = static_cast<GLsizei>(size.v[1]);
 
-            GLsizei newWidth = static_cast<GLsizei>(size.v[0]);
-            GLsizei newHeight = static_cast<GLsizei>(size.v[1]);
-
-            GLint oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
+            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
 
             if (oglInternalPixelFormat == GL_NONE)
             {
@@ -711,105 +877,77 @@ namespace ouzel
                 return false;
             }
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+            oglPixelFormat = getOGLPixelFormat(pixelFormat);
 
-            if (newWidth != width ||
-                newHeight != height)
+            if (oglPixelFormat == GL_NONE)
             {
-                width = newWidth;
-                height = newHeight;
+                Log(Log::Level::ERR) << "Invalid pixel format";
+                return false;
+            }
 
-                if (!(flags & Texture::RENDER_TARGET))
+            oglPixelType = getOGLPixelType(pixelFormat);
+
+            if (oglPixelType == GL_NONE)
+            {
+                Log(Log::Level::ERR) << "Invalid pixel format";
+                return false;
+            }
+
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+            if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
+            {
+                if (!frameBufferId)
                 {
-                    for (size_t level = 0; level < levels.size(); ++level)
+                    glGenFramebuffersProc(1, &frameBufferId);
+
+                    if (RendererOGL::checkOpenGLError())
                     {
-                        if (!levels[level].data.empty())
-                        {
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                         static_cast<GLsizei>(levels[level].size.v[0]),
-                                         static_cast<GLsizei>(levels[level].size.v[1]), 0,
-                                         getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
-                                         levels[level].data.data());
-                        }
+                        Log(Log::Level::ERR) << "Failed to create frame buffer";
+                        return false;
                     }
                 }
 
-                if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
+                RendererOGL::bindFrameBuffer(frameBufferId);
+
+                if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    if (!frameBufferId)
+                    RendererOGL::bindTexture(textureId, 0);
+
+                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
+                                 static_cast<GLsizei>(size.v[0]),
+                                 static_cast<GLsizei>(size.v[1]), 0,
+                                 getOGLPixelFormat(pixelFormat), oglPixelType, 0);
+
+                    // TODO: blit multisample render buffer to texture
+                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+
+                    if (flags & Texture::DEPTH_BUFFER)
                     {
-                        glGenFramebuffersProc(1, &frameBufferId);
+                        glGenRenderbuffersProc(1, &depthBufferId);
+                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                        if (RendererOGL::checkOpenGLError())
+                        if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
                         {
-                            Log(Log::Level::ERR) << "Failed to create frame buffer";
-                            return false;
+                            glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                 static_cast<GLsizei>(sampleCount),
+                                                                 GL_DEPTH_COMPONENT,
+                                                                 static_cast<GLsizei>(size.v[0]),
+                                                                 static_cast<GLsizei>(size.v[1]));
                         }
-                    }
+                        else
+                        {
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                      static_cast<GLsizei>(size.v[0]),
+                                                      static_cast<GLsizei>(size.v[1]));
+                        }
 
-                    RendererOGL::bindFrameBuffer(frameBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                    }
 
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                     {
-                        RendererOGL::bindTexture(textureId, 0);
-
-                        glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                     static_cast<GLsizei>(size.v[0]),
-                                     static_cast<GLsizei>(size.v[1]), 0,
-                                     getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat), 0);
-
-                        // TODO: blit multisample render buffer to texture
-                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-                        if (flags & Texture::DEPTH_BUFFER)
-                        {
-                            glGenRenderbuffersProc(1, &depthBufferId);
-                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
-
-                            if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
-                            {
-                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
-                                                                     static_cast<GLsizei>(sampleCount),
-                                                                     GL_DEPTH_COMPONENT,
-                                                                     static_cast<GLsizei>(size.v[0]),
-                                                                     static_cast<GLsizei>(size.v[1]));
-                            }
-                            else
-                            {
-                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                          static_cast<GLsizei>(size.v[0]),
-                                                          static_cast<GLsizei>(size.v[1]));
-                            }
-
-                            glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
-                        }
-
-                        if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                        {
-                            Log(Log::Level::ERR) << "Failed to create frame buffer";
-                            return false;
-                        }
-                    }
-                }
-            }
-            else if (!(flags & Texture::RENDER_TARGET))
-            {
-                for (size_t level = 0; level < levels.size(); ++level)
-                {
-                    if (!levels[level].data.empty())
-                    {
-                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(levels[level].size.v[0]),
-                                        static_cast<GLsizei>(levels[level].size.v[1]),
-                                        getOGLPixelFormat(pixelFormat), getOGLPixelType(pixelFormat),
-                                        levels[level].data.data());
-
-                        if (RendererOGL::checkOpenGLError())
-                        {
-                            Log(Log::Level::ERR) << "Failed to upload texture data";
-                            return false;
-                        }
+                        Log(Log::Level::ERR) << "Failed to create frame buffer";
+                        return false;
                     }
                 }
             }

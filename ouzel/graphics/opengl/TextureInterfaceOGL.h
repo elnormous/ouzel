@@ -60,12 +60,15 @@ namespace ouzel
             const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
-            bool updateTexture();
+            bool createTexture();
 
             GLuint textureId = 0;
 
             GLsizei width = 0;
             GLsizei height = 0;
+            GLint oglInternalPixelFormat = GL_NONE;
+            GLenum oglPixelFormat = GL_NONE;
+            GLenum oglPixelType = GL_NONE;
 
             GLuint frameBufferId = 0;
             GLuint depthBufferId = 0;
