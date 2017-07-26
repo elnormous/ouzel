@@ -34,8 +34,8 @@ namespace ouzel
             BufferInterfaceOGL();
             virtual ~BufferInterfaceOGL();
 
-            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true) override;
-            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic) override;
+            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0) override;
+            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0) override;
 
             virtual bool setData(const std::vector<uint8_t>& newData) override;
             

@@ -217,20 +217,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceOGL::init(const Size2& newSize,
-                                      bool newDynamic,
-                                      bool newMipmaps,
-                                      bool newRenderTarget,
-                                      uint32_t newSampleCount,
-                                      bool newDepth,
-                                      PixelFormat newPixelFormat)
+                                       uint32_t newFlags,
+                                       uint32_t newMipmaps,
+                                       uint32_t newSampleCount,
+                                       PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newRenderTarget,
-                                       newSampleCount,
-                                       newDepth,
-                                       newPixelFormat))
+                                        newFlags,
+                                        newMipmaps,
+                                        newSampleCount,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -345,16 +341,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceOGL::init(const std::vector<uint8_t>& newData,
-                                      const Size2& newSize,
-                                      bool newDynamic,
-                                      bool newMipmaps,
-                                      PixelFormat newPixelFormat)
+                                       const Size2& newSize,
+                                       uint32_t newFlags,
+                                       uint32_t newMipmaps,
+                                       PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newData,
-                                       newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newPixelFormat))
+                                        newSize,
+                                        newFlags,
+                                        newMipmaps,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -724,7 +720,7 @@ namespace ouzel
                 width = newWidth;
                 height = newHeight;
 
-                if (!renderTarget)
+                if (!(flags & Texture::RENDER_TARGET))
                 {
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
@@ -739,7 +735,7 @@ namespace ouzel
                     }
                 }
 
-                if (renderTarget && rendererOGL->isRenderTargetsSupported())
+                if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
                 {
                     if (!frameBufferId)
                     {
@@ -766,7 +762,7 @@ namespace ouzel
                         // TODO: blit multisample render buffer to texture
                         glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
-                        if (depth)
+                        if (flags & Texture::DEPTH_BUFFER)
                         {
                             glGenRenderbuffersProc(1, &depthBufferId);
                             glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
@@ -797,7 +793,7 @@ namespace ouzel
                     }
                 }
             }
-            else if (!renderTarget)
+            else if (!(flags & Texture::RENDER_TARGET))
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {

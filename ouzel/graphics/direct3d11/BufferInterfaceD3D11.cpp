@@ -26,9 +26,9 @@ namespace ouzel
             }
         }
 
-        bool BufferInterfaceD3D11::init(Buffer::Usage newUsage, bool newDynamic)
+        bool BufferInterfaceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newDynamic))
+            if (!BufferInterface::init(newUsage, newFlags))
             {
                 return false;
             }
@@ -36,9 +36,9 @@ namespace ouzel
             return true;
         }
 
-        bool BufferInterfaceD3D11::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        bool BufferInterfaceD3D11::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newData, newDynamic))
+            if (!BufferInterface::init(newUsage, newData, newFlags))
             {
                 return false;
             }
@@ -53,7 +53,7 @@ namespace ouzel
 
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = bufferSize;
-                    bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
+                    bufferDesc.Usage = (flags & Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                     switch (usage)
                     {
@@ -68,7 +68,7 @@ namespace ouzel
                             return false;
                     }
 
-                    bufferDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    bufferDesc.CPUAccessFlags = (flags & Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
                     bufferDesc.MiscFlags = 0;
                     bufferDesc.StructureByteStride = 0;
 
@@ -126,7 +126,7 @@ namespace ouzel
 
                     D3D11_BUFFER_DESC bufferDesc;
                     bufferDesc.ByteWidth = bufferSize;
-                    bufferDesc.Usage = dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
+                    bufferDesc.Usage = (flags & Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
 
                     switch (usage)
                     {
@@ -141,7 +141,7 @@ namespace ouzel
                             return false;
                     }
 
-                    bufferDesc.CPUAccessFlags = dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+                    bufferDesc.CPUAccessFlags = (flags & Texture::DYNAMIC) ? D3D11_CPU_ACCESS_WRITE : 0;
                     bufferDesc.MiscFlags = 0;
                     bufferDesc.StructureByteStride = 0;
 

@@ -20,42 +20,42 @@ namespace ouzel
             if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
-        bool Buffer::init(Usage newUsage, bool newDynamic)
+        bool Buffer::init(Usage newUsage, uint32_t newFlags)
         {
             usage = newUsage;
-            dynamic = newDynamic;
+            flags = newFlags;
 
             BufferInterface* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
-                                                                newDynamic]() {
-                bufferResource->init(newUsage, newDynamic);
+                                                                newFlags]() {
+                bufferResource->init(newUsage, newFlags);
             });
 
             return true;
         }
 
-        bool Buffer::init(Usage newUsage, const void* newData, uint32_t newSize, bool newDynamic)
+        bool Buffer::init(Usage newUsage, const void* newData, uint32_t newSize, uint32_t newFlags)
         {
             return init(newUsage,
                         std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
                                              static_cast<const uint8_t*>(newData) + newSize),
-                        newDynamic);
+                        newFlags);
         }
 
-        bool Buffer::init(Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        bool Buffer::init(Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
             usage = newUsage;
-            dynamic = newDynamic;
+            flags = newFlags;
 
             BufferInterface* bufferResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
                                                                 newData,
-                                                                newDynamic]() {
-                bufferResource->init(newUsage, newData, newDynamic);
+                                                                newFlags]() {
+                bufferResource->init(newUsage, newData, newFlags);
             });
 
             return true;
@@ -77,16 +77,6 @@ namespace ouzel
             });
 
             return true;
-        }
-
-        bool Buffer::isDynamic() const
-        {
-            return dynamic;
-        }
-
-        Buffer::Usage Buffer::getUsage() const
-        {
-            return usage;
         }
     } // namespace graphics
 } // namespace ouzel

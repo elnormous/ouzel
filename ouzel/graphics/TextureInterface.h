@@ -24,16 +24,14 @@ namespace ouzel
             virtual ~TextureInterface();
 
             virtual bool init(const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
-                              bool newRenderTarget = false,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
-                              bool newDepth = false,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             virtual bool setSize(const Size2& newSize);
@@ -41,7 +39,8 @@ namespace ouzel
 
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            bool isDynamic() const { return dynamic; }
+            uint32_t getFlags() const { return flags; }
+            uint32_t getMipmaps() const { return mipmaps; }
 
             Texture::Filter getFilter() const { return filter; }
             virtual bool setFilter(Texture::Filter newFilter);
@@ -68,7 +67,6 @@ namespace ouzel
             virtual bool setClearDepth(float clear);
 
             uint32_t getSampleCount() const { return sampleCount; }
-            bool getDepth() const { return depth; }
 
             PixelFormat getPixelFormat() const { return pixelFormat; }
 
@@ -89,12 +87,10 @@ namespace ouzel
             };
 
             Size2 size;
-            bool dynamic = false;
-            bool mipmaps = false;
-            bool renderTarget = false;
+            uint32_t flags = 0;
+            uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            bool depth = false;
             float clearDepth = 1.0f;
             std::vector<Level> levels;
             uint32_t sampleCount = 1;

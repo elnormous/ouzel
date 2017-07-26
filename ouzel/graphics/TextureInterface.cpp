@@ -20,18 +20,14 @@ namespace ouzel
         }
 
         bool TextureInterface::init(const Size2& newSize,
-                                    bool newDynamic,
-                                    bool newMipmaps,
-                                    bool newRenderTarget,
+                                    uint32_t newFlags,
+                                    uint32_t newMipmaps,
                                     uint32_t newSampleCount,
-                                    bool newDepth,
                                     PixelFormat newPixelFormat)
         {
-            dynamic = newDynamic;
+            flags = newFlags;
             mipmaps = newMipmaps;
-            renderTarget = newRenderTarget;
             sampleCount = newSampleCount;
-            depth = newDepth;
             pixelFormat = newPixelFormat;
 
             if (!calculateSizes(newSize))
@@ -44,15 +40,13 @@ namespace ouzel
 
         bool TextureInterface::init(const std::vector<uint8_t>& newData,
                                     const Size2& newSize,
-                                    bool newDynamic,
-                                    bool newMipmaps,
+                                    uint32_t newFlags,
+                                    uint32_t newMipmaps,
                                     PixelFormat newPixelFormat)
         {
-            dynamic = newDynamic;
+            flags = newFlags;
             mipmaps = newMipmaps;
-            renderTarget = false;
             sampleCount = 1;
-            depth = false;
             pixelFormat = newPixelFormat;
 
             if (!calculateSizes(newSize))
@@ -70,7 +64,7 @@ namespace ouzel
 
         bool TextureInterface::setSize(const Size2& newSize)
         {
-            if (!dynamic)
+            if (!(flags & Texture::DYNAMIC))
             {
                 return false;
             }
@@ -93,7 +87,7 @@ namespace ouzel
 
         bool TextureInterface::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
-            if (!dynamic)
+            if (!(flags & Texture::DYNAMIC))
             {
                 return false;
             }
@@ -132,9 +126,11 @@ namespace ouzel
             uint32_t bufferSize = pitch * newHeight;
             levels.push_back({newSize, pitch, std::vector<uint8_t>(bufferSize)});
 
-            if (mipmaps && !renderTarget && (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
+            if (!(flags & Texture::RENDER_TARGET) && // don't generate mipmaps for render targets
+                (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
-                while (newWidth > 1 || newHeight > 1)
+                while ((newWidth > 1 || newHeight > 1) &&
+                       (mipmaps == 0 || levels.size() < mipmaps))
                 {
                     newWidth >>= 1;
                     newHeight >>= 1;

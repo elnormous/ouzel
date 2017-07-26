@@ -27,9 +27,9 @@ namespace ouzel
             }
         }
 
-        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, bool newDynamic)
+        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newDynamic))
+            if (!BufferInterface::init(newUsage, newFlags))
             {
                 return false;
             }
@@ -37,9 +37,9 @@ namespace ouzel
             return true;
         }
 
-        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newData, newDynamic))
+            if (!BufferInterface::init(newUsage, newData, newFlags))
             {
                 return false;
             }

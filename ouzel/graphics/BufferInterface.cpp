@@ -15,18 +15,18 @@ namespace ouzel
         {
         }
 
-        bool BufferInterface::init(Buffer::Usage newUsage, bool newDynamic)
+        bool BufferInterface::init(Buffer::Usage newUsage, uint32_t newFlags)
         {
             usage = newUsage;
-            dynamic = newDynamic;
+            flags = newFlags;
 
             return true;
         }
 
-        bool BufferInterface::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        bool BufferInterface::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
             usage = newUsage;
-            dynamic = newDynamic;
+            flags = newFlags;
             data = newData;
 
             return true;
@@ -34,7 +34,7 @@ namespace ouzel
 
         bool BufferInterface::setData(const std::vector<uint8_t>& newData)
         {
-            if (!dynamic)
+            if (!(flags & Buffer::DYNAMIC))
             {
                 return false;
             }

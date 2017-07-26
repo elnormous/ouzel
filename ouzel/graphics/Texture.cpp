@@ -22,38 +22,30 @@ namespace ouzel
         }
 
         bool Texture::init(const Size2& newSize,
-                           bool newDynamic,
-                           bool newMipmaps,
-                           bool newRenderTarget,
+                           uint32_t newFlags,
+                           uint32_t newMipmaps,
                            uint32_t newSampleCount,
-                           bool newDepth,
                            PixelFormat newPixelFormat)
         {
             filename.clear();
             size = newSize;
-            dynamic = newDynamic;
+            flags = newFlags;
             mipmaps = newMipmaps;
-            renderTarget = newRenderTarget;
             sampleCount = newSampleCount;
-            depth = newDepth;
             pixelFormat = newPixelFormat;
 
             TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newSize,
-                                                                newDynamic,
+                                                                newFlags,
                                                                 newMipmaps,
-                                                                newRenderTarget,
                                                                 newSampleCount,
-                                                                newDepth,
                                                                 newPixelFormat]() {
                 textureResource->init(newSize,
-                                      newDynamic,
+                                      newFlags,
                                       newMipmaps,
-                                      newRenderTarget,
                                       newSampleCount,
-                                      newDepth,
                                       newPixelFormat);
             });
 
@@ -61,8 +53,8 @@ namespace ouzel
         }
 
         bool Texture::init(const std::string& newFilename,
-                           bool newDynamic,
-                           bool newMipmaps,
+                           uint32_t newFlags,
+                           uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
         {
             filename = newFilename;
@@ -74,23 +66,21 @@ namespace ouzel
             }
 
             size = image.getSize();
-            dynamic = newDynamic;
+            flags = newFlags;
             mipmaps = newMipmaps;
-            renderTarget = false;
             sampleCount = 1;
-            depth = false;
             pixelFormat = image.getPixelFormat();
 
             TextureInterface* textureResource = resource;
 
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newDynamic,
+                                                                newFlags,
                                                                 newMipmaps,
                                                                 newPixelFormat,
                                                                 image]() {
                 textureResource->init(image.getData(),
                                       image.getSize(),
-                                      newDynamic,
+                                      newFlags,
                                       newMipmaps,
                                       image.getPixelFormat());
             });
@@ -100,17 +90,15 @@ namespace ouzel
 
         bool Texture::init(const std::vector<uint8_t>& newData,
                            const Size2& newSize,
-                           bool newDynamic,
-                           bool newMipmaps,
+                           uint32_t newFlags,
+                           uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
         {
             filename.clear();
             size = newSize;
-            dynamic = newDynamic;
+            flags = newFlags;
             mipmaps = newMipmaps;
-            renderTarget = false;
             sampleCount = 1;
-            depth = false;
             pixelFormat = newPixelFormat;
 
             TextureInterface* textureResource = resource;
@@ -118,12 +106,12 @@ namespace ouzel
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newData,
                                                                 newSize,
-                                                                newDynamic,
+                                                                newFlags,
                                                                 newMipmaps,
                                                                 newPixelFormat]() {
                 textureResource->init(newData,
                                       newSize,
-                                      newDynamic,
+                                      newFlags,
                                       newMipmaps,
                                       newPixelFormat);
             });
@@ -163,11 +151,6 @@ namespace ouzel
             });
 
             return true;
-        }
-
-        bool Texture::isDynamic() const
-        {
-            return dynamic;
         }
 
         Texture::Filter Texture::getFilter() const
@@ -254,11 +237,6 @@ namespace ouzel
         PixelFormat Texture::getPixelFormat() const
         {
             return pixelFormat;
-        }
-
-        bool Texture::getDepth() const
-        {
-            return depth;
         }
 
         bool Texture::getClearColorBuffer() const

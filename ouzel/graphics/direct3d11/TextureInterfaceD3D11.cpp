@@ -92,20 +92,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceD3D11::init(const Size2& newSize,
-                                        bool newDynamic,
-                                        bool newMipmaps,
-                                        bool newRenderTarget,
-                                        uint32_t newSampleCount,
-                                        bool newDepth,
-                                        PixelFormat newPixelFormat)
+                                         uint32_t newFlags,
+                                         uint32_t newMipmaps,
+                                         uint32_t newSampleCount,
+                                         PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newRenderTarget,
-                                       newSampleCount,
-                                       newDepth,
-                                       newPixelFormat))
+                                        newFlags,
+                                        newMipmaps,
+                                        newSampleCount,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -124,16 +120,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceD3D11::init(const std::vector<uint8_t>& newData,
-                                        const Size2& newSize,
-                                        bool newDynamic,
-                                        bool newMipmaps,
-                                        PixelFormat newPixelFormat)
+                                         const Size2& newSize,
+                                         uint32_t newFlags,
+                                         uint32_t newMipmaps,
+                                         PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newData,
-                                       newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newPixelFormat))
+                                        newSize,
+                                        newFlags,
+                                        newMipmaps,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -302,14 +298,14 @@ namespace ouzel
                 textureDesc.Format = d3d11PixelFormat;
                 textureDesc.SampleDesc.Count = sampleCount;
                 textureDesc.SampleDesc.Quality = 0;
-                if (renderTarget) textureDesc.Usage = D3D11_USAGE_DEFAULT;
-                else if (dynamic) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+                if (flags & Texture::RENDER_TARGET) textureDesc.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & Texture::DYNAMIC) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
                 else textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
-                textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (renderTarget ? D3D11_BIND_RENDER_TARGET : 0);
-                textureDesc.CPUAccessFlags = (dynamic && !renderTarget) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | ((flags & Texture::RENDER_TARGET) ? D3D11_BIND_RENDER_TARGET : 0);
+                textureDesc.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDesc.MiscFlags = 0;
 
-                if (levels.empty() || renderTarget)
+                if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
                     HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
                     if (FAILED(hr))
@@ -354,7 +350,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (renderTarget)
+                if (flags & Texture::RENDER_TARGET)
                 {
                     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
                     renderTargetViewDesc.Format = d3d11PixelFormat;
@@ -373,7 +369,7 @@ namespace ouzel
                     }
                 }
 
-                if (depth)
+                if (flags & Texture::DEPTH_BUFFER)
                 {
                     D3D11_TEXTURE2D_DESC depthStencilDesc;
                     depthStencilDesc.Width = width;
@@ -402,9 +398,9 @@ namespace ouzel
                     }
                 }
             }
-            else if (!renderTarget)
+            else if (!(flags & Texture::RENDER_TARGET))
             {
-                if (dynamic)
+                if (flags & Texture::DYNAMIC)
                 {
                     for (size_t level = 0; level < levels.size(); ++level)
                     {

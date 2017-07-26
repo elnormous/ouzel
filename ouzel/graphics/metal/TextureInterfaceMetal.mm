@@ -80,20 +80,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceMetal::init(const Size2& newSize,
-                                        bool newDynamic,
-                                        bool newMipmaps,
-                                        bool newRenderTarget,
-                                        uint32_t newSampleCount,
-                                        bool newDepth,
-                                        PixelFormat newPixelFormat)
+                                         uint32_t newFlags,
+                                         uint32_t newMipmaps,
+                                         uint32_t newSampleCount,
+                                         PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newRenderTarget,
-                                       newSampleCount,
-                                       newDepth,
-                                       newPixelFormat))
+                                        newFlags,
+                                        newMipmaps,
+                                        newSampleCount,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -120,16 +116,16 @@ namespace ouzel
         }
 
         bool TextureInterfaceMetal::init(const std::vector<uint8_t>& newData,
-                                        const Size2& newSize,
-                                        bool newDynamic,
-                                        bool newMipmaps,
-                                        PixelFormat newPixelFormat)
+                                         const Size2& newSize,
+                                         uint32_t newFlags,
+                                         uint32_t newMipmaps,
+                                         PixelFormat newPixelFormat)
         {
             if (!TextureInterface::init(newData,
-                                       newSize,
-                                       newDynamic,
-                                       newMipmaps,
-                                       newPixelFormat))
+                                        newSize,
+                                        newFlags,
+                                        newMipmaps,
+                                        newPixelFormat))
             {
                 return false;
             }
@@ -316,7 +312,7 @@ namespace ouzel
                                                                                                                 height:height
                                                                                                              mipmapped:(levels.size() > 1) ? YES : NO];
                     textureDescriptor.textureType = MTLTextureType2D;
-                    textureDescriptor.usage = MTLTextureUsageShaderRead | (renderTarget ? MTLTextureUsageRenderTarget : 0);
+                    textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
                     colorFormat = textureDescriptor.pixelFormat;
 
                     texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
@@ -328,7 +324,7 @@ namespace ouzel
                     }
                 }
 
-                if (renderTarget)
+                if (flags & Texture::RENDER_TARGET)
                 {
                     renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
@@ -367,7 +363,7 @@ namespace ouzel
                         renderPassDescriptor.colorAttachments[0].texture = texture;
                     }
 
-                    if (depth)
+                    if (flags & Texture::DEPTH_BUFFER)
                     {
                         depthFormat = MTLPixelFormatDepth32Float;
 
@@ -397,7 +393,7 @@ namespace ouzel
                 }
             }
 
-            if (!renderTarget)
+            if (!(flags & Texture::RENDER_TARGET))
             {
                 for (size_t level = 0; level < levels.size(); ++level)
                 {

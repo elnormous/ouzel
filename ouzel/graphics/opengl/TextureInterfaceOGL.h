@@ -32,16 +32,14 @@ namespace ouzel
             virtual ~TextureInterfaceOGL();
 
             virtual bool init(const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
-                              bool newRenderTarget = false,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
-                              bool newDepth = false,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
             virtual bool init(const std::vector<uint8_t>& newData,
                               const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
             virtual bool setSize(const Size2& newSize) override;

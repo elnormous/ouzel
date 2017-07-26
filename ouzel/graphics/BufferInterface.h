@@ -20,12 +20,12 @@ namespace ouzel
         public:
             virtual ~BufferInterface();
 
-            virtual bool init(Buffer::Usage newUsage, bool newDynamic = true);
-            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic);
+            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0);
+            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0);
 
             virtual bool setData(const std::vector<uint8_t>& newData);
 
-            bool isDynamic() const { return dynamic; }
+            uint32_t getFlags() const { return flags; }
             Buffer::Usage getUsage() const { return usage; }
             uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
 
@@ -34,7 +34,7 @@ namespace ouzel
 
             std::vector<uint8_t> data;
             Buffer::Usage usage;
-            bool dynamic = true;
+            uint32_t flags = 0;
         };
     } // namespace graphics
 } // namespace ouzel

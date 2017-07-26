@@ -20,6 +20,13 @@ namespace ouzel
         class Texture: public Noncopyable
         {
         public:
+            enum Flags
+            {
+                DYNAMIC = 0x01,
+                RENDER_TARGET = 0x02,
+                DEPTH_BUFFER = 0x04
+            };
+
             enum class Filter
             {
                 DEFAULT,
@@ -42,19 +49,18 @@ namespace ouzel
             virtual ~Texture();
 
             virtual bool init(const Size2& newSize,
-                              bool newDynamic,
-                              bool newMipmaps = true,
-                              bool newRenderTarget = false,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               uint32_t newSampleCount = 1,
-                              bool newDepth = false,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool init(const std::string& newFilename,
-                              bool newDynamic,
-                              bool newMipmaps = true,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
             virtual bool init(const std::vector<uint8_t>& newData,
-                              const Size2& newSize, bool newDynamic,
-                              bool newMipmaps = true,
+                              const Size2& newSize,
+                              uint32_t newFlags = 0,
+                              uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             TextureInterface* getResource() const { return resource; }
@@ -66,7 +72,8 @@ namespace ouzel
 
             bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            bool isDynamic() const;
+            uint32_t getFlags() const { return flags; }
+            uint32_t getMipmaps() const { return mipmaps; }
 
             Filter getFilter() const;
             bool setFilter(Filter newFilter);
@@ -98,12 +105,10 @@ namespace ouzel
 
         private:
             Size2 size;
-            bool dynamic = false;
-            bool mipmaps = false;
-            bool renderTarget = false;
+            uint32_t flags = 0;
+            uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            bool depth = false;
             float clearDepth = 1.0f;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;

@@ -26,9 +26,9 @@ namespace ouzel
             }
         }
 
-        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, bool newDynamic)
+        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newDynamic))
+            if (!BufferInterface::init(newUsage, newFlags))
             {
                 return false;
             }
@@ -55,9 +55,9 @@ namespace ouzel
             return true;
         }
 
-        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, bool newDynamic)
+        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
-            if (!BufferInterface::init(newUsage, newData, newDynamic))
+            if (!BufferInterface::init(newUsage, newData, newFlags))
             {
                 return false;
             }
@@ -95,7 +95,7 @@ namespace ouzel
                     bufferSize = static_cast<GLsizeiptr>(data.size());
 
                     glBufferDataProc(bufferType, bufferSize, data.data(),
-                                     dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     if (RendererOGL::checkOpenGLError())
                     {
@@ -145,7 +145,7 @@ namespace ouzel
                     bufferSize = static_cast<GLsizeiptr>(data.size());
 
                     glBufferDataProc(bufferType, bufferSize, data.data(),
-                                     dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+                                     (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
                     if (RendererOGL::checkOpenGLError())
                     {
