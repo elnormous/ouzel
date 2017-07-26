@@ -419,6 +419,7 @@ namespace ouzel
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+            clearDepthValue = clearDepth;
 
             clearFrameBufferView = clearColorBuffer;
             clearDepthBufferView = clearDepthBuffer;
@@ -473,7 +474,7 @@ namespace ouzel
 
                 if (clearDepthBuffer)
                 {
-                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearDepthValue, 0);
                 }
             }
             else for (const DrawCommand& drawCommand : drawCommands)
@@ -481,7 +482,8 @@ namespace ouzel
                 // render target
                 ID3D11RenderTargetView* newRenderTargetView = nullptr;
                 ID3D11DepthStencilView* newDepthStencilView = nullptr;
-                const float* newClearColor;
+                const FLOAT* newClearColor;
+                FLOAT newClearDepth;
                 bool newClearFrameBufferView = false;
                 bool newClearDepthBufferView = false;
 
@@ -504,6 +506,7 @@ namespace ouzel
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newDepthStencilView = renderTargetD3D11->getDepthStencilView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
+                    newClearDepth = renderTargetD3D11->getClearDepth();
 
                     if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
                     {
@@ -517,6 +520,7 @@ namespace ouzel
                     newRenderTargetView = renderTargetView;
                     newDepthStencilView = depthStencilView;
                     newClearColor = frameBufferClearColor;
+                    newClearDepth = clearDepthValue;
 
                     renderTargetWidth = frameBufferWidth;
                     renderTargetHeight = frameBufferHeight;
@@ -544,7 +548,7 @@ namespace ouzel
 
                 if (newClearDepthBufferView)
                 {
-                    context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                    context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
                 }
 
                 // scissor test

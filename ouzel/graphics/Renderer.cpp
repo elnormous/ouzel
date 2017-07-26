@@ -178,6 +178,14 @@ namespace ouzel
             dirty = true;
         }
 
+        void Renderer::setClearDepth(float clear)
+        {
+            std::lock_guard<std::mutex> lock(uploadMutex);
+
+            clearDepth = clear;
+            dirty = true;
+        }
+
         void Renderer::setSize(const Size2& newSize)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);

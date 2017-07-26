@@ -93,6 +93,9 @@ namespace ouzel
             Color getClearColor() const;
             void setClearColor(Color color);
 
+            float getClearDepth() const;
+            void setClearDepth(float clear);
+
         private:
             Size2 size;
             bool dynamic = false;
@@ -101,6 +104,7 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             bool depth = false;
+            float clearDepth = 1.0f;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Color clearColor;

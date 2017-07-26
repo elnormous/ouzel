@@ -57,6 +57,7 @@ namespace ouzel
             virtual bool setClearColorBuffer(bool clear) override;
             virtual bool setClearDepthBuffer(bool clear) override;
             virtual bool setClearColor(Color color) override;
+            virtual bool setClearDepth(float clear) override;
 
             MTLTextureInterfacePtr getTexture() const { return texture; }
             MTLPixelFormat getColorFormat() const { return colorFormat; }

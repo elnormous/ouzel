@@ -574,5 +574,12 @@ namespace ouzel
 
             return true;
         }
+
+        bool TextureInterface::setClearDepth(float clear)
+        {
+            clearDepth = clear;
+
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel

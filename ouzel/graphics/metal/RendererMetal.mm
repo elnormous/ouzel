@@ -316,6 +316,8 @@ namespace ouzel
                                                                                     clearColor.normB(),
                                                                                     clearColor.normA());
 
+            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+
             dirty = false;
 
             return true;

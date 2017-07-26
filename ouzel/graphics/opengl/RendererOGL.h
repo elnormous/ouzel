@@ -603,6 +603,7 @@ namespace ouzel
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
+            GLfloat clearDepthValue = 0.0f;
 
             struct StateCache
             {

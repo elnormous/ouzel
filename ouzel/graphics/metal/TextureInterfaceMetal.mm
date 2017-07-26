@@ -112,6 +112,8 @@ namespace ouzel
                                                                                         clearColor.normG(),
                                                                                         clearColor.normB(),
                                                                                         clearColor.normA());
+
+                renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             }
 
             return updateSamplerState();
@@ -241,6 +243,24 @@ namespace ouzel
                                                                                     clearColor.normG(),
                                                                                     clearColor.normB(),
                                                                                     clearColor.normA());
+
+            return true;
+        }
+
+        bool TextureInterfaceMetal::setClearDepth(float clear)
+        {
+            if (!TextureInterface::setClearDepth(clear))
+            {
+                return false;
+            }
+
+            if (!renderPassDescriptor)
+            {
+                Log(Log::Level::ERR) << "Render pass descriptor not initialized";
+                return false;
+            }
+
+            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
 
             return true;
         }

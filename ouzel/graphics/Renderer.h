@@ -95,6 +95,9 @@ namespace ouzel
             void setClearColor(Color color);
             Color getClearColor() const { return clearColor; }
 
+            void setClearDepth(float clear);
+            float getClearDepth() const { return clearDepth; }
+
             virtual bool process();
 
             const Size2& getSize() const { return size; }
@@ -230,6 +233,7 @@ namespace ouzel
             bool dirty = false;
             Size2 size;
             Color clearColor;
+            float clearDepth = 1.0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             std::mutex uploadMutex;

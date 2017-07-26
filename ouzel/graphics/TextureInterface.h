@@ -64,6 +64,9 @@ namespace ouzel
             Color getClearColor() const { return clearColor; }
             virtual bool setClearColor(Color color);
 
+            float getClearDepth() const { return clearDepth; }
+            virtual bool setClearDepth(float clear);
+
             uint32_t getSampleCount() const { return sampleCount; }
             bool getDepth() const { return depth; }
 
@@ -92,6 +95,7 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             bool depth = false;
+            float clearDepth = 1.0f;
             std::vector<Level> levels;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
