@@ -20,7 +20,7 @@ namespace ouzel
         public:
             virtual ~BufferInterface();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0);
+            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0);
             virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0);
 
             virtual bool setData(const std::vector<uint8_t>& newData);

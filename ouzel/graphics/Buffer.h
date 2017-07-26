@@ -31,7 +31,7 @@ namespace ouzel
             Buffer();
             virtual ~Buffer();
 
-            bool init(Usage newUsage, uint32_t newFlags = 0);
+            bool init(Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0);
             bool init(Usage newUsage, const void* newData, uint32_t newSize, uint32_t newFlags = 0);
             bool init(Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0);
 

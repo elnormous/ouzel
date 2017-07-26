@@ -20,7 +20,7 @@ namespace ouzel
             if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
         }
 
-        bool Buffer::init(Usage newUsage, uint32_t newFlags)
+        bool Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
             usage = newUsage;
             flags = newFlags;
@@ -29,8 +29,9 @@ namespace ouzel
 
             sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
                                                                 newUsage,
-                                                                newFlags]() {
-                bufferResource->init(newUsage, newFlags);
+                                                                newFlags,
+                                                                newSize]() {
+                bufferResource->init(newUsage, newFlags, newSize);
             });
 
             return true;

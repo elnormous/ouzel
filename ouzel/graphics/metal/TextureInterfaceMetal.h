@@ -71,14 +71,13 @@ namespace ouzel
             MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         protected:
-            bool updateTexture();
+            bool createTexture();
             bool updateSamplerState();
 
             MTLTextureInterfacePtr texture = Nil;
 
             NSUInteger width = 0;
             NSUInteger height = 0;
-            NSUInteger mipmapLevelCount = 0;
 
             MTLSamplerStatePtr samplerState = Nil;
             MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;

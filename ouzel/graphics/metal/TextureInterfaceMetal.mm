@@ -94,7 +94,7 @@ namespace ouzel
                 return false;
             }
 
-            if (!updateTexture())
+            if (!createTexture())
             {
                 return false;
             }
@@ -130,9 +130,24 @@ namespace ouzel
                 return false;
             }
 
-            if (!updateTexture())
+            if (!createTexture())
             {
                 return false;
+            }
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
+                                   mipmapLevel:level withBytes:levels[level].data.data()
+                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                    }
+                }
             }
 
             return updateSamplerState();
@@ -145,7 +160,17 @@ namespace ouzel
                 return false;
             }
 
-            return updateTexture();
+            if (!texture ||
+                static_cast<NSUInteger>(size.v[0]) != width ||
+                static_cast<NSUInteger>(size.v[1]) != height)
+            {
+                if (!createTexture())
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         bool TextureInterfaceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
@@ -155,7 +180,32 @@ namespace ouzel
                 return false;
             }
 
-            return updateTexture();
+            if (!texture ||
+                static_cast<NSUInteger>(size.v[0]) != width ||
+                static_cast<NSUInteger>(size.v[1]) != height)
+            {
+                if (!createTexture())
+                {
+                    return false;
+                }
+            }
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
+                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
+                                   mipmapLevel:level withBytes:levels[level].data.data()
+                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                    }
+                }
+            }
+
+            return true;
         }
 
         bool TextureInterfaceMetal::setFilter(Texture::Filter newFilter)
@@ -261,157 +311,131 @@ namespace ouzel
             return true;
         }
 
-        bool TextureInterfaceMetal::updateTexture()
+        bool TextureInterfaceMetal::createTexture()
         {
             RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
-            NSUInteger newWidth = static_cast<NSUInteger>(size.v[0]);
-            NSUInteger newHeight = static_cast<NSUInteger>(size.v[1]);
-            NSUInteger newMipmapLevelCount = static_cast<NSUInteger>(levels.size());
-
-            if (!texture ||
-                newWidth != width ||
-                newHeight != height ||
-                newMipmapLevelCount != mipmapLevelCount)
+            if (texture)
             {
-                if (texture)
+                [texture release];
+                texture = Nil;
+            }
+
+            if (msaaTexture)
+            {
+                [msaaTexture release];
+                msaaTexture = Nil;
+            }
+
+            if (renderPassDescriptor)
+            {
+                [renderPassDescriptor release];
+                renderPassDescriptor = Nil;
+            }
+
+            if (depthTexture)
+            {
+                [depthTexture release];
+                depthTexture = Nil;
+            }
+
+            width = static_cast<NSUInteger>(size.v[0]);
+            height = static_cast<NSUInteger>(size.v[1]);
+
+            if (width > 0 && height > 0)
+            {
+                MTLPixelFormat metalPixelFormat = getMetalPixelFormat(pixelFormat);
+
+                if (metalPixelFormat == MTLPixelFormatInvalid)
                 {
-                    [texture release];
-                    texture = Nil;
+                    Log(Log::Level::ERR) << "Invalid pixel format";
+                    return false;
                 }
 
-                if (msaaTexture)
+                MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalPixelFormat
+                                                                                                             width:width
+                                                                                                            height:height
+                                                                                                         mipmapped:(levels.size() > 1) ? YES : NO];
+                textureDescriptor.textureType = MTLTextureType2D;
+                textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
+                textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
+                colorFormat = textureDescriptor.pixelFormat;
+
+                texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                if (!texture)
                 {
-                    [msaaTexture release];
-                    msaaTexture = Nil;
-                }
-
-                if (renderPassDescriptor)
-                {
-                    [renderPassDescriptor release];
-                    renderPassDescriptor = Nil;
-                }
-
-                if (depthTexture)
-                {
-                    [depthTexture release];
-                    depthTexture = Nil;
-                }
-
-                width = newWidth;
-                height = newHeight;
-                mipmapLevelCount = newMipmapLevelCount;
-
-                if (width > 0 && height > 0)
-                {
-                    MTLPixelFormat metalPixelFormat = getMetalPixelFormat(pixelFormat);
-
-                    if (metalPixelFormat == MTLPixelFormatInvalid)
-                    {
-                        Log(Log::Level::ERR) << "Invalid pixel format";
-                        return false;
-                    }
-
-                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalPixelFormat
-                                                                                                                 width:width
-                                                                                                                height:height
-                                                                                                             mipmapped:(levels.size() > 1) ? YES : NO];
-                    textureDescriptor.textureType = MTLTextureType2D;
-                    textureDescriptor.mipmapLevelCount = mipmapLevelCount;
-                    textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
-                    colorFormat = textureDescriptor.pixelFormat;
-
-                    texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                    if (!texture)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Metal texture";
-                        return false;
-                    }
-                }
-
-                if (flags & Texture::RENDER_TARGET)
-                {
-                    renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
-
-                    if (!renderPassDescriptor)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
-                        return false;
-                    }
-
-                    if (sampleCount > 1)
-                    {
-                        MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                     width:static_cast<NSUInteger>(size.v[0])
-                                                                                                                    height:static_cast<NSUInteger>(size.v[1])
-                                                                                                                 mipmapped:NO];
-                        textureDescriptor.textureType = MTLTextureType2DMultisample;
-                        textureDescriptor.storageMode = MTLStorageModePrivate;
-                        textureDescriptor.sampleCount = sampleCount;
-                        textureDescriptor.usage = MTLTextureUsageRenderTarget;
-
-                        msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                        if (!msaaTexture)
-                        {
-                            Log(Log::Level::ERR) << "Failed to create MSAA texture";
-                            return false;
-                        }
-
-                        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
-                        renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
-                        renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
-                    }
-                    else
-                    {
-                        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-                        renderPassDescriptor.colorAttachments[0].texture = texture;
-                    }
-
-                    if (flags & Texture::DEPTH_BUFFER)
-                    {
-                        depthFormat = MTLPixelFormatDepth32Float;
-
-                        MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
-                                                                                                                     width:width
-                                                                                                                    height:height
-                                                                                                                 mipmapped:NO];
-
-                        textureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
-                        textureDescriptor.storageMode = MTLStorageModePrivate;
-                        textureDescriptor.sampleCount = sampleCount;
-                        textureDescriptor.usage = MTLTextureUsageRenderTarget;
-
-                        depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
-
-                        if (!depthTexture)
-                        {
-                            Log(Log::Level::ERR) << "Failed to create depth texture";
-                            return false;
-                        }
-
-                        renderPassDescriptor.depthAttachment.texture = depthTexture;
-                    }
-                    else
-                    {
-                        renderPassDescriptor.depthAttachment.texture = Nil;
-                    }
+                    Log(Log::Level::ERR) << "Failed to create Metal texture";
+                    return false;
                 }
             }
 
-            if (!(flags & Texture::RENDER_TARGET))
+            if (flags & Texture::RENDER_TARGET)
             {
-                for (size_t level = 0; level < levels.size(); ++level)
+                renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+
+                if (!renderPassDescriptor)
                 {
-                    if (!levels[level].data.empty())
+                    Log(Log::Level::ERR) << "Failed to create Metal render pass descriptor";
+                    return false;
+                }
+
+                if (sampleCount > 1)
+                {
+                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
+                                                                                                                 width:static_cast<NSUInteger>(size.v[0])
+                                                                                                                height:static_cast<NSUInteger>(size.v[1])
+                                                                                                             mipmapped:NO];
+                    textureDescriptor.textureType = MTLTextureType2DMultisample;
+                    textureDescriptor.storageMode = MTLStorageModePrivate;
+                    textureDescriptor.sampleCount = sampleCount;
+                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
+
+                    msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                    if (!msaaTexture)
                     {
-                        [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
-                                   mipmapLevel:level withBytes:levels[level].data.data()
-                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                        Log(Log::Level::ERR) << "Failed to create MSAA texture";
+                        return false;
                     }
+
+                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionMultisampleResolve;
+                    renderPassDescriptor.colorAttachments[0].texture = msaaTexture;
+                    renderPassDescriptor.colorAttachments[0].resolveTexture = texture;
+                }
+                else
+                {
+                    renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+                    renderPassDescriptor.colorAttachments[0].texture = texture;
+                }
+
+                if (flags & Texture::DEPTH_BUFFER)
+                {
+                    depthFormat = MTLPixelFormatDepth32Float;
+
+                    MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(depthFormat)
+                                                                                                                 width:width
+                                                                                                                height:height
+                                                                                                             mipmapped:NO];
+
+                    textureDescriptor.textureType = (sampleCount > 1) ? MTLTextureType2DMultisample : MTLTextureType2D;
+                    textureDescriptor.storageMode = MTLStorageModePrivate;
+                    textureDescriptor.sampleCount = sampleCount;
+                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
+
+                    depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+
+                    if (!depthTexture)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create depth texture";
+                        return false;
+                    }
+
+                    renderPassDescriptor.depthAttachment.texture = depthTexture;
+                }
+                else
+                {
+                    renderPassDescriptor.depthAttachment.texture = Nil;
                 }
             }
 

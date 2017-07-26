@@ -15,10 +15,11 @@ namespace ouzel
         {
         }
 
-        bool BufferInterface::init(Buffer::Usage newUsage, uint32_t newFlags)
+        bool BufferInterface::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
             usage = newUsage;
             flags = newFlags;
+            data.resize(newSize);
 
             return true;
         }

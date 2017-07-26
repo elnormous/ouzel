@@ -27,9 +27,14 @@ namespace ouzel
             }
         }
 
-        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, uint32_t newFlags)
+        bool BufferInterfaceMetal::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
-            if (!BufferInterface::init(newUsage, newFlags))
+            if (!BufferInterface::init(newUsage, newFlags, newSize))
+            {
+                return false;
+            }
+
+            if (!createBuffer())
             {
                 return false;
             }
@@ -44,23 +49,13 @@ namespace ouzel
                 return false;
             }
 
+            if (!createBuffer())
+            {
+                return false;
+            }
+
             if (!data.empty())
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-                bufferSize = static_cast<uint32_t>(data.size());
-
-                if (buffer) [buffer release];
-
-                buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                 options:MTLResourceCPUCacheModeWriteCombined];
-
-                if (!buffer)
-                {
-                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                    return false;
-                }
-
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
             }
 
@@ -74,29 +69,44 @@ namespace ouzel
                 return false;
             }
 
+            if (!buffer || data.size() > bufferSize)
+            {
+                if (!createBuffer())
+                {
+                    return false;
+                }
+            }
+
             if (!data.empty())
             {
-                if (!buffer || data.size() > bufferSize)
-                {
-                    RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
-                    bufferSize = static_cast<uint32_t>(data.size());
-
-                    if (buffer) [buffer release];
-
-                    buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                     options:MTLResourceCPUCacheModeWriteCombined];
-
-                    if (!buffer)
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Metal buffer";
-                        return false;
-                    }
-
-                    bufferSize = static_cast<uint32_t>(data.size());
-                }
-
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>([buffer contents]));
+            }
+
+            return true;
+        }
+
+        bool BufferInterfaceMetal::createBuffer()
+        {
+            if (buffer)
+            {
+                [buffer release];
+                buffer = Nil;
+            }
+
+            if (!data.empty())
+            {
+                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
+
+                bufferSize = static_cast<uint32_t>(data.size());
+
+                buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
+                                                                 options:MTLResourceCPUCacheModeWriteCombined];
+
+                if (!buffer)
+                {
+                    Log(Log::Level::ERR) << "Failed to create Metal buffer";
+                    return false;
+                }
             }
 
             return true;

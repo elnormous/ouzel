@@ -26,9 +26,9 @@ namespace ouzel
             }
         }
 
-        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, uint32_t newFlags)
+        bool BufferInterfaceOGL::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
-            if (!BufferInterface::init(newUsage, newFlags))
+            if (!BufferInterface::init(newUsage, newFlags, newSize))
             {
                 return false;
             }

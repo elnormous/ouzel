@@ -20,7 +20,7 @@ namespace ouzel
             BufferInterfaceD3D11();
             virtual ~BufferInterfaceD3D11();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0) override;
+            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
             virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0) override;
 
             virtual bool setData(const std::vector<uint8_t>& newData) override;
@@ -28,6 +28,8 @@ namespace ouzel
             ID3D11Buffer* getBuffer() const { return buffer; }
 
         protected:
+            bool createBuffer();
+
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;
         };
