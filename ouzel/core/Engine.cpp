@@ -707,10 +707,10 @@ namespace ouzel
                 }
             }
 
-            if (renderer->getRefillDrawQueue())
+            if (renderer->getRefillQueue())
             {
                 sceneManager.draw();
-                renderer->flushDrawCommands();
+                renderer->flushCommands();
             }
         }
     }

@@ -40,7 +40,7 @@ namespace ouzel
         RendererMetalMacOS::~RendererMetalMacOS()
         {
             running = false;
-            flushDrawCommands();
+            flushCommands();
 
             if (displayLink)
             {

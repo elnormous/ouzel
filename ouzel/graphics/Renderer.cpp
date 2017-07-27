@@ -22,7 +22,7 @@ namespace ouzel
             driver(aDriver),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
-            refillDrawQueue(true),
+            refillQueue(true),
             currentFPS(0.0f),
             accumulatedFPS(0.0f)
         {
@@ -100,16 +100,16 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
                 std::unique_lock<std::mutex> lock(drawQueueMutex);
 
-                while (!drawQueueFinished)
+                while (!queueFinished)
                 {
-                    drawQueueCondition.wait(lock);
+                    queueCondition.wait(lock);
                 }
 #endif
 
                 drawCommands = std::move(drawQueue);
                 drawQueue.reserve(drawCommands.size());
 
-                drawQueueFinished = false;
+                queueFinished = false;
             }
 
             std::vector<std::unique_ptr<ResourceInterface>> deleteResources;
@@ -119,7 +119,7 @@ namespace ouzel
             }
 
             // refills draw and upload queues
-            refillDrawQueue = true;
+            refillQueue = true;
 
             executeAll();
 
@@ -283,18 +283,18 @@ namespace ouzel
             return true;
         }
 
-        void Renderer::flushDrawCommands()
+        void Renderer::flushCommands()
         {
-            refillDrawQueue = false;
+            refillQueue = false;
 
             {
                 std::lock_guard<std::mutex> lock(drawQueueMutex);
-                drawQueueFinished = true;
+                queueFinished = true;
                 drawCallCount = static_cast<uint32_t>(drawQueue.size());
             }
 
 #if OUZEL_MULTITHREADED
-            drawQueueCondition.notify_one();
+            queueCondition.notify_one();
 #endif
         }
 

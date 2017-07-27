@@ -107,7 +107,7 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            bool getRefillDrawQueue() const { return refillDrawQueue; }
+            bool getRefillQueue() const { return refillQueue; }
             bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                 const std::shared_ptr<Shader>& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -125,7 +125,7 @@ namespace ouzel
                                 bool scissorTest,
                                 const Rectangle& scissorRectangle,
                                 CullMode cullMode);
-            void flushDrawCommands();
+            void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
@@ -249,9 +249,9 @@ namespace ouzel
 
             std::vector<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
-            std::condition_variable drawQueueCondition;
-            bool drawQueueFinished = false;
-            std::atomic<bool> refillDrawQueue;
+            std::condition_variable queueCondition;
+            bool queueFinished = false;
+            std::atomic<bool> refillQueue;
 
             std::atomic<float> currentFPS;
             std::chrono::steady_clock::time_point previousFrameTime;
