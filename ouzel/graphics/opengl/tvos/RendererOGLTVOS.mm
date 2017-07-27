@@ -16,6 +16,8 @@ namespace ouzel
     {
         RendererOGLTVOS::~RendererOGLTVOS()
         {
+            flushCommands();
+
             if (msaaColorRenderBufferId)
             {
                 glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);

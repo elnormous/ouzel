@@ -20,7 +20,7 @@ namespace ouzel
         RendererOGLLinux::~RendererOGLLinux()
         {
             running = false;
-            flushDrawCommands();
+            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);

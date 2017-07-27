@@ -15,6 +15,8 @@ namespace ouzel
     {
         RendererOGLIOS::~RendererOGLIOS()
         {
+            flushCommands();
+
             if (msaaColorRenderBufferId)
             {
                 glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
