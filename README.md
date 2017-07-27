@@ -89,7 +89,7 @@ The following code will open create a scene with a sprite in the center of it:
 
 ## Compilation
 
-Ouzel uses stb and rapidjson submodules. The following command has to be run after cloning the Ouzel engine:
+Ouzel uses stb and json submodules. The following command has to be run after cloning the Ouzel engine:
 
 ```
 $ git submodule update --init

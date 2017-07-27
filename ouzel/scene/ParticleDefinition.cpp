@@ -1,9 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/memorystream.h>
-#include <rapidjson/document.h>
+#include <json.hpp>
 #include "ParticleDefinition.h"
 #include "core/Engine.h"
 #include "files/FileSystem.h"
@@ -23,23 +21,14 @@ namespace ouzel
                 return result;
             }
 
-            rapidjson::MemoryStream is(reinterpret_cast<char*>(data.data()), data.size());
+            nlohmann::json document = nlohmann::json::parse(data);
 
-            rapidjson::Document document;
-            document.ParseStream<0>(is);
+            if (document.find("blendFuncSource") != document.end()) result.blendFuncSource = document["blendFuncSource"].get<unsigned int>();
+            if (document.find("blendFuncDestination") != document.end()) result.blendFuncDestination = document["blendFuncDestination"].get<unsigned int>();
 
-            if (document.HasParseError())
+            if (document.find("emitterType") != document.end())
             {
-                Log(Log::Level::ERR) << "Failed to parse " << filename;
-                return result;
-            }
-
-            if (document.HasMember("blendFuncSource")) result.blendFuncSource = document["blendFuncSource"].GetUint();
-            if (document.HasMember("blendFuncDestination")) result.blendFuncDestination = document["blendFuncDestination"].GetUint();
-
-            if (document.HasMember("emitterType"))
-            {
-                uint32_t emitterType = document["emitterType"].GetUint();
+                uint32_t emitterType = document["emitterType"].get<unsigned int>();
 
                 switch (emitterType)
                 {
@@ -48,72 +37,72 @@ namespace ouzel
                 }
             }
 
-            if (document.HasMember("maxParticles")) result.maxParticles = document["maxParticles"].GetUint();
+            if (document.find("maxParticles") != document.end()) result.maxParticles = document["maxParticles"].get<uint32_t>();
 
-            if (document.HasMember("duration")) result.duration = document["duration"].GetFloat();
-            if (document.HasMember("particleLifespan")) result.particleLifespan = document["particleLifespan"].GetFloat();
-            if (document.HasMember("particleLifespanVariance")) result.particleLifespanVariance = document["particleLifespanVariance"].GetFloat();
+            if (document.find("duration") != document.end()) result.duration = document["duration"].get<float>();
+            if (document.find("particleLifespan") != document.end()) result.particleLifespan = document["particleLifespan"].get<float>();
+            if (document.find("particleLifespanVariance") != document.end()) result.particleLifespanVariance = document["particleLifespanVariance"].get<float>();
 
-            if (document.HasMember("speed")) result.speed = document["speed"].GetFloat();
-            if (document.HasMember("speedVariance")) result.speedVariance = document["speedVariance"].GetFloat();
+            if (document.find("speed") != document.end()) result.speed = document["speed"].get<float>();
+            if (document.find("speedVariance") != document.end()) result.speedVariance = document["speedVariance"].get<float>();
 
-            if (document.HasMember("absolutePosition")) result.absolutePosition = document["absolutePosition"].GetBool();
+            if (document.find("absolutePosition") != document.end()) result.absolutePosition = document["absolutePosition"].get<bool>();
 
-            if (document.HasMember("yCoordFlipped")) result.yCoordFlipped = (document["yCoordFlipped"].GetUint() == 1);
+            if (document.find("yCoordFlipped") != document.end()) result.yCoordFlipped = (document["yCoordFlipped"].get<uint32_t>() == 1);
 
-            if (document.HasMember("sourcePositionx")) result.sourcePosition.v[0] = document["sourcePositionx"].GetFloat();
-            if (document.HasMember("sourcePositiony")) result.sourcePosition.v[1] = document["sourcePositiony"].GetFloat();
-            if (document.HasMember("sourcePositionVariancex")) result.sourcePositionVariance.v[0] = document["sourcePositionVariancex"].GetFloat();
-            if (document.HasMember("sourcePositionVariancey")) result.sourcePositionVariance.v[1] = document["sourcePositionVariancey"].GetFloat();
+            if (document.find("sourcePositionx") != document.end()) result.sourcePosition.v[0] = document["sourcePositionx"].get<float>();
+            if (document.find("sourcePositiony") != document.end()) result.sourcePosition.v[1] = document["sourcePositiony"].get<float>();
+            if (document.find("sourcePositionVariancex") != document.end()) result.sourcePositionVariance.v[0] = document["sourcePositionVariancex"].get<float>();
+            if (document.find("sourcePositionVariancey") != document.end()) result.sourcePositionVariance.v[1] = document["sourcePositionVariancey"].get<float>();
 
-            if (document.HasMember("startParticleSize")) result.startParticleSize = document["startParticleSize"].GetFloat();
-            if (document.HasMember("startParticleSizeVariance")) result.startParticleSizeVariance = document["startParticleSizeVariance"].GetFloat();
-            if (document.HasMember("finishParticleSize")) result.finishParticleSize = document["finishParticleSize"].GetFloat();
-            if (document.HasMember("finishParticleSizeVariance")) result.finishParticleSizeVariance = document["finishParticleSizeVariance"].GetFloat();
-            if (document.HasMember("angle")) result.angle = document["angle"].GetFloat();
-            if (document.HasMember("angleVariance")) result.angleVariance = document["angleVariance"].GetFloat();
-            if (document.HasMember("rotationStart")) result.startRotation = document["rotationStart"].GetFloat();
-            if (document.HasMember("rotationStartVariance")) result.startRotationVariance = document["rotationStartVariance"].GetFloat();
-            if (document.HasMember("rotationEnd")) result.finishRotation = document["rotationEnd"].GetFloat();
-            if (document.HasMember("rotationEndVariance")) result.finishRotationVariance = document["rotationEndVariance"].GetFloat();
-            if (document.HasMember("rotatePerSecond")) result.rotatePerSecond = document["rotatePerSecond"].GetFloat();
-            if (document.HasMember("rotatePerSecondVariance")) result.rotatePerSecondVariance = document["rotatePerSecondVariance"].GetFloat();
-            if (document.HasMember("minRadius")) result.minRadius = document["minRadius"].GetFloat();
-            if (document.HasMember("minRadiusVariance")) result.minRadiusVariance = document["minRadiusVariance"].GetFloat();
-            if (document.HasMember("maxRadius")) result.maxRadius = document["maxRadius"].GetFloat();
-            if (document.HasMember("maxRadiusVariance")) result.maxRadiusVariance = document["maxRadiusVariance"].GetFloat();
+            if (document.find("startParticleSize") != document.end()) result.startParticleSize = document["startParticleSize"].get<float>();
+            if (document.find("startParticleSizeVariance") != document.end()) result.startParticleSizeVariance = document["startParticleSizeVariance"].get<float>();
+            if (document.find("finishParticleSize") != document.end()) result.finishParticleSize = document["finishParticleSize"].get<float>();
+            if (document.find("finishParticleSizeVariance") != document.end()) result.finishParticleSizeVariance = document["finishParticleSizeVariance"].get<float>();
+            if (document.find("angle") != document.end()) result.angle = document["angle"].get<float>();
+            if (document.find("angleVariance") != document.end()) result.angleVariance = document["angleVariance"].get<float>();
+            if (document.find("rotationStart") != document.end()) result.startRotation = document["rotationStart"].get<float>();
+            if (document.find("rotationStartVariance") != document.end()) result.startRotationVariance = document["rotationStartVariance"].get<float>();
+            if (document.find("rotationEnd") != document.end()) result.finishRotation = document["rotationEnd"].get<float>();
+            if (document.find("rotationEndVariance") != document.end()) result.finishRotationVariance = document["rotationEndVariance"].get<float>();
+            if (document.find("rotatePerSecond") != document.end()) result.rotatePerSecond = document["rotatePerSecond"].get<float>();
+            if (document.find("rotatePerSecondVariance") != document.end()) result.rotatePerSecondVariance = document["rotatePerSecondVariance"].get<float>();
+            if (document.find("minRadius") != document.end()) result.minRadius = document["minRadius"].get<float>();
+            if (document.find("minRadiusVariance") != document.end()) result.minRadiusVariance = document["minRadiusVariance"].get<float>();
+            if (document.find("maxRadius") != document.end()) result.maxRadius = document["maxRadius"].get<float>();
+            if (document.find("maxRadiusVariance") != document.end()) result.maxRadiusVariance = document["maxRadiusVariance"].get<float>();
 
-            if (document.HasMember("radialAcceleration")) result.radialAcceleration = document["radialAcceleration"].GetFloat();
-            if (document.HasMember("radialAccelVariance")) result.radialAccelVariance = document["radialAccelVariance"].GetFloat();
-            if (document.HasMember("tangentialAcceleration")) result.tangentialAcceleration = document["tangentialAcceleration"].GetFloat();
-            if (document.HasMember("tangentialAccelVariance")) result.tangentialAccelVariance = document["tangentialAccelVariance"].GetFloat();
+            if (document.find("radialAcceleration") != document.end()) result.radialAcceleration = document["radialAcceleration"].get<float>();
+            if (document.find("radialAccelVariance") != document.end()) result.radialAccelVariance = document["radialAccelVariance"].get<float>();
+            if (document.find("tangentialAcceleration") != document.end()) result.tangentialAcceleration = document["tangentialAcceleration"].get<float>();
+            if (document.find("tangentialAccelVariance") != document.end()) result.tangentialAccelVariance = document["tangentialAccelVariance"].get<float>();
 
-            if (document.HasMember("rotationIsDir")) result.rotationIsDir = document["rotationIsDir"].GetBool();
+            if (document.find("rotationIsDir") != document.end()) result.rotationIsDir = document["rotationIsDir"].get<bool>();
 
-            if (document.HasMember("gravityx")) result.gravity.v[0] = document["gravityx"].GetFloat();
-            if (document.HasMember("gravityy")) result.gravity.v[1] = document["gravityy"].GetFloat();
+            if (document.find("gravityx") != document.end()) result.gravity.v[0] = document["gravityx"].get<float>();
+            if (document.find("gravityy") != document.end()) result.gravity.v[1] = document["gravityy"].get<float>();
 
-            if (document.HasMember("startColorRed")) result.startColorRed = document["startColorRed"].GetFloat();
-            if (document.HasMember("startColorGreen")) result.startColorGreen = document["startColorGreen"].GetFloat();
-            if (document.HasMember("startColorBlue")) result.startColorBlue = document["startColorBlue"].GetFloat();
-            if (document.HasMember("startColorAlpha")) result.startColorAlpha = document["startColorAlpha"].GetFloat();
+            if (document.find("startColorRed") != document.end()) result.startColorRed = document["startColorRed"].get<float>();
+            if (document.find("startColorGreen") != document.end()) result.startColorGreen = document["startColorGreen"].get<float>();
+            if (document.find("startColorBlue") != document.end()) result.startColorBlue = document["startColorBlue"].get<float>();
+            if (document.find("startColorAlpha") != document.end()) result.startColorAlpha = document["startColorAlpha"].get<float>();
 
-            if (document.HasMember("startColorVarianceRed")) result.startColorRedVariance = document["startColorVarianceRed"].GetFloat();
-            if (document.HasMember("startColorVarianceGreen")) result.startColorGreenVariance = document["startColorVarianceGreen"].GetFloat();
-            if (document.HasMember("startColorVarianceBlue")) result.startColorBlueVariance = document["startColorVarianceBlue"].GetFloat();
-            if (document.HasMember("startColorVarianceAlpha")) result.startColorAlphaVariance = document["startColorVarianceAlpha"].GetFloat();
+            if (document.find("startColorVarianceRed") != document.end()) result.startColorRedVariance = document["startColorVarianceRed"].get<float>();
+            if (document.find("startColorVarianceGreen") != document.end()) result.startColorGreenVariance = document["startColorVarianceGreen"].get<float>();
+            if (document.find("startColorVarianceBlue") != document.end()) result.startColorBlueVariance = document["startColorVarianceBlue"].get<float>();
+            if (document.find("startColorVarianceAlpha") != document.end()) result.startColorAlphaVariance = document["startColorVarianceAlpha"].get<float>();
 
-            if (document.HasMember("finishColorRed")) result.finishColorRed = document["finishColorRed"].GetFloat();
-            if (document.HasMember("finishColorGreen")) result.finishColorGreen = document["finishColorGreen"].GetFloat();
-            if (document.HasMember("finishColorBlue")) result.finishColorBlue = document["finishColorBlue"].GetFloat();
-            if (document.HasMember("finishColorAlpha")) result.finishColorAlpha = document["finishColorAlpha"].GetFloat();
+            if (document.find("finishColorRed") != document.end()) result.finishColorRed = document["finishColorRed"].get<float>();
+            if (document.find("finishColorGreen") != document.end()) result.finishColorGreen = document["finishColorGreen"].get<float>();
+            if (document.find("finishColorBlue") != document.end()) result.finishColorBlue = document["finishColorBlue"].get<float>();
+            if (document.find("finishColorAlpha") != document.end()) result.finishColorAlpha = document["finishColorAlpha"].get<float>();
 
-            if (document.HasMember("finishColorVarianceRed")) result.finishColorRedVariance = document["finishColorVarianceRed"].GetFloat();
-            if (document.HasMember("finishColorVarianceGreen")) result.finishColorGreenVariance = document["finishColorVarianceGreen"].GetFloat();
-            if (document.HasMember("finishColorVarianceBlue")) result.finishColorBlueVariance = document["finishColorVarianceBlue"].GetFloat();
-            if (document.HasMember("finishColorVarianceAlpha")) result.finishColorAlphaVariance = document["finishColorVarianceAlpha"].GetFloat();
+            if (document.find("finishColorVarianceRed") != document.end()) result.finishColorRedVariance = document["finishColorVarianceRed"].get<float>();
+            if (document.find("finishColorVarianceGreen") != document.end()) result.finishColorGreenVariance = document["finishColorVarianceGreen"].get<float>();
+            if (document.find("finishColorVarianceBlue") != document.end()) result.finishColorBlueVariance = document["finishColorVarianceBlue"].get<float>();
+            if (document.find("finishColorVarianceAlpha") != document.end()) result.finishColorAlphaVariance = document["finishColorVarianceAlpha"].get<float>();
 
-            if (document.HasMember("textureFileName")) result.textureFilename = document["textureFileName"].GetString();
+            if (document.find("textureFileName") != document.end()) result.textureFilename = document["textureFileName"].get<std::string>();
 
             result.emissionRate = static_cast<float>(result.maxParticles) / result.particleLifespan;
 

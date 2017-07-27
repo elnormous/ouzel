@@ -344,22 +344,6 @@ namespace ouzel
         return result;
     }
 
-#if OUZEL_PLATFORM_ANDROID
-    template <typename T>
-    inline std::string toString(T value)
-    {
-        std::ostringstream os;
-        os << value;
-        return os.str();
-    }
-#else
-    template<class T>
-    inline std::string toString(T val)
-    {
-        return std::to_string(val);
-    }
-#endif
-
     inline long stringToLong(const std::string& val)
     {
         return strtol(val.c_str(), nullptr, 0);

@@ -1,6 +1,6 @@
 [submodule "external/stb"]
 	path = external/stb
 	url = https://github.com/nothings/stb.git
-[submodule "external/rapidjson"]
-	path = external/rapidjson
-	url = https://github.com/miloyip/rapidjson.git
+[submodule "external/json"]
+	path = external/json
+	url = https://github.com/nlohmann/json.git

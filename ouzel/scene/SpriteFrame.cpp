@@ -1,9 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/memorystream.h>
-#include <rapidjson/document.h>
+#include <json.hpp>
 #include "SpriteFrame.h"
 #include "core/Engine.h"
 #include "core/Cache.h"
@@ -12,6 +10,7 @@
 #include "graphics/MeshBufferInterface.h"
 #include "graphics/BufferInterface.h"
 #include "utils/Log.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {
@@ -27,97 +26,88 @@ namespace ouzel
                 return frames;
             }
 
-            rapidjson::MemoryStream is(reinterpret_cast<char*>(data.data()), data.size());
+            nlohmann::json document = nlohmann::json::parse(data);
 
-            rapidjson::Document document;
-            document.ParseStream<0>(is);
+            const nlohmann::json& metaObject = document["meta"];
 
-            if (document.HasParseError())
+            std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
+
+            const nlohmann::json& framesArray = document["frames"];
+
+            frames.reserve(framesArray.size());
+
+            for (size_t index = 0; index < framesArray.size(); ++index)
             {
-                Log(Log::Level::ERR) << "Failed to parse " << filename;
-                return frames;
-            }
+                const nlohmann::json& frameObject = framesArray[index];
 
-            const rapidjson::Value& metaObject = document["meta"];
+                const nlohmann::json& frameRectangleObject = frameObject["frame"];
 
-            std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(metaObject["image"].GetString(), false, mipmaps);
+                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].get<int32_t>()),
+                                         static_cast<float>(frameRectangleObject["y"].get<int32_t>()),
+                                         static_cast<float>(frameRectangleObject["w"].get<int32_t>()),
+                                         static_cast<float>(frameRectangleObject["h"].get<int32_t>()));
 
-            const rapidjson::Value& framesArray = document["frames"];
+                const nlohmann::json& sourceSizeObject = frameObject["sourceSize"];
 
-            frames.reserve(framesArray.Size());
+                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].get<int32_t>()),
+                                 static_cast<float>(sourceSizeObject["h"].get<int32_t>()));
 
-            for (rapidjson::SizeType index = 0; index < framesArray.Size(); ++index)
-            {
-                const rapidjson::Value& frameObject = framesArray[index];
+                const nlohmann::json& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-                const rapidjson::Value& frameRectangleObject = frameObject["frame"];
+                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].get<int32_t>()),
+                                     static_cast<float>(spriteSourceSizeObject["y"].get<int32_t>()));
 
-                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].GetInt()),
-                                         static_cast<float>(frameRectangleObject["y"].GetInt()),
-                                         static_cast<float>(frameRectangleObject["w"].GetInt()),
-                                         static_cast<float>(frameRectangleObject["h"].GetInt()));
+                const nlohmann::json& pivotObject = frameObject["pivot"];
 
-                const rapidjson::Value& sourceSizeObject = frameObject["sourceSize"];
+                Vector2 pivot(pivotObject["x"].get<float>(),
+                              pivotObject["y"].get<float>());
 
-                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].GetInt()),
-                                 static_cast<float>(sourceSizeObject["h"].GetInt()));
-
-                const rapidjson::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
-
-                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].GetInt()),
-                                     static_cast<float>(spriteSourceSizeObject["y"].GetInt()));
-
-                const rapidjson::Value& pivotObject = frameObject["pivot"];
-
-                Vector2 pivot(pivotObject["x"].GetFloat(),
-                              pivotObject["y"].GetFloat());
-
-                if (frameObject.HasMember("vertices") &&
-                    frameObject.HasMember("verticesUV") &&
-                    frameObject.HasMember("triangles"))
+                if (frameObject.find("vertices") != frameObject.end() &&
+                    frameObject.find("verticesUV") != frameObject.end() &&
+                    frameObject.find("triangles") != frameObject.end())
                 {
                     std::vector<uint16_t> indices;
 
-                    const rapidjson::Value& trianglesObject = frameObject["triangles"];
+                    const nlohmann::json& trianglesObject = frameObject["triangles"];
 
-                    for (rapidjson::SizeType triangleIndex = 0; triangleIndex < trianglesObject.Size(); ++triangleIndex)
+                    for (size_t triangleIndex = 0; triangleIndex < trianglesObject.size(); ++triangleIndex)
                     {
-                        const rapidjson::Value& triangleObject = trianglesObject[triangleIndex];
+                        const nlohmann::json& triangleObject = trianglesObject[triangleIndex];
 
-                        for (rapidjson::SizeType i = 0; i < triangleObject.Size(); ++i)
+                        for (size_t i = 0; i < triangleObject.size(); ++i)
                         {
-                            indices.push_back(static_cast<uint16_t>(triangleObject[i].GetUint()));
+                            indices.push_back(triangleObject[i].get<uint16_t>());
                         }
                     }
 
                     std::vector<graphics::VertexPCT> vertices;
 
-                    const rapidjson::Value& verticesObject = frameObject["vertices"];
-                    const rapidjson::Value& verticesUVObject = frameObject["verticesUV"];
+                    const nlohmann::json& verticesObject = frameObject["vertices"];
+                    const nlohmann::json& verticesUVObject = frameObject["verticesUV"];
 
                     const Size2& textureSize = texture->getSize();
 
                     Vector2 finalOffset(-sourceSize.v[0] * pivot.x() + sourceOffset.x(),
                                         -sourceSize.v[1] * pivot.y() + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.y()));
 
-                    for (rapidjson::SizeType vertexIndex = 0; vertexIndex < verticesObject.Size(); ++vertexIndex)
+                    for (size_t vertexIndex = 0; vertexIndex < verticesObject.size(); ++vertexIndex)
                     {
-                        const rapidjson::Value& vertexObject = verticesObject[vertexIndex];
-                        const rapidjson::Value& vertexUVObject = verticesUVObject[vertexIndex];
+                        const nlohmann::json& vertexObject = verticesObject[vertexIndex];
+                        const nlohmann::json& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].GetInt()) + finalOffset.x(),
-                                                                       -static_cast<float>(vertexObject[1].GetInt()) - finalOffset.y(),
+                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].get<int32_t>()) + finalOffset.x(),
+                                                                       -static_cast<float>(vertexObject[1].get<int32_t>()) - finalOffset.y(),
                                                                        0.0f),
                                                                Color::WHITE,
-                                                               Vector2(static_cast<float>(vertexUVObject[0].GetInt()) / textureSize.v[0],
-                                                                       static_cast<float>(vertexUVObject[1].GetInt()) / textureSize.v[1])));
+                                                               Vector2(static_cast<float>(vertexUVObject[0].get<int32_t>()) / textureSize.v[0],
+                                                                       static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.v[1])));
                     }
 
                     frames.push_back(SpriteFrame(texture, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
-                    bool rotated = frameObject["rotated"].GetBool();
+                    bool rotated = frameObject["rotated"].get<bool>();
 
                     frames.push_back(SpriteFrame(texture, frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }

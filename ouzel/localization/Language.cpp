@@ -6,6 +6,7 @@
 #include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
+#include "utils/Utils.h"
 
 namespace ouzel
 {

@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include "utils/Utils.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
 #include "math/Vector4.h"
@@ -75,7 +74,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val);
+                s += std::to_string(val);
             }
 
             return *this;
@@ -115,7 +114,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
             }
 
             return *this;
@@ -125,8 +124,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
-                    toString(val.v[2]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                    std::to_string(val.v[2]);
             }
 
             return *this;
@@ -136,8 +135,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
-                    toString(val.v[2]) + "," + toString(val.v[3]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                    std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
             }
 
             return *this;
@@ -147,8 +146,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
-                toString(val.v[2]) + "," + toString(val.v[3]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                    std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
             }
 
             return *this;
@@ -158,7 +157,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
             }
 
             return *this;
@@ -168,8 +167,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += toString(val.v[0]) + "," + toString(val.v[1]) + "," +
-                    toString(val.v[2]);
+                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
+                    std::to_string(val.v[2]);
             }
 
             return *this;

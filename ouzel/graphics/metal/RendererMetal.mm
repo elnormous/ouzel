@@ -43,6 +43,7 @@
 #include "core/Engine.h"
 #include "core/Cache.h"
 #include "utils/Log.h"
+#include "utils/Utils.h"
 #include "stb_image_write.h"
 
 static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer

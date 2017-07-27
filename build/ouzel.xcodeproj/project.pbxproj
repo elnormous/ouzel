@@ -2975,9 +2975,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../ouzel/,
-					../external/stb/,
-					../external/rapidjson/include/,
+					../external/json/src,
 					../external/khronos,
+					../external/stb/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -3030,9 +3030,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../ouzel/,
-					../external/stb/,
-					../external/rapidjson/include/,
+					../external/json/src,
 					../external/khronos,
+					../external/stb/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
