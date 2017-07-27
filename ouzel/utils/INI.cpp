@@ -274,7 +274,6 @@ namespace ouzel
             }
         }
 
-
         return true;
     }
 

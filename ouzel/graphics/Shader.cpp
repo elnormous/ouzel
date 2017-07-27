@@ -109,7 +109,6 @@ namespace ouzel
                                      newVertexShaderFunction);
             });
 
-
             return  true;
         }
 

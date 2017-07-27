@@ -25,7 +25,6 @@ namespace ouzel
                 float m21, float m22, float m23,
                 float m31, float m32, float m33);
 
-
         Matrix3(const float* array);
 
         Matrix3(const Matrix3& copy);
