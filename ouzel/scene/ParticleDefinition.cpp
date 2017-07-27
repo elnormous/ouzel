@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <json.hpp>
+#include "json.hpp"
 #include "ParticleDefinition.h"
 #include "core/Engine.h"
 #include "files/FileSystem.h"
