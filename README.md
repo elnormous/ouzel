@@ -124,7 +124,7 @@ $ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity
 ```
 
 ## System requirements
-* Windows 7+ with Visual Studio 2013 or Visual Studio 2015
+* Windows 7+ with Visual Studio 2015 or Visual Studio 2017
 * macOS 10.10+ with Xcode 7.2+
 * Any reasonable new Linux distro (including Raspbian)
 
