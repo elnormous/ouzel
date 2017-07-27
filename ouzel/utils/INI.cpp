@@ -3,6 +3,7 @@
 
 #include <cctype>
 #include <algorithm>
+#include <iterator>
 #include "INI.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
