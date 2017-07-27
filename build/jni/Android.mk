@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := ouzel
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
-LOCAL_CPPFLAGS += -std=c++11
+LOCAL_CPPFLAGS += -std=c++11 -fexceptions
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
     $(LOCAL_PATH)/../../external/json/src \

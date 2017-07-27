@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := samples
 LOCAL_CFLAGS := -Wall -Wextra
-LOCAL_CPPFLAGS += -std=c++11
+LOCAL_CPPFLAGS += -std=c++11 -fexceptions
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../ouzel
 
 LOCAL_PCH := ../../Prefix.hpp
