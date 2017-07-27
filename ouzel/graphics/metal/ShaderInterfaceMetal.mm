@@ -107,8 +107,8 @@ namespace ouzel
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newPixelShaderDataAlignment,
                                        uint32_t newVertexShaderDataAlignment,
-                                       const std::string& pixelShaderFunction,
-                                       const std::string& vertexShaderFunction)
+                                       const std::string& newPixelShaderFunction,
+                                       const std::string& newVertexShaderFunction)
         {
             if (!ShaderInterface::init(newPixelShader,
                                       newVertexShader,
@@ -117,8 +117,8 @@ namespace ouzel
                                       newVertexShaderConstantInfo,
                                       newPixelShaderDataAlignment,
                                       newVertexShaderDataAlignment,
-                                      pixelShaderFunction,
-                                      vertexShaderFunction))
+                                      newPixelShaderFunction,
+                                      newVertexShaderFunction))
             {
                 return false;
             }

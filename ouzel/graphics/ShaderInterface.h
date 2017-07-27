@@ -31,8 +31,8 @@ namespace ouzel
                               const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                               uint32_t newPixelShaderDataAlignment = 0,
                               uint32_t newVertexShaderDataAlignment = 0,
-                              const std::string& pixelShaderFunction = "",
-                              const std::string& vertexShaderFunction = "");
+                              const std::string& newPixelShaderFunction = "",
+                              const std::string& newVertexShaderFunction = "");
 
             const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
             uint32_t getVertexSize() const { return vertexSize; }
