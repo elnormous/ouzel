@@ -163,7 +163,8 @@ namespace ouzel
         RendererOGLWin::~RendererOGLWin()
         {
             running = false;
-            flushDrawCommands();
+            flushCommands();
+
             if (renderThread.joinable()) renderThread.join();
 
             if (renderContext)
