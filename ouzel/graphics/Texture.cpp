@@ -76,7 +76,6 @@ namespace ouzel
             sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
                                                                 newFlags,
                                                                 newMipmaps,
-                                                                newPixelFormat,
                                                                 image]() {
                 textureResource->init(image.getData(),
                                       image.getSize(),
