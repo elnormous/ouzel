@@ -36,10 +36,8 @@ namespace ouzel
 
             frames.reserve(framesArray.size());
 
-            for (size_t index = 0; index < framesArray.size(); ++index)
+            for (const nlohmann::json& frameObject : framesArray)
             {
-                const nlohmann::json& frameObject = framesArray[index];
-
                 const nlohmann::json& frameRectangleObject = frameObject["frame"];
 
                 Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].get<int32_t>()),
@@ -70,13 +68,11 @@ namespace ouzel
 
                     const nlohmann::json& trianglesObject = frameObject["triangles"];
 
-                    for (size_t triangleIndex = 0; triangleIndex < trianglesObject.size(); ++triangleIndex)
+                    for (const nlohmann::json& triangleObject : trianglesObject)
                     {
-                        const nlohmann::json& triangleObject = trianglesObject[triangleIndex];
-
-                        for (size_t i = 0; i < triangleObject.size(); ++i)
+                        for (const nlohmann::json& indexObject : triangleObject)
                         {
-                            indices.push_back(triangleObject[i].get<uint16_t>());
+                            indices.push_back(indexObject.get<uint16_t>());
                         }
                     }
 
