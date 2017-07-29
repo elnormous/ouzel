@@ -32,3 +32,4 @@ samples/samples.js.mem
 *.gch
 samples/samples.app
 build/html
+samples/.vs/

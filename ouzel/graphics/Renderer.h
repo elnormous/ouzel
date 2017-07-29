@@ -260,9 +260,6 @@ namespace ouzel
             float currentAccumulatedFPS = 0.0f;
             std::atomic<float> accumulatedFPS;
 
-            std::queue<std::string> screenshotQueue;
-            std::mutex screenshotMutex;
-
             std::queue<std::function<void(void)>> executeQueue;
             std::mutex executeMutex;
         };

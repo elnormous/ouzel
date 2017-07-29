@@ -132,25 +132,6 @@ namespace ouzel
 
             deleteResources.clear(); // delete all resources in delete set
 
-            for (;;)
-            {
-                std::string filename;
-
-                {
-                    std::lock_guard<std::mutex> lock(screenshotMutex);
-
-                    if (screenshotQueue.empty()) break;
-
-                    filename = std::move(screenshotQueue.front());
-                    screenshotQueue.pop();
-                }
-
-                if (!generateScreenshot(filename))
-                {
-                    return false;
-                }
-            }
-
             return true;
         }
 
@@ -300,9 +281,9 @@ namespace ouzel
 
         bool Renderer::saveScreenshot(const std::string& filename)
         {
-            std::lock_guard<std::mutex> lock(screenshotMutex);
-
-            screenshotQueue.push(filename);
+            executeOnRenderThread([this, filename]() {
+                generateScreenshot(filename);
+            });
 
             return true;
         }
