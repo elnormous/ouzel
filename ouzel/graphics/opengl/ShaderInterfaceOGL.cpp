@@ -8,7 +8,6 @@
 #include "ShaderInterfaceOGL.h"
 #include "RendererOGL.h"
 #include "core/Engine.h"
-#include "files/FileSystem.h"
 #include "utils/Log.h"
 
 namespace ouzel

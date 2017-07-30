@@ -31,7 +31,7 @@ namespace ouzel
                 case BlendState::BlendFactor::INV_BLEND_FACTOR: return GL_ONE_MINUS_CONSTANT_COLOR;
                 default:
                     Log(Log::Level::ERR) << "Unsupported blend factor";
-                    return GL_ZERO;
+                    return GL_NONE;
             }
         }
 
@@ -48,7 +48,7 @@ namespace ouzel
 #endif
                 default:
                     Log(Log::Level::ERR) << "Unsupported blend operation";
-                    return GL_FUNC_ADD;
+                    return GL_NONE;
             }
         }
 

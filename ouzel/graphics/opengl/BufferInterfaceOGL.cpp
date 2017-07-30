@@ -5,7 +5,6 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
-#include <algorithm>
 #include "BufferInterfaceOGL.h"
 #include "RendererOGL.h"
 #include "utils/Log.h"

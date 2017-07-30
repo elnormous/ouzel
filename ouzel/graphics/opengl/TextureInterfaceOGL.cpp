@@ -6,8 +6,8 @@
 #if OUZEL_SUPPORTS_OPENGL
 
 #include "TextureInterfaceOGL.h"
-#include "core/Engine.h"
 #include "RendererOGL.h"
+#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
