@@ -12,7 +12,6 @@
 #include "GL/wglext.h"
 #include "RendererOGLWin.h"
 #include "core/windows/WindowWin.h"
-#include "utils/Utils.h"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
