@@ -189,15 +189,25 @@ namespace ouzel
             frameBufferHeight = static_cast<UINT>(newSize.v[1]);
 
             UINT qualityLevels;
-            hr = device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, sampleCount, &qualityLevels);
-            if (FAILED(hr))
+            UINT supportedSampleCount;
+            for (supportedSampleCount = sampleCount; supportedSampleCount > 1; --supportedSampleCount)
             {
-                Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
+                hr = device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, supportedSampleCount, &qualityLevels);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
+                    return false;
+                }
+                else if (qualityLevels > 1)
+                {
+                    break;
+                }
             }
-            else if (qualityLevels == 0)
+
+            if (supportedSampleCount != sampleCount)
             {
-                Log(Log::Level::WARN) << "Direct3D 11 device does not support chosen sample count, multisampling disabled";
-                sampleCount = 1;
+                sampleCount = supportedSampleCount;
+                Log(Log::Level::WARN) << "Chosen sample count not supported, using: " << sampleCount;
             }
 
             DXGI_SWAP_CHAIN_DESC swapChainDesc;
