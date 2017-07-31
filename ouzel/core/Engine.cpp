@@ -290,13 +290,13 @@ namespace ouzel
         }
 
         std::string widthValue = userSettings.getValue("engine", "width", defaultSettings.getValue("engine", "width"));
-        if (!widthValue.empty()) size.v[0] = stringToFloat(widthValue);
+        if (!widthValue.empty()) size.v[0] = std::stof(widthValue);
 
         std::string heightValue = userSettings.getValue("engine", "height", defaultSettings.getValue("engine", "height"));
-        if (!heightValue.empty()) size.v[1] = stringToFloat(heightValue);
+        if (!heightValue.empty()) size.v[1] = std::stof(heightValue);
 
         std::string sampleCountValue = userSettings.getValue("engine", "sampleCount", defaultSettings.getValue("engine", "sampleCount"));
-        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(stringToUnsignedLong(sampleCountValue));
+        if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));
 
         std::string textureFilterValue = userSettings.getValue("engine", "textureFilter", defaultSettings.getValue("engine", "textureFilter"));
         if (!textureFilterValue.empty())
@@ -325,7 +325,7 @@ namespace ouzel
         }
 
         std::string maxAnisotropyValue = userSettings.getValue("engine", "maxAnisotropy", defaultSettings.getValue("engine", "maxAnisotropy"));
-        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(stringToUnsignedLong(maxAnisotropyValue));
+        if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(std::stoul(maxAnisotropyValue));
 
         std::string resizableValue = userSettings.getValue("engine", "resizable", defaultSettings.getValue("engine", "resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");

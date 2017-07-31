@@ -343,29 +343,4 @@ namespace ouzel
 
         return result;
     }
-
-    inline long stringToLong(const std::string& val)
-    {
-        return strtol(val.c_str(), nullptr, 0);
-    }
-
-    inline unsigned long stringToUnsignedLong(const std::string& val)
-    {
-        return strtoul(val.c_str(), nullptr, 0);
-    }
-
-    inline long long stringToLongLong(const std::string& val)
-    {
-        return strtoll(val.c_str(), nullptr, 0);
-    }
-
-    inline float stringToFloat(const std::string& val)
-    {
-        return strtof(val.c_str(), nullptr);
-    }
-
-    inline double stringToDouble(const std::string& val)
-    {
-        return strtod(val.c_str(), nullptr);
-    }
 }
