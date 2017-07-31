@@ -216,7 +216,7 @@ namespace ouzel
 
             if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
-                if (event.pressed)
+                if (event.pressed && !event.previousPressed)
                 {
                     if (event.button == input::GamepadButton::FACE1)
                     {
