@@ -139,7 +139,7 @@ namespace ouzel
                 return false;
             }
 
-            const std::vector<uint8_t> data = getData(lockedBufferSize);
+            getData(lockedBufferSize, data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
@@ -191,7 +191,11 @@ namespace ouzel
                     return false;
                 }
 
-                const std::vector<uint8_t> data = getData(lockedBufferSize);
+                if (!getData(lockedBufferSize, data))
+                {
+                    return false;
+                }
+
                 std::copy(data.begin(), data.end(), bufferPointer);
 
                 hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);

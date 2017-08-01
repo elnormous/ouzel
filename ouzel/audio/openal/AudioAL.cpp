@@ -199,18 +199,18 @@ namespace ouzel
                 }
             }
 
-            std::vector<uint8_t> data1 = getData(bufferSize);
+            getData(bufferSize, data);
 
             alBufferData(buffers[0], format,
-                         data1.data(),
-                         static_cast<ALsizei>(data1.size()),
+                         data.data(),
+                         static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(samplesPerSecond));
 
-            std::vector<uint8_t> data2 = getData(bufferSize);
+            getData(bufferSize, data);
 
             alBufferData(buffers[1], format,
-                         data2.data(),
-                         static_cast<ALsizei>(data2.size()),
+                         data.data(),
+                         static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(samplesPerSecond));
 
             nextBuffer = 0;
@@ -276,7 +276,10 @@ namespace ouzel
                     return false;
                 }
 
-                std::vector<uint8_t> data = getData(bufferSize);
+                if (!getData(bufferSize, data))
+                {
+                    return false;
+                }
 
                 alBufferData(buffers[nextBuffer], format,
                              data.data(),

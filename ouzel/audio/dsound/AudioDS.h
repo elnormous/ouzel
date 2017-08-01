@@ -40,6 +40,9 @@ namespace ouzel
             uint32_t nextBuffer = 0;
 
             bool running = true;
+
+            std::vector<uint8_t> data;
+
 #if OUZEL_MULTITHREADED
             std::thread audioThread;
 #endif

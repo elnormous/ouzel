@@ -150,7 +150,7 @@ namespace ouzel
                 }
             }
 
-            data[0] = getData(bufferSize);
+            getData(bufferSize, data[0]);
 
             XAUDIO2_BUFFER bufferData;
             bufferData.Flags = 0;
@@ -170,7 +170,7 @@ namespace ouzel
                 return false;
             }
 
-            data[1] = getData(bufferSize);
+            getData(bufferSize, data[1]);
             bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
             bufferData.pAudioData = data[1].data();
 
@@ -207,7 +207,10 @@ namespace ouzel
         }
         void AudioXA2::OnBufferEnd(void*)
         {
-            data[nextBuffer] = getData(bufferSize);
+            if (!getData(bufferSize, data[nextBuffer]))
+            {
+                return;
+            }
 
             XAUDIO2_BUFFER bufferData;
             bufferData.Flags = 0;

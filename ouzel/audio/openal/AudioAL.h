@@ -58,6 +58,9 @@ namespace ouzel
             ALuint buffers[2];
 
             bool running = true;
+
+            std::vector<uint8_t> data;
+
 #if OUZEL_MULTITHREADED
             std::thread audioThread;
 #endif

@@ -25,7 +25,7 @@ namespace ouzel
         public:
             virtual ~AudioCA();
 
-            void outputCallback(AudioBufferList* ioData);
+            bool outputCallback(AudioBufferList* ioData);
 
         protected:
             AudioCA();
@@ -36,6 +36,8 @@ namespace ouzel
 #endif
             AudioComponent audioComponent = nullptr;
             AudioComponentInstance audioUnit = nullptr;
+
+            std::vector<uint8_t> data;
         };
     } // namespace audio
 } // namespace ouzel

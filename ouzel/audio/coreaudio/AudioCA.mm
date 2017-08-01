@@ -34,7 +34,10 @@ static OSStatus outputCallback(void* inRefCon,
 {
     ouzel::audio::AudioCA* audioCA = static_cast<ouzel::audio::AudioCA*>(inRefCon);
 
-    audioCA->outputCallback(ioData);
+    if (!audioCA->outputCallback(ioData))
+    {
+        return -1;
+    }
 
     return noErr;
 }
@@ -312,16 +315,21 @@ namespace ouzel
             return true;
         }
 
-        void AudioCA::outputCallback(AudioBufferList* ioData)
+        bool AudioCA::outputCallback(AudioBufferList* ioData)
         {
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                std::vector<uint8_t> data = getData(buffer->mDataByteSize);
+                if (!getData(buffer->mDataByteSize, data))
+                {
+                    return false;
+                }
 
                 std::copy(data.begin(), data.end(), static_cast<uint8_t*>(buffer->mData));
             }
+
+            return true;
         }
     } // namespace audio
 } // namespace ouzel

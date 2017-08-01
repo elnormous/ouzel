@@ -158,8 +158,11 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to register OpenSL buffer queue callback";
                 return false;
             }
-
-            std::vector<uint8_t> data = getData(bufferSize);
+            
+            if (!getData(bufferSize, data))
+            {
+                return false;
+            }
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
             {
@@ -178,7 +181,10 @@ namespace ouzel
 
         void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            std::vector<uint8_t> data = getData(bufferSize);
+            if (!getData(bufferSize, data))
+            {
+                return;
+            }
 
             if ((*bufferQueue)->Enqueue(bufferQueue, data.data(), data.size()) != SL_RESULT_SUCCESS)
             {

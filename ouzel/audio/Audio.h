@@ -67,7 +67,7 @@ namespace ouzel
             Audio(Driver aDriver);
             virtual bool init(bool debugAudio);
 
-            std::vector<uint8_t> getData(uint32_t size);
+            bool getData(uint32_t size, std::vector<uint8_t>& result);
 
             Driver driver;
 
