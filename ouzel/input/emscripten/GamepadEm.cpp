@@ -16,10 +16,10 @@ namespace ouzel
     {
         // based on https://w3c.github.io/gamepad/#remapping
         static GamepadButton buttonMap[17] = {
-            GamepadButton::FACE1, // 0
-            GamepadButton::FACE2, // 1
-            GamepadButton::FACE3, // 2
-            GamepadButton::FACE4, // 3
+            GamepadButton::FACE_BOTTOM, // 0
+            GamepadButton::FACE_RIGHT, // 1
+            GamepadButton::FACE_LEFT, // 2
+            GamepadButton::FACE_TOP, // 3
             GamepadButton::LEFT_SHOULDER, // 4
             GamepadButton::RIGHT_SHOULDER, // 5
             GamepadButton::LEFT_TRIGGER, // 6

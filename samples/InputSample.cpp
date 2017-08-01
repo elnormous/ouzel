@@ -145,7 +145,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
         switch (event.button)
         {
-            case input::GamepadButton::FACE2:
+            case input::GamepadButton::FACE_RIGHT:
                 if (event.pressed) sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::GamepadButton::DPAD_UP:

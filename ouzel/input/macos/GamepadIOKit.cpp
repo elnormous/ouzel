@@ -72,10 +72,10 @@ namespace ouzel
                 usageMap[9] = GamepadButton::RIGHT_TRIGGER; // R2
                 usageMap[10] = GamepadButton::LEFT_SHOULDER; // L1
                 usageMap[11] = GamepadButton::RIGHT_SHOULDER; // R1
-                usageMap[12] = GamepadButton::FACE4; // Triangle
-                usageMap[13] = GamepadButton::FACE2; // Circle
-                usageMap[14] = GamepadButton::FACE1; // Cross
-                usageMap[15] = GamepadButton::FACE3; // Square
+                usageMap[12] = GamepadButton::FACE_TOP; // Triangle
+                usageMap[13] = GamepadButton::FACE_RIGHT; // Circle
+                usageMap[14] = GamepadButton::FACE_BOTTOM; // Cross
+                usageMap[15] = GamepadButton::FACE_LEFT; // Square
 
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
@@ -86,10 +86,10 @@ namespace ouzel
             }
             else if (vendorId == 0x054C && productId == 0x05C4) // Playstation 4 controller
             {
-                usageMap[0] = GamepadButton::FACE3; // Square
-                usageMap[1] = GamepadButton::FACE1; // Cross
-                usageMap[2] = GamepadButton::FACE2; // Circle
-                usageMap[3] = GamepadButton::FACE4; // Triangle
+                usageMap[0] = GamepadButton::FACE_LEFT; // Square
+                usageMap[1] = GamepadButton::FACE_BOTTOM; // Cross
+                usageMap[2] = GamepadButton::FACE_RIGHT; // Circle
+                usageMap[3] = GamepadButton::FACE_TOP; // Triangle
                 usageMap[4] = GamepadButton::LEFT_SHOULDER; // L1
                 usageMap[5] = GamepadButton::RIGHT_SHOULDER; // R1
                 usageMap[6] = GamepadButton::LEFT_TRIGGER; // L2
@@ -108,10 +108,10 @@ namespace ouzel
             }
             else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
             {
-                usageMap[0] = GamepadButton::FACE1; // A
-                usageMap[1] = GamepadButton::FACE2; // B
-                usageMap[2] = GamepadButton::FACE3; // X
-                usageMap[3] = GamepadButton::FACE4; // Y
+                usageMap[0] = GamepadButton::FACE_BOTTOM; // A
+                usageMap[1] = GamepadButton::FACE_RIGHT; // B
+                usageMap[2] = GamepadButton::FACE_LEFT; // X
+                usageMap[3] = GamepadButton::FACE_TOP; // Y
                 usageMap[4] = GamepadButton::LEFT_SHOULDER;
                 usageMap[5] = GamepadButton::RIGHT_SHOULDER;
                 usageMap[6] = GamepadButton::LEFT_THUMB;
@@ -203,10 +203,10 @@ namespace ouzel
                      (vendorId == 0x15E4 && productId == 0x3F0A) || // XboxAirflowiredcontroller
                      (vendorId == 0x0E6F && productId == 0x0401)) // GameStop XBox 360 Controller
             {
-                usageMap[0] = GamepadButton::FACE1; // A
-                usageMap[1] = GamepadButton::FACE2; // B
-                usageMap[2] = GamepadButton::FACE3; // X
-                usageMap[3] = GamepadButton::FACE4; // Y
+                usageMap[0] = GamepadButton::FACE_BOTTOM; // A
+                usageMap[1] = GamepadButton::FACE_RIGHT; // B
+                usageMap[2] = GamepadButton::FACE_LEFT; // X
+                usageMap[3] = GamepadButton::FACE_TOP; // Y
                 usageMap[4] = GamepadButton::LEFT_SHOULDER;
                 usageMap[5] = GamepadButton::RIGHT_SHOULDER;
                 usageMap[6] = GamepadButton::LEFT_THUMB;
@@ -227,10 +227,10 @@ namespace ouzel
             }
             else // Generic (based on Logitech RumblePad 2)
             {
-                usageMap[0] = GamepadButton::FACE3;
-                usageMap[1] = GamepadButton::FACE1;
-                usageMap[2] = GamepadButton::FACE2;
-                usageMap[3] = GamepadButton::FACE4;
+                usageMap[0] = GamepadButton::FACE_LEFT;
+                usageMap[1] = GamepadButton::FACE_BOTTOM;
+                usageMap[2] = GamepadButton::FACE_RIGHT;
+                usageMap[3] = GamepadButton::FACE_TOP;
                 usageMap[4] = GamepadButton::LEFT_SHOULDER;
                 usageMap[5] = GamepadButton::RIGHT_SHOULDER;
                 usageMap[6] = GamepadButton::LEFT_TRIGGER;
