@@ -47,8 +47,6 @@ void ouzelMain(const std::vector<std::string>& args)
         }
     }
 
-    ouzel::sharedEngine->getInput()->startGamepadDiscovery();
-
     ouzel::sharedEngine->getFileSystem()->addResourcePath("Resources");
 
     ouzel::sharedEngine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
