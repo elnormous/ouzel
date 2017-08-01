@@ -41,7 +41,7 @@ AnimationsSample::AnimationsSample():
     shapeDrawable->polygon({Vector2(15.0f, 75.0f),
                             Vector2(25.0f, 75.0f),
                             Vector2(25.0f, 55.0f)},
-                           Color::YELLOW, false);
+                           Color("#ff0000"), false);
 
     drawNode.reset(new scene::Node());
     drawNode->addComponent(shapeDrawable.get());

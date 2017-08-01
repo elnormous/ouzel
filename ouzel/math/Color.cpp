@@ -24,7 +24,7 @@ namespace ouzel
 
                 for (size_t component = 0; component < 3; ++component)
                 {
-                    std::string currentValue = "0x";
+                    std::string currentValue;
 
                     for (size_t byte = 0; byte < ((componentSize < 2) ? componentSize : 2); ++byte)
                     {
@@ -42,7 +42,7 @@ namespace ouzel
                         }
                     }
 
-                    result |= (static_cast<uint32_t>(std::stoul(currentValue))) << ((3 - component) * 8);
+                    result |= (static_cast<uint32_t>(std::stoul(currentValue, 0, 16))) << ((3 - component) * 8);
                 }
 
                 result |= 0xff; // alpha
