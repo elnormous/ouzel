@@ -43,6 +43,7 @@
 #include "core/Window.h"
 #include "core/Cache.h"
 #include "utils/Log.h"
+#include "utils/Utils.h"
 #include "stb_image_write.h"
 
 #if OUZEL_SUPPORTS_OPENGLES

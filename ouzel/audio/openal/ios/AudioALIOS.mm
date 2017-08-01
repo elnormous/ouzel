@@ -12,9 +12,9 @@ namespace ouzel
 {
     namespace audio
     {
-        bool AudioALIOS::init()
+        bool AudioALIOS::init(bool debugAudio)
         {
-            if (!AudioAL::init())
+            if (!AudioAL::init(debugAudio))
             {
                 return false;
             }

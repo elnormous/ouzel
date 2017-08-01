@@ -16,7 +16,7 @@ namespace ouzel
         class AudioALTVOS: public AudioAL
         {
         public:
-            virtual bool init() override;
+            virtual bool init(bool debugAudio) override;
         };
     }
 }
