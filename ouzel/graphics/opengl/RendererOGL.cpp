@@ -674,7 +674,7 @@ namespace ouzel
             sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), false, false);
+            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), 0, 1);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             glDisable(GL_DITHER);

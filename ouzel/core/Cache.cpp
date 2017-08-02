@@ -31,7 +31,7 @@ namespace ouzel
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
-        texture->init(filename, dynamic, mipmaps);
+        texture->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1);
 
         textures[filename] = texture;
     }
@@ -47,7 +47,7 @@ namespace ouzel
         else
         {
             std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-            result->init(filename, dynamic, mipmaps);
+            result->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1);
 
             i = textures.insert(std::make_pair(filename, result)).first;
 
