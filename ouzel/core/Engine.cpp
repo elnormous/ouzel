@@ -79,7 +79,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(false), screenSaverEnabled(false)
+        running(false), active(false), screenSaverEnabled(true)
     {
         sharedEngine = this;
     }

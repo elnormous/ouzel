@@ -108,7 +108,7 @@ namespace ouzel
         std::atomic<bool> active;
 
         // from application
-        bool screenSaverEnabled = true;
+        std::atomic<bool> screenSaverEnabled;
         std::vector<std::string> args;
         // from application
     };
