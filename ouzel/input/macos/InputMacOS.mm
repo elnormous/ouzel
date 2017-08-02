@@ -4,6 +4,8 @@
 #include <algorithm>
 #import <Carbon/Carbon.h>
 #import <GameController/GameController.h>
+#import <IOKit/hidsystem/IOHIDServiceClient.h>
+#import <objc/message.h>
 #include "InputMacOS.h"
 #include "CursorResourceMacOS.h"
 #include "GamepadGC.h"
@@ -456,17 +458,51 @@ namespace ouzel
 
         void InputMacOS::handleGamepadConnected(GCControllerPtr controller)
         {
-            Event event;
-            event.type = Event::Type::GAMEPAD_CONNECT;
+            int32_t vendorId = 0;
+            int32_t productId = 0;
 
-            std::unique_ptr<GamepadGC> gamepad(new GamepadGC(controller));
-            gamepadsGC.push_back(gamepad.get());
+            if (class_respondsToSelector(object_getClass(controller), sel_getUid("hidServices")))
+            {
+                NSArray* hidServices = reinterpret_cast<NSArray* (*)(id, SEL)>(objc_msgSend)(controller, sel_getUid("hidServices"));
 
-            event.gamepadEvent.gamepad = gamepad.get();
+                if (hidServices && [hidServices count] > 0)
+                {
+                    IOHIDServiceClientRef service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(objc_msgSend)([hidServices firstObject], sel_getUid("service"));
 
-            gamepads.push_back(std::move(gamepad));
+                    CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey)));
+                    if (vendor)
+                    {
+                        CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
+                        CFRelease(vendor);
+                    }
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+                    CFNumberRef product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey)));
+                    if (product)
+                    {
+                        CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
+                        CFRelease(product);
+                    }
+                }
+            }
+
+            bool supportsGameController = (vendorId == 0x1038 && productId == 0x1420); // SteelSeries Nimbus
+                                          /*(vendorId == 0x0090 && productId == 0x0F0D);*/ // HoriPad Ultimate
+
+            // Use IOKit only if the controller does not support GameController framework
+            if (supportsGameController)
+            {
+                Event event;
+                event.type = Event::Type::GAMEPAD_CONNECT;
+
+                std::unique_ptr<GamepadGC> gamepad(new GamepadGC(controller));
+                gamepadsGC.push_back(gamepad.get());
+
+                event.gamepadEvent.gamepad = gamepad.get();
+
+                gamepads.push_back(std::move(gamepad));
+
+                sharedEngine->getEventDispatcher()->postEvent(event);
+            }
         }
 
         void InputMacOS::handleGamepadDisconnected(GCControllerPtr controller)
@@ -502,13 +538,14 @@ namespace ouzel
         void InputMacOS::handleGamepadConnected(IOHIDDeviceRef device)
         {
             int32_t vendorId = 0;
+            int32_t productId = 0;
+
             CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
             if (vendor)
             {
                 CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
             }
 
-            int32_t productId = 0;
             CFNumberRef product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
             if (product)
             {
