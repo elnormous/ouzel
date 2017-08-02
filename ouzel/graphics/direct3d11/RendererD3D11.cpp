@@ -198,7 +198,7 @@ namespace ouzel
                     Log(Log::Level::WARN) << "Failed to check Direct3D 11 multisample quality levels, error: " << hr;
                     return false;
                 }
-                else if (qualityLevels > 1)
+                else if (qualityLevels)
                 {
                     break;
                 }
