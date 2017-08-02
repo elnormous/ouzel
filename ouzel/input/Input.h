@@ -192,7 +192,7 @@ namespace ouzel
             DPAD_RIGHT,
             DPAD_UP,
             DPAD_DOWN,
-            FACE_BOTTOM, // A on Xbox controller, X on PS controller
+            FACE_BOTTOM, // A on Xbox controller, cross on PS controller
             FACE_RIGHT, // B on Xbox controller, circle on PS controller
             FACE_LEFT, // X on Xbox controller, square on PS controller
             FACE_TOP, // Y on Xbox controller, triangle on PS controller

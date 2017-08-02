@@ -304,7 +304,7 @@ namespace ouzel
                 if (element.usagePage == kHIDPage_Button)
                 {
                     if (element.button != GamepadButton::NONE &&
-                        (element.button != GamepadButton::LEFT_TRIGGER || !leftThumbX) && // don't send digital tirgger if analog trigger exists
+                        (element.button != GamepadButton::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
                         (element.button != GamepadButton::RIGHT_TRIGGER || !rightThumbY))
                     {
                         handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0f : 0.0f);
