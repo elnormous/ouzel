@@ -82,7 +82,7 @@ namespace ouzel
             return true;
         }
 
-        bool SoundResource::getData(uint32_t size, uint16_t channels, uint32_t samplesPerSecond, std::vector<uint8_t>& result)
+        bool SoundResource::getData(uint32_t samples, uint16_t channels, uint32_t samplesPerSecond, std::vector<float>& result)
         {
             std::lock_guard<std::mutex> lock(uploadMutex);
 
@@ -92,8 +92,8 @@ namespace ouzel
             }
             else if (soundData && soundData->getChannels() > 0 && stream)
             {
-                std::vector<uint8_t> data;
-                if (!soundData->getData(stream.get(), (size / channels) * soundData->getChannels(), data))
+                std::vector<float> data;
+                if (!soundData->getData(stream.get(), (samples / channels) * soundData->getChannels(), data))
                 {
                     return false;
                 }
@@ -105,12 +105,12 @@ namespace ouzel
                 }
                 else
                 {
-                    result.resize(size);
+                    result.resize(samples);
 
                     if (channels != soundData->getChannels())
                     {
-                        uint32_t dstSamples = size / sizeof(int16_t);
-                        uint32_t srcSamples = static_cast<uint32_t>(data.size()) / sizeof(int16_t);
+                        uint32_t dstSamples = samples;
+                        uint32_t srcSamples = static_cast<uint32_t>(data.size());
 
                         // front left channel
                         if (channels >= 1)

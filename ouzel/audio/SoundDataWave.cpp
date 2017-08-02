@@ -206,14 +206,14 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataWave::getData(Stream* stream, uint32_t size, std::vector<uint8_t>& result)
+        bool SoundDataWave::getData(Stream* stream, uint32_t samples, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
             uint32_t offset = streamWave->getOffset();
             uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
 
-            if (remainingSize < size)
+            if (remainingSize < samples)
             {
                 result.resize(0);
                 result.reserve(remainingSize);
@@ -225,11 +225,11 @@ namespace ouzel
             else
             {
                 result.resize(0);
-                result.reserve(size);
+                result.reserve(samples);
 
-                std::copy(data.begin() + offset, data.begin() + offset + size, std::back_inserter(result));
+                std::copy(data.begin() + offset, data.begin() + offset + samples, std::back_inserter(result));
 
-                streamWave->setOffset(offset + size);
+                streamWave->setOffset(offset + samples);
             }
 
             return true;

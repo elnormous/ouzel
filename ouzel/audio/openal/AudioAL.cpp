@@ -199,14 +199,14 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize, data);
+            getData(bufferSize, Format::SINT16, data);
 
             alBufferData(buffers[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(samplesPerSecond));
 
-            getData(bufferSize, data);
+            getData(bufferSize, Format::SINT16, data);
 
             alBufferData(buffers[1], format,
                          data.data(),
@@ -276,7 +276,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(bufferSize, data))
+                if (!getData(bufferSize, Format::SINT16, data))
                 {
                     return false;
                 }

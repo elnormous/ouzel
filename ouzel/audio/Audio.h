@@ -50,6 +50,12 @@ namespace ouzel
                 CHANNEL_SIDE_RIGHT = 7
             };
 
+            enum class Format
+            {
+                SINT16,
+                FLOAT32
+            };
+
             virtual ~Audio();
 
             virtual bool update();
@@ -67,7 +73,7 @@ namespace ouzel
             Audio(Driver aDriver);
             virtual bool init(bool debugAudio);
 
-            bool getData(uint32_t size, std::vector<uint8_t>& result);
+            bool getData(uint32_t size, Format format, std::vector<uint8_t>& result);
 
             Driver driver;
 
