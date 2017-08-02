@@ -300,25 +300,6 @@ namespace ouzel
 
             return true;
         }
-
-        bool ShaderInterfaceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t size)
-        {
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
-            D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-            HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
-                return false;
-            }
-
-            std::copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + size, static_cast<uint8_t*>(mappedSubresource.pData));
-
-            rendererD3D11->getContext()->Unmap(buffer, 0);
-
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel
 

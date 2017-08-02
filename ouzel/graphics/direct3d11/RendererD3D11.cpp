@@ -626,9 +626,12 @@ namespace ouzel
                     shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                 }
 
-                shaderD3D11->uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
-                                          shaderData.data(),
-                                          static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                if (!uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
+                                  shaderData.data(),
+                                  static_cast<uint32_t>(sizeof(float) * shaderData.size())))
+                {
+                    return false;
+                }
 
                 ID3D11Buffer* pixelShaderConstantBuffers[1] = {shaderD3D11->getPixelShaderConstantBuffer()};
                 context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
@@ -658,9 +661,12 @@ namespace ouzel
                     shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                 }
 
-                shaderD3D11->uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
-                                          shaderData.data(),
-                                          static_cast<uint32_t>(sizeof(float) * shaderData.size()));
+                if (!uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
+                                  shaderData.data(),
+                                  static_cast<uint32_t>(sizeof(float) * shaderData.size())))
+                {
+                    return false;
+                }
 
                 ID3D11Buffer* vertexShaderConstantBuffers[1] = {shaderD3D11->getVertexShaderConstantBuffer()};
                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
@@ -1070,6 +1076,23 @@ namespace ouzel
                     }
                 }
             }
+
+            return true;
+        }
+
+        bool RendererD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
+        {
+            D3D11_MAPPED_SUBRESOURCE mappedSubresource;
+            HRESULT hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
+                return false;
+            }
+
+            std::copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + dataSize, static_cast<uint8_t*>(mappedSubresource.pData));
+
+            context->Unmap(buffer, 0);
 
             return true;
         }
