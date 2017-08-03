@@ -4,7 +4,6 @@
 #include <algorithm>
 #import <Carbon/Carbon.h>
 #import <GameController/GameController.h>
-#import <IOKit/hidsystem/IOHIDServiceClient.h>
 #import <objc/message.h>
 #include "InputMacOS.h"
 #include "CursorResourceMacOS.h"
@@ -14,6 +13,9 @@
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
 #include "utils/Log.h"
+
+typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
+extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);
 
 @interface ConnectDelegate: NSObject
 {
