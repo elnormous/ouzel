@@ -296,13 +296,13 @@ namespace ouzel
                 else
                 {
                     dataFormat = Format::SINT16;
-                    sampleSize = 2;
+                    sampleSize = sizeof(int16_t);
                 }
             }
             else
             {
                 dataFormat = Format::FLOAT32;
-                sampleSize = 4;
+                sampleSize = sizeof(float);
             }
 
             AURenderCallbackStruct callback;
