@@ -26,7 +26,7 @@ namespace ouzel
         protected:
             std::string filename;
 
-            std::vector<uint8_t> data;
+            std::vector<float> data;
         };
     } // namespace audio
 } // namespace ouzel

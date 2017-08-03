@@ -321,7 +321,7 @@ namespace ouzel
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                if (!getData(buffer->mDataByteSize, Format::SINT16, data))
+                if (!getData(buffer->mDataByteSize / sizeof(int16_t), Format::SINT16, data))
                 {
                     return false;
                 }

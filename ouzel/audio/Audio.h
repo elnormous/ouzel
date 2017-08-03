@@ -73,7 +73,7 @@ namespace ouzel
             Audio(Driver aDriver);
             virtual bool init(bool debugAudio);
 
-            bool getData(uint32_t size, Format format, std::vector<uint8_t>& result);
+            bool getData(uint32_t samples, Format format, std::vector<uint8_t>& result);
 
             Driver driver;
 
@@ -92,6 +92,8 @@ namespace ouzel
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t samplesPerSecond = 44100;
             const uint16_t channels = 2;
+
+            std::vector<float> buffer;
         };
     } // namespace audio
 } // namespace ouzel

@@ -199,14 +199,14 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize, Format::SINT16, data);
+            getData(bufferSize / sizeof(int16_t), Format::SINT16, data);
 
             alBufferData(buffers[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(samplesPerSecond));
 
-            getData(bufferSize, Format::SINT16, data);
+            getData(bufferSize / sizeof(int16_t), Format::SINT16, data);
 
             alBufferData(buffers[1], format,
                          data.data(),

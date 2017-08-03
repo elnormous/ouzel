@@ -139,7 +139,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(lockedBufferSize, data);
+            getData(lockedBufferSize / sizeof(int16_t), Format::SINT16, data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
@@ -191,7 +191,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(lockedBufferSize, data))
+                if (!getData(lockedBufferSize / sizeof(int16_t), Format::SINT16, data))
                 {
                     return false;
                 }

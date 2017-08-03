@@ -58,10 +58,10 @@ namespace ouzel
             listenerRotation = newRotation;
         }
 
-        bool Audio::getData(uint32_t size, Format format, std::vector<uint8_t>& result)
+        bool Audio::getData(uint32_t samples, Format format, std::vector<uint8_t>& result)
         {
-            result.resize(size);
-            std::fill(result.begin(), result.end(), 0.0f);
+            buffer.resize(samples);
+            std::fill(buffer.begin(), buffer.end(), 0.0f);
 
             {
                 std::vector<float> data;
@@ -70,7 +70,7 @@ namespace ouzel
 
                 for (const auto& resource : resources)
                 {
-                    if (!resource->getData(size, channels, samplesPerSecond, data))
+                    if (!resource->getData(samples, channels, samplesPerSecond, data))
                     {
                         return false;
                     }
@@ -78,14 +78,35 @@ namespace ouzel
                     for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                     {
                         // mix the resource sound into the buffer
-                        result[i] += data[i];
+                        buffer[i] += data[i];
                     }
                 }
             }
 
-            for (float& f : result)
+            for (float& f : buffer)
             {
                 f = clamp(f, -1.0f, 1.0f);
+            }
+
+            switch (format)
+            {
+                case Format::SINT16:
+                {
+                    result.resize(samples * 2);
+                    int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
+
+                    for (uint32_t i = 0; i < buffer.size(); ++i)
+                    {
+                        *resultPtr = static_cast<int16_t>(buffer[i] * 32767.0f);
+                        ++resultPtr;
+                    }
+                    break;
+                }
+                case Format::FLOAT32:
+                {
+                    result.assign(buffer.data(), buffer.data() + buffer.size() * 4);
+                    break;
+                }
             }
 
             return true;
