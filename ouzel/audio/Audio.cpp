@@ -104,7 +104,9 @@ namespace ouzel
                 }
                 case Format::FLOAT32:
                 {
-                    result.assign(buffer.data(), buffer.data() + buffer.size() * 4);
+                    result.reserve(samples * 4);
+                    result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
+                                  reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * 4);
                     break;
                 }
             }
