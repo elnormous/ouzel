@@ -160,19 +160,19 @@ namespace ouzel
                     }
 
                     // center channel
-                    /*if (channels >= 3)
+                    if (channels >= 3)
                     {
-                        int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
+                        uint32_t destination = 0;
 
                         if (soundData->getChannels() >= 3)
                         {
-                            int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
+                            uint32_t source = 0;
 
                             for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 2) = *(srcBuffer + 2);
-                                dstBuffer += channels;
-                                srcBuffer += soundData->getChannels();
+                                result[destination + 2] = data[source + 2];
+                                destination += channels;
+                                source += soundData->getChannels();
                             }
                         }
                         else if (channels >= 2)
@@ -180,8 +180,8 @@ namespace ouzel
                             // calculate the average of the front left and the front right channel
                             for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 2) = (*dstBuffer + *(dstBuffer + 1)) / 2;
-                                dstBuffer += channels;
+                                result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0f;
+                                destination += channels;
                             }
                         }
                         else
@@ -189,8 +189,8 @@ namespace ouzel
                             // copy the front left channel in to the center one
                             for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 2) = *dstBuffer;
-                                dstBuffer += channels;
+                                result[destination + 2] = result[destination];
+                                destination += channels;
                             }
                         }
                     }
@@ -198,17 +198,17 @@ namespace ouzel
                     // LFE channel
                     if (channels >= 4)
                     {
-                        int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
+                        uint32_t destination = 0;
 
                         if (soundData->getChannels() >= 4)
                         {
-                            int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
+                            uint32_t source = 0;
 
                             for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 3) = *(srcBuffer + 3);
-                                dstBuffer += channels;
-                                srcBuffer += soundData->getChannels();
+                                result[destination + 3] = data[source + 3];
+                                destination += channels;
+                                source += soundData->getChannels();
                             }
                         }
                         else
@@ -216,8 +216,8 @@ namespace ouzel
                             // fill the LFE channel with zeros
                             for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 3) = 0;
-                                dstBuffer += channels;
+                                result[destination + 3] = 0;
+                                destination += channels;
                             }
                         }
                     }
@@ -225,27 +225,27 @@ namespace ouzel
                     // back left channel
                     if (channels >= 5)
                     {
-                        int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
+                        uint32_t destination = 0;
 
                         // sound data has back left channel
                         if (soundData->getChannels() >= 5)
                         {
-                            int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
+                            uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 4) = *(srcBuffer + 4);
-                                dstBuffer += channels;
-                                srcBuffer += soundData->getChannels();
+                                result[destination + 4] = data[source + 4];
+                                destination += channels;
+                                source += soundData->getChannels();
                             }
                         }
                         else
                         {
                             // copy the front left channel in to the back left one
-                            for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 4) = *dstBuffer;
-                                dstBuffer += channels;
+                                result[destination + 4] = result[destination];
+                                destination += channels;
                             }
                         }
                     }
@@ -253,30 +253,30 @@ namespace ouzel
                     // back right channel
                     if (channels >= 6)
                     {
-                        int16_t* dstBuffer = reinterpret_cast<int16_t*>(result.data());
+                        uint32_t destination = 0;
 
                         // sound data has back right channel
                         if (soundData->getChannels() >= 6)
                         {
-                            int16_t* srcBuffer = reinterpret_cast<int16_t*>(data.data());
+                            uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 5) = *(srcBuffer + 5);
-                                dstBuffer += channels;
-                                srcBuffer += soundData->getChannels();
+                                result[destination + 5] = data[source + 5];
+                                destination += channels;
+                                source += soundData->getChannels();
                             }
                         }
                         else
                         {
                             // copy the front right channel in to the back right one
-                            for (uint32_t i = 0; i < dstSamples / channels && i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
                             {
-                                *(dstBuffer + 5) = *(dstBuffer + 1);
-                                dstBuffer += channels;
+                                result[destination + 5] = result[destination + 1];
+                                destination += channels;
                             }
                         }
-                    }*/
+                    }
                 }
                 else
                 {
