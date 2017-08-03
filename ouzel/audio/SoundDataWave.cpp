@@ -165,34 +165,32 @@ namespace ouzel
                 return false;
             }
 
-            if (bitsPerSample == 16)
-            {
-                data = std::move(soundData);
-            }
-            else
-            {
-                uint32_t bytesPerSample = bitsPerSample / 8;
-                uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
+            uint32_t bytesPerSample = bitsPerSample / 8;
+            uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
+            data.resize(samples);
 
-                data.reserve(samples * 2);
-
-                for (uint32_t position = 0; position < samples * bytesPerSample; position += bytesPerSample)
+            if (bitsPerSample == 8)
+            {
+                for (uint32_t i = 0; i < samples; ++i)
                 {
-                    int16_t sample = 0;
-
-                    if (bitsPerSample < 16) // signed 8-bit sample
-                    {
-                        sample = static_cast<int16_t>((static_cast<int32_t>(soundData[position]) << (16 - bitsPerSample)) - 32768);
-                    }
-                    else if (bitsPerSample > 16)
-                    {
-                        sample = static_cast<int16_t>(static_cast<int32_t>(soundData[position + bytesPerSample - 2]) |
-                                                      static_cast<int32_t>(soundData[position + bytesPerSample - 1]) << 8);
-                    }
-
-                    // encode sample as little endian integer
-                    data.push_back(static_cast<uint8_t>(sample));
-                    data.push_back(static_cast<uint8_t>(sample >> 8));
+                    data[i] = static_cast<float>(soundData[i]) / 255.0f - 0.5f;
+                }
+            }
+            else if (bitsPerSample == 16)
+            {
+                for (uint32_t i = 0; i < samples; ++i)
+                {
+                    data[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
+                                                                      (soundData[i * 2 + 1] << 8))) / 32767.0f;
+                }
+            }
+            else if (bitsPerSample == 24)
+            {
+                for (uint32_t i = 0; i < samples; ++i)
+                {
+                    data[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
+                                                                      (soundData[i * 3 + 1] << 16) |
+                                                                      (soundData[i * 3 + 2] << 24))) / 2147483648.0f;
                 }
             }
 
@@ -206,14 +204,14 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataWave::getData(Stream* stream, uint32_t size, std::vector<uint8_t>& result)
+        bool SoundDataWave::getData(Stream* stream, uint32_t samples, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
             uint32_t offset = streamWave->getOffset();
             uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
 
-            if (remainingSize < size)
+            if (remainingSize < samples)
             {
                 result.resize(0);
                 result.reserve(remainingSize);
@@ -225,11 +223,11 @@ namespace ouzel
             else
             {
                 result.resize(0);
-                result.reserve(size);
+                result.reserve(samples);
 
-                std::copy(data.begin() + offset, data.begin() + offset + size, std::back_inserter(result));
+                std::copy(data.begin() + offset, data.begin() + offset + samples, std::back_inserter(result));
 
-                streamWave->setOffset(offset + size);
+                streamWave->setOffset(offset + samples);
             }
 
             return true;

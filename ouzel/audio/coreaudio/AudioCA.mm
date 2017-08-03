@@ -265,10 +265,10 @@ namespace ouzel
             AudioStreamBasicDescription streamDescription;
             streamDescription.mSampleRate = samplesPerSecond;
             streamDescription.mFormatID = kAudioFormatLinearPCM;
-            streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
+            streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
             streamDescription.mChannelsPerFrame = channels;
             streamDescription.mFramesPerPacket = 1;
-            streamDescription.mBitsPerChannel = 16;
+            streamDescription.mBitsPerChannel = 32;
             streamDescription.mBytesPerFrame = streamDescription.mBitsPerChannel * streamDescription.mChannelsPerFrame / 8;
             streamDescription.mBytesPerPacket = streamDescription.mBytesPerFrame * streamDescription.mFramesPerPacket;
             streamDescription.mReserved = 0;
@@ -279,8 +279,30 @@ namespace ouzel
 
             if (result != noErr)
             {
-                Log(Log::Level::ERR) << "Failed to set CoreAudio unit stream format, error: " << result;
-                return false;
+                Log(Log::Level::WARN) << "Failed to set CoreAudio unit stream format to float, error: " << result;
+
+                streamDescription.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger;
+                streamDescription.mBitsPerChannel = 16;
+
+                result = AudioUnitSetProperty(audioUnit,
+                                              kAudioUnitProperty_StreamFormat,
+                                              kAudioUnitScope_Input, bus, &streamDescription, sizeof(streamDescription));
+
+                if (result != noErr)
+                {
+                    Log(Log::Level::ERR) << "Failed to set CoreAudio unit stream format, error: " << result;
+                    return false;
+                }
+                else
+                {
+                    dataFormat = Format::SINT16;
+                    sampleSize = 2;
+                }
+            }
+            else
+            {
+                dataFormat = Format::FLOAT32;
+                sampleSize = 4;
             }
 
             AURenderCallbackStruct callback;
@@ -321,7 +343,7 @@ namespace ouzel
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                if (!getData(buffer->mDataByteSize, data))
+                if (!getData(buffer->mDataByteSize / sampleSize, dataFormat, data))
                 {
                     return false;
                 }

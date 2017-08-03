@@ -58,46 +58,57 @@ namespace ouzel
             listenerRotation = newRotation;
         }
 
-        bool Audio::getData(uint32_t size, std::vector<uint8_t>& result)
+        bool Audio::getData(uint32_t samples, Format format, std::vector<uint8_t>& result)
         {
-            std::vector<int32_t> buffer(size / 2, 0);
+            buffer.resize(samples);
+            std::fill(buffer.begin(), buffer.end(), 0.0f);
 
             {
-                std::vector<uint8_t> data;
+                std::vector<float> data;
 
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
                 for (const auto& resource : resources)
                 {
-                    if (!resource->getData(size, channels, samplesPerSecond, data))
+                    if (!resource->getData(samples, channels, samplesPerSecond, data))
                     {
                         return false;
                     }
 
-                    int16_t* dataPtr = reinterpret_cast<int16_t*>(data.data());
-                    int32_t* bufferPtr = buffer.data();
-
-                    for (uint32_t i = 0; i < data.size() / sizeof(int16_t) && i < size / sizeof(int16_t); ++i)
+                    for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                     {
                         // mix the resource sound into the buffer
-                        *bufferPtr += *dataPtr;
-
-                        ++dataPtr;
-                        ++bufferPtr;
+                        buffer[i] += data[i];
                     }
                 }
             }
 
-            result.resize(size);
-            int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
-            int32_t* bufferPtr = buffer.data();
-
-            for (uint32_t i = 0; i < result.size() / sizeof(int16_t); ++i)
+            for (float& f : buffer)
             {
-                *resultPtr = static_cast<int16_t>(clamp(*bufferPtr, static_cast<int32_t>(std::numeric_limits<int16_t>::min()), static_cast<int32_t>(std::numeric_limits<int16_t>::max())));
+                f = clamp(f, -1.0f, 1.0f);
+            }
 
-                ++resultPtr;
-                ++bufferPtr;
+            switch (format)
+            {
+                case Format::SINT16:
+                {
+                    result.resize(samples * 2);
+                    int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
+
+                    for (uint32_t i = 0; i < buffer.size(); ++i)
+                    {
+                        *resultPtr = static_cast<int16_t>(buffer[i] * 32767.0f);
+                        ++resultPtr;
+                    }
+                    break;
+                }
+                case Format::FLOAT32:
+                {
+                    result.reserve(samples * 4);
+                    result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
+                                  reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * 4);
+                    break;
+                }
             }
 
             return true;

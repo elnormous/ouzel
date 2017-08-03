@@ -159,7 +159,7 @@ namespace ouzel
                 return false;
             }
             
-            if (!getData(bufferSize, data))
+            if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data))
             {
                 return false;
             }
@@ -181,7 +181,7 @@ namespace ouzel
 
         void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            if (!getData(bufferSize, data))
+            if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data))
             {
                 return;
             }
