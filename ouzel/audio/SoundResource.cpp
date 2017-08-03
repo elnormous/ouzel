@@ -289,13 +289,13 @@ namespace ouzel
 
                 std::vector<float> channelVolume(channels, gain);
 
-                /*for (uint32_t i = 0; i < samples / channels; ++i)
+                for (uint32_t i = 0; i < result.size() / channels; ++i)
                 {
                     for (uint32_t channel = 0; channel < channels; ++channel)
                     {
                         result[i * channels + channel] *= channelVolume[channel];
                     }
-                }*/
+                }
             }
 
             return true;
