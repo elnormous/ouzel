@@ -92,7 +92,6 @@ namespace ouzel
             }
             else if (soundData && soundData->getChannels() > 0 && stream)
             {
-                std::vector<float> data;
                 if (!soundData->getData(stream.get(), (samples / channels) * soundData->getChannels(), data))
                 {
                     return false;

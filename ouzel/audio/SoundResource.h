@@ -50,6 +50,7 @@ namespace ouzel
             float pitch = 1.0f;
             float gain = 1.0f;
 
+            std::vector<float> data;
             std::mutex uploadMutex;
         };
     } // namespace audio
