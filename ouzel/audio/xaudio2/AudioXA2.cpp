@@ -109,10 +109,10 @@ namespace ouzel
             }
 
             WAVEFORMATEX waveFormat;
-            waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+            waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
             waveFormat.nChannels = channels;
             waveFormat.nSamplesPerSec = samplesPerSecond;
-            waveFormat.wBitsPerSample = 16;
+            waveFormat.wBitsPerSample = 32;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
             waveFormat.cbSize = 0;
@@ -207,7 +207,7 @@ namespace ouzel
         }
         void AudioXA2::OnBufferEnd(void*)
         {
-            if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data[nextBuffer]))
+            if (!getData(bufferSize / sizeof(float), Format::FLOAT32, data[nextBuffer]))
             {
                 return;
             }
