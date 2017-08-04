@@ -27,12 +27,13 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererOGL;
         class BufferInterfaceOGL;
 
         class MeshBufferInterfaceOGL: public MeshBufferInterface
         {
         public:
-            MeshBufferInterfaceOGL();
+            MeshBufferInterfaceOGL(RendererOGL* aRendererOGL);
             virtual ~MeshBufferInterfaceOGL();
 
             virtual bool init(uint32_t newIndexSize, BufferInterface* newIndexBuffer,
@@ -53,6 +54,8 @@ namespace ouzel
             BufferInterfaceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
+            RendererOGL* rendererOGL;
+
             GLenum indexType = 0;
             GLuint bytesPerIndex = 0;
 

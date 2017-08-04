@@ -849,7 +849,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureInterface* texture = new TextureInterfaceMetal();
+            TextureInterface* texture = new TextureInterfaceMetal(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(texture));
             return texture;
         }
@@ -858,7 +858,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderInterface* shader = new ShaderInterfaceMetal();
+            ShaderInterface* shader = new ShaderInterfaceMetal(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(shader));
             return shader;
         }
@@ -876,7 +876,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferInterface* buffer = new BufferInterfaceMetal();
+            BufferInterface* buffer = new BufferInterfaceMetal(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
             return buffer;
         }

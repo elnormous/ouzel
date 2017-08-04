@@ -7,7 +7,6 @@
 
 #include "TextureInterfaceMetal.h"
 #include "RendererMetal.h"
-#include "core/Engine.h"
 #include "math/MathUtils.h"
 #include "utils/Log.h"
 
@@ -52,7 +51,8 @@ namespace ouzel
             }
         }
 
-        TextureInterfaceMetal::TextureInterfaceMetal()
+        TextureInterfaceMetal::TextureInterfaceMetal(RendererMetal* aRendererMetal):
+            rendererMetal(aRendererMetal)
         {
         }
 
@@ -313,8 +313,6 @@ namespace ouzel
 
         bool TextureInterfaceMetal::createTexture()
         {
-            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
             if (texture)
             {
                 [texture release];
@@ -444,8 +442,6 @@ namespace ouzel
 
         bool TextureInterfaceMetal::updateSamplerState()
         {
-            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
             RendererMetal::SamplerStateDescriptor samplerDescriptor;
             samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
             samplerDescriptor.addressX = addressX;

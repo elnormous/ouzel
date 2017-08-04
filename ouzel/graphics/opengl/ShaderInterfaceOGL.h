@@ -25,10 +25,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererOGL;
+
         class ShaderInterfaceOGL: public ShaderInterface
         {
         public:
-            ShaderInterfaceOGL();
+            ShaderInterfaceOGL(RendererOGL* aRendererOGL);
             virtual ~ShaderInterfaceOGL();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -55,6 +57,8 @@ namespace ouzel
         protected:
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
+
+            RendererOGL* rendererOGL;
 
             GLuint pixelShaderId = 0;
             GLuint vertexShaderId = 0;

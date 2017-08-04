@@ -14,7 +14,45 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureInterfaceD3D11::TextureInterfaceD3D11()
+        static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
+                case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
+                case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
+                case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
+                case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
+                case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
+                case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
+                case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
+                case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
+                case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
+                case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
+                case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
+                case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
+                case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
+                case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
+                case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
+                case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
+                case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
+                case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
+                case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
+                case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
+                case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
+                case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
+                case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
+                case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
+                case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
+                case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                default: return DXGI_FORMAT_UNKNOWN;
+            }
+        }
+
+        TextureInterfaceD3D11::TextureInterfaceD3D11(RendererD3D11* aRendererD3D11):
+            rendererD3D11(aRendererD3D11)
         {
         }
 
@@ -52,43 +90,6 @@ namespace ouzel
 
             width = 0;
             height = 0;
-        }
-
-        static DXGI_FORMAT getD3D11PixelFormat(PixelFormat pixelFormat)
-        {
-            switch (pixelFormat)
-            {
-                case PixelFormat::A8_UNORM: return DXGI_FORMAT_A8_UNORM;
-                case PixelFormat::R8_UNORM: return DXGI_FORMAT_R8_UNORM;
-                case PixelFormat::R8_SNORM: return DXGI_FORMAT_R8_SNORM;
-                case PixelFormat::R8_UINT: return DXGI_FORMAT_R8_UINT;
-                case PixelFormat::R8_SINT: return DXGI_FORMAT_R8_SINT;
-                case PixelFormat::R16_UNORM: return DXGI_FORMAT_R16_UNORM;
-                case PixelFormat::R16_SNORM: return DXGI_FORMAT_R16_SNORM;
-                case PixelFormat::R16_UINT: return DXGI_FORMAT_R16_UINT;
-                case PixelFormat::R16_SINT: return DXGI_FORMAT_R16_SINT;
-                case PixelFormat::R16_FLOAT: return DXGI_FORMAT_R16_FLOAT;
-                case PixelFormat::R32_UINT: return DXGI_FORMAT_R32_UINT;
-                case PixelFormat::R32_SINT: return DXGI_FORMAT_R32_SINT;
-                case PixelFormat::R32_FLOAT: return DXGI_FORMAT_R32_FLOAT;
-                case PixelFormat::RG8_UNORM: return DXGI_FORMAT_R8G8_UNORM;
-                case PixelFormat::RG8_SNORM: return DXGI_FORMAT_R8G8_SNORM;
-                case PixelFormat::RG8_UINT: return DXGI_FORMAT_R8G8_UINT;
-                case PixelFormat::RG8_SINT: return DXGI_FORMAT_R8G8_SINT;
-                case PixelFormat::RGBA8_UNORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
-                case PixelFormat::RGBA8_SNORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
-                case PixelFormat::RGBA8_UINT: return DXGI_FORMAT_R8G8B8A8_UINT;
-                case PixelFormat::RGBA8_SINT: return DXGI_FORMAT_R8G8B8A8_SINT;
-                case PixelFormat::RGBA16_UNORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
-                case PixelFormat::RGBA16_SNORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
-                case PixelFormat::RGBA16_UINT: return DXGI_FORMAT_R16G16B16A16_UINT;
-                case PixelFormat::RGBA16_SINT: return DXGI_FORMAT_R16G16B16A16_SINT;
-                case PixelFormat::RGBA16_FLOAT: return DXGI_FORMAT_R16G16B16A16_FLOAT;
-                case PixelFormat::RGBA32_UINT: return DXGI_FORMAT_R32G32B32A32_UINT;
-                case PixelFormat::RGBA32_SINT: return DXGI_FORMAT_R32G32B32A32_SINT;
-                case PixelFormat::RGBA32_FLOAT: return DXGI_FORMAT_R32G32B32A32_FLOAT;
-                default: return DXGI_FORMAT_UNKNOWN;
-            }
         }
 
         bool TextureInterfaceD3D11::init(const Size2& newSize,
@@ -180,8 +181,6 @@ namespace ouzel
             }
             else if (!(flags & Texture::RENDER_TARGET))
             {
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
                 if (flags & Texture::DYNAMIC)
                 {
                     for (size_t level = 0; level < levels.size(); ++level)
@@ -387,8 +386,6 @@ namespace ouzel
                 textureDesc.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
                 textureDesc.MiscFlags = 0;
 
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
                     HRESULT hr = rendererD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
@@ -488,8 +485,6 @@ namespace ouzel
 
         bool TextureInterfaceD3D11::updateSamplerState()
         {
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
             RendererD3D11::SamplerStateDesc samplerDesc;
             samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? rendererD3D11->getTextureFilter() : filter;
             samplerDesc.addressX = addressX;

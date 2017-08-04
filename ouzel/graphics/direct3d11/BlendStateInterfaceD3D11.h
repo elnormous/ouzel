@@ -14,10 +14,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererD3D11;
+
         class BlendStateInterfaceD3D11: public BlendStateInterface
         {
         public:
-            BlendStateInterfaceD3D11();
+            BlendStateInterfaceD3D11(RendererD3D11* aRendererD3D11);
             virtual ~BlendStateInterfaceD3D11();
 
             virtual bool init(bool newEnableBlending,
@@ -30,6 +32,8 @@ namespace ouzel
             ID3D11BlendState* getBlendState() const { return blendState; }
 
         protected:
+            RendererD3D11* rendererD3D11;
+
             ID3D11BlendState* blendState = nullptr;
         };
     } // namespace graphics

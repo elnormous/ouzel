@@ -8,27 +8,12 @@
 #include "MeshBufferInterfaceOGL.h"
 #include "RendererOGL.h"
 #include "BufferInterfaceOGL.h"
-#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        MeshBufferInterfaceOGL::MeshBufferInterfaceOGL()
-        {
-        }
-
-        MeshBufferInterfaceOGL::~MeshBufferInterfaceOGL()
-        {
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
-            if (vertexArrayId)
-            {
-                rendererOGL->deleteVertexArray(vertexArrayId);
-            }
-        }
-
         static GLenum getVertexFormat(DataType dataType)
         {
             switch (dataType)
@@ -125,6 +110,19 @@ namespace ouzel
             }
         }
 
+        MeshBufferInterfaceOGL::MeshBufferInterfaceOGL(RendererOGL* aRendererOGL):
+            rendererOGL(aRendererOGL)
+        {
+        }
+
+        MeshBufferInterfaceOGL::~MeshBufferInterfaceOGL()
+        {
+            if (vertexArrayId)
+            {
+                rendererOGL->deleteVertexArray(vertexArrayId);
+            }
+        }
+
         bool MeshBufferInterfaceOGL::init(uint32_t newIndexSize, BufferInterface* newIndexBuffer,
                                          const std::vector<VertexAttribute>& newVertexAttributes, BufferInterface* newVertexBuffer)
         {
@@ -187,8 +185,6 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
                 rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
@@ -273,8 +269,6 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
                 rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
@@ -320,8 +314,6 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
                 rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
@@ -381,8 +373,6 @@ namespace ouzel
             {
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
                     if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
@@ -419,8 +409,6 @@ namespace ouzel
 
         bool MeshBufferInterfaceOGL::bindBuffers()
         {
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             if (vertexArrayId)
             {
                 if (!rendererOGL->bindVertexArray(vertexArrayId))

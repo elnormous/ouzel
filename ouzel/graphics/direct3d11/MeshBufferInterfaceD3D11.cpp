@@ -22,7 +22,7 @@ namespace ouzel
         }
 
         bool MeshBufferInterfaceD3D11::init(uint32_t newIndexSize, BufferInterface* newIndexBuffer,
-                                           const std::vector<VertexAttribute>& newVertexAttributes, BufferInterface* newVertexBuffer)
+                                            const std::vector<VertexAttribute>& newVertexAttributes, BufferInterface* newVertexBuffer)
         {
             if (!MeshBufferInterface::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
             {

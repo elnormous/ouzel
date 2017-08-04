@@ -7,21 +7,19 @@
 
 #include "ShaderInterfaceOGL.h"
 #include "RendererOGL.h"
-#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderInterfaceOGL::ShaderInterfaceOGL()
+        ShaderInterfaceOGL::ShaderInterfaceOGL(RendererOGL* aRendererOGL):
+            rendererOGL(aRendererOGL)
         {
         }
 
         ShaderInterfaceOGL::~ShaderInterfaceOGL()
         {
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             if (programId)
             {
                 rendererOGL->deleteProgram(programId);
@@ -188,8 +186,6 @@ namespace ouzel
                 {
                     return false;
                 }
-
-                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
                 rendererOGL->useProgram(programId);
 

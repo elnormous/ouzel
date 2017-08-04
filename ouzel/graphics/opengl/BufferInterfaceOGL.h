@@ -25,13 +25,14 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererOGL;
         class MeshBufferInterfaceOGL;
 
         class BufferInterfaceOGL: public BufferInterface
         {
             friend MeshBufferInterfaceOGL;
         public:
-            BufferInterfaceOGL();
+            BufferInterfaceOGL(RendererOGL* aRendererOGL);
             virtual ~BufferInterfaceOGL();
 
             virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
@@ -44,6 +45,8 @@ namespace ouzel
 
         protected:
             bool createBuffer();
+
+            RendererOGL* rendererOGL;
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;

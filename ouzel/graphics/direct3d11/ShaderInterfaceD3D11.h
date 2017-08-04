@@ -15,10 +15,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererD3D11;
+
         class ShaderInterfaceD3D11: public ShaderInterface
         {
         public:
-            ShaderInterfaceD3D11();
+            ShaderInterfaceD3D11(RendererD3D11* aRendererD3D11);
             virtual ~ShaderInterfaceD3D11();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -48,6 +50,8 @@ namespace ouzel
             ID3D11InputLayout* getInputLayout() const { return inputLayout; }
 
         protected:
+            RendererD3D11* rendererD3D11;
+
             ID3D11PixelShader* pixelShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
             ID3D11InputLayout* inputLayout = nullptr;

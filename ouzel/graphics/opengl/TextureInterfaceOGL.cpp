@@ -7,18 +7,39 @@
 
 #include "TextureInterfaceOGL.h"
 #include "RendererOGL.h"
-#include "core/Engine.h"
+#include "utils/Utils.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat)
+        TextureInterfaceOGL::TextureInterfaceOGL(RendererOGL* aRendererOGL):
+            rendererOGL(aRendererOGL)
+        {
+        }
+
+        TextureInterfaceOGL::~TextureInterfaceOGL()
+        {
+            if (depthBufferId)
+            {
+                rendererOGL->deleteRenderBuffer(depthBufferId);
+            }
+
+            if (frameBufferId)
+            {
+                rendererOGL->deleteFrameBuffer(frameBufferId);
+            }
+
+            if (textureId)
+            {
+                rendererOGL->deleteTexture(textureId);
+            }
+        }
+
+        static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
 #if OUZEL_SUPPORTS_OPENGLES
-            uint32_t openGLVersion = sharedEngine->getRenderer()->getAPIMajorVersion();
-
             if (openGLVersion >= 3)
             {
                 switch (pixelFormat)
@@ -67,6 +88,8 @@ namespace ouzel
                 }
             }
 #else
+            OUZEL_UNUSED(openGLVersion);
+
             switch (pixelFormat)
             {
                 case PixelFormat::A8_UNORM: return GL_ALPHA8_EXT;
@@ -194,30 +217,6 @@ namespace ouzel
             }
         }
 
-        TextureInterfaceOGL::TextureInterfaceOGL()
-        {
-        }
-
-        TextureInterfaceOGL::~TextureInterfaceOGL()
-        {
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
-            if (depthBufferId)
-            {
-                rendererOGL->deleteRenderBuffer(depthBufferId);
-            }
-
-            if (frameBufferId)
-            {
-                rendererOGL->deleteFrameBuffer(frameBufferId);
-            }
-
-            if (textureId)
-            {
-                rendererOGL->deleteTexture(textureId);
-            }
-        }
-
         bool TextureInterfaceOGL::init(const Size2& newSize,
                                        uint32_t newFlags,
                                        uint32_t newMipmaps,
@@ -237,8 +236,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
             rendererOGL->bindTexture(textureId, 0);
 
@@ -372,8 +369,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             rendererOGL->bindTexture(textureId, 0);
 
             if (!levels.empty())
@@ -501,8 +496,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             rendererOGL->bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.v[0]) != width ||
@@ -573,8 +566,6 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Texture not initialized";
                 return false;
             }
-
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
             rendererOGL->bindTexture(textureId, 0);
 
@@ -649,8 +640,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
 
             rendererOGL->bindTexture(textureId, 0);
@@ -698,8 +687,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             rendererOGL->bindTexture(textureId, 0);
 
             switch (addressX)
@@ -737,8 +724,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             rendererOGL->bindTexture(textureId, 0);
 
             switch (addressY)
@@ -775,8 +760,6 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Texture not initialized";
                 return false;
             }
-
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
             rendererOGL->bindTexture(textureId, 0);
 
@@ -851,8 +834,6 @@ namespace ouzel
 
         bool TextureInterfaceOGL::createTexture()
         {
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
-
             if (depthBufferId)
             {
                 rendererOGL->deleteRenderBuffer(depthBufferId);
@@ -884,7 +865,7 @@ namespace ouzel
             width = static_cast<GLsizei>(size.v[0]);
             height = static_cast<GLsizei>(size.v[1]);
 
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat);
+            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, rendererOGL->getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
             {

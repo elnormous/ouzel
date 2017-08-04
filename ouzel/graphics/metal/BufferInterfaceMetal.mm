@@ -8,14 +8,14 @@
 #include <algorithm>
 #include "BufferInterfaceMetal.h"
 #include "RendererMetal.h"
-#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferInterfaceMetal::BufferInterfaceMetal()
+        BufferInterfaceMetal::BufferInterfaceMetal(RendererMetal* aRendererMetal):
+            rendererMetal(aRendererMetal)
         {
         }
 
@@ -97,8 +97,6 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
-
                 buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 

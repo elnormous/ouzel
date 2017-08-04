@@ -14,38 +14,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderInterfaceD3D11::ShaderInterfaceD3D11()
-        {
-        }
-
-        ShaderInterfaceD3D11::~ShaderInterfaceD3D11()
-        {
-            if (pixelShader)
-            {
-                pixelShader->Release();
-            }
-
-            if (vertexShader)
-            {
-                vertexShader->Release();
-            }
-
-            if (inputLayout)
-            {
-                inputLayout->Release();
-            }
-
-            if (pixelShaderConstantBuffer)
-            {
-                pixelShaderConstantBuffer->Release();
-            }
-
-            if (vertexShaderConstantBuffer)
-            {
-                vertexShaderConstantBuffer->Release();
-            }
-        }
-
         static DXGI_FORMAT getVertexFormat(DataType dataType, bool normalized)
         {
             switch (dataType)
@@ -118,6 +86,39 @@ namespace ouzel
             }
         }
 
+        ShaderInterfaceD3D11::ShaderInterfaceD3D11(RendererD3D11* aRendererD3D11):
+            rendererD3D11(aRendererD3D11)
+        {
+        }
+
+        ShaderInterfaceD3D11::~ShaderInterfaceD3D11()
+        {
+            if (pixelShader)
+            {
+                pixelShader->Release();
+            }
+
+            if (vertexShader)
+            {
+                vertexShader->Release();
+            }
+
+            if (inputLayout)
+            {
+                inputLayout->Release();
+            }
+
+            if (pixelShaderConstantBuffer)
+            {
+                pixelShaderConstantBuffer->Release();
+            }
+
+            if (vertexShaderConstantBuffer)
+            {
+                vertexShaderConstantBuffer->Release();
+            }
+        }
+
         bool ShaderInterfaceD3D11::init(const std::vector<uint8_t>& newPixelShader,
                                        const std::vector<uint8_t>& newVertexShader,
                                        const std::vector<VertexAttribute>& newVertexAttributes,
@@ -140,8 +141,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
             if (pixelShader) pixelShader->Release();
 

@@ -8,7 +8,6 @@
 #include <algorithm>
 #include "ShaderInterfaceMetal.h"
 #include "RendererMetal.h"
-#include "core/Engine.h"
 #include "files/FileSystem.h"
 #include "utils/Log.h"
 
@@ -16,7 +15,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderInterfaceMetal::ShaderInterfaceMetal()
+        ShaderInterfaceMetal::ShaderInterfaceMetal(RendererMetal* aRendererMetal):
+            rendererMetal(aRendererMetal)
         {
         }
 
@@ -122,8 +122,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            RendererMetal* rendererMetal = static_cast<RendererMetal*>(sharedEngine->getRenderer());
 
             uint32_t index = 0;
             NSUInteger offset = 0;

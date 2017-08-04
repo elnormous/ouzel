@@ -23,10 +23,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererMetal;
+
         class ShaderInterfaceMetal: public ShaderInterface
         {
         public:
-            ShaderInterfaceMetal();
+            ShaderInterfaceMetal(RendererMetal* aRendererMetal);
             virtual ~ShaderInterfaceMetal();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -57,6 +59,8 @@ namespace ouzel
             uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
         protected:
+            RendererMetal* rendererMetal;
+
             MTLFunctionPtr pixelShader = Nil;
             MTLFunctionPtr vertexShader = Nil;
 

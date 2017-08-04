@@ -1204,7 +1204,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureInterface* texture = new TextureInterfaceOGL();
+            TextureInterface* texture = new TextureInterfaceOGL(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(texture));
             return texture;
         }
@@ -1213,7 +1213,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderInterface* shader = new ShaderInterfaceOGL();
+            ShaderInterface* shader = new ShaderInterfaceOGL(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(shader));
             return shader;
         }
@@ -1222,7 +1222,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceOGL();
+            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceOGL(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(meshBuffer));
             return meshBuffer;
         }
@@ -1231,7 +1231,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferInterface* buffer = new BufferInterfaceOGL();
+            BufferInterface* buffer = new BufferInterfaceOGL(this);
             resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
             return buffer;
         }

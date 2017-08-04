@@ -14,7 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateInterfaceD3D11::BlendStateInterfaceD3D11()
+        BlendStateInterfaceD3D11::BlendStateInterfaceD3D11(RendererD3D11* aRendererD3D11):
+            rendererD3D11(aRendererD3D11)
         {
         }
 
@@ -76,8 +77,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
 
             // Blending state
             D3D11_BLEND_DESC blendStateDesc;

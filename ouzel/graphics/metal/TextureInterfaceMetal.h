@@ -29,10 +29,12 @@ namespace ouzel
 {
     namespace graphics
     {
+        class RendererMetal;
+
         class TextureInterfaceMetal: public TextureInterface
         {
         public:
-            TextureInterfaceMetal();
+            TextureInterfaceMetal(RendererMetal* aRendererMetal);
             virtual ~TextureInterfaceMetal();
 
             virtual bool init(const Size2& newSize,
@@ -73,6 +75,8 @@ namespace ouzel
         protected:
             bool createTexture();
             bool updateSamplerState();
+
+            RendererMetal* rendererMetal;
 
             MTLTextureInterfacePtr texture = Nil;
 

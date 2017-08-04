@@ -14,7 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferInterfaceD3D11::BufferInterfaceD3D11()
+        BufferInterfaceD3D11::BufferInterfaceD3D11(RendererD3D11* aRendererD3D11):
+            rendererD3D11(aRendererD3D11)
         {
         }
 
@@ -65,8 +66,6 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
                 if (!buffer || data.size() > bufferSize)
                 {
                     createBuffer();
@@ -106,8 +105,6 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererD3D11* rendererD3D11 = static_cast<RendererD3D11*>(sharedEngine->getRenderer());
-
                 D3D11_BUFFER_DESC bufferDesc;
                 bufferDesc.ByteWidth = bufferSize;
                 bufferDesc.Usage = (flags & Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
