@@ -680,7 +680,7 @@ namespace ouzel
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
-            if (RendererOGL::checkOpenGLError())
+            if (checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set depth function";
                 return false;
@@ -691,7 +691,7 @@ namespace ouzel
             {
                 glEnable(GL_MULTISAMPLE);
 
-                if (RendererOGL::checkOpenGLError())
+                if (checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to enable multi-sampling";
                     return false;
@@ -1262,8 +1262,6 @@ namespace ouzel
             return nullptr;
 #endif
         }
-
-        RendererOGL::StateCache RendererOGL::stateCache;
     } // namespace graphics
 } // namespace ouzel
 

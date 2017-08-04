@@ -200,19 +200,21 @@ namespace ouzel
 
         TextureInterfaceOGL::~TextureInterfaceOGL()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (depthBufferId)
             {
-                RendererOGL::deleteRenderBuffer(depthBufferId);
+                rendererOGL->deleteRenderBuffer(depthBufferId);
             }
 
             if (frameBufferId)
             {
-                RendererOGL::deleteFrameBuffer(frameBufferId);
+                rendererOGL->deleteFrameBuffer(frameBufferId);
             }
 
             if (textureId)
             {
-                RendererOGL::deleteTexture(textureId);
+                rendererOGL->deleteTexture(textureId);
             }
         }
 
@@ -236,7 +238,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             if (!levels.empty())
             {
@@ -256,7 +260,6 @@ namespace ouzel
                 }
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
 
             switch (finalFilter)
@@ -369,7 +372,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             if (!levels.empty())
             {
@@ -400,7 +405,6 @@ namespace ouzel
                 }
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
 
             switch (finalFilter)
@@ -497,7 +501,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.v[0]) != width ||
                 static_cast<GLsizei>(size.v[1]) != height)
@@ -522,7 +528,6 @@ namespace ouzel
                     {
                         glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                        RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
                         if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
@@ -569,7 +574,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.v[0]) != width ||
                 static_cast<GLsizei>(size.v[1]) != height)
@@ -643,9 +650,10 @@ namespace ouzel
             }
 
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
 
-            RendererOGL::bindTexture(textureId, 0);
+            rendererOGL->bindTexture(textureId, 0);
 
             switch (finalFilter)
             {
@@ -690,7 +698,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             switch (addressX)
             {
@@ -727,7 +737,9 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
 
             switch (addressY)
             {
@@ -764,9 +776,10 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
-
             RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            rendererOGL->bindTexture(textureId, 0);
+
             uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
 
             if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
@@ -838,21 +851,23 @@ namespace ouzel
 
         bool TextureInterfaceOGL::createTexture()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (depthBufferId)
             {
-                RendererOGL::deleteRenderBuffer(depthBufferId);
+                rendererOGL->deleteRenderBuffer(depthBufferId);
                 depthBufferId = 0;
             }
 
             if (frameBufferId)
             {
-                RendererOGL::deleteFrameBuffer(frameBufferId);
+                rendererOGL->deleteFrameBuffer(frameBufferId);
                 frameBufferId = 0;
             }
 
             if (textureId)
             {
-                RendererOGL::deleteTexture(textureId);
+                rendererOGL->deleteTexture(textureId);
                 textureId = 0;
             }
 
@@ -864,7 +879,7 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL::bindTexture(textureId, 0);
+            rendererOGL->bindTexture(textureId, 0);
 
             width = static_cast<GLsizei>(size.v[0]);
             height = static_cast<GLsizei>(size.v[1]);
@@ -893,7 +908,6 @@ namespace ouzel
                 return false;
             }
 
-            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
             if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
             {
                 if (!frameBufferId)
@@ -907,11 +921,11 @@ namespace ouzel
                     }
                 }
 
-                RendererOGL::bindFrameBuffer(frameBufferId);
+                rendererOGL->bindFrameBuffer(frameBufferId);
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    RendererOGL::bindTexture(textureId, 0);
+                    rendererOGL->bindTexture(textureId, 0);
 
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
                                  static_cast<GLsizei>(size.v[0]),

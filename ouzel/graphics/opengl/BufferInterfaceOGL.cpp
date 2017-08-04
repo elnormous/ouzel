@@ -7,6 +7,7 @@
 
 #include "BufferInterfaceOGL.h"
 #include "RendererOGL.h"
+#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
@@ -19,9 +20,11 @@ namespace ouzel
 
         BufferInterfaceOGL::~BufferInterfaceOGL()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (bufferId)
             {
-                RendererOGL::deleteBuffer(bufferId);
+                rendererOGL->deleteBuffer(bufferId);
             }
         }
 
@@ -41,9 +44,11 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererOGL::bindVertexArray(0);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                rendererOGL->bindVertexArray(0);
+
+                if (!rendererOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -77,9 +82,11 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererOGL::bindVertexArray(0);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                rendererOGL->bindVertexArray(0);
+
+                if (!rendererOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -112,9 +119,11 @@ namespace ouzel
 
             if (!data.empty())
             {
-                RendererOGL::bindVertexArray(0);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
 
-                if (!RendererOGL::bindBuffer(bufferType, bufferId))
+                rendererOGL->bindVertexArray(0);
+
+                if (!rendererOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -149,7 +158,9 @@ namespace ouzel
 
         bool BufferInterfaceOGL::createBuffer()
         {
-            if (bufferId) RendererOGL::deleteBuffer(bufferId);
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+            if (bufferId) rendererOGL->deleteBuffer(bufferId);
 
             glGenBuffersProc(1, &bufferId);
 

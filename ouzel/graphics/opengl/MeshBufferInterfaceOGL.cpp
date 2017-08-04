@@ -21,9 +21,11 @@ namespace ouzel
 
         MeshBufferInterfaceOGL::~MeshBufferInterfaceOGL()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (vertexArrayId)
             {
-                RendererOGL::deleteVertexArray(vertexArrayId);
+                rendererOGL->deleteVertexArray(vertexArrayId);
             }
         }
 
@@ -185,11 +187,13 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL::bindVertexArray(vertexArrayId);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -197,7 +201,7 @@ namespace ouzel
 
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -269,11 +273,13 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL::bindVertexArray(vertexArrayId);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -314,11 +320,13 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                RendererOGL::bindVertexArray(vertexArrayId);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                rendererOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -326,7 +334,7 @@ namespace ouzel
 
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -373,7 +381,9 @@ namespace ouzel
             {
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -409,9 +419,11 @@ namespace ouzel
 
         bool MeshBufferInterfaceOGL::bindBuffers()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (vertexArrayId)
             {
-                if (!RendererOGL::bindVertexArray(vertexArrayId))
+                if (!rendererOGL->bindVertexArray(vertexArrayId))
                 {
                     return false;
                 }
@@ -425,7 +437,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!RendererOGL::bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                 {
                     return false;
                 }
@@ -436,7 +448,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!RendererOGL::bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                 {
                     return false;
                 }

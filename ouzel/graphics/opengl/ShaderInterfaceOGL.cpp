@@ -20,19 +20,21 @@ namespace ouzel
 
         ShaderInterfaceOGL::~ShaderInterfaceOGL()
         {
+            RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
             if (programId)
             {
-                RendererOGL::deleteProgram(programId);
+                rendererOGL->deleteProgram(programId);
             }
 
             if (vertexShaderId)
             {
-                RendererOGL::deleteShader(vertexShaderId);
+                rendererOGL->deleteShader(vertexShaderId);
             }
 
             if (pixelShaderId)
             {
-                RendererOGL::deleteShader(pixelShaderId);
+                rendererOGL->deleteShader(pixelShaderId);
             }
         }
 
@@ -187,7 +189,9 @@ namespace ouzel
                     return false;
                 }
 
-                RendererOGL::useProgram(programId);
+                RendererOGL* rendererOGL = static_cast<RendererOGL*>(sharedEngine->getRenderer());
+
+                rendererOGL->useProgram(programId);
 
                 GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
                 if (texture0Location != -1) glUniform1iProc(texture0Location, 0);
