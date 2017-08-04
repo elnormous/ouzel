@@ -7,7 +7,6 @@
 
 #include "BufferInterfaceD3D11.h"
 #include "RendererD3D11.h"
-#include "core/Engine.h"
 #include "utils/Log.h"
 
 namespace ouzel
