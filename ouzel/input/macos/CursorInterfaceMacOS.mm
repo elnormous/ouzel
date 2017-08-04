@@ -1,20 +1,20 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CursorResourceMacOS.h"
+#include "CursorInterfaceMacOS.h"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceMacOS::~CursorResourceMacOS()
+        CursorInterfaceMacOS::~CursorInterfaceMacOS()
         {
             if (cursor) [cursor release];
         }
 
-        bool CursorResourceMacOS::init(SystemCursor newSystemCursor)
+        bool CursorInterfaceMacOS::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
+            if (!CursorInterface::init(newSystemCursor))
             {
                 return false;
             }
@@ -57,15 +57,15 @@ namespace ouzel
             return true;
         }
 
-        bool CursorResourceMacOS::init(const std::vector<uint8_t>& newData,
-                                       const Size2& newSize,
-                                       graphics::PixelFormat newPixelFormat,
-                                       const Vector2& newHotSpot)
+        bool CursorInterfaceMacOS::init(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize,
+                                        graphics::PixelFormat newPixelFormat,
+                                        const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
+            if (!CursorInterface::init(newData,
+                                       newSize,
+                                       newPixelFormat,
+                                       newHotSpot))
             {
                 return false;
             }

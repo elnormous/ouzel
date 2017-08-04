@@ -3,7 +3,7 @@
 
 #include <X11/cursorfont.h>
 #include <X11/Xcursor/Xcursor.h>
-#include "CursorResourceLinux.h"
+#include "CursorInterfaceLinux.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
 #include "utils/Log.h"
@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResourceLinux::~CursorResourceLinux()
+        CursorInterfaceLinux::~CursorInterfaceLinux()
         {
             if (sharedEngine)
             {
@@ -22,9 +22,9 @@ namespace ouzel
             }
         }
 
-        bool CursorResourceLinux::init(SystemCursor newSystemCursor)
+        bool CursorInterfaceLinux::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
+            if (!CursorInterface::init(newSystemCursor))
             {
                 return false;
             }
@@ -68,15 +68,15 @@ namespace ouzel
             return true;
         }
 
-        bool CursorResourceLinux::init(const std::vector<uint8_t>& newData,
-                                       const Size2& newSize,
-                                       graphics::PixelFormat newPixelFormat,
-                                       const Vector2& newHotSpot)
+        bool CursorInterfaceLinux::init(const std::vector<uint8_t>& newData,
+                                        const Size2& newSize,
+                                        graphics::PixelFormat newPixelFormat,
+                                        const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
+            if (!CursorInterface::init(newData,
+                                       newSize,
+                                       newPixelFormat,
+                                       newHotSpot))
             {
                 return false;
             }

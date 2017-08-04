@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CursorResource.h"
+#include "CursorInterface.h"
 #include "input/Input.h"
 #include "core/Engine.h"
 
@@ -9,21 +9,21 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResource::CursorResource()
+        CursorInterface::CursorInterface()
         {
         }
 
-        bool CursorResource::init(SystemCursor newSystemCursor)
+        bool CursorInterface::init(SystemCursor newSystemCursor)
         {
             systemCursor = newSystemCursor;
 
             return true;
         }
 
-        bool CursorResource::init(const std::vector<uint8_t>& newData,
-                                  const Size2& newSize,
-                                  graphics::PixelFormat newPixelFormat,
-                                  const Vector2& newHotSpot)
+        bool CursorInterface::init(const std::vector<uint8_t>& newData,
+                                   const Size2& newSize,
+                                   graphics::PixelFormat newPixelFormat,
+                                   const Vector2& newHotSpot)
         {
             data = newData;
             size = newSize;
@@ -34,7 +34,7 @@ namespace ouzel
         }
 
 
-        void CursorResource::reactivate()
+        void CursorInterface::reactivate()
         {
             if (sharedEngine->getInput()->currentCursorResource == this)
             {

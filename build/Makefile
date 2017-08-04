@@ -91,7 +91,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/SlideBar.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
-	$(ROOT_DIR)/../ouzel/input/CursorResource.cpp \
+	$(ROOT_DIR)/../ouzel/input/CursorInterface.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/Input.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
@@ -148,7 +148,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
+	$(ROOT_DIR)/../ouzel/input/windows/CursorInterfaceWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),raspbian)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
@@ -168,7 +168,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioALSA.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/files/linux/FileSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
+	$(ROOT_DIR)/../ouzel/input/linux/CursorInterfaceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
@@ -188,7 +188,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureInterfaceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
-	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
+	$(ROOT_DIR)/../ouzel/input/macos/CursorInterfaceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm

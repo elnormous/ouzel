@@ -3,17 +3,23 @@
 
 #pragma once
 
-#include <windows.h>
-#include "input/CursorResource.h"
+#if defined(__OBJC__)
+#import <AppKit/AppKit.h>
+#else
+#include <objc/objc.h>
+typedef id NSCursor;
+#endif
+
+#include "input/CursorInterface.h"
 
 namespace ouzel
 {
     namespace input
     {
-        class CursorResourceWin: public CursorResource
+        class CursorInterfaceMacOS: public CursorInterface
         {
         public:
-            virtual ~CursorResourceWin();
+            virtual ~CursorInterfaceMacOS();
 
             virtual bool init(SystemCursor newSystemCursor) override;
             virtual bool init(const std::vector<uint8_t>& newData,
@@ -21,11 +27,10 @@ namespace ouzel
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot) override;
 
-            HCURSOR getNativeCursor() const { return cursor; }
+            NSCursor* getNativeCursor() const { return cursor; }
 
         protected:
-            HCURSOR cursor = nullptr;
-            bool shared = false;
+            NSCursor* cursor = Nil;
         };
     } // namespace input
 } // namespace ouzel

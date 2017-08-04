@@ -108,10 +108,10 @@
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
-    <ClCompile Include="..\ouzel\input\CursorResource.cpp" />
+    <ClCompile Include="..\ouzel\input\CursorInterface.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
     <ClCompile Include="..\ouzel\input\Input.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\CursorInterfaceWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\InputWin.cpp" />
@@ -266,10 +266,10 @@
     <ClInclude Include="..\ouzel\gui\SlideBar.h" />
     <ClInclude Include="..\ouzel\gui\Widget.h" />
     <ClInclude Include="..\ouzel\input\Cursor.h" />
-    <ClInclude Include="..\ouzel\input\CursorResource.h" />
+    <ClInclude Include="..\ouzel\input\CursorInterface.h" />
     <ClInclude Include="..\ouzel\input\Gamepad.h" />
     <ClInclude Include="..\ouzel\input\Input.h" />
-    <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.h" />
+    <ClInclude Include="..\ouzel\input\windows\CursorInterfaceWin.h" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDI.h" />
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.h" />
     <ClInclude Include="..\ouzel\input\windows\InputWin.h" />

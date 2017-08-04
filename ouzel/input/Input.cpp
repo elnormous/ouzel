@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include "Input.h"
-#include "CursorResource.h"
+#include "CursorInterface.h"
 #include "Gamepad.h"
 #include "core/Engine.h"
 #include "events/EventDispatcher.h"
@@ -41,35 +41,35 @@ namespace ouzel
                 currentCursorResource = nullptr;
             }
 
-            CursorResource* cursorResource = currentCursorResource;
+            CursorInterface* cursorResource = currentCursorResource;
 
             sharedEngine->executeOnMainThread([this, cursorResource] {
                 activateCursorResource(cursorResource);
             });
         }
 
-        void Input::activateCursorResource(CursorResource*)
+        void Input::activateCursorResource(CursorInterface*)
         {
         }
 
-        CursorResource* Input::createCursorResource()
+        CursorInterface* Input::createCursorResource()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::unique_ptr<CursorResource> cursorResource(new CursorResource());
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<CursorInterface> cursorResource(new CursorInterface());
+            CursorInterface* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
             return result;
         }
 
-        void Input::deleteCursorResource(CursorResource* resource)
+        void Input::deleteCursorResource(CursorInterface* resource)
         {
             sharedEngine->executeOnMainThread([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
-                std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                std::vector<std::unique_ptr<CursorInterface>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorInterface>& ptr) {
                     return ptr.get() == resource;
                 });
 

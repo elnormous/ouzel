@@ -3,7 +3,7 @@
 
 #include <X11/cursorfont.h>
 #include "InputLinux.h"
-#include "CursorResourceLinux.h"
+#include "CursorInterfaceLinux.h"
 #include "events/Event.h"
 #include "core/Engine.h"
 #include "core/linux/WindowLinux.h"
@@ -264,7 +264,7 @@ namespace ouzel
             }
         }
 
-        void InputLinux::activateCursorResource(CursorResource* resource)
+        void InputLinux::activateCursorResource(CursorInterface* resource)
         {
             Input::activateCursorResource(resource);
 
@@ -274,7 +274,7 @@ namespace ouzel
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
-                CursorResourceLinux* cursorLinux = static_cast<CursorResourceLinux*>(resource);
+                CursorInterfaceLinux* cursorLinux = static_cast<CursorInterfaceLinux*>(resource);
 
                 if (cursorLinux)
                 {
@@ -304,12 +304,12 @@ namespace ouzel
             }
         }
 
-        CursorResource* InputLinux::createCursorResource()
+        CursorInterface* InputLinux::createCursorResource()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<CursorInterfaceLinux> cursorResource(new CursorInterfaceLinux());
+            CursorInterface* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 

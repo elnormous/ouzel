@@ -1,21 +1,21 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CursorResourceWin.h"
+#include "CursorInterfaceWin.h"
 #include "utils/Log.h"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResourceWin::~CursorResourceWin()
+        CursorInterfaceWin::~CursorInterfaceWin()
         {
             if (cursor && !shared) DestroyCursor(cursor);
         }
 
-        bool CursorResourceWin::init(SystemCursor newSystemCursor)
+        bool CursorInterfaceWin::init(SystemCursor newSystemCursor)
         {
-            if (!CursorResource::init(newSystemCursor))
+            if (!CursorInterface::init(newSystemCursor))
             {
                 return false;
             }
@@ -64,15 +64,15 @@ namespace ouzel
             return true;
         }
 
-        bool CursorResourceWin::init(const std::vector<uint8_t>& newData,
-                                     const Size2& newSize,
-                                     graphics::PixelFormat newPixelFormat,
-                                     const Vector2& newHotSpot)
+        bool CursorInterfaceWin::init(const std::vector<uint8_t>& newData,
+                                      const Size2& newSize,
+                                      graphics::PixelFormat newPixelFormat,
+                                      const Vector2& newHotSpot)
         {
-            if (!CursorResource::init(newData,
-                                      newSize,
-                                      newPixelFormat,
-                                      newHotSpot))
+            if (!CursorInterface::init(newData,
+                                       newSize,
+                                       newPixelFormat,
+                                       newHotSpot))
             {
                 return false;
             }

@@ -3,17 +3,17 @@
 
 #pragma once
 
-#include <X11/X.h>
-#include "input/CursorResource.h"
+#include <windows.h>
+#include "input/CursorInterface.h"
 
 namespace ouzel
 {
     namespace input
     {
-        class CursorResourceLinux: public CursorResource
+        class CursorInterfaceWin: public CursorInterface
         {
         public:
-            virtual ~CursorResourceLinux();
+            virtual ~CursorInterfaceWin();
 
             virtual bool init(SystemCursor newSystemCursor) override;
             virtual bool init(const std::vector<uint8_t>& newData,
@@ -21,10 +21,11 @@ namespace ouzel
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot) override;
 
-            ::Cursor getNativeCursor() const { return cursor; }
+            HCURSOR getNativeCursor() const { return cursor; }
 
         protected:
-            ::Cursor cursor = None;
+            HCURSOR cursor = nullptr;
+            bool shared = false;
         };
     } // namespace input
 } // namespace ouzel

@@ -295,10 +295,10 @@
     <ClCompile Include="..\ouzel\input\Cursor.cpp">
       <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\CursorResource.cpp">
+    <ClCompile Include="..\ouzel\input\CursorInterface.cpp">
       <Filter>input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\CursorInterfaceWin.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
@@ -754,10 +754,10 @@
     <ClInclude Include="..\ouzel\input\Cursor.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\CursorResource.h">
+    <ClInclude Include="..\ouzel\input\CursorInterface.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.h">
+    <ClInclude Include="..\ouzel\input\windows\CursorInterfaceWin.h">
       <Filter>input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">

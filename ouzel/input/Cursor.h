@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace input
     {
-        class CursorResource;
+        class CursorInterface;
 
         enum class SystemCursor
         {
@@ -43,10 +43,10 @@ namespace ouzel
                       graphics::PixelFormat pixelFormat,
                       const Vector2& hotSpot);
 
-            CursorResource* getResource() const { return resource; }
+            CursorInterface* getResource() const { return resource; }
 
         private:
-            CursorResource* resource = nullptr;
+            CursorInterface* resource = nullptr;
         };
     } // namespace input
 } // namespace ouzel

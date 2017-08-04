@@ -6,7 +6,7 @@
 #import <GameController/GameController.h>
 #import <objc/message.h>
 #include "InputMacOS.h"
-#include "CursorResourceMacOS.h"
+#include "CursorInterfaceMacOS.h"
 #include "GamepadGC.h"
 #include "GamepadIOKit.h"
 #include "core/macos/WindowMacOS.h"
@@ -344,11 +344,11 @@ namespace ouzel
             return true;
         }
 
-        void InputMacOS::activateCursorResource(CursorResource* resource)
+        void InputMacOS::activateCursorResource(CursorInterface* resource)
         {
             Input::activateCursorResource(resource);
 
-            CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
+            CursorInterfaceMacOS* cursorMacOS = static_cast<CursorInterfaceMacOS*>(resource);
 
             if (cursorMacOS)
             {
@@ -364,12 +364,12 @@ namespace ouzel
             [windowMacOS->getNativeView() resetCursorRects];
         }
 
-        CursorResource* InputMacOS::createCursorResource()
+        CursorInterface* InputMacOS::createCursorResource()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
-            CursorResource* result = cursorResource.get();
+            std::unique_ptr<CursorInterfaceMacOS> cursorResource(new CursorInterfaceMacOS());
+            CursorInterface* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 

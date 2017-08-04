@@ -52,7 +52,7 @@
 #include "gui/SlideBar.h"
 #include "gui/Widget.h"
 #include "input/Cursor.h"
-#include "input/CursorResource.h"
+#include "input/CursorInterface.h"
 #include "input/Gamepad.h"
 #include "input/Input.h"
 #include "localization/Localization.h"

@@ -15,11 +15,11 @@ namespace ouzel
     {
         class Input;
 
-        class CursorResource
+        class CursorInterface
         {
             friend Input;
         public:
-            CursorResource();
+            CursorInterface();
 
             virtual bool init(SystemCursor newSystemCursor);
             virtual bool init(const std::vector<uint8_t>& newData,

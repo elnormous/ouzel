@@ -3,7 +3,7 @@
 
 #include "Cursor.h"
 #include "Input.h"
-#include "CursorResource.h"
+#include "CursorInterface.h"
 #include "core/Engine.h"
 #include "graphics/ImageDataSTB.h"
 
@@ -35,7 +35,7 @@ namespace ouzel
 
         bool Cursor::init(SystemCursor systemCursor)
         {
-            CursorResource* cursorResource = resource;
+            CursorInterface* cursorResource = resource;
 
             sharedEngine->executeOnMainThread([cursorResource,
                                                systemCursor]() {
@@ -64,7 +64,7 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            CursorResource* cursorResource = resource;
+            CursorInterface* cursorResource = resource;
 
             sharedEngine->executeOnMainThread([cursorResource,
                                                data,
