@@ -26,15 +26,13 @@ namespace ouzel
                                   graphics::PixelFormat newPixelFormat,
                                   const Vector2& newHotSpot)
         {
-            {
-                std::lock_guard<std::mutex> lock(uploadMutex);
+            std::lock_guard<std::mutex> lock(uploadMutex);
 
-                data = newData;
-                size = newSize;
-                pixelFormat = newPixelFormat;
-                hotSpot = newHotSpot;
-                dirty = true;
-            }
+            data = newData;
+            size = newSize;
+            pixelFormat = newPixelFormat;
+            hotSpot = newHotSpot;
+            dirty = true;
 
             return true;
         }
