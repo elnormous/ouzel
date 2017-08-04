@@ -15,11 +15,15 @@ namespace ouzel
         public:
             virtual ~CursorResourceLinux();
 
+            virtual bool init(SystemCursor newSystemCursor) override;
+            virtual bool init(const std::vector<uint8_t>& newData,
+                              const Size2& newSize,
+                              graphics::PixelFormat newPixelFormat,
+                              const Vector2& newHotSpot) override;
+
             ::Cursor getNativeCursor() const { return cursor; }
 
         protected:
-            virtual bool upload() override;
-
             ::Cursor cursor = None;
         };
     } // namespace input

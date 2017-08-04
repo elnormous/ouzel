@@ -2,6 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "CursorResource.h"
+#include "input/Input.h"
+#include "core/Engine.h"
 
 namespace ouzel
 {
@@ -13,10 +15,7 @@ namespace ouzel
 
         bool CursorResource::init(SystemCursor newSystemCursor)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             systemCursor = newSystemCursor;
-            dirty = true;
 
             return true;
         }
@@ -26,20 +25,21 @@ namespace ouzel
                                   graphics::PixelFormat newPixelFormat,
                                   const Vector2& newHotSpot)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             data = newData;
             size = newSize;
             pixelFormat = newPixelFormat;
             hotSpot = newHotSpot;
-            dirty = true;
 
             return true;
         }
 
-        bool CursorResource::upload()
+
+        void CursorResource::reactivate()
         {
-            return true;
+            if (sharedEngine->getInput()->currentCursorResource == this)
+            {
+                sharedEngine->getInput()->activateCursorResource(this);
+            }
         }
     } // namespace input
 } // namespace ouzel

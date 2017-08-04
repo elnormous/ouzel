@@ -21,23 +21,20 @@ namespace ouzel
         public:
             CursorResource();
 
-            bool init(SystemCursor newSystemCursor);
-            bool init(const std::vector<uint8_t>& newData,
-                      const Size2& newSize,
-                      graphics::PixelFormat newPixelFormat,
-                      const Vector2& newHotSpot);
+            virtual bool init(SystemCursor newSystemCursor);
+            virtual bool init(const std::vector<uint8_t>& newData,
+                              const Size2& newSize,
+                              graphics::PixelFormat newPixelFormat,
+                              const Vector2& newHotSpot);
 
         protected:
-            virtual bool upload();
+            void reactivate();
 
-            bool dirty = false;
             SystemCursor systemCursor = SystemCursor::DEFAULT;
             std::vector<uint8_t> data;
             Size2 size;
             graphics::PixelFormat pixelFormat;
             Vector2 hotSpot;
-
-            std::mutex uploadMutex;
         };
     } // namespace input
 } // namespace ouzel

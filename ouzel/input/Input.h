@@ -223,6 +223,7 @@ namespace ouzel
         {
             friend Engine;
             friend Cursor;
+            friend CursorResource;
         public:
             virtual ~Input();
 
@@ -277,7 +278,6 @@ namespace ouzel
             virtual void activateCursorResource(CursorResource* resource);
             virtual CursorResource* createCursorResource();
             void deleteCursorResource(CursorResource* resource);
-            void uploadCursorResource(CursorResource* resource);
 
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];

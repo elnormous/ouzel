@@ -35,12 +35,12 @@ namespace ouzel
 
         bool Cursor::init(SystemCursor systemCursor)
         {
-            if (!resource->init(systemCursor))
-            {
-                return false;
-            }
+            CursorResource* cursorResource = resource;
 
-            sharedEngine->getInput()->uploadCursorResource(resource);
+            sharedEngine->executeOnMainThread([cursorResource,
+                                               systemCursor]() {
+                cursorResource->init(systemCursor);
+            });
 
             return true;
         }
@@ -64,12 +64,15 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            if (!resource->init(data, size, pixelFormat, hotSpot))
-            {
-                return false;
-            }
+            CursorResource* cursorResource = resource;
 
-            sharedEngine->getInput()->uploadCursorResource(resource);
+            sharedEngine->executeOnMainThread([cursorResource,
+                                               data,
+                                               size,
+                                               pixelFormat,
+                                               hotSpot]() {
+                cursorResource->init(data, size, pixelFormat, hotSpot);
+            });
 
             return true;
         }

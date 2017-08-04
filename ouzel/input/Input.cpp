@@ -41,10 +41,10 @@ namespace ouzel
                 currentCursorResource = nullptr;
             }
 
-            CursorResource* resource = currentCursorResource;
+            CursorResource* cursorResource = currentCursorResource;
 
-            sharedEngine->executeOnMainThread([this, resource] {
-                activateCursorResource(resource);
+            sharedEngine->executeOnMainThread([this, cursorResource] {
+                activateCursorResource(cursorResource);
             });
         }
 
@@ -87,15 +87,6 @@ namespace ouzel
                 }
 
                 resourceDeleteSet.clear();
-            });
-        }
-        
-        void Input::uploadCursorResource(CursorResource* resource)
-        {
-            sharedEngine->executeOnMainThread([this, resource] {
-                resource->upload();
-                std::lock_guard<std::mutex> lock(resourceMutex);
-                if (resource == currentCursorResource) activateCursorResource(currentCursorResource);
             });
         }
 

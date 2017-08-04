@@ -12,81 +12,103 @@ namespace ouzel
             if (cursor) [cursor release];
         }
 
-        bool CursorResourceMacOS::upload()
+        bool CursorResourceMacOS::init(SystemCursor newSystemCursor)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (dirty)
+            if (!CursorResource::init(newSystemCursor))
             {
-                if (cursor)
-                {
-                    [cursor release];
-                    cursor = Nil;
-                }
-
-                if (data.empty())
-                {
-                    switch (systemCursor)
-                    {
-                        case SystemCursor::DEFAULT:
-                            cursor = [NSCursor arrowCursor];
-                            break;
-                        case SystemCursor::ARROW:
-                            cursor = [NSCursor arrowCursor];
-                            break;
-                        case SystemCursor::HAND:
-                            cursor = [NSCursor openHandCursor];
-                            break;
-                        case SystemCursor::HORIZONTAL_RESIZE:
-                            cursor = [NSCursor resizeLeftRightCursor];
-                            break;
-                        case SystemCursor::VERTICAL_RESIZE:
-                            cursor = [NSCursor resizeUpDownCursor];
-                            break;
-                        case SystemCursor::CROSS:
-                            cursor = [NSCursor crosshairCursor];
-                            break;
-                        case SystemCursor::I_BEAM:
-                            cursor = [NSCursor IBeamCursor];
-                            break;
-                    }
-
-                    if (cursor) [cursor retain];
-                }
-                else
-                {
-                    NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
-                    NSInteger channelSize = graphics::getChannelSize(pixelFormat);
-                    NSInteger channelCount = graphics::getChannelCount(pixelFormat);
-                    NSInteger width = static_cast<NSInteger>(size.v[0]);
-                    NSInteger height = static_cast<NSInteger>(size.v[1]);
-
-                    unsigned char* rgba = data.data();
-
-                    NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-                    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
-                                             initWithBitmapDataPlanes:&rgba
-                                             pixelsWide:width
-                                             pixelsHigh:height
-                                             bitsPerSample:channelSize * 8
-                                             samplesPerPixel:channelCount
-                                             hasAlpha:YES
-                                             isPlanar:NO
-                                             colorSpaceName:NSDeviceRGBColorSpace
-                                             bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
-                                             bytesPerRow:width * bytesPerPixel
-                                             bitsPerPixel:bytesPerPixel * 8];
-
-                    [image addRepresentation:rep];
-                    cursor = [[NSCursor alloc] initWithImage:image
-                                                     hotSpot:NSMakePoint(hotSpot.v[0], size.v[1] - hotSpot.v[1] - 1.0f)];
-
-                    [image release];
-                    [rep release];
-                }
-
-                dirty = false;
+                return false;
             }
+
+            if (cursor)
+            {
+                [cursor release];
+                cursor = Nil;
+            }
+
+            switch (systemCursor)
+            {
+                case SystemCursor::DEFAULT:
+                    cursor = [NSCursor arrowCursor];
+                    break;
+                case SystemCursor::ARROW:
+                    cursor = [NSCursor arrowCursor];
+                    break;
+                case SystemCursor::HAND:
+                    cursor = [NSCursor openHandCursor];
+                    break;
+                case SystemCursor::HORIZONTAL_RESIZE:
+                    cursor = [NSCursor resizeLeftRightCursor];
+                    break;
+                case SystemCursor::VERTICAL_RESIZE:
+                    cursor = [NSCursor resizeUpDownCursor];
+                    break;
+                case SystemCursor::CROSS:
+                    cursor = [NSCursor crosshairCursor];
+                    break;
+                case SystemCursor::I_BEAM:
+                    cursor = [NSCursor IBeamCursor];
+                    break;
+            }
+
+            if (cursor) [cursor retain];
+
+            reactivate();
+
+            return true;
+        }
+
+        bool CursorResourceMacOS::init(const std::vector<uint8_t>& newData,
+                                       const Size2& newSize,
+                                       graphics::PixelFormat newPixelFormat,
+                                       const Vector2& newHotSpot)
+        {
+            if (!CursorResource::init(newData,
+                                      newSize,
+                                      newPixelFormat,
+                                      newHotSpot))
+            {
+                return false;
+            }
+
+            if (cursor)
+            {
+                [cursor release];
+                cursor = Nil;
+            }
+
+            if (!data.empty())
+            {
+                NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
+                NSInteger channelSize = graphics::getChannelSize(pixelFormat);
+                NSInteger channelCount = graphics::getChannelCount(pixelFormat);
+                NSInteger width = static_cast<NSInteger>(size.v[0]);
+                NSInteger height = static_cast<NSInteger>(size.v[1]);
+
+                unsigned char* rgba = data.data();
+
+                NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+                NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
+                                         initWithBitmapDataPlanes:&rgba
+                                         pixelsWide:width
+                                         pixelsHigh:height
+                                         bitsPerSample:channelSize * 8
+                                         samplesPerPixel:channelCount
+                                         hasAlpha:YES
+                                         isPlanar:NO
+                                         colorSpaceName:NSDeviceRGBColorSpace
+                                         bitmapFormat:NSAlphaNonpremultipliedBitmapFormat
+                                         bytesPerRow:width * bytesPerPixel
+                                         bitsPerPixel:bytesPerPixel * 8];
+
+                [image addRepresentation:rep];
+                cursor = [[NSCursor alloc] initWithImage:image
+                                                 hotSpot:NSMakePoint(hotSpot.v[0], size.v[1] - hotSpot.v[1] - 1.0f)];
+
+                [image release];
+                [rep release];
+            }
+
+            reactivate();
 
             return true;
         }

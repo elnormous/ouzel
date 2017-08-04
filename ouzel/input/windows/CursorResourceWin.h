@@ -15,11 +15,15 @@ namespace ouzel
         public:
             virtual ~CursorResourceWin();
 
+            virtual bool init(SystemCursor newSystemCursor) override;
+            virtual bool init(const std::vector<uint8_t>& newData,
+                              const Size2& newSize,
+                              graphics::PixelFormat newPixelFormat,
+                              const Vector2& newHotSpot) override;
+
             HCURSOR getNativeCursor() const { return cursor; }
 
         protected:
-            virtual bool upload() override;
-
             HCURSOR cursor = nullptr;
             bool shared = false;
         };
