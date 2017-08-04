@@ -29,9 +29,10 @@ namespace ouzel
 
     int EngineLinux::run()
     {
-        if (XInitThreads() != 0)
+        if (!XInitThreads())
         {
             Log(Log::Level::ERR) << "Failed to initialize thread support";
+            return false;
         }
 
         if (!init())
