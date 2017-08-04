@@ -176,6 +176,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \

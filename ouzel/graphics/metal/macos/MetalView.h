@@ -5,10 +5,9 @@
 
 #if OUZEL_SUPPORTS_METAL
 
-#import <Cocoa/Cocoa.h>
-#import <QuartzCore/QuartzCore.h>
+#import "core/macos/ViewMacOS.h"
 
-@interface MetalView: NSView
+@interface MetalView: ViewMacOS
 
 @end
 

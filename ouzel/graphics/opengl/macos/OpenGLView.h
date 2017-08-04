@@ -5,9 +5,9 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
-#import <Cocoa/Cocoa.h>
+#import "core/macos/ViewMacOS.h"
 
-@interface OpenGLView: NSView
+@interface OpenGLView: ViewMacOS
 
 @end
 

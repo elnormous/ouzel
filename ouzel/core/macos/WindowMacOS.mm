@@ -157,7 +157,7 @@ namespace ouzel
         switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
-                view = [[NSView alloc] initWithFrame:windowFrame];
+                view = [[ViewMacOS alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_SUPPORTS_OPENGL
             case graphics::Renderer::Driver::OPENGL:
