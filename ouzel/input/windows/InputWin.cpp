@@ -98,7 +98,7 @@ namespace ouzel
 
             {VK_LWIN, KeyboardKey::LSUPER},
             {VK_RWIN, KeyboardKey::RSUPER},
-            {VK_APPS, KeyboardKey::APPS},
+            {VK_APPS, KeyboardKey::MENU},
             {VK_SLEEP, KeyboardKey::SLEEP},
 
             {VK_NUMPAD0, KeyboardKey::NUMPAD_0},

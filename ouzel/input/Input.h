@@ -98,7 +98,7 @@ namespace ouzel
             Z,              // Z key
             LSUPER,         // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
             RSUPER,         // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
-            APPS,           // Applications key (Natural keyboard)
+            MENU,           // Applications key (Natural keyboard)
             SLEEP,          // Computer Sleep key
             NUMPAD_0,       // Numeric keypad 0 key
             NUMPAD_1,       // Numeric keypad 1 key
