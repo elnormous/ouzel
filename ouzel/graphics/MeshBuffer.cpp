@@ -29,18 +29,15 @@ namespace ouzel
             indexSize = newIndexSize;
             vertexAttributes = newVertexAttributes;
 
-            MeshBufferInterface* meshBufferResource = resource;
             BufferInterface* indexBufferInterface = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
             BufferInterface* vertexBufferInterface = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
-                                                                newIndexSize,
-                                                                indexBufferInterface,
-                                                                newVertexAttributes,
-                                                                vertexBufferInterface]() {
-                meshBufferResource->init(newIndexSize, indexBufferInterface,
-                                         newVertexAttributes, vertexBufferInterface);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::init,
+                                                                         resource,
+                                                                         newIndexSize,
+                                                                         indexBufferInterface,
+                                                                         newVertexAttributes,
+                                                                         vertexBufferInterface));
 
             return true;
         }
@@ -54,12 +51,9 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            MeshBufferInterface* meshBufferResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
-                                                                newIndexSize]() {
-                meshBufferResource->setIndexSize(newIndexSize);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setIndexSize,
+                                                                         resource,
+                                                                         newIndexSize));
 
             return true;
         }
@@ -68,13 +62,11 @@ namespace ouzel
         {
             indexBuffer = newIndexBuffer;
 
-            MeshBufferInterface* meshBufferResource = resource;
             BufferInterface* indexBufferResource = indexBuffer ? indexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
-                                                                indexBufferResource]() {
-                meshBufferResource->setIndexBuffer(indexBufferResource);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setIndexBuffer,
+                                                                         resource,
+                                                                         indexBufferResource));
 
             return true;
         }
@@ -88,12 +80,9 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
 
-            MeshBufferInterface* meshBufferResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
-                                                                newVertexAttributes]() {
-                meshBufferResource->setVertexAttributes(newVertexAttributes);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setVertexAttributes,
+                                                                         resource,
+                                                                         newVertexAttributes));
 
             return true;
         }
@@ -102,13 +91,11 @@ namespace ouzel
         {
             vertexBuffer = newVertexBuffer;
 
-            MeshBufferInterface* meshBufferResource = resource;
             BufferInterface* vertexBufferInterface = vertexBuffer ? vertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread([meshBufferResource,
-                                                                vertexBufferInterface]() {
-                meshBufferResource->setVertexBuffer(vertexBufferInterface);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setVertexBuffer,
+                                                                         resource,
+                                                                         vertexBufferInterface));
 
             return true;
         }

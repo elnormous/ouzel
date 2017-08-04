@@ -24,87 +24,63 @@ namespace ouzel
         {
             soundData = newSoundData;
 
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource,
-                                                            newSoundData,
-                                                            relativePosition]() {
-                soundResource->init(newSoundData, relativePosition);
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::init,
+                                                                     resource,
+                                                                     newSoundData,
+                                                                     relativePosition));
 
             return true;
         }
 
         void Sound::setPosition(const Vector3& newPosition)
         {
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource,
-                                                            newPosition]() {
-                soundResource->setPosition(newPosition);
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setPosition,
+                                                                     resource,
+                                                                     newPosition));
         }
 
         void Sound::setPitch(float newPitch)
         {
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource,
-                                                            newPitch]() {
-                soundResource->setPitch(newPitch);
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setPitch,
+                                                                     resource,
+                                                                     newPitch));
         }
 
         void Sound::setGain(float newGain)
         {
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource,
-                                                            newGain]() {
-                soundResource->setGain(newGain);
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setGain,
+                                                                     resource,
+                                                                     newGain));
         }
 
         bool Sound::play(bool repeatSound)
         {
             repeating = repeatSound;
 
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource,
-                                                            repeatSound]() {
-                soundResource->play(repeatSound);
-            });
-
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::play,
+                                                                     resource,
+                                                                     repeatSound));
             return true;
         }
 
         bool Sound::pause()
         {
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource]() {
-                soundResource->pause();
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::pause,
+                                                                     resource));
 
             return true;
         }
 
         bool Sound::stop()
         {
-            SoundResource* soundResource = resource;
-
-            sharedEngine->getAudio()->executeOnAudioThread([soundResource]() {
-                soundResource->stop();
-            });
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::stop,
+                                                                     resource));
 
             return true;
         }
 
         bool Sound::isRepeating() const
         {
-            return resource->isRepeating();
-
             return repeating;
         }
     } // namespace audio

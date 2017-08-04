@@ -34,20 +34,13 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newSize,
-                                                                newFlags,
-                                                                newMipmaps,
-                                                                newSampleCount,
-                                                                newPixelFormat]() {
-                textureResource->init(newSize,
-                                      newFlags,
-                                      newMipmaps,
-                                      newSampleCount,
-                                      newPixelFormat);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+                                                                         resource,
+                                                                         newSize,
+                                                                         newFlags,
+                                                                         newMipmaps,
+                                                                         newSampleCount,
+                                                                         newPixelFormat));
 
             return true;
         }
@@ -71,18 +64,13 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = image.getPixelFormat();
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newFlags,
-                                                                newMipmaps,
-                                                                image]() {
-                textureResource->init(image.getData(),
-                                      image.getSize(),
-                                      newFlags,
-                                      newMipmaps,
-                                      image.getPixelFormat());
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+                                                                         resource,
+                                                                         image.getData(),
+                                                                         image.getSize(),
+                                                                         newFlags,
+                                                                         newMipmaps,
+                                                                         image.getPixelFormat()));
 
             return true;
         }
@@ -100,20 +88,13 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newData,
-                                                                newSize,
-                                                                newFlags,
-                                                                newMipmaps,
-                                                                newPixelFormat]() {
-                textureResource->init(newData,
-                                      newSize,
-                                      newFlags,
-                                      newMipmaps,
-                                      newPixelFormat);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+                                                                         resource,
+                                                                         newData,
+                                                                         newSize,
+                                                                         newFlags,
+                                                                         newMipmaps,
+                                                                         newPixelFormat));
 
             return true;
         }
@@ -127,12 +108,9 @@ namespace ouzel
         {
             size = newSize;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newSize]() {
-                textureResource->setSize(newSize);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setSize,
+                                                                         resource,
+                                                                         newSize));
 
             return true;
         }
@@ -141,13 +119,10 @@ namespace ouzel
         {
             size = newSize;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newData,
-                                                                newSize]() {
-                textureResource->setData(newData, newSize);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setData,
+                                                                         resource,
+                                                                         newData,
+                                                                         newSize));
 
             return true;
         }
@@ -161,12 +136,9 @@ namespace ouzel
         {
             filter = newFilter;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newFilter]() {
-                textureResource->setFilter(newFilter);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setFilter,
+                                                                         resource,
+                                                                         newFilter));
 
             return true;
         }
@@ -180,12 +152,9 @@ namespace ouzel
         {
             addressX = newAddressX;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newAddressX]() {
-                textureResource->setAddressX(newAddressX);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setAddressX,
+                                                                         resource,
+                                                                         newAddressX));
 
             return true;
         }
@@ -199,12 +168,9 @@ namespace ouzel
         {
             addressY = newAddressY;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newAddressY]() {
-                textureResource->setAddressY(newAddressY);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setAddressY,
+                                                                         resource,
+                                                                         newAddressY));
 
             return true;
         }
@@ -218,12 +184,9 @@ namespace ouzel
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                newMaxAnisotropy]() {
-                textureResource->setMaxAnisotropy(newMaxAnisotropy);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setMaxAnisotropy,
+                                                                         resource,
+                                                                         newMaxAnisotropy));
 
             return true;
         }
@@ -247,12 +210,9 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                clear]() {
-                textureResource->setClearColorBuffer(clear);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearColorBuffer,
+                                                                         resource,
+                                                                         clear));
         }
 
         bool Texture::getClearDepthBuffer() const
@@ -264,12 +224,9 @@ namespace ouzel
         {
             clearDepthBuffer = clear;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                clear]() {
-                textureResource->setClearDepthBuffer(clear);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearDepthBuffer,
+                                                                         resource,
+                                                                         clear));
         }
 
         Color Texture::getClearColor() const
@@ -281,12 +238,9 @@ namespace ouzel
         {
             clearColor = color;
 
-            TextureInterface* textureResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([textureResource,
-                                                                color]() {
-                textureResource->setClearColor(color);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearColor,
+                                                                         resource,
+                                                                         color));
         }
     } // namespace graphics
 } // namespace ouzel

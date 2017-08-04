@@ -41,11 +41,9 @@ namespace ouzel
                 currentCursorResource = nullptr;
             }
 
-            CursorInterface* cursorResource = currentCursorResource;
-
-            sharedEngine->executeOnMainThread([this, cursorResource] {
-                activateCursorResource(cursorResource);
-            });
+            sharedEngine->executeOnMainThread(std::bind(&Input::activateCursorResource,
+                                                        this,
+                                                        currentCursorResource));
         }
 
         void Input::activateCursorResource(CursorInterface*)

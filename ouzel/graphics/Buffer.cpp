@@ -25,14 +25,11 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            BufferInterface* bufferResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
-                                                                newUsage,
-                                                                newFlags,
-                                                                newSize]() {
-                bufferResource->init(newUsage, newFlags, newSize);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferInterface::*)(Usage, uint32_t, uint32_t)>(&BufferInterface::init),
+                                                                         resource,
+                                                                         newUsage,
+                                                                         newFlags,
+                                                                         newSize));
 
             return true;
         }
@@ -50,14 +47,11 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            BufferInterface* bufferResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
-                                                                newUsage,
-                                                                newData,
-                                                                newFlags]() {
-                bufferResource->init(newUsage, newData, newFlags);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferInterface::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferInterface::init),
+                                                                         resource,
+                                                                         newUsage,
+                                                                         newData,
+                                                                         newFlags));
 
             return true;
         }
@@ -70,12 +64,9 @@ namespace ouzel
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            BufferInterface* bufferResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([bufferResource,
-                                                                newData]() {
-                bufferResource->setData(newData);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BufferInterface::setData,
+                                                                         resource,
+                                                                         newData));
 
             return true;
         }

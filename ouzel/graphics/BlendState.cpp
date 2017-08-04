@@ -36,22 +36,14 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            BlendStateInterface* blendStateResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([blendStateResource,
-                                                                newEnableBlending,
-                                                                newColorBlendSource, newColorBlendDest,
-                                                                newColorOperation,
-                                                                newAlphaBlendSource, newAlphaBlendDest,
-                                                                newAlphaOperation,
-                                                                newColorMask]() {
-                blendStateResource->init(newEnableBlending,
-                                         newColorBlendSource, newColorBlendDest,
-                                         newColorOperation,
-                                         newAlphaBlendSource, newAlphaBlendDest,
-                                         newAlphaOperation,
-                                         newColorMask);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateInterface::init,
+                                                                         resource,
+                                                                         newEnableBlending,
+                                                                         newColorBlendSource, newColorBlendDest,
+                                                                         newColorOperation,
+                                                                         newAlphaBlendSource, newAlphaBlendDest,
+                                                                         newAlphaOperation,
+                                                                         newColorMask));
 
             return true;
         }

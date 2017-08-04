@@ -50,26 +50,17 @@ namespace ouzel
                 return false;
             }
 
-            ShaderInterface* shaderResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
-                                                                pixelShaderData, vertexShaderData,
-                                                                newVertexAttributes,
-                                                                newPixelShaderConstantInfo,
-                                                                newVertexShaderConstantInfo,
-                                                                newPixelShaderDataAlignment,
-                                                                newVertexShaderDataAlignment,
-                                                                newPixelShaderFunction,
-                                                                newVertexShaderFunction]() {
-                shaderResource->init(pixelShaderData, vertexShaderData,
-                                     newVertexAttributes,
-                                     newPixelShaderConstantInfo,
-                                     newVertexShaderConstantInfo,
-                                     newPixelShaderDataAlignment,
-                                     newVertexShaderDataAlignment,
-                                     newPixelShaderFunction,
-                                     newVertexShaderFunction);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderInterface::init,
+                                                                         resource,
+                                                                         pixelShaderData,
+                                                                         vertexShaderData,
+                                                                         newVertexAttributes,
+                                                                         newPixelShaderConstantInfo,
+                                                                         newVertexShaderConstantInfo,
+                                                                         newPixelShaderDataAlignment,
+                                                                         newVertexShaderDataAlignment,
+                                                                         newPixelShaderFunction,
+                                                                         newVertexShaderFunction));
 
             return true;
         }
@@ -88,26 +79,17 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            ShaderInterface* shaderResource = resource;
-
-            sharedEngine->getRenderer()->executeOnRenderThread([shaderResource,
-                                                                newPixelShader, newVertexShader,
-                                                                newVertexAttributes,
-                                                                newPixelShaderConstantInfo,
-                                                                newVertexShaderConstantInfo,
-                                                                newPixelShaderDataAlignment,
-                                                                newVertexShaderDataAlignment,
-                                                                newPixelShaderFunction,
-                                                                newVertexShaderFunction]() {
-                shaderResource->init(newPixelShader, newVertexShader,
-                                     newVertexAttributes,
-                                     newPixelShaderConstantInfo,
-                                     newVertexShaderConstantInfo,
-                                     newPixelShaderDataAlignment,
-                                     newVertexShaderDataAlignment,
-                                     newPixelShaderFunction,
-                                     newVertexShaderFunction);
-            });
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderInterface::init,
+                                                                         resource,
+                                                                         newPixelShader,
+                                                                         newVertexShader,
+                                                                         newVertexAttributes,
+                                                                         newPixelShaderConstantInfo,
+                                                                         newVertexShaderConstantInfo,
+                                                                         newPixelShaderDataAlignment,
+                                                                         newVertexShaderDataAlignment,
+                                                                         newPixelShaderFunction,
+                                                                         newVertexShaderFunction));
 
             return  true;
         }

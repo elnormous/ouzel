@@ -281,9 +281,7 @@ namespace ouzel
 
         bool Renderer::saveScreenshot(const std::string& filename)
         {
-            executeOnRenderThread([this, filename]() {
-                generateScreenshot(filename);
-            });
+            executeOnRenderThread(std::bind(&Renderer::generateScreenshot, this, filename));
 
             return true;
         }

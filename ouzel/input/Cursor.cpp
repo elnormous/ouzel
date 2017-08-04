@@ -35,12 +35,9 @@ namespace ouzel
 
         bool Cursor::init(SystemCursor systemCursor)
         {
-            CursorInterface* cursorResource = resource;
-
-            sharedEngine->executeOnMainThread([cursorResource,
-                                               systemCursor]() {
-                cursorResource->init(systemCursor);
-            });
+            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorInterface::*)(SystemCursor)>(&CursorInterface::init),
+                                                        resource,
+                                                        systemCursor));
 
             return true;
         }
@@ -64,15 +61,12 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            CursorInterface* cursorResource = resource;
-
-            sharedEngine->executeOnMainThread([cursorResource,
-                                               data,
-                                               size,
-                                               pixelFormat,
-                                               hotSpot]() {
-                cursorResource->init(data, size, pixelFormat, hotSpot);
-            });
+            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorInterface::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorInterface::init),
+                                                        resource,
+                                                        data,
+                                                        size,
+                                                        pixelFormat,
+                                                        hotSpot));
 
             return true;
         }
