@@ -5,10 +5,10 @@
 
 #if OUZEL_SUPPORTS_METAL
 
-#import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "core/ios/ViewIOS.h"
 
-@interface MetalView: UIView
+@interface MetalView: ViewIOS
 {
 @private
     CADisplayLink* displayLink;

@@ -697,6 +697,10 @@
 		306B0E631C567D05005C75C1 /* ShapeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */; };
 		306B0E641C567D05005C75C1 /* ShapeRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */; };
 		30724D7E1F35366F00D915ED /* ViewMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30724D7D1F35366F00D915ED /* ViewMacOS.mm */; };
+		30724D821F353A0800D915ED /* ViewIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30724D801F353A0800D915ED /* ViewIOS.mm */; };
+		30724D831F353A0800D915ED /* ViewIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30724D811F353A0800D915ED /* ViewIOS.h */; };
+		30724D861F353A1800D915ED /* ViewTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30724D841F353A1800D915ED /* ViewTVOS.mm */; };
+		30724D871F353A1800D915ED /* ViewTVOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 30724D851F353A1800D915ED /* ViewTVOS.h */; };
 		307F9FFE1F1E9CA000BA73CB /* GamepadGC.h in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadGC.h */; };
 		307F9FFF1F1E9CA000BA73CB /* GamepadGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */; };
 		3082C3931D9565DE0090FC9D /* ColorPSGL2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3831D9565DE0090FC9D /* ColorPSGL2.h */; };
@@ -1140,6 +1144,10 @@
 		306B0E5E1C567D05005C75C1 /* ShapeRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeRenderer.h; sourceTree = "<group>"; };
 		30724D7D1F35366F00D915ED /* ViewMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewMacOS.mm; sourceTree = "<group>"; };
 		30724D7F1F35367C00D915ED /* ViewMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewMacOS.h; sourceTree = "<group>"; };
+		30724D801F353A0800D915ED /* ViewIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewIOS.mm; sourceTree = "<group>"; };
+		30724D811F353A0800D915ED /* ViewIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewIOS.h; sourceTree = "<group>"; };
+		30724D841F353A1800D915ED /* ViewTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewTVOS.mm; sourceTree = "<group>"; };
+		30724D851F353A1800D915ED /* ViewTVOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewTVOS.h; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadGC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamepadGC.h; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadGC.mm; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelFormat.h; sourceTree = "<group>"; };
@@ -1594,6 +1602,8 @@
 				303820561D816C7700677CAB /* EngineIOS.h */,
 				303820571D816C7700677CAB /* EngineIOS.mm */,
 				303820581D816C7700677CAB /* main.cpp */,
+				30724D811F353A0800D915ED /* ViewIOS.h */,
+				30724D801F353A0800D915ED /* ViewIOS.mm */,
 				3038205F1D816C7700677CAB /* WindowIOS.h */,
 				303820601D816C7700677CAB /* WindowIOS.mm */,
 			);
@@ -1624,6 +1634,8 @@
 				30EA711E1D52783000AE8C3E /* EngineTVOS.h */,
 				30EA711F1D52783000AE8C3E /* EngineTVOS.mm */,
 				303B76831C355A5800FEDE92 /* main.cpp */,
+				30724D851F353A1800D915ED /* ViewTVOS.h */,
+				30724D841F353A1800D915ED /* ViewTVOS.mm */,
 				3009342D1C88978D00CC50D3 /* WindowTVOS.h */,
 				3009342C1C88978D00CC50D3 /* WindowTVOS.mm */,
 			);
@@ -1917,6 +1929,7 @@
 				3082C3961D9565DE0090FC9D /* ColorPSGL3.h in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix4.h in Headers */,
 				30EF364F1CA76ACD00F04F29 /* ScrollArea.h in Headers */,
+				30724D831F353A0800D915ED /* ViewIOS.h in Headers */,
 				30381FDF1D80A40700677CAB /* BlendStateInterfaceMetal.h in Headers */,
 				303821541D81876E00677CAB /* ShaderInterfaceEmpty.h in Headers */,
 				301456E21E38BEB200BA75DB /* SoundResource.h in Headers */,
@@ -2125,6 +2138,7 @@
 				3031C1411F0C43D0002CA717 /* StreamVorbis.h in Headers */,
 				3082C3BF1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C39B1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
+				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
 				305BDDE11F27F6BC00BD4969 /* ResourceInterface.h in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.h in Headers */,
 				30324E191CB2898E00601A64 /* BlendStateInterface.h in Headers */,
@@ -2489,6 +2503,7 @@
 				30381FB51D80A3F900677CAB /* AudioAL.cpp in Sources */,
 				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303820FE1D817F4900677CAB /* InputIOS.mm in Sources */,
+				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
 				305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */,
@@ -2637,6 +2652,7 @@
 				30A883661E7432DA004A033F /* Archive.cpp in Sources */,
 				3047F7691C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				30419DEB1D162BDC00A63759 /* Sound.cpp in Sources */,
+				30724D861F353A1800D915ED /* ViewTVOS.mm in Sources */,
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,

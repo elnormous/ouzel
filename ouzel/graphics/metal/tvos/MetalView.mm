@@ -68,24 +68,6 @@
     }
 }
 
--(void)insertText:(__unused NSString*)text
-{
-}
-
--(void)deleteBackward
-{
-}
-
--(BOOL)hasText
-{
-    return NO;
-}
-
--(BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
-
 @end
 
 #endif

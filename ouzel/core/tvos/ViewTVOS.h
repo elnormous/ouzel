@@ -3,8 +3,9 @@
 
 #pragma once
 
-#import <AppKit/NSView.h>
+#import <UIKit/UIView.h>
+#import <UIKit/UITextInput.h>
 
-@interface ViewMacOS: NSView
+@interface ViewTVOS: UIView<UIKeyInput>
 
 @end

@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowTVOS.h"
-#include "graphics/opengl/ios/OpenGLView.h"
-#include "graphics/metal/ios/MetalView.h"
+#include "graphics/opengl/tvos/OpenGLView.h"
+#include "graphics/metal/tvos/MetalView.h"
 #include "core/Engine.h"
 #include "utils/Log.h"
 
@@ -81,7 +81,7 @@ namespace ouzel
         switch (sharedEngine->getRenderer()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
-                view = [[UIView alloc] initWithFrame:windowFrame];
+                view = [[ViewTVOS alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_SUPPORTS_OPENGL
             case graphics::Renderer::Driver::OPENGL:

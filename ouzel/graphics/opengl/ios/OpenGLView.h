@@ -5,10 +5,10 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
-#import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "core/ios/ViewIOS.h"
 
-@interface OpenGLView: UIView
+@interface OpenGLView: ViewIOS
 {
 @private
     CADisplayLink* displayLink;

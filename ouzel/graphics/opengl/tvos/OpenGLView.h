@@ -5,10 +5,10 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
-#import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "core/tvos/ViewTVOS.h"
 
-@interface OpenGLView: UIView<UIKeyInput>
+@interface OpenGLView: ViewTVOS
 {
 @private
     CADisplayLink* displayLink;
