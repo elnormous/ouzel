@@ -185,6 +185,11 @@ namespace ouzel
 
         void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
+            if (!update())
+            {
+                return;
+            }
+
             if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data))
             {
                 return;

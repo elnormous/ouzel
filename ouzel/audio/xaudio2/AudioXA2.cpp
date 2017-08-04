@@ -207,6 +207,11 @@ namespace ouzel
         }
         void AudioXA2::OnBufferEnd(void*)
         {
+            if (!update())
+            {
+                return;
+            }
+
             if (!getData(bufferSize / sizeof(float), Format::FLOAT32, data[nextBuffer]))
             {
                 return;

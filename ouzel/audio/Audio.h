@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <set>
 #include <vector>
 #include "math/Quaternion.h"
@@ -69,9 +70,13 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
+            void executeOnAudioThread(const std::function<void(void)>& func);
+
         protected:
             Audio(Driver aDriver);
             virtual bool init(bool debugAudio);
+
+            void executeAll();
 
             bool getData(uint32_t samples, Format format, std::vector<uint8_t>& result);
 
@@ -94,6 +99,9 @@ namespace ouzel
             const uint16_t channels = 2;
 
             std::vector<float> buffer;
+
+            std::queue<std::function<void(void)>> executeQueue;
+            std::mutex executeMutex;
         };
     } // namespace audio
 } // namespace ouzel

@@ -248,6 +248,11 @@ namespace ouzel
 
         bool AudioAL::update()
         {
+            if (!Audio::update())
+            {
+                return false;
+            }
+
             alcMakeContextCurrent(context);
 
             if (checkALCError())

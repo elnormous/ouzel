@@ -167,7 +167,10 @@ namespace ouzel
 
         bool AudioDS::update()
         {
-            Audio::update();
+            if (!Audio::update())
+            {
+                return false;
+            }
 
             DWORD playCursorPosition;
             DWORD writeCursorPosition;

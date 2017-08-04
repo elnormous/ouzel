@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <mutex>
 #include <memory>
 #include <vector>
 #include "utils/Noncopyable.h"
@@ -51,7 +50,6 @@ namespace ouzel
             float gain = 1.0f;
 
             std::vector<float> data;
-            std::mutex uploadMutex;
         };
     } // namespace audio
 } // namespace ouzel

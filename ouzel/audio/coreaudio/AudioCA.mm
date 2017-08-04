@@ -339,6 +339,11 @@ namespace ouzel
 
         bool AudioCA::outputCallback(AudioBufferList* ioData)
         {
+            if (!update())
+            {
+                return false;
+            }
+
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];

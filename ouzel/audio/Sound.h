@@ -39,6 +39,7 @@ namespace ouzel
             SoundResource* resource = nullptr;
 
             std::shared_ptr<SoundData> soundData;
+            bool repeating = false;
         };
     } // namespace audio
 } // namespace ouzel

@@ -26,6 +26,8 @@ namespace ouzel
 
         bool Audio::update()
         {
+            executeAll();
+
             return true;
         }
 
@@ -121,6 +123,38 @@ namespace ouzel
             SoundResource* sound = new SoundResource();
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
+        }
+
+        void Audio::executeOnAudioThread(const std::function<void(void)>& func)
+        {
+            std::lock_guard<std::mutex> lock(executeMutex);
+
+            executeQueue.push(func);
+        }
+
+        void Audio::executeAll()
+        {
+            std::function<void(void)> func;
+
+            for (;;)
+            {
+                {
+                    std::lock_guard<std::mutex> lock(executeMutex);
+
+                    if (executeQueue.empty())
+                    {
+                        break;
+                    }
+
+                    func = std::move(executeQueue.front());
+                    executeQueue.pop();
+                }
+
+                if (func)
+                {
+                    func();
+                }
+            }
         }
     } // namespace audio
 } // namespace ouzel

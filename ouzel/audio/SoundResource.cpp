@@ -19,8 +19,6 @@ namespace ouzel
 
         bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             soundData = newSoundData;
             relativePosition = newRelativePosition;
 
@@ -34,29 +32,21 @@ namespace ouzel
 
         void SoundResource::setPosition(const Vector3& newPosition)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             position = newPosition;
         }
 
         void SoundResource::setPitch(float newPitch)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             pitch = newPitch;
         }
 
         void SoundResource::setGain(float newGain)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             gain = newGain;
         }
 
         bool SoundResource::play(bool repeatSound)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             shouldPlay = true;
             repeat = repeatSound;
 
@@ -65,8 +55,6 @@ namespace ouzel
 
         bool SoundResource::pause()
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             shouldPlay = false;
 
             return true;
@@ -74,8 +62,6 @@ namespace ouzel
 
         bool SoundResource::stop()
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             shouldPlay = false;
             reset = true;
 
@@ -84,8 +70,6 @@ namespace ouzel
 
         bool SoundResource::getData(uint32_t samples, uint16_t channels, uint32_t samplesPerSecond, std::vector<float>& result)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             if (!shouldPlay)
             {
                 result.resize(0);
