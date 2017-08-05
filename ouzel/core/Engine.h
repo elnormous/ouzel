@@ -102,6 +102,8 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
         std::thread updateThread;
+        std::mutex updateMutex;
+        std::condition_variable updateCondition;
 #endif
 
         std::atomic<bool> running;

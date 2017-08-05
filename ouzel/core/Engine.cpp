@@ -633,6 +633,10 @@ namespace ouzel
 
             previousUpdateTime = std::chrono::steady_clock::now();
             running = true;
+
+#if OUZEL_MULTITHREADED
+            updateCondition.notify_one();
+#endif
         }
     }
 
@@ -727,6 +731,15 @@ namespace ouzel
                 update();
 
                 // TODO: implement sleep to reduce the power consumption
+            }
+            else
+            {
+                std::unique_lock<std::mutex> lock(updateMutex);
+
+                while (!running)
+                {
+                    updateCondition.wait(lock);
+                }
             }
         }
 
