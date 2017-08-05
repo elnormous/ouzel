@@ -3,8 +3,7 @@
 
 #pragma once
 
-#import <UIKit/UIView.h>
-#import <UIKit/UITextInput.h>
+#import <UIKit/UIKit.h>
 
 @interface ViewTVOS: UIView<UIKeyInput>
 

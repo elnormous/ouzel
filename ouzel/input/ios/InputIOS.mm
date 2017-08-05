@@ -48,6 +48,30 @@ namespace ouzel
 {
     namespace input
     {
+        static const std::map<NSInteger, KeyboardKey> keyMap = {
+            {UIPressTypeUpArrow, KeyboardKey::UP},
+            {UIPressTypeDownArrow, KeyboardKey::DOWN},
+            {UIPressTypeLeftArrow, KeyboardKey::LEFT},
+            {UIPressTypeRightArrow, KeyboardKey::RIGHT},
+            {UIPressTypeSelect, KeyboardKey::SELECT},
+            {UIPressTypeMenu, KeyboardKey::MENU},
+            {UIPressTypePlayPause, KeyboardKey::PAUSE}
+        };
+
+        KeyboardKey InputIOS::convertKeyCode(NSInteger keyCode)
+        {
+            auto i = keyMap.find(keyCode);
+
+            if (i != keyMap.end())
+            {
+                return i->second;
+            }
+            else
+            {
+                return KeyboardKey::NONE;
+            }
+        }
+
         InputIOS::InputIOS()
         {
         }

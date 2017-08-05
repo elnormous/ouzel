@@ -3,7 +3,7 @@
 
 #pragma once
 
-#import <UIKit/UIView.h>
+#import <UIKit/UIKit.h>
 
 @interface ViewIOS: UIView
 

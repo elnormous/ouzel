@@ -4,6 +4,7 @@
 #import "ViewIOS.h"
 #include "core/Engine.h"
 #include "core/Window.h"
+#include "input/ios/InputIOS.h"
 
 @implementation ViewIOS
 
@@ -52,6 +53,30 @@
         ouzel::sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                         static_cast<float>(location.y))));
+    }
+}
+
+-(void)pressesBegan:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+{
+    for (UIPress* press in presses)
+    {
+        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
+    }
+}
+
+-(void)pressesEnded:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+{
+    for (UIPress* press in presses)
+    {
+        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
+    }
+}
+
+-(void)pressesCancelled:(NSSet<UIPress*>*)presses withEvent:(__unused UIPressesEvent*)event
+{
+    for (UIPress* press in presses)
+    {
+        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
     }
 }
 
