@@ -11,6 +11,8 @@
 @interface MetalView: ViewIOS
 {
 @private
+    NSThread* renderThread;
+    NSRunLoop* runLoop;
     CADisplayLink* displayLink;
 }
 

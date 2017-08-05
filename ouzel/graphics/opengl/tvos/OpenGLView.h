@@ -11,6 +11,8 @@
 @interface OpenGLView: ViewTVOS
 {
 @private
+    NSThread* renderThread;
+    NSRunLoop* runLoop;
     CADisplayLink* displayLink;
 }
 

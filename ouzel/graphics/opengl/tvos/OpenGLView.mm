@@ -24,7 +24,9 @@
         }
 
         [displayLink setFrameInterval:1.0f];
-        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+        renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(runThread) object:nil];
+        [renderThread start];
     }
 
     return self;
@@ -32,6 +34,8 @@
 
 -(void)dealloc
 {
+    [self performSelector:@selector(stop) onThread:renderThread withObject:nil waitUntilDone:YES];
+
     [displayLink invalidate];
     [displayLink release];
 
@@ -43,11 +47,28 @@
     return [CAEAGLLayer class];
 }
 
+-(void)runThread
+{
+    runLoop = [NSRunLoop currentRunLoop];
+
+    [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+
+    [runLoop run];
+}
+
+-(void)stop
+{
+    CFRunLoopStop([runLoop getCFRunLoop]);
+}
+
 -(void)draw:(__unused id)sender
 {
-    if (ouzel::sharedEngine)
+    @autoreleasepool
     {
-        ouzel::sharedEngine->getRenderer()->process();
+        if (ouzel::sharedEngine)
+        {
+            ouzel::sharedEngine->getRenderer()->process();
+        }
     }
 }
 
