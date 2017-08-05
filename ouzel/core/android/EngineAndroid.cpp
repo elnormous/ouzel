@@ -143,7 +143,12 @@ namespace ouzel
 
     int EngineAndroid::run()
     {
-        updateThread = std::thread(&EngineAndroid::loop, this);
+        if (!init())
+        {
+            return EXIT_FAILURE;
+        }
+
+        start();
 
         return EXIT_SUCCESS;
     }
@@ -257,40 +262,5 @@ namespace ouzel
         {
             Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
         }
-    }
-
-    void EngineAndroid::loop()
-    {
-        JNIEnv* jniEnv;
-        JavaVMAttachArgs attachArgs;
-        attachArgs.version = JNI_VERSION_1_6;
-        attachArgs.name = NULL; // thread name
-        attachArgs.group = NULL; // thread group
-        if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";
-        }
-
-        if (!init())
-        {
-            ::exit(EXIT_FAILURE);
-        }
-
-        start();
-
-        while (active)
-        {
-            if (!renderer->process())
-            {
-                break;
-            }
-        }
-
-        if (javaVM->DetachCurrentThread() != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
-        }
-
-        ::exit(EXIT_SUCCESS);
     }
 }

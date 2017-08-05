@@ -15,6 +15,10 @@ namespace ouzel
     {
         RendererOGLAndroid::~RendererOGLAndroid()
         {
+            running = false;
+            flushCommands();
+            if (renderThread.joinable()) renderThread.join();
+
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
@@ -172,14 +176,27 @@ namespace ouzel
 
             newWindow->setSize(backBufferSize / newWindow->getContentScale());
 
-            return RendererOGL::init(newWindow,
-                                     backBufferSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer);
+            if (!RendererOGL::init(newWindow,
+                                   backBufferSize,
+                                   newSampleCount,
+                                   newTextureFilter,
+                                   newMaxAnisotropy,
+                                   newVerticalSync,
+                                   newDepth,
+                                   newDebugRenderer))
+            {
+                return false;
+            }
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context";
+            }
+
+            running = true;
+            renderThread = std::thread(&RendererOGLAndroid::main, this);
+
+            return true;
         }
 
         bool RendererOGLAndroid::swapBuffers()
@@ -191,6 +208,19 @@ namespace ouzel
             }
 
             return true;
+        }
+
+        void RendererOGLAndroid::main()
+        {
+            while (running)
+            {
+                process();
+            }
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context, error: " << eglGetError();
+            }
         }
     } // namespace graphics
 } // namespace ouzel

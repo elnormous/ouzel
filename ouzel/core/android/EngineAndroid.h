@@ -40,7 +40,6 @@ namespace ouzel
 
     private:
         virtual void main() override;
-        void loop();
 
         JavaVM* javaVM = nullptr;
         jclass uriClass = nullptr;
@@ -59,8 +58,6 @@ namespace ouzel
 
         std::string filesDirectory;
         std::string cacheDirectory;
-
-        std::thread updateThread;
 
         std::queue<std::function<void(void)>> executeQueue;
         std::mutex executeMutex;
