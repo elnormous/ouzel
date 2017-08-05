@@ -95,6 +95,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 button->setEnabled(!button->isEnabled());
                 break;
             case input::KeyboardKey::ESCAPE:
+            case input::KeyboardKey::MENU:
                 sharedEngine->getInput()->setCursorVisible(true);
                 sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;

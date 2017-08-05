@@ -123,6 +123,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 cameraRotation.y() += TAU / 100.0f;
                 break;
             case input::KeyboardKey::ESCAPE:
+            case input::KeyboardKey::MENU:
                 sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::KeyboardKey::TAB:

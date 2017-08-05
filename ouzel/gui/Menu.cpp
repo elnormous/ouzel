@@ -189,6 +189,7 @@ namespace ouzel
                         break;
                     case input::KeyboardKey::RETURN:
                     case input::KeyboardKey::SPACE:
+                    case input::KeyboardKey::SELECT:
                     {
                         if (selectedWidget)
                         {

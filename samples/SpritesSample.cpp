@@ -122,6 +122,7 @@ bool SpritesSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         switch (event.key)
         {
             case input::KeyboardKey::ESCAPE:
+            case input::KeyboardKey::MENU:
                 sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
