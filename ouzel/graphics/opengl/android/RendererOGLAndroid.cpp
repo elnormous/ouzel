@@ -199,6 +199,17 @@ namespace ouzel
             return true;
         }
 
+        bool RendererOGLAndroid::lockContext()
+        {
+            if (!eglMakeCurrent(display, surface, surface, context))
+            {
+                Log(Log::Level::ERR) << "Failed to set current EGL context, error: " << eglGetError();
+                return false;
+            }
+
+            return true;
+        }
+
         bool RendererOGLAndroid::swapBuffers()
         {
             if (eglSwapBuffers(display, surface) != EGL_TRUE)
