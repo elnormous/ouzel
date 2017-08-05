@@ -217,42 +217,42 @@ namespace ouzel
 
             if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
             {
-                if (event.pressed && !event.previousPressed)
+                if (event.button == input::GamepadButton::DPAD_LEFT ||
+                    event.button == input::GamepadButton::DPAD_UP)
                 {
-                    if (event.button == input::GamepadButton::FACE_BOTTOM)
+                    if (!event.previousPressed && event.pressed) selectPreviousWidget();
+                }
+                else if (event.button == input::GamepadButton::DPAD_RIGHT ||
+                         event.button == input::GamepadButton::DPAD_DOWN)
+                {
+                    if (!event.previousPressed && event.pressed) selectNextWidget();
+                }
+                else if (event.button == input::GamepadButton::LEFT_THUMB_LEFT ||
+                         event.button == input::GamepadButton::LEFT_THUMB_UP)
+                {
+                    if (event.previousValue < 0.6f && event.value > 0.6f) selectPreviousWidget();
+                }
+                else if (event.button == input::GamepadButton::LEFT_THUMB_RIGHT ||
+                         event.button == input::GamepadButton::LEFT_THUMB_DOWN)
+                {
+                    if (event.previousValue < 0.6f && event.value > 0.6f) selectNextWidget();
+                }
+#if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
+                else if (event.button == input::GamepadButton::FACE_BOTTOM)
+                {
+                    if (event.previousPressed && event.pressed &&
+                        selectedWidget)
                     {
-                        if (selectedWidget)
-                        {
-                            Event clickEvent;
-                            clickEvent.type = Event::Type::CLICK_NODE;
+                        Event clickEvent;
+                        clickEvent.type = Event::Type::CLICK_NODE;
 
-                            clickEvent.uiEvent.node = selectedWidget;
-                            clickEvent.uiEvent.position = selectedWidget->getPosition();
+                        clickEvent.uiEvent.node = selectedWidget;
+                        clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                            sharedEngine->getEventDispatcher()->postEvent(clickEvent);
-                        }
-                    }
-                    else if (event.button == input::GamepadButton::DPAD_LEFT ||
-                             event.button == input::GamepadButton::DPAD_UP)
-                    {
-                        if (!event.previousPressed && event.pressed) selectPreviousWidget();
-                    }
-                    else if (event.button == input::GamepadButton::DPAD_RIGHT ||
-                             event.button == input::GamepadButton::DPAD_DOWN)
-                    {
-                        if (!event.previousPressed && event.pressed) selectNextWidget();
-                    }
-                    else if (event.button == input::GamepadButton::LEFT_THUMB_LEFT ||
-                             event.button == input::GamepadButton::LEFT_THUMB_UP)
-                    {
-                        if (event.previousValue < 0.6f && event.value > 0.6f) selectPreviousWidget();
-                    }
-                    else if (event.button == input::GamepadButton::LEFT_THUMB_RIGHT ||
-                             event.button == input::GamepadButton::LEFT_THUMB_DOWN)
-                    {
-                        if (event.previousValue < 0.6f && event.value > 0.6f) selectNextWidget();
+                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
                     }
                 }
+#endif
             }
 
             return true;
