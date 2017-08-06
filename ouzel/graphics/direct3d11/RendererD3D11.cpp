@@ -19,7 +19,7 @@
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 #include "core/windows/WindowWin.hpp"
-#include "stb_image_write.hpp"
+#include "stb_image_write.h"
 
 namespace ouzel
 {
