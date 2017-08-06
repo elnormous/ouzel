@@ -154,6 +154,9 @@ namespace ouzel
                 return false;
             }
 
+            bool isTextureBaseLevelSupported() const { return textureBaseLevelSupported; }
+            bool isTextureMaxLevelSupported() const { return textureMaxLevelSupported; }
+
             inline bool bindTexture(GLuint textureId, uint32_t layer)
             {
                 if (stateCache.textureId[layer] != textureId)
@@ -604,6 +607,8 @@ namespace ouzel
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
             GLfloat clearDepthValue = 0.0f;
+            bool textureBaseLevelSupported = true;
+            bool textureMaxLevelSupported = true;
 
             struct StateCache
             {

@@ -452,7 +452,10 @@ namespace ouzel
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
 
-#if !OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
+                textureBaseLevelSupported = false;
+                textureMaxLevelSupported = false;
+#else
                 renderTargetsSupported = false;
 #endif
 
@@ -524,6 +527,10 @@ namespace ouzel
                         multisamplingSupported = true;
                         glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC>(getProcAddress("glRenderbufferStorageMultisampleIMG"));
                         glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisampleIMG"));
+                    }
+                    else if (extension == "GL_APPLE_texture_max_level")
+                    {
+                        textureMaxLevelSupported = true;
                     }
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                 }
