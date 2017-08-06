@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Scene.h"
-#include "Layer.h"
-#include "Camera.h"
-#include "SceneManager.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
+#include "Scene.hpp"
+#include "Layer.hpp"
+#include "Camera.hpp"
+#include "SceneManager.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
 
 namespace ouzel
 {

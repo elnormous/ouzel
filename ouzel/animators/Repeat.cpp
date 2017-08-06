@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Repeat.h"
-#include "core/Engine.h"
+#include "Repeat.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

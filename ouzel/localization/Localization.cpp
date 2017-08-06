@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Localization.h"
-#include "Language.h"
+#include "Localization.hpp"
+#include "Language.hpp"
 
 namespace ouzel
 {

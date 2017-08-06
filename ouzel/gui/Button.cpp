@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include <functional>
-#include "Button.h"
-#include "core/Engine.h"
-#include "events/EventHandler.h"
-#include "events/EventDispatcher.h"
-#include "scene/Layer.h"
-#include "scene/Camera.h"
-#include "Label.h"
+#include "Button.hpp"
+#include "core/Engine.hpp"
+#include "events/EventHandler.hpp"
+#include "events/EventDispatcher.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Camera.hpp"
+#include "Label.hpp"
 
 namespace ouzel
 {

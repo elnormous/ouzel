@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <pwd.h>
 #include <sys/stat.h>
-#include "FileSystemLinux.h"
-#include "utils/Log.h"
+#include "FileSystemLinux.hpp"
+#include "utils/Log.hpp"
 
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;

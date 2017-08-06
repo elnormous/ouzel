@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <Foundation/Foundation.h>
-#include "FileSystemMacOS.h"
-#include "utils/Log.h"
+#include "FileSystemMacOS.hpp"
+#include "utils/Log.hpp"
 
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;

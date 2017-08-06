@@ -4,8 +4,8 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <android/window.h>
-#include "EngineAndroid.h"
-#include "utils/Log.h"
+#include "EngineAndroid.hpp"
+#include "utils/Log.hpp"
 
 static int looperCallback(int fd, int events, void* data)
 {

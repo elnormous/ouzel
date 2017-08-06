@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadIOKit.h"
-#include "core/Engine.h"
-#include "core/CompileConfig.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "GamepadIOKit.hpp"
+#include "core/Engine.hpp"
+#include "core/CompileConfig.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2f;
 

@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include <X11/cursorfont.h>
-#include "InputLinux.h"
-#include "CursorInterfaceLinux.h"
-#include "events/Event.h"
-#include "core/Engine.h"
-#include "core/linux/WindowLinux.h"
-#include "utils/Log.h"
+#include "InputLinux.hpp"
+#include "CursorInterfaceLinux.hpp"
+#include "events/Event.hpp"
+#include "core/Engine.hpp"
+#include "core/linux/WindowLinux.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

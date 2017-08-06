@@ -3,12 +3,12 @@
 
 #include <algorithm>
 #import <GameController/GameController.h>
-#include "InputTVOS.h"
-#include "GamepadTVOS.h"
-#include "core/tvos/WindowTVOS.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "InputTVOS.hpp"
+#include "GamepadTVOS.hpp"
+#include "core/tvos/WindowTVOS.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
 {

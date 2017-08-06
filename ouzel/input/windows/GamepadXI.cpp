@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadXI.h"
-#include "InputWin.h"
-#include "core/Engine.h"
-#include "utils/Log.h"
+#include "GamepadXI.hpp"
+#include "InputWin.hpp"
+#include "core/Engine.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

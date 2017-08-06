@@ -3,10 +3,10 @@
 
 #include <jni.h>
 #include <memory>
-#include "core/android/EngineAndroid.h"
-#include "core/android/WindowAndroid.h"
-#include "core/Engine.h"
-#include "input/Input.h"
+#include "core/android/EngineAndroid.hpp"
+#include "core/android/WindowAndroid.hpp"
+#include "core/Engine.hpp"
+#include "input/Input.hpp"
 
 std::unique_ptr<ouzel::EngineAndroid> engine;
 

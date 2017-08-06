@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Shader.h"
-#include "ShaderInterface.h"
-#include "Renderer.h"
-#include "core/Engine.h"
-#include "files/FileSystem.h"
+#include "Shader.hpp"
+#include "ShaderInterface.hpp"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
+#include "files/FileSystem.hpp"
 
 namespace ouzel
 {

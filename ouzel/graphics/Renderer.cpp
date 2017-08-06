@@ -2,17 +2,17 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Renderer.h"
-#include "core/Engine.h"
-#include "TextureInterface.h"
-#include "ShaderInterface.h"
-#include "BlendStateInterface.h"
-#include "MeshBufferInterface.h"
-#include "BufferInterface.h"
-#include "events/EventHandler.h"
-#include "events/EventDispatcher.h"
-#include "core/Window.h"
-#include "utils/Log.h"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
+#include "TextureInterface.hpp"
+#include "ShaderInterface.hpp"
+#include "BlendStateInterface.hpp"
+#include "MeshBufferInterface.hpp"
+#include "BufferInterface.hpp"
+#include "events/EventHandler.hpp"
+#include "events/EventDispatcher.hpp"
+#include "core/Window.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

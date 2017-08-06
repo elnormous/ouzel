@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CheckBox.h"
-#include "Widget.h"
-#include "core/Engine.h"
-#include "scene/Sprite.h"
-#include "events/EventDispatcher.h"
+#include "CheckBox.hpp"
+#include "Widget.hpp"
+#include "core/Engine.hpp"
+#include "scene/Sprite.hpp"
+#include "events/EventDispatcher.hpp"
 
 namespace ouzel
 {

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <windows.h>
-#include "EngineWin.h"
+#include "EngineWin.hpp"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

@@ -3,10 +3,10 @@
 
 #include <windows.h>
 #include <cstdlib>
-#include "EngineWin.h"
-#include "WindowWin.h"
-#include "input/windows/InputWin.h"
-#include "utils/Log.h"
+#include "EngineWin.hpp"
+#include "WindowWin.hpp"
+#include "input/windows/InputWin.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

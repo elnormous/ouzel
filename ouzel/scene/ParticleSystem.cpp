@@ -2,18 +2,18 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
-#include "core/CompileConfig.h"
-#include "ParticleSystem.h"
-#include "core/Engine.h"
-#include "SceneManager.h"
-#include "files/FileSystem.h"
-#include "core/Cache.h"
-#include "Layer.h"
-#include "scene/Camera.h"
-#include "graphics/MeshBufferInterface.h"
-#include "graphics/BufferInterface.h"
-#include "utils/Utils.h"
-#include "math/MathUtils.h"
+#include "core/CompileConfig.hpp"
+#include "ParticleSystem.hpp"
+#include "core/Engine.hpp"
+#include "SceneManager.hpp"
+#include "files/FileSystem.hpp"
+#include "core/Cache.hpp"
+#include "Layer.hpp"
+#include "scene/Camera.hpp"
+#include "graphics/MeshBufferInterface.hpp"
+#include "graphics/BufferInterface.hpp"
+#include "utils/Utils.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {

@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "TextureInterface.h"
-#include "Renderer.h"
-#include "core/Engine.h"
-#include "math/MathUtils.h"
+#include "TextureInterface.hpp"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {

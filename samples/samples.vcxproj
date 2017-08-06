@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>stdafx.hpp</ForcedIncludeFiles>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -111,7 +111,7 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>stdafx.hpp</ForcedIncludeFiles>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>stdafx.hpp</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -155,7 +155,7 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>stdafx.hpp</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -188,17 +188,17 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationsSample.h" />
-    <ClInclude Include="GameSample.h" />
-    <ClInclude Include="GUISample.h" />
-    <ClInclude Include="InputSample.h" />
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="PerspectiveSample.h" />
-    <ClInclude Include="RTSample.h" />
-    <ClInclude Include="SoundSample.h" />
-    <ClInclude Include="SpritesSample.h" />
-    <ClInclude Include="windows\resource.h" />
-    <ClInclude Include="windows\stdafx.h" />
+    <ClInclude Include="AnimationsSample.hpp" />
+    <ClInclude Include="GameSample.hpp" />
+    <ClInclude Include="GUISample.hpp" />
+    <ClInclude Include="InputSample.hpp" />
+    <ClInclude Include="MainMenu.hpp" />
+    <ClInclude Include="PerspectiveSample.hpp" />
+    <ClInclude Include="RTSample.hpp" />
+    <ClInclude Include="SoundSample.hpp" />
+    <ClInclude Include="SpritesSample.hpp" />
+    <ClInclude Include="windows\resource.hpp" />
+    <ClInclude Include="windows\stdafx.hpp" />
     <ClInclude Include="win\resource.h" />
   </ItemGroup>
   <ItemGroup>

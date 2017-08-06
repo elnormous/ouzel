@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CursorInterface.h"
-#include "input/Input.h"
-#include "core/Engine.h"
+#include "CursorInterface.hpp"
+#include "input/Input.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

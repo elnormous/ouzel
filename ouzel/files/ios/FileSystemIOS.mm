@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <Foundation/Foundation.h>
-#include "FileSystemIOS.h"
-#include "utils/Log.h"
+#include "FileSystemIOS.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

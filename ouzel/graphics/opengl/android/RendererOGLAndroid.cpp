@@ -1,13 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLAndroid.h"
-#include "core/android/WindowAndroid.h"
-#include "utils/Log.h"
+#include "RendererOGLAndroid.hpp"
+#include "core/android/WindowAndroid.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

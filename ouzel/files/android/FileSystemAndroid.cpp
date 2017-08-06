@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "FileSystemAndroid.h"
-#include "core/android/EngineAndroid.h"
-#include "utils/Log.h"
+#include "FileSystemAndroid.hpp"
+#include "core/android/EngineAndroid.hpp"
+#include "utils/Log.hpp"
 
 static char TEMP_BUFFER[1024];
 

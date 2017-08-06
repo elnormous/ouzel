@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <bcm_host.h>
-#include "WindowRasp.h"
-#include "utils/Log.h"
+#include "WindowRasp.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

@@ -3,10 +3,10 @@
 
 #include <X11/cursorfont.h>
 #include <X11/Xcursor/Xcursor.h>
-#include "CursorInterfaceLinux.h"
-#include "core/Engine.h"
-#include "core/linux/WindowLinux.h"
-#include "utils/Log.h"
+#include "CursorInterfaceLinux.hpp"
+#include "core/Engine.hpp"
+#include "core/linux/WindowLinux.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

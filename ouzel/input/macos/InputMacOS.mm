@@ -5,14 +5,14 @@
 #import <Carbon/Carbon.h>
 #import <GameController/GameController.h>
 #import <objc/message.h>
-#include "InputMacOS.h"
-#include "CursorInterfaceMacOS.h"
-#include "GamepadGC.h"
-#include "GamepadIOKit.h"
-#include "core/macos/WindowMacOS.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "InputMacOS.hpp"
+#include "CursorInterfaceMacOS.hpp"
+#include "GamepadGC.hpp"
+#include "GamepadIOKit.hpp"
+#include "core/macos/WindowMacOS.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
 extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef key);

@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "NodeContainer.h"
-#include "Node.h"
+#include "NodeContainer.hpp"
+#include "Node.hpp"
 
 namespace ouzel
 {

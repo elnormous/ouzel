@@ -4,8 +4,8 @@
 #include <windows.h>
 #include <Shlobj.h>
 #include <Shlwapi.h>
-#include "FileSystemWin.h"
-#include "utils/Log.h"
+#include "FileSystemWin.hpp"
+#include "utils/Log.hpp"
 
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;

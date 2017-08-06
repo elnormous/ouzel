@@ -194,7 +194,7 @@
 /* Begin PBXFileReference section */
 		3011E1C91F00444500CB1DDC /* settings.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.ini; sourceTree = SOURCE_ROOT; };
 		3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSample.cpp; sourceTree = "<group>"; };
-		3013FAAE1DDD20AC0069E2BD /* GameSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSample.h; sourceTree = "<group>"; };
+		3013FAAE1DDD20AC0069E2BD /* GameSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameSample.hpp; sourceTree = "<group>"; };
 		30224DED1D78F4DB0067DE35 /* triangle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = triangle.json; sourceTree = "<group>"; };
 		30224DEE1D78F4DB0067DE35 /* triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = triangle.png; sourceTree = "<group>"; };
 		3031C1421F0C4A3B002CA717 /* music.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = music.ogg; sourceTree = "<group>"; };
@@ -221,7 +221,7 @@
 		30419E3C1D1A106000A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		30419E3E1D1A106900A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		30419E591D1D530D00A63759 /* SoundSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSample.cpp; sourceTree = "<group>"; };
-		30419E5A1D1D530D00A63759 /* SoundSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSample.h; sourceTree = "<group>"; };
+		30419E5A1D1D530D00A63759 /* SoundSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSample.hpp; sourceTree = "<group>"; };
 		30419E5E1D1D541900A63759 /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		30419E621D1F3DED00A63759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		30419E641D1F6A7600A63759 /* ambient.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ambient.wav; sourceTree = "<group>"; };
@@ -231,21 +231,21 @@
 		30419E871D202DB500A63759 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 		30419E891D202DC000A63759 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 		3045F0A61D0C2E4500125436 /* MainMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenu.cpp; sourceTree = "<group>"; };
-		3045F0A71D0C2E4500125436 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
+		3045F0A71D0C2E4500125436 /* MainMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MainMenu.hpp; sourceTree = "<group>"; };
 		3045F0AE1D0D95BC00125436 /* RTSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTSample.cpp; sourceTree = "<group>"; };
-		3045F0AF1D0D95BC00125436 /* RTSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSample.h; sourceTree = "<group>"; };
+		3045F0AF1D0D95BC00125436 /* RTSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RTSample.hpp; sourceTree = "<group>"; };
 		3045F0B31D0D95CA00125436 /* GUISample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUISample.cpp; sourceTree = "<group>"; };
-		3045F0B41D0D95CA00125436 /* GUISample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUISample.h; sourceTree = "<group>"; };
+		3045F0B41D0D95CA00125436 /* GUISample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GUISample.hpp; sourceTree = "<group>"; };
 		3045F0C01D0E103100125436 /* SpritesSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpritesSample.cpp; sourceTree = "<group>"; };
-		3045F0C11D0E103100125436 /* SpritesSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpritesSample.h; sourceTree = "<group>"; };
+		3045F0C11D0E103100125436 /* SpritesSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpritesSample.hpp; sourceTree = "<group>"; };
 		3045F0C81D0F24B800125436 /* AnimationsSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationsSample.cpp; sourceTree = "<group>"; };
-		3045F0C91D0F24B800125436 /* AnimationsSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationsSample.h; sourceTree = "<group>"; };
+		3045F0C91D0F24B800125436 /* AnimationsSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationsSample.hpp; sourceTree = "<group>"; };
 		3045F0CD1D0F24F600125436 /* InputSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSample.cpp; sourceTree = "<group>"; };
-		3045F0CE1D0F24F600125436 /* InputSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSample.h; sourceTree = "<group>"; };
+		3045F0CE1D0F24F600125436 /* InputSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputSample.hpp; sourceTree = "<group>"; };
 		3045F0DA1D0F575F00125436 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		304659F01E996AAD00D7FEA0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerspectiveSample.cpp; sourceTree = "<group>"; };
-		304736CC1E0AD89E009BC562 /* PerspectiveSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerspectiveSample.h; sourceTree = "<group>"; };
+		304736CC1E0AD89E009BC562 /* PerspectiveSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PerspectiveSample.hpp; sourceTree = "<group>"; };
 		304736D31E0AE4CE009BC562 /* floor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = floor.jpg; sourceTree = "<group>"; };
 		3049DCEE1EDF865B0000997A /* cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cursor.png; sourceTree = "<group>"; };
 		304A8E0A1C237B95008B1151 /* samples_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = samples_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -482,24 +482,24 @@
 			isa = PBXGroup;
 			children = (
 				3045F0C81D0F24B800125436 /* AnimationsSample.cpp */,
-				3045F0C91D0F24B800125436 /* AnimationsSample.h */,
+				3045F0C91D0F24B800125436 /* AnimationsSample.hpp */,
 				3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */,
-				3013FAAE1DDD20AC0069E2BD /* GameSample.h */,
+				3013FAAE1DDD20AC0069E2BD /* GameSample.hpp */,
 				3045F0B31D0D95CA00125436 /* GUISample.cpp */,
-				3045F0B41D0D95CA00125436 /* GUISample.h */,
+				3045F0B41D0D95CA00125436 /* GUISample.hpp */,
 				3045F0CD1D0F24F600125436 /* InputSample.cpp */,
-				3045F0CE1D0F24F600125436 /* InputSample.h */,
+				3045F0CE1D0F24F600125436 /* InputSample.hpp */,
 				303B75181C29EB8400FEDE92 /* main.cpp */,
 				3045F0A61D0C2E4500125436 /* MainMenu.cpp */,
-				3045F0A71D0C2E4500125436 /* MainMenu.h */,
+				3045F0A71D0C2E4500125436 /* MainMenu.hpp */,
 				304736CB1E0AD89E009BC562 /* PerspectiveSample.cpp */,
-				304736CC1E0AD89E009BC562 /* PerspectiveSample.h */,
+				304736CC1E0AD89E009BC562 /* PerspectiveSample.hpp */,
 				3045F0AE1D0D95BC00125436 /* RTSample.cpp */,
-				3045F0AF1D0D95BC00125436 /* RTSample.h */,
+				3045F0AF1D0D95BC00125436 /* RTSample.hpp */,
 				30419E591D1D530D00A63759 /* SoundSample.cpp */,
-				30419E5A1D1D530D00A63759 /* SoundSample.h */,
+				30419E5A1D1D530D00A63759 /* SoundSample.hpp */,
 				3045F0C01D0E103100125436 /* SpritesSample.cpp */,
-				3045F0C11D0E103100125436 /* SpritesSample.h */,
+				3045F0C11D0E103100125436 /* SpritesSample.hpp */,
 			);
 			name = samples;
 			sourceTree = "<group>";

@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Box3.h"
-#include "Box2.h"
+#include "Box3.hpp"
+#include "Box2.hpp"
 
 namespace ouzel
 {

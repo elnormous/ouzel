@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "StreamVorbis.h"
+#include "StreamVorbis.hpp"
 #define STB_VORBIS_HEADER_ONLY
 #include "stb_vorbis.c"
 

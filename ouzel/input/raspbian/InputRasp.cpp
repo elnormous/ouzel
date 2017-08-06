@@ -7,10 +7,10 @@
 #include <unistd.h>
 #include <glob.h>
 #include <linux/input.h>
-#include "InputRasp.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "utils/Log.h"
+#include "InputRasp.hpp"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "utils/Log.hpp"
 
 #define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
 #define BITS_PER_LONG (8 * sizeof(long))

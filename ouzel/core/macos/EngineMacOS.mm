@@ -3,8 +3,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
-#include "EngineMacOS.h"
-#include "utils/Log.h"
+#include "EngineMacOS.hpp"
+#include "utils/Log.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
 

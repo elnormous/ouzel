@@ -1,16 +1,16 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Cache.h"
-#include "Engine.h"
-#include "graphics/Renderer.h"
-#include "graphics/TextureInterface.h"
-#include "graphics/ShaderInterface.h"
-#include "scene/ParticleDefinition.h"
-#include "scene/SpriteFrame.h"
-#include "files/FileSystem.h"
-#include "audio/SoundDataWave.h"
-#include "audio/SoundDataVorbis.h"
+#include "Cache.hpp"
+#include "Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "graphics/TextureInterface.hpp"
+#include "graphics/ShaderInterface.hpp"
+#include "scene/ParticleDefinition.hpp"
+#include "scene/SpriteFrame.hpp"
+#include "files/FileSystem.hpp"
+#include "audio/SoundDataWave.hpp"
+#include "audio/SoundDataVorbis.hpp"
 
 namespace ouzel
 {

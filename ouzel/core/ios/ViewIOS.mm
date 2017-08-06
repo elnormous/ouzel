@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #import "ViewIOS.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "input/ios/InputIOS.h"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "input/ios/InputIOS.hpp"
 
 @implementation ViewIOS
 

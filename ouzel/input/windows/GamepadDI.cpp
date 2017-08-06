@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadDI.h"
-#include "InputWin.h"
-#include "core/Engine.h"
-#include "core/windows/WindowWin.h"
-#include "utils/Log.h"
+#include "GamepadDI.hpp"
+#include "InputWin.hpp"
+#include "core/Engine.hpp"
+#include "core/windows/WindowWin.hpp"
+#include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2f;
 static const size_t INPUT_QUEUE_SIZE = 32;

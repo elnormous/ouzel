@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Sound.h"
-#include "SoundResource.h"
-#include "Audio.h"
-#include "core/Engine.h"
+#include "Sound.hpp"
+#include "SoundResource.hpp"
+#include "Audio.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

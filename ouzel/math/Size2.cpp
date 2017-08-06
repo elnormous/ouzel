@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Size2.h"
-#include "Size3.h"
+#include "Size2.hpp"
+#include "Size3.hpp"
 
 namespace ouzel
 {

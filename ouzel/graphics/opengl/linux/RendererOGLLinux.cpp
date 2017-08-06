@@ -1,12 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLLinux.h"
-#include "core/linux/WindowLinux.h"
+#include "RendererOGLLinux.hpp"
+#include "core/linux/WindowLinux.hpp"
 
 namespace ouzel
 {

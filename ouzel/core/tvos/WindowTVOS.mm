@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowTVOS.h"
+#include "WindowTVOS.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
 #include "graphics/metal/tvos/MetalView.h"
-#include "core/Engine.h"
-#include "utils/Log.h"
+#include "core/Engine.hpp"
+#include "utils/Log.hpp"
 
 @interface ViewController: UIViewController
 {

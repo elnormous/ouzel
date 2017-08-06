@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <cmath>
-#include "Quaternion.h"
-#include "MathUtils.h"
+#include "Quaternion.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {

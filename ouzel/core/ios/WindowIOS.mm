@@ -1,12 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowIOS.h"
+#include "WindowIOS.hpp"
 #include "graphics/opengl/ios/OpenGLView.h"
 #include "graphics/metal/ios/MetalView.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 @interface ViewController: UIViewController
 {

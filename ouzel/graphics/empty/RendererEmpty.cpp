@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "RendererEmpty.h"
-#include "BlendStateInterfaceEmpty.h"
-#include "TextureInterfaceEmpty.h"
-#include "ShaderInterfaceEmpty.h"
-#include "MeshBufferInterfaceEmpty.h"
-#include "BufferInterfaceEmpty.h"
-#include "core/Engine.h"
-#include "core/Cache.h"
+#include "RendererEmpty.hpp"
+#include "BlendStateInterfaceEmpty.hpp"
+#include "TextureInterfaceEmpty.hpp"
+#include "ShaderInterfaceEmpty.hpp"
+#include "MeshBufferInterfaceEmpty.hpp"
+#include "BufferInterfaceEmpty.hpp"
+#include "core/Engine.hpp"
+#include "core/Cache.hpp"
 
 namespace ouzel
 {

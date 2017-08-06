@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GamepadIOS.h"
-#include "core/Engine.h"
+#include "GamepadIOS.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

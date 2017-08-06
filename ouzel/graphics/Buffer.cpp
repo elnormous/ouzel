@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Buffer.h"
-#include "BufferInterface.h"
-#include "Renderer.h"
-#include "core/Engine.h"
+#include "Buffer.hpp"
+#include "BufferInterface.hpp"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

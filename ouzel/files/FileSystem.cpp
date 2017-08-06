@@ -5,10 +5,10 @@
 #include <fstream>
 #include <sys/stat.h>
 
-#include "FileSystem.h"
-#include "core/CompileConfig.h"
-#include "Archive.h"
-#include "utils/Log.h"
+#include "FileSystem.hpp"
+#include "core/CompileConfig.hpp"
+#include "Archive.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

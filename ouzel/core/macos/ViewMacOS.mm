@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #import "ViewMacOS.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "input/macos/InputMacOS.h"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "input/macos/InputMacOS.hpp"
 
 @implementation ViewMacOS
 

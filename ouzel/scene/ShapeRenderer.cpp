@@ -1,13 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ShapeRenderer.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "graphics/MeshBufferInterface.h"
-#include "graphics/BufferInterface.h"
-#include "Camera.h"
-#include "utils/Utils.h"
+#include "ShapeRenderer.hpp"
+#include "core/Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "graphics/MeshBufferInterface.hpp"
+#include "graphics/BufferInterface.hpp"
+#include "Camera.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

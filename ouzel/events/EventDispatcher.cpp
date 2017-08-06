@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "EventDispatcher.h"
-#include "EventHandler.h"
+#include "EventDispatcher.hpp"
+#include "EventHandler.hpp"
 
 namespace ouzel
 {

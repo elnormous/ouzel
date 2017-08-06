@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Audio.h"
-#include "SoundResource.h"
-#include "math/MathUtils.h"
+#include "Audio.hpp"
+#include "SoundResource.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {

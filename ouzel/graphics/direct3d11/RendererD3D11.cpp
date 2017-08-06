@@ -1,25 +1,25 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_DIRECT3D11
 
-#include "RendererD3D11.h"
-#include "BlendStateInterfaceD3D11.h"
-#include "TextureInterfaceD3D11.h"
-#include "ShaderInterfaceD3D11.h"
-#include "MeshBufferInterfaceD3D11.h"
-#include "BufferInterfaceD3D11.h"
-#include "TexturePSD3D11.h"
-#include "TextureVSD3D11.h"
-#include "ColorPSD3D11.h"
-#include "ColorVSD3D11.h"
-#include "core/Cache.h"
-#include "core/Engine.h"
-#include "utils/Log.h"
-#include "core/windows/WindowWin.h"
-#include "stb_image_write.h"
+#include "RendererD3D11.hpp"
+#include "BlendStateInterfaceD3D11.hpp"
+#include "TextureInterfaceD3D11.hpp"
+#include "ShaderInterfaceD3D11.hpp"
+#include "MeshBufferInterfaceD3D11.hpp"
+#include "BufferInterfaceD3D11.hpp"
+#include "TexturePSD3D11.hpp"
+#include "TextureVSD3D11.hpp"
+#include "ColorPSD3D11.hpp"
+#include "ColorVSD3D11.hpp"
+#include "core/Cache.hpp"
+#include "core/Engine.hpp"
+#include "utils/Log.hpp"
+#include "core/windows/WindowWin.hpp"
+#include "stb_image_write.hpp"
 
 namespace ouzel
 {

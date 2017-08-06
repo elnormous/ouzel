@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "CursorInterfaceWin.h"
-#include "utils/Log.h"
+#include "CursorInterfaceWin.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "GameSample.h"
-#include "MainMenu.h"
+#include "GameSample.hpp"
+#include "MainMenu.hpp"
 
 using namespace std;
 using namespace ouzel;

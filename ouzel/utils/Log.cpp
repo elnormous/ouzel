@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 #include <iostream>
 #include <string>
 
@@ -22,7 +22,7 @@
 #include <emscripten.h>
 #endif
 
-#include "Log.h"
+#include "Log.hpp"
 
 namespace ouzel
 {

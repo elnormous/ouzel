@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Rotate.h"
-#include "scene/Node.h"
+#include "Rotate.hpp"
+#include "scene/Node.hpp"
 
 namespace ouzel
 {

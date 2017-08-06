@@ -1,12 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "TextRenderer.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "scene/Camera.h"
-#include "core/Cache.h"
-#include "utils/Utils.h"
+#include "TextRenderer.hpp"
+#include "core/Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "scene/Camera.hpp"
+#include "core/Cache.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

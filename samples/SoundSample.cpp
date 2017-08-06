@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundSample.h"
-#include "MainMenu.h"
+#include "SoundSample.hpp"
+#include "MainMenu.hpp"
 
 using namespace std;
 using namespace ouzel;

@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_METAL
 
-#include "RendererMetalIOS.h"
+#include "RendererMetalIOS.hpp"
 #include "MetalView.h"
-#include "core/ios/WindowIOS.h"
-#include "utils/Log.h"
+#include "core/ios/WindowIOS.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

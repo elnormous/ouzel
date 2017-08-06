@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "EditBox.h"
+#include "EditBox.hpp"
 
 namespace ouzel
 {

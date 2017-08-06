@@ -1,13 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLIOS.h"
-#include "core/Engine.h"
-#include "WindowIOS.h"
+#include "RendererOGLIOS.hpp"
+#include "core/Engine.hpp"
+#include "WindowIOS.hpp"
 
 namespace ouzel
 {

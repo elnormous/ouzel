@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <pwd.h>
 #include <sys/stat.h>
-#include "FileSystemRasp.h"
-#include "utils/Log.h"
+#include "FileSystemRasp.hpp"
+#include "utils/Log.hpp"
 
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;

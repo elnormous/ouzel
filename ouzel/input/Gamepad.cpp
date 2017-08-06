@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Gamepad.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
+#include "Gamepad.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
 
 namespace ouzel
 {

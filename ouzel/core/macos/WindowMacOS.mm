@@ -1,12 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowMacOS.h"
+#include "WindowMacOS.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
-#include "input/macos/InputMacOS.h"
-#include "core/Engine.h"
-#include "utils/Log.h"
+#include "input/macos/InputMacOS.hpp"
+#include "core/Engine.hpp"
+#include "utils/Log.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
 {

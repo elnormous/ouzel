@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Texture.h"
-#include "TextureInterface.h"
-#include "Renderer.h"
-#include "ImageDataSTB.h"
-#include "core/Engine.h"
+#include "Texture.hpp"
+#include "TextureInterface.hpp"
+#include "Renderer.hpp"
+#include "ImageDataSTB.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

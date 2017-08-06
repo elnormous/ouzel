@@ -5,14 +5,14 @@
 #include <windows.h>
 #include <wbemidl.h>
 #include <oleauto.h>
-#include "InputWin.h"
-#include "CursorInterfaceWin.h"
-#include "GamepadDI.h"
-#include "GamepadXI.h"
-#include "core/Engine.h"
-#include "core/windows/WindowWin.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "InputWin.hpp"
+#include "CursorInterfaceWin.hpp"
+#include "GamepadDI.hpp"
+#include "GamepadXI.hpp"
+#include "core/Engine.hpp"
+#include "core/windows/WindowWin.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
 {

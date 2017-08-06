@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
 
-#include <string.h>
+#include <cstring>
 #define GL_GLEXT_PROTOTYPES 1
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "GL/wglext.h"
-#include "RendererOGLWin.h"
-#include "core/windows/WindowWin.h"
+#include "RendererOGLWin.hpp"
+#include "core/windows/WindowWin.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 

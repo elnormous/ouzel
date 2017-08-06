@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Cursor.h"
-#include "Input.h"
-#include "CursorInterface.h"
-#include "core/Engine.h"
-#include "graphics/ImageDataSTB.h"
+#include "Cursor.hpp"
+#include "Input.hpp"
+#include "CursorInterface.hpp"
+#include "core/Engine.hpp"
+#include "graphics/ImageDataSTB.hpp"
 
 namespace ouzel
 {

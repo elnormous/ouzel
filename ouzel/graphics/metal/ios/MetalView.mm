@@ -1,15 +1,15 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_METAL
 
 #include "MetalView.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "input/Input.h"
-#include "graphics/metal/RendererMetal.h"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "input/Input.hpp"
+#include "graphics/metal/RendererMetal.hpp"
 
 @implementation MetalView
 

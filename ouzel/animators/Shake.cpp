@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <limits>
-#include "Shake.h"
-#include "scene/Node.h"
-#include "math/MathUtils.h"
-#include "utils/Utils.h"
+#include "Shake.hpp"
+#include "scene/Node.hpp"
+#include "math/MathUtils.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
-#include "EngineTVOS.h"
+#include "EngineTVOS.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 

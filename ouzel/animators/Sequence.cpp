@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <numeric>
-#include "Sequence.h"
+#include "Sequence.hpp"
 
 namespace ouzel
 {

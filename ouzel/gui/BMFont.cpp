@@ -5,13 +5,13 @@
 #include <string>
 #include <sstream>
 #include <iterator>
-#include "BMFont.h"
-#include "core/Engine.h"
-#include "files/FileSystem.h"
-#include "graphics/Vertex.h"
-#include "core/Cache.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "BMFont.hpp"
+#include "core/Engine.hpp"
+#include "files/FileSystem.hpp"
+#include "graphics/Vertex.hpp"
+#include "core/Cache.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

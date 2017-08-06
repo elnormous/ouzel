@@ -2,15 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include "json.hpp"
-#include "SpriteFrame.h"
-#include "core/Engine.h"
-#include "core/Cache.h"
-#include "files/FileSystem.h"
-#include "graphics/TextureInterface.h"
-#include "graphics/MeshBufferInterface.h"
-#include "graphics/BufferInterface.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "SpriteFrame.hpp"
+#include "core/Engine.hpp"
+#include "core/Cache.hpp"
+#include "files/FileSystem.hpp"
+#include "graphics/TextureInterface.hpp"
+#include "graphics/MeshBufferInterface.hpp"
+#include "graphics/BufferInterface.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

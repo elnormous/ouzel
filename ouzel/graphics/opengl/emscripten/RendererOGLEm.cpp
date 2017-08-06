@@ -1,13 +1,13 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLEm.h"
-#include "core/Engine.h"
-#include "utils/Utils.h"
+#include "RendererOGLEm.hpp"
+#include "core/Engine.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

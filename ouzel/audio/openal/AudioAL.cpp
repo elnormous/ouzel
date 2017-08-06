@@ -1,12 +1,12 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_OPENAL
 
-#include "AudioAL.h"
-#include "utils/Log.h"
+#include "AudioAL.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

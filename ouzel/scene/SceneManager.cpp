@@ -2,10 +2,10 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "SceneManager.h"
-#include "Scene.h"
-#include "core/Engine.h"
-#include "Node.h"
+#include "SceneManager.hpp"
+#include "Scene.hpp"
+#include "core/Engine.hpp"
+#include "Node.hpp"
 
 namespace ouzel
 {

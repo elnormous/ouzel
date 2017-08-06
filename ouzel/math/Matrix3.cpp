@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
-#include "Matrix3.h"
-#include "MathUtils.h"
+#include "Matrix3.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {

@@ -3,16 +3,16 @@
 
 #include <memory>
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_OPENGL
     #define GL_GLEXT_PROTOTYPES 1
     #include <GL/glx.h>
 #endif
 
-#include "WindowLinux.h"
-#include "EngineLinux.h"
-#include "utils/Log.h"
+#include "WindowLinux.hpp"
+#include "EngineLinux.hpp"
+#include "utils/Log.hpp"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
 

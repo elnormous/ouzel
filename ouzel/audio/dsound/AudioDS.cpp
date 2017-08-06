@@ -1,15 +1,15 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
-#include "AudioDS.h"
-#include "audio/SoundResource.h"
-#include "core/Engine.h"
-#include "core/windows/WindowWin.h"
-#include "utils/Log.h"
+#include "AudioDS.hpp"
+#include "audio/SoundResource.hpp"
+#include "core/Engine.hpp"
+#include "core/windows/WindowWin.hpp"
+#include "utils/Log.hpp"
 
 BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
 {

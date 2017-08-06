@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #include <cmath>
-#include "Ease.h"
-#include "math/MathUtils.h"
+#include "Ease.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {

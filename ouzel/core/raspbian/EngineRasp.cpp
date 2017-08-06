@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
-#include "EngineRasp.h"
-#include "input/raspbian/InputRasp.h"
-#include "utils/Utils.h"
+#include "EngineRasp.hpp"
+#include "input/raspbian/InputRasp.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

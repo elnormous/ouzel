@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Menu.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "input/Input.h"
-#include "utils/Log.h"
+#include "Menu.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "input/Input.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

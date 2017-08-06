@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Component.h"
-#include "Node.h"
-#include "math/MathUtils.h"
+#include "Component.hpp"
+#include "Node.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {

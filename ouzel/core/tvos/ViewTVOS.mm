@@ -2,8 +2,8 @@
 // This file is part of the Ouzel engine.
 
 #import "ViewTVOS.h"
-#include "core/Engine.h"
-#include "input/tvos/InputTVOS.h"
+#include "core/Engine.hpp"
+#include "input/tvos/InputTVOS.hpp"
 
 @implementation ViewTVOS
 

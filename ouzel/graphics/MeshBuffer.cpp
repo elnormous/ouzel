@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MeshBuffer.h"
-#include "MeshBufferInterface.h"
-#include "Buffer.h"
-#include "Renderer.h"
-#include "core/Engine.h"
+#include "MeshBuffer.hpp"
+#include "MeshBufferInterface.hpp"
+#include "Buffer.hpp"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

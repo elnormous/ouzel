@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #import <UIKit/UIKit.h>
-#include "EngineIOS.h"
+#include "EngineIOS.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 

@@ -2,13 +2,13 @@
 // This file is part of the Ouzel engine.
 
 #include <windowsx.h>
-#include "WindowWin.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "input/windows/InputWin.h"
-#include "graphics/Renderer.h"
-#include "graphics/direct3d11/RendererD3D11.h"
-#include "utils/Log.h"
+#include "WindowWin.hpp"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "input/windows/InputWin.hpp"
+#include "graphics/Renderer.hpp"
+#include "graphics/direct3d11/RendererD3D11.hpp"
+#include "utils/Log.hpp"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
 {

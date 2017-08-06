@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "BlendState.h"
-#include "BlendStateInterface.h"
-#include "Renderer.h"
-#include "core/Engine.h"
+#include "BlendState.hpp"
+#include "BlendStateInterface.hpp"
+#include "Renderer.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {

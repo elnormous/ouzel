@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Sprite.h"
-#include "core/CompileConfig.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "graphics/TextureInterface.h"
-#include "graphics/ShaderInterface.h"
-#include "Camera.h"
-#include "SceneManager.h"
-#include "files/FileSystem.h"
-#include "Layer.h"
-#include "core/Cache.h"
+#include "Sprite.hpp"
+#include "core/CompileConfig.hpp"
+#include "core/Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "graphics/TextureInterface.hpp"
+#include "graphics/ShaderInterface.hpp"
+#include "Camera.hpp"
+#include "SceneManager.hpp"
+#include "files/FileSystem.hpp"
+#include "Layer.hpp"
+#include "core/Cache.hpp"
 
 namespace ouzel
 {

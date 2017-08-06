@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "UpdateCallback.h"
-#include "Engine.h"
+#include "UpdateCallback.hpp"
+#include "Engine.hpp"
 
 namespace ouzel
 {

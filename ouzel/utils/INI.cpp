@@ -4,10 +4,10 @@
 #include <cctype>
 #include <algorithm>
 #include <iterator>
-#include "INI.h"
-#include "core/Engine.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "INI.hpp"
+#include "core/Engine.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

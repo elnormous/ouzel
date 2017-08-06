@@ -387,197 +387,197 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ouzel\ouzel.h" />
-    <ClInclude Include="..\ouzel\animators\Animator.h">
+    <ClInclude Include="..\ouzel\ouzel.hpp" />
+    <ClInclude Include="..\ouzel\animators\Animator.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Ease.h">
+    <ClInclude Include="..\ouzel\animators\Ease.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Fade.h">
+    <ClInclude Include="..\ouzel\animators\Fade.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Move.h">
+    <ClInclude Include="..\ouzel\animators\Move.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Parallel.h">
+    <ClInclude Include="..\ouzel\animators\Parallel.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Repeat.h">
+    <ClInclude Include="..\ouzel\animators\Repeat.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Rotate.h">
+    <ClInclude Include="..\ouzel\animators\Rotate.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Scale.h">
+    <ClInclude Include="..\ouzel\animators\Scale.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Sequence.h">
+    <ClInclude Include="..\ouzel\animators\Sequence.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\animators\Shake.h">
+    <ClInclude Include="..\ouzel\animators\Shake.hpp">
       <Filter>animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Cache.h">
+    <ClInclude Include="..\ouzel\core\Cache.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\CompileConfig.h">
+    <ClInclude Include="..\ouzel\core\CompileConfig.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Engine.h">
+    <ClInclude Include="..\ouzel\core\Engine.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\UpdateCallback.h">
+    <ClInclude Include="..\ouzel\core\UpdateCallback.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Window.h">
+    <ClInclude Include="..\ouzel\core\Window.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\events\EventDispatcher.h">
+    <ClInclude Include="..\ouzel\events\EventDispatcher.hpp">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\events\Event.h">
+    <ClInclude Include="..\ouzel\events\Event.hpp">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\FileSystem.h">
+    <ClInclude Include="..\ouzel\files\FileSystem.hpp">
       <Filter>files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Renderer.h">
+    <ClInclude Include="..\ouzel\graphics\Renderer.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Vertex.h">
+    <ClInclude Include="..\ouzel\graphics\Vertex.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\BMFont.h">
+    <ClInclude Include="..\ouzel\gui\BMFont.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Button.h">
+    <ClInclude Include="..\ouzel\gui\Button.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\CheckBox.h">
+    <ClInclude Include="..\ouzel\gui\CheckBox.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ComboBox.h">
+    <ClInclude Include="..\ouzel\gui\ComboBox.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\EditBox.h">
+    <ClInclude Include="..\ouzel\gui\EditBox.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Label.h">
+    <ClInclude Include="..\ouzel\gui\Label.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Menu.h">
+    <ClInclude Include="..\ouzel\gui\Menu.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\RadioButton.h">
+    <ClInclude Include="..\ouzel\gui\RadioButton.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ScrollArea.h">
+    <ClInclude Include="..\ouzel\gui\ScrollArea.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\ScrollBar.h">
+    <ClInclude Include="..\ouzel\gui\ScrollBar.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\SlideBar.h">
+    <ClInclude Include="..\ouzel\gui\SlideBar.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\Widget.h">
+    <ClInclude Include="..\ouzel\gui\Widget.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\Gamepad.h">
+    <ClInclude Include="..\ouzel\input\Gamepad.hpp">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\Input.h">
+    <ClInclude Include="..\ouzel\input\Input.hpp">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\localization\Localization.h">
+    <ClInclude Include="..\ouzel\localization\Localization.hpp">
       <Filter>localization</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\localization\Language.h">
+    <ClInclude Include="..\ouzel\localization\Language.hpp">
       <Filter>localization</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Box2.h">
+    <ClInclude Include="..\ouzel\math\Box2.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\MathUtils.h">
+    <ClInclude Include="..\ouzel\math\MathUtils.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Matrix3.h">
+    <ClInclude Include="..\ouzel\math\Matrix3.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Matrix4.h">
+    <ClInclude Include="..\ouzel\math\Matrix4.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Rectangle.h">
+    <ClInclude Include="..\ouzel\math\Rectangle.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Size2.h">
+    <ClInclude Include="..\ouzel\math\Size2.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Size3.h">
+    <ClInclude Include="..\ouzel\math\Size3.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector2.h">
+    <ClInclude Include="..\ouzel\math\Vector2.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector3.h">
+    <ClInclude Include="..\ouzel\math\Vector3.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Vector4.h">
+    <ClInclude Include="..\ouzel\math\Vector4.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Camera.h">
+    <ClInclude Include="..\ouzel\scene\Camera.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Layer.h">
+    <ClInclude Include="..\ouzel\scene\Layer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Node.h">
+    <ClInclude Include="..\ouzel\scene\Node.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\NodeContainer.h">
+    <ClInclude Include="..\ouzel\scene\NodeContainer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ParticleDefinition.h">
+    <ClInclude Include="..\ouzel\scene\ParticleDefinition.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ParticleSystem.h">
+    <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Scene.h">
+    <ClInclude Include="..\ouzel\scene\Scene.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\SceneManager.h">
+    <ClInclude Include="..\ouzel\scene\SceneManager.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Sprite.h">
+    <ClInclude Include="..\ouzel\scene\Sprite.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\SpriteFrame.h">
+    <ClInclude Include="..\ouzel\scene\SpriteFrame.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\Noncopyable.h">
+    <ClInclude Include="..\ouzel\utils\Noncopyable.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\Utils.h">
+    <ClInclude Include="..\ouzel\utils\Utils.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Audio.h">
+    <ClInclude Include="..\ouzel\audio\Audio.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Sound.h">
+    <ClInclude Include="..\ouzel\audio\Sound.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundData.h">
+    <ClInclude Include="..\ouzel\audio\SoundData.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\events\EventHandler.h">
+    <ClInclude Include="..\ouzel\events\EventHandler.hpp">
       <Filter>events</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Component.h">
+    <ClInclude Include="..\ouzel\scene\Component.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.h">
+    <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.hpp">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
@@ -586,7 +586,7 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\RendererD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h">
@@ -595,61 +595,61 @@
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureVSD3D11.h">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.h">
+    <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.hpp">
       <Filter>audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\RendererEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.h">
+    <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp">
       <Filter>audio\xaudio2</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\gui\RadioButtonGroup.h">
+    <ClInclude Include="..\ouzel\gui\RadioButtonGroup.hpp">
       <Filter>gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\WindowWin.h">
+    <ClInclude Include="..\ouzel\core\windows\WindowWin.hpp">
       <Filter>core\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\InputWin.h">
+    <ClInclude Include="..\ouzel\input\windows\InputWin.hpp">
       <Filter>input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\PixelFormat.h">
+    <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\Log.h">
+    <ClInclude Include="..\ouzel\utils\Log.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Color.h">
+    <ClInclude Include="..\ouzel\math\Color.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Quaternion.h">
+    <ClInclude Include="..\ouzel\math\Quaternion.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Box3.h">
+    <ClInclude Include="..\ouzel\math\Box3.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\OBF.h">
+    <ClInclude Include="..\ouzel\utils\OBF.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BlendState.h">
+    <ClInclude Include="..\ouzel\graphics\BlendState.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\MeshBuffer.h">
+    <ClInclude Include="..\ouzel\graphics\MeshBuffer.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Shader.h">
+    <ClInclude Include="..\ouzel\graphics\Shader.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Texture.h">
+    <ClInclude Include="..\ouzel\graphics\Texture.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Buffer.h">
+    <ClInclude Include="..\ouzel\graphics\Buffer.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundResource.h">
+    <ClInclude Include="..\ouzel\audio\SoundResource.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\DataType.h">
+    <ClInclude Include="..\ouzel\graphics\DataType.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h">
@@ -676,7 +676,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\RendererOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\RendererOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h">
@@ -703,64 +703,64 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.hpp">
       <Filter>graphics\opengl\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundDataWave.h">
+    <ClInclude Include="..\ouzel\audio\SoundDataWave.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ImageData.h">
+    <ClInclude Include="..\ouzel\graphics\ImageData.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ImageDataSTB.h">
+    <ClInclude Include="..\ouzel\graphics\ImageDataSTB.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\SoundListener.h">
+    <ClInclude Include="..\ouzel\scene\SoundListener.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\SoundPlayer.h">
+    <ClInclude Include="..\ouzel\scene\SoundPlayer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\Archive.h">
+    <ClInclude Include="..\ouzel\files\Archive.hpp">
       <Filter>files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadDI.h">
+    <ClInclude Include="..\ouzel\input\windows\GamepadDI.hpp">
       <Filter>input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\GamepadXI.h">
+    <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp">
       <Filter>input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\Timer.h">
+    <ClInclude Include="..\ouzel\core\Timer.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Material.h">
+    <ClInclude Include="..\ouzel\graphics\Material.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\MeshRenderer.h">
+    <ClInclude Include="..\ouzel\scene\MeshRenderer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ShapeRenderer.h">
+    <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\TextRenderer.h">
+    <ClInclude Include="..\ouzel\scene\TextRenderer.hpp">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Plane.h">
+    <ClInclude Include="..\ouzel\math\Plane.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\ConvexVolume.h">
+    <ClInclude Include="..\ouzel\math\ConvexVolume.hpp">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\Cursor.h">
+    <ClInclude Include="..\ouzel\input\Cursor.hpp">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\CursorInterface.h">
+    <ClInclude Include="..\ouzel\input\CursorInterface.hpp">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\CursorInterfaceWin.h">
+    <ClInclude Include="..\ouzel\input\windows\CursorInterfaceWin.hpp">
       <Filter>input\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\AudioDS.h">
+    <ClInclude Include="..\ouzel\audio\dsound\AudioDS.hpp">
       <Filter>audio\dsound</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">
@@ -775,88 +775,88 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\INI.h">
+    <ClInclude Include="..\ouzel\utils\INI.hpp">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.h">
+    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.hpp">
       <Filter>files\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Stream.h">
+    <ClInclude Include="..\ouzel\audio\Stream.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\StreamWave.h">
+    <ClInclude Include="..\ouzel\audio\StreamWave.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.h">
+    <ClInclude Include="..\ouzel\audio\SoundDataVorbis.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\StreamVorbis.h">
+    <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp">
       <Filter>audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\EngineWin.h">
+    <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp">
       <Filter>core\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BlendStateInterface.h">
+    <ClInclude Include="..\ouzel\graphics\BlendStateInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\BufferInterface.h">
+    <ClInclude Include="..\ouzel\graphics\BufferInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\MeshBufferInterface.h">
+    <ClInclude Include="..\ouzel\graphics\MeshBufferInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ResourceInterface.h">
+    <ClInclude Include="..\ouzel\graphics\ResourceInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ShaderInterface.h">
+    <ClInclude Include="..\ouzel\graphics\ShaderInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\TextureInterface.h">
+    <ClInclude Include="..\ouzel\graphics\TextureInterface.hpp">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateInterfaceD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateInterfaceD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\BufferInterfaceD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\BufferInterfaceD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferInterfaceD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferInterfaceD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderInterfaceD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderInterfaceD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureInterfaceD3D11.h">
+    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureInterfaceD3D11.hpp">
       <Filter>graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BlendStateInterfaceEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\BlendStateInterfaceEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\BufferInterfaceEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\BufferInterfaceEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\MeshBufferInterfaceEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\MeshBufferInterfaceEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\ShaderInterfaceEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\ShaderInterfaceEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\empty\TextureInterfaceEmpty.h">
+    <ClInclude Include="..\ouzel\graphics\empty\TextureInterfaceEmpty.hpp">
       <Filter>graphics\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferInterfaceOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ShaderInterfaceOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\ShaderInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureInterfaceOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\TextureInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateInterfaceOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\BlendStateInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\BufferInterfaceOGL.h">
+    <ClInclude Include="..\ouzel\graphics\opengl\BufferInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
     </ClInclude>
   </ItemGroup>

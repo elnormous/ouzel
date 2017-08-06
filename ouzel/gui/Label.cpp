@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
-#include "Label.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "scene/Layer.h"
-#include "scene/Camera.h"
-#include "BMFont.h"
-#include "core/Cache.h"
+#include "core/CompileConfig.hpp"
+#include "Label.hpp"
+#include "core/Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "scene/Layer.hpp"
+#include "scene/Camera.hpp"
+#include "BMFont.hpp"
+#include "core/Cache.hpp"
 
 namespace ouzel
 {

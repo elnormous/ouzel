@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "EventHandler.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
+#include "EventHandler.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
 
 namespace ouzel
 {

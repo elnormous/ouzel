@@ -3,9 +3,9 @@
 
 #include <cstdlib>
 #include <emscripten.h>
-#include "EngineEm.h"
-#include "input/emscripten/InputEm.h"
-#include "utils/Utils.h"
+#include "EngineEm.hpp"
+#include "input/emscripten/InputEm.hpp"
+#include "utils/Utils.hpp"
 
 static void loop(void)
 {

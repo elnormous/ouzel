@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "MainMenu.h"
-#include "SpritesSample.h"
-#include "GUISample.h"
-#include "RTSample.h"
-#include "AnimationsSample.h"
-#include "InputSample.h"
-#include "SoundSample.h"
-#include "PerspectiveSample.h"
+#include "MainMenu.hpp"
+#include "SpritesSample.hpp"
+#include "GUISample.hpp"
+#include "RTSample.hpp"
+#include "AnimationsSample.hpp"
+#include "InputSample.hpp"
+#include "SoundSample.hpp"
+#include "PerspectiveSample.hpp"
 
 using namespace std;
 using namespace ouzel;

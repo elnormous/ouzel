@@ -5,8 +5,8 @@
 #include <map>
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#include "GamepadEm.h"
-#include "utils/Log.h"
+#include "GamepadEm.hpp"
+#include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2f;
 

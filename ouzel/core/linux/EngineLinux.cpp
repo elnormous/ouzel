@@ -7,12 +7,12 @@
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
-#include "EngineLinux.h"
-#include "events/Event.h"
-#include "input/Input.h"
-#include "input/linux/InputLinux.h"
-#include "WindowLinux.h"
-#include "utils/Log.h"
+#include "EngineLinux.hpp"
+#include "events/Event.hpp"
+#include "input/Input.hpp"
+#include "input/linux/InputLinux.hpp"
+#include "WindowLinux.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

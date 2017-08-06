@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_OPENGL
 
@@ -33,17 +33,17 @@
     #include "GL/wglext.h"
 #endif
 
-#include "RendererOGL.h"
-#include "TextureInterfaceOGL.h"
-#include "ShaderInterfaceOGL.h"
-#include "MeshBufferInterfaceOGL.h"
-#include "BufferInterfaceOGL.h"
-#include "BlendStateInterfaceOGL.h"
-#include "core/Engine.h"
-#include "core/Window.h"
-#include "core/Cache.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "RendererOGL.hpp"
+#include "TextureInterfaceOGL.hpp"
+#include "ShaderInterfaceOGL.hpp"
+#include "MeshBufferInterfaceOGL.hpp"
+#include "BufferInterfaceOGL.hpp"
+#include "BlendStateInterfaceOGL.hpp"
+#include "core/Engine.hpp"
+#include "core/Window.hpp"
+#include "core/Cache.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
 #if OUZEL_SUPPORTS_OPENGLES

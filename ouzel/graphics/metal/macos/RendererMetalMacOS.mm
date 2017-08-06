@@ -1,15 +1,15 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_METAL
 
-#include "RendererMetalMacOS.h"
+#include "RendererMetalMacOS.hpp"
 #include "MetalView.h"
-#include "core/Engine.h"
-#include "core/macos/WindowMacOS.h"
-#include "utils/Log.h"
+#include "core/Engine.hpp"
+#include "core/macos/WindowMacOS.hpp"
+#include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
                                const CVTimeStamp*,

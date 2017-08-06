@@ -54,7 +54,7 @@ Windows Phone platform support is under development.
 
 The following code will open create a scene with a sprite in the center of it:
 
-    #include "ouzel.h"
+    #include "ouzel.hpp"
 
     std::string DEVELOPER_NAME = "developer";
     std::string APPLICATION_NAME = "game";

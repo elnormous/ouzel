@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ImageDataSTB.h"
-#include "utils/Log.h"
-#include "core/Engine.h"
-#include "files/FileSystem.h"
+#include "ImageDataSTB.hpp"
+#include "utils/Log.hpp"
+#include "core/Engine.hpp"
+#include "files/FileSystem.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION

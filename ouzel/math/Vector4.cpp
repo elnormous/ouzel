@@ -4,11 +4,11 @@
 #include <cmath>
 #include <cassert>
 #include <algorithm>
-#include "Vector4.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Color.h"
-#include "MathUtils.h"
+#include "Vector4.hpp"
+#include "Vector2.hpp"
+#include "Vector3.hpp"
+#include "Color.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {

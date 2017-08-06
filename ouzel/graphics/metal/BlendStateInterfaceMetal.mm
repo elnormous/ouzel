@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_METAL
 
-#include "BlendStateInterfaceMetal.h"
+#include "BlendStateInterfaceMetal.hpp"
 
 namespace ouzel
 {

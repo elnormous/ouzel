@@ -3,12 +3,12 @@
 
 #include <cassert>
 #include <algorithm>
-#include "Camera.h"
-#include "core/Engine.h"
-#include "graphics/Renderer.h"
-#include "Layer.h"
-#include "graphics/TextureInterface.h"
-#include "math/Matrix4.h"
+#include "Camera.hpp"
+#include "core/Engine.hpp"
+#include "graphics/Renderer.hpp"
+#include "Layer.hpp"
+#include "graphics/TextureInterface.hpp"
+#include "math/Matrix4.hpp"
 
 namespace ouzel
 {

@@ -1,15 +1,15 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_METAL
 
 #include <algorithm>
-#include "ShaderInterfaceMetal.h"
-#include "RendererMetal.h"
-#include "files/FileSystem.h"
-#include "utils/Log.h"
+#include "ShaderInterfaceMetal.hpp"
+#include "RendererMetal.hpp"
+#include "files/FileSystem.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

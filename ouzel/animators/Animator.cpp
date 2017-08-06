@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Animator.h"
-#include "core/Engine.h"
-#include "scene/Node.h"
+#include "Animator.hpp"
+#include "core/Engine.hpp"
+#include "scene/Node.hpp"
 
 namespace ouzel
 {

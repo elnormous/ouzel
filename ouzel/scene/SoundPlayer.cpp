@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "SoundPlayer.h"
-#include "core/Engine.h"
-#include "core/Cache.h"
+#include "SoundPlayer.hpp"
+#include "core/Engine.hpp"
+#include "core/Cache.hpp"
 
 namespace ouzel
 {

@@ -1,8 +1,8 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "PerspectiveSample.h"
-#include "MainMenu.h"
+#include "PerspectiveSample.hpp"
+#include "MainMenu.hpp"
 
 using namespace std;
 using namespace ouzel;

@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowAndroid.h"
-#include "EngineAndroid.h"
-#include "utils/Log.h"
+#include "WindowAndroid.hpp"
+#include "EngineAndroid.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {

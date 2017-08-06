@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
-#include "Rectangle.h"
+#include "Rectangle.hpp"
 
 namespace ouzel
 {

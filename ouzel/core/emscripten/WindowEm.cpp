@@ -3,8 +3,8 @@
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#include "WindowEm.h"
-#include "core/Engine.h"
+#include "WindowEm.hpp"
+#include "core/Engine.hpp"
 
 static EM_BOOL emUICallback(int eventType, const EmscriptenUiEvent* uiEvent, void* userData)
 {

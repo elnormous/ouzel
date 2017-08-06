@@ -3,12 +3,12 @@
 
 #include <algorithm>
 #import <GameController/GameController.h>
-#include "InputIOS.h"
-#include "GamepadIOS.h"
-#include "core/ios/WindowIOS.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "utils/Log.h"
+#include "InputIOS.hpp"
+#include "GamepadIOS.hpp"
+#include "core/ios/WindowIOS.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "utils/Log.hpp"
 
 @interface ConnectDelegate: NSObject
 {

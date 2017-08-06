@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
-#include "SoundDataWave.h"
-#include "StreamWave.h"
-#include "core/Engine.h"
-#include "files/FileSystem.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "SoundDataWave.hpp"
+#include "StreamWave.hpp"
+#include "core/Engine.hpp"
+#include "files/FileSystem.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

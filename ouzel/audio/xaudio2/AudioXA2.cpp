@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
-#include "AudioXA2.h"
-#include "XAudio27.h"
-#include "audio/SoundResource.h"
-#include "utils/Log.h"
+#include "AudioXA2.hpp"
+#include "XAudio27.hpp"
+#include "audio/SoundResource.hpp"
+#include "utils/Log.hpp"
 
 static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
 static const char* XAUDIO2_DLL_27 = "xaudio2_7.dll";

@@ -1,17 +1,17 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/CompileConfig.hpp"
 
 #if OUZEL_SUPPORTS_METAL
 
-#include "RendererMetal.h"
-#include "TextureInterfaceMetal.h"
-#include "ShaderInterfaceMetal.h"
-#include "MeshBufferInterfaceMetal.h"
-#include "BufferInterfaceMetal.h"
-#include "BlendStateInterfaceMetal.h"
-#include "events/EventDispatcher.h"
+#include "RendererMetal.hpp"
+#include "TextureInterfaceMetal.hpp"
+#include "ShaderInterfaceMetal.hpp"
+#include "MeshBufferInterfaceMetal.hpp"
+#include "BufferInterfaceMetal.hpp"
+#include "BlendStateInterfaceMetal.hpp"
+#include "events/EventDispatcher.hpp"
 #if OUZEL_PLATFORM_MACOS
     #include "ColorPSMacOS.h"
     #include "ColorVSMacOS.h"
@@ -40,10 +40,10 @@
     #define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
-#include "core/Engine.h"
-#include "core/Cache.h"
-#include "utils/Log.h"
-#include "utils/Utils.h"
+#include "core/Engine.hpp"
+#include "core/Cache.hpp"
+#include "utils/Log.hpp"
+#include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
 static const size_t BUFFER_SIZE = 1024 * 1024; // size of shader constant buffer

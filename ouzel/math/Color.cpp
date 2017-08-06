@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "Color.h"
-#include "Vector3.h"
-#include "Vector4.h"
-#include "utils/Utils.h"
+#include "Color.hpp"
+#include "Vector3.hpp"
+#include "Vector4.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Parallel.h"
+#include "Parallel.hpp"
 
 namespace ouzel
 {

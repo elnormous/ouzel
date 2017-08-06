@@ -2,12 +2,12 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Input.h"
-#include "CursorInterface.h"
-#include "Gamepad.h"
-#include "core/Engine.h"
-#include "events/EventDispatcher.h"
-#include "math/MathUtils.h"
+#include "Input.hpp"
+#include "CursorInterface.hpp"
+#include "Gamepad.hpp"
+#include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {
