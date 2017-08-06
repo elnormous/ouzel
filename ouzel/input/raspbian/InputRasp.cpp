@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <string.h>
+#include <cstring>
 #include <fcntl.h>
 #include <unistd.h>
 #include <glob.h>
