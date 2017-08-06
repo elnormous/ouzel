@@ -266,7 +266,9 @@ namespace ouzel
                     result = std::move(data);
                 }
 
-                if (samplesPerSecond != soundData->getSamplesPerSecond())
+                uint32_t finalSamplesPerSecond = static_cast<uint32_t>(samplesPerSecond * pitch);
+
+                if (finalSamplesPerSecond != soundData->getSamplesPerSecond())
                 {
                     // TODO: resample
                 }
