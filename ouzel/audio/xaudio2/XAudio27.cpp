@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
-#include "Xaudio2.h"
+#include "XAudio2.h"
 
 HRESULT XAudio27CreateProc(IXAudio2** ppXAudio2, UINT32 Flags, UINT32 XAudio2Processor)
 {
