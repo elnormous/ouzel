@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 
 #if OUZEL_SUPPORTS_OPENGL
     #define GL_GLEXT_PROTOTYPES 1

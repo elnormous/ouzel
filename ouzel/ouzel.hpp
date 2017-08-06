@@ -19,7 +19,7 @@
 #include "audio/SoundDataVorbis.hpp"
 #include "audio/SoundDataWave.hpp"
 #include "core/Cache.hpp"
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 #include "core/Engine.hpp"
 #include "core/Timer.hpp"
 #include "core/UpdateCallback.hpp"

@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_METAL
 
@@ -15,6 +15,9 @@ namespace ouzel
     {
         class RendererMetalIOS: public RendererMetal
         {
+        public:
+            virtual ~RendererMetalIOS();
+
         private:
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
@@ -24,6 +27,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
+
+        private:
+            id displayLinkHandler = Nil;
         };
     } // namespace graphics
 } // namespace ouzel

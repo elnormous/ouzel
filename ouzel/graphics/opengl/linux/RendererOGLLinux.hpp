@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 

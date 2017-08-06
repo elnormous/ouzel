@@ -421,7 +421,7 @@
     <ClInclude Include="..\ouzel\core\Cache.hpp">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\CompileConfig.hpp">
+    <ClInclude Include="..\ouzel\core\CompileConfig.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Engine.hpp">

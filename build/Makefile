@@ -179,7 +179,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateInterfaceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferInterfaceMetal.mm \
@@ -187,7 +187,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderInterfaceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureInterfaceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorInterfaceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \

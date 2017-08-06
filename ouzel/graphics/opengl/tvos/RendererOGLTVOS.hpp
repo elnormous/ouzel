@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
 
@@ -56,6 +56,8 @@ namespace ouzel
             GLuint resolveColorRenderBufferId = 0;
 
             GLuint depthRenderBufferId = 0;
+
+            id displayLinkHandler = Nil;
         };
     } // namespace graphics
 } // namespace ouzel

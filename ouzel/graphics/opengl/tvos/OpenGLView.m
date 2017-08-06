@@ -5,10 +5,14 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
-#import <QuartzCore/QuartzCore.h>
-#import "core/ios/ViewIOS.h"
+#include "OpenGLView.h"
 
-@interface OpenGLView: ViewIOS
+@implementation OpenGLView
+
++(Class)layerClass
+{
+    return [CAEAGLLayer class];
+}
 
 @end
 

@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 #include "FileSystem.hpp"
-#include "core/CompileConfig.hpp"
+#include "core/CompileConfig.h"
 #include "Archive.hpp"
 #include "utils/Log.hpp"
 

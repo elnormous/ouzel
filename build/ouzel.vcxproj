@@ -178,7 +178,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="..\ouzel\core\Cache.hpp" />
-    <ClInclude Include="..\ouzel\core\CompileConfig.hpp" />
+    <ClInclude Include="..\ouzel\core\CompileConfig.h" />
     <ClInclude Include="..\ouzel\core\Engine.hpp" />
     <ClInclude Include="..\ouzel\core\Timer.hpp" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.hpp" />

@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include "Engine.hpp"
-#include "CompileConfig.hpp"
+#include "CompileConfig.h"
 #include "Window.hpp"
 #include "utils/Log.hpp"
 #include "utils/INI.hpp"
