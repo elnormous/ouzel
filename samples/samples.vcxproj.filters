@@ -29,7 +29,7 @@
     <ClInclude Include="windows\resource.h">
       <Filter>windows</Filter>
     </ClInclude>
-    <ClInclude Include="windows\stdafx.hpp">
+    <ClInclude Include="windows\stdafx.h">
       <Filter>windows</Filter>
     </ClInclude>
   </ItemGroup>
