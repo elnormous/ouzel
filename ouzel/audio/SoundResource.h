@@ -35,7 +35,7 @@ namespace ouzel
 
             bool isRepeating() const { return repeat; }
 
-            bool getData(uint32_t samples, uint16_t channels, uint32_t samplesPerSecond, std::vector<float>& result);
+            bool getData(uint32_t samples, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
 
         protected:
             std::shared_ptr<SoundData> soundData;

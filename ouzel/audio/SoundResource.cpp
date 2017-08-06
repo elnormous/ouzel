@@ -68,7 +68,7 @@ namespace ouzel
             return true;
         }
 
-        bool SoundResource::getData(uint32_t samples, uint16_t channels, uint32_t samplesPerSecond, std::vector<float>& result)
+        bool SoundResource::getData(uint32_t samples, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
         {
             if (!shouldPlay)
             {
@@ -266,9 +266,9 @@ namespace ouzel
                     result = std::move(data);
                 }
 
-                uint32_t finalSamplesPerSecond = static_cast<uint32_t>(samplesPerSecond * pitch);
+                uint32_t samplesPerSecond = static_cast<uint32_t>(sampleRate * pitch);
 
-                if (finalSamplesPerSecond != soundData->getSamplesPerSecond())
+                if (samplesPerSecond != soundData->getSampleRate())
                 {
                     // TODO: resample
                 }

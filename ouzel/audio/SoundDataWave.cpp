@@ -124,7 +124,7 @@ namespace ouzel
                     channels = decodeUInt16Little(newData.data() + i);
                     i += 2;
 
-                    samplesPerSecond = decodeUInt32Little(newData.data() + i);
+                    sampleRate = decodeUInt32Little(newData.data() + i);
                     i += 4;
 
                     i += 4; // average bytes per second

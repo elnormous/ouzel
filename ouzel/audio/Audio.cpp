@@ -72,7 +72,7 @@ namespace ouzel
 
                 for (const auto& resource : resources)
                 {
-                    if (!resource->getData(samples, channels, samplesPerSecond, data))
+                    if (!resource->getData(samples, channels, sampleRate, data))
                     {
                         return false;
                     }

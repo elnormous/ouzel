@@ -29,11 +29,11 @@ namespace ouzel
             virtual bool getData(Stream* stream, uint32_t samples, std::vector<float>& result) = 0;
 
             uint16_t getChannels() const { return channels; }
-            uint32_t getSamplesPerSecond() const { return samplesPerSecond; }
+            uint32_t getSampleRate() const { return sampleRate; }
 
         protected:
             uint16_t channels = 0;
-            uint32_t samplesPerSecond = 0;
+            uint32_t sampleRate = 0;
         };
     } // namespace audio
 } // namespace ouzel

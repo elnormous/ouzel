@@ -263,7 +263,7 @@ namespace ouzel
             const AudioUnitElement bus = 0;
 
             AudioStreamBasicDescription streamDescription;
-            streamDescription.mSampleRate = samplesPerSecond;
+            streamDescription.mSampleRate = sampleRate;
             streamDescription.mFormatID = kAudioFormatLinearPCM;
             streamDescription.mFormatFlags = kLinearPCMFormatFlagIsFloat;
             streamDescription.mChannelsPerFrame = channels;

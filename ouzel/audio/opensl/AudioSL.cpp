@@ -88,7 +88,7 @@ namespace ouzel
             SLDataFormat_PCM format;
             format.formatType = SL_DATAFORMAT_PCM;
             format.numChannels = channels;
-            format.samplesPerSec = samplesPerSecond * 1000; //mHz
+            format.samplesPerSec = sampleRate * 1000; //mHz
             format.bitsPerSample = 16;
             format.containerSize = format.bitsPerSample;
 

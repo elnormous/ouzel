@@ -204,14 +204,14 @@ namespace ouzel
             alBufferData(buffers[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(samplesPerSecond));
+                         static_cast<ALsizei>(sampleRate));
 
             getData(bufferSize / sizeof(int16_t), Format::SINT16, data);
 
             alBufferData(buffers[1], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
-                         static_cast<ALsizei>(samplesPerSecond));
+                         static_cast<ALsizei>(sampleRate));
 
             nextBuffer = 0;
 
@@ -289,7 +289,7 @@ namespace ouzel
                 alBufferData(buffers[nextBuffer], format,
                              data.data(),
                              static_cast<ALsizei>(data.size()),
-                             static_cast<ALsizei>(samplesPerSecond));
+                             static_cast<ALsizei>(sampleRate));
 
                 alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
 

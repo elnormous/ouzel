@@ -95,7 +95,7 @@ namespace ouzel
             std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
 
             const uint32_t bufferSize = 2 * 4096;
-            const uint32_t samplesPerSecond = 44100;
+            const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;
 
             std::vector<float> buffer;

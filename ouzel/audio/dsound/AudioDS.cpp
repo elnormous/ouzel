@@ -90,7 +90,7 @@ namespace ouzel
             WAVEFORMATEX waveFormat;
             waveFormat.wFormatTag = WAVE_FORMAT_PCM;
             waveFormat.nChannels = channels;
-            waveFormat.nSamplesPerSec = samplesPerSecond;
+            waveFormat.nSamplesPerSec = sampleRate;
             waveFormat.wBitsPerSample = 16;
             waveFormat.nBlockAlign = waveFormat.nChannels * (waveFormat.wBitsPerSample / 8);
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
