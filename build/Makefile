@@ -21,6 +21,8 @@ CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I$(ROOT_DIR)/../external/stb \
 	-I$(ROOT_DIR)/../external/json/src \
 	-I$(ROOT_DIR)/../external/khronos
+CFLAGS=-c -Wall -O2 \
+	-I$(ROOT_DIR)/../ouzel
 SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Ease.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Fade.cpp \
@@ -213,6 +215,7 @@ all: $(LIBRARY)
 
 .PHONY: debug
 debug: CXXFLAGS+=-DDEBUG -g
+debug: CFLAGS+=-DDEBUG -g
 debug: $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
@@ -225,6 +228,9 @@ $(LIBRARY): $(OBJECTS)
 
 %.o: %.mm
 	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD $< -o $@
+
+%.o: %.m
+	$(CC) -fno-objc-arc $(CFLAGS) -MMD $< -o $@
 
 .PHONY: clean
 clean:
@@ -246,6 +252,11 @@ ifeq ($(platform),windows)
 	"$(ROOT_DIR)\..\ouzel\core\windows\*.o" \
 	"$(ROOT_DIR)\..\ouzel\events\*.o" \
 	"$(ROOT_DIR)\..\ouzel\files\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\emscripten\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\linux\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\macos*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\raspbian\*.o" \
+	"$(ROOT_DIR)\..\ouzel\files\windows\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\direct3d11\*.o" \
 	"$(ROOT_DIR)\..\ouzel\graphics\empty\*.o" \
@@ -284,6 +295,11 @@ ifeq ($(platform),windows)
 	"$(ROOT_DIR)\..\ouzel\core\windows\*.d" \
 	"$(ROOT_DIR)\..\ouzel\events\*.d" \
 	"$(ROOT_DIR)\..\ouzel\files\*.d" \
+	"$(ROOT_DIR)\..\ouzel\files\emscripten\*.d" \
+	"$(ROOT_DIR)\..\ouzel\files\linux\*.d" \
+	"$(ROOT_DIR)\..\ouzel\files\macos\*.d" \
+	"$(ROOT_DIR)\..\ouzel\files\raspbian\*.d" \
+	"$(ROOT_DIR)\..\ouzel\files\windows\*.d" \
 	"$(ROOT_DIR)\..\ouzel\graphics\*.d" \
 	"$(ROOT_DIR)\..\ouzel\graphics\direct3d11\*.d" \
 	"$(ROOT_DIR)\..\ouzel\graphics\empty\*.d" \
@@ -327,6 +343,11 @@ else
 	$(ROOT_DIR)/../ouzel/core/windows/*.o \
 	$(ROOT_DIR)/../ouzel/events/*.o \
 	$(ROOT_DIR)/../ouzel/files/*.o \
+	$(ROOT_DIR)/../ouzel/files/emscripten/*.o \
+	$(ROOT_DIR)/../ouzel/files/linux/*.o \
+	$(ROOT_DIR)/../ouzel/files/macos/*.o \
+	$(ROOT_DIR)/../ouzel/files/raspbian/*.o \
+	$(ROOT_DIR)/../ouzel/files/windows/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/*.o \
 	$(ROOT_DIR)/../ouzel/graphics/empty/*.o \
@@ -368,6 +389,11 @@ else
 	$(ROOT_DIR)/../ouzel/core/windows/*.d \
 	$(ROOT_DIR)/../ouzel/events/*.d \
 	$(ROOT_DIR)/../ouzel/files/*.d \
+	$(ROOT_DIR)/../ouzel/files/emscripten/*.d \
+	$(ROOT_DIR)/../ouzel/files/linux/*.d \
+	$(ROOT_DIR)/../ouzel/files/macos/*.d \
+	$(ROOT_DIR)/../ouzel/files/raspbian/*.d \
+	$(ROOT_DIR)/../ouzel/files/windows/*.d \
 	$(ROOT_DIR)/../ouzel/graphics/*.d \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/*.d \
 	$(ROOT_DIR)/../ouzel/graphics/empty/*.d \
