@@ -26,4 +26,7 @@ public class OuzelLibJNIWrapper
     public static native void handleActionMove(int pointerId, float x, float y);
     public static native void handleActionUp(int pointerId, float x, float y);
     public static native void handleActionCancel(int pointerId, float x, float y);
+
+    public static native void handleKyDown(int keyCode);
+    public static native void handleKeyUp(int keyCode);
 }

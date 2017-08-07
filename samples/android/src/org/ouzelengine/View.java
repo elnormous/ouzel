@@ -22,7 +22,7 @@ public class View extends SurfaceView
     }
 
     @Override
-    public boolean onTouchEvent(final MotionEvent event)
+    public boolean onTouchEvent(MotionEvent event)
     {
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
@@ -96,7 +96,8 @@ public class View extends SurfaceView
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
-        // TODO: implement
+
+        OuzelLibJNIWrapper.handleKyDown(keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
@@ -104,7 +105,8 @@ public class View extends SurfaceView
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
-        // TODO: implement
+        
+        OuzelLibJNIWrapper.handleKeyUp(keyCode);
         return super.onKeyUp(keyCode, event);
     }
 }

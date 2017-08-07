@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <jni.h>
 #include "input/Input.hpp"
 
 namespace ouzel
@@ -16,6 +17,8 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~InputAndroid();
+
+            static KeyboardKey convertKeyCode(jint keyCode);
         protected:
             InputAndroid();
         };

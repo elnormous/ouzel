@@ -6,7 +6,7 @@
 #include "core/android/EngineAndroid.hpp"
 #include "core/android/WindowAndroid.hpp"
 #include "core/Engine.hpp"
-#include "input/Input.hpp"
+#include "input/android/InputAndroid.hpp"
 
 std::unique_ptr<ouzel::EngineAndroid> engine;
 
@@ -79,4 +79,14 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handle
 {
     engine->getInput()->touchCancel(static_cast<uint64_t>(pointerId),
                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+}
+
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleKeyDown(JNIEnv*, jclass, jint keyCode)
+{
+    engine->getInput()->keyPress(ouzel::input::InputAndroid::convertKeyCode(keyCode), 0);
+}
+
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleKeyUp(JNIEnv*, jclass, jint keyCode)
+{
+    engine->getInput()->keyRelease(ouzel::input::InputAndroid::convertKeyCode(keyCode), 0);
 }
