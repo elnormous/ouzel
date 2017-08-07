@@ -97,6 +97,7 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
+        updateCondition.notify_one();
         if (updateThread.joinable()) updateThread.join();
 #endif
 
@@ -642,15 +643,20 @@ namespace ouzel
 
     void Engine::exit()
     {
+        running = false;
+
         if (active)
         {
             Event event;
             event.type = Event::Type::ENGINE_STOP;
             eventDispatcher.postEvent(event);
-        }
 
-        running = false;
-        active = false;
+            active = false;
+
+#if OUZEL_MULTITHREADED
+            updateCondition.notify_one();
+#endif
+        }
     }
 
     void Engine::update()
@@ -736,7 +742,7 @@ namespace ouzel
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
 
-                while (!running)
+                while (active && !running)
                 {
                     updateCondition.wait(lock);
                 }
