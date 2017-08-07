@@ -54,9 +54,9 @@ namespace ouzel
             {AKEYCODE_PERIOD, KeyboardKey::PERIOD},
             {AKEYCODE_SLASH, KeyboardKey::SLASH},
             {AKEYCODE_GRAVE, KeyboardKey::GRAVE},
-            {AKEYCODE_LEFT_BRACKET, KeyboardKey::BRACKET_LEFT},
+            {AKEYCODE_LEFT_BRACKET, KeyboardKey::LEFT_BRACKET},
             {AKEYCODE_BACKSLASH, KeyboardKey::BACKSLASH},
-            {AKEYCODE_RIGHT_BRACKET, KeyboardKey::BRACKET_RIGHT},
+            {AKEYCODE_RIGHT_BRACKET, KeyboardKey::RIGHT_BRACKET},
             {AKEYCODE_APOSTROPHE, KeyboardKey::QUOTE},
             {AKEYCODE_SPACE, KeyboardKey::SPACE},
 
@@ -88,14 +88,14 @@ namespace ouzel
             {AKEYCODE_F11, KeyboardKey::F11},
             {AKEYCODE_F12, KeyboardKey::F12},
 
-            {AKEYCODE_SHIFT_LEFT, KeyboardKey::LSHIFT},
-            {AKEYCODE_SHIFT_RIGHT, KeyboardKey::RSHIFT},
-            {AKEYCODE_CTRL_LEFT, KeyboardKey::LCONTROL},
-            {AKEYCODE_CTRL_RIGHT, KeyboardKey::RCONTROL},
-            {AKEYCODE_ALT_LEFT, KeyboardKey::LALT},
-            {AKEYCODE_ALT_RIGHT, KeyboardKey::RALT},
-            {AKEYCODE_META_LEFT, KeyboardKey::LSUPER},
-            {AKEYCODE_META_RIGHT, KeyboardKey::RSUPER}
+            {AKEYCODE_SHIFT_LEFT, KeyboardKey::LEFT_SHIFT},
+            {AKEYCODE_SHIFT_RIGHT, KeyboardKey::RIGHT_SHIFT},
+            {AKEYCODE_CTRL_LEFT, KeyboardKey::LEFT_CONTROL},
+            {AKEYCODE_CTRL_RIGHT, KeyboardKey::RIGHT_CONTROL},
+            {AKEYCODE_ALT_LEFT, KeyboardKey::LEFT_ALT},
+            {AKEYCODE_ALT_RIGHT, KeyboardKey::RIGHT_ALT},
+            {AKEYCODE_META_LEFT, KeyboardKey::LEFT_SUPER},
+            {AKEYCODE_META_RIGHT, KeyboardKey::RIGHT_SUPER}
         };
 
         KeyboardKey InputAndroid::convertKeyCode(jint keyCode)

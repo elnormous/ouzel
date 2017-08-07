@@ -114,14 +114,14 @@ namespace ouzel
             {kVK_Tab, KeyboardKey::TAB},
             {kVK_Return, KeyboardKey::RETURN},
             {kVK_Escape, KeyboardKey::ESCAPE},
-            {kVK_Control, KeyboardKey::LCONTROL},
-            {kVK_RightControl, KeyboardKey::RCONTROL},
-            {kVK_Command, KeyboardKey::LSUPER},
-            {kVK_RightCommand, KeyboardKey::RSUPER},
-            {kVK_Shift, KeyboardKey::LSHIFT},
-            {kVK_RightShift, KeyboardKey::RSHIFT},
-            {kVK_Option, KeyboardKey::LALT},
-            {kVK_RightOption, KeyboardKey::RALT},
+            {kVK_Control, KeyboardKey::LEFT_CONTROL},
+            {kVK_RightControl, KeyboardKey::RIGHT_CONTROL},
+            {kVK_Command, KeyboardKey::LEFT_SUPER},
+            {kVK_RightCommand, KeyboardKey::RIGHT_SUPER},
+            {kVK_Shift, KeyboardKey::LEFT_SHIFT},
+            {kVK_RightShift, KeyboardKey::RIGHT_SHIFT},
+            {kVK_Option, KeyboardKey::LEFT_ALT},
+            {kVK_RightOption, KeyboardKey::RIGHT_ALT},
             {kVK_Space, KeyboardKey::SPACE},
 
             {kVK_ANSI_A, KeyboardKey::A},
@@ -189,9 +189,9 @@ namespace ouzel
             {kVK_ANSI_Semicolon, KeyboardKey::SEMICOLON},
             {kVK_ANSI_Slash, KeyboardKey::SLASH},
             {kVK_ANSI_Grave, KeyboardKey::GRAVE},
-            {kVK_ANSI_LeftBracket, KeyboardKey::BRACKET_LEFT},
+            {kVK_ANSI_LeftBracket, KeyboardKey::LEFT_BRACKET},
             {kVK_ANSI_Backslash, KeyboardKey::BACKSLASH},
-            {kVK_ANSI_RightBracket, KeyboardKey::BRACKET_RIGHT}
+            {kVK_ANSI_RightBracket, KeyboardKey::RIGHT_BRACKET}
         };
 
         static const std::map<uint16_t, NSUInteger> maskMap = {

@@ -53,10 +53,10 @@ namespace ouzel
             {KEY_I, KeyboardKey::I},
             {KEY_O, KeyboardKey::O},
             {KEY_P, KeyboardKey::P},
-            {KEY_LEFTBRACE, KeyboardKey::BRACKET_LEFT},
-            {KEY_RIGHTBRACE, KeyboardKey::BRACKET_RIGHT},
+            {KEY_LEFTBRACE, KeyboardKey::LEFT_BRACKET},
+            {KEY_RIGHTBRACE, KeyboardKey::RIGHT_BRACKET},
             {KEY_ENTER, KeyboardKey::RETURN},
-            {KEY_LEFTCTRL, KeyboardKey::LCONTROL},
+            {KEY_LEFTCTRL, KeyboardKey::LEFT_CONTROL},
             {KEY_A, KeyboardKey::A},
             {KEY_S, KeyboardKey::S},
             {KEY_D, KeyboardKey::D},
@@ -69,7 +69,7 @@ namespace ouzel
             {KEY_SEMICOLON, KeyboardKey::SEMICOLON},
             {KEY_APOSTROPHE, KeyboardKey::QUOTE},
             {KEY_GRAVE, KeyboardKey::GRAVE},
-            {KEY_LEFTSHIFT, KeyboardKey::LSHIFT},
+            {KEY_LEFTSHIFT, KeyboardKey::LEFT_SHIFT},
             {KEY_BACKSLASH, KeyboardKey::BACKSLASH},
             {KEY_Z, KeyboardKey::Z},
             {KEY_X, KeyboardKey::X},
@@ -81,9 +81,9 @@ namespace ouzel
             {KEY_COMMA, KeyboardKey::COMMA},
             {KEY_DOT, KeyboardKey::PERIOD},
             {KEY_SLASH, KeyboardKey::SLASH},
-            {KEY_RIGHTSHIFT, KeyboardKey::RSHIFT},
+            {KEY_RIGHTSHIFT, KeyboardKey::RIGHT_SHIFT},
             {KEY_KPASTERISK, KeyboardKey::MULTIPLY},
-            {KEY_LEFTALT, KeyboardKey::LALT},
+            {KEY_LEFTALT, KeyboardKey::LEFT_ALT},
             {KEY_SPACE, KeyboardKey::SPACE},
             {KEY_CAPSLOCK, KeyboardKey::CAPITAL},
             {KEY_F1, KeyboardKey::F1},
@@ -124,10 +124,10 @@ namespace ouzel
             {KEY_MUHENKAN, KeyboardKey::NONE}, // ??
             {KEY_KPJPCOMMA, KeyboardKey::NONE}, // ??
             {KEY_KPENTER, KeyboardKey::RETURN},
-            {KEY_RIGHTCTRL, KeyboardKey::RCONTROL},
+            {KEY_RIGHTCTRL, KeyboardKey::RIGHT_CONTROL},
             {KEY_KPSLASH, KeyboardKey::DIVIDE},
             {KEY_SYSRQ, KeyboardKey::NONE}, // ??
-            {KEY_RIGHTALT, KeyboardKey::RALT},
+            {KEY_RIGHTALT, KeyboardKey::RIGHT_ALT},
             {KEY_LINEFEED, KeyboardKey::NONE}, // ??
             {KEY_HOME, KeyboardKey::HOME},
             {KEY_UP, KeyboardKey::UP},
@@ -153,8 +153,8 @@ namespace ouzel
             {KEY_HANGEUL, KeyboardKey::NONE}, // KEY_HANGUEL
             {KEY_HANJA, KeyboardKey::HANJA},
             {KEY_YEN, KeyboardKey::NONE}, // ??
-            {KEY_LEFTMETA, KeyboardKey::LSUPER},
-            {KEY_RIGHTMETA, KeyboardKey::RSUPER},
+            {KEY_LEFTMETA, KeyboardKey::LEFT_SUPER},
+            {KEY_RIGHTMETA, KeyboardKey::RIGHT_SUPER},
             {KEY_COMPOSE, KeyboardKey::NONE}, // ??
 
             {KEY_F13, KeyboardKey::F13},

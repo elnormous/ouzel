@@ -96,8 +96,8 @@ namespace ouzel
             X,              // X key
             Y,              // Y key
             Z,              // Z key
-            LSUPER,         // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
-            RSUPER,         // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
+            LEFT_SUPER,     // Left Windows key (Microsoft Natural keyboard) on Windows, left Command key on macOS
+            RIGHT_SUPER,    // Right Windows key (Natural keyboard) on Windows, right Command key on macOS
             MENU,           // Applications key (Natural keyboard)
             SLEEP,          // Computer Sleep key
             NUMPAD_0,       // Numeric keypad 0 key
@@ -142,12 +142,12 @@ namespace ouzel
             F24,            // F24 key
             NUMLOCK,        // NUM LOCK key
             SCROLL,         // SCROLL LOCK key
-            LSHIFT,         // Left SHIFT key
-            RSHIFT,         // Right SHIFT key
-            LCONTROL,       // Left CONTROL key
-            RCONTROL,       // Right CONTROL key
-            LALT,           // Left alt key
-            RALT,           // Right alt key
+            LEFT_SHIFT,     // Left SHIFT key
+            RIGHT_SHIFT,    // Right SHIFT key
+            LEFT_CONTROL,   // Left CONTROL key
+            RIGHT_CONTROL,  // Right CONTROL key
+            LEFT_ALT,       // Left alt key
+            RIGHT_ALT,      // Right alt key
             SEMICOLON,      // for US    ";:"
             PLUS,           // Plus Key   "+"
             COMMA,          // Comma Key  ","
@@ -155,9 +155,9 @@ namespace ouzel
             PERIOD,         // Period Key "."
             SLASH,          // for US    "/?"
             GRAVE,          // for US    "`~"
-            BRACKET_LEFT,   // for US    "[{"
+            LEFT_BRACKET,   // for US    "[{"
             BACKSLASH,      // for US    "\|"
-            BRACKET_RIGHT,  // for US    "]}"
+            RIGHT_BRACKET,  // for US    "]}"
             QUOTE,          // for US    "'""
             OEM_AX,         // for Japan "AX"
             LESS,           // "<>" or "\|"
