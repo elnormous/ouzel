@@ -12,7 +12,7 @@
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    uint32_t key = static_cast<uint32_t>(wParam);
+    UINT key = static_cast<UINT>(wParam);
     switch (key)
     {
         case VK_MENU:
