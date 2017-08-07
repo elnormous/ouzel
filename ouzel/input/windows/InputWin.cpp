@@ -26,14 +26,13 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<uint16_t, KeyboardKey> keyMap = {
+        static const std::map<uint32_t, KeyboardKey> keyMap = {
             {VK_CANCEL, KeyboardKey::CANCEL},
             {VK_BACK, KeyboardKey::BACKSPACE},
             {VK_TAB, KeyboardKey::TAB},
             {VK_CLEAR, KeyboardKey::CLEAR},
             {VK_RETURN, KeyboardKey::RETURN},
-            {VK_SHIFT, KeyboardKey::SHIFT},
-            {VK_CONTROL, KeyboardKey::CONTROL},
+
             {VK_MENU, KeyboardKey::LEFT_ALT},
             {VK_PAUSE, KeyboardKey::PAUSE},
             {VK_CAPITAL, KeyboardKey::CAPITAL},
@@ -169,7 +168,7 @@ namespace ouzel
             {VK_OEM_102, KeyboardKey::LESS}
         };
 
-        KeyboardKey InputWin::convertKeyCode(uint16_t keyCode)
+        KeyboardKey InputWin::convertKeyCode(uint32_t keyCode)
         {
             auto i = keyMap.find(keyCode);
 

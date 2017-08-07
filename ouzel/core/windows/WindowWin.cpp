@@ -10,16 +10,36 @@
 #include "graphics/direct3d11/RendererD3D11.hpp"
 #include "utils/Log.hpp"
 
-static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM)
+static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    uint32_t key = static_cast<uint32_t>(wParam);
+    switch (key)
+    {
+        case VK_MENU:
+            if((lParam & 0x1000000) == 0)
+                key = VK_LMENU;
+            else
+                key = VK_RMENU;
+            break;
+        case VK_CONTROL:
+            if((lParam & 0x1000000) == 0)
+                key = VK_LCONTROL;
+            else
+                key = VK_RCONTROL;
+            break;
+        case VK_SHIFT:
+            key = MapVirtualKey((lParam & 0x00ff0000) >> 16, MAPVK_VSC_TO_VK_EX);
+            break;
+    }
+
     if (msg == WM_KEYDOWN)
     {
-        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
+        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key),
                                                   ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(static_cast<uint16_t>(wParam)),
+        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key),
                                                     ouzel::input::InputWin::getKeyboardModifiers(wParam));
     }
 }

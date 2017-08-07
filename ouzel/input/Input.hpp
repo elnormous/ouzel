@@ -27,8 +27,6 @@ namespace ouzel
             TAB,            // TAB key
             CLEAR,          // CLEAR key
             RETURN,         // ENTER key
-            SHIFT,          // SHIFT key
-            CONTROL,        // CTRL key
             PAUSE,          // PAUSE key
             CAPITAL,        // CAPS LOCK key
             KANA,           // IME Kana mode
