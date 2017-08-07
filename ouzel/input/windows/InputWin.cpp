@@ -236,6 +236,18 @@ namespace ouzel
 
         void InputWin::update()
         {
+            if (keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::LEFT_SHIFT)] &&
+                (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
+            {
+                keyRelease(KeyboardKey::LEFT_SHIFT, 0);
+            }
+
+            if (keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::RIGHT_SHIFT)] &&
+                (GetKeyState(VK_RSHIFT) & 0x8000) == 0)
+            {
+                keyRelease(KeyboardKey::RIGHT_SHIFT, 0);
+            }
+
             for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
             {
                 XINPUT_STATE state;
