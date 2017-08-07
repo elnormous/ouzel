@@ -34,13 +34,11 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_KEYDOWN)
     {
-        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key),
-                                                  ouzel::input::InputWin::getKeyboardModifiers(wParam));
+        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key),
-                                                    ouzel::input::InputWin::getKeyboardModifiers(wParam));
+        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
 }
 

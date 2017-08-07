@@ -182,17 +182,6 @@ namespace ouzel
             }
         }
 
-        uint32_t InputWin::getKeyboardModifiers(WPARAM wParam)
-        {
-            uint32_t modifiers = 0;
-
-            if (wParam & MK_SHIFT) modifiers |= SHIFT_DOWN;
-            if (wParam & MK_ALT) modifiers |= ALT_DOWN;
-            if (wParam & MK_CONTROL) modifiers |= CONTROL_DOWN;
-
-            return modifiers;
-        }
-
         uint32_t InputWin::getMouseModifiers(WPARAM wParam)
         {
             uint32_t modifiers = 0;
