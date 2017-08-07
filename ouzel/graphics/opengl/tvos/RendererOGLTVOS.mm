@@ -14,6 +14,7 @@
 @interface DisplayLinkHandler: NSObject
 {
     ouzel::graphics::Renderer* renderer;
+    NSConditionLock* runLock;
     NSRunLoop* runLoop;
     CADisplayLink* displayLink;
     NSThread* renderThread;
@@ -31,15 +32,14 @@
 
         // display link
         displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(draw:)];
-
         if (!displayLink)
         {
             ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
             return Nil;
         }
-
         [displayLink setFrameInterval:1.0f];
 
+        runLock = [[NSConditionLock alloc] initWithCondition:0];
         renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(runThread) object:nil];
         [renderThread start];
     }
@@ -49,8 +49,9 @@
 
 -(void)dealloc
 {
-    [self performSelector:@selector(stop) onThread:renderThread withObject:nil waitUntilDone:YES];
-
+    [runLock lockWhenCondition:1];
+    [runLock unlock];
+    [runLock release];
     [displayLink invalidate];
     [displayLink release];
     [super dealloc];
@@ -66,14 +67,23 @@
 
 -(void)runThread
 {
+    [runLock lock];
+
     runLoop = [NSRunLoop currentRunLoop];
 
     [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
 
     [runLoop run];
+
+    [runLock unlockWithCondition:1];
 }
 
 -(void)stop
+{
+    [self performSelector:@selector(exit) onThread:renderThread withObject:nil waitUntilDone:NO];
+}
+
+-(void)exit
 {
     CFRunLoopStop([runLoop getCFRunLoop]);
 }
@@ -86,8 +96,8 @@ namespace ouzel
     {
         RendererOGLTVOS::~RendererOGLTVOS()
         {
+            if (displayLinkHandler) [displayLinkHandler stop];
             flushCommands();
-
             if (displayLinkHandler) [displayLinkHandler dealloc];
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
