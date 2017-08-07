@@ -54,6 +54,7 @@
     [runLock release];
     [displayLink invalidate];
     [displayLink release];
+    [renderThread release];
     [super dealloc];
 }
 
@@ -70,9 +71,7 @@
     [runLock lock];
 
     runLoop = [NSRunLoop currentRunLoop];
-
     [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-
     [runLoop run];
 
     [runLock unlockWithCondition:1];
