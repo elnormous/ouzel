@@ -9,8 +9,6 @@ import android.os.SystemClock;
 import android.util.SparseArray;
 import android.view.InputDevice;
 import android.view.InputEvent;
-import android.view.MotionEvent;
-import java.lang.ref.WeakReference;
 
 public class InputManager extends Handler
 {
