@@ -48,7 +48,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
     ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                               ouzel::input::InputWin::getMouseModifiers(wParam));
+                                               ouzel::input::InputWin::getModifiers(wParam));
 }
 
 static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -88,13 +88,13 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     {
         ouzel::sharedEngine->getInput()->mouseButtonPress(button,
                                                           ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                          ouzel::input::InputWin::getMouseModifiers(wParam));
+                                                          ouzel::input::InputWin::getModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
         ouzel::sharedEngine->getInput()->mouseButtonRelease(button,
                                                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                            ouzel::input::InputWin::getMouseModifiers(wParam));
+                                                            ouzel::input::InputWin::getModifiers(wParam));
     }
 }
 
@@ -108,14 +108,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputWin::getMouseModifiers(wParam));
+                                                     ouzel::input::InputWin::getModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
         ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
-                                                     ouzel::input::InputWin::getMouseModifiers(wParam));
+                                                     ouzel::input::InputWin::getModifiers(wParam));
     }
 }
 

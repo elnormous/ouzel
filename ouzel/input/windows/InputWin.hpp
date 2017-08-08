@@ -23,7 +23,7 @@ namespace ouzel
             virtual ~InputWin();
 
             static KeyboardKey convertKeyCode(UINT keyCode);
-            static uint32_t getMouseModifiers(WPARAM wParam);
+            static uint32_t getModifiers(WPARAM wParam);
 
             void update();
 

@@ -182,7 +182,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputWin::getMouseModifiers(WPARAM wParam)
+        uint32_t InputWin::getModifiers(WPARAM wParam)
         {
             uint32_t modifiers = 0;
 
