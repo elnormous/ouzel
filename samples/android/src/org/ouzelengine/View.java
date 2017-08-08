@@ -97,7 +97,7 @@ public class View extends SurfaceView
     {
         inputManager.onInputEvent(event);
 
-        OuzelLibJNIWrapper.handleKyDown(keyCode);
+        OuzelLibJNIWrapper.handleKeyDown(keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
