@@ -3,7 +3,10 @@
 
 #include <map>
 #include <android/keycodes.h>
+#include <android/input.h>
 #include "InputAndroid.hpp"
+#include "core/android/EngineAndroid.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -114,10 +117,32 @@ namespace ouzel
 
         InputAndroid::InputAndroid()
         {
+            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+            javaVM = engineAndroid->getJavaVM();
+            JNIEnv* jniEnv;
+
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return;
+            }
+
+            inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
+            inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
+            getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
         }
 
         InputAndroid::~InputAndroid()
         {
+            JNIEnv* jniEnv;
+
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return;
+            }
+
+            if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
         }
     } // namespace input
 } // namespace ouzel

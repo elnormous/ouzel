@@ -10,9 +10,10 @@ namespace ouzel
     WindowAndroid::WindowAndroid()
     {
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        JavaVM* javaVM = engineAndroid->getJavaVM();
         JNIEnv* jniEnv;
 
-        if (engineAndroid->getJavaVM()->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to get JNI environment";
             return;

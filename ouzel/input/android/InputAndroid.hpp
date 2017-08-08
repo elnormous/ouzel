@@ -21,6 +21,10 @@ namespace ouzel
             static KeyboardKey convertKeyCode(jint keyCode);
         protected:
             InputAndroid();
+
+            JavaVM* javaVM = nullptr;
+            jclass inputDeviceClass = nullptr;
+            jmethodID getDeviceIdsMethod = nullptr;
         };
     } // namespace input
 } // namespace ouzel
