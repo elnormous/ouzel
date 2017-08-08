@@ -12,61 +12,46 @@ import android.view.InputEvent;
 import android.view.MotionEvent;
 import java.lang.ref.WeakReference;
 
-public class InputManager
+public class InputManager extends Handler
 {
     private static final int MESSAGE_TEST_FOR_DISCONNECT = 101;
     private static final long CHECK_ELAPSED_TIME = 3000L;
 
     private final SparseArray<long[]> devices;
-    private final Handler defaultHandler;
 
-    private static class PollingMessageHandler extends Handler
+    @Override
+    public void handleMessage(Message msg)
     {
-        private final WeakReference<InputManager> inputManager;
-
-        PollingMessageHandler(InputManager im)
+        super.handleMessage(msg);
+        switch (msg.what)
         {
-            inputManager = new WeakReference<InputManager>(im);
-        }
-
-        @Override
-        public void handleMessage(Message msg)
-        {
-            super.handleMessage(msg);
-            switch (msg.what)
+            case MESSAGE_TEST_FOR_DISCONNECT:
             {
-                case MESSAGE_TEST_FOR_DISCONNECT:
+                long time = SystemClock.elapsedRealtime();
+                int size = devices.size();
+                for (int i = 0; i < size; i++)
                 {
-                    InputManager imv = inputManager.get();
-                    if (imv != null)
+                    long[] lastContact = devices.valueAt(i);
+                    if (lastContact != null)
                     {
-                        long time = SystemClock.elapsedRealtime();
-                        int size = imv.devices.size();
-                        for (int i = 0; i < size; i++)
+                        if (time - lastContact[0] > CHECK_ELAPSED_TIME)
                         {
-                            long[] lastContact = imv.devices.valueAt(i);
-                            if (lastContact != null)
+                            int id = devices.keyAt(i);
+                            if (InputDevice.getDevice(id) == null)
                             {
-                                if (time - lastContact[0] > CHECK_ELAPSED_TIME)
-                                {
-                                    int id = imv.devices.keyAt(i);
-                                    if (InputDevice.getDevice(id) == null)
-                                    {
-                                        // device removed
-                                        // TODO: implement
-                                        imv.devices.remove(id);
-                                    }
-                                    else
-                                    {
-                                        lastContact[0] = time;
-                                    }
-                                }
+                                // device removed
+                                // TODO: implement
+                                devices.remove(id);
+                            }
+                            else
+                            {
+                                lastContact[0] = time;
                             }
                         }
-                        sendEmptyMessageDelayed(MESSAGE_TEST_FOR_DISCONNECT, CHECK_ELAPSED_TIME);
                     }
-                    break;
                 }
+                sendEmptyMessageDelayed(MESSAGE_TEST_FOR_DISCONNECT, CHECK_ELAPSED_TIME);
+                break;
             }
         }
     }
@@ -74,7 +59,6 @@ public class InputManager
     public InputManager()
     {
         devices = new SparseArray<long[]>();
-        defaultHandler = new PollingMessageHandler(this);
         getInputDeviceIds();
     }
 
@@ -115,11 +99,11 @@ public class InputManager
 
     public void onPause()
     {
-        defaultHandler.removeMessages(MESSAGE_TEST_FOR_DISCONNECT);
+        removeMessages(MESSAGE_TEST_FOR_DISCONNECT);
     }
 
     public void onResume()
     {
-        defaultHandler.sendEmptyMessage(MESSAGE_TEST_FOR_DISCONNECT);
+        sendEmptyMessage(MESSAGE_TEST_FOR_DISCONNECT);
     }
 }
