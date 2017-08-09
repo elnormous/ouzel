@@ -90,7 +90,7 @@ namespace ouzel
             if (buffer)
             {
                 [buffer release];
-                buffer = Nil;
+                buffer = nil;
             }
 
             bufferSize = static_cast<uint32_t>(data.size());

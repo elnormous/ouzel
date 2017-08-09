@@ -53,8 +53,8 @@ namespace ouzel
 
             bool handleWindow(Event::Type type, const WindowEvent& event);
 
-            NSOpenGLContextPtr openGLContext = Nil;
-            NSOpenGLPixelFormatPtr pixelFormat = Nil;
+            NSOpenGLContextPtr openGLContext = nil;
+            NSOpenGLPixelFormatPtr pixelFormat = nil;
 
             CVDisplayLinkRef displayLink = nullptr;
             EventHandler eventHandler;

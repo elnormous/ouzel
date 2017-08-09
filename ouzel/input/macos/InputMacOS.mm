@@ -262,12 +262,12 @@ namespace ouzel
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
                                                      selector:@selector(handleControllerConnected:)
                                                          name:GCControllerDidConnectNotification
-                                                       object:Nil];
+                                                       object:nil];
 
             [[NSNotificationCenter defaultCenter] addObserver:connectDelegate
                                                      selector:@selector(handleControllerDisconnected:)
                                                          name:GCControllerDidDisconnectNotification
-                                                       object:Nil];
+                                                       object:nil];
 
             for (GCController* controller in [GCController controllers])
             {

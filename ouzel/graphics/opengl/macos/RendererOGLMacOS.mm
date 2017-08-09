@@ -132,11 +132,11 @@ namespace ouzel
             if (!pixelFormat)
             {
                 Log(Log::Level::ERR) << "Failed to crete OpenGL pixel format";
-                return Nil;
+                return false;
             }
 
             // Create OpenGL context
-            openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:NULL];
+            openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
             [openGLContext makeCurrentContext];
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);

@@ -29,7 +29,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
         private:
-            id displayLinkHandler = Nil;
+            id displayLinkHandler = nil;
         };
     } // namespace graphics
 } // namespace ouzel

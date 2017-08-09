@@ -79,7 +79,7 @@ namespace ouzel
 
         if (window)
         {
-            window.delegate = Nil;
+            window.delegate = nil;
             [window close];
             [window release];
         }
@@ -176,7 +176,7 @@ namespace ouzel
         }
 
         window.contentView = view;
-        [window makeKeyAndOrderFront:Nil];
+        [window makeKeyAndOrderFront:nil];
 
         if (highDpi)
         {
@@ -215,21 +215,21 @@ namespace ouzel
             if (view)
             {
                 [view release];
-                view = Nil;
+                view = nil;
             }
 
             if (window)
             {
-                window.delegate = Nil;
+                window.delegate = nil;
                 [window close];
                 [window release];
-                window = Nil;
+                window = nil;
             }
 
             if (windowDelegate)
             {
                 [windowDelegate release];
-                windowDelegate = Nil;
+                windowDelegate = nil;
             }
         });
     }

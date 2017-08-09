@@ -61,10 +61,10 @@ namespace ouzel
         protected:
             RendererMetal* rendererMetal;
 
-            MTLFunctionPtr pixelShader = Nil;
-            MTLFunctionPtr vertexShader = Nil;
+            MTLFunctionPtr pixelShader = nil;
+            MTLFunctionPtr vertexShader = nil;
 
-            MTLVertexDescriptorPtr vertexDescriptor = Nil;
+            MTLVertexDescriptorPtr vertexDescriptor = nil;
 
             std::vector<Location> pixelShaderConstantLocations;
             uint32_t pixelShaderConstantSize = 0;

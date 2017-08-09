@@ -204,7 +204,7 @@ namespace ouzel
             }
 
 #else
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
 #endif
 
             AudioComponentDescription desc;

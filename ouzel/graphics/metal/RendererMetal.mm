@@ -72,7 +72,7 @@ namespace ouzel
             apiMajorVersion = 1;
             apiMinorVersion = 0;
 
-            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), Nil);
+            std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nil);
         }
 
         RendererMetal::~RendererMetal()
@@ -409,7 +409,7 @@ namespace ouzel
             }
             else
             {
-                renderPassDescriptor.depthAttachment.texture = Nil;
+                renderPassDescriptor.depthAttachment.texture = nil;
             }
 
             dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
@@ -428,8 +428,8 @@ namespace ouzel
                  dispatch_semaphore_signal(blockSemaphore);
              }];
 
-            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = Nil;
-            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = Nil;
+            MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
+            id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
             
             MTLScissorRect scissorRect;
 
@@ -730,7 +730,7 @@ namespace ouzel
                     }
                     else
                     {
-                        [currentRenderCommandEncoder setFragmentTexture:Nil atIndex:layer];
+                        [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
                     }
                 }
 
@@ -914,7 +914,7 @@ namespace ouzel
 
                 pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
 
-                NSError* error = Nil;
+                NSError* error;
                 id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
                 [pipelineStateDescriptor release];
                 if (error || !pipelineState)
@@ -922,7 +922,7 @@ namespace ouzel
                     if (pipelineState) [pipelineState release];
 
                     Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
-                    return Nil;
+                    return nil;
                 }
                 
                 pipelineStates[desc] = pipelineState;
@@ -1001,7 +1001,7 @@ namespace ouzel
                 if (!samplerState)
                 {
                     Log(Log::Level::ERR) << "Failed to create Metal sampler state";
-                    return Nil;
+                    return nil;
                 }
 
                 samplerStates[descriptor] = samplerState;

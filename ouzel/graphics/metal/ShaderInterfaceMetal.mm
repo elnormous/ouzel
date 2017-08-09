@@ -149,13 +149,13 @@ namespace ouzel
             vertexDescriptor.layouts[0].stepRate = 1;
             vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 
-            NSError* err = Nil;
+            NSError* err;
 
             dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), NULL, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
             id<MTLLibrary> pixelShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
             dispatch_release(pixelShaderDispatchData);
 
-            if (!pixelShaderLibrary || err != Nil)
+            if (!pixelShaderLibrary || err != nil)
             {
                 if (pixelShaderLibrary) [pixelShaderLibrary release];
                 Log(Log::Level::ERR) << "Failed to load pixel shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
@@ -168,7 +168,7 @@ namespace ouzel
 
             [pixelShaderLibrary release];
 
-            if (!pixelShader || err != Nil)
+            if (!pixelShader || err != nil)
             {
                 Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
                 return false;
@@ -192,7 +192,7 @@ namespace ouzel
             id<MTLLibrary> vertexShaderLibrary = [rendererMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
             dispatch_release(vertexShaderDispatchData);
 
-            if (!vertexShaderLibrary || err != Nil)
+            if (!vertexShaderLibrary || err != nil)
             {
                 if (vertexShaderLibrary) [vertexShaderLibrary release];
                 Log(Log::Level::ERR) << "Failed to load vertex shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
@@ -205,7 +205,7 @@ namespace ouzel
 
             [vertexShaderLibrary release];
 
-            if (!vertexShader || err != Nil)
+            if (!vertexShader || err != nil)
             {
                 Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ?[err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
                 return false;

@@ -35,7 +35,7 @@
         if (!displayLink)
         {
             ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
-            return Nil;
+            return nil;
         }
         [displayLink setFrameInterval:1.0f];
 

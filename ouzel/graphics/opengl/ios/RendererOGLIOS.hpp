@@ -46,8 +46,8 @@ namespace ouzel
 
             bool createFrameBuffer();
 
-            EAGLContextPtr context = Nil;
-            CAEAGLLayerPtr eaglLayer = Nil;
+            EAGLContextPtr context = nil;
+            CAEAGLLayerPtr eaglLayer = nil;
 
             GLuint msaaFrameBufferId = 0;
             GLuint msaaColorRenderBufferId = 0;
@@ -57,7 +57,7 @@ namespace ouzel
 
             GLuint depthRenderBufferId = 0;
 
-            id displayLinkHandler = Nil;
+            id displayLinkHandler = nil;
         };
     } // namespace graphics
 } // namespace ouzel

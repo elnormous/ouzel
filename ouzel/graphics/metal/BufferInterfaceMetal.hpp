@@ -43,7 +43,7 @@ namespace ouzel
 
             RendererMetal* rendererMetal;
 
-            MTLBufferPtr buffer = Nil;
+            MTLBufferPtr buffer = nil;
             uint32_t bufferSize = 0;
         };
     } // namespace graphics

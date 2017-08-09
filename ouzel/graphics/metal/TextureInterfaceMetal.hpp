@@ -78,15 +78,15 @@ namespace ouzel
 
             RendererMetal* rendererMetal;
 
-            MTLTextureInterfacePtr texture = Nil;
+            MTLTextureInterfacePtr texture = nil;
 
             NSUInteger width = 0;
             NSUInteger height = 0;
 
-            MTLSamplerStatePtr samplerState = Nil;
-            MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
-            MTLTextureInterfacePtr msaaTexture = Nil;
-            MTLTextureInterfacePtr depthTexture = Nil;
+            MTLSamplerStatePtr samplerState = nil;
+            MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
+            MTLTextureInterfacePtr msaaTexture = nil;
+            MTLTextureInterfacePtr depthTexture = nil;
 
             MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
             MTLPixelFormat depthFormat = MTLPixelFormatInvalid;

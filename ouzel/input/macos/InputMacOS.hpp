@@ -63,7 +63,7 @@ namespace ouzel
             virtual void activateCursorResource(CursorInterface* resource) override;
             virtual CursorInterface* createCursorResource() override;
 
-            id connectDelegate = Nil;
+            id connectDelegate = nil;
             IOHIDManagerRef hidManager = nullptr;
 
             std::vector<GamepadGC*> gamepadsGC;
@@ -73,9 +73,9 @@ namespace ouzel
             bool cursorVisible = true;
             bool cursorLocked = false;
 
-            NSCursorPtr emptyCursor = Nil;
-            NSCursorPtr defaultCursor = Nil;
-            NSCursorPtr currentCursor = Nil;
+            NSCursorPtr emptyCursor = nil;
+            NSCursorPtr defaultCursor = nil;
+            NSCursorPtr currentCursor = nil;
         };
     } // namespace input
 } // namespace ouzel

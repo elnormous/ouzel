@@ -19,7 +19,7 @@ namespace ouzel
                 return false;
             }
 
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:Nil];
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
 
             return true;
         }

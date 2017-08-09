@@ -120,26 +120,26 @@ namespace ouzel
 
             MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
-            MTLDevicePtr device = Nil;
-            MTLCommandQueuePtr commandQueue = Nil;
-            CAMetalLayerPtr metalLayer = Nil;
+            MTLDevicePtr device = nil;
+            MTLCommandQueuePtr commandQueue = nil;
+            CAMetalLayerPtr metalLayer = nil;
             MTLTexturePtr currentMetalTexture = nullptr;
 
             struct ShaderConstantBuffer
             {
-                MTLBufferPtr buffer = Nil;
+                MTLBufferPtr buffer = nil;
                 uint32_t offset = 0;
             };
 
             uint32_t shaderConstantBufferIndex = 0;
             std::vector<ShaderConstantBuffer> shaderConstantBuffers;
 
-            MTLRenderPassDescriptorPtr renderPassDescriptor = Nil;
+            MTLRenderPassDescriptorPtr renderPassDescriptor = nil;
 
             MTLDepthStencilStatePtr depthStencilStates[4];
 
-            MTLTexturePtr msaaTexture = Nil;
-            MTLTexturePtr depthTexture = Nil;
+            MTLTexturePtr msaaTexture = nil;
+            MTLTexturePtr depthTexture = nil;
             std::map<SamplerStateDescriptor, MTLSamplerStatePtr> samplerStates;
 
             MTLPixelFormat colorFormat = MTLPixelFormatInvalid;

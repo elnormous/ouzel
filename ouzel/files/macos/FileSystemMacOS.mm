@@ -40,7 +40,7 @@ namespace ouzel
 
         NSURL* path = [applicationSupportDirectory URLByAppendingPathComponent:identifier];
 
-        [fileManager createDirectoryAtURL:path withIntermediateDirectories:YES attributes:Nil error:Nil];
+        [fileManager createDirectoryAtURL:path withIntermediateDirectories:YES attributes:nil error:nil];
 
         return [[path path] UTF8String];
     }

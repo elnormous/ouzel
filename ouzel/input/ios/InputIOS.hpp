@@ -40,7 +40,7 @@ namespace ouzel
             InputIOS();
             virtual bool init() override;
 
-            id connectDelegate = Nil;
+            id connectDelegate = nil;
 
             bool discovering = false;
             bool cursorVisible = true;

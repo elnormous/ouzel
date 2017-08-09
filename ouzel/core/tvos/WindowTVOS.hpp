@@ -42,10 +42,10 @@ namespace ouzel
                           bool newHighDpi,
                           bool depth) override;
 
-        UIWindowPtr window = Nil;
-        UIViewPtr view = Nil;
-        UIViewControllerPtr viewController = Nil;
+        UIWindowPtr window = nil;
+        UIViewPtr view = nil;
+        UIViewControllerPtr viewController = nil;
 
-        UITextFieldPtr textField = Nil;
+        UITextFieldPtr textField = nil;
     };
 }

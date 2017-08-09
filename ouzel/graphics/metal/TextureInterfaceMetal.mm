@@ -316,25 +316,25 @@ namespace ouzel
             if (texture)
             {
                 [texture release];
-                texture = Nil;
+                texture = nil;
             }
 
             if (msaaTexture)
             {
                 [msaaTexture release];
-                msaaTexture = Nil;
+                msaaTexture = nil;
             }
 
             if (renderPassDescriptor)
             {
                 [renderPassDescriptor release];
-                renderPassDescriptor = Nil;
+                renderPassDescriptor = nil;
             }
 
             if (depthTexture)
             {
                 [depthTexture release];
-                depthTexture = Nil;
+                depthTexture = nil;
             }
 
             width = static_cast<NSUInteger>(size.v[0]);
@@ -433,7 +433,7 @@ namespace ouzel
                 }
                 else
                 {
-                    renderPassDescriptor.depthAttachment.texture = Nil;
+                    renderPassDescriptor.depthAttachment.texture = nil;
                 }
             }
 

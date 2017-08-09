@@ -22,7 +22,7 @@ namespace ouzel
             if (cursor)
             {
                 [cursor release];
-                cursor = Nil;
+                cursor = nil;
             }
 
             switch (systemCursor)
@@ -73,7 +73,7 @@ namespace ouzel
             if (cursor)
             {
                 [cursor release];
-                cursor = Nil;
+                cursor = nil;
             }
 
             if (!data.empty())

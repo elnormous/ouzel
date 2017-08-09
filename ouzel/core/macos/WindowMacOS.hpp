@@ -51,8 +51,8 @@ namespace ouzel
                           bool newHighDpi,
                           bool depth) override;
 
-        NSWindowPtr window = Nil;
-        NSViewPtr view = Nil;
-        NSWindowDelegatePtr windowDelegate = Nil;
+        NSWindowPtr window = nil;
+        NSViewPtr view = nil;
+        NSWindowDelegatePtr windowDelegate = nil;
     };
 }
