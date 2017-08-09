@@ -17,8 +17,7 @@ public class InputManager extends Handler
 
     private final SparseArray<long[]> devices;
 
-    @Override
-    public void handleMessage(Message msg)
+    @Override public void handleMessage(Message msg)
     {
         super.handleMessage(msg);
         switch (msg.what)
@@ -58,11 +57,6 @@ public class InputManager extends Handler
     {
         devices = new SparseArray<long[]>();
         getInputDeviceIds();
-    }
-
-    public InputDevice getInputDevice(int id)
-    {
-        return InputDevice.getDevice(id);
     }
 
     public int[] getInputDeviceIds()

@@ -21,8 +21,7 @@ public class View extends SurfaceView
         setFocusableInTouchMode(true);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
+    @Override public boolean onTouchEvent(MotionEvent event)
     {
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
@@ -92,8 +91,7 @@ public class View extends SurfaceView
         return super.onTouchEvent(event);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
+    @Override public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
 
@@ -101,8 +99,7 @@ public class View extends SurfaceView
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
+    @Override public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
         

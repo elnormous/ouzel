@@ -5,7 +5,6 @@ package org.ouzelengine;
 
 import android.app.Activity;
 import android.view.Surface;
-import android.view.Window;
 
 public class OuzelLibJNIWrapper
 {
@@ -21,6 +20,8 @@ public class OuzelLibJNIWrapper
     public static native void onStart();
     public static native void onPause();
     public static native void onResume();
+
+    public static native void onLowMemory();
 
     public static native void handleActionDown(int pointerId, float x, float y);
     public static native void handleActionMove(int pointerId, float x, float y);

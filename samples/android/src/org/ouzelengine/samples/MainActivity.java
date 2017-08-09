@@ -14,8 +14,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
 {
     private View surfaceView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    @Override protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
@@ -26,44 +25,43 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
         setContentView(surfaceView);
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    @Override public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
         OuzelLibJNIWrapper.onSurfaceChanged(holder.getSurface(), width, height);
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder)
+    @Override public void surfaceCreated(SurfaceHolder holder)
     {
         OuzelLibJNIWrapper.setSurface(holder.getSurface());
         OuzelLibJNIWrapper.onStart();
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder)
+    @Override public void surfaceDestroyed(SurfaceHolder holder)
     {
         OuzelLibJNIWrapper.setSurface(null);
     }
 
-    @Override
-    protected void onStart()
+    @Override protected void onStart()
     {
         super.onStart();
     }
 
-    @Override
-    protected void onPause()
+    @Override protected void onPause()
     {
         super.onPause();
 
         OuzelLibJNIWrapper.onPause();
     }
 
-    @Override
-    protected void onResume()
+    @Override protected void onResume()
     {
         super.onResume();
 
         OuzelLibJNIWrapper.onResume();
+    }
+
+    @Override public void onLowMemory()
+    {
+        OuzelLibJNIWrapper.onLowMemory();
     }
 }

@@ -6,6 +6,7 @@
 #include "core/android/EngineAndroid.hpp"
 #include "core/android/WindowAndroid.hpp"
 #include "core/Engine.hpp"
+#include "events/EventDispatcher.hpp"
 #include "input/android/InputAndroid.hpp"
 
 std::unique_ptr<ouzel::EngineAndroid> engine;
@@ -55,6 +56,14 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onPaus
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
 {
     engine->resume();
+}
+
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
+{
+    ouzel::Event event;
+    event.type = ouzel::Event::Type::LOW_MEMORY;
+
+    engine->getEventDispatcher()->postEvent(event);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_handleActionDown(JNIEnv*, jclass, jint pointerId, jfloat x, jfloat y)
