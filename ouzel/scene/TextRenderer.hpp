@@ -27,6 +27,12 @@ namespace ouzel
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
+            TextRenderer(const std::string& fontFile,
+                         int16_t pt,
+                         bool aMipmaps = true,
+                         const std::string& aText = std::string(),
+                         Color aColor = Color::WHITE,
+                         const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& transformMatrix,
                               const Color& drawColor,
@@ -39,7 +45,7 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void setFont(const std::string& fontFile);
+            virtual void setFont(const std::string& fontFile, int16_t pt = 0);
 
             virtual void setTextAnchor(const Vector2& newTextAnchor);
             virtual const Vector2& getTextAnchor() const { return textAnchor; }
