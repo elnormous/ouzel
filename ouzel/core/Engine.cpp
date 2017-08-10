@@ -216,6 +216,7 @@ namespace ouzel
         defaultSettings.init("settings.ini");
         userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
+
         std::string graphicsDriverValue = userSettings.getValue("engine", "graphicsDriver", defaultSettings.getValue("engine", "graphicsDriver"));
 
         if (!graphicsDriverValue.empty())

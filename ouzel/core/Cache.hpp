@@ -11,6 +11,7 @@
 #include "scene/SpriteFrame.hpp"
 #include "scene/ParticleDefinition.hpp"
 #include "gui/BMFont.hpp"
+#include "gui/FTFont.h"
 #include "graphics/BlendState.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -27,6 +28,11 @@ namespace ouzel
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
+        const std::shared_ptr<graphics::Texture>& getTextureFromData(const std::string& name,
+                                                                     const std::vector<uint8_t>& data = std::vector<uint8_t>(),
+                                                                     Size2 inSize = Size2(),
+                                                                     bool dynamic = false,
+                                                                     bool mipmaps = true) const;
         void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
         void releaseTextures();
 
@@ -52,9 +58,12 @@ namespace ouzel
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
+        void preloadFTFont(std::string filename, int16_t pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
+        const FTFont& getFTFont(const std::string& filename, int16_t pt) const;
         void setBMFont(const std::string& filename, const BMFont& bmFont);
+        void releaseFTFonts();
         void releaseBMFonts();
 
         void preloadSoundData(const std::string& filename);
@@ -69,6 +78,7 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::map<std::string, BMFont> bmFonts;
+        mutable std::map<std::string, FTFont> ftFonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };
 }

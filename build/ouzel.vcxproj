@@ -99,6 +99,7 @@
     <ClCompile Include="..\ouzel\gui\CheckBox.cpp" />
     <ClCompile Include="..\ouzel\gui\ComboBox.cpp" />
     <ClCompile Include="..\ouzel\gui\EditBox.cpp" />
+    <ClCompile Include="..\ouzel\gui\FTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Label.cpp" />
     <ClCompile Include="..\ouzel\gui\Menu.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="..\ouzel\gui\CheckBox.hpp" />
     <ClInclude Include="..\ouzel\gui\ComboBox.hpp" />
     <ClInclude Include="..\ouzel\gui\EditBox.hpp" />
+    <ClInclude Include="..\ouzel\gui\FTFont.h" />
     <ClInclude Include="..\ouzel\gui\Label.hpp" />
     <ClInclude Include="..\ouzel\gui\Menu.hpp" />
     <ClInclude Include="..\ouzel\gui\RadioButton.hpp" />

@@ -26,6 +26,7 @@ namespace ouzel
         releaseBlendStates();
         releaseSpriteFrames();
         releaseBMFonts();
+        releaseFTFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -292,8 +293,39 @@ namespace ouzel
         {
             bmFonts[filename] = BMFont(filename);
         }
+   }
+    void Cache::preloadFTFont(std::string filename, int16_t pt)
+    {
+
+        filename += std::to_string(pt);
+        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        if (i == ftFonts.end())
+        {
+            ftFonts[filename] = FTFont(filename, pt);
+        }
+
     }
 
+
+
+    const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
+    {
+        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
+        if (i != textures.end())
+        {
+            return i->second;
+        }
+        else if (data.size() != 0)
+        {
+            std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
+            result->init(data, size, dynamic, mipmaps);
+            i = textures.insert(std::make_pair(name, result)).first;
+            return i->second;
+        }
+        std::shared_ptr<graphics::Texture> f = nullptr;
+        i = textures.emplace("failed", f).first;
+        return i->second;
+    }
     const BMFont& Cache::getBMFont(const std::string& filename) const
     {
         auto i = bmFonts.find(filename);
@@ -309,6 +341,20 @@ namespace ouzel
             return i->second;
         }
     }
+    const FTFont & Cache::getFTFont(const std::string & filename, int16_t pt) const
+    {
+        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        if (i != ftFonts.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
+            return i->second;
+        }
+    }
+
 
     void Cache::setBMFont(const std::string& filename, const BMFont& bmFont)
     {
@@ -379,5 +425,9 @@ namespace ouzel
     void Cache::releaseSoundData()
     {
         soundData.clear();
+    }
+        void Cache::releaseFTFonts()
+    {
+        ftFonts.clear();
     }
 }
