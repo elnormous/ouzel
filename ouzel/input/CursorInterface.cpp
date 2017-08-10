@@ -13,6 +13,10 @@ namespace ouzel
         {
         }
 
+        CursorInterface::~CursorInterface()
+        {
+        }
+
         bool CursorInterface::init(SystemCursor newSystemCursor)
         {
             systemCursor = newSystemCursor;

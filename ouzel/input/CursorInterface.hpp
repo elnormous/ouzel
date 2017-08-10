@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Input;
         public:
-            CursorInterface();
+            virtual ~CursorInterface();
 
             virtual bool init(SystemCursor newSystemCursor);
             virtual bool init(const std::vector<uint8_t>& newData,
@@ -28,6 +28,8 @@ namespace ouzel
                               const Vector2& newHotSpot);
 
         protected:
+            CursorInterface();
+
             void reactivate();
 
             SystemCursor systemCursor = SystemCursor::DEFAULT;
