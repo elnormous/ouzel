@@ -15,7 +15,7 @@ static int looperCallback(int fd, int events, void* data)
         if (read(fd, &message, sizeof(message)) == -1)
         {
             ouzel::Log(ouzel::Log::Level::ERR) << "Failed to read from pipe";
-            return 1;
+            return 0;
         }
 
         ouzel::EngineAndroid* engineAndroid = static_cast<ouzel::EngineAndroid*>(data);
@@ -125,7 +125,10 @@ namespace ouzel
         looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
         ALooper_acquire(looper);
         pipe(fd);
-        ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this);
+        if (ALooper_addFd(looper, fd[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
+        {
+            Log(Log::Level::ERR) << "Failed to add looper file descriptor";
+        }
     }
 
     void EngineAndroid::setSurface(jobject aSurface)
