@@ -5,9 +5,10 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 #include <map>
+#include <memory>
 #include <unordered_map>
+#include <vector>
 #include "utils/Noncopyable.hpp"
 #include "math/Color.hpp"
 #include "graphics/Texture.hpp"

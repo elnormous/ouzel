@@ -130,9 +130,9 @@ namespace ouzel
             for (uint32_t j = 0; j < scanlines[0].size(); j++)
             {
                 uint8_t b = scanlines[i][j];
-                textureData[(i * scanlines[0].size() + j) * 4 + 0] = b;
-                textureData[(i * scanlines[0].size() + j) * 4 + 1] = b;
-                textureData[(i * scanlines[0].size() + j) * 4 + 2] = b;
+                textureData[(i * scanlines[0].size() + j) * 4 + 0] = 255;
+                textureData[(i * scanlines[0].size() + j) * 4 + 1] = 255;
+                textureData[(i * scanlines[0].size() + j) * 4 + 2] = 255;
                 textureData[(i * scanlines[0].size() + j) * 4 + 3] = b;
             }
         }

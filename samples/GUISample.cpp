@@ -38,9 +38,9 @@ GUISample::GUISample():
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu->addWidget(fullscreenButton.get());
 
-    label1.reset(new gui::Label("checkbox", "AmosisTechnik.ttf", 60));
+    label1.reset(new gui::Label("checkbox", "AmosisTechnik.ttf", 24));
     label1->setColor(Color::CYAN);
-    label1->setPosition(Vector2(-60.0f, 100.0f));
+    label1->setPosition(Vector2(-28.0f, 102.0f));
     guiLayer->addChild(label1.get());
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
