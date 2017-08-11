@@ -1,3 +1,5 @@
+# Credits
+
 | Contributor                                              | Contribution |
 |----------------------------------------------------------|------|
 | [Arvīds Kokins](https://github.com/snake5)               | Initial Direct3D 11 and Windows code |
