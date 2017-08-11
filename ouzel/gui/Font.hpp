@@ -8,12 +8,13 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include "utils/Noncopyable.hpp"
 #include "math/Color.hpp"
 #include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
-    class Font
+    class Font: public Noncopyable
     {
     public:
         uint16_t getHeight() { return lineHeight; }

@@ -60,10 +60,10 @@ namespace ouzel
 
         void preloadFTFont(std::string filename, uint16_t pt);
         void preloadBMFont(const std::string& filename);
-        const BMFont& getBMFont(const std::string& filename) const;
-        const TTFont& getTTFont(const std::string& filename, uint16_t pt) const;
-        void setBMFont(const std::string& filename, const BMFont& bmFont);
-        void releaseFTFonts();
+        const std::shared_ptr<BMFont>& getBMFont(const std::string& filename) const;
+        const std::shared_ptr<TTFont>& getTTFont(const std::string& filename, uint16_t pt) const;
+        void setBMFont(const std::string& filename, const std::shared_ptr<BMFont>& bmFont);
+        void releaseTTFonts();
         void releaseBMFonts();
 
         void preloadSoundData(const std::string& filename);
@@ -77,8 +77,8 @@ namespace ouzel
         mutable std::map<std::string, scene::ParticleDefinition> particleDefinitions;
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
-        mutable std::map<std::string, BMFont> bmFonts;
-        mutable std::map<std::string, TTFont> ftFonts;
+        mutable std::map<std::string, std::shared_ptr<BMFont>> bmFonts;
+        mutable std::map<std::string, std::shared_ptr<TTFont>> ttFonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };
 }

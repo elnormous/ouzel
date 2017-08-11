@@ -73,7 +73,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
-            Font font;
+            std::shared_ptr<Font> font;
             std::string text;
             Vector2 textAnchor;
             Vector2 textScale = Vector2(1.0f, 1.0f);

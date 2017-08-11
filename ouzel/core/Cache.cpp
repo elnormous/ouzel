@@ -26,7 +26,7 @@ namespace ouzel
         releaseBlendStates();
         releaseSpriteFrames();
         releaseBMFonts();
-        releaseFTFonts();
+        releaseTTFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -291,7 +291,7 @@ namespace ouzel
 
         if (i == bmFonts.end())
         {
-            bmFonts[filename] = BMFont(filename);
+            bmFonts[filename] = std::make_shared<BMFont>(filename);
         }
     }
 
@@ -299,10 +299,10 @@ namespace ouzel
     {
 
         filename += std::to_string(pt);
-        std::map<std::string, TTFont>::const_iterator i = ftFonts.find(filename);
-        if (i == ftFonts.end())
+        std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
+        if (i == ttFonts.end())
         {
-            ftFonts[filename] = TTFont(filename, pt);
+            ttFonts[filename] = std::make_shared<TTFont>(filename, pt);
         }
 
     }
@@ -325,7 +325,8 @@ namespace ouzel
         i = textures.emplace("failed", f).first;
         return i->second;
     }
-    const BMFont& Cache::getBMFont(const std::string& filename) const
+
+    const std::shared_ptr<BMFont>& Cache::getBMFont(const std::string& filename) const
     {
         auto i = bmFonts.find(filename);
 
@@ -335,27 +336,27 @@ namespace ouzel
         }
         else
         {
-            i = bmFonts.insert(std::make_pair(filename, BMFont(filename))).first;
+            i = bmFonts.insert(std::make_pair(filename, std::make_shared<BMFont>(filename))).first;
 
             return i->second;
         }
     }
-    const TTFont & Cache::getTTFont(const std::string & filename, uint16_t pt) const
+    const std::shared_ptr<TTFont>& Cache::getTTFont(const std::string & filename, uint16_t pt) const
     {
-        std::map<std::string, TTFont>::const_iterator i = ftFonts.find(filename);
-        if (i != ftFonts.end())
+        std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
+        if (i != ttFonts.end())
         {
             return i->second;
         }
         else
         {
-            i = ftFonts.insert(std::make_pair(filename, TTFont(filename, pt))).first;
+            i = ttFonts.insert(std::make_pair(filename, std::make_shared<TTFont>(filename, pt))).first;
             return i->second;
         }
     }
 
 
-    void Cache::setBMFont(const std::string& filename, const BMFont& bmFont)
+    void Cache::setBMFont(const std::string& filename, const std::shared_ptr<BMFont>& bmFont)
     {
         bmFonts[filename] = bmFont;
     }
@@ -425,8 +426,9 @@ namespace ouzel
     {
         soundData.clear();
     }
-        void Cache::releaseFTFonts()
+
+    void Cache::releaseTTFonts()
     {
-        ftFonts.clear();
+        ttFonts.clear();
     }
 }
