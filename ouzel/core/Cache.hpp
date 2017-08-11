@@ -28,11 +28,6 @@ namespace ouzel
 
         void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
-        const std::shared_ptr<graphics::Texture>& getTextureFromData(const std::string& name,
-                                                                     const std::vector<uint8_t>& data = std::vector<uint8_t>(),
-                                                                     Size2 inSize = Size2(),
-                                                                     bool dynamic = false,
-                                                                     bool mipmaps = true) const;
         void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
         void releaseTextures();
 
@@ -58,10 +53,10 @@ namespace ouzel
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
-        void preloadFTFont(std::string filename, uint16_t pt);
-        void preloadBMFont(const std::string& filename);
-        const std::shared_ptr<BMFont>& getBMFont(const std::string& filename) const;
-        const std::shared_ptr<TTFont>& getTTFont(const std::string& filename, uint16_t pt) const;
+        void preloadFTFont(std::string filename, uint16_t pt, bool mipmaps = true);
+        void preloadBMFont(const std::string& filename, bool mipmaps = true);
+        const std::shared_ptr<BMFont>& getBMFont(const std::string& filename, bool mipmaps = true) const;
+        const std::shared_ptr<TTFont>& getTTFont(const std::string& filename, uint16_t pt, bool mipmaps = true) const;
         void setBMFont(const std::string& filename, const std::shared_ptr<BMFont>& bmFont);
         void releaseTTFonts();
         void releaseBMFonts();

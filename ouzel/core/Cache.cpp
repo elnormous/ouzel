@@ -285,48 +285,29 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-    void Cache::preloadBMFont(const std::string& filename)
+    void Cache::preloadBMFont(const std::string& filename, bool mipmaps)
     {
         auto i = bmFonts.find(filename);
 
         if (i == bmFonts.end())
         {
-            bmFonts[filename] = std::make_shared<BMFont>(filename);
+            bmFonts[filename] = std::make_shared<BMFont>(filename, mipmaps);
         }
     }
 
-    void Cache::preloadFTFont(std::string filename, uint16_t pt)
+    void Cache::preloadFTFont(std::string filename, uint16_t pt, bool mipmaps)
     {
 
         filename += std::to_string(pt);
         std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
         if (i == ttFonts.end())
         {
-            ttFonts[filename] = std::make_shared<TTFont>(filename, pt);
+            ttFonts[filename] = std::make_shared<TTFont>(filename, pt, mipmaps);
         }
 
     }
 
-    const std::shared_ptr<graphics::Texture>& Cache::getTextureFromData(const std::string & name, const std::vector<uint8_t>& data, Size2 size,bool dynamic, bool mipmaps) const
-    {
-        std::map<std::string, std::shared_ptr<graphics::Texture>>::const_iterator i = textures.find(name);
-        if (i != textures.end())
-        {
-            return i->second;
-        }
-        else if (data.size() != 0)
-        {
-            std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-            result->init(data, size, dynamic, mipmaps);
-            i = textures.insert(std::make_pair(name, result)).first;
-            return i->second;
-        }
-        std::shared_ptr<graphics::Texture> f = nullptr;
-        i = textures.emplace("failed", f).first;
-        return i->second;
-    }
-
-    const std::shared_ptr<BMFont>& Cache::getBMFont(const std::string& filename) const
+    const std::shared_ptr<BMFont>& Cache::getBMFont(const std::string& filename, bool mipmaps) const
     {
         auto i = bmFonts.find(filename);
 
@@ -336,12 +317,12 @@ namespace ouzel
         }
         else
         {
-            i = bmFonts.insert(std::make_pair(filename, std::make_shared<BMFont>(filename))).first;
+            i = bmFonts.insert(std::make_pair(filename, std::make_shared<BMFont>(filename, mipmaps))).first;
 
             return i->second;
         }
     }
-    const std::shared_ptr<TTFont>& Cache::getTTFont(const std::string & filename, uint16_t pt) const
+    const std::shared_ptr<TTFont>& Cache::getTTFont(const std::string & filename, uint16_t pt, bool mipmaps) const
     {
         std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
         if (i != ttFonts.end())
@@ -350,7 +331,7 @@ namespace ouzel
         }
         else
         {
-            i = ttFonts.insert(std::make_pair(filename, std::make_shared<TTFont>(filename, pt))).first;
+            i = ttFonts.insert(std::make_pair(filename, std::make_shared<TTFont>(filename, pt, mipmaps))).first;
             return i->second;
         }
     }

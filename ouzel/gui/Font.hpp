@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include "utils/Noncopyable.hpp"
 #include "math/Color.hpp"
+#include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
 
 namespace ouzel
@@ -26,7 +27,7 @@ namespace ouzel
                          std::vector<uint16_t>& indices,
                          std::vector<graphics::VertexPCT>& vertices);
 
-        const std::string& getTextureFilename() const { return textureFilename; }
+        const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
 
     protected:
         int16_t getKerningPair(uint32_t, uint32_t);
@@ -53,6 +54,6 @@ namespace ouzel
         uint16_t kernCount = 0;
         std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
-        std::string textureFilename;
+        std::shared_ptr<graphics::Texture> texture;
     };
 }

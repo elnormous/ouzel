@@ -17,9 +17,9 @@ namespace ouzel
     {
     public:
         TTFont();
-        TTFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);
+        TTFont(const std::string& filename, uint16_t pt, bool mipmaps = true, UTFChars flag = ASCII);
 
     protected:
-        bool parseFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);
+        bool parseFont(const std::string& filename, uint16_t pt, bool mipmaps = true, UTFChars flag = ASCII);
     };
 }

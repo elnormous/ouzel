@@ -17,9 +17,9 @@ namespace ouzel
     {
     }
 
-    TTFont::TTFont(const std::string & filename, uint16_t pt, UTFChars flag)
+    TTFont::TTFont(const std::string & filename, uint16_t pt, bool mipmaps, UTFChars flag)
     {
-        if (!parseFont(filename, pt, flag))
+        if (!parseFont(filename, pt, mipmaps, flag))
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
@@ -27,7 +27,7 @@ namespace ouzel
         kernCount = static_cast<uint16_t>(kern.size());
     }
 
-    bool TTFont::parseFont(const std::string & filename, uint16_t pt, UTFChars flag)
+    bool TTFont::parseFont(const std::string & filename, uint16_t pt, bool mipmaps, UTFChars flag)
     {
         stbtt_fontinfo font;
         std::vector<unsigned char> data;
@@ -137,8 +137,8 @@ namespace ouzel
             }
         }
 
-        sharedEngine->getCache()->getTextureFromData(filename, textureData, Size2(width, height));
-        textureFilename = filename;
+        texture = std::make_shared<graphics::Texture>();
+        texture->init(textureData, Size2(width, height), 0, mipmaps ? 0 : 1);
         pages = 1;
         lineHeight = pt;
         kernCount = static_cast<uint16_t>(kern.size());

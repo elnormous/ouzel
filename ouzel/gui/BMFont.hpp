@@ -11,9 +11,9 @@ namespace ouzel
     {
     public:
         BMFont();
-        BMFont(const std::string& filename);
+        BMFont(const std::string& filename, bool mipmaps = true);
 
     protected:
-        bool parseFont(const std::string& filename);
+        bool parseFont(const std::string& filename, bool mipmaps = true);
     };
 }
