@@ -132,7 +132,9 @@ namespace ouzel
         }
 
         std::vector<uint8_t> b2(b1.size() * 4);
-        std::copy(b1.data(), b1.data() + b1.size() * 4, b2.data());
+        std::copy(reinterpret_cast<uint8_t*>(b1.data()),
+                  reinterpret_cast<uint8_t*>(b1.data()) + b1.size() * 4,
+                  b2.data());
         sharedEngine->getCache()->getTextureFromData(filename, b2, Size2(width, height));
         texture = filename;
         pages = 1;
