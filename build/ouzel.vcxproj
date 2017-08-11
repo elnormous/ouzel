@@ -258,7 +258,7 @@
     <ClInclude Include="..\ouzel\gui\CheckBox.hpp" />
     <ClInclude Include="..\ouzel\gui\ComboBox.hpp" />
     <ClInclude Include="..\ouzel\gui\EditBox.hpp" />
-    <ClInclude Include="..\ouzel\gui\FTFont.h" />
+    <ClInclude Include="..\ouzel\gui\FTFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Label.hpp" />
     <ClInclude Include="..\ouzel\gui\Menu.hpp" />
     <ClInclude Include="..\ouzel\gui\RadioButton.hpp" />

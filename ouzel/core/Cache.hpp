@@ -11,7 +11,7 @@
 #include "scene/SpriteFrame.hpp"
 #include "scene/ParticleDefinition.hpp"
 #include "gui/BMFont.hpp"
-#include "gui/FTFont.h"
+#include "gui/FTFont.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -58,10 +58,10 @@ namespace ouzel
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
-        void preloadFTFont(std::string filename, int16_t pt);
+        void preloadFTFont(std::string filename, uint16_t pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
-        const FTFont& getFTFont(const std::string& filename, int16_t pt) const;
+        const FTFont& getFTFont(const std::string& filename, uint16_t pt) const;
         void setBMFont(const std::string& filename, const BMFont& bmFont);
         void releaseFTFonts();
         void releaseBMFonts();

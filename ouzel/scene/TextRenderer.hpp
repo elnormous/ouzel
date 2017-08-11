@@ -28,7 +28,7 @@ namespace ouzel
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
             TextRenderer(const std::string& fontFile,
-                         int16_t pt,
+                         uint16_t pt,
                          bool aMipmaps = true,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,

@@ -1,6 +1,9 @@
-#pragma once
-#include "gui/BMFont.h"
+// Copyright (C) 2017 Elviss Strazdins
+// This file is part of the Ouzel engine.
 
+#pragma once
+
+#include "gui/BMFont.hpp"
 
 namespace ouzel
 {
@@ -19,4 +22,4 @@ namespace ouzel
     protected:
         bool parseFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);
     };
-} 
+}

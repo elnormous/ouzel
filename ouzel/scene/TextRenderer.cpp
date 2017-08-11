@@ -41,8 +41,9 @@ namespace ouzel
 
             updateText();
         }
+
         TextRenderer::TextRenderer(const std::string& fontFile,
-                                   int16_t pt,
+                                   uint16_t pt,
                                    bool aMipmaps,
                                    const std::string& aText,
                                    Color aColor,

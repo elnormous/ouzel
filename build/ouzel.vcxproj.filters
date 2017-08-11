@@ -861,7 +861,7 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BufferInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
-    <ClInclude Include="..\ouzel\gui\FTFont.h">
+    <ClInclude Include="..\ouzel\gui\FTFont.hpp">
       <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>

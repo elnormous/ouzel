@@ -809,6 +809,12 @@
 		30B546581D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.hpp */; };
 		30B546591D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.hpp */; };
 		30B5465A1D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B546541D90575B00E45DB6 /* RadioButtonGroup.hpp */; };
+		30B8598C1F3D286600A16952 /* FTFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B8598A1F3D286600A16952 /* FTFont.cpp */; };
+		30B8598D1F3D286600A16952 /* FTFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B8598A1F3D286600A16952 /* FTFont.cpp */; };
+		30B8598E1F3D286600A16952 /* FTFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30B8598A1F3D286600A16952 /* FTFont.cpp */; };
+		30B8598F1F3D286600A16952 /* FTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* FTFont.hpp */; };
+		30B859901F3D286600A16952 /* FTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* FTFont.hpp */; };
+		30B859911F3D286600A16952 /* FTFont.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30B8598B1F3D286600A16952 /* FTFont.hpp */; };
 		30C56C5B1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
 		30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C56C591CAA88F8007AEF8F /* CheckBox.cpp */; };
@@ -1198,6 +1204,8 @@
 		30B328831C4E9EAC00040927 /* Ease.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ease.hpp; sourceTree = "<group>"; };
 		30B546531D90575B00E45DB6 /* RadioButtonGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButtonGroup.cpp; sourceTree = "<group>"; };
 		30B546541D90575B00E45DB6 /* RadioButtonGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RadioButtonGroup.hpp; sourceTree = "<group>"; };
+		30B8598A1F3D286600A16952 /* FTFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FTFont.cpp; sourceTree = "<group>"; };
+		30B8598B1F3D286600A16952 /* FTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FTFont.hpp; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CheckBox.hpp; sourceTree = "<group>"; };
 		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
@@ -1794,6 +1802,8 @@
 				30EF36621CA845DC00F04F29 /* ComboBox.hpp */,
 				304B27771C95C54D00BA162D /* EditBox.cpp */,
 				304B27781C95C54D00BA162D /* EditBox.hpp */,
+				30B8598A1F3D286600A16952 /* FTFont.cpp */,
+				30B8598B1F3D286600A16952 /* FTFont.hpp */,
 				30575ACB1C3B175D0009C8A7 /* Label.cpp */,
 				30575ACC1C3B175D0009C8A7 /* Label.hpp */,
 				305B99871C41EFFA008589E1 /* Menu.cpp */,
@@ -2049,6 +2059,7 @@
 				3031C1371F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
 				3011E1E61F01790000CB1DDC /* FileSystemIOS.hpp in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.hpp in Headers */,
+				30B8598F1F3D286600A16952 /* FTFont.hpp in Headers */,
 				3082C39C1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
 				301EB3A61CCD691800466E92 /* Component.hpp in Headers */,
 				303B75641C2A3CBF00FEDE92 /* ParticleSystem.hpp in Headers */,
@@ -2214,6 +2225,7 @@
 				3031C1391F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
 				3038214A1D81876E00677CAB /* RendererEmpty.hpp in Headers */,
 				301EB3A71CCD691800466E92 /* Component.hpp in Headers */,
+				30B859911F3D286600A16952 /* FTFont.hpp in Headers */,
 				304B277E1C95C54D00BA162D /* EditBox.hpp in Headers */,
 				3082C39E1D9565DE0090FC9D /* ColorPSGLES3.h in Headers */,
 				303820231D80A40700677CAB /* TextureVSMacOS.h in Headers */,
@@ -2391,6 +2403,7 @@
 				30381FF21D80A40700677CAB /* ColorVSMacOS.h in Headers */,
 				303696C81E32DD8F007F4211 /* Texture.hpp in Headers */,
 				303820251D80A40700677CAB /* TextureVSTVOS.h in Headers */,
+				30B859901F3D286600A16952 /* FTFont.hpp in Headers */,
 				304A8E551C237C70008B1151 /* EventHandler.hpp in Headers */,
 				307F9FFE1F1E9CA000BA73CB /* GamepadGC.hpp in Headers */,
 				303821491D81876E00677CAB /* RendererEmpty.hpp in Headers */,
@@ -2496,6 +2509,7 @@
 				30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
 				309BA3131F183D6E006F2240 /* AudioCA.mm in Sources */,
+				30B8598C1F3D286600A16952 /* FTFont.cpp in Sources */,
 				30381F731D80A3EC00677CAB /* MeshBufferInterfaceOGL.cpp in Sources */,
 				3049DCE01EDCD0450000997A /* CursorInterface.cpp in Sources */,
 				303821691D81876E00677CAB /* AudioEmpty.cpp in Sources */,
@@ -2633,6 +2647,7 @@
 				30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
 				309BA3151F183D6E006F2240 /* AudioCA.mm in Sources */,
+				30B8598E1F3D286600A16952 /* FTFont.cpp in Sources */,
 				30381F751D80A3EC00677CAB /* MeshBufferInterfaceOGL.cpp in Sources */,
 				3049DCE21EDCD0450000997A /* CursorInterface.cpp in Sources */,
 				3038216B1D81876E00677CAB /* AudioEmpty.cpp in Sources */,
@@ -2827,6 +2842,7 @@
 				3047F7461C4C350D00774E3D /* Move.cpp in Sources */,
 				303B74E41C277CEE00FEDE92 /* ImageData.cpp in Sources */,
 				3009341C1C88698500CC50D3 /* Window.cpp in Sources */,
+				30B8598D1F3D286600A16952 /* FTFont.cpp in Sources */,
 				303B04AA1E207B1D00011CBE /* MetalView.m in Sources */,
 				304A8E561C237C70008B1151 /* MathUtils.cpp in Sources */,
 				3047F74E1C4C4FAF00774E3D /* Rotate.cpp in Sources */,

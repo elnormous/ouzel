@@ -29,7 +29,7 @@ namespace ouzel
         BMFont();
         BMFont(const std::string& filename);
 
-        float getHeight() { return lineHeight; }
+        uint16_t getHeight() { return lineHeight; }
 
         void getVertices(const std::string& text,
                          const Color& color,
@@ -45,12 +45,12 @@ namespace ouzel
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 
-        int16_t lineHeight = 0;
-        int16_t base = 0;
-        int16_t width = 0;
-        int16_t height = 0;
-        int16_t pages = 0;
-        int16_t outline = 0;
+        uint16_t lineHeight = 0;
+        uint16_t base = 0;
+        uint16_t width = 0;
+        uint16_t height = 0;
+        uint16_t pages = 0;
+        uint16_t outline = 0;
         uint16_t kernCount = 0;
         std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
