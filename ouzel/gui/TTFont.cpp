@@ -65,29 +65,33 @@ namespace ouzel
         for (uint16_t c : glyphs)
         {
             unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, c, &w, &h, &xoff, &yoff);
-            for (uint16_t j : glyphs)
+
+            if (bitmap)
             {
-                int kx = stbtt_GetCodepointKernAdvance(&font, j, c);
-                if (kx == 0) continue;
-                kern.emplace(std::pair<uint32_t, uint32_t>(j, c), static_cast<int16_t>(kx * s));
+                for (uint16_t j : glyphs)
+                {
+                    int kx = stbtt_GetCodepointKernAdvance(&font, j, c);
+                    if (kx == 0) continue;
+                    kern.emplace(std::pair<uint32_t, uint32_t>(j, c), static_cast<int16_t>(kx * s));
+                }
 
+                int advance, leftBearing;
+                stbtt_GetCodepointHMetrics(&font, c, &advance, &leftBearing);
+                CharDescriptor nd;
+                nd.xAdvance = static_cast<int16_t>(advance * s);
+                nd.height = static_cast<int16_t>(h);
+                nd.width = static_cast<int16_t>(w);
+                nd.xOffset = static_cast<int16_t>(leftBearing * s);
+                nd.yOffset = static_cast<int16_t>(h - abs(yoff));
+
+                std::vector<uint8_t> currentBuffer(static_cast<size_t>(h * w));
+                std::copy(&bitmap[0], &bitmap[h * w], currentBuffer.begin());
+
+                glyphToBitmapData.emplace(c, std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), currentBuffer));
+                chars.emplace(c, nd);
+                height = height < static_cast<uint16_t>(h) ? static_cast<uint16_t>(h) : height;
+                width += static_cast<uint16_t>(w);
             }
-            int advance, leftBearing;
-            stbtt_GetCodepointHMetrics(&font, c, &advance, &leftBearing);
-            CharDescriptor nd;
-            nd.xAdvance = static_cast<int16_t>(advance * s);
-            nd.height = static_cast<int16_t>(h);
-            nd.width = static_cast<int16_t>(w);
-            nd.xOffset = static_cast<int16_t>(leftBearing * s);
-            nd.yOffset = static_cast<int16_t>(h - abs(yoff));
-
-            std::vector<uint8_t> currentBuffer(static_cast<size_t>(h * w));
-            std::copy(&bitmap[0], &bitmap[h * w], currentBuffer.begin());
-
-            glyphToBitmapData.emplace(c, std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), currentBuffer));
-            chars.emplace(c, nd);
-            height = height < static_cast<uint16_t>(h) ? static_cast<uint16_t>(h) : height;
-            width += static_cast<uint16_t>(w);
         }
 
         std::vector<std::vector<uint8_t> > scanlines(height, std::vector<uint8_t>());
