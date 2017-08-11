@@ -25,6 +25,7 @@ namespace ouzel
                    const std::string& disabledImage,
                    const std::string& label = "",
                    const std::string& font = "",
+                   uint16_t pt = 0,
                    const Color& aLabelColor = Color::WHITE,
                    const Color& aLabelSelectedColor = Color::WHITE,
                    const Color& aLabelPressedColor = Color::WHITE,

@@ -28,6 +28,7 @@ namespace ouzel
                        const std::string& disabledImage,
                        const std::string& label,
                        const std::string& font,
+                       uint16_t pt,
                        const Color& aLabelColor,
                        const Color& aLabelSelectedColor,
                        const Color& aLabelPressedColor,
@@ -79,7 +80,7 @@ namespace ouzel
 
             if (!label.empty())
             {
-                labelDrawable.reset(new scene::TextRenderer(font, true, label));
+                labelDrawable.reset(new scene::TextRenderer(font, true, pt, label));
                 labelDrawable->setColor(labelColor);
                 addComponent(labelDrawable.get());
             }

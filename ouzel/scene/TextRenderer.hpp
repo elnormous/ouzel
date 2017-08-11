@@ -24,12 +24,7 @@ namespace ouzel
 
             TextRenderer(const std::string& fontFile,
                          bool aMipmaps = true,
-                         const std::string& aText = std::string(),
-                         Color aColor = Color::WHITE,
-                         const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
-            TextRenderer(const std::string& fontFile,
-                         uint16_t pt,
-                         bool aMipmaps = true,
+                         uint16_t pt = 0,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));

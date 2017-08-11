@@ -14,6 +14,7 @@ namespace ouzel
     {
         TextRenderer::TextRenderer(const std::string& fontFile,
                                    bool aMipmaps,
+                                   uint16_t pt,
                                    const std::string& aText,
                                    Color aColor,
                                    const Vector2& aTextAnchor):
@@ -36,37 +37,14 @@ namespace ouzel
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
-            font = sharedEngine->getCache()->getBMFont(fontFile);
-            texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
-
-            updateText();
-        }
-
-        TextRenderer::TextRenderer(const std::string& fontFile,
-                                   uint16_t pt,
-                                   bool aMipmaps,
-                                   const std::string& aText,
-                                   Color aColor,
-                                   const Vector2& aTextAnchor):
-            Component(TYPE),
-            text(aText),
-            textAnchor(aTextAnchor),
-            color(aColor),
-            mipmaps(aMipmaps)
-        {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
-
-            indexBuffer = std::make_shared<graphics::Buffer>();
-            indexBuffer->init(graphics::Buffer::Usage::INDEX);
-
-            vertexBuffer = std::make_shared<graphics::Buffer>();
-            vertexBuffer->init(graphics::Buffer::Usage::VERTEX);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
-            font = sharedEngine->getCache()->getTTFont(fontFile, pt);
+            if (pt == 0)
+            {
+                font = sharedEngine->getCache()->getBMFont(fontFile);
+            }
+            else
+            {
+                font = sharedEngine->getCache()->getTTFont(fontFile, pt);
+            }
 
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 

@@ -40,27 +40,27 @@ SoundSample::SoundSample()
     menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    test8BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    test8BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     test8BitButton->setPosition(Vector2(0.0f, 80.0f));
     menu->addWidget(test8BitButton.get());
 
-    test24BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    test24BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     test24BitButton->setPosition(Vector2(0.0f, 40.0f));
     menu->addWidget(test24BitButton.get());
 
-    jumpButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    jumpButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     jumpButton->setPosition(Vector2(0.0f, 0.0f));
     menu->addWidget(jumpButton.get());
 
-    ambientButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    ambientButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     ambientButton->setPosition(Vector2(0.0f, -40.0f));
     menu->addWidget(ambientButton.get());
 
-    musicButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    musicButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     musicButton->setPosition(Vector2(0.0f, -80.0f));
     menu->addWidget(musicButton.get());
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }

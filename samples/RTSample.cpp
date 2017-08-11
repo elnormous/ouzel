@@ -66,7 +66,7 @@ RTSample::RTSample()
     menu.reset(new gui::Menu());
     guiLayer->addChild(menu.get());
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", Color::BLACK, Color::BLACK, Color::BLACK));
+    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
     backButton->setPosition(Vector2(-200.0f, -200.0f));
     menu->addWidget(backButton.get());
 }

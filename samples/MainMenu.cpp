@@ -17,14 +17,14 @@ MainMenu::MainMenu():
     layer(new ouzel::scene::Layer()),
     camera(new ouzel::scene::Camera()),
     menu(new ouzel::gui::Menu()),
-    gitHubButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    spritesButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    guiButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    renderTargetButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    animationsButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    inputButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    soundButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    perspectiveButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", Color(20, 0, 0, 255), Color::BLACK, Color::BLACK))
+    gitHubButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    spritesButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 0,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    guiButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    renderTargetButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    animationsButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    inputButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    soundButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
+    perspectiveButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK))
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);

@@ -150,6 +150,9 @@
 		30AFE1511CB5DCF900478AA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */; };
 		30B492AD1CDF81C70021E170 /* libouzel_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492A91CDF81700021E170 /* libouzel_ios.a */; };
 		30B492AE1CDF81CA0021E170 /* libouzel_tvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B492AB1CDF81700021E170 /* libouzel_tvos.a */; };
+		30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
+		30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
+		30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */; };
 		30C56C771CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C781CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
 		30C56C791CAB48A4007AEF8F /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C701CAB48A4007AEF8F /* checkbox.png */; };
@@ -277,6 +280,7 @@
 		30AFE1501CB5DCF900478AA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		30AFE1521CB5DD0400478AA2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		30B492A01CDF816F0021E170 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../build/ouzel.xcodeproj; sourceTree = "<group>"; };
+		30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmosisTechnik.ttf; sourceTree = "<group>"; };
 		30C56C701CAB48A4007AEF8F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		30C56C711CAB48A4007AEF8F /* edit_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box.png; sourceTree = "<group>"; };
 		30C56C731CAB48A4007AEF8F /* radio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button.png; sourceTree = "<group>"; };
@@ -427,6 +431,7 @@
 				30A883561E70E004004A033F /* 8-bit.wav */,
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
+				30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */,
 				303822541D86D83300677CAB /* arial.fnt */,
 				303822551D86D83300677CAB /* arial.png */,
 				303822491D86D7EA00677CAB /* ArialBlack.fnt */,
@@ -649,6 +654,7 @@
 				30A883571E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
+				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -688,6 +694,7 @@
 				30A883591E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
+				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -727,6 +734,7 @@
 				30A883581E70E004004A033F /* 8-bit.wav in Resources */,
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
+				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,
