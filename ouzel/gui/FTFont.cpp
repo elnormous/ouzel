@@ -72,7 +72,7 @@ namespace ouzel
             {
                 int kx = stbtt_GetCodepointKernAdvance(&font, j, c);
                 if (kx == 0) continue;
-                kern.emplace(std::pair<uint32_t, uint32_t>(j, c), (int16_t)(kx * s));
+                kern.emplace(std::pair<uint32_t, uint32_t>(j, c), static_cast<int16_t>(kx * s));
 
             }
             int advance, leftBearing;
@@ -97,25 +97,25 @@ namespace ouzel
         int x = 0;
         for (const auto &c : glyphToBitmapData)
         {
-            uint16_t char_height = (uint16_t)c.second.first.height();
-            uint16_t char_width = (uint16_t)c.second.first.width();
-            chars.at(c.first).x = (int16_t)x;
+            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height());
+            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width());
+            chars.at(c.first).x = static_cast<int16_t>(x);
             chars.at(c.first).y = 0;
-            x += char_width;
+            x += charWidth;
 
-            uint16_t extra_rows = height - char_height;
-            chars.at(c.first).yOffset += extra_rows;
-            size_t extra_space_size = extra_rows * char_width;
-            unsigned int char_size = char_height * char_width;
+            uint16_t extraRows = height - charHeight;
+            chars.at(c.first).yOffset += extraRows;
+            size_t extra_space_size = extraRows * charWidth;
+            unsigned int char_size = charHeight * charWidth;
             std::vector<uint8_t> new_char_buffer(extra_space_size + char_size, 0x00);
             std::copy(c.second.second.begin(), c.second.second.begin() + char_size, new_char_buffer.data());
-            assert(new_char_buffer.size() == height * char_width);
+            assert(new_char_buffer.size() == height * charWidth);
             for (uint16_t i = 0; i < height; i++)
             {
-                size_t scanlines_pre_size = scanlines[i].size();
-                scanlines[i].resize(scanlines_pre_size + char_width);
-				uint8_t* buffer_start = new_char_buffer.data() + (int)char_width * i;
-                std::copy(buffer_start, buffer_start + char_width, scanlines[i].data() + scanlines_pre_size);
+                size_t scanlinesPreSize = scanlines[i].size();
+                scanlines[i].resize(scanlinesPreSize + charWidth);
+                uint8_t* bufferStart = new_char_buffer.data() + static_cast<int>(charWidth * i);
+                std::copy(bufferStart, bufferStart + charWidth, scanlines[i].data() + scanlinesPreSize);
             }
 
         }
