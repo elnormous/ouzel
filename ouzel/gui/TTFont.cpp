@@ -1,9 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <vector>
 #include <cassert>
-#include <fstream>
 
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
@@ -15,7 +13,7 @@
 namespace ouzel
 {
     TTFont::TTFont():
-        BMFont()
+        Font()
     {
     }
 
@@ -104,16 +102,16 @@ namespace ouzel
 
             uint16_t extraRows = height - charHeight;
             chars.at(c.first).yOffset += extraRows;
-            size_t extra_space_size = extraRows * charWidth;
-            unsigned int char_size = charHeight * charWidth;
-            std::vector<uint8_t> new_char_buffer(extra_space_size + char_size, 0x00);
-            std::copy(c.second.second.begin(), c.second.second.begin() + char_size, new_char_buffer.data());
-            assert(new_char_buffer.size() == height * charWidth);
+            size_t extraSpaceSize = extraRows * charWidth;
+            unsigned int charSize = charHeight * charWidth;
+            std::vector<uint8_t> newCharBuffer(extraSpaceSize + charSize, 0x00);
+            std::copy(c.second.second.begin(), c.second.second.begin() + charSize, newCharBuffer.data());
+            assert(newCharBuffer.size() == height * charWidth);
             for (uint16_t i = 0; i < height; i++)
             {
                 size_t scanlinesPreSize = scanlines[i].size();
                 scanlines[i].resize(scanlinesPreSize + charWidth);
-                uint8_t* bufferStart = new_char_buffer.data() + static_cast<int>(charWidth * i);
+                uint8_t* bufferStart = newCharBuffer.data() + static_cast<int>(charWidth * i);
                 std::copy(bufferStart, bufferStart + charWidth, scanlines[i].data() + scanlinesPreSize);
             }
 
@@ -127,7 +125,6 @@ namespace ouzel
                 uint8_t b = scanlines[i][j];
                 b1[i * scanlines[0].size() + j] = b << 24 | b << 16 | b << 8 | b;
             }
-
         }
 
         std::vector<uint8_t> b2(b1.size() * 4);

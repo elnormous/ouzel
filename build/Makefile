@@ -80,11 +80,11 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/TextureInterface.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Vertex.cpp \
 	$(ROOT_DIR)/../ouzel/gui/BMFont.cpp \
-	$(ROOT_DIR)/../ouzel/gui/FTFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Button.cpp \
 	$(ROOT_DIR)/../ouzel/gui/CheckBox.cpp \
 	$(ROOT_DIR)/../ouzel/gui/ComboBox.cpp \
 	$(ROOT_DIR)/../ouzel/gui/EditBox.cpp \
+	$(ROOT_DIR)/../ouzel/gui/Font.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Label.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Menu.cpp \
 	$(ROOT_DIR)/../ouzel/gui/RadioButton.cpp \
@@ -92,6 +92,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/gui/ScrollArea.cpp \
 	$(ROOT_DIR)/../ouzel/gui/ScrollBar.cpp \
 	$(ROOT_DIR)/../ouzel/gui/SlideBar.cpp \
+	$(ROOT_DIR)/../ouzel/gui/TTFont.cpp \
 	$(ROOT_DIR)/../ouzel/gui/Widget.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/CursorInterface.cpp \

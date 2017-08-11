@@ -79,6 +79,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/gui/CheckBox.cpp \
     ../../ouzel/gui/ComboBox.cpp \
     ../../ouzel/gui/EditBox.cpp \
+    ../../ouzel/gui/Font.cpp \
     ../../ouzel/gui/Label.cpp \
     ../../ouzel/gui/Menu.cpp \
     ../../ouzel/gui/RadioButton.cpp \

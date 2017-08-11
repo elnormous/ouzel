@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "gui/BMFont.hpp"
+#include "gui/Font.hpp"
 
 namespace ouzel
 {
@@ -13,7 +13,7 @@ namespace ouzel
         ASCIIPLUS = 1 << 1
 
     };
-    class TTFont : public BMFont
+    class TTFont : public Font
     {
     public:
         TTFont();

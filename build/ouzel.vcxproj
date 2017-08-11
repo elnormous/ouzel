@@ -99,7 +99,7 @@
     <ClCompile Include="..\ouzel\gui\CheckBox.cpp" />
     <ClCompile Include="..\ouzel\gui\ComboBox.cpp" />
     <ClCompile Include="..\ouzel\gui\EditBox.cpp" />
-    <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
+    <ClCompile Include="..\ouzel\gui\Font.cpp" />
     <ClCompile Include="..\ouzel\gui\Label.cpp" />
     <ClCompile Include="..\ouzel\gui\Menu.cpp" />
     <ClCompile Include="..\ouzel\gui\RadioButton.cpp" />
@@ -107,6 +107,7 @@
     <ClCompile Include="..\ouzel\gui\ScrollArea.cpp" />
     <ClCompile Include="..\ouzel\gui\ScrollBar.cpp" />
     <ClCompile Include="..\ouzel\gui\SlideBar.cpp" />
+    <ClCompile Include="..\ouzel\gui\TTFont.cpp" />
     <ClCompile Include="..\ouzel\gui\Widget.cpp" />
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
     <ClCompile Include="..\ouzel\input\CursorInterface.cpp" />
@@ -258,7 +259,7 @@
     <ClInclude Include="..\ouzel\gui\CheckBox.hpp" />
     <ClInclude Include="..\ouzel\gui\ComboBox.hpp" />
     <ClInclude Include="..\ouzel\gui\EditBox.hpp" />
-    <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
+    <ClInclude Include="..\ouzel\gui\Font.hpp" />
     <ClInclude Include="..\ouzel\gui\Label.hpp" />
     <ClInclude Include="..\ouzel\gui\Menu.hpp" />
     <ClInclude Include="..\ouzel\gui\RadioButton.hpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="..\ouzel\gui\ScrollArea.hpp" />
     <ClInclude Include="..\ouzel\gui\ScrollBar.hpp" />
     <ClInclude Include="..\ouzel\gui\SlideBar.hpp" />
+    <ClInclude Include="..\ouzel\gui\TTFont.hpp" />
     <ClInclude Include="..\ouzel\gui\Widget.hpp" />
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
     <ClInclude Include="..\ouzel\input\CursorInterface.hpp" />
