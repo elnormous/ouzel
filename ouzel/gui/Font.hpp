@@ -26,7 +26,7 @@ namespace ouzel
                          std::vector<uint16_t>& indices,
                          std::vector<graphics::VertexPCT>& vertices);
 
-        const std::string& getTexture() const { return texture; }
+        const std::string& getTextureFilename() const { return textureFilename; }
 
     protected:
         int16_t getKerningPair(uint32_t, uint32_t);
@@ -53,6 +53,6 @@ namespace ouzel
         uint16_t kernCount = 0;
         std::unordered_map<uint32_t, CharDescriptor> chars;
         std::map<std::pair<uint32_t, uint32_t>, int16_t> kern;
-        std::string texture;
+        std::string textureFilename;
     };
 }

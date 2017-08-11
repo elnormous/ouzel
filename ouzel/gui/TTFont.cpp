@@ -36,7 +36,11 @@ namespace ouzel
 
         ouzel::sharedEngine->getFileSystem()->readFile(f, data);
 
-        stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0));
+        if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
+        {
+            Log(Log::Level::ERR) << "Failed to load font";
+            return false;
+        }
 
         float s = stbtt_ScaleForPixelHeight(&font, pt);
 
@@ -94,7 +98,7 @@ namespace ouzel
             }
         }
 
-        std::vector<std::vector<uint8_t> > scanlines(height, std::vector<uint8_t>());
+        std::vector<std::vector<uint8_t> > scanlines(height);
         int x = 0;
         for (const auto &c : glyphToBitmapData)
         {
@@ -118,25 +122,23 @@ namespace ouzel
                 uint8_t* bufferStart = newCharBuffer.data() + static_cast<int>(charWidth * i);
                 std::copy(bufferStart, bufferStart + charWidth, scanlines[i].data() + scanlinesPreSize);
             }
-
         }
 
-        std::vector<uint32_t> b1(scanlines[0].size() * height);
+        std::vector<uint8_t> textureData(scanlines[0].size() * height * 4);
         for (uint16_t i = 0; i < height; i++)
         {
             for (uint32_t j = 0; j < scanlines[0].size(); j++)
             {
                 uint8_t b = scanlines[i][j];
-                b1[i * scanlines[0].size() + j] = b << 24 | b << 16 | b << 8 | b;
+                textureData[(i * scanlines[0].size() + j) * 4 + 0] = b;
+                textureData[(i * scanlines[0].size() + j) * 4 + 1] = b;
+                textureData[(i * scanlines[0].size() + j) * 4 + 2] = b;
+                textureData[(i * scanlines[0].size() + j) * 4 + 3] = b;
             }
         }
 
-        std::vector<uint8_t> b2(b1.size() * 4);
-        std::copy(reinterpret_cast<uint8_t*>(b1.data()),
-                  reinterpret_cast<uint8_t*>(b1.data()) + b1.size() * 4,
-                  b2.data());
-        sharedEngine->getCache()->getTextureFromData(filename, b2, Size2(width, height));
-        texture = filename;
+        sharedEngine->getCache()->getTextureFromData(filename, textureData, Size2(width, height));
+        textureFilename = filename;
         pages = 1;
         lineHeight = pt;
         kernCount = static_cast<uint16_t>(kern.size());

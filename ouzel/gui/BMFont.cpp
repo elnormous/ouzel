@@ -81,7 +81,7 @@ namespace ouzel
                             value = value.substr(1, value.length() - 2);
                         }
 
-                        texture = value;
+                        textureFilename = value;
                     }
                 }
             }
