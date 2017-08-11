@@ -66,14 +66,14 @@ namespace ouzel
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
-            font = sharedEngine->getCache()->getFTFont(fontFile, pt);
+            font = sharedEngine->getCache()->getTTFont(fontFile, pt);
 
             texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
 
             updateText();
         }
 
-        void TextRenderer::setFont(const std::string& fontFile, int16_t pt)
+        void TextRenderer::setFont(const std::string& fontFile, uint16_t pt)
         {
             if (pt == 0)
             {
@@ -82,7 +82,7 @@ namespace ouzel
             }
             else
             {
-                font = sharedEngine->getCache()->getFTFont(fontFile, pt);
+                font = sharedEngine->getCache()->getTTFont(fontFile, pt);
                 texture = sharedEngine->getCache()->getTexture(font.getTexture(), false, mipmaps);
             }
 

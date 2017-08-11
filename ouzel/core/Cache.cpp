@@ -299,10 +299,10 @@ namespace ouzel
     {
 
         filename += std::to_string(pt);
-        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        std::map<std::string, TTFont>::const_iterator i = ftFonts.find(filename);
         if (i == ftFonts.end())
         {
-            ftFonts[filename] = FTFont(filename, pt);
+            ftFonts[filename] = TTFont(filename, pt);
         }
 
     }
@@ -340,16 +340,16 @@ namespace ouzel
             return i->second;
         }
     }
-    const FTFont & Cache::getFTFont(const std::string & filename, uint16_t pt) const
+    const TTFont & Cache::getTTFont(const std::string & filename, uint16_t pt) const
     {
-        std::map<std::string, FTFont>::const_iterator i = ftFonts.find(filename);
+        std::map<std::string, TTFont>::const_iterator i = ftFonts.find(filename);
         if (i != ftFonts.end())
         {
             return i->second;
         }
         else
         {
-            i = ftFonts.insert(std::make_pair(filename, FTFont(filename, pt))).first;
+            i = ftFonts.insert(std::make_pair(filename, TTFont(filename, pt))).first;
             return i->second;
         }
     }

@@ -13,11 +13,11 @@ namespace ouzel
         ASCIIPLUS = 1 << 1
 
     };
-    class FTFont : public BMFont
+    class TTFont : public BMFont
     {
     public:
-        FTFont();
-        FTFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);
+        TTFont();
+        TTFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);
 
     protected:
         bool parseFont(const std::string& filename, uint16_t pt, UTFChars flag = ASCII);

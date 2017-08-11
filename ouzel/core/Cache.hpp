@@ -11,7 +11,7 @@
 #include "scene/SpriteFrame.hpp"
 #include "scene/ParticleDefinition.hpp"
 #include "gui/BMFont.hpp"
-#include "gui/FTFont.hpp"
+#include "gui/TTFont.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -61,7 +61,7 @@ namespace ouzel
         void preloadFTFont(std::string filename, uint16_t pt);
         void preloadBMFont(const std::string& filename);
         const BMFont& getBMFont(const std::string& filename) const;
-        const FTFont& getFTFont(const std::string& filename, uint16_t pt) const;
+        const TTFont& getTTFont(const std::string& filename, uint16_t pt) const;
         void setBMFont(const std::string& filename, const BMFont& bmFont);
         void releaseFTFonts();
         void releaseBMFonts();
@@ -78,7 +78,7 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
         mutable std::map<std::string, BMFont> bmFonts;
-        mutable std::map<std::string, FTFont> ftFonts;
+        mutable std::map<std::string, TTFont> ftFonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };
 }

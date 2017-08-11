@@ -5,22 +5,21 @@
 #include <cassert>
 #include <fstream>
 
-#include "FTFont.hpp"
-
-#define STB_TRUETYPE_IMPLEMENTATION 
-#include "../../external/stb/stb_truetype.h"
-
+#include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
+#define STB_TRUETYPE_IMPLEMENTATION
+#include "../../external/stb/stb_truetype.h"
 
 namespace ouzel
 {
-    FTFont::FTFont(): BMFont()
+    TTFont::TTFont():
+        BMFont()
     {
     }
 
-    FTFont::FTFont(const std::string & filename, uint16_t pt, UTFChars flag)
+    TTFont::TTFont(const std::string & filename, uint16_t pt, UTFChars flag)
     {
         if (!parseFont(filename, pt, flag))
         {
@@ -30,7 +29,7 @@ namespace ouzel
         kernCount = static_cast<uint16_t>(kern.size());
     }
 
-    bool FTFont::parseFont(const std::string & filename, uint16_t pt, UTFChars flag)
+    bool TTFont::parseFont(const std::string & filename, uint16_t pt, UTFChars flag)
     {
         stbtt_fontinfo font;
         std::vector<unsigned char> data;

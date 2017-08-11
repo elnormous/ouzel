@@ -74,7 +74,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/TextureInterface.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/gui/BMFont.cpp \
-	../../ouzel/gui/FMFont.cpp \
+	../../ouzel/gui/TTFont.cpp \
     ../../ouzel/gui/Button.cpp \
     ../../ouzel/gui/CheckBox.cpp \
     ../../ouzel/gui/ComboBox.cpp \

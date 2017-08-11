@@ -322,7 +322,7 @@
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp">
       <Filter>audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\gui\FTFont.cpp">
+    <ClCompile Include="..\ouzel\gui\TTFont.cpp">
       <Filter>gui</Filter>
 	  </ClCompile>
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp">
@@ -861,7 +861,7 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\BufferInterfaceOGL.hpp">
       <Filter>graphics\opengl</Filter>
-    <ClInclude Include="..\ouzel\gui\FTFont.hpp">
+    <ClInclude Include="..\ouzel\gui\TTFont.hpp">
       <Filter>gui</Filter>
     </ClInclude>
   </ItemGroup>
