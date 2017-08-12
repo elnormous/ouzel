@@ -178,7 +178,7 @@ namespace ouzel
         width = 0;
 
         std::vector<uint16_t> glyphs;
-        std::map<uint32_t, std::pair<Size2, std::vector<uint8_t>> > glyphToBitmapData;
+        std::map<uint32_t, std::pair<Size2, std::vector<uint8_t>>> glyphToBitmapData;
 
         if (flag && UTFChars::ASCII)
         {
@@ -227,7 +227,7 @@ namespace ouzel
             }
         }
 
-        std::vector<std::vector<uint8_t> > scanlines(height);
+        std::vector<std::vector<uint8_t>> scanlines(height);
         int x = 0;
         for (const auto &c : glyphToBitmapData)
         {
