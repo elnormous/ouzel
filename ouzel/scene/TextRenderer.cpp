@@ -46,7 +46,6 @@ namespace ouzel
                 font = sharedEngine->getCache()->getTTFont(fontFile, pt, mipmaps);
             }
 
-            texture = font->getTexture();
             updateText();
         }
 
@@ -61,7 +60,6 @@ namespace ouzel
                 font = sharedEngine->getCache()->getTTFont(fontFile, pt);
             }
 
-            texture = font->getTexture();
             updateText();
         }
 
@@ -153,7 +151,7 @@ namespace ouzel
 
         void TextRenderer::updateText()
         {
-            font->getVertices(text, color, textAnchor, textScale, indices, vertices);
+            font->getVertices(text, color, textAnchor, textScale, indices, vertices, texture);
             needsMeshUpdate = true;
 
             boundingBox.reset();
