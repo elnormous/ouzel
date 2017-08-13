@@ -163,7 +163,7 @@ namespace ouzel
 
         std::string f = ouzel::sharedEngine->getFileSystem()->getPath(filename);
 
-        ouzel::sharedEngine->getFileSystem()->readFile(f, data);
+        if (!ouzel::sharedEngine->getFileSystem()->readFile(f, data))
         {
             return false;
         }
