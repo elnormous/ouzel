@@ -11,6 +11,8 @@
 #include "files/FileSystem.hpp"
 #include "audio/SoundDataWave.hpp"
 #include "audio/SoundDataVorbis.hpp"
+#include "gui/BMFont.hpp"
+#include "gui/TTFont.hpp"
 
 namespace ouzel
 {
@@ -25,8 +27,7 @@ namespace ouzel
         releaseParticleDefinitions();
         releaseBlendStates();
         releaseSpriteFrames();
-        releaseBMFonts();
-        releaseTTFonts();
+        releaseFonts();
     }
 
     void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -285,66 +286,62 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-    void Cache::preloadBMFont(const std::string& filename, bool mipmaps)
+    void Cache::preloadFont(const std::string& filename, uint16_t pt, bool mipmaps)
     {
-        auto i = bmFonts.find(filename);
+        auto i = fonts.find(filename);
 
-        if (i == bmFonts.end())
+        if (i == fonts.end())
         {
-            bmFonts[filename] = std::make_shared<BMFont>(filename, mipmaps);
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+
+            if (extension == "fnt")
+            {
+                fonts[filename] = std::make_shared<BMFont>(filename, mipmaps);
+            }
+            else if (extension == "ttf")
+            {
+                fonts[filename] = std::make_shared<TTFont>(filename, pt, mipmaps);
+            }
         }
     }
 
-    void Cache::preloadFTFont(std::string filename, uint16_t pt, bool mipmaps)
+    const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, uint16_t pt, bool mipmaps) const
     {
+        auto i = fonts.find(filename);
 
-        filename += std::to_string(pt);
-        std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
-        if (i == ttFonts.end())
-        {
-            ttFonts[filename] = std::make_shared<TTFont>(filename, pt, mipmaps);
-        }
-
-    }
-
-    const std::shared_ptr<BMFont>& Cache::getBMFont(const std::string& filename, bool mipmaps) const
-    {
-        auto i = bmFonts.find(filename);
-
-        if (i != bmFonts.end())
+        if (i != fonts.end())
         {
             return i->second;
         }
         else
         {
-            i = bmFonts.insert(std::make_pair(filename, std::make_shared<BMFont>(filename, mipmaps))).first;
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+
+            std::shared_ptr<Font> font;
+
+            if (extension == "fnt")
+            {
+                font = std::make_shared<BMFont>(filename, mipmaps);
+            }
+            else if (extension == "ttf")
+            {
+                font = std::make_shared<TTFont>(filename, pt, mipmaps);
+            }
+
+            i = fonts.insert(std::make_pair(filename, font)).first;
 
             return i->second;
         }
     }
-    const std::shared_ptr<TTFont>& Cache::getTTFont(const std::string & filename, uint16_t pt, bool mipmaps) const
+
+    void Cache::setFont(const std::string& filename, const std::shared_ptr<Font>& font)
     {
-        std::map<std::string, std::shared_ptr<TTFont>>::const_iterator i = ttFonts.find(filename);
-        if (i != ttFonts.end())
-        {
-            return i->second;
-        }
-        else
-        {
-            i = ttFonts.insert(std::make_pair(filename, std::make_shared<TTFont>(filename, pt, mipmaps))).first;
-            return i->second;
-        }
+        fonts[filename] = font;
     }
 
-
-    void Cache::setBMFont(const std::string& filename, const std::shared_ptr<BMFont>& bmFont)
+    void Cache::releaseFonts()
     {
-        bmFonts[filename] = bmFont;
-    }
-
-    void Cache::releaseBMFonts()
-    {
-        bmFonts.clear();
+        fonts.clear();
     }
 
     void Cache::preloadSoundData(const std::string& filename)
@@ -406,10 +403,5 @@ namespace ouzel
     void Cache::releaseSoundData()
     {
         soundData.clear();
-    }
-
-    void Cache::releaseTTFonts()
-    {
-        ttFonts.clear();
     }
 }

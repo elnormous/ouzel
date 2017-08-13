@@ -10,8 +10,7 @@
 #include "utils/Noncopyable.hpp"
 #include "scene/SpriteFrame.hpp"
 #include "scene/ParticleDefinition.hpp"
-#include "gui/BMFont.hpp"
-#include "gui/TTFont.hpp"
+#include "gui/Font.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -53,13 +52,10 @@ namespace ouzel
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
-        void preloadFTFont(std::string filename, uint16_t pt, bool mipmaps = true);
-        void preloadBMFont(const std::string& filename, bool mipmaps = true);
-        const std::shared_ptr<BMFont>& getBMFont(const std::string& filename, bool mipmaps = true) const;
-        const std::shared_ptr<TTFont>& getTTFont(const std::string& filename, uint16_t pt, bool mipmaps = true) const;
-        void setBMFont(const std::string& filename, const std::shared_ptr<BMFont>& bmFont);
-        void releaseTTFonts();
-        void releaseBMFonts();
+        void preloadFont(const std::string& filename, uint16_t pt = 0, bool mipmaps = true);
+        const std::shared_ptr<Font>& getFont(const std::string& filename, uint16_t pt = 0, bool mipmaps = true) const;
+        void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
+        void releaseFonts();
 
         void preloadSoundData(const std::string& filename);
         const std::shared_ptr<audio::SoundData>& getSoundData(const std::string& filename) const;
@@ -72,8 +68,7 @@ namespace ouzel
         mutable std::map<std::string, scene::ParticleDefinition> particleDefinitions;
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
         mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
-        mutable std::map<std::string, std::shared_ptr<BMFont>> bmFonts;
-        mutable std::map<std::string, std::shared_ptr<TTFont>> ttFonts;
+        mutable std::map<std::string, std::shared_ptr<Font>> fonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };
 }

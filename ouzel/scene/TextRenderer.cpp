@@ -39,11 +39,11 @@ namespace ouzel
 
             if (pt == 0)
             {
-                font = sharedEngine->getCache()->getBMFont(fontFile, mipmaps);
+                font = sharedEngine->getCache()->getFont(fontFile, 0, mipmaps);
             }
             else
             {
-                font = sharedEngine->getCache()->getTTFont(fontFile, pt, mipmaps);
+                font = sharedEngine->getCache()->getFont(fontFile, pt, mipmaps);
             }
 
             updateText();
@@ -53,11 +53,11 @@ namespace ouzel
         {
             if (pt == 0)
             {
-                font = sharedEngine->getCache()->getBMFont(fontFile);
+                font = sharedEngine->getCache()->getFont(fontFile);
             }
             else
             {
-                font = sharedEngine->getCache()->getTTFont(fontFile, pt);
+                font = sharedEngine->getCache()->getFont(fontFile, pt);
             }
 
             updateText();
