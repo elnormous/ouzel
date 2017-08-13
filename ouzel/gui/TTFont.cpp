@@ -164,6 +164,9 @@ namespace ouzel
         std::string f = ouzel::sharedEngine->getFileSystem()->getPath(filename);
 
         ouzel::sharedEngine->getFileSystem()->readFile(f, data);
+        {
+            return false;
+        }
 
         if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
         {
