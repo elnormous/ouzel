@@ -38,7 +38,7 @@ GUISample::GUISample():
     fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
     menu->addWidget(fullscreenButton.get());
 
-    label1.reset(new gui::Label("checkbox", "AmosisTechnik.ttf", 24));
+    label1.reset(new gui::Label("checkbox", "AmosisTechnik.ttf", 24.0f));
     label1->setColor(Color::CYAN);
     label1->setPosition(Vector2(-28.0f, 102.0f));
     guiLayer->addChild(label1.get());
@@ -50,7 +50,7 @@ GUISample::GUISample():
     label2->setPosition(Vector2(10.0f, 0.0f));
     guiLayer->addChild(label2.get());
 
-    label3.reset(new gui::Label("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 0, Color::WHITE, Vector2(0.0f, 0.5f)));
+    label3.reset(new gui::Label("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 0.0f, Color::WHITE, Vector2(0.0f, 0.5f)));
     label3->setColor(Color::BLUE);
     label3->setPosition(Vector2(-100.0f, -100.0f));
     label3->setScale(Vector3(0.5f, 0.5f, 1.0f));

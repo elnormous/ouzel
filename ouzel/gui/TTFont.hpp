@@ -17,7 +17,7 @@ namespace ouzel
     {
     public:
         TTFont();
-        TTFont(const std::string& filename, uint16_t pt, bool mipmaps = true, UTFChars flag = ASCII);
+        TTFont(const std::string& filename, float fontSize, bool mipmaps = true, UTFChars flag = ASCII);
 
         virtual void getVertices(const std::string& text,
                                  const Color& color,
@@ -28,7 +28,7 @@ namespace ouzel
                                  std::shared_ptr<graphics::Texture>& texture) override;
 
     protected:
-        bool parseFont(const std::string& filename, uint16_t pt, bool mipmaps = true, UTFChars flag = ASCII);
+        bool parseFont(const std::string& filename, float fontSize, bool mipmaps = true, UTFChars flag = ASCII);
 
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
@@ -45,7 +45,7 @@ namespace ouzel
             int16_t page = 0;
         };
 
-        uint16_t lineHeight = 0;
+        float lineHeight = 0.0f;
         uint16_t base = 0;
         uint16_t width = 0;
         uint16_t height = 0;

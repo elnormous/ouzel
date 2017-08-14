@@ -16,11 +16,11 @@ namespace ouzel
     {
         Label::Label(const std::string& aText,
                      const std::string& fontFile,
-                     uint16_t pt,
+                     float fontSize,
                      Color color,
                      const Vector2& textAnchor):
             text(aText),
-            labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, true, pt, text, color, textAnchor))
+            labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, true, fontSize, text, color, textAnchor))
         {
             addComponent(labelDrawable.get());
             labelDrawable->setText(text);

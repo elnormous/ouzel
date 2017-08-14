@@ -14,7 +14,7 @@ namespace ouzel
     {
         TextRenderer::TextRenderer(const std::string& fontFile,
                                    bool aMipmaps,
-                                   uint16_t pt,
+                                   float fontSize,
                                    const std::string& aText,
                                    Color aColor,
                                    const Vector2& aTextAnchor):
@@ -37,14 +37,7 @@ namespace ouzel
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
-            if (pt == 0)
-            {
-                font = sharedEngine->getCache()->getFont(fontFile, 0, mipmaps);
-            }
-            else
-            {
-                font = sharedEngine->getCache()->getFont(fontFile, pt, mipmaps);
-            }
+            font = sharedEngine->getCache()->getFont(fontFile, fontSize, mipmaps);
 
             updateText();
         }

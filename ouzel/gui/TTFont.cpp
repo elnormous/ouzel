@@ -18,9 +18,9 @@ namespace ouzel
     {
     }
 
-    TTFont::TTFont(const std::string & filename, uint16_t pt, bool mipmaps, UTFChars flag)
+    TTFont::TTFont(const std::string & filename, float fontSize, bool mipmaps, UTFChars flag)
     {
-        if (!parseFont(filename, pt, mipmaps, flag))
+        if (!parseFont(filename, fontSize, mipmaps, flag))
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
@@ -156,7 +156,7 @@ namespace ouzel
         return total;
     }
 
-    bool TTFont::parseFont(const std::string & filename, uint16_t pt, bool mipmaps, UTFChars flag)
+    bool TTFont::parseFont(const std::string & filename, float fontSize, bool mipmaps, UTFChars flag)
     {
         stbtt_fontinfo font;
         std::vector<unsigned char> data;
@@ -174,7 +174,7 @@ namespace ouzel
             return false;
         }
 
-        float s = stbtt_ScaleForPixelHeight(&font, pt);
+        float s = stbtt_ScaleForPixelHeight(&font, fontSize);
 
         int w, h, xoff, yoff;
         height = 0;
@@ -272,7 +272,7 @@ namespace ouzel
         fontTexture = std::make_shared<graphics::Texture>();
         fontTexture->init(textureData, Size2(width, height), 0, mipmaps ? 0 : 1);
         pages = 1;
-        lineHeight = pt;
+        lineHeight = fontSize;
         kernCount = static_cast<uint16_t>(kern.size());
         base = 0;
 
