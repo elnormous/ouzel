@@ -12,18 +12,18 @@ private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event);
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
-    std::unique_ptr<ouzel::gui::Menu> menu;
+    ouzel::gui::Menu menu;
 
     ouzel::EventHandler eventHandler;
-    std::unique_ptr<ouzel::gui::Button> gitHubButton;
-    std::unique_ptr<ouzel::gui::Button> spritesButton;
-    std::unique_ptr<ouzel::gui::Button> guiButton;
-    std::unique_ptr<ouzel::gui::Button> renderTargetButton;
-    std::unique_ptr<ouzel::gui::Button> animationsButton;
-    std::unique_ptr<ouzel::gui::Button> inputButton;
-    std::unique_ptr<ouzel::gui::Button> soundButton;
-    std::unique_ptr<ouzel::gui::Button> perspectiveButton;
+    ouzel::gui::Button gitHubButton;
+    ouzel::gui::Button spritesButton;
+    ouzel::gui::Button guiButton;
+    ouzel::gui::Button renderTargetButton;
+    ouzel::gui::Button animationsButton;
+    ouzel::gui::Button inputButton;
+    ouzel::gui::Button soundButton;
+    ouzel::gui::Button perspectiveButton;
 };

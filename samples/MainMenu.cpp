@@ -14,54 +14,50 @@ using namespace std;
 using namespace ouzel;
 
 MainMenu::MainMenu():
-    layer(new ouzel::scene::Layer()),
-    camera(new ouzel::scene::Camera()),
-    menu(new ouzel::gui::Menu()),
-    gitHubButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    spritesButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 0,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    guiButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    renderTargetButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    animationsButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    inputButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    soundButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)),
-    perspectiveButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK))
+    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 0,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    addLayer(layer.get());
+    addLayer(&layer);
 
-    camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera->setTargetContentSize(Size2(400.0f, 600.0f));
-    layer->addChild(camera.get());
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(400.0f, 600.0f));
+    layer.addChild(&camera);
 
-    menu.reset(new gui::Menu());
-    layer->addChild(menu.get());
+    layer.addChild(&menu);
 
-    gitHubButton->setPosition(Vector2(0.0f, 120.0f));
-    menu->addWidget(gitHubButton.get());
+    gitHubButton.setPosition(Vector2(0.0f, 120.0f));
+    menu.addWidget(&gitHubButton);
 
-    spritesButton->setPosition(Vector2(0.0f, 80.0f));
-    menu->addWidget(spritesButton.get());
+    spritesButton.setPosition(Vector2(0.0f, 80.0f));
+    menu.addWidget(&spritesButton);
 
-    guiButton->setPosition(Vector2(0.0f, 40.0f));
-    menu->addWidget(guiButton.get());
+    guiButton.setPosition(Vector2(0.0f, 40.0f));
+    menu.addWidget(&guiButton);
 
-    renderTargetButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(renderTargetButton.get());
+    renderTargetButton.setPosition(Vector2(0.0f, 0.0f));
+    menu.addWidget(&renderTargetButton);
 
-    animationsButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(animationsButton.get());
+    animationsButton.setPosition(Vector2(0.0f, -40.0f));
+    menu.addWidget(&animationsButton);
 
-    inputButton->setPosition(Vector2(0.0f, -80.0f));
-    menu->addWidget(inputButton.get());
+    inputButton.setPosition(Vector2(0.0f, -80.0f));
+    menu.addWidget(&inputButton);
 
-    soundButton->setPosition(Vector2(0.0f, -120.0f));
-    menu->addWidget(soundButton.get());
+    soundButton.setPosition(Vector2(0.0f, -120.0f));
+    menu.addWidget(&soundButton);
 
-    perspectiveButton->setPosition(Vector2(0.0f, -160.0f));
-    menu->addWidget(perspectiveButton.get());
+    perspectiveButton.setPosition(Vector2(0.0f, -160.0f));
+    menu.addWidget(&perspectiveButton);
 }
 
 bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
@@ -83,35 +79,35 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::CLICK_NODE)
     {
-        if (event.node == gitHubButton.get())
+        if (event.node == &gitHubButton)
         {
             sharedEngine->openURL("https://github.com/elnormous/ouzel");
         }
-        else if (event.node == spritesButton.get())
+        else if (event.node == &spritesButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
         }
-        else if (event.node == guiButton.get())
+        else if (event.node == &guiButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
         }
-        else if (event.node == renderTargetButton.get())
+        else if (event.node == &renderTargetButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
         }
-        else if (event.node == animationsButton.get())
+        else if (event.node == &animationsButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
         }
-        else if (event.node == inputButton.get())
+        else if (event.node == &inputButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
         }
-        else if (event.node == soundButton.get())
+        else if (event.node == &soundButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
         }
-        else if (event.node == perspectiveButton.get())
+        else if (event.node == &perspectiveButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
         }

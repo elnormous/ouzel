@@ -15,8 +15,8 @@ private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
     ouzel::EventHandler eventHandler;
 };

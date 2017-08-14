@@ -7,7 +7,13 @@
 using namespace std;
 using namespace ouzel;
 
-SoundSample::SoundSample()
+SoundSample::SoundSample():
+    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -29,40 +35,31 @@ SoundSample::SoundSample()
     music.reset(new audio::Sound());
     music->init(sharedEngine->getCache()->getSoundData("music.ogg"));
 
-    guiCamera.reset(new scene::Camera());
-    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer.reset(new scene::Layer());
-    guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addChild(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    test8BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    test8BitButton->setPosition(Vector2(0.0f, 80.0f));
-    menu->addWidget(test8BitButton.get());
+    test8BitButton.setPosition(Vector2(0.0f, 80.0f));
+    menu.addWidget(&test8BitButton);
 
-    test24BitButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    test24BitButton->setPosition(Vector2(0.0f, 40.0f));
-    menu->addWidget(test24BitButton.get());
+    test24BitButton.setPosition(Vector2(0.0f, 40.0f));
+    menu.addWidget(&test24BitButton);
 
-    jumpButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    jumpButton->setPosition(Vector2(0.0f, 0.0f));
-    menu->addWidget(jumpButton.get());
+    jumpButton.setPosition(Vector2(0.0f, 0.0f));
+    menu.addWidget(&jumpButton);
 
-    ambientButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    ambientButton->setPosition(Vector2(0.0f, -40.0f));
-    menu->addWidget(ambientButton.get());
+    ambientButton.setPosition(Vector2(0.0f, -40.0f));
+    menu.addWidget(&ambientButton);
 
-    musicButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    musicButton->setPosition(Vector2(0.0f, -80.0f));
-    menu->addWidget(musicButton.get());
+    musicButton.setPosition(Vector2(0.0f, -80.0f));
+    menu.addWidget(&musicButton);
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -83,27 +80,27 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == test8BitButton.get())
+        else if (event.node == &test8BitButton)
         {
             test8BitSound->play();
         }
-        else if (event.node == test24BitButton.get())
+        else if (event.node == &test24BitButton)
         {
             test24BitSound->play();
         }
-        else if (event.node == jumpButton.get())
+        else if (event.node == &jumpButton)
         {
             jumpSound->play();
         }
-        else if (event.node == ambientButton.get())
+        else if (event.node == &ambientButton)
         {
             ambientSound->play();
         }
-        else if (event.node == musicButton.get())
+        else if (event.node == &musicButton)
         {
             music->play();
         }

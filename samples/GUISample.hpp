@@ -10,21 +10,21 @@ public:
 
 private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::gui::Button> button;
-    std::unique_ptr<ouzel::gui::Button> fullscreenButton;
-    std::unique_ptr<ouzel::gui::CheckBox> checkBox;
+    ouzel::gui::Button button;
+    ouzel::gui::Button fullscreenButton;
+    ouzel::gui::CheckBox checkBox;
 
-    std::unique_ptr<ouzel::gui::Label> label1;
-    std::unique_ptr<ouzel::gui::Label> label2;
-    std::unique_ptr<ouzel::gui::Label> label3;
+    ouzel::gui::Label label1;
+    ouzel::gui::Label label2;
+    ouzel::gui::Label label3;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 };

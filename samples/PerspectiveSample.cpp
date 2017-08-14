@@ -7,7 +7,8 @@
 using namespace std;
 using namespace ouzel;
 
-PerspectiveSample::PerspectiveSample()
+PerspectiveSample::PerspectiveSample():
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init(input::SystemCursor::CROSS);
     sharedEngine->getInput()->setCursor(&cursor);
@@ -22,17 +23,15 @@ PerspectiveSample::PerspectiveSample()
 
     sharedEngine->getRenderer()->setClearDepthBuffer(true);
 
-    camera.reset(new scene::Camera());
-    camera->setDepthTest(true);
-    camera->setDepthWrite(true);
+    camera.setDepthTest(true);
+    camera.setDepthWrite(true);
 
-    camera->setType(scene::Camera::Type::PERSPECTIVE);
-    camera->setFarPlane(1000.0f);
-    camera->setPosition(Vector3(0.0f, 0.0f, -400.0f));
+    camera.setType(scene::Camera::Type::PERSPECTIVE);
+    camera.setFarPlane(1000.0f);
+    camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
 
-    layer.reset(new scene::Layer());
-    layer->addChild(camera.get());
-    addLayer(layer.get());
+    layer.addChild(&camera);
+    addLayer(&layer);
 
     // floor
     floorSprite.reset(new scene::Sprite());
@@ -45,7 +44,7 @@ PerspectiveSample::PerspectiveSample()
 
     floor.reset(new scene::Node());
     floor->addComponent(floorSprite.get());
-    layer->addChild(floor.get());
+    layer.addChild(floor.get());
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
@@ -61,7 +60,7 @@ PerspectiveSample::PerspectiveSample()
 
     character.reset(new scene::Node());
     character->addComponent(characterSprite.get());
-    layer->addChild(character.get());
+    layer.addChild(character.get());
     character->setPosition(Vector2(10.0f, 0.0f));
 
     jumpSound.reset(new audio::Sound());
@@ -74,27 +73,23 @@ PerspectiveSample::PerspectiveSample()
     character->addComponent(rotate.get());
     rotate->start();
 
-    guiCamera.reset(new scene::Camera());
-    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer.reset(new scene::Layer());
-    guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addChild(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
 {
     if (type == Event::Type::CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
@@ -139,9 +134,9 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
         if (cameraRotation.x() < -TAU / 6.0f) cameraRotation.x() = -TAU / 6.0f;
         if (cameraRotation.x() > TAU / 6.0f) cameraRotation.x() = TAU / 6.0f;
 
-        camera->setRotation(cameraRotation);
+        camera.setRotation(cameraRotation);
 
-        sharedEngine->getAudio()->setListenerRotation(camera->getRotation());
+        sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
     }
 
     return true;
@@ -159,7 +154,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
             if (cameraRotation.x() < -TAU / 6.0f) cameraRotation.x() = -TAU / 6.0f;
             if (cameraRotation.x() > TAU / 6.0f) cameraRotation.x() = TAU / 6.0f;
 
-            camera->setRotation(cameraRotation);
+            camera.setRotation(cameraRotation);
         }
     }
 
@@ -176,7 +171,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
         if (cameraRotation.x() < -TAU / 6.0f) cameraRotation.x() = -TAU / 6.0f;
         if (cameraRotation.x() > TAU / 6.0f) cameraRotation.x() = TAU / 6.0f;
 
-        camera->setRotation(cameraRotation);
+        camera.setRotation(cameraRotation);
     }
 
     return true;

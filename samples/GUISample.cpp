@@ -8,56 +8,53 @@ using namespace std;
 using namespace ouzel;
 
 GUISample::GUISample():
-    backButton(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK))
+    button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 0, Color::RED, Color::RED, Color::BLACK),
+    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    checkBox("checkbox.png", "", "", "", "tick.png"),
+    label1("checkbox", "AmosisTechnik.ttf", 24.0f),
+    label2(sharedEngine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"),
+    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 0.0f, Color::WHITE, Vector2(0.0f, 0.5f)),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&GUISample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    guiCamera.reset(new scene::Camera());
-    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer.reset(new scene::Layer());
-    guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addChild(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 0, Color::RED, Color::RED, Color::BLACK));
-    button->setPosition(Vector2(-200.0f, 100.0f));
-    menu->addWidget(button.get());
+    button.setPosition(Vector2(-200.0f, 100.0f));
+    menu.addWidget(&button);
 
-    checkBox.reset(new gui::CheckBox("checkbox.png", "", "", "", "tick.png"));
-    checkBox->setPosition(Vector2(-100.0f, 100.0f));
-    guiLayer->addChild(checkBox.get());
+    checkBox.setPosition(Vector2(-100.0f, 100.0f));
+    guiLayer.addChild(&checkBox);
 
-    fullscreenButton.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    fullscreenButton->setPosition(Vector2(-200.0f, 40.0f));
-    menu->addWidget(fullscreenButton.get());
+    fullscreenButton.setPosition(Vector2(-200.0f, 40.0f));
+    menu.addWidget(&fullscreenButton);
 
-    label1.reset(new gui::Label("checkbox", "AmosisTechnik.ttf", 24.0f));
-    label1->setColor(Color::CYAN);
-    label1->setPosition(Vector2(-28.0f, 102.0f));
-    guiLayer->addChild(label1.get());
+    label1.setColor(Color::CYAN);
+    label1.setPosition(Vector2(-28.0f, 102.0f));
+    guiLayer.addChild(&label1);
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");
     sharedEngine->getLocalization()->setLanguage("latvian");
 
-    label2.reset(new gui::Label(sharedEngine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"));
-    label2->setPosition(Vector2(10.0f, 0.0f));
-    guiLayer->addChild(label2.get());
+    label2.setPosition(Vector2(10.0f, 0.0f));
+    guiLayer.addChild(&label2);
 
-    label3.reset(new gui::Label("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 0.0f, Color::WHITE, Vector2(0.0f, 0.5f)));
-    label3->setColor(Color::BLUE);
-    label3->setPosition(Vector2(-100.0f, -100.0f));
-    label3->setScale(Vector3(0.5f, 0.5f, 1.0f));
-    guiLayer->addChild(label3.get());
+    label3.setColor(Color::BLUE);
+    label3.setPosition(Vector2(-100.0f, -100.0f));
+    label3.setScale(Vector3(0.5f, 0.5f, 1.0f));
+    guiLayer.addChild(&label3);
 
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -74,19 +71,19 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return true;
 }
 
-bool GUISample::handleUI(Event::Type type, const UIEvent& event) const
+bool GUISample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == button.get())
+        else if (event.node == &button)
         {
-            checkBox->setChecked(!checkBox->isChecked());
+            checkBox.setChecked(!checkBox.isChecked());
         }
-        else if (event.node == fullscreenButton.get())
+        else if (event.node == &fullscreenButton)
         {
             bool fullscreen = ouzel::sharedEngine->getWindow()->isFullscreen();
             ouzel::sharedEngine->getWindow()->setFullscreen(!fullscreen);

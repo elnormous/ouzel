@@ -19,16 +19,16 @@ private:
     std::unique_ptr<ouzel::audio::Sound> ambientSound;
     std::unique_ptr<ouzel::audio::Sound> music;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 
-    std::unique_ptr<ouzel::gui::Button> test8BitButton;
-    std::unique_ptr<ouzel::gui::Button> test24BitButton;
-    std::unique_ptr<ouzel::gui::Button> jumpButton;
-    std::unique_ptr<ouzel::gui::Button> ambientButton;
-    std::unique_ptr<ouzel::gui::Button> musicButton;
+    ouzel::gui::Button test8BitButton;
+    ouzel::gui::Button test24BitButton;
+    ouzel::gui::Button jumpButton;
+    ouzel::gui::Button ambientButton;
+    ouzel::gui::Button musicButton;
 
     ouzel::EventHandler eventHandler;
 };

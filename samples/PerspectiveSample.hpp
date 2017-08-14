@@ -15,8 +15,8 @@ private:
     bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event);
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
     ouzel::Vector3 cameraRotation;
 
@@ -32,10 +32,10 @@ private:
 
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 
     ouzel::input::Cursor cursor;
 };

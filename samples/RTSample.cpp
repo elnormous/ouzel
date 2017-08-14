@@ -7,7 +7,8 @@
 using namespace std;
 using namespace ouzel;
 
-RTSample::RTSample()
+RTSample::RTSample():
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -36,10 +37,9 @@ RTSample::RTSample()
     camera2->setTargetContentSize(Size2(400.0f, 600.0f));
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
-    layer.reset(new scene::Layer());
-    layer->addChild(camera1.get());
-    layer->addChild(camera2.get());
-    addLayer(layer.get());
+    layer.addChild(camera1.get());
+    layer.addChild(camera2.get());
+    addLayer(&layer);
 
     characterSprite.reset(new ouzel::scene::Sprite("run.json"));
     characterSprite->play(true);
@@ -53,22 +53,18 @@ RTSample::RTSample()
     rtSprite->init(renderTarget);
     rtNode.reset(new scene::Node());
     rtNode->addComponent(rtSprite.get());
-    layer->addChild(rtNode.get());
+    layer.addChild(rtNode.get());
 
-    guiCamera.reset(new scene::Camera());
-    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
 
-    guiLayer.reset(new scene::Layer());
-    guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiLayer.addChild(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
@@ -87,7 +83,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::CLICK_NODE && event.node == backButton.get())
+    if (type == Event::Type::CLICK_NODE && event.node == &backButton)
     {
         sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }

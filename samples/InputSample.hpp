@@ -15,19 +15,19 @@ private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
     
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::gui::Button> button;
+    ouzel::gui::Button hideButton;
     std::unique_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
     std::unique_ptr<ouzel::scene::Node> flame;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 
     ouzel::input::Cursor cursor;
 };

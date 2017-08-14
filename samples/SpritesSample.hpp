@@ -13,8 +13,8 @@ private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
-    std::unique_ptr<ouzel::scene::Layer> layer;
-    std::unique_ptr<ouzel::scene::Camera> camera;
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
     std::unique_ptr<ouzel::scene::Node> character;
@@ -27,11 +27,11 @@ private:
 
     ouzel::EventHandler eventHandler;
 
-    std::unique_ptr<ouzel::gui::Button> hideButton;
-    std::unique_ptr<ouzel::gui::Button> wireframeButton;
+    ouzel::gui::Button hideButton;
+    ouzel::gui::Button wireframeButton;
 
-    std::unique_ptr<ouzel::scene::Layer> guiLayer;
-    std::unique_ptr<ouzel::scene::Camera> guiCamera;
-    std::unique_ptr<ouzel::gui::Menu> menu;
-    std::unique_ptr<ouzel::gui::Button> backButton;
+    ouzel::scene::Layer guiLayer;
+    ouzel::scene::Camera guiCamera;
+    ouzel::gui::Menu menu;
+    ouzel::gui::Button backButton;
 };

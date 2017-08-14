@@ -7,7 +7,9 @@
 using namespace std;
 using namespace ouzel;
 
-InputSample::InputSample()
+InputSample::InputSample():
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0f, 63.0f));
     sharedEngine->getInput()->setCursor(&cursor);
@@ -20,13 +22,11 @@ InputSample::InputSample()
 
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    camera.reset(new scene::Camera());
-    camera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera->setTargetContentSize(Size2(800.0f, 600.0f));
+    camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera.setTargetContentSize(Size2(800.0f, 600.0f));
 
-    layer.reset(new scene::Layer());
-    layer->addChild(camera.get());
-    addLayer(layer.get());
+    layer.addChild(&camera);
+    addLayer(&layer);
 
     flameParticleSystem.reset(new scene::ParticleSystem());
     flameParticleSystem->init("flame.json");
@@ -34,33 +34,28 @@ InputSample::InputSample()
     flame.reset(new scene::Node());
     flame->addComponent(flameParticleSystem.get());
     flame->setPickable(false);
-    layer->addChild(flame.get());
+    layer.addChild(flame.get());
 
-    guiCamera.reset(new scene::Camera());
-    guiCamera->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera->setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.reset(new scene::Layer());
-    guiLayer->addChild(guiCamera.get());
-    addLayer(guiLayer.get());
+    guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiLayer.addChild(&guiCamera);
+    addLayer(&guiLayer);
 
-    menu.reset(new gui::Menu());
-    guiLayer->addChild(menu.get());
+    guiLayer.addChild(&menu);
 
-    button.reset(new gui::Button("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    button->setPosition(Vector2(-200.0f, 200.0f));
-    menu->addWidget(button.get());
+    hideButton.setPosition(Vector2(-200.0f, 200.0f));
+    menu.addWidget(&hideButton);
 
-    backButton.reset(new ouzel::gui::Button("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK));
-    backButton->setPosition(Vector2(-200.0f, -200.0f));
-    menu->addWidget(backButton.get());
+    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    menu.addWidget(&backButton);
 }
 
 bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_PRESS)
     {
-        Vector2 position = camera->getPosition();
-        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
+        Vector2 position = camera.getPosition();
+        Vector2 flamePosition = camera.convertWorldToNormalized(flame->getPosition());
 
         switch (event.key)
         {
@@ -92,7 +87,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
-                button->setEnabled(!button->isEnabled());
+                hideButton.setEnabled(!hideButton.isEnabled());
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
@@ -103,9 +98,9 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
         }
 
-        camera->setPosition(position);
+        camera.setPosition(position);
 
-        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
+        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
 
         flame->setPosition(worldLocation);
     }
@@ -119,7 +114,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
     {
         case Event::Type::MOUSE_MOVE:
         {
-            Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
+            Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
             flame->setPosition(worldLocation);
             break;
         }
@@ -132,7 +127,7 @@ bool InputSample::handleMouse(Event::Type type, const MouseEvent& event)
 
 bool InputSample::handleTouch(Event::Type, const TouchEvent& event)
 {
-    Vector2 worldLocation = camera->convertNormalizedToWorld(event.position);
+    Vector2 worldLocation = camera.convertNormalizedToWorld(event.position);
     flame->setPosition(worldLocation);
 
     return true;
@@ -142,7 +137,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 {
     if (type == Event::Type::GAMEPAD_BUTTON_CHANGE)
     {
-        Vector2 flamePosition = camera->convertWorldToNormalized(flame->getPosition());
+        Vector2 flamePosition = camera.convertWorldToNormalized(flame->getPosition());
 
         switch (event.button)
         {
@@ -173,7 +168,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
                 break;
         }
 
-        Vector2 worldLocation = camera->convertNormalizedToWorld(flamePosition);
+        Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
         flame->setPosition(worldLocation);
     }
 
@@ -184,12 +179,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
     if (type == Event::Type::CLICK_NODE)
     {
-        if (event.node == backButton.get())
+        if (event.node == &backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == button.get())
+        else if (event.node == &hideButton)
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }
