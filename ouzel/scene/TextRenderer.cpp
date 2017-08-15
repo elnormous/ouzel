@@ -42,16 +42,9 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::setFont(const std::string& fontFile, uint16_t pt)
+        void TextRenderer::setFont(const std::string& fontFile, float fontSize)
         {
-            if (pt == 0)
-            {
-                font = sharedEngine->getCache()->getFont(fontFile);
-            }
-            else
-            {
-                font = sharedEngine->getCache()->getFont(fontFile, pt);
-            }
+            font = sharedEngine->getCache()->getFont(fontFile, fontSize);
 
             updateText();
         }

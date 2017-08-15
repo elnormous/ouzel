@@ -40,7 +40,7 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void setFont(const std::string& fontFile, uint16_t pt = 0);
+            virtual void setFont(const std::string& fontFile, float fontSize = 1.0f);
 
             virtual void setTextAnchor(const Vector2& newTextAnchor);
             virtual const Vector2& getTextAnchor() const { return textAnchor; }
