@@ -49,18 +49,14 @@ namespace ouzel
 
         bool Sprite::init(const SpriteDefinition& spriteDefinition)
         {
-            texture = spriteDefinition.texture;
+            material = std::make_shared<graphics::Material>();
+            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->texture = spriteDefinition.texture;
+
             frames = spriteDefinition.frames;
 
             updateBoundingBox();
-
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-
-            if (!blendState)
-            {
-                return false;
-            }
 
             return true;
         }
@@ -69,19 +65,15 @@ namespace ouzel
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
+            material = std::make_shared<graphics::Material>();
+            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+
             SpriteDefinition spriteDefinition = sharedEngine->getCache()->getSpriteDefinition(filename, mipmaps, spritesX, spritesY, pivot);
-            texture = spriteDefinition.texture;
+            material->texture = spriteDefinition.texture;
             frames = spriteDefinition.frames;
 
             updateBoundingBox();
-
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-
-            if (!blendState)
-            {
-                return false;
-            }
 
             return true;
         }
@@ -90,10 +82,14 @@ namespace ouzel
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
-            texture = newTexture;
+            material = std::make_shared<graphics::Material>();
+            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->texture = newTexture;
             frames.clear();
 
-            Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
+            Size2 spriteSize = Size2(material->texture->getSize().v[0] / spritesX,
+                                     material->texture->getSize().v[1] / spritesY);
 
             for (uint32_t x = 0; x < spritesX; ++x)
             {
@@ -104,20 +100,12 @@ namespace ouzel
                                         spriteSize.v[0],
                                         spriteSize.v[1]);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    scene::SpriteFrame frame = scene::SpriteFrame(material->texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
                 }
             }
 
             updateBoundingBox();
-
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-
-            if (!blendState)
-            {
-                return false;
-            }
 
             return true;
         }
@@ -216,7 +204,7 @@ namespace ouzel
                             scissorTest,
                             scissorRectangle);
 
-            if (currentFrame < frames.size())
+            if (currentFrame < frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
@@ -227,11 +215,11 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
-                                                            shader,
+                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : material->texture},
+                                                            material->shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
-                                                            blendState,
+                                                            material->blendState,
                                                             frames[currentFrame].getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,

@@ -8,9 +8,7 @@
 #include "math/Vector2.hpp"
 #include "scene/SpriteDefinition.hpp"
 #include "core/UpdateCallback.hpp"
-#include "graphics/BlendState.hpp"
-#include "graphics/Shader.hpp"
-#include "graphics/Texture.hpp"
+#include "graphics/Material.hpp"
 
 namespace ouzel
 {
@@ -53,11 +51,8 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
-            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
-
-            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
+            virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
+            virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
             virtual const Size2& getSize() const { return size; }
 
@@ -69,23 +64,20 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
 
-            const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
             const std::vector<SpriteFrame>& getFrames() const { return frames; }
             virtual void setCurrentFrame(uint32_t frame);
 
         protected:
             void updateBoundingBox();
 
-            std::shared_ptr<graphics::Shader> shader;
-            std::shared_ptr<graphics::BlendState> blendState;
+            std::shared_ptr<graphics::Material> material;
+            std::vector<SpriteFrame> frames;
+
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             Size2 size;
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
-
-            std::shared_ptr<graphics::Texture> texture;
-            std::vector<SpriteFrame> frames;
 
             uint32_t currentFrame = 0;
             float frameInterval = 0.0f;
