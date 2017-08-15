@@ -41,8 +41,6 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void update(float delta);
-
             bool init(const ParticleDefinition& newParticleDefinition);
             bool init(const std::string& filename);
 
@@ -57,6 +55,8 @@ namespace ouzel
             ParticleDefinition::PositionType getPositionType() const { return particleDefinition.positionType; }
 
         protected:
+            void update(float delta);
+
             bool createParticleMesh();
             bool updateParticleMesh();
 
@@ -116,6 +116,7 @@ namespace ouzel
 
             float emitCounter = 0.0f;
             float elapsed = 0.0f;
+            float timeSinceUpdate = 0.0f;
             bool active = false;
             bool running = false;
             bool finished = false;

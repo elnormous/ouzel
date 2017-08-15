@@ -107,112 +107,128 @@ namespace ouzel
 
         void ParticleSystem::update(float delta)
         {
-            if (running && particleDefinition.emissionRate > 0.0f)
+            timeSinceUpdate += delta;
+
+            static const float UPDATE_STEP = 1.0f / 60.0f;
+            bool needsBoundingBoxUpdate = false;
+
+            while (timeSinceUpdate >= UPDATE_STEP)
             {
-                float rate = 1.0f / particleDefinition.emissionRate;
+                timeSinceUpdate -= UPDATE_STEP;
 
-                if (particleCount < particleDefinition.maxParticles)
+                if (running && particleDefinition.emissionRate > 0.0f)
                 {
-                    emitCounter += delta;
-                    if (emitCounter < 0.f)
-                        emitCounter = 0.f;
-                }
+                    float rate = 1.0f / particleDefinition.emissionRate;
 
-                uint32_t emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleDefinition.maxParticles - particleCount), emitCounter / rate));
-                emitParticles(emitCount);
-                emitCounter -= rate * emitCount;
-
-                elapsed += delta;
-                if (elapsed < 0.f)
-                    elapsed = 0.f;
-                if (particleDefinition.duration >= 0.0f && particleDefinition.duration < elapsed)
-                {
-                    finished = true;
-                    stop();
-                }
-            }
-            else if (active && !particleCount)
-            {
-                active = false;
-                updateCallback.remove();
-
-                Event finishEvent;
-                finishEvent.type = Event::Type::FINISH;
-                finishEvent.animationEvent.component = this;
-                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
-
-                return;
-            }
-
-            if (active)
-            {
-                for (uint32_t counter = particleCount; counter > 0; --counter)
-                {
-                    size_t i = counter - 1;
-
-                    particles[i].life -= delta;
-
-                    if (particles[i].life >= 0.0f)
+                    if (particleCount < particleDefinition.maxParticles)
                     {
-                        if (particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
+                        emitCounter += UPDATE_STEP;
+                        if (emitCounter < 0.f)
+                            emitCounter = 0.f;
+                    }
+
+                    uint32_t emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleDefinition.maxParticles - particleCount), emitCounter / rate));
+                    emitParticles(emitCount);
+                    emitCounter -= rate * emitCount;
+
+                    elapsed += UPDATE_STEP;
+                    if (elapsed < 0.f)
+                        elapsed = 0.f;
+                    if (particleDefinition.duration >= 0.0f && particleDefinition.duration < elapsed)
+                    {
+                        finished = true;
+                        stop();
+                    }
+                }
+                else if (active && !particleCount)
+                {
+                    active = false;
+                    updateCallback.remove();
+
+                    Event finishEvent;
+                    finishEvent.type = Event::Type::FINISH;
+                    finishEvent.animationEvent.component = this;
+                    sharedEngine->getEventDispatcher()->postEvent(finishEvent);
+
+                    return;
+                }
+
+                if (active)
+                {
+                    for (uint32_t counter = particleCount; counter > 0; --counter)
+                    {
+                        size_t i = counter - 1;
+
+                        particles[i].life -= UPDATE_STEP;
+
+                        if (particles[i].life >= 0.0f)
                         {
-                            Vector2 tmp, radial, tangential;
-
-                            // radial acceleration
-                            if (particles[i].position.v[0] == 0.0f || particles[i].position.v[1] == 0.0f)
+                            if (particleDefinition.emitterType == ParticleDefinition::EmitterType::GRAVITY)
                             {
-                                radial = particles[i].position;
-                                radial.normalize();
+                                Vector2 tmp, radial, tangential;
+
+                                // radial acceleration
+                                if (particles[i].position.v[0] == 0.0f || particles[i].position.v[1] == 0.0f)
+                                {
+                                    radial = particles[i].position;
+                                    radial.normalize();
+                                }
+                                tangential = radial;
+                                radial *= particles[i].radialAcceleration;
+
+                                // tangential acceleration
+                                std::swap(tangential.v[0], tangential.v[1]);
+                                tangential.v[0] *= - particles[i].tangentialAcceleration;
+                                tangential.v[1] *= particles[i].tangentialAcceleration;
+
+                                // (gravity + radial + tangential) * UPDATE_STEP
+                                tmp.v[0] = radial.v[0] + tangential.v[0] + particleDefinition.gravity.v[0];
+                                tmp.v[1] = radial.v[1] + tangential.v[1] + particleDefinition.gravity.v[1];
+                                tmp.v[0] *= UPDATE_STEP;
+                                tmp.v[1] *= UPDATE_STEP;
+
+                                particles[i].direction.v[0] += tmp.v[0];
+                                particles[i].direction.v[1] += tmp.v[1];
+                                tmp.v[0] = particles[i].direction.v[0] * UPDATE_STEP * particleDefinition.yCoordFlipped;
+                                tmp.v[1] = particles[i].direction.v[1] * UPDATE_STEP * particleDefinition.yCoordFlipped;
+                                particles[i].position.v[0] += tmp.v[0];
+                                particles[i].position.v[1] += tmp.v[1];
                             }
-                            tangential = radial;
-                            radial *= particles[i].radialAcceleration;
+                            else
+                            {
+                                particles[i].angle += particles[i].degreesPerSecond * UPDATE_STEP;
+                                particles[i].radius += particles[i].deltaRadius * UPDATE_STEP;
+                                particles[i].position.v[0] = -cosf(particles[i].angle) * particles[i].radius;
+                                particles[i].position.v[1] = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
+                            }
 
-                            // tangential acceleration
-                            std::swap(tangential.v[0], tangential.v[1]);
-                            tangential.v[0] *= - particles[i].tangentialAcceleration;
-                            tangential.v[1] *= particles[i].tangentialAcceleration;
+                            //color r,g,b,a
+                            particles[i].colorRed += particles[i].deltaColorRed * UPDATE_STEP;
+                            particles[i].colorGreen += particles[i].deltaColorGreen * UPDATE_STEP;
+                            particles[i].colorBlue += particles[i].deltaColorBlue * UPDATE_STEP;
+                            particles[i].colorAlpha += particles[i].deltaColorAlpha * UPDATE_STEP;
 
-                            // (gravity + radial + tangential) * delta
-                            tmp.v[0] = radial.v[0] + tangential.v[0] + particleDefinition.gravity.v[0];
-                            tmp.v[1] = radial.v[1] + tangential.v[1] + particleDefinition.gravity.v[1];
-                            tmp.v[0] *= delta;
-                            tmp.v[1] *= delta;
+                            //size
+                            particles[i].size += (particles[i].deltaSize * UPDATE_STEP);
+                            particles[i].size = std::max(0.0f, particles[i].size);
 
-                            particles[i].direction.v[0] += tmp.v[0];
-                            particles[i].direction.v[1] += tmp.v[1];
-                            tmp.v[0] = particles[i].direction.v[0] * delta * particleDefinition.yCoordFlipped;
-                            tmp.v[1] = particles[i].direction.v[1] * delta * particleDefinition.yCoordFlipped;
-                            particles[i].position.v[0] += tmp.v[0];
-                            particles[i].position.v[1] += tmp.v[1];
+                            //angle
+                            particles[i].rotation += particles[i].deltaRotation * UPDATE_STEP;
                         }
                         else
                         {
-                            particles[i].angle += particles[i].degreesPerSecond * delta;
-                            particles[i].radius += particles[i].deltaRadius * delta;
-                            particles[i].position.v[0] = -cosf(particles[i].angle) * particles[i].radius;
-                            particles[i].position.v[1] = -sinf(particles[i].angle) * particles[i].radius * particleDefinition.yCoordFlipped;
+                            particles[i] = particles[particleCount - 1];
+                            particleCount--;
                         }
-
-                        //color r,g,b,a
-                        particles[i].colorRed += particles[i].deltaColorRed * delta;
-                        particles[i].colorGreen += particles[i].deltaColorGreen * delta;
-                        particles[i].colorBlue += particles[i].deltaColorBlue * delta;
-                        particles[i].colorAlpha += particles[i].deltaColorAlpha * delta;
-
-                        //size
-                        particles[i].size += (particles[i].deltaSize * delta);
-                        particles[i].size = std::max(0.0f, particles[i].size);
-
-                        //angle
-                        particles[i].rotation += particles[i].deltaRotation * delta;
                     }
-                    else
-                    {
-                        particles[i] = particles[particleCount - 1];
-                        particleCount--;
-                    }
+
+                    needsMeshUpdate = true;
+                    needsBoundingBoxUpdate = true;
                 }
+            }
 
+            if (needsBoundingBoxUpdate)
+            {
                 // Update bounding box
                 boundingBox.reset();
 
@@ -238,8 +254,6 @@ namespace ouzel
                         boundingBox.insertPoint(particles[i].position);
                     }
                 }
-
-                needsMeshUpdate = true;
             }
         }
 
@@ -301,6 +315,7 @@ namespace ouzel
         {
             emitCounter = 0.0f;
             elapsed = 0.0f;
+            timeSinceUpdate = 0.0f;
             particleCount = 0;
             finished = false;
         }
