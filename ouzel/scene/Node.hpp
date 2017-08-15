@@ -54,9 +54,6 @@ namespace ouzel
             virtual void setScale(const Vector3& newScale);
             virtual const Vector3& getScale() const { return scale; }
 
-            virtual void setColor(const Color& newColor);
-            virtual const Color& getColor() const { return color; }
-
             virtual void setOpacity(float newOpacity);
             virtual float getOpacity() const { return opacity; }
 
@@ -183,7 +180,6 @@ namespace ouzel
             Vector3 position;
             Quaternion rotation = Quaternion::IDENTITY;
             Vector3 scale = Vector3(1.0f, 1.0f, 1.0f);
-            Color color = Color::WHITE;
             float opacity = 1.0f;
             int32_t order = 0;
             int32_t worldOrder = 0;

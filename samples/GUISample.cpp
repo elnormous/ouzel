@@ -38,7 +38,7 @@ GUISample::GUISample():
     fullscreenButton.setPosition(Vector2(-200.0f, 40.0f));
     menu.addWidget(&fullscreenButton);
 
-    label1.setColor(Color::CYAN);
+    label1.getLabelDrawable()->setColor(Color::CYAN);
     label1.setPosition(Vector2(-28.0f, 102.0f));
     guiLayer.addChild(&label1);
 
@@ -48,7 +48,7 @@ GUISample::GUISample():
     label2.setPosition(Vector2(10.0f, 0.0f));
     guiLayer.addChild(&label2);
 
-    label3.setColor(Color::BLUE);
+    label3.getLabelDrawable()->setColor(Color::BLUE);
     label3.setPosition(Vector2(-100.0f, -100.0f));
     label3.setScale(Vector3(0.5f, 0.5f, 1.0f));
     guiLayer.addChild(&label3);

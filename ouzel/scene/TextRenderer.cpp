@@ -64,7 +64,7 @@ namespace ouzel
         }
 
         void TextRenderer::draw(const Matrix4& transformMatrix,
-                                const Color& drawColor,
+                                float opacity,
                                 const Matrix4& renderViewProjection,
                                 const std::shared_ptr<graphics::Texture>& renderTarget,
                                 const Rectangle& renderViewport,
@@ -75,7 +75,7 @@ namespace ouzel
                                 const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
-                            drawColor,
+                            opacity,
                             renderViewProjection,
                             renderTarget,
                             renderViewport,
@@ -94,7 +94,7 @@ namespace ouzel
             }
 
             Matrix4 modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
+            float colorVector[] = {color.normR(), color.normG(), color.normB(), color.normA() * opacity};
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
             pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
@@ -131,13 +131,11 @@ namespace ouzel
         void TextRenderer::setColor(const Color& newColor)
         {
             color = newColor;
-
-            updateText();
         }
 
         void TextRenderer::updateText()
         {
-            font->getVertices(text, color, textAnchor, textScale, indices, vertices, texture);
+            font->getVertices(text, Color::WHITE, textAnchor, textScale, indices, vertices, texture);
             needsMeshUpdate = true;
 
             boundingBox.reset();

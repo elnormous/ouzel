@@ -24,7 +24,7 @@ namespace ouzel
             ShapeRenderer();
 
             virtual void draw(const Matrix4& transformMatrix,
-                              const Color& drawColor,
+                              float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
                               const Rectangle& renderViewport,

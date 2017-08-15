@@ -30,7 +30,7 @@ namespace ouzel
         }
 
         void ShapeRenderer::draw(const Matrix4& transformMatrix,
-                                 const Color& drawColor,
+                                 float opacity,
                                  const Matrix4& renderViewProjection,
                                  const std::shared_ptr<graphics::Texture>& renderTarget,
                                  const Rectangle& renderViewport,
@@ -41,7 +41,7 @@ namespace ouzel
                                  const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
-                            drawColor,
+                            opacity,
                             renderViewProjection,
                             renderTarget,
                             renderViewport,
@@ -59,7 +59,7 @@ namespace ouzel
             }
 
             Matrix4 modelViewProj = renderViewProjection * transformMatrix;
-            float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
+            float colorVector[] = {1.0f, 1.0f, 1.0f, opacity};
 
             for (const DrawCommand& drawCommand : drawCommands)
             {

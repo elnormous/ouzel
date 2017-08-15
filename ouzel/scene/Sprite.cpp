@@ -183,7 +183,7 @@ namespace ouzel
         }
 
         void Sprite::draw(const Matrix4& transformMatrix,
-                          const Color& drawColor,
+                          float opacity,
                           const Matrix4& renderViewProjection,
                           const std::shared_ptr<graphics::Texture>& renderTarget,
                           const Rectangle& renderViewport,
@@ -194,7 +194,7 @@ namespace ouzel
                           const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
-                            drawColor,
+                            opacity,
                             renderViewProjection,
                             renderTarget,
                             renderViewport,
@@ -207,7 +207,7 @@ namespace ouzel
             if (currentFrame < frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
+                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

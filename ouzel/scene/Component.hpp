@@ -42,7 +42,7 @@ namespace ouzel
             uint32_t getType() const { return type; }
 
             virtual void draw(const Matrix4& transformMatrix,
-                              const Color& drawColor,
+                              float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
                               const Rectangle& renderViewport,

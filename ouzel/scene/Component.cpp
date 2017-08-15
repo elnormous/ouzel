@@ -20,7 +20,7 @@ namespace ouzel
         }
 
         void Component::draw(const Matrix4&,
-                             const Color&,
+                             float,
                              const Matrix4&,
                              const std::shared_ptr<graphics::Texture>&,
                              const Rectangle&,

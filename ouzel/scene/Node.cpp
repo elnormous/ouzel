@@ -78,15 +78,12 @@ namespace ouzel
                 calculateTransform();
             }
 
-            Color drawColor(color.v[0], color.v[1], color.v[2],
-                            wireframe ? 255 : (static_cast<uint8_t>(color.v[3] * opacity)));
-
             for (Component* component : components)
             {
                 if (!component->isHidden())
                 {
                     component->draw(transform,
-                                    drawColor,
+                                    opacity,
                                     camera->getRenderViewProjection(),
                                     camera->getRenderTarget(),
                                     camera->getRenderViewport(),
@@ -164,11 +161,6 @@ namespace ouzel
             scale = newScale;
 
             localTransformDirty = transformDirty = inverseTransformDirty = true;
-        }
-
-        void Node::setColor(const Color& newColor)
-        {
-            color = newColor;
         }
 
         void Node::setOpacity(float newOpacity)

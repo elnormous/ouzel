@@ -36,7 +36,7 @@ namespace ouzel
         }
 
         void ParticleSystem::draw(const Matrix4& transformMatrix,
-                                  const Color& drawColor,
+                                  float opacity,
                                   const Matrix4& renderViewProjection,
                                   const std::shared_ptr<graphics::Texture>& renderTarget,
                                   const Rectangle& renderViewport,
@@ -47,7 +47,7 @@ namespace ouzel
                                   const Rectangle& scissorRectangle)
         {
             Component::draw(transformMatrix,
-                            drawColor,
+                            opacity,
                             renderViewProjection,
                             renderTarget,
                             renderViewport,
@@ -77,7 +77,7 @@ namespace ouzel
                     transform = renderViewProjection * transformMatrix;
                 }
 
-                float colorVector[] = {drawColor.normR(), drawColor.normG(), drawColor.normB(), drawColor.normA()};
+                float colorVector[] = {1.0f, 1.0f, 1.0f, opacity};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

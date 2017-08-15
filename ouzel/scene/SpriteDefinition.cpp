@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "json.hpp"
 #include "SpriteDefinition.hpp"
 #include "core/Engine.hpp"
@@ -73,6 +74,9 @@ namespace ouzel
                             indices.push_back(indexObject.get<uint16_t>());
                         }
                     }
+
+                    // reverse the vertices, so that they are counterclockwise
+                    std::reverse(indices.begin(), indices.end());
 
                     std::vector<graphics::VertexPCT> vertices;
 
