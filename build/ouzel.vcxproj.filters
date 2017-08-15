@@ -391,6 +391,9 @@
     <ClCompile Include="..\ouzel\graphics\opengl\TextureInterfaceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\SpriteDefinition.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -870,6 +873,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h">
       <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\SpriteDefinition.hpp">
+      <Filter>ouzel\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
