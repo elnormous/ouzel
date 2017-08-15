@@ -38,6 +38,7 @@ namespace ouzel
         const std::string BLEND_ADD = "blendAdd";
         const std::string BLEND_MULTIPLY = "blendMultiply";
         const std::string BLEND_ALPHA = "blendAlpha";
+        const std::string BLEND_SCREEN = "blendScreen";
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
 
