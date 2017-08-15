@@ -20,17 +20,14 @@ namespace ouzel
         class SpriteFrame
         {
         public:
-            static std::vector<SpriteFrame> loadSpriteFrames(const std::string& filename, bool mipmaps = true);
-
-            SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
+            SpriteFrame(const Size2& textureSize,
                         const Rectangle& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
-            SpriteFrame(const std::shared_ptr<graphics::Texture>& pTexture,
-                        const std::vector<uint16_t>& indices,
+            SpriteFrame(const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
                         const Rectangle& frameRectangle,
                         const Size2& sourceSize,
@@ -41,7 +38,6 @@ namespace ouzel
 
             const Box2& getBoundingBox() const { return boundingBox; }
             const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
-            const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
 
         protected:
             Rectangle rectangle;
@@ -49,7 +45,6 @@ namespace ouzel
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
-            std::shared_ptr<graphics::Texture> texture;
         };
     } // scene
 } // ouzel

@@ -25,10 +25,10 @@ namespace ouzel
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
-        Sprite::Sprite(const std::vector<SpriteFrame>& spriteFrames):
+        Sprite::Sprite(const SpriteDefinition& spriteDefinition):
             Sprite()
         {
-            init(spriteFrames);
+            init(spriteDefinition);
         }
 
         Sprite::Sprite(const std::string& filename, bool mipmaps,
@@ -47,9 +47,10 @@ namespace ouzel
             init(texture, spritesX, spritesY, pivot);
         }
 
-        bool Sprite::init(const std::vector<SpriteFrame>& spriteFrames)
+        bool Sprite::init(const SpriteDefinition& spriteDefinition)
         {
-            frames = spriteFrames;
+            texture = spriteDefinition.texture;
+            frames = spriteDefinition.frames;
 
             updateBoundingBox();
 
@@ -68,7 +69,9 @@ namespace ouzel
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
-            frames = sharedEngine->getCache()->getSpriteFrames(filename, mipmaps, spritesX, spritesY, pivot);
+            SpriteDefinition spriteDefinition = sharedEngine->getCache()->getSpriteDefinition(filename, mipmaps, spritesX, spritesY, pivot);
+            texture = spriteDefinition.texture;
+            frames = spriteDefinition.frames;
 
             updateBoundingBox();
 
@@ -83,10 +86,11 @@ namespace ouzel
             return true;
         }
 
-        bool Sprite::init(std::shared_ptr<graphics::Texture> texture,
+        bool Sprite::init(std::shared_ptr<graphics::Texture> newTexture,
                           uint32_t spritesX, uint32_t spritesY,
                           const Vector2& pivot)
         {
+            texture = newTexture;
             frames.clear();
 
             Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
@@ -100,7 +104,7 @@ namespace ouzel
                                         spriteSize.v[0],
                                         spriteSize.v[1]);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, spriteSize, Vector2(), pivot);
+                    scene::SpriteFrame frame = scene::SpriteFrame(texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
                 }
             }
@@ -223,7 +227,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : frames[currentFrame].getTexture()},
+                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,

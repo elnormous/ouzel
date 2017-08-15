@@ -615,6 +615,9 @@
 		304B277C1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
 		304B277D1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
 		304B277E1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
+		3053FF701F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
+		3053FF711F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
+		3053FF721F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
 		30547E781CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
 		30547E791CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
 		30547E7A1CB47E050055EE79 /* Shake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30547E761CB47E050055EE79 /* Shake.cpp */; };
@@ -1127,6 +1130,8 @@
 		304B27541C9384A600BA162D /* Size3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size3.hpp; sourceTree = "<group>"; };
 		304B27771C95C54D00BA162D /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
 		304B27781C95C54D00BA162D /* EditBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditBox.hpp; sourceTree = "<group>"; };
+		3053FF6E1F437F0800760E67 /* SpriteDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpriteDefinition.hpp; sourceTree = "<group>"; };
+		3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteDefinition.cpp; sourceTree = "<group>"; };
 		30547E761CB47E050055EE79 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
 		30547E771CB47E050055EE79 /* Shake.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shake.hpp; sourceTree = "<group>"; };
 		30575A8D1C38BD370009C8A7 /* Box2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2.cpp; sourceTree = "<group>"; };
@@ -1437,6 +1442,8 @@
 				3039336A1E5F45F2000C9A8E /* SoundPlayer.hpp */,
 				304A8E441C237C70008B1151 /* Sprite.cpp */,
 				304A8E451C237C70008B1151 /* Sprite.hpp */,
+				3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */,
+				3053FF6E1F437F0800760E67 /* SpriteDefinition.hpp */,
 				302511A61CD36FBA00D04209 /* SpriteFrame.cpp */,
 				302511A71CD36FBA00D04209 /* SpriteFrame.hpp */,
 				301EB3A81CCD77F600466E92 /* TextRenderer.cpp */,
@@ -2548,6 +2555,7 @@
 				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				304AA8BE1E1190E4006FA70E /* OBF.cpp in Sources */,
+				3053FF701F43834900760E67 /* SpriteDefinition.cpp in Sources */,
 				3038206D1D816C7700677CAB /* WindowIOS.mm in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
@@ -2687,6 +2695,7 @@
 				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
 				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304AA8C01E1190E4006FA70E /* OBF.cpp in Sources */,
+				3053FF721F43834900760E67 /* SpriteDefinition.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
@@ -2802,6 +2811,7 @@
 				309BA3141F183D6E006F2240 /* AudioCA.mm in Sources */,
 				3038216A1D81876E00677CAB /* AudioEmpty.cpp in Sources */,
 				3049DCE11EDCD0450000997A /* CursorInterface.cpp in Sources */,
+				3053FF711F43834900760E67 /* SpriteDefinition.cpp in Sources */,
 				303821401D81876E00677CAB /* MeshBufferInterfaceEmpty.cpp in Sources */,
 				304A8E641C237C70008B1151 /* Renderer.cpp in Sources */,
 				307F9FFF1F1E9CA000BA73CB /* GamepadGC.mm in Sources */,

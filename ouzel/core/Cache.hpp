@@ -5,10 +5,9 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 #include <map>
 #include "utils/Noncopyable.hpp"
-#include "scene/SpriteFrame.hpp"
+#include "scene/SpriteDefinition.hpp"
 #include "scene/ParticleDefinition.hpp"
 #include "gui/Font.hpp"
 #include "graphics/BlendState.hpp"
@@ -38,14 +37,14 @@ namespace ouzel
         void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
         void releaseBlendStates();
 
-        void preloadSpriteFrames(const std::string& filename, bool mipmaps = true,
-                                 uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                 const Vector2& pivot = Vector2(0.5f, 0.5f));
-        const std::vector<scene::SpriteFrame>& getSpriteFrames(const std::string& filename, bool mipmaps = true,
-                                                               uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                                               const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
-        void setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFrame>& frames);
-        void releaseSpriteFrames();
+        void preloadSpriteDefinition(const std::string& filename, bool mipmaps = true,
+                                     uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                     const Vector2& pivot = Vector2(0.5f, 0.5f));
+        const scene::SpriteDefinition& getSpriteDefinition(const std::string& filename, bool mipmaps = true,
+                                                           uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                                           const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
+        void setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition);
+        void releaseSpriteDefinitions();
 
         void preloadParticleDefinition(const std::string& filename);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
@@ -67,7 +66,7 @@ namespace ouzel
         mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
         mutable std::map<std::string, scene::ParticleDefinition> particleDefinitions;
         mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
-        mutable std::map<std::string, std::vector<scene::SpriteFrame>> spriteFrames;
+        mutable std::map<std::string, scene::SpriteDefinition> spriteDefinitions;
         mutable std::map<std::string, std::shared_ptr<Font>> fonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
     };

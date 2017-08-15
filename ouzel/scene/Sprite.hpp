@@ -6,7 +6,7 @@
 #include "scene/Component.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
-#include "scene/SpriteFrame.hpp"
+#include "scene/SpriteDefinition.hpp"
 #include "core/UpdateCallback.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Shader.hpp"
@@ -24,7 +24,7 @@ namespace ouzel
             static const uint32_t TYPE = Component::SPRITE;
 
             Sprite();
-            Sprite(const std::vector<SpriteFrame>& spriteFrames);
+            Sprite(const SpriteDefinition& spriteDefinition);
             Sprite(const std::string& filename, bool mipmaps = true,
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                    const Vector2& pivot = Vector2(0.5f, 0.5f));
@@ -32,11 +32,11 @@ namespace ouzel
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                    const Vector2& pivot = Vector2(0.5f, 0.5f));
 
-            bool init(const std::vector<SpriteFrame>& spriteFrames);
+            bool init(const SpriteDefinition& spriteDefinition);
             bool init(const std::string& filename, bool mipmaps = true,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5f, 0.5f));
-            bool init(std::shared_ptr<graphics::Texture> texture,
+            bool init(std::shared_ptr<graphics::Texture> newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5f, 0.5f));
 
@@ -69,6 +69,7 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
 
+            const std::shared_ptr<graphics::Texture>& getTexture() const { return texture; }
             const std::vector<SpriteFrame>& getFrames() const { return frames; }
             virtual void setCurrentFrame(uint32_t frame);
 
@@ -83,6 +84,7 @@ namespace ouzel
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
+            std::shared_ptr<graphics::Texture> texture;
             std::vector<SpriteFrame> frames;
 
             uint32_t currentFrame = 0;

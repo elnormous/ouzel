@@ -26,7 +26,7 @@ namespace ouzel
         releaseShaders();
         releaseParticleDefinitions();
         releaseBlendStates();
-        releaseSpriteFrames();
+        releaseSpriteDefinitions();
         releaseFonts();
     }
 
@@ -156,25 +156,26 @@ namespace ouzel
         }
     }
 
-    void Cache::preloadSpriteFrames(const std::string& filename, bool mipmaps,
-                                    uint32_t spritesX, uint32_t spritesY,
-                                    const Vector2& pivot)
+    void Cache::preloadSpriteDefinition(const std::string& filename, bool mipmaps,
+                                        uint32_t spritesX, uint32_t spritesY,
+                                        const Vector2& pivot)
     {
         std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-        std::vector<scene::SpriteFrame> frames;
+        scene::SpriteDefinition spriteDefinition;
 
         if (extension == "json")
         {
-            frames = scene::SpriteFrame::loadSpriteFrames(filename, mipmaps);
+            spriteDefinition = scene::SpriteDefinition::loadSpriteDefinition(filename, mipmaps);
         }
         else
         {
-            std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+            spriteDefinition.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
-            if (texture)
+            if (spriteDefinition.texture)
             {
-                Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
+                Size2 spriteSize = Size2(spriteDefinition.texture->getSize().v[0] / spritesX,
+                                         spriteDefinition.texture->getSize().v[1] / spritesY);
 
                 for (uint32_t x = 0; x < spritesX; ++x)
                 {
@@ -185,23 +186,23 @@ namespace ouzel
                                             spriteSize.v[0],
                                             spriteSize.v[1]);
 
-                        scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, spriteSize, Vector2(), pivot);
-                        frames.push_back(frame);
+                        scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                        spriteDefinition.frames.push_back(frame);
                     }
                 }
             }
         }
 
-        spriteFrames[filename] = frames;
+        spriteDefinitions[filename] = spriteDefinition;
     }
 
-    const std::vector<scene::SpriteFrame>& Cache::getSpriteFrames(const std::string& filename, bool mipmaps,
-                                                                  uint32_t spritesX, uint32_t spritesY,
-                                                                  const Vector2& pivot) const
+    const scene::SpriteDefinition& Cache::getSpriteDefinition(const std::string& filename, bool mipmaps,
+                                                              uint32_t spritesX, uint32_t spritesY,
+                                                              const Vector2& pivot) const
     {
-        auto i = spriteFrames.find(filename);
+        auto i = spriteDefinitions.find(filename);
 
-        if (i != spriteFrames.end())
+        if (i != spriteDefinitions.end())
         {
             return i->second;
         }
@@ -209,19 +210,20 @@ namespace ouzel
         {
             std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-            std::vector<scene::SpriteFrame> frames;
+            scene::SpriteDefinition spriteDefinition;
 
             if (extension == "json")
             {
-                frames = scene::SpriteFrame::loadSpriteFrames(filename, mipmaps);
+                spriteDefinition = scene::SpriteDefinition::loadSpriteDefinition(filename, mipmaps);
             }
             else if (spritesX > 0 && spritesY > 0)
             {
-                std::shared_ptr<graphics::Texture> texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                spriteDefinition.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
-                if (texture)
+                if (spriteDefinition.texture)
                 {
-                    Size2 spriteSize = Size2(texture->getSize().v[0] / spritesX, texture->getSize().v[1] / spritesY);
+                    Size2 spriteSize = Size2(spriteDefinition.texture->getSize().v[0] / spritesX,
+                                             spriteDefinition.texture->getSize().v[1] / spritesY);
 
                     for (uint32_t x = 0; x < spritesX; ++x)
                     {
@@ -232,27 +234,27 @@ namespace ouzel
                                                 spriteSize.v[0],
                                                 spriteSize.v[1]);
 
-                            scene::SpriteFrame frame = scene::SpriteFrame(texture, rectangle, false, spriteSize, Vector2(), pivot);
-                            frames.push_back(frame);
+                            scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                            spriteDefinition.frames.push_back(frame);
                         }
                     }
                 }
             }
 
-            i = spriteFrames.insert(std::make_pair(filename, frames)).first;
+            i = spriteDefinitions.insert(std::make_pair(filename, spriteDefinition)).first;
 
             return i->second;
         }
     }
 
-    void Cache::setSpriteFrames(const std::string& filename, const std::vector<scene::SpriteFrame>& frames)
+    void Cache::setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition)
     {
-        spriteFrames[filename] = frames;
+        spriteDefinitions[filename] = spriteDefinition;
     }
 
-    void Cache::releaseSpriteFrames()
+    void Cache::releaseSpriteDefinitions()
     {
-        spriteFrames.clear();
+        spriteDefinitions.clear();
     }
 
     void Cache::preloadParticleDefinition(const std::string& filename)
