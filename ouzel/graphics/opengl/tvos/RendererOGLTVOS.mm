@@ -7,8 +7,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #include "RendererOGLTVOS.hpp"
-#include "core/Engine.hpp"
-#include "WindowTVOS.hpp"
+#include "core/tvos/WindowTVOS.hpp"
 #include "utils/Log.hpp"
 
 @interface DisplayLinkHandler: NSObject
@@ -18,26 +17,32 @@
     NSRunLoop* runLoop;
     CADisplayLink* displayLink;
     NSThread* renderThread;
+    bool verticalSync;
+    bool running;
 }
 
 @end
 
 @implementation DisplayLinkHandler
 
--(id)initWithRenderer:(ouzel::graphics::Renderer*)newRenderer
+-(id)initWithRenderer:(ouzel::graphics::Renderer*)newRenderer andVerticalSync:(bool)newVerticalSync
 {
     if (self = [super init])
     {
         renderer = newRenderer;
+        verticalSync = newVerticalSync;
+        running = true;
 
-        // display link
-        displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(draw:)];
-        if (!displayLink)
+        if (verticalSync)
         {
-            ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
-            return nil;
+            displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(draw:)];
+            if (!displayLink)
+            {
+                ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
+                return nil;
+            }
+            [displayLink setFrameInterval:1.0f];
         }
-        [displayLink setFrameInterval:1.0f];
 
         runLock = [[NSConditionLock alloc] initWithCondition:0];
         renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(runThread) object:nil];
@@ -70,9 +75,16 @@
 {
     [runLock lock];
 
-    runLoop = [NSRunLoop currentRunLoop];
-    [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-    [runLoop run];
+    if (verticalSync)
+    {
+        runLoop = [NSRunLoop currentRunLoop];
+        [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+    else
+    {
+        while (running) [self draw:nil];
+    }
 
     [runLock unlockWithCondition:1];
 }
@@ -84,7 +96,8 @@
 
 -(void)exit
 {
-    CFRunLoopStop([runLoop getCFRunLoop]);
+    running = false;
+    if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
 }
 
 @end
