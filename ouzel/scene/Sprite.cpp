@@ -231,7 +231,7 @@ namespace ouzel
                                                             wireframe,
                                                             scissorTest,
                                                             scissorRectangle,
-                                                            graphics::Renderer::CullMode::NONE);
+                                                            material->cullMode);
             }
         }
 

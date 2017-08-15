@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace ouzel;
+using namespace graphics;
 
 PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
@@ -49,6 +50,7 @@ PerspectiveSample::PerspectiveSample():
     characterSprite->init("run.json");
     characterSprite->play(true);
     characterSprite->getMaterial()->texture->setMaxAnisotropy(4);
+    characterSprite->getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 
     character.reset(new scene::Node());
     character->addComponent(characterSprite.get());
