@@ -4,8 +4,8 @@
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/MeshBufferInterface.hpp"
-#include "graphics/BufferInterface.hpp"
+#include "graphics/MeshBufferResource.hpp"
+#include "graphics/BufferResource.hpp"
 #include "Camera.hpp"
 #include "utils/Utils.hpp"
 

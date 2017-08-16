@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Texture.hpp"
-#include "TextureInterface.hpp"
+#include "TextureResource.hpp"
 #include "Renderer.hpp"
 #include "ImageDataSTB.hpp"
 #include "core/Engine.hpp"
@@ -34,7 +34,7 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          newSize,
                                                                          newFlags,
@@ -64,7 +64,7 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = image.getPixelFormat();
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          image.getData(),
                                                                          image.getSize(),
@@ -88,7 +88,7 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureInterface::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureInterface::init),
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          newData,
                                                                          newSize,
@@ -108,7 +108,7 @@ namespace ouzel
         {
             size = newSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setSize,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
                                                                          resource,
                                                                          newSize));
 
@@ -119,7 +119,7 @@ namespace ouzel
         {
             size = newSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setData,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,
                                                                          resource,
                                                                          newData,
                                                                          newSize));
@@ -136,7 +136,7 @@ namespace ouzel
         {
             filter = newFilter;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setFilter,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
                                                                          resource,
                                                                          newFilter));
 
@@ -152,7 +152,7 @@ namespace ouzel
         {
             addressX = newAddressX;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setAddressX,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
                                                                          resource,
                                                                          newAddressX));
 
@@ -168,7 +168,7 @@ namespace ouzel
         {
             addressY = newAddressY;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setAddressY,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
                                                                          resource,
                                                                          newAddressY));
 
@@ -184,7 +184,7 @@ namespace ouzel
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setMaxAnisotropy,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
                                                                          resource,
                                                                          newMaxAnisotropy));
 
@@ -210,7 +210,7 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearColorBuffer,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
                                                                          resource,
                                                                          clear));
         }
@@ -224,7 +224,7 @@ namespace ouzel
         {
             clearDepthBuffer = clear;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearDepthBuffer,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
                                                                          resource,
                                                                          clear));
         }
@@ -238,7 +238,7 @@ namespace ouzel
         {
             clearColor = color;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureInterface::setClearColor,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
                                                                          resource,
                                                                          color));
         }

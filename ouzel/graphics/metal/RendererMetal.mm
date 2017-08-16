@@ -6,11 +6,11 @@
 #if OUZEL_SUPPORTS_METAL
 
 #include "RendererMetal.hpp"
-#include "TextureInterfaceMetal.hpp"
-#include "ShaderInterfaceMetal.hpp"
-#include "MeshBufferInterfaceMetal.hpp"
-#include "BufferInterfaceMetal.hpp"
-#include "BlendStateInterfaceMetal.hpp"
+#include "TextureResourceMetal.hpp"
+#include "ShaderResourceMetal.hpp"
+#include "MeshBufferResourceMetal.hpp"
+#include "BufferResourceMetal.hpp"
+#include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
 #if OUZEL_PLATFORM_MACOS
     #include "ColorPSMacOS.h"
@@ -489,7 +489,7 @@ namespace ouzel
                 // render target
                 if (drawCommand.renderTarget)
                 {
-                    TextureInterfaceMetal* renderTargetMetal = static_cast<TextureInterfaceMetal*>(drawCommand.renderTarget);
+                    TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(drawCommand.renderTarget);
 
                     newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                     if (!newRenderPassDescriptor)
@@ -501,7 +501,7 @@ namespace ouzel
                     pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
                     pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
 
-                    TextureInterfaceMetal* renderTargetTextureMetal = static_cast<TextureInterfaceMetal*>(renderTargetMetal);
+                    TextureResourceMetal* renderTargetTextureMetal = static_cast<TextureResourceMetal*>(renderTargetMetal);
                     renderTargetWidth = renderTargetTextureMetal->getWidth();
                     renderTargetHeight = renderTargetTextureMetal->getHeight();
 
@@ -598,7 +598,7 @@ namespace ouzel
                 [currentRenderCommandEncoder setCullMode:cullMode];
 
                 // shader
-                ShaderInterfaceMetal* shaderMetal = static_cast<ShaderInterfaceMetal*>(drawCommand.shader);
+                ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand.shader);
 
                 if (!shaderMetal || !shaderMetal->getPixelShader() || !shaderMetal->getVertexShader())
                 {
@@ -609,7 +609,7 @@ namespace ouzel
                 pipelineStateDesc.shader = shaderMetal;
 
                 // pixel shader constants
-                const std::vector<ShaderInterfaceMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
+                const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
@@ -621,7 +621,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    const ShaderInterfaceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                    const ShaderResourceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
                     if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
@@ -652,7 +652,7 @@ namespace ouzel
                 shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                 // vertex shader constants
-                const std::vector<ShaderInterfaceMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
+                const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
@@ -664,7 +664,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    const ShaderInterfaceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                    const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
                     if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
@@ -695,7 +695,7 @@ namespace ouzel
                 shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                 // blend state
-                BlendStateInterfaceMetal* blendStateMetal = static_cast<BlendStateInterfaceMetal*>(drawCommand.blendState);
+                BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(drawCommand.blendState);
 
                 if (!blendStateMetal)
                 {
@@ -720,11 +720,11 @@ namespace ouzel
 
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    TextureInterfaceMetal* textureMetal = nullptr;
+                    TextureResourceMetal* textureMetal = nullptr;
 
                     if (drawCommand.textures.size() > layer)
                     {
-                        textureMetal = static_cast<TextureInterfaceMetal*>(drawCommand.textures[layer]);
+                        textureMetal = static_cast<TextureResourceMetal*>(drawCommand.textures[layer]);
                     }
 
                     if (textureMetal)
@@ -750,9 +750,9 @@ namespace ouzel
                 }
 
                 // mesh buffer
-                MeshBufferInterfaceMetal* meshBufferMetal = static_cast<MeshBufferInterfaceMetal*>(drawCommand.meshBuffer);
-                BufferInterfaceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
-                BufferInterfaceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
+                MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(drawCommand.meshBuffer);
+                BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
+                BufferResourceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
 
                 if (!meshBufferMetal ||
                     !indexBufferMetal ||
@@ -846,48 +846,48 @@ namespace ouzel
             return true;
         }
 
-        BlendStateInterface* RendererMetal::createBlendState()
+        BlendStateResource* RendererMetal::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BlendStateInterface* blendState = new BlendStateInterfaceMetal();
-            resources.push_back(std::unique_ptr<ResourceInterface>(blendState));
+            BlendStateResource* blendState = new BlendStateResourceMetal();
+            resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
 
-        TextureInterface* RendererMetal::createTexture()
+        TextureResource* RendererMetal::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureInterface* texture = new TextureInterfaceMetal(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(texture));
+            TextureResource* texture = new TextureResourceMetal(this);
+            resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
 
-        ShaderInterface* RendererMetal::createShader()
+        ShaderResource* RendererMetal::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderInterface* shader = new ShaderInterfaceMetal(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(shader));
+            ShaderResource* shader = new ShaderResourceMetal(this);
+            resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
 
-        MeshBufferInterface* RendererMetal::createMeshBuffer()
+        MeshBufferResource* RendererMetal::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceMetal();
-            resources.push_back(std::unique_ptr<ResourceInterface>(meshBuffer));
+            MeshBufferResource* meshBuffer = new MeshBufferResourceMetal();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferInterface* RendererMetal::createBuffer()
+        BufferResource* RendererMetal::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferInterface* buffer = new BufferInterfaceMetal(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
+            BufferResource* buffer = new BufferResourceMetal(this);
+            resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }
 

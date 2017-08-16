@@ -52,8 +52,8 @@ namespace ouzel
 
     namespace graphics
     {
-        class BlendStateInterfaceMetal;
-        class ShaderInterfaceMetal;
+        class BlendStateResourceMetal;
+        class ShaderResourceMetal;
 
         class RendererMetal: public Renderer
         {
@@ -97,16 +97,16 @@ namespace ouzel
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
-            virtual BlendStateInterface* createBlendState() override;
-            virtual TextureInterface* createTexture() override;
-            virtual ShaderInterface* createShader() override;
-            virtual MeshBufferInterface* createMeshBuffer() override;
-            virtual BufferInterface* createBuffer() override;
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             struct PipelineStateDesc
             {
-                BlendStateInterfaceMetal* blendState;
-                ShaderInterfaceMetal* shader;
+                BlendStateResourceMetal* blendState;
+                ShaderResourceMetal* shader;
                 NSUInteger sampleCount;
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Buffer.hpp"
-#include "BufferInterface.hpp"
+#include "BufferResource.hpp"
 #include "Renderer.hpp"
 #include "core/Engine.hpp"
 
@@ -25,7 +25,7 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferInterface::*)(Usage, uint32_t, uint32_t)>(&BufferInterface::init),
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, uint32_t)>(&BufferResource::init),
                                                                          resource,
                                                                          newUsage,
                                                                          newFlags,
@@ -47,7 +47,7 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferInterface::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferInterface::init),
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
                                                                          resource,
                                                                          newUsage,
                                                                          newData,
@@ -64,7 +64,7 @@ namespace ouzel
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BufferInterface::setData,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
                                                                          resource,
                                                                          newData));
 

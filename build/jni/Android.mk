@@ -45,33 +45,33 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/files/android/FileSystemAndroid.cpp \
     ../../ouzel/files/Archive.cpp \
     ../../ouzel/files/FileSystem.cpp \
-    ../../ouzel/graphics/empty/BlendStateInterfaceEmpty.cpp \
-    ../../ouzel/graphics/empty/BufferInterfaceEmpty.cpp \
-    ../../ouzel/graphics/empty/MeshBufferInterfaceEmpty.cpp \
+    ../../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/BufferResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
     ../../ouzel/graphics/empty/RendererEmpty.cpp \
-    ../../ouzel/graphics/empty/ShaderInterfaceEmpty.cpp \
-    ../../ouzel/graphics/empty/TextureInterfaceEmpty.cpp \
+    ../../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
+    ../../ouzel/graphics/empty/TextureResourceEmpty.cpp \
     ../../ouzel/graphics/opengl/android/RendererOGLAndroid.cpp \
-    ../../ouzel/graphics/opengl/BlendStateInterfaceOGL.cpp \
-    ../../ouzel/graphics/opengl/BufferInterfaceOGL.cpp \
-    ../../ouzel/graphics/opengl/MeshBufferInterfaceOGL.cpp \
+    ../../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/BufferResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
     ../../ouzel/graphics/opengl/RendererOGL.cpp \
-    ../../ouzel/graphics/opengl/ShaderInterfaceOGL.cpp \
-    ../../ouzel/graphics/opengl/TextureInterfaceOGL.cpp \
+    ../../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
+    ../../ouzel/graphics/opengl/TextureResourceOGL.cpp \
     ../../ouzel/graphics/BlendState.cpp \
-    ../../ouzel/graphics/BlendStateInterface.cpp \
+    ../../ouzel/graphics/BlendStateResource.cpp \
     ../../ouzel/graphics/Buffer.cpp \
-    ../../ouzel/graphics/BufferInterface.cpp \
+    ../../ouzel/graphics/BufferResource.cpp \
     ../../ouzel/graphics/ImageData.cpp \
     ../../ouzel/graphics/ImageDataSTB.cpp \
     ../../ouzel/graphics/Material.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
-    ../../ouzel/graphics/MeshBufferInterface.cpp \
+    ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
     ../../ouzel/graphics/Shader.cpp \
-    ../../ouzel/graphics/ShaderInterface.cpp \
+    ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \
-    ../../ouzel/graphics/TextureInterface.cpp \
+    ../../ouzel/graphics/TextureResource.cpp \
     ../../ouzel/graphics/Vertex.cpp \
     ../../ouzel/gui/BMFont.cpp \
 	../../ouzel/gui/TTFont.cpp \
@@ -91,7 +91,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/input/android/GamepadAndroid.cpp \
     ../../ouzel/input/android/InputAndroid.cpp \
     ../../ouzel/input/Cursor.cpp \
-    ../../ouzel/input/CursorInterface.cpp \
+    ../../ouzel/input/CursorResource.cpp \
     ../../ouzel/input/Gamepad.cpp \
     ../../ouzel/input/Input.cpp \
     ../../ouzel/localization/Language.cpp \

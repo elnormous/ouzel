@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include "Input.hpp"
-#include "CursorInterface.hpp"
+#include "CursorResource.hpp"
 #include "Gamepad.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
@@ -46,28 +46,28 @@ namespace ouzel
                                                         currentCursorResource));
         }
 
-        void Input::activateCursorResource(CursorInterface*)
+        void Input::activateCursorResource(CursorResource*)
         {
         }
 
-        CursorInterface* Input::createCursorResource()
+        CursorResource* Input::createCursorResource()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::unique_ptr<CursorInterface> cursorResource(new CursorInterface());
-            CursorInterface* result = cursorResource.get();
+            std::unique_ptr<CursorResource> cursorResource(new CursorResource());
+            CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
             return result;
         }
 
-        void Input::deleteCursorResource(CursorInterface* resource)
+        void Input::deleteCursorResource(CursorResource* resource)
         {
             sharedEngine->executeOnMainThread([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
-                std::vector<std::unique_ptr<CursorInterface>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorInterface>& ptr) {
+                std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
                     return ptr.get() == resource;
                 });
 

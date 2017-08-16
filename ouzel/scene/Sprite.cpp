@@ -5,8 +5,6 @@
 #include "core/CompileConfig.h"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/TextureInterface.hpp"
-#include "graphics/ShaderInterface.hpp"
 #include "Camera.hpp"
 #include "SceneManager.hpp"
 #include "files/FileSystem.hpp"

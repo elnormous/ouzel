@@ -3,7 +3,7 @@
 
 #include "Cursor.hpp"
 #include "Input.hpp"
-#include "CursorInterface.hpp"
+#include "CursorResource.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageDataSTB.hpp"
 
@@ -35,7 +35,7 @@ namespace ouzel
 
         bool Cursor::init(SystemCursor systemCursor)
         {
-            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorInterface::*)(SystemCursor)>(&CursorInterface::init),
+            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(SystemCursor)>(&CursorResource::init),
                                                         resource,
                                                         systemCursor));
 
@@ -61,7 +61,7 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorInterface::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorInterface::init),
+            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
                                                         resource,
                                                         data,
                                                         size,

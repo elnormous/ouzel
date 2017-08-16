@@ -10,8 +10,8 @@
 #include "core/Cache.hpp"
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
-#include "graphics/MeshBufferInterface.hpp"
-#include "graphics/BufferInterface.hpp"
+#include "graphics/MeshBufferResource.hpp"
+#include "graphics/BufferResource.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
 

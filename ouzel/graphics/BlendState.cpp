@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "BlendState.hpp"
-#include "BlendStateInterface.hpp"
+#include "BlendStateResource.hpp"
 #include "Renderer.hpp"
 #include "core/Engine.hpp"
 
@@ -36,7 +36,7 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateInterface::init,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
                                                                          resource,
                                                                          newEnableBlending,
                                                                          newColorBlendSource, newColorBlendDest,

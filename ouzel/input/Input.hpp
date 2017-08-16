@@ -17,7 +17,7 @@ namespace ouzel
     namespace input
     {
         class Cursor;
-        class CursorInterface;
+        class CursorResource;
 
         enum class KeyboardKey
         {
@@ -221,7 +221,7 @@ namespace ouzel
         {
             friend Engine;
             friend Cursor;
-            friend CursorInterface;
+            friend CursorResource;
         public:
             virtual ~Input();
 
@@ -273,9 +273,9 @@ namespace ouzel
             virtual bool init();
 
             void setCurrentCursor(Cursor* cursor);
-            virtual void activateCursorResource(CursorInterface* resource);
-            virtual CursorInterface* createCursorResource();
-            void deleteCursorResource(CursorInterface* resource);
+            virtual void activateCursorResource(CursorResource* resource);
+            virtual CursorResource* createCursorResource();
+            void deleteCursorResource(CursorResource* resource);
 
             Vector2 cursorPosition;
             bool keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::KEY_COUNT)];
@@ -285,9 +285,9 @@ namespace ouzel
             std::vector<std::unique_ptr<Gamepad>> gamepads;
 
             std::mutex resourceMutex;
-            std::vector<std::unique_ptr<CursorInterface>> resources;
-            std::vector<std::unique_ptr<CursorInterface>> resourceDeleteSet;
-            CursorInterface* currentCursorResource = nullptr;
+            std::vector<std::unique_ptr<CursorResource>> resources;
+            std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
+            CursorResource* currentCursorResource = nullptr;
         };
     } // namespace input
 } // namespace ouzel

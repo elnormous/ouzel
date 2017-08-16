@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include "RendererEmpty.hpp"
-#include "BlendStateInterfaceEmpty.hpp"
-#include "TextureInterfaceEmpty.hpp"
-#include "ShaderInterfaceEmpty.hpp"
-#include "MeshBufferInterfaceEmpty.hpp"
-#include "BufferInterfaceEmpty.hpp"
+#include "BlendStateResourceEmpty.hpp"
+#include "TextureResourceEmpty.hpp"
+#include "ShaderResourceEmpty.hpp"
+#include "MeshBufferResourceEmpty.hpp"
+#include "BufferResourceEmpty.hpp"
 #include "core/Engine.hpp"
 #include "core/Cache.hpp"
 
@@ -122,48 +122,48 @@ namespace ouzel
             return true;
         }
 
-        BlendStateInterface* RendererEmpty::createBlendState()
+        BlendStateResource* RendererEmpty::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BlendStateInterface* blendState = new BlendStateInterfaceEmpty();
-            resources.push_back(std::unique_ptr<ResourceInterface>(blendState));
+            BlendStateResource* blendState = new BlendStateResourceEmpty();
+            resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
 
-        TextureInterface* RendererEmpty::createTexture()
+        TextureResource* RendererEmpty::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureInterface* texture(new TextureInterfaceEmpty());
-            resources.push_back(std::unique_ptr<ResourceInterface>(texture));
+            TextureResource* texture(new TextureResourceEmpty());
+            resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
 
-        ShaderInterface* RendererEmpty::createShader()
+        ShaderResource* RendererEmpty::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderInterface* shader = new ShaderInterfaceEmpty();
-            resources.push_back(std::unique_ptr<ResourceInterface>(shader));
+            ShaderResource* shader = new ShaderResourceEmpty();
+            resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
 
-        MeshBufferInterface* RendererEmpty::createMeshBuffer()
+        MeshBufferResource* RendererEmpty::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceEmpty();
-            resources.push_back(std::unique_ptr<ResourceInterface>(meshBuffer));
+            MeshBufferResource* meshBuffer = new MeshBufferResourceEmpty();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferInterface* RendererEmpty::createBuffer()
+        BufferResource* RendererEmpty::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferInterface* buffer = new BufferInterfaceEmpty();
-            resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
+            BufferResource* buffer = new BufferResourceEmpty();
+            resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }
     } // namespace graphics

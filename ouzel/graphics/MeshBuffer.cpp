@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "MeshBuffer.hpp"
-#include "MeshBufferInterface.hpp"
+#include "MeshBufferResource.hpp"
 #include "Buffer.hpp"
 #include "Renderer.hpp"
 #include "core/Engine.hpp"
@@ -29,15 +29,15 @@ namespace ouzel
             indexSize = newIndexSize;
             vertexAttributes = newVertexAttributes;
 
-            BufferInterface* indexBufferInterface = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
-            BufferInterface* vertexBufferInterface = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
+            BufferResource* indexBufferResource = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
+            BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::init,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::init,
                                                                          resource,
                                                                          newIndexSize,
-                                                                         indexBufferInterface,
+                                                                         indexBufferResource,
                                                                          newVertexAttributes,
-                                                                         vertexBufferInterface));
+                                                                         vertexBufferResource));
 
             return true;
         }
@@ -51,7 +51,7 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setIndexSize,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexSize,
                                                                          resource,
                                                                          newIndexSize));
 
@@ -62,9 +62,9 @@ namespace ouzel
         {
             indexBuffer = newIndexBuffer;
 
-            BufferInterface* indexBufferResource = indexBuffer ? indexBuffer->getResource() : nullptr;
+            BufferResource* indexBufferResource = indexBuffer ? indexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setIndexBuffer,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexBuffer,
                                                                          resource,
                                                                          indexBufferResource));
 
@@ -80,7 +80,7 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setVertexAttributes,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexAttributes,
                                                                          resource,
                                                                          newVertexAttributes));
 
@@ -91,11 +91,11 @@ namespace ouzel
         {
             vertexBuffer = newVertexBuffer;
 
-            BufferInterface* vertexBufferInterface = vertexBuffer ? vertexBuffer->getResource() : nullptr;
+            BufferResource* vertexBufferResource = vertexBuffer ? vertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferInterface::setVertexBuffer,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexBuffer,
                                                                          resource,
-                                                                         vertexBufferInterface));
+                                                                         vertexBufferResource));
 
             return true;
         }

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Shader.hpp"
-#include "ShaderInterface.hpp"
+#include "ShaderResource.hpp"
 #include "Renderer.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
@@ -50,7 +50,7 @@ namespace ouzel
                 return false;
             }
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderInterface::init,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
                                                                          resource,
                                                                          pixelShaderData,
                                                                          vertexShaderData,
@@ -79,7 +79,7 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderInterface::init,
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
                                                                          resource,
                                                                          newPixelShader,
                                                                          newVertexShader,
