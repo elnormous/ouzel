@@ -62,11 +62,11 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename) override;
             void main();
 
-            virtual BlendStateInterface* createBlendState() override;
-            virtual TextureInterface* createTexture() override;
-            virtual ShaderInterface* createShader() override;
-            virtual MeshBufferInterface* createMeshBuffer() override;
-            virtual BufferInterface* createBuffer() override;
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
 
             IDXGIOutput* getOutput() const;
 

@@ -6,11 +6,11 @@
 #if OUZEL_SUPPORTS_DIRECT3D11
 
 #include "RendererD3D11.hpp"
-#include "BlendStateInterfaceD3D11.hpp"
-#include "TextureInterfaceD3D11.hpp"
-#include "ShaderInterfaceD3D11.hpp"
-#include "MeshBufferInterfaceD3D11.hpp"
-#include "BufferInterfaceD3D11.hpp"
+#include "BlendStateResourceD3D11.hpp"
+#include "TextureResourceD3D11.hpp"
+#include "ShaderResourceD3D11.hpp"
+#include "MeshBufferResourceD3D11.hpp"
+#include "BufferResourceD3D11.hpp"
 #include "TexturePSD3D11.h"
 #include "TextureVSD3D11.h"
 #include "ColorPSD3D11.h"
@@ -514,14 +514,14 @@ namespace ouzel
 
                 if (drawCommand.renderTarget)
                 {
-                    TextureInterfaceD3D11* renderTargetD3D11 = static_cast<TextureInterfaceD3D11*>(drawCommand.renderTarget);
+                    TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand.renderTarget);
 
                     if (!renderTargetD3D11->getRenderTargetView())
                     {
                         continue;
                     }
 
-                    TextureInterfaceD3D11* renderTargetTextureD3D11 = static_cast<TextureInterfaceD3D11*>(renderTargetD3D11);
+                    TextureResourceD3D11* renderTargetTextureD3D11 = static_cast<TextureResourceD3D11*>(renderTargetD3D11);
                     renderTargetWidth = renderTargetTextureD3D11->getWidth();
                     renderTargetHeight = renderTargetTextureD3D11->getHeight();
 
@@ -598,7 +598,7 @@ namespace ouzel
                 context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                 // shader
-                ShaderInterfaceD3D11* shaderD3D11 = static_cast<ShaderInterfaceD3D11*>(drawCommand.shader);
+                ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand.shader);
 
                 if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
                 {
@@ -612,7 +612,7 @@ namespace ouzel
                 context->IASetInputLayout(shaderD3D11->getInputLayout());
 
                 // pixel shader constants
-                const std::vector<ShaderInterfaceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
+                const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
 
                 if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                 {
@@ -624,7 +624,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
                 {
-                    const ShaderInterfaceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                    const ShaderResourceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
                     if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
@@ -647,7 +647,7 @@ namespace ouzel
                 context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
 
                 // vertex shader constants
-                const std::vector<ShaderInterfaceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
+                const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
 
                 if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                 {
@@ -659,7 +659,7 @@ namespace ouzel
 
                 for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
                 {
-                    const ShaderInterfaceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                    const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
                     if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
@@ -682,7 +682,7 @@ namespace ouzel
                 context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
                 // blend state
-                BlendStateInterfaceD3D11* blendStateD3D11 = static_cast<BlendStateInterfaceD3D11*>(drawCommand.blendState);
+                BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(drawCommand.blendState);
 
                 if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
                 {
@@ -697,11 +697,11 @@ namespace ouzel
 
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
-                    TextureInterfaceD3D11* textureD3D11 = nullptr;
+                    TextureResourceD3D11* textureD3D11 = nullptr;
 
                     if (drawCommand.textures.size() > layer)
                     {
-                        textureD3D11 = static_cast<TextureInterfaceD3D11*>(drawCommand.textures[layer]);
+                        textureD3D11 = static_cast<TextureResourceD3D11*>(drawCommand.textures[layer]);
                     }
 
                     if (textureD3D11)
@@ -739,9 +739,9 @@ namespace ouzel
                 context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                 // draw// mesh buffer
-                MeshBufferInterfaceD3D11* meshBufferD3D11 = static_cast<MeshBufferInterfaceD3D11*>(drawCommand.meshBuffer);
-                BufferInterfaceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
-                BufferInterfaceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
+                MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand.meshBuffer);
+                BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
+                BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
 
                 if (!meshBufferD3D11 ||
                     !indexBufferD3D11 ||
@@ -956,48 +956,48 @@ namespace ouzel
             return true;
         }
 
-        BlendStateInterface* RendererD3D11::createBlendState()
+        BlendStateResource* RendererD3D11::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BlendStateInterface* blendState = new BlendStateInterfaceD3D11(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(blendState));
+            BlendStateResource* blendState = new BlendStateResourceD3D11(this);
+            resources.push_back(std::unique_ptr<Resource>(blendState));
             return blendState;
         }
 
-        TextureInterface* RendererD3D11::createTexture()
+        TextureResource* RendererD3D11::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            TextureInterface* texture = new TextureInterfaceD3D11(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(texture));
+            TextureResource* texture = new TextureResourceD3D11(this);
+            resources.push_back(std::unique_ptr<Resource>(texture));
             return texture;
         }
 
-        ShaderInterface* RendererD3D11::createShader()
+        ShaderResource* RendererD3D11::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            ShaderInterface* shader = new ShaderInterfaceD3D11(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(shader));
+            ShaderResource* shader = new ShaderResourceD3D11(this);
+            resources.push_back(std::unique_ptr<Resource>(shader));
             return shader;
         }
 
-        MeshBufferInterface* RendererD3D11::createMeshBuffer()
+        MeshBufferResource* RendererD3D11::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            MeshBufferInterface* meshBuffer = new MeshBufferInterfaceD3D11();
-            resources.push_back(std::unique_ptr<ResourceInterface>(meshBuffer));
+            MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
+            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
             return meshBuffer;
         }
 
-        BufferInterface* RendererD3D11::createBuffer()
+        BufferResource* RendererD3D11::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            BufferInterface* buffer = new BufferInterfaceD3D11(this);
-            resources.push_back(std::unique_ptr<ResourceInterface>(buffer));
+            BufferResource* buffer = new BufferResourceD3D11(this);
+            resources.push_back(std::unique_ptr<Resource>(buffer));
             return buffer;
         }
 

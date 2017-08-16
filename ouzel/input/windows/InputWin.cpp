@@ -6,7 +6,7 @@
 #include <wbemidl.h>
 #include <oleauto.h>
 #include "InputWin.hpp"
-#include "CursorInterfaceWin.hpp"
+#include "CursorResourceWin.hpp"
 #include "GamepadDI.hpp"
 #include "GamepadXI.hpp"
 #include "core/Engine.hpp"
@@ -310,11 +310,11 @@ namespace ouzel
             }
         }
 
-        void InputWin::activateCursorResource(CursorInterface* resource)
+        void InputWin::activateCursorResource(CursorResource* resource)
         {
             Input::activateCursorResource(resource);
 
-            CursorInterfaceWin* cursorWin = static_cast<CursorInterfaceWin*>(resource);
+            CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
 
             if (cursorWin)
             {
@@ -328,12 +328,12 @@ namespace ouzel
             updateCursor();
         }
 
-        CursorInterface* InputWin::createCursorResource()
+        CursorResource* InputWin::createCursorResource()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::unique_ptr<CursorInterfaceWin> cursorResource(new CursorInterfaceWin());
-            CursorInterface* result = cursorResource.get();
+            std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
+            CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
 
