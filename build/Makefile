@@ -138,7 +138,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
 ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
-	$(ROOT_DIR)/../ouzel/audio/dsound/SoundResourceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
