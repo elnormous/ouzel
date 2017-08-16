@@ -37,7 +37,7 @@ PerspectiveSample::PerspectiveSample():
     // floor
     floorSprite.reset(new scene::Sprite());
     floorSprite->init("floor.jpg");
-    floorSprite->getMaterial()->texture->setMaxAnisotropy(4);
+    floorSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
 
     floor.reset(new scene::Node());
     floor->addComponent(floorSprite.get());
@@ -49,7 +49,7 @@ PerspectiveSample::PerspectiveSample():
     characterSprite.reset(new scene::Sprite());
     characterSprite->init("run.json");
     characterSprite->play(true);
-    characterSprite->getMaterial()->texture->setMaxAnisotropy(4);
+    characterSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
     characterSprite->getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 
     character.reset(new scene::Node());

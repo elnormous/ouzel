@@ -6,6 +6,7 @@
 #include <memory>
 #include "utils/Noncopyable.hpp"
 #include "Renderer.hpp"
+#include "Texture.hpp"
 #include "math/Color.hpp"
 
 namespace ouzel
@@ -21,7 +22,7 @@ namespace ouzel
         public:
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
-            std::shared_ptr<Texture> texture;
+            std::shared_ptr<Texture> textures[Texture::LAYERS];
             graphics::Renderer::CullMode cullMode = graphics::Renderer::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
         };

@@ -52,7 +52,7 @@ namespace ouzel
             material = std::make_shared<graphics::Material>();
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            material->texture = spriteDefinition.texture;
+            material->textures[0] = spriteDefinition.texture;
 
             frames = spriteDefinition.frames;
 
@@ -70,7 +70,7 @@ namespace ouzel
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             SpriteDefinition spriteDefinition = sharedEngine->getCache()->getSpriteDefinition(filename, mipmaps, spritesX, spritesY, pivot);
-            material->texture = spriteDefinition.texture;
+            material->textures[0] = spriteDefinition.texture;
             frames = spriteDefinition.frames;
 
             updateBoundingBox();
@@ -85,11 +85,11 @@ namespace ouzel
             material = std::make_shared<graphics::Material>();
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            material->texture = newTexture;
+            material->textures[0] = newTexture;
             frames.clear();
 
-            Size2 spriteSize = Size2(material->texture->getSize().v[0] / spritesX,
-                                     material->texture->getSize().v[1] / spritesY);
+            Size2 spriteSize = Size2(material->textures[0]->getSize().v[0] / spritesX,
+                                     material->textures[0]->getSize().v[1] / spritesY);
 
             for (uint32_t x = 0; x < spritesX; ++x)
             {
@@ -100,7 +100,7 @@ namespace ouzel
                                         spriteSize.v[0],
                                         spriteSize.v[1]);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(material->texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    scene::SpriteFrame frame = scene::SpriteFrame(material->textures[0]->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
                 }
             }
@@ -215,7 +215,11 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : material->texture},
+                std::vector<std::shared_ptr<graphics::Texture>> textures;
+                if (wireframe) textures.push_back(whitePixelTexture);
+                else textures.assign(std::begin(material->textures), std::end(material->textures));
+
+                sharedEngine->getRenderer()->addDrawCommand(textures,
                                                             material->shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
