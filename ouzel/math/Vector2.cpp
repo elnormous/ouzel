@@ -35,10 +35,9 @@ namespace ouzel
         return *this;
     }
 
-    Vector2::Vector2(const Vector4& vec)
+    Vector2::Vector2(const Vector4& vec):
+        x(vec.x), y(vec.y)
     {
-        x = vec.x;
-        y = vec.y;
     }
 
     Vector2& Vector2::operator=(const Vector4& vec)

@@ -28,14 +28,15 @@ namespace ouzel
         {
             struct
             {
-                float x = 0.0f;
-                float y = 0.0f;
-                float z = 0.0f;
+                float x;
+                float y;
+                float z;
             };
             float v[3];
         };
 
-        Vector3()
+        Vector3():
+            x(0.0f), y(0.0f), z(0.0f)
         {
         }
 

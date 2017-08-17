@@ -16,14 +16,15 @@ namespace ouzel
         {
             struct
             {
-                float width = 0.0f;
-                float height = 0.0f;
-                float depth = 0.0f;
+                float width;
+                float height;
+                float depth;
             };
             float v[3];
         };
 
-        Size3()
+        Size3():
+            width(0.0f), height(0.0f), depth(0.0f)
         {
         }
 

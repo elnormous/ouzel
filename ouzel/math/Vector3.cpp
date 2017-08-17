@@ -27,7 +27,7 @@ namespace ouzel
     }
 
     Vector3::Vector3(const Vector2& vec):
-        x(vec.x), y(vec.y)
+        x(vec.x), y(vec.y), z(0.0f)
     {
     }
 
@@ -45,9 +45,9 @@ namespace ouzel
         return *this;
     }
 
-    Vector3::Vector3(const Vector4& vec)
+    Vector3::Vector3(const Vector4& vec):
+        x(vec.x), y(vec.y), z(vec.z)
     {
-        set(vec.x, vec.y, vec.z);
     }
 
     Vector3& Vector3::operator=(const Vector4& vec)

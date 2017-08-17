@@ -35,15 +35,16 @@ namespace ouzel
 #endif
             struct
             {
-                float x = 0.0f;
-                float y = 0.0f;
-                float z = 0.0f;
-                float w = 0.0f;
+                float x;
+                float y;
+                float z;
+                float w;
             };
             float v[4];
         };
 
-        Vector4()
+        Vector4():
+            x(0.0f), y(0.0f), z(0.0f), w(0.0f)
         {
         }
 
