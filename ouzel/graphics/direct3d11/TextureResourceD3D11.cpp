@@ -357,8 +357,8 @@ namespace ouzel
                 depthStencilView = nullptr;
             }
 
-            width = static_cast<UINT>(size[0]);
-            height = static_cast<UINT>(size[1]);
+            width = static_cast<UINT>(size.width);
+            height = static_cast<UINT>(size.height);
 
             if (width > 0 && height > 0)
             {
