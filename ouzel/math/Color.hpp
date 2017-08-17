@@ -28,30 +28,36 @@ namespace ouzel
             GRAY = 0x808080ff
         };
 
-        uint8_t v[4];
+        union
+        {
+            struct
+            {
+                uint8_t r = 0;
+                uint8_t g = 0;
+                uint8_t b = 0;
+                uint8_t a = 0;
+            };
+            uint8_t v[4];
+        };
 
         Color()
         {
-            v[0] = 0;
-            v[1] = 0;
-            v[2] = 0;
-            v[3] = 0;
         }
 
-        Color(uint32_t color)
+        Color(uint32_t color):
+            r(static_cast<uint8_t>((color & 0xFF000000) >> 24)),
+            g(static_cast<uint8_t>((color & 0x00FF0000) >> 16)),
+            b(static_cast<uint8_t>((color & 0x0000FF00) >> 8)),
+            a(static_cast<uint8_t>(color & 0x000000FF))
         {
-            v[0] = static_cast<uint8_t>((color & 0xFF000000) >> 24);
-            v[1] = static_cast<uint8_t>((color & 0x00FF0000) >> 16);
-            v[2] = static_cast<uint8_t>((color & 0x0000FF00) >> 8);
-            v[3] = static_cast<uint8_t>(color & 0x000000FF);
         }
 
         Color& operator=(uint32_t color)
         {
-            v[0] = static_cast<uint8_t>((color & 0xFF000000) >> 24);
-            v[1] = static_cast<uint8_t>((color & 0x00FF0000) >> 16);
-            v[2] = static_cast<uint8_t>((color & 0x0000FF00) >> 8);
-            v[3] = static_cast<uint8_t>(color & 0x000000FF);
+            r = static_cast<uint8_t>((color & 0xFF000000) >> 24);
+            g = static_cast<uint8_t>((color & 0x00FF0000) >> 16);
+            b = static_cast<uint8_t>((color & 0x0000FF00) >> 8);
+            a = static_cast<uint8_t>(color & 0x000000FF);
 
             return *this;
         }
@@ -59,12 +65,9 @@ namespace ouzel
         Color(const std::string& color);
         Color& operator=(const std::string& color);
 
-        Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF)
+        Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 0xFF):
+            r(red), g(green), b(blue), a(alpha)
         {
-            v[0] = red;
-            v[1] = green;
-            v[2] = blue;
-            v[3] = alpha;
         }
 
         Color(const Vector3& vec);
@@ -73,28 +76,17 @@ namespace ouzel
         Color(const Vector4& vec);
         Color& operator=(const Vector4& vec);
 
-        uint8_t& r() { return v[0]; }
-        uint8_t& g() { return v[1]; }
-        uint8_t& b() { return v[2]; }
-        uint8_t& a() { return v[3]; }
-        uint8_t r() const { return v[0]; }
-        uint8_t g() const { return v[1]; }
-        uint8_t b() const { return v[2]; }
-        uint8_t a() const { return v[3]; }
-        uint8_t& operator[](size_t index) { return v[index]; }
-        uint8_t operator[](size_t index) const { return v[index]; }
-
-        float normR() const { return v[0] / 255.0f; }
-        float normG() const { return v[1] / 255.0f; }
-        float normB() const { return v[2] / 255.0f; }
-        float normA() const { return v[3] / 255.0f; }
+        float normR() const { return r / 255.0f; }
+        float normG() const { return g / 255.0f; }
+        float normB() const { return b / 255.0f; }
+        float normA() const { return a / 255.0f; }
 
         uint32_t getIntValue() const
         {
-            return (static_cast<uint32_t>(v[0]) << 24) |
-                   (static_cast<uint32_t>(v[1]) << 16) |
-                   (static_cast<uint32_t>(v[2]) << 8) |
-                   static_cast<uint32_t>(v[3]);
+            return (static_cast<uint32_t>(r) << 24) |
+                   (static_cast<uint32_t>(g) << 16) |
+                   (static_cast<uint32_t>(b) << 8) |
+                   static_cast<uint32_t>(a);
         }
     };
 } // namespace ouzel

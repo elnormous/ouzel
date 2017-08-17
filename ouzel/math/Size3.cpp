@@ -6,18 +6,16 @@
 
 namespace ouzel
 {
-    Size3::Size3(const Size2& s)
+    Size3::Size3(const Size2& s):
+        width(s.width), height(s.height)
     {
-        v[0] = s.v[0];
-        v[1] = s.v[1];
-        v[2] = 0.0f;
     }
 
     Size3& Size3::operator=(const Size2& s)
     {
-        v[0] = s.v[0];
-        v[1] = s.v[1];
-        v[2] = 0.0f;
+        width = s.width;
+        height = s.height;
+        depth = 0.0f;
         return *this;
     }
 }

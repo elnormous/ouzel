@@ -60,56 +60,56 @@ namespace ouzel
     {
         uint32_t intValue = parseColorString(color);
 
-        v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
-        v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
-        v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
-        v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
+        r = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+        g = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+        b = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+        a = static_cast<uint8_t>(intValue & 0x000000FF);
     }
 
     Color& Color::operator=(const std::string& color)
     {
         uint32_t intValue = parseColorString(color);
 
-        v[0] = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
-        v[1] = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
-        v[2] = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
-        v[3] = static_cast<uint8_t>(intValue & 0x000000FF);
+        r = static_cast<uint8_t>((intValue & 0xFF000000) >> 24);
+        g = static_cast<uint8_t>((intValue & 0x00FF0000) >> 16);
+        b = static_cast<uint8_t>((intValue & 0x0000FF00) >> 8);
+        a = static_cast<uint8_t>(intValue & 0x000000FF);
 
         return *this;
     }
 
     Color::Color(const Vector3& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
-        v[3] = 0;
+        r = static_cast<uint8_t>(vec.x * 255.0f);
+        g = static_cast<uint8_t>(vec.y * 255.0f);
+        b = static_cast<uint8_t>(vec.z * 255.0f);
+        a = 0;
     }
 
     Color& Color::operator=(const Vector3& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
-        v[3] = 0;
+        r = static_cast<uint8_t>(vec.x * 255.0f);
+        g = static_cast<uint8_t>(vec.y * 255.0f);
+        b = static_cast<uint8_t>(vec.z * 255.0f);
+        a = 0;
 
         return *this;
     }
 
     Color::Color(const Vector4& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
-        v[3] = static_cast<uint8_t>(vec.v[3] * 255.0f);
+        r = static_cast<uint8_t>(vec.x * 255.0f);
+        g = static_cast<uint8_t>(vec.y * 255.0f);
+        b = static_cast<uint8_t>(vec.z * 255.0f);
+        a = static_cast<uint8_t>(vec.w * 255.0f);
     }
 
     Color& Color::operator=(const Vector4& vec)
     {
-        v[0] = static_cast<uint8_t>(vec.v[0] * 255.0f);
-        v[1] = static_cast<uint8_t>(vec.v[1] * 255.0f);
-        v[2] = static_cast<uint8_t>(vec.v[2] * 255.0f);
-        v[3] = static_cast<uint8_t>(vec.v[3] * 255.0f);
+        r = static_cast<uint8_t>(vec.x * 255.0f);
+        g = static_cast<uint8_t>(vec.y * 255.0f);
+        b = static_cast<uint8_t>(vec.z * 255.0f);
+        a = static_cast<uint8_t>(vec.w * 255.0f);
 
         return *this;
     }

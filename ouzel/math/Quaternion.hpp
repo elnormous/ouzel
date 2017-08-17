@@ -14,42 +14,31 @@ namespace ouzel
         static const Quaternion IDENTITY;
         static const Quaternion ZERO;
 
-        float v[4];
+        union
+        {
+            struct
+            {
+                float x = 0.0f;
+                float y = 0.0f;
+                float z = 0.0f;
+                float w = 0.0f;
+            };
+            float v[4];
+        };
 
         Quaternion()
         {
-            v[0] = 0.0f;
-            v[1] = 0.0f;
-            v[2] = 0.0f;
-            v[3] = 0.0f;
         }
 
-        Quaternion(float aX, float aY, float aZ, float aW)
+        Quaternion(float aX, float aY, float aZ, float aW):
+            x(aX), y(aY), z(aZ), w(aW)
         {
-            v[0] = aX;
-            v[1] = aY;
-            v[2] = aZ;
-            v[3] = aW;
         }
 
-        Quaternion(const Quaternion& copy)
+        Quaternion(const Quaternion& copy):
+            x(copy.x), y(copy.y), z(copy.z), w(copy.w)
         {
-            v[0] = copy.v[0];
-            v[1] = copy.v[1];
-            v[2] = copy.v[2];
-            v[3] = copy.v[3];
         }
-
-        float& x() { return v[0]; }
-        float& y() { return v[1]; }
-        float& z() { return v[2]; }
-        float& w() { return v[3]; }
-        float x() const { return v[0]; }
-        float y() const { return v[1]; }
-        float z() const { return v[2]; }
-        float w() const { return v[3]; }
-        float& operator[](size_t index) { return v[index]; }
-        float operator[](size_t index) const { return v[index]; }
 
         Quaternion operator*(const Quaternion& q) const
         {

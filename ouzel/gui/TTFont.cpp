@@ -234,8 +234,8 @@ namespace ouzel
         int x = 0;
         for (const auto &c : glyphToBitmapData)
         {
-            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height());
-            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width());
+            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height);
+            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width);
             chars.at(c.first).x = static_cast<int16_t>(x);
             chars.at(c.first).y = 0;
             x += charWidth;

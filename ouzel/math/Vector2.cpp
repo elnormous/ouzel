@@ -23,96 +23,95 @@ namespace ouzel
         set(p1, p2);
     }
 
-    Vector2::Vector2(const Vector3& vec)
+    Vector2::Vector2(const Vector3& vec):
+        x(vec.x), y(vec.y)
     {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
     }
 
     Vector2& Vector2::operator=(const Vector3& vec)
     {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
+        x = vec.x;
+        y = vec.y;
         return *this;
     }
 
     Vector2::Vector2(const Vector4& vec)
     {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
+        x = vec.x;
+        y = vec.y;
     }
 
     Vector2& Vector2::operator=(const Vector4& vec)
     {
-        v[0] = vec.v[0];
-        v[1] = vec.v[1];
+        x = vec.x;
+        y = vec.y;
         return *this;
     }
 
     float Vector2::angle(const Vector2& v1, const Vector2& v2)
     {
-        float dz = v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0];
+        float dz = v1.x * v2.y - v1.y * v2.x;
         return atan2f(fabsf(dz) + FLOAT_SMALL, dot(v1, v2));
     }
 
     void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2& dst)
     {
-        dst.v[0] = v1.v[0] + v2.v[0];
-        dst.v[1] = v1.v[1] + v2.v[1];
+        dst.x = v1.x + v2.x;
+        dst.y = v1.y + v2.y;
     }
 
     void Vector2::clamp(const Vector2& min, const Vector2& max)
     {
-        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
+        assert(!(min.x > max.x || min.y > max.y));
 
         // clamp the x value
-        if (v[0] < min.v[0])
-            v[0] = min.v[0];
-        if (v[0] > max.v[0])
-            v[0] = max.v[0];
+        if (x < min.x)
+            x = min.x;
+        if (x > max.x)
+            x = max.x;
 
         // clamp the y value
-        if (v[1] < min.v[1])
-            v[1] = min.v[1];
-        if (v[1] > max.v[1])
-            v[1] = max.v[1];
+        if (y < min.y)
+            y = min.y;
+        if (y > max.y)
+            y = max.y;
     }
 
     void Vector2::clamp(const Vector2& vec, const Vector2& min, const Vector2& max, Vector2& dst)
     {
-        assert(!(min.v[0] > max.v[0] || min.v[1] > max.v[1]));
+        assert(!(min.x > max.x || min.y > max.y));
 
         // clamp the x value
-        dst.v[0] = vec.v[0];
-        if (dst.v[0] < min.v[0])
-            dst.v[0] = min.v[0];
-        if (dst.v[0] > max.v[0])
-            dst.v[0] = max.v[0];
+        dst.x = vec.x;
+        if (dst.x < min.x)
+            dst.x = min.x;
+        if (dst.x > max.x)
+            dst.x = max.x;
 
         // clamp the y value
-        dst.v[1] = vec.v[1];
-        if (dst.v[1] < min.v[1])
-            dst.v[1] = min.v[1];
-        if (dst.v[1] > max.v[1])
-            dst.v[1] = max.v[1];
+        dst.y = vec.y;
+        if (dst.y < min.y)
+            dst.y = min.y;
+        if (dst.y > max.y)
+            dst.y = max.y;
     }
 
     float Vector2::distance(const Vector2& vec) const
     {
-        float dx = vec.v[0] - v[0];
-        float dy = vec.v[1] - v[1];
+        float dx = vec.x - x;
+        float dy = vec.y - y;
 
         return sqrtf(dx * dx + dy * dy);
     }
 
     float Vector2::length() const
     {
-        return sqrtf(v[0] * v[0] + v[1] * v[1]);
+        return sqrtf(x * x + y * y);
     }
 
     void Vector2::normalize()
     {
-        float n = v[0] * v[0] + v[1] * v[1];
+        float n = x * x + y * y;
         if (n == 1.0f) // already normalized
             return;
 
@@ -121,8 +120,8 @@ namespace ouzel
             return;
 
         n = 1.0f / n;
-        v[0] *= n;
-        v[1] *= n;
+        x *= n;
+        y *= n;
     }
 
     void Vector2::rotate(float angle)
@@ -130,9 +129,9 @@ namespace ouzel
         float sinAngle = sinf(angle);
         float cosAngle = cosf(angle);
 
-        float tempX = v[0] * cosAngle - v[1] * sinAngle;
-        v[1] = v[1] * cosAngle + v[0] * sinAngle;
-        v[0] = tempX;
+        float tempX = x * cosAngle - y * sinAngle;
+        y = y * cosAngle + x * sinAngle;
+        x = tempX;
     }
 
     void Vector2::rotate(const Vector2& point, float angle)
@@ -142,17 +141,17 @@ namespace ouzel
 
         if (point.isZero())
         {
-            float tempX = v[0] * cosAngle - v[1] * sinAngle;
-            v[1] = v[1] * cosAngle + v[0] * sinAngle;
-            v[0] = tempX;
+            float tempX = x * cosAngle - y * sinAngle;
+            y = y * cosAngle + x * sinAngle;
+            x = tempX;
         }
         else
         {
-            float tempX = v[0] - point.v[0];
-            float tempY = v[1] - point.v[1];
+            float tempX = x - point.x;
+            float tempY = y - point.y;
 
-            v[0] = tempX * cosAngle - tempY * sinAngle + point.v[0];
-            v[1] = tempY * cosAngle + tempX * sinAngle + point.v[1];
+            x = tempX * cosAngle - tempY * sinAngle + point.x;
+            y = tempY * cosAngle + tempX * sinAngle + point.y;
         }
     }
 
@@ -166,11 +165,11 @@ namespace ouzel
 
     float Vector2::getMin() const
     {
-        return std::min(v[0], v[1]);
+        return std::min(x, y);
     }
 
     float Vector2::getMax() const
     {
-        return std::max(v[0], v[1]);
+        return std::max(x, y);
     }
 }

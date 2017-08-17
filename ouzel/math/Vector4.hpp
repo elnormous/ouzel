@@ -28,40 +28,35 @@ namespace ouzel
         static const Vector4 NEGATIVE_UNIT_Y;
         static const Vector4 NEGATIVE_UNIT_Z;
 
-#if OUZEL_SUPPORTS_SSE
         union
         {
+#if OUZEL_SUPPORTS_SSE
             __m128 s;
+#endif
+            struct
+            {
+                float x = 0.0f;
+                float y = 0.0f;
+                float z = 0.0f;
+                float w = 0.0f;
+            };
             float v[4];
         };
-#else
-        float v[4];
-#endif
 
         Vector4()
         {
-            v[0] = 0.0f;
-            v[1] = 0.0f;
-            v[2] = 0.0f;
-            v[3] = 0.0f;
         }
 
-        Vector4(float aX, float aY, float aZ, float aW)
+        Vector4(float aX, float aY, float aZ, float aW):
+            x(aX), y(aY), z(aZ), w(aW)
         {
-            v[0] = aX;
-            v[1] = aY;
-            v[2] = aZ;
-            v[3] = aW;
         }
 
         Vector4(const Vector4& p1, const Vector4& p2);
 
-        Vector4(const Vector4& copy)
+        Vector4(const Vector4& copy):
+            x(copy.x), y(copy.y), z(copy.z), w(copy.w)
         {
-            v[0] = copy.v[0];
-            v[1] = copy.v[1];
-            v[2] = copy.v[2];
-            v[3] = copy.v[3];
         }
 
         Vector4(const Vector2& v);
@@ -73,43 +68,32 @@ namespace ouzel
         Vector4(const Color& color);
         Vector4& operator=(const Color& color);
 
-        float& x() { return v[0]; }
-        float& y() { return v[1]; }
-        float& z() { return v[2]; }
-        float& w() { return v[3]; }
-        float x() const { return v[0]; }
-        float y() const { return v[1]; }
-        float z() const { return v[2]; }
-        float w() const { return v[3]; }
-        float& operator[](size_t index) { return v[index]; }
-        float operator[](size_t index) const { return v[index]; }
-
         bool isZero() const
         {
-            return v[0] == 0.0f && v[1] == 0.0f && v[2] == 0.0f && v[3] == 0.0f;
+            return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
         }
 
         bool isOne() const
         {
-            return v[0] == 1.0f && v[1] == 1.0f && v[2] == 1.0f && v[3] == 1.0f;
+            return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
         }
 
         static float angle(const Vector4& v1, const Vector4& v2);
 
         void add(const Vector4& vec)
         {
-            v[0] += vec.v[0];
-            v[1] += vec.v[1];
-            v[2] += vec.v[2];
-            v[3] += vec.v[3];
+            x += vec.x;
+            y += vec.y;
+            z += vec.z;
+            w += vec.w;
         }
 
         static void add(const Vector4& v1, const Vector4& v2, Vector4& dst)
         {
-            dst.v[0] = v1.v[0] + v2.v[0];
-            dst.v[1] = v1.v[1] + v2.v[1];
-            dst.v[2] = v1.v[2] + v2.v[2];
-            dst.v[3] = v1.v[3] + v2.v[3];
+            dst.x = v1.x + v2.x;
+            dst.y = v1.y + v2.y;
+            dst.z = v1.z + v2.z;
+            dst.w = v1.w + v2.w;
         }
 
         void clamp(const Vector4& min, const Vector4& max);
@@ -119,87 +103,87 @@ namespace ouzel
 
         float distanceSquared(const Vector4& vec) const
         {
-            float dx = vec.v[0] - v[0];
-            float dy = vec.v[1] - v[1];
-            float dz = vec.v[2] - v[2];
-            float dw = vec.v[3] - v[3];
+            float dx = vec.x - x;
+            float dy = vec.y - y;
+            float dz = vec.z - z;
+            float dw = vec.w - w;
 
             return dx * dx + dy * dy + dz * dz + dw * dw;
         }
 
         float dot(const Vector4& vec) const
         {
-            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3] * vec.v[3];
+            return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
         }
 
         static float dot(const Vector4& v1, const Vector4& v2)
         {
-            return v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1] + v1.v[2] * v2.v[2] + v1.v[3] * v2.v[3];
+            return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
         }
 
         float length() const;
 
         float lengthSquared() const
         {
-            return v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+            return x * x + y * y + z * z + w * w;
         }
 
         void negate()
         {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-            v[3] = -v[3];
+            x = -x;
+            y = -y;
+            z = -z;
+            w = -w;
         }
 
         void normalize();
 
         void scale(float scalar)
         {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            v[3] *= scalar;
+            x *= scalar;
+            y *= scalar;
+            z *= scalar;
+            w *= scalar;
         }
 
         void scale(const Vector4& scale)
         {
-            v[0] *= scale.v[0];
-            v[1] *= scale.v[1];
-            v[2] *= scale.v[2];
-            v[3] *= scale.v[3];
+            x *= scale.x;
+            y *= scale.y;
+            z *= scale.z;
+            w *= scale.w;
         }
 
         void set(float newX, float newY, float newZ, float newW)
         {
-            v[0] = newX;
-            v[1] = newY;
-            v[2] = newZ;
-            v[3] = newW;
+            x = newX;
+            y = newY;
+            z = newZ;
+            w = newW;
         }
 
         void set(const Vector4& p1, const Vector4& p2)
         {
-            v[0] = p2.v[0] - p1.v[0];
-            v[1] = p2.v[1] - p1.v[1];
-            v[2] = p2.v[2] - p1.v[2];
-            v[3] = p2.v[3] - p1.v[3];
+            x = p2.x - p1.x;
+            y = p2.y - p1.y;
+            z = p2.z - p1.z;
+            w = p2.w - p1.w;
         }
 
         void subtract(const Vector4& vec)
         {
-            v[0] -= vec.v[0];
-            v[1] -= vec.v[1];
-            v[2] -= vec.v[2];
-            v[3] -= vec.v[3];
+            x -= vec.x;
+            y -= vec.y;
+            z -= vec.z;
+            w -= vec.w;
         }
 
         static void subtract(const Vector4& v1, const Vector4& v2, Vector4& dst)
         {
-            dst.v[0] = v1.v[0] - v2.v[0];
-            dst.v[1] = v1.v[1] - v2.v[1];
-            dst.v[2] = v1.v[2] - v2.v[2];
-            dst.v[3] = v1.v[3] - v2.v[3];
+            dst.x = v1.x - v2.x;
+            dst.y = v1.y - v2.y;
+            dst.z = v1.z - v2.z;
+            dst.w = v1.w - v2.w;
         }
 
         void smooth(const Vector4& target, float elapsedTime, float responseTime);
@@ -236,7 +220,7 @@ namespace ouzel
 
         inline Vector4 operator-() const
         {
-            return Vector4(-v[0], -v[1], -v[2], -v[3]);
+            return Vector4(-x, -y, -z, -w);
         }
 
         inline Vector4 operator*(float scalar) const
@@ -254,43 +238,43 @@ namespace ouzel
 
         inline Vector4 operator/(float scalar) const
         {
-            return Vector4(v[0] / scalar, v[1] / scalar, v[2] / scalar, v[3] / scalar);
+            return Vector4(x / scalar, y / scalar, z / scalar, w / scalar);
         }
 
         inline Vector4& operator/=(float scalar)
         {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            v[2] /= scalar;
-            v[3] /= scalar;
+            x /= scalar;
+            y /= scalar;
+            z /= scalar;
+            w /= scalar;
             return *this;
         }
 
         inline bool operator<(const Vector4& vec) const
         {
-            if (v[0] == vec.v[0])
+            if (x == vec.x)
             {
-                if (v[1] == vec.v[1])
+                if (y == vec.y)
                 {
-                    if (v[2] == vec.v[2])
+                    if (z == vec.z)
                     {
-                        return v[3] < vec.v[3];
+                        return w < vec.w;
                     }
-                    return v[2] < vec.v[2];
+                    return z < vec.z;
                 }
-                return v[1] < vec.v[1];
+                return y < vec.y;
             }
-            return v[0] < vec.v[0];
+            return x < vec.x;
         }
 
         inline bool operator==(const Vector4& vec) const
         {
-            return v[0] == vec.v[0] && v[1] == vec.v[1] && v[2] == vec.v[2] && v[3] == vec.v[3];
+            return x == vec.x && y == vec.y && z == vec.z && w == vec.w;
         }
 
         inline bool operator!=(const Vector4& vec) const
         {
-            return v[0] != vec.v[0] || v[1] != vec.v[1] || v[2] != vec.v[2] || v[3] != vec.v[3];
+            return x != vec.x || y != vec.y || z != vec.z || w != vec.w;
         }
     };
 

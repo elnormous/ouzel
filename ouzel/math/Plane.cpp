@@ -9,12 +9,12 @@ namespace ouzel
 {
     float Plane::dot(const Vector4& vec) const
     {
-        return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
+        return a * vec.x + b * vec.y + c * vec.z + d;
     }
 
     void Plane::normalize()
     {
-        float n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
+        float n = a * a + b * b + c * c + d * d;
         if (n == 1.0f) // already normalized
             return;
 
@@ -23,9 +23,9 @@ namespace ouzel
             return;
 
         n = 1.0f / n;
-        v[0] *= n;
-        v[1] *= n;
-        v[2] *= n;
-        v[3] *= n;
+        a *= n;
+        b *= n;
+        c *= n;
+        d *= n;
     }
 }
