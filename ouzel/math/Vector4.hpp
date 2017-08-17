@@ -29,6 +29,10 @@ namespace ouzel
         static const Vector4 NEGATIVE_UNIT_Z;
 
 #if OUZEL_SUPPORTS_SSE
+#ifdef _MSC_VER
+    #pragma warning(push)
+    #pragma warning(disable:4201)
+#endif
         union
         {
             __m128 s;
@@ -41,6 +45,9 @@ namespace ouzel
                 float w;
             };
         };
+#ifdef _MSC_VER
+    #pragma warning(pop)
+#endif
 #else
         float x;
         float y;
