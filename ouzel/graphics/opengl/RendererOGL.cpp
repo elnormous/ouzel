@@ -200,8 +200,8 @@ namespace ouzel
                 return false;
             }
 
-            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+            frameBufferWidth = static_cast<GLsizei>(size.width);
+            frameBufferHeight = static_cast<GLsizei>(size.height);
 
             //const GLubyte* deviceVendor = glGetString(GL_VENDOR);
             const GLubyte* deviceName = glGetString(GL_RENDERER);
@@ -731,8 +731,8 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
             clearDepthValue = clearDepth;
 
-            frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+            frameBufferWidth = static_cast<GLsizei>(size.width);
+            frameBufferHeight = static_cast<GLsizei>(size.height);
 
             dirty = false;
 
@@ -1050,8 +1050,8 @@ namespace ouzel
 
                 setViewport(static_cast<GLint>(drawCommand.viewport.position.v[0]),
                             static_cast<GLint>(drawCommand.viewport.position.v[1]),
-                            static_cast<GLsizei>(drawCommand.viewport.size.v[0]),
-                            static_cast<GLsizei>(drawCommand.viewport.size.v[1]));
+                            static_cast<GLsizei>(drawCommand.viewport.size.width),
+                            static_cast<GLsizei>(drawCommand.viewport.size.height));
 
                 if (newClearMask)
                 {
@@ -1093,8 +1093,8 @@ namespace ouzel
                 setScissorTest(drawCommand.scissorTest,
                                static_cast<GLint>(drawCommand.scissorRectangle.position.v[0]),
                                static_cast<GLint>(drawCommand.scissorRectangle.position.v[1]),
-                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.v[0]),
-                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.v[1]));
+                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.width),
+                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.height));
 
                 // mesh buffer
                 MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand.meshBuffer);

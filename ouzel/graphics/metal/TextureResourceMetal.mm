@@ -142,8 +142,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
+                                                               static_cast<NSUInteger>(levels[level].size.width),
+                                                               static_cast<NSUInteger>(levels[level].size.height))
                                    mipmapLevel:level withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                     }
@@ -161,8 +161,8 @@ namespace ouzel
             }
 
             if (!texture ||
-                static_cast<NSUInteger>(size.v[0]) != width ||
-                static_cast<NSUInteger>(size.v[1]) != height)
+                static_cast<NSUInteger>(size.width) != width ||
+                static_cast<NSUInteger>(size.height) != height)
             {
                 if (!createTexture())
                 {
@@ -181,8 +181,8 @@ namespace ouzel
             }
 
             if (!texture ||
-                static_cast<NSUInteger>(size.v[0]) != width ||
-                static_cast<NSUInteger>(size.v[1]) != height)
+                static_cast<NSUInteger>(size.width) != width ||
+                static_cast<NSUInteger>(size.height) != height)
             {
                 if (!createTexture())
                 {
@@ -197,8 +197,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         [texture replaceRegion:MTLRegionMake2D(0, 0,
-                                                               static_cast<NSUInteger>(levels[level].size.v[0]),
-                                                               static_cast<NSUInteger>(levels[level].size.v[1]))
+                                                               static_cast<NSUInteger>(levels[level].size.width),
+                                                               static_cast<NSUInteger>(levels[level].size.height))
                                    mipmapLevel:level withBytes:levels[level].data.data()
                                    bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
                     }
@@ -337,8 +337,8 @@ namespace ouzel
                 depthTexture = nil;
             }
 
-            width = static_cast<NSUInteger>(size.v[0]);
-            height = static_cast<NSUInteger>(size.v[1]);
+            width = static_cast<NSUInteger>(size.width);
+            height = static_cast<NSUInteger>(size.height);
 
             if (width > 0 && height > 0)
             {
@@ -381,8 +381,8 @@ namespace ouzel
                 if (sampleCount > 1)
                 {
                     MTLTextureDescriptor* textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:static_cast<MTLPixelFormat>(colorFormat)
-                                                                                                                 width:static_cast<NSUInteger>(size.v[0])
-                                                                                                                height:static_cast<NSUInteger>(size.v[1])
+                                                                                                                 width:width
+                                                                                                                height:height
                                                                                                              mipmapped:NO];
                     textureDescriptor.textureType = MTLTextureType2DMultisample;
                     textureDescriptor.storageMode = MTLStorageModePrivate;

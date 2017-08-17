@@ -12,18 +12,10 @@ namespace ouzel
     class Size2
     {
     public:
-        union
-        {
-            struct
-            {
-                float width;
-                float height;
-            };
-            float v[2];
-        };
+        float width = 0.0f;
+        float height = 0.0f;
 
-        Size2():
-            width(0.0f), height(0.0f)
+        Size2()
         {
         }
 

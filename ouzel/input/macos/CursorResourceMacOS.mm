@@ -81,8 +81,8 @@ namespace ouzel
                 NSInteger bytesPerPixel = graphics::getPixelSize(pixelFormat);
                 NSInteger channelSize = graphics::getChannelSize(pixelFormat);
                 NSInteger channelCount = graphics::getChannelCount(pixelFormat);
-                NSInteger width = static_cast<NSInteger>(size.v[0]);
-                NSInteger height = static_cast<NSInteger>(size.v[1]);
+                NSInteger width = static_cast<NSInteger>(size.width);
+                NSInteger height = static_cast<NSInteger>(size.height);
 
                 unsigned char* rgba = data.data();
 
@@ -102,7 +102,7 @@ namespace ouzel
 
                 [image addRepresentation:rep];
                 cursor = [[NSCursor alloc] initWithImage:image
-                                                 hotSpot:NSMakePoint(hotSpot.v[0], size.v[1] - hotSpot.v[1] - 1.0f)];
+                                                 hotSpot:NSMakePoint(hotSpot.v[0], size.height - hotSpot.v[1] - 1.0f)];
 
                 [image release];
                 [rep release];

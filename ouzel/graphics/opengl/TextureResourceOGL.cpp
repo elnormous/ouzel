@@ -244,8 +244,8 @@ namespace ouzel
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                 static_cast<GLsizei>(levels[level].size.v[0]),
-                                 static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                 static_cast<GLsizei>(levels[level].size.width),
+                                 static_cast<GLsizei>(levels[level].size.height), 0,
                                  oglPixelFormat, oglPixelType,
                                  nullptr);
                 }
@@ -384,16 +384,16 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.v[0]),
-                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      levels[level].data.data());
                     }
                     else
                     {
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.v[0]),
-                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      nullptr);
                     }
@@ -510,11 +510,11 @@ namespace ouzel
 
             rendererOGL->bindTexture(textureId, 0);
 
-            if (static_cast<GLsizei>(size.v[0]) != width ||
-                static_cast<GLsizei>(size.v[1]) != height)
+            if (static_cast<GLsizei>(size.width) != width ||
+                static_cast<GLsizei>(size.height) != height)
             {
-                width = static_cast<GLsizei>(size.v[0]);
-                height = static_cast<GLsizei>(size.v[1]);
+                width = static_cast<GLsizei>(size.width);
+                height = static_cast<GLsizei>(size.height);
 
                 if (!levels.empty())
                 {
@@ -525,8 +525,7 @@ namespace ouzel
                 if (flags & Texture::RENDER_TARGET)
                 {
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                 static_cast<GLsizei>(size.v[0]),
-                                 static_cast<GLsizei>(size.v[1]), 0,
+                                 width, height, 0,
                                  getOGLPixelFormat(pixelFormat), oglPixelType, 0);
 
                     if (flags & Texture::DEPTH_BUFFER)
@@ -538,14 +537,12 @@ namespace ouzel
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
                                                                  GL_DEPTH_COMPONENT,
-                                                                 static_cast<GLsizei>(size.v[0]),
-                                                                 static_cast<GLsizei>(size.v[1]));
+                                                                 width, height);
                         }
                         else
                         {
                             glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                      static_cast<GLsizei>(size.v[0]),
-                                                      static_cast<GLsizei>(size.v[1]));
+                                                      width, height);
                         }
                     }
 
@@ -561,8 +558,8 @@ namespace ouzel
                     {
                         // resize all the mip levels
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.v[0]),
-                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      nullptr);
                     }
@@ -593,11 +590,11 @@ namespace ouzel
 
             rendererOGL->bindTexture(textureId, 0);
 
-            if (static_cast<GLsizei>(size.v[0]) != width ||
-                static_cast<GLsizei>(size.v[1]) != height)
+            if (static_cast<GLsizei>(size.width) != width ||
+                static_cast<GLsizei>(size.height) != height)
             {
-                width = static_cast<GLsizei>(size.v[0]);
-                height = static_cast<GLsizei>(size.v[1]);
+                width = static_cast<GLsizei>(size.width);
+                height = static_cast<GLsizei>(size.height);
 
                 if (!levels.empty())
                 {
@@ -611,8 +608,8 @@ namespace ouzel
                     {
                         // resize and fill all the mip levels with data
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.v[0]),
-                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      levels[level].data.data());
                     }
@@ -620,8 +617,8 @@ namespace ouzel
                     {
                         // resize all the mip levels
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.v[0]),
-                                     static_cast<GLsizei>(levels[level].size.v[1]), 0,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
                                      nullptr);
                     }
@@ -634,8 +631,8 @@ namespace ouzel
                     if (!levels[level].data.empty())
                     {
                         glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(levels[level].size.v[0]),
-                                        static_cast<GLsizei>(levels[level].size.v[1]),
+                                        static_cast<GLsizei>(levels[level].size.width),
+                                        static_cast<GLsizei>(levels[level].size.height),
                                         oglPixelFormat, oglPixelType,
                                         levels[level].data.data());
                     }
@@ -886,8 +883,8 @@ namespace ouzel
 
             rendererOGL->bindTexture(textureId, 0);
 
-            width = static_cast<GLsizei>(size.v[0]);
-            height = static_cast<GLsizei>(size.v[1]);
+            width = static_cast<GLsizei>(size.width);
+            height = static_cast<GLsizei>(size.height);
 
             oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, rendererOGL->getAPIMajorVersion());
 
@@ -933,8 +930,7 @@ namespace ouzel
                     rendererOGL->bindTexture(textureId, 0);
 
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                 static_cast<GLsizei>(size.v[0]),
-                                 static_cast<GLsizei>(size.v[1]), 0,
+                                 width, height, 0,
                                  getOGLPixelFormat(pixelFormat), oglPixelType, 0);
 
                     // TODO: blit multisample render buffer to texture
@@ -950,14 +946,12 @@ namespace ouzel
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
                                                                  GL_DEPTH_COMPONENT,
-                                                                 static_cast<GLsizei>(size.v[0]),
-                                                                 static_cast<GLsizei>(size.v[1]));
+                                                                 width, height);
                         }
                         else
                         {
                             glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
-                                                      static_cast<GLsizei>(size.v[0]),
-                                                      static_cast<GLsizei>(size.v[1]));
+                                                      width, height);
                         }
 
                         glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);

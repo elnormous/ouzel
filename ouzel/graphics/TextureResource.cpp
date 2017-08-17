@@ -69,7 +69,7 @@ namespace ouzel
                 return false;
             }
 
-            if (newSize.v[0] <= 0.0f || newSize.v[1] <= 0.0f)
+            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
             {
                 return false;
             }
@@ -92,7 +92,7 @@ namespace ouzel
                 return false;
             }
 
-            if (newSize.v[0] <= 0.0f || newSize.v[1] <= 0.0f)
+            if (newSize.width <= 0.0f || newSize.height <= 0.0f)
             {
                 return false;
             }
@@ -118,8 +118,8 @@ namespace ouzel
             levels.clear();
             size = newSize;
 
-            uint32_t newWidth = static_cast<uint32_t>(newSize.v[0]);
-            uint32_t newHeight = static_cast<uint32_t>(newSize.v[1]);
+            uint32_t newWidth = static_cast<uint32_t>(newSize.width);
+            uint32_t newHeight = static_cast<uint32_t>(newSize.height);
 
             uint32_t pixelSize = getPixelSize(pixelFormat);
             uint32_t pitch = newWidth * pixelSize;
@@ -509,8 +509,8 @@ namespace ouzel
 
             for (uint32_t level = 1; level < static_cast<uint32_t>(levels.size()); ++level)
             {
-                uint32_t previousWidth = static_cast<uint32_t>(levels[level - 1].size.v[0]);
-                uint32_t previousHeight = static_cast<uint32_t>(levels[level - 1].size.v[1]);
+                uint32_t previousWidth = static_cast<uint32_t>(levels[level - 1].size.width);
+                uint32_t previousHeight = static_cast<uint32_t>(levels[level - 1].size.height);
                 uint32_t previousPitch = static_cast<uint32_t>(levels[level - 1].pitch);
 
                 if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());

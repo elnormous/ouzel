@@ -174,17 +174,17 @@ namespace ouzel
 
             if (spriteDefinition.texture)
             {
-                Size2 spriteSize = Size2(spriteDefinition.texture->getSize().v[0] / spritesX,
-                                         spriteDefinition.texture->getSize().v[1] / spritesY);
+                Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
+                                         spriteDefinition.texture->getSize().height / spritesY);
 
                 for (uint32_t x = 0; x < spritesX; ++x)
                 {
                     for (uint32_t y = 0; y < spritesY; ++y)
                     {
-                        Rectangle rectangle(spriteSize.v[0] * x,
-                                            spriteSize.v[1] * y,
-                                            spriteSize.v[0],
-                                            spriteSize.v[1]);
+                        Rectangle rectangle(spriteSize.width * x,
+                                            spriteSize.height * y,
+                                            spriteSize.width,
+                                            spriteSize.height);
 
                         scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                         spriteDefinition.frames.push_back(frame);
@@ -222,17 +222,17 @@ namespace ouzel
 
                 if (spriteDefinition.texture)
                 {
-                    Size2 spriteSize = Size2(spriteDefinition.texture->getSize().v[0] / spritesX,
-                                             spriteDefinition.texture->getSize().v[1] / spritesY);
+                    Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
+                                             spriteDefinition.texture->getSize().height / spritesY);
 
                     for (uint32_t x = 0; x < spritesX; ++x)
                     {
                         for (uint32_t y = 0; y < spritesY; ++y)
                         {
-                            Rectangle rectangle(spriteSize.v[0] * x,
-                                                spriteSize.v[1] * y,
-                                                spriteSize.v[0],
-                                                spriteSize.v[1]);
+                            Rectangle rectangle(spriteSize.width * x,
+                                                spriteSize.height * y,
+                                                spriteSize.width,
+                                                spriteSize.height);
 
                             scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                             spriteDefinition.frames.push_back(frame);

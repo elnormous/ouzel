@@ -10,20 +10,12 @@ namespace ouzel
     class Plane
     {
     public:
-        union
-        {
-            struct
-            {
-                float a;
-                float b;
-                float c;
-                float d;
-            };
-            float v[4];
-        };
+        float a = 0.0f;
+        float b = 0.0f;
+        float c = 0.0f;
+        float d = 0.0f;
 
-        Plane():
-            a(0.0f), b(0.0f), c(0.0f), d(0.0f)
+        Plane()
         {
         }
 

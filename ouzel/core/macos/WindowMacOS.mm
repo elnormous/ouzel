@@ -108,13 +108,13 @@ namespace ouzel
 
         if (highDpi)
         {
-            windowSize.width = size.v[0];
-            windowSize.height = size.v[1];
+            windowSize.width = size.width;
+            windowSize.height = size.height;
         }
         else
         {
-            windowSize.width = round(size.v[0] / screen.backingScaleFactor);
-            windowSize.height = round(size.v[1] / screen.backingScaleFactor);
+            windowSize.width = round(size.width / screen.backingScaleFactor);
+            windowSize.height = round(size.height / screen.backingScaleFactor);
         }
 
         if (windowSize.width <= 0.0f) windowSize.width = round(screen.frame.size.width * 0.6);
@@ -182,13 +182,13 @@ namespace ouzel
         {
             contentScale = static_cast<float>(window.backingScaleFactor);
 
-            size.v[0] = static_cast<float>(windowSize.width);
-            size.v[1] = static_cast<float>(windowSize.height);
+            size.width = static_cast<float>(windowSize.width);
+            size.height = static_cast<float>(windowSize.height);
         }
         else
         {
-            size.v[0] = static_cast<float>(windowSize.width * window.backingScaleFactor);
-            size.v[1] = static_cast<float>(windowSize.height * window.backingScaleFactor);
+            size.width = static_cast<float>(windowSize.width * window.backingScaleFactor);
+            size.height = static_cast<float>(windowSize.height * window.backingScaleFactor);
         }
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
@@ -240,7 +240,7 @@ namespace ouzel
             NSRect frame = [window frame];
 
             NSRect newFrame = [NSWindow frameRectForContentRect:
-                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.v[0], newSize.v[1])
+                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
                                                       styleMask:[window styleMask]];
 
             if (frame.size.width != newFrame.size.width ||

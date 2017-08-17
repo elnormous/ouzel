@@ -292,10 +292,10 @@ namespace ouzel
         }
 
         std::string widthValue = userSettings.getValue("engine", "width", defaultSettings.getValue("engine", "width"));
-        if (!widthValue.empty()) size.v[0] = std::stof(widthValue);
+        if (!widthValue.empty()) size.width = std::stof(widthValue);
 
         std::string heightValue = userSettings.getValue("engine", "height", defaultSettings.getValue("engine", "height"));
-        if (!heightValue.empty()) size.v[1] = std::stof(heightValue);
+        if (!heightValue.empty()) size.height = std::stof(heightValue);
 
         std::string sampleCountValue = userSettings.getValue("engine", "sampleCount", defaultSettings.getValue("engine", "sampleCount"));
         if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));

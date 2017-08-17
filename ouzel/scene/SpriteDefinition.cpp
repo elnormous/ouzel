@@ -85,8 +85,8 @@ namespace ouzel
 
                     const Size2& textureSize = spriteDefinition.texture->getSize();
 
-                    Vector2 finalOffset(-sourceSize.v[0] * pivot.x + sourceOffset.x,
-                                        -sourceSize.v[1] * pivot.y + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.y));
+                    Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                        -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
                     for (size_t vertexIndex = 0; vertexIndex < verticesObject.size(); ++vertexIndex)
                     {
@@ -97,8 +97,8 @@ namespace ouzel
                                                                        -static_cast<float>(vertexObject[1].get<int32_t>()) - finalOffset.y,
                                                                        0.0f),
                                                                Color::WHITE,
-                                                               Vector2(static_cast<float>(vertexUVObject[0].get<int32_t>()) / textureSize.v[0],
-                                                                       static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.v[1])));
+                                                               Vector2(static_cast<float>(vertexUVObject[0].get<int32_t>()) / textureSize.width,
+                                                                       static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.height)));
                     }
 
                     spriteDefinition.frames.push_back(SpriteFrame(indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));

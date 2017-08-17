@@ -312,10 +312,10 @@ namespace ouzel
 
         bool RendererMetal::upload()
         {
-            if (metalLayer.drawableSize.width != size.v[0] ||
-                metalLayer.drawableSize.height != size.v[1])
+            if (metalLayer.drawableSize.width != size.width ||
+                metalLayer.drawableSize.height != size.height)
             {
-                CGSize drawableSize = CGSizeMake(size.v[0], size.v[1]);
+                CGSize drawableSize = CGSizeMake(size.width, size.height);
                 metalLayer.drawableSize = drawableSize;
             }
             
@@ -552,9 +552,9 @@ namespace ouzel
                 }
 
                 viewport.originX = static_cast<double>(drawCommand.viewport.position.v[0]);
-                viewport.originY = static_cast<double>(renderTargetHeight - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]));
-                viewport.width = static_cast<double>(drawCommand.viewport.size.v[0]);
-                viewport.height = static_cast<double>(drawCommand.viewport.size.v[1]);
+                viewport.originY = static_cast<double>(renderTargetHeight - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.height));
+                viewport.width = static_cast<double>(drawCommand.viewport.size.width);
+                viewport.height = static_cast<double>(drawCommand.viewport.size.height);
 
                 [currentRenderCommandEncoder setViewport: viewport];
                 [currentRenderCommandEncoder setTriangleFillMode:drawCommand.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
@@ -562,9 +562,9 @@ namespace ouzel
                 if (drawCommand.scissorTest)
                 {
                     scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[0]);
-                    scissorRect.y = renderTargetHeight - static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]);
-                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[0]);
-                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.v[1]);
+                    scissorRect.y = renderTargetHeight - static_cast<NSUInteger>(drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.height);
+                    scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.width);
+                    scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.height);
                     if (scissorRect.x >= renderTargetWidth) scissorRect.x = renderTargetWidth - 1;
                     if (scissorRect.y >= renderTargetHeight) scissorRect.y = renderTargetHeight - 1;
                     if (scissorRect.width > renderTargetWidth - scissorRect.x) scissorRect.width = renderTargetWidth - scissorRect.x;

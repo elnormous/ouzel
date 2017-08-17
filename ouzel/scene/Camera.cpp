@@ -69,17 +69,17 @@ namespace ouzel
                 renderTarget->getSize() :
                 sharedEngine->getRenderer()->getSize();
 
-            renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
-            renderViewport.position.v[1] = renderTargetSize.v[1] * viewport.position.v[1];
-            renderViewport.size.v[0] = renderTargetSize.v[0] * viewport.size.v[0];
-            renderViewport.size.v[1] = renderTargetSize.v[1] * viewport.size.v[1];
+            renderViewport.position.x = renderTargetSize.width * viewport.position.x;
+            renderViewport.position.y = renderTargetSize.height * viewport.position.y;
+            renderViewport.size.width = renderTargetSize.width * viewport.size.width;
+            renderViewport.size.height = renderTargetSize.height * viewport.size.height;
 
-            assert(renderViewport.size.v[0] > 0.0f && renderViewport.size.v[1] > 0.0f);
+            assert(renderViewport.size.width > 0.0f && renderViewport.size.height > 0.0f);
 
-            if (targetContentSize.v[0] > 0.0f && targetContentSize.v[1] > 0.0f)
+            if (targetContentSize.width > 0.0f && targetContentSize.height > 0.0f)
             {
-                contentScale.v[0] = renderViewport.size.v[0] / targetContentSize.v[0];
-                contentScale.v[1] = renderViewport.size.v[1] / targetContentSize.v[1];
+                contentScale.x = renderViewport.size.width / targetContentSize.width;
+                contentScale.y = renderViewport.size.height / targetContentSize.height;
 
                 switch (scaleMode)
                 {
@@ -105,14 +105,14 @@ namespace ouzel
                     }
                 }
 
-                contentSize = Size2(renderViewport.size.v[0] / contentScale.v[0], renderViewport.size.v[1] / contentScale.v[1]);
-                contentPosition = Vector2((contentSize.v[0] - targetContentSize.v[0]) / 2.0f,
-                                          (contentSize.v[1] - targetContentSize.v[1]) / 2.0f);
+                contentSize = Size2(renderViewport.size.width / contentScale.x, renderViewport.size.height / contentScale.y);
+                contentPosition = Vector2((contentSize.width - targetContentSize.width) / 2.0f,
+                                          (contentSize.height - targetContentSize.height) / 2.0f);
             }
             else
             {
                 contentScale = Vector2(1.0f, 1.0f);
-                contentSize = Size2(renderViewport.size.v[0], renderViewport.size.v[1]);
+                contentSize = Size2(renderViewport.size.width, renderViewport.size.height);
                 contentPosition = Vector2(0.0f, 0.0f);
             }
 
@@ -122,10 +122,10 @@ namespace ouzel
                     // do nothing
                     break;
                 case Type::ORTHOGRAPHIC:
-                    Matrix4::createOrthographicFromSize(contentSize.v[0], contentSize.v[1], -1.0f, 1.0f, projection);
+                    Matrix4::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0f, 1.0f, projection);
                     break;
                 case Type::PERSPECTIVE:
-                    Matrix4::createPerspective(fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane, projection);
+                    Matrix4::createPerspective(fov, contentSize.width / contentSize.height, nearPlane, farPlane, projection);
                     break;
             }
 
@@ -179,8 +179,8 @@ namespace ouzel
         Vector3 Camera::convertNormalizedToWorld(const Vector2& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5f) * 2.0f,
-                                     ((normalizedPosition.v[1] - viewport.position.v[1]) / viewport.size.v[1] - 0.5f) * 2.0f,
+            Vector3 result = Vector3(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.width - 0.5f) * 2.0f,
+                                     ((normalizedPosition.v[1] - viewport.position.v[1]) / viewport.size.height - 0.5f) * 2.0f,
                                      0.0f);
 
             getInverseViewProjection().transformPoint(result);
@@ -194,8 +194,8 @@ namespace ouzel
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized
-            return Vector2((result.v[0] / 2.0f + 0.5f) * viewport.size.v[0] + viewport.position.v[0],
-                           (result.v[1] / 2.0f + 0.5f) * viewport.size.v[1] + viewport.position.v[1]);
+            return Vector2((result.v[0] / 2.0f + 0.5f) * viewport.size.width + viewport.position.v[0],
+                           (result.v[1] / 2.0f + 0.5f) * viewport.size.height + viewport.position.v[1]);
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const
@@ -227,20 +227,20 @@ namespace ouzel
                 // convert content size to world coordinates
                 Size2 halfWorldSize;
 
-                halfWorldSize.v[0] = std::max(fabsf(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
-                                               fabsf(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4]));
-                halfWorldSize.v[1] = std::max(fabsf(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
-                                                fabsf(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]));
+                halfWorldSize.width = std::max(fabsf(halfSize.width * boxTransform.m[0] + halfSize.height * boxTransform.m[4]),
+                                               fabsf(halfSize.width * boxTransform.m[0] - halfSize.height * boxTransform.m[4]));
+                halfWorldSize.height = std::max(fabsf(halfSize.width * boxTransform.m[1] + halfSize.height * boxTransform.m[5]),
+                                                fabsf(halfSize.width * boxTransform.m[1] - halfSize.height * boxTransform.m[5]));
 
                 // scale half size by camera projection to get the size in clip space coordinates
-                halfWorldSize.v[0] *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0f;
-                halfWorldSize.v[1] *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
+                halfWorldSize.width *= (fabsf(viewProjection.m[0]) + fabsf(viewProjection.m[4])) / 2.0f;
+                halfWorldSize.height *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
 
                 // create visible rect in clip space
-                Rectangle visibleRect(-halfWorldSize.v[0],
-                                      -halfWorldSize.v[1],
-                                      1.0f + halfWorldSize.v[0] * 2.0f,
-                                      1.0f + halfWorldSize.v[1] * 2.0f);
+                Rectangle visibleRect(-halfWorldSize.width,
+                                      -halfWorldSize.height,
+                                      1.0f + halfWorldSize.width * 2.0f,
+                                      1.0f + halfWorldSize.height * 2.0f);
 
                 return visibleRect.containsPoint(v2p);
             }

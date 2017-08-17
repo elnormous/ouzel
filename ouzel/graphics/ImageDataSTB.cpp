@@ -69,8 +69,8 @@ namespace ouzel
 
             stbi_image_free(tempData);
 
-            size.v[0] = static_cast<float>(width);
-            size.v[1] = static_cast<float>(height);
+            size.width = static_cast<float>(width);
+            size.height = static_cast<float>(height);
 
             return true;
         }
@@ -78,8 +78,8 @@ namespace ouzel
         bool ImageDataSTB::writeToFile(const std::string& newFilename)
         {
             int depth = static_cast<int>(getPixelSize(pixelFormat));
-            int width = static_cast<int>(size.v[0]);
-            int height = static_cast<int>(size.v[1]);
+            int width = static_cast<int>(size.width);
+            int height = static_cast<int>(size.height);
 
             if (!stbi_write_png(newFilename.c_str(), width, height, depth, data.data(), width * depth))
             {

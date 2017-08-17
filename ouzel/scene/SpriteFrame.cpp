@@ -23,16 +23,16 @@ namespace ouzel
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
             Vector2 textCoords[4];
-            Vector2 finalOffset(-sourceSize.v[0] * pivot.x + sourceOffset.x,
-                                -sourceSize.v[1] * pivot.y + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.y));
+            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
             if (!rotated)
             {
-                Vector2 leftTop(frameRectangle.position.x / textureSize.v[0],
-                                frameRectangle.position.y / textureSize.v[1]);
+                Vector2 leftTop(frameRectangle.position.x / textureSize.width,
+                                frameRectangle.position.y / textureSize.height);
 
-                Vector2 rightBottom((frameRectangle.position.x + frameRectangle.size.v[0]) / textureSize.v[0],
-                                    (frameRectangle.position.y + frameRectangle.size.v[1]) / textureSize.v[1]);
+                Vector2 rightBottom((frameRectangle.position.x + frameRectangle.size.width) / textureSize.width,
+                                    (frameRectangle.position.y + frameRectangle.size.height) / textureSize.height);
 
                 textCoords[0] = Vector2(leftTop.x, rightBottom.y);
                 textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
@@ -41,11 +41,11 @@ namespace ouzel
             }
             else
             {
-                Vector2 leftTop = Vector2(frameRectangle.position.x / textureSize.v[0],
-                                          frameRectangle.position.y / textureSize.v[1]);
+                Vector2 leftTop = Vector2(frameRectangle.position.x / textureSize.width,
+                                          frameRectangle.position.y / textureSize.height);
 
-                Vector2 rightBottom = Vector2((frameRectangle.position.x + frameRectangle.size.v[1]) / textureSize.v[0],
-                                              (frameRectangle.position.y + frameRectangle.size.v[0]) / textureSize.v[1]);
+                Vector2 rightBottom = Vector2((frameRectangle.position.x + frameRectangle.size.height) / textureSize.width,
+                                              (frameRectangle.position.y + frameRectangle.size.width) / textureSize.height);
 
                 textCoords[0] = Vector2(leftTop.x, leftTop.y);
                 textCoords[1] = Vector2(leftTop.x, rightBottom.y);
@@ -55,15 +55,15 @@ namespace ouzel
 
             std::vector<graphics::VertexPCT> vertices = {
                 graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), Color::WHITE, textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.v[0], finalOffset.y, 0.0f), Color::WHITE, textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.v[1], 0.0f),  Color::WHITE, textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.v[0], finalOffset.y + frameRectangle.size.v[1], 0.0f),  Color::WHITE, textCoords[3])
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0f), Color::WHITE, textCoords[1]),
+                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE, textCoords[2]),
+                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE, textCoords[3])
             };
 
-            boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.v[0], frameRectangle.size.v[1]));
+            boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
 
             rectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                  sourceSize.v[0], sourceSize.v[1]);
+                                  sourceSize.width, sourceSize.height);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
@@ -87,11 +87,11 @@ namespace ouzel
                 boundingBox.insertPoint(vertex.position);
             }
 
-            Vector2 finalOffset(-sourceSize.v[0] * pivot.x + sourceOffset.x,
-                                -sourceSize.v[1] * pivot.y + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.y));
+            Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
+                                -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
             rectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                  sourceSize.v[0], sourceSize.v[1]);
+                                  sourceSize.width, sourceSize.height);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);

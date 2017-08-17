@@ -86,17 +86,17 @@ namespace ouzel
             material->textures[0] = newTexture;
             frames.clear();
 
-            Size2 spriteSize = Size2(material->textures[0]->getSize().v[0] / spritesX,
-                                     material->textures[0]->getSize().v[1] / spritesY);
+            Size2 spriteSize = Size2(material->textures[0]->getSize().width / spritesX,
+                                     material->textures[0]->getSize().height / spritesY);
 
             for (uint32_t x = 0; x < spritesX; ++x)
             {
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    Rectangle rectangle(spriteSize.v[0] * x,
-                                        spriteSize.v[1] * y,
-                                        spriteSize.v[0],
-                                        spriteSize.v[1]);
+                    Rectangle rectangle(spriteSize.width * x,
+                                        spriteSize.height * y,
+                                        spriteSize.width,
+                                        spriteSize.height);
 
                     scene::SpriteFrame frame = scene::SpriteFrame(material->textures[0]->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
@@ -330,7 +330,7 @@ namespace ouzel
             }
             else
             {
-                size.v[0] = size.v[1] = 0.0f;
+                size.width = size.height = 0.0f;
                 boundingBox.reset();
             }
         }

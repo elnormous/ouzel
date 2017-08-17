@@ -114,7 +114,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
+                s += std::to_string(val.x) + "," + std::to_string(val.y);
             }
 
             return *this;
@@ -124,8 +124,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                    std::to_string(val.v[2]);
+                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
+                    std::to_string(val.z);
             }
 
             return *this;
@@ -135,8 +135,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                    std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
+                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
+                    std::to_string(val.z) + "," + std::to_string(val.w);
             }
 
             return *this;
@@ -146,8 +146,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                    std::to_string(val.v[2]) + "," + std::to_string(val.v[3]);
+                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
+                    std::to_string(val.z) + "," + std::to_string(val.w);
             }
 
             return *this;
@@ -157,7 +157,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]);
+                s += std::to_string(val.width) + "," + std::to_string(val.height);
             }
 
             return *this;
@@ -167,8 +167,8 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-                s += std::to_string(val.v[0]) + "," + std::to_string(val.v[1]) + "," +
-                    std::to_string(val.v[2]);
+                s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
+                    std::to_string(val.depth);
             }
 
             return *this;
