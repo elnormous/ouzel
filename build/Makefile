@@ -226,13 +226,13 @@ $(LIBRARY): $(OBJECTS)
 -include $(DEPENDENCIES)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
 
 %.o: %.mm
-	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD $< -o $@
+	$(CXX) -fno-objc-arc $(CXXFLAGS) -MMD -MP $< -o $@
 
 %.o: %.m
-	$(CC) -fno-objc-arc $(CFLAGS) -MMD $< -o $@
+	$(CC) -fno-objc-arc $(CFLAGS) -MMD -MP $< -o $@
 
 .PHONY: clean
 clean:

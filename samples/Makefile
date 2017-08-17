@@ -87,10 +87,10 @@ $(OBJECTS): Prefix.hpp.gch
 -include $(DEPENDENCIES)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
 
 %.hpp.gch: %.hpp
-	$(CXX) $(CXXFLAGS) -MMD $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
 
 .PHONY: ouzel
 ouzel:
