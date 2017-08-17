@@ -28,11 +28,11 @@ namespace ouzel
         static const Vector4 NEGATIVE_UNIT_Y;
         static const Vector4 NEGATIVE_UNIT_Z;
 
+#if OUZEL_SUPPORTS_SSE
         union
         {
-#if OUZEL_SUPPORTS_SSE
             __m128 s;
-#endif
+
             struct
             {
                 float x;
@@ -40,8 +40,13 @@ namespace ouzel
                 float z;
                 float w;
             };
-            float v[4];
         };
+#else
+        float x;
+        float y;
+        float z;
+        float w;
+#endif
 
         Vector4():
             x(0.0f), y(0.0f), z(0.0f), w(0.0f)

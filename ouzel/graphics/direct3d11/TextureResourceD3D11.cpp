@@ -150,8 +150,8 @@ namespace ouzel
             }
 
             if (!texture ||
-                static_cast<UINT>(size.v[0]) != width ||
-                static_cast<UINT>(size.v[1]) != height)
+                static_cast<UINT>(size.width) != width ||
+                static_cast<UINT>(size.height) != height)
             {
                 if (!createTexture())
                 {
@@ -170,8 +170,8 @@ namespace ouzel
             }
 
             if (!texture ||
-                static_cast<UINT>(size.v[0]) != width ||
-                static_cast<UINT>(size.v[1]) != height)
+                static_cast<UINT>(size.width) != width ||
+                static_cast<UINT>(size.height) != height)
             {
                 if (!createTexture())
                 {
@@ -212,8 +212,8 @@ namespace ouzel
                             else
                             {
                                 auto source = levels[level].data.begin();
-                                UINT rowSize = static_cast<UINT>(levels[level].size.v[0]) * getPixelSize(pixelFormat);
-                                UINT rows = static_cast<UINT>(levels[level].size.v[1]);
+                                UINT rowSize = static_cast<UINT>(levels[level].size.width) * getPixelSize(pixelFormat);
+                                UINT rows = static_cast<UINT>(levels[level].size.height);
 
                                 for (UINT row = 0; row < rows; ++row)
                                 {

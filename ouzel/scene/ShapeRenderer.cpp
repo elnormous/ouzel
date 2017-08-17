@@ -130,7 +130,7 @@ namespace ouzel
 
                 Vector2 tangent = finish - start;
                 tangent.normalize();
-                Vector2 normal(-tangent.v[1], tangent.v[0]);
+                Vector2 normal(-tangent.y, tangent.x);
 
                 float halfThickness = thickness / 2.0f;
 
@@ -188,8 +188,8 @@ namespace ouzel
 
                 for (uint32_t i = 0; i <= segments; ++i)
                 {
-                    vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                                  (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
+                    vertices.push_back(graphics::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
+                                                                  (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
                                                                   0.0f), color));
                 }
 
@@ -214,8 +214,8 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + radius * cosf(i * TAU / static_cast<float>(segments))),
-                                                                      (position.v[1] + radius * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::VertexPC(Vector3((position.x + radius * cosf(i * TAU / static_cast<float>(segments))),
+                                                                      (position.y + radius * sinf(i * TAU / static_cast<float>(segments))),
                                                                       0.0f), color));
                     }
 
@@ -239,12 +239,12 @@ namespace ouzel
 
                     for (uint32_t i = 0; i <= segments; ++i)
                     {
-                        vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
-                                                                      (position.v[1] + (radius - halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::VertexPC(Vector3((position.x + (radius - halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                                                                      (position.y + (radius - halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
                                                                       0.0f), color));
 
-                        vertices.push_back(graphics::VertexPC(Vector3((position.v[0] + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
-                                                                      (position.v[1] + (radius + halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
+                        vertices.push_back(graphics::VertexPC(Vector3((position.x + (radius + halfThickness) * cosf(i * TAU / static_cast<float>(segments))),
+                                                                      (position.y + (radius + halfThickness) * sinf(i * TAU / static_cast<float>(segments))),
                                                                       0.0f), color));
                     }
 

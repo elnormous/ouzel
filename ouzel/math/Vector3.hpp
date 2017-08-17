@@ -24,19 +24,11 @@ namespace ouzel
         static const Vector3 NEGATIVE_UNIT_Y;
         static const Vector3 NEGATIVE_UNIT_Z;
 
-        union
-        {
-            struct
-            {
-                float x;
-                float y;
-                float z;
-            };
-            float v[3];
-        };
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
 
-        Vector3():
-            x(0.0f), y(0.0f), z(0.0f)
+        Vector3()
         {
         }
 

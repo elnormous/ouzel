@@ -412,8 +412,8 @@ namespace ouzel
                 WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
                 CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
-                CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
-                                                      screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
+                CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,
+                                                      screenOrigin.y + windowOrigin.y + windowLocation.y));
             });
         }
 

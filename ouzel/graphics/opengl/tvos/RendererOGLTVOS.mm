@@ -185,8 +185,8 @@ namespace ouzel
                 return false;
             }
 
-            frameBufferWidth = static_cast<GLsizei>(newSize.v[0]);
-            frameBufferHeight = static_cast<GLsizei>(newSize.v[1]);
+            frameBufferWidth = static_cast<GLsizei>(newSize.width);
+            frameBufferHeight = static_cast<GLsizei>(newSize.height);
 
             if (!createFrameBuffer())
             {
@@ -352,11 +352,11 @@ namespace ouzel
 
         bool RendererOGLTVOS::upload()
         {
-            if (frameBufferWidth != static_cast<GLsizei>(size.v[0]) ||
-                frameBufferHeight != static_cast<GLsizei>(size.v[1]))
+            if (frameBufferWidth != static_cast<GLsizei>(size.width) ||
+                frameBufferHeight != static_cast<GLsizei>(size.height))
             {
-                frameBufferWidth = static_cast<GLsizei>(size.v[0]);
-                frameBufferHeight = static_cast<GLsizei>(size.v[1]);
+                frameBufferWidth = static_cast<GLsizei>(size.width);
+                frameBufferHeight = static_cast<GLsizei>(size.height);
 
                 if (!createFrameBuffer())
                 {

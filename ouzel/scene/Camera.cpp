@@ -89,18 +89,18 @@ namespace ouzel
                     }
                     case ScaleMode::EXACT_FIT:
                     {
-                        contentScale.v[0] = 1.0f;
-                        contentScale.v[1] = 1.0f;
+                        contentScale.x = 1.0f;
+                        contentScale.y = 1.0f;
                         break;
                     }
                     case ScaleMode::NO_BORDER:
                     {
-                        contentScale.v[0] = contentScale.v[1] = std::max(contentScale.v[0], contentScale.v[1]);
+                        contentScale.x = contentScale.y = std::max(contentScale.x, contentScale.y);
                         break;
                     }
                     case ScaleMode::SHOW_ALL:
                     {
-                        contentScale.v[0] = contentScale.v[1] = std::min(contentScale.v[0], contentScale.v[1]);
+                        contentScale.x = contentScale.y = std::min(contentScale.x, contentScale.y);
                         break;
                     }
                 }
@@ -179,8 +179,8 @@ namespace ouzel
         Vector3 Camera::convertNormalizedToWorld(const Vector2& normalizedPosition) const
         {
             // convert window normalized to viewport clip position
-            Vector3 result = Vector3(((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.width - 0.5f) * 2.0f,
-                                     ((normalizedPosition.v[1] - viewport.position.v[1]) / viewport.size.height - 0.5f) * 2.0f,
+            Vector3 result = Vector3(((normalizedPosition.x - viewport.position.x) / viewport.size.width - 0.5f) * 2.0f,
+                                     ((normalizedPosition.y - viewport.position.y) / viewport.size.height - 0.5f) * 2.0f,
                                      0.0f);
 
             getInverseViewProjection().transformPoint(result);
@@ -194,8 +194,8 @@ namespace ouzel
             getViewProjection().transformPoint(result);
 
             // convert viewport clip position to window normalized
-            return Vector2((result.v[0] / 2.0f + 0.5f) * viewport.size.width + viewport.position.v[0],
-                           (result.v[1] / 2.0f + 0.5f) * viewport.size.height + viewport.position.v[1]);
+            return Vector2((result.x / 2.0f + 0.5f) * viewport.size.width + viewport.position.x,
+                           (result.y / 2.0f + 0.5f) * viewport.size.height + viewport.position.y);
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const
@@ -206,23 +206,23 @@ namespace ouzel
                 Vector2 diff = boundingBox.max - boundingBox.min;
 
                 // offset the center point, so that it is relative to 0,0
-                Vector3 v3p(boundingBox.min.v[0] + diff.v[0] / 2.0f, boundingBox.min.v[1] + diff.v[1] / 2.0f, 0.0f);
+                Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
 
                 // apply local transform to the center point
                 boxTransform.transformPoint(v3p);
 
                 // tranform the center to viewport's clip space
                 Vector4 clipPos;
-                getViewProjection().transformVector(Vector4(v3p.v[0], v3p.v[1], v3p.v[2], 1.0f), clipPos);
+                getViewProjection().transformVector(Vector4(v3p.x, v3p.y, v3p.z, 1.0f), clipPos);
 
-                assert(clipPos.v[3] != 0.0f);
+                assert(clipPos.w != 0.0f);
 
                 // normalize position of the center point
-                Vector2 v2p((clipPos.v[0] / clipPos.v[3] + 1.0f) * 0.5f,
-                            (clipPos.v[1] / clipPos.v[3] + 1.0f) * 0.5f);
+                Vector2 v2p((clipPos.x / clipPos.w + 1.0f) * 0.5f,
+                            (clipPos.y / clipPos.w + 1.0f) * 0.5f);
 
                 // calculate half size
-                Size2 halfSize(diff.v[0] / 2.0f, diff.v[1] / 2.0f);
+                Size2 halfSize(diff.x / 2.0f, diff.y / 2.0f);
 
                 // convert content size to world coordinates
                 Size2 halfWorldSize;

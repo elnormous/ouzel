@@ -49,42 +49,42 @@ namespace ouzel
         {
             for (const Plane& plane : planes)
             {
-                if (plane.dot(Vector4(box.min.v[0], box.min.v[1], box.min.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.min.y, box.min.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.v[0], box.min.v[1], box.min.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.min.y, box.min.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.v[0], box.max.v[1], box.min.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.max.y, box.min.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.v[0], box.min.v[1], box.max.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.min.y, box.max.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.v[0], box.max.v[1], box.min.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.max.y, box.min.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.v[0], box.min.v[1], box.max.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.min.y, box.max.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.v[0], box.max.v[1], box.max.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.max.y, box.max.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.v[0], box.max.v[1], box.max.v[2], 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.max.y, box.max.z, 1.0f)) >= 0.0f)
                 {
                     continue;
                 }

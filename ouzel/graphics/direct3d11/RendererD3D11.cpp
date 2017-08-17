@@ -185,8 +185,8 @@ namespace ouzel
 
             WindowWin* windowWin = static_cast<WindowWin*>(window);
 
-            frameBufferWidth = static_cast<UINT>(newSize.v[0]);
-            frameBufferHeight = static_cast<UINT>(newSize.v[1]);
+            frameBufferWidth = static_cast<UINT>(newSize.width);
+            frameBufferHeight = static_cast<UINT>(newSize.height);
 
             UINT qualityLevels;
             UINT supportedSampleCount;
@@ -446,8 +446,8 @@ namespace ouzel
             clearFrameBufferView = clearColorBuffer;
             clearDepthBufferView = clearDepthBuffer;
 
-            if (static_cast<UINT>(size.v[0]) != frameBufferWidth ||
-                static_cast<UINT>(size.v[1]) != frameBufferHeight)
+            if (static_cast<UINT>(size.width) != frameBufferWidth ||
+                static_cast<UINT>(size.height) != frameBufferHeight)
             {
                 if (!resizeBackBuffer(0, 0))
                 {
@@ -557,10 +557,10 @@ namespace ouzel
 
                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
-                viewport.TopLeftX = drawCommand.viewport.position.v[0];
-                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight) - (drawCommand.viewport.position.v[1] + drawCommand.viewport.size.v[1]);
-                viewport.Width = drawCommand.viewport.size.v[0];
-                viewport.Height = drawCommand.viewport.size.v[1];
+                viewport.TopLeftX = drawCommand.viewport.position.x;
+                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight) - (drawCommand.viewport.position.y + drawCommand.viewport.size.height);
+                viewport.Width = drawCommand.viewport.size.width;
+                viewport.Height = drawCommand.viewport.size.height;
                 context->RSSetViewports(1, &viewport);
 
                 if (newClearFrameBufferView)
@@ -577,10 +577,10 @@ namespace ouzel
                 if (drawCommand.scissorTest)
                 {
                     D3D11_RECT rect;
-                    rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0]);
-                    rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.v[1] + drawCommand.scissorRectangle.size.v[1]));
-                    rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.v[0] + drawCommand.scissorRectangle.size.v[0]);
-                    rect.bottom = static_cast<LONG>(renderTargetHeight - drawCommand.scissorRectangle.position.v[1]);
+                    rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.x);
+                    rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height));
+                    rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.x + drawCommand.scissorRectangle.size.width);
+                    rect.bottom = static_cast<LONG>(renderTargetHeight - drawCommand.scissorRectangle.position.y);
                     context->RSSetScissorRects(1, &rect);
                 }
 

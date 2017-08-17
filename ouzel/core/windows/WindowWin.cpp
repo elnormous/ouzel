@@ -130,8 +130,8 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
         for (const TOUCHINPUT& touch : touches)
         {
-            position.v[0] = static_cast<float>(touch.x / 100);
-            position.v[1] = static_cast<float>(touch.y / 100);
+            position.width = static_cast<float>(touch.x / 100);
+            position.height = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
@@ -400,13 +400,13 @@ namespace ouzel
 
         windowStyle = windowWindowedStyle;
 
-        RECT windowRect = { 0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1]) };
+        RECT windowRect = {0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height)};
         AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
-        if (size.v[0] > 0.0f) width = windowRect.right - windowRect.left;
-        if (size.v[1] > 0.0f) height = windowRect.bottom - windowRect.top;
+        if (size.width > 0.0f) width = windowRect.right - windowRect.left;
+        if (size.height > 0.0f) height = windowRect.bottom - windowRect.top;
 
         wchar_t titleBuffer[256] = L"";
 
@@ -433,8 +433,8 @@ namespace ouzel
         }
 
         GetClientRect(window, &windowRect);
-        size.v[0] = static_cast<float>(windowRect.right - windowRect.left);
-        size.v[1] = static_cast<float>(windowRect.bottom - windowRect.top);
+        size.width = static_cast<float>(windowRect.right - windowRect.left);
+        size.height = static_cast<float>(windowRect.bottom - windowRect.top);
 
         if (!RegisterTouchWindow(window, 0))
         {
@@ -459,8 +459,8 @@ namespace ouzel
     void WindowWin::setSize(const Size2& newSize)
     {
         sharedEngine->executeOnMainThread([this, newSize] {
-            UINT width = static_cast<UINT>(newSize.v[0]);
-            UINT height = static_cast<UINT>(newSize.v[1]);
+            UINT width = static_cast<UINT>(newSize.width);
+            UINT height = static_cast<UINT>(newSize.height);
 
             UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 

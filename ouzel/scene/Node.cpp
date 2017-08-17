@@ -108,8 +108,8 @@ namespace ouzel
 
         void Node::setPosition(const Vector2& newPosition)
         {
-            position.v[0] = newPosition.v[0];
-            position.v[1] = newPosition.v[1];
+            position.x = newPosition.x;
+            position.y = newPosition.y;
 
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
@@ -150,8 +150,8 @@ namespace ouzel
 
         void Node::setScale(const Vector2& newScale)
         {
-            scale.v[0] = newScale.v[0];
-            scale.v[1] = newScale.v[1];
+            scale.x = newScale.x;
+            scale.y = newScale.y;
 
             localTransformDirty = transformDirty = inverseTransformDirty = true;
         }
@@ -214,7 +214,7 @@ namespace ouzel
 
                 inverse.transformPoint(transformedEdge);
 
-                transformedEdges.push_back(Vector2(transformedEdge.v[0], transformedEdge.v[1]));
+                transformedEdges.push_back(Vector2(transformedEdge.x, transformedEdge.y));
             }
 
             for (Component* component : components)
@@ -268,9 +268,9 @@ namespace ouzel
             localTransform.translate(position);
             localTransform *= rotation.getMatrix();
 
-            Vector3 realScale = Vector3(scale.v[0] * (flipX ? -1.0f : 1.0f),
-                                        scale.v[1] * (flipY ? -1.0f : 1.0f),
-                                        scale.v[2]);
+            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
+                                        scale.y * (flipY ? -1.0f : 1.0f),
+                                        scale.z);
 
             localTransform.scale(realScale);
 

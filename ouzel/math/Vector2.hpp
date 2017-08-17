@@ -21,18 +21,10 @@ namespace ouzel
         static const Vector2 NEGATIVE_UNIT_X;
         static const Vector2 NEGATIVE_UNIT_Y;
 
-        union
-        {
-            struct
-            {
-                float x;
-                float y;
-            };
-            float v[2];
-        };
+        float x = 0.0f;
+        float y = 0.0f;
 
-        Vector2():
-            x(0.0f), y(0.0f)
+        Vector2()
         {
         }
 

@@ -64,8 +64,8 @@ namespace ouzel
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
 
-        if (size.v[0] <= 0.0f) size.v[0] = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
-        if (size.v[1] <= 0.0f) size.v[1] = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
+        if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
+        if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
         switch(sharedEngine->getRenderer()->getDriver())
         {
@@ -76,7 +76,7 @@ namespace ouzel
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
                 window = XCreateWindow(display, RootWindow(display, screenIndex), 0, 0,
-                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
+                                       static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                        0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
                                        CWBackPixel | CWEventMask, &swa);
 
@@ -116,7 +116,7 @@ namespace ouzel
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
                 window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
-                                       static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
+                                       static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                        0, visualInfo->depth, InputOutput, visualInfo->visual,
                                        CWBorderPixel | CWColormap | CWEventMask, &swa);
                 break;
@@ -176,8 +176,8 @@ namespace ouzel
         {
             sharedEngine->executeOnMainThread([this, newSize] {
                 XWindowChanges changes;
-                changes.width = static_cast<int>(newSize.v[0]);
-                changes.height = static_cast<int>(newSize.v[1]);
+                changes.width = static_cast<int>(newSize.width);
+                changes.height = static_cast<int>(newSize.height);
                 XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
             });
         }

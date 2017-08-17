@@ -104,8 +104,8 @@ namespace ouzel
                 return false;
             }
 
-            uint32_t width = static_cast<uint32_t>(newSize.v[0]);
-            uint32_t height = static_cast<uint32_t>(newSize.v[1]);
+            uint32_t width = static_cast<uint32_t>(newSize.width);
+            uint32_t height = static_cast<uint32_t>(newSize.height);
 
             VC_RECT_T dstRect;
             dstRect.x = 0;

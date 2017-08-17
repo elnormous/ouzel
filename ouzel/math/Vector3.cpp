@@ -27,7 +27,7 @@ namespace ouzel
     }
 
     Vector3::Vector3(const Vector2& vec):
-        x(vec.x), y(vec.y), z(0.0f)
+        x(vec.x), y(vec.y)
     {
     }
 

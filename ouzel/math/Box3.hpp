@@ -39,31 +39,31 @@ namespace ouzel
 
         Vector3 getCenter()
         {
-            return Vector3(0.5f * (min.v[0] + max.v[0]),
-                           0.5f * (min.v[1] + max.v[1]),
-                           0.5f * (min.v[2] + max.v[2]));
+            return Vector3(0.5f * (min.x + max.x),
+                           0.5f * (min.y + max.y),
+                           0.5f * (min.z + max.z));
         }
 
         void getCorners(Vector3* dst) const;
 
         bool intersects(const Box3& aabb) const
         {
-            return !(aabb.min.v[0] > max.v[0] ||
-                     aabb.max.v[0] < min.v[0] ||
-                     aabb.min.v[1] > max.v[1] ||
-                     aabb.max.v[1] < min.v[1] ||
-                     aabb.min.v[2] > max.v[2] ||
-                     aabb.max.v[2] < min.v[2]);
+            return !(aabb.min.x > max.x ||
+                     aabb.max.x < min.x ||
+                     aabb.min.y > max.y ||
+                     aabb.max.y < min.y ||
+                     aabb.min.z > max.z ||
+                     aabb.max.z < min.z);
         }
 
         bool containsPoint(const Vector3& point) const
         {
-            if (point.v[0] < min.v[0]) return false;
-            if (point.v[1] < min.v[1]) return false;
-            if (point.v[2] < min.v[2]) return false;
-            if (point.v[0] > max.v[0]) return false;
-            if (point.v[1] > max.v[1]) return false;
-            if (point.v[2] > max.v[2]) return false;
+            if (point.x < min.x) return false;
+            if (point.y < min.y) return false;
+            if (point.z < min.z) return false;
+            if (point.x > max.x) return false;
+            if (point.y > max.y) return false;
+            if (point.z > max.z) return false;
             return true;
         }
 
@@ -83,17 +83,17 @@ namespace ouzel
 
         bool isEmpty() const
         {
-            return min.v[0] > max.v[0] || min.v[1] > max.v[1] || min.v[2] > max.v[2];
+            return min.x > max.x || min.y > max.y || min.z > max.z;
         }
 
         void insertPoint(const Vector3& point)
         {
-            if (point.v[0] < min.v[0]) min.v[0] = point.v[0];
-            if (point.v[0] > max.v[0]) max.v[0] = point.v[0];
-            if (point.v[1] < min.v[1]) min.v[1] = point.v[1];
-            if (point.v[1] > max.v[1]) max.v[1] = point.v[1];
-            if (point.v[2] < min.v[2]) min.v[2] = point.v[2];
-            if (point.v[2] > max.v[2]) max.v[2] = point.v[2];
+            if (point.x < min.x) min.x = point.x;
+            if (point.x > max.x) max.x = point.x;
+            if (point.y < min.y) min.y = point.y;
+            if (point.y > max.y) max.y = point.y;
+            if (point.z < min.z) min.z = point.z;
+            if (point.z > max.z) max.z = point.z;
         }
 
         inline Box3 operator+(const Vector3& v) const
@@ -126,7 +126,7 @@ namespace ouzel
 
         inline Size3 getSize() const
         {
-            return Size3(max.v[0] - min.v[0], max.v[1] - min.v[1], max.v[2] - min.v[2]);
+            return Size3(max.x - min.x, max.y - min.y, max.z - min.z);
         }
     };
 }

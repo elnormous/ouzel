@@ -399,11 +399,11 @@ namespace ouzel
 
                                     if (event->code == ABS_X)
                                     {
-                                        absolutePos.v[0] = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).v[0];
+                                        absolutePos.x = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        absolutePos.v[1] = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).v[1];
+                                        absolutePos.y = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
                                     }
 
                                     mouseMove(absolutePos, getModifiers());
@@ -414,11 +414,11 @@ namespace ouzel
 
                                     if (event->code == REL_X)
                                     {
-                                        relativePos.v[0] = static_cast<float>(event->value);
+                                        relativePos.x = static_cast<float>(event->value);
                                     }
                                     else if (event->code == REL_Y)
                                     {
-                                        relativePos.v[1] = static_cast<float>(event->value);
+                                        relativePos.y = static_cast<float>(event->value);
                                     }
 
                                     mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), getModifiers());

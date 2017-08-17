@@ -45,9 +45,9 @@ namespace ouzel
                                const Vector3& up,
                                Matrix4& dst)
     {
-        createLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
-                     targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
-                     up.v[0], up.v[1], up.v[2], dst);
+        createLookAt(eyePosition.x, eyePosition.y, eyePosition.z,
+                     targetPosition.x, targetPosition.y, targetPosition.z,
+                     up.x, up.y, up.z, dst);
     }
 
     void Matrix4::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
@@ -72,19 +72,19 @@ namespace ouzel
         Vector3::cross(zaxis, xaxis, yaxis);
         yaxis.normalize();
 
-        dst.m[0] = xaxis.v[0];
-        dst.m[1] = yaxis.v[0];
-        dst.m[2] = zaxis.v[0];
+        dst.m[0] = xaxis.x;
+        dst.m[1] = yaxis.x;
+        dst.m[2] = zaxis.x;
         dst.m[3] = 0.0f;
 
-        dst.m[4] = xaxis.v[1];
-        dst.m[5] = yaxis.v[1];
-        dst.m[6] = zaxis.v[1];
+        dst.m[4] = xaxis.y;
+        dst.m[5] = yaxis.y;
+        dst.m[6] = zaxis.y;
         dst.m[7] = 0.0f;
 
-        dst.m[8] = xaxis.v[2];
-        dst.m[9] = yaxis.v[2];
-        dst.m[10] = zaxis.v[2];
+        dst.m[8] = xaxis.z;
+        dst.m[9] = yaxis.z;
+        dst.m[10] = zaxis.z;
         dst.m[11] = 0.0f;
 
         dst.m[12] = Vector3::dot(xaxis, -eye);
@@ -175,9 +175,9 @@ namespace ouzel
         bool isSufficientDelta = delta.lengthSquared() > EPSILON;
 
         dst.setIdentity();
-        dst.m[3] = objectPosition.v[0];
-        dst.m[7] = objectPosition.v[1];
-        dst.m[11] = objectPosition.v[2];
+        dst.m[3] = objectPosition.x;
+        dst.m[7] = objectPosition.y;
+        dst.m[11] = objectPosition.z;
 
         // As per the contracts for the 2 variants of createBillboard, we need
         // either a safe default or a sufficient distance between object and camera.
@@ -204,9 +204,9 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[0] = scale.v[0];
-        dst.m[5] = scale.v[1];
-        dst.m[10] = scale.v[2];
+        dst.m[0] = scale.x;
+        dst.m[5] = scale.y;
+        dst.m[10] = scale.z;
     }
 
     void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
@@ -220,9 +220,9 @@ namespace ouzel
 
     void Matrix4::createRotation(const Vector3& axis, float angle, Matrix4& dst)
     {
-        float x = axis.v[0];
-        float y = axis.v[1];
-        float z = axis.v[2];
+        float x = axis.x;
+        float y = axis.y;
+        float z = axis.z;
 
         // Make sure the input axis is normalized.
         float n = x * x + y * y + z * z;
@@ -318,9 +318,9 @@ namespace ouzel
     {
         std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
 
-        dst.m[12] = translation.v[0];
-        dst.m[13] = translation.v[1];
-        dst.m[14] = translation.v[2];
+        dst.m[12] = translation.x;
+        dst.m[13] = translation.y;
+        dst.m[14] = translation.z;
     }
 
     void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
@@ -566,44 +566,44 @@ namespace ouzel
 
     void Matrix4::getUpVector(Vector3& dst) const
     {
-        dst.v[0] = m[4];
-        dst.v[1] = m[5];
-        dst.v[2] = m[6];
+        dst.x = m[4];
+        dst.y = m[5];
+        dst.z = m[6];
     }
 
     void Matrix4::getDownVector(Vector3& dst) const
     {
-        dst.v[0] = -m[4];
-        dst.v[1] = -m[5];
-        dst.v[2] = -m[6];
+        dst.x = -m[4];
+        dst.y = -m[5];
+        dst.z = -m[6];
     }
 
     void Matrix4::getLeftVector(Vector3& dst) const
     {
-        dst.v[0] = -m[0];
-        dst.v[1] = -m[1];
-        dst.v[2] = -m[2];
+        dst.x = -m[0];
+        dst.y = -m[1];
+        dst.z = -m[2];
     }
 
     void Matrix4::getRightVector(Vector3& dst) const
     {
-        dst.v[0] = m[0];
-        dst.v[1] = m[1];
-        dst.v[2] = m[2];
+        dst.x = m[0];
+        dst.y = m[1];
+        dst.z = m[2];
     }
 
     void Matrix4::getForwardVector(Vector3& dst) const
     {
-        dst.v[0] = -m[8];
-        dst.v[1] = -m[9];
-        dst.v[2] = -m[10];
+        dst.x = -m[8];
+        dst.y = -m[9];
+        dst.z = -m[10];
     }
 
     void Matrix4::getBackVector(Vector3& dst) const
     {
-        dst.v[0] = m[8];
-        dst.v[1] = m[9];
-        dst.v[2] = m[10];
+        dst.x = m[8];
+        dst.y = m[9];
+        dst.z = m[10];
     }
 
     bool Matrix4::invert()
@@ -1101,12 +1101,12 @@ namespace ouzel
 
     void Matrix4::scale(const Vector3& s)
     {
-        scale(s.v[0], s.v[1], s.v[2], *this);
+        scale(s.x, s.y, s.z, *this);
     }
 
     void Matrix4::scale(const Vector3& s, Matrix4& dst) const
     {
-        scale(s.v[0], s.v[1], s.v[2], dst);
+        scale(s.x, s.y, s.z, dst);
     }
 
     void Matrix4::set(float m11, float m12, float m13, float m14,
@@ -1251,7 +1251,7 @@ namespace ouzel
 
             "vst1.32    {d26, d27}, [%0] \n\t" // DST->V
             :
-            : "r"(dst.v), "r"(vector.v), "r"(m)
+            : "r"(&dst.x), "r"(&vector.x), "r"(m)
             : "q0", "q9", "q10","q11", "q12", "q13", "memory"
          );
     #if OUZEL_SUPPORTS_NEON_CHECK
@@ -1270,7 +1270,7 @@ namespace ouzel
 
             "st1 {v13.4s}, [%0]                        \n\t" // DST->V
             :
-            : "r"(dst.v), "r"(vector.v), "r"(m)
+            : "r"(&dst.x), "r"(&vector.x), "r"(m)
             : "v0", "v9", "v10","v11", "v12", "v13", "memory"
         );
 #elif OUZEL_SUPPORTS_SSE
@@ -1289,10 +1289,10 @@ namespace ouzel
         {
     #endif
         // Handle case where v == dst.
-        dst.v[0] = vector.v[0] * m[0] + vector.v[1] * m[4] + vector.v[2] * m[8] + vector.v[3] * m[12];
-        dst.v[1] = vector.v[0] * m[1] + vector.v[1] * m[5] + vector.v[2] * m[9] + vector.v[3] * m[13];
-        dst.v[2] = vector.v[0] * m[2] + vector.v[1] * m[6] + vector.v[2] * m[10] + vector.v[3] * m[14];
-        dst.v[3] = vector.v[0] * m[3] + vector.v[1] * m[7] + vector.v[2] * m[11] + vector.v[3] * m[15];
+        dst.x = vector.x * m[0] + vector.y * m[4] + vector.z * m[8] + vector.w * m[12];
+        dst.y = vector.x * m[1] + vector.y * m[5] + vector.z * m[9] + vector.w * m[13];
+        dst.z = vector.x * m[2] + vector.y * m[6] + vector.z * m[10] + vector.w * m[14];
+        dst.w = vector.x * m[3] + vector.y * m[7] + vector.z * m[11] + vector.w * m[15];
     #if OUZEL_SUPPORTS_NEON_CHECK
         }
     #endif
@@ -1313,12 +1313,12 @@ namespace ouzel
 
     void Matrix4::translate(const Vector3& t)
     {
-        translate(t.v[0], t.v[1], t.v[2], *this);
+        translate(t.x, t.y, t.z, *this);
     }
 
     void Matrix4::translate(const Vector3& t, Matrix4& dst) const
     {
-        translate(t.v[0], t.v[1], t.v[2], dst);
+        translate(t.x, t.y, t.z, dst);
     }
 
     void Matrix4::transpose()

@@ -50,10 +50,10 @@ namespace ouzel
 
             if (document.find("yCoordFlipped") != document.end()) result.yCoordFlipped = (document["yCoordFlipped"].get<uint32_t>() == 1);
 
-            if (document.find("sourcePositionx") != document.end()) result.sourcePosition.v[0] = document["sourcePositionx"].get<float>();
-            if (document.find("sourcePositiony") != document.end()) result.sourcePosition.v[1] = document["sourcePositiony"].get<float>();
-            if (document.find("sourcePositionVariancex") != document.end()) result.sourcePositionVariance.v[0] = document["sourcePositionVariancex"].get<float>();
-            if (document.find("sourcePositionVariancey") != document.end()) result.sourcePositionVariance.v[1] = document["sourcePositionVariancey"].get<float>();
+            if (document.find("sourcePositionx") != document.end()) result.sourcePosition.x = document["sourcePositionx"].get<float>();
+            if (document.find("sourcePositiony") != document.end()) result.sourcePosition.y = document["sourcePositiony"].get<float>();
+            if (document.find("sourcePositionVariancex") != document.end()) result.sourcePositionVariance.x = document["sourcePositionVariancex"].get<float>();
+            if (document.find("sourcePositionVariancey") != document.end()) result.sourcePositionVariance.y = document["sourcePositionVariancey"].get<float>();
 
             if (document.find("startParticleSize") != document.end()) result.startParticleSize = document["startParticleSize"].get<float>();
             if (document.find("startParticleSizeVariance") != document.end()) result.startParticleSizeVariance = document["startParticleSizeVariance"].get<float>();
@@ -79,8 +79,8 @@ namespace ouzel
 
             if (document.find("rotationIsDir") != document.end()) result.rotationIsDir = document["rotationIsDir"].get<bool>();
 
-            if (document.find("gravityx") != document.end()) result.gravity.v[0] = document["gravityx"].get<float>();
-            if (document.find("gravityy") != document.end()) result.gravity.v[1] = document["gravityy"].get<float>();
+            if (document.find("gravityx") != document.end()) result.gravity.x = document["gravityx"].get<float>();
+            if (document.find("gravityy") != document.end()) result.gravity.y = document["gravityy"].get<float>();
 
             if (document.find("startColorRed") != document.end()) result.startColorRed = document["startColorRed"].get<float>();
             if (document.find("startColorGreen") != document.end()) result.startColorGreen = document["startColorGreen"].get<float>();

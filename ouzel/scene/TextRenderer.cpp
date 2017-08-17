@@ -142,7 +142,7 @@ namespace ouzel
 
             for (const graphics::VertexPCT& vertex : vertices)
             {
-                boundingBox.insertPoint(Vector2(vertex.position.v[0], vertex.position.v[1]));
+                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
             }
 
         }
