@@ -7,7 +7,7 @@
 namespace ouzel
 {
     Size3::Size3(const Size2& s):
-        width(s.width), height(s.height), depth(0.0f)
+        width(s.width), height(s.height)
     {
     }
 
