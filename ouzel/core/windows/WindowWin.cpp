@@ -130,8 +130,8 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
         for (const TOUCHINPUT& touch : touches)
         {
-            position.width = static_cast<float>(touch.x / 100);
-            position.height = static_cast<float>(touch.y / 100);
+            position.x = static_cast<float>(touch.x / 100);
+            position.y = static_cast<float>(touch.y / 100);
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
