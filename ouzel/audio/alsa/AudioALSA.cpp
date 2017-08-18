@@ -28,6 +28,13 @@ namespace ouzel
                 return false;
             }
 
+            int err;
+            if ((err = snd_pcm_open(&playbackHandle, "", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
+            {
+                Log(Log::Level::ERR) << "Failed to initialize ALSA, error: " << err;
+                return false;
+            }          
+
             return true;
         }
     } // namespace audio

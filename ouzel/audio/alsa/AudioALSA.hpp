@@ -24,6 +24,9 @@ namespace ouzel
         protected:
             AudioALSA();
             virtual bool init(bool debugAudio) override;
+
+            snd_pcm_t* playbackHandle = nullptr;
+            snd_pcm_hw_params_t* hwParams = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
