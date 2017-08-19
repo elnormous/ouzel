@@ -19,6 +19,9 @@ namespace ouzel
 
         AudioALSA::~AudioALSA()
         {
+            running = false;
+            if (audioThread.joinable()) audioThread.join();
+
             if (swParams) snd_pcm_sw_params_free(swParams);
             if (hwParams) snd_pcm_hw_params_free(hwParams);
             if (playbackHandle) snd_pcm_close(playbackHandle);
@@ -119,7 +122,16 @@ namespace ouzel
                 return false;
             }
 
+            audioThread = std::thread(&AudioALSA::run, this);
+
             return true;
+        }
+
+        void AudioALSA::run()
+        {
+            while (running)
+            {
+            }
         }
     } // namespace audio
 } // namespace ouzel
