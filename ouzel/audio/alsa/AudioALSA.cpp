@@ -131,6 +131,8 @@ namespace ouzel
         {
             while (running)
             {
+                int err;
+
                 if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
                 {
                     Log(Log::Level::ERR) << "Failed to poll, error: " << err;
@@ -147,7 +149,7 @@ namespace ouzel
                     }
                     else
                     {
-                        Log(Log::Level::ERR) << "Failed to get available frames, error: " << err;
+                        Log(Log::Level::ERR) << "Failed to get available frames, error: " << frames;
                         break;
                     }
                 }
