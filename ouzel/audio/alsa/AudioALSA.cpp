@@ -32,7 +32,7 @@ namespace ouzel
             }
 
             int err;
-            if ((err = snd_pcm_open(&playbackHandle, "", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
+            if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to connect to audio interface, error: " << err;
                 return false;
@@ -62,7 +62,7 @@ namespace ouzel
                 return false;
             }
         
-            if ((err = snd_pcm_hw_params_set_rate_near(playbackHandle, hwParams, sampleRate, 0)) < 0)
+            if ((err = snd_pcm_hw_params_set_rate(playbackHandle, hwParams, sampleRate, 0)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set sample rate, error: " << err;
                 return false;
