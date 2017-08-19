@@ -32,6 +32,8 @@ namespace ouzel
             snd_pcm_hw_params_t* hwParams = nullptr;
             snd_pcm_sw_params_t* swParams = nullptr;
 
+            std::vector<uint8_t> data;
+
             bool running = true;
             std::thread audioThread;
         };

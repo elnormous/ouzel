@@ -131,6 +131,38 @@ namespace ouzel
         {
             while (running)
             {
+                if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
+                {
+                    Log(Log::Level::ERR) << "Failed to poll, error: " << err;
+			        break;
+                }
+
+                snd_pcm_sframes_t frames;
+
+                if ((frames = snd_pcm_avail_update(playbackHandle)) < 0)
+                {
+                    if (frames == -EPIPE)
+                    {
+                        Log(Log::Level::WARN) << "Buffer underrun occurred";
+                    }
+                    else
+                    {
+                        Log(Log::Level::ERR) << "Failed to get available frames, error: " << err;
+                        break;
+                    }
+                }
+        
+                frames = frames > 4096 ? 4096 : frames;
+        
+                if (!getData(frames / 2, Format::SINT16, data))
+                {
+                    break;
+                }
+
+                if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
+                {
+                    Log(Log::Level::ERR) << "Failed to write data, error: " << err;
+                }
             }
         }
     } // namespace audio
