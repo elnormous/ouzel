@@ -22,6 +22,8 @@ matrix:
         - sudo apt-get install -y libxcursor-dev
       before_script:
         - export CXX=g++-4.9
+      script:
+        - cd samples && make -j2 && cd ..
     - compiler: gcc
       os: linux
       addons:
@@ -36,14 +38,17 @@ matrix:
         - sudo apt-get install -y libxcursor-dev
       before_script:
         - export CXX=g++-5
+      script:
+        - cd samples && make -j2 && cd ..
     - compiler: clang
       os: osx
       osx_image: xcode7.3
       before_script:
         - export CXX=clang++
+      script:
+        - cd samples && make -j2 && cd ..
 #cache:
 #  directories:
 #    - '$HOME/.sonar/cache'
-script:
-  - cd samples && make -j2 && cd ..
+#script:
 #  - sonar-scanner
