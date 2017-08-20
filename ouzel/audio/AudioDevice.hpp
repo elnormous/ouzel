@@ -3,7 +3,9 @@
 
 #pragma once
 
-class AudioDevice
+namespace ouzel
 {
-public:
-};
+    namespace audio
+    {
+    } // namespace audio
+} // namespace ouzel

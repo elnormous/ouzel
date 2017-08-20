@@ -854,6 +854,9 @@
 		30C758B81F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758B91F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
+		30C758BC1F4A2227008499DC /* DisplayLinkHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BB1F4A2227008499DC /* DisplayLinkHandler.mm */; };
+		30C758C01F4A23BD008499DC /* DisplayLinkHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C758BE1F4A23BD008499DC /* DisplayLinkHandler.h */; };
+		30C758C11F4A23BD008499DC /* DisplayLinkHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BF1F4A23BD008499DC /* DisplayLinkHandler.mm */; };
 		30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
 		30DADE9E1C5167BC001A63B4 /* Cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DADE9A1C5167BC001A63B4 /* Cache.cpp */; };
@@ -1241,6 +1244,10 @@
 		30C758AC1F4A0196008499DC /* AudioDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDevice.hpp; sourceTree = "<group>"; };
 		30C758B31F4A0309008499DC /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
 		30C758B41F4A0309008499DC /* RenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDevice.hpp; sourceTree = "<group>"; };
+		30C758BB1F4A2227008499DC /* DisplayLinkHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLinkHandler.mm; sourceTree = "<group>"; };
+		30C758BD1F4A2261008499DC /* DisplayLinkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisplayLinkHandler.h; sourceTree = "<group>"; };
+		30C758BE1F4A23BD008499DC /* DisplayLinkHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayLinkHandler.h; sourceTree = "<group>"; };
+		30C758BF1F4A23BD008499DC /* DisplayLinkHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLinkHandler.mm; sourceTree = "<group>"; };
 		30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UpdateCallback.hpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
 		30DADE9B1C5167BC001A63B4 /* Cache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cache.hpp; sourceTree = "<group>"; };
@@ -1640,6 +1647,8 @@
 		303B756F1C2A3D0300FEDE92 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				30C758BD1F4A2261008499DC /* DisplayLinkHandler.h */,
+				30C758BB1F4A2227008499DC /* DisplayLinkHandler.mm */,
 				303820561D816C7700677CAB /* EngineIOS.hpp */,
 				303820571D816C7700677CAB /* EngineIOS.mm */,
 				303820581D816C7700677CAB /* main.cpp */,
@@ -1672,6 +1681,8 @@
 		303B76311C355A3400FEDE92 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
+				30C758BE1F4A23BD008499DC /* DisplayLinkHandler.h */,
+				30C758BF1F4A23BD008499DC /* DisplayLinkHandler.mm */,
 				30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */,
 				30EA711F1D52783000AE8C3E /* EngineTVOS.mm */,
 				303B76831C355A5800FEDE92 /* main.cpp */,
@@ -2214,6 +2225,7 @@
 				303696E91E32DDC1007F4211 /* MeshBuffer.hpp in Headers */,
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.hpp in Headers */,
+				30C758C01F4A23BD008499DC /* DisplayLinkHandler.h in Headers */,
 				3039335C1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				303820171D80A40700677CAB /* TexturePSIOS.h in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.hpp in Headers */,
@@ -2657,6 +2669,7 @@
 				302511B11CD3CA2200D04209 /* ParticleDefinition.cpp in Sources */,
 				304B27561C9384A600BA162D /* Size3.cpp in Sources */,
 				30B546551D90575B00E45DB6 /* RadioButtonGroup.cpp in Sources */,
+				30C758BC1F4A2227008499DC /* DisplayLinkHandler.mm in Sources */,
 				30DADE9D1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30547E791CB47E050055EE79 /* Shake.cpp in Sources */,
 				303696CC1E32DD9C007F4211 /* BlendState.cpp in Sources */,
@@ -2725,6 +2738,7 @@
 				304AA8C01E1190E4006FA70E /* OBF.cpp in Sources */,
 				3053FF721F43834900760E67 /* SpriteDefinition.cpp in Sources */,
 				3047F7711C4D2C3900774E3D /* Parallel.cpp in Sources */,
+				30C758C11F4A23BD008499DC /* DisplayLinkHandler.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				3038213B1D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,

@@ -3,7 +3,13 @@
 
 #pragma once
 
-class RenderDevice
+namespace ouzel
 {
-public:
-};
+    namespace graphics
+    {
+        class RenderDevice
+        {
+        public:
+        };
+    } // namespace graphics
+} // namespace ouzel
