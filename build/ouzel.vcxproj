@@ -30,6 +30,7 @@
     <ClCompile Include="..\ouzel\animators\Sequence.cpp" />
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\audio\Audio.cpp" />
+    <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp" />
     <ClCompile Include="..\ouzel\audio\Sound.cpp" />
@@ -88,6 +89,7 @@
     <ClCompile Include="..\ouzel\graphics\opengl\ShaderResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\TextureResourceOGL.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.cpp" />
+    <ClCompile Include="..\ouzel\graphics\RenderDevice.cpp" />
     <ClCompile Include="..\ouzel\graphics\Renderer.cpp" />
     <ClCompile Include="..\ouzel\graphics\Shader.cpp" />
     <ClCompile Include="..\ouzel\graphics\ShaderResource.cpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="..\ouzel\animators\Sequence.hpp" />
     <ClInclude Include="..\ouzel\animators\Shake.hpp" />
     <ClInclude Include="..\ouzel\audio\Audio.hpp" />
+    <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDS.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
@@ -248,6 +251,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RendererOGLWin.hpp" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp" />
+    <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
     <ClInclude Include="..\ouzel\graphics\ResourceResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Shader.hpp" />

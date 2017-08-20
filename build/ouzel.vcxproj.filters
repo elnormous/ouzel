@@ -394,6 +394,12 @@
     <ClCompile Include="..\ouzel\scene\SpriteDefinition.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\AudioDevice.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\RenderDevice.cpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -876,6 +882,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\SpriteDefinition.hpp">
       <Filter>ouzel\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\AudioDevice.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp">
+      <Filter>ouzel\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
