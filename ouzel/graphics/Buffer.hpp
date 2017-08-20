@@ -44,10 +44,10 @@ namespace ouzel
             Usage getUsage() const { return usage; }
 
         private:
+            BufferResource* resource = nullptr;
+
             Buffer::Usage usage;
             uint32_t flags = 0;
-
-            BufferResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

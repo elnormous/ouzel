@@ -42,6 +42,7 @@ namespace ouzel
 
         const std::string TEXTURE_WHITE_PIXEL = "textureWhitePixel";
 
+        class RenderDevice;
         class BlendStateResource;
         class BufferResource;
         class MeshBufferResource;
@@ -173,6 +174,8 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer);
 
+            RenderDevice* getDevice() const { return device; }
+
             virtual void setSize(const Size2& newSize);
 
             virtual BlendStateResource* createBlendState() = 0;
@@ -208,6 +211,8 @@ namespace ouzel
             virtual bool generateScreenshot(const std::string& filename);
 
             Driver driver;
+            RenderDevice* device = nullptr;
+
             Window* window = nullptr;
 
             uint16_t apiMajorVersion = 0;

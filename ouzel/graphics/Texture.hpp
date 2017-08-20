@@ -103,6 +103,8 @@ namespace ouzel
             void setClearDepth(float depth);
 
         private:
+            TextureResource* resource = nullptr;
+
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
@@ -118,8 +120,6 @@ namespace ouzel
             uint32_t maxAnisotropy = 0;
 
             std::string filename;
-
-            TextureResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

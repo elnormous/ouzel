@@ -7,5 +7,13 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDevice::RenderDevice(Renderer::Driver aDriver):
+            driver(aDriver)
+        {
+        }
+
+        RenderDevice::~RenderDevice()
+        {
+        }
     } // namespace graphics
 } // namespace ouzel

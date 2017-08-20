@@ -18,6 +18,7 @@ namespace ouzel
 
     namespace audio
     {
+        class AudioDevice;
         class Resource;
         class SoundResource;
 
@@ -59,6 +60,8 @@ namespace ouzel
 
             virtual ~Audio();
 
+            AudioDevice* getDevice() const { return device; }
+
             virtual bool update();
 
             virtual SoundResource* createSound();
@@ -81,6 +84,7 @@ namespace ouzel
             bool getData(uint32_t samples, Format format, std::vector<uint8_t>& result);
 
             Driver driver;
+            AudioDevice* device = nullptr;
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "Audio.hpp"
+#include "AudioDevice.hpp"
 #include "SoundResource.hpp"
 #include "math/MathUtils.hpp"
 
@@ -17,6 +18,7 @@ namespace ouzel
 
         Audio::~Audio()
         {
+            if (device) delete device;
         }
 
         bool Audio::init(bool)

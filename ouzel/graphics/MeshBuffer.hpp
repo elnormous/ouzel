@@ -39,12 +39,12 @@ namespace ouzel
             bool setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer);
 
         private:
+            MeshBufferResource* resource = nullptr;
+            
             std::shared_ptr<Buffer> indexBuffer;
             std::shared_ptr<Buffer> vertexBuffer;
             uint32_t indexSize = 0;
             std::vector<VertexAttribute> vertexAttributes;
-
-            MeshBufferResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

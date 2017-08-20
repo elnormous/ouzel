@@ -72,6 +72,8 @@ namespace ouzel
             uint8_t getColorMask() const;
 
         private:
+            BlendStateResource* resource = nullptr;
+
             BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
             BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
             BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
@@ -80,8 +82,6 @@ namespace ouzel
             BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
-
-            BlendStateResource* resource = nullptr;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 #include "TextureResource.hpp"
 #include "ShaderResource.hpp"
@@ -30,6 +31,7 @@ namespace ouzel
 
         Renderer::~Renderer()
         {
+            if (device) delete device;
         }
 
         bool Renderer::init(Window* newWindow,
