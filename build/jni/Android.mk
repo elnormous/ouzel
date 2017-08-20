@@ -24,6 +24,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/empty/AudioEmpty.cpp \
     ../../ouzel/audio/opensl/AudioSL.cpp \
     ../../ouzel/audio/Audio.cpp \
+    ../../ouzel/audio/AudioDevice.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataVorbis.cpp \
@@ -68,6 +69,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/graphics/MeshBuffer.cpp \
     ../../ouzel/graphics/MeshBufferResource.cpp \
     ../../ouzel/graphics/Renderer.cpp \
+    ../../ouzel/graphics/RenderDevice.cpp \
     ../../ouzel/graphics/Shader.cpp \
     ../../ouzel/graphics/ShaderResource.cpp \
     ../../ouzel/graphics/Texture.cpp \

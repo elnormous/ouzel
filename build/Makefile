@@ -35,6 +35,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
+	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundDataVorbis.cpp \
@@ -74,6 +75,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/RenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ShaderResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Texture.cpp \
