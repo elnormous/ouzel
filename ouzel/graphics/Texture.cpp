@@ -242,5 +242,20 @@ namespace ouzel
                                                                          resource,
                                                                          color));
         }
+
+        float Texture::getClearDepth() const
+        {
+            return clearDepth;
+        }
+
+        void Texture::setClearDepth(float depth)
+        {
+            clearDepth = depth;
+
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
+                                                                         resource,
+                                                                         depth));
+        }
+
     } // namespace graphics
 } // namespace ouzel

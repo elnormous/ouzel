@@ -88,7 +88,6 @@ namespace ouzel
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             uint32_t getSampleCount() const;
-            bool getDepth() const;
             PixelFormat getPixelFormat() const;
 
             bool getClearColorBuffer() const;
@@ -101,7 +100,7 @@ namespace ouzel
             void setClearColor(Color color);
 
             float getClearDepth() const;
-            void setClearDepth(float clear);
+            void setClearDepth(float depth);
 
         private:
             Size2 size;
