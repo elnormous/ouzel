@@ -53,7 +53,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this andVerticalSync:newVerticalSync];
+            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this andVerticalSync:verticalSync];
 
             return true;
         }

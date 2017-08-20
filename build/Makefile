@@ -15,6 +15,8 @@ ifeq ($(platform),emscripten)
 CC=emcc
 CXX=em++
 AR=emar
+else ifeq ($(platform),ios)
+else ifeq ($(platform),tvos)
 endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel" \
@@ -199,6 +201,54 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
+else ifeq ($(platform),ios)
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/ios/AudioALIOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/ios/DisplayLinkHandler.mm \
+	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
+	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
+	$(ROOT_DIR)/../ouzel/core/ios/WindowIOS.mm \
+	$(ROOT_DIR)/../ouzel/files/ios/FileSystemIOS.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RendererMetalIOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RendererOGLIOS.mm \
+	$(ROOT_DIR)/../ouzel/input/ios/GamepadIOS.mm \
+	$(ROOT_DIR)/../ouzel/input/ios/InputIOS.mm
+CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+else ifeq ($(platform),tvos)
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/tvos/AudioALTVOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLinkHandler.mm \
+	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
+	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
+	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
+	$(ROOT_DIR)/../ouzel/core/tvos/WindowTVOS.mm \
+	$(ROOT_DIR)/../ouzel/files/tvos/FileSystemTVOS.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
+	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RendererMetalTVOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RendererOGLTVOS.mm \
+	$(ROOT_DIR)/../ouzel/input/tvos/GamepadTVOS.mm \
+	$(ROOT_DIR)/../ouzel/input/tvos/InputTVOS.mm
+CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
+CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \

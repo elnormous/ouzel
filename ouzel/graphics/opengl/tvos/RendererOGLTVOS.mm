@@ -5,7 +5,7 @@
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
 
-#import "core/ios/DisplayLinkHandler.h"
+#import "core/tvos/DisplayLinkHandler.h"
 #include "RendererOGLTVOS.hpp"
 #include "core/tvos/WindowTVOS.hpp"
 #include "utils/Log.hpp"
@@ -101,7 +101,7 @@ namespace ouzel
                 return false;
             }
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this];
+            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this andVerticalSync:verticalSync];
 
             return true;
         }

@@ -34,8 +34,34 @@ LDFLAGS+=-framework AudioToolbox \
 	-framework OpenAL \
 	-framework OpenGL \
 	-framework QuartzCore
+else ifeq ($(platform),ios)
+CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
+LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0 \
+	-framework AudioToolbox \
+	-framework AVFoundation \
+	-framework Foundation \
+	-framework GameController \
+	-framework Metal \
+	-framework OpenAL \
+	-framework OpenGLES \
+	-framework QuartzCore \
+	-framework UIKit
+else ifeq ($(platform),tvos)
+CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
+CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
+LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0 \
+	-framework AudioToolbox \
+	-framework AVFoundation \
+	-framework Foundation \
+	-framework GameController \
+	-framework Metal \
+	-framework OpenAL \
+	-framework OpenGLES \
+	-framework QuartzCore \
+	-framework UIKit
 else ifeq ($(platform),emscripten)
-	LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=134217728
+LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=134217728
 endif
 SOURCES=AnimationsSample.cpp \
 	GameSample.cpp \

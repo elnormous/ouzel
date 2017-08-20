@@ -5,7 +5,7 @@
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_METAL
 
-#import "core/ios/DisplayLinkHandler.h"
+#import "core/tvos/DisplayLinkHandler.h"
 #include "RendererMetalTVOS.hpp"
 #include "MetalView.h"
 #include "core/tvos/WindowTVOS.hpp"
@@ -53,7 +53,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this];
+            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this andVerticalSync:verticalSync];
 
             return true;
         }

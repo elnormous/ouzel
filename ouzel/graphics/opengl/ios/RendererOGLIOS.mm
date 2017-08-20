@@ -101,7 +101,7 @@ namespace ouzel
                 return false;
             }
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this];
+            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderer:this andVerticalSync:verticalSync];
 
             return true;
         }
