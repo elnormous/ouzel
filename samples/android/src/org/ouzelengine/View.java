@@ -27,7 +27,7 @@ public class View extends SurfaceView
         {
             case MotionEvent.ACTION_POINTER_DOWN:
             {
-                final int indexPointerDown = event.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int indexPointerDown = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = event.getPointerId(indexPointerDown);
                 final float x = event.getX(indexPointerDown);
                 final float y = event.getY(indexPointerDown);
@@ -68,7 +68,7 @@ public class View extends SurfaceView
 
             case MotionEvent.ACTION_POINTER_UP:
             {
-                final int indexPointUp = event.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int indexPointUp = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = event.getPointerId(indexPointUp);
                 final float x = event.getX(indexPointUp);
                 final float y = event.getY(indexPointUp);
