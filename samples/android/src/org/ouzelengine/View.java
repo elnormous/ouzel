@@ -46,6 +46,16 @@ public class View extends SurfaceView
                 return true;
             }
 
+            case MotionEvent.ACTION_HOVER_MOVE:
+            {
+                final int pointerId = event.getPointerId(0);
+                final float x = event.getX(0);
+                final float y = event.getY(0);
+
+                OuzelLibJNIWrapper.handleActionMove(pointerId, x, y);
+                return true;
+            }
+
             case MotionEvent.ACTION_MOVE:
             {
                 final int pointerId = event.getPointerId(0);
