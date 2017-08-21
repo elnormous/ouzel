@@ -114,7 +114,7 @@ namespace ouzel
                     handleButtonValueChange(GamepadButton::FACE_TOP, pressed, value);
                 };
             }
-#if defined(__IPHONE_9_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
             else if (controller.microGamepad)
             {
                 // D-pad
