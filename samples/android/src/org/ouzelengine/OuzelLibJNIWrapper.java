@@ -4,6 +4,7 @@
 package org.ouzelengine;
 
 import android.app.Activity;
+import android.view.MotionEvent;
 import android.view.Surface;
 
 public class OuzelLibJNIWrapper
@@ -23,11 +24,8 @@ public class OuzelLibJNIWrapper
 
     public static native void onLowMemory();
 
-    public static native void handleActionDown(int pointerId, float x, float y);
-    public static native void handleActionMove(int pointerId, float x, float y);
-    public static native void handleActionUp(int pointerId, float x, float y);
-    public static native void handleActionCancel(int pointerId, float x, float y);
+    public static native void onKeyDown(int keyCode);
+    public static native void onKeyUp(int keyCode);
 
-    public static native void handleKeyDown(int keyCode);
-    public static native void handleKeyUp(int keyCode);
+    public static native boolean onTouchEvent(MotionEvent event);
 }

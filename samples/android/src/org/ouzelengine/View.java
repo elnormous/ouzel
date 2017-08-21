@@ -23,97 +23,20 @@ public class View extends SurfaceView
 
     @Override public boolean onTouchEvent(MotionEvent event)
     {
-        switch (event.getAction() & MotionEvent.ACTION_MASK)
-        {
-            case MotionEvent.ACTION_POINTER_DOWN:
-            {
-                final int indexPointerDown = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = event.getPointerId(indexPointerDown);
-                final float x = event.getX(indexPointerDown);
-                final float y = event.getY(indexPointerDown);
-
-                OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_DOWN:
-            {
-                final int pointerId = event.getPointerId(0);
-                final float x = event.getX(0);
-                final float y = event.getY(0);
-
-                OuzelLibJNIWrapper.handleActionDown(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_HOVER_MOVE:
-            {
-                final int pointerId = event.getPointerId(0);
-                final float x = event.getX(0);
-                final float y = event.getY(0);
-
-                OuzelLibJNIWrapper.handleActionMove(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_MOVE:
-            {
-                final int pointerId = event.getPointerId(0);
-                final float x = event.getX(0);
-                final float y = event.getY(0);
-
-                OuzelLibJNIWrapper.handleActionMove(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_POINTER_UP:
-            {
-                final int indexPointUp = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = event.getPointerId(indexPointUp);
-                final float x = event.getX(indexPointUp);
-                final float y = event.getY(indexPointUp);
-
-                OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_UP:
-            {
-                final int pointerId = event.getPointerId(0);
-                final float x = event.getX(0);
-                final float y = event.getY(0);
-
-                OuzelLibJNIWrapper.handleActionUp(pointerId, x, y);
-                return true;
-            }
-
-            case MotionEvent.ACTION_CANCEL:
-            {
-                final int pointerId = event.getPointerId(0);
-                final float x = event.getX(0);
-                final float y = event.getY(0);
-
-                OuzelLibJNIWrapper.handleActionCancel(pointerId, x, y);
-                return true;
-            }
-        }
-
-        return super.onTouchEvent(event);
+        return OuzelLibJNIWrapper.onTouchEvent(event);
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
-
-        OuzelLibJNIWrapper.handleKeyDown(keyCode);
+        OuzelLibJNIWrapper.onKeyDown(keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
     @Override public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         inputManager.onInputEvent(event);
-        
-        OuzelLibJNIWrapper.handleKeyUp(keyCode);
+        OuzelLibJNIWrapper.onKeyUp(keyCode);
         return super.onKeyUp(keyCode, event);
     }
 }

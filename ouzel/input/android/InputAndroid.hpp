@@ -19,12 +19,19 @@ namespace ouzel
             virtual ~InputAndroid();
 
             static KeyboardKey convertKeyCode(jint keyCode);
+            jboolean handleTouchEvent(jobject event);
+
         protected:
             InputAndroid();
 
             JavaVM* javaVM = nullptr;
             jclass inputDeviceClass = nullptr;
             jmethodID getDeviceIdsMethod = nullptr;
+            jmethodID getActionMethod = nullptr;
+            jmethodID getPointerIdMethod = nullptr;
+            jmethodID getToolTypeMethod = nullptr;
+            jmethodID getXMethod = nullptr;
+            jmethodID getYMethod = nullptr;
         };
     } // namespace input
 } // namespace ouzel

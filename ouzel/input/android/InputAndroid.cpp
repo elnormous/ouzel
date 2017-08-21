@@ -6,6 +6,7 @@
 #include <android/input.h>
 #include "InputAndroid.hpp"
 #include "core/android/EngineAndroid.hpp"
+#include "core/Window.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -135,6 +136,13 @@ namespace ouzel
             inputDeviceClass = jniEnv->FindClass("android/view/InputDevice");
             inputDeviceClass = static_cast<jclass>(jniEnv->NewGlobalRef(inputDeviceClass));
             getDeviceIdsMethod = jniEnv->GetStaticMethodID(inputDeviceClass, "getDeviceIds", "()[I");
+
+            jclass motionEventClass = jniEnv->FindClass("android/view/MotionEvent");
+            getActionMethod = jniEnv->GetMethodID(motionEventClass, "getAction", "()I");
+            getPointerIdMethod = jniEnv->GetMethodID(motionEventClass, "getPointerId", "(I)I");
+            getToolTypeMethod = jniEnv->GetMethodID(motionEventClass, "getToolType", "(I)I");
+            getXMethod = jniEnv->GetMethodID(motionEventClass, "getX", "(I)F");
+            getYMethod = jniEnv->GetMethodID(motionEventClass, "getY", "(I)F");
         }
 
         InputAndroid::~InputAndroid()
@@ -148,6 +156,97 @@ namespace ouzel
             }
 
             if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
+        }
+
+        jboolean InputAndroid::handleTouchEvent(jobject event)
+        {
+            JNIEnv* jniEnv;
+
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return false;
+            }
+
+            jint action = jniEnv->CallIntMethod(event, getActionMethod);
+
+            switch (action & AMOTION_EVENT_ACTION_MASK)
+            {
+                case AMOTION_EVENT_ACTION_POINTER_DOWN:
+                {
+                    jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
+
+                    touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_DOWN:
+                {
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_HOVER_MOVE:
+                {
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_MOVE:
+                {
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_POINTER_UP:
+                {
+                    jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
+
+                    touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_UP:
+                {
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+                case AMOTION_EVENT_ACTION_CANCEL:
+                {
+                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    touchCancel(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     } // namespace input
 } // namespace ouzel
