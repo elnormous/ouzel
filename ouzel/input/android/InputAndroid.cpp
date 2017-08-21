@@ -172,77 +172,161 @@ namespace ouzel
 
             switch (action & AMOTION_EVENT_ACTION_MASK)
             {
-                case AMOTION_EVENT_ACTION_POINTER_DOWN:
+                case AMOTION_EVENT_ACTION_DOWN: // first touch
                 {
-                    jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
-                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
-                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
-
-                    touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-
-                    return true;
-                }
-                case AMOTION_EVENT_ACTION_DOWN:
-                {
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-                    touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseButtonPress(MouseButton::LEFT, sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
 
-                    return true;
+                    break;
+                }
+                case AMOTION_EVENT_ACTION_POINTER_DOWN: // touches beyond the first
+                {
+                    jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
+
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseButtonPress(MouseButton::LEFT, sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                        touchBegin(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
+
+                    break;
                 }
                 case AMOTION_EVENT_ACTION_HOVER_MOVE:
                 {
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-                    touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                        toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                        toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
 
-                    return true;
+                    break;
                 }
                 case AMOTION_EVENT_ACTION_MOVE:
                 {
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-                    touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseMove(sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                        toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                        toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        touchMove(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
 
-                    return true;
+                    break;
                 }
-                case AMOTION_EVENT_ACTION_POINTER_UP:
+                case AMOTION_EVENT_ACTION_UP: // first touch
+                {
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
+                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
+                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
+
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseButtonRelease(MouseButton::LEFT, sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
+
+                    break;
+                }
+                case AMOTION_EVENT_ACTION_POINTER_UP: // touches beyond the first
                 {
                     jint pointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, pointerIndex);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, pointerIndex);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, pointerIndex);
 
-                    touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseButtonRelease(MouseButton::LEFT, sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
+                        touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
 
-                    return true;
-                }
-                case AMOTION_EVENT_ACTION_UP:
-                {
-                    jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
-                    jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
-                    jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
-
-                    touchEnd(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
-
-                    return true;
+                    break;
                 }
                 case AMOTION_EVENT_ACTION_CANCEL:
                 {
+                    jint toolType = jniEnv->CallIntMethod(event, getToolTypeMethod, 0);
                     jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     jfloat x = jniEnv->CallFloatMethod(event, getXMethod, 0);
                     jfloat y = jniEnv->CallFloatMethod(event, getYMethod, 0);
 
-                    touchCancel(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                    if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
+                    {
+                        mouseButtonRelease(MouseButton::LEFT, sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)), 0);
+                        return true;
+                    }
+                    else if (toolType == AMOTION_EVENT_TOOL_TYPE_FINGER ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_STYLUS ||
+                             toolType == AMOTION_EVENT_TOOL_TYPE_ERASER)
+                    {
+                        touchCancel(static_cast<uint64_t>(pointerId), sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(x, y)));
+                        return true;
+                    }
 
-                    return true;
+                    break;
                 }
             }
 
