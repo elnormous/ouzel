@@ -24,6 +24,11 @@ namespace ouzel
             {AKEYCODE_8, KeyboardKey::NUM_8},
             {AKEYCODE_9, KeyboardKey::NUM_9},
 
+            {AKEYCODE_DPAD_UP, KeyboardKey::UP},
+            {AKEYCODE_DPAD_DOWN, KeyboardKey::DOWN},
+            {AKEYCODE_DPAD_LEFT, KeyboardKey::LEFT},
+            {AKEYCODE_DPAD_RIGHT, KeyboardKey::RIGHT},
+
             {AKEYCODE_A, KeyboardKey::A},
             {AKEYCODE_B, KeyboardKey::B},
             {AKEYCODE_C, KeyboardKey::C},
