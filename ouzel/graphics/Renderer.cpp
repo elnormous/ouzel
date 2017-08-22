@@ -15,6 +15,10 @@
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
 
+static const float GAMMA = 2.2f;
+uint8_t GAMMA_ENCODE[255];
+uint8_t GAMMA_DECODE[255];
+
 namespace ouzel
 {
     namespace graphics
@@ -27,6 +31,11 @@ namespace ouzel
             currentFPS(0.0f),
             accumulatedFPS(0.0f)
         {
+            for (int i = 0; i <= 255; i++)
+            {
+                GAMMA_ENCODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, 1.0f / GAMMA) * 255.0f));
+                GAMMA_DECODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, GAMMA) * 255.0f));
+            }
         }
 
         Renderer::~Renderer()
