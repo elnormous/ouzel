@@ -250,14 +250,6 @@ namespace ouzel
             glBlitFramebufferProc = glBlitFramebuffer;
 #endif
 
-            if (apiMajorVersion >= 3)
-            {
-#if OUZEL_OPENGL_INTERFACE_EAGL
-                glGetStringiProc = glGetStringi;
-#else
-                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
-#endif
-            }
             glFramebufferTexture2DProc = glFramebufferTexture2D;
 
             glClearDepthfProc = glClearDepthf;
@@ -334,11 +326,6 @@ namespace ouzel
             glEnableVertexAttribArrayProc = reinterpret_cast<PFNGLENABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glEnableVertexAttribArray"));
             glDisableVertexAttribArrayProc = reinterpret_cast<PFNGLDISABLEVERTEXATTRIBARRAYPROC>(getProcAddress("glDisableVertexAttribArray"));
             glVertexAttribPointerProc = reinterpret_cast<PFNGLVERTEXATTRIBPOINTERPROC>(getProcAddress("glVertexAttribPointer"));
-
-            if (apiMajorVersion >= 3)
-            {
-                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
-            }
 #endif
 
             anisotropicFilteringSupported = false;
@@ -347,6 +334,12 @@ namespace ouzel
 
             if (apiMajorVersion >= 3)
             {
+#if OUZEL_OPENGL_INTERFACE_EAGL
+                glGetStringiProc = glGetStringi;
+#else
+                glGetStringiProc = reinterpret_cast<PFNGLGETSTRINGIPROC>(getProcAddress("glGetStringi"));
+#endif
+
                 GLint extensionCount;
                 glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
 
