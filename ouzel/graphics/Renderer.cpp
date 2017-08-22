@@ -31,7 +31,7 @@ namespace ouzel
             currentFPS(0.0f),
             accumulatedFPS(0.0f)
         {
-            for (int i = 0; i <= 255; i++)
+            for (uint8_t i = 0; i <= 255; ++i)
             {
                 GAMMA_ENCODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, 1.0f / GAMMA) * 255.0f));
                 GAMMA_DECODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, GAMMA) * 255.0f));
