@@ -939,15 +939,12 @@ namespace ouzel
 
             if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
             {
-                if (!frameBufferId)
-                {
-                    glGenFramebuffersProc(1, &frameBufferId);
+                glGenFramebuffersProc(1, &frameBufferId);
 
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to create frame buffer";
-                        return false;
-                    }
+                if (RendererOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create frame buffer";
+                    return false;
                 }
 
                 rendererOGL->bindFrameBuffer(frameBufferId);
