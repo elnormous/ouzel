@@ -1077,9 +1077,6 @@ namespace ouzel
                 }
 
                 enableDepthTest(drawCommand.depthTest);
-
-                GLint writeMask;
-                glGetIntegerv(GL_DEPTH_WRITEMASK, &writeMask);
                 depthMask(drawCommand.depthWrite);
 
                 // scissor test
