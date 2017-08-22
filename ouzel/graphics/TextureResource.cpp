@@ -255,8 +255,7 @@ namespace ouzel
                         r += GAMMA_DECODE[pixel[pitch + 0]];
                         r += GAMMA_DECODE[pixel[pitch + 1]];
                         r /= 4.0f;
-                        r = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                        dst[0] = static_cast<uint8_t>(r);
+                        dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
                     }
                 }
             }
@@ -270,7 +269,7 @@ namespace ouzel
                     r += GAMMA_DECODE[pixel[0]];
                     r += GAMMA_DECODE[pixel[pitch + 0]];
                     r /= 2.0f;
-                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
+                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
                 }
             }
             else if (dstWidth > 0)
@@ -282,7 +281,7 @@ namespace ouzel
                     r += GAMMA_DECODE[pixel[0]];
                     r += GAMMA_DECODE[pixel[1]];
                     r /= 2.0f;
-                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
+                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
                 }
             }
         }
@@ -316,8 +315,8 @@ namespace ouzel
                         r /= 4.0f;
                         g /= 4.0f;
 
-                        r = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                        g = GAMMA_ENCODE[static_cast<uint8_t>(g)];
+                        r = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                        g = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
                         dst[0] = static_cast<uint8_t>(r);
                         dst[1] = static_cast<uint8_t>(g);
                     }
@@ -339,8 +338,8 @@ namespace ouzel
                     r /= 2.0f;
                     g /= 2.0f;
 
-                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                    dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(g)];
+                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                    dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
                 }
             }
             else if (dstWidth > 0)
@@ -359,8 +358,8 @@ namespace ouzel
                     r /= 2.0f;
                     g /= 2.0f;
 
-                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                    dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(g)];
+                    dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                    dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
                 }
             }
         }
@@ -422,9 +421,9 @@ namespace ouzel
                             g /= pixels;
                             b /= pixels;
                             a *= 0.25f;
-                            dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                            dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(g)];
-                            dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(b)];
+                            dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                            dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
+                            dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(b))];
                             dst[3] = static_cast<uint8_t>(a);
                         }
                         else
@@ -470,9 +469,9 @@ namespace ouzel
                         g /= pixels;
                         b /= pixels;
                         a *= 0.5f;
-                        dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                        dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(g)];
-                        dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(b)];
+                        dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                        dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
+                        dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(b))];
                         dst[3] = static_cast<uint8_t>(a);
                     }
                     else
@@ -516,9 +515,9 @@ namespace ouzel
                         g /= pixels;
                         b /= pixels;
                         a *= 0.5f;
-                        dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(r)];
-                        dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(g)];
-                        dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(b)];
+                        dst[0] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(r))];
+                        dst[1] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(g))];
+                        dst[2] = GAMMA_ENCODE[static_cast<uint8_t>(roundf(b))];
                         dst[3] = static_cast<uint8_t>(a);
                     }
                     else
