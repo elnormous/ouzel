@@ -832,8 +832,8 @@ namespace ouzel
                 switch (drawCommand.cullMode)
                 {
                     case CullMode::NONE: cullFace = GL_NONE; break;
-                    case CullMode::FRONT: cullFace = (drawCommand.renderTarget ? GL_BACK : GL_FRONT); break;
-                    case CullMode::BACK: cullFace = (drawCommand.renderTarget ? GL_FRONT : GL_BACK); break;
+                    case CullMode::FRONT: cullFace = (drawCommand.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                    case CullMode::BACK: cullFace = (drawCommand.renderTarget ? GL_BACK : GL_FRONT); break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 

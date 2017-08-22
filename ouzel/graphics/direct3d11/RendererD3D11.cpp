@@ -582,8 +582,8 @@ namespace ouzel
                 switch (drawCommand.cullMode)
                 {
                     case CullMode::NONE: cullModeIndex = 0; break;
-                    case CullMode::FRONT: cullModeIndex = 2; break; // flip the faces, because of the flipped y-axis
-                    case CullMode::BACK: cullModeIndex = 1; break;
+                    case CullMode::FRONT: cullModeIndex = 1; break;
+                    case CullMode::BACK: cullModeIndex = 2; break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
                 uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;

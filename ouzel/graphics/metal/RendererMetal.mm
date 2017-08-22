@@ -590,8 +590,8 @@ namespace ouzel
                 switch (drawCommand.cullMode)
                 {
                     case CullMode::NONE: cullMode = MTLCullModeNone; break;
-                    case CullMode::FRONT: cullMode = MTLCullModeBack; break; // flip the faces, because of the flipped y-axis
-                    case CullMode::BACK: cullMode = MTLCullModeFront; break;
+                    case CullMode::FRONT: cullMode = MTLCullModeFront; break;
+                    case CullMode::BACK: cullMode = MTLCullModeBack; break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 

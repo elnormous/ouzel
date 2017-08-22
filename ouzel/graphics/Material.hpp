@@ -23,7 +23,7 @@ namespace ouzel
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
             std::shared_ptr<Texture> textures[Texture::LAYERS];
-            graphics::Renderer::CullMode cullMode = graphics::Renderer::CullMode::BACK;
+            graphics::Renderer::CullMode cullMode = graphics::Renderer::CullMode::FRONT;
             Color diffuseColor = Color::WHITE;
         };
     } // namespace graphics
