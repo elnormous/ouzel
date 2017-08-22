@@ -18,11 +18,6 @@
     return YES;
 }
 
--(BOOL)isFlipped
-{
-    return YES;
-}
-
 -(BOOL)acceptsFirstResponder
 {
     return YES;
