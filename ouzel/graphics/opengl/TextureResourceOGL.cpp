@@ -241,30 +241,29 @@ namespace ouzel
 
             if (!(flags & Texture::RENDER_TARGET))
             {
+                if (!levels.empty())
+                {
+                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
+                        return false;
+                    }
+                }
+
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
                                  static_cast<GLsizei>(levels[level].size.width),
                                  static_cast<GLsizei>(levels[level].size.height), 0,
-                                 oglPixelFormat, oglPixelType,
-                                 nullptr);
+                                 oglPixelFormat, oglPixelType, nullptr);
                 }
 
                 if (RendererOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture size";
-                    return false;
-                }
-            }
-
-            if (!levels.empty())
-            {
-                if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                     return false;
                 }
             }
@@ -385,6 +384,18 @@ namespace ouzel
 
             if (!(flags & Texture::RENDER_TARGET))
             {
+                if (!levels.empty())
+                {
+                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                    if (RendererOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
+                        return false;
+                    }
+                }
+
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
                     if (!levels[level].data.empty())
@@ -392,34 +403,20 @@ namespace ouzel
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType,
-                                     levels[level].data.data());
+                                     oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
                         glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType,
-                                     nullptr);
+                                     oglPixelFormat, oglPixelType, nullptr);
                     }
                 }
 
                 if (RendererOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to upload texture data";
-                    return false;
-                }
-            }
-
-            if (!levels.empty())
-            {
-                if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                if (RendererOGL::checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                     return false;
                 }
             }
@@ -528,23 +525,11 @@ namespace ouzel
                 width = static_cast<GLsizei>(size.width);
                 height = static_cast<GLsizei>(size.height);
 
-                if (!levels.empty())
-                {
-                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
-
-                    if (RendererOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
-                    }
-                }
-
                 if (flags & Texture::RENDER_TARGET)
                 {
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
                                  width, height, 0,
-                                 getOGLPixelFormat(pixelFormat), oglPixelType, 0);
+                                 oglPixelFormat, oglPixelType, nullptr);
 
                     if (flags & Texture::DEPTH_BUFFER)
                     {
@@ -572,6 +557,18 @@ namespace ouzel
                 }
                 else
                 {
+                    if (!levels.empty())
+                    {
+                        if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
+                            return false;
+                        }
+                    }
+
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
                         // resize all the mip levels
@@ -955,7 +952,7 @@ namespace ouzel
 
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
                                  width, height, 0,
-                                 getOGLPixelFormat(pixelFormat), oglPixelType, 0);
+                                 oglPixelFormat, oglPixelType, nullptr);
 
                     // TODO: blit multisample render buffer to texture
                     glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
