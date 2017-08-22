@@ -608,65 +608,68 @@ namespace ouzel
 
             rendererOGL->bindTexture(textureId, 0);
 
-            if (static_cast<GLsizei>(size.width) != width ||
-                static_cast<GLsizei>(size.height) != height)
+            if (!(flags & Texture::RENDER_TARGET))
             {
-                width = static_cast<GLsizei>(size.width);
-                height = static_cast<GLsizei>(size.height);
-
-                if (!levels.empty())
+                if (static_cast<GLsizei>(size.width) != width ||
+                    static_cast<GLsizei>(size.height) != height)
                 {
-                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    width = static_cast<GLsizei>(size.width);
+                    height = static_cast<GLsizei>(size.height);
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (!levels.empty())
                     {
-                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
-                        return false;
+                        if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                        if (RendererOGL::checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to set texture base and max levels";
+                            return false;
+                        }
+                    }
+
+                    for (size_t level = 0; level < levels.size(); ++level)
+                    {
+                        if (!levels[level].data.empty())
+                        {
+                            // resize and fill all the mip levels with data
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType,
+                                         levels[level].data.data());
+                        }
+                        else
+                        {
+                            // resize all the mip levels
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                         static_cast<GLsizei>(levels[level].size.width),
+                                         static_cast<GLsizei>(levels[level].size.height), 0,
+                                         oglPixelFormat, oglPixelType,
+                                         nullptr);
+                        }
+                    }
+                }
+                else
+                {
+                    for (size_t level = 0; level < levels.size(); ++level)
+                    {
+                        if (!levels[level].data.empty())
+                        {
+                            glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
+                                            static_cast<GLsizei>(levels[level].size.width),
+                                            static_cast<GLsizei>(levels[level].size.height),
+                                            oglPixelFormat, oglPixelType,
+                                            levels[level].data.data());
+                        }
                     }
                 }
 
-                for (size_t level = 0; level < levels.size(); ++level)
+                if (RendererOGL::checkOpenGLError())
                 {
-                    if (!levels[level].data.empty())
-                    {
-                        // resize and fill all the mip levels with data
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.width),
-                                     static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType,
-                                     levels[level].data.data());
-                    }
-                    else
-                    {
-                        // resize all the mip levels
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
-                                     static_cast<GLsizei>(levels[level].size.width),
-                                     static_cast<GLsizei>(levels[level].size.height), 0,
-                                     oglPixelFormat, oglPixelType,
-                                     nullptr);
-                    }
+                    Log(Log::Level::ERR) << "Failed to upload texture data";
+                    return false;
                 }
-            }
-            else if (!(flags & Texture::RENDER_TARGET))
-            {
-                for (size_t level = 0; level < levels.size(); ++level)
-                {
-                    if (!levels[level].data.empty())
-                    {
-                        glTexSubImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), 0, 0,
-                                        static_cast<GLsizei>(levels[level].size.width),
-                                        static_cast<GLsizei>(levels[level].size.height),
-                                        oglPixelFormat, oglPixelType,
-                                        levels[level].data.data());
-                    }
-                }
-            }
-
-            if (RendererOGL::checkOpenGLError())
-            {
-                Log(Log::Level::ERR) << "Failed to upload texture data";
-                return false;
             }
 
             return true;
