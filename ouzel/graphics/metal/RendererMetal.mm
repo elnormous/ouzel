@@ -552,7 +552,7 @@ namespace ouzel
                 }
 
                 viewport.originX = static_cast<double>(drawCommand.viewport.position.x);
-                viewport.originY = static_cast<double>(renderTargetHeight - (drawCommand.viewport.position.y + drawCommand.viewport.size.height));
+                viewport.originY = static_cast<double>(drawCommand.viewport.position.y);
                 viewport.width = static_cast<double>(drawCommand.viewport.size.width);
                 viewport.height = static_cast<double>(drawCommand.viewport.size.height);
 
@@ -562,7 +562,7 @@ namespace ouzel
                 if (drawCommand.scissorTest)
                 {
                     scissorRect.x = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.x);
-                    scissorRect.y = renderTargetHeight - static_cast<NSUInteger>(drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height);
+                    scissorRect.y = static_cast<NSUInteger>(drawCommand.scissorRectangle.position.y);
                     scissorRect.width = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.width);
                     scissorRect.height = static_cast<NSUInteger>(drawCommand.scissorRectangle.size.height);
                     if (scissorRect.x >= renderTargetWidth) scissorRect.x = renderTargetWidth - 1;

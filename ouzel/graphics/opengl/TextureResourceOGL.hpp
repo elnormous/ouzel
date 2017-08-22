@@ -57,6 +57,8 @@ namespace ouzel
             GLuint getTextureId() const { return textureId; }
 
             GLuint getFrameBufferId() const { return frameBufferId; }
+            GLsizei getWidth() const { return width; }
+            GLsizei getHeight() const { return height; }
 
             GLbitfield getClearMask() const { return clearMask; }
             const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }

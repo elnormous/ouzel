@@ -509,9 +509,6 @@ namespace ouzel
                 bool newClearFrameBufferView = false;
                 bool newClearDepthBufferView = false;
 
-                UINT renderTargetWidth = 0;
-                UINT renderTargetHeight = 0;
-
                 if (drawCommand.renderTarget)
                 {
                     TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand.renderTarget);
@@ -522,8 +519,6 @@ namespace ouzel
                     }
 
                     TextureResourceD3D11* renderTargetTextureD3D11 = static_cast<TextureResourceD3D11*>(renderTargetD3D11);
-                    renderTargetWidth = renderTargetTextureD3D11->getWidth();
-                    renderTargetHeight = renderTargetTextureD3D11->getHeight();
 
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newDepthStencilView = renderTargetD3D11->getDepthStencilView();
@@ -544,9 +539,6 @@ namespace ouzel
                     newClearColor = frameBufferClearColor;
                     newClearDepth = clearDepthValue;
 
-                    renderTargetWidth = frameBufferWidth;
-                    renderTargetHeight = frameBufferHeight;
-
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
@@ -558,7 +550,7 @@ namespace ouzel
                 context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
                 viewport.TopLeftX = drawCommand.viewport.position.x;
-                viewport.TopLeftY = static_cast<FLOAT>(renderTargetHeight) - (drawCommand.viewport.position.y + drawCommand.viewport.size.height);
+                viewport.TopLeftY = drawCommand.viewport.position.y;
                 viewport.Width = drawCommand.viewport.size.width;
                 viewport.Height = drawCommand.viewport.size.height;
                 context->RSSetViewports(1, &viewport);
@@ -578,9 +570,9 @@ namespace ouzel
                 {
                     D3D11_RECT rect;
                     rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.x);
-                    rect.top = static_cast<LONG>(renderTargetHeight - (drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height));
+                    rect.top = static_cast<LONG>(drawCommand.scissorRectangle.position.y);
                     rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.x + drawCommand.scissorRectangle.size.width);
-                    rect.bottom = static_cast<LONG>(renderTargetHeight - drawCommand.scissorRectangle.position.y);
+                    rect.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height);
                     context->RSSetScissorRects(1, &rect);
                 }
 
