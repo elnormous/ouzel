@@ -1045,7 +1045,7 @@ namespace ouzel
                 }
 
                 setViewport(static_cast<GLint>(drawCommand.viewport.position.x),
-                            static_cast<GLint>(renderTargetHeight - drawCommand.viewport.position.y + drawCommand.viewport.size.height),
+                            static_cast<GLint>(renderTargetHeight - (drawCommand.viewport.position.y + drawCommand.viewport.size.height)),
                             static_cast<GLsizei>(drawCommand.viewport.size.width),
                             static_cast<GLsizei>(drawCommand.viewport.size.height));
 
@@ -1085,7 +1085,7 @@ namespace ouzel
                 // scissor test
                 setScissorTest(drawCommand.scissorTest,
                                static_cast<GLint>(drawCommand.scissorRectangle.position.x),
-                               static_cast<GLint>(renderTargetHeight - drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height),
+                               static_cast<GLint>(renderTargetHeight - (drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height)),
                                static_cast<GLsizei>(drawCommand.scissorRectangle.size.width),
                                static_cast<GLsizei>(drawCommand.scissorRectangle.size.height));
 
