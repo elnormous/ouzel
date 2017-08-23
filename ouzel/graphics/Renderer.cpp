@@ -17,7 +17,7 @@
 
 static const float GAMMA = 2.2f;
 uint8_t GAMMA_ENCODE[256];
-uint8_t GAMMA_DECODE[256];
+float GAMMA_DECODE[256];
 
 namespace ouzel
 {
@@ -34,7 +34,7 @@ namespace ouzel
             for (uint32_t i = 0; i < 256; ++i)
             {
                 GAMMA_ENCODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, 1.0f / GAMMA) * 255.0f));
-                GAMMA_DECODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, GAMMA) * 255.0f));
+                GAMMA_DECODE[i] = roundf(powf(i / 255.0f, GAMMA) * 255.0f);
             }
         }
 

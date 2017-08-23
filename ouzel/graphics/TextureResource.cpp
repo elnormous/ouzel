@@ -8,7 +8,7 @@
 #include "math/MathUtils.hpp"
 
 extern uint8_t GAMMA_ENCODE[256];
-extern uint8_t GAMMA_DECODE[256];
+extern float GAMMA_DECODE[256];
 
 namespace ouzel
 {

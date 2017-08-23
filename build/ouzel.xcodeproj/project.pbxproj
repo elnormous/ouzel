@@ -615,6 +615,12 @@
 		304B277C1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
 		304B277D1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
 		304B277E1C95C54D00BA162D /* EditBox.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27781C95C54D00BA162D /* EditBox.hpp */; };
+		304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304F92A31F4D89C50063EEC0 /* Network.cpp */; };
+		304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304F92A31F4D89C50063EEC0 /* Network.cpp */; };
+		304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304F92A31F4D89C50063EEC0 /* Network.cpp */; };
+		304F92A81F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
+		304F92A91F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
+		304F92AA1F4D89C50063EEC0 /* Network.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304F92A41F4D89C50063EEC0 /* Network.hpp */; };
 		3053FF701F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
 		3053FF711F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
 		3053FF721F43834900760E67 /* SpriteDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */; };
@@ -1145,6 +1151,8 @@
 		304B27541C9384A600BA162D /* Size3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size3.hpp; sourceTree = "<group>"; };
 		304B27771C95C54D00BA162D /* EditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditBox.cpp; sourceTree = "<group>"; };
 		304B27781C95C54D00BA162D /* EditBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EditBox.hpp; sourceTree = "<group>"; };
+		304F92A31F4D89C50063EEC0 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
+		304F92A41F4D89C50063EEC0 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
 		3053FF6E1F437F0800760E67 /* SpriteDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpriteDefinition.hpp; sourceTree = "<group>"; };
 		3053FF6F1F43834900760E67 /* SpriteDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteDefinition.cpp; sourceTree = "<group>"; };
 		30547E761CB47E050055EE79 /* Shake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shake.cpp; sourceTree = "<group>"; };
@@ -1793,12 +1801,22 @@
 				303B76051C34A91B00FEDE92 /* input */,
 				30A9C1371CAEBA420084C4BF /* localization */,
 				303B750F1C2882CA00FEDE92 /* math */,
+				304F92A21F4D89560063EEC0 /* network */,
 				304A8E2A1C237C70008B1151 /* ouzel.hpp */,
 				303B750D1C28828600FEDE92 /* scene */,
 				30A5BF0C1CFCE3F800A977CA /* utils */,
 			);
 			name = ouzel;
 			path = ../ouzel;
+			sourceTree = "<group>";
+		};
+		304F92A21F4D89560063EEC0 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				304F92A31F4D89C50063EEC0 /* Network.cpp */,
+				304F92A41F4D89C50063EEC0 /* Network.hpp */,
+			);
+			name = network;
 			sourceTree = "<group>";
 		};
 		30547E351CB3D6570055EE79 /* metal */ = {
@@ -1993,6 +2011,7 @@
 				301456E21E38BEB200BA75DB /* SoundResource.hpp in Headers */,
 				303B75581C2A3CB700FEDE92 /* Vector2.hpp in Headers */,
 				30381F7C1D80A3EC00677CAB /* RendererOGL.hpp in Headers */,
+				304F92A81F4D89C50063EEC0 /* Network.hpp in Headers */,
 				3038200F1D80A40700677CAB /* TextureResourceMetal.hpp in Headers */,
 				30575AA21C39CB790009C8A7 /* Scene.hpp in Headers */,
 				301EB3AE1CCD77F600466E92 /* TextRenderer.hpp in Headers */,
@@ -2274,6 +2293,7 @@
 				30A9C13F1CAEBA540084C4BF /* Language.hpp in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.hpp in Headers */,
 				3049DCB91ED8687C0000997A /* ConvexVolume.hpp in Headers */,
+				304F92AA1F4D89C50063EEC0 /* Network.hpp in Headers */,
 				300934211C88698500CC50D3 /* Window.hpp in Headers */,
 				3082C3B31D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				3031C1391F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
@@ -2464,6 +2484,7 @@
 				30B859901F3D286600A16952 /* TTFont.hpp in Headers */,
 				304A8E551C237C70008B1151 /* EventHandler.hpp in Headers */,
 				307F9FFE1F1E9CA000BA73CB /* GamepadGC.hpp in Headers */,
+				304F92A91F4D89C50063EEC0 /* Network.hpp in Headers */,
 				303821491D81876E00677CAB /* RendererEmpty.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2634,6 +2655,7 @@
 				303821071D817F6400677CAB /* AudioALIOS.mm in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
+				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
 				3009341D1C88698500CC50D3 /* Window.cpp in Sources */,
 				30B328851C4E9EAC00040927 /* Ease.cpp in Sources */,
 				30216B631ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
@@ -2777,6 +2799,7 @@
 				303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */,
 				303B04C61E207B7800011CBE /* RendererOGLTVOS.mm in Sources */,
 				3009341E1C88698500CC50D3 /* Window.cpp in Sources */,
+				304F92A71F4D89C50063EEC0 /* Network.cpp in Sources */,
 				30381F131D8094F100677CAB /* BufferResource.cpp in Sources */,
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */,
@@ -2920,6 +2943,7 @@
 				304A8E921C26ED32008B1151 /* MeshBufferResource.cpp in Sources */,
 				30EF364B1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				30381F121D8094F100677CAB /* BufferResource.cpp in Sources */,
+				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* TextureResource.cpp in Sources */,
 				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
 				30381F8C1D80A3EC00677CAB /* TextureResourceOGL.cpp in Sources */,
