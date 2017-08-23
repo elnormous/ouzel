@@ -518,8 +518,6 @@ namespace ouzel
                         continue;
                     }
 
-                    TextureResourceD3D11* renderTargetTextureD3D11 = static_cast<TextureResourceD3D11*>(renderTargetD3D11);
-
                     newRenderTargetView = renderTargetD3D11->getRenderTargetView();
                     newDepthStencilView = renderTargetD3D11->getDepthStencilView();
                     newClearColor = renderTargetD3D11->getFrameBufferClearColor();
