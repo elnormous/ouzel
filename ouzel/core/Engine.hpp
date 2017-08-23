@@ -21,6 +21,7 @@
 #include "scene/SceneManager.hpp"
 #include "core/Cache.hpp"
 #include "localization/Localization.hpp"
+#include "network/Network.hpp"
 #include "utils/INI.hpp"
 
 void ouzelMain(const std::vector<std::string>& args);
@@ -52,6 +53,7 @@ namespace ouzel
         scene::SceneManager* getSceneManager() { return &sceneManager; }
         input::Input* getInput() const { return input.get(); }
         Localization* getLocalization() { return &localization; }
+        network::Network* getNetwork() { return &network; }
 
         const INI& getDefaultSettings() const { return defaultSettings; }
         const INI& getUserSettings() const { return userSettings; }
@@ -90,6 +92,7 @@ namespace ouzel
         Localization localization;
         Cache cache;
         scene::SceneManager sceneManager;
+        network::Network network;
 
         INI defaultSettings;
         INI userSettings;

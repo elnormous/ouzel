@@ -71,6 +71,7 @@
 #include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
 #include "math/Vector4.hpp"
+#include "network/Network.hpp"
 #include "scene/Camera.hpp"
 #include "scene/Component.hpp"
 #include "scene/Layer.hpp"
