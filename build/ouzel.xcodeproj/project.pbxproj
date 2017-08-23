@@ -1816,7 +1816,7 @@
 				304F92A31F4D89C50063EEC0 /* Network.cpp */,
 				304F92A41F4D89C50063EEC0 /* Network.hpp */,
 			);
-			name = network;
+			path = network;
 			sourceTree = "<group>";
 		};
 		30547E351CB3D6570055EE79 /* metal */ = {
