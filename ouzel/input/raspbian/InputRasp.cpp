@@ -326,7 +326,7 @@ namespace ouzel
         {
             for (const InputDeviceRasp& inputDevice : inputDevices)
             {
-                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(0) == -1)
+                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
                 {
                     Log(Log::Level::WARN) << "Failed to release device";
                 }
