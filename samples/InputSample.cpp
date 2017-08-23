@@ -11,7 +11,7 @@ InputSample::InputSample():
     hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    cursor.init("cursor.png", Vector2(0.0f, 0.0f));
+    cursor.init("cursor.png", Vector2(0.0f, 63.0f));
     sharedEngine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);

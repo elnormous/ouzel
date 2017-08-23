@@ -104,7 +104,7 @@ namespace ouzel
                 }
 
                 cursorImage->xhot = static_cast<int>(hotSpot.x);
-                cursorImage->yhot = static_cast<int>(hotSpot.y);
+                cursorImage->yhot = height - static_cast<int>(hotSpot.y) - 1;
                 cursorImage->delay = 0;
 
                 unsigned char* target = reinterpret_cast<unsigned char*>(cursorImage->pixels);
