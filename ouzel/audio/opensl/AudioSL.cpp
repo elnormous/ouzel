@@ -53,7 +53,7 @@ namespace ouzel
             const SLInterfaceID engineMixIID = SL_IID_ENGINE;
             const SLboolean engineMixReq = SL_BOOLEAN_TRUE;
 
-            if (slCreateEngine(&engineObject, 0, NULL, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
+            if (slCreateEngine(&engineObject, 0, nullptr, engineMixIIDCount, &engineMixIID, &engineMixReq) != SL_RESULT_SUCCESS)
             {
                 Log(Log::Level::ERR) << "Failed to create OpenSL engine object";
                 return false;
@@ -115,7 +115,7 @@ namespace ouzel
 
             SLDataSink dataSink;
             dataSink.pLocator = &dataLocatorOut;
-            dataSink.pFormat = NULL;
+            dataSink.pFormat = nullptr;
 
             const SLuint32 playerIIDCount = 3;
             const SLInterfaceID playerIIDs[] = {SL_IID_BUFFERQUEUE, SL_IID_PLAY, SL_IID_VOLUME};

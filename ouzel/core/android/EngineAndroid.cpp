@@ -252,8 +252,8 @@ namespace ouzel
         JNIEnv* jniEnv;
         JavaVMAttachArgs attachArgs;
         attachArgs.version = JNI_VERSION_1_6;
-        attachArgs.name = NULL; // thread name
-        attachArgs.group = NULL; // thread group
+        attachArgs.name = nullptr; // thread name
+        attachArgs.group = nullptr; // thread group
         if (javaVM->AttachCurrentThread(&jniEnv, &attachArgs) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to attach current thread to Java VM";

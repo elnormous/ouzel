@@ -143,7 +143,7 @@ namespace ouzel
 
             if (pixelShader) pixelShader->Release();
 
-            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), NULL, &pixelShader);
+            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
@@ -152,7 +152,7 @@ namespace ouzel
             
             if (vertexShader) vertexShader->Release();
 
-            hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), NULL, &vertexShader);
+            hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader, error: " << hr;

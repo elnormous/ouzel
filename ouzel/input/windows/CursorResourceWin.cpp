@@ -107,7 +107,7 @@ namespace ouzel
                                                  reinterpret_cast<BITMAPINFO*>(&bitmapHeader),
                                                  DIB_RGB_COLORS,
                                                  reinterpret_cast<void**>(&target),
-                                                 NULL,
+                                                 nullptr,
                                                  static_cast<DWORD>(0));
                 ReleaseDC(nullptr, dc);
 

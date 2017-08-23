@@ -248,7 +248,7 @@ namespace ouzel
                 rightTriggerMap = kHIDUsage_GD_Ry;
             }
 
-            CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, NULL, kIOHIDOptionsTypeNone);
+            CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
 
             for (CFIndex i = 0; i < CFArrayGetCount(elementArray); ++i)
             {

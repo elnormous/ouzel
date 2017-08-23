@@ -680,7 +680,7 @@ namespace ouzel
                     continue;
                 }
 
-                context->OMSetBlendState(blendStateD3D11->getBlendState(), NULL, 0xffffffff);
+                context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
 
                 // textures
                 bool texturesValid = true;

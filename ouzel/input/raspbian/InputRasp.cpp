@@ -195,7 +195,7 @@ namespace ouzel
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 
             glob_t g;
-            int result = glob("/dev/input/event*", GLOB_NOSORT, NULL, &g);
+            int result = glob("/dev/input/event*", GLOB_NOSORT, nullptr, &g);
 
             if (result == GLOB_NOMATCH)
             {
@@ -219,7 +219,7 @@ namespace ouzel
                     continue;
                 }
 
-                if (ioctl(inputDevice.fd, EVIOCGRAB, (void *)1) == -1)
+                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
                 {
                     Log(Log::Level::WARN) << "Failed to get grab device";
                 }
@@ -326,7 +326,7 @@ namespace ouzel
         {
             for (const InputDeviceRasp& inputDevice : inputDevices)
             {
-                if (ioctl(inputDevice.fd, EVIOCGRAB, (void*)0) == -1)
+                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(0) == -1)
                 {
                     Log(Log::Level::WARN) << "Failed to release device";
                 }
@@ -352,7 +352,7 @@ namespace ouzel
                 FD_SET(inputDevice.fd, &rfds);
             }
 
-            int retval = select(maxFd + 1, &rfds, NULL, NULL, &tv);
+            int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
 
             if (retval == -1)
             {

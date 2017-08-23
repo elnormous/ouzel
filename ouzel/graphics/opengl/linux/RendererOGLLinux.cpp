@@ -99,7 +99,7 @@ namespace ouzel
 
                     contextAttribs.push_back(0);
 
-                    context = glXCreateContextAttribsProc(windowLinux->getDisplay(), *framebufferConfig, NULL, True, contextAttribs.data());
+                    context = glXCreateContextAttribsProc(windowLinux->getDisplay(), *framebufferConfig, nullptr, True, contextAttribs.data());
 
                     if (context)
                     {
