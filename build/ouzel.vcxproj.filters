@@ -400,6 +400,9 @@
     <ClCompile Include="..\ouzel\graphics\RenderDevice.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\network\Network.cpp">
+      <Filter>ouzel\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -889,6 +892,9 @@
     <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\network\Network.hpp">
+      <Filter>ouzel\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
@@ -959,6 +965,9 @@
     </Filter>
     <Filter Include="ouzel\graphics\opengl\windows">
       <UniqueIdentifier>{8e5def8b-22ab-49ae-b846-f048444c20e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ouzel\network">
+      <UniqueIdentifier>{57b86987-14d5-4d4a-97e6-c33cb1e9f749}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
