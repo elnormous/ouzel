@@ -19,8 +19,6 @@ namespace ouzel
     namespace audio
     {
         class AudioDevice;
-        class Resource;
-        class SoundResource;
 
         class Audio
         {
@@ -66,7 +64,10 @@ namespace ouzel
 
             bool update();
 
+            const Vector3& getListenerPosition() const { return listenerPosition; }
             void setListenerPosition(const Vector3& newPosition);
+
+            const Quaternion& getListenerRotation() const { return listenerRotation; }
             void setListenerRotation(const Quaternion& newRotation);
 
             void executeOnAudioThread(const std::function<void(void)>& func);
@@ -76,6 +77,9 @@ namespace ouzel
             virtual bool init(bool debugAudio);
 
             AudioDevice* device = nullptr;
+
+            Vector3 listenerPosition;
+            Quaternion listenerRotation;
         };
     } // namespace audio
 } // namespace ouzel

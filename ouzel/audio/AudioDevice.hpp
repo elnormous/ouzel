@@ -9,6 +9,9 @@ namespace ouzel
 {
     namespace audio
     {
+        class Resource;
+        class SoundResource;
+
         class AudioDevice
         {
             friend Audio;
@@ -42,8 +45,6 @@ namespace ouzel
 
             Vector3 listenerPosition;
             Quaternion listenerRotation;
-
-            std::mutex uploadMutex;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<SoundResource>> resources;

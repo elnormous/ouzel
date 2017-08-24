@@ -47,15 +47,11 @@ namespace ouzel
 
         void AudioDevice::setListenerPosition(const Vector3& newPosition)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             listenerPosition = newPosition;
         }
 
         void AudioDevice::setListenerRotation(const Quaternion& newRotation)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             listenerRotation = newRotation;
         }
 
