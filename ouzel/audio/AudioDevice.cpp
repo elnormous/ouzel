@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "AudioDevice.hpp"
 #include "SoundResource.hpp"
 #include "math/MathUtils.hpp"

@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_IOS
 #include "audio/openal/ios/AudioDeviceALIOS.hpp"
