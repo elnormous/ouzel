@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_METAL
 
 #include "TextureResourceMetal.hpp"
-#include "RendererMetal.hpp"
+#include "RenderDeviceMetal.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Log.hpp"
 
@@ -51,8 +51,8 @@ namespace ouzel
             }
         }
 
-        TextureResourceMetal::TextureResourceMetal(RendererMetal* aRendererMetal):
-            rendererMetal(aRendererMetal)
+        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal* aRenderDeviceMetal):
+            renderDeviceMetal(aRenderDeviceMetal)
         {
         }
 
@@ -359,7 +359,7 @@ namespace ouzel
                 textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
                 colorFormat = textureDescriptor.pixelFormat;
 
-                texture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+                texture = [renderDeviceMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
                 if (!texture)
                 {
@@ -389,7 +389,7 @@ namespace ouzel
                     textureDescriptor.sampleCount = sampleCount;
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
 
-                    msaaTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+                    msaaTexture = [renderDeviceMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!msaaTexture)
                     {
@@ -421,7 +421,7 @@ namespace ouzel
                     textureDescriptor.sampleCount = sampleCount;
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
 
-                    depthTexture = [rendererMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
+                    depthTexture = [renderDeviceMetal->getDevice() newTextureWithDescriptor:textureDescriptor];
 
                     if (!depthTexture)
                     {
@@ -442,14 +442,14 @@ namespace ouzel
 
         bool TextureResourceMetal::updateSamplerState()
         {
-            RendererMetal::SamplerStateDescriptor samplerDescriptor;
-            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? rendererMetal->getTextureFilter() : filter;
+            RenderDeviceMetal::SamplerStateDescriptor samplerDescriptor;
+            samplerDescriptor.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceMetal->getTextureFilter() : filter;
             samplerDescriptor.addressX = addressX;
             samplerDescriptor.addressY = addressY;
-            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? rendererMetal->getMaxAnisotropy() : maxAnisotropy;
+            samplerDescriptor.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceMetal->getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) [samplerState release];
-            samplerState = rendererMetal->getSamplerState(samplerDescriptor);
+            samplerState = renderDeviceMetal->getSamplerState(samplerDescriptor);
 
             if (!samplerState)
             {

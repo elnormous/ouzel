@@ -115,11 +115,11 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGL: public Renderer
+        class RenderDeviceOGL: public Renderer
         {
             friend Engine;
         public:
-            virtual ~RendererOGL();
+            virtual ~RenderDeviceOGL();
 
             virtual bool process() override;
 
@@ -576,7 +576,7 @@ namespace ouzel
 #endif
 
         protected:
-            RendererOGL();
+            RenderDeviceOGL();
 
             virtual bool init(Window* newWindow,
                               const Size2& newSize,

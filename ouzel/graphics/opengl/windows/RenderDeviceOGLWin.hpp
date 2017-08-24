@@ -5,20 +5,27 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
 
-#include "graphics/metal/RendererMetal.hpp"
+#include <thread>
+#include <atomic>
+#include <windows.h>
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
 namespace ouzel
 {
+    class Engine;
+
     namespace graphics
     {
-        class RendererMetalTVOS: public RendererMetal
+        class RenderDeviceOGLWin: public RenderDeviceOGL
         {
+            friend Engine;
         public:
-            virtual ~RendererMetalTVOS();
+            virtual ~RenderDeviceOGLWin();
 
         private:
+            RenderDeviceOGLWin();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -28,8 +35,15 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-        private:
-            id displayLinkHandler = nil;
+            virtual bool lockContext() override;
+            virtual bool swapBuffers() override;
+            void main();
+
+            HDC deviceContext = 0;
+            HGLRC renderContext = 0;
+
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

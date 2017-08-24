@@ -5,7 +5,7 @@
 
 #if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_METAL
 
-#include "RendererMetalMacOS.hpp"
+#include "RenderDeviceMetalMacOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
 #include "core/macos/WindowMacOS.hpp"
@@ -20,9 +20,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        ouzel::graphics::RendererMetalMacOS* renderer = static_cast<ouzel::graphics::RendererMetalMacOS*>(userInfo);
+        ouzel::graphics::RenderDeviceMetalMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceMetalMacOS*>(userInfo);
 
-        renderer->renderCallback();
+        renderDevice->renderCallback();
     }
 
     return kCVReturnSuccess;
@@ -32,12 +32,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererMetalMacOS::RendererMetalMacOS():
+        RenderDeviceMetalMacOS::RenderDeviceMetalMacOS():
             running(false)
         {
         }
 
-        RendererMetalMacOS::~RendererMetalMacOS()
+        RenderDeviceMetalMacOS::~RenderDeviceMetalMacOS()
         {
             running = false;
             flushCommands();
@@ -53,23 +53,23 @@ namespace ouzel
             }
         }
 
-        bool RendererMetalMacOS::init(Window* newWindow,
-                                      const Size2& newSize,
-                                      uint32_t newSampleCount,
-                                      Texture::Filter newTextureFilter,
-                                      uint32_t newMaxAnisotropy,
-                                      bool newVerticalSync,
-                                      bool newDepth,
-                                      bool newDebugRenderer)
+        bool RenderDeviceMetalMacOS::init(Window* newWindow,
+                                          const Size2& newSize,
+                                          uint32_t newSampleCount,
+                                          Texture::Filter newTextureFilter,
+                                          uint32_t newMaxAnisotropy,
+                                          bool newVerticalSync,
+                                          bool newDepth,
+                                          bool newDebugRenderer)
         {
-            if (!RendererMetal::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer))
+            if (!RenderDeviceMetal::init(newWindow,
+                                         newSize,
+                                         newSampleCount,
+                                         newTextureFilter,
+                                         newMaxAnisotropy,
+                                         newVerticalSync,
+                                         newDepth,
+                                         newDebugRenderer))
             {
                 return false;
             }
@@ -83,7 +83,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            eventHandler.windowHandler = std::bind(&RendererMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.windowHandler = std::bind(&RenderDeviceMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
@@ -113,7 +113,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererMetalMacOS::handleWindow(Event::Type type, const WindowEvent& event)
+        bool RenderDeviceMetalMacOS::handleWindow(Event::Type type, const WindowEvent& event)
         {
             if (type == Event::Type::WINDOW_SCREEN_CHANGE)
             {
@@ -154,7 +154,7 @@ namespace ouzel
             return true;
         }
 
-        void RendererMetalMacOS::renderCallback()
+        void RenderDeviceMetalMacOS::renderCallback()
         {
             if (running)
             {

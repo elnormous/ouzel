@@ -14,12 +14,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
+        class RenderDeviceD3D11;
 
         class BufferResourceD3D11: public BufferResource
         {
         public:
-            BufferResourceD3D11(RendererD3D11* aRendererD3D11);
+            BufferResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11);
             virtual ~BufferResourceD3D11();
 
             virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
@@ -32,7 +32,7 @@ namespace ouzel
         protected:
             bool createBuffer();
 
-            RendererD3D11* rendererD3D11;
+            RenderDeviceD3D11* renderDeviceD3D11;
 
             ID3D11Buffer* buffer = nullptr;
             UINT bufferSize = 0;

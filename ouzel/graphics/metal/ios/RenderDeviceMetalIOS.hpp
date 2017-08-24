@@ -5,23 +5,18 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_METAL
 
-#include <emscripten.h>
-#include <emscripten/html5.h>
-#include "graphics/opengl/RendererOGL.hpp"
+#include "graphics/metal/RenderDeviceMetal.hpp"
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
-        class RendererOGLEm: public RendererOGL
+        class RenderDeviceMetalIOS: public RenderDeviceMetal
         {
-            friend Engine;
         public:
-            virtual ~RendererOGLEm();
+            virtual ~RenderDeviceMetalIOS();
 
         private:
             virtual bool init(Window* newWindow,
@@ -32,9 +27,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual bool lockContext() override;
 
-            EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
+        private:
+            id displayLinkHandler = nil;
         };
     } // namespace graphics
 } // namespace ouzel

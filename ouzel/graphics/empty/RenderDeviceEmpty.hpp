@@ -3,14 +3,7 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
-
-#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
-
-#include <thread>
-#include <atomic>
-#include <windows.h>
-#include "graphics/opengl/RendererOGL.hpp"
+#include "graphics/Renderer.hpp"
 
 namespace ouzel
 {
@@ -18,14 +11,12 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLWin: public RendererOGL
+        class RenderDeviceEmpty: public Renderer
         {
             friend Engine;
-        public:
-            virtual ~RendererOGLWin();
+        protected:
+            RenderDeviceEmpty();
 
-        private:
-            RendererOGLWin();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -35,17 +26,13 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
-            void main();
+            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
 
-            HDC deviceContext = 0;
-            HGLRC renderContext = 0;
-
-            std::atomic<bool> running;
-            std::thread renderThread;
+            virtual BlendStateResource* createBlendState() override;
+            virtual TextureResource* createTexture() override;
+            virtual ShaderResource* createShader() override;
+            virtual MeshBufferResource* createMeshBuffer() override;
+            virtual BufferResource* createBuffer() override;
         };
     } // namespace graphics
 } // namespace ouzel
-
-#endif

@@ -3,7 +3,15 @@
 
 #pragma once
 
-#include "graphics/Renderer.hpp"
+#include "core/CompileConfig.h"
+
+#if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
+
+#include <thread>
+#include <atomic>
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glx.h"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
 namespace ouzel
 {
@@ -11,11 +19,14 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererEmpty: public Renderer
+        class RenderDeviceOGLLinux: public RenderDeviceOGL
         {
             friend Engine;
-        protected:
-            RendererEmpty();
+        public:
+            virtual ~RenderDeviceOGLLinux();
+
+        private:
+            RenderDeviceOGLLinux();
 
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
@@ -26,13 +37,16 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
+            virtual bool lockContext() override;
+            virtual bool swapBuffers() override;
+            void main();
 
-            virtual BlendStateResource* createBlendState() override;
-            virtual TextureResource* createTexture() override;
-            virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
-            virtual BufferResource* createBuffer() override;
+            GLXContext context = 0;
+
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel
+
+#endif

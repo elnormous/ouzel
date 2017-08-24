@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "RendererEmpty.hpp"
+#include "RenderDeviceEmpty.hpp"
 #include "BlendStateResourceEmpty.hpp"
 #include "TextureResourceEmpty.hpp"
 #include "ShaderResourceEmpty.hpp"
@@ -14,19 +14,19 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererEmpty::RendererEmpty():
+        RenderDeviceEmpty::RenderDeviceEmpty():
             Renderer(Driver::EMPTY)
         {
         }
 
-        bool RendererEmpty::init(Window* newWindow,
-                                 const Size2& newSize,
-                                 uint32_t newSampleCount,
-                                 Texture::Filter newTextureFilter,
-                                 uint32_t newMaxAnisotropy,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newDebugRenderer)
+        bool RenderDeviceEmpty::init(Window* newWindow,
+                                     const Size2& newSize,
+                                     uint32_t newSampleCount,
+                                     Texture::Filter newTextureFilter,
+                                     uint32_t newMaxAnisotropy,
+                                     bool newVerticalSync,
+                                     bool newDepth,
+                                     bool newDebugRenderer)
         {
             if (!Renderer::init(newWindow,
                                 newSize,
@@ -117,12 +117,12 @@ namespace ouzel
             return true;
         }
 
-        bool RendererEmpty::draw(const std::vector<DrawCommand>&)
+        bool RenderDeviceEmpty::draw(const std::vector<DrawCommand>&)
         {
             return true;
         }
 
-        BlendStateResource* RendererEmpty::createBlendState()
+        BlendStateResource* RenderDeviceEmpty::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -131,7 +131,7 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RendererEmpty::createTexture()
+        TextureResource* RenderDeviceEmpty::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -140,7 +140,7 @@ namespace ouzel
             return texture;
         }
 
-        ShaderResource* RendererEmpty::createShader()
+        ShaderResource* RenderDeviceEmpty::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -149,7 +149,7 @@ namespace ouzel
             return shader;
         }
 
-        MeshBufferResource* RendererEmpty::createMeshBuffer()
+        MeshBufferResource* RenderDeviceEmpty::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -158,7 +158,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        BufferResource* RendererEmpty::createBuffer()
+        BufferResource* RenderDeviceEmpty::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 

@@ -33,7 +33,7 @@
     #include "GL/wglext.h"
 #endif
 
-#include "RendererOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 #include "TextureResourceOGL.hpp"
 #include "ShaderResourceOGL.hpp"
 #include "MeshBufferResourceOGL.hpp"
@@ -154,7 +154,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererOGL::RendererOGL():
+        RenderDeviceOGL::RenderDeviceOGL():
             Renderer(Driver::OPENGL)
         {
             projectionTransform = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
@@ -173,20 +173,20 @@ namespace ouzel
             std::fill(std::begin(stateCache.textureId), std::end(stateCache.textureId), 0);
         }
 
-        RendererOGL::~RendererOGL()
+        RenderDeviceOGL::~RenderDeviceOGL()
         {
             resourceDeleteSet.clear();
             resources.clear();
         }
 
-        bool RendererOGL::init(Window* newWindow,
-                               const Size2& newSize,
-                               uint32_t newSampleCount,
-                               Texture::Filter newTextureFilter,
-                               uint32_t newMaxAnisotropy,
-                               bool newVerticalSync,
-                               bool newDepth,
-                               bool newDebugRenderer)
+        bool RenderDeviceOGL::init(Window* newWindow,
+                                   const Size2& newSize,
+                                   uint32_t newSampleCount,
+                                   Texture::Filter newTextureFilter,
+                                   uint32_t newMaxAnisotropy,
+                                   bool newVerticalSync,
+                                   bool newDepth,
+                                   bool newDebugRenderer)
         {
             if (!Renderer::init(newWindow,
                                 newSize,
@@ -712,7 +712,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::upload()
+        bool RenderDeviceOGL::upload()
         {
             clearMask = 0;
             if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
@@ -732,7 +732,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::process()
+        bool RenderDeviceOGL::process()
         {
             if (!lockContext())
             {
@@ -742,7 +742,7 @@ namespace ouzel
             return Renderer::process();
         }
 
-        bool RendererOGL::draw(const std::vector<DrawCommand>& drawCommands)
+        bool RenderDeviceOGL::draw(const std::vector<DrawCommand>& drawCommands)
         {
             if (drawCommands.empty())
             {
@@ -1149,22 +1149,22 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGL::lockContext()
+        bool RenderDeviceOGL::lockContext()
         {
             return true;
         }
 
-        bool RendererOGL::swapBuffers()
+        bool RenderDeviceOGL::swapBuffers()
         {
             return true;
         }
 
-        std::vector<Size2> RendererOGL::getSupportedResolutions() const
+        std::vector<Size2> RenderDeviceOGL::getSupportedResolutions() const
         {
             return std::vector<Size2>();
         }
 
-        bool RendererOGL::generateScreenshot(const std::string& filename)
+        bool RenderDeviceOGL::generateScreenshot(const std::string& filename)
         {
             bindFrameBuffer(frameBufferId);
 
@@ -1201,7 +1201,7 @@ namespace ouzel
             return true;
         }
 
-        BlendStateResource* RendererOGL::createBlendState()
+        BlendStateResource* RenderDeviceOGL::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -1210,7 +1210,7 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RendererOGL::createTexture()
+        TextureResource* RenderDeviceOGL::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -1219,7 +1219,7 @@ namespace ouzel
             return texture;
         }
 
-        ShaderResource* RendererOGL::createShader()
+        ShaderResource* RenderDeviceOGL::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -1228,7 +1228,7 @@ namespace ouzel
             return shader;
         }
 
-        MeshBufferResource* RendererOGL::createMeshBuffer()
+        MeshBufferResource* RenderDeviceOGL::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -1237,7 +1237,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        BufferResource* RendererOGL::createBuffer()
+        BufferResource* RenderDeviceOGL::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -1246,7 +1246,7 @@ namespace ouzel
             return buffer;
         }
 
-        void* RendererOGL::getProcAddress(const std::string& name) const
+        void* RenderDeviceOGL::getProcAddress(const std::string& name) const
         {
 #if OUZEL_PLATFORM_MACOS
             return dlsym(RTLD_DEFAULT, name.c_str());

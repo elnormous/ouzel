@@ -36,23 +36,23 @@ typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
 #endif
 
-#include "graphics/metal/RendererMetal.hpp"
+#include "graphics/metal/RenderDeviceMetal.hpp"
 #include "events/EventHandler.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetalMacOS: public RendererMetal
+        class RenderDeviceMetalMacOS: public RenderDeviceMetal
         {
             friend Engine;
         public:
-            virtual ~RendererMetalMacOS();
+            virtual ~RenderDeviceMetalMacOS();
 
             void renderCallback();
 
         private:
-            RendererMetalMacOS();
+            RenderDeviceMetalMacOS();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,

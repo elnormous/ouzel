@@ -5,20 +5,13 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_RASPBIAN && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
 #include <thread>
 #include <atomic>
-#include <bcm_host.h>
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
-#include "graphics/opengl/RendererOGL.hpp"
-
-typedef struct {
-   DISPMANX_ELEMENT_HANDLE_T element;
-   int width;   /* This is necessary because dispmanx elements are not queriable. */
-   int height;
-} EGL_DISPMANX_WINDOW_T;
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
 namespace ouzel
 {
@@ -26,14 +19,13 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLRasp: public RendererOGL
+        class RenderDeviceOGLAndroid: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLRasp();
+            virtual ~RenderDeviceOGLAndroid();
 
         private:
-            RendererOGLRasp();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -50,8 +42,6 @@ namespace ouzel
             EGLDisplay display = 0;
             EGLSurface surface = 0;
             EGLContext context = 0;
-
-            EGL_DISPMANX_WINDOW_T nativewindow;
 
             std::atomic<bool> running;
             std::thread renderThread;

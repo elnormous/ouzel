@@ -7,15 +7,15 @@
 
 #include <algorithm>
 #include "BufferResourceMetal.hpp"
-#include "RendererMetal.hpp"
+#include "RenderDeviceMetal.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceMetal::BufferResourceMetal(RendererMetal* aRendererMetal):
-            rendererMetal(aRendererMetal)
+        BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal* aRenderDeviceMetal):
+            renderDeviceMetal(aRenderDeviceMetal)
         {
         }
 
@@ -97,8 +97,8 @@ namespace ouzel
 
             if (!data.empty())
             {
-                buffer = [rendererMetal->getDevice() newBufferWithLength:bufferSize
-                                                                 options:MTLResourceCPUCacheModeWriteCombined];
+                buffer = [renderDeviceMetal->getDevice() newBufferWithLength:bufferSize
+                                                                     options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!buffer)
                 {

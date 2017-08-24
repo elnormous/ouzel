@@ -27,13 +27,13 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
+        class RenderDeviceOGL;
         class BufferResourceOGL;
 
         class MeshBufferResourceOGL: public MeshBufferResource
         {
         public:
-            MeshBufferResourceOGL(RendererOGL* aRendererOGL);
+            MeshBufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);
             virtual ~MeshBufferResourceOGL();
 
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
@@ -54,7 +54,7 @@ namespace ouzel
             BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
-            RendererOGL* rendererOGL;
+            RenderDeviceOGL* renderDeviceOGL;
 
             GLenum indexType = 0;
             GLuint bytesPerIndex = 0;

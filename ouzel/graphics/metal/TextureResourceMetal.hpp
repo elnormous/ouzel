@@ -29,12 +29,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
+        class RenderDeviceMetal;
 
         class TextureResourceMetal: public TextureResource
         {
         public:
-            TextureResourceMetal(RendererMetal* aRendererMetal);
+            TextureResourceMetal(RenderDeviceMetal* aRenderDeviceMetal);
             virtual ~TextureResourceMetal();
 
             virtual bool init(const Size2& newSize,
@@ -76,7 +76,7 @@ namespace ouzel
             bool createTexture();
             bool updateSamplerState();
 
-            RendererMetal* rendererMetal;
+            RenderDeviceMetal* renderDeviceMetal;
 
             MTLTexturePtr texture = nil;
 

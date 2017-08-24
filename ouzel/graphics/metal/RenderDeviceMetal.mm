@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_METAL
 
-#include "RendererMetal.hpp"
+#include "RenderDeviceMetal.hpp"
 #include "TextureResourceMetal.hpp"
 #include "ShaderResourceMetal.hpp"
 #include "MeshBufferResourceMetal.hpp"
@@ -53,7 +53,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool RendererMetal::available()
+        bool RenderDeviceMetal::available()
         {
             id<MTLDevice> device = MTLCreateSystemDefaultDevice();
 
@@ -66,7 +66,7 @@ namespace ouzel
             return false;
         }
 
-        RendererMetal::RendererMetal():
+        RenderDeviceMetal::RenderDeviceMetal():
             Renderer(Driver::METAL)
         {
             apiMajorVersion = 1;
@@ -75,7 +75,7 @@ namespace ouzel
             std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nil);
         }
 
-        RendererMetal::~RendererMetal()
+        RenderDeviceMetal::~RenderDeviceMetal()
         {
             resourceDeleteSet.clear();
             resources.clear();
@@ -134,14 +134,14 @@ namespace ouzel
             }
         }
 
-        bool RendererMetal::init(Window* newWindow,
-                                 const Size2& newSize,
-                                 uint32_t newSampleCount,
-                                 Texture::Filter newTextureFilter,
-                                 uint32_t newMaxAnisotropy,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newDebugRenderer)
+        bool RenderDeviceMetal::init(Window* newWindow,
+                                     const Size2& newSize,
+                                     uint32_t newSampleCount,
+                                     Texture::Filter newTextureFilter,
+                                     uint32_t newMaxAnisotropy,
+                                     bool newVerticalSync,
+                                     bool newDepth,
+                                     bool newDebugRenderer)
         {
             if (!Renderer::init(newWindow,
                                 newSize,
@@ -310,7 +310,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererMetal::upload()
+        bool RenderDeviceMetal::upload()
         {
             if (metalLayer.drawableSize.width != size.width ||
                 metalLayer.drawableSize.height != size.height)
@@ -334,7 +334,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererMetal::draw(const std::vector<DrawCommand>& drawCommands)
+        bool RenderDeviceMetal::draw(const std::vector<DrawCommand>& drawCommands)
         {
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
@@ -807,12 +807,12 @@ namespace ouzel
             return true;
         }
 
-        std::vector<Size2> RendererMetal::getSupportedResolutions() const
+        std::vector<Size2> RenderDeviceMetal::getSupportedResolutions() const
         {
             return std::vector<Size2>();
         }
 
-        bool RendererMetal::generateScreenshot(const std::string& filename)
+        bool RenderDeviceMetal::generateScreenshot(const std::string& filename)
         {
             if (!currentMetalTexture)
             {
@@ -846,7 +846,7 @@ namespace ouzel
             return true;
         }
 
-        BlendStateResource* RendererMetal::createBlendState()
+        BlendStateResource* RenderDeviceMetal::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -855,7 +855,7 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RendererMetal::createTexture()
+        TextureResource* RenderDeviceMetal::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -864,7 +864,7 @@ namespace ouzel
             return texture;
         }
 
-        ShaderResource* RendererMetal::createShader()
+        ShaderResource* RenderDeviceMetal::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -873,7 +873,7 @@ namespace ouzel
             return shader;
         }
 
-        MeshBufferResource* RendererMetal::createMeshBuffer()
+        MeshBufferResource* RenderDeviceMetal::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -882,7 +882,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        BufferResource* RendererMetal::createBuffer()
+        BufferResource* RenderDeviceMetal::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -891,7 +891,7 @@ namespace ouzel
             return buffer;
         }
 
-        MTLRenderPipelineStatePtr RendererMetal::getPipelineState(const PipelineStateDesc& desc)
+        MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)
         {
             auto pipelineStateIterator = pipelineStates.find(desc);
 
@@ -941,7 +941,7 @@ namespace ouzel
             }
         }
 
-        MTLSamplerStatePtr RendererMetal::getSamplerState(const SamplerStateDescriptor& descriptor)
+        MTLSamplerStatePtr RenderDeviceMetal::getSamplerState(const SamplerStateDescriptor& descriptor)
         {
             auto samplerStatesIterator = samplerStates.find(descriptor);
 

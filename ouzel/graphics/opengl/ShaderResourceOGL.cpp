@@ -6,15 +6,15 @@
 #if OUZEL_SUPPORTS_OPENGL
 
 #include "ShaderResourceOGL.hpp"
-#include "RendererOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceOGL::ShaderResourceOGL(RendererOGL* aRendererOGL):
-            rendererOGL(aRendererOGL)
+        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
+            renderDeviceOGL(aRenderDeviceOGL)
         {
         }
 
@@ -22,17 +22,17 @@ namespace ouzel
         {
             if (programId)
             {
-                rendererOGL->deleteProgram(programId);
+                renderDeviceOGL->deleteProgram(programId);
             }
 
             if (vertexShaderId)
             {
-                rendererOGL->deleteShader(vertexShaderId);
+                renderDeviceOGL->deleteShader(vertexShaderId);
             }
 
             if (pixelShaderId)
             {
-                rendererOGL->deleteShader(pixelShaderId);
+                renderDeviceOGL->deleteShader(pixelShaderId);
             }
         }
 
@@ -78,7 +78,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     return false;
                 }
@@ -169,7 +169,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     return false;
                 }
@@ -182,12 +182,12 @@ namespace ouzel
                 glDeleteShaderProc(pixelShaderId);
                 pixelShaderId = 0;
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     return false;
                 }
 
-                rendererOGL->useProgram(programId);
+                renderDeviceOGL->useProgram(programId);
 
                 GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
                 if (texture0Location != -1) glUniform1iProc(texture0Location, 0);
@@ -195,7 +195,7 @@ namespace ouzel
                 GLint texture1Location = glGetUniformLocationProc(programId, "texture1");
                 if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     return false;
                 }
@@ -210,7 +210,7 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
                         return false;
@@ -229,7 +229,7 @@ namespace ouzel
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
-                    if (location == -1 || RendererOGL::checkOpenGLError())
+                    if (location == -1 || RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
                         return false;

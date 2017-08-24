@@ -6,15 +6,15 @@
 #if OUZEL_SUPPORTS_DIRECT3D11
 
 #include "BufferResourceD3D11.hpp"
-#include "RendererD3D11.hpp"
+#include "RenderDeviceD3D11.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceD3D11::BufferResourceD3D11(RendererD3D11* aRendererD3D11):
-            rendererD3D11(aRendererD3D11)
+        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11):
+            renderDeviceD3D11(aRenderDeviceD3D11)
         {
         }
 
@@ -76,7 +76,7 @@ namespace ouzel
                     mappedSubresource.RowPitch = 0;
                     mappedSubresource.DepthPitch = 0;
 
-                    HRESULT hr = rendererD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+                    HRESULT hr = renderDeviceD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
@@ -85,7 +85,7 @@ namespace ouzel
 
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
-                    rendererD3D11->getContext()->Unmap(buffer, 0);
+                    renderDeviceD3D11->getContext()->Unmap(buffer, 0);
                 }
             }
 
@@ -130,7 +130,7 @@ namespace ouzel
                 bufferResourceData.SysMemPitch = 0;
                 bufferResourceData.SysMemSlicePitch = 0;
 
-                HRESULT hr = rendererD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
+                HRESULT hr = renderDeviceD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;

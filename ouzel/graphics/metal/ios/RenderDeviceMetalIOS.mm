@@ -6,7 +6,7 @@
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_METAL
 
 #import "core/ios/DisplayLinkHandler.h"
-#include "RendererMetalIOS.hpp"
+#include "RenderDeviceMetalIOS.hpp"
 #include "MetalView.h"
 #include "core/ios/WindowIOS.hpp"
 #include "utils/Log.hpp"
@@ -15,30 +15,30 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererMetalIOS::~RendererMetalIOS()
+        RenderDeviceMetalIOS::~RenderDeviceMetalIOS()
         {
             if (displayLinkHandler) [displayLinkHandler stop];
             flushCommands();
             if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 
-        bool RendererMetalIOS::init(Window* newWindow,
-                                    const Size2& newSize,
-                                    uint32_t newSampleCount,
-                                    Texture::Filter newTextureFilter,
-                                    uint32_t newMaxAnisotropy,
-                                    bool newVerticalSync,
-                                    bool newDepth,
-                                    bool newDebugRenderer)
+        bool RenderDeviceMetalIOS::init(Window* newWindow,
+                                        const Size2& newSize,
+                                        uint32_t newSampleCount,
+                                        Texture::Filter newTextureFilter,
+                                        uint32_t newMaxAnisotropy,
+                                        bool newVerticalSync,
+                                        bool newDepth,
+                                        bool newDebugRenderer)
         {
-            if (!RendererMetal::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer))
+            if (!RenderDeviceMetal::init(newWindow,
+                                         newSize,
+                                         newSampleCount,
+                                         newTextureFilter,
+                                         newMaxAnisotropy,
+                                         newVerticalSync,
+                                         newDepth,
+                                         newDebugRenderer))
             {
                 return false;
             }

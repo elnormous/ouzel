@@ -5,7 +5,7 @@
 
 #if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLEm.hpp"
+#include "RenderDeviceOGLEm.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utils.hpp"
 
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererOGLEm::~RendererOGLEm()
+        RenderDeviceOGLEm::~RenderDeviceOGLEm()
         {
             if (webGLContext)
             {
@@ -24,14 +24,14 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLEm::init(Window* newWindow,
-                                 const Size2& newSize,
-                                 uint32_t newSampleCount,
-                                 Texture::Filter newTextureFilter,
-                                 uint32_t newMaxAnisotropy,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newDebugRenderer)
+        bool RenderDeviceOGLEm::init(Window* newWindow,
+                                     const Size2& newSize,
+                                     uint32_t newSampleCount,
+                                     Texture::Filter newTextureFilter,
+                                     uint32_t newMaxAnisotropy,
+                                     bool newVerticalSync,
+                                     bool newDepth,
+                                     bool newDebugRenderer)
         {
             apiMajorVersion = 2;
             apiMinorVersion = 0;
@@ -60,17 +60,17 @@ namespace ouzel
                 return false;
             }
 
-            return RendererOGL::init(newWindow,
-                                     newSize,
-                                     newSampleCount,
-                                     newTextureFilter,
-                                     newMaxAnisotropy,
-                                     newVerticalSync,
-                                     newDepth,
-                                     newDebugRenderer);
+            return RenderDeviceOGL::init(newWindow,
+                                         newSize,
+                                         newSampleCount,
+                                         newTextureFilter,
+                                         newMaxAnisotropy,
+                                         newVerticalSync,
+                                         newDepth,
+                                         newDebugRenderer);
         }
 
-        bool RendererOGLEm::lockContext()
+        bool RenderDeviceOGLEm::lockContext()
         {
             EMSCRIPTEN_RESULT res = emscripten_webgl_make_context_current(webGLContext);
 

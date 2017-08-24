@@ -5,13 +5,19 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
 
-#include <thread>
-#include <atomic>
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/glx.h"
-#include "graphics/opengl/RendererOGL.hpp"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
+
+#if defined(__OBJC__)
+#import <UIKit/UIKit.h>
+typedef EAGLContext* EAGLContextPtr;
+typedef CAEAGLLayer* CAEAGLLayerPtr;
+#else
+#include <objc/objc.h>
+typedef id EAGLContextPtr;
+typedef id CAEAGLLayerPtr;
+#endif
 
 namespace ouzel
 {
@@ -19,15 +25,13 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLLinux: public RendererOGL
+        class RenderDeviceOGLTVOS: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLLinux();
+            virtual ~RenderDeviceOGLTVOS();
 
         private:
-            RendererOGLLinux();
-
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -36,15 +40,24 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
-            void main();
+            virtual bool upload() override;
 
-            GLXContext context = 0;
+            bool createFrameBuffer();
 
-            std::atomic<bool> running;
-            std::thread renderThread;
+            EAGLContextPtr context = nil;
+            CAEAGLLayerPtr eaglLayer = nil;
+
+            GLuint msaaFrameBufferId = 0;
+            GLuint msaaColorRenderBufferId = 0;
+
+            GLuint resolveFrameBufferId = 0;
+            GLuint resolveColorRenderBufferId = 0;
+
+            GLuint depthRenderBufferId = 0;
+
+            id displayLinkHandler = nil;
         };
     } // namespace graphics
 } // namespace ouzel

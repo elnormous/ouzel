@@ -5,13 +5,11 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
 
-#include <thread>
-#include <atomic>
-#include "EGL/egl.h"
-#include "EGL/eglext.h"
-#include "graphics/opengl/RendererOGL.hpp"
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
 namespace ouzel
 {
@@ -19,11 +17,11 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLAndroid: public RendererOGL
+        class RenderDeviceOGLEm: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLAndroid();
+            virtual ~RenderDeviceOGLEm();
 
         private:
             virtual bool init(Window* newWindow,
@@ -34,17 +32,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-
             virtual bool lockContext() override;
-            virtual bool swapBuffers() override;
-            void main();
 
-            EGLDisplay display = 0;
-            EGLSurface surface = 0;
-            EGLContext context = 0;
-
-            std::atomic<bool> running;
-            std::thread renderThread;
+            EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webGLContext = 0;
         };
     } // namespace graphics
 } // namespace ouzel

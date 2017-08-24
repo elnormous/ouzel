@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_DIRECT3D11
 
 #include "ShaderResourceD3D11.hpp"
-#include "RendererD3D11.hpp"
+#include "RenderDeviceD3D11.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -85,8 +85,8 @@ namespace ouzel
             }
         }
 
-        ShaderResourceD3D11::ShaderResourceD3D11(RendererD3D11* aRendererD3D11):
-            rendererD3D11(aRendererD3D11)
+        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11):
+            renderDeviceD3D11(aRenderDeviceD3D11)
         {
         }
 
@@ -143,7 +143,7 @@ namespace ouzel
 
             if (pixelShader) pixelShader->Release();
 
-            HRESULT hr = rendererD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
+            HRESULT hr = renderDeviceD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
@@ -152,7 +152,7 @@ namespace ouzel
             
             if (vertexShader) vertexShader->Release();
 
-            hr = rendererD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);
+            hr = renderDeviceD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader, error: " << hr;
@@ -222,7 +222,7 @@ namespace ouzel
 
             if (inputLayout) inputLayout->Release();
 
-            hr = rendererD3D11->getDevice()->CreateInputLayout(
+            hr = renderDeviceD3D11->getDevice()->CreateInputLayout(
                 vertexInputElements.data(),
                 static_cast<UINT>(vertexInputElements.size()),
                 vertexShaderData.data(),
@@ -258,7 +258,7 @@ namespace ouzel
 
             if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
 
-            hr = rendererD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
+            hr = renderDeviceD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer, error: " << hr;
@@ -289,7 +289,7 @@ namespace ouzel
 
             if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
-            hr = rendererD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
+            hr = renderDeviceD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer, error: " << hr;

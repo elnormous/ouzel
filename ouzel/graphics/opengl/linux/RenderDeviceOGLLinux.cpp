@@ -5,19 +5,19 @@
 
 #if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLLinux.hpp"
+#include "RenderDeviceOGLLinux.hpp"
 #include "core/linux/WindowLinux.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        RendererOGLLinux::RendererOGLLinux():
+        RenderDeviceOGLLinux::RenderDeviceOGLLinux():
             running(false)
         {
         }
 
-        RendererOGLLinux::~RendererOGLLinux()
+        RenderDeviceOGLLinux::~RenderDeviceOGLLinux()
         {
             running = false;
             flushCommands();
@@ -36,14 +36,14 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLLinux::init(Window* newWindow,
-                                    const Size2& newSize,
-                                    uint32_t newSampleCount,
-                                    Texture::Filter newTextureFilter,
-                                    uint32_t newMaxAnisotropy,
-                                    bool newVerticalSync,
-                                    bool newDepth,
-                                    bool newDebugRenderer)
+        bool RenderDeviceOGLLinux::init(Window* newWindow,
+                                        const Size2& newSize,
+                                        uint32_t newSampleCount,
+                                        Texture::Filter newTextureFilter,
+                                        uint32_t newMaxAnisotropy,
+                                        bool newVerticalSync,
+                                        bool newDepth,
+                                        bool newDebugRenderer)
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(newWindow);
 
@@ -145,25 +145,25 @@ namespace ouzel
                 glXSwapIntervalEXT(windowLinux->getDisplay(), windowLinux->getNativeWindow(), newVerticalSync ? 1 : 0);
             }
 
-            if (!RendererOGL::init(newWindow,
-                                   newSize,
-                                   newSampleCount,
-                                   newTextureFilter,
-                                   newMaxAnisotropy,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newDebugRenderer))
+            if (!RenderDeviceOGL::init(newWindow,
+                                       newSize,
+                                       newSampleCount,
+                                       newTextureFilter,
+                                       newMaxAnisotropy,
+                                       newVerticalSync,
+                                       newDepth,
+                                       newDebugRenderer))
             {
                 return false;
             }
 
             running = true;
-            renderThread = std::thread(&RendererOGLLinux::main, this);
+            renderThread = std::thread(&RenderDeviceOGLLinux::main, this);
 
             return true;
         }
 
-        bool RendererOGLLinux::lockContext()
+        bool RenderDeviceOGLLinux::lockContext()
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
 
@@ -176,7 +176,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLLinux::swapBuffers()
+        bool RenderDeviceOGLLinux::swapBuffers()
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
 
@@ -185,7 +185,7 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGLLinux::main()
+        void RenderDeviceOGLLinux::main()
         {
             while (running)
             {

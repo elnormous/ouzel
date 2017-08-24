@@ -14,12 +14,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11;
+        class RenderDeviceD3D11;
 
         class TextureResourceD3D11: public TextureResource
         {
         public:
-            TextureResourceD3D11(RendererD3D11* aRendererD3D11);
+            TextureResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11);
             virtual ~TextureResourceD3D11();
 
             virtual bool init(const Size2& newSize,
@@ -63,7 +63,7 @@ namespace ouzel
             bool createTexture();
             bool updateSamplerState();
 
-            RendererD3D11* rendererD3D11;
+            RenderDeviceD3D11* renderDeviceD3D11;
 
             ID3D11Texture2D* texture = nullptr;
             ID3D11ShaderResourceView* resourceView = nullptr;

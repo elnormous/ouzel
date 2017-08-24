@@ -19,25 +19,25 @@ typedef id NSOpenGLContextPtr;
 typedef id NSOpenGLPixelFormatPtr;
 #endif
 
-#include "graphics/opengl/RendererOGL.hpp"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 #include "events/EventHandler.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGLMacOS: public RendererOGL
+        class RenderDeviceOGLMacOS: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLMacOS();
+            virtual ~RenderDeviceOGLMacOS();
 
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
             void renderCallback();
 
         protected:
-            RendererOGLMacOS();
+            RenderDeviceOGLMacOS();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,

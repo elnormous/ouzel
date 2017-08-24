@@ -5,19 +5,20 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_RASPBIAN && OUZEL_SUPPORTS_OPENGL
 
-#include "graphics/opengl/RendererOGL.hpp"
+#include <thread>
+#include <atomic>
+#include <bcm_host.h>
+#include "EGL/egl.h"
+#include "EGL/eglext.h"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
-#if defined(__OBJC__)
-#import <UIKit/UIKit.h>
-typedef EAGLContext* EAGLContextPtr;
-typedef CAEAGLLayer* CAEAGLLayerPtr;
-#else
-#include <objc/objc.h>
-typedef id EAGLContextPtr;
-typedef id CAEAGLLayerPtr;
-#endif
+typedef struct {
+   DISPMANX_ELEMENT_HANDLE_T element;
+   int width;   /* This is necessary because dispmanx elements are not queriable. */
+   int height;
+} EGL_DISPMANX_WINDOW_T;
 
 namespace ouzel
 {
@@ -25,13 +26,14 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLTVOS: public RendererOGL
+        class RenderDeviceOGLRasp: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLTVOS();
+            virtual ~RenderDeviceOGLRasp();
 
         private:
+            RenderDeviceOGLRasp();
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
                               uint32_t newSampleCount,
@@ -40,24 +42,19 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
+
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
-            virtual bool upload() override;
+            void main();
 
-            bool createFrameBuffer();
+            EGLDisplay display = 0;
+            EGLSurface surface = 0;
+            EGLContext context = 0;
 
-            EAGLContextPtr context = nil;
-            CAEAGLLayerPtr eaglLayer = nil;
+            EGL_DISPMANX_WINDOW_T nativewindow;
 
-            GLuint msaaFrameBufferId = 0;
-            GLuint msaaColorRenderBufferId = 0;
-
-            GLuint resolveFrameBufferId = 0;
-            GLuint resolveColorRenderBufferId = 0;
-
-            GLuint depthRenderBufferId = 0;
-
-            id displayLinkHandler = nil;
+            std::atomic<bool> running;
+            std::thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

@@ -21,14 +21,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetal;
+        class RenderDeviceMetal;
         class MeshBufferResourceMetal;
 
         class BufferResourceMetal: public BufferResource
         {
             friend MeshBufferResourceMetal;
         public:
-            BufferResourceMetal(RendererMetal* aRendererMetal);
+            BufferResourceMetal(RenderDeviceMetal* aRenderDeviceMetal);
             virtual ~BufferResourceMetal();
 
             virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
@@ -41,7 +41,7 @@ namespace ouzel
         protected:
             bool createBuffer();
 
-            RendererMetal* rendererMetal;
+            RenderDeviceMetal* renderDeviceMetal;
 
             MTLBufferPtr buffer = nil;
             uint32_t bufferSize = 0;

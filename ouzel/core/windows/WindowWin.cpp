@@ -7,7 +7,7 @@
 #include "core/Window.hpp"
 #include "input/windows/InputWin.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/direct3d11/RendererD3D11.hpp"
+#include "graphics/direct3d11/RenderDeviceD3D11.hpp"
 #include "utils/Log.hpp"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)

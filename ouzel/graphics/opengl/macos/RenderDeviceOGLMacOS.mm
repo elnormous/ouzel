@@ -5,7 +5,7 @@
 
 #if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_OPENGL
 
-#include "RendererOGLMacOS.hpp"
+#include "RenderDeviceOGLMacOS.hpp"
 #include "core/macos/WindowMacOS.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -19,9 +19,9 @@ static CVReturn renderCallback(CVDisplayLinkRef,
 {
     @autoreleasepool
     {
-        ouzel::graphics::RendererOGLMacOS* renderer = static_cast<ouzel::graphics::RendererOGLMacOS*>(userInfo);
+        ouzel::graphics::RenderDeviceOGLMacOS* renderDevice = static_cast<ouzel::graphics::RenderDeviceOGLMacOS*>(userInfo);
 
-        renderer->renderCallback();
+        renderDevice->renderCallback();
     }
 
     return kCVReturnSuccess;
@@ -31,12 +31,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererOGLMacOS::RendererOGLMacOS():
+        RenderDeviceOGLMacOS::RenderDeviceOGLMacOS():
             running(false)
         {
         }
 
-        RendererOGLMacOS::~RendererOGLMacOS()
+        RenderDeviceOGLMacOS::~RenderDeviceOGLMacOS()
         {
             running = false;
             flushCommands();
@@ -63,14 +63,14 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLMacOS::init(Window* newWindow,
-                                    const Size2& newSize,
-                                    uint32_t newSampleCount,
-                                    Texture::Filter newTextureFilter,
-                                    uint32_t newMaxAnisotropy,
-                                    bool newVerticalSync,
-                                    bool newDepth,
-                                    bool newDebugRenderer)
+        bool RenderDeviceOGLMacOS::init(Window* newWindow,
+                                        const Size2& newSize,
+                                        uint32_t newSampleCount,
+                                        Texture::Filter newTextureFilter,
+                                        uint32_t newMaxAnisotropy,
+                                        bool newVerticalSync,
+                                        bool newDepth,
+                                        bool newDebugRenderer)
         {
             NSOpenGLPixelFormatAttribute openGLVersions[] = {
                 NSOpenGLProfileVersion4_1Core,
@@ -145,19 +145,19 @@ namespace ouzel
             GLint swapInt = newVerticalSync ? 1 : 0;
             [openGLContext setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 
-            if (!RendererOGL::init(newWindow,
-                                   newSize,
-                                   newSampleCount,
-                                   newTextureFilter,
-                                   newMaxAnisotropy,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newDebugRenderer))
+            if (!RenderDeviceOGL::init(newWindow,
+                                       newSize,
+                                       newSampleCount,
+                                       newTextureFilter,
+                                       newMaxAnisotropy,
+                                       newVerticalSync,
+                                       newDepth,
+                                       newDebugRenderer))
             {
                 return false;
             }
 
-            eventHandler.windowHandler = std::bind(&RendererOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
+            eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -185,28 +185,28 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLMacOS::lockContext()
+        bool RenderDeviceOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];
 
             return true;
         }
 
-        bool RendererOGLMacOS::swapBuffers()
+        bool RenderDeviceOGLMacOS::swapBuffers()
         {
             [openGLContext flushBuffer];
 
             return true;
         }
 
-        bool RendererOGLMacOS::upload()
+        bool RenderDeviceOGLMacOS::upload()
         {
             [openGLContext update];
 
-            return RendererOGL::upload();
+            return RenderDeviceOGL::upload();
         }
 
-        bool RendererOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)
+        bool RenderDeviceOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)
         {
             if (type == Event::Type::WINDOW_SCREEN_CHANGE)
             {
@@ -247,7 +247,7 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGLMacOS::renderCallback()
+        void RenderDeviceOGLMacOS::renderCallback()
         {
             if (running)
             {

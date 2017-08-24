@@ -58,13 +58,13 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BufferResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/RendererEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/TextureResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/RendererOGL.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/BlendState.cpp \
@@ -150,10 +150,10 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RendererD3D11.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RenderDeviceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RendererOGLWin.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RenderDeviceOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp \
@@ -165,7 +165,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
 	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRasp.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RendererOGLRasp.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RenderDeviceOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
@@ -176,7 +176,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
 	$(ROOT_DIR)/../ouzel/files/linux/FileSystemLinux.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RendererOGLLinux.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
@@ -197,7 +197,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RendererOGLMacOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/RenderDeviceOGLMacOS.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
@@ -221,7 +221,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RendererOGLIOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/InputIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -245,7 +245,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RendererOGLTVOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/InputTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
@@ -256,7 +256,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
 	$(ROOT_DIR)/../ouzel/files/emscripten/FileSystemEm.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RendererOGLEm.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
 endif

@@ -7,7 +7,7 @@
 
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENGL
 
-#include "graphics/opengl/RendererOGL.hpp"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -25,11 +25,11 @@ namespace ouzel
 
     namespace graphics
     {
-        class RendererOGLIOS: public RendererOGL
+        class RenderDeviceOGLIOS: public RenderDeviceOGL
         {
             friend Engine;
         public:
-            virtual ~RendererOGLIOS();
+            virtual ~RenderDeviceOGLIOS();
 
         private:
             virtual bool init(Window* newWindow,

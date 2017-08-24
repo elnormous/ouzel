@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_OPENGL
 
 #include "TextureResourceOGL.hpp"
-#include "RendererOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 #include "utils/Utils.hpp"
 #include "utils/Log.hpp"
 
@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureResourceOGL::TextureResourceOGL(RendererOGL* aRendererOGL):
-            rendererOGL(aRendererOGL)
+        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
+            renderDeviceOGL(aRenderDeviceOGL)
         {
         }
 
@@ -23,17 +23,17 @@ namespace ouzel
         {
             if (depthBufferId)
             {
-                rendererOGL->deleteRenderBuffer(depthBufferId);
+                renderDeviceOGL->deleteRenderBuffer(depthBufferId);
             }
 
             if (frameBufferId)
             {
-                rendererOGL->deleteFrameBuffer(frameBufferId);
+                renderDeviceOGL->deleteFrameBuffer(frameBufferId);
             }
 
             if (textureId)
             {
-                rendererOGL->deleteTexture(textureId);
+                renderDeviceOGL->deleteTexture(textureId);
             }
         }
 
@@ -237,16 +237,16 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                         return false;
@@ -261,14 +261,14 @@ namespace ouzel
                                  oglPixelFormat, oglPixelType, nullptr);
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture size";
                     return false;
                 }
             }
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -291,7 +291,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture filter";
                 return false;
@@ -310,7 +310,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
@@ -329,19 +329,19 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
             }
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
                     return false;
@@ -380,16 +380,16 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
                 if (!levels.empty())
                 {
-                    if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                    if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                         return false;
@@ -414,14 +414,14 @@ namespace ouzel
                     }
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to upload texture data";
                     return false;
                 }
             }
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -444,7 +444,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture filter";
                 return false;
@@ -463,7 +463,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
@@ -482,19 +482,19 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
             }
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
                     return false;
@@ -517,7 +517,7 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             if (static_cast<GLsizei>(size.width) != width ||
                 static_cast<GLsizei>(size.height) != height)
@@ -535,7 +535,7 @@ namespace ouzel
                     {
                         glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                        if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
+                        if (sampleCount > 1 && renderDeviceOGL->isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
@@ -549,7 +549,7 @@ namespace ouzel
                         }
                     }
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to create render buffer";
                         return false;
@@ -559,10 +559,10 @@ namespace ouzel
                 {
                     if (!levels.empty())
                     {
-                        if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                        if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RendererOGL::checkOpenGLError())
+                        if (RenderDeviceOGL::checkOpenGLError())
                         {
                             Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                             return false;
@@ -579,7 +579,7 @@ namespace ouzel
                                      nullptr);
                     }
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to set texture size";
                         return false;
@@ -603,7 +603,7 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -615,10 +615,10 @@ namespace ouzel
 
                     if (!levels.empty())
                     {
-                        if (rendererOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-                        if (rendererOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+                        if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                        if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
 
-                        if (RendererOGL::checkOpenGLError())
+                        if (RenderDeviceOGL::checkOpenGLError())
                         {
                             Log(Log::Level::ERR) << "Failed to set texture base and max levels";
                             return false;
@@ -662,7 +662,7 @@ namespace ouzel
                     }
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to upload texture data";
                     return false;
@@ -685,9 +685,9 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
-            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? rendererOGL->getTextureFilter() : filter;
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
 
             switch (finalFilter)
             {
@@ -710,7 +710,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture filter";
                 return false;
@@ -732,7 +732,7 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             switch (addressX)
             {
@@ -747,7 +747,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
@@ -769,7 +769,7 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             switch (addressY)
             {
@@ -784,7 +784,7 @@ namespace ouzel
                     break;
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to set texture wrap mode";
                 return false;
@@ -806,15 +806,15 @@ namespace ouzel
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
-            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? rendererOGL->getMaxAnisotropy() : maxAnisotropy;
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
 
-            if (finalMaxAnisotropy > 1 && rendererOGL->isAnisotropicFilteringSupported())
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
             {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
                     return false;
@@ -881,36 +881,36 @@ namespace ouzel
         {
             if (depthBufferId)
             {
-                rendererOGL->deleteRenderBuffer(depthBufferId);
+                renderDeviceOGL->deleteRenderBuffer(depthBufferId);
                 depthBufferId = 0;
             }
 
             if (frameBufferId)
             {
-                rendererOGL->deleteFrameBuffer(frameBufferId);
+                renderDeviceOGL->deleteFrameBuffer(frameBufferId);
                 frameBufferId = 0;
             }
 
             if (textureId)
             {
-                rendererOGL->deleteTexture(textureId);
+                renderDeviceOGL->deleteTexture(textureId);
                 textureId = 0;
             }
 
             glGenTextures(1, &textureId);
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to create texture";
                 return false;
             }
 
-            rendererOGL->bindTexture(textureId, 0);
+            renderDeviceOGL->bindTexture(textureId, 0);
 
             width = static_cast<GLsizei>(size.width);
             height = static_cast<GLsizei>(size.height);
 
-            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, rendererOGL->getAPIMajorVersion());
+            oglInternalPixelFormat = getOGLInternalPixelFormat(pixelFormat, renderDeviceOGL->getAPIMajorVersion());
 
             if (oglInternalPixelFormat == GL_NONE)
             {
@@ -934,21 +934,21 @@ namespace ouzel
                 return false;
             }
 
-            if ((flags & Texture::RENDER_TARGET) && rendererOGL->isRenderTargetsSupported())
+            if ((flags & Texture::RENDER_TARGET) && renderDeviceOGL->isRenderTargetsSupported())
             {
                 glGenFramebuffersProc(1, &frameBufferId);
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to create frame buffer";
                     return false;
                 }
 
-                rendererOGL->bindFrameBuffer(frameBufferId);
+                renderDeviceOGL->bindFrameBuffer(frameBufferId);
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    rendererOGL->bindTexture(textureId, 0);
+                    renderDeviceOGL->bindTexture(textureId, 0);
 
                     glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
                                  width, height, 0,
@@ -962,7 +962,7 @@ namespace ouzel
                         glGenRenderbuffersProc(1, &depthBufferId);
                         glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
 
-                        if (sampleCount > 1 && rendererOGL->isMultisamplingSupported())
+                        if (sampleCount > 1 && renderDeviceOGL->isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),

@@ -6,7 +6,7 @@
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENGL
 
 #import "core/ios/DisplayLinkHandler.h"
-#include "RendererOGLIOS.hpp"
+#include "RenderDeviceOGLIOS.hpp"
 #include "core/ios/WindowIOS.hpp"
 #include "utils/Log.hpp"
 
@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererOGLIOS::~RendererOGLIOS()
+        RenderDeviceOGLIOS::~RenderDeviceOGLIOS()
         {
             if (displayLinkHandler) [displayLinkHandler stop];
             flushCommands();
@@ -33,14 +33,14 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLIOS::init(Window* newWindow,
-                                  const Size2& newSize,
-                                  uint32_t newSampleCount,
-                                  Texture::Filter newTextureFilter,
-                                  uint32_t newMaxAnisotropy,
-                                  bool newVerticalSync,
-                                  bool newDepth,
-                                  bool newDebugRenderer)
+        bool RenderDeviceOGLIOS::init(Window* newWindow,
+                                      const Size2& newSize,
+                                      uint32_t newSampleCount,
+                                      Texture::Filter newTextureFilter,
+                                      uint32_t newMaxAnisotropy,
+                                      bool newVerticalSync,
+                                      bool newDepth,
+                                      bool newDebugRenderer)
         {
             UIView* view = static_cast<WindowIOS*>(newWindow)->getNativeView();
 
@@ -81,14 +81,14 @@ namespace ouzel
                 return false;
             }
 
-            if (!RendererOGL::init(newWindow,
-                                   newSize,
-                                   newSampleCount,
-                                   newTextureFilter,
-                                   newMaxAnisotropy,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newDebugRenderer))
+            if (!RenderDeviceOGL::init(newWindow,
+                                       newSize,
+                                       newSampleCount,
+                                       newTextureFilter,
+                                       newMaxAnisotropy,
+                                       newVerticalSync,
+                                       newDepth,
+                                       newDebugRenderer))
             {
                 return false;
             }
@@ -106,7 +106,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLIOS::lockContext()
+        bool RenderDeviceOGLIOS::lockContext()
         {
             if (![EAGLContext setCurrentContext:context])
             {
@@ -117,7 +117,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLIOS::swapBuffers()
+        bool RenderDeviceOGLIOS::swapBuffers()
         {
             if (sampleCount > 1)
             {
@@ -167,7 +167,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLIOS::createFrameBuffer()
+        bool RenderDeviceOGLIOS::createFrameBuffer()
         {
             if (sampleCount > 1)
             {
@@ -179,7 +179,7 @@ namespace ouzel
                 glBindRenderbufferProc(GL_RENDERBUFFER, resolveColorRenderBufferId);
                 [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
 
-                graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
+                graphics::RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
@@ -204,7 +204,7 @@ namespace ouzel
                     glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, static_cast<GLsizei>(sampleCount), GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
-                graphics::RendererOGL::bindFrameBuffer(msaaFrameBufferId);
+                graphics::RenderDeviceOGL::bindFrameBuffer(msaaFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, msaaColorRenderBufferId);
 
                 if (depth)
@@ -237,7 +237,7 @@ namespace ouzel
                     glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, frameBufferWidth, frameBufferHeight);
                 }
 
-                graphics::RendererOGL::bindFrameBuffer(resolveFrameBufferId);
+                graphics::RenderDeviceOGL::bindFrameBuffer(resolveFrameBufferId);
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                                               GL_RENDERBUFFER, resolveColorRenderBufferId);
 
@@ -258,7 +258,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLIOS::upload()
+        bool RenderDeviceOGLIOS::upload()
         {
             if (frameBufferWidth != static_cast<GLsizei>(size.width) ||
                 frameBufferHeight != static_cast<GLsizei>(size.height))
@@ -272,7 +272,7 @@ namespace ouzel
                 }
             }
 
-            return RendererOGL::upload();
+            return RenderDeviceOGL::upload();
         }
     } // namespace graphics
 } // namespace ouzel

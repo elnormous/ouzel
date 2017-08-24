@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_OPENGL
 
 #include "MeshBufferResourceOGL.hpp"
-#include "RendererOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 #include "BufferResourceOGL.hpp"
 #include "utils/Log.hpp"
 
@@ -110,8 +110,8 @@ namespace ouzel
             }
         }
 
-        MeshBufferResourceOGL::MeshBufferResourceOGL(RendererOGL* aRendererOGL):
-            rendererOGL(aRendererOGL)
+        MeshBufferResourceOGL::MeshBufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
+            renderDeviceOGL(aRenderDeviceOGL)
         {
         }
 
@@ -119,7 +119,7 @@ namespace ouzel
         {
             if (vertexArrayId)
             {
-                rendererOGL->deleteVertexArray(vertexArrayId);
+                renderDeviceOGL->deleteVertexArray(vertexArrayId);
             }
         }
 
@@ -175,7 +175,7 @@ namespace ouzel
                 if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
             }
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::WARN) << "Failed to create vertex array";
             }
@@ -185,11 +185,11 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                rendererOGL->bindVertexArray(vertexArrayId);
+                renderDeviceOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -197,7 +197,7 @@ namespace ouzel
 
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -220,7 +220,7 @@ namespace ouzel
                         }
                     }
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to update vertex attributes";
                         return false;
@@ -269,11 +269,11 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                rendererOGL->bindVertexArray(vertexArrayId);
+                renderDeviceOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -314,11 +314,11 @@ namespace ouzel
 
             if (vertexArrayId)
             {
-                rendererOGL->bindVertexArray(vertexArrayId);
+                renderDeviceOGL->bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -326,7 +326,7 @@ namespace ouzel
 
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -349,7 +349,7 @@ namespace ouzel
                         }
                     }
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to update vertex attributes";
                         return false;
@@ -373,7 +373,7 @@ namespace ouzel
             {
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }
@@ -396,7 +396,7 @@ namespace ouzel
                         }
                     }
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to update vertex attributes";
                         return false;
@@ -411,7 +411,7 @@ namespace ouzel
         {
             if (vertexArrayId)
             {
-                if (!rendererOGL->bindVertexArray(vertexArrayId))
+                if (!renderDeviceOGL->bindVertexArray(vertexArrayId))
                 {
                     return false;
                 }
@@ -425,7 +425,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!rendererOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                 {
                     return false;
                 }
@@ -436,7 +436,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!rendererOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                 {
                     return false;
                 }
@@ -459,7 +459,7 @@ namespace ouzel
                     }
                 }
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to update vertex attributes";
                     return false;

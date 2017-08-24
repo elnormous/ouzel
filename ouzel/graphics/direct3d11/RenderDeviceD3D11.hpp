@@ -18,11 +18,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererD3D11: public Renderer
+        class RenderDeviceD3D11: public Renderer
         {
             friend Engine;
         public:
-            virtual ~RendererD3D11();
+            virtual ~RenderDeviceD3D11();
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
@@ -45,7 +45,7 @@ namespace ouzel
             ID3D11SamplerState* getSamplerState(const SamplerStateDesc& desc);
 
         protected:
-            RendererD3D11();
+            RenderDeviceD3D11();
 
             virtual bool init(Window* newWindow,
                               const Size2& newSize,

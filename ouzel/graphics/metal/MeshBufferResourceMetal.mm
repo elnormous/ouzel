@@ -6,7 +6,7 @@
 #if OUZEL_SUPPORTS_METAL
 
 #include "MeshBufferResourceMetal.hpp"
-#include "RendererMetal.hpp"
+#include "RenderDeviceMetal.hpp"
 #include "BufferResourceMetal.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"

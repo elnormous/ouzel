@@ -5,18 +5,18 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_METAL
 
-#include "graphics/metal/RendererMetal.hpp"
+#include "graphics/metal/RenderDeviceMetal.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RendererMetalIOS: public RendererMetal
+        class RenderDeviceMetalTVOS: public RenderDeviceMetal
         {
         public:
-            virtual ~RendererMetalIOS();
+            virtual ~RenderDeviceMetalTVOS();
 
         private:
             virtual bool init(Window* newWindow,

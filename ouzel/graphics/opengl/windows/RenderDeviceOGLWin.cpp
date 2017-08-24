@@ -10,7 +10,7 @@
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "GL/wglext.h"
-#include "RendererOGLWin.hpp"
+#include "RenderDeviceOGLWin.hpp"
 #include "core/windows/WindowWin.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
@@ -154,12 +154,12 @@ namespace ouzel
             HGLRC renderContext = 0;
         };
 
-        RendererOGLWin::RendererOGLWin():
+        RenderDeviceOGLWin::RenderDeviceOGLWin():
             running(false)
         {
         }
 
-        RendererOGLWin::~RendererOGLWin()
+        RenderDeviceOGLWin::~RenderDeviceOGLWin()
         {
             running = false;
             flushCommands();
@@ -180,14 +180,14 @@ namespace ouzel
             }
         }
 
-        bool RendererOGLWin::init(Window* newWindow,
-                                  const Size2& newSize,
-                                  uint32_t newSampleCount,
-                                  Texture::Filter newTextureFilter,
-                                  uint32_t newMaxAnisotropy,
-                                  bool newVerticalSync,
-                                  bool newDepth,
-                                  bool newDebugRenderer)
+        bool RenderDeviceOGLWin::init(Window* newWindow,
+                                      const Size2& newSize,
+                                      uint32_t newSampleCount,
+                                      Texture::Filter newTextureFilter,
+                                      uint32_t newMaxAnisotropy,
+                                      bool newVerticalSync,
+                                      bool newDepth,
+                                      bool newDebugRenderer)
         {
             TempContext tempContext;
 
@@ -354,14 +354,14 @@ namespace ouzel
                 return false;
             }
 
-            if (!RendererOGL::init(newWindow,
-                                   newSize,
-                                   newSampleCount,
-                                   newTextureFilter,
-                                   newMaxAnisotropy,
-                                   newVerticalSync,
-                                   newDepth,
-                                   newDebugRenderer))
+            if (!RenderDeviceOGL::init(newWindow,
+                                       newSize,
+                                       newSampleCount,
+                                       newTextureFilter,
+                                       newMaxAnisotropy,
+                                       newVerticalSync,
+                                       newDepth,
+                                       newDebugRenderer))
             {
                 return false;
             }
@@ -373,12 +373,12 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RendererOGLWin::main, this);
+            renderThread = std::thread(&RenderDeviceOGLWin::main, this);
 
             return true;
         }
 
-        bool RendererOGLWin::lockContext()
+        bool RenderDeviceOGLWin::lockContext()
         {
             if (!wglMakeCurrent(deviceContext, renderContext))
             {
@@ -389,7 +389,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererOGLWin::swapBuffers()
+        bool RenderDeviceOGLWin::swapBuffers()
         {
             if (!SwapBuffers(deviceContext))
             {
@@ -400,7 +400,7 @@ namespace ouzel
             return true;
         }
 
-        void RendererOGLWin::main()
+        void RenderDeviceOGLWin::main()
         {
             while (running)
             {

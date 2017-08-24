@@ -6,15 +6,15 @@
 #if OUZEL_SUPPORTS_OPENGL
 
 #include "BufferResourceOGL.hpp"
-#include "RendererOGL.hpp"
+#include "RenderDeviceOGL.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceOGL::BufferResourceOGL(RendererOGL* aRendererOGL):
-            rendererOGL(aRendererOGL)
+        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
+            renderDeviceOGL(aRenderDeviceOGL)
         {
         }
 
@@ -22,7 +22,7 @@ namespace ouzel
         {
             if (bufferId)
             {
-                rendererOGL->deleteBuffer(bufferId);
+                renderDeviceOGL->deleteBuffer(bufferId);
             }
         }
 
@@ -42,9 +42,9 @@ namespace ouzel
 
             if (!data.empty())
             {
-                rendererOGL->bindVertexArray(0);
+                renderDeviceOGL->bindVertexArray(0);
 
-                if (!rendererOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -52,7 +52,7 @@ namespace ouzel
                 glBufferDataProc(bufferType, bufferSize, nullptr,
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to create buffer";
                     return false;
@@ -78,9 +78,9 @@ namespace ouzel
 
             if (!data.empty())
             {
-                rendererOGL->bindVertexArray(0);
+                renderDeviceOGL->bindVertexArray(0);
 
-                if (!rendererOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -88,7 +88,7 @@ namespace ouzel
                 glBufferDataProc(bufferType, bufferSize, data.data(),
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                if (RendererOGL::checkOpenGLError())
+                if (RenderDeviceOGL::checkOpenGLError())
                 {
                     Log(Log::Level::ERR) << "Failed to create buffer";
                     return false;
@@ -113,9 +113,9 @@ namespace ouzel
 
             if (!data.empty())
             {
-                rendererOGL->bindVertexArray(0);
+                renderDeviceOGL->bindVertexArray(0);
 
-                if (!rendererOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -127,7 +127,7 @@ namespace ouzel
                     glBufferDataProc(bufferType, bufferSize, data.data(),
                                      (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to create buffer";
                         return false;
@@ -137,7 +137,7 @@ namespace ouzel
                 {
                     glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
-                    if (RendererOGL::checkOpenGLError())
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to upload buffer";
                         return false;
@@ -150,11 +150,11 @@ namespace ouzel
 
         bool BufferResourceOGL::createBuffer()
         {
-            if (bufferId) rendererOGL->deleteBuffer(bufferId);
+            if (bufferId) renderDeviceOGL->deleteBuffer(bufferId);
 
             glGenBuffersProc(1, &bufferId);
 
-            if (RendererOGL::checkOpenGLError())
+            if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::ERR) << "Failed to create buffer";
                 return false;

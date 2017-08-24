@@ -25,12 +25,12 @@ namespace ouzel
 {
     namespace graphics
     {
-        class RendererOGL;
+        class RenderDeviceOGL;
 
         class TextureResourceOGL: public TextureResource
         {
         public:
-            TextureResourceOGL(RendererOGL* aRendererOGL);
+            TextureResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);
             virtual ~TextureResourceOGL();
 
             virtual bool init(const Size2& newSize,
@@ -66,7 +66,7 @@ namespace ouzel
         protected:
             bool createTexture();
 
-            RendererOGL* rendererOGL;
+            RenderDeviceOGL* renderDeviceOGL;
 
             GLuint textureId = 0;
 

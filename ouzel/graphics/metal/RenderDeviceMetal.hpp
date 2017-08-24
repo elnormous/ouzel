@@ -55,13 +55,13 @@ namespace ouzel
         class BlendStateResourceMetal;
         class ShaderResourceMetal;
 
-        class RendererMetal: public Renderer
+        class RenderDeviceMetal: public Renderer
         {
             friend Engine;
         public:
             static bool available();
 
-            virtual ~RendererMetal();
+            virtual ~RenderDeviceMetal();
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
@@ -83,7 +83,7 @@ namespace ouzel
             MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         protected:
-            RendererMetal();
+            RenderDeviceMetal();
 
             virtual bool init(Window* newWindow,
                               const Size2& newSize,

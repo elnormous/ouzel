@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_DIRECT3D11
 
-#include "RendererD3D11.hpp"
+#include "RenderDeviceD3D11.hpp"
 #include "BlendStateResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
@@ -25,7 +25,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        RendererD3D11::RendererD3D11():
+        RenderDeviceD3D11::RenderDeviceD3D11():
             Renderer(Driver::DIRECT3D11), running(false)
         {
             apiMajorVersion = 11;
@@ -35,7 +35,7 @@ namespace ouzel
             std::fill(std::begin(depthStencilStates), std::end(depthStencilStates), nullptr);
         }
 
-        RendererD3D11::~RendererD3D11()
+        RenderDeviceD3D11::~RenderDeviceD3D11()
         {
             running = false;
             flushCommands();
@@ -107,14 +107,14 @@ namespace ouzel
             }
         }
 
-        bool RendererD3D11::init(Window* newWindow,
-                                 const Size2& newSize,
-                                 uint32_t newSampleCount,
-                                 Texture::Filter newTextureFilter,
-                                 uint32_t newMaxAnisotropy,
-                                 bool newVerticalSync,
-                                 bool newDepth,
-                                 bool newDebugRenderer)
+        bool RenderDeviceD3D11::init(Window* newWindow,
+                                     const Size2& newSize,
+                                     uint32_t newSampleCount,
+                                     Texture::Filter newTextureFilter,
+                                     uint32_t newMaxAnisotropy,
+                                     bool newVerticalSync,
+                                     bool newDepth,
+                                     bool newDebugRenderer)
         {
             if (!Renderer::init(newWindow,
                                 newSize,
@@ -430,12 +430,12 @@ namespace ouzel
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
             running = true;
-            renderThread = std::thread(&RendererD3D11::main, this);
+            renderThread = std::thread(&RenderDeviceD3D11::main, this);
 
             return true;
         }
 
-        bool RendererD3D11::upload()
+        bool RenderDeviceD3D11::upload()
         {
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -463,7 +463,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererD3D11::draw(const std::vector<DrawCommand>& drawCommands)
+        bool RenderDeviceD3D11::draw(const std::vector<DrawCommand>& drawCommands)
         {
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
@@ -777,7 +777,7 @@ namespace ouzel
             return true;
         }
 
-        IDXGIOutput* RendererD3D11::getOutput() const
+        IDXGIOutput* RenderDeviceD3D11::getOutput() const
         {
             WindowWin* windowWin = static_cast<WindowWin*>(window);
 
@@ -814,7 +814,7 @@ namespace ouzel
             return nullptr;
         }
 
-        std::vector<Size2> RendererD3D11::getSupportedResolutions() const
+        std::vector<Size2> RenderDeviceD3D11::getSupportedResolutions() const
         {
             std::vector<Size2> result;
 
@@ -852,7 +852,7 @@ namespace ouzel
             return result;
         }
 
-        bool RendererD3D11::generateScreenshot(const std::string& filename)
+        bool RenderDeviceD3D11::generateScreenshot(const std::string& filename)
         {
             ID3D11Texture2D* backBufferTexture;
             HRESULT hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBufferTexture));
@@ -946,7 +946,7 @@ namespace ouzel
             return true;
         }
 
-        BlendStateResource* RendererD3D11::createBlendState()
+        BlendStateResource* RenderDeviceD3D11::createBlendState()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -955,7 +955,7 @@ namespace ouzel
             return blendState;
         }
 
-        TextureResource* RendererD3D11::createTexture()
+        TextureResource* RenderDeviceD3D11::createTexture()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -964,7 +964,7 @@ namespace ouzel
             return texture;
         }
 
-        ShaderResource* RendererD3D11::createShader()
+        ShaderResource* RenderDeviceD3D11::createShader()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -973,7 +973,7 @@ namespace ouzel
             return shader;
         }
 
-        MeshBufferResource* RendererD3D11::createMeshBuffer()
+        MeshBufferResource* RenderDeviceD3D11::createMeshBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -982,7 +982,7 @@ namespace ouzel
             return meshBuffer;
         }
 
-        BufferResource* RendererD3D11::createBuffer()
+        BufferResource* RenderDeviceD3D11::createBuffer()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
@@ -991,7 +991,7 @@ namespace ouzel
             return buffer;
         }
 
-        bool RendererD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
+        bool RenderDeviceD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
         {
             if (frameBufferWidth != newWidth || newWidth == 0 ||
                 frameBufferHeight != newHeight || newHeight == 0)
@@ -1080,7 +1080,7 @@ namespace ouzel
             return true;
         }
 
-        bool RendererD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
+        bool RenderDeviceD3D11::uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize)
         {
             D3D11_MAPPED_SUBRESOURCE mappedSubresource;
             HRESULT hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
@@ -1097,7 +1097,7 @@ namespace ouzel
             return true;
         }
 
-        ID3D11SamplerState* RendererD3D11::getSamplerState(const SamplerStateDesc& desc)
+        ID3D11SamplerState* RenderDeviceD3D11::getSamplerState(const SamplerStateDesc& desc)
         {
             auto samplerStatesIterator = samplerStates.find(desc);
 
@@ -1187,7 +1187,7 @@ namespace ouzel
             }
         }
 
-        void RendererD3D11::main()
+        void RenderDeviceD3D11::main()
         {
             while (running)
             {
