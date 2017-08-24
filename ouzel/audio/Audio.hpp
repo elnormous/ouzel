@@ -62,50 +62,20 @@ namespace ouzel
 
             AudioDevice* getDevice() const { return device; }
 
-            virtual bool update();
+            static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
-            virtual SoundResource* createSound();
-            virtual void deleteResource(SoundResource* resource);
+            bool update();
 
             void setListenerPosition(const Vector3& newPosition);
             void setListenerRotation(const Quaternion& newRotation);
 
-            uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
-            uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
-
             void executeOnAudioThread(const std::function<void(void)>& func);
 
         protected:
-            Audio(Driver aDriver);
+            Audio(Driver driver);
             virtual bool init(bool debugAudio);
 
-            void executeAll();
-
-            bool getData(uint32_t samples, Format format, std::vector<uint8_t>& result);
-
-            Driver driver;
             AudioDevice* device = nullptr;
-
-            uint16_t apiMajorVersion = 0;
-            uint16_t apiMinorVersion = 0;
-
-            Vector3 listenerPosition;
-            Quaternion listenerRotation;
-
-            std::mutex uploadMutex;
-
-            std::mutex resourceMutex;
-            std::vector<std::unique_ptr<SoundResource>> resources;
-            std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
-
-            const uint32_t bufferSize = 2 * 4096;
-            const uint32_t sampleRate = 44100;
-            const uint16_t channels = 2;
-
-            std::vector<float> buffer;
-
-            std::queue<std::function<void(void)>> executeQueue;
-            std::mutex executeMutex;
         };
     } // namespace audio
 } // namespace ouzel

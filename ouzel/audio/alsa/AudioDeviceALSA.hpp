@@ -10,20 +10,20 @@
 #include <thread>
 #include <alsa/asoundlib.h>
 
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioALSA: public Audio
+        class AudioDeviceALSA: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         public:
-            virtual ~AudioALSA();
+            virtual ~AudioDeviceALSA();
 
         protected:
-            AudioALSA();
+            AudioDeviceALSA();
             virtual bool init(bool debugAudio) override;
 
             void run();

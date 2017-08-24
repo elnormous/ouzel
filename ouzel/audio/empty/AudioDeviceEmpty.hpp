@@ -4,7 +4,7 @@
 #pragma once
 
 #include <memory>
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
@@ -12,11 +12,13 @@ namespace ouzel
 
     namespace audio
     {
-        class AudioEmpty: public Audio
+        class Audio;
+
+        class AudioDeviceEmpty: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         protected:
-            AudioEmpty();
+            AudioDeviceEmpty();
         };
     } // namespace audio
 } // namespace ouzel

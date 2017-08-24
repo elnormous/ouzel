@@ -5,14 +5,14 @@
 
 #if OUZEL_SUPPORTS_OPENAL
 
-#include "AudioAL.hpp"
+#include "AudioDeviceAL.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        bool AudioAL::checkALCError(bool logError)
+        bool AudioDeviceAL::checkALCError(bool logError)
         {
             ALCenum error = alcGetError(device);
 
@@ -40,7 +40,7 @@ namespace ouzel
             return false;
         }
 
-        bool AudioAL::checkOpenALError(bool logError)
+        bool AudioDeviceAL::checkOpenALError(bool logError)
         {
             ALenum error = alGetError();
 
@@ -69,13 +69,13 @@ namespace ouzel
             return false;
         }
 
-        AudioAL::AudioAL():
-            Audio(Driver::OPENAL)
+        AudioDeviceAL::AudioDeviceAL():
+            AudioDevice(Audio::Driver::OPENAL)
         {
             std::fill(std::begin(buffers), std::end(buffers), 0);
         }
 
-        AudioAL::~AudioAL()
+        AudioDeviceAL::~AudioDeviceAL()
         {
             running = false;
 
@@ -89,7 +89,7 @@ namespace ouzel
                 alSourcei(sourceId, AL_BUFFER, 0);
                 alDeleteSources(1, &sourceId);
 
-                if (AudioAL::checkOpenALError())
+                if (checkOpenALError())
                 {
                     Log(Log::Level::ERR) << "Failed to delete OpenAL source";
                 }
@@ -101,7 +101,7 @@ namespace ouzel
                 {
                     alDeleteBuffers(1, &buffer);
 
-                    if (AudioAL::checkOpenALError())
+                    if (checkOpenALError())
                     {
                         Log(Log::Level::ERR) << "Failed to delete OpenAL buffer";
                     }
@@ -120,9 +120,9 @@ namespace ouzel
             }
         }
 
-        bool AudioAL::init(bool debugAudio)
+        bool AudioDeviceAL::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -163,14 +163,14 @@ namespace ouzel
             format61 = alGetEnumValue("AL_FORMAT_61CHN16");
             format71 = alGetEnumValue("AL_FORMAT_71CHN16");
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::WARN) << "Failed to get OpenAL enum values";
             }
 
             alGenSources(1, &sourceId);
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::ERR) << "Failed to create OpenAL source";
                 return false;
@@ -178,7 +178,7 @@ namespace ouzel
 
             alGenBuffers(2, buffers);
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::ERR) << "Failed to create OpenAL buffers";
                 return false;
@@ -199,14 +199,14 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize / sizeof(int16_t), Format::SINT16, data);
+            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
 
             alBufferData(buffers[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
-            getData(bufferSize / sizeof(int16_t), Format::SINT16, data);
+            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
 
             alBufferData(buffers[1], format,
                          data.data(),
@@ -217,7 +217,7 @@ namespace ouzel
 
             alSourceQueueBuffers(sourceId, 2, buffers);
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::ERR) << "Failed to queue OpenAL buffers";
                 return false;
@@ -225,20 +225,20 @@ namespace ouzel
 
             alSourcePlay(sourceId);
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::ERR) << "Failed to play OpenAL source";
                 return false;
             }
 
 #if OUZEL_MULTITHREADED
-            audioThread = std::thread(&AudioAL::run, this);
+            audioThread = std::thread(&AudioDeviceAL::run, this);
 #endif
 
             return true;
         }
 
-        void AudioAL::run()
+        void AudioDeviceAL::run()
         {
             while (running)
             {
@@ -246,9 +246,9 @@ namespace ouzel
             }
         }
 
-        bool AudioAL::update()
+        bool AudioDeviceAL::update()
         {
-            if (!Audio::update())
+            if (!AudioDevice::update())
             {
                 return false;
             }
@@ -264,7 +264,7 @@ namespace ouzel
             ALint buffersProcessed;
             alGetSourcei(sourceId, AL_BUFFERS_PROCESSED, &buffersProcessed);
 
-            if (AudioAL::checkOpenALError())
+            if (checkOpenALError())
             {
                 Log(Log::Level::ERR) << "Failed to get processed buffer count";
                 return false;
@@ -275,13 +275,13 @@ namespace ouzel
             {
                 alSourceUnqueueBuffers(sourceId, 1, &buffers[nextBuffer]);
 
-                if (AudioAL::checkOpenALError())
+                if (checkOpenALError())
                 {
                     Log(Log::Level::ERR) << "Failed to unqueue OpenAL buffer";
                     return false;
                 }
 
-                if (!getData(bufferSize, Format::SINT16, data))
+                if (!getData(bufferSize, Audio::Format::SINT16, data))
                 {
                     return false;
                 }
@@ -293,7 +293,7 @@ namespace ouzel
 
                 alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
 
-                if (AudioAL::checkOpenALError())
+                if (checkOpenALError())
                 {
                     Log(Log::Level::ERR) << "Failed to queue OpenAL buffer";
                     return false;
@@ -305,7 +305,7 @@ namespace ouzel
                 {
                     alSourcePlay(sourceId);
 
-                    if (AudioAL::checkOpenALError())
+                    if (checkOpenALError())
                     {
                         Log(Log::Level::ERR) << "Failed to play OpenAL source";
                         return false;

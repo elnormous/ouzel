@@ -11,17 +11,17 @@
 #include <SLES/OpenSLES_Android.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioSL: public Audio
+        class AudioDeviceSL: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         public:
-            virtual ~AudioSL();
+            virtual ~AudioDeviceSL();
 
             void enqueue(SLAndroidSimpleBufferQueueItf bufferQueue);
 
@@ -29,7 +29,7 @@ namespace ouzel
             SLObjectItf getOutputMix() const { return outputMixObject; }
 
         protected:
-            AudioSL();
+            AudioDeviceSL();
             virtual bool init(bool debugAudio) override;
 
             SLObjectItf engineObject = nullptr;

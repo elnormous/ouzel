@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
-#include "AudioDS.hpp"
+#include "AudioDeviceDS.hpp"
 #include "audio/SoundResource.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/WindowWin.hpp"
@@ -24,12 +24,12 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDS::AudioDS():
-            Audio(Driver::DIRECTSOUND)
+        AudioDeviceDS::AudioDeviceDS():
+            AudioDevice(Audio::Driver::DIRECTSOUND)
         {
         }
 
-        AudioDS::~AudioDS()
+        AudioDeviceDS::~AudioDeviceDS()
         {
             running = false;
 
@@ -42,9 +42,9 @@ namespace ouzel
             if (directSound) directSound->Release();
         }
 
-        bool AudioDS::init(bool debugAudio)
+        bool AudioDeviceDS::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -139,7 +139,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(lockedBufferSize / sizeof(int16_t), Format::SINT16, data);
+            getData(lockedBufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
@@ -159,15 +159,15 @@ namespace ouzel
             }
 
 #if OUZEL_MULTITHREADED
-            audioThread = std::thread(&AudioDS::run, this);
+            audioThread = std::thread(&AudioDeviceDS::run, this);
 #endif
 
             return true;
         }
 
-        bool AudioDS::update()
+        bool AudioDeviceDS::update()
         {
-            if (!Audio::update())
+            if (!AudioDevice::update())
             {
                 return false;
             }
@@ -194,7 +194,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(lockedBufferSize / sizeof(int16_t), Format::SINT16, data))
+                if (!getData(lockedBufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
                 {
                     return false;
                 }
@@ -214,7 +214,7 @@ namespace ouzel
             return true;
         }
 
-        void AudioDS::run()
+        void AudioDeviceDS::run()
         {
             while (running)
             {

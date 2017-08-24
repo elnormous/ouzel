@@ -13,22 +13,22 @@
 
 #include <AudioUnit/AudioUnit.h>
 
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioCA: public Audio
+        class AudioDeviceCA: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         public:
-            virtual ~AudioCA();
+            virtual ~AudioDeviceCA();
 
             bool outputCallback(AudioBufferList* ioData);
 
         protected:
-            AudioCA();
+            AudioDeviceCA();
             virtual bool init(bool debugAudio) override;
 
 #if OUZEL_PLATFORM_MACOS
@@ -37,7 +37,7 @@ namespace ouzel
             AudioComponent audioComponent = nullptr;
             AudioComponentInstance audioUnit = nullptr;
 
-            Format dataFormat;
+            Audio::Format dataFormat;
             uint32_t sampleSize = 0;
             std::vector<uint8_t> data;
         };

@@ -8,20 +8,20 @@
 #if OUZEL_SUPPORTS_XAUDIO2
 
 #include <xaudio2.h>
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioXA2: public Audio, public IXAudio2VoiceCallback
+        class AudioDeviceXA2: public AudioDevice, public IXAudio2VoiceCallback
         {
-            friend Engine;
+            friend Audio;
         public:
-            virtual ~AudioXA2();
+            virtual ~AudioDeviceXA2();
 
         protected:
-            AudioXA2();
+            AudioDeviceXA2();
             virtual bool init(bool debugAudio) override;
 
             virtual void OnVoiceProcessingPassStart(UINT32 bytesRequired) override;

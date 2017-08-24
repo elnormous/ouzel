@@ -18,20 +18,22 @@
 #endif
 #undef OPENAL
 
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioAL: public Audio
+        class Audio;
+
+        class AudioDeviceAL: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         public:
             bool checkALCError(bool logError = true);
             static bool checkOpenALError(bool logError = true);
 
-            virtual ~AudioAL();
+            virtual ~AudioDeviceAL();
 
             virtual bool update() override;
 
@@ -39,7 +41,7 @@ namespace ouzel
             ALCcontext* getContext() const { return context; }
 
         protected:
-            AudioAL();
+            AudioDeviceAL();
             virtual bool init(bool debugAudio) override;
 
             void run();

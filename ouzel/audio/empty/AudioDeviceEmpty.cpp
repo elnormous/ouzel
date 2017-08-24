@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "AudioEmpty.hpp"
+#include "AudioDeviceEmpty.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        AudioEmpty::AudioEmpty():
-            Audio(Driver::EMPTY)
+        AudioDeviceEmpty::AudioDeviceEmpty():
+            AudioDevice(Audio::Driver::EMPTY)
         {
         }
     } // namespace audio

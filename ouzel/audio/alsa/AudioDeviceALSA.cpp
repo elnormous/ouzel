@@ -5,19 +5,19 @@
 
 #if OUZEL_SUPPORTS_ALSA
 
-#include "AudioALSA.hpp"
+#include "AudioDeviceALSA.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        AudioALSA::AudioALSA():
-            Audio(Audio::Driver::ALSA)
+        AudioDeviceALSA::AudioDeviceALSA():
+            AudioDevice(Audio::Driver::ALSA)
         {
         }
 
-        AudioALSA::~AudioALSA()
+        AudioDeviceALSA::~AudioDeviceALSA()
         {
             running = false;
             if (audioThread.joinable()) audioThread.join();
@@ -27,9 +27,9 @@ namespace ouzel
             if (playbackHandle) snd_pcm_close(playbackHandle);
         }
 
-        bool AudioALSA::init(bool debugAudio)
+        bool AudioDeviceALSA::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -127,7 +127,7 @@ namespace ouzel
             return true;
         }
 
-        void AudioALSA::run()
+        void AudioDeviceALSA::run()
         {
             while (running)
             {

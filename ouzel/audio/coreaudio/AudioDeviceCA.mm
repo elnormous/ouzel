@@ -10,7 +10,7 @@
 #include <AudioToolbox/AudioToolbox.h>
 #endif
 
-#include "AudioCA.hpp"
+#include "AudioDeviceCA.hpp"
 #include "utils/Log.hpp"
 
 #if OUZEL_PLATFORM_MACOS
@@ -32,9 +32,9 @@ static OSStatus outputCallback(void* inRefCon,
                                UInt32, UInt32,
                                AudioBufferList* ioData)
 {
-    ouzel::audio::AudioCA* audioCA = static_cast<ouzel::audio::AudioCA*>(inRefCon);
+    ouzel::audio::AudioDeviceCA* audioDeviceCA = static_cast<ouzel::audio::AudioDeviceCA*>(inRefCon);
 
-    if (!audioCA->outputCallback(ioData))
+    if (!audioDeviceCA->outputCallback(ioData))
     {
         return -1;
     }
@@ -46,12 +46,12 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioCA::AudioCA():
-            Audio(Audio::Driver::COREAUDIO)
+        AudioDeviceCA::AudioDeviceCA():
+            AudioDevice(Audio::Driver::COREAUDIO)
         {
         }
 
-        AudioCA::~AudioCA()
+        AudioDeviceCA::~AudioDeviceCA()
         {
             if (audioUnit)
             {
@@ -92,9 +92,9 @@ namespace ouzel
 #endif
         }
 
-        bool AudioCA::init(bool debugAudio)
+        bool AudioDeviceCA::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -295,13 +295,13 @@ namespace ouzel
                 }
                 else
                 {
-                    dataFormat = Format::SINT16;
+                    dataFormat = Audio::Format::SINT16;
                     sampleSize = sizeof(int16_t);
                 }
             }
             else
             {
-                dataFormat = Format::FLOAT32;
+                dataFormat = Audio::Format::FLOAT32;
                 sampleSize = sizeof(float);
             }
 
@@ -337,7 +337,7 @@ namespace ouzel
             return true;
         }
 
-        bool AudioCA::outputCallback(AudioBufferList* ioData)
+        bool AudioDeviceCA::outputCallback(AudioBufferList* ioData)
         {
             if (!update())
             {

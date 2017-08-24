@@ -4,6 +4,7 @@
 #include "Sound.hpp"
 #include "SoundResource.hpp"
 #include "Audio.hpp"
+#include "AudioDevice.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -12,12 +13,12 @@ namespace ouzel
     {
         Sound::Sound()
         {
-            resource = sharedEngine->getAudio()->createSound();
+            resource = sharedEngine->getAudio()->getDevice()->createSound();
         }
 
         Sound::~Sound()
         {
-            if (sharedEngine) sharedEngine->getAudio()->deleteResource(resource);
+            if (sharedEngine) sharedEngine->getAudio()->getDevice()->deleteResource(resource);
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool relativePosition)

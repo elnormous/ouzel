@@ -41,7 +41,6 @@ namespace ouzel
         const std::vector<std::string>& getArgs() { return args; }
 
         static std::set<graphics::Renderer::Driver> getAvailableRenderDrivers();
-        static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
 
         FileSystem* getFileSystem() { return fileSystem.get(); }
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }

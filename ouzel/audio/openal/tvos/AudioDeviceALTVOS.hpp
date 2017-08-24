@@ -5,15 +5,15 @@
 
 #include "core/CompileConfig.h"
 
-#if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENAL
+#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENAL
 
-#include "audio/openal/AudioAL.hpp"
+#include "audio/openal/AudioDeviceAL.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioALIOS: public AudioAL
+        class AudioDeviceALTVOS: public AudioDeviceAL
         {
         public:
             virtual bool init(bool debugAudio) override;

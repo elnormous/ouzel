@@ -10,24 +10,24 @@
 #include <thread>
 
 #include <dsound.h>
-#include "audio/Audio.hpp"
+#include "audio/AudioDevice.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class AudioDS: public Audio
+        class AudioDeviceDS: public AudioDevice
         {
-            friend Engine;
+            friend Audio;
         public:
-            virtual ~AudioDS();
+            virtual ~AudioDeviceDS();
 
             virtual bool update() override;
 
             IDirectSound8* getDirectSound() const { return directSound; }
 
         protected:
-            AudioDS();
+            AudioDeviceDS();
             virtual bool init(bool debugAudio) override;
 
             void run();

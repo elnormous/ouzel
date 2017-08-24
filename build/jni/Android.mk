@@ -21,8 +21,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Scale.cpp \
     ../../ouzel/animators/Sequence.cpp \
     ../../ouzel/animators/Shake.cpp \
-    ../../ouzel/audio/empty/AudioEmpty.cpp \
-    ../../ouzel/audio/opensl/AudioSL.cpp \
+    ../../ouzel/audio/empty/AudioDeviceEmpty.cpp \
+    ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
     ../../ouzel/audio/Sound.cpp \

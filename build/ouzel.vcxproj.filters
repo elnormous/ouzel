@@ -10,13 +10,13 @@
     <ClCompile Include="..\ouzel\audio\Audio.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\dsound\AudioDS.cpp">
+    <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\empty\AudioEmpty.cpp">
+    <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp">
       <Filter>ouzel\audio\empty</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\xaudio2\AudioXA2.cpp">
+    <ClCompile Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.cpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp">
@@ -415,13 +415,13 @@
     <ClInclude Include="..\ouzel\audio\Audio.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\dsound\AudioDS.hpp">
+    <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp">
       <Filter>ouzel\audio\directsound</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\empty\AudioEmpty.hpp">
+    <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp">
       <Filter>ouzel\audio\empty</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\xaudio2\AudioXA2.hpp">
+    <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp">
       <Filter>ouzel\audio\xaudio2</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp">

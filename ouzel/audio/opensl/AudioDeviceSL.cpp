@@ -5,26 +5,26 @@
 
 #if OUZEL_SUPPORTS_OPENSL
 
-#include "AudioSL.hpp"
+#include "AudioDeviceSL.hpp"
 #include "utils/Log.hpp"
 
 static void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
 {
-    ouzel::audio::AudioSL* audioSL = reinterpret_cast<ouzel::audio::AudioSL*>(context);
+    ouzel::audio::AudioDeviceSL* audioDeviceSL = reinterpret_cast<ouzel::audio::AudioDeviceSL*>(context);
 
-    audioSL->enqueue(bufferQueue);
+    audioDeviceSL->enqueue(bufferQueue);
 }
 
 namespace ouzel
 {
     namespace audio
     {
-        AudioSL::AudioSL():
-            Audio(Driver::OPENSL)
+        AudioDeviceSL::AudioDeviceSL():
+            AudioDevice(Audio::Driver::OPENSL)
         {
         }
 
-        AudioSL::~AudioSL()
+        AudioDeviceSL::~AudioDeviceSL()
         {
             if (playerObject)
             {
@@ -42,9 +42,9 @@ namespace ouzel
             }
         }
 
-        bool AudioSL::init(bool debugAudio)
+        bool AudioDeviceSL::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -163,7 +163,7 @@ namespace ouzel
                 return false;
             }
             
-            if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data))
+            if (!getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
             {
                 return false;
             }
@@ -183,14 +183,14 @@ namespace ouzel
             return true;
         }
 
-        void AudioSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
+        void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
             if (!update())
             {
                 return;
             }
 
-            if (!getData(bufferSize / sizeof(int16_t), Format::SINT16, data))
+            if (!getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
             {
                 return;
             }

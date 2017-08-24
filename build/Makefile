@@ -35,7 +35,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Scale.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Sequence.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
-	$(ROOT_DIR)/../ouzel/audio/empty/AudioEmpty.cpp \
+	$(ROOT_DIR)/../ouzel/audio/empty/AudioDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
@@ -142,7 +142,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
 ifeq ($(platform),windows)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
@@ -160,7 +160,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDS.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),raspbian)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/EngineRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
@@ -170,8 +170,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
 CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioALSA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
@@ -181,8 +181,8 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioALSA.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
 else ifeq ($(platform),macos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/EngineMacOS.mm \
 	$(ROOT_DIR)/../ouzel/core/macos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/ViewMacOS.mm \
@@ -203,9 +203,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),ios)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/ios/AudioALIOS.mm \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/ios/AudioDeviceALIOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLinkHandler.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
@@ -227,9 +227,9 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/tvos/AudioALTVOS.mm \
-	$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
+	$(ROOT_DIR)/../ouzel/audio/openal/tvos/AudioDeviceALTVOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLinkHandler.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
@@ -251,7 +251,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioCA.cpp \
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
-SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioAL.cpp \
+SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \

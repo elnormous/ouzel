@@ -5,7 +5,7 @@
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
-#include "AudioXA2.hpp"
+#include "AudioDeviceXA2.hpp"
 #include "XAudio27.hpp"
 #include "audio/SoundResource.hpp"
 #include "utils/Log.hpp"
@@ -19,12 +19,12 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioXA2::AudioXA2():
-            Audio(Driver::XAUDIO2)
+        AudioDeviceXA2::AudioDeviceXA2():
+            AudioDevice(Audio::Driver::XAUDIO2)
         {
         }
 
-        AudioXA2::~AudioXA2()
+        AudioDeviceXA2::~AudioDeviceXA2()
         {
             if (sourceVoice) sourceVoice->DestroyVoice();
             if (masteringVoice) masteringVoice->DestroyVoice();
@@ -36,9 +36,9 @@ namespace ouzel
             if (xAudio2Library) FreeModule(xAudio2Library);
         }
 
-        bool AudioXA2::init(bool debugAudio)
+        bool AudioDeviceXA2::init(bool debugAudio)
         {
-            if (!Audio::init(debugAudio))
+            if (!AudioDevice::init(debugAudio))
             {
                 return false;
             }
@@ -150,7 +150,7 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize / sizeof(int16_t), Format::SINT16, data[0]);
+            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data[0]);
 
             XAUDIO2_BUFFER bufferData;
             bufferData.Flags = 0;
@@ -170,7 +170,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(bufferSize / sizeof(int16_t), Format::SINT16, data[1]);
+            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data[1]);
             bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
             bufferData.pAudioData = data[1].data();
 
@@ -193,26 +193,26 @@ namespace ouzel
             return true;
         }
 
-        void AudioXA2::OnVoiceProcessingPassStart(UINT32)
+        void AudioDeviceXA2::OnVoiceProcessingPassStart(UINT32)
         {
         }
-        void AudioXA2::OnVoiceProcessingPassEnd()
+        void AudioDeviceXA2::OnVoiceProcessingPassEnd()
         {
         }
-        void AudioXA2::OnStreamEnd()
+        void AudioDeviceXA2::OnStreamEnd()
         {
         }
-        void AudioXA2::OnBufferStart(void*)
+        void AudioDeviceXA2::OnBufferStart(void*)
         {
         }
-        void AudioXA2::OnBufferEnd(void*)
+        void AudioDeviceXA2::OnBufferEnd(void*)
         {
             if (!update())
             {
                 return;
             }
 
-            if (!getData(bufferSize / sizeof(float), Format::FLOAT32, data[nextBuffer]))
+            if (!getData(bufferSize / sizeof(float), Audio::Format::FLOAT32, data[nextBuffer]))
             {
                 return;
             }
@@ -236,10 +236,10 @@ namespace ouzel
 
             nextBuffer = (nextBuffer == 0) ? 1 : 0;
         }
-        void AudioXA2::OnLoopEnd(void*)
+        void AudioDeviceXA2::OnLoopEnd(void*)
         {
         }
-        void AudioXA2::OnVoiceError(void*, HRESULT error)
+        void AudioDeviceXA2::OnVoiceError(void*, HRESULT error)
         {
             Log() << "Xaudio2 voice error: " << error;
         }

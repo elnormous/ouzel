@@ -20,14 +20,12 @@
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.hpp"
 #include "files/ios/FileSystemIOS.hpp"
-#include "audio/openal/ios/AudioALIOS.hpp"
 #include "graphics/metal/ios/RendererMetalIOS.hpp"
 #include "graphics/opengl/ios/RendererOGLIOS.hpp"
 #include "input/ios/InputIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.hpp"
 #include "files/tvos/FileSystemTVOS.hpp"
-#include "audio/openal/tvos/AudioALTVOS.hpp"
 #include "graphics/metal/tvos/RendererMetalTVOS.hpp"
 #include "graphics/opengl/tvos/RendererOGLTVOS.hpp"
 #include "input/tvos/InputTVOS.hpp"
@@ -63,14 +61,6 @@
 #include "graphics/opengl/RendererOGL.hpp"
 #include "graphics/direct3d11/RendererD3D11.hpp"
 #include "graphics/metal/RendererMetal.hpp"
-
-#include "audio/empty/AudioEmpty.hpp"
-#include "audio/openal/AudioAL.hpp"
-#include "audio/dsound/AudioDS.hpp"
-#include "audio/xaudio2/AudioXA2.hpp"
-#include "audio/opensl/AudioSL.hpp"
-#include "audio/coreaudio/AudioCA.hpp"
-#include "audio/alsa/AudioALSA.hpp"
 
 extern std::string APPLICATION_NAME;
 
@@ -136,40 +126,6 @@ namespace ouzel
             {
                 availableDrivers.insert(graphics::Renderer::Driver::METAL);
             }
-#endif
-        }
-
-        return availableDrivers;
-    }
-
-    std::set<audio::Audio::Driver> Engine::getAvailableAudioDrivers()
-    {
-        static std::set<audio::Audio::Driver> availableDrivers;
-
-        if (availableDrivers.empty())
-        {
-            availableDrivers.insert(audio::Audio::Driver::EMPTY);
-
-#if OUZEL_SUPPORTS_OPENAL
-            availableDrivers.insert(audio::Audio::Driver::OPENAL);
-#endif
-
-#if OUZEL_SUPPORTS_DIRECTSOUND
-            availableDrivers.insert(audio::Audio::Driver::DIRECTSOUND);
-#endif
-
-#if OUZEL_SUPPORTS_XAUDIO2
-            availableDrivers.insert(audio::Audio::Driver::XAUDIO2);
-#endif
-
-#if OUZEL_SUPPORTS_OPENSL
-            availableDrivers.insert(audio::Audio::Driver::OPENSL);
-#endif
-#if OUZEL_SUPPORTS_COREAUDIO
-            availableDrivers.insert(audio::Audio::Driver::COREAUDIO);
-#endif
-#if OUZEL_SUPPORTS_ALSA
-            availableDrivers.insert(audio::Audio::Driver::ALSA);
 #endif
         }
 
@@ -469,7 +425,7 @@ namespace ouzel
 
         if (audioDriver == audio::Audio::Driver::DEFAULT)
         {
-            auto availableDrivers = getAvailableAudioDrivers();
+            auto availableDrivers = audio::Audio::getAvailableAudioDrivers();
 
             if (availableDrivers.find(audio::Audio::Driver::COREAUDIO) != availableDrivers.end())
             {
@@ -501,58 +457,7 @@ namespace ouzel
             }
         }
 
-        switch (audioDriver)
-        {
-            case audio::Audio::Driver::EMPTY:
-                Log(Log::Level::INFO) << "Not using audio driver";
-                audio.reset(new audio::AudioEmpty());
-                break;
-#if OUZEL_SUPPORTS_OPENAL
-            case audio::Audio::Driver::OPENAL:
-                Log(Log::Level::INFO) << "Using OpenAL audio driver";
-    #if OUZEL_PLATFORM_IOS
-                audio.reset(new audio::AudioALIOS());
-    #elif OUZEL_PLATFORM_TVOS
-                audio.reset(new audio::AudioALTVOS());
-    #else
-                audio.reset(new audio::AudioAL());
-    #endif
-                break;
-#endif
-#if OUZEL_SUPPORTS_DIRECTSOUND
-            case audio::Audio::Driver::DIRECTSOUND:
-                Log(Log::Level::INFO) << "Using DirectSound audio driver";
-                audio.reset(new audio::AudioDS());
-                break;
-#endif
-#if OUZEL_SUPPORTS_XAUDIO2
-            case audio::Audio::Driver::XAUDIO2:
-                Log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                audio.reset(new audio::AudioXA2());
-                break;
-#endif
-#if OUZEL_SUPPORTS_OPENSL
-            case audio::Audio::Driver::OPENSL:
-                Log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                audio.reset(new audio::AudioSL());
-                break;
-#endif
-#if OUZEL_SUPPORTS_COREAUDIO
-            case audio::Audio::Driver::COREAUDIO:
-                Log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                audio.reset(new audio::AudioCA());
-                break;
-#endif
-#if OUZEL_SUPPORTS_ALSA
-            case audio::Audio::Driver::ALSA:
-                Log(Log::Level::INFO) << "Using ALSA audio driver";
-                audio.reset(new audio::AudioALSA());
-                break;
-#endif
-            default:
-                Log(Log::Level::ERR) << "Unsupported audio driver";
-                return false;
-        }
+        audio.reset(new audio::Audio(audioDriver));
 
         if (!audio->init(debugAudio))
         {

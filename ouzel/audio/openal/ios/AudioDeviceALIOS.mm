@@ -5,16 +5,16 @@
 
 #if OUZEL_PLATFORM_IOS && OUZEL_SUPPORTS_OPENAL
 
-#include "AudioALIOS.hpp"
+#include "AudioDeviceALIOS.hpp"
 #import <AVFoundation/AVFoundation.h>
 
 namespace ouzel
 {
     namespace audio
     {
-        bool AudioALIOS::init(bool debugAudio)
+        bool AudioDeviceALIOS::init(bool debugAudio)
         {
-            if (!AudioAL::init(debugAudio))
+            if (!AudioDeviceAL::init(debugAudio))
             {
                 return false;
             }
