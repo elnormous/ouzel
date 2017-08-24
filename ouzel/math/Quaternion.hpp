@@ -19,8 +19,7 @@ namespace ouzel
         float z = 0.0f;
         float w = 0.0f;
 
-        Quaternion():
-            x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+        Quaternion()
         {
         }
 

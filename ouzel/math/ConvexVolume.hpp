@@ -13,7 +13,10 @@ namespace ouzel
     class ConvexVolume
     {
     public:
-        ConvexVolume() {}
+        ConvexVolume()
+        {
+        }
+
         ConvexVolume(const std::vector<Plane>& aPlanes):
             planes(aPlanes)
         {
