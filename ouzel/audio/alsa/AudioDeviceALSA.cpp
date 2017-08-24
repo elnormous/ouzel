@@ -122,7 +122,7 @@ namespace ouzel
                 return false;
             }
 
-            audioThread = std::thread(&AudioALSA::run, this);
+            audioThread = std::thread(&AudioDeviceALSA::run, this);
 
             return true;
         }
