@@ -22,34 +22,34 @@ namespace ouzel
 {
     namespace audio
     {
-        std::set<audio::Audio::Driver> Audio::getAvailableAudioDrivers()
+        std::set<Audio::Driver> Audio::getAvailableAudioDrivers()
         {
-            static std::set<audio::Audio::Driver> availableDrivers;
+            static std::set<Driver> availableDrivers;
 
             if (availableDrivers.empty())
             {
-                availableDrivers.insert(audio::Audio::Driver::EMPTY);
+                availableDrivers.insert(Audio::Driver::EMPTY);
 
 #if OUZEL_SUPPORTS_OPENAL
-                availableDrivers.insert(audio::Audio::Driver::OPENAL);
+                availableDrivers.insert(Audio::Driver::OPENAL);
 #endif
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
-                availableDrivers.insert(audio::Audio::Driver::DIRECTSOUND);
+                availableDrivers.insert(Audio::Driver::DIRECTSOUND);
 #endif
 
 #if OUZEL_SUPPORTS_XAUDIO2
-                availableDrivers.insert(audio::Audio::Driver::XAUDIO2);
+                availableDrivers.insert(Audio::Driver::XAUDIO2);
 #endif
 
 #if OUZEL_SUPPORTS_OPENSL
-                availableDrivers.insert(audio::Audio::Driver::OPENSL);
+                availableDrivers.insert(Audio::Driver::OPENSL);
 #endif
 #if OUZEL_SUPPORTS_COREAUDIO
-                availableDrivers.insert(audio::Audio::Driver::COREAUDIO);
+                availableDrivers.insert(Audio::Driver::COREAUDIO);
 #endif
 #if OUZEL_SUPPORTS_ALSA
-                availableDrivers.insert(audio::Audio::Driver::ALSA);
+                availableDrivers.insert(Audio::Driver::ALSA);
 #endif
             }
             
@@ -64,55 +64,50 @@ namespace ouzel
                 case Driver::OPENAL:
                     Log(Log::Level::INFO) << "Using OpenAL audio driver";
     #if OUZEL_PLATFORM_IOS
-                    device = new AudioDeviceALIOS();
+                    device.reset(new AudioDeviceALIOS());
     #elif OUZEL_PLATFORM_TVOS
-                    device = new AudioDeviceALTVOS();
+                    device.reset(new AudioDeviceALTVOS());
     #else
-                    device = new AudioDeviceAL();
+                    device.reset(new AudioDeviceAL());
     #endif
                     break;
 #endif
 #if OUZEL_SUPPORTS_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     Log(Log::Level::INFO) << "Using DirectSound audio driver";
-                    device = new AudioDeviceDS();
+                    device.reset(new AudioDeviceDS());
                     break;
 #endif
 #if OUZEL_SUPPORTS_XAUDIO2
                 case Driver::XAUDIO2:
                     Log(Log::Level::INFO) << "Using XAudio 2 audio driver";
-                    device = new AudioDeviceXA2();
+                    device.reset(new AudioDeviceXA2());
                     break;
 #endif
 #if OUZEL_SUPPORTS_OPENSL
                 case Driver::OPENSL:
                     Log(Log::Level::INFO) << "Using OpenSL ES audio driver";
-                    device = new AudioDeviceSL();
+                    device.reset(new AudioDeviceSL());
                     break;
 #endif
 #if OUZEL_SUPPORTS_COREAUDIO
                 case Driver::COREAUDIO:
                     Log(Log::Level::INFO) << "Using CoreAudio audio driver";
-                    device = new AudioDeviceCA();
+                    device.reset(new AudioDeviceCA());
                     break;
 #endif
 #if OUZEL_SUPPORTS_ALSA
                 case Driver::ALSA:
                     Log(Log::Level::INFO) << "Using ALSA audio driver";
-                    device = new AudioDeviceALSA();
+                    device.reset(new AudioDeviceALSA());
                     break;
 #endif
                 case Driver::EMPTY:
                 default:
                     Log(Log::Level::INFO) << "Not using audio driver";
-                    device = new AudioDeviceEmpty();
+                    device.reset(new AudioDeviceEmpty());
                     break;
             }
-        }
-
-        Audio::~Audio()
-        {
-            if (device) delete device;
         }
 
         bool Audio::init(bool debugAudio)

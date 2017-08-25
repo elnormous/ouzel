@@ -56,11 +56,9 @@ namespace ouzel
                 FLOAT32
             };
 
-            virtual ~Audio();
+            AudioDevice* getDevice() const { return device.get(); }
 
-            AudioDevice* getDevice() const { return device; }
-
-            static std::set<audio::Audio::Driver> getAvailableAudioDrivers();
+            static std::set<Audio::Driver> getAvailableAudioDrivers();
 
             bool update();
 
@@ -74,9 +72,9 @@ namespace ouzel
 
         protected:
             Audio(Driver driver);
-            virtual bool init(bool debugAudio);
+            bool init(bool debugAudio);
 
-            AudioDevice* device = nullptr;
+            std::unique_ptr<AudioDevice> device;
 
             Vector3 listenerPosition;
             Quaternion listenerRotation;
