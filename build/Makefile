@@ -189,11 +189,11 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/macos/WindowMacOS.mm \
 	$(ROOT_DIR)/../ouzel/files/macos/FileSystemMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RendererMetalMacOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/macos/OpenGLView.m \
@@ -213,11 +213,11 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/WindowIOS.mm \
 	$(ROOT_DIR)/../ouzel/files/ios/FileSystemIOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RendererMetalIOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metalDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
@@ -237,11 +237,11 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/WindowTVOS.mm \
 	$(ROOT_DIR)/../ouzel/files/tvos/FileSystemTVOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
-	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RendererMetalTVOS.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/RendererMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \

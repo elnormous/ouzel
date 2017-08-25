@@ -110,6 +110,10 @@ namespace ouzel
             }
         }
 
+        Audio::~Audio()
+        {
+        }
+
         bool Audio::init(bool debugAudio)
         {
             device->init(debugAudio);
@@ -125,14 +129,14 @@ namespace ouzel
         {
             listenerPosition = newPosition;
 
-            executeOnAudioThread(std::bind(&AudioDevice::setListenerPosition, device, newPosition));
+            executeOnAudioThread(std::bind(&AudioDevice::setListenerPosition, device.get(), newPosition));
         }
 
         void Audio::setListenerRotation(const Quaternion& newRotation)
         {
             listenerRotation = newRotation;
 
-            executeOnAudioThread(std::bind(&AudioDevice::setListenerRotation, device, newRotation));
+            executeOnAudioThread(std::bind(&AudioDevice::setListenerRotation, device.get(), newRotation));
         }
 
         void Audio::executeOnAudioThread(const std::function<void(void)>& func)
