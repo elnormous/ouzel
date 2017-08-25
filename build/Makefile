@@ -217,7 +217,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metalDeviceMetal.mm \
+	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
