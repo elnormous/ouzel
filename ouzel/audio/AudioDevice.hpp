@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "utils/Noncopyable.hpp"
 #include "audio/Audio.hpp"
 
 namespace ouzel
@@ -12,7 +13,7 @@ namespace ouzel
         class Resource;
         class SoundResource;
 
-        class AudioDevice
+        class AudioDevice: public Noncopyable
         {
             friend Audio;
         public:
