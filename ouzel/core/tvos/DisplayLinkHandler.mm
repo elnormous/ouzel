@@ -6,11 +6,11 @@
 
 @implementation DisplayLinkHandler
 
--(id)initWithRenderer:(ouzel::graphics::Renderer*)newRenderer andVerticalSync:(bool)newVerticalSync
+-(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)newRenderDevice andVerticalSync:(bool)newVerticalSync
 {
     if (self = [super init])
     {
-        renderer = newRenderer;
+        renderDevice = newRenderDevice;
         verticalSync = newVerticalSync;
         running = true;
 
@@ -48,7 +48,7 @@
 {
     @autoreleasepool
     {
-        renderer->process();
+        renderDevice->process();
     }
 }
 

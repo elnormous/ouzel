@@ -4,11 +4,11 @@
 #pragma once
 
 #import <QuartzCore/QuartzCore.h>
-#include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 
 @interface DisplayLinkHandler: NSObject
 {
-    ouzel::graphics::Renderer* renderer;
+    ouzel::graphics::RenderDevice* renderDevice;
     NSConditionLock* runLock;
     NSRunLoop* runLoop;
     CADisplayLink* displayLink;
@@ -17,7 +17,7 @@
     bool running;
 }
 
--(id)initWithRenderer:(ouzel::graphics::Renderer*)newRenderer andVerticalSync:(bool)newVerticalSync;
+-(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)newRenderDevice andVerticalSync:(bool)newVerticalSync;
 -(void)stop;
 
 @end

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowTVOS.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
 #include "graphics/metal/tvos/MetalView.h"
 #include "core/Engine.hpp"
@@ -78,7 +79,7 @@ namespace ouzel
         size = Size2(static_cast<float>(windowFrame.size.width),
                      static_cast<float>(windowFrame.size.height));
 
-        switch (sharedEngine->getRenderer()->getDriver())
+        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewTVOS alloc] initWithFrame:windowFrame];

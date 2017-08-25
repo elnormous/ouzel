@@ -9,6 +9,7 @@
 #include <X11/extensions/scrnsaver.h>
 #include "EngineLinux.hpp"
 #include "events/Event.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "input/Input.hpp"
 #include "input/linux/InputLinux.hpp"
 #include "WindowLinux.hpp"
@@ -42,7 +43,7 @@ namespace ouzel
 
         start();
 
-        if (renderer->getDriver() == graphics::Renderer::Driver::EMPTY)
+        if (renderer->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
             for (;;)
             {

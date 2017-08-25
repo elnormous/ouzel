@@ -12,6 +12,7 @@
 
 #include "WindowLinux.hpp"
 #include "EngineLinux.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "utils/Log.hpp"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
@@ -67,7 +68,7 @@ namespace ouzel
         if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
         if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
-        switch(sharedEngine->getRenderer()->getDriver())
+        switch(sharedEngine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
             {
@@ -172,7 +173,7 @@ namespace ouzel
 
     void WindowLinux::setSize(const Size2& newSize)
     {
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             sharedEngine->executeOnMainThread([this, newSize] {
                 XWindowChanges changes;
@@ -187,7 +188,7 @@ namespace ouzel
 
     void WindowLinux::setFullscreen(bool newFullscreen)
     {
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             if (fullscreen != newFullscreen)
             {
@@ -200,7 +201,7 @@ namespace ouzel
 
     void WindowLinux::setTitle(const std::string& newTitle)
     {
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             if (title != newTitle)
             {
@@ -215,7 +216,7 @@ namespace ouzel
 
     bool WindowLinux::toggleFullscreen()
     {
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             if(!state || !stateFullscreen)
             {
