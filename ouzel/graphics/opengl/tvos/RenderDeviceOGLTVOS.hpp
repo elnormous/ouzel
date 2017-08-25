@@ -21,13 +21,11 @@ typedef id CAEAGLLayerPtr;
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RenderDeviceOGLTVOS: public RenderDeviceOGL
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGLTVOS();
 

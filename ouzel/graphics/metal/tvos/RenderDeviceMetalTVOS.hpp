@@ -15,6 +15,7 @@ namespace ouzel
     {
         class RenderDeviceMetalTVOS: public RenderDeviceMetal
         {
+            friend Renderer;
         public:
             virtual ~RenderDeviceMetalTVOS();
 

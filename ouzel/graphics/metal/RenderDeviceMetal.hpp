@@ -44,20 +44,18 @@ typedef NSUInteger MTLLoadAction;
 typedef NSUInteger MTLColorWriteMask;
 #endif
 
-#include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class BlendStateResourceMetal;
         class ShaderResourceMetal;
 
-        class RenderDeviceMetal: public Renderer
+        class RenderDeviceMetal: public RenderDevice
         {
-            friend Engine;
+            friend RenderDevice;
         public:
             static bool available();
 

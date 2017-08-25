@@ -6,6 +6,7 @@
 #include "Camera.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "Layer.hpp"
 #include "graphics/TextureResource.hpp"
 #include "math/Matrix4.hpp"
@@ -171,7 +172,7 @@ namespace ouzel
 
             renderViewProjection = viewProjection;
 
-            renderViewProjection = sharedEngine->getRenderer()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
+            renderViewProjection = sharedEngine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
 
             viewProjectionDirty = false;
         }

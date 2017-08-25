@@ -67,7 +67,7 @@ namespace ouzel
         }
 
         RenderDeviceMetal::RenderDeviceMetal():
-            Renderer(Driver::METAL)
+            RenderDevice(Renderer::Driver::METAL)
         {
             apiMajorVersion = 1;
             apiMinorVersion = 0;
@@ -143,14 +143,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!Renderer::init(newWindow,
-                                newSize,
-                                newSampleCount,
-                                newTextureFilter,
-                                newMaxAnisotropy,
-                                newVerticalSync,
-                                newDepth,
-                                newDebugRenderer))
+            if (!RenderDevice::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer))
             {
                 return false;
             }
@@ -589,9 +589,9 @@ namespace ouzel
 
                 switch (drawCommand.cullMode)
                 {
-                    case CullMode::NONE: cullMode = MTLCullModeNone; break;
-                    case CullMode::FRONT: cullMode = MTLCullModeFront; break;
-                    case CullMode::BACK: cullMode = MTLCullModeBack; break;
+                    case Renderer::CullMode::NONE: cullMode = MTLCullModeNone; break;
+                    case Renderer::CullMode::FRONT: cullMode = MTLCullModeFront; break;
+                    case Renderer::CullMode::BACK: cullMode = MTLCullModeBack; break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 
@@ -771,11 +771,11 @@ namespace ouzel
 
                 switch (drawCommand.drawMode)
                 {
-                    case DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
-                    case DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
-                    case DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
-                    case DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
-                    case DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
+                    case Renderer::DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
+                    case Renderer::DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
+                    case Renderer::DrawMode::LINE_STRIP: primitiveType = MTLPrimitiveTypeLineStrip; break;
+                    case Renderer::DrawMode::TRIANGLE_LIST: primitiveType = MTLPrimitiveTypeTriangle; break;
+                    case Renderer::DrawMode::TRIANGLE_STRIP: primitiveType = MTLPrimitiveTypeTriangleStrip; break;
                     default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                 }
 

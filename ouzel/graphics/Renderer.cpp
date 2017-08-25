@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include "CompileConfig.h"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"
@@ -15,6 +16,32 @@
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
 
+#if OUZEL_PLATFORM_MACOS
+#include "graphics/metal/macos/RenderDeviceMetalMacOS.hpp"
+#include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
+#elif OUZEL_PLATFORM_IOS
+#include "graphics/metal/ios/RenderDeviceMetalIOS.hpp"
+#include "graphics/opengl/ios/RenderDeviceOGLIOS.hpp"
+#elif OUZEL_PLATFORM_TVOS
+#include "graphics/metal/tvos/RenderDeviceMetalTVOS.hpp"
+#include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
+#elif OUZEL_PLATFORM_ANDROID
+#include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
+#elif OUZEL_PLATFORM_LINUX
+#include "graphics/opengl/linux/RenderDeviceOGLLinux.hpp"
+#elif OUZEL_PLATFORM_WINDOWS
+#include "graphics/opengl/windows/RenderDeviceOGLWin.hpp"
+#elif OUZEL_PLATFORM_RASPBIAN
+#include "graphics/opengl/raspbian/RenderDeviceOGLRasp.hpp"
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+#include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
+#endif
+
+#include "graphics/empty/RenderDeviceEmpty.hpp"
+#include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "graphics/direct3d11/RenderDeviceD3D11.hpp"
+#include "graphics/metal/RenderDeviceMetal.hpp"
+
 static const float GAMMA = 2.2f;
 uint8_t GAMMA_ENCODE[256];
 float GAMMA_DECODE[256];
@@ -23,24 +50,95 @@ namespace ouzel
 {
     namespace graphics
     {
-        Renderer::Renderer(Driver aDriver):
-            driver(aDriver),
-            projectionTransform(Matrix4::IDENTITY),
-            renderTargetProjectionTransform(Matrix4::IDENTITY),
-            refillQueue(true),
-            currentFPS(0.0f),
-            accumulatedFPS(0.0f)
+        std::set<Renderer::Driver> Renderer::getAvailableRenderDrivers()
+        {
+            static std::set<Renderer::Driver> availableDrivers;
+
+            if (availableDrivers.empty())
+            {
+                availableDrivers.insert(Renderer::Driver::EMPTY);
+
+#if OUZEL_SUPPORTS_OPENGL
+                availableDrivers.insert(Renderer::Driver::OPENGL);
+#endif
+
+#if OUZEL_SUPPORTS_DIRECT3D11
+                availableDrivers.insert(Renderer::Driver::DIRECT3D11);
+#endif
+
+#if OUZEL_SUPPORTS_METAL
+                if (graphics::RenderDeviceMetal::available())
+                {
+                    availableDrivers.insert(Renderer::Driver::METAL);
+                }
+#endif
+            }
+            
+            return availableDrivers;
+        }
+
+        Renderer::Renderer(Driver driver)
         {
             for (uint32_t i = 0; i < 256; ++i)
             {
                 GAMMA_ENCODE[i] = static_cast<uint8_t>(roundf(powf(i / 255.0f, 1.0f / GAMMA) * 255.0f));
                 GAMMA_DECODE[i] = roundf(powf(i / 255.0f, GAMMA) * 255.0f);
             }
+
+            switch (driver)
+            {
+#if OUZEL_SUPPORTS_OPENGL
+                case graphics::Renderer::Driver::OPENGL:
+                    Log(Log::Level::INFO) << "Using OpenGL render driver";
+#if OUZEL_PLATFORM_MACOS
+                    device.reset(new graphics::RenderDeviceOGLMacOS());
+#elif OUZEL_PLATFORM_IOS
+                    device.reset(new graphics::RenderDeviceOGLIOS());
+#elif OUZEL_PLATFORM_TVOS
+                    device.reset(new graphics::RenderDeviceOGLTVOS());
+#elif OUZEL_PLATFORM_ANDROID
+                    device.reset(new graphics::RenderDeviceOGLAndroid());
+#elif OUZEL_PLATFORM_LINUX
+                    device.reset(new graphics::RenderDeviceOGLLinux());
+#elif OUZEL_PLATFORM_WINDOWS
+                    device.reset(new graphics::RenderDeviceOGLWin());
+#elif OUZEL_PLATFORM_RASPBIAN
+                    device.reset(new graphics::RenderDeviceOGLRasp());
+#elif OUZEL_PLATFORM_EMSCRIPTEN
+                    device.reset(new graphics::RenderDeviceOGLEm());
+#else
+                    device.reset(new graphics::RenderDeviceOGL());
+#endif
+                    break;
+#endif
+#if OUZEL_SUPPORTS_DIRECT3D11
+                case graphics::Renderer::Driver::DIRECT3D11:
+                    Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
+                    device.reset(new graphics::RenderDeviceD3D11());
+                    break;
+#endif
+#if OUZEL_SUPPORTS_METAL
+                case graphics::Renderer::Driver::METAL:
+                    Log(Log::Level::INFO) << "Using Metal render driver";
+#if OUZEL_PLATFORM_MACOS
+                    device.reset(new graphics::RenderDeviceMetalMacOS());
+#elif OUZEL_PLATFORM_IOS
+                    device.reset(new graphics::RenderDeviceMetalIOS());
+#elif OUZEL_PLATFORM_TVOS
+                    device.reset(new graphics::RenderDeviceMetalTVOS());
+#endif
+                    break;
+#endif
+                case graphics::Renderer::Driver::EMPTY:
+                default:
+                    Log(Log::Level::INFO) << "Not using render driver";
+                    device.reset(new graphics::RenderDeviceEmpty());
+                    break;
+            }
         }
 
         Renderer::~Renderer()
         {
-            if (device) delete device;
         }
 
         bool Renderer::init(Window* newWindow,
@@ -52,161 +150,63 @@ namespace ouzel
                             bool newDepth,
                             bool newDebugRenderer)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            window = newWindow;
             size = newSize;
-            sampleCount = newSampleCount;
-            textureFilter = newTextureFilter;
-            maxAnisotropy = newMaxAnisotropy;
-            verticalSync = newVerticalSync;
-            depth = newDepth;
-            debugRenderer = newDebugRenderer;
-            clearColor = Color::BLACK;
 
-            previousFrameTime = std::chrono::steady_clock::now();
-
-            return true;
+            return device->init(newWindow,
+                                newSize,
+                                newSampleCount,
+                                newTextureFilter,
+                                newMaxAnisotropy,
+                                newVerticalSync,
+                                newDepth,
+                                newDebugRenderer);
         }
 
-        bool Renderer::upload()
+        void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
         {
-            return true;
-        }
-
-        bool Renderer::process()
-        {
-            std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-            auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
-            previousFrameTime = currentTime;
-
-            float delta = diff.count() / 1000000000.0f;
-
-            if (delta > 0.0f)
-            {
-                currentFPS = 1.0f / delta;
-            }
-
-            accumulatedTime += delta;
-            currentAccumulatedFPS += 1.0f;
-
-            if (accumulatedTime > 1.0f)
-            {
-                accumulatedFPS = currentAccumulatedFPS;
-                accumulatedTime = 0.0f;
-                currentAccumulatedFPS = 0.0f;
-            }
-
-            {
-                std::lock_guard<std::mutex> lock(uploadMutex);
-
-                if (dirty && !upload())
-                {
-                    return false;
-                }
-            }
-
-            std::vector<DrawCommand> drawCommands;
-            {
-#if OUZEL_MULTITHREADED
-                std::unique_lock<std::mutex> lock(drawQueueMutex);
-
-                while (!queueFinished)
-                {
-                    queueCondition.wait(lock);
-                }
-#endif
-
-                drawCommands = std::move(drawQueue);
-                drawQueue.reserve(drawCommands.size());
-
-                queueFinished = false;
-            }
-
-            std::vector<std::unique_ptr<Resource>> deleteResources;
-            {
-                std::lock_guard<std::mutex> lock(resourceMutex);
-                deleteResources = std::move(resourceDeleteSet);
-            }
-
-            // refills draw and upload queues
-            refillQueue = true;
-
-            executeAll();
-
-            ++currentFrame;
-
-            if (!draw(drawCommands))
-            {
-                return false;
-            }
-
-            deleteResources.clear(); // delete all resources in delete set
-
-            return true;
+            device->executeOnRenderThread(func);
         }
 
         void Renderer::setClearColorBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColorBuffer = clear;
-            dirty = true;
+
+            executeOnRenderThread(std::bind(&RenderDevice::setClearColorBuffer, device.get(), clear));
         }
 
         void Renderer::setClearDepthBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearDepthBuffer = clear;
-            dirty = true;
+
+            executeOnRenderThread(std::bind(&RenderDevice::setClearDepthBuffer, device.get(), clear));
         }
 
         void Renderer::setClearColor(Color color)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColor = color;
-            dirty = true;
+
+            executeOnRenderThread(std::bind(&RenderDevice::setClearColor, device.get(), color));
         }
 
-        void Renderer::setClearDepth(float clear)
+        void Renderer::setClearDepth(float newClearDepth)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
+            clearDepth = newClearDepth;
 
-            clearDepth = clear;
-            dirty = true;
+            executeOnRenderThread(std::bind(&RenderDevice::setClearDepth, device.get(), newClearDepth));
         }
 
         void Renderer::setSize(const Size2& newSize)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
+            size = newSize;
 
-            if (size != newSize)
-            {
-                size = newSize;
-                dirty = true;
-            }
+            executeOnRenderThread(std::bind(&RenderDevice::setSize, device.get(), size));
         }
 
-        std::vector<Size2> Renderer::getSupportedResolutions() const
+        bool Renderer::saveScreenshot(const std::string& filename)
         {
-            return std::vector<Size2>();
-        }
+            executeOnRenderThread(std::bind(&RenderDevice::generateScreenshot, device.get(), filename));
 
-        void Renderer::deleteResource(Resource* resource)
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
-                return ptr.get() == resource;
-            });
-
-            if (i != resources.end())
-            {
-                resourceDeleteSet.push_back(std::move(*i));
-                resources.erase(i);
-            }
+            return true;
         }
 
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
@@ -249,10 +249,10 @@ namespace ouzel
 
             for (const std::shared_ptr<Texture>& texture : textures)
             {
-                if (texture) drawTextures.push_back(texture->getResource());
+                drawTextures.push_back(texture ? texture->getResource() : nullptr);
             }
 
-            drawQueue.push_back({
+            RenderDevice::DrawCommand drawCommand = {
                 drawTextures,
                 shader->getResource(),
                 pixelShaderConstants,
@@ -270,68 +270,9 @@ namespace ouzel
                 scissorTest,
                 scissorRectangle,
                 cullMode
-            });
+            };
 
-            return true;
-        }
-
-        void Renderer::flushCommands()
-        {
-            refillQueue = false;
-
-            {
-                std::lock_guard<std::mutex> lock(drawQueueMutex);
-                queueFinished = true;
-                drawCallCount = static_cast<uint32_t>(drawQueue.size());
-            }
-
-#if OUZEL_MULTITHREADED
-            queueCondition.notify_one();
-#endif
-        }
-
-        bool Renderer::saveScreenshot(const std::string& filename)
-        {
-            executeOnRenderThread(std::bind(&Renderer::generateScreenshot, this, filename));
-
-            return true;
-        }
-
-        bool Renderer::generateScreenshot(const std::string&)
-        {
-            return true;
-        }
-
-        void Renderer::executeOnRenderThread(const std::function<void(void)>& func)
-        {
-            std::lock_guard<std::mutex> lock(executeMutex);
-
-            executeQueue.push(func);
-        }
-
-        void Renderer::executeAll()
-        {
-            std::function<void(void)> func;
-
-            for (;;)
-            {
-                {
-                    std::lock_guard<std::mutex> lock(executeMutex);
-
-                    if (executeQueue.empty())
-                    {
-                        break;
-                    }
-
-                    func = std::move(executeQueue.front());
-                    executeQueue.pop();
-                }
-                
-                if (func)
-                {
-                    func();
-                }
-            }
+            return device->addDrawCommand(drawCommand);
         }
     } // namespace graphics
 } // namespace ouzel

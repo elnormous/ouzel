@@ -5,6 +5,7 @@
 #include "MeshBufferResource.hpp"
 #include "Buffer.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -13,12 +14,12 @@ namespace ouzel
     {
         MeshBuffer::MeshBuffer()
         {
-            resource = sharedEngine->getRenderer()->createMeshBuffer();
+            resource = sharedEngine->getRenderer()->getDevice()->createMeshBuffer();
         }
 
         MeshBuffer::~MeshBuffer()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,

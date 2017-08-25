@@ -26,7 +26,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceD3D11::RenderDeviceD3D11():
-            Renderer(Driver::DIRECT3D11), running(false)
+            RenderDevice(Renderer::Driver::DIRECT3D11), running(false)
         {
             apiMajorVersion = 11;
             apiMinorVersion = 0;
@@ -116,14 +116,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!Renderer::init(newWindow,
-                                newSize,
-                                newSampleCount,
-                                newTextureFilter,
-                                newMaxAnisotropy,
-                                newVerticalSync,
-                                newDepth,
-                                newDebugRenderer))
+            if (!RenderDevice::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer))
             {
                 return false;
             }
@@ -579,9 +579,9 @@ namespace ouzel
                 uint32_t cullModeIndex;
                 switch (drawCommand.cullMode)
                 {
-                    case CullMode::NONE: cullModeIndex = 0; break;
-                    case CullMode::FRONT: cullModeIndex = 1; break;
-                    case CullMode::BACK: cullModeIndex = 2; break;
+                    case Renderer::::NONE: cullModeIndex = 0; break;
+                    case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
+                    case Renderer::CullMode::BACK: cullModeIndex = 2; break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
                 uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
@@ -752,11 +752,11 @@ namespace ouzel
 
                 switch (drawCommand.drawMode)
                 {
-                    case DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                    case DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                    case DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                    case DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                    case DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+                    case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+                    case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+                    case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+                    case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+                    case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
                     default: Log(Log::Level::ERR) << "Invalid draw mode";  return false;
                 }
 

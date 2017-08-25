@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowMacOS.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
 #include "input/macos/InputMacOS.hpp"
@@ -154,7 +155,7 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
 
-        switch (sharedEngine->getRenderer()->getDriver())
+        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewMacOS alloc] initWithFrame:windowFrame];

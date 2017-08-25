@@ -15,7 +15,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceEmpty::RenderDeviceEmpty():
-            Renderer(Driver::EMPTY)
+            RenderDevice(Renderer::Driver::EMPTY)
         {
         }
 
@@ -28,14 +28,14 @@ namespace ouzel
                                      bool newDepth,
                                      bool newDebugRenderer)
         {
-            if (!Renderer::init(newWindow,
-                                newSize,
-                                newSampleCount,
-                                newTextureFilter,
-                                newMaxAnisotropy,
-                                newVerticalSync,
-                                newDepth,
-                                newDebugRenderer))
+            if (!RenderDevice::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer))
             {
                 return false;
             }

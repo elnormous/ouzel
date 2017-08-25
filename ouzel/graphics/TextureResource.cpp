@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "TextureResource.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 #include "math/MathUtils.hpp"
 
@@ -130,7 +131,7 @@ namespace ouzel
             levels.push_back({newSize, pitch, std::vector<uint8_t>(bufferSize)});
 
             if (!(flags & Texture::RENDER_TARGET) && // don't generate mipmaps for render targets
-                (sharedEngine->getRenderer()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
+                (sharedEngine->getRenderer()->getDevice()->isNPOTTexturesSupported() || (isPOT(newWidth) && isPOT(newHeight))))
             {
                 while ((newWidth > 1 || newHeight > 1) &&
                        (mipmaps == 0 || levels.size() < mipmaps))

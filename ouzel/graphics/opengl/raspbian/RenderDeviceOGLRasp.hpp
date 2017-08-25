@@ -22,13 +22,11 @@ typedef struct {
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RenderDeviceOGLRasp: public RenderDeviceOGL
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGLRasp();
 

@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <mutex>
+#include <queue>
+#include <vector>
 #include "utils/Noncopyable.hpp"
 #include "audio/Audio.hpp"
 

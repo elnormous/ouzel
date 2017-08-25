@@ -4,6 +4,7 @@
 #include "Texture.hpp"
 #include "TextureResource.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "ImageDataSTB.hpp"
 #include "core/Engine.hpp"
 
@@ -13,12 +14,12 @@ namespace ouzel
     {
         Texture::Texture()
         {
-            resource = sharedEngine->getRenderer()->createTexture();
+            resource = sharedEngine->getRenderer()->getDevice()->createTexture();
         }
 
         Texture::~Texture()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Texture::init(const Size2& newSize,

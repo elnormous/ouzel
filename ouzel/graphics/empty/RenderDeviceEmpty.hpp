@@ -3,17 +3,15 @@
 
 #pragma once
 
-#include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
-        class RenderDeviceEmpty: public Renderer
+        class RenderDeviceEmpty: public RenderDevice
         {
-            friend Engine;
+            friend Renderer;
         protected:
             RenderDeviceEmpty();
 

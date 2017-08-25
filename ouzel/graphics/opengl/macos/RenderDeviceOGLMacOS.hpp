@@ -28,7 +28,7 @@ namespace ouzel
     {
         class RenderDeviceOGLMacOS: public RenderDeviceOGL
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGLMacOS();
 

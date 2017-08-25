@@ -105,19 +105,17 @@ extern PFNGLUNMAPBUFFERPROC glUnmapBufferProc;
 extern PFNGLMAPBUFFERRANGEPROC glMapBufferRangeProc;
 #endif
 
-#include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/TextureResource.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
-        class RenderDeviceOGL: public Renderer
+        class RenderDeviceOGL: public RenderDevice
         {
-            friend Engine;
+            friend RenderDevice;
         public:
             virtual ~RenderDeviceOGL();
 

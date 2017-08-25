@@ -15,13 +15,11 @@
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RenderDeviceOGLAndroid: public RenderDeviceOGL
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGLAndroid();
 

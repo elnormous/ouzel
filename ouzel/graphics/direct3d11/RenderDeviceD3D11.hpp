@@ -11,16 +11,16 @@
 #include <atomic>
 #include <map>
 #include <d3d11.h>
-#include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class RenderDeviceD3D11: public Renderer
+        class RenderDeviceD3D11: public RenderDevice
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceD3D11();
 

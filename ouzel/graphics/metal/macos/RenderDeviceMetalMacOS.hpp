@@ -45,7 +45,7 @@ namespace ouzel
     {
         class RenderDeviceMetalMacOS: public RenderDeviceMetal
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceMetalMacOS();
 

@@ -13,13 +13,11 @@
 
 namespace ouzel
 {
-    class Engine;
-
     namespace graphics
     {
         class RenderDeviceOGLEm: public RenderDeviceOGL
         {
-            friend Engine;
+            friend Renderer;
         public:
             virtual ~RenderDeviceOGLEm();
 

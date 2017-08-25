@@ -4,6 +4,7 @@
 #include "Shader.hpp"
 #include "ShaderResource.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 
@@ -13,12 +14,12 @@ namespace ouzel
     {
         Shader::Shader()
         {
-            resource = sharedEngine->getRenderer()->createShader();
+            resource = sharedEngine->getRenderer()->getDevice()->createShader();
         }
 
         Shader::~Shader()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Shader::init(const std::string& newPixelShader,

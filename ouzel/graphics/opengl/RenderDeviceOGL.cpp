@@ -155,7 +155,7 @@ namespace ouzel
     namespace graphics
     {
         RenderDeviceOGL::RenderDeviceOGL():
-            Renderer(Driver::OPENGL)
+            RenderDevice(Renderer::Driver::OPENGL)
         {
             projectionTransform = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
                                           0.0f, 1.0f, 0.0f, 0.0f,
@@ -188,14 +188,14 @@ namespace ouzel
                                    bool newDepth,
                                    bool newDebugRenderer)
         {
-            if (!Renderer::init(newWindow,
-                                newSize,
-                                newSampleCount,
-                                newTextureFilter,
-                                newMaxAnisotropy,
-                                newVerticalSync,
-                                newDepth,
-                                newDebugRenderer))
+            if (!RenderDevice::init(newWindow,
+                                    newSize,
+                                    newSampleCount,
+                                    newTextureFilter,
+                                    newMaxAnisotropy,
+                                    newVerticalSync,
+                                    newDepth,
+                                    newDebugRenderer))
             {
                 return false;
             }
@@ -739,7 +739,7 @@ namespace ouzel
                 return false;
             }
 
-            return Renderer::process();
+            return RenderDevice::process();
         }
 
         bool RenderDeviceOGL::draw(const std::vector<DrawCommand>& drawCommands)
@@ -831,9 +831,9 @@ namespace ouzel
 
                 switch (drawCommand.cullMode)
                 {
-                    case CullMode::NONE: cullFace = GL_NONE; break;
-                    case CullMode::FRONT: cullFace = (drawCommand.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                    case CullMode::BACK: cullFace = (drawCommand.renderTarget ? GL_BACK : GL_FRONT); break;
+                    case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
+                    case Renderer::CullMode::FRONT: cullFace = (drawCommand.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                    case Renderer::CullMode::BACK: cullFace = (drawCommand.renderTarget ? GL_BACK : GL_FRONT); break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                 }
 
@@ -1109,11 +1109,11 @@ namespace ouzel
 
                 switch (drawCommand.drawMode)
                 {
-                    case DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                    case DrawMode::LINE_LIST: mode = GL_LINES; break;
-                    case DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                    case DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                    case DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
+                    case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
+                    case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
+                    case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
+                    case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
+                    case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
                     default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                 }
 

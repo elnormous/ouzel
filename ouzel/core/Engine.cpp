@@ -9,58 +9,43 @@
 #include "utils/INI.hpp"
 #include "utils/Utils.hpp"
 #include "graphics/Renderer.hpp"
+#include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "macos/WindowMacOS.hpp"
 #include "files/macos/FileSystemMacOS.hpp"
-#include "graphics/metal/macos/RenderDeviceMetalMacOS.hpp"
-#include "graphics/opengl/macos/RenderDeviceOGLMacOS.hpp"
 #include "input/macos/InputMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
 #include "ios/WindowIOS.hpp"
 #include "files/ios/FileSystemIOS.hpp"
-#include "graphics/metal/ios/RenderDeviceMetalIOS.hpp"
-#include "graphics/opengl/ios/RenderDeviceOGLIOS.hpp"
 #include "input/ios/InputIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
 #include "tvos/WindowTVOS.hpp"
 #include "files/tvos/FileSystemTVOS.hpp"
-#include "graphics/metal/tvos/RenderDeviceMetalTVOS.hpp"
-#include "graphics/opengl/tvos/RenderDeviceOGLTVOS.hpp"
 #include "input/tvos/InputTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
 #include "android/WindowAndroid.hpp"
 #include "files/android/FileSystemAndroid.hpp"
-#include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "input/android/InputAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowLinux.hpp"
 #include "files/linux/FileSystemLinux.hpp"
-#include "graphics/opengl/linux/RenderDeviceOGLLinux.hpp"
 #include "input/linux/InputLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
 #include "windows/WindowWin.hpp"
 #include "files/windows/FileSystemWin.hpp"
-#include "graphics/opengl/windows/RenderDeviceOGLWin.hpp"
 #include "input/windows/InputWin.hpp"
 #elif OUZEL_PLATFORM_RASPBIAN
 #include "raspbian/WindowRasp.hpp"
 #include "files/raspbian/FileSystemRasp.hpp"
-#include "graphics/opengl/raspbian/RenderDeviceOGLRasp.hpp"
 #include "input/raspbian/InputRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
 #include "emscripten/WindowEm.hpp"
 #include "files/emscripten/FileSystemEm.hpp"
-#include "graphics/opengl/emscripten/RenderDeviceOGLEm.hpp"
 #include "input/emscripten/InputEm.hpp"
 #endif
-
-#include "graphics/empty/RenderDeviceEmpty.hpp"
-#include "graphics/opengl/RenderDeviceOGL.hpp"
-#include "graphics/direct3d11/RenderDeviceD3D11.hpp"
-#include "graphics/metal/RenderDeviceMetal.hpp"
 
 extern std::string APPLICATION_NAME;
 
@@ -103,33 +88,6 @@ namespace ouzel
         }
 
         sharedEngine = nullptr;
-    }
-
-    std::set<graphics::Renderer::Driver> Engine::getAvailableRenderDrivers()
-    {
-        static std::set<graphics::Renderer::Driver> availableDrivers;
-
-        if (availableDrivers.empty())
-        {
-            availableDrivers.insert(graphics::Renderer::Driver::EMPTY);
-
-#if OUZEL_SUPPORTS_OPENGL
-            availableDrivers.insert(graphics::Renderer::Driver::OPENGL);
-#endif
-
-#if OUZEL_SUPPORTS_DIRECT3D11
-            availableDrivers.insert(graphics::Renderer::Driver::DIRECT3D11);
-#endif
-
-#if OUZEL_SUPPORTS_METAL
-            if (graphics::RenderDeviceMetal::available())
-            {
-                availableDrivers.insert(graphics::Renderer::Driver::METAL);
-            }
-#endif
-        }
-
-        return availableDrivers;
     }
 
     bool Engine::init()
@@ -308,7 +266,7 @@ namespace ouzel
 
         if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
         {
-            auto availableDrivers = getAvailableRenderDrivers();
+            auto availableDrivers = graphics::Renderer::getAvailableRenderDrivers();
 
             if (availableDrivers.find(graphics::Renderer::Driver::METAL) != availableDrivers.end())
             {
@@ -348,58 +306,7 @@ namespace ouzel
         window.reset(new Window());
 #endif
 
-        switch (graphicsDriver)
-        {
-            case graphics::Renderer::Driver::EMPTY:
-                Log(Log::Level::INFO) << "Not using render driver";
-                renderer.reset(new graphics::RenderDeviceEmpty());
-                break;
-#if OUZEL_SUPPORTS_OPENGL
-            case graphics::Renderer::Driver::OPENGL:
-                Log(Log::Level::INFO) << "Using OpenGL render driver";
-    #if OUZEL_PLATFORM_MACOS
-                renderer.reset(new graphics::RenderDeviceOGLMacOS());
-    #elif OUZEL_PLATFORM_IOS
-                renderer.reset(new graphics::RenderDeviceOGLIOS());
-    #elif OUZEL_PLATFORM_TVOS
-                renderer.reset(new graphics::RenderDeviceOGLTVOS());
-    #elif OUZEL_PLATFORM_ANDROID
-                renderer.reset(new graphics::RenderDeviceOGLAndroid());
-    #elif OUZEL_PLATFORM_LINUX
-                renderer.reset(new graphics::RenderDeviceOGLLinux());
-    #elif OUZEL_PLATFORM_WINDOWS
-                renderer.reset(new graphics::RenderDeviceOGLWin());
-    #elif OUZEL_PLATFORM_RASPBIAN
-                renderer.reset(new graphics::RenderDeviceOGLRasp());
-    #elif OUZEL_PLATFORM_EMSCRIPTEN
-                renderer.reset(new graphics::RenderDeviceOGLEm());
-    #else
-                renderer.reset(new graphics::RenderDeviceOGL());
-    #endif
-                break;
-#endif
-#if OUZEL_SUPPORTS_DIRECT3D11
-            case graphics::Renderer::Driver::DIRECT3D11:
-                Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                renderer.reset(new graphics::RenderDeviceD3D11());
-                break;
-#endif
-#if OUZEL_SUPPORTS_METAL
-            case graphics::Renderer::Driver::METAL:
-                Log(Log::Level::INFO) << "Using Metal render driver";
-    #if OUZEL_PLATFORM_MACOS
-                renderer.reset(new graphics::RenderDeviceMetalMacOS());
-    #elif OUZEL_PLATFORM_IOS
-                renderer.reset(new graphics::RenderDeviceMetalIOS());
-    #elif OUZEL_PLATFORM_TVOS
-                renderer.reset(new graphics::RenderDeviceMetalTVOS());
-    #endif
-                break;
-#endif
-            default:
-                Log(Log::Level::ERR) << "Unsupported render driver";
-                return false;
-        }
+        renderer.reset(new graphics::Renderer(graphicsDriver));
 
         if (!window->init(size,
                           resizable,
@@ -623,10 +530,10 @@ namespace ouzel
                 }
             }
 
-            if (renderer->getRefillQueue())
+            if (renderer->getDevice()->getRefillQueue())
             {
                 sceneManager.draw();
-                renderer->flushCommands();
+                renderer->getDevice()->flushCommands();
             }
         }
     }

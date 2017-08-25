@@ -4,6 +4,7 @@
 #include "Buffer.hpp"
 #include "BufferResource.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -12,12 +13,12 @@ namespace ouzel
     {
         Buffer::Buffer()
         {
-            resource = sharedEngine->getRenderer()->createBuffer();
+            resource = sharedEngine->getRenderer()->getDevice()->createBuffer();
         }
 
         Buffer::~Buffer()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)

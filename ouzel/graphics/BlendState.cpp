@@ -4,6 +4,7 @@
 #include "BlendState.hpp"
 #include "BlendStateResource.hpp"
 #include "Renderer.hpp"
+#include "RenderDevice.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -12,12 +13,12 @@ namespace ouzel
     {
         BlendState::BlendState()
         {
-            resource = sharedEngine->getRenderer()->createBlendState();
+            resource = sharedEngine->getRenderer()->getDevice()->createBlendState();
         }
 
         BlendState::~BlendState()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->deleteResource(resource);
+            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool BlendState::init(bool newEnableBlending,

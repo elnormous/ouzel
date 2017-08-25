@@ -5,10 +5,7 @@
 
 #include <cstdint>
 #include <memory>
-#include <mutex>
-#include <queue>
 #include <set>
-#include <vector>
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -64,13 +61,13 @@ namespace ouzel
 
             bool update();
 
+            void executeOnAudioThread(const std::function<void(void)>& func);
+
             const Vector3& getListenerPosition() const { return listenerPosition; }
             void setListenerPosition(const Vector3& newPosition);
 
             const Quaternion& getListenerRotation() const { return listenerRotation; }
             void setListenerRotation(const Quaternion& newRotation);
-
-            void executeOnAudioThread(const std::function<void(void)>& func);
 
         protected:
             Audio(Driver driver);
