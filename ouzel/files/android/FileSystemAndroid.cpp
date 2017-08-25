@@ -57,4 +57,32 @@ namespace ouzel
             return FileSystem::readFile(filename, data, searchResources);
         }
     }
+
+    bool FileSystemAndroid::directoryExists(const std::string& dirname) const
+    {
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+
+        AAssetDir* assetDir = AAssetManager_openDir(engineAndroid->getAssetManager(), dirname.c_str());
+        bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
+        AAssetDir_close(assetDir);
+
+        if (exists) return true;
+
+        return FileSystem::directoryExists(dirname);
+    }
+    
+    bool FileSystemAndroid::fileExists(const std::string& filename) const
+    {
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        
+        AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+
+        if (asset)
+        {
+            AAsset_close(asset);
+            return true;
+        }
+
+        return FileSystem::fileExists(filename);
+    }
 }

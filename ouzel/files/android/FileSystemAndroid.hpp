@@ -18,6 +18,9 @@ namespace ouzel
 
         virtual bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const override;
 
+        virtual bool directoryExists(const std::string& dirname) const override;
+        virtual bool fileExists(const std::string& filename) const override;
+
     protected:
         FileSystemAndroid();
     };
