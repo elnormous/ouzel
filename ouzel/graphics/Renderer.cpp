@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "CompileConfig.h"
+#include "core/CompileConfig.h"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"

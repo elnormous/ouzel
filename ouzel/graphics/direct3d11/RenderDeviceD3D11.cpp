@@ -579,7 +579,7 @@ namespace ouzel
                 uint32_t cullModeIndex;
                 switch (drawCommand.cullMode)
                 {
-                    case Renderer::::NONE: cullModeIndex = 0; break;
+                    case Renderer::CullMode::NONE: cullModeIndex = 0; break;
                     case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
                     case Renderer::CullMode::BACK: cullModeIndex = 2; break;
                     default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;

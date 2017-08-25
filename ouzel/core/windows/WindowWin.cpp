@@ -270,7 +270,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_ERASEBKGND:
         {
             // Erase background only for the Empty renderer
-            if (ouzel::sharedEngine->getRenderer()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
+            if (ouzel::sharedEngine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
             {
                 return TRUE;
             }
@@ -367,7 +367,7 @@ namespace ouzel
         // Application icon should be the first resource
         wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        if (sharedEngine->getRenderer()->getDriver() == graphics::Renderer::Driver::EMPTY)
+        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
         }
