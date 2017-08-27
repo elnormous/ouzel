@@ -171,6 +171,7 @@ namespace ouzel
             stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
 
             std::fill(std::begin(stateCache.textureId), std::end(stateCache.textureId), 0);
+            std::fill(std::begin(stateCache.clearColor), std::end(stateCache.clearColor), 0.0f);
         }
 
         RenderDeviceOGL::~RenderDeviceOGL()
@@ -790,10 +791,7 @@ namespace ouzel
                         return false;
                     }
 
-                    glClearColor(frameBufferClearColor[0],
-                                 frameBufferClearColor[1],
-                                 frameBufferClearColor[2],
-                                 frameBufferClearColor[3]);
+                    setClearColorValue(frameBufferClearColor);
 
                     setDepthMask(true);
                     setClearDepthValue(clearDepth);
@@ -1084,10 +1082,7 @@ namespace ouzel
 
                     if (newClearMask & GL_COLOR_BUFFER_BIT)
                     {
-                        glClearColor(newClearColor[0],
-                                     newClearColor[1],
-                                     newClearColor[2],
-                                     newClearColor[3]);
+                        setClearColorValue(newClearColor);
                     }
 
                     glClear(newClearMask);

@@ -527,6 +527,27 @@ namespace ouzel
                 return true;
             }
 
+            inline bool setClearColorValue(const float* clearColor)
+            {
+                if (memcmp(stateCache.clearColor, clearColor, sizeof(stateCache.clearColor)) != 0)
+                {
+                    glClearColor(clearColor[0],
+                                 clearColor[1],
+                                 clearColor[2],
+                                 clearColor[3]);
+
+                    memcpy(stateCache.clearColor, clearColor, sizeof(stateCache.clearColor));
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
             void deleteBuffer(GLuint bufferId)
             {
                 GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
@@ -677,10 +698,9 @@ namespace ouzel
                 bool cullEnabled = false;
                 GLenum cullFace = GL_NONE;
 
+                float clearColor[4];
                 float clearDepth = 1.0f;
-            };
-
-            StateCache stateCache;
+            } stateCache;
         };
     } // namespace graphics
 } // namespace ouzel
