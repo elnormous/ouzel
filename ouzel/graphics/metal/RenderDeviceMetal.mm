@@ -310,28 +310,43 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceMetal::upload()
+        void RenderDeviceMetal::setClearColorBuffer(bool clear)
         {
-            if (metalLayer.drawableSize.width != size.width ||
-                metalLayer.drawableSize.height != size.height)
-            {
-                CGSize drawableSize = CGSizeMake(size.width, size.height);
-                metalLayer.drawableSize = drawableSize;
-            }
-            
+            RenderDevice::setClearColorBuffer(clear);
+
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+        }
+
+        void RenderDeviceMetal::setClearDepthBuffer(bool clear)
+        {
+            RenderDevice::setClearDepthBuffer(clear);
+
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
+        }
+
+        void RenderDeviceMetal::setClearColor(Color color)
+        {
+            RenderDevice::setClearColor(color);
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
                                                                                     clearColor.normG(),
                                                                                     clearColor.normB(),
                                                                                     clearColor.normA());
+        }
+
+        void RenderDeviceMetal::setClearDepth(float newClearDepth)
+        {
+            RenderDevice::setClearDepth(newClearDepth);
 
             renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
+        }
 
-            dirty = false;
+        void RenderDeviceMetal::setSize(const Size2& newSize)
+        {
+            RenderDevice::setSize(newSize);
 
-            return true;
+            CGSize drawableSize = CGSizeMake(size.width, size.height);
+            metalLayer.drawableSize = drawableSize;
         }
 
         bool RenderDeviceMetal::draw(const std::vector<DrawCommand>& drawCommands)

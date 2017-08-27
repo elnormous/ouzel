@@ -41,6 +41,7 @@ typedef NSUInteger MTLPixelFormat;
 #define MTLPixelFormatInvalid 0
 typedef NSUInteger MTLLoadAction;
 #define MTLLoadActionDontCare 0
+#define MTLLoadActionClear 2
 typedef NSUInteger MTLColorWriteMask;
 #endif
 
@@ -62,6 +63,11 @@ namespace ouzel
             virtual ~RenderDeviceMetal();
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
+
+            virtual void setClearColorBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+            virtual void setClearColor(Color color) override;
+            virtual void setClearDepth(float newClearDepth) override;
 
             MTLDevicePtr getDevice() const { return device; }
 
@@ -91,7 +97,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual bool upload() override;
+
+            virtual void setSize(const Size2& newSize) override;
+
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool generateScreenshot(const std::string& filename) override;
 
@@ -143,7 +151,7 @@ namespace ouzel
             MTLPixelFormat colorFormat = MTLPixelFormatInvalid;
             MTLPixelFormat depthFormat = MTLPixelFormatInvalid;
 
-            MTLLoadAction colorBufferLoadAction = MTLLoadActionDontCare;
+            MTLLoadAction colorBufferLoadAction = MTLLoadActionClear;
             MTLLoadAction depthBufferLoadAction = MTLLoadActionDontCare;
 
             dispatch_semaphore_t inflightSemaphore;
