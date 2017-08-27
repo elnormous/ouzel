@@ -7,11 +7,12 @@
 
 #if OUZEL_SUPPORTS_OPENGL
 
+#include <cstring>
+#include <atomic>
 #include <map>
+#include <mutex>
 #include <queue>
 #include <utility>
-#include <mutex>
-#include <atomic>
 
 #if OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
