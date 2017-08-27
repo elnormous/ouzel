@@ -136,7 +136,6 @@ namespace ouzel
             virtual void deleteResource(Resource* resource);
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
-            virtual bool upload();
             virtual bool generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -164,13 +163,11 @@ namespace ouzel
             Matrix4 projectionTransform;
             Matrix4 renderTargetProjectionTransform;
 
-            bool dirty = false;
             Size2 size;
             Color clearColor;
             float clearDepth = 1.0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            std::mutex uploadMutex;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;

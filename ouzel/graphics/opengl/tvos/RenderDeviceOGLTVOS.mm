@@ -93,9 +93,6 @@ namespace ouzel
                 return false;
             }
 
-            frameBufferWidth = static_cast<GLsizei>(newSize.width);
-            frameBufferHeight = static_cast<GLsizei>(newSize.height);
-
             if (!createFrameBuffer())
             {
                 return false;
@@ -104,6 +101,13 @@ namespace ouzel
             displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
 
             return true;
+        }
+
+        void RenderDeviceOGLTVOS::setSize(const Size2& newSize)
+        {
+            RenderDeviceOGL::setSize(newSize);
+
+            createFrameBuffer();
         }
 
         bool RenderDeviceOGLTVOS::lockContext()
@@ -256,23 +260,6 @@ namespace ouzel
             }
 
             return true;
-        }
-
-        bool RenderDeviceOGLTVOS::upload()
-        {
-            if (frameBufferWidth != static_cast<GLsizei>(size.width) ||
-                frameBufferHeight != static_cast<GLsizei>(size.height))
-            {
-                frameBufferWidth = static_cast<GLsizei>(size.width);
-                frameBufferHeight = static_cast<GLsizei>(size.height);
-
-                if (!createFrameBuffer())
-                {
-                    return false;
-                }
-            }
-
-            return RenderDeviceOGL::upload();
         }
     } // namespace graphics
 } // namespace ouzel

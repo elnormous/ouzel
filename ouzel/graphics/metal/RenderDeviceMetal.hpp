@@ -62,12 +62,12 @@ namespace ouzel
 
             virtual ~RenderDeviceMetal();
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
-
             virtual void setClearColorBuffer(bool clear) override;
             virtual void setClearDepthBuffer(bool clear) override;
             virtual void setClearColor(Color color) override;
             virtual void setClearDepth(float newClearDepth) override;
+
+            virtual std::vector<Size2> getSupportedResolutions() const override;
 
             MTLDevicePtr getDevice() const { return device; }
 

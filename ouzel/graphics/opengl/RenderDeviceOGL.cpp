@@ -709,11 +709,6 @@ namespace ouzel
             }
 #endif
 
-            return true;
-        }
-
-        bool RenderDeviceOGL::upload()
-        {
             clearMask = 0;
             if (clearColorBuffer) clearMask |= GL_COLOR_BUFFER_BIT;
             if (clearDepthBuffer) clearMask |= GL_DEPTH_BUFFER_BIT;
@@ -722,14 +717,47 @@ namespace ouzel
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
-            clearDepthValue = clearDepth;
+
+            return true;
+        }
+
+        void RenderDeviceOGL::setClearColorBuffer(bool clear)
+        {
+            RenderDevice::setClearColorBuffer(clear);
+
+            if (clearColorBuffer)
+                clearMask |= GL_COLOR_BUFFER_BIT;
+            else
+                clearMask &= ~static_cast<GLbitfield>(GL_COLOR_BUFFER_BIT);
+
+        }
+
+        void RenderDeviceOGL::setClearDepthBuffer(bool clear)
+        {
+            RenderDevice::setClearDepthBuffer(clear);
+
+            if (clearDepthBuffer)
+                clearMask |= GL_DEPTH_BUFFER_BIT;
+            else
+                clearMask &= ~static_cast<GLbitfield>(GL_DEPTH_BUFFER_BIT);
+        }
+
+        void RenderDeviceOGL::setClearColor(Color color)
+        {
+            RenderDevice::setClearColor(color);
+
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
+        }
+
+        void RenderDeviceOGL::setSize(const Size2& newSize)
+        {
+            RenderDevice::setSize(newSize);
 
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
-
-            dirty = false;
-
-            return true;
         }
 
         bool RenderDeviceOGL::process()
@@ -767,12 +795,8 @@ namespace ouzel
                                  frameBufferClearColor[2],
                                  frameBufferClearColor[3]);
 
-                    depthMask(true);
-#if OUZEL_SUPPORTS_OPENGLES
-                    glClearDepthfProc(clearDepthValue);
-#else
-                    glClearDepthProc(clearDepthValue);
-#endif
+                    setDepthMask(true);
+                    setClearDepthValue(clearDepth);
 
                     glClear(clearMask);
 
@@ -1030,7 +1054,7 @@ namespace ouzel
                     newFrameBufferId = frameBufferId;
 
                     newClearColor = frameBufferClearColor;
-                    newClearDepth = clearDepthValue;
+                    newClearDepth = clearDepth;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
@@ -1054,12 +1078,8 @@ namespace ouzel
                     if (newClearMask & GL_DEPTH_BUFFER_BIT)
                     {
                         // allow clearing the depth buffer
-                        depthMask(true);
-#if OUZEL_SUPPORTS_OPENGLES
-                        glClearDepthfProc(newClearDepth);
-#else
-                        glClearDepthProc(newClearDepth);
-#endif
+                        setDepthMask(true);
+                        setClearDepthValue(newClearDepth);
                     }
 
                     if (newClearMask & GL_COLOR_BUFFER_BIT)
@@ -1080,7 +1100,7 @@ namespace ouzel
                 }
 
                 enableDepthTest(drawCommand.depthTest);
-                depthMask(drawCommand.depthWrite);
+                setDepthMask(drawCommand.depthWrite);
 
                 // scissor test
                 setScissorTest(drawCommand.scissorTest,

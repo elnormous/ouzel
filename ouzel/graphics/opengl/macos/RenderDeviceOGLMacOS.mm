@@ -185,6 +185,13 @@ namespace ouzel
             return true;
         }
 
+        void RenderDeviceOGLMacOS::setSize(const Size2& newSize)
+        {
+            RenderDeviceOGL::setSize(newSize);
+
+            [openGLContext update];
+        }
+
         bool RenderDeviceOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];
@@ -197,13 +204,6 @@ namespace ouzel
             [openGLContext flushBuffer];
 
             return true;
-        }
-
-        bool RenderDeviceOGLMacOS::upload()
-        {
-            [openGLContext update];
-
-            return RenderDeviceOGL::upload();
         }
 
         bool RenderDeviceOGLMacOS::handleWindow(Event::Type type, const WindowEvent& event)

@@ -47,7 +47,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool upload() override;
+            virtual void setSize(const Size2& newSize) override;
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
 

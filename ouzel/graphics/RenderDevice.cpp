@@ -32,8 +32,6 @@ namespace ouzel
                                 bool newDepth,
                                 bool newDebugRenderer)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             window = newWindow;
             size = newSize;
             sampleCount = newSampleCount;
@@ -46,11 +44,6 @@ namespace ouzel
 
             previousFrameTime = std::chrono::steady_clock::now();
 
-            return true;
-        }
-
-        bool RenderDevice::upload()
-        {
             return true;
         }
 
@@ -77,15 +70,6 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0f;
             }
 
-            {
-                std::lock_guard<std::mutex> lock(uploadMutex);
-
-                if (dirty && !upload())
-                {
-                    return false;
-                }
-            }
-
             std::vector<DrawCommand> drawCommands;
             {
 #if OUZEL_MULTITHREADED
@@ -109,7 +93,7 @@ namespace ouzel
                 deleteResources = std::move(resourceDeleteSet);
             }
 
-            // refills draw and upload queues
+            // refills the draw queue
             refillQueue = true;
 
             executeAll();
@@ -128,45 +112,27 @@ namespace ouzel
 
         void RenderDevice::setClearColorBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColorBuffer = clear;
-            dirty = true;
         }
 
         void RenderDevice::setClearDepthBuffer(bool clear)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearDepthBuffer = clear;
-            dirty = true;
         }
 
         void RenderDevice::setClearColor(Color color)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearColor = color;
-            dirty = true;
         }
 
         void RenderDevice::setClearDepth(float newClearDepth)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
             clearDepth = newClearDepth;
-            dirty = true;
         }
 
         void RenderDevice::setSize(const Size2& newSize)
         {
-            std::lock_guard<std::mutex> lock(uploadMutex);
-
-            if (size != newSize)
-            {
-                size = newSize;
-                dirty = true;
-            }
+            size = newSize;
         }
 
         std::vector<Size2> RenderDevice::getSupportedResolutions() const

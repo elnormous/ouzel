@@ -24,9 +24,9 @@ namespace ouzel
         public:
             virtual ~RenderDeviceD3D11();
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
-
             virtual void setClearColor(Color color) override;
+
+            virtual std::vector<Size2> getSupportedResolutions() const override;
 
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }

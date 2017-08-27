@@ -119,9 +119,14 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGL();
 
+            virtual void setClearColorBuffer(bool clear) override;
+            virtual void setClearDepthBuffer(bool clear) override;
+            virtual void setClearColor(Color color) override;
+
             virtual bool process() override;
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
+
 
             static inline bool checkOpenGLError(bool logError = true)
             {
@@ -296,7 +301,7 @@ namespace ouzel
                 return true;
             }
 
-            inline bool depthMask(bool flag)
+            inline bool setDepthMask(bool flag)
             {
                 if (stateCache.depthMask != flag)
                 {
@@ -500,6 +505,28 @@ namespace ouzel
                 return true;
             }
 
+            inline bool setClearDepthValue(float clearDepth)
+            {
+                if (stateCache.clearDepth != clearDepth)
+                {
+#if OUZEL_SUPPORTS_OPENGLES
+                    glClearDepthfProc(clearDepth);
+#else
+                    glClearDepthProc(clearDepth);
+#endif
+
+                    stateCache.clearDepth = clearDepth;
+
+                    if (checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to enable cull face";
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
             void deleteBuffer(GLuint bufferId)
             {
                 GLuint& elementArrayBufferId = stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER];
@@ -584,7 +611,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual bool upload() override;
+
+            virtual void setSize(const Size2& newSize) override;
+            
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();
@@ -604,7 +633,6 @@ namespace ouzel
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
-            GLfloat clearDepthValue = 0.0f;
             bool textureBaseLevelSupported = true;
             bool textureMaxLevelSupported = true;
 
@@ -648,6 +676,8 @@ namespace ouzel
                 GLsizei viewportHeight = 0;
                 bool cullEnabled = false;
                 GLenum cullFace = GL_NONE;
+
+                float clearDepth = 1.0f;
             };
 
             StateCache stateCache;
