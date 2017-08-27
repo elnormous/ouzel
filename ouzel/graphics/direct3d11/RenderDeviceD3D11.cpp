@@ -435,32 +435,25 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceD3D11::upload()
+        void RenderDeviceD3D11::setClearColor(Color color)
         {
+            RenderDevice::setClearColor(color);
+
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
-            clearDepthValue = clearDepth;
+        }
 
-            clearFrameBufferView = clearColorBuffer;
-            clearDepthBufferView = clearDepthBuffer;
+        void RenderDeviceD3D11::setSize(const Size2& newSize)
+        {
+            RenderDevice::setSize(newSize);
 
-            if (static_cast<UINT>(size.width) != frameBufferWidth ||
-                static_cast<UINT>(size.height) != frameBufferHeight)
+            if (!resizeBackBuffer(static_cast<UINT>(size.width),
+                                  static_cast<UINT>(size.height)))
             {
-                if (!resizeBackBuffer(0, 0))
-                {
-                    return false;
-                }
-
-                size = Size2(static_cast<float>(frameBufferWidth),
-                             static_cast<float>(frameBufferHeight));
+                return;
             }
-
-            dirty = false;
-
-            return true;
         }
 
         bool RenderDeviceD3D11::draw(const std::vector<DrawCommand>& drawCommands)
@@ -496,7 +489,7 @@ namespace ouzel
 
                 if (clearDepthBuffer)
                 {
-                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearDepthValue, 0);
+                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearDepth, 0);
                 }
             }
             else for (const DrawCommand& drawCommand : drawCommands)
@@ -535,13 +528,13 @@ namespace ouzel
                     newRenderTargetView = renderTargetView;
                     newDepthStencilView = depthStencilView;
                     newClearColor = frameBufferClearColor;
-                    newClearDepth = clearDepthValue;
+                    newClearDepth = clearDepth;
 
                     if (frameBufferClearedFrame != currentFrame)
                     {
                         frameBufferClearedFrame = currentFrame;
-                        newClearFrameBufferView = clearFrameBufferView;
-                        newClearDepthBufferView = clearDepthBufferView;
+                        newClearFrameBufferView = clearColorBuffer;
+                        newClearDepthBufferView = clearDepthBuffer;
                     }
                 }
 

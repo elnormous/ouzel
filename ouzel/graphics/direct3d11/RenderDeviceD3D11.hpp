@@ -26,6 +26,8 @@ namespace ouzel
 
             virtual std::vector<Size2> getSupportedResolutions() const override;
 
+            virtual void setClearColor(Color color) override;
+
             ID3D11Device* getDevice() const { return device; }
             ID3D11DeviceContext* getContext() const { return context; }
 
@@ -55,7 +57,9 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-            virtual bool upload() override;
+
+            virtual void setSize(const Size2& newSize);
+
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             bool resizeBackBuffer(UINT newWidth, UINT newHeight);
             bool uploadBuffer(ID3D11Buffer* buffer, const void* data, uint32_t dataSize);
@@ -87,9 +91,6 @@ namespace ouzel
 
             UINT swapInterval = 0;
             FLOAT frameBufferClearColor[4];
-            FLOAT clearDepthValue = 0.0f;
-            bool clearFrameBufferView = true;
-            bool clearDepthBufferView = false;
 
             std::atomic<bool> running;
             std::thread renderThread;
