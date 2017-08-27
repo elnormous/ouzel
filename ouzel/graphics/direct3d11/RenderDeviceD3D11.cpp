@@ -429,6 +429,11 @@ namespace ouzel
             whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), 0, 1);
             sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
 
+            frameBufferClearColor[0] = clearColor.normR();
+            frameBufferClearColor[1] = clearColor.normG();
+            frameBufferClearColor[2] = clearColor.normB();
+            frameBufferClearColor[3] = clearColor.normA();
+
             running = true;
             renderThread = std::thread(&RenderDeviceD3D11::main, this);
 

@@ -209,10 +209,13 @@ namespace ouzel
             }
 
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f);
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(clearColor.normR(),
+                                                                                    clearColor.normG(),
+                                                                                    clearColor.normB(),
+                                                                                    clearColor.normA());
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
-            renderPassDescriptor.depthAttachment.clearDepth = 1.0f;
+            renderPassDescriptor.depthAttachment.clearDepth = clearDepth;
             renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
