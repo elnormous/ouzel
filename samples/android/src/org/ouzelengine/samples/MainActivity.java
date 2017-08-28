@@ -32,18 +32,18 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
 
     @Override public void surfaceCreated(SurfaceHolder holder)
     {
-        OuzelLibJNIWrapper.setSurface(holder.getSurface());
-        OuzelLibJNIWrapper.onStart();
+        OuzelLibJNIWrapper.onSurfaceCreated(holder.getSurface());
     }
 
     @Override public void surfaceDestroyed(SurfaceHolder holder)
     {
-        OuzelLibJNIWrapper.setSurface(null);
+        OuzelLibJNIWrapper.onSurfaceDestroyed();
     }
 
     @Override protected void onStart()
     {
         super.onStart();
+        OuzelLibJNIWrapper.onStart();
     }
 
     @Override protected void onPause()
@@ -56,12 +56,12 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
     @Override protected void onResume()
     {
         super.onResume();
-
         OuzelLibJNIWrapper.onResume();
     }
 
     @Override public void onLowMemory()
     {
+        super.onLowMemory();
         OuzelLibJNIWrapper.onLowMemory();
     }
 }

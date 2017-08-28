@@ -15,7 +15,8 @@ public class OuzelLibJNIWrapper
     }
 
     public static native void onCreate(Activity mainActivity);
-    public static native void setSurface(Surface surface);
+    public static native void onSurfaceCreated(Surface surface);
+    public static native void onSurfaceDestroyed();
     public static native void onSurfaceChanged(Surface surface, int width, int height);
 
     public static native void onStart();
