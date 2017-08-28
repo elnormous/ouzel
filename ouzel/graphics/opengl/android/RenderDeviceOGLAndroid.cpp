@@ -6,6 +6,7 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
+#include "graphics/opengl/ResourceOGL.hpp"
 #include "core/android/WindowAndroid.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -317,6 +318,50 @@ namespace ouzel
                                          static_cast<float>(frameBufferHeight));
 
             windowAndroid->setSize(backBufferSize / windowAndroid->getContentScale());
+
+            for (const std::unique_ptr<Resource>& resource : resources)
+            {
+                ResourceOGL* resourceOGL = reinterpret_cast<ResourceOGL*>(resource.get());
+                if (!resourceOGL->reload())
+                {
+                    return false;
+                }
+            }
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context";
+            }
+
+            return true;
+        }
+
+        bool RenderDeviceOGLAndroid::destroy()
+        {
+            if (context)
+            {
+                if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+                {
+                    Log(Log::Level::ERR) << "Failed to unset EGL context";
+                }
+
+                if (!eglDestroyContext(display, context))
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy EGL context";
+                }
+
+                context = nullptr;
+            }
+
+            if (surface)
+            {
+                if (!eglDestroySurface(display, surface))
+                {
+                    Log(Log::Level::ERR) << "Failed to destroy EGL surface";
+                }
+
+                surface = nullptr;
+            }
 
             return true;
         }

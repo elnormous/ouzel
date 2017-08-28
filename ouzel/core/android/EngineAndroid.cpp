@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
+#include "WindowAndroid.hpp"
+#include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "utils/Log.hpp"
 
 static int looperCallback(int fd, int events, void* data)
@@ -61,7 +63,7 @@ namespace ouzel
         }
 
         if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
-        if (window) jniEnv->DeleteGlobalRef(window);
+        if (androidWindow) jniEnv->DeleteGlobalRef(androidWindow);
         if (surface) jniEnv->DeleteGlobalRef(surface);
         if (intentClass) jniEnv->DeleteGlobalRef(intentClass);
         if (uriClass) jniEnv->DeleteGlobalRef(uriClass);
@@ -92,10 +94,10 @@ namespace ouzel
 
         // get window
         jmethodID getWindowMethod = jniEnv->GetMethodID(mainActivityClass, "getWindow", "()Landroid/view/Window;");
-        window = jniEnv->CallObjectMethod(mainActivity, getWindowMethod);
-        window = jniEnv->NewGlobalRef(window);
+        androidWindow = jniEnv->CallObjectMethod(mainActivity, getWindowMethod);
+        androidWindow = jniEnv->NewGlobalRef(androidWindow);
 
-        jclass windowClass = jniEnv->GetObjectClass(window);
+        jclass windowClass = jniEnv->FindClass("android/view/Window");
         addFlagsMethod = jniEnv->GetMethodID(windowClass, "addFlags", "(I)V");
         clearFlagsMethod = jniEnv->GetMethodID(windowClass, "clearFlags", "(I)V");
 
@@ -131,7 +133,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::setSurface(jobject aSurface)
+    void EngineAndroid::onSurfaceCreated(jobject aSurface)
     {
         JNIEnv* jniEnv;
 
@@ -143,6 +145,47 @@ namespace ouzel
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(aSurface);
+
+        if (window)
+        {
+            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(window.get());
+            windowAndroid->handleSurfaceChange(surface);
+        }
+
+        if (renderer)
+        {
+            graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderer->getDevice());
+            renderDeviceOGLAndroid->reload();
+        }
+    }
+
+    void EngineAndroid::onSurfaceDestroyed()
+    {
+        JNIEnv* jniEnv;
+        
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        if (surface)
+        {
+            jniEnv->DeleteGlobalRef(surface);
+            surface = nullptr;
+        }
+
+        if (window)
+        {
+            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(window.get());
+            windowAndroid->handleSurfaceDestroy();
+        }
+
+        if (renderer)
+        {
+            graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderer->getDevice());
+            renderDeviceOGLAndroid->destroy();
+        }
     }
 
     int EngineAndroid::run()
@@ -219,11 +262,11 @@ namespace ouzel
 
             if (newScreenSaverEnabled)
             {
-                jniEnv->CallVoidMethod(window, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+                jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
             }
             else
             {
-                jniEnv->CallVoidMethod(window, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
+                jniEnv->CallVoidMethod(androidWindow, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
             }
         });
     }

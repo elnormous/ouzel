@@ -29,19 +29,18 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onCrea
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
 {
-    engine->setSurface(surface);
+    engine->onSurfaceCreated(surface);
 
     if (!engine->isActive()) engine->run();
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)
 {
-    engine->setSurface(nullptr);
+    engine->onSurfaceDestroyed();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject surface, jint width, jint height)
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
-    engine->setSurface(surface);
     ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(engine->getWindow());
     windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
 }

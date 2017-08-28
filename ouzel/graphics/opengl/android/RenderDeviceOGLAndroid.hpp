@@ -23,6 +23,9 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGLAndroid();
 
+            bool reload();
+            bool destroy();
+
         private:
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
@@ -32,8 +35,6 @@ namespace ouzel
                               bool newVerticalSync,
                               bool newDepth,
                               bool newDebugRenderer) override;
-
-            bool reload();
 
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;

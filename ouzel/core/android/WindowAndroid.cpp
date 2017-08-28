@@ -9,6 +9,25 @@ namespace ouzel
 {
     WindowAndroid::WindowAndroid()
     {
+    }
+
+    WindowAndroid::~WindowAndroid()
+    {
+        if (window) ANativeWindow_release(window);
+    }
+
+    bool WindowAndroid::init(const Size2& newSize,
+                             bool newResizable,
+                             bool newFullscreen,
+                             const std::string& newTitle,
+                             bool newHighDpi,
+                             bool depth)
+    {
+        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        {
+            return false;
+        }
+
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
         JNIEnv* jniEnv;
@@ -16,18 +35,12 @@ namespace ouzel
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return;
+            return false;
         }
 
         window = ANativeWindow_fromSurface(jniEnv, engineAndroid->getSurface());
-    }
 
-    WindowAndroid::~WindowAndroid()
-    {
-        if (window)
-        {
-            ANativeWindow_release(window);
-        }
+        return true;
     }
 
     void WindowAndroid::handleResize(const Size2& newSize)
@@ -39,5 +52,30 @@ namespace ouzel
         event.windowEvent.size = newSize;
 
         sharedEngine->getEventDispatcher()->postEvent(event);
+    }
+
+    void WindowAndroid::handleSurfaceChange(jobject surface)
+    {
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        JavaVM* javaVM = engineAndroid->getJavaVM();
+        JNIEnv* jniEnv;
+
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        if (window) ANativeWindow_release(window);
+        window = ANativeWindow_fromSurface(jniEnv, surface);
+    }
+
+    void WindowAndroid::handleSurfaceDestroy()
+    {
+        if (window)
+        {
+            ANativeWindow_release(window);
+            window = nullptr;
+        }
     }
 }
