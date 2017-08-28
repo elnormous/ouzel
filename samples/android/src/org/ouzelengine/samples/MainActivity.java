@@ -5,39 +5,16 @@ package org.ouzelengine.samples;
 
 import org.ouzelengine.OuzelLibJNIWrapper;
 import org.ouzelengine.View;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 
-public class MainActivity extends Activity implements SurfaceHolder.Callback
+public class MainActivity extends Activity
 {
-    private View surfaceView;
-
     @Override protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         OuzelLibJNIWrapper.onCreate(this);
-
-        surfaceView = new View(this);
-        surfaceView.getHolder().addCallback(this);
-        setContentView(surfaceView);
-    }
-
-    @Override public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
-    {
-        OuzelLibJNIWrapper.onSurfaceChanged(holder.getSurface(), width, height);
-    }
-
-    @Override public void surfaceCreated(SurfaceHolder holder)
-    {
-        OuzelLibJNIWrapper.onSurfaceCreated(holder.getSurface());
-    }
-
-    @Override public void surfaceDestroyed(SurfaceHolder holder)
-    {
-        OuzelLibJNIWrapper.onSurfaceDestroyed();
+        setContentView(new View(this));
     }
 
     @Override protected void onStart()
@@ -49,7 +26,6 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback
     @Override protected void onPause()
     {
         super.onPause();
-
         OuzelLibJNIWrapper.onPause();
     }
 
