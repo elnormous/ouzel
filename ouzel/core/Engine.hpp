@@ -106,8 +106,8 @@ namespace ouzel
         std::condition_variable updateCondition;
 #endif
 
-        std::atomic<bool> paused;
         std::atomic<bool> active;
+        std::atomic<bool> paused;
 
         // from application
         std::atomic<bool> screenSaverEnabled;
