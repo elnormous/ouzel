@@ -90,6 +90,11 @@ namespace ouzel
 
             return true;
         }
+
+        bool BlendStateResourceOGL::reload()
+        {
+            return true;
+        }
     } // namespace graphics
 } // namespace ouzel
 

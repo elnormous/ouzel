@@ -98,6 +98,11 @@ namespace ouzel
             return true;
         }
 
+        bool BufferResourceOGL::reload()
+        {
+            return true;
+        }
+
         bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
             if (!BufferResource::setData(newData))

@@ -22,6 +22,7 @@
 #endif
 
 #include "graphics/MeshBufferResource.hpp"
+#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -30,7 +31,7 @@ namespace ouzel
         class RenderDeviceOGL;
         class BufferResourceOGL;
 
-        class MeshBufferResourceOGL: public MeshBufferResource
+        class MeshBufferResourceOGL: public MeshBufferResource, public ResourceOGL
         {
         public:
             MeshBufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);
@@ -38,6 +39,8 @@ namespace ouzel
 
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                               const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer) override;
+
+            virtual bool reload() override;
 
             virtual bool setIndexSize(uint32_t newIndexSize) override;
             virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;

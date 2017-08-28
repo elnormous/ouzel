@@ -20,12 +20,13 @@
 #endif
 
 #include "graphics/BlendStateResource.hpp"
+#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateResourceOGL: public BlendStateResource
+        class BlendStateResourceOGL: public BlendStateResource, public ResourceOGL
         {
         public:
             BlendStateResourceOGL();
@@ -36,6 +37,8 @@ namespace ouzel
                               BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
                               BlendState::BlendOperation newAlphaOperation,
                               uint8_t newColorMask) override;
+
+            virtual bool reload() override;
 
             GLenum getModeRGB() const { return modeRGB; }
             GLenum getModeAlpha() const { return modeAlpha; }

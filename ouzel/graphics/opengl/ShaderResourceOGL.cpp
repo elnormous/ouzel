@@ -242,6 +242,11 @@ namespace ouzel
             return true;
         }
 
+        bool ShaderResourceOGL::reload()
+        {
+            return true;
+        }
+
         void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
         {
             GLint logLength = 0;

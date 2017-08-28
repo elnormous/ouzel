@@ -1180,6 +1180,7 @@
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
 		305BDDDB1F27F6BC00BD4969 /* Resource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Resource.hpp; sourceTree = "<group>"; };
+		306A26781F547DAA00E2B0B6 /* ResourceOGL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourceOGL.hpp; sourceTree = "<group>"; };
 		306B0E5D1C567D05005C75C1 /* ShapeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderer.cpp; sourceTree = "<group>"; };
 		306B0E5E1C567D05005C75C1 /* ShapeRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShapeRenderer.hpp; sourceTree = "<group>"; };
 		30724D7D1F35366F00D915ED /* ViewMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewMacOS.mm; sourceTree = "<group>"; };
@@ -1621,14 +1622,15 @@
 				30381F3C1D80A3EC00677CAB /* MeshBufferResourceOGL.hpp */,
 				30381F3D1D80A3EC00677CAB /* RenderDeviceOGL.cpp */,
 				30381F3E1D80A3EC00677CAB /* RenderDeviceOGL.hpp */,
+				306A26781F547DAA00E2B0B6 /* ResourceOGL.hpp */,
 				30381F411D80A3EC00677CAB /* ShaderResourceOGL.cpp */,
 				30381F421D80A3EC00677CAB /* ShaderResourceOGL.hpp */,
-				30381F431D80A3EC00677CAB /* TextureResourceOGL.cpp */,
-				30381F441D80A3EC00677CAB /* TextureResourceOGL.hpp */,
 				3082C38B1D9565DE0090FC9D /* TexturePSGL2.h */,
 				3082C38C1D9565DE0090FC9D /* TexturePSGL3.h */,
 				3082C38D1D9565DE0090FC9D /* TexturePSGLES2.h */,
 				3082C38E1D9565DE0090FC9D /* TexturePSGLES3.h */,
+				30381F431D80A3EC00677CAB /* TextureResourceOGL.cpp */,
+				30381F441D80A3EC00677CAB /* TextureResourceOGL.hpp */,
 				3082C38F1D9565DE0090FC9D /* TextureVSGL2.h */,
 				3082C3901D9565DE0090FC9D /* TextureVSGL3.h */,
 				3082C3911D9565DE0090FC9D /* TextureVSGLES2.h */,

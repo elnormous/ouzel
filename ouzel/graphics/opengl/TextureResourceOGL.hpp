@@ -20,6 +20,7 @@
 #endif
 
 #include "graphics/TextureResource.hpp"
+#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -27,7 +28,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class TextureResourceOGL: public TextureResource
+        class TextureResourceOGL: public TextureResource, public ResourceOGL
         {
         public:
             TextureResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);
@@ -43,6 +44,8 @@ namespace ouzel
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+
+            virtual bool reload() override;
 
             virtual bool setSize(const Size2& newSize) override;
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;

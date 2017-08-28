@@ -504,6 +504,11 @@ namespace ouzel
             return true;
         }
 
+        bool TextureResourceOGL::reload()
+        {
+            return true;
+        }
+
         bool TextureResourceOGL::setSize(const Size2& newSize)
         {
             if (!TextureResource::setSize(newSize))

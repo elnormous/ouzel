@@ -20,6 +20,7 @@
 #endif
 
 #include "graphics/ShaderResource.hpp"
+#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -27,7 +28,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class ShaderResourceOGL: public ShaderResource
+        class ShaderResourceOGL: public ShaderResource, public ResourceOGL
         {
         public:
             ShaderResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);
@@ -42,6 +43,8 @@ namespace ouzel
                               uint32_t newVertexShaderDataAlignment = 0,
                               const std::string& newPixelShaderFunction = "",
                               const std::string& newVertexShaderFunction = "") override;
+
+            virtual bool reload() override;
 
             struct Location
             {
