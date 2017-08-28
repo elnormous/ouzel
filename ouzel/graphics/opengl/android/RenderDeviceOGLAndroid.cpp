@@ -206,6 +206,10 @@ namespace ouzel
 
         bool RenderDeviceOGLAndroid::reload()
         {
+            running = false;
+            flushCommands();
+            if (renderThread.joinable()) renderThread.join();
+
             if (!eglInitialize(display, nullptr, nullptr))
             {
                 Log(Log::Level::ERR) << "Failed to initialize EGL";
@@ -333,11 +337,18 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to unset EGL context";
             }
 
+            running = true;
+            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
+
             return true;
         }
 
         bool RenderDeviceOGLAndroid::destroy()
         {
+            running = false;
+            flushCommands();
+            if (renderThread.joinable()) renderThread.join();
+
             if (context)
             {
                 if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
