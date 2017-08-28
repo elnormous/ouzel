@@ -331,6 +331,15 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to unset EGL context";
             }
 
+            glDisable(GL_DITHER);
+            glDepthFunc(GL_LEQUAL);
+
+            if (checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set depth function";
+                return false;
+            }
+
             stateCache = StateCache();
 
             running = true;
