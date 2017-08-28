@@ -326,11 +326,6 @@ namespace ouzel
                 }
             }
 
-            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            {
-                Log(Log::Level::ERR) << "Failed to unset EGL context";
-            }
-
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
 
@@ -341,6 +336,11 @@ namespace ouzel
             }
 
             stateCache = StateCache();
+
+            if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
+            {
+                Log(Log::Level::ERR) << "Failed to unset EGL context";
+            }
 
             running = true;
             renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
