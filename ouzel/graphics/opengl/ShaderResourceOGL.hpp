@@ -20,7 +20,6 @@
 #endif
 
 #include "graphics/ShaderResource.hpp"
-#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -28,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class ShaderResourceOGL: public ShaderResource, public ResourceOGL
+        class ShaderResourceOGL: public ShaderResource
         {
         public:
             ShaderResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);

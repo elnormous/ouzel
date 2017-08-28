@@ -20,7 +20,6 @@
 #endif
 
 #include "graphics/BufferResource.hpp"
-#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -29,7 +28,7 @@ namespace ouzel
         class RenderDeviceOGL;
         class MeshBufferResourceOGL;
 
-        class BufferResourceOGL: public BufferResource, public ResourceOGL
+        class BufferResourceOGL: public BufferResource
         {
             friend MeshBufferResourceOGL;
         public:

@@ -6,7 +6,6 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
-#include "graphics/opengl/ResourceOGL.hpp"
 #include "core/android/WindowAndroid.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -328,12 +327,15 @@ namespace ouzel
                 return false;
             }
 
-            for (const std::unique_ptr<Resource>& resource : resources)
             {
-                ResourceOGL* resourceOGL = reinterpret_cast<ResourceOGL*>(resource.get());
-                if (!resourceOGL->reload())
+                std::lock_guard<std::mutex> lock(resourceMutex);
+
+                for (const std::unique_ptr<Resource>& resource : resources)
                 {
-                    return false;
+                    if (!resource->reload())
+                    {
+                        return false;
+                    }
                 }
             }
 

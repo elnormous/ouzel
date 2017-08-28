@@ -20,7 +20,6 @@
 #endif
 
 #include "graphics/TextureResource.hpp"
-#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
@@ -28,7 +27,7 @@ namespace ouzel
     {
         class RenderDeviceOGL;
 
-        class TextureResourceOGL: public TextureResource, public ResourceOGL
+        class TextureResourceOGL: public TextureResource
         {
         public:
             TextureResourceOGL(RenderDeviceOGL* aRenderDeviceOGL);

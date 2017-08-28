@@ -14,6 +14,8 @@ namespace ouzel
         public:
             Resource() {}
             virtual ~Resource() {}
+
+            virtual bool reload() { return true; }
         };
     } // namespace graphics
 } // namespace ouzel

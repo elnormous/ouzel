@@ -20,13 +20,12 @@
 #endif
 
 #include "graphics/BlendStateResource.hpp"
-#include "graphics/opengl/ResourceOGL.hpp"
 
 namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateResourceOGL: public BlendStateResource, public ResourceOGL
+        class BlendStateResourceOGL: public BlendStateResource
         {
         public:
             BlendStateResourceOGL();
