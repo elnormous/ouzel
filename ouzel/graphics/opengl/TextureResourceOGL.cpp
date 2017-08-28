@@ -648,7 +648,14 @@ namespace ouzel
 
         bool TextureResourceOGL::reload()
         {
-            return init(levels, size, flags, pixelFormat);
+            if (flags & Texture::RENDER_TARGET)
+            {
+                return init(size, flags, mipmaps, sampleCount, pixelFormat);
+            }
+            else
+            {
+                return init(levels, size, flags, pixelFormat);
+            }
         }
 
         bool TextureResourceOGL::setSize(const Size2& newSize)
