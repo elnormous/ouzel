@@ -3,6 +3,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := ouzel
+LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS := -Wall -Wextra
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11 -fexceptions
