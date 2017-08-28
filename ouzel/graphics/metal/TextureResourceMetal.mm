@@ -153,6 +153,42 @@ namespace ouzel
             return updateSamplerState();
         }
 
+        bool TextureResourceMetal::init(const std::vector<Texture::Level>& newLevels,
+                                        const Size2& newSize,
+                                        uint32_t newFlags,
+                                        PixelFormat newPixelFormat)
+        {
+            if (!TextureResource::init(newLevels,
+                                       newSize,
+                                       newFlags,
+                                       newPixelFormat))
+            {
+                return false;
+            }
+
+            if (!createTexture())
+            {
+                return false;
+            }
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        [texture replaceRegion:MTLRegionMake2D(0, 0,
+                                                               static_cast<NSUInteger>(levels[level].size.width),
+                                                               static_cast<NSUInteger>(levels[level].size.height))
+                                   mipmapLevel:level withBytes:levels[level].data.data()
+                                   bytesPerRow:static_cast<NSUInteger>(levels[level].pitch)];
+                    }
+                }
+            }
+
+            return updateSamplerState();
+        }
+
         bool TextureResourceMetal::setSize(const Size2& newSize)
         {
             if (!TextureResource::setSize(newSize))

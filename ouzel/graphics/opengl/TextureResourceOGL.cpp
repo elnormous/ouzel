@@ -504,9 +504,151 @@ namespace ouzel
             return true;
         }
 
+        bool TextureResourceOGL::init(const std::vector<Texture::Level>& newLevels,
+                                      const Size2& newSize,
+                                      uint32_t newFlags,
+                                      PixelFormat newPixelFormat)
+        {
+            if (!TextureResource::init(newLevels,
+                                       newSize,
+                                       newFlags,
+                                       newPixelFormat))
+            {
+                return false;
+            }
+
+            if (!createTexture())
+            {
+                return false;
+            }
+
+            renderDeviceOGL->bindTexture(textureId, 0);
+
+            if (!(flags & Texture::RENDER_TARGET))
+            {
+                if (!levels.empty())
+                {
+                    if (renderDeviceOGL->isTextureBaseLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+                    if (renderDeviceOGL->isTextureMaxLevelSupported()) glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, static_cast<GLsizei>(levels.size()) - 1);
+
+                    if (RenderDeviceOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to set texture base and max levels";
+                        return false;
+                    }
+                }
+
+                for (size_t level = 0; level < levels.size(); ++level)
+                {
+                    if (!levels[level].data.empty())
+                    {
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
+                                     oglPixelFormat, oglPixelType, levels[level].data.data());
+                    }
+                    else
+                    {
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                                     static_cast<GLsizei>(levels[level].size.width),
+                                     static_cast<GLsizei>(levels[level].size.height), 0,
+                                     oglPixelFormat, oglPixelType, nullptr);
+                    }
+                }
+
+                if (RenderDeviceOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to upload texture data";
+                    return false;
+                }
+            }
+
+            Texture::Filter finalFilter = (filter == Texture::Filter::DEFAULT) ? renderDeviceOGL->getTextureFilter() : filter;
+
+            switch (finalFilter)
+            {
+                case Texture::Filter::DEFAULT:
+                case Texture::Filter::POINT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::LINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    break;
+                case Texture::Filter::BILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+                case Texture::Filter::TRILINEAR:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    break;
+            }
+
+            if (RenderDeviceOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture filter";
+                return false;
+            }
+
+            switch (addressX)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RenderDeviceOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            switch (addressY)
+            {
+                case Texture::Address::CLAMP:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    break;
+                case Texture::Address::REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    break;
+                case Texture::Address::MIRROR_REPEAT:
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+                    break;
+            }
+
+            if (RenderDeviceOGL::checkOpenGLError())
+            {
+                Log(Log::Level::ERR) << "Failed to set texture wrap mode";
+                return false;
+            }
+
+            uint32_t finalMaxAnisotropy = (maxAnisotropy == 0) ? renderDeviceOGL->getMaxAnisotropy() : maxAnisotropy;
+
+            if (finalMaxAnisotropy > 1 && renderDeviceOGL->isAnisotropicFilteringSupported())
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, static_cast<GLint>(finalMaxAnisotropy));
+
+                if (RenderDeviceOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to set texture max anisotrophy";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         bool TextureResourceOGL::reload()
         {
-            return true;
+            return init(levels, size, flags, pixelFormat);
         }
 
         bool TextureResourceOGL::setSize(const Size2& newSize)

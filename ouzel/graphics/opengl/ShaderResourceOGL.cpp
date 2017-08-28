@@ -244,7 +244,15 @@ namespace ouzel
 
         bool ShaderResourceOGL::reload()
         {
-            return true;
+            return init(pixelShaderData,
+                        vertexShaderData,
+                        vertexAttributes,
+                        pixelShaderConstantInfo,
+                        vertexShaderConstantInfo,
+                        pixelShaderAlignment,
+                        vertexShaderAlignment,
+                        pixelShaderFunction,
+                        vertexShaderFunction);
         }
 
         void ShaderResourceOGL::printShaderMessage(GLuint shaderId)

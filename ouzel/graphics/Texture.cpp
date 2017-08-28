@@ -100,6 +100,28 @@ namespace ouzel
             return true;
         }
 
+        bool Texture::init(const std::vector<Level>& newLevels,
+                           const Size2& newSize,
+                           uint32_t newFlags,
+                           PixelFormat newPixelFormat)
+        {
+            filename.clear();
+            size = newSize;
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(newLevels.size());
+            sampleCount = 1;
+            pixelFormat = newPixelFormat;
+
+            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
+                                                                         resource,
+                                                                         newLevels,
+                                                                         newSize,
+                                                                         newFlags,
+                                                                         newPixelFormat));
+
+            return true;
+        }
+
         const Size2& Texture::getSize() const
         {
             return size;

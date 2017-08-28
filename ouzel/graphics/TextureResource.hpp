@@ -33,6 +33,10 @@ namespace ouzel
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            virtual bool init(const std::vector<Texture::Level>& newLevels,
+                              const Size2& newSize,
+                              uint32_t newFlags = 0,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             virtual bool setSize(const Size2& newSize);
             const Size2& getSize() const { return size; }
@@ -79,20 +83,13 @@ namespace ouzel
             bool calculateSizes(const Size2& newSize);
             bool calculateData(const std::vector<uint8_t>& newData);
 
-            struct Level
-            {
-                Size2 size;
-                uint32_t pitch;
-                std::vector<uint8_t> data;
-            };
-
             Size2 size;
             uint32_t flags = 0;
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
             float clearDepth = 1.0f;
-            std::vector<Level> levels;
+            std::vector<Texture::Level> levels;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Color clearColor;

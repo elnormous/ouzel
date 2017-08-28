@@ -43,25 +43,36 @@ namespace ouzel
                 MIRROR_REPEAT
             };
 
+            struct Level
+            {
+                Size2 size;
+                uint32_t pitch;
+                std::vector<uint8_t> data;
+            };
+
             static const uint32_t LAYERS = 4;
 
             Texture();
             virtual ~Texture();
 
-            virtual bool init(const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              uint32_t newSampleCount = 1,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool init(const std::string& newFilename,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            virtual bool init(const std::vector<uint8_t>& newData,
-                              const Size2& newSize,
-                              uint32_t newFlags = 0,
-                              uint32_t newMipmaps = 0,
-                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool init(const Size2& newSize,
+                      uint32_t newFlags = 0,
+                      uint32_t newMipmaps = 0,
+                      uint32_t newSampleCount = 1,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool init(const std::string& newFilename,
+                      uint32_t newFlags = 0,
+                      uint32_t newMipmaps = 0,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool init(const std::vector<uint8_t>& newData,
+                      const Size2& newSize,
+                      uint32_t newFlags = 0,
+                      uint32_t newMipmaps = 0,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
+            bool init(const std::vector<Level>& newLevels,
+                      const Size2& newSize,
+                      uint32_t newFlags = 0,
+                      PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             TextureResource* getResource() const { return resource; }
 

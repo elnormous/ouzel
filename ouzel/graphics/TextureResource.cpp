@@ -66,6 +66,21 @@ namespace ouzel
             return true;
         }
 
+        bool TextureResource::init(const std::vector<Texture::Level>& newLevels,
+                                   const Size2& newSize,
+                                   uint32_t newFlags,
+                                   PixelFormat newPixelFormat)
+        {
+            levels = newLevels;
+            size = newSize;
+            flags = newFlags;
+            mipmaps = static_cast<uint32_t>(newLevels.size());
+            sampleCount = 1;
+            pixelFormat = newPixelFormat;
+
+            return true;
+        }
+
         bool TextureResource::setSize(const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC))

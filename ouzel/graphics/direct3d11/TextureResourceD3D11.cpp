@@ -142,6 +142,27 @@ namespace ouzel
             return updateSamplerState();
         }
 
+        bool TextureResourceD3D11::init(const std::vector<Texture::Level>& newLevels,
+                                        const Size2& newSize,
+                                        uint32_t newFlags,
+                                        PixelFormat newPixelFormat)
+        {
+            if (!TextureResource::init(newLevels,
+                                       newSize,
+                                       newFlags,
+                                       newPixelFormat))
+            {
+                return false;
+            }
+
+            if (!createTexture())
+            {
+                return false;
+            }
+
+            return updateSamplerState();
+        }
+
         bool TextureResourceD3D11::setSize(const Size2& newSize)
         {
             if (!TextureResource::setSize(newSize))

@@ -100,7 +100,7 @@ namespace ouzel
 
         bool BufferResourceOGL::reload()
         {
-            return true;
+            return init(usage, data, flags);
         }
 
         bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)

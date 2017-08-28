@@ -47,6 +47,10 @@ namespace ouzel
                               uint32_t newFlags = 0,
                               uint32_t newMipmaps = 0,
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
+            virtual bool init(const std::vector<Texture::Level>& newLevels,
+                              const Size2& newSize,
+                              uint32_t newFlags = 0,
+                              PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM) override;
 
             virtual bool setSize(const Size2& newSize) override;
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize) override;

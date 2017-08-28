@@ -233,7 +233,7 @@ namespace ouzel
 
         bool MeshBufferResourceOGL::reload()
         {
-            return true;
+            return init(indexSize, indexBuffer, vertexAttributes, vertexBuffer);
         }
 
         bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
