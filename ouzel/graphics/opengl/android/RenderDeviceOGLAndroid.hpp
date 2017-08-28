@@ -33,6 +33,8 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
+            bool reload();
+
             virtual bool lockContext() override;
             virtual bool swapBuffers() override;
             void main();

@@ -141,6 +141,7 @@ namespace ouzel
             return;
         }
 
+        if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(aSurface);
     }
 
