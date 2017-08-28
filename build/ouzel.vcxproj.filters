@@ -895,6 +895,9 @@
     <ClInclude Include="..\ouzel\network\Network.hpp">
       <Filter>ouzel\network</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\opengl\ResourceOGL.hpp">
+      <Filter>ouzel\graphics\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">

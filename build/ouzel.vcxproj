@@ -238,6 +238,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
+    <ClInclude Include="..\ouzel\graphics\opengl\ResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h" />
