@@ -506,17 +506,17 @@ namespace ouzel
                 return true;
             }
 
-            inline bool setClearDepthValue(float clearDepth)
+            inline bool setClearDepthValue(float clearDepthValue)
             {
-                if (stateCache.clearDepth != clearDepth)
+                if (stateCache.clearDepth != clearDepthValue)
                 {
 #if OUZEL_SUPPORTS_OPENGLES
-                    glClearDepthfProc(clearDepth);
+                    glClearDepthfProc(clearDepthValue);
 #else
-                    glClearDepthProc(clearDepth);
+                    glClearDepthProc(clearDepthValue);
 #endif
 
-                    stateCache.clearDepth = clearDepth;
+                    stateCache.clearDepth = clearDepthValue;
 
                     if (checkOpenGLError())
                     {
@@ -528,16 +528,16 @@ namespace ouzel
                 return true;
             }
 
-            inline bool setClearColorValue(const float* clearColor)
+            inline bool setClearColorValue(const float* clearColorValue)
             {
-                if (memcmp(stateCache.clearColor, clearColor, sizeof(stateCache.clearColor)) != 0)
+                if (memcmp(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor)) != 0)
                 {
-                    glClearColor(clearColor[0],
-                                 clearColor[1],
-                                 clearColor[2],
-                                 clearColor[3]);
+                    glClearColor(clearColorValue[0],
+                                 clearColorValue[1],
+                                 clearColorValue[2],
+                                 clearColorValue[3]);
 
-                    memcpy(stateCache.clearColor, clearColor, sizeof(stateCache.clearColor));
+                    memcpy(stateCache.clearColor, clearColorValue, sizeof(stateCache.clearColor));
 
                     if (checkOpenGLError())
                     {
