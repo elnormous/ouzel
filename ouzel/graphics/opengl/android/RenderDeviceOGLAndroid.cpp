@@ -317,14 +317,7 @@ namespace ouzel
 
             windowAndroid->setSize(backBufferSize / windowAndroid->getContentScale());
 
-            for (const std::unique_ptr<Resource>& resource : resources)
-            {
-                ResourceOGL* resourceOGL = reinterpret_cast<ResourceOGL*>(resource.get());
-                if (!resourceOGL->reload())
-                {
-                    return false;
-                }
-            }
+            stateCache = StateCache();
 
             glDisable(GL_DITHER);
             glDepthFunc(GL_LEQUAL);
@@ -335,7 +328,14 @@ namespace ouzel
                 return false;
             }
 
-            stateCache = StateCache();
+            for (const std::unique_ptr<Resource>& resource : resources)
+            {
+                ResourceOGL* resourceOGL = reinterpret_cast<ResourceOGL*>(resource.get());
+                if (!resourceOGL->reload())
+                {
+                    return false;
+                }
+            }
 
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             {
