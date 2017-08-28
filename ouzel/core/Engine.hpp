@@ -61,7 +61,7 @@ namespace ouzel
         void resume();
         void exit();
 
-        bool isRunning() const { return running; }
+        bool isPaused() const { return paused; }
         bool isActive() const { return active; }
 
         void scheduleUpdate(UpdateCallback* callback);
@@ -106,7 +106,7 @@ namespace ouzel
         std::condition_variable updateCondition;
 #endif
 
-        std::atomic<bool> running;
+        std::atomic<bool> paused;
         std::atomic<bool> active;
 
         // from application

@@ -9,7 +9,7 @@
 #include "events/EventDispatcher.hpp"
 #include "input/android/InputAndroid.hpp"
 
-std::unique_ptr<ouzel::EngineAndroid> engine;
+static std::unique_ptr<ouzel::EngineAndroid> engine;
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {
@@ -31,7 +31,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurf
 {
     engine->setSurface(surface);
 
-    engine->run();
+    if (!engine->isActive()) engine->run();
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)

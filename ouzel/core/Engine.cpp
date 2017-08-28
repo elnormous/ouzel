@@ -54,7 +54,7 @@ namespace ouzel
     ouzel::Engine* sharedEngine = nullptr;
 
     Engine::Engine():
-        running(false), active(false), screenSaverEnabled(true)
+        active(false), paused(false), screenSaverEnabled(true)
     {
         sharedEngine = this;
     }
@@ -68,7 +68,7 @@ namespace ouzel
             eventDispatcher.postEvent(event);
         }
 
-        running = false;
+        paused = true;
         active = false;
 
 #if OUZEL_MULTITHREADED
@@ -413,7 +413,7 @@ namespace ouzel
             eventDispatcher.postEvent(event);
 
             active = true;
-            running = true;
+            paused = false;
 
             previousUpdateTime = std::chrono::steady_clock::now();
 
@@ -427,26 +427,26 @@ namespace ouzel
 
     void Engine::pause()
     {
-        if (active && running)
+        if (active && !paused)
         {
             Event event;
             event.type = Event::Type::ENGINE_PAUSE;
             eventDispatcher.postEvent(event);
 
-            running = false;
+            paused = true;
         }
     }
 
     void Engine::resume()
     {
-        if (active && !running)
+        if (active && paused)
         {
             Event event;
             event.type = Event::Type::ENGINE_RESUME;
             eventDispatcher.postEvent(event);
 
             previousUpdateTime = std::chrono::steady_clock::now();
-            running = true;
+            paused = false;
 
 #if OUZEL_MULTITHREADED
             updateCondition.notify_one();
@@ -456,7 +456,7 @@ namespace ouzel
 
     void Engine::exit()
     {
-        running = false;
+        paused = true;
 
         if (active)
         {
@@ -545,7 +545,7 @@ namespace ouzel
 #if OUZEL_MULTITHREADED
         while (active)
         {
-            if (running)
+            if (!paused)
             {
                 update();
 
@@ -555,7 +555,7 @@ namespace ouzel
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
 
-                while (active && !running)
+                while (active && paused)
                 {
                     updateCondition.wait(lock);
                 }
