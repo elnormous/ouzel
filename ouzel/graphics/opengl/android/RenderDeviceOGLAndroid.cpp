@@ -337,6 +337,8 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to unset EGL context";
             }
 
+            stateCache = StateCache();
+
             running = true;
             renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
 

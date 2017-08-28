@@ -100,6 +100,8 @@ namespace ouzel
 
         bool BufferResourceOGL::reload()
         {
+            bufferId = 0;
+
             return init(usage, data, flags);
         }
 

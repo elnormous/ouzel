@@ -166,12 +166,6 @@ namespace ouzel
                                                       0.0f, -1.0f, 0.0f, 0.0f,
                                                       0.0f, 0.0f, 2.0f, -1.0f,
                                                       0.0f, 0.0f, 0.0f, 1.0f);
-
-            stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
-            stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
-
-            std::fill(std::begin(stateCache.textureId), std::end(stateCache.textureId), 0);
-            std::fill(std::begin(stateCache.clearColor), std::end(stateCache.clearColor), 0.0f);
         }
 
         RenderDeviceOGL::~RenderDeviceOGL()

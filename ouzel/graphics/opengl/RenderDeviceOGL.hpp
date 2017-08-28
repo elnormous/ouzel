@@ -660,6 +660,14 @@ namespace ouzel
 
             struct StateCache
             {
+                StateCache()
+                {
+                    bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
+                    bufferId[GL_ARRAY_BUFFER] = 0;
+                    std::fill(std::begin(textureId), std::end(textureId), 0);
+                    std::fill(std::begin(clearColor), std::end(clearColor), 0.0f);
+                }
+
                 GLuint textureId[Texture::LAYERS];
                 GLuint programId = 0;
                 GLuint frameBufferId = 0;

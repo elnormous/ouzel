@@ -170,10 +170,12 @@ namespace ouzel
                 return false;
             }
 
-            if (!vertexArrayId)
+            if (vertexArrayId)
             {
-                if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+                if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
             }
+
+            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             if (RenderDeviceOGL::checkOpenGLError())
             {
@@ -233,6 +235,8 @@ namespace ouzel
 
         bool MeshBufferResourceOGL::reload()
         {
+            vertexArrayId = 0;
+
             return init(indexSize, indexBuffer, vertexAttributes, vertexBuffer);
         }
 

@@ -244,6 +244,10 @@ namespace ouzel
 
         bool ShaderResourceOGL::reload()
         {
+            pixelShaderId = 0;
+            vertexShaderId = 0;
+            programId = 0;
+
             return init(pixelShaderData,
                         vertexShaderData,
                         vertexAttributes,

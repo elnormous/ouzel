@@ -648,6 +648,10 @@ namespace ouzel
 
         bool TextureResourceOGL::reload()
         {
+            textureId = 0;
+            frameBufferId = 0;
+            depthBufferId = 0;
+
             if (flags & Texture::RENDER_TARGET)
             {
                 return init(size, flags, mipmaps, sampleCount, pixelFormat);
