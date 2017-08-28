@@ -85,7 +85,7 @@ namespace ouzel
         {
             executeAll();
 
-            if (running)
+            if (!paused)
             {
                 if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
                 {

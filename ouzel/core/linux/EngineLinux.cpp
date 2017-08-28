@@ -60,8 +60,8 @@ namespace ouzel
             {
                 executeAll();
 
-                // XNextEvent will block if there is no event pending, so don't call it if engine is running
-                if (!running || XPending(windowLinux->getDisplay()))
+                // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
+                if (paused || XPending(windowLinux->getDisplay()))
                 {
                     XNextEvent(windowLinux->getDisplay(), &event);
 
@@ -84,7 +84,9 @@ namespace ouzel
                         case KeyPress: // keyboard
                         case KeyRelease:
                         {
-                            KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(), event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 1 : 0);
+                            KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(),
+                                                               event.xkey.keycode, 0,
+                                                               event.xkey.state & ShiftMask ? 1 : 0);
 
                             if (event.type == KeyPress)
                             {
