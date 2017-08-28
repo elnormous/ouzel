@@ -210,12 +210,6 @@ namespace ouzel
             flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
-            if (!eglInitialize(display, nullptr, nullptr))
-            {
-                Log(Log::Level::ERR) << "Failed to initialize EGL";
-                return false;
-            }
-
             const EGLint attributeList[] =
             {
                 EGL_RED_SIZE, 8,
