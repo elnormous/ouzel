@@ -22,8 +22,6 @@ namespace ouzel
         public:
             virtual ~AudioDeviceDS();
 
-            virtual bool update() override;
-
             IDirectSound8* getDirectSound() const { return directSound; }
 
         protected:
