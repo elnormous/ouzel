@@ -69,6 +69,43 @@ namespace ouzel
             return compileShader();
         }
 
+        bool ShaderResourceOGL::reload()
+        {
+            pixelShaderId = 0;
+            vertexShaderId = 0;
+            programId = 0;
+
+            return compileShader();
+        }
+
+        void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
+        {
+            GLint logLength = 0;
+            glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+
+            if (logLength > 0)
+            {
+                std::vector<char> logMessage(static_cast<size_t>(logLength));
+                glGetShaderInfoLogProc(shaderId, logLength, nullptr, logMessage.data());
+
+                Log(Log::Level::ERR) << "Shader compilation error: " << logMessage.data();
+            }
+        }
+
+        void ShaderResourceOGL::printProgramMessage()
+        {
+            GLint logLength = 0;
+            glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
+
+            if (logLength > 0)
+            {
+                std::vector<char> logMessage(static_cast<size_t>(logLength));
+                glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
+
+                Log(Log::Level::ERR) << "Shader linking error: " << logMessage.data();
+            }
+        }
+
         bool ShaderResourceOGL::compileShader()
         {
             pixelShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
@@ -229,7 +266,7 @@ namespace ouzel
                 for (const Shader::ConstantInfo& info : vertexShaderConstantInfo)
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
-                    
+
                     if (location == -1 || RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
@@ -239,45 +276,8 @@ namespace ouzel
                     vertexShaderConstantLocations.push_back({location, info.dataType});
                 }
             }
-
+            
             return true;
-        }
-
-        bool ShaderResourceOGL::reload()
-        {
-            pixelShaderId = 0;
-            vertexShaderId = 0;
-            programId = 0;
-
-            return compileShader();
-        }
-
-        void ShaderResourceOGL::printShaderMessage(GLuint shaderId)
-        {
-            GLint logLength = 0;
-            glGetShaderivProc(shaderId, GL_INFO_LOG_LENGTH, &logLength);
-
-            if (logLength > 0)
-            {
-                std::vector<char> logMessage(static_cast<size_t>(logLength));
-                glGetShaderInfoLogProc(shaderId, logLength, nullptr, logMessage.data());
-
-                Log(Log::Level::ERR) << "Shader compilation error: " << logMessage.data();
-            }
-        }
-
-        void ShaderResourceOGL::printProgramMessage()
-        {
-            GLint logLength = 0;
-            glGetProgramivProc(programId, GL_INFO_LOG_LENGTH, &logLength);
-
-            if (logLength > 0)
-            {
-                std::vector<char> logMessage(static_cast<size_t>(logLength));
-                glGetProgramInfoLogProc(programId, logLength, nullptr, logMessage.data());
-
-                Log(Log::Level::ERR) << "Shader linking error: " << logMessage.data();
-            }
         }
     } // namespace graphics
 } // namespace ouzel

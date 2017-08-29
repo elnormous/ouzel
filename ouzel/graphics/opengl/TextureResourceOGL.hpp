@@ -71,6 +71,7 @@ namespace ouzel
 
         protected:
             bool createTexture();
+            bool setTextureParameters();
 
             RenderDeviceOGL* renderDeviceOGL;
 

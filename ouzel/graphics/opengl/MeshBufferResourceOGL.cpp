@@ -181,63 +181,6 @@ namespace ouzel
             return createVertexArray();
         }
 
-        bool MeshBufferResourceOGL::createVertexArray()
-        {
-            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
-
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::WARN) << "Failed to create vertex array";
-            }
-
-            if (vertexArrayId)
-            {
-                renderDeviceOGL->bindVertexArray(vertexArrayId);
-
-                if (indexBufferOGL && indexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-                }
-
-                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-
-                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
-                    {
-                        if (index < vertexAttribs.size())
-                        {
-                            glEnableVertexAttribArrayProc(index);
-                            glVertexAttribPointerProc(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
-                        }
-                        else
-                        {
-                            glDisableVertexAttribArrayProc(index);
-                        }
-                    }
-
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
         bool MeshBufferResourceOGL::reload()
         {
             vertexArrayId = 0;
@@ -480,6 +423,63 @@ namespace ouzel
                 }
             }
 
+            return true;
+        }
+
+        bool MeshBufferResourceOGL::createVertexArray()
+        {
+            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+
+            if (RenderDeviceOGL::checkOpenGLError())
+            {
+                Log(Log::Level::WARN) << "Failed to create vertex array";
+            }
+
+            if (vertexArrayId)
+            {
+                renderDeviceOGL->bindVertexArray(vertexArrayId);
+
+                if (indexBufferOGL && indexBufferOGL->getBufferId())
+                {
+                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+                }
+
+                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
+                {
+                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    {
+                        return false;
+                    }
+
+                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    {
+                        if (index < vertexAttribs.size())
+                        {
+                            glEnableVertexAttribArrayProc(index);
+                            glVertexAttribPointerProc(index,
+                                                      vertexAttribs[index].size,
+                                                      vertexAttribs[index].type,
+                                                      vertexAttribs[index].normalized,
+                                                      vertexAttribs[index].stride,
+                                                      vertexAttribs[index].pointer);
+                        }
+                        else
+                        {
+                            glDisableVertexAttribArrayProc(index);
+                        }
+                    }
+
+                    if (RenderDeviceOGL::checkOpenGLError())
+                    {
+                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
+                        return false;
+                    }
+                }
+            }
+            
             return true;
         }
     } // namespace graphics
