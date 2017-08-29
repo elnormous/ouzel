@@ -35,7 +35,7 @@ namespace ouzel
             }
 
             int err;
-            if ((err = snd_pcm_open(&playbackHandle, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
+            if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to connect to audio interface, error: " << err;
                 return false;
