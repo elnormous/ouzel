@@ -57,6 +57,7 @@ namespace ouzel
             GLuint getProgramId() const { return programId; }
 
         protected:
+            bool compileShader();
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
 

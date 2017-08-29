@@ -585,11 +585,6 @@ namespace ouzel
                 glDeleteProgramProc(programId);
             }
 
-            static void deleteShader(GLuint shaderId)
-            {
-                glDeleteShaderProc(shaderId);
-            }
-
             void deleteTexture(GLuint textureId)
             {
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)

@@ -170,20 +170,25 @@ namespace ouzel
                 return false;
             }
 
+            indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
+            vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
+
             if (vertexArrayId)
             {
                 if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
             }
 
+            return createVertexArray();
+        }
+
+        bool MeshBufferResourceOGL::createVertexArray()
+        {
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             if (RenderDeviceOGL::checkOpenGLError())
             {
                 Log(Log::Level::WARN) << "Failed to create vertex array";
             }
-
-            indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
-            vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
 
             if (vertexArrayId)
             {
@@ -237,59 +242,7 @@ namespace ouzel
         {
             vertexArrayId = 0;
 
-            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
-
-            if (RenderDeviceOGL::checkOpenGLError())
-            {
-                Log(Log::Level::WARN) << "Failed to create vertex array";
-            }
-
-            if (vertexArrayId)
-            {
-                renderDeviceOGL->bindVertexArray(vertexArrayId);
-
-                if (indexBufferOGL && indexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-                }
-
-                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-
-                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
-                    {
-                        if (index < vertexAttribs.size())
-                        {
-                            glEnableVertexAttribArrayProc(index);
-                            glVertexAttribPointerProc(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
-                        }
-                        else
-                        {
-                            glDisableVertexAttribArrayProc(index);
-                        }
-                    }
-
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            return createVertexArray();
         }
 
         bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)

@@ -56,6 +56,8 @@ namespace ouzel
             BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
+            bool createVertexArray();
+
             RenderDeviceOGL* renderDeviceOGL;
 
             GLenum indexType = 0;
