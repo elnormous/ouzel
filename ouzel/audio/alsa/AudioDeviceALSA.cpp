@@ -131,11 +131,6 @@ namespace ouzel
         {
             while (running)
             {
-                if (!update())
-                {
-                    break;
-                }
-
                 int err;
 
                 if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
@@ -155,6 +150,11 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to poll, error: " << err;
                         break;
                     }
+                }
+
+                if (!update())
+                {
+                    break;
                 }
 
                 snd_pcm_sframes_t frames;
