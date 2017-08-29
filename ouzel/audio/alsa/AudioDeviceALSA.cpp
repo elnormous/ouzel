@@ -41,6 +41,8 @@ namespace ouzel
                 return false;
             }
 
+            Log(Log::Level::INFO) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
+
             if ((err = snd_pcm_hw_params_malloc(&hwParams)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to allocate memory for hardware parameters, error: " << err;
