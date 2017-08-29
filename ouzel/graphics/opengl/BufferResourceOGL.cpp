@@ -102,7 +102,31 @@ namespace ouzel
         {
             bufferId = 0;
 
-            return init(usage, data, flags);
+            if (!createBuffer())
+            {
+                return false;
+            }
+
+            if (!data.empty())
+            {
+                renderDeviceOGL->bindVertexArray(0);
+
+                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
+                {
+                    return false;
+                }
+
+                glBufferDataProc(bufferType, bufferSize, data.data(),
+                                 (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+
+                if (RenderDeviceOGL::checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create buffer";
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)

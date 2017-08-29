@@ -90,16 +90,6 @@ namespace ouzel
 
             return true;
         }
-
-        bool BlendStateResourceOGL::reload()
-        {
-            return init(enableBlending,
-                        colorBlendSource, colorBlendDest,
-                        colorOperation,
-                        alphaBlendSource, alphaBlendDest,
-                        alphaOperation,
-                        colorMask);
-        }
     } // namespace graphics
 } // namespace ouzel
 
