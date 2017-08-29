@@ -35,7 +35,7 @@ namespace ouzel
             }
 
             int err;
-            if ((err = snd_pcm_open(&playbackHandle, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
+            if ((err = snd_pcm_open(&playbackHandle, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to connect to audio interface, error: " << err;
                 return false;
@@ -140,8 +140,21 @@ namespace ouzel
 
                 if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
                 {
-                    Log(Log::Level::ERR) << "Failed to poll, error: " << err;
-                    break;
+                    if (err == -EPIPE)
+                    {
+                        Log(Log::Level::WARN) << "Buffer underrun occurred";
+
+                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
+                        {
+                            Log(Log::Level::ERR) << "Failed to prepare audio interface, error: " << err;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Log(Log::Level::ERR) << "Failed to poll, error: " << err;
+                        break;
+                    }
                 }
 
                 snd_pcm_sframes_t frames;
@@ -151,6 +164,14 @@ namespace ouzel
                     if (frames == -EPIPE)
                     {
                         Log(Log::Level::WARN) << "Buffer underrun occurred";
+
+                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
+                        {
+                            Log(Log::Level::ERR) << "Failed to prepare audio interface, error: " << err;
+                            break;
+                        }
+
+                        continue;
                     }
                     else
                     {
@@ -168,7 +189,21 @@ namespace ouzel
 
                 if ((err = snd_pcm_writei(playbackHandle, data.data(), frames)) < 0)
                 {
-                    Log(Log::Level::ERR) << "Failed to write data, error: " << err;
+                    if (frames == -EPIPE)
+                    {
+                        Log(Log::Level::WARN) << "Buffer underrun occurred";
+
+                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
+                        {
+                            Log(Log::Level::ERR) << "Failed to prepare audio interface, error: " << err;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Log(Log::Level::ERR) << "Failed to write data, error: " << err;
+                        break;
+                    }
                 }
             }
         }
