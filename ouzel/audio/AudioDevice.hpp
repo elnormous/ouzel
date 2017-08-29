@@ -40,7 +40,7 @@ namespace ouzel
             virtual bool init(bool debugAudio);
 
             void executeAll();
-            bool getData(uint32_t samples, Audio::Format format, std::vector<uint8_t>& result);
+            bool getData(uint32_t frames, Audio::Format format, std::vector<uint8_t>& result);
 
             Audio::Driver driver;
 

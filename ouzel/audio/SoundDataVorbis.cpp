@@ -52,13 +52,13 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataVorbis::getData(Stream* stream, uint32_t samples, std::vector<float>& result)
+        bool SoundDataVorbis::getData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
-            result.resize(samples);
+            result.resize(frames * channels);
 
-            int n = stb_vorbis_get_samples_float_interleaved(streamVorbis->getVorbisStream(), channels, result.data(), samples);
+            int n = stb_vorbis_get_samples_float_interleaved(streamVorbis->getVorbisStream(), channels, result.data(), frames * channels);
 
             result.resize(n * channels);
 

@@ -199,14 +199,14 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
+            getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
 
             alBufferData(buffers[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
-            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
+            getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
 
             alBufferData(buffers[1], format,
                          data.data(),
@@ -281,7 +281,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(bufferSize, Audio::Format::SINT16, data))
+                if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
                 {
                     return false;
                 }

@@ -56,9 +56,9 @@ namespace ouzel
             listenerRotation = newRotation;
         }
 
-        bool AudioDevice::getData(uint32_t samples, Audio::Format format, std::vector<uint8_t>& result)
+        bool AudioDevice::getData(uint32_t frames, Audio::Format format, std::vector<uint8_t>& result)
         {
-            buffer.resize(samples);
+            buffer.resize(frames * channels);
             std::fill(buffer.begin(), buffer.end(), 0.0f);
 
             {
@@ -68,7 +68,7 @@ namespace ouzel
 
                 for (const auto& resource : resources)
                 {
-                    if (!resource->getData(samples, channels, sampleRate, data))
+                    if (!resource->getData(frames, channels, sampleRate, data))
                     {
                         return false;
                     }
@@ -90,7 +90,7 @@ namespace ouzel
             {
                 case Audio::Format::SINT16:
                 {
-                    result.resize(samples * 2);
+                    result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
 
                     for (uint32_t i = 0; i < buffer.size(); ++i)
@@ -102,7 +102,7 @@ namespace ouzel
                 }
                 case Audio::Format::FLOAT32:
                 {
-                    result.reserve(samples * 4);
+                    result.reserve(frames * channels * sizeof(float));
                     result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
                                   reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * 4);
                     break;

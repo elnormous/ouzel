@@ -150,7 +150,7 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data[0]);
+            getData(bufferSize / (channels * sizeof(float)), Audio::Format::FLOAT32, data[0]);
 
             XAUDIO2_BUFFER bufferData;
             bufferData.Flags = 0;
@@ -170,7 +170,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data[1]);
+            getData(bufferSize / (channels * sizeof(float)), Audio::Format::FLOAT32, data[1]);
             bufferData.AudioBytes = static_cast<UINT32>(data[1].size());
             bufferData.pAudioData = data[1].data();
 
@@ -212,7 +212,7 @@ namespace ouzel
                 return;
             }
 
-            if (!getData(bufferSize / sizeof(float), Audio::Format::FLOAT32, data[nextBuffer]))
+            if (!getData(bufferSize / (channels * sizeof(float)), Audio::Format::FLOAT32, data[nextBuffer]))
             {
                 return;
             }

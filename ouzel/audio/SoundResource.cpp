@@ -68,24 +68,24 @@ namespace ouzel
             return true;
         }
 
-        bool SoundResource::getData(uint32_t samples, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
+        bool SoundResource::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
         {
             if (!shouldPlay)
             {
-                result.resize(0);
+                result.clear();
             }
             else if (soundData && soundData->getChannels() > 0 && stream)
             {
-                if (!soundData->getData(stream.get(), (samples / channels) * soundData->getChannels(), data))
+                if (!soundData->getData(stream.get(), frames, data))
                 {
                     return false;
                 }
 
                 if (channels != soundData->getChannels())
                 {
-                    result.resize((data.size() / soundData->getChannels()) * channels);
+                    uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
 
-                    uint32_t srcSamples = static_cast<uint32_t>(data.size());
+                    result.resize(srcFrames * channels);
 
                     // front left channel
                     if (channels >= 1)
@@ -96,7 +96,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination] = data[source];
                                 destination += channels;
@@ -106,7 +106,7 @@ namespace ouzel
                         else
                         {
                             // fill the front left channel with zeros
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination] = 0.0f;
                                 destination += channels;
@@ -124,7 +124,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 1] = data[source + 1];
                                 destination += channels;
@@ -134,7 +134,7 @@ namespace ouzel
                         else
                         {
                             // copy the front left channel in to the front right one
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 1] = result[destination];
                                 destination += channels;
@@ -151,7 +151,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 2] = data[source + 2];
                                 destination += channels;
@@ -161,7 +161,7 @@ namespace ouzel
                         else if (channels >= 2)
                         {
                             // calculate the average of the front left and the front right channel
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0f;
                                 destination += channels;
@@ -170,7 +170,7 @@ namespace ouzel
                         else
                         {
                             // copy the front left channel in to the center one
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 2] = result[destination];
                                 destination += channels;
@@ -187,7 +187,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 3] = data[source + 3];
                                 destination += channels;
@@ -197,7 +197,7 @@ namespace ouzel
                         else
                         {
                             // fill the LFE channel with zeros
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 3] = 0;
                                 destination += channels;
@@ -215,7 +215,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 4] = data[source + 4];
                                 destination += channels;
@@ -225,7 +225,7 @@ namespace ouzel
                         else
                         {
                             // copy the front left channel in to the back left one
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 4] = result[destination];
                                 destination += channels;
@@ -243,7 +243,7 @@ namespace ouzel
                         {
                             uint32_t source = 0;
 
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 5] = data[source + 5];
                                 destination += channels;
@@ -253,7 +253,7 @@ namespace ouzel
                         else
                         {
                             // copy the front right channel in to the back right one
-                            for (uint32_t i = 0; i < srcSamples / soundData->getChannels(); ++i)
+                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
                                 result[destination + 5] = result[destination + 1];
                                 destination += channels;
@@ -275,11 +275,11 @@ namespace ouzel
 
                 std::vector<float> channelVolume(channels, gain);
 
-                for (uint32_t i = 0; i < result.size() / channels; ++i)
+                for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
                 {
                     for (uint32_t channel = 0; channel < channels; ++channel)
                     {
-                        result[i * channels + channel] *= channelVolume[channel];
+                        result[frame * channels + channel] *= channelVolume[channel];
                     }
                 }
             }

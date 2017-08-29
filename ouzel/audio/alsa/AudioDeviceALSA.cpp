@@ -156,7 +156,7 @@ namespace ouzel
         
                 frames = frames > 4096 ? 4096 : frames;
         
-                if (!getData(frames / 2, Audio::Format::SINT16, data))
+                if (!getData(frames, Audio::Format::SINT16, data))
                 {
                     break;
                 }

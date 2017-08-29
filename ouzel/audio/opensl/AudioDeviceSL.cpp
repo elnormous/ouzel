@@ -163,7 +163,7 @@ namespace ouzel
                 return false;
             }
             
-            if (!getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
+            if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
             {
                 return false;
             }
@@ -190,7 +190,7 @@ namespace ouzel
                 return;
             }
 
-            if (!getData(bufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
+            if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
             {
                 return;
             }

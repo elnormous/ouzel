@@ -348,7 +348,7 @@ namespace ouzel
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                if (!getData(buffer->mDataByteSize / sampleSize, dataFormat, data))
+                if (!getData(buffer->mDataByteSize / (sampleSize * channels), dataFormat, data))
                 {
                     return false;
                 }

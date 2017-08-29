@@ -139,7 +139,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(lockedBufferSize / sizeof(int16_t), Audio::Format::SINT16, data);
+            getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
@@ -194,7 +194,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(lockedBufferSize / sizeof(int16_t), Audio::Format::SINT16, data))
+                if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
                 {
                     return false;
                 }
