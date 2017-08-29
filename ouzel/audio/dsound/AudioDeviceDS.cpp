@@ -165,60 +165,53 @@ namespace ouzel
             return true;
         }
 
-        bool AudioDeviceDS::update()
-        {
-            if (!AudioDevice::update())
-            {
-                return false;
-            }
-
-            DWORD playCursorPosition;
-            DWORD writeCursorPosition;
-            HRESULT hr = buffer->GetCurrentPosition(&playCursorPosition, &writeCursorPosition);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to get DirectSound buffer cursor position, error: " << hr;
-                return false;
-            }
-
-            uint32_t currentBuffer = playCursorPosition / bufferSize;
-
-            if (currentBuffer != nextBuffer)
-            {
-                uint8_t* bufferPointer;
-                DWORD lockedBufferSize;
-                hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
-                    return false;
-                }
-
-                if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
-                {
-                    return false;
-                }
-
-                std::copy(data.begin(), data.end(), bufferPointer);
-
-                hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
-                    return false;
-                }
-
-                nextBuffer = currentBuffer;
-            }
-
-            return true;
-        }
-
         void AudioDeviceDS::run()
         {
             while (running)
             {
-                update();
+                if (!update())
+                {
+                    break;
+                }
+    
+                DWORD playCursorPosition;
+                DWORD writeCursorPosition;
+                HRESULT hr = buffer->GetCurrentPosition(&playCursorPosition, &writeCursorPosition);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to get DirectSound buffer cursor position, error: " << hr;
+                    break;
+                }
+    
+                uint32_t currentBuffer = playCursorPosition / bufferSize;
+    
+                if (currentBuffer != nextBuffer)
+                {
+                    uint8_t* bufferPointer;
+                    DWORD lockedBufferSize;
+                    hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
+                        break;
+                    }
+    
+                    if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
+                    {
+                        break;
+                    }
+    
+                    std::copy(data.begin(), data.end(), bufferPointer);
+    
+                    hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
+                    if (FAILED(hr))
+                    {
+                        Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
+                        break;
+                    }
+    
+                    nextBuffer = currentBuffer;
+                }
             }
         }
     } // namespace audio

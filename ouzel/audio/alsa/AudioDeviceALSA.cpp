@@ -131,6 +131,11 @@ namespace ouzel
         {
             while (running)
             {
+                if (!update())
+                {
+                    break;
+                }
+
                 int err;
 
                 if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
