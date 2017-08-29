@@ -39,44 +39,44 @@ namespace ouzel
             {
                 Log(Log::Level::ERR) << "Failed to connect to audio interface, error: " << err;
                 return false;
-            }          
+            }
 
             if ((err = snd_pcm_hw_params_malloc(&hwParams)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to allocate memory for hardware parameters, error: " << err;
                 return false;
             }
-                     
+
             if ((err = snd_pcm_hw_params_any(playbackHandle, hwParams)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to initialize hardware parameters, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_hw_params_set_access(playbackHandle, hwParams, SND_PCM_ACCESS_RW_INTERLEAVED)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set access type, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set sample format, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_hw_params_set_rate(playbackHandle, hwParams, sampleRate, 0)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set sample rate, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_hw_params_set_channels(playbackHandle, hwParams, channels)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set channel count, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_hw_params(playbackHandle, hwParams)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set hardware parameters, error: " << err;
@@ -115,7 +115,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to set software parameters, error: " << err;
                 return false;
             }
-        
+
             if ((err = snd_pcm_prepare(playbackHandle)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to prepare audio interface, error: " << err;
@@ -141,7 +141,7 @@ namespace ouzel
                 if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
                 {
                     Log(Log::Level::ERR) << "Failed to poll, error: " << err;
-			        break;
+                    break;
                 }
 
                 snd_pcm_sframes_t frames;
@@ -158,9 +158,9 @@ namespace ouzel
                         break;
                     }
                 }
-        
+
                 frames = frames > 4096 ? 4096 : frames;
-        
+
                 if (!getData(frames, Audio::Format::SINT16, data))
                 {
                     break;
