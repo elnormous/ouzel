@@ -103,25 +103,25 @@ namespace ouzel
             unsigned int bufferLength = periodLength * periods; // buffer length in microseconds
             int dir;
 
-            if (err = snd_pcm_hw_params_set_buffer_time_near(playbackHandle, hwParams, &bufferLength, &dir)) < 0)
+            if ((err = snd_pcm_hw_params_set_buffer_time_near(playbackHandle, hwParams, &bufferLength, &dir)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set buffer time, error: " << err;
                 return false;
             }
 
-            if (err = snd_pcm_hw_params_set_period_time_near(playbackHandle, hwParams, &periodLength, &dir)) < 0)
+            if ((err = snd_pcm_hw_params_set_period_time_near(playbackHandle, hwParams, &periodLength, &dir)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set period time, error: " << err;
                 return false;
             }
 
-            if (err = snd_pcm_hw_params_get_period_size(hwParams, &periodSize, &dir)) < 0)
+            if ((err = snd_pcm_hw_params_get_period_size(hwParams, &periodSize, &dir)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to get period size, error: " << err;
                 return false;
             }
 
-            if (err = snd_pcm_hw_params_get_periods(hwParams, &periods, &dir)) < 0)
+            if ((err = snd_pcm_hw_params_get_periods(hwParams, &periods, &dir)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to get period count, error: " << err;
                 return false;
