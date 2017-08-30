@@ -99,6 +99,34 @@ namespace ouzel
                 return false;
             }
 
+            unsigned int periodLength = periodSize * 1000000 / sampleRate; // period length in microseconds
+            unsigned int bufferLength = periodLength * periods; // buffer length in microseconds
+            int dir;
+
+            if (err = snd_pcm_hw_params_set_buffer_time_near(playbackHandle, hwParams, &bufferLength, &dir)) < 0)
+            {
+                Log(Log::Level::ERR) << "Failed to set buffer time, error: " << err;
+                return false;
+            }
+
+            if (err = snd_pcm_hw_params_set_period_time_near(playbackHandle, hwParams, &periodLength, &dir)) < 0)
+            {
+                Log(Log::Level::ERR) << "Failed to set period time, error: " << err;
+                return false;
+            }
+
+            if (err = snd_pcm_hw_params_get_period_size(hwParams, &periodSize, &dir)) < 0)
+            {
+                Log(Log::Level::ERR) << "Failed to get period size, error: " << err;
+                return false;
+            }
+
+            if (err = snd_pcm_hw_params_get_periods(hwParams, &periods, &dir)) < 0)
+            {
+                Log(Log::Level::ERR) << "Failed to get period count, error: " << err;
+                return false;
+            }
+
             if ((err = snd_pcm_hw_params(playbackHandle, hwParams)) < 0)
             {
                 Log(Log::Level::ERR) << "Failed to set hardware parameters, error: " << err;
@@ -158,25 +186,6 @@ namespace ouzel
             {
                 int err;
 
-                if ((err = snd_pcm_wait(playbackHandle, 1000)) < 0)
-                {
-                    if (err == -EPIPE)
-                    {
-                        Log(Log::Level::WARN) << "Buffer underrun occurred";
-
-                        if ((err = snd_pcm_prepare(playbackHandle)) < 0)
-                        {
-                            Log(Log::Level::ERR) << "Failed to prepare audio interface, error: " << err;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Log(Log::Level::ERR) << "Failed to poll, error: " << err;
-                        break;
-                    }
-                }
-
                 if (!update())
                 {
                     break;
@@ -205,7 +214,17 @@ namespace ouzel
                     }
                 }
 
-                frames = frames > 4096 ? 4096 : frames;
+                if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
+                {
+                    Log(Log::Level::WARN) << "Buffer size exceeded, error: " << frames;
+                    snd_pcm_reset(playbackHandle);
+                    continue;
+                }
+
+                if (static_cast<snd_pcm_uframes_t>(frames) < periodSize)
+                {
+                    continue;
+                }
 
                 if (!getData(frames, dataFormat, data))
                 {
