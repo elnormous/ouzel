@@ -19,9 +19,9 @@ ifeq ($(platform),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound
 else ifeq ($(platform),raspbian)
 CXXFLAGS+=-DRASPBIAN
-LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread
+LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread -lasound
 else ifeq ($(platform),linux)
-LDFLAGS+=-lX11 -lGL -lopenal -lpthread -lXcursor -lXss -lasound
+LDFLAGS+=-lGL -lopenal -lpthread -lasound -lX11 -lXcursor -lXss
 else ifeq ($(platform),macos)
 LDFLAGS+=-framework AudioToolbox \
 	-framework AudioUnit \

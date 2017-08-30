@@ -85,6 +85,7 @@
     #define OUZEL_SUPPORTS_OPENGLES 1
     #define OUZEL_OPENGL_INTERFACE_EGL 1
     #define OUZEL_SUPPORTS_OPENAL 1
+    #define OUZEL_SUPPORTS_ALSA 1
     #define OUZEL_MULTITHREADED 1
 
     #if defined(__x86_64__)
