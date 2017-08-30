@@ -61,9 +61,29 @@ namespace ouzel
                 return false;
             }
 
-            if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
+            if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE) == 0)
             {
-                Log(Log::Level::ERR) << "Failed to set sample format, error: " << err;
+                if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE)) < 0)
+                {
+                    Log(Log::Level::ERR) << "Failed to set sample format, error: " << err;
+                    return false;
+                }
+
+                dataFormat = Audio::Format::FLOAT32;
+            }
+            else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
+            {
+                if ((err = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE)) < 0)
+                {
+                    Log(Log::Level::ERR) << "Failed to set sample format, error: " << err;
+                    return false;
+                }
+
+                dataFormat = Audio::Format::SINT16;
+            }
+            else
+            {
+                Log(Log::Level::ERR) << "No supported format";
                 return false;
             }
 
@@ -184,7 +204,7 @@ namespace ouzel
 
                 frames = frames > 4096 ? 4096 : frames;
 
-                if (!getData(frames, Audio::Format::SINT16, data))
+                if (!getData(frames, dataFormat, data))
                 {
                     break;
                 }
