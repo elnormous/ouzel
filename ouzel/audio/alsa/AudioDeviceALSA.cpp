@@ -144,6 +144,9 @@ namespace ouzel
                 return false;
             }
 
+            snd_pcm_sw_params_free(swParams);
+            swParams = nullptr;
+
             audioThread = std::thread(&AudioDeviceALSA::run, this);
 
             return true;
