@@ -173,7 +173,7 @@ namespace ouzel
             {
                 for (uint32_t i = 0; i < samples; ++i)
                 {
-                    data[i] = static_cast<float>(soundData[i]) / 255.0f - 0.5f;
+                    data[i] = 2.0f * static_cast<float>(soundData[i]) / 255.0f - 1.0f;
                 }
             }
             else if (bitsPerSample == 16)
