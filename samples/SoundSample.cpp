@@ -94,7 +94,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.node == &jumpButton)
         {
-            jumpSound->play();
+            jumpSound->play(true);
         }
         else if (event.node == &ambientButton)
         {

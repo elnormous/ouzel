@@ -204,30 +204,49 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataWave::getData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        bool SoundDataWave::getData(Stream* stream, uint32_t frames, bool repeat, bool& finished, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
             uint32_t offset = streamWave->getOffset();
             uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
 
-            if (remainingSize < frames * channels)
+            uint32_t neededSize = frames * channels;
+
+            finished = false;
+            result.clear();
+            result.reserve(repeat ? neededSize : remainingSize);
+
+            while (neededSize > 0)
             {
-                result.clear();
-                result.reserve(remainingSize);
+                if (repeat && remainingSize == 0)
+                {
+                    streamWave->reset();
+                    offset = 0;
+                    remainingSize = static_cast<uint32_t>(data.size());
+                }
 
-                std::copy(data.begin() + offset, data.end(), std::back_inserter(result));
+                if (remainingSize < neededSize)
+                {
+                    std::copy(data.begin() + offset, data.end(), std::back_inserter(result));
+                    streamWave->setOffset(offset + remainingSize);
+                    neededSize -= remainingSize;
+                }
+                else
+                {
+                    std::copy(data.begin() + offset, data.begin() + offset + neededSize, std::back_inserter(result));
+                    streamWave->setOffset(offset + neededSize);
+                    neededSize = 0;
+                }
 
-                streamWave->setOffset(offset + remainingSize);
+                if (!repeat) break;
             }
-            else
+
+            if (remainingSize == 0)
             {
-                result.clear();
-                result.reserve(frames * channels);
+                streamWave->reset();
 
-                std::copy(data.begin() + offset, data.begin() + offset + frames * channels, std::back_inserter(result));
-
-                streamWave->setOffset(offset + frames * channels);
+                if (!repeat) finished = true;
             }
 
             return true;

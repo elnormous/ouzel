@@ -47,7 +47,7 @@ namespace ouzel
 
         bool SoundResource::play(bool repeatSound)
         {
-            shouldPlay = true;
+            playing = true;
             repeat = repeatSound;
 
             return true;
@@ -55,14 +55,14 @@ namespace ouzel
 
         bool SoundResource::pause()
         {
-            shouldPlay = false;
+            playing = false;
 
             return true;
         }
 
         bool SoundResource::stop()
         {
-            shouldPlay = false;
+            playing = false;
             reset = true;
 
             return true;
@@ -70,16 +70,19 @@ namespace ouzel
 
         bool SoundResource::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
         {
-            if (!shouldPlay)
+            if (!playing)
             {
                 result.clear();
             }
             else if (soundData && soundData->getChannels() > 0 && stream)
             {
-                if (!soundData->getData(stream.get(), frames, data))
+                bool finished;
+                if (!soundData->getData(stream.get(), frames, repeat, finished, data))
                 {
                     return false;
                 }
+
+                if (!repeat && finished) playing = false;
 
                 if (channels != soundData->getChannels())
                 {

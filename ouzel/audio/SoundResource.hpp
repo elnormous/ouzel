@@ -41,7 +41,7 @@ namespace ouzel
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
             bool relativePosition = false;
-            bool shouldPlay = false;
+            bool playing = false;
             bool repeat = false;
             bool reset = false;
 
