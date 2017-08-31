@@ -129,7 +129,7 @@ namespace ouzel
                                 currentFrame = 0;
 
                                 Event resetEvent;
-                                resetEvent.type = Event::Type::RESET;
+                                resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
                                 sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                             }
@@ -140,7 +140,7 @@ namespace ouzel
                                 updateCallback.remove();
 
                                 Event finishEvent;
-                                finishEvent.type = Event::Type::FINISH;
+                                finishEvent.type = Event::Type::ANIMATION_FINISH;
                                 finishEvent.animationEvent.component = this;
                                 sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                             }
@@ -157,7 +157,7 @@ namespace ouzel
                                 currentFrame = static_cast<uint32_t>(frames.size() - 1);
 
                                 Event resetEvent;
-                                resetEvent.type = Event::Type::RESET;
+                                resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
                                 sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                             }
@@ -168,7 +168,7 @@ namespace ouzel
                                 updateCallback.remove();
 
                                 Event finishEvent;
-                                finishEvent.type = Event::Type::FINISH;
+                                finishEvent.type = Event::Type::ANIMATION_FINISH;
                                 finishEvent.animationEvent.component = this;
                                 sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                             }

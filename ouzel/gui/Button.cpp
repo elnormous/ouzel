@@ -114,22 +114,22 @@ namespace ouzel
 
             if (event.node == this)
             {
-                if (type == Event::Type::ENTER_NODE)
+                if (type == Event::Type::NODE_ENTER)
                 {
                     pointerOver = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::LEAVE_NODE)
+                else if (type == Event::Type::NODE_LEAVE)
                 {
                     pointerOver = false;
                     updateSprite();
                 }
-                else if (type == Event::Type::PRESS_NODE)
+                else if (type == Event::Type::NODE_PRESS)
                 {
                     pressed = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::RELEASE_NODE)
+                else if (type == Event::Type::NODE_RELEASE)
                 {
                     if (pressed)
                     {
@@ -137,7 +137,7 @@ namespace ouzel
                         updateSprite();
                     }
                 }
-                else if (type == Event::Type::CLICK_NODE)
+                else if (type == Event::Type::NODE_CLICK)
                 {
                     if (pressed)
                     {

@@ -73,7 +73,7 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event)
 {
-    if (type == Event::Type::CLICK_NODE)
+    if (type == Event::Type::NODE_CLICK)
     {
         if (event.node == &backButton)
         {

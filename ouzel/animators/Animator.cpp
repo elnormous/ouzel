@@ -43,7 +43,7 @@ namespace ouzel
                     currentTime = length;
 
                     Event finishEvent;
-                    finishEvent.type = Event::Type::FINISH;
+                    finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
                     sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                 }

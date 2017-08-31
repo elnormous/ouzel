@@ -78,7 +78,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::CLICK_NODE)
+    if (type == Event::Type::NODE_CLICK)
     {
         if (event.node == &backButton)
         {

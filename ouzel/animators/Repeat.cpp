@@ -43,7 +43,7 @@ namespace ouzel
                     animators[0]->setProgress(remainingTime / animators[0]->getLength());
 
                     Event resetEvent;
-                    resetEvent.type = Event::Type::RESET;
+                    resetEvent.type = Event::Type::ANIMATION_RESET;
                     resetEvent.animationEvent.component = this;
                     sharedEngine->getEventDispatcher()->postEvent(resetEvent);
                 }
@@ -55,7 +55,7 @@ namespace ouzel
                     progress = 1.0f;
 
                     Event finishEvent;
-                    finishEvent.type = Event::Type::FINISH;
+                    finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
                     sharedEngine->getEventDispatcher()->postEvent(finishEvent);
                 }

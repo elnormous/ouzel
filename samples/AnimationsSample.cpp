@@ -130,7 +130,7 @@ bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::CLICK_NODE && event.node == &backButton)
+    if (type == Event::Type::NODE_CLICK && event.node == &backButton)
     {
         sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }

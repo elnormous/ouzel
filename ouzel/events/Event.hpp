@@ -148,17 +148,17 @@ namespace ouzel
             OPEN_FILE,
 
             // UI events
-            ENTER_NODE, // mouse or touch entered the scene node
-            LEAVE_NODE, // mouse or touch left the scene node
-            PRESS_NODE, // mouse or touch pressed on scene node
-            RELEASE_NODE,  // mouse or touch released on scene node
-            CLICK_NODE, // mouse or touch clicked on scene node
-            DRAG_NODE, // mouse or touch dragged scene node
+            NODE_ENTER, // mouse or touch entered the scene node
+            NODE_LEAVE, // mouse or touch left the scene node
+            NODE_PRESS, // mouse or touch pressed on scene node
+            NODE_RELEASE,  // mouse or touch released on scene node
+            NODE_CLICK, // mouse or touch clicked on scene node
+            NODE_DRAG, // mouse or touch dragged scene node
             WIDGET_CHANGE, // widget changed its value
 
             // animation events
-            RESET, // animation has reset
-            FINISH, // animation has finished
+            ANIMATION_RESET, // animation has reset
+            ANIMATION_FINISH, // animation has finished
 
             USER // user defined event
         };

@@ -194,7 +194,7 @@ namespace ouzel
                         if (selectedWidget)
                         {
                             Event clickEvent;
-                            clickEvent.type = Event::Type::CLICK_NODE;
+                            clickEvent.type = Event::Type::NODE_CLICK;
 
                             clickEvent.uiEvent.node = selectedWidget;
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
@@ -244,7 +244,7 @@ namespace ouzel
                         selectedWidget)
                     {
                         Event clickEvent;
-                        clickEvent.type = Event::Type::CLICK_NODE;
+                        clickEvent.type = Event::Type::NODE_CLICK;
 
                         clickEvent.uiEvent.node = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
@@ -262,7 +262,7 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (type == Event::Type::ENTER_NODE)
+            if (type == Event::Type::NODE_ENTER)
             {
                 if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
                 {
