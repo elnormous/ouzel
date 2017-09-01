@@ -303,6 +303,14 @@ namespace ouzel
                     active = true;
                     sharedEngine->scheduleUpdate(&updateCallback);
                 }
+
+                if (particleCount == 0)
+                {
+                    Event startEvent;
+                    startEvent.type = Event::Type::ANIMATION_START;
+                    startEvent.animationEvent.component = this;
+                    sharedEngine->getEventDispatcher()->postEvent(startEvent);
+                }
             }
         }
 

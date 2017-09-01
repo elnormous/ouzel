@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include "audio/Sound.hpp"
 #include "scene/Node.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
@@ -100,6 +101,11 @@ namespace ouzel
         scene::Component* component;
     };
 
+    struct SoundEvent
+    {
+        audio::Sound* sound;
+    };
+
     struct UserEvent
     {
         std::vector<std::string> parameters;
@@ -157,8 +163,14 @@ namespace ouzel
             WIDGET_CHANGE, // widget changed its value
 
             // animation events
+            ANIMATION_START, // animation has started
             ANIMATION_RESET, // animation has reset
             ANIMATION_FINISH, // animation has finished
+
+            // sound events
+            SOUND_START,
+            SOUND_RESET,
+            SOUND_FINISH,
 
             USER // user defined event
         };
@@ -173,6 +185,7 @@ namespace ouzel
         SystemEvent systemEvent;
         UIEvent uiEvent;
         AnimationEvent animationEvent;
+        SoundEvent soundEvent;
         UserEvent userEvent;
     };
 }

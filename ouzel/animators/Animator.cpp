@@ -65,6 +65,11 @@ namespace ouzel
         {
             sharedEngine->scheduleUpdate(&updateCallback);
             play();
+
+            Event startEvent;
+            startEvent.type = Event::Type::ANIMATION_START;
+            startEvent.animationEvent.component = this;
+            sharedEngine->getEventDispatcher()->postEvent(startEvent);
         }
 
         void Animator::play()

@@ -30,6 +30,7 @@ namespace ouzel
         std::function<bool(Event::Type, const SystemEvent&)> systemHandler;
         std::function<bool(Event::Type, const UIEvent&)> uiHandler;
         std::function<bool(Event::Type, const AnimationEvent&)> animationHandler;
+        std::function<bool(Event::Type, const SoundEvent&)> soundHandler;
         std::function<bool(Event::Type, const UserEvent&)> userHandler;
 
     protected:

@@ -150,11 +150,20 @@ namespace ouzel
                                 propagate = eventHandler->uiHandler(event.type, event.uiEvent);
                             }
                             break;
+                        case Event::Type::ANIMATION_START:
                         case Event::Type::ANIMATION_RESET:
                         case Event::Type::ANIMATION_FINISH:
                             if (eventHandler->animationHandler)
                             {
                                 propagate = eventHandler->animationHandler(event.type, event.animationEvent);
+                            }
+                            break;
+                        case Event::Type::SOUND_START:
+                        case Event::Type::SOUND_RESET:
+                        case Event::Type::SOUND_FINISH:
+                            if (eventHandler->soundHandler)
+                            {
+                                propagate = eventHandler->soundHandler(event.type, event.soundEvent);
                             }
                             break;
                         case Event::Type::USER:
