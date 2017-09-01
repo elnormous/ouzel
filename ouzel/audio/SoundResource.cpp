@@ -1,15 +1,19 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cmath>
 #include "SoundResource.hpp"
+#include "AudioDevice.hpp"
 #include "SoundData.hpp"
 #include "Stream.hpp"
+#include "math/MathUtils.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        SoundResource::SoundResource()
+        SoundResource::SoundResource(AudioDevice* aAudioDevice):
+            audioDevice(aAudioDevice)
         {
         }
 
@@ -43,6 +47,21 @@ namespace ouzel
         void SoundResource::setGain(float newGain)
         {
             gain = newGain;
+        }
+
+        void SoundResource::setRolloffFactor(float newRolloffFactor)
+        {
+            rolloffFactor = newRolloffFactor;
+        }
+
+        void SoundResource::setMinDistance(float newMinDistance)
+        {
+            minDistance = newMinDistance;
+        }
+
+        void SoundResource::setMaxDistance(float newMaxDistance)
+        {
+            maxDistance = newMaxDistance;
         }
 
         bool SoundResource::play(bool repeatSound)
@@ -276,7 +295,12 @@ namespace ouzel
                     // TODO: resample
                 }
 
-                std::vector<float> channelVolume(channels, gain);
+
+                Vector3 offset = relativePosition ? position : position - audioDevice->getListenerPosition();
+                float distance = clamp(offset.length(), minDistance, maxDistance);
+                float finalGain = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+
+                std::vector<float> channelVolume(channels, finalGain);
 
                 for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
                 {

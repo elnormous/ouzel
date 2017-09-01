@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cfloat>
 #include <memory>
 #include "math/Vector3.hpp"
 
@@ -21,25 +22,50 @@ namespace ouzel
             Sound();
             virtual ~Sound();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool relativePosition = false);
+            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
-            virtual void setPosition(const Vector3& newPosition);
-            virtual void setPitch(float newPitch);
-            virtual void setGain(float newGain);
+            const Vector3& getPosition() const { return position; }
+            void setPosition(const Vector3& newPosition);
 
-            virtual bool play(bool repeatSound = false);
-            virtual bool pause();
-            virtual bool stop();
+            float getPitch() const { return pitch; }
+            void setPitch(float newPitch);
 
-            bool isRepeating() const;
+            float getGain() const { return gain; }
+            void setGain(float newGain);
+
+            float getRolloffFactor() const { return rolloffFactor; }
+            void setRolloffFactor(float newRolloffFactor);
+
+            float getMinDistance() { return minDistance; }
+            void setMinDistance(float newMinDistance);
+
+            float getMaxDistance() { return maxDistance; }
+            void setMaxDistance(float newMaxDistance);
+
+            bool play(bool repeatSound = false);
+            bool pause();
+            bool stop();
+
+            bool isRepeating() const { return repeating; }
+
+            bool isRelativePosition() const { return relativePosition; }
+            void setRelativePosition(bool newRelativePosition);
 
         protected:
             SoundResource* resource = nullptr;
 
             std::shared_ptr<SoundData> soundData;
             bool repeating = false;
+            bool relativePosition = false;
+
+            Vector3 position;
+            float pitch = 1.0f;
+            float gain = 1.0f;
+            float rolloffFactor = 1.0f;
+            float minDistance = 1.0f;
+            float maxDistance = FLT_MAX;
         };
     } // namespace audio
 } // namespace ouzel

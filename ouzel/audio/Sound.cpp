@@ -21,20 +21,23 @@ namespace ouzel
             if (sharedEngine) sharedEngine->getAudio()->getDevice()->deleteResource(resource);
         }
 
-        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool relativePosition)
+        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition)
         {
             soundData = newSoundData;
+            relativePosition = newRelativePosition;
 
             sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::init,
                                                                      resource,
                                                                      newSoundData,
-                                                                     relativePosition));
+                                                                     newRelativePosition));
 
             return true;
         }
 
         void Sound::setPosition(const Vector3& newPosition)
         {
+            position = newPosition;
+
             sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setPosition,
                                                                      resource,
                                                                      newPosition));
@@ -42,6 +45,8 @@ namespace ouzel
 
         void Sound::setPitch(float newPitch)
         {
+            pitch = newPitch;
+
             sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setPitch,
                                                                      resource,
                                                                      newPitch));
@@ -49,9 +54,38 @@ namespace ouzel
 
         void Sound::setGain(float newGain)
         {
+            gain = newGain;
+
             sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setGain,
                                                                      resource,
                                                                      newGain));
+        }
+
+        void Sound::setRolloffFactor(float newRolloffFactor)
+        {
+            rolloffFactor = newRolloffFactor;
+
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setGain,
+                                                                     resource,
+                                                                     newRolloffFactor));
+        }
+
+        void Sound::setMinDistance(float newMinDistance)
+        {
+            minDistance = newMinDistance;
+
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setMinDistance,
+                                                                     resource,
+                                                                     newMinDistance));
+        }
+
+        void Sound::setMaxDistance(float newMaxDistance)
+        {
+            maxDistance = newMaxDistance;
+
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setMaxDistance,
+                                                                     resource,
+                                                                     newMaxDistance));
         }
 
         bool Sound::play(bool repeatSound)
@@ -80,9 +114,13 @@ namespace ouzel
             return true;
         }
 
-        bool Sound::isRepeating() const
+        void Sound::setRelativePosition(bool newRelativePosition)
         {
-            return repeating;
+            relativePosition = newRelativePosition;
+
+            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setRelativePosition,
+                                                                     resource,
+                                                                     newRelativePosition));
         }
     } // namespace audio
 } // namespace ouzel

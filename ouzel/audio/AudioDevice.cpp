@@ -116,7 +116,7 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundResource();
+            SoundResource* sound = new SoundResource(this);
             resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }

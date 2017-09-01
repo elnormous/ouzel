@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cfloat>
 #include <memory>
 #include <vector>
 #include "utils/Noncopyable.hpp"
@@ -13,6 +14,7 @@ namespace ouzel
     namespace audio
     {
         class Audio;
+        class AudioDevice;
         class SoundData;
         class Stream;
         
@@ -20,24 +22,32 @@ namespace ouzel
         {
             friend Audio;
         public:
-            SoundResource();
+            SoundResource(AudioDevice* aAudioDevice);
             virtual ~SoundResource();
 
             virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
 
-            virtual void setPosition(const Vector3& newPosition);
-            virtual void setPitch(float newPitch);
-            virtual void setGain(float newGain);
+            void setPosition(const Vector3& newPosition);
+            void setPitch(float newPitch);
+            void setGain(float newGain);
+            void setRolloffFactor(float newRolloffFactor);
+            void setMinDistance(float newMinDistance);
+            void setMaxDistance(float newMaxDistance);
 
-            virtual bool play(bool repeatSound = false);
-            virtual bool pause();
-            virtual bool stop();
+            bool play(bool repeatSound = false);
+            bool pause();
+            bool stop();
 
             bool isRepeating() const { return repeat; }
+
+            bool isRelativePosition() const { return relativePosition; }
+            void setRelativePosition(bool newRelativePosition) { relativePosition = newRelativePosition; }
 
             bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
 
         protected:
+            AudioDevice* audioDevice;
+
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
             bool relativePosition = false;
@@ -48,6 +58,9 @@ namespace ouzel
             Vector3 position;
             float pitch = 1.0f;
             float gain = 1.0f;
+            float rolloffFactor = 1.0f;
+            float minDistance = 1.0f;
+            float maxDistance = FLT_MAX;
 
             std::vector<float> data;
         };

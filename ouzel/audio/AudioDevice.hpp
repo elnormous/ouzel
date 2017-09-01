@@ -27,7 +27,10 @@ namespace ouzel
             virtual SoundResource* createSound();
             virtual void deleteResource(SoundResource* resource);
 
+            const Vector3& getListenerPosition() const { return listenerPosition; }
             void setListenerPosition(const Vector3& newPosition);
+
+            const Quaternion& getListenerRotation() const { return listenerRotation; }
             void setListenerRotation(const Quaternion& newRotation);
 
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
