@@ -38,14 +38,25 @@ namespace ouzel
 
             enum Channel
             {
-                CHANNEL_FRONT_LEFT = 0,
-                CHANNEL_FRONT_RIGHT = 1,
-                CHANNEL_CENTER = 2,
-                CHANNEL_LFE = 3,
-                CHANNEL_BACK_LEFT = 4,
-                CHANNEL_BACK_RIGHT = 5,
-                CHANNEL_SIDE_LEFT = 6,
-                CHANNEL_SIDE_RIGHT = 7
+                FRONT_LEFT = 0,
+                FRONT_RIGHT = 1,
+                CENTER = 2,
+                LFE = 3,
+                BACK_LEFT = 4,
+                BACK_RIGHT = 5,
+                SIDE_LEFT = 6,
+                SIDE_RIGHT = 7
+            };
+
+            enum ChannelConfiguration
+            {
+                MONO,
+                STEREO,
+                QUAD,
+                SURROUND51,
+                SURROUND51_REAR,
+                SURROUND61,
+                SURROUND71
             };
 
             enum class Format
