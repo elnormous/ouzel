@@ -295,10 +295,11 @@ namespace ouzel
                     // TODO: resample
                 }
 
-
                 Vector3 offset = relativePosition ? position : position - audioDevice->getListenerPosition();
                 float distance = clamp(offset.length(), minDistance, maxDistance);
-                float finalGain = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+                float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+
+                std::vector<float> channelVolume(channels, gain * attenuation);
 
                 std::vector<float> channelVolume(channels, finalGain);
 
