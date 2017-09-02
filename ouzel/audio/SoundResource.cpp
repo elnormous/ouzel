@@ -301,7 +301,6 @@ namespace ouzel
 
                 std::vector<float> channelVolume(channels, gain * attenuation);
 
-                std::vector<float> channelVolume(channels, finalGain);
 
                 for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
                 {
