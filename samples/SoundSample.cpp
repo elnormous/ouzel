@@ -28,7 +28,7 @@ SoundSample::SoundSample():
 
     jumpSound.reset(new audio::Sound());
     jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
-    jumpSound->setPosition(Vector3(10.0f, 0.0f, 10.0f));
+    jumpSound->setPosition(Vector3(4.0f, 0.0f, 10.0f));
 
     ambientSound.reset(new audio::Sound());
     ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"));

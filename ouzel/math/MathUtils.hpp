@@ -22,6 +22,7 @@ namespace ouzel
     const float LOG2E = 1.442695040888963387f;
     const float PIX2 = 6.28318530717958647693f;
     const float EPSILON = 0.000001f;
+    const float SQRT2 = 1.4142135623730950488f;
 
     inline float lerp(float v0, float v1, float t)
     {

@@ -301,6 +301,17 @@ namespace ouzel
 
                 std::vector<float> channelVolume(channels, gain * attenuation);
 
+                if (channelVolume.size() > 1)
+                {
+                    Quaternion inverseRotation = -audioDevice->getListenerRotation();
+                    Vector3 relative = inverseRotation * offset;
+                    relative.normalize();
+                    float angle = atan2f(relative.x, relative.z);
+
+                    // constant power panning
+                    channelVolume[0] = SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
+                    channelVolume[1] = SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
+                }
 
                 for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
                 {
