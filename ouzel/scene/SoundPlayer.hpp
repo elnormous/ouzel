@@ -34,6 +34,8 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
+            const std::shared_ptr<audio::Sound>& getSound() const { return sound; }
+
         protected:
             std::shared_ptr<audio::Sound> sound;
             std::shared_ptr<audio::SoundData> soundData;
