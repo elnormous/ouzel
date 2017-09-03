@@ -23,6 +23,17 @@ namespace ouzel
             bool init(const std::shared_ptr<audio::SoundData>& newSoundData);
             bool init(const std::string& filename);
 
+            virtual void draw(const Matrix4& transformMatrix,
+                              float opacity,
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest,
+                              bool wireframe,
+                              bool scissorTest,
+                              const Rectangle& scissorRectangle) override;
+
         protected:
             std::shared_ptr<audio::Sound> sound;
             std::shared_ptr<audio::SoundData> soundData;

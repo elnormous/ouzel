@@ -51,5 +51,30 @@ namespace ouzel
 
             return true;
         }
+
+        void SoundPlayer::draw(const Matrix4& transformMatrix,
+                               float opacity,
+                               const Matrix4& renderViewProjection,
+                               const std::shared_ptr<graphics::Texture>& renderTarget,
+                               const Rectangle& renderViewport,
+                               bool depthWrite,
+                               bool depthTest,
+                               bool wireframe,
+                               bool scissorTest,
+                               const Rectangle& scissorRectangle)
+        {
+            Component::draw(transformMatrix,
+                            opacity,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest,
+                            wireframe,
+                            scissorTest,
+                            scissorRectangle);
+
+            if (sound) sound->setPosition(transformMatrix.getTranslation());
+        }
     } // namespace scene
 } // namespace ouzel
