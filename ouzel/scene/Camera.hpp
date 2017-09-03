@@ -4,7 +4,7 @@
 #pragma once
 
 #include <memory>
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 #include "math/Rectangle.hpp"
 #include "graphics/Texture.hpp"
@@ -15,7 +15,7 @@ namespace ouzel
     {
         class Layer;
 
-        class Camera: public Node
+        class Camera: public Actor
         {
             friend Layer;
         public:

@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <vector>
-#include "scene/NodeContainer.hpp"
+#include "scene/ActorContainer.hpp"
 #include "core/UpdateCallback.hpp"
 #include "math/Box3.hpp"
 #include "math/Color.hpp"
@@ -22,15 +22,15 @@ namespace ouzel
         class Component;
         class Layer;
 
-        class Node: public NodeContainer
+        class Actor: public ActorContainer
         {
-            friend NodeContainer;
+            friend ActorContainer;
             friend Layer;
         public:
-            Node();
-            virtual ~Node();
+            Actor();
+            virtual ~Actor();
 
-            virtual void visit(std::vector<Node*>& drawQueue,
+            virtual void visit(std::vector<Actor*>& drawQueue,
                                const Matrix4& newParentTransform,
                                bool parentTransformDirty,
                                Camera* camera,
@@ -114,7 +114,7 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            NodeContainer* getParent() const { return parent; }
+            ActorContainer* getParent() const { return parent; }
             void removeFromParent();
 
             void addComponent(Component* component)
@@ -150,7 +150,7 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            virtual void addChildNode(Node* node) override;
+            virtual void addChildActor(Actor* actor) override;
             void addChildComponent(Component* component);
             bool removeChildComponent(Component* component);
 
@@ -184,7 +184,7 @@ namespace ouzel
             int32_t order = 0;
             int32_t worldOrder = 0;
 
-            NodeContainer* parent = nullptr;
+            ActorContainer* parent = nullptr;
 
             std::vector<Component*> components;
             std::vector<std::unique_ptr<Component>> ownedComponents;

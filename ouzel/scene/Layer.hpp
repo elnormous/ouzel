@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "scene/NodeContainer.hpp"
+#include "scene/ActorContainer.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -13,10 +13,10 @@ namespace ouzel
     namespace scene
     {
         class Scene;
-        class Node;
+        class Actor;
         class Camera;
 
-        class Layer: public NodeContainer
+        class Layer: public ActorContainer
         {
             friend Scene;
             friend Camera;
@@ -28,9 +28,9 @@ namespace ouzel
 
             const std::vector<Camera*>& getCameras() const { return cameras; }
 
-            std::pair<Node*, ouzel::Vector3> pickNode(const Vector2& position, bool renderTargets = false) const;
-            std::vector<std::pair<Node*, ouzel::Vector3>> pickNodes(const Vector2& position, bool renderTargets = false) const;
-            std::vector<Node*> pickNodes(const std::vector<Vector2>& edges, bool renderTargets = false) const;
+            std::pair<Actor*, ouzel::Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
+            std::vector<std::pair<Actor*, ouzel::Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
+            std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
             int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
@@ -39,7 +39,7 @@ namespace ouzel
             void removeFromScene();
 
         protected:
-            virtual void addChildNode(Node* node) override;
+            virtual void addChildActor(Actor* actor) override;
 
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);

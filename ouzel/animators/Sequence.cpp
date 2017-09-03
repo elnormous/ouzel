@@ -33,13 +33,13 @@ namespace ouzel
             done = false;
             running = true;
 
-            targetNode = node;
+            targetActor = actor;
 
-            if (!targetNode)
+            if (!targetActor)
             {
                 if (parent)
                 {
-                    targetNode = parent->getTargetNode();
+                    targetActor = parent->getTargetActor();
                 }
             }
 

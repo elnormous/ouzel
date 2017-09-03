@@ -12,11 +12,11 @@ namespace ouzel
 {
     namespace scene
     {
-        class Node;
+        class Actor;
 
         class Animator: public Component
         {
-            friend Node;
+            friend Actor;
         public:
             Animator(float aLength);
             virtual ~Animator();
@@ -39,7 +39,7 @@ namespace ouzel
             float getProgress() const { return progress; }
             virtual void setProgress(float newProgress);
 
-            Node* getTargetNode() const { return targetNode; }
+            Actor* getTargetActor() const { return targetActor; }
 
             void addAnimator(Animator* animator)
             {
@@ -81,7 +81,7 @@ namespace ouzel
             bool running = false;
 
             Animator* parent = nullptr;
-            Node* targetNode = nullptr;
+            Actor* targetActor = nullptr;
 
             UpdateCallback updateCallback;
 

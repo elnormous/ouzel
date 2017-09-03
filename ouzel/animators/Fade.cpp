@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Fade.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (targetActor)
             {
-                startOpacity = targetNode->getOpacity();
+                startOpacity = targetActor->getOpacity();
                 targetOpacity = relative ? startOpacity + opacity : opacity;
 
                 diff = targetOpacity - startOpacity;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (targetActor)
             {
-                targetNode->setOpacity(startOpacity + (diff * progress));
+                targetActor->setOpacity(startOpacity + (diff * progress));
             }
         }
     } // namespace scene

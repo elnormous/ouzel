@@ -235,9 +235,9 @@ namespace ouzel
                 if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE ||
                     particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                 {
-                    if (node)
+                    if (actor)
                     {
-                        const Matrix4& inverseTransform = node->getInverseTransform();
+                        const Matrix4& inverseTransform = actor->getInverseTransform();
 
                         for (uint32_t i = 0; i < particleCount; i++)
                         {
@@ -364,7 +364,7 @@ namespace ouzel
 
         bool ParticleSystem::updateParticleMesh()
         {
-            if (node)
+            if (actor)
             {
                 for (uint32_t counter = particleCount; counter > 0; --counter)
                 {
@@ -378,7 +378,7 @@ namespace ouzel
                     }
                     else if (particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                     {
-                        position = node->getPosition() + particles[i].position;
+                        position = actor->getPosition() + particles[i].position;
                     }
 
                     float size_2 = particles[i].size / 2.0f;
@@ -430,17 +430,17 @@ namespace ouzel
 
             if (count)
             {
-                if (node)
+                if (actor)
                 {
                     Vector2 position;
 
                     if (particleDefinition.positionType == ParticleDefinition::PositionType::FREE)
                     {
-                        position = node->convertLocalToWorld(Vector2::ZERO);
+                        position = actor->convertLocalToWorld(Vector2::ZERO);
                     }
                     else if (particleDefinition.positionType == ParticleDefinition::PositionType::PARENT)
                     {
-                        position = node->convertLocalToWorld(Vector2::ZERO) - node->getPosition();
+                        position = actor->convertLocalToWorld(Vector2::ZERO) - actor->getPosition();
                     }
 
                     for (uint32_t i = particleCount; i < particleCount + count; ++i)

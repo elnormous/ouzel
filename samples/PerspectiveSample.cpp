@@ -39,7 +39,7 @@ PerspectiveSample::PerspectiveSample():
     floorSprite->init("floor.jpg");
     floorSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
 
-    floor.reset(new scene::Node());
+    floor.reset(new scene::Actor());
     floor->addComponent(floorSprite.get());
     layer.addChild(floor.get());
     floor->setPosition(Vector2(0.0f, -50.0f));
@@ -52,7 +52,7 @@ PerspectiveSample::PerspectiveSample():
     characterSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
     characterSprite->getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 
-    character.reset(new scene::Node());
+    character.reset(new scene::Actor());
     character->addComponent(characterSprite.get());
     layer.addChild(character.get());
     character->setPosition(Vector2(10.0f, 0.0f));
@@ -81,9 +81,9 @@ PerspectiveSample::PerspectiveSample():
 
 bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event)
 {
-    if (type == Event::Type::NODE_CLICK)
+    if (type == Event::Type::ACTOR_CLICK)
     {
-        if (event.node == &backButton)
+        if (event.actor == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }

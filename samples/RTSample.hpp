@@ -22,10 +22,10 @@ private:
     std::unique_ptr<ouzel::scene::Camera> camera2;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Node> rtCharacter;
+    std::unique_ptr<ouzel::scene::Actor> rtCharacter;
 
     std::unique_ptr<ouzel::scene::Sprite> rtSprite;
-    std::unique_ptr<ouzel::scene::Node> rtNode;
+    std::unique_ptr<ouzel::scene::Actor> rtActor;
 
     ouzel::EventHandler eventHandler;
 

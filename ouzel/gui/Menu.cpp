@@ -72,24 +72,24 @@ namespace ouzel
             }
         }
 
-        bool Menu::removeChildNode(Node* node)
+        bool Menu::removeChildActor(Actor* actor)
         {
-            auto i = std::find(widgets.begin(), widgets.end(), node);
+            auto i = std::find(widgets.begin(), widgets.end(), actor);
 
             if (i != widgets.end())
             {
                 widgets.erase(i);
 
-                Widget* widget = static_cast<Widget*>(node);
+                Widget* widget = static_cast<Widget*>(actor);
                 widget->menu = nullptr;
             }
 
-            if (selectedWidget == node)
+            if (selectedWidget == actor)
             {
                 selectWidget(nullptr);
             }
 
-            if (!Node::removeChildNode(node))
+            if (!Actor::removeChildActor(actor))
             {
                 return false;
             }
@@ -194,9 +194,9 @@ namespace ouzel
                         if (selectedWidget)
                         {
                             Event clickEvent;
-                            clickEvent.type = Event::Type::NODE_CLICK;
+                            clickEvent.type = Event::Type::ACTOR_CLICK;
 
-                            clickEvent.uiEvent.node = selectedWidget;
+                            clickEvent.uiEvent.actor = selectedWidget;
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                             sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -244,9 +244,9 @@ namespace ouzel
                         selectedWidget)
                     {
                         Event clickEvent;
-                        clickEvent.type = Event::Type::NODE_CLICK;
+                        clickEvent.type = Event::Type::ACTOR_CLICK;
 
-                        clickEvent.uiEvent.node = selectedWidget;
+                        clickEvent.uiEvent.actor = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
                         sharedEngine->getEventDispatcher()->postEvent(clickEvent);
@@ -262,11 +262,11 @@ namespace ouzel
         {
             if (!enabled) return true;
 
-            if (type == Event::Type::NODE_ENTER)
+            if (type == Event::Type::ACTOR_ENTER)
             {
-                if (std::find(widgets.begin(), widgets.end(), event.node) != widgets.end())
+                if (std::find(widgets.begin(), widgets.end(), event.actor) != widgets.end())
                 {
-                    selectWidget(static_cast<Widget*>(event.node));
+                    selectWidget(static_cast<Widget*>(event.actor));
                 }
             }
 

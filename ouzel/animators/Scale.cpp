@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Scale.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (targetActor)
             {
-                startScale = targetNode->getScale();
+                startScale = targetActor->getScale();
                 targetScale = relative ? startScale + scale : scale;
 
                 diff = targetScale - startScale;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (targetActor)
             {
-                targetNode->setScale(startScale + (diff * progress));
+                targetActor->setScale(startScale + (diff * progress));
             }
         }
     } // namespace scene

@@ -37,7 +37,7 @@ namespace ouzel
 
         protected:
             virtual void addChildWidget(Widget* widget);
-            virtual bool removeChildNode(Node* node) override;
+            virtual bool removeChildActor(Actor* actor) override;
 
             virtual void enter() override;
             virtual void leave() override;

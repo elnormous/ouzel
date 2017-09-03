@@ -41,19 +41,19 @@ AnimationsSample::AnimationsSample():
                             Vector2(25.0f, 55.0f)},
                            Color("#ff0000"), false);
 
-    drawNode.reset(new scene::Node());
-    drawNode->addComponent(shapeDrawable.get());
-    drawNode->setPosition(Vector2(-300, 0.0f));
-    layer.addChild(drawNode.get());
+    drawActor.reset(new scene::Actor());
+    drawActor->addComponent(shapeDrawable.get());
+    drawActor->setPosition(Vector2(-300, 0.0f));
+    layer.addChild(drawActor.get());
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
-    drawNode->addComponent(shake.get());
+    drawActor->addComponent(shake.get());
     shake->start();
 
     witchSprite.reset(new scene::Sprite());
     witchSprite->init("witch.png");
 
-    witch.reset(new scene::Node());
+    witch.reset(new scene::Actor());
     witch->setPosition(Vector2(200, 0.0f));
     witch->addComponent(witchSprite.get());
     layer.addChild(witch.get());
@@ -84,7 +84,7 @@ AnimationsSample::AnimationsSample():
     ballSprite.reset(new scene::Sprite());
     ballSprite->init("ball.png");
 
-    ball.reset(new scene::Node());
+    ball.reset(new scene::Actor());
     ball->addComponent(ballSprite.get());
     layer.addChild(ball.get());
 
@@ -130,7 +130,7 @@ bool AnimationsSample::handleGamepad(Event::Type type, const GamepadEvent& event
 
 bool AnimationsSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::NODE_CLICK && event.node == &backButton)
+    if (type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
     {
         sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Move.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (targetActor)
             {
-                startPosition = targetNode->getPosition();
+                startPosition = targetActor->getPosition();
                 targetPosition = relative ? startPosition + position : position;
 
                 diff = targetPosition - startPosition;
@@ -30,9 +30,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (targetActor)
             {
-                targetNode->setPosition(startPosition + (diff * progress));
+                targetActor->setPosition(startPosition + (diff * progress));
             }
         }
     } // namespace scene

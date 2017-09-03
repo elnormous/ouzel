@@ -120,12 +120,12 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/math/Vector3.cpp \
 	$(ROOT_DIR)/../ouzel/math/Vector4.cpp \
 	$(ROOT_DIR)/../ouzel/network/Network.cpp \
+	$(ROOT_DIR)/../ouzel/scene/Actor.cpp \
+	$(ROOT_DIR)/../ouzel/scene/ActorContainer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/MeshRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/scene/Node.cpp \
-	$(ROOT_DIR)/../ouzel/scene/NodeContainer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleDefinition.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \

@@ -73,17 +73,17 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool GUISample::handleUI(Event::Type type, const UIEvent& event)
 {
-    if (type == Event::Type::NODE_CLICK)
+    if (type == Event::Type::ACTOR_CLICK)
     {
-        if (event.node == &backButton)
+        if (event.actor == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == &button)
+        else if (event.actor == &button)
         {
             checkBox.setChecked(!checkBox.isChecked());
         }
-        else if (event.node == &fullscreenButton)
+        else if (event.actor == &fullscreenButton)
         {
             bool fullscreen = ouzel::sharedEngine->getWindow()->isFullscreen();
             ouzel::sharedEngine->getWindow()->setFullscreen(!fullscreen);

@@ -31,7 +31,7 @@ InputSample::InputSample():
     flameParticleSystem.reset(new scene::ParticleSystem());
     flameParticleSystem->init("flame.json");
 
-    flame.reset(new scene::Node());
+    flame.reset(new scene::Actor());
     flame->addComponent(flameParticleSystem.get());
     flame->setPickable(false);
     layer.addChild(flame.get());
@@ -177,14 +177,14 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::NODE_CLICK)
+    if (type == Event::Type::ACTOR_CLICK)
     {
-        if (event.node == &backButton)
+        if (event.actor == &backButton)
         {
             sharedEngine->getInput()->setCursorVisible(true);
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == &hideButton)
+        else if (event.actor == &hideButton)
         {
             sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
         }

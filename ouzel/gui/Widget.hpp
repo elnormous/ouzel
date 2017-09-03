@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -11,7 +11,7 @@ namespace ouzel
     {
         class Menu;
 
-        class Widget: public scene::Node
+        class Widget: public scene::Actor
         {
             friend Menu;
         public:

@@ -3,7 +3,7 @@
 
 #include <limits>
 #include "Shake.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 #include "utils/Utils.hpp"
 
@@ -23,9 +23,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (targetActor)
             {
-                startPosition = targetNode->getPosition();
+                startPosition = targetActor->getPosition();
             }
         }
 
@@ -33,7 +33,7 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (targetActor)
             {
                 float x = length * progress * timeScale;
 
@@ -62,7 +62,7 @@ namespace ouzel
                               smoothStep(previousPosition.y, nextPosition.y, t),
                               smoothStep(previousPosition.z, nextPosition.z, t));
 
-                targetNode->setPosition(startPosition + noise);
+                targetActor->setPosition(startPosition + noise);
             }
         }
     } // namespace scene

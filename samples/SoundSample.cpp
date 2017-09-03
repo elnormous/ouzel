@@ -81,29 +81,29 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::NODE_CLICK)
+    if (type == Event::Type::ACTOR_CLICK)
     {
-        if (event.node == &backButton)
+        if (event.actor == &backButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
-        else if (event.node == &test8BitButton)
+        else if (event.actor == &test8BitButton)
         {
             test8BitSound->play();
         }
-        else if (event.node == &test24BitButton)
+        else if (event.actor == &test24BitButton)
         {
             test24BitSound->play();
         }
-        else if (event.node == &jumpButton)
+        else if (event.actor == &jumpButton)
         {
             jumpSound->play(true);
         }
-        else if (event.node == &ambientButton)
+        else if (event.actor == &ambientButton)
         {
             ambientSound->play();
         }
-        else if (event.node == &musicButton)
+        else if (event.actor == &musicButton)
         {
             music->play();
         }

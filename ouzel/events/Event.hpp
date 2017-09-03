@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 #include "audio/Sound.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
 #include "input/Input.hpp"
@@ -89,7 +89,7 @@ namespace ouzel
 
     struct UIEvent
     {
-        scene::Node* node;
+        scene::Actor* actor;
         uint64_t touchId = 0;
         Vector2 difference;
         Vector2 position;
@@ -154,12 +154,12 @@ namespace ouzel
             OPEN_FILE,
 
             // UI events
-            NODE_ENTER, // mouse or touch entered the scene node
-            NODE_LEAVE, // mouse or touch left the scene node
-            NODE_PRESS, // mouse or touch pressed on scene node
-            NODE_RELEASE,  // mouse or touch released on scene node
-            NODE_CLICK, // mouse or touch clicked on scene node
-            NODE_DRAG, // mouse or touch dragged scene node
+            ACTOR_ENTER, // mouse or touch entered the scene actor
+            ACTOR_LEAVE, // mouse or touch left the scene actor
+            ACTOR_PRESS, // mouse or touch pressed on scene actor
+            ACTOR_RELEASE,  // mouse or touch released on scene actor
+            ACTOR_CLICK, // mouse or touch clicked on scene actor
+            ACTOR_DRAG, // mouse or touch dragged scene actor
             WIDGET_CHANGE, // widget changed its value
 
             // animation events

@@ -117,12 +117,12 @@ namespace ouzel
             }
         }
 
-        std::pair<Node*, ouzel::Vector3> Scene::pickNode(const Vector2& position, bool renderTargets) const
+        std::pair<Actor*, ouzel::Vector3> Scene::pickActor(const Vector2& position, bool renderTargets) const
         {
             for (std::vector<Layer*>::const_reverse_iterator i = layers.rbegin(); i != layers.rend(); ++i)
             {
                 Layer* layer = *i;
-                std::pair<Node*, ouzel::Vector3> result = layer->pickNode(position, renderTargets);
+                std::pair<Actor*, ouzel::Vector3> result = layer->pickActor(position, renderTargets);
 
                 if (result.first)
                 {
@@ -133,29 +133,29 @@ namespace ouzel
             return std::make_pair(nullptr, Vector3());
         }
 
-        std::vector<std::pair<Node*, ouzel::Vector3>> Scene::pickNodes(const Vector2& position, bool renderTargets) const
+        std::vector<std::pair<Actor*, ouzel::Vector3>> Scene::pickActors(const Vector2& position, bool renderTargets) const
         {
-            std::vector<std::pair<Node*, ouzel::Vector3>> result;
+            std::vector<std::pair<Actor*, ouzel::Vector3>> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<std::pair<Node*, ouzel::Vector3>> nodes = (*i)->pickNodes(position, renderTargets);
+                std::vector<std::pair<Actor*, ouzel::Vector3>> actors = (*i)->pickActors(position, renderTargets);
 
-                result.insert(result.end(), nodes.begin(), nodes.end());
+                result.insert(result.end(), actors.begin(), actors.end());
             }
 
             return result;
         }
 
-        std::vector<Node*> Scene::pickNodes(const std::vector<Vector2>& edges, bool renderTargets) const
+        std::vector<Actor*> Scene::pickActors(const std::vector<Vector2>& edges, bool renderTargets) const
         {
-            std::vector<Node*> result;
+            std::vector<Actor*> result;
 
             for (auto i = layers.rbegin(); i != layers.rend(); ++i)
             {
-                std::vector<Node*> nodes = (*i)->pickNodes(edges, renderTargets);
+                std::vector<Actor*> actors = (*i)->pickActors(edges, renderTargets);
 
-                result.insert(result.end(), nodes.begin(), nodes.end());
+                result.insert(result.end(), actors.begin(), actors.end());
             }
 
             return result;
@@ -203,29 +203,29 @@ namespace ouzel
             {
                 case Event::Type::MOUSE_PRESS:
                 {
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerDownOnNode(0, node.first, event.position, node.second);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerDownOnActor(0, actor.first, event.position, actor.second);
                     break;
                 }
                 case Event::Type::MOUSE_RELEASE:
                 {
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerUpOnNode(0, node.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerUpOnActor(0, actor.first, event.position);
                     break;
                 }
                 case Event::Type::MOUSE_MOVE:
                 {
-                    std::pair<Node*, ouzel::Vector3> previousNode = pickNode(event.position - event.difference);
-                    pointerLeaveNode(0, previousNode.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> previousActor = pickActor(event.position - event.difference);
+                    pointerLeaveActor(0, previousActor.first, event.position);
 
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerEnterNode(0, node.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerEnterActor(0, actor.first, event.position);
 
-                    auto i = pointerDownOnNodes.find(0);
+                    auto i = pointerDownOnActors.find(0);
 
-                    if (i != pointerDownOnNodes.end())
+                    if (i != pointerDownOnActors.end())
                     {
-                        pointerDragNode(0, i->second.first, event.position, event.difference, i->second.second);
+                        pointerDragActor(0, i->second.first, event.position, event.difference, i->second.second);
                     }
                     break;
                 }
@@ -242,36 +242,36 @@ namespace ouzel
             {
                 case Event::Type::TOUCH_BEGIN:
                 {
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerDownOnNode(event.touchId, node.first, event.position, node.second);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
                     break;
                 }
                 case Event::Type::TOUCH_END:
                 {
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerUpOnNode(event.touchId, node.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
                 case Event::Type::TOUCH_MOVE:
                 {
-                    std::pair<Node*, ouzel::Vector3> previousNode = pickNode(event.position - event.difference);
-                    pointerLeaveNode(0, previousNode.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> previousActor = pickActor(event.position - event.difference);
+                    pointerLeaveActor(0, previousActor.first, event.position);
 
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerEnterNode(0, node.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerEnterActor(0, actor.first, event.position);
 
-                    auto i = pointerDownOnNodes.find(event.touchId);
+                    auto i = pointerDownOnActors.find(event.touchId);
 
-                    if (i != pointerDownOnNodes.end())
+                    if (i != pointerDownOnActors.end())
                     {
-                        pointerDragNode(event.touchId, i->second.first, event.position, event.difference, i->second.second);
+                        pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
                     }
                     break;
                 }
                 case Event::Type::TOUCH_CANCEL:
                 {
-                    std::pair<Node*, ouzel::Vector3> node = pickNode(event.position);
-                    pointerUpOnNode(event.touchId, node.first, event.position);
+                    std::pair<Actor*, ouzel::Vector3> actor = pickActor(event.position);
+                    pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
                 default:
@@ -281,14 +281,14 @@ namespace ouzel
             return true;
         }
 
-        void Scene::pointerEnterNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerEnterActor(uint64_t pointerId, Actor* actor, const Vector2& position)
         {
-            if (node)
+            if (actor)
             {
                 Event event;
-                event.type = Event::Type::NODE_ENTER;
+                event.type = Event::Type::ACTOR_ENTER;
 
-                event.uiEvent.node = node;
+                event.uiEvent.actor = actor;
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
@@ -296,14 +296,14 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerLeaveNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerLeaveActor(uint64_t pointerId, Actor* actor, const Vector2& position)
         {
-            if (node)
+            if (actor)
             {
                 Event event;
-                event.type = Event::Type::NODE_LEAVE;
+                event.type = Event::Type::ACTOR_LEAVE;
 
-                event.uiEvent.node = node;
+                event.uiEvent.actor = actor;
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
 
@@ -311,16 +311,16 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerDownOnNode(uint64_t pointerId, Node* node, const Vector2& position, const Vector3& localPosition)
+        void Scene::pointerDownOnActor(uint64_t pointerId, Actor* actor, const Vector2& position, const Vector3& localPosition)
         {
-            if (node)
+            if (actor)
             {
-                pointerDownOnNodes[pointerId] = std::make_pair(node, localPosition);
+                pointerDownOnActors[pointerId] = std::make_pair(actor, localPosition);
 
                 Event event;
-                event.type = Event::Type::NODE_PRESS;
+                event.type = Event::Type::ACTOR_PRESS;
 
-                event.uiEvent.node = node;
+                event.uiEvent.actor = actor;
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.position = position;
                 event.uiEvent.localPosition = localPosition;
@@ -329,32 +329,32 @@ namespace ouzel
             }
         }
 
-        void Scene::pointerUpOnNode(uint64_t pointerId, Node* node, const Vector2& position)
+        void Scene::pointerUpOnActor(uint64_t pointerId, Actor* actor, const Vector2& position)
         {
-            auto i = pointerDownOnNodes.find(pointerId);
+            auto i = pointerDownOnActors.find(pointerId);
 
-            if (i != pointerDownOnNodes.end())
+            if (i != pointerDownOnActors.end())
             {
-                auto pointerDownOnNode = i->second;
+                auto pointerDownOnActor = i->second;
 
-                if (pointerDownOnNode.first)
+                if (pointerDownOnActor.first)
                 {
                     Event releaseEvent;
-                    releaseEvent.type = Event::Type::NODE_RELEASE;
+                    releaseEvent.type = Event::Type::ACTOR_RELEASE;
 
-                    releaseEvent.uiEvent.node = pointerDownOnNode.first;
+                    releaseEvent.uiEvent.actor = pointerDownOnActor.first;
                     releaseEvent.uiEvent.touchId = pointerId;
                     releaseEvent.uiEvent.position = position;
-                    releaseEvent.uiEvent.localPosition = pointerDownOnNode.second;
+                    releaseEvent.uiEvent.localPosition = pointerDownOnActor.second;
 
                     sharedEngine->getEventDispatcher()->postEvent(releaseEvent);
 
-                    if (pointerDownOnNode.first == node)
+                    if (pointerDownOnActor.first == actor)
                     {
                         Event clickEvent;
-                        clickEvent.type = Event::Type::NODE_CLICK;
+                        clickEvent.type = Event::Type::ACTOR_CLICK;
 
-                        clickEvent.uiEvent.node = node;
+                        clickEvent.uiEvent.actor = actor;
                         clickEvent.uiEvent.touchId = pointerId;
                         clickEvent.uiEvent.position = position;
 
@@ -363,18 +363,18 @@ namespace ouzel
                 }
             }
 
-            pointerDownOnNodes.erase(pointerId);
+            pointerDownOnActors.erase(pointerId);
         }
 
-        void Scene::pointerDragNode(uint64_t pointerId, Node* node, const Vector2& position,
+        void Scene::pointerDragActor(uint64_t pointerId, Actor* actor, const Vector2& position,
                                     const Vector2& difference, const ouzel::Vector3& localPosition)
         {
-            if (node)
+            if (actor)
             {
                 Event event;
-                event.type = Event::Type::NODE_DRAG;
+                event.type = Event::Type::ACTOR_DRAG;
 
-                event.uiEvent.node = node;
+                event.uiEvent.actor = actor;
                 event.uiEvent.touchId = pointerId;
                 event.uiEvent.difference = difference;
                 event.uiEvent.position = position;

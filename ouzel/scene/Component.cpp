@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Component.hpp"
-#include "Node.hpp"
+#include "Actor.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -16,7 +16,7 @@ namespace ouzel
 
         Component::~Component()
         {
-            if (node) node->removeComponent(this);
+            if (actor) actor->removeComponent(this);
         }
 
         void Component::draw(const Matrix4&,
@@ -97,9 +97,9 @@ namespace ouzel
             return true;
         }
 
-        void Component::removeFromNode()
+        void Component::removeFromActor()
         {
-            if (node) node->removeComponent(this);
+            if (actor) actor->removeComponent(this);
         }
     } // namespace scene
 } // namespace ouzel

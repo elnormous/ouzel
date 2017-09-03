@@ -17,11 +17,11 @@ private:
     ouzel::scene::Camera camera;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Node> character;
+    std::unique_ptr<ouzel::scene::Actor> character;
     std::unique_ptr<ouzel::scene::Sprite> fireSprite;
-    std::unique_ptr<ouzel::scene::Node> fireNode;
+    std::unique_ptr<ouzel::scene::Actor> fireActor;
     std::unique_ptr<ouzel::scene::Sprite> triangleSprite;
-    std::unique_ptr<ouzel::scene::Node> triangleNode;
+    std::unique_ptr<ouzel::scene::Actor> triangleActor;
 
     std::unique_ptr<ouzel::scene::Animator> move;
 

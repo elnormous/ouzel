@@ -115,12 +115,12 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/math/Vector3.cpp \
     ../../ouzel/math/Vector4.cpp \
     ../../ouzel/network/Network.cpp \
+    ../../ouzel/scene/Actor.cpp \
+    ../../ouzel/scene/ActorContainer.cpp \
     ../../ouzel/scene/Camera.cpp \
     ../../ouzel/scene/Component.cpp \
     ../../ouzel/scene/Layer.cpp \
     ../../ouzel/scene/MeshRenderer.cpp \
-    ../../ouzel/scene/Node.cpp \
-    ../../ouzel/scene/NodeContainer.cpp \
     ../../ouzel/scene/ParticleDefinition.cpp \
     ../../ouzel/scene/ParticleSystem.cpp \
     ../../ouzel/scene/Scene.cpp \

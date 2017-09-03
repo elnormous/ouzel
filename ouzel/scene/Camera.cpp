@@ -42,7 +42,7 @@ namespace ouzel
 
         void Camera::setLayer(Layer* newLayer)
         {
-            Node::setLayer(newLayer);
+            Actor::setLayer(newLayer);
 
             if (addedToLayer)
             {
@@ -59,7 +59,7 @@ namespace ouzel
 
         void Camera::calculateTransform() const
         {
-            Node::calculateTransform();
+            Actor::calculateTransform();
 
             viewProjectionDirty = inverseViewProjectionDirty = true;
         }

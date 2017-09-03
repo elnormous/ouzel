@@ -21,10 +21,10 @@ private:
     ouzel::Vector3 cameraRotation;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Node> character;
+    std::unique_ptr<ouzel::scene::Actor> character;
 
     std::unique_ptr<ouzel::scene::Sprite> floorSprite;
-    std::unique_ptr<ouzel::scene::Node> floor;
+    std::unique_ptr<ouzel::scene::Actor> floor;
 
     std::unique_ptr<ouzel::audio::Sound> jumpSound;
 

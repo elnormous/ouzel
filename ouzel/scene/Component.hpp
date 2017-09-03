@@ -17,11 +17,11 @@ namespace ouzel
     namespace scene
     {
         class Camera;
-        class Node;
+        class Actor;
 
         class Component: public Noncopyable
         {
-            friend Node;
+            friend Actor;
         public:
             enum Type
             {
@@ -61,8 +61,8 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
-            Node* getNode() const { return node; }
-            void removeFromNode();
+            Actor* getActor() const { return actor; }
+            void removeFromActor();
 
         protected:
             uint32_t type;
@@ -70,7 +70,7 @@ namespace ouzel
             Box3 boundingBox;
             bool hidden = false;
 
-            Node* node = nullptr;
+            Actor* actor = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

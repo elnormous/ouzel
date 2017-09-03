@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Rotate.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -17,9 +17,9 @@ namespace ouzel
         {
             Animator::play();
 
-            if (targetNode)
+            if (targetActor)
             {
-                startRotation = targetNode->getRotation().getEulerAngles();
+                startRotation = targetActor->getRotation().getEulerAngles();
 
                 targetRotation = relative ? startRotation + rotation : rotation;
 
@@ -31,9 +31,9 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            if (targetNode)
+            if (targetActor)
             {
-                targetNode->setRotation(startRotation + diff * progress);
+                targetActor->setRotation(startRotation + diff * progress);
             }
         }
     } // namespace scene

@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "Animator.hpp"
 #include "core/Engine.hpp"
-#include "scene/Node.hpp"
+#include "scene/Actor.hpp"
 
 namespace ouzel
 {
@@ -78,13 +78,13 @@ namespace ouzel
             done = false;
             running = true;
 
-            targetNode = node;
+            targetActor = actor;
 
-            if (!targetNode)
+            if (!targetActor)
             {
                 if (parent)
                 {
-                    targetNode = parent->getTargetNode();
+                    targetActor = parent->getTargetActor();
                 }
             }
 

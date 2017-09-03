@@ -77,37 +77,37 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 
 bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
 {
-    if (type == Event::Type::NODE_CLICK)
+    if (type == Event::Type::ACTOR_CLICK)
     {
-        if (event.node == &gitHubButton)
+        if (event.actor == &gitHubButton)
         {
             sharedEngine->openURL("https://github.com/elnormous/ouzel");
         }
-        else if (event.node == &spritesButton)
+        else if (event.actor == &spritesButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
         }
-        else if (event.node == &guiButton)
+        else if (event.actor == &guiButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
         }
-        else if (event.node == &renderTargetButton)
+        else if (event.actor == &renderTargetButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
         }
-        else if (event.node == &animationsButton)
+        else if (event.actor == &animationsButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
         }
-        else if (event.node == &inputButton)
+        else if (event.actor == &inputButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
         }
-        else if (event.node == &soundButton)
+        else if (event.actor == &soundButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
         }
-        else if (event.node == &perspectiveButton)
+        else if (event.actor == &perspectiveButton)
         {
             sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
         }

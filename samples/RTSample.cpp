@@ -44,16 +44,16 @@ RTSample::RTSample():
     characterSprite.reset(new ouzel::scene::Sprite("run.json"));
     characterSprite->play(true);
 
-    rtCharacter.reset(new scene::Node());
+    rtCharacter.reset(new scene::Actor());
     rtCharacter->addComponent(characterSprite.get());
 
     rtLayer->addChild(rtCharacter.get());
 
     rtSprite.reset(new scene::Sprite());
     rtSprite->init(renderTarget);
-    rtNode.reset(new scene::Node());
-    rtNode->addComponent(rtSprite.get());
-    layer.addChild(rtNode.get());
+    rtActor.reset(new scene::Actor());
+    rtActor->addComponent(rtSprite.get());
+    layer.addChild(rtActor.get());
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
@@ -83,7 +83,7 @@ bool RTSample::handleGamepad(Event::Type type, const GamepadEvent& event)
 
 bool RTSample::handleUI(Event::Type type, const UIEvent& event) const
 {
-    if (type == Event::Type::NODE_CLICK && event.node == &backButton)
+    if (type == Event::Type::ACTOR_CLICK && event.actor == &backButton)
     {
         sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
     }

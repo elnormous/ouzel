@@ -190,10 +190,10 @@
     <ClCompile Include="..\ouzel\animators\Move.cpp">
       <Filter>ouzel\animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\Node.cpp">
+    <ClCompile Include="..\ouzel\scene\Actor.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\NodeContainer.cpp">
+    <ClCompile Include="..\ouzel\scene\ActorContainer.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\utils\OBF.cpp">
@@ -637,10 +637,10 @@
     <ClInclude Include="..\ouzel\animators\Move.hpp">
       <Filter>ouzel\animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\Node.hpp">
+    <ClInclude Include="..\ouzel\scene\Actor.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\NodeContainer.hpp">
+    <ClInclude Include="..\ouzel\scene\ActorContainer.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\Noncopyable.hpp">
