@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cassert>
 #include "Matrix4.hpp"
+#include "Quaternion.hpp"
 #include "MathUtils.hpp"
 
 namespace ouzel
@@ -1401,5 +1402,36 @@ namespace ouzel
         scale.z = Vector3(m[8], m[9], m[10]).length();
 
         return scale;
+    }
+
+    Quaternion Matrix4::getRotation() const
+    {
+        Vector3 scale = getScale();
+
+        float m11 = m[0] / scale.x;
+        float m21 = m[1] / scale.x;
+        float m31 = m[2] / scale.x;
+
+        float m12 = m[4] / scale.y;
+        float m22 = m[5] / scale.y;
+        float m32 = m[6] / scale.y;
+
+        float m13 = m[8] / scale.z;
+        float m23 = m[9] / scale.z;
+        float m33 = m[10] / scale.z;
+
+        Quaternion result;
+        result.x = sqrtf(std::max(0.0f, 1 + m11 - m22 - m33)) / 2.0f;
+        result.y = sqrtf(std::max(0.0f, 1 - m11 + m22 - m33)) / 2.0f;
+        result.z = sqrtf(std::max(0.0f, 1 - m11 - m22 + m33)) / 2.0f;
+        result.w = sqrtf(std::max(0.0f, 1 + m11 + m22 + m33)) / 2.0f;
+
+        result.x *= sgn(result.x * (m32 - m23));
+        result.y *= sgn(result.y * (m13 - m31));
+        result.z *= sgn(result.z * (m21 - m12));
+
+        result.normalize();
+
+        return result;
     }
 }

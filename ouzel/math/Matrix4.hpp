@@ -14,6 +14,8 @@
 
 namespace ouzel
 {
+    class Quaternion;
+
     class Matrix4
     {
     public:
@@ -202,6 +204,7 @@ namespace ouzel
 
         Vector3 getTranslation() const;
         Vector3 getScale() const;
+        Quaternion getRotation() const;
 
         inline Matrix4 operator+(const Matrix4& matrix) const
         {
