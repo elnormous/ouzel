@@ -43,7 +43,7 @@ Windows Phone platform support is under development.
 * Multiple side-by-side viewport support
 * Bitmap font support
 * XInput, DirectInput, IOKit, and Apple GameController gamepad support
-* Node animation (including tweening) system
+* Actor animation (including tweening) system
 * Particle systems
 * Resource caching system
 * Localization support via loading string translations and UTF-8 string support
@@ -76,7 +76,7 @@ The following code will open create a scene with a sprite in the center of it:
         ouzel::scene::Layer layer;
         ouzel::scene::Camera camera;
         ouzel::scene::Sprite playerSprite;
-        ouzel::scene::Node player;
+        ouzel::scene::Actor player;
     };
 
     void ouzelMain(const std::vector<std::string>& args)
