@@ -25,7 +25,7 @@ namespace ouzel
             SoundResource(AudioDevice* aAudioDevice);
             virtual ~SoundResource();
 
-            virtual bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
+            bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
 
             void setPosition(const Vector3& newPosition);
             void setPitch(float newPitch);
