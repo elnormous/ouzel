@@ -4,12 +4,14 @@
 #pragma once
 
 #include <string>
+#include "math/Matrix3.hpp"
+#include "math/Matrix4.hpp"
+#include "math/Quaternion.hpp"
+#include "math/Size2.hpp"
+#include "math/Size3.hpp"
 #include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
 #include "math/Vector4.hpp"
-#include "math/Size2.hpp"
-#include "math/Size3.hpp"
-#include "math/Quaternion.hpp"
 
 namespace ouzel
 {
@@ -110,34 +112,21 @@ namespace ouzel
             return *this;
         }
 
-        Log& operator<<(const Vector2& val)
+        Log& operator<<(const Matrix3& val)
         {
-            if (level <= threshold)
-            {
-                s += std::to_string(val.x) + "," + std::to_string(val.y);
-            }
+            s += std::to_string(val.m[0]) + "," + std::to_string(val.m[1]) + "," + std::to_string(val.m[2]) + "\n" +
+                std::to_string(val.m[3]) + "," + std::to_string(val.m[4]) + "," + std::to_string(val.m[5]) + "\n" +
+                std::to_string(val.m[6]) + "," + std::to_string(val.m[7]) + "," + std::to_string(val.m[8]);
 
             return *this;
         }
 
-        Log& operator<<(const Vector3& val)
+        Log& operator<<(const Matrix4& val)
         {
-            if (level <= threshold)
-            {
-                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                    std::to_string(val.z);
-            }
-
-            return *this;
-        }
-
-        Log& operator<<(const Vector4& val)
-        {
-            if (level <= threshold)
-            {
-                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
-                    std::to_string(val.z) + "," + std::to_string(val.w);
-            }
+            s += std::to_string(val.m[0]) + "," + std::to_string(val.m[1]) + "," + std::to_string(val.m[2]) + "," + std::to_string(val.m[3]) + "\n" +
+                std::to_string(val.m[4]) + "," + std::to_string(val.m[5]) + "," + std::to_string(val.m[6]) + "," + std::to_string(val.m[7]) + "\n" +
+                std::to_string(val.m[8]) + "," + std::to_string(val.m[9]) + "," + std::to_string(val.m[10]) + "," + std::to_string(val.m[11]) + "\n" +
+                std::to_string(val.m[12]) + "," + std::to_string(val.m[13]) + "," + std::to_string(val.m[14]) + "," + std::to_string(val.m[15]);
 
             return *this;
         }
@@ -169,6 +158,38 @@ namespace ouzel
             {
                 s += std::to_string(val.width) + "," + std::to_string(val.height) + "," +
                     std::to_string(val.depth);
+            }
+
+            return *this;
+        }
+
+        Log& operator<<(const Vector2& val)
+        {
+            if (level <= threshold)
+            {
+                s += std::to_string(val.x) + "," + std::to_string(val.y);
+            }
+
+            return *this;
+        }
+
+        Log& operator<<(const Vector3& val)
+        {
+            if (level <= threshold)
+            {
+                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
+                    std::to_string(val.z);
+            }
+
+            return *this;
+        }
+
+        Log& operator<<(const Vector4& val)
+        {
+            if (level <= threshold)
+            {
+                s += std::to_string(val.x) + "," + std::to_string(val.y) + "," +
+                    std::to_string(val.z) + "," + std::to_string(val.w);
             }
 
             return *this;
