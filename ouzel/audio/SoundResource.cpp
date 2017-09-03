@@ -156,8 +156,6 @@ namespace ouzel
                     uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
                     uint32_t dstFrames = static_cast<uint32_t>(frames * (static_cast<float>(srcFrames) / neededFrames));
 
-                    //Log() << "sample rate: " << soundData->getSampleRate() << ", frames: " << frames << ", needed frames: " << neededFrames << ", got frames: " << srcFrames << ", dest frames: " << dstFrames << ", final pitch: " << finalPitch;
-
                     resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
                 }
                 else
