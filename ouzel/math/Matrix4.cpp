@@ -1387,4 +1387,19 @@ namespace ouzel
     #endif
 #endif
     }
+
+    Vector3 Matrix4::getTranslation() const
+    {
+        return Vector3(m[12], m[13], m[14]);
+    }
+
+    Vector3 Matrix4::getScale() const
+    {
+        Vector3 scale;
+        scale.x = Vector3(m[0], m[1], m[2]).length();
+        scale.y = Vector3(m[4], m[5], m[6]).length();
+        scale.z = Vector3(m[8], m[9], m[10]).length();
+
+        return scale;
+    }
 }

@@ -200,6 +200,9 @@ namespace ouzel
         void transpose();
         void transpose(Matrix4& dst) const;
 
+        Vector3 getTranslation() const;
+        Vector3 getScale() const;
+
         inline Matrix4 operator+(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
