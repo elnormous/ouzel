@@ -52,19 +52,23 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataVorbis::getData(Stream* stream, uint32_t frames, bool repeat, bool& finished, std::vector<float>& result)
+        bool SoundDataVorbis::getData(Stream* stream, uint32_t frames, bool repeat, uint32_t& resetCount, std::vector<float>& result)
         {
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
             uint32_t neededSize = frames * channels;
             stb_vorbis* vorbisStream = streamVorbis->getVorbisStream();
 
-            finished = false;
+            resetCount = 0;
             result.resize(neededSize);
 
             while (neededSize > 0)
             {
-                if (vorbisStream->eof) stb_vorbis_seek_start(vorbisStream);
+                if (vorbisStream->eof)
+                {
+                    stb_vorbis_seek_start(vorbisStream);
+                    ++resetCount;
+                }
 
                 int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, channels, result.data(), neededSize);
 
@@ -82,8 +86,7 @@ namespace ouzel
             if (vorbisStream->eof)
             {
                 stb_vorbis_seek_start(vorbisStream);
-
-                if (!repeat) finished = true;
+                ++resetCount;
             }
 
             return true;

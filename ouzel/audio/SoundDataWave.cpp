@@ -204,7 +204,7 @@ namespace ouzel
             return stream;
         }
 
-        bool SoundDataWave::getData(Stream* stream, uint32_t frames, bool repeat, bool& finished, std::vector<float>& result)
+        bool SoundDataWave::getData(Stream* stream, uint32_t frames, bool repeat, uint32_t& resetCount, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
@@ -213,7 +213,7 @@ namespace ouzel
 
             uint32_t neededSize = frames * channels;
 
-            finished = false;
+            resetCount = 0;
             result.clear();
             result.reserve(repeat ? neededSize : remainingSize);
 
@@ -224,6 +224,7 @@ namespace ouzel
                     streamWave->reset();
                     offset = 0;
                     remainingSize = static_cast<uint32_t>(data.size());
+                    ++resetCount;
                 }
 
                 if (remainingSize < neededSize)
@@ -245,8 +246,7 @@ namespace ouzel
             if (remainingSize == 0)
             {
                 streamWave->reset();
-
-                if (!repeat) finished = true;
+                ++resetCount;
             }
 
             return true;

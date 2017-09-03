@@ -143,13 +143,13 @@ namespace ouzel
                 float finalPitch = pitch * soundData->getSampleRate() / sampleRate;
                 uint32_t neededFrames = static_cast<uint32_t>(frames * finalPitch);
 
-                bool finished;
-                if (!soundData->getData(stream.get(), neededFrames, repeat, finished, data))
+                uint32_t resetCount;
+                if (!soundData->getData(stream.get(), neededFrames, repeat, resetCount, data))
                 {
                     return false;
                 }
 
-                if (!repeat && finished) playing = false;
+                if (!repeat && resetCount > 0) playing = false;
 
                 if (finalPitch != 1.0f)
                 {
