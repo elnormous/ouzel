@@ -22,9 +22,11 @@ SoundSample::SoundSample():
 
     test8BitSound.reset(new audio::Sound());
     test8BitSound->init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
+    test8BitSound->setPitch(2.0f);
 
     test24BitSound.reset(new audio::Sound());
     test24BitSound->init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
+    test24BitSound->setPitch(0.5f);
 
     jumpSound.reset(new audio::Sound());
     jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));

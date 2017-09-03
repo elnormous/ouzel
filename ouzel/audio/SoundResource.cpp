@@ -8,6 +8,51 @@
 #include "Stream.hpp"
 #include "math/MathUtils.hpp"
 
+static void resampleLerp(const std::vector<float>& src, uint32_t srcFrames,
+                         std::vector<float>& dst, uint32_t dstFrames,
+                         uint32_t channels)
+{
+    if (dstFrames > 0) // do resampling only if setination is not empty
+    {
+        if (srcFrames == 0) // source is empty
+        {
+            dst.resize(dstFrames * channels);
+
+            std::fill(dst.begin(), dst.end(), 0.0f);
+        }
+        else
+        {
+            float srcIncrement = static_cast<float>(srcFrames - 1) / static_cast<float>(dstFrames - 1);
+            float srcPosition = 0.0f;
+
+            dst.resize(dstFrames * channels);
+
+            for (uint32_t frame = 0; frame < dstFrames - 1; ++frame)
+            {
+                uint32_t srcCurrentFrame = static_cast<uint32_t>(srcPosition);
+                float frac = srcPosition - srcCurrentFrame;
+
+                srcPosition += srcIncrement;
+                uint32_t srcNextFrame = srcCurrentFrame + 1;
+
+                for (uint32_t channel = 0; channel < channels; ++channel)
+                {
+                    uint32_t srcCurrentPosition = srcCurrentFrame * channels + channel;
+                    uint32_t srcNextPosition = srcNextFrame * channels + channel;
+
+                    dst[frame * channels + channel] = ouzel::lerp(src[srcCurrentPosition], src[srcNextPosition], frac);
+                }
+            }
+
+            // fill the last frame of the destination with the last frame of the source
+            for (uint32_t channel = 0; channel < channels; ++channel)
+            {
+                dst[(dstFrames - 1) * channels + channel] = src[(srcFrames - 1) * channels + channel];
+            }
+        }
+    }
+}
+
 namespace ouzel
 {
     namespace audio
@@ -95,17 +140,34 @@ namespace ouzel
             }
             else if (soundData && soundData->getChannels() > 0 && stream)
             {
+                float finalPitch = pitch * soundData->getSampleRate() / sampleRate;
+                uint32_t neededFrames = static_cast<uint32_t>(frames * finalPitch);
+
                 bool finished;
-                if (!soundData->getData(stream.get(), frames, repeat, finished, data))
+                if (!soundData->getData(stream.get(), neededFrames, repeat, finished, data))
                 {
                     return false;
                 }
 
                 if (!repeat && finished) playing = false;
 
-                if (channels != soundData->getChannels())
+                if (finalPitch != 1.0f)
                 {
                     uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
+                    uint32_t dstFrames = static_cast<uint32_t>(frames * (static_cast<float>(srcFrames) / neededFrames));
+
+                    //Log() << "sample rate: " << soundData->getSampleRate() << ", frames: " << frames << ", needed frames: " << neededFrames << ", got frames: " << srcFrames << ", dest frames: " << dstFrames << ", final pitch: " << finalPitch;
+
+                    resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
+                }
+                else
+                {
+                    resampledData = data;
+                }
+
+                if (channels != soundData->getChannels())
+                {
+                    uint32_t srcFrames = static_cast<uint32_t>(resampledData.size()) / soundData->getChannels();
 
                     result.resize(srcFrames * channels);
 
@@ -120,7 +182,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination] = data[source];
+                                result[destination] = resampledData[source];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -148,7 +210,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination + 1] = data[source + 1];
+                                result[destination + 1] = resampledData[source + 1];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -175,7 +237,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination + 2] = data[source + 2];
+                                result[destination + 2] = resampledData[source + 2];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -211,7 +273,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination + 3] = data[source + 3];
+                                result[destination + 3] = resampledData[source + 3];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -239,7 +301,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination + 4] = data[source + 4];
+                                result[destination + 4] = resampledData[source + 4];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -267,7 +329,7 @@ namespace ouzel
 
                             for (uint32_t frame = 0; frame < srcFrames; ++frame)
                             {
-                                result[destination + 5] = data[source + 5];
+                                result[destination + 5] = resampledData[source + 5];
                                 destination += channels;
                                 source += soundData->getChannels();
                             }
@@ -285,14 +347,7 @@ namespace ouzel
                 }
                 else
                 {
-                    result = std::move(data);
-                }
-
-                uint32_t samplesPerSecond = static_cast<uint32_t>(sampleRate * pitch);
-
-                if (samplesPerSecond != soundData->getSampleRate())
-                {
-                    // TODO: resample
+                    result = resampledData;
                 }
 
                 Vector3 offset = relativePosition ? position : position - audioDevice->getListenerPosition();

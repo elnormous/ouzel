@@ -63,6 +63,7 @@ namespace ouzel
             float maxDistance = FLT_MAX;
 
             std::vector<float> data;
+            std::vector<float> resampledData;
         };
     } // namespace audio
 } // namespace ouzel
