@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "audio/Output.hpp"
+#include "audio/SoundOutput.hpp"
 
 namespace ouzel
 {
@@ -11,7 +11,7 @@ namespace ouzel
     {
         class ListenerResource;
 
-        class Listener: public Output
+        class Listener: public SoundOutput
         {
         public:
             Listener();

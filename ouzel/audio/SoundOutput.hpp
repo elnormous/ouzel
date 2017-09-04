@@ -3,15 +3,11 @@
 
 #pragma once
 
-#include <cstdint>
-#include <vector>
-#include "audio/Resource.hpp"
-
 namespace ouzel
 {
     namespace audio
     {
-        class OutputResource: public Resource
+        class SoundOutput
         {
         public:
         };

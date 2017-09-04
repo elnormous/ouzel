@@ -44,12 +44,14 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/ListenerResource.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Mixer.cpp \
 	$(ROOT_DIR)/../ouzel/audio/MixerResource.cpp \
-	$(ROOT_DIR)/../ouzel/audio/Output.cpp \
-	$(ROOT_DIR)/../ouzel/audio/OutputResource.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundDataVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundDataWave.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundInput.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundInputResource.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundOutput.cpp \
+	$(ROOT_DIR)/../ouzel/audio/SoundOutputResource.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundResource.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
