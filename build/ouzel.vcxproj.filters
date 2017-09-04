@@ -415,16 +415,16 @@
     <ClCompile Include="..\ouzel\audio\MixerResource.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Output.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundOutput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\OutputResource.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundOutputResource.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\Input.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundInput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\InputResource.cpp">
+    <ClCompile Include="..\ouzel\audio\SoundInputResource.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -931,19 +931,19 @@
     <ClInclude Include="..\ouzel\audio\MixerResource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Output.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundOutput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\OutputResource.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundOutputResource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Resource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Input.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundInput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\InputResource.hpp">
+    <ClInclude Include="..\ouzel\audio\SoundInputResource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>
