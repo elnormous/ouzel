@@ -9,9 +9,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class ListenerResource;
+
         class Listener: public Output
         {
         public:
+            Listener();
+            virtual ~Listener();
+
+        private:
+            ListenerResource* resource = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

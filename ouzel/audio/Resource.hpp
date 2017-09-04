@@ -14,6 +14,8 @@ namespace ouzel
         public:
             Resource() {}
             virtual ~Resource() {}
+
+            virtual bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result) = 0;
         };
     } // namespace audio
 } // namespace ouzel

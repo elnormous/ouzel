@@ -15,6 +15,7 @@ namespace ouzel
     {
         class Audio;
         class AudioDevice;
+        class Output;
         class SoundData;
         class Stream;
         
@@ -43,17 +44,13 @@ namespace ouzel
             bool isRelativePosition() const { return relativePosition; }
             void setRelativePosition(bool newRelativePosition) { relativePosition = newRelativePosition; }
 
-            bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
+            virtual bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
 
         protected:
             AudioDevice* audioDevice;
 
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
-            bool relativePosition = false;
-            bool playing = false;
-            bool repeat = false;
-            bool reset = false;
 
             Vector3 position;
             float pitch = 1.0f;
@@ -61,6 +58,11 @@ namespace ouzel
             float rolloffFactor = 1.0f;
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
+
+            bool relativePosition = false;
+            bool playing = false;
+            bool repeat = false;
+            bool reset = false;
 
             std::vector<float> data;
             std::vector<float> resampledData;

@@ -53,7 +53,7 @@ namespace ouzel
             bool isRelativePosition() const { return relativePosition; }
             void setRelativePosition(bool newRelativePosition);
 
-        protected:
+        private:
             SoundResource* resource = nullptr;
 
             std::shared_ptr<SoundData> soundData;

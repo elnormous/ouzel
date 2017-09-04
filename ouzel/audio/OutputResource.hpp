@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
 #include "audio/Resource.hpp"
 
 namespace ouzel

@@ -12,6 +12,7 @@ namespace ouzel
         class MixerResource: public OutputResource
         {
         public:
+            virtual bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result) override;
         };
     } // namespace audio
 } // namespace ouzel

@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include "AudioDevice.hpp"
+#include "ListenerResource.hpp"
+#include "MixerResource.hpp"
 #include "SoundResource.hpp"
 #include "math/MathUtils.hpp"
 
@@ -31,18 +33,21 @@ namespace ouzel
             return true;
         }
 
-        void AudioDevice::deleteResource(SoundResource* resource)
+        void AudioDevice::deleteResource(Resource* resource)
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            std::vector<std::unique_ptr<SoundResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<SoundResource>& ptr) {
+            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
                 return ptr.get() == resource;
             });
 
-            if (i != resources.end())
+            if (resourceIterator != resources.end())
             {
-                resourceDeleteSet.push_back(std::move(*i));
-                resources.erase(i);
+                auto listenerIterator = std::find(listeners.begin(), listeners.end(), resource);
+                if (listenerIterator != listeners.end()) listeners.erase(listenerIterator);
+
+                resourceDeleteSet.push_back(std::move(*resourceIterator));
+                resources.erase(resourceIterator);
             }
         }
 
@@ -66,9 +71,9 @@ namespace ouzel
 
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
-                for (const auto& resource : resources)
+                for (ListenerResource* listener : listeners)
                 {
-                    if (!resource->getData(frames, channels, sampleRate, data))
+                    if (!listener->getData(frames, channels, sampleRate, data))
                     {
                         return false;
                     }
@@ -112,12 +117,31 @@ namespace ouzel
             return true;
         }
 
+        ListenerResource* AudioDevice::createListener()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            ListenerResource* listener = new ListenerResource();
+            listeners.push_back(listener);
+            resources.push_back(std::unique_ptr<Resource>(listener));
+            return listener;
+        }
+
+        MixerResource* AudioDevice::createMixer()
+        {
+            std::lock_guard<std::mutex> lock(resourceMutex);
+
+            MixerResource* mixer = new MixerResource();
+            resources.push_back(std::unique_ptr<Resource>(mixer));
+            return mixer;
+        }
+
         SoundResource* AudioDevice::createSound()
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             SoundResource* sound = new SoundResource(this);
-            resources.push_back(std::unique_ptr<SoundResource>(sound));
+            resources.push_back(std::unique_ptr<Resource>(sound));
             return sound;
         }
 

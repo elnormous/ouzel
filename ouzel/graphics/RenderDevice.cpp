@@ -144,14 +144,14 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            auto i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
                 return ptr.get() == resource;
             });
 
-            if (i != resources.end())
+            if (resourceIterator != resources.end())
             {
-                resourceDeleteSet.push_back(std::move(*i));
-                resources.erase(i);
+                resourceDeleteSet.push_back(std::move(*resourceIterator));
+                resources.erase(resourceIterator);
             }
         }
 

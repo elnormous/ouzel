@@ -9,9 +9,16 @@ namespace ouzel
 {
     namespace audio
     {
+        class MixerResource;
+
         class Mixer: public Output
         {
         public:
+            Mixer();
+            virtual ~Mixer();
+
+        private:
+            MixerResource* resource = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

@@ -14,6 +14,8 @@ namespace ouzel
     namespace audio
     {
         class Resource;
+        class ListenerResource;
+        class MixerResource;
         class SoundResource;
 
         class AudioDevice: public Noncopyable
@@ -24,8 +26,10 @@ namespace ouzel
 
             virtual bool update();
 
-            virtual SoundResource* createSound();
-            virtual void deleteResource(SoundResource* resource);
+            ListenerResource* createListener();
+            MixerResource* createMixer();
+            SoundResource* createSound();
+            void deleteResource(Resource* resource);
 
             const Vector3& getListenerPosition() const { return listenerPosition; }
             void setListenerPosition(const Vector3& newPosition);
@@ -54,8 +58,9 @@ namespace ouzel
             Quaternion listenerRotation;
 
             std::mutex resourceMutex;
-            std::vector<std::unique_ptr<SoundResource>> resources;
-            std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<Resource>> resources;
+            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+            std::vector<ListenerResource*> listeners;
 
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
