@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class InputResource
+        class SoundInputResource
         {
         public:
         };

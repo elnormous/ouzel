@@ -3,13 +3,14 @@
 
 #pragma once
 
+#include "audio/Resource.hpp"
 #include "audio/SoundOutputResource.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class ListenerResource: public SoundOutputResource
+        class ListenerResource: public Resource, public SoundOutputResource
         {
         public:
             virtual bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result) override;

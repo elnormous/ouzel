@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
 
 namespace ouzel
@@ -11,7 +12,7 @@ namespace ouzel
     {
         class MixerResource;
 
-        class Mixer: public SoundOutput
+        class Mixer: public SoundInput, public SoundOutput
         {
         public:
             Mixer();

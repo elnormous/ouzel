@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
 #include "utils/Noncopyable.hpp"
 
 namespace ouzel
