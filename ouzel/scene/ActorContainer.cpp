@@ -152,7 +152,7 @@ namespace ouzel
             }
         }
 
-        void ActorContainer::findActors(const Vector2& position, std::vector<std::pair<Actor*, ouzel::Vector3>>& actors) const
+        void ActorContainer::findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const
         {
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {

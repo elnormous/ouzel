@@ -55,13 +55,14 @@ namespace ouzel
 
             Layer* getLayer() const { return layer; }
 
+            virtual void findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const;
+            virtual void findActors(const std::vector<Vector2>& edges, std::vector<Actor*>& actors) const;
+
         protected:
             virtual void addChildActor(Actor* actor);
             virtual bool removeChildActor(Actor* actor);
 
             virtual void setLayer(Layer* newLayer);
-            virtual void findActors(const Vector2& position, std::vector<std::pair<Actor*, ouzel::Vector3>>& actors) const;
-            virtual void findActors(const std::vector<Vector2>& edges, std::vector<Actor*>& actors) const;
 
             virtual void enter();
             virtual void leave();
