@@ -26,6 +26,8 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
+    ../../ouzel/audio/Input.cpp \
+    ../../ouzel/audio/InputResource.cpp \
     ../../ouzel/audio/Listener.cpp \
     ../../ouzel/audio/ListenerResource.cpp \
     ../../ouzel/audio/Mixer.cpp \
