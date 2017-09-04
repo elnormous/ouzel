@@ -6,7 +6,7 @@
 #include <cfloat>
 #include <memory>
 #include <vector>
-#include "utils/Noncopyable.hpp"
+#include "audio/Resource.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -18,7 +18,7 @@ namespace ouzel
         class SoundData;
         class Stream;
         
-        class SoundResource: public Noncopyable
+        class SoundResource: public Resource
         {
             friend Audio;
         public:

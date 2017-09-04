@@ -38,6 +38,12 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Listener.cpp \
+	$(ROOT_DIR)/../ouzel/audio/ListenerResource.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Mixer.cpp \
+	$(ROOT_DIR)/../ouzel/audio/MixerResource.cpp \
+	$(ROOT_DIR)/../ouzel/audio/Output.cpp \
+	$(ROOT_DIR)/../ouzel/audio/OutputResource.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Sound.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundData.cpp \
 	$(ROOT_DIR)/../ouzel/audio/SoundDataVorbis.cpp \
