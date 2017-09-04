@@ -421,6 +421,12 @@
     <ClCompile Include="..\ouzel\audio\OutputResource.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\audio\Input.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\audio\InputResource.cpp">
+      <Filter>ouzel\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -932,6 +938,12 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Resource.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\Input.hpp">
+      <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\audio\InputResource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
   </ItemGroup>

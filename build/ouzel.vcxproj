@@ -33,6 +33,8 @@
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp" />
     <ClCompile Include="..\ouzel\audio\dsound\AudioDeviceDS.cpp" />
     <ClCompile Include="..\ouzel\audio\empty\AudioDeviceEmpty.cpp" />
+    <ClCompile Include="..\ouzel\audio\Input.cpp" />
+    <ClCompile Include="..\ouzel\audio\InputResource.cpp" />
     <ClCompile Include="..\ouzel\audio\Listener.cpp" />
     <ClCompile Include="..\ouzel\audio\ListenerResource.cpp" />
     <ClCompile Include="..\ouzel\audio\Mixer.cpp" />
@@ -180,6 +182,8 @@
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp" />
     <ClInclude Include="..\ouzel\audio\dsound\AudioDeviceDS.hpp" />
     <ClInclude Include="..\ouzel\audio\empty\AudioDeviceEmpty.hpp" />
+    <ClInclude Include="..\ouzel\audio\Input.hpp" />
+    <ClInclude Include="..\ouzel\audio\InputResource.hpp" />
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\ListenerResource.hpp" />
     <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
