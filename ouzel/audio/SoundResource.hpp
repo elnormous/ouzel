@@ -7,7 +7,6 @@
 #include <memory>
 #include <vector>
 #include "audio/Resource.hpp"
-#include "audio/SoundInputResource.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -20,7 +19,7 @@ namespace ouzel
         class SoundData;
         class Stream;
         
-        class SoundResource: public Resource, public SoundInputResource
+        class SoundResource: public Resource
         {
             friend Audio;
         public:

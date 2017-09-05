@@ -3,8 +3,6 @@
 
 #include <algorithm>
 #include "AudioDevice.hpp"
-#include "ListenerResource.hpp"
-#include "MixerResource.hpp"
 #include "SoundResource.hpp"
 #include "math/MathUtils.hpp"
 
@@ -43,9 +41,6 @@ namespace ouzel
 
             if (resourceIterator != resources.end())
             {
-                auto listenerIterator = std::find(listeners.begin(), listeners.end(), resource);
-                if (listenerIterator != listeners.end()) listeners.erase(listenerIterator);
-
                 resourceDeleteSet.push_back(std::move(*resourceIterator));
                 resources.erase(resourceIterator);
             }
@@ -71,7 +66,7 @@ namespace ouzel
 
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
-                for (ListenerResource* listener : listeners)
+                /*for (ListenerResource* listener : listeners)
                 {
                     if (!listener->getData(frames, channels, sampleRate, data))
                     {
@@ -83,7 +78,7 @@ namespace ouzel
                         // mix the resource sound into the buffer
                         buffer[i] += data[i];
                     }
-                }
+                }*/
             }
 
             for (float& f : buffer)
@@ -115,25 +110,6 @@ namespace ouzel
             }
 
             return true;
-        }
-
-        ListenerResource* AudioDevice::createListener()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            ListenerResource* listener = new ListenerResource();
-            listeners.push_back(listener);
-            resources.push_back(std::unique_ptr<Resource>(listener));
-            return listener;
-        }
-
-        MixerResource* AudioDevice::createMixer()
-        {
-            std::lock_guard<std::mutex> lock(resourceMutex);
-
-            MixerResource* mixer = new MixerResource();
-            resources.push_back(std::unique_ptr<Resource>(mixer));
-            return mixer;
         }
 
         SoundResource* AudioDevice::createSound()

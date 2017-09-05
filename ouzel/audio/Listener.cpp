@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include "Listener.hpp"
-#include "ListenerResource.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "core/Engine.hpp"
@@ -13,12 +12,10 @@ namespace ouzel
     {
         Listener::Listener()
         {
-            resource = sharedEngine->getAudio()->getDevice()->createListener();
         }
 
         Listener::~Listener()
         {
-            if (sharedEngine) sharedEngine->getAudio()->getDevice()->deleteResource(resource);
         }
     } // namespace audio
 } // namespace ouzel

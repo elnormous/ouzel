@@ -26,20 +26,14 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
     ../../ouzel/audio/AudioDevice.cpp \
-    ../../ouzel/audio/SoundInput.cpp \
-    ../../ouzel/audio/SoundInputResource.cpp \
     ../../ouzel/audio/Listener.cpp \
-    ../../ouzel/audio/ListenerResource.cpp \
     ../../ouzel/audio/Mixer.cpp \
-    ../../ouzel/audio/MixerResource.cpp \
     ../../ouzel/audio/Sound.cpp \
     ../../ouzel/audio/SoundData.cpp \
     ../../ouzel/audio/SoundDataVorbis.cpp \
     ../../ouzel/audio/SoundDataWave.cpp \
     ../../ouzel/audio/SoundInput.cpp \
-    ../../ouzel/audio/SoundInputResource.cpp \
     ../../ouzel/audio/SoundOutput.cpp \
-    ../../ouzel/audio/SoundOutputResource.cpp \
     ../../ouzel/audio/Stream.cpp \
     ../../ouzel/audio/StreamVorbis.cpp \
     ../../ouzel/audio/StreamWave.cpp \

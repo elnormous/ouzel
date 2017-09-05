@@ -16,9 +16,6 @@ namespace ouzel
         public:
             Listener();
             virtual ~Listener();
-
-        private:
-            ListenerResource* resource = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

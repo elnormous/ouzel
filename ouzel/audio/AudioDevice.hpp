@@ -26,8 +26,6 @@ namespace ouzel
 
             virtual bool update();
 
-            ListenerResource* createListener();
-            MixerResource* createMixer();
             SoundResource* createSound();
             void deleteResource(Resource* resource);
 
@@ -60,7 +58,6 @@ namespace ouzel
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
-            std::vector<ListenerResource*> listeners;
 
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;

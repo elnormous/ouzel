@@ -17,9 +17,6 @@ namespace ouzel
         public:
             Mixer();
             virtual ~Mixer();
-
-        private:
-            MixerResource* resource = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
