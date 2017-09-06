@@ -4,6 +4,8 @@
 #pragma once
 
 #include "audio/SoundOutput.hpp"
+#include "math/Quaternion.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
@@ -16,6 +18,16 @@ namespace ouzel
         public:
             Listener();
             virtual ~Listener();
+
+            const Vector3& getPosition() const { return position; }
+            void setPosition(const Vector3& newPosition) { position = newPosition; }
+
+            const Quaternion& getRotation() const { return rotation; }
+            void setRotation(const Quaternion& newRotation) { rotation = newRotation; }
+
+        protected:
+            Vector3 position;
+            Quaternion rotation;
         };
     } // namespace audio
 } // namespace ouzel

@@ -129,19 +129,5 @@ namespace ouzel
         {
             device->executeOnAudioThread(func);
         }
-
-        void Audio::setListenerPosition(const Vector3& newPosition)
-        {
-            listenerPosition = newPosition;
-
-            executeOnAudioThread(std::bind(&AudioDevice::setListenerPosition, device.get(), newPosition));
-        }
-
-        void Audio::setListenerRotation(const Quaternion& newRotation)
-        {
-            listenerRotation = newRotation;
-
-            executeOnAudioThread(std::bind(&AudioDevice::setListenerRotation, device.get(), newRotation));
-        }
     } // namespace audio
 } // namespace ouzel

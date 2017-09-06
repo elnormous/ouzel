@@ -17,6 +17,16 @@ namespace ouzel
         public:
             Mixer();
             virtual ~Mixer();
+
+            float getGain() const { return gain; }
+            void setGain(float newGain) { gain = newGain; }
+
+            float getRolloffFactor() const { return rolloffFactor; }
+            void setRolloffFactor(float newRolloffFactor) { rolloffFactor = newRolloffFactor; }
+
+        protected:
+            float gain = 1.0f;
+            float rolloffFactor = 1.0f;
         };
     } // namespace audio
 } // namespace ouzel

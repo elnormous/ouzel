@@ -130,7 +130,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 
         camera.setRotation(cameraRotation);
 
-        sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
+        //sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
     }
 
     return true;

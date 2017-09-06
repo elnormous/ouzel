@@ -348,7 +348,7 @@ namespace ouzel
                     result = resampledData;
                 }
 
-                Vector3 offset = relativePosition ? position : position - audioDevice->getListenerPosition();
+                Vector3 offset; // = relativePosition ? position : position - audioDevice->getListenerPosition();
                 float distance = clamp(offset.length(), minDistance, maxDistance);
                 float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
@@ -356,7 +356,7 @@ namespace ouzel
 
                 if (channelVolume.size() > 1)
                 {
-                    Quaternion inverseRotation = -audioDevice->getListenerRotation();
+                    Quaternion inverseRotation;// = -audioDevice->getListenerRotation();
                     Vector3 relative = inverseRotation * offset;
                     relative.normalize();
                     float angle = atan2f(relative.x, relative.z);

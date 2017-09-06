@@ -36,8 +36,8 @@ namespace ouzel
                             scissorTest,
                             scissorRectangle);
 
-            sharedEngine->getAudio()->setListenerPosition(transformMatrix.getTranslation());
-            sharedEngine->getAudio()->setListenerRotation(transformMatrix.getRotation());
+            //sharedEngine->getAudio()->setListenerPosition(transformMatrix.getTranslation());
+            //sharedEngine->getAudio()->setListenerRotation(transformMatrix.getRotation());
         }
     } // namespace scene
 } // namespace ouzel

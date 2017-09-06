@@ -29,12 +29,6 @@ namespace ouzel
             SoundResource* createSound();
             void deleteResource(Resource* resource);
 
-            const Vector3& getListenerPosition() const { return listenerPosition; }
-            void setListenerPosition(const Vector3& newPosition);
-
-            const Quaternion& getListenerRotation() const { return listenerRotation; }
-            void setListenerRotation(const Quaternion& newRotation);
-
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
@@ -51,9 +45,6 @@ namespace ouzel
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
-
-            Vector3 listenerPosition;
-            Quaternion listenerRotation;
 
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;

@@ -46,16 +46,6 @@ namespace ouzel
             }
         }
 
-        void AudioDevice::setListenerPosition(const Vector3& newPosition)
-        {
-            listenerPosition = newPosition;
-        }
-
-        void AudioDevice::setListenerRotation(const Quaternion& newRotation)
-        {
-            listenerRotation = newRotation;
-        }
-
         bool AudioDevice::getData(uint32_t frames, Audio::Format format, std::vector<uint8_t>& result)
         {
             buffer.resize(frames * channels);

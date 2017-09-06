@@ -75,20 +75,11 @@ namespace ouzel
 
             void executeOnAudioThread(const std::function<void(void)>& func);
 
-            const Vector3& getListenerPosition() const { return listenerPosition; }
-            void setListenerPosition(const Vector3& newPosition);
-
-            const Quaternion& getListenerRotation() const { return listenerRotation; }
-            void setListenerRotation(const Quaternion& newRotation);
-
         protected:
             Audio(Driver driver);
             bool init(bool debugAudio);
 
             std::unique_ptr<AudioDevice> device;
-
-            Vector3 listenerPosition;
-            Quaternion listenerRotation;
         };
     } // namespace audio
 } // namespace ouzel
