@@ -33,7 +33,7 @@ namespace ouzel
 
 #endif
 
-    void Log::flush()
+    Log::~Log()
     {
         if (!s.empty())
         {

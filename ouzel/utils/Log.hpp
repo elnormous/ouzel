@@ -52,7 +52,6 @@ namespace ouzel
 
         Log& operator=(const Log& other)
         {
-            flush();
             level = other.level;
             s = other.s;
 
@@ -61,7 +60,6 @@ namespace ouzel
 
         Log& operator=(Log&& other)
         {
-            flush();
             level = other.level;
             other.level = Level::INFO;
             s = std::move(other.s);
@@ -69,10 +67,7 @@ namespace ouzel
             return *this;
         }
 
-        ~Log()
-        {
-            flush();
-        }
+        ~Log();
 
         template<typename T> Log& operator<<(T val)
         {
@@ -198,8 +193,6 @@ namespace ouzel
         }
 
     private:
-        void flush();
-
         Level level = Level::INFO;
         std::string s;
     };
