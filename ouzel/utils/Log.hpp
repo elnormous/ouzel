@@ -46,6 +46,7 @@ namespace ouzel
         Log(Log&& other)
         {
             level = other.level;
+            other.level = Level::INFO;
             s = std::move(other.s);
         }
 
@@ -62,6 +63,7 @@ namespace ouzel
         {
             flush();
             level = other.level;
+            other.level = Level::INFO;
             s = std::move(other.s);
 
             return *this;
