@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "core/CompileConfig.h"
 #if OUZEL_PLATFORM_IOS
 #include "audio/openal/ios/AudioDeviceALIOS.hpp"
@@ -9,6 +10,7 @@
 #endif
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
+#include "Listener.hpp"
 #include "alsa/AudioDeviceALSA.hpp"
 #include "coreaudio/AudioDeviceCA.hpp"
 #include "dsound/AudioDeviceDS.hpp"
@@ -112,6 +114,10 @@ namespace ouzel
 
         Audio::~Audio()
         {
+            for (Listener* listener : listeners)
+            {
+                listener->audio = nullptr;
+            }
         }
 
         bool Audio::init(bool debugAudio)
@@ -122,12 +128,41 @@ namespace ouzel
 
         bool Audio::update()
         {
-            return device->update();
+            for (Listener* listener : listeners)
+            {
+            }
+
+            return true;
         }
 
         void Audio::executeOnAudioThread(const std::function<void(void)>& func)
         {
             device->executeOnAudioThread(func);
+        }
+
+        void Audio::addListener(Listener* listener)
+        {
+            if (listener->audio != this)
+            {
+                if (listener->audio) listener->audio->removeListener(listener);
+                listeners.push_back(listener);
+                listener->audio = this;
+            }
+        }
+
+        void Audio::removeListener(Listener* listener)
+        {
+            if (listener->audio == this)
+            {
+                listener->audio = nullptr;
+
+                auto i = std::find(listeners.begin(), listeners.end(), listener);
+
+                if (i != listeners.end())
+                {
+                    listeners.erase(i);
+                }
+            }
         }
     } // namespace audio
 } // namespace ouzel

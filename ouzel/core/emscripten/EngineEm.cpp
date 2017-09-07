@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <emscripten.h>
 #include "EngineEm.hpp"
+#include "audio/AudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/emscripten/InputEm.hpp"
 #include "utils/Utils.hpp"
@@ -46,7 +47,8 @@ namespace ouzel
         audio->update();
 
         if (!active ||
-            !renderer->getDevice()->process())
+            !renderer->getDevice()->process() ||
+            !audio->getDriver()->process())
         {
             return false;
         }

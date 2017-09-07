@@ -24,7 +24,7 @@ namespace ouzel
             return true;
         }
 
-        bool AudioDevice::update()
+        bool AudioDevice::process()
         {
             executeAll();
 

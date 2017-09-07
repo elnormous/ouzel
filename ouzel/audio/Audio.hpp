@@ -7,6 +7,7 @@
 #include <functional>
 #include <memory>
 #include <set>
+#include <vector>
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -17,6 +18,7 @@ namespace ouzel
     namespace audio
     {
         class AudioDevice;
+        class Listener;
 
         class Audio
         {
@@ -75,11 +77,16 @@ namespace ouzel
 
             void executeOnAudioThread(const std::function<void(void)>& func);
 
+            void addListener(Listener* listener);
+            void removeListener(Listener* listener);
+
         protected:
             Audio(Driver driver);
             bool init(bool debugAudio);
 
             std::unique_ptr<AudioDevice> device;
+
+            std::vector<Listener*> listeners;
         };
     } // namespace audio
 } // namespace ouzel

@@ -339,7 +339,7 @@ namespace ouzel
 
         bool AudioDeviceCA::outputCallback(AudioBufferList* ioData)
         {
-            if (!update())
+            if (!process())
             {
                 return false;
             }

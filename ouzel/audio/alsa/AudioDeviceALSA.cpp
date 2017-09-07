@@ -186,7 +186,7 @@ namespace ouzel
             {
                 int err;
 
-                if (!update())
+                if (!process())
                 {
                     break;
                 }

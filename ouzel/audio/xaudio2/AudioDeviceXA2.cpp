@@ -207,7 +207,7 @@ namespace ouzel
         }
         void AudioDeviceXA2::OnBufferEnd(void*)
         {
-            if (!update())
+            if (!process())
             {
                 return;
             }

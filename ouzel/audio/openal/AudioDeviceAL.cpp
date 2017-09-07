@@ -238,9 +238,9 @@ namespace ouzel
             return true;
         }
 
-        bool AudioDeviceAL::update()
+        bool AudioDeviceAL::process()
         {
-            if (!AudioDevice::update())
+            if (!AudioDevice::process())
             {
                 return false;
             }
@@ -315,7 +315,7 @@ namespace ouzel
         {
             while (running)
             {
-                if (!update())
+                if (!process())
                 {
                     break;
                 }

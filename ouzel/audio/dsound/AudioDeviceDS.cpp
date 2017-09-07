@@ -169,7 +169,7 @@ namespace ouzel
         {
             while (running)
             {
-                if (!update())
+                if (!process())
                 {
                     break;
                 }

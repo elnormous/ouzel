@@ -24,7 +24,7 @@ namespace ouzel
         public:
             virtual ~AudioDevice();
 
-            virtual bool update();
+            virtual bool process();
 
             SoundResource* createSound();
             void deleteResource(Resource* resource);
@@ -33,6 +33,12 @@ namespace ouzel
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
             void executeOnAudioThread(const std::function<void(void)>& func);
+
+            struct RenderCommand
+            {
+                std::function<void(const std::vector<uint8_t>&, const std::vector<uint8_t>&)> renderCallback;
+                std::vector<RenderCommand> renderCommands;
+            };
 
         protected:
             AudioDevice(Audio::Driver aDriver);

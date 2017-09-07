@@ -35,7 +35,7 @@ namespace ouzel
 
             virtual ~AudioDeviceAL();
 
-            virtual bool update() override;
+            virtual bool process() override;
 
             ALCdevice* getDevice() const { return device; }
             ALCcontext* getContext() const { return context; }

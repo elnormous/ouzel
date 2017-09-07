@@ -11,9 +11,11 @@ namespace ouzel
 {
     namespace audio
     {
+        class Audio;
 
         class Listener: public SoundOutput
         {
+            friend Audio;
         public:
             Listener();
             virtual ~Listener();
@@ -27,6 +29,8 @@ namespace ouzel
         protected:
             Vector3 position;
             Quaternion rotation;
+
+            Audio* audio = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

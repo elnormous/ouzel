@@ -185,7 +185,7 @@ namespace ouzel
 
         void AudioDeviceSL::enqueue(SLAndroidSimpleBufferQueueItf bufferQueue)
         {
-            if (!update())
+            if (!process())
             {
                 return;
             }

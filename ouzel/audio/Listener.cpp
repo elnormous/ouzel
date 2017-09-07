@@ -16,6 +16,7 @@ namespace ouzel
 
         Listener::~Listener()
         {
+            if (audio) audio->removeListener(this);
         }
     } // namespace audio
 } // namespace ouzel
