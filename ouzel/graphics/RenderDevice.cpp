@@ -81,8 +81,8 @@ namespace ouzel
                 }
 #endif
 
-                drawCommands = std::move(drawQueue);
-                drawQueue.reserve(drawCommands.size());
+                drawCommands = drawQueue;
+                drawQueue.clear();
 
                 queueFinished = false;
             }
