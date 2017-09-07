@@ -11,7 +11,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class ListenerResource;
 
         class Listener: public SoundOutput
         {

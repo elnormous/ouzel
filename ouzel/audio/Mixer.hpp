@@ -10,8 +10,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class MixerResource;
-
         class Mixer: public SoundInput, public SoundOutput
         {
         public:
