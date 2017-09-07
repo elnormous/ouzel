@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <X11/cursorfont.h>
+#include <X11/extensions/XInput2.h>
 #include "InputLinux.hpp"
 #include "CursorResourceLinux.hpp"
 #include "events/Event.hpp"
@@ -237,6 +238,7 @@ namespace ouzel
         bool InputLinux::init()
         {
             WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            ::Window window = windowLinux->getNativeWindow();
             Display* display = windowLinux->getDisplay();
 
             char data[1] = {0};
@@ -249,6 +251,38 @@ namespace ouzel
 
                 emptyCursor = XCreatePixmapCursor(display, pixmap, pixmap, &color, &color, 0, 0);
                 XFreePixmap(display, pixmap);
+            }
+
+            int event, err;
+            if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &event, &err))
+            {
+                int majorVersion = 2, minorVersion = 0;
+
+                XIQueryVersion(display, &majorVersion, &minorVersion);
+
+                if (majorVersion >= 2)
+                {
+                    unsigned char mask[] = {0, 0 ,0};
+
+                    XIEventMask eventMask;
+                    eventMask.deviceid = XIAllMasterDevices;
+                    eventMask.mask_len = sizeof(mask);
+                    eventMask.mask = mask;
+
+                    XISetMask(mask, XI_TouchBegin);
+                    XISetMask(mask, XI_TouchEnd);
+                    XISetMask(mask, XI_TouchUpdate);
+
+                    XISelectEvents(display, window, &eventMask, 1);
+                }
+                else
+                {
+                    Log(Log::Level::WARN) << "XInput2 not supported";
+                }
+            }
+            else
+            {
+                Log(Log::Level::WARN) << "XInput not supported";
             }
 
             return true;
@@ -404,6 +438,40 @@ namespace ouzel
                              attributes.y + static_cast<int>(windowLocation.y));
                 XSync(display, False);
             });
+        }
+
+        void InputLinux::handleXInput2Event(XGenericEventCookie* cookie)
+        {
+            if (cookie->extension == xInputOpCode)
+            {
+                switch (cookie->evtype)
+                {
+                    case XI_TouchBegin:
+                    {
+                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                        touchBegin(xievent->detail,
+                                   sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                        static_cast<float>(xievent->event_y))));
+                        break;
+                    }
+                    case XI_TouchEnd:
+                    {
+                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                        touchEnd(xievent->detail,
+                                 sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                      static_cast<float>(xievent->event_y))));
+                        break;
+                    }
+                    case XI_TouchUpdate:
+                    {
+                        XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
+                        touchMove(xievent->detail,
+                                  sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                                                                                       static_cast<float>(xievent->event_y))));
+                        break;
+                    }
+                }
+            }
         }
     } // namespace input
 } // namespace ouzel

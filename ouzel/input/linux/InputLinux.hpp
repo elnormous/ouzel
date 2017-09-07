@@ -30,6 +30,8 @@ namespace ouzel
 
             virtual void setCursorPosition(const Vector2& position) override;
 
+            void handleXInput2Event(XGenericEventCookie* cookie);
+
         protected:
             InputLinux();
             virtual bool init() override;
@@ -41,6 +43,7 @@ namespace ouzel
             bool cursorLocked = false;
             ::Cursor emptyCursor = None;
             ::Cursor currentCursor = None;
+            int xInputOpCode = 0;
         };
     } // namespace input
 } // namespace ouzel

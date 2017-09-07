@@ -7,6 +7,7 @@
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
+#include <X11/extensions/XInput2.h>
 #include "EngineLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
@@ -55,6 +56,7 @@ namespace ouzel
             XEvent event;
 
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
+            input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
 
             while (active)
             {
@@ -156,7 +158,13 @@ namespace ouzel
                         }
                         case Expose:
                         {
-                            // need redraw
+                            // need to redraw
+                            break;
+                        }
+                        case GenericEvent:
+                        {
+                            XGenericEventCookie* cookie = &event.xcookie;
+                            inputLinux->handleXInput2Event(cookie);
                             break;
                         }
                     }
