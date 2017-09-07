@@ -7,7 +7,6 @@
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
-#include <X11/extensions/XInput2.h>
 #include "EngineLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
