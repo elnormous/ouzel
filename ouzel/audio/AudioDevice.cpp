@@ -28,6 +28,27 @@ namespace ouzel
         {
             executeAll();
 
+            std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+
+            std::vector<float> data;
+
+            for (const RenderCommand& renderCommand : renderQueue)
+            {
+                if (!processRenderCommand(renderCommand, data)) return false;
+            }
+
+            return true;
+        }
+
+        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand, std::vector<float>& result)
+        {
+            std::vector<float> data;
+
+            for (const RenderCommand& renderCommand : renderQueue)
+            {
+                processRenderCommand(renderCommand, result);
+            }
+
             return true;
         }
 
@@ -46,7 +67,7 @@ namespace ouzel
             }
         }
 
-        bool AudioDevice::getData(uint32_t frames, Audio::Format format, std::vector<uint8_t>& result)
+        bool AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
             buffer.resize(frames * channels);
             std::fill(buffer.begin(), buffer.end(), 0.0f);

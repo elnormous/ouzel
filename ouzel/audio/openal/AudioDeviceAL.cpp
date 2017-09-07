@@ -186,12 +186,12 @@ namespace ouzel
 
             switch (channels)
             {
-                case 1: format = AL_FORMAT_MONO16; break;
-                case 2: format = AL_FORMAT_STEREO16; break;
-                case 4: format = format40; break;
-                case 6: format = format51; break;
-                case 7: format = format61; break;
-                case 8: format = format71; break;
+                case 1: sampleFormat = AL_FORMAT_MONO16; break;
+                case 2: sampleFormat = AL_FORMAT_STEREO16; break;
+                case 4: sampleFormat = format40; break;
+                case 6: sampleFormat = format51; break;
+                case 7: sampleFormat = format61; break;
+                case 8: sampleFormat = format71; break;
                 default:
                 {
                     Log(Log::Level::ERR) << "Invalid channel count";
@@ -199,16 +199,18 @@ namespace ouzel
                 }
             }
 
-            getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
+            format = Audio::Format::SINT16;
 
-            alBufferData(buffers[0], format,
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
+
+            alBufferData(buffers[0], sampleFormat,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
-            getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
+            getData(bufferSize / (channels * sizeof(int16_t)), data);
 
-            alBufferData(buffers[1], format,
+            alBufferData(buffers[1], sampleFormat,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
@@ -273,12 +275,12 @@ namespace ouzel
                     return false;
                 }
 
-                if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
+                if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
                 {
                     return false;
                 }
 
-                alBufferData(buffers[nextBuffer], format,
+                alBufferData(buffers[nextBuffer], sampleFormat,
                              data.data(),
                              static_cast<ALsizei>(data.size()),
                              static_cast<ALsizei>(sampleRate));

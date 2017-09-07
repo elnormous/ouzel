@@ -92,6 +92,8 @@ namespace ouzel
             format.bitsPerSample = 16;
             format.containerSize = format.bitsPerSample;
 
+            format = Audio::Format::SINT16;
+
             switch (channels)
             {
                 case 1: format.channelMask = SL_SPEAKER_FRONT_CENTER; break;
@@ -163,7 +165,7 @@ namespace ouzel
                 return false;
             }
             
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
+            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
             {
                 return false;
             }
@@ -190,7 +192,7 @@ namespace ouzel
                 return;
             }
 
-            if (!getData(bufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
+            if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
             {
                 return;
             }

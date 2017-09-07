@@ -295,13 +295,13 @@ namespace ouzel
                 }
                 else
                 {
-                    dataFormat = Audio::Format::SINT16;
+                    format = Audio::Format::SINT16;
                     sampleSize = sizeof(int16_t);
                 }
             }
             else
             {
-                dataFormat = Audio::Format::FLOAT32;
+                format = Audio::Format::FLOAT32;
                 sampleSize = sizeof(float);
             }
 
@@ -348,7 +348,7 @@ namespace ouzel
             {
                 AudioBuffer* buffer = &ioData->mBuffers[i];
 
-                if (!getData(buffer->mDataByteSize / (sampleSize * channels), dataFormat, data))
+                if (!getData(buffer->mDataByteSize / (sampleSize * channels), data))
                 {
                     return false;
                 }

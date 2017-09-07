@@ -38,6 +38,7 @@ namespace ouzel
             {
                 std::function<void(const std::vector<uint8_t>&, const std::vector<uint8_t>&)> renderCallback;
                 std::vector<RenderCommand> renderCommands;
+                SoundResource* soundResource = nullptr;
             };
 
         protected:
@@ -45,7 +46,8 @@ namespace ouzel
             virtual bool init(bool debugAudio);
 
             void executeAll();
-            bool getData(uint32_t frames, Audio::Format format, std::vector<uint8_t>& result);
+            bool getData(uint32_t frames, std::vector<uint8_t>& result);
+            bool processRenderCommand(const RenderCommand& renderCommand, std::vector<float>& result);
 
             Audio::Driver driver;
 
@@ -56,6 +58,7 @@ namespace ouzel
             std::vector<std::unique_ptr<Resource>> resources;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
 
+            Audio::Format format = Audio::Format::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;
@@ -64,6 +67,9 @@ namespace ouzel
 
             std::queue<std::function<void(void)>> executeQueue;
             std::mutex executeMutex;
+
+            std::vector<RenderCommand> renderQueue;
+            std::mutex renderQueueMutex;
         };
     } // namespace audio
 } // namespace ouzel

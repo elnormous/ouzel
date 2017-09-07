@@ -103,6 +103,8 @@ namespace ouzel
                 return false;
             }
 
+            format = Audio::Format::SINT16;
+
             IDirectSoundBuffer* tempBuffer = nullptr;
 
             DSBUFFERDESC bufferDesc;
@@ -139,7 +141,7 @@ namespace ouzel
                 return false;
             }
 
-            getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data);
+            getData(lockedBufferSize / (channels * sizeof(int16_t)), data);
             std::copy(data.begin(), data.end(), bufferPointer);
 
             hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
@@ -196,7 +198,7 @@ namespace ouzel
                         break;
                     }
     
-                    if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), Audio::Format::SINT16, data))
+                    if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), data))
                     {
                         break;
                     }

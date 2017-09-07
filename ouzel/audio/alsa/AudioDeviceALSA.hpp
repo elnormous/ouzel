@@ -35,7 +35,6 @@ namespace ouzel
             unsigned int periods = 4;
             snd_pcm_uframes_t periodSize = 1024;
 
-            Audio::Format dataFormat;
             std::vector<uint8_t> data;
 
             bool running = true;

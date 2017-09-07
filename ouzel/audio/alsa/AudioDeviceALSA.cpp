@@ -69,7 +69,7 @@ namespace ouzel
                     return false;
                 }
 
-                dataFormat = Audio::Format::FLOAT32;
+                format = Audio::Format::FLOAT32;
             }
             else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
             {
@@ -79,7 +79,7 @@ namespace ouzel
                     return false;
                 }
 
-                dataFormat = Audio::Format::SINT16;
+                format = Audio::Format::SINT16;
             }
             else
             {
@@ -226,7 +226,7 @@ namespace ouzel
                     continue;
                 }
 
-                if (!getData(frames, dataFormat, data))
+                if (!getData(frames, data))
                 {
                     break;
                 }

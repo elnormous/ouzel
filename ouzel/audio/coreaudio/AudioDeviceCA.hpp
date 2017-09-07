@@ -37,7 +37,6 @@ namespace ouzel
             AudioComponent audioComponent = nullptr;
             AudioComponentInstance audioUnit = nullptr;
 
-            Audio::Format dataFormat;
             uint32_t sampleSize = 0;
             std::vector<uint8_t> data;
         };
