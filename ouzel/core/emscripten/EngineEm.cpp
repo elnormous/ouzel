@@ -47,11 +47,13 @@ namespace ouzel
         audio->update();
 
         if (!active ||
-            !renderer->getDevice()->process() ||
-            !audio->getDevice()->process())
+            !renderer->getDevice()->process())
         {
             return false;
         }
+
+        // TODO: check for result of the AudioDevice::process
+        audio->getDevice()->process();
 
         input::InputEm* inputEm = static_cast<input::InputEm*>(input.get());
         inputEm->update();
