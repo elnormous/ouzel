@@ -20,23 +20,30 @@ SoundSample::SoundSample():
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
+    sharedEngine->getAudio()->addListener(&listener);
+
     test8BitSound.reset(new audio::Sound());
     test8BitSound->init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
     test8BitSound->setPitch(2.0f);
+    test8BitSound->setOutput(&listener);
 
     test24BitSound.reset(new audio::Sound());
     test24BitSound->init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
     test24BitSound->setPitch(0.5f);
+    test24BitSound->setOutput(&listener);
 
     jumpSound.reset(new audio::Sound());
     jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
     jumpSound->setPosition(Vector3(4.0f, 0.0f, 10.0f));
+    jumpSound->setOutput(&listener);
 
     ambientSound.reset(new audio::Sound());
     ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"));
+    ambientSound->setOutput(&listener);
 
     music.reset(new audio::Sound());
     music->init(sharedEngine->getCache()->getSoundData("music.ogg"));
+    music->setOutput(&listener);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));

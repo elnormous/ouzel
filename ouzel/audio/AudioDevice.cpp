@@ -28,25 +28,55 @@ namespace ouzel
         {
             executeAll();
 
+            return true;
+        }
+
+        void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
+        {
             std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
 
-            std::vector<float> data;
+            renderQueue = newRenderCommands;
+        }
+
+        bool AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
+        {
+            std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+
+            std::vector<float> data(frames * channels);
+            Vector3 sourcePosition;
 
             for (const RenderCommand& renderCommand : renderQueue)
             {
-                if (!processRenderCommand(renderCommand, data)) return false;
+                if (!processRenderCommand(renderCommand, frames, sourcePosition, data)) return false;
+
+                for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
+                {
+                    // mix the sound into the buffer
+                    result[i] += data[i];
+                }
             }
 
             return true;
         }
 
-        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand, std::vector<float>& result)
+        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand, uint32_t frames, Vector3& sourcePosition, std::vector<float>& result)
         {
-            std::vector<float> data;
+            std::vector<float> data(frames * channels);
 
-            for (const RenderCommand& renderCommand : renderQueue)
+            for (const RenderCommand& command : renderCommand.renderCommands)
             {
-                processRenderCommand(renderCommand, result);
+                processRenderCommand(command, frames, sourcePosition, data);
+
+                for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
+                {
+                    // mix the sound into the buffer
+                    result[i] += data[i];
+                }
+            }
+
+            if (renderCommand.callback)
+            {
+                if (!renderCommand.callback(frames, channels, sampleRate, sourcePosition, result)) return false;
             }
 
             return true;
@@ -72,25 +102,7 @@ namespace ouzel
             buffer.resize(frames * channels);
             std::fill(buffer.begin(), buffer.end(), 0.0f);
 
-            {
-                std::vector<float> data;
-
-                std::lock_guard<std::mutex> lock(resourceMutex);
-
-                /*for (ListenerResource* listener : listeners)
-                {
-                    if (!listener->getData(frames, channels, sampleRate, data))
-                    {
-                        return false;
-                    }
-
-                    for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
-                    {
-                        // mix the resource sound into the buffer
-                        buffer[i] += data[i];
-                    }
-                }*/
-            }
+            if (!processRenderCommands(frames, buffer)) return false;
 
             for (float& f : buffer)
             {

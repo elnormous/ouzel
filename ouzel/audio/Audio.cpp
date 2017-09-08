@@ -128,9 +128,14 @@ namespace ouzel
 
         bool Audio::update()
         {
+            std::vector<AudioDevice::RenderCommand> renderCommands;
+
             for (Listener* listener : listeners)
             {
+                renderCommands.push_back(listener->getRenderCommand());
             }
+
+            device->setRenderCommands(renderCommands);
 
             return true;
         }

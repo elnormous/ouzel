@@ -36,10 +36,15 @@ namespace ouzel
 
             struct RenderCommand
             {
-                std::function<void(const std::vector<uint8_t>&, const std::vector<uint8_t>&)> renderCallback;
+                std::function<bool(uint32_t frames,
+                                   uint16_t channels,
+                                   uint32_t sampleRate,
+                                   Vector3& sourcePosition,
+                                   std::vector<float>& result)> callback;
                 std::vector<RenderCommand> renderCommands;
-                SoundResource* soundResource = nullptr;
             };
+
+            void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
         protected:
             AudioDevice(Audio::Driver aDriver);
@@ -47,7 +52,8 @@ namespace ouzel
 
             void executeAll();
             bool getData(uint32_t frames, std::vector<uint8_t>& result);
-            bool processRenderCommand(const RenderCommand& renderCommand, std::vector<float>& result);
+            bool processRenderCommands(uint32_t frames, std::vector<float>& result);
+            bool processRenderCommand(const RenderCommand& renderCommand, uint32_t frames, Vector3& sourcePosition, std::vector<float>& result);
 
             Audio::Driver driver;
 

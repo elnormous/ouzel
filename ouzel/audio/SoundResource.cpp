@@ -66,10 +66,9 @@ namespace ouzel
         {
         }
 
-        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition)
+        bool SoundResource::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
-            relativePosition = newRelativePosition;
 
             if (soundData)
             {
@@ -132,8 +131,14 @@ namespace ouzel
             return true;
         }
 
-        bool SoundResource::getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result)
+        bool SoundResource::getData(uint32_t frames,
+                                    uint16_t channels,
+                                    uint32_t sampleRate,
+                                    Vector3& sourcePosition,
+                                    std::vector<float>& result)
         {
+            sourcePosition = position;
+
             if (!playing)
             {
                 result.clear();
@@ -348,30 +353,9 @@ namespace ouzel
                     result = resampledData;
                 }
 
-                Vector3 offset; // = relativePosition ? position : position - audioDevice->getListenerPosition();
-                float distance = clamp(offset.length(), minDistance, maxDistance);
-                float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
-
-                std::vector<float> channelVolume(channels, gain * attenuation);
-
-                if (channelVolume.size() > 1)
+                for (float& sample : result)
                 {
-                    Quaternion inverseRotation;// = -audioDevice->getListenerRotation();
-                    Vector3 relative = inverseRotation * offset;
-                    relative.normalize();
-                    float angle = atan2f(relative.x, relative.z);
-
-                    // constant power panning
-                    channelVolume[0] = SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
-                    channelVolume[1] = SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
-                }
-
-                for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-                {
-                    for (uint32_t channel = 0; channel < channels; ++channel)
-                    {
-                        result[frame * channels + channel] *= channelVolume[channel];
-                    }
+                    sample *= gain;
                 }
             }
 

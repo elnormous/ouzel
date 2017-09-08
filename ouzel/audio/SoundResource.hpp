@@ -26,8 +26,9 @@ namespace ouzel
             SoundResource(AudioDevice* aAudioDevice);
             virtual ~SoundResource();
 
-            bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
+            bool init(const std::shared_ptr<SoundData>& newSoundData);
 
+            const Vector3& getPosition() const { return position; }
             void setPosition(const Vector3& newPosition);
             void setPitch(float newPitch);
             void setGain(float newGain);
@@ -41,10 +42,11 @@ namespace ouzel
 
             bool isRepeating() const { return repeat; }
 
-            bool isRelativePosition() const { return relativePosition; }
-            void setRelativePosition(bool newRelativePosition) { relativePosition = newRelativePosition; }
-
-            virtual bool getData(uint32_t frames, uint16_t channels, uint32_t sampleRate, std::vector<float>& result);
+            bool getData(uint32_t frames,
+                         uint16_t channels,
+                         uint32_t sampleRate,
+                         Vector3& sourcePosition,
+                         std::vector<float>& result);
 
         protected:
             AudioDevice* audioDevice;
@@ -59,7 +61,6 @@ namespace ouzel
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
 
-            bool relativePosition = false;
             bool playing = false;
             bool repeat = false;
             bool reset = false;

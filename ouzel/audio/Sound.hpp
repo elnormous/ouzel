@@ -23,7 +23,7 @@ namespace ouzel
             Sound();
             virtual ~Sound();
 
-            bool init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition = false);
+            bool init(const std::shared_ptr<SoundData>& newSoundData);
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
@@ -51,15 +51,13 @@ namespace ouzel
 
             bool isRepeating() const { return repeating; }
 
-            bool isRelativePosition() const { return relativePosition; }
-            void setRelativePosition(bool newRelativePosition);
+            virtual AudioDevice::RenderCommand getRenderCommand() override;
 
         private:
             SoundResource* resource = nullptr;
 
             std::shared_ptr<SoundData> soundData;
             bool repeating = false;
-            bool relativePosition = false;
 
             Vector3 position;
             float pitch = 1.0f;

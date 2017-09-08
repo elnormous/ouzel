@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "audio/AudioDevice.hpp"
+
 namespace ouzel
 {
     namespace audio
@@ -15,6 +17,8 @@ namespace ouzel
             virtual ~SoundInput();
 
             void setOutput(SoundOutput* newOutput);
+
+            virtual AudioDevice::RenderCommand getRenderCommand() = 0;
 
         protected:
             SoundOutput* output = nullptr;

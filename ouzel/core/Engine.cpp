@@ -535,6 +535,8 @@ namespace ouzel
                 sceneManager.draw();
                 renderer->getDevice()->flushCommands();
             }
+
+            audio->update();
         }
     }
 

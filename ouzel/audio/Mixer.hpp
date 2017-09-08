@@ -22,7 +22,16 @@ namespace ouzel
             float getRolloffFactor() const { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor) { rolloffFactor = newRolloffFactor; }
 
+            virtual AudioDevice::RenderCommand getRenderCommand() override;
+
         protected:
+            static bool render(uint32_t frames,
+                               uint16_t channels,
+                               uint32_t sampleRate,
+                               Vector3& sourcePosition,
+                               std::vector<float>& result,
+                               float gain);
+
             float gain = 1.0f;
             float rolloffFactor = 1.0f;
         };

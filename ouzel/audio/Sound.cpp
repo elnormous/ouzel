@@ -21,15 +21,13 @@ namespace ouzel
             if (sharedEngine) sharedEngine->getAudio()->getDevice()->deleteResource(resource);
         }
 
-        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData, bool newRelativePosition)
+        bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
-            relativePosition = newRelativePosition;
 
             sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::init,
                                                                      resource,
-                                                                     newSoundData,
-                                                                     newRelativePosition));
+                                                                     newSoundData));
 
             return true;
         }
@@ -114,13 +112,19 @@ namespace ouzel
             return true;
         }
 
-        void Sound::setRelativePosition(bool newRelativePosition)
+        AudioDevice::RenderCommand Sound::getRenderCommand()
         {
-            relativePosition = newRelativePosition;
+            AudioDevice::RenderCommand renderCommand;
 
-            sharedEngine->getAudio()->executeOnAudioThread(std::bind(&SoundResource::setRelativePosition,
-                                                                     resource,
-                                                                     newRelativePosition));
+            renderCommand.callback = std::bind(&SoundResource::getData,
+                                               resource,
+                                               std::placeholders::_1,
+                                               std::placeholders::_2,
+                                               std::placeholders::_3,
+                                               std::placeholders::_4,
+                                               std::placeholders::_5);
+
+            return renderCommand;
         }
     } // namespace audio
 } // namespace ouzel
