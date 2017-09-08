@@ -16,7 +16,6 @@
 #include "audio/Audio.hpp"
 #include "audio/Listener.hpp"
 #include "audio/Mixer.hpp"
-#include "audio/Resource.hpp"
 #include "audio/Sound.hpp"
 #include "audio/SoundData.hpp"
 #include "audio/SoundDataVorbis.hpp"

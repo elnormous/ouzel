@@ -705,9 +705,6 @@
 		306A26C61F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26C21F5DD19E00E2B0B6 /* SoundOutput.hpp */; };
 		306A26C71F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26C21F5DD19E00E2B0B6 /* SoundOutput.hpp */; };
 		306A26C81F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26C21F5DD19E00E2B0B6 /* SoundOutput.hpp */; };
-		306A26E21F5DD6FF00E2B0B6 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26E11F5DD6FF00E2B0B6 /* Resource.hpp */; };
-		306A26E31F5DD6FF00E2B0B6 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26E11F5DD6FF00E2B0B6 /* Resource.hpp */; };
-		306A26E41F5DD6FF00E2B0B6 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 306A26E11F5DD6FF00E2B0B6 /* Resource.hpp */; };
 		306A26E81F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26E61F5DE76E00E2B0B6 /* SoundInput.cpp */; };
 		306A26E91F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26E61F5DE76E00E2B0B6 /* SoundInput.cpp */; };
 		306A26EA1F5DE76E00E2B0B6 /* SoundInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26E61F5DE76E00E2B0B6 /* SoundInput.cpp */; };
@@ -1197,7 +1194,6 @@
 		306A26BA1F5DD19300E2B0B6 /* Mixer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
 		306A26C11F5DD19E00E2B0B6 /* SoundOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundOutput.cpp; sourceTree = "<group>"; };
 		306A26C21F5DD19E00E2B0B6 /* SoundOutput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundOutput.hpp; sourceTree = "<group>"; };
-		306A26E11F5DD6FF00E2B0B6 /* Resource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Resource.hpp; sourceTree = "<group>"; };
 		306A26E61F5DE76E00E2B0B6 /* SoundInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundInput.cpp; sourceTree = "<group>"; };
 		306A26E71F5DE76E00E2B0B6 /* SoundInput.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundInput.hpp; sourceTree = "<group>"; };
 		306B0E5D1C567D05005C75C1 /* ShapeRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeRenderer.cpp; sourceTree = "<group>"; };
@@ -1732,7 +1728,6 @@
 				306A26B91F5DD19300E2B0B6 /* Mixer.cpp */,
 				306A26BA1F5DD19300E2B0B6 /* Mixer.hpp */,
 				30419E6C1D20254100A63759 /* openal */,
-				306A26E11F5DD6FF00E2B0B6 /* Resource.hpp */,
 				30419DE71D162BDC00A63759 /* Sound.cpp */,
 				30419DE81D162BDC00A63759 /* Sound.hpp */,
 				30419DEF1D162BEF00A63759 /* SoundData.cpp */,
@@ -2091,7 +2086,6 @@
 				30ADCBBE1E9A957C000DC9AC /* RenderDeviceMetalIOS.hpp in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
 				3082C3B71D9565DE0090FC9D /* TextureVSGL2.h in Headers */,
-				306A26E21F5DD6FF00E2B0B6 /* Resource.hpp in Headers */,
 				303821421D81876E00677CAB /* MeshBufferResourceEmpty.hpp in Headers */,
 				30575AC01C39D9850009C8A7 /* ActorContainer.hpp in Headers */,
 				309BA3161F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */,
@@ -2214,7 +2208,6 @@
 				303B04C51E207B7800011CBE /* RenderDeviceOGLTVOS.hpp in Headers */,
 				30381F541D80A3EC00677CAB /* BlendStateResourceOGL.hpp in Headers */,
 				303B04C31E207B7800011CBE /* OpenGLView.h in Headers */,
-				306A26E41F5DD6FF00E2B0B6 /* Resource.hpp in Headers */,
 				3082C3AD1D9565DE0090FC9D /* TexturePSGL2.h in Headers */,
 				30FE38531DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				304AA8C31E1190E4006FA70E /* OBF.hpp in Headers */,
@@ -2425,7 +2418,6 @@
 				303696F01E32DE08007F4211 /* Shader.hpp in Headers */,
 				30381FEC1D80A40700677CAB /* ColorPSTVOS.h in Headers */,
 				306B0E621C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
-				306A26E31F5DD6FF00E2B0B6 /* Resource.hpp in Headers */,
 				3082C3C11D9565DE0090FC9D /* TextureVSGLES3.h in Headers */,
 				30C758B11F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				3047F7411C4C344A00774E3D /* Animator.hpp in Headers */,

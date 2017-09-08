@@ -904,9 +904,6 @@
     <ClInclude Include="..\ouzel\audio\SoundOutput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\audio\Resource.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundInput.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>

@@ -6,7 +6,7 @@
 #include <cfloat>
 #include <memory>
 #include <vector>
-#include "audio/Resource.hpp"
+#include "utils/Noncopyable.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -19,11 +19,11 @@ namespace ouzel
         class SoundData;
         class Stream;
         
-        class SoundResource: public Resource
+        class SoundResource: public Noncopyable
         {
             friend Audio;
         public:
-            SoundResource(AudioDevice* aAudioDevice);
+            SoundResource();
             virtual ~SoundResource();
 
             bool init(const std::shared_ptr<SoundData>& newSoundData);
@@ -49,8 +49,6 @@ namespace ouzel
                          std::vector<float>& result);
 
         protected:
-            AudioDevice* audioDevice;
-
             std::shared_ptr<SoundData> soundData;
             std::unique_ptr<Stream> stream;
 

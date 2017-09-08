@@ -56,8 +56,7 @@ namespace ouzel
 {
     namespace audio
     {
-        SoundResource::SoundResource(AudioDevice* aAudioDevice):
-            audioDevice(aAudioDevice)
+        SoundResource::SoundResource()
         {
         }
 

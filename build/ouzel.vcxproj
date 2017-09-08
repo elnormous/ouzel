@@ -180,7 +180,6 @@
     <ClInclude Include="..\ouzel\audio\Listener.hpp" />
     <ClInclude Include="..\ouzel\audio\Mixer.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundOutput.hpp" />
-    <ClInclude Include="..\ouzel\audio\Resource.hpp" />
     <ClInclude Include="..\ouzel\audio\Sound.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundData.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundDataVorbis.hpp" />

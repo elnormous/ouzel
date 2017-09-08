@@ -82,11 +82,11 @@ namespace ouzel
             return true;
         }
 
-        void AudioDevice::deleteResource(Resource* resource)
+        void AudioDevice::deleteResource(SoundResource* resource)
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<SoundResource>& ptr) {
                 return ptr.get() == resource;
             });
 
@@ -139,8 +139,8 @@ namespace ouzel
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            SoundResource* sound = new SoundResource(this);
-            resources.push_back(std::unique_ptr<Resource>(sound));
+            SoundResource* sound = new SoundResource();
+            resources.push_back(std::unique_ptr<SoundResource>(sound));
             return sound;
         }
 
