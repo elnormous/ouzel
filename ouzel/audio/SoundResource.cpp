@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cmath>
 #include "SoundResource.hpp"
 #include "AudioDevice.hpp"
 #include "SoundData.hpp"
@@ -126,7 +125,7 @@ namespace ouzel
         bool SoundResource::stop()
         {
             playing = false;
-            reset = true;
+            stream->reset();
 
             return true;
         }
