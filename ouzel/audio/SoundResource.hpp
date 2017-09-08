@@ -13,15 +13,11 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-        class AudioDevice;
-        class Output;
         class SoundData;
         class Stream;
         
         class SoundResource: public Noncopyable
         {
-            friend Audio;
         public:
             SoundResource();
             virtual ~SoundResource();
