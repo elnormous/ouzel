@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cfloat>
+#include "utils/Noncopyable.hpp"
 #include "audio/AudioDevice.hpp"
 #include "audio/SoundOutput.hpp"
 #include "math/Quaternion.hpp"
@@ -15,7 +16,7 @@ namespace ouzel
     {
         class Audio;
 
-        class Listener: public SoundOutput
+        class Listener: public Noncopyable, public SoundOutput
         {
             friend Audio;
         public:

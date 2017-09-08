@@ -8,6 +8,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include "utils/Noncopyable.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -20,7 +21,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio
+        class Audio: public Noncopyable
         {
             friend Engine;
         public:

@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -15,7 +16,7 @@ namespace ouzel
         class Audio;
         class Stream;
 
-        class SoundData
+        class SoundData: public Noncopyable
         {
             friend Audio;
         public:
