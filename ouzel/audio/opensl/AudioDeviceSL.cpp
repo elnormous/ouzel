@@ -85,31 +85,29 @@ namespace ouzel
 
             SLDataLocator_AndroidSimpleBufferQueue location = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
 
-            SLDataFormat_PCM format;
-            format.formatType = SL_DATAFORMAT_PCM;
-            format.numChannels = channels;
-            format.samplesPerSec = sampleRate * 1000; //mHz
-            format.bitsPerSample = 16;
-            format.containerSize = format.bitsPerSample;
-
-            format = Audio::Format::SINT16;
+            SLDataFormat_PCM dataFormat;
+            dataFormat.formatType = SL_DATAFORMAT_PCM;
+            dataFormat.numChannels = channels;
+            dataFormat.samplesPerSec = sampleRate * 1000; //mHz
+            dataFormat.bitsPerSample = 16;
+            dataFormat.containerSize = dataFormat.bitsPerSample;
 
             switch (channels)
             {
-                case 1: format.channelMask = SL_SPEAKER_FRONT_CENTER; break;
-                case 2: format.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT; break;
-                case 4: format.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_BACK_LEFT | SL_SPEAKER_BACK_RIGHT; break;
-                case 6: format.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_SIDE_LEFT|SL_SPEAKER_SIDE_RIGHT; break;
-                case 7: format.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_CENTER | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
-                case 8: format.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_LEFT|SL_SPEAKER_BACK_RIGHT | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
+                case 1: dataFormat.channelMask = SL_SPEAKER_FRONT_CENTER; break;
+                case 2: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT; break;
+                case 4: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_BACK_LEFT | SL_SPEAKER_BACK_RIGHT; break;
+                case 6: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_SIDE_LEFT|SL_SPEAKER_SIDE_RIGHT; break;
+                case 7: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_CENTER | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
+                case 8: dataFormat.channelMask = SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT | SL_SPEAKER_FRONT_CENTER | SL_SPEAKER_LOW_FREQUENCY | SL_SPEAKER_BACK_LEFT|SL_SPEAKER_BACK_RIGHT | SL_SPEAKER_SIDE_LEFT | SL_SPEAKER_SIDE_RIGHT; break;
                 default:
                     Log(Log::Level::ERR) << "Invalid channel count";
                     return false;
             }
 
-            format.endianness = SL_BYTEORDER_LITTLEENDIAN;
+            dataFormat.endianness = SL_BYTEORDER_LITTLEENDIAN;
 
-            SLDataSource dataSource = {&location, &format};
+            SLDataSource dataSource = {&location, &dataFormat};
 
             SLDataLocator_OutputMix dataLocatorOut;
             dataLocatorOut.locatorType = SL_DATALOCATOR_OUTPUTMIX;
@@ -128,6 +126,8 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to create OpenSL player object";
                 return false;
             }
+
+            format = Audio::Format::SINT16;
 
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {
