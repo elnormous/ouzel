@@ -48,7 +48,7 @@ namespace ouzel
 
         if (!active ||
             !renderer->getDevice()->process() ||
-            !audio->getDriver()->process())
+            !audio->getDevice()->process())
         {
             return false;
         }

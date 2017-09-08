@@ -21,30 +21,6 @@ namespace ouzel
             if (audio) audio->removeListener(this);
         }
 
-        AudioDevice::RenderCommand Listener::getRenderCommand()
-        {
-            AudioDevice::RenderCommand renderCommand;
-
-            for (SoundInput* input : inputs)
-            {
-                renderCommand.renderCommands.push_back(input->getRenderCommand());
-            }
-
-            renderCommand.callback = std::bind(&Listener::render,
-                                               std::placeholders::_1,
-                                               std::placeholders::_2,
-                                               std::placeholders::_3,
-                                               std::placeholders::_4,
-                                               std::placeholders::_5,
-                                               position,
-                                               rotation,
-                                               rolloffFactor,
-                                               minDistance,
-                                               maxDistance);
-
-            return renderCommand;
-        }
-
         void Listener::draw(const Matrix4& transformMatrix,
                             float opacity,
                             const Matrix4& renderViewProjection,
@@ -69,6 +45,30 @@ namespace ouzel
 
             setPosition(transformMatrix.getTranslation());
             setRotation(transformMatrix.getRotation());
+        }
+
+        AudioDevice::RenderCommand Listener::getRenderCommand()
+        {
+            AudioDevice::RenderCommand renderCommand;
+
+            for (SoundInput* input : inputs)
+            {
+                renderCommand.renderCommands.push_back(input->getRenderCommand());
+            }
+
+            renderCommand.callback = std::bind(&Listener::render,
+                                               std::placeholders::_1,
+                                               std::placeholders::_2,
+                                               std::placeholders::_3,
+                                               std::placeholders::_4,
+                                               std::placeholders::_5,
+                                               position,
+                                               rotation,
+                                               rolloffFactor,
+                                               minDistance,
+                                               maxDistance);
+
+            return renderCommand;
         }
 
         bool Listener::render(uint32_t,
