@@ -5,9 +5,9 @@
 
 #include <cfloat>
 #include <memory>
-#include "utils/Noncopyable.hpp"
 #include "audio/SoundInput.hpp"
 #include "math/Vector3.hpp"
+#include "scene/Component.hpp"
 
 namespace ouzel
 {
@@ -17,7 +17,7 @@ namespace ouzel
         class SoundData;
         class SoundResource;
 
-        class Sound: public Noncopyable, public SoundInput
+        class Sound: public SoundInput, public scene::Component
         {
             friend Audio;
         public:
@@ -25,6 +25,17 @@ namespace ouzel
             virtual ~Sound();
 
             bool init(const std::shared_ptr<SoundData>& newSoundData);
+
+            virtual void draw(const Matrix4& transformMatrix,
+                              float opacity,
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest,
+                              bool wireframe,
+                              bool scissorTest,
+                              const Rectangle& scissorRectangle) override;
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 

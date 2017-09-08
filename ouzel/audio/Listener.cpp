@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace audio
     {
-        Listener::Listener()
+        Listener::Listener():
+            scene::Component(scene::Component::LISTENER)
         {
         }
 
@@ -42,6 +43,32 @@ namespace ouzel
                                                maxDistance);
 
             return renderCommand;
+        }
+
+        void Listener::draw(const Matrix4& transformMatrix,
+                            float opacity,
+                            const Matrix4& renderViewProjection,
+                            const std::shared_ptr<graphics::Texture>& renderTarget,
+                            const Rectangle& renderViewport,
+                            bool depthWrite,
+                            bool depthTest,
+                            bool wireframe,
+                            bool scissorTest,
+                            const Rectangle& scissorRectangle)
+        {
+            Component::draw(transformMatrix,
+                            opacity,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest,
+                            wireframe,
+                            scissorTest,
+                            scissorRectangle);
+
+            setPosition(transformMatrix.getTranslation());
+            setRotation(transformMatrix.getRotation());
         }
 
         bool Listener::render(uint32_t,

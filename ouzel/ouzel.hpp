@@ -94,8 +94,6 @@
 #include "scene/Scene.hpp"
 #include "scene/SceneManager.hpp"
 #include "scene/ShapeRenderer.hpp"
-#include "scene/SoundListener.hpp"
-#include "scene/SoundPlayer.hpp"
 #include "scene/Sprite.hpp"
 #include "scene/SpriteDefinition.hpp"
 #include "scene/TextRenderer.hpp"

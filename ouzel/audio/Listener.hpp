@@ -4,9 +4,9 @@
 #pragma once
 
 #include <cfloat>
-#include "utils/Noncopyable.hpp"
 #include "audio/AudioDevice.hpp"
 #include "audio/SoundOutput.hpp"
+#include "scene/Component.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -16,12 +16,23 @@ namespace ouzel
     {
         class Audio;
 
-        class Listener: public Noncopyable, public SoundOutput
+        class Listener: public SoundOutput, public scene::Component
         {
             friend Audio;
         public:
             Listener();
             virtual ~Listener();
+
+            virtual void draw(const Matrix4& transformMatrix,
+                              float opacity,
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest,
+                              bool wireframe,
+                              bool scissorTest,
+                              const Rectangle& scissorRectangle) override;
 
             const Vector3& getPosition() const { return position; }
             void setPosition(const Vector3& newPosition) { position = newPosition; }

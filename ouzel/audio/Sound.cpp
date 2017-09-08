@@ -11,7 +11,8 @@ namespace ouzel
 {
     namespace audio
     {
-        Sound::Sound()
+        Sound::Sound():
+            scene::Component(scene::Component::SOUND)
         {
             resource = sharedEngine->getAudio()->getDevice()->createSound();
         }
@@ -30,6 +31,31 @@ namespace ouzel
                                                                      newSoundData));
 
             return true;
+        }
+
+        void Sound::draw(const Matrix4& transformMatrix,
+                         float opacity,
+                         const Matrix4& renderViewProjection,
+                         const std::shared_ptr<graphics::Texture>& renderTarget,
+                         const Rectangle& renderViewport,
+                         bool depthWrite,
+                         bool depthTest,
+                         bool wireframe,
+                         bool scissorTest,
+                         const Rectangle& scissorRectangle)
+        {
+            Component::draw(transformMatrix,
+                            opacity,
+                            renderViewProjection,
+                            renderTarget,
+                            renderViewport,
+                            depthWrite,
+                            depthTest,
+                            wireframe,
+                            scissorTest,
+                            scissorRectangle);
+
+            setPosition(transformMatrix.getTranslation());
         }
 
         void Sound::setPosition(const Vector3& newPosition)

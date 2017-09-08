@@ -30,8 +30,8 @@ namespace ouzel
                 MESH_RENDERER = 2,
                 PARTICLE_SYSTEM = 3,
                 SHAPE_RENDERER = 4,
-                SOUND_LISTENER = 5,
-                SOUND_PLAYER = 6,
+                LISTENER = 5,
+                SOUND = 6,
                 SPRITE = 7,
                 TEXT_RENDERER = 8
             };
