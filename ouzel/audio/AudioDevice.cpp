@@ -43,10 +43,19 @@ namespace ouzel
 
             std::vector<float> data(frames * channels);
             Vector3 sourcePosition;
+            float sourceRolloffFactor;
+            float sourceMinDistance;
+            float sourceMaxDistance;
 
             for (const RenderCommand& renderCommand : renderQueue)
             {
-                if (!processRenderCommand(renderCommand, frames, sourcePosition, data)) return false;
+                if (!processRenderCommand(renderCommand,
+                                          frames,
+                                          sourcePosition,
+                                          sourceRolloffFactor,
+                                          sourceMinDistance,
+                                          sourceMaxDistance,
+                                          data)) return false;
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                 {
@@ -58,13 +67,25 @@ namespace ouzel
             return true;
         }
 
-        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand, uint32_t frames, Vector3& sourcePosition, std::vector<float>& result)
+        bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
+                                               uint32_t frames,
+                                               Vector3& sourcePosition,
+                                               float& sourceRolloffFactor,
+                                               float& sourceMinDistance,
+                                               float& sourceMaxDistance,
+                                               std::vector<float>& result)
         {
             std::vector<float> data(frames * channels);
 
             for (const RenderCommand& command : renderCommand.renderCommands)
             {
-                processRenderCommand(command, frames, sourcePosition, data);
+                processRenderCommand(command,
+                                     frames,
+                                     sourcePosition,
+                                     sourceRolloffFactor,
+                                     sourceMinDistance,
+                                     sourceMaxDistance,
+                                     data);
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                 {
@@ -75,7 +96,14 @@ namespace ouzel
 
             if (renderCommand.callback)
             {
-                if (!renderCommand.callback(frames, channels, sampleRate, sourcePosition, result)) return false;
+                if (!renderCommand.callback(frames,
+                                            channels,
+                                            sampleRate,
+                                            sourcePosition,
+                                            sourceRolloffFactor,
+                                            sourceMinDistance,
+                                            sourceMaxDistance,
+                                            result)) return false;
             }
 
             return true;

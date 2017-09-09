@@ -200,11 +200,17 @@ namespace ouzel
                                                std::placeholders::_3,
                                                std::placeholders::_4,
                                                std::placeholders::_5,
+                                               std::placeholders::_6,
+                                               std::placeholders::_7,
+                                               std::placeholders::_8,
                                                soundData,
                                                stream,
                                                position,
                                                pitch,
-                                               gain);
+                                               gain,
+                                               rolloffFactor,
+                                               minDistance,
+                                               maxDistance);
 
             return renderCommand;
         }
@@ -213,14 +219,23 @@ namespace ouzel
                            uint16_t channels,
                            uint32_t sampleRate,
                            Vector3& sourcePosition,
+                           float& sourceRolloffFactor,
+                           float& sourceMinDistance,
+                           float& sourceMaxDistance,
                            std::vector<float>& result,
                            const std::shared_ptr<SoundData>& soundData,
                            const std::shared_ptr<Stream>& stream,
                            const Vector3& position,
                            float pitch,
-                           float gain)
+                           float gain,
+                           float rolloffFactor,
+                           float minDistance,
+                           float maxDistance)
         {
             sourcePosition = position;
+            sourceRolloffFactor = rolloffFactor;
+            sourceMinDistance = minDistance;
+            sourceMaxDistance = maxDistance;
 
             if (!stream->isPlaying())
             {

@@ -62,11 +62,11 @@ namespace ouzel
                                                std::placeholders::_3,
                                                std::placeholders::_4,
                                                std::placeholders::_5,
+                                               std::placeholders::_6,
+                                               std::placeholders::_7,
+                                               std::placeholders::_8,
                                                position,
-                                               rotation,
-                                               rolloffFactor,
-                                               minDistance,
-                                               maxDistance);
+                                               rotation);
 
             return renderCommand;
         }
@@ -75,16 +75,16 @@ namespace ouzel
                               uint16_t channels,
                               uint32_t,
                               Vector3& sourcePosition,
+                              float& sourceRolloffFactor,
+                              float& sourceMinDistance,
+                              float& sourceMaxDistance,
                               std::vector<float>& result,
                               const Vector3& listenerPosition,
-                              const Quaternion& listenerRotation,
-                              float rolloffFactor,
-                              float minDistance,
-                              float maxDistance)
+                              const Quaternion& listenerRotation)
         {
             Vector3 offset = sourcePosition - listenerPosition;
-            float distance = clamp(offset.length(), minDistance, maxDistance);
-            float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+            float distance = clamp(offset.length(), sourceMinDistance, sourceMaxDistance);
+            float attenuation = sourceMinDistance / (sourceMinDistance + sourceRolloffFactor * (distance - sourceMinDistance)); // inverse distance
 
             std::vector<float> channelVolume(channels, attenuation);
 

@@ -71,12 +71,18 @@ namespace ouzel
                                uint16_t channels,
                                uint32_t sampleRate,
                                Vector3& sourcePosition,
+                               float& sourceRolloffFactor,
+                               float& sourceMinDistance,
+                               float& sourceMaxDistance,
                                std::vector<float>& result,
                                const std::shared_ptr<SoundData>& soundData,
                                const std::shared_ptr<Stream>& stream,
                                const Vector3& position,
                                float pitch,
-                               float gain);
+                               float gain,
+                               float rolloffFactor,
+                               float minDistance,
+                               float maxDistance);
 
             UpdateCallback updateCallback;
             std::shared_ptr<SoundData> soundData;

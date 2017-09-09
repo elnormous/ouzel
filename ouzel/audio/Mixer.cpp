@@ -33,6 +33,9 @@ namespace ouzel
                                                std::placeholders::_3,
                                                std::placeholders::_4,
                                                std::placeholders::_5,
+                                               std::placeholders::_6,
+                                               std::placeholders::_7,
+                                               std::placeholders::_8,
                                                gain);
 
             return renderCommand;
@@ -42,6 +45,9 @@ namespace ouzel
                            uint16_t,
                            uint32_t,
                            Vector3&,
+                           float&,
+                           float&,
+                           float&,
                            std::vector<float>& result,
                            float gain)
         {

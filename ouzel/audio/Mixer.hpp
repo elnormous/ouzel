@@ -30,6 +30,9 @@ namespace ouzel
                                uint16_t channels,
                                uint32_t sampleRate,
                                Vector3& sourcePosition,
+                               float& sourceRolloffFactor,
+                               float& sourceMinDistance,
+                               float& sourceMaxDistance,
                                std::vector<float>& result,
                                float gain);
 

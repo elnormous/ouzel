@@ -47,21 +47,17 @@ namespace ouzel
                                uint16_t channels,
                                uint32_t sampleRate,
                                Vector3& sourcePosition,
+                               float& sourceRolloffFactor,
+                               float& sourceMinDistance,
+                               float& sourceMaxDistance,
                                std::vector<float>& result,
                                const Vector3& listenerPosition,
-                               const Quaternion& listenerRotation,
-                               float rolloffFactor,
-                               float minDistance,
-                               float maxDistance);
+                               const Quaternion& listenerRotation);
 
             Audio* audio = nullptr;
 
             Vector3 position;
             Quaternion rotation;
-
-            float rolloffFactor = 1.0f;
-            float minDistance = 1.0f;
-            float maxDistance = FLT_MAX;
         };
     } // namespace audio
 } // namespace ouzel
