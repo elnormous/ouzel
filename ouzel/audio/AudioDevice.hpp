@@ -15,7 +15,6 @@ namespace ouzel
     {
         class ListenerResource;
         class MixerResource;
-        class SoundResource;
 
         class AudioDevice: public Noncopyable
         {

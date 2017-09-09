@@ -9,6 +9,8 @@ namespace ouzel
     {
         void StreamWave::reset()
         {
+            Stream::reset();
+
             offset = 0;
         }
     } // namespace audio

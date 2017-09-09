@@ -41,7 +41,6 @@
     <ClCompile Include="..\ouzel\audio\SoundData.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp" />
-    <ClCompile Include="..\ouzel\audio\SoundResource.cpp" />
     <ClCompile Include="..\ouzel\audio\Stream.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamVorbis.cpp" />
     <ClCompile Include="..\ouzel\audio\StreamWave.cpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="..\ouzel\audio\SoundData.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundDataVorbis.hpp" />
     <ClInclude Include="..\ouzel\audio\SoundDataWave.hpp" />
-    <ClInclude Include="..\ouzel\audio\SoundResource.hpp" />
     <ClInclude Include="..\ouzel\audio\Stream.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamVorbis.hpp" />
     <ClInclude Include="..\ouzel\audio\StreamWave.hpp" />

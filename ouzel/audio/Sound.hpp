@@ -15,7 +15,7 @@ namespace ouzel
     {
         class Audio;
         class SoundData;
-        class SoundResource;
+        class Stream;
 
         class Sound: public SoundInput, public scene::Component
         {
@@ -61,15 +61,22 @@ namespace ouzel
             bool pause();
             bool stop();
 
-            bool isRepeating() const { return repeating; }
-
             virtual AudioDevice::RenderCommand getRenderCommand() override;
 
         private:
-            SoundResource* resource = nullptr;
+            static bool render(uint32_t frames,
+                               uint16_t channels,
+                               uint32_t sampleRate,
+                               Vector3& sourcePosition,
+                               std::vector<float>& result,
+                               const std::shared_ptr<SoundData>& soundData,
+                               const std::shared_ptr<Stream>& stream,
+                               const Vector3& position,
+                               float pitch,
+                               float gain);
 
             std::shared_ptr<SoundData> soundData;
-            bool repeating = false;
+            std::shared_ptr<Stream> stream;
 
             Vector3 position;
             float pitch = 1.0f;

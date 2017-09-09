@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstdint>
+#include <atomic>
 #include "utils/Noncopyable.hpp"
 
 namespace ouzel
@@ -12,9 +14,23 @@ namespace ouzel
         class Stream: public Noncopyable
         {
         public:
+            Stream();
         	virtual ~Stream();
 
-            virtual void reset() = 0;
+            virtual void reset();
+
+            bool isPlaying() { return playing; }
+            void setPlaying(bool newPlaying) { playing = newPlaying; }
+
+            bool isRepeating() { return repeating; }
+            void setRepeating(bool newRepeating) { repeating = newRepeating; }
+
+            uint32_t getResetCount() { return resetCount; }
+
+        private:
+            std::atomic<bool> playing;
+            std::atomic<bool> repeating;
+            std::atomic<uint32_t> resetCount;
         };
     } // namespace audio
 } // namespace ouzel

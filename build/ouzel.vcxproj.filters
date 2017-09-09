@@ -310,9 +310,6 @@
     <ClCompile Include="..\ouzel\audio\SoundDataWave.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\audio\SoundResource.cpp">
-      <Filter>ouzel\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\audio\Stream.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
@@ -770,9 +767,6 @@
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundDataWave.hpp">
-      <Filter>ouzel\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\audio\SoundResource.hpp">
       <Filter>ouzel\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\Stream.hpp">

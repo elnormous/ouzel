@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include "AudioDevice.hpp"
-#include "SoundResource.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel

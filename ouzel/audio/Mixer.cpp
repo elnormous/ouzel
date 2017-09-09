@@ -45,9 +45,12 @@ namespace ouzel
                            std::vector<float>& result,
                            float gain)
         {
-            for (float& sample : result)
+            if (gain != 1.0f)
             {
-                sample *= gain;
+                for (float& sample : result)
+                {
+                    sample *= gain;
+                }
             }
 
             return true;

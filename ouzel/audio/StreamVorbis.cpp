@@ -24,6 +24,8 @@ namespace ouzel
 
         void StreamVorbis::reset()
         {
+            Stream::reset();
+
             stb_vorbis_seek_start(vorbisStream);
         }
     } // namespace audio

@@ -26,7 +26,7 @@ namespace ouzel
             virtual bool init(const std::string& newFilename);
             virtual bool init(const std::vector<uint8_t>& newData);
 
-            virtual std::unique_ptr<Stream> createStream() = 0;
+            virtual std::shared_ptr<Stream> createStream() = 0;
             virtual bool getData(Stream* stream, uint32_t frames, bool repeat, uint32_t& repeatCount, std::vector<float>& result) = 0;
 
             uint16_t getChannels() const { return channels; }

@@ -7,8 +7,18 @@ namespace ouzel
 {
     namespace audio
     {
+        Stream::Stream():
+            playing(false), resetCount(0)
+        {
+        }
+
         Stream::~Stream()
         {
+        }
+
+        void Stream::reset()
+        {
+            ++resetCount;
         }
     } // namespace audio
 } // namespace ouzel

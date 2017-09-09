@@ -197,11 +197,9 @@ namespace ouzel
             return true;
         }
 
-        std::unique_ptr<Stream> SoundDataWave::createStream()
+        std::shared_ptr<Stream> SoundDataWave::createStream()
         {
-            std::unique_ptr<Stream> stream(new StreamWave());
-
-            return stream;
+            return std::make_shared<StreamWave>();
         }
 
         bool SoundDataWave::getData(Stream* stream, uint32_t frames, bool repeat, uint32_t& resetCount, std::vector<float>& result)
