@@ -61,6 +61,7 @@ namespace ouzel
         Sound::Sound():
             scene::Component(scene::Component::SOUND)
         {
+            updateCallback.callback = std::bind(&Sound::update, this, std::placeholders::_1);
         }
 
         Sound::~Sound()
@@ -71,8 +72,31 @@ namespace ouzel
         {
             soundData = newSoundData;
             stream = soundData->createStream();
+            resetCount = 0;
 
             return true;
+        }
+
+        void Sound::update(float)
+        {
+            uint32_t newResetCount = stream->getResetCount();
+
+            for (uint32_t i = resetCount; i < newResetCount; ++i)
+            {
+                Event resetEvent;
+                resetEvent.type = Event::Type::SOUND_RESET;
+                resetEvent.soundEvent.sound = this;
+                ++resetCount;
+            }
+
+            if (!stream->isPlaying())
+            {
+                Event resetEvent;
+                resetEvent.type = Event::Type::SOUND_FINISH;
+                resetEvent.soundEvent.sound = this;
+
+                sharedEngine->unscheduleUpdate(&updateCallback);
+            }
         }
 
         void Sound::draw(const Matrix4& transformMatrix,
@@ -132,8 +156,15 @@ namespace ouzel
 
         bool Sound::play(bool repeatSound)
         {
+            Event resetEvent;
+            resetEvent.type = Event::Type::SOUND_START;
+            resetEvent.soundEvent.sound = this;
+            ++resetCount;
+
             stream->setRepeating(repeatSound);
             stream->setPlaying(true);
+
+            sharedEngine->scheduleUpdate(&updateCallback);
 
             return true;
         }
@@ -142,12 +173,16 @@ namespace ouzel
         {
             stream->setPlaying(false);
 
+            sharedEngine->unscheduleUpdate(&updateCallback);
+
             return true;
         }
 
         bool Sound::stop()
         {
             stream->setPlaying(false);
+
+            sharedEngine->unscheduleUpdate(&updateCallback);
 
             //sharedEngine->getAudio()->executeOnAudioThread(std::bind(&Stream::reset,
             //                                                         stream.get()));
@@ -199,13 +234,10 @@ namespace ouzel
                 float finalPitch = pitch * soundData->getSampleRate() / sampleRate;
                 uint32_t neededFrames = static_cast<uint32_t>(frames * finalPitch);
 
-                uint32_t resetCount;
-                if (!soundData->getData(stream.get(), neededFrames, stream->isRepeating(), resetCount, data))
+                if (!soundData->getData(stream.get(), neededFrames, data))
                 {
                     return false;
                 }
-
-                if (!stream->isRepeating() && resetCount > 0) stream->setPlaying(false);
 
                 if (finalPitch != 1.0f)
                 {

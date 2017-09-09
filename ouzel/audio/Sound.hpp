@@ -8,6 +8,7 @@
 #include "audio/SoundInput.hpp"
 #include "math/Vector3.hpp"
 #include "scene/Component.hpp"
+#include "core/UpdateCallback.hpp"
 
 namespace ouzel
 {
@@ -64,6 +65,8 @@ namespace ouzel
             virtual AudioDevice::RenderCommand getRenderCommand() override;
 
         private:
+            void update(float delta);
+
             static bool render(uint32_t frames,
                                uint16_t channels,
                                uint32_t sampleRate,
@@ -75,6 +78,7 @@ namespace ouzel
                                float pitch,
                                float gain);
 
+            UpdateCallback updateCallback;
             std::shared_ptr<SoundData> soundData;
             std::shared_ptr<Stream> stream;
 
@@ -84,6 +88,8 @@ namespace ouzel
             float rolloffFactor = 1.0f;
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
+
+            uint32_t resetCount = 0;
         };
     } // namespace audio
 } // namespace ouzel

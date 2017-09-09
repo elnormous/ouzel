@@ -19,6 +19,7 @@ namespace ouzel
         void Stream::reset()
         {
             ++resetCount;
+            if (!repeating) playing = false;
         }
     } // namespace audio
 } // namespace ouzel
