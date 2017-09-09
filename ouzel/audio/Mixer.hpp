@@ -17,24 +17,30 @@ namespace ouzel
             Mixer();
             virtual ~Mixer();
 
+            float getPitch() const { return pitch; }
+            void setPitch(float newPitch) { pitch = newPitch; }
+
             float getGain() const { return gain; }
             void setGain(float newGain) { gain = newGain; }
 
-            float getRolloffFactor() const { return rolloffFactor; }
-            void setRolloffFactor(float newRolloffFactor) { rolloffFactor = newRolloffFactor; }
+            float getRolloffScale() const { return rolloffScale; }
+            void setRolloffScale(float newRolloffScale) { rolloffScale = newRolloffScale; }
 
             virtual AudioDevice::RenderCommand getRenderCommand() override;
 
         protected:
-            static bool render(uint32_t frames,
-                               uint16_t channels,
-                               uint32_t sampleRate,
-                               const AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
-                               std::vector<float>& result,
-                               float gain);
+            static void setAttributes(Vector3& listenerPosition,
+                                      Quaternion& listenerRotation,
+                                      float& pitch,
+                                      float& gain,
+                                      float& rolloffFactor,
+                                      float pitchScale,
+                                      float gainScale,
+                                      float rolloffScale);
 
+            float pitch = 1.0f;
             float gain = 1.0f;
-            float rolloffFactor = 1.0f;
+            float rolloffScale = 1.0f;
         };
     } // namespace audio
 } // namespace ouzel

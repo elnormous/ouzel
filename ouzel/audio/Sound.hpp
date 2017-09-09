@@ -67,17 +67,27 @@ namespace ouzel
         private:
             void update(float delta);
 
+            static void setAttributes(Vector3& listenerPosition,
+                                      Quaternion& listenerRotation,
+                                      float& pitch,
+                                      float& gain,
+                                      float& rolloffFactor,
+                                      float pitchScale,
+                                      float gainScale,
+                                      float rolloffScale);
+
             static bool render(uint32_t frames,
                                uint16_t channels,
                                uint32_t sampleRate,
-                               const AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
+                               const Vector3& listenerPosition,
+                               const Quaternion& listenerRotation,
+                               float pitch,
+                               float gain,
+                               float rolloffFactor,
                                std::vector<float>& result,
                                const std::shared_ptr<SoundData>& soundData,
                                const std::shared_ptr<Stream>& stream,
                                const Vector3& position,
-                               float pitch,
-                               float gain,
-                               float rolloffFactor,
                                float minDistance,
                                float maxDistance);
 

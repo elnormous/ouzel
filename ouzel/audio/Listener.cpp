@@ -58,20 +58,26 @@ namespace ouzel
 
             renderCommand.attributeCallback = std::bind(&Listener::setAttributes,
                                                         std::placeholders::_1,
+                                                        std::placeholders::_2,
+                                                        std::placeholders::_3,
+                                                        std::placeholders::_4,
+                                                        std::placeholders::_5,
                                                         position,
                                                         rotation);
 
             return renderCommand;
         }
 
-        bool Listener::setAttributes(AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
-                                     const Vector3& listenerPosition,
-                                     const Quaternion& listenerRotation)
+        void Listener::setAttributes(Vector3& listenerPosition,
+                                     Quaternion& listenerRotation,
+                                     float&,
+                                     float&,
+                                     float&,
+                                     const Vector3& position,
+                                     const Quaternion& rotation)
         {
-            listenerAttributes.position = listenerPosition;
-            listenerAttributes.rotation = listenerRotation;
-
-            return true;
+            listenerPosition = position;
+            listenerRotation = rotation;
         }
     } // namespace audio
 } // namespace ouzel

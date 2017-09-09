@@ -43,9 +43,13 @@ namespace ouzel
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
-            static bool setAttributes(AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
-                               const Vector3& listenerPosition,
-                               const Quaternion& listenerRotation);
+            static void setAttributes(Vector3& listenerPosition,
+                                      Quaternion& listenerRotation,
+                                      float& pitch,
+                                      float& gain,
+                                      float& rolloffScale,
+                                      const Vector3& position,
+                                      const Quaternion& rotation);
 
             Audio* audio = nullptr;
 

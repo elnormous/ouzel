@@ -31,18 +31,20 @@ namespace ouzel
 
             struct RenderCommand
             {
-                struct ListenerAttributes
-                {
-                    Vector3 position;
-                    Quaternion rotation;
-                };
-
-                std::function<void(ListenerAttributes& listenerAttributes)> attributeCallback;
+                std::function<void(Vector3& listenerPosition,
+                                   Quaternion& listenerRotation,
+                                   float& pitch,
+                                   float& gain,
+                                   float& rolloffFactor)> attributeCallback;
 
                 std::function<bool(uint32_t frames,
                                    uint16_t channels,
                                    uint32_t sampleRate,
-                                   const ListenerAttributes& sourceAttributes,
+                                   const Vector3& listenerPosition,
+                                   const Quaternion& listenerRotation,
+                                   float pitch,
+                                   float gain,
+                                   float rolloffFactor,
                                    std::vector<float>& result)> renderCallback;
                 std::vector<RenderCommand> renderCommands;
             };
@@ -59,7 +61,11 @@ namespace ouzel
                                        std::vector<float>& result);
             bool processRenderCommand(const RenderCommand& renderCommand,
                                       uint32_t frames,
-                                      RenderCommand::ListenerAttributes& listenerAttributes,
+                                      Vector3& listenerPosition,
+                                      Quaternion& listenerRotation,
+                                      float& pitch,
+                                      float& gain,
+                                      float& rolloffFactor,
                                       std::vector<float>& result);
 
             Audio::Driver driver;

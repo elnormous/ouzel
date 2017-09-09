@@ -51,11 +51,19 @@ namespace ouzel
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
-                RenderCommand::ListenerAttributes listenerAttributes;
+                Vector3 listenerPosition;
+                Quaternion listenerRotation;
+                float pitch = 1.0f;
+                float gain = 1.0f;
+                float rolloffFactor = 1.0f;
 
                 if (!processRenderCommand(renderCommand,
                                           frames,
-                                          listenerAttributes,
+                                          listenerPosition,
+                                          listenerRotation,
+                                          pitch,
+                                          gain,
+                                          rolloffFactor,
                                           data)) return false;
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
@@ -70,21 +78,33 @@ namespace ouzel
 
         bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
                                                uint32_t frames,
-                                               RenderCommand::ListenerAttributes& listenerAttributes,
+                                               Vector3& listenerPosition,
+                                               Quaternion& listenerRotation,
+                                               float& pitch,
+                                               float& gain,
+                                               float& rolloffFactor,
                                                std::vector<float>& result)
         {
             std::vector<float> data(frames * channels);
 
             if (renderCommand.attributeCallback)
             {
-                renderCommand.attributeCallback(listenerAttributes);
+                renderCommand.attributeCallback(listenerPosition,
+                                                listenerRotation,
+                                                pitch,
+                                                gain,
+                                                rolloffFactor);
             }
 
             for (const RenderCommand& command : renderCommand.renderCommands)
             {
                 processRenderCommand(command,
                                      frames,
-                                     listenerAttributes,
+                                     listenerPosition,
+                                     listenerRotation,
+                                     pitch,
+                                     gain,
+                                     rolloffFactor,
                                      data);
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
@@ -99,7 +119,11 @@ namespace ouzel
                 if (!renderCommand.renderCallback(frames,
                                                   channels,
                                                   sampleRate,
-                                                  listenerAttributes,
+                                                  listenerPosition,
+                                                  listenerRotation,
+                                                  pitch,
+                                                  gain,
+                                                  rolloffFactor,
                                                   result)) return false;
             }
 

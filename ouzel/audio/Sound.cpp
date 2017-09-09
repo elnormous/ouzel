@@ -9,51 +9,6 @@
 #include "core/Engine.hpp"
 #include "math/MathUtils.hpp"
 
-static void resampleLerp(const std::vector<float>& src, uint32_t srcFrames,
-                         std::vector<float>& dst, uint32_t dstFrames,
-                         uint32_t channels)
-{
-    if (dstFrames > 0) // do resampling only if setination is not empty
-    {
-        if (srcFrames == 0) // source is empty
-        {
-            dst.resize(dstFrames * channels);
-
-            std::fill(dst.begin(), dst.end(), 0.0f);
-        }
-        else
-        {
-            float srcIncrement = static_cast<float>(srcFrames - 1) / static_cast<float>(dstFrames - 1);
-            float srcPosition = 0.0f;
-
-            dst.resize(dstFrames * channels);
-
-            for (uint32_t frame = 0; frame < dstFrames - 1; ++frame)
-            {
-                uint32_t srcCurrentFrame = static_cast<uint32_t>(srcPosition);
-                float frac = srcPosition - srcCurrentFrame;
-
-                srcPosition += srcIncrement;
-                uint32_t srcNextFrame = srcCurrentFrame + 1;
-
-                for (uint32_t channel = 0; channel < channels; ++channel)
-                {
-                    uint32_t srcCurrentPosition = srcCurrentFrame * channels + channel;
-                    uint32_t srcNextPosition = srcNextFrame * channels + channel;
-
-                    dst[frame * channels + channel] = ouzel::lerp(src[srcCurrentPosition], src[srcNextPosition], frac);
-                }
-            }
-
-            // fill the last frame of the destination with the last frame of the source
-            for (uint32_t channel = 0; channel < channels; ++channel)
-            {
-                dst[(dstFrames - 1) * channels + channel] = src[(srcFrames - 1) * channels + channel];
-            }
-        }
-    }
-}
-
 namespace ouzel
 {
     namespace audio
@@ -194,35 +149,61 @@ namespace ouzel
         {
             AudioDevice::RenderCommand renderCommand;
 
+            renderCommand.attributeCallback = std::bind(&Sound::setAttributes,
+                                                        std::placeholders::_1,
+                                                        std::placeholders::_2,
+                                                        std::placeholders::_3,
+                                                        std::placeholders::_4,
+                                                        std::placeholders::_5,
+                                                        pitch,
+                                                        gain,
+                                                        rolloffFactor);
+
             renderCommand.renderCallback = std::bind(&Sound::render,
                                                      std::placeholders::_1,
                                                      std::placeholders::_2,
                                                      std::placeholders::_3,
                                                      std::placeholders::_4,
                                                      std::placeholders::_5,
+                                                     std::placeholders::_6,
+                                                     std::placeholders::_7,
+                                                     std::placeholders::_8,
+                                                     std::placeholders::_9,
                                                      soundData,
                                                      stream,
                                                      position,
-                                                     pitch,
-                                                     gain,
-                                                     rolloffFactor,
                                                      minDistance,
                                                      maxDistance);
 
             return renderCommand;
         }
 
+        void Sound::setAttributes(Vector3&,
+                                  Quaternion&,
+                                  float& pitch,
+                                  float& gain,
+                                  float& rolloffFactor,
+                                  float pitchScale,
+                                  float gainScale,
+                                  float rolloffScale)
+        {
+            pitch *= pitchScale;
+            gain *= gainScale;
+            rolloffFactor *= rolloffScale;
+        }
+
         bool Sound::render(uint32_t frames,
                            uint16_t channels,
                            uint32_t sampleRate,
-                           const AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
+                           const Vector3& listenerPosition,
+                           const Quaternion& listenerRotation,
+                           float pitch,
+                           float gain,
+                           float rolloffFactor,
                            std::vector<float>& result,
                            const std::shared_ptr<SoundData>& soundData,
                            const std::shared_ptr<Stream>& stream,
                            const Vector3& position,
-                           float pitch,
-                           float gain,
-                           float rolloffFactor,
                            float minDistance,
                            float maxDistance)
         {
@@ -248,7 +229,7 @@ namespace ouzel
                     uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
                     uint32_t dstFrames = static_cast<uint32_t>(frames * (static_cast<float>(srcFrames) / neededFrames));
 
-                    resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
+                    Audio::resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
                 }
                 else
                 {
@@ -440,7 +421,7 @@ namespace ouzel
                     result = resampledData;
                 }
 
-                Vector3 offset = position - listenerAttributes.position;
+                Vector3 offset = position - listenerPosition;
                 float distance = clamp(offset.length(), minDistance, maxDistance);
                 float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
@@ -448,7 +429,7 @@ namespace ouzel
 
                 if (channelVolume.size() > 1)
                 {
-                    Quaternion inverseRotation = -listenerAttributes.rotation;
+                    Quaternion inverseRotation = -listenerRotation;
                     Vector3 relative = inverseRotation * offset;
                     relative.normalize();
                     float angle = atan2f(relative.x, relative.z);
