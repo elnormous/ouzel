@@ -14,12 +14,18 @@ namespace ouzel
         Sound::Sound():
             scene::Component(scene::Component::SOUND)
         {
-            resource = sharedEngine->getAudio()->getDevice()->createSound();
+            resource = new SoundResource();
         }
 
         Sound::~Sound()
         {
-            if (sharedEngine) sharedEngine->getAudio()->getDevice()->deleteResource(resource);
+            if (sharedEngine)
+            {
+                SoundResource* deleteResource = resource;
+                sharedEngine->getAudio()->executeOnAudioThread([deleteResource](){
+                    delete deleteResource;
+                });
+            }
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)

@@ -25,9 +25,6 @@ namespace ouzel
 
             virtual bool process();
 
-            SoundResource* createSound();
-            void deleteResource(SoundResource* resource);
-
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
@@ -58,10 +55,6 @@ namespace ouzel
 
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
-
-            std::mutex resourceMutex;
-            std::vector<std::unique_ptr<SoundResource>> resources;
-            std::vector<std::unique_ptr<SoundResource>> resourceDeleteSet;
 
             Audio::Format format = Audio::Format::SINT16;
             const uint32_t bufferSize = 2 * 4096;
