@@ -43,14 +43,7 @@ namespace ouzel
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
-            static bool render(uint32_t frames,
-                               uint16_t channels,
-                               uint32_t sampleRate,
-                               Vector3& sourcePosition,
-                               float& sourceRolloffFactor,
-                               float& sourceMinDistance,
-                               float& sourceMaxDistance,
-                               std::vector<float>& result,
+            static bool setAttributes(AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
                                const Vector3& listenerPosition,
                                const Quaternion& listenerRotation);
 

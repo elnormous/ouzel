@@ -39,22 +39,23 @@ namespace ouzel
 
         bool AudioDevice::processRenderCommands(uint32_t frames, std::vector<float>& result)
         {
-            std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+            std::vector<RenderCommand> renderCommands;
+
+            {
+                std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+
+                renderCommands = renderQueue;
+            }
 
             std::vector<float> data(frames * channels);
-            Vector3 sourcePosition;
-            float sourceRolloffFactor;
-            float sourceMinDistance;
-            float sourceMaxDistance;
 
-            for (const RenderCommand& renderCommand : renderQueue)
+            for (const RenderCommand& renderCommand : renderCommands)
             {
+                RenderCommand::ListenerAttributes listenerAttributes;
+
                 if (!processRenderCommand(renderCommand,
                                           frames,
-                                          sourcePosition,
-                                          sourceRolloffFactor,
-                                          sourceMinDistance,
-                                          sourceMaxDistance,
+                                          listenerAttributes,
                                           data)) return false;
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
@@ -69,22 +70,21 @@ namespace ouzel
 
         bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
                                                uint32_t frames,
-                                               Vector3& sourcePosition,
-                                               float& sourceRolloffFactor,
-                                               float& sourceMinDistance,
-                                               float& sourceMaxDistance,
+                                               RenderCommand::ListenerAttributes& listenerAttributes,
                                                std::vector<float>& result)
         {
             std::vector<float> data(frames * channels);
+
+            if (renderCommand.attributeCallback)
+            {
+                renderCommand.attributeCallback(listenerAttributes);
+            }
 
             for (const RenderCommand& command : renderCommand.renderCommands)
             {
                 processRenderCommand(command,
                                      frames,
-                                     sourcePosition,
-                                     sourceRolloffFactor,
-                                     sourceMinDistance,
-                                     sourceMaxDistance,
+                                     listenerAttributes,
                                      data);
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
@@ -94,16 +94,13 @@ namespace ouzel
                 }
             }
 
-            if (renderCommand.callback)
+            if (renderCommand.renderCallback)
             {
-                if (!renderCommand.callback(frames,
-                                            channels,
-                                            sampleRate,
-                                            sourcePosition,
-                                            sourceRolloffFactor,
-                                            sourceMinDistance,
-                                            sourceMaxDistance,
-                                            result)) return false;
+                if (!renderCommand.renderCallback(frames,
+                                                  channels,
+                                                  sampleRate,
+                                                  listenerAttributes,
+                                                  result)) return false;
             }
 
             return true;

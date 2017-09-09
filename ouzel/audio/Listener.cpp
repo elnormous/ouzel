@@ -56,58 +56,21 @@ namespace ouzel
                 renderCommand.renderCommands.push_back(input->getRenderCommand());
             }
 
-            renderCommand.callback = std::bind(&Listener::render,
-                                               std::placeholders::_1,
-                                               std::placeholders::_2,
-                                               std::placeholders::_3,
-                                               std::placeholders::_4,
-                                               std::placeholders::_5,
-                                               std::placeholders::_6,
-                                               std::placeholders::_7,
-                                               std::placeholders::_8,
-                                               position,
-                                               rotation);
+            renderCommand.attributeCallback = std::bind(&Listener::setAttributes,
+                                                        std::placeholders::_1,
+                                                        position,
+                                                        rotation);
 
             return renderCommand;
         }
 
-        bool Listener::render(uint32_t,
-                              uint16_t channels,
-                              uint32_t,
-                              Vector3& sourcePosition,
-                              float& sourceRolloffFactor,
-                              float& sourceMinDistance,
-                              float& sourceMaxDistance,
-                              std::vector<float>& result,
-                              const Vector3& listenerPosition,
-                              const Quaternion& listenerRotation)
+        bool Listener::setAttributes(AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
+                                     const Vector3& listenerPosition,
+                                     const Quaternion& listenerRotation)
         {
-            Vector3 offset = sourcePosition - listenerPosition;
-            float distance = clamp(offset.length(), sourceMinDistance, sourceMaxDistance);
-            float attenuation = sourceMinDistance / (sourceMinDistance + sourceRolloffFactor * (distance - sourceMinDistance)); // inverse distance
+            listenerAttributes.position = listenerPosition;
+            listenerAttributes.rotation = listenerRotation;
 
-            std::vector<float> channelVolume(channels, attenuation);
-
-            if (channelVolume.size() > 1)
-            {
-                Quaternion inverseRotation = -listenerRotation;
-                Vector3 relative = inverseRotation * offset;
-                relative.normalize();
-                float angle = atan2f(relative.x, relative.z);
-
-                // constant power panning
-                channelVolume[0] = SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
-                channelVolume[1] = SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
-            }
-
-            for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-            {
-                for (uint32_t channel = 0; channel < channels; ++channel)
-                {
-                    result[frame * channels + channel] *= channelVolume[channel];
-                }
-            }
-            
             return true;
         }
     } // namespace audio

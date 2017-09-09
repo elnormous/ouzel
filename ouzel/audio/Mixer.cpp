@@ -27,16 +27,13 @@ namespace ouzel
                 renderCommand.renderCommands.push_back(input->getRenderCommand());
             }
 
-            renderCommand.callback = std::bind(&Mixer::render,
-                                               std::placeholders::_1,
-                                               std::placeholders::_2,
-                                               std::placeholders::_3,
-                                               std::placeholders::_4,
-                                               std::placeholders::_5,
-                                               std::placeholders::_6,
-                                               std::placeholders::_7,
-                                               std::placeholders::_8,
-                                               gain);
+            renderCommand.renderCallback = std::bind(&Mixer::render,
+                                                     std::placeholders::_1,
+                                                     std::placeholders::_2,
+                                                     std::placeholders::_3,
+                                                     std::placeholders::_4,
+                                                     std::placeholders::_5,
+                                                     gain);
 
             return renderCommand;
         }
@@ -44,10 +41,7 @@ namespace ouzel
         bool Mixer::render(uint32_t,
                            uint16_t,
                            uint32_t,
-                           Vector3&,
-                           float&,
-                           float&,
-                           float&,
+                           const AudioDevice::RenderCommand::ListenerAttributes&,
                            std::vector<float>& result,
                            float gain)
         {

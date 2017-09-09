@@ -31,14 +31,19 @@ namespace ouzel
 
             struct RenderCommand
             {
+                struct ListenerAttributes
+                {
+                    Vector3 position;
+                    Quaternion rotation;
+                };
+
+                std::function<void(ListenerAttributes& listenerAttributes)> attributeCallback;
+
                 std::function<bool(uint32_t frames,
                                    uint16_t channels,
                                    uint32_t sampleRate,
-                                   Vector3& sourcePosition,
-                                   float& sourceRolloffFactor,
-                                   float& sourceMinDistance,
-                                   float& sourceMaxDistance,
-                                   std::vector<float>& result)> callback;
+                                   const ListenerAttributes& sourceAttributes,
+                                   std::vector<float>& result)> renderCallback;
                 std::vector<RenderCommand> renderCommands;
             };
 
@@ -54,10 +59,7 @@ namespace ouzel
                                        std::vector<float>& result);
             bool processRenderCommand(const RenderCommand& renderCommand,
                                       uint32_t frames,
-                                      Vector3& sourcePosition,
-                                      float& sourceRolloffFactor,
-                                      float& sourceMinDistance,
-                                      float& sourceMaxDistance,
+                                      RenderCommand::ListenerAttributes& listenerAttributes,
                                       std::vector<float>& result);
 
             Audio::Driver driver;

@@ -29,10 +29,7 @@ namespace ouzel
             static bool render(uint32_t frames,
                                uint16_t channels,
                                uint32_t sampleRate,
-                               Vector3& sourcePosition,
-                               float& sourceRolloffFactor,
-                               float& sourceMinDistance,
-                               float& sourceMaxDistance,
+                               const AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
                                std::vector<float>& result,
                                float gain);
 

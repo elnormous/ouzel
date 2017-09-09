@@ -194,23 +194,20 @@ namespace ouzel
         {
             AudioDevice::RenderCommand renderCommand;
 
-            renderCommand.callback = std::bind(&Sound::render,
-                                               std::placeholders::_1,
-                                               std::placeholders::_2,
-                                               std::placeholders::_3,
-                                               std::placeholders::_4,
-                                               std::placeholders::_5,
-                                               std::placeholders::_6,
-                                               std::placeholders::_7,
-                                               std::placeholders::_8,
-                                               soundData,
-                                               stream,
-                                               position,
-                                               pitch,
-                                               gain,
-                                               rolloffFactor,
-                                               minDistance,
-                                               maxDistance);
+            renderCommand.renderCallback = std::bind(&Sound::render,
+                                                     std::placeholders::_1,
+                                                     std::placeholders::_2,
+                                                     std::placeholders::_3,
+                                                     std::placeholders::_4,
+                                                     std::placeholders::_5,
+                                                     soundData,
+                                                     stream,
+                                                     position,
+                                                     pitch,
+                                                     gain,
+                                                     rolloffFactor,
+                                                     minDistance,
+                                                     maxDistance);
 
             return renderCommand;
         }
@@ -218,10 +215,7 @@ namespace ouzel
         bool Sound::render(uint32_t frames,
                            uint16_t channels,
                            uint32_t sampleRate,
-                           Vector3& sourcePosition,
-                           float& sourceRolloffFactor,
-                           float& sourceMinDistance,
-                           float& sourceMaxDistance,
+                           const AudioDevice::RenderCommand::ListenerAttributes& listenerAttributes,
                            std::vector<float>& result,
                            const std::shared_ptr<SoundData>& soundData,
                            const std::shared_ptr<Stream>& stream,
@@ -232,11 +226,6 @@ namespace ouzel
                            float minDistance,
                            float maxDistance)
         {
-            sourcePosition = position;
-            sourceRolloffFactor = rolloffFactor;
-            sourceMinDistance = minDistance;
-            sourceMaxDistance = maxDistance;
-
             if (!stream->isPlaying())
             {
                 result.clear();
@@ -451,11 +440,29 @@ namespace ouzel
                     result = resampledData;
                 }
 
-                if (gain != 1.0f)
+                Vector3 offset = position - listenerAttributes.position;
+                float distance = clamp(offset.length(), minDistance, maxDistance);
+                float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+
+                std::vector<float> channelVolume(channels, gain * attenuation);
+
+                if (channelVolume.size() > 1)
                 {
-                    for (float& sample : result)
+                    Quaternion inverseRotation = -listenerAttributes.rotation;
+                    Vector3 relative = inverseRotation * offset;
+                    relative.normalize();
+                    float angle = atan2f(relative.x, relative.z);
+
+                    // constant power panning
+                    channelVolume[0] = SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
+                    channelVolume[1] = SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
+                }
+
+                for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
+                {
+                    for (uint32_t channel = 0; channel < channels; ++channel)
                     {
-                        sample *= gain;
+                        result[frame * channels + channel] *= channelVolume[channel];
                     }
                 }
             }
