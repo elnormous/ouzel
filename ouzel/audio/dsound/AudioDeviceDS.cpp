@@ -6,7 +6,6 @@
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
 #include "AudioDeviceDS.hpp"
-#include "audio/SoundResource.hpp"
 #include "core/Engine.hpp"
 #include "core/windows/WindowWin.hpp"
 #include "utils/Log.hpp"

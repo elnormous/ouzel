@@ -7,7 +7,6 @@
 
 #include "AudioDeviceXA2.hpp"
 #include "XAudio27.hpp"
-#include "audio/SoundResource.hpp"
 #include "utils/Log.hpp"
 
 static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
