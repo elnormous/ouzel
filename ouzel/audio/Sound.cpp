@@ -213,243 +213,246 @@ namespace ouzel
                            float minDistance,
                            float maxDistance)
         {
-            if (!stream->isPlaying())
+            if (soundData && soundData->getChannels() > 0 && stream)
             {
-                result.clear();
-            }
-            else if (soundData && soundData->getChannels() > 0 && stream)
-            {
-                std::vector<float> data;
-                std::vector<float> resampledData;
-
-                float finalPitch = pitch * soundData->getSampleRate() / sampleRate;
-                uint32_t neededFrames = static_cast<uint32_t>(frames * finalPitch);
-
-                if (!soundData->getData(stream.get(), neededFrames, data))
+                if (!stream->isPlaying())
                 {
-                    return false;
-                }
-
-                if (finalPitch != 1.0f)
-                {
-                    uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
-                    uint32_t dstFrames = static_cast<uint32_t>(frames * (static_cast<float>(srcFrames) / neededFrames));
-
-                    Audio::resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
+                    result.clear();
                 }
                 else
                 {
-                    resampledData = data;
-                }
+                    std::vector<float> data;
+                    std::vector<float> resampledData;
 
-                if (channels != soundData->getChannels())
-                {
-                    uint32_t srcFrames = static_cast<uint32_t>(resampledData.size()) / soundData->getChannels();
+                    float finalPitch = pitch * soundData->getSampleRate() / sampleRate;
+                    uint32_t neededFrames = static_cast<uint32_t>(frames * finalPitch);
 
-                    result.resize(srcFrames * channels);
-
-                    // front left channel
-                    if (channels >= 1)
+                    if (!soundData->getData(stream.get(), neededFrames, data))
                     {
-                        uint32_t destination = 0;
+                        return false;
+                    }
 
-                        if (soundData->getChannels() >= 1)
+                    if (finalPitch != 1.0f)
+                    {
+                        uint32_t srcFrames = static_cast<uint32_t>(data.size()) / soundData->getChannels();
+                        uint32_t dstFrames = static_cast<uint32_t>(frames * (static_cast<float>(srcFrames) / neededFrames));
+
+                        Audio::resampleLerp(data, srcFrames, resampledData, dstFrames, soundData->getChannels());
+                    }
+                    else
+                    {
+                        resampledData = data;
+                    }
+
+                    if (channels != soundData->getChannels())
+                    {
+                        uint32_t srcFrames = static_cast<uint32_t>(resampledData.size()) / soundData->getChannels();
+
+                        result.resize(srcFrames * channels);
+
+                        // front left channel
+                        if (channels >= 1)
                         {
-                            uint32_t source = 0;
+                            uint32_t destination = 0;
 
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                            if (soundData->getChannels() >= 1)
                             {
-                                result[destination] = resampledData[source];
-                                destination += channels;
-                                source += soundData->getChannels();
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination] = resampledData[source];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else
+                            {
+                                // fill the front left channel with zeros
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination] = 0.0f;
+                                    destination += channels;
+                                }
                             }
                         }
-                        else
+
+                        // front right channel
+                        if (channels >= 2)
                         {
-                            // fill the front left channel with zeros
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                            uint32_t destination = 0;
+
+                            // sound data has front right channel
+                            if (soundData->getChannels() >= 2)
                             {
-                                result[destination] = 0.0f;
-                                destination += channels;
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 1] = resampledData[source + 1];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else
+                            {
+                                // copy the front left channel in to the front right one
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 1] = result[destination];
+                                    destination += channels;
+                                }
+                            }
+                        }
+
+                        // center channel
+                        if (channels >= 3)
+                        {
+                            uint32_t destination = 0;
+
+                            if (soundData->getChannels() >= 3)
+                            {
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 2] = resampledData[source + 2];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else if (channels >= 2)
+                            {
+                                // calculate the average of the front left and the front right channel
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0f;
+                                    destination += channels;
+                                }
+                            }
+                            else
+                            {
+                                // copy the front left channel in to the center one
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 2] = result[destination];
+                                    destination += channels;
+                                }
+                            }
+                        }
+
+                        // LFE channel
+                        if (channels >= 4)
+                        {
+                            uint32_t destination = 0;
+
+                            if (soundData->getChannels() >= 4)
+                            {
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 3] = resampledData[source + 3];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else
+                            {
+                                // fill the LFE channel with zeros
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 3] = 0;
+                                    destination += channels;
+                                }
+                            }
+                        }
+
+                        // back left channel
+                        if (channels >= 5)
+                        {
+                            uint32_t destination = 0;
+
+                            // sound data has back left channel
+                            if (soundData->getChannels() >= 5)
+                            {
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 4] = resampledData[source + 4];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else
+                            {
+                                // copy the front left channel in to the back left one
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 4] = result[destination];
+                                    destination += channels;
+                                }
+                            }
+                        }
+
+                        // back right channel
+                        if (channels >= 6)
+                        {
+                            uint32_t destination = 0;
+
+                            // sound data has back right channel
+                            if (soundData->getChannels() >= 6)
+                            {
+                                uint32_t source = 0;
+
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 5] = resampledData[source + 5];
+                                    destination += channels;
+                                    source += soundData->getChannels();
+                                }
+                            }
+                            else
+                            {
+                                // copy the front right channel in to the back right one
+                                for (uint32_t frame = 0; frame < srcFrames; ++frame)
+                                {
+                                    result[destination + 5] = result[destination + 1];
+                                    destination += channels;
+                                }
                             }
                         }
                     }
-
-                    // front right channel
-                    if (channels >= 2)
+                    else
                     {
-                        uint32_t destination = 0;
-
-                        // sound data has front right channel
-                        if (soundData->getChannels() >= 2)
-                        {
-                            uint32_t source = 0;
-
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 1] = resampledData[source + 1];
-                                destination += channels;
-                                source += soundData->getChannels();
-                            }
-                        }
-                        else
-                        {
-                            // copy the front left channel in to the front right one
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 1] = result[destination];
-                                destination += channels;
-                            }
-                        }
+                        result = resampledData;
                     }
 
-                    // center channel
-                    if (channels >= 3)
+                    Vector3 offset = position - listenerPosition;
+                    float distance = clamp(offset.length(), minDistance, maxDistance);
+                    float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
+
+                    std::vector<float> channelVolume(channels, gain * attenuation);
+
+                    if (channelVolume.size() > 1)
                     {
-                        uint32_t destination = 0;
+                        Quaternion inverseRotation = -listenerRotation;
+                        Vector3 relative = inverseRotation * offset;
+                        relative.normalize();
+                        float angle = atan2f(relative.x, relative.z);
 
-                        if (soundData->getChannels() >= 3)
-                        {
-                            uint32_t source = 0;
-
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 2] = resampledData[source + 2];
-                                destination += channels;
-                                source += soundData->getChannels();
-                            }
-                        }
-                        else if (channels >= 2)
-                        {
-                            // calculate the average of the front left and the front right channel
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0f;
-                                destination += channels;
-                            }
-                        }
-                        else
-                        {
-                            // copy the front left channel in to the center one
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 2] = result[destination];
-                                destination += channels;
-                            }
-                        }
+                        // constant power panning
+                        channelVolume[0] *= SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
+                        channelVolume[1] *= SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
                     }
 
-                    // LFE channel
-                    if (channels >= 4)
+                    for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
                     {
-                        uint32_t destination = 0;
-
-                        if (soundData->getChannels() >= 4)
+                        for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            uint32_t source = 0;
-
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 3] = resampledData[source + 3];
-                                destination += channels;
-                                source += soundData->getChannels();
-                            }
+                            result[frame * channels + channel] *= channelVolume[channel];
                         }
-                        else
-                        {
-                            // fill the LFE channel with zeros
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 3] = 0;
-                                destination += channels;
-                            }
-                        }
-                    }
-
-                    // back left channel
-                    if (channels >= 5)
-                    {
-                        uint32_t destination = 0;
-
-                        // sound data has back left channel
-                        if (soundData->getChannels() >= 5)
-                        {
-                            uint32_t source = 0;
-
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 4] = resampledData[source + 4];
-                                destination += channels;
-                                source += soundData->getChannels();
-                            }
-                        }
-                        else
-                        {
-                            // copy the front left channel in to the back left one
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 4] = result[destination];
-                                destination += channels;
-                            }
-                        }
-                    }
-
-                    // back right channel
-                    if (channels >= 6)
-                    {
-                        uint32_t destination = 0;
-
-                        // sound data has back right channel
-                        if (soundData->getChannels() >= 6)
-                        {
-                            uint32_t source = 0;
-
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 5] = resampledData[source + 5];
-                                destination += channels;
-                                source += soundData->getChannels();
-                            }
-                        }
-                        else
-                        {
-                            // copy the front right channel in to the back right one
-                            for (uint32_t frame = 0; frame < srcFrames; ++frame)
-                            {
-                                result[destination + 5] = result[destination + 1];
-                                destination += channels;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    result = resampledData;
-                }
-
-                Vector3 offset = position - listenerPosition;
-                float distance = clamp(offset.length(), minDistance, maxDistance);
-                float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
-
-                std::vector<float> channelVolume(channels, gain * attenuation);
-
-                if (channelVolume.size() > 1)
-                {
-                    Quaternion inverseRotation = -listenerRotation;
-                    Vector3 relative = inverseRotation * offset;
-                    relative.normalize();
-                    float angle = atan2f(relative.x, relative.z);
-
-                    // constant power panning
-                    channelVolume[0] *= SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
-                    channelVolume[1] *= SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
-                }
-
-                for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-                {
-                    for (uint32_t channel = 0; channel < channels; ++channel)
-                    {
-                        result[frame * channels + channel] *= channelVolume[channel];
                     }
                 }
             }
