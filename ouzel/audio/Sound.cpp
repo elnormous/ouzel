@@ -114,7 +114,6 @@ namespace ouzel
             Event resetEvent;
             resetEvent.type = Event::Type::SOUND_START;
             resetEvent.soundEvent.sound = this;
-            ++resetCount;
 
             stream->setRepeating(repeatSound);
             stream->setPlaying(true);
