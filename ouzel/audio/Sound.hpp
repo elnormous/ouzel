@@ -62,6 +62,9 @@ namespace ouzel
             bool pause();
             bool stop();
 
+            bool isPlaying() const { return playing; }
+            bool isRepeating() const { return repeating; }
+
             virtual AudioDevice::RenderCommand getRenderCommand() override;
 
         private:
@@ -102,6 +105,8 @@ namespace ouzel
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
 
+            bool playing = false;
+            bool repeating = false;
             uint32_t resetCount = 0;
         };
     } // namespace audio

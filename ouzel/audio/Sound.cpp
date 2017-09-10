@@ -46,6 +46,8 @@ namespace ouzel
 
             if (!stream->isPlaying())
             {
+                playing = false;
+
                 Event resetEvent;
                 resetEvent.type = Event::Type::SOUND_FINISH;
                 resetEvent.soundEvent.sound = this;
@@ -111,6 +113,9 @@ namespace ouzel
 
         bool Sound::play(bool repeatSound)
         {
+            playing = true;
+            repeating = repeatSound;
+
             Event resetEvent;
             resetEvent.type = Event::Type::SOUND_START;
             resetEvent.soundEvent.sound = this;
@@ -125,6 +130,7 @@ namespace ouzel
 
         bool Sound::pause()
         {
+            playing = false;
             stream->setPlaying(false);
 
             sharedEngine->unscheduleUpdate(&updateCallback);
@@ -134,6 +140,7 @@ namespace ouzel
 
         bool Sound::stop()
         {
+            playing = false;
             stream->setPlaying(false);
 
             sharedEngine->unscheduleUpdate(&updateCallback);
