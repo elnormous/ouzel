@@ -175,7 +175,7 @@ namespace ouzel
                                  std::vector<float>& dst, uint32_t dstFrames,
                                  uint32_t channels)
         {
-            if (dstFrames > 0) // do resampling only if setination is not empty
+            if (dstFrames > 0) // do resampling only if destination is not empty
             {
                 if (srcFrames == 0) // source is empty
                 {

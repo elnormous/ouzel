@@ -72,14 +72,17 @@ namespace ouzel
         AudioDeviceAL::AudioDeviceAL():
             AudioDevice(Audio::Driver::OPENAL)
         {
+#if OUZEL_MULTITHREADED
+            running = false;
+#endif
+
             std::fill(std::begin(buffers), std::end(buffers), 0);
         }
 
         AudioDeviceAL::~AudioDeviceAL()
         {
-            running = false;
-
 #if OUZEL_MULTITHREADED
+            running = false;
             if (audioThread.joinable()) audioThread.join();
 #endif
 
@@ -315,6 +318,7 @@ namespace ouzel
 
         void AudioDeviceAL::run()
         {
+#if OUZEL_MULTITHREADED
             while (running)
             {
                 if (!process())
@@ -322,6 +326,7 @@ namespace ouzel
                     break;
                 }
             }
+#endif
         }
     } // namespace audio
 } // namespace ouzel

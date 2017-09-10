@@ -24,7 +24,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceDS::AudioDeviceDS():
-            AudioDevice(Audio::Driver::DIRECTSOUND)
+            AudioDevice(Audio::Driver::DIRECTSOUND), running(false)
         {
         }
 

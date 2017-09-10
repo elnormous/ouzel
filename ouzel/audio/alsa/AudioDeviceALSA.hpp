@@ -7,6 +7,7 @@
 
 #if OUZEL_SUPPORTS_ALSA
 
+#include <atomic>
 #include <thread>
 #include <alsa/asoundlib.h>
 
@@ -37,7 +38,7 @@ namespace ouzel
 
             std::vector<uint8_t> data;
 
-            bool running = true;
+            std::atomic<bool> running;
             std::thread audioThread;
         };
     } // namespace audio

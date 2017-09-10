@@ -59,11 +59,10 @@ namespace ouzel
             uint32_t nextBuffer = 0;
             ALuint buffers[2];
 
-            bool running = true;
-
             std::vector<uint8_t> data;
 
 #if OUZEL_MULTITHREADED
+            std::atomic<bool> running;
             std::thread audioThread;
 #endif
         };

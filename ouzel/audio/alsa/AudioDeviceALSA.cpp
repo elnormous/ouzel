@@ -13,7 +13,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceALSA::AudioDeviceALSA():
-            AudioDevice(Audio::Driver::ALSA)
+            AudioDevice(Audio::Driver::ALSA), running(false)
         {
         }
 

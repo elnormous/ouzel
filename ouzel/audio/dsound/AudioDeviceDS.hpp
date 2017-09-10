@@ -7,6 +7,7 @@
 
 #if OUZEL_SUPPORTS_DIRECTSOUND
 
+#include <atomic>
 #include <thread>
 
 #include <dsound.h>
@@ -37,13 +38,10 @@ namespace ouzel
 
             uint32_t nextBuffer = 0;
 
-            bool running = true;
-
             std::vector<uint8_t> data;
 
-#if OUZEL_MULTITHREADED
+            std::atomic<bool> running;
             std::thread audioThread;
-#endif
         };
     } // namespace audio
 } // namespace ouzel
