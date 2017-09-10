@@ -145,7 +145,14 @@ namespace ouzel
                 return false;
             }
 
-            context = alcCreateContext(device, nullptr);
+            int capabilities[] =
+            {
+                ALC_FREQUENCY, 44100,
+                ALC_STEREO_SOURCES, 4,
+                0, 0
+            };
+
+            context = alcCreateContext(device, capabilities);
 
             if (checkALCError())
             {
