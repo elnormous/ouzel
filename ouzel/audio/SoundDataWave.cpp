@@ -9,6 +9,9 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
+static const uint16_t WAVE_FORMAT_PCM = 0x0001;
+static const uint16_t WAVE_FORMAT_IEEE_FLOAT = 0x0003;
+
 namespace ouzel
 {
     namespace audio
@@ -75,6 +78,7 @@ namespace ouzel
             bool dataChunkFound = false;
 
             uint16_t bitsPerSample = 0;
+            uint16_t formatTag = 0;
             std::vector<uint8_t> soundData;
 
             for (; offset < newData.size();)
@@ -112,14 +116,8 @@ namespace ouzel
 
                     uint32_t i = offset;
 
-                    uint16_t formatTag = decodeUInt16Little(newData.data() + i);
+                    formatTag = decodeUInt16Little(newData.data() + i);
                     i += 2;
-
-                    if (formatTag != 1)
-                    {
-                        Log(Log::Level::ERR) << "Failed to load sound file, bad format tag";
-                        return false;
-                    }
 
                     channels = decodeUInt16Little(newData.data() + i);
                     i += 2;
@@ -169,29 +167,57 @@ namespace ouzel
             uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
             data.resize(samples);
 
-            if (bitsPerSample == 8)
+            if (formatTag == WAVE_FORMAT_PCM)
             {
-                for (uint32_t i = 0; i < samples; ++i)
+                if (bitsPerSample == 8)
                 {
-                    data[i] = 2.0f * static_cast<float>(soundData[i]) / 255.0f - 1.0f;
+                    for (uint32_t i = 0; i < samples; ++i)
+                    {
+                        data[i] = 2.0f * static_cast<float>(soundData[i]) / 255.0f - 1.0f;
+                    }
+                }
+                else if (bitsPerSample == 16)
+                {
+                    for (uint32_t i = 0; i < samples; ++i)
+                    {
+                        data[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
+                                                                          (soundData[i * 2 + 1] << 8))) / 32767.0f;
+                    }
+                }
+                else if (bitsPerSample == 24)
+                {
+                    for (uint32_t i = 0; i < samples; ++i)
+                    {
+                        data[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
+                                                                          (soundData[i * 3 + 1] << 16) |
+                                                                          (soundData[i * 3 + 2] << 24))) / 2147483648.0f;
+                    }
+                }
+                else
+                {
+                    Log(Log::Level::ERR) << "Failed to load sound file, unsupported bit depth";
+                    return false;
                 }
             }
-            else if (bitsPerSample == 16)
+            else if (formatTag == WAVE_FORMAT_IEEE_FLOAT)
             {
-                for (uint32_t i = 0; i < samples; ++i)
+                if (bitsPerSample == 32)
                 {
-                    data[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
-                                                                      (soundData[i * 2 + 1] << 8))) / 32767.0f;
+                    for (uint32_t i = 0; i < samples; ++i)
+                    {
+                        data[i] = reinterpret_cast<float*>(soundData.data())[i];
+                    }
+                }
+                else
+                {
+                    Log(Log::Level::ERR) << "Failed to load sound file, unsupported bit depth";
+                    return false;
                 }
             }
-            else if (bitsPerSample == 24)
+            else
             {
-                for (uint32_t i = 0; i < samples; ++i)
-                {
-                    data[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
-                                                                      (soundData[i * 3 + 1] << 16) |
-                                                                      (soundData[i * 3 + 2] << 24))) / 2147483648.0f;
-                }
+                Log(Log::Level::ERR) << "Failed to load sound file, unsupported format";
+                return false;
             }
 
             return true;
