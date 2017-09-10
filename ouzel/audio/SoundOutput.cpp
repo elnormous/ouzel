@@ -11,6 +11,10 @@ namespace ouzel
     {
         SoundOutput::~SoundOutput()
         {
+            for (SoundInput* input : inputs)
+            {
+                input->output = nullptr;
+            }
         }
 
         void SoundOutput::addInput(SoundInput* input)

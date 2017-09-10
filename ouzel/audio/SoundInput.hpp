@@ -13,6 +13,7 @@ namespace ouzel
 
         class SoundInput
         {
+            friend SoundOutput;
         public:
             virtual ~SoundInput();
 
