@@ -124,6 +124,7 @@ namespace ouzel
         bool verticalSync = true;
         bool depth = false;
         bool debugRenderer = false;
+        bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
         bool debugAudio = false;
 
@@ -252,6 +253,9 @@ namespace ouzel
         std::string verticalSyncValue = userSettings.getValue("engine", "verticalSync", defaultSettings.getValue("engine", "verticalSync"));
         if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
 
+        std::string exclusiveFullscreenValue = userSettings.getValue("engine", "exclusiveFullscreen", defaultSettings.getValue("engine", "verticalSync"));
+        if (!exclusiveFullscreenValue.empty()) exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
+
         std::string depthValue = userSettings.getValue("engine", "depth", defaultSettings.getValue("engine", "depth"));
         if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
@@ -324,6 +328,7 @@ namespace ouzel
                             textureFilter,
                             maxAnisotropy,
                             verticalSync,
+                            exclusiveFullscreen,
                             depth,
                             debugRenderer))
         {

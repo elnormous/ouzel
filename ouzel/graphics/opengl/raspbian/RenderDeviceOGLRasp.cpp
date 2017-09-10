@@ -61,6 +61,7 @@ namespace ouzel
                                        Texture::Filter newTextureFilter,
                                        uint32_t newMaxAnisotropy,
                                        bool newVerticalSync,
+                                       bool newExclusiveFullscreen,
                                        bool newDepth,
                                        bool newDebugRenderer)
         {
@@ -123,9 +124,9 @@ namespace ouzel
             DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
 
             DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, dispmanDisplay,
-                        0, &dstRect, 0,
-                        &srcRect, DISPMANX_PROTECTION_NONE,
-                        0, 0, DISPMANX_NO_ROTATE);
+                                                                               0, &dstRect, 0,
+                                                                               &srcRect, DISPMANX_PROTECTION_NONE,
+                                                                               0, 0, DISPMANX_NO_ROTATE);
 
             nativewindow.element = dispmanElement;
             nativewindow.width = width;
@@ -189,6 +190,7 @@ namespace ouzel
                                        newTextureFilter,
                                        newMaxAnisotropy,
                                        newVerticalSync,
+                                       newExclusiveFullscreen,
                                        newDepth,
                                        newDebugRenderer))
             {
