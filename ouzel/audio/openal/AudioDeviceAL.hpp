@@ -7,6 +7,7 @@
 
 #if OUZEL_SUPPORTS_OPENAL
 
+#include <atomic>
 #include <thread>
 
 #if OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
