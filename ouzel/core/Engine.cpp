@@ -473,6 +473,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             updateCondition.notify_one();
+            if (updateThread.get_id() != std::this_thread::get_id()) updateThread.join();
 #endif
         }
     }
