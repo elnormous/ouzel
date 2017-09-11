@@ -164,7 +164,7 @@ namespace ouzel
             z = -z;
         }
 
-        void invert()
+        inline void invert()
         {
             float n2 = x * x + y * y + z * z + w * w; // norm squared
 
