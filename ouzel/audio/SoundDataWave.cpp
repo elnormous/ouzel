@@ -234,8 +234,14 @@ namespace ouzel
 
             uint32_t offset = streamWave->getOffset();
             uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
-
             uint32_t neededSize = frames * channels;
+
+            if (remainingSize == 0)
+            {
+                streamWave->reset();
+                offset = 0;
+                remainingSize = static_cast<uint32_t>(data.size());
+            }
 
             result.clear();
             result.reserve(stream->isRepeating() ? neededSize : remainingSize);
@@ -263,11 +269,6 @@ namespace ouzel
                 }
 
                 if (!stream->isRepeating()) break;
-            }
-
-            if (remainingSize == 0)
-            {
-                streamWave->reset();
             }
 
             return true;

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cfloat>
+#include <atomic>
 #include <memory>
 #include "audio/SoundInput.hpp"
 #include "math/Vector3.hpp"
@@ -105,8 +106,8 @@ namespace ouzel
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
 
-            bool playing = false;
-            bool repeating = false;
+            std::atomic<bool> playing;
+            std::atomic<bool> repeating;
             uint32_t resetCount = 0;
         };
     } // namespace audio

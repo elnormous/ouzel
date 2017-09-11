@@ -14,7 +14,7 @@ namespace ouzel
     namespace audio
     {
         Sound::Sound():
-            scene::Component(scene::Component::SOUND)
+            scene::Component(scene::Component::SOUND), playing(false), repeating(false)
         {
             updateCallback.callback = std::bind(&Sound::update, this, std::placeholders::_1);
         }
