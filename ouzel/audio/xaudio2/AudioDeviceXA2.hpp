@@ -48,7 +48,7 @@ namespace ouzel
             std::atomic<bool> running;
             std::thread audioThread;
             std::condition_variable fillDataCondition;
-            std::atomic<bool> fillData;
+            bool fillData = false;
             std::mutex fillDataMutex;
         };
     } // namespace audio

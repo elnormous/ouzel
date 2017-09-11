@@ -20,7 +20,7 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceXA2::AudioDeviceXA2():
-            AudioDevice(Audio::Driver::XAUDIO2), running(false), fillData(false)
+            AudioDevice(Audio::Driver::XAUDIO2), running(false)
         {
         }
 
