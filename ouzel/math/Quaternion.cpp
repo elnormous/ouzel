@@ -49,7 +49,7 @@ namespace ouzel
         w = cosAngle;
     }
 
-    void Quaternion::getRotation(float& angle, Vector& axis)
+    void Quaternion::getRotation(float& angle, Vector3& axis)
     {
         angle = 2.0f * acosf(w);
         float s = sqrtf(1.0f - w * w);

@@ -180,7 +180,7 @@ namespace ouzel
         float getNorm();
         void normalize();
         void rotate(float angle, Vector3 axis);
-        void getRotation(float& angle, Vector& axis);
+        void getRotation(float& angle, Vector3& axis);
 
         void setEulerAngles(const Vector3& angles);
         Vector3 getEulerAngles() const;
