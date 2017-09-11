@@ -164,6 +164,20 @@ namespace ouzel
             z = -z;
         }
 
+        void invert()
+        {
+            float n2 = x * x + y * y + z * z + w * w; // norm squared
+
+            if (n2 == 0.0f) return;
+
+            // conjugate divided by norm squared
+            x = -x / n2;
+            y = -y / n2;
+            z = -z / n2;
+            w = w / n2;
+        }
+
+        float getNorm();
         void normalize();
         void rotate(float angle, Vector3 axis);
 

@@ -10,6 +10,15 @@ namespace ouzel
     const Quaternion Quaternion::IDENTITY(0.0f, 0.0f, 0.0f, 1.0f);
     const Quaternion Quaternion::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
+    float Quaternion::getNorm()
+    {
+        float n = x * x + y * y + z * z + w * w;
+        if (n == 1.0f) // already normalized
+            return 1.0f;
+
+        return sqrtf(n);
+    }
+
     void Quaternion::normalize()
     {
         float n = x * x + y * y + z * z + w * w;
