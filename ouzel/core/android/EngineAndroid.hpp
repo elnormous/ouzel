@@ -29,6 +29,8 @@ namespace ouzel
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
+        virtual bool setCurrentThreadName(const std::string& name) override;
+
         JavaVM* getJavaVM() const { return javaVM; }
         jobject getMainActivity() const { return mainActivity; }
         jobject getSurface() const { return surface; }

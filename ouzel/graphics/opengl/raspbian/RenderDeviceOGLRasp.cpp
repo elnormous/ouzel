@@ -233,6 +233,8 @@ namespace ouzel
 
         void RenderDeviceOGLRasp::main()
         {
+            sharedEngine->setCurrentThreadName("Render");
+
             while (running)
             {
                 process();

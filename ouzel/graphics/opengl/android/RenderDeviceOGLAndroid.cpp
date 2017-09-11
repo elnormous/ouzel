@@ -410,6 +410,8 @@ namespace ouzel
 
         void RenderDeviceOGLAndroid::main()
         {
+            sharedEngine->setCurrentThreadName("Render");
+
             while (running)
             {
                 process();

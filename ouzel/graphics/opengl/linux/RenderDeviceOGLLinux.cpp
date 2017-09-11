@@ -6,6 +6,7 @@
 #if OUZEL_PLATFORM_LINUX && OUZEL_SUPPORTS_OPENGL
 
 #include "RenderDeviceOGLLinux.hpp"
+#include "core/Engine.hpp"
 #include "core/linux/WindowLinux.hpp"
 
 namespace ouzel
@@ -189,6 +190,8 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
+            sharedEngine->setCurrentThreadName("Render");
+
             while (running)
             {
                 process();

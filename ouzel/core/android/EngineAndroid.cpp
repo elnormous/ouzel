@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <unistd.h>
+#include <pthread.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
 #include "WindowAndroid.hpp"
@@ -277,6 +278,11 @@ namespace ouzel
                 jniEnv->CallVoidMethod(androidWindow, addFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);
             }
         });
+    }
+
+    bool EngineAndroid::setCurrentThreadName(const std::string& name)
+    {
+        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
     }
 
     void EngineAndroid::executeAll()
