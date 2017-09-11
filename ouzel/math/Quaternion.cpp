@@ -49,6 +49,24 @@ namespace ouzel
         w = cosAngle;
     }
 
+    void Quaternion::getRotation(float& angle, Vector& axis)
+    {
+        angle = 2.0f * acosf(w);
+        float s = sqrtf(1.0f - w * w);
+        if (s < TOLERANCE) // too close to zero
+        {
+            axis.x = x;
+            axis.y = y;
+            axis.z = z;
+        }
+        else
+        {
+            axis.x = x / s;
+            axis.y = y / s;
+            axis.z = z / s;
+        }
+    }
+
     void Quaternion::setEulerAngles(const Vector3& angles)
     {
         float angle;
