@@ -72,8 +72,11 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
-        updateCondition.notify_one();
-        if (updateThread.joinable()) updateThread.join();
+        if (updateThread.joinable())
+        {
+            updateCondition.notify_one();
+            updateThread.join();
+        }
 #endif
 
         for (UpdateCallback* updateCallback : updateCallbackAddSet)
@@ -130,7 +133,6 @@ namespace ouzel
 
         defaultSettings.init("settings.ini");
         userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
-
 
         std::string graphicsDriverValue = userSettings.getValue("engine", "graphicsDriver", defaultSettings.getValue("engine", "graphicsDriver"));
 
@@ -473,8 +475,12 @@ namespace ouzel
         }
 
 #if OUZEL_MULTITHREADED
-        updateCondition.notify_one();
-        if (updateThread.get_id() != std::this_thread::get_id()) updateThread.join();
+        if (updateThread.joinable() &&
+            updateThread.get_id() != std::this_thread::get_id())
+        {
+            updateCondition.notify_one();
+            updateThread.join();
+        }
 #endif
     }
 
