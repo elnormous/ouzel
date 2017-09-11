@@ -168,6 +168,8 @@ namespace ouzel
 
         void AudioDeviceDS::run()
         {
+            sharedEngine->setCurrentThreadName("Audio");
+
             while (running)
             {
                 if (!process())

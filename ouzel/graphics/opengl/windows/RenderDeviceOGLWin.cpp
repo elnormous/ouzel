@@ -11,6 +11,7 @@
 #include "GL/glext.h"
 #include "GL/wglext.h"
 #include "RenderDeviceOGLWin.hpp"
+#include "core/Engine.hpp"
 #include "core/windows/WindowWin.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
@@ -404,6 +405,8 @@ namespace ouzel
 
         void RenderDeviceOGLWin::main()
         {
+            sharedEngine->setCurrentThreadName("Render");
+
             while (running)
             {
                 process();

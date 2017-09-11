@@ -1189,6 +1189,8 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
+            sharedEngine->setCurrentThreadName("Render");
+
             while (running)
             {
                 process();
