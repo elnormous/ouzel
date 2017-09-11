@@ -7,6 +7,7 @@
 
 #include "AudioDeviceXA2.hpp"
 #include "XAudio27.hpp"
+#include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
 static const char* XAUDIO2_DLL_28 = "xaudio2_8.dll";
@@ -19,12 +20,22 @@ namespace ouzel
     namespace audio
     {
         AudioDeviceXA2::AudioDeviceXA2():
-            AudioDevice(Audio::Driver::XAUDIO2)
+            AudioDevice(Audio::Driver::XAUDIO2), running(false), fillData(false)
         {
         }
 
         AudioDeviceXA2::~AudioDeviceXA2()
         {
+            running = false;
+
+            {
+                std::unique_lock<std::mutex> lock(fillDataMutex);
+                fillData = true;
+                fillDataCondition.notify_one();
+            }
+
+            if (audioThread.joinable()) audioThread.join();
+
             if (sourceVoice) sourceVoice->DestroyVoice();
             if (masteringVoice) masteringVoice->DestroyVoice();
             if (xAudio)
@@ -191,60 +202,89 @@ namespace ouzel
                 return false;
             }
 
+            running = true;
+            audioThread = std::thread(&AudioDeviceXA2::run, this);
+
             return true;
+        }
+
+        void AudioDeviceXA2::run()
+        {
+            sharedEngine->setCurrentThreadName("Audio");
+
+            while (running)
+            {
+                std::unique_lock<std::mutex> lock(fillDataMutex);
+
+                while (!fillData)
+                {
+                    fillDataCondition.wait(lock);
+                }
+
+                if (!process())
+                {
+                    return;
+                }
+
+                if (!getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]))
+                {
+                    return;
+                }
+
+                XAUDIO2_BUFFER bufferData;
+                bufferData.Flags = 0;
+                bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
+                bufferData.pAudioData = data[nextBuffer].data();
+                bufferData.PlayBegin = 0;
+                bufferData.PlayLength = 0;
+                bufferData.LoopBegin = 0;
+                bufferData.LoopLength = 0;
+                bufferData.LoopCount = 0;
+                bufferData.pContext = nullptr;
+
+                HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
+                if (FAILED(hr))
+                {
+                    Log(Log::Level::ERR) << "Failed to upload sound data, error: " << hr;
+                }
+
+                nextBuffer = (nextBuffer == 0) ? 1 : 0;
+
+                fillData = false;
+            }
         }
 
         void AudioDeviceXA2::OnVoiceProcessingPassStart(UINT32)
         {
         }
+
         void AudioDeviceXA2::OnVoiceProcessingPassEnd()
         {
         }
+
         void AudioDeviceXA2::OnStreamEnd()
         {
         }
+
         void AudioDeviceXA2::OnBufferStart(void*)
         {
         }
+
         void AudioDeviceXA2::OnBufferEnd(void*)
         {
-            if (!process())
-            {
-                return;
-            }
-
-            if (!getData(bufferSize / (channels * sizeof(float)), data[nextBuffer]))
-            {
-                return;
-            }
-
-            XAUDIO2_BUFFER bufferData;
-            bufferData.Flags = 0;
-            bufferData.AudioBytes = static_cast<UINT32>(data[nextBuffer].size());
-            bufferData.pAudioData = data[nextBuffer].data();
-            bufferData.PlayBegin = 0;
-            bufferData.PlayLength = 0;
-            bufferData.LoopBegin = 0;
-            bufferData.LoopLength = 0;
-            bufferData.LoopCount = 0;
-            bufferData.pContext = nullptr;
-
-            HRESULT hr = sourceVoice->SubmitSourceBuffer(&bufferData);
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to upload sound data, error: " << hr;
-            }
-
-            nextBuffer = (nextBuffer == 0) ? 1 : 0;
+            std::unique_lock<std::mutex> lock(fillDataMutex);
+            fillData = true;
+            fillDataCondition.notify_one();
         }
+
         void AudioDeviceXA2::OnLoopEnd(void*)
         {
         }
+
         void AudioDeviceXA2::OnVoiceError(void*, HRESULT error)
         {
             Log() << "Xaudio2 voice error: " << error;
         }
-
     } // namespace audio
 } // namespace ouzel
 

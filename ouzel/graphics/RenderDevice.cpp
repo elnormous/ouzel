@@ -13,6 +13,7 @@ namespace ouzel
             driver(aDriver),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
+            queueFinished(false),
             refillQueue(true),
             currentFPS(0.0f),
             accumulatedFPS(0.0f)
@@ -168,13 +169,11 @@ namespace ouzel
 
         void RenderDevice::flushCommands()
         {
+            std::lock_guard<std::mutex> lock(drawQueueMutex);
             refillQueue = false;
 
-            {
-                std::lock_guard<std::mutex> lock(drawQueueMutex);
-                queueFinished = true;
-                drawCallCount = static_cast<uint32_t>(drawQueue.size());
-            }
+            queueFinished = true;
+            drawCallCount = static_cast<uint32_t>(drawQueue.size());
 
 #if OUZEL_MULTITHREADED
             queueCondition.notify_one();

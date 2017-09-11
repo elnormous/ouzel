@@ -31,10 +31,7 @@ namespace ouzel
         AudioDeviceDS::~AudioDeviceDS()
         {
             running = false;
-
-#if OUZEL_MULTITHREADED
             if (audioThread.joinable()) audioThread.join();
-#endif
 
             if (buffer) buffer->Release();
             if (primaryBuffer) primaryBuffer->Release();
@@ -159,9 +156,8 @@ namespace ouzel
                 return false;
             }
 
-#if OUZEL_MULTITHREADED
+            running = true;
             audioThread = std::thread(&AudioDeviceDS::run, this);
-#endif
 
             return true;
         }

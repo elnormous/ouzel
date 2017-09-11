@@ -245,6 +245,7 @@ namespace ouzel
             }
 
 #if OUZEL_MULTITHREADED
+            running = true;
             audioThread = std::thread(&AudioDeviceAL::run, this);
 #endif
 

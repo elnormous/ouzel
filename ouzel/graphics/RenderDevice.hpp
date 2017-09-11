@@ -183,7 +183,7 @@ namespace ouzel
             std::vector<DrawCommand> drawQueue;
             std::mutex drawQueueMutex;
             std::condition_variable queueCondition;
-            bool queueFinished = false;
+            std::atomic<bool> queueFinished;
             std::atomic<bool> refillQueue;
 
             std::atomic<float> currentFPS;

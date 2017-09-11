@@ -7,6 +7,8 @@
 
 #if OUZEL_SUPPORTS_XAUDIO2
 
+#include <atomic>
+#include <thread>
 #include <xaudio2.h>
 #include "audio/AudioDevice.hpp"
 
@@ -24,6 +26,8 @@ namespace ouzel
             AudioDeviceXA2();
             virtual bool init(bool debugAudio) override;
 
+            void run();
+
             virtual void OnVoiceProcessingPassStart(UINT32 bytesRequired) override;
             virtual void OnVoiceProcessingPassEnd() override;
             virtual void OnStreamEnd() override;
@@ -40,6 +44,12 @@ namespace ouzel
 
             std::vector<uint8_t> data[2];
             uint32_t nextBuffer = 0;
+
+            std::atomic<bool> running;
+            std::thread audioThread;
+            std::condition_variable fillDataCondition;
+            std::atomic<bool> fillData;
+            std::mutex fillDataMutex;
         };
     } // namespace audio
 } // namespace ouzel
