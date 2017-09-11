@@ -19,6 +19,7 @@ extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 
 extern "C" JNIEXPORT void JNIEXPORT JNI_OnUnload(JavaVM*, void*)
 {
+    engine->exit();
     engine.reset();
 }
 

@@ -123,6 +123,8 @@ namespace ouzel
             inputWin->update();
         }
 
+        exit();
+
         return EXIT_SUCCESS;
     }
 
