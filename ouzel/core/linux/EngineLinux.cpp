@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <unistd.h>
+#include <pthread.h>
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <X11/XKBlib.h>
@@ -183,6 +184,29 @@ namespace ouzel
         executeQueue.push(func);
     }
 
+    bool EngineLinux::openURL(const std::string& url)
+    {
+		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
+
+		return true;
+	}
+
+	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
+    {
+        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
+
+        executeOnMainThread([this, newScreenSaverEnabled]() {
+            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
+
+            XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
+        });
+    }
+
+    bool EngineLinux::setCurrentThreadName(const std::string& name)
+    {
+        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
+    }
+
     void EngineLinux::executeAll()
     {
         std::function<void(void)> func;
@@ -206,23 +230,5 @@ namespace ouzel
                 func();
             }
         }
-    }
-
-    bool EngineLinux::openURL(const std::string& url)
-    {
-		::exit(execl("/usr/bin/xdg-open", "xdg-open", url.c_str(), nullptr));
-
-		return true;
-	}
-
-	void EngineLinux::setScreenSaverEnabled(bool newScreenSaverEnabled)
-    {
-        Engine::setScreenSaverEnabled(newScreenSaverEnabled);
-
-        executeOnMainThread([this, newScreenSaverEnabled]() {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
-
-            XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
-        });
     }
 }

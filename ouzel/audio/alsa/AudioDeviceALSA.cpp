@@ -6,6 +6,7 @@
 #if OUZEL_SUPPORTS_ALSA
 
 #include "AudioDeviceALSA.hpp"
+#include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -182,6 +183,8 @@ namespace ouzel
 
         void AudioDeviceALSA::run()
         {
+            sharedEngine->setCurrentThreadName("Audio");
+
             while (running)
             {
                 int err;

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
+#include <pthread.h>
 #include "EngineRasp.hpp"
 #include "input/raspbian/InputRasp.hpp"
 #include "utils/Utils.hpp"
@@ -44,6 +45,11 @@ namespace ouzel
         std::lock_guard<std::mutex> lock(executeMutex);
 
         executeQueue.push(func);
+    }
+
+    bool EngineRasp::setCurrentThreadName(const std::string& name)
+    {
+        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
     }
 
     void EngineRasp::executeAll()
