@@ -43,10 +43,10 @@ namespace ouzel
 
         const Quaternion& operator*=(const Quaternion& q)
         {
-            float tempX = w * q.x + q.w * x + y * q.z - z * q.y;
-            float tempY = w * q.y + q.w * y + z * q.x - x * q.z;
-            float tempZ = w * q.z + q.w * z + x * q.y - y * q.x;
-            float tempW = w * q.w - (x * q.x + y * q.y + z * q.z);
+            float tempX = w * q.x + x * q.w + y * q.z - z * q.y;
+            float tempY = w * q.y + y * q.w + z * q.x - x * q.z;
+            float tempZ = w * q.z + z * q.w + x * q.y - y * q.x;
+            float tempW = w * q.w - x * q.x - y * q.y - z * q.z;
 
             x = tempX;
             y = tempY;
@@ -70,6 +70,24 @@ namespace ouzel
             y *= scalar;
             z *= scalar;
             w *= scalar;
+
+            return *this;
+        }
+
+        Quaternion operator/(float scalar) const
+        {
+            return Quaternion(x / scalar,
+                              y / scalar,
+                              z / scalar,
+                              w / scalar);
+        }
+
+        const Quaternion& operator/=(float scalar)
+        {
+            x /= scalar;
+            y /= scalar;
+            z /= scalar;
+            w /= scalar;
 
             return *this;
         }
