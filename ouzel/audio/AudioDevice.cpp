@@ -47,7 +47,7 @@ namespace ouzel
                 renderCommands = renderQueue;
             }
 
-            std::vector<float> data(frames * channels);
+            std::vector<float> data;
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
@@ -65,6 +65,8 @@ namespace ouzel
                                           gain,
                                           rolloffFactor,
                                           data)) return false;
+
+                if (data.size() > result.size()) result.resize(data.size(), 0.0f);
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                 {
@@ -85,7 +87,7 @@ namespace ouzel
                                                float& rolloffFactor,
                                                std::vector<float>& result)
         {
-            std::vector<float> data(frames * channels);
+            std::vector<float> data;
 
             if (renderCommand.attributeCallback)
             {
@@ -106,6 +108,8 @@ namespace ouzel
                                      gain,
                                      rolloffFactor,
                                      data);
+
+                if (data.size() > result.size()) result.resize(data.size(), 0.0f);
 
                 for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
                 {
