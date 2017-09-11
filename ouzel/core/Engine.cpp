@@ -470,12 +470,12 @@ namespace ouzel
             eventDispatcher.postEvent(event);
 
             active = false;
+        }
 
 #if OUZEL_MULTITHREADED
-            updateCondition.notify_one();
-            if (updateThread.get_id() != std::this_thread::get_id()) updateThread.join();
+        updateCondition.notify_one();
+        if (updateThread.get_id() != std::this_thread::get_id()) updateThread.join();
 #endif
-        }
     }
 
     void Engine::update()
