@@ -142,6 +142,13 @@ namespace ouzel
         });
     }
 
+    bool EngineMacOS::setCurrentThreadName(const std::string& name)
+    {
+        [[NSThread currentThread] setName:[NSString stringWithCString:name.c_str() encoding:NSUTF8StringEncoding]];
+
+        return true;
+    }
+
     void EngineMacOS::main()
     {
         Engine::main();

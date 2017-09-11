@@ -76,6 +76,8 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
+        virtual bool setCurrentThreadName(const std::string& name);
+
     protected:
         virtual void main();
 

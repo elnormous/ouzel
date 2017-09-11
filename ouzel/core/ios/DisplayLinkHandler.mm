@@ -27,6 +27,7 @@
 
         runLock = [[NSConditionLock alloc] initWithCondition:0];
         renderThread = [[NSThread alloc] initWithTarget:self selector:@selector(runThread) object:nil];
+        [renderThread setName:@"Render"];
         [renderThread start];
     }
 

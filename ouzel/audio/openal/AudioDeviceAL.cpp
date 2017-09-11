@@ -6,6 +6,7 @@
 #if OUZEL_SUPPORTS_OPENAL
 
 #include "AudioDeviceAL.hpp"
+#include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -326,6 +327,8 @@ namespace ouzel
         void AudioDeviceAL::run()
         {
 #if OUZEL_MULTITHREADED
+            sharedEngine->setCurrentThreadName("Audio");
+
             while (running)
             {
                 if (!process())

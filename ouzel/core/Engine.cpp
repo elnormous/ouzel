@@ -557,6 +557,8 @@ namespace ouzel
         ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
+        setCurrentThreadName("Game");
+
         while (active)
         {
             if (!paused)
@@ -624,5 +626,10 @@ namespace ouzel
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         screenSaverEnabled = newScreenSaverEnabled;
+    }
+
+    bool Engine::setCurrentThreadName(const std::string&)
+    {
+        return false;
     }
 }

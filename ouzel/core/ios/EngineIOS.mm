@@ -114,4 +114,11 @@ namespace ouzel
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
     }
+
+    bool EngineIOS::setCurrentThreadName(const std::string& name)
+    {
+        [[NSThread currentThread] setName:[NSString stringWithCString:name.c_str() encoding:NSUTF8StringEncoding]];
+
+        return true;
+    }
 }
