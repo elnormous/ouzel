@@ -7,6 +7,7 @@
 #include "audio/AudioDevice.hpp"
 #include "audio/SoundOutput.hpp"
 #include "scene/Component.hpp"
+#include "core/UpdateCallback.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -23,17 +24,6 @@ namespace ouzel
             Listener();
             virtual ~Listener();
 
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
-
             const Vector3& getPosition() const { return position; }
             void setPosition(const Vector3& newPosition) { position = newPosition; }
 
@@ -43,6 +33,8 @@ namespace ouzel
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
+            void update(float);
+
             static void setAttributes(Vector3& listenerPosition,
                                       Quaternion& listenerRotation,
                                       float& pitch,
@@ -52,6 +44,8 @@ namespace ouzel
                                       const Quaternion& rotation);
 
             Audio* audio = nullptr;
+
+            UpdateCallback updateCallback;
 
             Vector3 position;
             Quaternion rotation;

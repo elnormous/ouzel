@@ -7,9 +7,9 @@
 #include <atomic>
 #include <memory>
 #include "audio/SoundInput.hpp"
-#include "math/Vector3.hpp"
 #include "scene/Component.hpp"
 #include "core/UpdateCallback.hpp"
+#include "math/Vector3.hpp"
 
 namespace ouzel
 {
@@ -27,17 +27,6 @@ namespace ouzel
             virtual ~Sound();
 
             bool init(const std::shared_ptr<SoundData>& newSoundData);
-
-            virtual void draw(const Matrix4& transformMatrix,
-                              float opacity,
-                              const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
-                              bool depthWrite,
-                              bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 

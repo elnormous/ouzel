@@ -14,6 +14,8 @@ namespace ouzel
         Listener::Listener():
             scene::Component(scene::Component::LISTENER)
         {
+            updateCallback.callback = std::bind(&Listener::update, this, std::placeholders::_1);
+            sharedEngine->scheduleUpdate(&updateCallback);
         }
 
         Listener::~Listener()
@@ -21,30 +23,14 @@ namespace ouzel
             if (audio) audio->removeListener(this);
         }
 
-        void Listener::draw(const Matrix4& transformMatrix,
-                            float opacity,
-                            const Matrix4& renderViewProjection,
-                            const std::shared_ptr<graphics::Texture>& renderTarget,
-                            const Rectangle& renderViewport,
-                            bool depthWrite,
-                            bool depthTest,
-                            bool wireframe,
-                            bool scissorTest,
-                            const Rectangle& scissorRectangle)
+        void Listener::update(float)
         {
-            Component::draw(transformMatrix,
-                            opacity,
-                            renderViewProjection,
-                            renderTarget,
-                            renderViewport,
-                            depthWrite,
-                            depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
-
-            setPosition(transformMatrix.getTranslation());
-            setRotation(transformMatrix.getRotation());
+            if (actor)
+            {
+                const Matrix4& transform = actor->getTransform();
+                position = transform.getTranslation();
+                rotation = transform.getRotation();
+            }
         }
 
         AudioDevice::RenderCommand Listener::getRenderCommand()
