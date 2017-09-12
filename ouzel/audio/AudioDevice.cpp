@@ -51,19 +51,13 @@ namespace ouzel
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
-                Vector3 listenerPosition;
-                Quaternion listenerRotation;
-                float pitch = 1.0f;
-                float gain = 1.0f;
-                float rolloffFactor = 1.0f;
-
                 if (!processRenderCommand(renderCommand,
                                           frames,
-                                          listenerPosition,
-                                          listenerRotation,
-                                          pitch,
-                                          gain,
-                                          rolloffFactor,
+                                          Vector3(), // listener position
+                                          Quaternion(), // listener rotation
+                                          1.0f, // pitch
+                                          1.0f, // gain
+                                          1.0f, // rolloff factor
                                           data)) return false;
 
                 if (data.size() > result.size()) result.resize(data.size(), 0.0f);
@@ -80,11 +74,11 @@ namespace ouzel
 
         bool AudioDevice::processRenderCommand(const RenderCommand& renderCommand,
                                                uint32_t frames,
-                                               Vector3& listenerPosition,
-                                               Quaternion& listenerRotation,
-                                               float& pitch,
-                                               float& gain,
-                                               float& rolloffFactor,
+                                               Vector3 listenerPosition,
+                                               Quaternion listenerRotation,
+                                               float pitch,
+                                               float gain,
+                                               float rolloffFactor,
                                                std::vector<float>& result)
         {
             std::vector<float> data;

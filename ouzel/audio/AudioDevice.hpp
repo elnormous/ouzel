@@ -61,11 +61,11 @@ namespace ouzel
                                        std::vector<float>& result);
             bool processRenderCommand(const RenderCommand& renderCommand,
                                       uint32_t frames,
-                                      Vector3& listenerPosition,
-                                      Quaternion& listenerRotation,
-                                      float& pitch,
-                                      float& gain,
-                                      float& rolloffFactor,
+                                      Vector3 listenerPosition,
+                                      Quaternion listenerRotation,
+                                      float pitch,
+                                      float gain,
+                                      float rolloffFactor,
                                       std::vector<float>& result);
 
             Audio::Driver driver;
