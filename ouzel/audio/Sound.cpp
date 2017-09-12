@@ -58,7 +58,8 @@ namespace ouzel
             if (actor)
             {
                 const Matrix4& transform = actor->getTransform();
-                position = transform.getTranslation();
+                position = Vector3();
+                transform.transformPoint(position);
             }
         }
 
