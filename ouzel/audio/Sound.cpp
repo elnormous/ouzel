@@ -55,12 +55,7 @@ namespace ouzel
                 sharedEngine->unscheduleUpdate(&updateCallback);
             }
 
-            if (actor)
-            {
-                const Matrix4& transform = actor->getTransform();
-                position = Vector3();
-                transform.transformPoint(position);
-            }
+            if (actor) position = actor->getWorldPosition();
         }
 
         void Sound::setPosition(const Vector3& newPosition)
@@ -95,12 +90,7 @@ namespace ouzel
 
         bool Sound::play(bool repeatSound)
         {
-            if (actor)
-            {
-                const Matrix4& transform = actor->getTransform();
-                position = Vector3();
-                transform.transformPoint(position);
-            }
+            if (actor) position = actor->getWorldPosition();
 
             playing = true;
             repeating = repeatSound;
