@@ -94,6 +94,12 @@ namespace ouzel
 
         bool Sound::play(bool repeatSound)
         {
+            if (actor)
+            {
+                const Matrix4& transform = actor->getTransform();
+                position = transform.getTranslation();
+            }
+            
             playing = true;
             repeating = repeatSound;
 
