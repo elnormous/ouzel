@@ -440,7 +440,7 @@ namespace ouzel
                     {
                         for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            result[frame * channels + channel] *= channelVolume[channel];
+                            result[frame * channels + channel] *= clamp(channelVolume[channel], 0.0f, 1.0f);
                         }
                     }
                 }
