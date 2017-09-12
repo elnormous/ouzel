@@ -27,7 +27,7 @@ namespace ouzel
         {
             if (actor)
             {
-                actor->getWorldPosition();
+                position = actor->getWorldPosition();
                 const Matrix4& transform = actor->getTransform();
                 rotation = transform.getRotation();
             }
