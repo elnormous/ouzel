@@ -186,7 +186,7 @@ namespace ouzel
 
     bool EngineWin::setCurrentThreadName(const std::string& name)
     {
-#ifndef __clang__ // clang does not support SEH exceptions
+#ifndef __GNUC__ // clang and gcc do not support SEH exceptions
         THREADNAME_INFO info;
         info.dwType = 0x1000;
         info.szName = name.c_str();
