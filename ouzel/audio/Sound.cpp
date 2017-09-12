@@ -34,28 +34,35 @@ namespace ouzel
 
         void Sound::update(float)
         {
-            uint32_t newResetCount = stream->getResetCount();
-
-            for (uint32_t i = resetCount; i < newResetCount; ++i)
+            if (stream)
             {
-                Event resetEvent;
-                resetEvent.type = Event::Type::SOUND_RESET;
-                resetEvent.soundEvent.sound = this;
-                ++resetCount;
+                uint32_t newResetCount = stream->getResetCount();
+
+                for (uint32_t i = resetCount; i < newResetCount; ++i)
+                {
+                    Event resetEvent;
+                    resetEvent.type = Event::Type::SOUND_RESET;
+                    resetEvent.soundEvent.sound = this;
+                    ++resetCount;
+                }
+
+                if (!stream->isPlaying())
+                {
+                    playing = false;
+
+                    Event resetEvent;
+                    resetEvent.type = Event::Type::SOUND_FINISH;
+                    resetEvent.soundEvent.sound = this;
+
+                    sharedEngine->unscheduleUpdate(&updateCallback);
+                }
+
+                if (actor) position = actor->getWorldPosition();
             }
-
-            if (!stream->isPlaying())
+            else
             {
-                playing = false;
-
-                Event resetEvent;
-                resetEvent.type = Event::Type::SOUND_FINISH;
-                resetEvent.soundEvent.sound = this;
-
                 sharedEngine->unscheduleUpdate(&updateCallback);
             }
-
-            if (actor) position = actor->getWorldPosition();
         }
 
         void Sound::setPosition(const Vector3& newPosition)
@@ -99,8 +106,11 @@ namespace ouzel
             resetEvent.type = Event::Type::SOUND_START;
             resetEvent.soundEvent.sound = this;
 
-            stream->setRepeating(repeatSound);
-            stream->setPlaying(true);
+            if (stream)
+            {
+                stream->setRepeating(repeatSound);
+                stream->setPlaying(true);
+            }
 
             sharedEngine->scheduleUpdate(&updateCallback);
 
@@ -110,7 +120,7 @@ namespace ouzel
         bool Sound::pause()
         {
             playing = false;
-            stream->setPlaying(false);
+            if (stream) stream->setPlaying(false);
 
             sharedEngine->unscheduleUpdate(&updateCallback);
 
@@ -120,7 +130,7 @@ namespace ouzel
         bool Sound::stop()
         {
             playing = false;
-            stream->setPlaying(false);
+            if (stream) stream->setPlaying(false);
 
             sharedEngine->unscheduleUpdate(&updateCallback);
 
