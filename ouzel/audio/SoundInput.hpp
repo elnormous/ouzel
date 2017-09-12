@@ -17,6 +17,7 @@ namespace ouzel
         public:
             virtual ~SoundInput();
 
+            SoundOutput* getOutput() const { return output; }
             void setOutput(SoundOutput* newOutput);
 
             virtual AudioDevice::RenderCommand getRenderCommand() = 0;
