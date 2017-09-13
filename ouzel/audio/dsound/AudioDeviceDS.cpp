@@ -26,6 +26,7 @@ namespace ouzel
         AudioDeviceDS::AudioDeviceDS():
             AudioDevice(Audio::Driver::DIRECTSOUND), running(false)
         {
+            std::fill(std::begin(notifyEvents), std::end(notifyEvents), INVALID_HANDLE_VALUE);
         }
 
         AudioDeviceDS::~AudioDeviceDS()
@@ -33,6 +34,12 @@ namespace ouzel
             running = false;
             if (audioThread.joinable()) audioThread.join();
 
+            for (HANDLE notifyEvent : notifyEvents)
+            {
+                if (notifyEvent != INVALID_HANDLE_VALUE) CloseHandle(notifyEvent);
+            }
+
+            if (notify) notify->Release();
             if (buffer) buffer->Release();
             if (primaryBuffer) primaryBuffer->Release();
             if (directSound) directSound->Release();
@@ -105,7 +112,7 @@ namespace ouzel
 
             DSBUFFERDESC bufferDesc;
             bufferDesc.dwSize = sizeof(bufferDesc);
-            bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME;
+            bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPOSITIONNOTIFY;
             bufferDesc.dwBufferBytes = 2 * bufferSize;
             bufferDesc.dwReserved = 0;
             bufferDesc.lpwfxFormat = &waveFormat;
@@ -149,6 +156,30 @@ namespace ouzel
 
             nextBuffer = 0;
 
+            hr = buffer->QueryInterface(IID_IDirectSoundNotify8, reinterpret_cast<void**>(&notify));
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectSound notify interface, error: " << hr;
+                return false;
+            }
+
+            notifyEvents[0] = CreateEvent(nullptr, true, false, nullptr);
+            notifyEvents[1] = CreateEvent(nullptr, true, false, nullptr);
+
+            DSBPOSITIONNOTIFY positionNotifyEvents[2];
+            positionNotifyEvents[0].dwOffset = bufferSize - 1;
+            positionNotifyEvents[0].hEventNotify = notifyEvents[0];
+
+            positionNotifyEvents[1].dwOffset = 2 * bufferSize - 1;
+            positionNotifyEvents[1].hEventNotify = notifyEvents[1];
+
+            hr = notify->SetNotificationPositions(2, positionNotifyEvents);
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to set DirectSound notification positions, error: " << hr;
+                return false;
+            }
+
             hr = buffer->Play(0, 0, DSBPLAY_LOOPING);
             if (FAILED(hr))
             {
@@ -168,48 +199,39 @@ namespace ouzel
 
             while (running)
             {
-                if (!process())
+                if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)
                 {
-                    break;
-                }
-    
-                DWORD playCursorPosition;
-                DWORD writeCursorPosition;
-                HRESULT hr = buffer->GetCurrentPosition(&playCursorPosition, &writeCursorPosition);
-                if (FAILED(hr))
-                {
-                    Log(Log::Level::ERR) << "Failed to get DirectSound buffer cursor position, error: " << hr;
-                    break;
-                }
-    
-                uint32_t currentBuffer = playCursorPosition / bufferSize;
-    
-                if (currentBuffer != nextBuffer)
-                {
+                    ResetEvent(notifyEvents[nextBuffer]);
+
+                    if (!process())
+                    {
+                        break;
+                    }
+
                     uint8_t* bufferPointer;
                     DWORD lockedBufferSize;
-                    hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
+                    HRESULT hr = buffer->Lock(nextBuffer * bufferSize, bufferSize, reinterpret_cast<void**>(&bufferPointer), &lockedBufferSize, nullptr, 0, 0);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to lock DirectSound buffer, error: " << hr;
                         break;
                     }
-    
+
                     if (!getData(lockedBufferSize / (channels * sizeof(int16_t)), data))
                     {
                         break;
                     }
-    
+
                     std::copy(data.begin(), data.end(), bufferPointer);
-    
+
                     hr = buffer->Unlock(bufferPointer, lockedBufferSize, nullptr, 0);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to unlock DirectSound buffer, error: " << hr;
                         break;
                     }
-    
-                    nextBuffer = currentBuffer;
+
+                    nextBuffer = (nextBuffer + 1) % 2;
                 }
             }
         }
