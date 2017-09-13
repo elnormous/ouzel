@@ -133,6 +133,14 @@ namespace ouzel
                 return false;
             }
 
+            hr = tempBuffer->QueryInterface(IID_IDirectSoundNotify, reinterpret_cast<void**>(&notify));
+            if (FAILED(hr))
+            {
+                Log(Log::Level::ERR) << "Failed to get DirectSound notify interface, error: " << hr;
+                tempBuffer->Release();
+                return false;
+            }
+
             tempBuffer->Release();
 
             uint8_t* bufferPointer;
@@ -155,13 +163,6 @@ namespace ouzel
             }
 
             nextBuffer = 0;
-
-            hr = buffer->QueryInterface(IID_IDirectSoundNotify, reinterpret_cast<void**>(&notify));
-            if (FAILED(hr))
-            {
-                Log(Log::Level::ERR) << "Failed to get DirectSound notify interface, error: " << hr;
-                return false;
-            }
 
             notifyEvents[0] = CreateEvent(nullptr, true, false, nullptr);
             notifyEvents[1] = CreateEvent(nullptr, true, false, nullptr);
