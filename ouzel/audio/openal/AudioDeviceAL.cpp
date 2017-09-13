@@ -319,7 +319,7 @@ namespace ouzel
                 }
 
                 // swap the buffer
-                nextBuffer = (nextBuffer == 0) ? 1 : 0;
+                nextBuffer = (nextBuffer + 1) % 2;
             }
 
             return true;
