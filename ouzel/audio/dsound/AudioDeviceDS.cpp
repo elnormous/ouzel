@@ -156,7 +156,7 @@ namespace ouzel
 
             nextBuffer = 0;
 
-            hr = buffer->QueryInterface(IID_IDirectSoundNotify8, reinterpret_cast<void**>(&notify));
+            hr = buffer->QueryInterface(IID_IDirectSoundNotify, reinterpret_cast<void**>(&notify));
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to get DirectSound notify interface, error: " << hr;
