@@ -12,6 +12,7 @@ namespace ouzel
         AudioDevice::AudioDevice(Audio::Driver aDriver):
             driver(aDriver)
         {
+            buffers.resize(1000);
         }
 
         AudioDevice::~AudioDevice()
@@ -48,7 +49,10 @@ namespace ouzel
             }
 
             uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
+            if (currentBuffer > buffers.size()) return true; // out of buffers
+
+            buffers[buffer].resize(frames * channels);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
@@ -83,7 +87,10 @@ namespace ouzel
                                                std::vector<float>& result)
         {
             uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
+            if (currentBuffer > buffers.size()) return true; // out of buffers
+
+            buffers[buffer].resize(frames * channels);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
 
             if (renderCommand.attributeCallback)
             {
@@ -105,7 +112,7 @@ namespace ouzel
                                      rolloffFactor,
                                      buffers[buffer]);
 
-                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0f);
+                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size());
 
                 for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
                 {
@@ -134,7 +141,7 @@ namespace ouzel
         {
             currentBuffer = 0;
             uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
+            if (currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
