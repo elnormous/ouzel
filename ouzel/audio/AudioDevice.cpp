@@ -132,6 +132,7 @@ namespace ouzel
 
         bool AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
+            currentBuffer = 0;
             uint32_t buffer = currentBuffer++;
             if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
 
