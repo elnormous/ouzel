@@ -444,10 +444,12 @@ namespace ouzel
                             Vector3 relative = inverseRotation * offset;
                             relative.normalize();
                             float angle = atan2f(relative.x, relative.z);
+                            float c = cosf(angle);
+                            float s = sinf(angle);
 
                             // constant power panning
-                            channelVolume[0] *= clamp(SQRT2 / 2.0f * (cosf(angle) - sinf(angle)), 0.0f, 1.0f);
-                            channelVolume[1] *= clamp(SQRT2 / 2.0f * (cosf(angle) + sinf(angle)), 0.0f, 1.0f);
+                            channelVolume[0] *= clamp(SQRT2 / 2.0f * (c - s), 0.0f, 1.0f);
+                            channelVolume[1] *= clamp(SQRT2 / 2.0f * (c + s), 0.0f, 1.0f);
                         }
                     }
 
