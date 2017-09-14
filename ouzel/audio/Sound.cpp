@@ -135,12 +135,13 @@ namespace ouzel
         bool Sound::stop()
         {
             playing = false;
-            if (stream) stream->setPlaying(false);
+            if (stream)
+            {
+                stream->setPlaying(false);
+                stream->setShouldReset(true);
+            }
 
             sharedEngine->unscheduleUpdate(&updateCallback);
-
-            //sharedEngine->getAudio()->executeOnAudioThread(std::bind(&Stream::reset,
-            //                                                         stream.get()));
 
             return true;
         }
@@ -217,6 +218,12 @@ namespace ouzel
                 }
                 else
                 {
+                    if (stream->getShouldReset())
+                    {
+                        stream->reset();
+                        stream->setShouldReset(false);
+                    }
+
                     std::vector<float> data;
                     std::vector<float> resampledData;
 
