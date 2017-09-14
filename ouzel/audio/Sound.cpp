@@ -224,7 +224,7 @@ namespace ouzel
                         stream->setShouldReset(false);
                     }
 
-                    soundData->getData(stream.get(), frames, channels, pitch * soundData->getSampleRate() / sampleRate, result);
+                    soundData->getData(stream.get(), frames, channels, sampleRate, pitch, result);
 
                     std::vector<float> channelVolume(channels, gain);
 

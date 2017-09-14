@@ -27,7 +27,7 @@ namespace ouzel
             virtual bool init(const std::vector<uint8_t>& newData);
 
             virtual std::shared_ptr<Stream> createStream() = 0;
-            bool getData(Stream* stream, uint32_t frames, uint32_t neededChannels, float pitch, std::vector<float>& result);
+            bool getData(Stream* stream, uint32_t frames, uint32_t neededChannels, uint32_t neededSampleRate, float pitch, std::vector<float>& result);
 
             uint16_t getChannels() const { return channels; }
             uint32_t getSampleRate() const { return sampleRate; }
