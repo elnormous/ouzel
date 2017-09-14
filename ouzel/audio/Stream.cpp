@@ -8,7 +8,7 @@ namespace ouzel
     namespace audio
     {
         Stream::Stream():
-            playing(false), resetCount(0)
+            playing(false), shouldReset(false), resetCount(0)
         {
         }
 
