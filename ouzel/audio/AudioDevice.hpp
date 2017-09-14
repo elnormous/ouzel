@@ -78,7 +78,8 @@ namespace ouzel
             const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;
 
-            std::vector<float> buffer;
+            std::vector<std::vector<float>> buffers;
+            uint32_t currentBuffer = 0;
 
             std::queue<std::function<void(void)>> executeQueue;
             std::mutex executeMutex;

@@ -47,7 +47,8 @@ namespace ouzel
                 renderCommands = renderQueue;
             }
 
-            std::vector<float> data;
+            uint32_t buffer = currentBuffer++;
+            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
@@ -58,14 +59,14 @@ namespace ouzel
                                           1.0f, // pitch
                                           1.0f, // gain
                                           1.0f, // rolloff factor
-                                          data)) return false;
+                                          buffers[buffer])) return false;
 
-                if (data.size() > result.size()) result.resize(data.size(), 0.0f);
+                if (buffers[buffer].size() > buffers[buffer].size()) result.resize(buffers[buffer].size(), 0.0f);
 
-                for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
+                for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
                 {
                     // mix the sound into the buffer
-                    result[i] += data[i];
+                    result[i] += buffers[buffer][i];
                 }
             }
 
@@ -81,7 +82,8 @@ namespace ouzel
                                                float rolloffFactor,
                                                std::vector<float>& result)
         {
-            std::vector<float> data;
+            uint32_t buffer = currentBuffer++;
+            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
 
             if (renderCommand.attributeCallback)
             {
@@ -101,14 +103,14 @@ namespace ouzel
                                      pitch,
                                      gain,
                                      rolloffFactor,
-                                     data);
+                                     buffers[buffer]);
 
-                if (data.size() > result.size()) result.resize(data.size(), 0.0f);
+                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0f);
 
-                for (uint32_t i = 0; i < data.size() && i < result.size(); ++i)
+                for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
                 {
                     // mix the sound into the buffer
-                    result[i] += data[i];
+                    result[i] += buffers[buffer][i];
                 }
             }
 
@@ -130,12 +132,15 @@ namespace ouzel
 
         bool AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
-            buffer.resize(frames * channels);
-            std::fill(buffer.begin(), buffer.end(), 0.0f);
+            uint32_t buffer = currentBuffer++;
+            if (currentBuffer > buffers.size()) buffers.resize(currentBuffer);
 
-            if (!processRenderCommands(frames, buffer)) return false;
+            buffers[buffer].resize(frames * channels);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
 
-            for (float& f : buffer)
+            if (!processRenderCommands(frames, buffers[buffer])) return false;
+
+            for (float& f : buffers[buffer])
             {
                 f = clamp(f, -1.0f, 1.0f);
             }
@@ -147,9 +152,9 @@ namespace ouzel
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
 
-                    for (uint32_t i = 0; i < buffer.size(); ++i)
+                    for (uint32_t i = 0; i < buffers[buffer].size(); ++i)
                     {
-                        *resultPtr = static_cast<int16_t>(buffer[i] * 32767.0f);
+                        *resultPtr = static_cast<int16_t>(buffers[buffer][i] * 32767.0f);
                         ++resultPtr;
                     }
                     break;
@@ -157,8 +162,8 @@ namespace ouzel
                 case Audio::Format::FLOAT32:
                 {
                     result.reserve(frames * channels * sizeof(float));
-                    result.assign(reinterpret_cast<uint8_t*>(buffer.data()),
-                                  reinterpret_cast<uint8_t*>(buffer.data()) + buffer.size() * 4);
+                    result.assign(reinterpret_cast<uint8_t*>(buffers[buffer].data()),
+                                  reinterpret_cast<uint8_t*>(buffers[buffer].data()) + buffers[buffer].size() * sizeof(float));
                     break;
                 }
             }
