@@ -4,7 +4,6 @@
 #pragma once
 
 #include <cfloat>
-#include <atomic>
 #include <memory>
 #include "audio/SoundInput.hpp"
 #include "scene/Component.hpp"
@@ -48,6 +47,9 @@ namespace ouzel
             float getMaxDistance() { return maxDistance; }
             void setMaxDistance(float newMaxDistance);
 
+            bool isSpatialized() { return spatialized; }
+            void setSpatialized(bool newSpatialized);
+
             bool play(bool repeatSound = false);
             bool pause();
             bool stop();
@@ -82,7 +84,8 @@ namespace ouzel
                                const std::shared_ptr<Stream>& stream,
                                const Vector3& position,
                                float minDistance,
-                               float maxDistance);
+                               float maxDistance,
+                               bool spatialized);
 
             UpdateCallback updateCallback;
             std::shared_ptr<SoundData> soundData;
@@ -95,8 +98,9 @@ namespace ouzel
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
 
-            std::atomic<bool> playing;
-            std::atomic<bool> repeating;
+            bool spatialized = true;
+            bool playing = false;
+            bool repeating = false;
             uint32_t resetCount = 0;
         };
     } // namespace audio

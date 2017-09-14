@@ -14,7 +14,7 @@ namespace ouzel
     namespace audio
     {
         Sound::Sound():
-            scene::Component(scene::Component::SOUND), playing(false), repeating(false)
+            scene::Component(scene::Component::SOUND)
         {
             updateCallback.callback = std::bind(&Sound::update, this, std::placeholders::_1);
         }
@@ -95,6 +95,11 @@ namespace ouzel
             maxDistance = newMaxDistance;
         }
 
+        void Sound::setSpatialized(bool newSpatialized)
+        {
+            spatialized = newSpatialized;
+        }
+
         bool Sound::play(bool repeatSound)
         {
             if (actor) position = actor->getWorldPosition();
@@ -168,7 +173,8 @@ namespace ouzel
                                                      stream,
                                                      position,
                                                      minDistance,
-                                                     maxDistance);
+                                                     maxDistance,
+                                                     spatialized);
 
             return renderCommand;
         }
@@ -200,7 +206,8 @@ namespace ouzel
                            const std::shared_ptr<Stream>& stream,
                            const Vector3& position,
                            float minDistance,
-                           float maxDistance)
+                           float maxDistance,
+                           bool spatialized)
         {
             if (soundData && soundData->getChannels() > 0 && stream)
             {
@@ -418,29 +425,32 @@ namespace ouzel
                         result = resampledData;
                     }
 
-                    Vector3 offset = position - listenerPosition;
-                    float distance = clamp(offset.length(), minDistance, maxDistance);
-                    float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
-
-                    std::vector<float> channelVolume(channels, gain * attenuation);
-
-                    if (channelVolume.size() > 1)
+                    if (spatialized)
                     {
-                        Quaternion inverseRotation = -listenerRotation;
-                        Vector3 relative = inverseRotation * offset;
-                        relative.normalize();
-                        float angle = atan2f(relative.x, relative.z);
+                        Vector3 offset = position - listenerPosition;
+                        float distance = clamp(offset.length(), minDistance, maxDistance);
+                        float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
-                        // constant power panning
-                        channelVolume[0] *= SQRT2 / 2.0f * (cosf(angle) - sinf(angle));
-                        channelVolume[1] *= SQRT2 / 2.0f * (cosf(angle) + sinf(angle));
-                    }
+                        std::vector<float> channelVolume(channels, gain * attenuation);
 
-                    for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
-                    {
-                        for (uint32_t channel = 0; channel < channels; ++channel)
+                        if (channelVolume.size() > 1)
                         {
-                            result[frame * channels + channel] *= clamp(channelVolume[channel], 0.0f, 1.0f);
+                            Quaternion inverseRotation = -listenerRotation;
+                            Vector3 relative = inverseRotation * offset;
+                            relative.normalize();
+                            float angle = atan2f(relative.x, relative.z);
+
+                            // constant power panning
+                            channelVolume[0] *= clamp(SQRT2 / 2.0f * (cosf(angle) - sinf(angle)), 0.0f, 1.0f);
+                            channelVolume[1] *= clamp(SQRT2 / 2.0f * (cosf(angle) + sinf(angle)), 0.0f, 1.0f);
+                        }
+
+                        for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
+                        {
+                            for (uint32_t channel = 0; channel < channels; ++channel)
+                            {
+                                result[frame * channels + channel] *= channelVolume[channel];
+                            }
                         }
                     }
                 }
