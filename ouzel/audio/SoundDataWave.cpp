@@ -228,7 +228,7 @@ namespace ouzel
             return std::make_shared<StreamWave>();
         }
 
-        bool SoundDataWave::getData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        bool SoundDataWave::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 

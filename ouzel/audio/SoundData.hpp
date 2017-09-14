@@ -27,14 +27,18 @@ namespace ouzel
             virtual bool init(const std::vector<uint8_t>& newData);
 
             virtual std::shared_ptr<Stream> createStream() = 0;
-            virtual bool getData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
+            bool getData(Stream* stream, uint32_t frames, float pitch, std::vector<float>& result);
 
             uint16_t getChannels() const { return channels; }
             uint32_t getSampleRate() const { return sampleRate; }
 
         protected:
+            virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
+
             uint16_t channels = 0;
             uint32_t sampleRate = 0;
+
+            std::vector<float> tempData;
         };
     } // namespace audio
 } // namespace ouzel

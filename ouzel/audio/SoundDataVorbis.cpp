@@ -50,7 +50,7 @@ namespace ouzel
             return std::make_shared<StreamVorbis>(data);
         }
 
-        bool SoundDataVorbis::getData(Stream* stream, uint32_t frames, std::vector<float>& result)
+        bool SoundDataVorbis::readData(Stream* stream, uint32_t frames, std::vector<float>& result)
         {
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 

@@ -21,9 +21,10 @@ namespace ouzel
             virtual bool init(const std::vector<uint8_t>& newData) override;
 
             virtual std::shared_ptr<Stream> createStream() override;
-            virtual bool getData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
 
         protected:
+            virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) override;
+
             std::string filename;
 
             std::vector<uint8_t> data;
