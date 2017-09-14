@@ -48,6 +48,7 @@ namespace ouzel
         bool Sprite::init(const SpriteDefinition& spriteDefinition)
         {
             material = std::make_shared<graphics::Material>();
+            material->cullMode = graphics::Renderer::CullMode::NONE;
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = spriteDefinition.texture;
@@ -64,6 +65,7 @@ namespace ouzel
                           const Vector2& pivot)
         {
             material = std::make_shared<graphics::Material>();
+            material->cullMode = graphics::Renderer::CullMode::NONE;
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
@@ -81,6 +83,7 @@ namespace ouzel
                           const Vector2& pivot)
         {
             material = std::make_shared<graphics::Material>();
+            material->cullMode = graphics::Renderer::CullMode::NONE;
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = newTexture;
