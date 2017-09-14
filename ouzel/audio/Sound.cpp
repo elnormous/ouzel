@@ -425,13 +425,18 @@ namespace ouzel
                         result = resampledData;
                     }
 
+                    std::vector<float> channelVolume(channels, gain);
+
                     if (spatialized)
                     {
                         Vector3 offset = position - listenerPosition;
                         float distance = clamp(offset.length(), minDistance, maxDistance);
                         float attenuation = minDistance / (minDistance + rolloffFactor * (distance - minDistance)); // inverse distance
 
-                        std::vector<float> channelVolume(channels, gain * attenuation);
+                        for (float& volume : channelVolume)
+                        {
+                            volume *= attenuation;
+                        }
 
                         if (channelVolume.size() > 1)
                         {
@@ -444,13 +449,13 @@ namespace ouzel
                             channelVolume[0] *= clamp(SQRT2 / 2.0f * (cosf(angle) - sinf(angle)), 0.0f, 1.0f);
                             channelVolume[1] *= clamp(SQRT2 / 2.0f * (cosf(angle) + sinf(angle)), 0.0f, 1.0f);
                         }
+                    }
 
-                        for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
+                    for (uint32_t frame = 0; frame < result.size() / channels; ++frame)
+                    {
+                        for (uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            for (uint32_t channel = 0; channel < channels; ++channel)
-                            {
-                                result[frame * channels + channel] *= channelVolume[channel];
-                            }
+                            result[frame * channels + channel] *= channelVolume[channel];
                         }
                     }
                 }
