@@ -150,32 +150,35 @@ namespace ouzel
         {
             AudioDevice::RenderCommand renderCommand;
 
-            renderCommand.attributeCallback = std::bind(&Sound::setAttributes,
-                                                        std::placeholders::_1,
-                                                        std::placeholders::_2,
-                                                        std::placeholders::_3,
-                                                        std::placeholders::_4,
-                                                        std::placeholders::_5,
-                                                        pitch,
-                                                        gain,
-                                                        rolloffFactor);
+            if (soundData)
+            {
+                renderCommand.attributeCallback = std::bind(&Sound::setAttributes,
+                                                            std::placeholders::_1,
+                                                            std::placeholders::_2,
+                                                            std::placeholders::_3,
+                                                            std::placeholders::_4,
+                                                            std::placeholders::_5,
+                                                            pitch,
+                                                            gain,
+                                                            rolloffFactor);
 
-            renderCommand.renderCallback = std::bind(&Sound::render,
-                                                     std::placeholders::_1,
-                                                     std::placeholders::_2,
-                                                     std::placeholders::_3,
-                                                     std::placeholders::_4,
-                                                     std::placeholders::_5,
-                                                     std::placeholders::_6,
-                                                     std::placeholders::_7,
-                                                     std::placeholders::_8,
-                                                     std::placeholders::_9,
-                                                     soundData,
-                                                     stream,
-                                                     position,
-                                                     minDistance,
-                                                     maxDistance,
-                                                     spatialized);
+                renderCommand.renderCallback = std::bind(&Sound::render,
+                                                         std::placeholders::_1,
+                                                         std::placeholders::_2,
+                                                         std::placeholders::_3,
+                                                         std::placeholders::_4,
+                                                         std::placeholders::_5,
+                                                         std::placeholders::_6,
+                                                         std::placeholders::_7,
+                                                         std::placeholders::_8,
+                                                         std::placeholders::_9,
+                                                         soundData,
+                                                         stream,
+                                                         position,
+                                                         minDistance,
+                                                         maxDistance,
+                                                         spatialized);
+            }
 
             return renderCommand;
         }
