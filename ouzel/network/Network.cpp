@@ -7,5 +7,17 @@ namespace ouzel
 {
     namespace network
     {
+        Network::Network()
+        {
+        }
+
+        Network::~Network()
+        {
+        }
+
+        bool Network::init()
+        {
+            return true;
+        }
     } // namespace network
 } // namespace ouzel

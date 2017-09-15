@@ -403,6 +403,11 @@ namespace ouzel
             return false;
         }
 
+        if (!network.init())
+        {
+            return false;
+        }
+
         return true;
     }
 

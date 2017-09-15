@@ -10,6 +10,10 @@ namespace ouzel
         class Network
         {
         public:
+            Network();
+            ~Network();
+
+            bool init();
         };
     } // namespace network
 } // namespace ouzel
