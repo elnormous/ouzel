@@ -55,7 +55,7 @@ namespace ouzel
                 availableDrivers.insert(Audio::Driver::ALSA);
 #endif
             }
-            
+
             return availableDrivers;
         }
 
@@ -206,7 +206,7 @@ namespace ouzel
                             dst[frame * channels + channel] = ouzel::lerp(src[srcCurrentPosition], src[srcNextPosition], frac);
                         }
                     }
-                    
+
                     // fill the last frame of the destination with the last frame of the source
                     for (uint32_t channel = 0; channel < channels; ++channel)
                     {

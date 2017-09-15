@@ -23,7 +23,7 @@ namespace ouzel
             friend Engine;
         public:
             virtual ~InputTVOS();
-            
+
             virtual void startGamepadDiscovery() override;
             virtual void stopGamepadDiscovery() override;
 

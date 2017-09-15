@@ -239,7 +239,7 @@ namespace ouzel
                 usageMap[9] = GamepadButton::START;
                 usageMap[10] = GamepadButton::LEFT_THUMB;
                 usageMap[11] = GamepadButton::RIGHT_THUMB;
-                
+
                 leftThumbXMap = kHIDUsage_GD_X;
                 leftThumbYMap = kHIDUsage_GD_Y;
                 leftTriggerMap = kHIDUsage_GD_Rx;
@@ -283,7 +283,7 @@ namespace ouzel
                     elements.insert(std::make_pair(element.element, element));
                 }
             }
-            
+
             CFRelease(elementArray);
 
             IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);

@@ -483,7 +483,7 @@ namespace ouzel
                                         if (SUCCEEDED(hr) && var.vt == VT_BSTR && var.bstrVal != nullptr)
                                         {
                                             // Check if the device ID contains "IG_". If it does, then it's an XInput device
-                                            // This information can not be found from DirectInput 
+                                            // This information can not be found from DirectInput
                                             if (wcsstr(var.bstrVal, L"IG_"))
                                             {
                                                 // If it does, then get the VID/PID from var.bstrVal

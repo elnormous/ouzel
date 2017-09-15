@@ -33,7 +33,7 @@ namespace ouzel
             int32_t getVendorId() const { return vendorId; }
             int32_t getProductId() const { return productId; }
             bool isAttached() const { return attached; }
-            
+
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
             virtual bool isAbsoluteDpadValues() const;
 

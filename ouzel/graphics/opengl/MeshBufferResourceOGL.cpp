@@ -104,7 +104,7 @@ namespace ouzel
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
                 case DataType::FLOAT_VECTOR4:
                     return 4;
-                    
+
                 default:
                     return 0;
             }
@@ -479,7 +479,7 @@ namespace ouzel
                     }
                 }
             }
-            
+
             return true;
         }
     } // namespace graphics

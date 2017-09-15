@@ -164,7 +164,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to register OpenSL buffer queue callback";
                 return false;
             }
-            
+
             if (!getData(bufferSize / (channels * sizeof(int16_t)), data))
             {
                 return false;

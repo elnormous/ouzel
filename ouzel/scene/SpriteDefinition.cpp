@@ -106,11 +106,11 @@ namespace ouzel
                 else
                 {
                     bool rotated = frameObject["rotated"].get<bool>();
-                    
+
                     spriteDefinition.frames.push_back(SpriteFrame(spriteDefinition.texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
-            
+
             return spriteDefinition;
         }
     } // namespace scene

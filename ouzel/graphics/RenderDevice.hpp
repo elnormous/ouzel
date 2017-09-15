@@ -21,7 +21,7 @@ namespace ouzel
         class MeshBufferResource;
         class ShaderResource;
         class TextureResource;
-        
+
         class RenderDevice: public Noncopyable
         {
             friend Renderer;
@@ -111,7 +111,7 @@ namespace ouzel
 
             float getFPS() const { return currentFPS; }
             float getAccumulatedFPS() const { return accumulatedFPS; }
-            
+
             void executeOnRenderThread(const std::function<void(void)>& func);
 
         protected:
@@ -192,7 +192,7 @@ namespace ouzel
             float accumulatedTime = 0.0f;
             float currentAccumulatedFPS = 0.0f;
             std::atomic<float> accumulatedFPS;
-            
+
             std::queue<std::function<void(void)>> executeQueue;
             std::mutex executeMutex;
         };

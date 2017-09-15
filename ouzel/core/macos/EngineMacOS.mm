@@ -131,7 +131,7 @@ namespace ouzel
                 if (!noSleepAssertionID)
                 {
                     CFStringRef reasonForActivity = CFSTR("Ouzel disabling screen saver");
-                    
+
                     if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                     kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionID) != kIOReturnSuccess)
                     {

@@ -106,7 +106,7 @@ namespace ouzel
             }
 
             startGamepadDiscovery();
-            
+
             return true;
         }
 

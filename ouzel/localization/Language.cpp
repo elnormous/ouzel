@@ -124,7 +124,7 @@ namespace ouzel
 
             std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset), translations[i].stringLength);
             std::string translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset), translations[i].translationLength);
-            
+
             strings[str] = translation;
         }
 

@@ -9,7 +9,6 @@
 
 #include <atomic>
 #include <thread>
-
 #include <dsound.h>
 #include "audio/AudioDevice.hpp"
 
@@ -32,7 +31,7 @@ namespace ouzel
             void run();
 
             IDirectSound8* directSound = nullptr;
-            
+
             IDirectSoundBuffer* primaryBuffer = nullptr;
             IDirectSoundBuffer8* buffer = nullptr;
             IDirectSoundNotify* notify = nullptr;

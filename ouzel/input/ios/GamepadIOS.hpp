@@ -25,7 +25,7 @@ namespace ouzel
         public:
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
             virtual bool isAbsoluteDpadValues() const override;
-            
+
             virtual int32_t getPlayerIndex() const override;
             virtual bool setPlayerIndex(int32_t playerIndex) override;
 

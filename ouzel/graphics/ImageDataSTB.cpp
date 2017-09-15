@@ -89,6 +89,6 @@ namespace ouzel
 
             return true;
         }
-        
+
     } // namespace graphics
 } // namespace ouzel

@@ -101,7 +101,7 @@ namespace ouzel
                     attributes.push_back(NSOpenGLPFASamples);
                     attributes.push_back(newSampleCount);
                 }
-                
+
                 attributes.push_back(0);
 
                 pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes.data()];

@@ -64,7 +64,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             bool handleWindow(Event::Type type, const WindowEvent& event);
-            
+
             CVDisplayLinkRef displayLink = nullptr;
             EventHandler eventHandler;
 

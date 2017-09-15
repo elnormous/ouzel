@@ -41,7 +41,7 @@ namespace ouzel
             virtual bool reload() override;
 
             virtual bool setData(const std::vector<uint8_t>& newData) override;
-            
+
             GLuint getBufferId() const { return bufferId; }
             GLuint getBufferType() const { return bufferType; }
 

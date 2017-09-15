@@ -33,7 +33,7 @@ namespace ouzel
             int bytesNeeded = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr);
             name.resize(bytesNeeded);
             WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, &name.front(), bytesNeeded, nullptr, nullptr);
-            
+
             InputWin* inputWin = static_cast<InputWin*>(sharedEngine->getInput());
 
             HRESULT hr = inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr);
@@ -747,7 +747,7 @@ namespace ouzel
                 propertyDeadZone.diph.dwObj = didObjectInstance->dwType;
                 propertyDeadZone.diph.dwHow = DIPH_BYID;
                 propertyDeadZone.dwData = 0;
-                
+
                 // Set the range for the axis
                 HRESULT hr = device->SetProperty(DIPROP_DEADZONE, &propertyDeadZone.diph);
                 if (FAILED(hr))

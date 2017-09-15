@@ -145,14 +145,14 @@ namespace ouzel
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
             std::unordered_map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
-            
+
             if (iter != chars.end())
             {
                 const CharDescriptor& f = iter->second;
                 total += f.xAdvance;
             }
         }
-        
+
         return total;
     }
 

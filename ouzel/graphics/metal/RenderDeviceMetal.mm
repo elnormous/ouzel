@@ -460,7 +460,7 @@ namespace ouzel
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
             id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
-            
+
             MTLScissorRect scissorRect;
 
             std::vector<float> shaderData;
@@ -862,7 +862,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to save image to file";
                 return false;
             }
-            
+
             return true;
         }
 
@@ -954,9 +954,9 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to created Metal pipeline state";
                     return nil;
                 }
-                
+
                 pipelineStates[desc] = pipelineState;
-                
+
                 return pipelineState;
             }
         }

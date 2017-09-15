@@ -27,7 +27,7 @@ namespace ouzel
         {
             init(filename, hotSpot);
         }
-        
+
         Cursor::~Cursor()
         {
             if (sharedEngine && resource) sharedEngine->getInput()->deleteCursorResource(resource);

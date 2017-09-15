@@ -199,11 +199,11 @@ namespace ouzel
                     {
                         break;
                     }
-                    
+
                     func = std::move(executeQueue.front());
                     executeQueue.pop();
                 }
-                
+
                 if (func)
                 {
                     func();

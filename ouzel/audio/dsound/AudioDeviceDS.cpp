@@ -58,7 +58,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to enumerate DirectSound 8 devices, error: " << hr;
                 return false;
             }
-                
+
             hr = DirectSoundCreate8(&DSDEVID_DefaultPlayback, &directSound, nullptr);
             if (FAILED(hr))
             {

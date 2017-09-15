@@ -631,7 +631,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
             virtual void setSize(const Size2& newSize) override;
-            
+
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();

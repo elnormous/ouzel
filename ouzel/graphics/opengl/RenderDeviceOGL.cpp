@@ -1208,7 +1208,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to save image to file";
                 return false;
             }
-            
+
             return true;
         }
 

@@ -194,21 +194,21 @@ namespace ouzel
         void RenderDevice::executeAll()
         {
             std::function<void(void)> func;
-            
+
             for (;;)
             {
                 {
                     std::lock_guard<std::mutex> lock(executeMutex);
-                    
+
                     if (executeQueue.empty())
                     {
                         break;
                     }
-                    
+
                     func = std::move(executeQueue.front());
                     executeQueue.pop();
                 }
-                
+
                 if (func)
                 {
                     func();

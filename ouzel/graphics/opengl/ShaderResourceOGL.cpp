@@ -272,11 +272,11 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to get OpenGL uniform location";
                         return false;
                     }
-                    
+
                     vertexShaderConstantLocations.push_back({location, info.dataType});
                 }
             }
-            
+
             return true;
         }
     } // namespace graphics

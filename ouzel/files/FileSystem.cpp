@@ -115,7 +115,7 @@ namespace ouzel
                     }
                 }
             }
-            
+
             return false;
         }
     }

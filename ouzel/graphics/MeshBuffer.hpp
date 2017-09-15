@@ -40,7 +40,7 @@ namespace ouzel
 
         private:
             MeshBufferResource* resource = nullptr;
-            
+
             std::shared_ptr<Buffer> indexBuffer;
             std::shared_ptr<Buffer> vertexBuffer;
             uint32_t indexSize = 0;

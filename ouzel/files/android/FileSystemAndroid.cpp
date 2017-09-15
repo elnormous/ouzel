@@ -70,11 +70,11 @@ namespace ouzel
 
         return FileSystem::directoryExists(dirname);
     }
-    
+
     bool FileSystemAndroid::fileExists(const std::string& filename) const
     {
         EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
-        
+
         AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
         if (asset)
