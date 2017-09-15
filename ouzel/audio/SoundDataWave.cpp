@@ -232,8 +232,6 @@ namespace ouzel
         {
             StreamWave* streamWave = static_cast<StreamWave*>(stream);
 
-            uint32_t offset = streamWave->getOffset();
-            uint32_t remainingSize = static_cast<uint32_t>(data.size() - offset);
             uint32_t neededSize = frames * channels;
             uint32_t totalSize = 0;
 
@@ -241,37 +239,33 @@ namespace ouzel
 
             while (neededSize > 0)
             {
-                if (stream->isRepeating() && remainingSize == 0)
-                {
-                    streamWave->reset();
-                    offset = 0;
-                    remainingSize = static_cast<uint32_t>(data.size());
-                }
+                if (stream->isRepeating() && (data.size() - streamWave->getOffset()) == 0) streamWave->reset();
 
-                if (remainingSize < neededSize)
+                if (data.size() - streamWave->getOffset() < neededSize)
                 {
-                    std::copy(data.begin() + offset, data.end(), result.begin() + totalSize);
-                    streamWave->setOffset(offset + remainingSize);
-                    totalSize += remainingSize;
-                    neededSize -= remainingSize;
+                    std::copy(data.begin() + streamWave->getOffset(),
+                              data.end(),
+                              result.begin() + totalSize);
+                    totalSize += static_cast<uint32_t>(data.size() - streamWave->getOffset());
+                    neededSize -= static_cast<uint32_t>(data.size() - streamWave->getOffset());
+                    streamWave->setOffset(static_cast<uint32_t>(data.size()));
                 }
                 else
                 {
-                    std::copy(data.begin() + offset, data.begin() + offset + neededSize, result.begin() + totalSize);
-                    streamWave->setOffset(offset + neededSize);
+                    std::copy(data.begin() + streamWave->getOffset(),
+                              data.begin() + streamWave->getOffset() + neededSize,
+                              result.begin() + totalSize);
                     totalSize += neededSize;
+                    streamWave->setOffset(streamWave->getOffset() + neededSize);
                     neededSize = 0;
                 }
 
                 if (!stream->isRepeating()) break;
             }
 
-            if (remainingSize == 0)
-            {
-                streamWave->reset();
-            }
+            if ((data.size() - streamWave->getOffset()) == 0) streamWave->reset();
 
-            result.resize(totalSize);
+            std::fill(result.begin() + totalSize, result.end(), 0.0f);
 
             return true;
         }

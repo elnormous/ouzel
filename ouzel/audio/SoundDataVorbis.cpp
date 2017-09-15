@@ -55,6 +55,7 @@ namespace ouzel
             StreamVorbis* streamVorbis = static_cast<StreamVorbis*>(stream);
 
             uint32_t neededSize = frames * channels;
+            uint32_t totalSize = 0;
             stb_vorbis* vorbisStream = streamVorbis->getVorbisStream();
 
             result.resize(neededSize);
@@ -67,22 +68,18 @@ namespace ouzel
                 }
 
                 int resultFrames = stb_vorbis_get_samples_float_interleaved(vorbisStream, channels, result.data(), neededSize);
+                totalSize += static_cast<uint32_t>(resultFrames) * channels;
+                neededSize -= static_cast<uint32_t>(resultFrames) * channels;
 
-                if (stream->isRepeating())
-                {
-                    neededSize -= resultFrames * channels;
-                }
-                else
-                {
-                    result.resize(resultFrames * channels);
-                    break;
-                }
+                if (!stream->isRepeating()) break;
             }
 
             if (vorbisStream->eof)
             {
                 stream->reset();
             }
+
+            std::fill(result.begin() + totalSize, result.end(), 0.0f);
 
             return true;
         }
