@@ -21,6 +21,7 @@ namespace ouzel
         RenderDeviceOGLLinux::~RenderDeviceOGLLinux()
         {
             running = false;
+            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             WindowLinux* windowLinux = static_cast<WindowLinux*>(window);

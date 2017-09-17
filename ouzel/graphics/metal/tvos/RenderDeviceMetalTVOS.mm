@@ -18,6 +18,7 @@ namespace ouzel
         RenderDeviceMetalTVOS::~RenderDeviceMetalTVOS()
         {
             if (displayLinkHandler) [displayLinkHandler stop];
+            flushCommands();
             if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 

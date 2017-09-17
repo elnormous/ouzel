@@ -22,6 +22,7 @@ namespace ouzel
         RenderDeviceOGLRasp::~RenderDeviceOGLRasp()
         {
             running = false;
+            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             if (context)

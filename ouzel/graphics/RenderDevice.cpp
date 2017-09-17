@@ -79,7 +79,7 @@ namespace ouzel
 
                 while (!queueFinished)
                 {
-                    queueCondition.wait_for(lock, std::chrono::milliseconds(16));
+                    queueCondition.wait(lock);
                 }
 #endif
 

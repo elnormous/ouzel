@@ -17,6 +17,7 @@ namespace ouzel
         RenderDeviceOGLIOS::~RenderDeviceOGLIOS()
         {
             if (displayLinkHandler) [displayLinkHandler stop];
+            flushCommands();
             if (displayLinkHandler) [displayLinkHandler dealloc];
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
