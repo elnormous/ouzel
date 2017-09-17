@@ -22,7 +22,9 @@ namespace ouzel
 
         Network::~Network()
         {
+#ifdef _WIN32
             WSACleanup();
+#endif
         }
 
         bool Network::init()
