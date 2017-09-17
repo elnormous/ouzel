@@ -27,13 +27,6 @@ namespace ouzel
         AudioDeviceXA2::~AudioDeviceXA2()
         {
             running = false;
-
-            {
-                std::unique_lock<std::mutex> lock(fillDataMutex);
-                fillData = true;
-                fillDataCondition.notify_one();
-            }
-
             if (audioThread.joinable()) audioThread.join();
 
             if (sourceVoice) sourceVoice->DestroyVoice();
@@ -218,7 +211,7 @@ namespace ouzel
 
                 while (!fillData)
                 {
-                    fillDataCondition.wait(lock);
+                    fillDataCondition.wait_for(lock, std::chrono::milliseconds(16));
                 }
 
                 if (!process())

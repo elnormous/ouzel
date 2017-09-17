@@ -38,8 +38,6 @@ namespace ouzel
         RenderDeviceD3D11::~RenderDeviceD3D11()
         {
             running = false;
-            flushCommands();
-
             if (renderThread.joinable()) renderThread.join();
 
             resourceDeleteSet.clear();

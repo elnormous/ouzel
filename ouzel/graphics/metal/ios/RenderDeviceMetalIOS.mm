@@ -18,7 +18,6 @@ namespace ouzel
         RenderDeviceMetalIOS::~RenderDeviceMetalIOS()
         {
             if (displayLinkHandler) [displayLinkHandler stop];
-            flushCommands();
             if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 

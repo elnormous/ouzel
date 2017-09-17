@@ -39,7 +39,6 @@ namespace ouzel
         RenderDeviceOGLMacOS::~RenderDeviceOGLMacOS()
         {
             running = false;
-            flushCommands();
 
             if (displayLink)
             {

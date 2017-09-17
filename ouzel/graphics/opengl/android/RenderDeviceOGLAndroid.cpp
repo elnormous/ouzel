@@ -17,7 +17,6 @@ namespace ouzel
         RenderDeviceOGLAndroid::~RenderDeviceOGLAndroid()
         {
             running = false;
-            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             if (context)
@@ -208,7 +207,6 @@ namespace ouzel
         bool RenderDeviceOGLAndroid::reload()
         {
             running = false;
-            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             const EGLint attributeList[] =
@@ -355,7 +353,6 @@ namespace ouzel
         bool RenderDeviceOGLAndroid::destroy()
         {
             running = false;
-            flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
             if (context)
