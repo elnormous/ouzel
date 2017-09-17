@@ -27,6 +27,7 @@ namespace ouzel
 
         bool Network::init()
         {
+#ifdef _WIN32
             WORD sockVersion = MAKEWORD(2, 2);
             WSADATA wsaData;
             int error = WSAStartup(sockVersion, &wsaData);
@@ -42,6 +43,7 @@ namespace ouzel
                 WSACleanup();
                 return false;
             }
+#endif
 
             return true;
         }
