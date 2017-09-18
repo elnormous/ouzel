@@ -28,12 +28,7 @@ namespace ouzel
         {
             running = false;
 
-            {
-                std::unique_lock<std::mutex> lock(fillDataMutex);
-                fillData = true;
-                fillDataCondition.notify_one();
-            }
-
+            fillDataCondition.notify_one();
             if (audioThread.joinable()) audioThread.join();
 
             if (sourceVoice) sourceVoice->DestroyVoice();
@@ -212,14 +207,12 @@ namespace ouzel
         {
             sharedEngine->setCurrentThreadName("Audio");
 
-            while (running)
+            for (;;)
             {
                 std::unique_lock<std::mutex> lock(fillDataMutex);
+                fillDataCondition.wait(lock, [this] { return fillData || !running; });
 
-                while (!fillData)
-                {
-                    fillDataCondition.wait(lock);
-                }
+                if (!running) break;
 
                 if (!process())
                 {

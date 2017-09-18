@@ -194,11 +194,7 @@ namespace ouzel
             {
                 {
                     std::lock_guard<std::mutex> lock(executeMutex);
-
-                    if (executeQueue.empty())
-                    {
-                        break;
-                    }
+                    if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());
                     executeQueue.pop();

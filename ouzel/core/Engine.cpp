@@ -72,11 +72,8 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.joinable())
-        {
-            updateCondition.notify_one();
-            updateThread.join();
-        }
+        updateCondition.notify_one();
+        if (updateThread.joinable()) updateThread.join();
 #endif
 
         for (UpdateCallback* updateCallback : updateCallbackAddSet)
@@ -575,11 +572,7 @@ namespace ouzel
             else
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
-
-                while (active && paused)
-                {
-                    updateCondition.wait(lock);
-                }
+                updateCondition.wait(lock, [this]() { return !active || !paused; });
             }
         }
 

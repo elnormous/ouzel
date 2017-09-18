@@ -76,11 +76,7 @@ namespace ouzel
             {
 #if OUZEL_MULTITHREADED
                 std::unique_lock<std::mutex> lock(drawQueueMutex);
-
-                while (!queueFinished)
-                {
-                    queueCondition.wait(lock);
-                }
+                queueCondition.wait(lock, [this]() { return queueFinished; });
 #endif
 
                 drawCommands = drawQueue;
@@ -199,11 +195,7 @@ namespace ouzel
             {
                 {
                     std::lock_guard<std::mutex> lock(executeMutex);
-
-                    if (executeQueue.empty())
-                    {
-                        break;
-                    }
+                    if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());
                     executeQueue.pop();

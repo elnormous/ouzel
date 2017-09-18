@@ -212,7 +212,7 @@ namespace ouzel
     {
         Window::close();
 
-        sharedEngine->executeOnMainThread([this] {
+        sharedEngine->executeOnMainThread([this]() {
             if (view)
             {
                 [view release];
