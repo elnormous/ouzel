@@ -18,13 +18,13 @@ namespace ouzel
         {
         }
 
-        AudioDevice::RenderCommand Mixer::getRenderCommand()
+        void Mixer::addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands)
         {
             AudioDevice::RenderCommand renderCommand;
 
             for (SoundInput* input : inputs)
             {
-                renderCommand.renderCommands.push_back(input->getRenderCommand());
+                input->addRenderCommands(renderCommand.renderCommands);
             }
 
             renderCommand.attributeCallback = std::bind(&Mixer::setAttributes,
@@ -37,7 +37,7 @@ namespace ouzel
                                                         gain,
                                                         rolloffScale);
 
-            return renderCommand;
+            renderCommands.push_back(renderCommand);
         }
 
         void Mixer::setAttributes(Vector3&,

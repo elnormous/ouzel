@@ -20,7 +20,7 @@ namespace ouzel
             SoundOutput* getOutput() const { return output; }
             void setOutput(SoundOutput* newOutput);
 
-            virtual AudioDevice::RenderCommand getRenderCommand() = 0;
+            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) = 0;
 
         protected:
             SoundOutput* output = nullptr;

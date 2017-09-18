@@ -39,7 +39,7 @@ namespace ouzel
 
             for (SoundInput* input : inputs)
             {
-                renderCommand.renderCommands.push_back(input->getRenderCommand());
+                input->addRenderCommands(renderCommand.renderCommands);
             }
 
             renderCommand.attributeCallback = std::bind(&Listener::setAttributes,

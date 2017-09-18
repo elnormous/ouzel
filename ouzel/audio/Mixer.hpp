@@ -26,7 +26,7 @@ namespace ouzel
             float getRolloffScale() const { return rolloffScale; }
             void setRolloffScale(float newRolloffScale) { rolloffScale = newRolloffScale; }
 
-            virtual AudioDevice::RenderCommand getRenderCommand() override;
+            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
 
         protected:
             static void setAttributes(Vector3& listenerPosition,

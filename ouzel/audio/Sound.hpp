@@ -57,7 +57,7 @@ namespace ouzel
             bool isPlaying() const { return playing; }
             bool isRepeating() const { return repeating; }
 
-            virtual AudioDevice::RenderCommand getRenderCommand() override;
+            virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
 
         private:
             void update(float delta);

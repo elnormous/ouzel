@@ -146,12 +146,12 @@ namespace ouzel
             return true;
         }
 
-        AudioDevice::RenderCommand Sound::getRenderCommand()
+        void Sound::addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands)
         {
-            AudioDevice::RenderCommand renderCommand;
-
-            if (soundData)
+            if (soundData && stream && stream->isPlaying())
             {
+                AudioDevice::RenderCommand renderCommand;
+
                 renderCommand.attributeCallback = std::bind(&Sound::setAttributes,
                                                             std::placeholders::_1,
                                                             std::placeholders::_2,
@@ -178,9 +178,9 @@ namespace ouzel
                                                          minDistance,
                                                          maxDistance,
                                                          spatialized);
-            }
 
-            return renderCommand;
+                renderCommands.push_back(renderCommand);
+            }
         }
 
         void Sound::setAttributes(Vector3&,
