@@ -85,14 +85,14 @@ namespace ouzel
                 queueFinished = false;
             }
 
-            std::vector<std::unique_ptr<Resource>> deleteResources;
+            // refills the draw queue
+            refillQueue = true;
+
+            std::vector<std::unique_ptr<Resource>> deleteResources; // will be cleared at the end of the scope
             {
                 std::lock_guard<std::mutex> lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
             }
-
-            // refills the draw queue
-            refillQueue = true;
 
             executeAll();
 
@@ -102,8 +102,6 @@ namespace ouzel
             {
                 return false;
             }
-
-            deleteResources.clear(); // delete all resources in delete set
 
             return true;
         }
