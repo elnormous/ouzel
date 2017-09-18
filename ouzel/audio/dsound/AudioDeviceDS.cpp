@@ -32,6 +32,10 @@ namespace ouzel
         AudioDeviceDS::~AudioDeviceDS()
         {
             running = false;
+            for (HANDLE notifyEvent : notifyEvents)
+            {
+                SetEvent(notifyEvent);
+            }
             if (audioThread.joinable()) audioThread.join();
 
             for (HANDLE notifyEvent : notifyEvents)
@@ -198,10 +202,12 @@ namespace ouzel
         {
             sharedEngine->setCurrentThreadName("Audio");
 
-            while (running)
+            for (;;)
             {
                 if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)
                 {
+                    if (!running) break;
+
                     ResetEvent(notifyEvents[nextBuffer]);
 
                     if (!process())
