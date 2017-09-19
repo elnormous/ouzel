@@ -12,7 +12,7 @@
 #include <random>
 #include <sstream>
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #if OUZEL_PLATFORM_ANDROID
 #include <cpu-features.h>
 #endif

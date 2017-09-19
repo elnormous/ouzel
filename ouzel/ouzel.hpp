@@ -23,7 +23,7 @@
 #include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
 #include "core/Cache.hpp"
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #include "core/Engine.hpp"
 #include "core/Timer.hpp"
 #include "core/UpdateCallback.hpp"

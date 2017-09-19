@@ -10,7 +10,7 @@
 #include <thread>
 #include <atomic>
 #include <chrono>
-#include "CompileConfig.h"
+#include "Setup.h"
 #include "utils/Noncopyable.hpp"
 #include "core/UpdateCallback.hpp"
 #include "core/Timer.hpp"

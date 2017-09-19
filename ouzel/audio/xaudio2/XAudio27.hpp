@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_XAUDIO2
+#if OUZEL_COMPILE_XAUDIO2
 
 #include <xaudio2.h>
 

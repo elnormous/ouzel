@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_ALSA
+#if OUZEL_COMPILE_ALSA
 
 #include "AudioDeviceALSA.hpp"
 #include "core/Engine.hpp"

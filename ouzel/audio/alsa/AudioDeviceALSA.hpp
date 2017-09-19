@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_ALSA
+#if OUZEL_COMPILE_ALSA
 
 #include <atomic>
 #include <thread>

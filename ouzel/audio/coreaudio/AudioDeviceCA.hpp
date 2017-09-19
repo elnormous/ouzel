@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_COREAUDIO
+#if OUZEL_COMPILE_COREAUDIO
 
 #if OUZEL_PLATFORM_MACOS
 #include <CoreAudio/CoreAudio.h>

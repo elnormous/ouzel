@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_MACOS && OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_MACOS && OUZEL_COMPILE_METAL
 
 #if defined(__OBJC__)
 #import <CoreVideo/CoreVideo.h>

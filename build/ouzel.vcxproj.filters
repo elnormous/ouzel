@@ -523,7 +523,7 @@
     <ClInclude Include="..\ouzel\gui\ComboBox.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\CompileConfig.h">
+    <ClInclude Include="..\ouzel\core\Setup.h">
       <Filter>ouzel\core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Component.hpp">

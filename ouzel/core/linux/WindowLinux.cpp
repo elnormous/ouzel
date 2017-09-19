@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
     #define GL_GLEXT_PROTOTYPES 1
     #include <GL/glx.h>
 #endif
@@ -83,7 +83,7 @@ namespace ouzel
 
                 break;
             }
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
             case graphics::Renderer::Driver::OPENGL:
             {
                 // find an OpenGL-capable RGB visual

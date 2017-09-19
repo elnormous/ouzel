@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
 #include "graphics/opengl/RenderDeviceOGL.hpp"
 

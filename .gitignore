@@ -33,3 +33,4 @@ samples/samples.js.mem
 samples/samples.app
 build/html
 samples/.vs/
+Config.h

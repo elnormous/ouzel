@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
 
 #include "TextureResourceOGL.hpp"
 #include "RenderDeviceOGL.hpp"
@@ -39,7 +39,7 @@ namespace ouzel
 
         static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_COMPILE_OPENGLES
             if (openGLVersion >= 3)
             {
                 switch (pixelFormat)

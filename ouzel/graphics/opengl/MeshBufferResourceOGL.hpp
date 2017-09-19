@@ -3,13 +3,13 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
 
 #include <vector>
 
-#if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_COMPILE_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
     #include "GLES/gl.h"
     #include "GLES2/gl2.h"

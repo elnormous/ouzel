@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_COMPILE_METAL
 
 #include "graphics/BlendStateResource.hpp"
 

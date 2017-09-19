@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_WINDOWS && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_WINDOWS && OUZEL_COMPILE_OPENGL
 
 #include <cstring>
 #define GL_GLEXT_PROTOTYPES 1

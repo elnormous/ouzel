@@ -5,7 +5,7 @@
 
 #include <cstddef>
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
 #endif

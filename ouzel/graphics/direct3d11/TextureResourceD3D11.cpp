@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_DIRECT3D11
+#if OUZEL_COMPILE_DIRECT3D11
 
 #include "TextureResourceD3D11.hpp"
 #include "RenderDeviceD3D11.hpp"

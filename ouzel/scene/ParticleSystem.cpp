@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdlib>
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #include "ParticleSystem.hpp"
 #include "core/Engine.hpp"
 #include "SceneManager.hpp"

@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_OPENSL
+#if OUZEL_COMPILE_OPENSL
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>

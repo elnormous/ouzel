@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #if OUZEL_PLATFORM_IOS
 #include "audio/openal/ios/AudioDeviceALIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
@@ -33,25 +33,25 @@ namespace ouzel
             {
                 availableDrivers.insert(Audio::Driver::EMPTY);
 
-#if OUZEL_SUPPORTS_OPENAL
+#if OUZEL_COMPILE_OPENAL
                 availableDrivers.insert(Audio::Driver::OPENAL);
 #endif
 
-#if OUZEL_SUPPORTS_DIRECTSOUND
+#if OUZEL_COMPILE_DIRECTSOUND
                 availableDrivers.insert(Audio::Driver::DIRECTSOUND);
 #endif
 
-#if OUZEL_SUPPORTS_XAUDIO2
+#if OUZEL_COMPILE_XAUDIO2
                 availableDrivers.insert(Audio::Driver::XAUDIO2);
 #endif
 
-#if OUZEL_SUPPORTS_OPENSL
+#if OUZEL_COMPILE_OPENSL
                 availableDrivers.insert(Audio::Driver::OPENSL);
 #endif
-#if OUZEL_SUPPORTS_COREAUDIO
+#if OUZEL_COMPILE_COREAUDIO
                 availableDrivers.insert(Audio::Driver::COREAUDIO);
 #endif
-#if OUZEL_SUPPORTS_ALSA
+#if OUZEL_COMPILE_ALSA
                 availableDrivers.insert(Audio::Driver::ALSA);
 #endif
             }
@@ -63,7 +63,7 @@ namespace ouzel
         {
             switch (driver)
             {
-#if OUZEL_SUPPORTS_OPENAL
+#if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     Log(Log::Level::INFO) << "Using OpenAL audio driver";
     #if OUZEL_PLATFORM_IOS
@@ -75,31 +75,31 @@ namespace ouzel
     #endif
                     break;
 #endif
-#if OUZEL_SUPPORTS_DIRECTSOUND
+#if OUZEL_COMPILE_DIRECTSOUND
                 case Driver::DIRECTSOUND:
                     Log(Log::Level::INFO) << "Using DirectSound audio driver";
                     device.reset(new AudioDeviceDS());
                     break;
 #endif
-#if OUZEL_SUPPORTS_XAUDIO2
+#if OUZEL_COMPILE_XAUDIO2
                 case Driver::XAUDIO2:
                     Log(Log::Level::INFO) << "Using XAudio 2 audio driver";
                     device.reset(new AudioDeviceXA2());
                     break;
 #endif
-#if OUZEL_SUPPORTS_OPENSL
+#if OUZEL_COMPILE_OPENSL
                 case Driver::OPENSL:
                     Log(Log::Level::INFO) << "Using OpenSL ES audio driver";
                     device.reset(new AudioDeviceSL());
                     break;
 #endif
-#if OUZEL_SUPPORTS_COREAUDIO
+#if OUZEL_COMPILE_COREAUDIO
                 case Driver::COREAUDIO:
                     Log(Log::Level::INFO) << "Using CoreAudio audio driver";
                     device.reset(new AudioDeviceCA());
                     break;
 #endif
-#if OUZEL_SUPPORTS_ALSA
+#if OUZEL_COMPILE_ALSA
                 case Driver::ALSA:
                     Log(Log::Level::INFO) << "Using ALSA audio driver";
                     device.reset(new AudioDeviceALSA());

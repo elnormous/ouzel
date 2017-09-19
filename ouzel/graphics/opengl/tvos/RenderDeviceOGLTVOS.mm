@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
 #import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceOGLTVOS.hpp"

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowTVOS.hpp"
+#include "ViewTVOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
 #include "graphics/metal/tvos/MetalView.h"
@@ -84,12 +85,12 @@ namespace ouzel
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewTVOS alloc] initWithFrame:windowFrame];
                 break;
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 break;
 #endif
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_COMPILE_METAL
             case graphics::Renderer::Driver::METAL:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;

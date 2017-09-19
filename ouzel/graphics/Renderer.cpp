@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #include "Renderer.hpp"
 #include "RenderDevice.hpp"
 #include "core/Engine.hpp"
@@ -57,15 +57,15 @@ namespace ouzel
             {
                 availableDrivers.insert(Renderer::Driver::EMPTY);
 
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
                 availableDrivers.insert(Renderer::Driver::OPENGL);
 #endif
 
-#if OUZEL_SUPPORTS_DIRECT3D11
+#if OUZEL_COMPILE_DIRECT3D11
                 availableDrivers.insert(Renderer::Driver::DIRECT3D11);
 #endif
 
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_COMPILE_METAL
                 if (graphics::RenderDeviceMetal::available())
                 {
                     availableDrivers.insert(Renderer::Driver::METAL);
@@ -86,7 +86,7 @@ namespace ouzel
 
             switch (driver)
             {
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
                 case graphics::Renderer::Driver::OPENGL:
                     Log(Log::Level::INFO) << "Using OpenGL render driver";
 #if OUZEL_PLATFORM_MACOS
@@ -110,13 +110,13 @@ namespace ouzel
 #endif
                     break;
 #endif
-#if OUZEL_SUPPORTS_DIRECT3D11
+#if OUZEL_COMPILE_DIRECT3D11
                 case graphics::Renderer::Driver::DIRECT3D11:
                     Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
                     device.reset(new graphics::RenderDeviceD3D11());
                     break;
 #endif
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_COMPILE_METAL
                 case graphics::Renderer::Driver::METAL:
                     Log(Log::Level::INFO) << "Using Metal render driver";
 #if OUZEL_PLATFORM_MACOS

@@ -3,7 +3,7 @@
 
 #include "GamepadIOKit.hpp"
 #include "core/Engine.hpp"
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
 

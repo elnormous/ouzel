@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_EMSCRIPTEN && OUZEL_COMPILE_OPENGL
 
 #include <emscripten.h>
 #include <emscripten/html5.h>

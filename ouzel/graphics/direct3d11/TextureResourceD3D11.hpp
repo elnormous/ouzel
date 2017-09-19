@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_DIRECT3D11
+#if OUZEL_COMPILE_DIRECT3D11
 
 #include <d3d11.h>
 #include "graphics/TextureResource.hpp"

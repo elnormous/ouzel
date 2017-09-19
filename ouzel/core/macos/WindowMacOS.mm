@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowMacOS.hpp"
+#include "ViewMacOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
@@ -160,13 +161,13 @@ namespace ouzel
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewMacOS alloc] initWithFrame:windowFrame];
                 break;
-#if OUZEL_SUPPORTS_OPENGL
+#if OUZEL_COMPILE_OPENGL
             case graphics::Renderer::Driver::OPENGL:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 [view setWantsBestResolutionOpenGLSurface:highDpi ? YES : NO];
                 break;
 #endif
-#if OUZEL_SUPPORTS_METAL
+#if OUZEL_COMPILE_METAL
             case graphics::Renderer::Driver::METAL:
                 view = [[MetalView alloc] initWithFrame:windowFrame];
                 break;

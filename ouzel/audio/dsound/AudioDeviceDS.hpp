@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_DIRECTSOUND
+#if OUZEL_COMPILE_DIRECTSOUND
 
 #include <atomic>
 #include <thread>

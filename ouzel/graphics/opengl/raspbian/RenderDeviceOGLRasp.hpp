@@ -3,9 +3,9 @@
 
 #pragma once
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_RASPBIAN && OUZEL_SUPPORTS_OPENGL
+#if OUZEL_PLATFORM_RASPBIAN && OUZEL_COMPILE_OPENGL
 
 #include <thread>
 #include <atomic>

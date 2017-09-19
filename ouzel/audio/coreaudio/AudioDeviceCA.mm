@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_SUPPORTS_COREAUDIO
+#if OUZEL_COMPILE_COREAUDIO
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #import <AVFoundation/AVFoundation.h>

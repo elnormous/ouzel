@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "core/CompileConfig.h"
+#include "core/Setup.h"
 
-#if OUZEL_PLATFORM_TVOS && OUZEL_SUPPORTS_METAL
+#if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_METAL
 
 #import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceMetalTVOS.hpp"

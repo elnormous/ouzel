@@ -269,9 +269,11 @@ LIBRARY=libouzel.a
 DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
+all: config
 all: $(LIBRARY)
 
 .PHONY: debug
+debug: config
 debug: CXXFLAGS+=-DDEBUG -g
 debug: CFLAGS+=-DDEBUG -g
 debug: $(LIBRARY)
@@ -280,6 +282,12 @@ $(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
 
 -include $(DEPENDENCIES)
+
+.PHONY: config
+config:
+	if [ ! -f ../ouzel/Config.h ]; then \
+		cp ../ouzel/DefaultConfig.h ../ouzel/Config.h; \
+	fi
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
