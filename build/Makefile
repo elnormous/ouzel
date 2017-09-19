@@ -285,9 +285,13 @@ $(LIBRARY): $(OBJECTS)
 
 .PHONY: config
 config:
+ifeq ($(platform),windows)
+	if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h
+else
 	if [ ! -f ../ouzel/Config.h ]; then \
 		cp ../ouzel/DefaultConfig.h ../ouzel/Config.h; \
 	fi
+endif
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -MP $< -o $@
