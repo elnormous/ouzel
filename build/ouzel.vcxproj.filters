@@ -406,6 +406,9 @@
     <ClCompile Include="..\ouzel\audio\SoundInput.cpp">
       <Filter>ouzel\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\network\Client.cpp">
+      <Filter>ouzel\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -900,6 +903,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\SoundInput.hpp">
       <Filter>ouzel\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\network\Client.hpp">
+      <Filter>ouzel\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
