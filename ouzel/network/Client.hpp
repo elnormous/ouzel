@@ -3,22 +3,15 @@
 
 #pragma once
 
-#include <cstdint>
-#include <string>
-
 namespace ouzel
 {
     namespace network
     {
-        class Network
+        class Client
         {
         public:
-            Network();
-            ~Network();
+            ~Client() {}
 
-            bool init();
-
-            bool connect(const std::string& address, uint16_t port);
             bool disconnect();
         };
     } // namespace network

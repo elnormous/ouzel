@@ -122,6 +122,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/math/Vector2.cpp \
 	$(ROOT_DIR)/../ouzel/math/Vector3.cpp \
 	$(ROOT_DIR)/../ouzel/math/Vector4.cpp \
+	$(ROOT_DIR)/../ouzel/network/Client.cpp \
 	$(ROOT_DIR)/../ouzel/network/Network.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Actor.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ActorContainer.cpp \

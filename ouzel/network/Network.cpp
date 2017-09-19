@@ -49,5 +49,15 @@ namespace ouzel
 
             return true;
         }
+
+        bool Network::connect(const std::string& address, uint16_t port)
+        {
+            return true;
+        }
+
+        bool Network::disconnect()
+        {
+            return true;
+        }
     } // namespace network
 } // namespace ouzel
