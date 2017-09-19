@@ -197,6 +197,7 @@
     <ClInclude Include="..\ouzel\core\Window.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
     <ClInclude Include="..\ouzel\core\windows\WindowWin.hpp" />
+    <ClInclude Include="..\ouzel\DefaultConfig.h" />
     <ClInclude Include="..\ouzel\events\Event.hpp" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />
     <ClInclude Include="..\ouzel\events\EventHandler.hpp" />
@@ -413,6 +414,9 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
     <Lib />
+    <PreBuildEvent>
+      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -429,6 +433,9 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
     <Lib />
+    <PreBuildEvent>
+      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -445,6 +452,9 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
     <Lib />
+    <PreBuildEvent>
+      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -461,6 +471,9 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
     <Lib />
+    <PreBuildEvent>
+      <Command>if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

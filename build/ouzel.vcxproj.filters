@@ -907,6 +907,9 @@
     <ClInclude Include="..\ouzel\network\Client.hpp">
       <Filter>ouzel\network</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\DefaultConfig.h">
+      <Filter>ouzel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
