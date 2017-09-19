@@ -2,17 +2,18 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-#include <audioclient.h>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
+
+enum WaveFormat
+{
+    PCM = 1,
+    IEEE_FLOAT = 3
+};
 
 namespace ouzel
 {
@@ -169,7 +170,7 @@ namespace ouzel
             uint32_t samples = static_cast<uint32_t>(soundData.size() / bytesPerSample);
             data.resize(samples);
 
-            if (formatTag == WAVE_FORMAT_PCM)
+            if (formatTag == PCM)
             {
                 if (bitsPerSample == 8)
                 {
@@ -201,7 +202,7 @@ namespace ouzel
                     return false;
                 }
             }
-            else if (formatTag == WAVE_FORMAT_IEEE_FLOAT)
+            else if (formatTag == IEEE_FLOAT)
             {
                 if (bitsPerSample == 32)
                 {
