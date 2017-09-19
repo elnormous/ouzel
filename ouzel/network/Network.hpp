@@ -4,13 +4,13 @@
 #pragma once
 
 #ifdef _WIN32
-#define NOMINMAX
-#include <winsock2.h>
-typedef SOCKET Socket;
+#include <basetsd.h>
+typedef UINT_PTR Socket;
+#define NULL_SOCKET static_cast<Socket>(~0)
 #else
 #include <errno.h>
 typedef int Socket;
-#define INVALID_SOCKET -1
+#define NULL_SOCKET -1
 #endif
 
 #include <cstdint>
@@ -20,20 +20,13 @@ namespace ouzel
 {
     namespace network
     {
-        inline int getLastError()
-        {
-#ifdef _WIN32
-            return WSAGetLastError();
-#else
-            return errno;
-#endif
-        }
-
         class Network
         {
         public:
             Network();
             ~Network();
+
+            static int getLastError();
 
             bool init();
 
@@ -42,7 +35,7 @@ namespace ouzel
             bool disconnect();
 
         private:
-            Socket endpoint = INVALID_SOCKET;
+            Socket endpoint = NULL_SOCKET;
         };
     } // namespace network
 } // namespace ouzel

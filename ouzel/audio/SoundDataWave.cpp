@@ -2,15 +2,17 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <audioclient.h>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
-
-static const uint16_t WAVE_FORMAT_PCM = 0x0001;
-static const uint16_t WAVE_FORMAT_IEEE_FLOAT = 0x0003;
 
 namespace ouzel
 {

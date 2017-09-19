@@ -2,7 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #ifdef _WIN32
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
@@ -25,7 +27,7 @@ namespace ouzel
 
         Network::~Network()
         {
-            if (endpoint != INVALID_SOCKET)
+            if (endpoint != NULL_SOCKET)
             {
 #ifdef _WIN32
                 int result = closesocket(endpoint);
@@ -42,6 +44,15 @@ namespace ouzel
 
 #ifdef _WIN32
             WSACleanup();
+#endif
+        }
+
+        int Network::getLastError()
+        {
+#ifdef _WIN32
+            return WSAGetLastError();
+#else
+            return errno;
 #endif
         }
 
