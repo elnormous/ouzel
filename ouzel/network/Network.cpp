@@ -4,10 +4,13 @@
 #ifdef _WIN32
 #define NOMINMAX
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #else
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <poll.h>
+#include <netdb.h>
+#include <unistd.h>
 #endif
 #include "Network.hpp"
 #include "utils/Log.hpp"
@@ -22,6 +25,21 @@ namespace ouzel
 
         Network::~Network()
         {
+            if (endpoint != INVALID_SOCKET)
+            {
+#ifdef _WIN32
+                int result = closesocket(endpoint);
+#else
+                int result = close(endpoint);
+#endif
+
+                if (result < 0)
+                {
+                    int error = getLastError();
+                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
+                }
+            }
+
 #ifdef _WIN32
             WSACleanup();
 #endif
@@ -47,6 +65,11 @@ namespace ouzel
             }
 #endif
 
+            return true;
+        }
+
+        bool Network::startServer(const std::string& address, uint16_t port)
+        {
             return true;
         }
 
