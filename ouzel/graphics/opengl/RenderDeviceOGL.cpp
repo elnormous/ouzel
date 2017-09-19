@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
     #include "GLES/gl.h"
     #include "GLES2/gl2.h"
@@ -46,7 +46,7 @@
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 #include "ColorPSGLES2.h"
 #include "ColorVSGLES2.h"
 #include "TexturePSGLES2.h"
@@ -100,7 +100,7 @@ PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisampleProc;
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 PFNGLCLEARDEPTHFPROC glClearDepthfProc;
 #else
 PFNGLCLEARDEPTHPROC glClearDepthProc;
@@ -139,7 +139,7 @@ PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 PFNGLGETSTRINGIPROC glGetStringiProc;
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 PFNGLMAPBUFFEROESPROC glMapBufferProc;
 PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
@@ -215,7 +215,7 @@ namespace ouzel
             glBlendFuncSeparateProc = reinterpret_cast<PFNGLBLENDFUNCSEPARATEPROC >(getProcAddress("glBlendFuncSeparate"));
             glBlendEquationSeparateProc = reinterpret_cast<PFNGLBLENDEQUATIONSEPARATEPROC>(getProcAddress("glBlendEquationSeparate"));
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
             glBlendFuncSeparateProc = glBlendFuncSeparate;
             glBlendEquationSeparateProc = glBlendEquationSeparate;
 
@@ -412,7 +412,7 @@ namespace ouzel
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
     #if OUZEL_OPENGL_INTERFACE_EGL
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBuffer"));
-    #elif !OUZEL_COMPILE_OPENGLES
+    #elif !OUZEL_SUPPORTS_OPENGLES
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(getProcAddress("glMapBuffer"));
 
                 glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
@@ -432,7 +432,7 @@ namespace ouzel
                 glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRange"));
                 glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
 
-    #if OUZEL_COMPILE_OPENGLES
+    #if OUZEL_SUPPORTS_OPENGLES
                 glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisample"));
     #endif
 #endif
@@ -442,7 +442,7 @@ namespace ouzel
                 npotTexturesSupported = false;
                 multisamplingSupported = false;
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                 textureBaseLevelSupported = false;
                 textureMaxLevelSupported = false;
 #else
@@ -460,7 +460,7 @@ namespace ouzel
                     {
                         npotTexturesSupported = true;
                     }
-#if !OUZEL_COMPILE_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
                     else if (extension == "GL_EXT_framebuffer_object")
                     {
                         renderTargetsSupported = true;
@@ -535,7 +535,7 @@ namespace ouzel
 
             switch (apiMajorVersion)
             {
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                 case 2:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
@@ -584,7 +584,7 @@ namespace ouzel
 
             switch (apiMajorVersion)
             {
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                 case 2:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
@@ -693,7 +693,7 @@ namespace ouzel
                 return false;
             }
 
-#if !OUZEL_COMPILE_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
             if (sampleCount > 1)
             {
                 glEnable(GL_MULTISAMPLE);
@@ -808,7 +808,7 @@ namespace ouzel
             }
             else for (const DrawCommand& drawCommand : drawCommands)
             {
-#if !OUZEL_COMPILE_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
                 setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
 #else
                 if (drawCommand.wireframe)

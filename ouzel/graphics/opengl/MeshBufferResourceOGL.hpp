@@ -9,7 +9,7 @@
 
 #include <vector>
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
     #include "GLES/gl.h"
     #include "GLES2/gl2.h"

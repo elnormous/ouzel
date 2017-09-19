@@ -39,7 +39,7 @@ namespace ouzel
 
         static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
             if (openGLVersion >= 3)
             {
                 switch (pixelFormat)

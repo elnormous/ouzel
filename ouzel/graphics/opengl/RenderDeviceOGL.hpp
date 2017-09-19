@@ -14,7 +14,7 @@
 #include <queue>
 #include <utility>
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
     #define GL_GLEXT_PROTOTYPES 1
     #include "GLES/gl.h"
     #include "GLES2/gl2.h"
@@ -56,7 +56,7 @@ extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbufferProc;
 extern PFNGLBLITFRAMEBUFFERPROC glBlitFramebufferProc;
 extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2DProc;
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 extern PFNGLCLEARDEPTHFPROC glClearDepthfProc;
 #else
 extern PFNGLCLEARDEPTHPROC glClearDepthProc;
@@ -95,7 +95,7 @@ extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointerProc;
 
 extern PFNGLGETSTRINGIPROC glGetStringiProc;
 
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
 extern PFNGLMAPBUFFEROESPROC glMapBufferProc;
 extern PFNGLUNMAPBUFFEROESPROC glUnmapBufferProc;
 extern PFNGLMAPBUFFERRANGEEXTPROC glMapBufferRangeProc;
@@ -510,7 +510,7 @@ namespace ouzel
             {
                 if (stateCache.clearDepth != clearDepthValue)
                 {
-#if OUZEL_COMPILE_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                     glClearDepthfProc(clearDepthValue);
 #else
                     glClearDepthProc(clearDepthValue);
@@ -597,7 +597,7 @@ namespace ouzel
                 glDeleteTextures(1, &textureId);
             }
 
-#if !OUZEL_COMPILE_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
             inline bool setPolygonFillMode(GLenum polygonFillMode)
             {
                 if (stateCache.polygonFillMode != polygonFillMode)
@@ -683,7 +683,7 @@ namespace ouzel
                 GLboolean blueMask = GL_TRUE;
                 GLboolean alphaMask = GL_TRUE;
 
-#if !OUZEL_COMPILE_OPENGLES
+#if !OUZEL_SUPPORTS_OPENGLES
                 GLenum polygonFillMode = GL_FILL;
 #endif
 
