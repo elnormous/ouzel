@@ -20,6 +20,9 @@ namespace ouzel
 {
     namespace network
     {
+        const uint32_t ANY_ADDRESS = 0;
+        const uint16_t ANY_PORT = 0;
+
         class Network
         {
         public:
@@ -27,6 +30,7 @@ namespace ouzel
             ~Network();
 
             static int getLastError();
+            static bool getAddress(const std::string& address, uint32_t& result);
 
             bool init();
 

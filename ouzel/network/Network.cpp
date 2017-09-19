@@ -56,6 +56,35 @@ namespace ouzel
 #endif
         }
 
+        bool Network::getAddress(const std::string& address, uint32_t& result)
+        {
+            addrinfo* info;
+            int ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info);
+
+#ifdef _WIN32
+            if (ret != 0 && WSAGetLastError() == WSANOTINITIALISED)
+            {
+                if (!initWSA()) return false;
+
+                ret = getaddrinfo(addressStr.c_str(), portStr.empty() ? nullptr : portStr.c_str(), nullptr, &info);
+            }
+#endif
+
+            if (ret != 0)
+            {
+                int error = getLastError();
+                Log(Log::Level::ERR) << "Failed to get address info of " << address << ", error: " << error;
+                return false;
+            }
+
+            sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
+            result = addr->sin_addr.s_addr;
+            
+            freeaddrinfo(info);
+            
+            return true;
+        }
+
         bool Network::init()
         {
 #ifdef _WIN32
