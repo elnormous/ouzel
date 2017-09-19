@@ -30,7 +30,7 @@ namespace ouzel
 
             bool init();
 
-            bool startServer(const std::string& address, uint16_t port);
+            bool listen(const std::string& address, uint16_t port);
             bool connect(const std::string& address, uint16_t port);
             bool disconnect();
 
