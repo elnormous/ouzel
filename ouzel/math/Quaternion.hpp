@@ -35,18 +35,18 @@ namespace ouzel
 
         Quaternion operator*(const Quaternion& q) const
         {
-            return Quaternion(w * q.x + x * q.w + y * q.z - z * q.y,
-                              w * q.y + y * q.w + z * q.x - x * q.z,
-                              w * q.z + z * q.w + x * q.y - y * q.x,
-                              w * q.w - x * q.x - y * q.y - z * q.z);
+            return Quaternion( x * q.w + y * q.z - z * q.y + w * q.x,
+                              -x * q.z + y * q.w + z * q.x + w * q.y,
+                              x * q.y - y * q.x + z * q.w + w * q.z,
+                              -x * q.x - y * q.y - z * q.z + w * q.w);
         }
 
         const Quaternion& operator*=(const Quaternion& q)
         {
-            float tempX = w * q.x + x * q.w + y * q.z - z * q.y;
-            float tempY = w * q.y + y * q.w + z * q.x - x * q.z;
-            float tempZ = w * q.z + z * q.w + x * q.y - y * q.x;
-            float tempW = w * q.w - x * q.x - y * q.y - z * q.z;
+            float tempX =  x * q.w + y * q.z - z * q.y + w * q.x;
+            float tempY = -x * q.z + y * q.w + z * q.x + w * q.y;
+            float tempZ =  x * q.y - y * q.x + z * q.w + w * q.z;
+            float tempW = -x * q.x - y * q.y - z * q.z + w * q.w;
 
             x = tempX;
             y = tempY;
