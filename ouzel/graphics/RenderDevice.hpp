@@ -99,6 +99,7 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
+            bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isMultisamplingSupported() const { return multisamplingSupported; }
             bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
@@ -127,6 +128,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer);
 
+            void executeAll();
             virtual void setSize(const Size2& newSize);
 
             virtual BlendStateResource* createBlendState() = 0;
@@ -174,9 +176,6 @@ namespace ouzel
             std::mutex resourceMutex;
             std::vector<std::unique_ptr<Resource>> resources;
             std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
-
-        private:
-            void executeAll();
 
             uint32_t drawCallCount = 0;
 
