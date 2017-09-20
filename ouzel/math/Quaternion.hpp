@@ -37,7 +37,7 @@ namespace ouzel
         {
             return Quaternion( x * q.w + y * q.z - z * q.y + w * q.x,
                               -x * q.z + y * q.w + z * q.x + w * q.y,
-                              x * q.y - y * q.x + z * q.w + w * q.z,
+                               x * q.y - y * q.x + z * q.w + w * q.z,
                               -x * q.x - y * q.y - z * q.z + w * q.w);
         }
 
