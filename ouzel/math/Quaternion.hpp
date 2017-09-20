@@ -35,10 +35,10 @@ namespace ouzel
 
         Quaternion operator*(const Quaternion& q) const
         {
-            return Quaternion(w * q.x + q.w * x + y * q.z - z * q.y,
-                              w * q.y + q.w * y + z * q.x - x * q.z,
-                              w * q.z + q.w * z + x * q.y - y * q.x,
-                              w * q.w - (x * q.x + y * q.y + z * q.z));
+            return Quaternion(w * q.x + x * q.w + y * q.z - z * q.y,
+                              w * q.y + y * q.w + z * q.x - x * q.z,
+                              w * q.z + z * q.w + x * q.y - y * q.x,
+                              w * q.w - x * q.x - y * q.y - z * q.z);
         }
 
         const Quaternion& operator*=(const Quaternion& q)
