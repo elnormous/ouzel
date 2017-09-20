@@ -712,9 +712,6 @@
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\ResourceResource.hpp">
-      <Filter>ouzel\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\SceneManager.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
@@ -909,6 +906,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\DefaultConfig.h">
       <Filter>ouzel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Resource.hpp">
+      <Filter>ouzel\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

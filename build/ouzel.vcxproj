@@ -260,7 +260,7 @@
     <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
     <ClInclude Include="..\ouzel\graphics\Renderer.hpp" />
-    <ClInclude Include="..\ouzel\graphics\ResourceResource.hpp" />
+    <ClInclude Include="..\ouzel\graphics\Resource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Shader.hpp" />
     <ClInclude Include="..\ouzel\graphics\ShaderResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Texture.hpp" />
