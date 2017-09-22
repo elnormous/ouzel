@@ -141,7 +141,7 @@ namespace ouzel
             [openGLContext makeCurrentContext];
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
-            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary: NSWindowCollectionBehaviorFullScreenPrimary];
+            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenNone : NSWindowCollectionBehaviorFullScreenPrimary];
 
             [openGLContext setView:windowMacOS->getNativeView()];
 
