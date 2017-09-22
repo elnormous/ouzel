@@ -69,7 +69,6 @@ namespace ouzel
                                         Texture::Filter newTextureFilter,
                                         uint32_t newMaxAnisotropy,
                                         bool newVerticalSync,
-                                        bool newExclusiveFullscreen,
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
@@ -141,7 +140,6 @@ namespace ouzel
             [openGLContext makeCurrentContext];
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
-            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenNone : NSWindowCollectionBehaviorFullScreenPrimary];
 
             [openGLContext setView:windowMacOS->getNativeView()];
 
@@ -154,7 +152,6 @@ namespace ouzel
                                        newTextureFilter,
                                        newMaxAnisotropy,
                                        newVerticalSync,
-                                       newExclusiveFullscreen,
                                        newDepth,
                                        newDebugRenderer))
             {

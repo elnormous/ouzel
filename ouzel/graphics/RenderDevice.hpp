@@ -99,7 +99,6 @@ namespace ouzel
             uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
             uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
             bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
             bool isMultisamplingSupported() const { return multisamplingSupported; }
             bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
@@ -124,7 +123,6 @@ namespace ouzel
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
                               bool newVerticalSync,
-                              bool newExclusiveFullscreen,
                               bool newDepth,
                               bool newDebugRenderer);
 
@@ -155,7 +153,6 @@ namespace ouzel
             uint32_t maxAnisotropy = 1;
 
             bool verticalSync = true;
-            bool exclusiveFullscreen = false;
             bool depth = false;
             bool debugRenderer = false;
 

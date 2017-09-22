@@ -59,11 +59,18 @@ namespace ouzel
     bool WindowTVOS::init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
+                          bool newExclusiveFullscreen,
                           const std::string& newTitle,
                           bool newHighDpi,
                           bool depth)
     {
-        if (!Window::init(newSize, newResizable, newFullscreen, newTitle, newHighDpi, depth))
+        if (!Window::init(newSize,
+                          newResizable,
+                          newFullscreen,
+                          newExclusiveFullscreen,
+                          newTitle,
+                          newHighDpi,
+                          depth))
         {
             return false;
         }

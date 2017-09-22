@@ -59,7 +59,6 @@ namespace ouzel
                                           Texture::Filter newTextureFilter,
                                           uint32_t newMaxAnisotropy,
                                           bool newVerticalSync,
-                                          bool newExclusiveFullscreen,
                                           bool newDepth,
                                           bool newDebugRenderer)
         {
@@ -69,7 +68,6 @@ namespace ouzel
                                          newTextureFilter,
                                          newMaxAnisotropy,
                                          newVerticalSync,
-                                         newExclusiveFullscreen,
                                          newDepth,
                                          newDebugRenderer))
             {
@@ -89,8 +87,6 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
-
-            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenNone : NSWindowCollectionBehaviorFullScreenPrimary];
 
             const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 

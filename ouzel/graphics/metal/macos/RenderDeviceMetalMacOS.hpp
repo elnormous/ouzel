@@ -59,7 +59,6 @@ namespace ouzel
                               Texture::Filter newTextureFilter,
                               uint32_t newMaxAnisotropy,
                               bool newVerticalSync,
-                              bool newExclusiveFullscreen,
                               bool newDepth,
                               bool newDebugRenderer) override;
 

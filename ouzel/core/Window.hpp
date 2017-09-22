@@ -27,6 +27,8 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen);
         virtual bool isFullscreen() const { return fullscreen; }
 
+        bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
+
         virtual const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
@@ -61,6 +63,7 @@ namespace ouzel
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
+                          bool newExclusiveFullscreen,
                           const std::string& newTitle,
                           bool newHighDpi,
                           bool depth);
@@ -70,6 +73,7 @@ namespace ouzel
         Size2 size;
         bool resizable = false;
         bool fullscreen = false;
+        bool exclusiveFullscreen = false;
         bool highDpi = true;
 
         std::string title;

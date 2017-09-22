@@ -20,6 +20,7 @@ namespace ouzel
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
+                          bool newExclusiveFullscreen,
                           const std::string& newTitle,
                           bool newHighDpi,
                           bool depth) override;

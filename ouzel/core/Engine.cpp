@@ -314,6 +314,7 @@ namespace ouzel
         if (!window->init(size,
                           resizable,
                           fullscreen,
+                          exclusiveFullscreen,
                           APPLICATION_NAME,
                           highDpi,
                           depth))
@@ -327,7 +328,6 @@ namespace ouzel
                             textureFilter,
                             maxAnisotropy,
                             verticalSync,
-                            exclusiveFullscreen,
                             depth,
                             debugRenderer))
         {
