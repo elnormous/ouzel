@@ -141,6 +141,8 @@ namespace ouzel
             [openGLContext makeCurrentContext];
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
+            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary: NSWindowCollectionBehaviorFullScreenPrimary];
+
             [openGLContext setView:windowMacOS->getNativeView()];
 
             GLint swapInt = newVerticalSync ? 1 : 0;

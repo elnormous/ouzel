@@ -252,7 +252,7 @@ namespace ouzel
         std::string verticalSyncValue = userSettings.getValue("engine", "verticalSync", defaultSettings.getValue("engine", "verticalSync"));
         if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
 
-        std::string exclusiveFullscreenValue = userSettings.getValue("engine", "exclusiveFullscreen", defaultSettings.getValue("engine", "verticalSync"));
+        std::string exclusiveFullscreenValue = userSettings.getValue("engine", "exclusiveFullscreen", defaultSettings.getValue("engine", "exclusiveFullscreen"));
         if (!exclusiveFullscreenValue.empty()) exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
 
         std::string depthValue = userSettings.getValue("engine", "depth", defaultSettings.getValue("engine", "depth"));

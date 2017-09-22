@@ -90,6 +90,8 @@ namespace ouzel
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
 
+            [windowMacOS->getNativeWindow() setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary: NSWindowCollectionBehaviorFullScreenPrimary];
+
             const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
