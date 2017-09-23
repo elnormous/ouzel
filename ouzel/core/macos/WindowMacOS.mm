@@ -151,7 +151,7 @@ namespace ouzel
         windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
         window.delegate = windowDelegate;
 
-        [window setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenNone : NSWindowCollectionBehaviorFullScreenPrimary];
+        [window setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary : NSWindowCollectionBehaviorFullScreenPrimary];
 
         if (fullscreen)
         {
