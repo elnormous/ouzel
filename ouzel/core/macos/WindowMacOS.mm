@@ -134,7 +134,7 @@ namespace ouzel
                                   round(screen.frame.size.height / 2.0f - windowSize.height / 2.0f),
                                   windowSize.width, windowSize.height);
 
-        NSUInteger windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
+        windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
 
         if (resizable)
         {
@@ -277,9 +277,10 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to capture the main display!";
                         }
 
+                        [window setStyleMask:NSBorderlessWindowMask];
+
                         NSRect screenRect = [screen frame];
                         [window setFrame:screenRect display:YES animate:NO];
-                        [window setStyleMask:NSBorderlessWindowMask];
 
                         CGWindowLevel windowLevel = CGShieldingWindowLevel();
                         [window setLevel:windowLevel];
@@ -287,6 +288,8 @@ namespace ouzel
                     }
                     else
                     {
+                        [window setStyleMask:windowStyleMask];
+
                         if (CGReleaseAllDisplays() != kCGErrorSuccess)
                         {
                             Log(Log::Level::ERR) << "Failed to capture the main display!";
