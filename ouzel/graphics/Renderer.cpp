@@ -51,24 +51,24 @@ namespace ouzel
     {
         std::set<Renderer::Driver> Renderer::getAvailableRenderDrivers()
         {
-            static std::set<Renderer::Driver> availableDrivers;
+            static std::set<Driver> availableDrivers;
 
             if (availableDrivers.empty())
             {
-                availableDrivers.insert(Renderer::Driver::EMPTY);
+                availableDrivers.insert(Driver::EMPTY);
 
 #if OUZEL_COMPILE_OPENGL
-                availableDrivers.insert(Renderer::Driver::OPENGL);
+                availableDrivers.insert(Driver::OPENGL);
 #endif
 
 #if OUZEL_COMPILE_DIRECT3D11
-                availableDrivers.insert(Renderer::Driver::DIRECT3D11);
+                availableDrivers.insert(Driver::DIRECT3D11);
 #endif
 
 #if OUZEL_COMPILE_METAL
                 if (RenderDeviceMetal::available())
                 {
-                    availableDrivers.insert(Renderer::Driver::METAL);
+                    availableDrivers.insert(Driver::METAL);
                 }
 #endif
             }
@@ -87,7 +87,7 @@ namespace ouzel
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENGL
-                case Renderer::Driver::OPENGL:
+                case Driver::OPENGL:
                     Log(Log::Level::INFO) << "Using OpenGL render driver";
 #if OUZEL_PLATFORM_MACOS
                     device.reset(new RenderDeviceOGLMacOS());
@@ -111,13 +111,13 @@ namespace ouzel
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
-                case Renderer::Driver::DIRECT3D11:
+                case Driver::DIRECT3D11:
                     Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
                     device.reset(new RenderDeviceD3D11());
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
-                case Renderer::Driver::METAL:
+                case Driver::METAL:
                     Log(Log::Level::INFO) << "Using Metal render driver";
 #if OUZEL_PLATFORM_MACOS
                     device.reset(new RenderDeviceMetalMacOS());
@@ -128,7 +128,7 @@ namespace ouzel
 #endif
                     break;
 #endif
-                case Renderer::Driver::EMPTY:
+                case Driver::EMPTY:
                 default:
                     Log(Log::Level::INFO) << "Not using render driver";
                     device.reset(new RenderDeviceEmpty());

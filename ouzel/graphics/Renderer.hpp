@@ -74,7 +74,7 @@ namespace ouzel
 
             ~Renderer();
 
-            static std::set<Renderer::Driver> getAvailableRenderDrivers();
+            static std::set<Driver> getAvailableRenderDrivers();
 
             RenderDevice* getDevice() const { return device.get(); }
 
