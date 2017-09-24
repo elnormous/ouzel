@@ -74,7 +74,7 @@ namespace ouzel
 
     WindowMacOS::~WindowMacOS()
     {
-        if (exclusiveFullscreen && fullscreen)
+        if (CGDisplayIsCaptured(displayId))
         {
             if (CGDisplayRelease(displayId) != kCGErrorSuccess)
             {
