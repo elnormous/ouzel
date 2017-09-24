@@ -66,7 +66,7 @@ namespace ouzel
 #endif
 
 #if OUZEL_COMPILE_METAL
-                if (graphics::RenderDeviceMetal::available())
+                if (RenderDeviceMetal::available())
                 {
                     availableDrivers.insert(Renderer::Driver::METAL);
                 }
@@ -87,51 +87,51 @@ namespace ouzel
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENGL
-                case graphics::Renderer::Driver::OPENGL:
+                case Renderer::Driver::OPENGL:
                     Log(Log::Level::INFO) << "Using OpenGL render driver";
 #if OUZEL_PLATFORM_MACOS
-                    device.reset(new graphics::RenderDeviceOGLMacOS());
+                    device.reset(new RenderDeviceOGLMacOS());
 #elif OUZEL_PLATFORM_IOS
-                    device.reset(new graphics::RenderDeviceOGLIOS());
+                    device.reset(new RenderDeviceOGLIOS());
 #elif OUZEL_PLATFORM_TVOS
-                    device.reset(new graphics::RenderDeviceOGLTVOS());
+                    device.reset(new RenderDeviceOGLTVOS());
 #elif OUZEL_PLATFORM_ANDROID
-                    device.reset(new graphics::RenderDeviceOGLAndroid());
+                    device.reset(new RenderDeviceOGLAndroid());
 #elif OUZEL_PLATFORM_LINUX
-                    device.reset(new graphics::RenderDeviceOGLLinux());
+                    device.reset(new RenderDeviceOGLLinux());
 #elif OUZEL_PLATFORM_WINDOWS
-                    device.reset(new graphics::RenderDeviceOGLWin());
+                    device.reset(new RenderDeviceOGLWin());
 #elif OUZEL_PLATFORM_RASPBIAN
-                    device.reset(new graphics::RenderDeviceOGLRasp());
+                    device.reset(new RenderDeviceOGLRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-                    device.reset(new graphics::RenderDeviceOGLEm());
+                    device.reset(new RenderDeviceOGLEm());
 #else
-                    device.reset(new graphics::RenderDeviceOGL());
+                    device.reset(new RenderDeviceOGL());
 #endif
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
-                case graphics::Renderer::Driver::DIRECT3D11:
+                case Renderer::Driver::DIRECT3D11:
                     Log(Log::Level::INFO) << "Using Direct3D 11 render driver";
-                    device.reset(new graphics::RenderDeviceD3D11());
+                    device.reset(new RenderDeviceD3D11());
                     break;
 #endif
 #if OUZEL_COMPILE_METAL
-                case graphics::Renderer::Driver::METAL:
+                case Renderer::Driver::METAL:
                     Log(Log::Level::INFO) << "Using Metal render driver";
 #if OUZEL_PLATFORM_MACOS
-                    device.reset(new graphics::RenderDeviceMetalMacOS());
+                    device.reset(new RenderDeviceMetalMacOS());
 #elif OUZEL_PLATFORM_IOS
-                    device.reset(new graphics::RenderDeviceMetalIOS());
+                    device.reset(new RenderDeviceMetalIOS());
 #elif OUZEL_PLATFORM_TVOS
-                    device.reset(new graphics::RenderDeviceMetalTVOS());
+                    device.reset(new RenderDeviceMetalTVOS());
 #endif
                     break;
 #endif
-                case graphics::Renderer::Driver::EMPTY:
+                case Renderer::Driver::EMPTY:
                 default:
                     Log(Log::Level::INFO) << "Not using render driver";
-                    device.reset(new graphics::RenderDeviceEmpty());
+                    device.reset(new RenderDeviceEmpty());
                     break;
             }
         }
