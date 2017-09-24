@@ -64,5 +64,6 @@ namespace ouzel
         NSScreenPtr screen = nil;
         CGDirectDisplayID displayId = 0;
         NSUInteger windowStyleMask = 0;
+        Rectangle windowRectangle;
     };
 }
