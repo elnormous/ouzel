@@ -74,6 +74,11 @@ namespace ouzel
 
     WindowMacOS::~WindowMacOS()
     {
+        if (exclusiveFullscreen && fullscreen)
+        {
+            CGDisplayRelease(displayId);
+        }
+
         if (view)
         {
             [view release];
@@ -290,7 +295,7 @@ namespace ouzel
                     {
                         [window setStyleMask:windowStyleMask];
 
-                        if (CGReleaseAllDisplays() != kCGErrorSuccess)
+                        if (CGDisplayRelease(displayId) != kCGErrorSuccess)
                         {
                             Log(Log::Level::ERR) << "Failed to capture the main display!";
                         }
