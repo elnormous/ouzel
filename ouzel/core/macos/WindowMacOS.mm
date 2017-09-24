@@ -277,6 +277,10 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Failed to capture the main display!";
                         }
 
+                        NSRect screenRect = [screen frame];
+                        [window setFrame:screenRect display:YES animate:NO];
+                        [window setStyleMask:NSBorderlessWindowMask];
+
                         CGWindowLevel windowLevel = CGShieldingWindowLevel();
                         [window setLevel:windowLevel];
                         [window makeKeyAndOrderFront:nil];

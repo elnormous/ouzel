@@ -45,6 +45,7 @@ namespace ouzel
 
         NSWindowPtr getNativeWindow() const { return window; }
         NSViewPtr getNativeView() const { return view; }
+        NSScreenPtr getScreen() const { return screen; }
         CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
