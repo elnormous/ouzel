@@ -11,11 +11,13 @@
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;
 typedef id<NSWindowDelegate> NSWindowDelegatePtr;
+typedef NSScreen* NSScreenPtr;
 #else
 #include <objc/objc.h>
 typedef id NSWindowPtr;
 typedef id NSViewPtr;
 typedef id NSWindowDelegatePtr;
+typedef id NSScreenPtr;
 typedef uint32_t CGDirectDisplayID;
 #endif
 
@@ -58,6 +60,7 @@ namespace ouzel
         NSWindowPtr window = nil;
         NSViewPtr view = nil;
         NSWindowDelegatePtr windowDelegate = nil;
+        NSScreenPtr screen = nil;
         CGDirectDisplayID displayId = 0;
     };
 }
