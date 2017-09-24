@@ -266,15 +266,22 @@ namespace ouzel
     {
         if (fullscreen != newFullscreen)
         {
-            sharedEngine->executeOnMainThread([this, newFullscreen] {
-                NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
-                bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
+            if (exclusiveFullscreen)
+            {
+                sharedEngine->executeOnMainThread([this, newFullscreen] {
+                    NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
+                    bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
-                if (isFullscreen != newFullscreen)
-                {
-                    [window toggleFullScreen:nil];
-                }
-            });
+                    if (isFullscreen != newFullscreen)
+                    {
+                        [window toggleFullScreen:nil];
+                    }
+                });
+            }
+            else
+            {
+                //CGDisplayCapture();
+            }
         }
 
         Window::setFullscreen(newFullscreen);
