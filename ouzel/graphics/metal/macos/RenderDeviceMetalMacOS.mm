@@ -88,8 +88,7 @@ namespace ouzel
 
             WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
 
-            const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
+            CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to create display link";

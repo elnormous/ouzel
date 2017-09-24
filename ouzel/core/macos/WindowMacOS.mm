@@ -112,6 +112,7 @@ namespace ouzel
         }
 
         NSScreen* screen = [NSScreen mainScreen];
+        displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
         CGSize windowSize;
 
@@ -271,7 +272,7 @@ namespace ouzel
                 sharedEngine->executeOnMainThread([this, newFullscreen] {
                     if (newFullscreen)
                     {
-                        if (CGDisplayCapture(kCGDirectMainDisplay) != kCGErrorSuccess)
+                        if (CGDisplayCapture(displayId) != kCGErrorSuccess)
                         {
                             Log(Log::Level::ERR) << "Failed to capture the main display!";
                         }
@@ -390,11 +391,13 @@ namespace ouzel
 
     void WindowMacOS::handleScreenChange()
     {
+        displayId = [[[[window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+
         Event event;
         event.type = Event::Type::WINDOW_SCREEN_CHANGE;
 
         event.windowEvent.window = this;
-        event.windowEvent.screenId = [[[[window screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+        event.windowEvent.screenId = displayId;
 
         sharedEngine->getEventDispatcher()->postEvent(event);
     }

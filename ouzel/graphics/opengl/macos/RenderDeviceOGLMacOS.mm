@@ -161,8 +161,7 @@ namespace ouzel
             eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-            const CGDirectDisplayID displayId = [[[[windowMacOS->getNativeWindow() screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-
+            CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
             {
                 Log(Log::Level::ERR) << "Failed to create display link";

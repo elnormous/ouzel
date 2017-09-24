@@ -7,6 +7,7 @@
 
 #if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
+#import <CoreGraphics/CoreGraphics.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;
 typedef id<NSWindowDelegate> NSWindowDelegatePtr;
@@ -15,6 +16,7 @@ typedef id<NSWindowDelegate> NSWindowDelegatePtr;
 typedef id NSWindowPtr;
 typedef id NSViewPtr;
 typedef id NSWindowDelegatePtr;
+typedef uint32_t CGDirectDisplayID;
 #endif
 
 namespace ouzel
@@ -41,6 +43,7 @@ namespace ouzel
 
         NSWindowPtr getNativeWindow() const { return window; }
         NSViewPtr getNativeView() const { return view; }
+        CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
         WindowMacOS();
@@ -55,5 +58,6 @@ namespace ouzel
         NSWindowPtr window = nil;
         NSViewPtr view = nil;
         NSWindowDelegatePtr windowDelegate = nil;
+        CGDirectDisplayID displayId = 0;
     };
 }
