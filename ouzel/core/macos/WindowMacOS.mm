@@ -269,6 +269,29 @@ namespace ouzel
             if (exclusiveFullscreen)
             {
                 sharedEngine->executeOnMainThread([this, newFullscreen] {
+                    if (newFullscreen)
+                    {
+                        if (CGDisplayCapture(kCGDirectMainDisplay) != kCGErrorSuccess)
+                        {
+                            Log(Log::Level::ERR) << "Failed to capture the main display!";
+                        }
+
+                        CGWindowLevel windowLevel = CGShieldingWindowLevel();
+                        [window setLevel:windowLevel];
+                        [window makeKeyAndOrderFront:nil];
+                    }
+                    else
+                    {
+                        if (CGReleaseAllDisplays() != kCGErrorSuccess)
+                        {
+                            Log(Log::Level::ERR) << "Failed to capture the main display!";
+                        }
+                    }
+                });
+            }
+            else
+            {
+                sharedEngine->executeOnMainThread([this, newFullscreen] {
                     NSApplicationPresentationOptions options = [[NSApplication sharedApplication] presentationOptions];
                     bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
@@ -277,10 +300,6 @@ namespace ouzel
                         [window toggleFullScreen:nil];
                     }
                 });
-            }
-            else
-            {
-                //CGDisplayCapture();
             }
         }
 
