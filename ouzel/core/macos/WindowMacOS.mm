@@ -76,7 +76,10 @@ namespace ouzel
     {
         if (exclusiveFullscreen && fullscreen)
         {
-            CGDisplayRelease(displayId);
+            if (CGDisplayRelease(displayId) != kCGErrorSuccess)
+            {
+                Log(Log::Level::ERR) << "Failed to release the main display";
+            }
         }
 
         if (view)
@@ -279,7 +282,7 @@ namespace ouzel
                     {
                         if (CGDisplayCapture(displayId) != kCGErrorSuccess)
                         {
-                            Log(Log::Level::ERR) << "Failed to capture the main display!";
+                            Log(Log::Level::ERR) << "Failed to capture the main display";
                         }
 
                         NSRect windowFrame = [window frame];
@@ -311,7 +314,7 @@ namespace ouzel
 
                         if (CGDisplayRelease(displayId) != kCGErrorSuccess)
                         {
-                            Log(Log::Level::ERR) << "Failed to capture the main display!";
+                            Log(Log::Level::ERR) << "Failed to release the main display";
                         }
                     }
                 });
