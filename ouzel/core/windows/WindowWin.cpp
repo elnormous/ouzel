@@ -545,13 +545,17 @@ namespace ouzel
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
-        Event event;
-        event.type = Event::Type::WINDOW_SIZE_CHANGE;
+        Event sizeChangeEvent;
+        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
+        sizeChangeEvent.windowEvent.window = this;
+        sizeChangeEvent.windowEvent.size = newSize;
+        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
 
-        event.windowEvent.window = this;
-        event.windowEvent.size = newSize;
-
-        sharedEngine->getEventDispatcher()->postEvent(event);
+        Event resolutionChangeEvent;
+        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+        resolutionChangeEvent.windowEvent.window = this;
+        resolutionChangeEvent.windowEvent.size = newSize;
+        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
     }
 
     void WindowWin::handleMove()

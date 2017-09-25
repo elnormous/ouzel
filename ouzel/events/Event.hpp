@@ -140,9 +140,10 @@ namespace ouzel
             // window events
             WINDOW_SIZE_CHANGE,
             WINDOW_TITLE_CHANGE,
-            WINDOW_FULLSCREEN_CHANGE,
-            WINDOW_CONTENT_SCALE_CHANGE,
-            WINDOW_SCREEN_CHANGE,
+            FULLSCREEN_CHANGE,
+            SCREEN_CHANGE,
+            CONTENT_SCALE_CHANGE,
+            RESOLUTION_CHANGE,
 
             // system events
             ENGINE_START, // engine started running (sent only once)

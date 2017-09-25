@@ -114,7 +114,7 @@ namespace ouzel
 
         bool RenderDeviceMetalMacOS::handleWindow(Event::Type type, const WindowEvent& event)
         {
-            if (type == Event::Type::WINDOW_SCREEN_CHANGE)
+            if (type == Event::Type::SCREEN_CHANGE)
             {
                 sharedEngine->executeOnMainThread([this, event]() {
                     if (displayLink)

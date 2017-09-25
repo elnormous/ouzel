@@ -355,23 +355,28 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
 
-        Event event;
-        event.type = Event::Type::WINDOW_SIZE_CHANGE;
-
-        event.windowEvent.window = this;
+        Size2 newSize;
 
         if (highDpi)
         {
-            event.windowEvent.size = Size2(static_cast<float>(frame.size.width),
-                                           static_cast<float>(frame.size.height));
+            newSize = Size2(static_cast<float>(frame.size.width), static_cast<float>(frame.size.height));
         }
         else
         {
-            event.windowEvent.size = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor),
-                                           static_cast<float>(frame.size.height * window.backingScaleFactor));
+            newSize = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor), static_cast<float>(frame.size.height * window.backingScaleFactor));
         }
 
-        sharedEngine->getEventDispatcher()->postEvent(event);
+        Event sizeChangeEvent;
+        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
+        sizeChangeEvent.windowEvent.window = this;
+        sizeChangeEvent.windowEvent.size = newSize;
+        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+
+        Event resolutionChangeEvent;
+        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+        resolutionChangeEvent.windowEvent.window = this;
+        resolutionChangeEvent.windowEvent.size = newSize;
+        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
     }
 
     void WindowMacOS::handleClose()
@@ -382,7 +387,7 @@ namespace ouzel
     void WindowMacOS::handleFullscreenChange(bool newFullscreen)
     {
         Event event;
-        event.type = Event::Type::WINDOW_FULLSCREEN_CHANGE;
+        event.type = Event::Type::FULLSCREEN_CHANGE;
 
         event.windowEvent.window = this;
         event.windowEvent.fullscreen = newFullscreen;
@@ -395,7 +400,7 @@ namespace ouzel
         if (highDpi)
         {
             Event event;
-            event.type = Event::Type::WINDOW_CONTENT_SCALE_CHANGE;
+            event.type = Event::Type::CONTENT_SCALE_CHANGE;
 
             event.windowEvent.window = this;
             event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
@@ -424,7 +429,7 @@ namespace ouzel
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
         Event event;
-        event.type = Event::Type::WINDOW_SCREEN_CHANGE;
+        event.type = Event::Type::SCREEN_CHANGE;
 
         event.windowEvent.window = this;
         event.windowEvent.screenId = displayId;
