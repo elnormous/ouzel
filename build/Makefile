@@ -54,6 +54,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/UpdateCallback.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
+	$(ROOT_DIR)/../ouzel/core/WindowResource.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventHandler.cpp \
 	$(ROOT_DIR)/../ouzel/files/Archive.cpp \

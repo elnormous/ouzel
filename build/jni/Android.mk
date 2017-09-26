@@ -49,6 +49,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/Timer.cpp \
     ../../ouzel/core/UpdateCallback.cpp \
     ../../ouzel/core/Window.cpp \
+    ../../ouzel/core/WindowResource.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
     ../../ouzel/events/EventHandler.cpp \
     ../../ouzel/files/android/FileSystemAndroid.cpp \

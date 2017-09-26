@@ -687,6 +687,12 @@
 		305BDDDF1F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
 		305BDDE01F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
 		305BDDE11F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
+		30673DD31F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
+		30673DD41F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
+		30673DD51F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
+		30673DD61F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
+		30673DD71F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
+		30673DD81F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
 		306A26B31F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
 		306A26B41F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
 		306A26B51F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
@@ -1189,6 +1195,8 @@
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
 		305BDDDB1F27F6BC00BD4969 /* Resource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Resource.hpp; sourceTree = "<group>"; };
+		30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowResource.cpp; sourceTree = "<group>"; };
+		30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WindowResource.hpp; sourceTree = "<group>"; };
 		306A26B11F5DD17700E2B0B6 /* Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Listener.cpp; sourceTree = "<group>"; };
 		306A26B21F5DD17700E2B0B6 /* Listener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Listener.hpp; sourceTree = "<group>"; };
 		306A26B91F5DD19300E2B0B6 /* Mixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
@@ -1595,6 +1603,8 @@
 				30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
 				3009341B1C88698500CC50D3 /* Window.hpp */,
+				30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */,
+				30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -2144,6 +2154,7 @@
 				30381F8E1D80A3EC00677CAB /* TextureResourceOGL.hpp in Headers */,
 				30A9C13E1CAEBA540084C4BF /* Language.hpp in Headers */,
 				303B75501C2A3CB700FEDE92 /* Matrix3.hpp in Headers */,
+				30673DD61F7A694F00EAFAB0 /* WindowResource.hpp in Headers */,
 				3049DCB71ED8687C0000997A /* ConvexVolume.hpp in Headers */,
 				3082C3B11D9565DE0090FC9D /* TexturePSGLES2.h in Headers */,
 				300934201C88698500CC50D3 /* Window.hpp in Headers */,
@@ -2240,6 +2251,7 @@
 				30DADEA11C5167BC001A63B4 /* Cache.hpp in Headers */,
 				3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */,
 				3031C1411F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
+				30673DD81F7A694F00EAFAB0 /* WindowResource.hpp in Headers */,
 				3082C3BF1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C39B1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
@@ -2387,6 +2399,7 @@
 				30381F151D8094F100677CAB /* BufferResource.hpp in Headers */,
 				30381FB91D80A3F900677CAB /* AudioDeviceAL.hpp in Headers */,
 				30B546591D90575B00E45DB6 /* RadioButtonGroup.hpp in Headers */,
+				30673DD71F7A694F00EAFAB0 /* WindowResource.hpp in Headers */,
 				304A8E5D1C237C70008B1151 /* Actor.hpp in Headers */,
 				304A8E971C26EDFB008B1151 /* ParticleSystem.hpp in Headers */,
 				304B277C1C95C54D00BA162D /* EditBox.hpp in Headers */,
@@ -2693,6 +2706,7 @@
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
 				303821391D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
+				30673DD31F7A694F00EAFAB0 /* WindowResource.cpp in Sources */,
 				303696C41E32DD8F007F4211 /* Texture.cpp in Sources */,
 				30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
 				3049DCB41ED8687C0000997A /* ConvexVolume.cpp in Sources */,
@@ -2839,6 +2853,7 @@
 				30C758C11F4A23BD008499DC /* DisplayLinkHandler.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */,
 				30C56C5D1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
+				30673DD51F7A694F00EAFAB0 /* WindowResource.cpp in Sources */,
 				3038213B1D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
@@ -2985,6 +3000,7 @@
 				3047F7671C4D2C2000774E3D /* Sequence.cpp in Sources */,
 				3049DCE91EDCD1FA0000997A /* CursorResourceMacOS.mm in Sources */,
 				3038213A1D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
+				30673DD41F7A694F00EAFAB0 /* WindowResource.cpp in Sources */,
 				303B75001C28208800FEDE92 /* FileSystem.cpp in Sources */,
 				303696C51E32DD8F007F4211 /* Texture.cpp in Sources */,
 				30A9C1311CAE80570084C4BF /* Localization.cpp in Sources */,
