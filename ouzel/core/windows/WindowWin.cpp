@@ -407,9 +407,10 @@ namespace ouzel
         int y = CW_USEDEFAULT;
 
         windowStyle = windowWindowedStyle;
+        windowExStyle = WS_EX_APPWINDOW;
 
         RECT windowRect = {0, 0, static_cast<LONG>(size.width), static_cast<LONG>(size.height)};
-        AdjustWindowRect(&windowRect, windowStyle, FALSE);
+        AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle);
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
@@ -424,7 +425,7 @@ namespace ouzel
             return false;
         }
 
-        window = CreateWindowExW(WS_EX_APPWINDOW, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
+        window = CreateWindowExW(windowExStyle, WINDOW_CLASS_NAME, titleBuffer, windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -474,7 +475,7 @@ namespace ouzel
             UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
             RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-            AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
+            AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle);
 
             SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
 
