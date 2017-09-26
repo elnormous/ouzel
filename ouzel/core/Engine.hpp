@@ -67,6 +67,8 @@ namespace ouzel
         void scheduleUpdate(UpdateCallback* callback);
         void unscheduleUpdate(UpdateCallback* callback);
 
+        void executeOnUpdateThread(const std::function<void(void)>& func);
+
         void update();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) = 0;
@@ -80,6 +82,7 @@ namespace ouzel
 
     protected:
         virtual void main();
+        void executeAll();
 
         std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;
@@ -107,6 +110,9 @@ namespace ouzel
         std::mutex updateMutex;
         std::condition_variable updateCondition;
 #endif
+
+        std::queue<std::function<void(void)>> executeQueue;
+        std::mutex executeMutex;
 
         std::atomic<bool> active;
         std::atomic<bool> paused;

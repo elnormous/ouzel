@@ -21,48 +21,21 @@ namespace ouzel
 
         Sound::~Sound()
         {
+            if (stream) stream->setListener(nullptr);
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
             stream = soundData->createStream();
-            resetCount = 0;
+            stream->setListener(this);
 
             return true;
         }
 
         void Sound::update(float)
         {
-            if (stream)
-            {
-                uint32_t newResetCount = stream->getResetCount();
-
-                for (uint32_t i = resetCount; i < newResetCount; ++i)
-                {
-                    Event resetEvent;
-                    resetEvent.type = Event::Type::SOUND_RESET;
-                    resetEvent.soundEvent.sound = this;
-                    ++resetCount;
-                }
-
-                if (!stream->isPlaying())
-                {
-                    playing = false;
-
-                    Event resetEvent;
-                    resetEvent.type = Event::Type::SOUND_FINISH;
-                    resetEvent.soundEvent.sound = this;
-
-                    sharedEngine->unscheduleUpdate(&updateCallback);
-                }
-
-                if (actor) position = actor->getWorldPosition();
-            }
-            else
-            {
-                sharedEngine->unscheduleUpdate(&updateCallback);
-            }
+            if (actor) position = actor->getWorldPosition();
         }
 
         void Sound::setPosition(const Vector3& newPosition)
@@ -181,6 +154,26 @@ namespace ouzel
 
                 renderCommands.push_back(renderCommand);
             }
+        }
+
+        void Sound::onReset()
+        {
+            Event event;
+            event.type = Event::Type::SOUND_RESET;
+            event.soundEvent.sound = this;
+        }
+
+        void Sound::onStop()
+        {
+            sharedEngine->executeOnUpdateThread([this]() {
+                playing = false;
+            });
+
+            sharedEngine->unscheduleUpdate(&updateCallback);
+
+            Event event;
+            event.type = Event::Type::SOUND_FINISH;
+            event.soundEvent.sound = this;
         }
 
         void Sound::setAttributes(Vector3&,

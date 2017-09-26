@@ -493,6 +493,8 @@ namespace ouzel
 
         if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
         {
+            executeAll();
+
             previousUpdateTime = currentTime;
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
 
@@ -613,6 +615,34 @@ namespace ouzel
         if (setIterator != updateCallbackAddSet.end())
         {
             updateCallbackAddSet.erase(setIterator);
+        }
+    }
+
+    void Engine::executeOnUpdateThread(const std::function<void(void)>& func)
+    {
+        std::lock_guard<std::mutex> lock(executeMutex);
+
+        executeQueue.push(func);
+    }
+
+    void Engine::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                std::lock_guard<std::mutex> lock(executeMutex);
+                if (executeQueue.empty()) break;
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
         }
     }
 

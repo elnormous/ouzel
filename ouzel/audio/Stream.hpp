@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <atomic>
+#include <mutex>
 #include "utils/Noncopyable.hpp"
 
 namespace ouzel
@@ -14,6 +15,14 @@ namespace ouzel
         class Stream: public Noncopyable
         {
         public:
+            class Listener
+            {
+            public:
+                virtual ~Listener() = 0;
+                virtual void onReset() = 0;
+                virtual void onStop() = 0;
+            };
+
             Stream();
         	virtual ~Stream();
 
@@ -28,13 +37,15 @@ namespace ouzel
             bool getShouldReset() const { return shouldReset; }
             void setShouldReset(bool newReset) { shouldReset = newReset; }
 
-            uint32_t getResetCount() { return resetCount; }
+            void setListener(Listener* newListener);
 
         private:
             std::atomic<bool> playing;
             std::atomic<bool> repeating;
             std::atomic<bool> shouldReset;
-            std::atomic<uint32_t> resetCount;
+
+            std::mutex listenerMutex;
+            Listener* listener = nullptr;
         };
     } // namespace audio
 } // namespace ouzel

@@ -6,6 +6,7 @@
 #include <cfloat>
 #include <memory>
 #include "audio/SoundInput.hpp"
+#include "audio/Stream.hpp"
 #include "scene/Component.hpp"
 #include "core/UpdateCallback.hpp"
 #include "math/Vector3.hpp"
@@ -18,7 +19,7 @@ namespace ouzel
         class SoundData;
         class Stream;
 
-        class Sound: public SoundInput, public scene::Component
+        class Sound: public SoundInput, public Stream::Listener, public scene::Component
         {
             friend Audio;
         public:
@@ -58,6 +59,9 @@ namespace ouzel
             bool isRepeating() const { return repeating; }
 
             virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
+
+            virtual void onReset() override;
+            virtual void onStop() override;
 
         private:
             void update(float delta);
@@ -101,7 +105,6 @@ namespace ouzel
             bool spatialized = true;
             bool playing = false;
             bool repeating = false;
-            uint32_t resetCount = 0;
         };
     } // namespace audio
 } // namespace ouzel
