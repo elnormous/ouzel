@@ -160,7 +160,7 @@ namespace ouzel
 
     void WindowResourceLinux::close()
     {
-        Window::close();
+        WindowResource::close();
 
         XEvent event;
         event.type = ClientMessage;
@@ -180,7 +180,7 @@ namespace ouzel
 
     void WindowResourceLinux::setSize(const Size2& newSize)
     {
-        Window::setSize(newSize);
+        WindowResource::setSize(newSize);
 
         if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
@@ -209,7 +209,7 @@ namespace ouzel
             }
         }
 
-        Window::setFullscreen(newFullscreen);
+        WindowResource::setFullscreen(newFullscreen);
     }
 
     void WindowResourceLinux::setTitle(const std::string& newTitle)
@@ -222,7 +222,7 @@ namespace ouzel
             }
         }
 
-        Window::setTitle(newTitle);
+        WindowResource::setTitle(newTitle);
     }
 
     bool WindowResourceLinux::toggleFullscreen()
