@@ -3,16 +3,18 @@
 
 #pragma once
 
-#include "core/Window.hpp"
+#include "core/WindowResource.hpp"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
+typedef UIScreen* UIScreenPtr;
 typedef UIWindow* UIWindowPtr;
 typedef UIView* UIViewPtr;
 typedef UIViewController* UIViewControllerPtr;
 typedef UITextField* UITextFieldPtr;
 #else
 #include <objc/objc.h>
+typedef id UIScreenPtr;
 typedef id UIWindowPtr;
 typedef id UIViewPtr;
 typedef id UIViewControllerPtr;
@@ -21,11 +23,13 @@ typedef id UITextFieldPtr;
 
 namespace ouzel
 {
-    class WindowIOS: public Window
+    class Window;
+
+    class WindowResourceTVOS: public WindowResource
     {
-        friend Engine;
+        friend Window;
     public:
-        virtual ~WindowIOS();
+        virtual ~WindowResourceTVOS();
 
         UIWindowPtr getNativeWindow() const { return window; }
         UIViewPtr getNativeView() const { return view; }
@@ -34,7 +38,7 @@ namespace ouzel
         void handleResize(const Size2& newSize);
 
     protected:
-        WindowIOS();
+        WindowResourceTVOS();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,
@@ -43,6 +47,7 @@ namespace ouzel
                           bool newHighDpi,
                           bool depth) override;
 
+        UIScreenPtr screen = nil;
         UIWindowPtr window = nil;
         UIViewPtr view = nil;
         UIViewControllerPtr viewController = nil;

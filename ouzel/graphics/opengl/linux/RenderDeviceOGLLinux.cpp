@@ -7,7 +7,7 @@
 
 #include "RenderDeviceOGLLinux.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowLinux.hpp"
+#include "core/linux/WindowResourceLinux.hpp"
 
 namespace ouzel
 {
@@ -24,7 +24,7 @@ namespace ouzel
             flushCommands();
             if (renderThread.joinable()) renderThread.join();
 
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             if (windowLinux->getDisplay() && context)
             {
@@ -46,7 +46,7 @@ namespace ouzel
                                         bool newDepth,
                                         bool newDebugRenderer)
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(newWindow);
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(newWindow->getResource());
 
             // make sure OpenGL's GLX extension supported
             int dummy;
@@ -166,7 +166,7 @@ namespace ouzel
 
         bool RenderDeviceOGLLinux::lockContext()
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             if (!glXMakeCurrent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), context))
             {
@@ -179,7 +179,7 @@ namespace ouzel
 
         bool RenderDeviceOGLLinux::swapBuffers()
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window);
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             glXSwapBuffers(windowLinux->getDisplay(), windowLinux->getNativeWindow());
 

@@ -7,19 +7,19 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-#include "core/Window.hpp"
+#include "core/WindowResource.hpp"
 
 namespace ouzel
 {
-    class Engine;
+    class Window;
     class EngineLinux;
 
-    class WindowLinux: public Window
+    class WindowResourceLinux: public WindowResource
     {
-        friend Engine;
+        friend Window;
         friend EngineLinux;
     public:
-        virtual ~WindowLinux();
+        virtual ~WindowResourceLinux();
 
         virtual void close() override;
 
@@ -33,7 +33,7 @@ namespace ouzel
         Atom getDeleteMessage() const { return deleteMessage; }
 
     protected:
-        WindowLinux();
+        WindowResourceLinux();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

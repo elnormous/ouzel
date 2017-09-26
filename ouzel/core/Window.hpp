@@ -5,6 +5,7 @@
 
 #include <string>
 #include "utils/Noncopyable.hpp"
+#include "core/WindowResource.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
 
@@ -12,22 +13,24 @@ namespace ouzel
 {
     class Engine;
 
-    class Window: public Noncopyable
+    class Window: public Noncopyable, public WindowResource::Listener
     {
         friend Engine;
     public:
         virtual ~Window();
 
-        virtual void close();
+        WindowResource* getResource() const { return resource; }
+
+        void close();
 
         const Size2& getSize() const { return size; }
-        virtual void setSize(const Size2& newSize);
+        void setSize(const Size2& newSize);
 
         const Size2& getResolution() const { return resolution; }
 
         bool getResizable() const { return resizable; }
 
-        virtual void setFullscreen(bool newFullscreen);
+        void setFullscreen(bool newFullscreen);
         bool isFullscreen() const { return fullscreen; }
 
         bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
@@ -69,7 +72,13 @@ namespace ouzel
                           bool newHighDpi,
                           bool depth);
 
-        bool handleWindowChange(Event::Type type, const WindowEvent& event);
+        virtual void onSizeChange(const Size2& newSize) override;
+        virtual void onResolutionChange(const Size2& newResolution) override;
+        virtual void onFullscreenChange(bool newFullscreen) override;
+        virtual void onScreenChange(uint32_t newDisplayId) override;
+        virtual void onClose() override;
+
+        WindowResource* resource = nullptr;
 
         Size2 size;
         Size2 resolution;
@@ -77,9 +86,8 @@ namespace ouzel
         bool fullscreen = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true;
+        uint32_t displayId = 0;
 
         std::string title;
-
-        ouzel::EventHandler eventHandler;
     };
 }

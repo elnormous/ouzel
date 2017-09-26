@@ -5,7 +5,7 @@
 #include <X11/Xcursor/Xcursor.h>
 #include "CursorResourceLinux.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowLinux.hpp"
+#include "core/linux/WindowResourceLinux.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -16,7 +16,7 @@ namespace ouzel
         {
             if (sharedEngine)
             {
-                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (cursor != None) XFreeCursor(display, cursor);
             }
@@ -29,7 +29,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)
@@ -81,7 +81,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)

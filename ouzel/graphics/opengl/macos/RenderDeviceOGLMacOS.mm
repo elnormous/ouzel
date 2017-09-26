@@ -6,7 +6,7 @@
 #if OUZEL_PLATFORM_MACOS && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLMacOS.hpp"
-#include "core/macos/WindowMacOS.hpp"
+#include "core/macos/WindowResourceMacOS.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
@@ -139,7 +139,7 @@ namespace ouzel
             openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
             [openGLContext makeCurrentContext];
 
-            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
+            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(newWindow->getResource());
 
             [openGLContext setView:windowMacOS->getNativeView()];
 

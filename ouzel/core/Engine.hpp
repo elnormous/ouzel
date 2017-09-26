@@ -14,6 +14,7 @@
 #include "utils/Noncopyable.hpp"
 #include "core/UpdateCallback.hpp"
 #include "core/Timer.hpp"
+#include "core/Window.hpp"
 #include "graphics/Renderer.hpp"
 #include "audio/Audio.hpp"
 #include "files/FileSystem.hpp"
@@ -44,7 +45,7 @@ namespace ouzel
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
         Cache* getCache() { return &cache; }
-        Window* getWindow() const { return window.get(); }
+        Window* getWindow() { return &window; }
         graphics::Renderer* getRenderer() const { return renderer.get(); }
         audio::Audio* getAudio() const { return audio.get(); }
         scene::SceneManager* getSceneManager() { return &sceneManager; }
@@ -87,7 +88,7 @@ namespace ouzel
         std::unique_ptr<FileSystem> fileSystem;
         EventDispatcher eventDispatcher;
         Timer timer;
-        std::unique_ptr<Window> window;
+        Window window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::Input> input;

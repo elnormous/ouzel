@@ -3,18 +3,20 @@
 
 #pragma once
 
-#include "core/Window.hpp"
+#include "core/WindowResource.hpp"
 
 namespace ouzel
 {
-    class WindowRasp: public Window
+    class Window;
+
+    class WindowResourceRasp: public WindowResource
     {
-        friend Engine;
+        friend Window;
     public:
-        virtual ~WindowRasp();
+        virtual ~WindowResourceRasp();
 
     protected:
-        WindowRasp();
+        WindowResourceRasp();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

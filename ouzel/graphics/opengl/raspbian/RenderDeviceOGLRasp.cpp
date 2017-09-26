@@ -7,7 +7,7 @@
 
 #include "RenderDeviceOGLRasp.hpp"
 #include "core/Engine.hpp"
-#include "core/raspbian/WindowRasp.hpp"
+#include "core/raspbian/WindowResourceRasp.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel

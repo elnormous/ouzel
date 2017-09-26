@@ -18,7 +18,7 @@
 #include "core/Cache.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
-#include "core/windows/WindowWin.hpp"
+#include "core/windows/WindowResourceWin.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel
@@ -183,7 +183,7 @@ namespace ouzel
                 Log(Log::Level::INFO) << "Using " << deviceName << " for rendering";
             }
 
-            WindowWin* windowWin = static_cast<WindowWin*>(window);
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
             frameBufferWidth = static_cast<UINT>(newSize.width);
             frameBufferHeight = static_cast<UINT>(newSize.height);
@@ -777,7 +777,7 @@ namespace ouzel
 
         IDXGIOutput* RenderDeviceD3D11::getOutput() const
         {
-            WindowWin* windowWin = static_cast<WindowWin*>(window);
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
             HMONITOR monitor = windowWin->getMonitor();
 

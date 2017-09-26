@@ -10,7 +10,7 @@
 #include "GamepadDI.hpp"
 #include "GamepadXI.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowWin.hpp"
+#include "core/windows/WindowResourceWin.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
 
@@ -366,7 +366,7 @@ namespace ouzel
             sharedEngine->executeOnMainThread([locked] {
                 if (locked)
                 {
-                    HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
+                    HWND nativeWindow = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource())->getNativeWindow();
 
                     RECT rect;
                     GetWindowRect(nativeWindow, &rect);
@@ -403,7 +403,7 @@ namespace ouzel
 
             sharedEngine->executeOnMainThread([position] {
                 ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
-                HWND nativeWindow = static_cast<WindowWin*>(sharedEngine->getWindow())->getNativeWindow();
+                HWND nativeWindow = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource())->getNativeWindow();
 
                 POINT p;
                 p.x = static_cast<LONG>(windowLocation.x);

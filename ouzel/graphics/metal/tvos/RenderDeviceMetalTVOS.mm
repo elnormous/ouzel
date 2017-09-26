@@ -8,7 +8,8 @@
 #import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceMetalTVOS.hpp"
 #include "MetalView.h"
-#include "core/tvos/WindowTVOS.hpp"
+#include "core/Window.hpp"
+#include "core/tvos/WindowResourceTVOS.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -43,7 +44,7 @@ namespace ouzel
                 return false;
             }
 
-            MetalView* view = (MetalView*)static_cast<WindowTVOS*>(newWindow)->getNativeView();
+            MetalView* view = (MetalView*)static_cast<WindowResourceTVOS*>(newWindow->getResource())->getNativeView();
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;

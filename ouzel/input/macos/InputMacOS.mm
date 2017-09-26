@@ -9,7 +9,7 @@
 #include "CursorResourceMacOS.hpp"
 #include "GamepadGC.hpp"
 #include "GamepadIOKit.hpp"
-#include "core/macos/WindowMacOS.hpp"
+#include "core/macos/WindowResourceMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
@@ -360,7 +360,7 @@ namespace ouzel
                 currentCursor = defaultCursor;
             }
 
-            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(sharedEngine->getWindow()->getResource());
             [windowMacOS->getNativeView() resetCursorRects];
         }
 
@@ -409,7 +409,7 @@ namespace ouzel
             sharedEngine->executeOnMainThread([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-                WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(sharedEngine->getWindow());
+                WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(sharedEngine->getWindow()->getResource());
                 CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,

@@ -4,7 +4,7 @@
 #include <jni.h>
 #include <memory>
 #include "core/android/EngineAndroid.hpp"
-#include "core/android/WindowAndroid.hpp"
+#include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/android/InputAndroid.hpp"
@@ -42,7 +42,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurf
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
-    ouzel::WindowAndroid* windowAndroid = static_cast<ouzel::WindowAndroid*>(engine->getWindow());
+    ouzel::WindowResourceAndroid* windowAndroid = static_cast<ouzel::WindowResourceAndroid*>(engine->getWindow()->getResource());
     windowAndroid->handleResize(ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
 }
 

@@ -12,7 +12,7 @@
 #include "GL/wglext.h"
 #include "RenderDeviceOGLWin.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowWin.hpp"
+#include "core/windows/WindowResourceWin.hpp"
 
 static const LPCWSTR TEMP_WINDOW_CLASS_NAME = L"TempWindow";
 
@@ -194,7 +194,7 @@ namespace ouzel
 
             PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(wglGetProcAddress("wglChoosePixelFormatARB"));
 
-            WindowWin* windowWin = static_cast<WindowWin*>(newWindow);
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(newWindow->getResource());
 
             deviceContext = GetDC(windowWin->getNativeWindow());
 

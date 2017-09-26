@@ -13,7 +13,7 @@
 #include "graphics/RenderDevice.hpp"
 #include "input/Input.hpp"
 #include "input/linux/InputLinux.hpp"
-#include "WindowLinux.hpp"
+#include "WindowResourceLinux.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -55,7 +55,7 @@ namespace ouzel
         {
             XEvent event;
 
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
             input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
 
             while (active)
@@ -196,7 +196,7 @@ namespace ouzel
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([this, newScreenSaverEnabled]() {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(window.get());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });

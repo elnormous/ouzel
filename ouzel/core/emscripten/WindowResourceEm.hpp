@@ -3,20 +3,22 @@
 
 #pragma once
 
-#include "core/Window.hpp"
+#include "core/WindowResource.hpp"
 
 namespace ouzel
 {
-    class WindowEm: public Window
+    class Window;
+
+    class WindowResourceEm: public WindowResource
     {
-        friend Engine;
+        friend Window;
     public:
         virtual void setSize(const Size2& newSize) override;
 
         void handleResize();
 
     protected:
-        WindowEm();
+        WindowResourceEm();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

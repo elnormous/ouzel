@@ -13,8 +13,8 @@
 		3009341F1C88698500CC50D3 /* Window.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.hpp */; };
 		300934201C88698500CC50D3 /* Window.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.hpp */; };
 		300934211C88698500CC50D3 /* Window.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009341B1C88698500CC50D3 /* Window.hpp */; };
-		3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowTVOS.mm */; };
-		3009342F1C88978D00CC50D3 /* WindowTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowTVOS.hpp */; };
+		3009342E1C88978D00CC50D3 /* WindowResourceTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3009342C1C88978D00CC50D3 /* WindowResourceTVOS.mm */; };
+		3009342F1C88978D00CC50D3 /* WindowResourceTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009342D1C88978D00CC50D3 /* WindowResourceTVOS.hpp */; };
 		300C39ED1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
 		300C39EE1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
 		300C39EF1E51355000330E4F /* SoundDataWave.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300C39EB1E51355000330E4F /* SoundDataWave.hpp */; };
@@ -255,13 +255,13 @@
 		303820631D816C7700677CAB /* EngineIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820561D816C7700677CAB /* EngineIOS.hpp */; };
 		303820641D816C7700677CAB /* EngineIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820571D816C7700677CAB /* EngineIOS.mm */; };
 		303820651D816C7700677CAB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820581D816C7700677CAB /* main.cpp */; };
-		3038206C1D816C7700677CAB /* WindowIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038205F1D816C7700677CAB /* WindowIOS.hpp */; };
-		3038206D1D816C7700677CAB /* WindowIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820601D816C7700677CAB /* WindowIOS.mm */; };
+		3038206C1D816C7700677CAB /* WindowResourceIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3038205F1D816C7700677CAB /* WindowResourceIOS.hpp */; };
+		3038206D1D816C7700677CAB /* WindowResourceIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820601D816C7700677CAB /* WindowResourceIOS.mm */; };
 		3038207D1D816C9E00677CAB /* EngineMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820701D816C9E00677CAB /* EngineMacOS.hpp */; };
 		3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820711D816C9E00677CAB /* EngineMacOS.mm */; };
 		3038207F1D816C9E00677CAB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303820721D816C9E00677CAB /* main.cpp */; };
-		303820861D816C9E00677CAB /* WindowMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820791D816C9E00677CAB /* WindowMacOS.hpp */; };
-		303820871D816C9E00677CAB /* WindowMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3038207A1D816C9E00677CAB /* WindowMacOS.mm */; };
+		303820861D816C9E00677CAB /* WindowResourceMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820791D816C9E00677CAB /* WindowResourceMacOS.hpp */; };
+		303820871D816C9E00677CAB /* WindowResourceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3038207A1D816C9E00677CAB /* WindowResourceMacOS.mm */; };
 		303820F51D817F4900677CAB /* GamepadIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F11D817F4900677CAB /* GamepadIOS.hpp */; };
 		303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadIOS.mm */; };
 		303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputIOS.hpp */; };
@@ -933,8 +933,8 @@
 /* Begin PBXFileReference section */
 		3009341A1C88698500CC50D3 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
 		3009341B1C88698500CC50D3 /* Window.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
-		3009342C1C88978D00CC50D3 /* WindowTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowTVOS.mm; sourceTree = "<group>"; };
-		3009342D1C88978D00CC50D3 /* WindowTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowTVOS.hpp; sourceTree = "<group>"; };
+		3009342C1C88978D00CC50D3 /* WindowResourceTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowResourceTVOS.mm; sourceTree = "<group>"; };
+		3009342D1C88978D00CC50D3 /* WindowResourceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowResourceTVOS.hpp; sourceTree = "<group>"; };
 		300C39EB1E51355000330E4F /* SoundDataWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundDataWave.hpp; sourceTree = "<group>"; };
 		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
 		3011E1C11EFFE6DE00CB1DDC /* INI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = INI.cpp; sourceTree = "<group>"; };
@@ -1022,13 +1022,13 @@
 		303820561D816C7700677CAB /* EngineIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineIOS.hpp; sourceTree = "<group>"; };
 		303820571D816C7700677CAB /* EngineIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineIOS.mm; sourceTree = "<group>"; };
 		303820581D816C7700677CAB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		3038205F1D816C7700677CAB /* WindowIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowIOS.hpp; sourceTree = "<group>"; };
-		303820601D816C7700677CAB /* WindowIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowIOS.mm; sourceTree = "<group>"; };
+		3038205F1D816C7700677CAB /* WindowResourceIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowResourceIOS.hpp; sourceTree = "<group>"; };
+		303820601D816C7700677CAB /* WindowResourceIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowResourceIOS.mm; sourceTree = "<group>"; };
 		303820701D816C9E00677CAB /* EngineMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineMacOS.hpp; sourceTree = "<group>"; };
 		303820711D816C9E00677CAB /* EngineMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineMacOS.mm; sourceTree = "<group>"; };
 		303820721D816C9E00677CAB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		303820791D816C9E00677CAB /* WindowMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowMacOS.hpp; sourceTree = "<group>"; };
-		3038207A1D816C9E00677CAB /* WindowMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowMacOS.mm; sourceTree = "<group>"; };
+		303820791D816C9E00677CAB /* WindowResourceMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowResourceMacOS.hpp; sourceTree = "<group>"; };
+		3038207A1D816C9E00677CAB /* WindowResourceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowResourceMacOS.mm; sourceTree = "<group>"; };
 		303820F11D817F4900677CAB /* GamepadIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOS.hpp; sourceTree = "<group>"; };
 		303820F21D817F4900677CAB /* GamepadIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadIOS.mm; sourceTree = "<group>"; };
 		303820F31D817F4900677CAB /* InputIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputIOS.hpp; sourceTree = "<group>"; };
@@ -1669,8 +1669,8 @@
 				303820721D816C9E00677CAB /* main.cpp */,
 				30724D7F1F35367C00D915ED /* ViewMacOS.h */,
 				30724D7D1F35366F00D915ED /* ViewMacOS.mm */,
-				303820791D816C9E00677CAB /* WindowMacOS.hpp */,
-				3038207A1D816C9E00677CAB /* WindowMacOS.mm */,
+				303820791D816C9E00677CAB /* WindowResourceMacOS.hpp */,
+				3038207A1D816C9E00677CAB /* WindowResourceMacOS.mm */,
 			);
 			path = macos;
 			sourceTree = "<group>";
@@ -1685,8 +1685,8 @@
 				303820581D816C7700677CAB /* main.cpp */,
 				30724D811F353A0800D915ED /* ViewIOS.h */,
 				30724D801F353A0800D915ED /* ViewIOS.mm */,
-				3038205F1D816C7700677CAB /* WindowIOS.hpp */,
-				303820601D816C7700677CAB /* WindowIOS.mm */,
+				3038205F1D816C7700677CAB /* WindowResourceIOS.hpp */,
+				303820601D816C7700677CAB /* WindowResourceIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1719,8 +1719,8 @@
 				303B76831C355A5800FEDE92 /* main.cpp */,
 				30724D851F353A1800D915ED /* ViewTVOS.h */,
 				30724D841F353A1800D915ED /* ViewTVOS.mm */,
-				3009342D1C88978D00CC50D3 /* WindowTVOS.hpp */,
-				3009342C1C88978D00CC50D3 /* WindowTVOS.mm */,
+				3009342D1C88978D00CC50D3 /* WindowResourceTVOS.hpp */,
+				3009342C1C88978D00CC50D3 /* WindowResourceTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -2112,7 +2112,7 @@
 				305B99951C41F06F008589E1 /* Widget.hpp in Headers */,
 				30C758B01F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */,
-				3038206C1D816C7700677CAB /* WindowIOS.hpp in Headers */,
+				3038206C1D816C7700677CAB /* WindowResourceIOS.hpp in Headers */,
 				303B760B1C34A92B00FEDE92 /* Input.hpp in Headers */,
 				304E763C1F7095DE0025C0DB /* Client.hpp in Headers */,
 				3038201B1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
@@ -2274,7 +2274,7 @@
 				309BA3181F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */,
 				3038215C1D81876E00677CAB /* TextureResourceEmpty.hpp in Headers */,
 				30381FF01D80A40700677CAB /* ColorVSIOS.h in Headers */,
-				3009342F1C88978D00CC50D3 /* WindowTVOS.hpp in Headers */,
+				3009342F1C88978D00CC50D3 /* WindowResourceTVOS.hpp in Headers */,
 				3047F77C1C4D39C500774E3D /* Repeat.hpp in Headers */,
 				303696E91E32DDC1007F4211 /* MeshBuffer.hpp in Headers */,
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
@@ -2368,7 +2368,7 @@
 				30419DEC1D162BDC00A63759 /* Sound.hpp in Headers */,
 				304A8E5E1C237C70008B1151 /* Noncopyable.hpp in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix4.hpp in Headers */,
-				303820861D816C9E00677CAB /* WindowMacOS.hpp in Headers */,
+				303820861D816C9E00677CAB /* WindowResourceMacOS.hpp in Headers */,
 				303B75781C2A419F00FEDE92 /* Setup.h in Headers */,
 				304A8E651C237C70008B1151 /* Renderer.hpp in Headers */,
 				304A8E6D1C237C70008B1151 /* TextureResource.hpp in Headers */,
@@ -2702,7 +2702,7 @@
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
 				304AA8BE1E1190E4006FA70E /* OBF.cpp in Sources */,
 				3053FF701F43834900760E67 /* SpriteDefinition.cpp in Sources */,
-				3038206D1D816C7700677CAB /* WindowIOS.mm in Sources */,
+				3038206D1D816C7700677CAB /* WindowResourceIOS.mm in Sources */,
 				303B75671C2A3CBF00FEDE92 /* Sprite.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
 				303821391D81876E00677CAB /* BufferResourceEmpty.cpp in Sources */,
@@ -2866,7 +2866,7 @@
 				30216B751ED464730073E3D5 /* Material.cpp in Sources */,
 				30FE38501DFDE49E00305B3B /* Quaternion.cpp in Sources */,
 				301EB3AC1CCD77F600466E92 /* TextRenderer.cpp in Sources */,
-				3009342E1C88978D00CC50D3 /* WindowTVOS.mm in Sources */,
+				3009342E1C88978D00CC50D3 /* WindowResourceTVOS.mm in Sources */,
 				3047F7501C4C4FAF00774E3D /* Rotate.cpp in Sources */,
 				3038202D1D80A55700677CAB /* BufferResourceMetal.mm in Sources */,
 				303820141D80A40700677CAB /* TextureResourceMetal.mm in Sources */,
@@ -2980,7 +2980,7 @@
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
 				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
-				303820871D816C9E00677CAB /* WindowMacOS.mm in Sources */,
+				303820871D816C9E00677CAB /* WindowResourceMacOS.mm in Sources */,
 				30216B641ED462B80073E3D5 /* MeshRenderer.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,

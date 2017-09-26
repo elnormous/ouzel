@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "core/Window.hpp"
-
 #if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -21,15 +19,18 @@ typedef id NSScreenPtr;
 typedef uint32_t CGDirectDisplayID;
 #endif
 
+#include "core/WindowResource.hpp"
+#include "math/Rectangle.hpp"
+
 namespace ouzel
 {
-    class Engine;
+    class Window;
 
-    class WindowMacOS: public Window
+    class WindowResourceMacOS: public WindowResource
     {
-        friend Engine;
+        friend Window;
     public:
-        virtual ~WindowMacOS();
+        virtual ~WindowResourceMacOS();
 
         virtual void close() override;
 
@@ -49,7 +50,7 @@ namespace ouzel
         CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
-        WindowMacOS();
+        WindowResourceMacOS();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

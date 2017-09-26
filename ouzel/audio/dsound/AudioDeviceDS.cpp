@@ -7,7 +7,7 @@
 
 #include "AudioDeviceDS.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowWin.hpp"
+#include "core/windows/WindowResourceWin.hpp"
 #include "utils/Log.hpp"
 
 BOOL CALLBACK enumCallback(LPGUID, LPCWSTR description, LPCWSTR, LPVOID)
@@ -70,7 +70,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource());
 
             hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY);
             if (FAILED(hr))

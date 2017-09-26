@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowIOS.hpp"
+#include "WindowResourceIOS.hpp"
 #include "ViewIOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/ios/OpenGLView.h"
@@ -12,14 +12,14 @@
 
 @interface ViewController: UIViewController
 {
-    ouzel::WindowIOS* window;
+    ouzel::WindowResourceIOS* window;
 }
 
 @end
 
 @implementation ViewController
 
--(id)initWithWindow:(ouzel::WindowIOS*)newWindow
+-(id)initWithWindow:(ouzel::WindowResourceIOS*)newWindow
 {
     if (self = [super init])
     {
@@ -100,11 +100,11 @@
 
 namespace ouzel
 {
-    WindowIOS::WindowIOS()
+    WindowResourceIOS::WindowResourceIOS()
     {
     }
 
-    WindowIOS::~WindowIOS()
+    WindowResourceIOS::~WindowResourceIOS()
     {
         if (textField) [textField release];
         if (viewController) [viewController release];
@@ -112,26 +112,26 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowIOS::init(const Size2& newSize,
-                         bool newResizable,
-                         bool newFullscreen,
-                         bool newExclusiveFullscreen,
-                         const std::string& newTitle,
-                         bool newHighDpi,
-                         bool depth)
+    bool WindowResourceIOS::init(const Size2& newSize,
+                                 bool newResizable,
+                                 bool newFullscreen,
+                                 bool newExclusiveFullscreen,
+                                 const std::string& newTitle,
+                                 bool newHighDpi,
+                                 bool depth)
     {
-        if (!Window::init(newSize,
-                          newResizable,
-                          newFullscreen,
-                          newExclusiveFullscreen,
-                          newTitle,
-                          newHighDpi,
-                          depth))
+        if (!WindowResource::init(newSize,
+                                  newResizable,
+                                  newFullscreen,
+                                  newExclusiveFullscreen,
+                                  newTitle,
+                                  newHighDpi,
+                                  depth))
         {
             return false;
         }
 
-        UIScreen* screen = [UIScreen mainScreen];
+        screen = [UIScreen mainScreen];
 
         window = [[UIWindow alloc] initWithFrame:[screen bounds]];
 
@@ -178,30 +178,23 @@ namespace ouzel
 
         [window makeKeyAndVisible];
 
-        if (highDpi)
-        {
-            resolution = size * static_cast<float>(screen.scale);
-        }
-        else
-        {
-            resolution = size;
-        }
+        resolution = size;
+        if (highDpi) resolution *= static_cast<float>(screen.scale);
 
         return true;
     }
 
-    void WindowIOS::handleResize(const Size2& newSize)
+    void WindowResourceIOS::handleResize(const Size2& newSize)
     {
-        Event sizeChangeEvent;
-        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
-        sizeChangeEvent.windowEvent.window = this;
-        sizeChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+        size = newSize;
+        resolution = size;
+        if (highDpi) resolution *= static_cast<float>(screen.scale);
 
-        Event resolutionChangeEvent;
-        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-        resolutionChangeEvent.windowEvent.window = this;
-        resolutionChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
+        {
+            listener->onSizeChange(size);
+            listener->onResolutionChange(resolution);
+        }
     }
 }

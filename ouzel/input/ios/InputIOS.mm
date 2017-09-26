@@ -5,7 +5,7 @@
 #import <GameController/GameController.h>
 #include "InputIOS.hpp"
 #include "GamepadIOS.hpp"
-#include "core/ios/WindowIOS.hpp"
+#include "core/ios/WindowResourceIOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
@@ -135,7 +135,7 @@ namespace ouzel
         bool InputIOS::showVirtualKeyboard()
         {
             sharedEngine->executeOnMainThread([]() {
-                WindowIOS* windowIOS = static_cast<WindowIOS*>(sharedEngine->getWindow());
+                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(sharedEngine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField becomeFirstResponder];
             });
@@ -146,7 +146,7 @@ namespace ouzel
         bool InputIOS::hideVirtualKeyboard()
         {
             sharedEngine->executeOnMainThread([]() {
-                WindowIOS* windowIOS = static_cast<WindowIOS*>(sharedEngine->getWindow());
+                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(sharedEngine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField resignFirstResponder];
             });

@@ -169,7 +169,7 @@
     <ClCompile Include="..\ouzel\core\Window.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp">
+    <ClCompile Include="..\ouzel\core\windows\WindowResourceWin.cpp">
       <Filter>ouzel\core\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\math\MathUtils.cpp">
@@ -625,7 +625,7 @@
     <ClInclude Include="..\ouzel\core\Window.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\core\windows\WindowWin.hpp">
+    <ClInclude Include="..\ouzel\core\windows\WindowResourceWin.hpp">
       <Filter>ouzel\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\MathUtils.hpp">

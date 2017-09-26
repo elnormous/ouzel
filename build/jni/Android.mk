@@ -43,7 +43,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/audio/StreamWave.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
-    ../../ouzel/core/android/WindowAndroid.cpp \
+    ../../ouzel/core/android/WindowResourceAndroid.cpp \
     ../../ouzel/core/Cache.cpp \
     ../../ouzel/core/Engine.cpp \
     ../../ouzel/core/Timer.cpp \

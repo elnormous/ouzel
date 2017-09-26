@@ -7,7 +7,7 @@
 #include "CursorResourceLinux.hpp"
 #include "events/Event.hpp"
 #include "core/Engine.hpp"
-#include "core/linux/WindowLinux.hpp"
+#include "core/linux/WindowResourceLinux.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -237,7 +237,7 @@ namespace ouzel
 
         bool InputLinux::init()
         {
-            WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
             ::Window window = windowLinux->getNativeWindow();
             Display* display = windowLinux->getDisplay();
 
@@ -292,7 +292,7 @@ namespace ouzel
         {
             if (sharedEngine)
             {
-                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (emptyCursor != None) XFreeCursor(display, emptyCursor);
             }
@@ -304,7 +304,7 @@ namespace ouzel
 
             if (sharedEngine)
             {
-                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
@@ -357,7 +357,7 @@ namespace ouzel
                 cursorVisible = visible;
 
                 sharedEngine->executeOnMainThread([visible, this] {
-                    WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                    WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
 
@@ -390,7 +390,7 @@ namespace ouzel
         void InputLinux::setCursorLocked(bool locked)
         {
             sharedEngine->executeOnMainThread([locked] {
-                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
@@ -424,7 +424,7 @@ namespace ouzel
             Input::setCursorPosition(position);
 
             sharedEngine->executeOnMainThread([position] {
-                WindowLinux* windowLinux = static_cast<WindowLinux*>(sharedEngine->getWindow());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 

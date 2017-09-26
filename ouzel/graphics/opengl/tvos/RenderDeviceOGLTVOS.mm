@@ -7,7 +7,8 @@
 
 #import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceOGLTVOS.hpp"
-#include "core/tvos/WindowTVOS.hpp"
+#include "core/Window.hpp"
+#include "core/tvos/WindowResourceTVOS.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -42,7 +43,7 @@ namespace ouzel
                                        bool newDepth,
                                        bool newDebugRenderer)
         {
-            UIView* view = static_cast<WindowTVOS*>(newWindow)->getNativeView();
+            UIView* view = static_cast<WindowResourceTVOS*>(newWindow->getResource())->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;

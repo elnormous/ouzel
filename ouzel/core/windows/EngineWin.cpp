@@ -4,7 +4,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"
-#include "WindowWin.hpp"
+#include "WindowResourceWin.hpp"
 #include "input/windows/InputWin.hpp"
 #include "utils/Log.hpp"
 
@@ -88,7 +88,7 @@ namespace ouzel
         start();
 
         input::InputWin* inputWin = static_cast<input::InputWin*>(input.get());
-        WindowWin* windowWin = static_cast<WindowWin*>(window.get());
+        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
 
         MSG msg;
 

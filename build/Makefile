@@ -148,7 +148,7 @@ ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/windows/WindowWin.cpp \
+	$(ROOT_DIR)/../ouzel/core/windows/WindowResourceWin.cpp \
 	$(ROOT_DIR)/../ouzel/files/windows/FileSystemWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
@@ -167,7 +167,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/EngineRasp.cpp \
 	$(ROOT_DIR)/../ouzel/core/raspbian/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/raspbian/WindowRasp.cpp \
+	$(ROOT_DIR)/../ouzel/core/raspbian/WindowResourceRasp.cpp \
 	$(ROOT_DIR)/../ouzel/files/raspbian/FileSystemRasp.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RenderDeviceOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
@@ -178,7 +178,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/EngineLinux.cpp \
 	$(ROOT_DIR)/../ouzel/core/linux/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/linux/WindowLinux.cpp \
+	$(ROOT_DIR)/../ouzel/core/linux/WindowResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/files/linux/FileSystemLinux.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/linux/RenderDeviceOGLLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
@@ -214,7 +214,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/ViewIOS.mm \
-	$(ROOT_DIR)/../ouzel/core/ios/WindowIOS.mm \
+	$(ROOT_DIR)/../ouzel/core/ios/WindowResourceIOS.mm \
 	$(ROOT_DIR)/../ouzel/files/ios/FileSystemIOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
@@ -238,7 +238,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/ViewTVOS.mm \
-	$(ROOT_DIR)/../ouzel/core/tvos/WindowTVOS.mm \
+	$(ROOT_DIR)/../ouzel/core/tvos/WindowResourceTVOS.mm \
 	$(ROOT_DIR)/../ouzel/files/tvos/FileSystemTVOS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/MetalView.m \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
@@ -258,7 +258,7 @@ else ifeq ($(platform),emscripten)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/EngineEm.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
-	$(ROOT_DIR)/../ouzel/core/emscripten/WindowEm.cpp \
+	$(ROOT_DIR)/../ouzel/core/emscripten/WindowResourceEm.cpp \
 	$(ROOT_DIR)/../ouzel/files/emscripten/FileSystemEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp \

@@ -5,18 +5,19 @@
 
 #include <windows.h>
 #include <set>
-#include "core/Window.hpp"
+#include "core/WindowResource.hpp"
 
 namespace ouzel
 {
+    class Window;
     class EngineWin;
 
-    class WindowWin : public Window
+    class WindowResourceWin : public WindowResource
     {
-        friend Engine;
+        friend Window;
         friend EngineWin;
     public:
-        virtual ~WindowWin();
+        virtual ~WindowResourceWin();
 
         virtual void close() override;
 
@@ -34,7 +35,7 @@ namespace ouzel
         HMONITOR getMonitor() const { return monitor; }
 
     protected:
-        WindowWin();
+        WindowResourceWin();
         virtual bool init(const Size2& newSize,
                           bool newResizable,
                           bool newFullscreen,

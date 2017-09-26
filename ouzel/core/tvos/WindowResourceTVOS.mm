@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "WindowTVOS.hpp"
+#include "WindowResourceTVOS.hpp"
 #include "ViewTVOS.h"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/tvos/OpenGLView.h"
@@ -11,14 +11,14 @@
 
 @interface ViewController: UIViewController
 {
-    ouzel::WindowTVOS* window;
+    ouzel::WindowResourceTVOS* window;
 }
 
 @end
 
 @implementation ViewController
 
--(id)initWithWindow:(ouzel::WindowTVOS*)newWindow
+-(id)initWithWindow:(ouzel::WindowResourceTVOS*)newWindow
 {
     if (self = [super init])
     {
@@ -44,11 +44,11 @@
 
 namespace ouzel
 {
-    WindowTVOS::WindowTVOS()
+    WindowResourceTVOS::WindowResourceTVOS()
     {
     }
 
-    WindowTVOS::~WindowTVOS()
+    WindowResourceTVOS::~WindowResourceTVOS()
     {
         if (textField) [textField release];
         if (viewController) [viewController release];
@@ -56,26 +56,26 @@ namespace ouzel
         if (window) [window release];
     }
 
-    bool WindowTVOS::init(const Size2& newSize,
-                          bool newResizable,
-                          bool newFullscreen,
-                          bool newExclusiveFullscreen,
-                          const std::string& newTitle,
-                          bool newHighDpi,
-                          bool depth)
+    bool WindowResourceTVOS::init(const Size2& newSize,
+                                  bool newResizable,
+                                  bool newFullscreen,
+                                  bool newExclusiveFullscreen,
+                                  const std::string& newTitle,
+                                  bool newHighDpi,
+                                  bool depth)
     {
-        if (!Window::init(newSize,
-                          newResizable,
-                          newFullscreen,
-                          newExclusiveFullscreen,
-                          newTitle,
-                          newHighDpi,
-                          depth))
+        if (!WindowResource::init(newSize,
+                                  newResizable,
+                                  newFullscreen,
+                                  newExclusiveFullscreen,
+                                  newTitle,
+                                  newHighDpi,
+                                  depth))
         {
             return false;
         }
 
-        UIScreen* screen = [UIScreen mainScreen];
+        screen = [UIScreen mainScreen];
 
         window = [[UIWindow alloc] initWithFrame:[screen bounds]];
 
@@ -117,30 +117,23 @@ namespace ouzel
 
         [window makeKeyAndVisible];
 
-        if (highDpi)
-        {
-            resolution = size * static_cast<float>(screen.scale);
-        }
-        else
-        {
-            resolution = size;
-        }
+        resolution = size;
+        if (highDpi) resolution *= static_cast<float>(screen.scale);
 
         return true;
     }
 
-    void WindowTVOS::handleResize(const Size2& newSize)
+    void WindowResourceTVOS::handleResize(const Size2& newSize)
     {
-        Event sizeChangeEvent;
-        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
-        sizeChangeEvent.windowEvent.window = this;
-        sizeChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+        size = newSize;
+        resolution = size;
+        if (highDpi) resolution *= static_cast<float>(screen.scale);
 
-        Event resolutionChangeEvent;
-        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-        resolutionChangeEvent.windowEvent.window = this;
-        resolutionChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
+        {
+            listener->onSizeChange(size);
+            listener->onResolutionChange(resolution);
+        }
     }
 }

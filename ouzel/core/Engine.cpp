@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "Engine.hpp"
 #include "Setup.h"
-#include "Window.hpp"
 #include "utils/Log.hpp"
 #include "utils/INI.hpp"
 #include "utils/Utils.hpp"
@@ -13,36 +12,29 @@
 #include "audio/Audio.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "macos/WindowMacOS.hpp"
 #include "files/macos/FileSystemMacOS.hpp"
 #include "input/macos/InputMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "ios/WindowIOS.hpp"
 #include "files/ios/FileSystemIOS.hpp"
 #include "input/ios/InputIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "tvos/WindowTVOS.hpp"
 #include "files/tvos/FileSystemTVOS.hpp"
 #include "input/tvos/InputTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "android/WindowAndroid.hpp"
 #include "files/android/FileSystemAndroid.hpp"
 #include "input/android/InputAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
-#include "linux/WindowLinux.hpp"
+#include "linux/WindowResourceLinux.hpp"
 #include "files/linux/FileSystemLinux.hpp"
 #include "input/linux/InputLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "windows/WindowWin.hpp"
 #include "files/windows/FileSystemWin.hpp"
 #include "input/windows/InputWin.hpp"
 #elif OUZEL_PLATFORM_RASPBIAN
-#include "raspbian/WindowRasp.hpp"
 #include "files/raspbian/FileSystemRasp.hpp"
 #include "input/raspbian/InputRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "emscripten/WindowEm.hpp"
 #include "files/emscripten/FileSystemEm.hpp"
 #include "input/emscripten/InputEm.hpp"
 #endif
@@ -289,41 +281,21 @@ namespace ouzel
             }
         }
 
-#if OUZEL_PLATFORM_MACOS
-        window.reset(new WindowMacOS());
-#elif OUZEL_PLATFORM_IOS
-        window.reset(new WindowIOS());
-#elif OUZEL_PLATFORM_TVOS
-        window.reset(new WindowTVOS());
-#elif OUZEL_PLATFORM_ANDROID
-        window.reset(new WindowAndroid());
-#elif OUZEL_PLATFORM_LINUX
-        window.reset(new WindowLinux());
-#elif OUZEL_PLATFORM_WINDOWS
-        window.reset(new WindowWin());
-#elif OUZEL_PLATFORM_RASPBIAN
-        window.reset(new WindowRasp());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-        window.reset(new WindowEm());
-#else
-        window.reset(new Window());
-#endif
-
         renderer.reset(new graphics::Renderer(graphicsDriver));
 
-        if (!window->init(size,
-                          resizable,
-                          fullscreen,
-                          exclusiveFullscreen,
-                          APPLICATION_NAME,
-                          highDpi,
-                          depth))
+        if (!window.init(size,
+                         resizable,
+                         fullscreen,
+                         exclusiveFullscreen,
+                         APPLICATION_NAME,
+                         highDpi,
+                         depth))
         {
             return false;
         }
 
-        if (!renderer->init(window.get(),
-                            window->getResolution(),
+        if (!renderer->init(&window,
+                            window.getResolution(),
                             sampleCount,
                             textureFilter,
                             maxAnisotropy,

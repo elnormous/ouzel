@@ -7,7 +7,8 @@
 
 #import "core/ios/DisplayLinkHandler.h"
 #include "RenderDeviceOGLIOS.hpp"
-#include "core/ios/WindowIOS.hpp"
+#include "core/Window.hpp"
+#include "core/ios/WindowResourceIOS.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -42,7 +43,7 @@ namespace ouzel
                                       bool newDepth,
                                       bool newDebugRenderer)
         {
-            UIView* view = static_cast<WindowIOS*>(newWindow)->getNativeView();
+            UIView* view = static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
 
             eaglLayer = (CAEAGLLayer*)view.layer;
             eaglLayer.opaque = YES;

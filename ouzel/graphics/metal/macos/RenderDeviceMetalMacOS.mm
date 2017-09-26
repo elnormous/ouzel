@@ -8,7 +8,7 @@
 #include "RenderDeviceMetalMacOS.hpp"
 #include "MetalView.h"
 #include "core/Engine.hpp"
-#include "core/macos/WindowMacOS.hpp"
+#include "core/macos/WindowResourceMacOS.hpp"
 #include "utils/Log.hpp"
 
 static CVReturn renderCallback(CVDisplayLinkRef,
@@ -74,7 +74,9 @@ namespace ouzel
                 return false;
             }
 
-            MetalView* view = (MetalView*)static_cast<WindowMacOS*>(newWindow)->getNativeView();
+            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(newWindow->getResource());
+
+            MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;
@@ -85,8 +87,6 @@ namespace ouzel
 
             eventHandler.windowHandler = std::bind(&RenderDeviceMetalMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
             sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
-
-            WindowMacOS* windowMacOS = static_cast<WindowMacOS*>(newWindow);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)

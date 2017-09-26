@@ -8,7 +8,8 @@
 #import "core/ios/DisplayLinkHandler.h"
 #include "RenderDeviceMetalIOS.hpp"
 #include "MetalView.h"
-#include "core/ios/WindowIOS.hpp"
+#include "core/Window.hpp"
+#include "core/ios/WindowResourceIOS.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -43,7 +44,7 @@ namespace ouzel
                 return false;
             }
 
-            MetalView* view = (MetalView*)static_cast<WindowIOS*>(newWindow)->getNativeView();
+            MetalView* view = (MetalView*)static_cast<WindowResourceIOS*>(newWindow->getResource())->getNativeView();
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;

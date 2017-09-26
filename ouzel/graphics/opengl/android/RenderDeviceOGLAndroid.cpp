@@ -6,7 +6,7 @@
 #if OUZEL_PLATFORM_ANDROID && OUZEL_COMPILE_OPENGL
 
 #include "RenderDeviceOGLAndroid.hpp"
-#include "core/android/WindowAndroid.hpp"
+#include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 
@@ -107,7 +107,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(newWindow);
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(newWindow->getResource());
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
@@ -241,7 +241,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(sharedEngine->getWindow());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(sharedEngine->getWindow()->getResource());
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 

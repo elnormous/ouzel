@@ -59,7 +59,7 @@
     <ClCompile Include="..\ouzel\core\WindowResource.cpp" />
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\main.cpp" />
-    <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
+    <ClCompile Include="..\ouzel\core\windows\WindowResourceWin.cpp" />
     <ClCompile Include="..\ouzel\events\EventDispatcher.cpp" />
     <ClCompile Include="..\ouzel\events\EventHandler.cpp" />
     <ClCompile Include="..\ouzel\files\Archive.cpp" />
@@ -198,7 +198,7 @@
     <ClInclude Include="..\ouzel\core\Window.hpp" />
     <ClInclude Include="..\ouzel\core\WindowResource.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
-    <ClInclude Include="..\ouzel\core\windows\WindowWin.hpp" />
+    <ClInclude Include="..\ouzel\core\windows\WindowResourceWin.hpp" />
     <ClInclude Include="..\ouzel\DefaultConfig.h" />
     <ClInclude Include="..\ouzel\events\Event.hpp" />
     <ClInclude Include="..\ouzel\events\EventDispatcher.hpp" />

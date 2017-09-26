@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <windowsx.h>
-#include "WindowWin.hpp"
+#include "WindowResourceWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "input/windows/InputWin.hpp"
@@ -17,13 +17,13 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     switch (key)
     {
         case VK_MENU:
-            if((lParam & 0x1000000) == 0)
+            if ((lParam & 0x1000000) == 0)
                 key = VK_LMENU;
             else
                 key = VK_RMENU;
             break;
         case VK_CONTROL:
-            if((lParam & 0x1000000) == 0)
+            if ((lParam & 0x1000000) == 0)
                 key = VK_LCONTROL;
             else
                 key = VK_RCONTROL;
@@ -169,7 +169,7 @@ static const LONG_PTR MOUSEEVENTF_FROMTOUCH = 0x0FF515700;
 
 static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    ouzel::WindowWin* windowWin = reinterpret_cast<ouzel::WindowWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
+    ouzel::WindowResourceWin* windowWin = reinterpret_cast<ouzel::WindowResourceWin*>(GetWindowLongPtr(window, GWLP_USERDATA));
     if (!windowWin) return DefWindowProcW(window, msg, wParam, lParam);
 
     switch (msg)
@@ -311,11 +311,11 @@ static const LPCWSTR WINDOW_CLASS_NAME = L"OuzelWindow";
 
 namespace ouzel
 {
-    WindowWin::WindowWin()
+    WindowResourceWin::WindowResourceWin()
     {
     }
 
-    WindowWin::~WindowWin()
+    WindowResourceWin::~WindowResourceWin()
     {
         if (window)
         {
@@ -328,21 +328,21 @@ namespace ouzel
         }
     }
 
-    bool WindowWin::init(const Size2& newSize,
-                         bool newResizable,
-                         bool newFullscreen,
-                         bool newExclusiveFullscreen,
-                         const std::string& newTitle,
-                         bool newHighDpi,
-                         bool depth)
+    bool WindowResourceWin::init(const Size2& newSize,
+                                 bool newResizable,
+                                 bool newFullscreen,
+                                 bool newExclusiveFullscreen,
+                                 const std::string& newTitle,
+                                 bool newHighDpi,
+                                 bool depth)
     {
-        if (!Window::init(newSize,
-                          newResizable,
-                          newFullscreen,
-                          newExclusiveFullscreen,
-                          newTitle,
-                          newHighDpi,
-                          depth))
+        if (!WindowResource::init(newSize,
+                                  newResizable,
+                                  newFullscreen,
+                                  newExclusiveFullscreen,
+                                  newTitle,
+                                  newHighDpi,
+                                  depth))
         {
             return false;
         }
@@ -457,68 +457,62 @@ namespace ouzel
         return true;
     }
 
-    void WindowWin::close()
+    void WindowResourceWin::close()
     {
         Window::close();
 
-        sharedEngine->executeOnMainThread([this] {
-            SendMessage(window, WM_CLOSE, 0, 0);
-        });
+        SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void WindowWin::setSize(const Size2& newSize)
+    void WindowResourceWin::setSize(const Size2& newSize)
     {
-        sharedEngine->executeOnMainThread([this, newSize] {
-            UINT width = static_cast<UINT>(newSize.width);
-            UINT height = static_cast<UINT>(newSize.height);
-
-            UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
-
-            RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
-            AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle);
-
-            SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
-
-            Event resolutionChangeEvent;
-            resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-            resolutionChangeEvent.windowEvent.window = this;
-            resolutionChangeEvent.windowEvent.size = newSize;
-            sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
-        });
-
         Window::setSize(newSize);
+
+        UINT width = static_cast<UINT>(newSize.width);
+        UINT height = static_cast<UINT>(newSize.height);
+
+        UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
+
+        RECT rect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+        AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle);
+
+        SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+
+        resolution = size;
+
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
+        {
+            listener->onResolutionChange(resolution);
+        }
     }
 
-    void WindowWin::setTitle(const std::string& newTitle)
+    void WindowResourceWin::setTitle(const std::string& newTitle)
     {
+        Window::setTitle(newTitle);
+
         if (title != newTitle)
         {
-            sharedEngine->executeOnMainThread([this, newTitle] {
-                wchar_t titleBuffer[256] = L"";
+            wchar_t titleBuffer[256] = L"";
 
-                if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
-                {
-                    Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                    return;
-                }
+            if (!newTitle.empty() && MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer, 256) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return;
+            }
 
-                SetWindowTextW(window, titleBuffer);
-            });
+            SetWindowTextW(window, titleBuffer);
         }
-
-        Window::setTitle(newTitle);
     }
 
-    void WindowWin::setFullscreen(bool newFullscreen)
+    void WindowResourceWin::setFullscreen(bool newFullscreen)
     {
         Window::setFullscreen(newFullscreen);
 
-        sharedEngine->executeOnMainThread([this, newFullscreen] {
-            switchFullscreen(newFullscreen);
-        });
+        switchFullscreen(newFullscreen);
     }
 
-    void WindowWin::switchFullscreen(bool newFullscreen)
+    void WindowResourceWin::switchFullscreen(bool newFullscreen)
     {
         windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
         SetWindowLong(window, GWL_STYLE, windowStyle);
@@ -549,36 +543,34 @@ namespace ouzel
         }
     }
 
-    void WindowWin::handleResize(const Size2& newSize)
+    void WindowResourceWin::handleResize(const Size2& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
-        Event sizeChangeEvent;
-        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
-        sizeChangeEvent.windowEvent.window = this;
-        sizeChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+        size = newSize;
+        resolution = size;
 
-        Event resolutionChangeEvent;
-        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-        resolutionChangeEvent.windowEvent.window = this;
-        resolutionChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
+        {
+            listener->onSizeChange(size);
+            listener->onResolutionChange(resolution);
+        }
     }
 
-    void WindowWin::handleMove()
+    void WindowResourceWin::handleMove()
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
     }
 
-    void WindowWin::addAccelerator(HACCEL accelerator)
+    void WindowResourceWin::addAccelerator(HACCEL accelerator)
     {
         sharedEngine->executeOnMainThread([this, accelerator]() {
             accelerators.insert(accelerator);
         });
     }
 
-    void WindowWin::removeAccelerator(HACCEL accelerator)
+    void WindowResourceWin::removeAccelerator(HACCEL accelerator)
     {
         sharedEngine->executeOnMainThread([this, accelerator]() {
             accelerators.erase(accelerator);

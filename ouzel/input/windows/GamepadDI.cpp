@@ -4,7 +4,7 @@
 #include "GamepadDI.hpp"
 #include "InputWin.hpp"
 #include "core/Engine.hpp"
-#include "core/windows/WindowWin.hpp"
+#include "core/windows/WindowResourceWin.hpp"
 #include "utils/Log.hpp"
 
 static const float THUMB_DEADZONE = 0.2f;
@@ -268,7 +268,7 @@ namespace ouzel
                 rightTrigger.offset = DIJOFS_RY;
             }
 
-            WindowWin* windowWin = static_cast<WindowWin*>(sharedEngine->getWindow());
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource());
 
             // Exclusive access is needed for force feedback
             hr = device->SetCooperativeLevel(windowWin->getNativeWindow(),

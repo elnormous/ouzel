@@ -10,7 +10,7 @@
     #include <GL/glx.h>
 #endif
 
-#include "WindowLinux.hpp"
+#include "WindowResourceLinux.hpp"
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "utils/Log.hpp"
@@ -19,11 +19,11 @@ static const long _NET_WM_STATE_TOGGLE = 2;
 
 namespace ouzel
 {
-    WindowLinux::WindowLinux()
+    WindowResourceLinux::WindowResourceLinux()
     {
     }
 
-    WindowLinux::~WindowLinux()
+    WindowResourceLinux::~WindowResourceLinux()
     {
         if (visualInfo)
         {
@@ -41,21 +41,21 @@ namespace ouzel
         }
     }
 
-    bool WindowLinux::init(const Size2& newSize,
-                           bool newResizable,
-                           bool newFullscreen,
-                           bool newExclusiveFullscreen,
-                           const std::string& newTitle,
-                           bool newHighDpi,
-                           bool depth)
+    bool WindowResourceLinux::init(const Size2& newSize,
+                                   bool newResizable,
+                                   bool newFullscreen,
+                                   bool newExclusiveFullscreen,
+                                   const std::string& newTitle,
+                                   bool newHighDpi,
+                                   bool depth)
     {
-        if (!Window::init(newSize,
-                          newResizable,
-                          newFullscreen,
-                          newExclusiveFullscreen,
-                          newTitle,
-                          newHighDpi,
-                          depth))
+        if (!WindowResource::init(newSize,
+                                  newResizable,
+                                  newFullscreen,
+                                  newExclusiveFullscreen,
+                                  newTitle,
+                                  newHighDpi,
+                                  depth))
         {
             return false;
         }
@@ -158,50 +158,48 @@ namespace ouzel
         return true;
     }
 
-    void WindowLinux::close()
+    void WindowResourceLinux::close()
     {
         Window::close();
 
-        sharedEngine->executeOnMainThread([this] {
-            XEvent event;
-            event.type = ClientMessage;
-            event.xclient.window = window;
-            event.xclient.message_type = protocols;
-            event.xclient.format = 32; // data is set as 32-bit integers
-            event.xclient.data.l[0] = deleteMessage;
-            event.xclient.data.l[1] = CurrentTime;
-            event.xclient.data.l[2] = 0; // unused
-            event.xclient.data.l[3] = 0; // unused
-            event.xclient.data.l[4] = 0; // unused
-            if (!XSendEvent(display, window, False, NoEventMask, &event))
-            {
-                Log(Log::Level::ERR) << "Failed to send X11 delete message";
-            }
-        });
+        XEvent event;
+        event.type = ClientMessage;
+        event.xclient.window = window;
+        event.xclient.message_type = protocols;
+        event.xclient.format = 32; // data is set as 32-bit integers
+        event.xclient.data.l[0] = deleteMessage;
+        event.xclient.data.l[1] = CurrentTime;
+        event.xclient.data.l[2] = 0; // unused
+        event.xclient.data.l[3] = 0; // unused
+        event.xclient.data.l[4] = 0; // unused
+        if (!XSendEvent(display, window, False, NoEventMask, &event))
+        {
+            Log(Log::Level::ERR) << "Failed to send X11 delete message";
+        }
     }
 
-    void WindowLinux::setSize(const Size2& newSize)
+    void WindowResourceLinux::setSize(const Size2& newSize)
     {
+        Window::setSize(newSize);
+
         if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            sharedEngine->executeOnMainThread([this, newSize] {
-                XWindowChanges changes;
-                changes.width = static_cast<int>(newSize.width);
-                changes.height = static_cast<int>(newSize.height);
-                XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+            XWindowChanges changes;
+            changes.width = static_cast<int>(newSize.width);
+            changes.height = static_cast<int>(newSize.height);
+            XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
 
-                Event resolutionChangeEvent;
-                resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-                resolutionChangeEvent.windowEvent.window = this;
-                resolutionChangeEvent.windowEvent.size = newSize;
-                sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
-            });
+            resolution = size;
+
+            std::unique_lock<std::mutex> lock(listenerMutex);
+            if (listener)
+            {
+                listener->onResolutionChange(resolution);
+            }
         }
-
-        Window::setSize(newSize);
     }
 
-    void WindowLinux::setFullscreen(bool newFullscreen)
+    void WindowResourceLinux::setFullscreen(bool newFullscreen)
     {
         if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
@@ -214,64 +212,58 @@ namespace ouzel
         Window::setFullscreen(newFullscreen);
     }
 
-    void WindowLinux::setTitle(const std::string& newTitle)
+    void WindowResourceLinux::setTitle(const std::string& newTitle)
     {
         if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
             if (title != newTitle)
             {
-                sharedEngine->executeOnMainThread([this, newTitle] {
-                    XStoreName(display, window, newTitle.c_str());
-                });
+                XStoreName(display, window, newTitle.c_str());
             }
         }
 
         Window::setTitle(newTitle);
     }
 
-    bool WindowLinux::toggleFullscreen()
+    bool WindowResourceLinux::toggleFullscreen()
     {
         if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
         {
-            if(!state || !stateFullscreen)
+            if (!state || !stateFullscreen)
             {
                 return false;
             }
 
-            sharedEngine->executeOnMainThread([this] {
-                XEvent event;
-                event.type = ClientMessage;
-                event.xclient.window = window;
-                event.xclient.message_type = state;
-                event.xclient.format = 32;
-                event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
-                event.xclient.data.l[1] = stateFullscreen;
-                event.xclient.data.l[2] = 0; // no second property to toggle
-                event.xclient.data.l[3] = 1; // source indication: application
-                event.xclient.data.l[4] = 0; // unused
+            XEvent event;
+            event.type = ClientMessage;
+            event.xclient.window = window;
+            event.xclient.message_type = state;
+            event.xclient.format = 32;
+            event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
+            event.xclient.data.l[1] = stateFullscreen;
+            event.xclient.data.l[2] = 0; // no second property to toggle
+            event.xclient.data.l[3] = 1; // source indication: application
+            event.xclient.data.l[4] = 0; // unused
 
-                if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-                {
-                    Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
-                }
-            });
+            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+            {
+                Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
+            }
         }
 
         return true;
     }
 
-    void WindowLinux::handleResize(const Size2& newSize)
+    void WindowResourceLinux::handleResize(const Size2& newSize)
     {
-        Event sizeChangeEvent;
-        sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
-        sizeChangeEvent.windowEvent.window = this;
-        sizeChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+        size = newSize;
+        resolution = size;
 
-        Event resolutionChangeEvent;
-        resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
-        resolutionChangeEvent.windowEvent.window = this;
-        resolutionChangeEvent.windowEvent.size = newSize;
-        sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
+        {
+            listener->onSizeChange(size);
+            listener->onResolutionChange(resolution);
+        }
     }
 }

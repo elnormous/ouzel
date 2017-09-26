@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
-#include "WindowAndroid.hpp"
+#include "WindowResourceAndroid.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "utils/Log.hpp"
 
@@ -147,19 +147,19 @@ namespace ouzel
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(aSurface);
 
-        if (window)
+        if (active)
         {
-            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(window.get());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window.getResource());
             windowAndroid->handleSurfaceChange(surface);
-        }
 
-        if (renderer)
-        {
-            graphics::RenderDevice* renderDevice = renderer->getDevice();
-            if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
+            if (renderer)
             {
-                graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
-                renderDeviceOGLAndroid->reload();
+                graphics::RenderDevice* renderDevice = renderer->getDevice();
+                if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
+                {
+                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
+                    renderDeviceOGLAndroid->reload();
+                }
             }
         }
     }
@@ -180,19 +180,19 @@ namespace ouzel
             surface = nullptr;
         }
 
-        if (window)
+        if (active)
         {
-            WindowAndroid* windowAndroid = static_cast<WindowAndroid*>(window.get());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window.getResource());
             windowAndroid->handleSurfaceDestroy();
-        }
 
-        if (renderer)
-        {
-            graphics::RenderDevice* renderDevice = renderer->getDevice();
-            if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
+            if (renderer)
             {
-                graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
-                renderDeviceOGLAndroid->destroy();
+                graphics::RenderDevice* renderDevice = renderer->getDevice();
+                if (renderDevice->getDriver() == graphics::Renderer::Driver::OPENGL)
+                {
+                    graphics::RenderDeviceOGLAndroid* renderDeviceOGLAndroid = static_cast<graphics::RenderDeviceOGLAndroid*>(renderDevice);
+                    renderDeviceOGLAndroid->destroy();
+                }
             }
         }
     }
