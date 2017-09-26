@@ -88,7 +88,7 @@ namespace ouzel
         start();
 
         input::InputWin* inputWin = static_cast<input::InputWin*>(input.get());
-        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window->getResource());
+        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
 
         MSG msg;
 

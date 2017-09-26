@@ -459,14 +459,14 @@ namespace ouzel
 
     void WindowResourceWin::close()
     {
-        Window::close();
+        WindowResource::close();
 
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
     void WindowResourceWin::setSize(const Size2& newSize)
     {
-        Window::setSize(newSize);
+        WindowResource::setSize(newSize);
 
         UINT width = static_cast<UINT>(newSize.width);
         UINT height = static_cast<UINT>(newSize.height);
@@ -489,8 +489,6 @@ namespace ouzel
 
     void WindowResourceWin::setTitle(const std::string& newTitle)
     {
-        Window::setTitle(newTitle);
-
         if (title != newTitle)
         {
             wchar_t titleBuffer[256] = L"";
@@ -503,11 +501,13 @@ namespace ouzel
 
             SetWindowTextW(window, titleBuffer);
         }
+
+        WindowResource::setTitle(newTitle);
     }
 
     void WindowResourceWin::setFullscreen(bool newFullscreen)
     {
-        Window::setFullscreen(newFullscreen);
+        WindowResource::setFullscreen(newFullscreen);
 
         switchFullscreen(newFullscreen);
     }
