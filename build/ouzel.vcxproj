@@ -56,6 +56,7 @@
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
+    <ClCompile Include="..\ouzel\core\WindowResource.cpp" />
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
     <ClCompile Include="..\ouzel\core\windows\main.cpp" />
     <ClCompile Include="..\ouzel\core\windows\WindowWin.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\ouzel\core\Timer.hpp" />
     <ClInclude Include="..\ouzel\core\UpdateCallback.hpp" />
     <ClInclude Include="..\ouzel\core\Window.hpp" />
+    <ClInclude Include="..\ouzel\core\WindowResource.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
     <ClInclude Include="..\ouzel\core\windows\WindowWin.hpp" />
     <ClInclude Include="..\ouzel\DefaultConfig.h" />

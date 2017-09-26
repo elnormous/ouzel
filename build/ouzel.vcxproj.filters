@@ -409,6 +409,9 @@
     <ClCompile Include="..\ouzel\network\Client.cpp">
       <Filter>ouzel\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\core\WindowResource.cpp">
+      <Filter>ouzel\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -909,6 +912,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\Resource.hpp">
       <Filter>ouzel\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\core\WindowResource.hpp">
+      <Filter>ouzel\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
