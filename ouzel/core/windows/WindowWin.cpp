@@ -443,6 +443,7 @@ namespace ouzel
         GetClientRect(window, &windowRect);
         size.width = static_cast<float>(windowRect.right - windowRect.left);
         size.height = static_cast<float>(windowRect.bottom - windowRect.top);
+        resolution = size;
 
         if (!RegisterTouchWindow(window, 0))
         {
