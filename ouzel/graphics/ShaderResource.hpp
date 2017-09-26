@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/Shader.hpp"
 #include "math/Vector3.hpp"
 #include "math/Vector4.hpp"
@@ -18,7 +18,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class ShaderResource: public Resource
+        class ShaderResource: public RenderResource
         {
             friend Renderer;
         public:

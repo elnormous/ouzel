@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <mutex>
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/Buffer.hpp"
 
 namespace ouzel
@@ -14,7 +14,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class BufferResource: public Resource
+        class BufferResource: public RenderResource
         {
             friend Renderer;
         public:

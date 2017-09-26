@@ -684,9 +684,9 @@
 		305B99A21C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A31C42A97E008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
 		305B99A41C42A97F008589E1 /* BMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B999A1C42A695008589E1 /* BMFont.cpp */; };
-		305BDDDF1F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
-		305BDDE01F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
-		305BDDE11F27F6BC00BD4969 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* Resource.hpp */; };
+		305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
+		305BDDE01F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
+		305BDDE11F27F6BC00BD4969 /* RenderResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */; };
 		30673DD31F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
 		30673DD41F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
 		30673DD51F7A694F00EAFAB0 /* WindowResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */; };
@@ -1194,7 +1194,7 @@
 		305B99901C41F06F008589E1 /* Widget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Widget.hpp; sourceTree = "<group>"; };
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
-		305BDDDB1F27F6BC00BD4969 /* Resource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Resource.hpp; sourceTree = "<group>"; };
+		305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderResource.hpp; sourceTree = "<group>"; };
 		30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowResource.cpp; sourceTree = "<group>"; };
 		30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WindowResource.hpp; sourceTree = "<group>"; };
 		306A26B11F5DD17700E2B0B6 /* Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Listener.cpp; sourceTree = "<group>"; };
@@ -1571,7 +1571,7 @@
 				30C758B41F4A0309008499DC /* RenderDevice.hpp */,
 				304A8E3E1C237C70008B1151 /* Renderer.cpp */,
 				304A8E3F1C237C70008B1151 /* Renderer.hpp */,
-				305BDDDB1F27F6BC00BD4969 /* Resource.hpp */,
+				305BDDDB1F27F6BC00BD4969 /* RenderResource.hpp */,
 				303696EA1E32DE08007F4211 /* Shader.cpp */,
 				303696EB1E32DE08007F4211 /* Shader.hpp */,
 				304A8E421C237C70008B1151 /* ShaderResource.cpp */,
@@ -2083,7 +2083,7 @@
 				3031C13F1F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
 				3082C3991D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30575AC91C3B17540009C8A7 /* Button.hpp in Headers */,
-				305BDDDF1F27F6BC00BD4969 /* Resource.hpp in Headers */,
+				305BDDDF1F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				30324E181CB2898E00601A64 /* BlendStateResource.hpp in Headers */,
 				3082C3BA1D9565DE0090FC9D /* TextureVSGL3.h in Headers */,
 				303B75391C2A3C8200FEDE92 /* Engine.hpp in Headers */,
@@ -2255,7 +2255,7 @@
 				3082C3BF1D9565DE0090FC9D /* TextureVSGLES2.h in Headers */,
 				3082C39B1D9565DE0090FC9D /* ColorPSGLES2.h in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
-				305BDDE11F27F6BC00BD4969 /* Resource.hpp in Headers */,
+				305BDDE11F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				30575ACA1C3B17540009C8A7 /* Button.hpp in Headers */,
 				30324E191CB2898E00601A64 /* BlendStateResource.hpp in Headers */,
 				306A26C81F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
@@ -2460,7 +2460,7 @@
 				304A8E691C237C70008B1151 /* ShaderResource.hpp in Headers */,
 				303821371D81876E00677CAB /* BlendStateResourceEmpty.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
-				305BDDE01F27F6BC00BD4969 /* Resource.hpp in Headers */,
+				305BDDE01F27F6BC00BD4969 /* RenderResource.hpp in Headers */,
 				3049DCE41EDCD0450000997A /* CursorResource.hpp in Headers */,
 				30575AA11C39CB790009C8A7 /* Scene.hpp in Headers */,
 				3038215B1D81876E00677CAB /* TextureResourceEmpty.hpp in Headers */,

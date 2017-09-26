@@ -9,11 +9,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Resource: public Noncopyable
+        class RenderResource: public Noncopyable
         {
         public:
-            Resource() {}
-            virtual ~Resource() {}
+            RenderResource() {}
+            virtual ~RenderResource() {}
 
             virtual bool reload() { return true; }
         };

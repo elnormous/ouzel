@@ -910,7 +910,7 @@
     <ClInclude Include="..\ouzel\DefaultConfig.h">
       <Filter>ouzel</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\Resource.hpp">
+    <ClInclude Include="..\ouzel\graphics\RenderResource.hpp">
       <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\core\WindowResource.hpp">

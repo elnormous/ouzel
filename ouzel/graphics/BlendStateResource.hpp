@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdint>
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 
 #pragma once
@@ -13,7 +13,7 @@ namespace ouzel
     {
         class Renderer;
 
-        class BlendStateResource: public Resource
+        class BlendStateResource: public RenderResource
         {
             friend Renderer;
         public:

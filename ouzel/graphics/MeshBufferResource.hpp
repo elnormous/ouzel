@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/Vertex.hpp"
 
 namespace ouzel
@@ -13,7 +13,7 @@ namespace ouzel
         class Renderer;
         class BufferResource;
 
-        class MeshBufferResource: public Resource
+        class MeshBufferResource: public RenderResource
         {
             friend Renderer;
         public:

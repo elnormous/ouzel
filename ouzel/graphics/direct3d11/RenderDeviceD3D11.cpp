@@ -949,7 +949,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceD3D11(this);
-            resources.push_back(std::unique_ptr<Resource>(blendState));
+            resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
@@ -958,7 +958,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceD3D11(this);
-            resources.push_back(std::unique_ptr<Resource>(texture));
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }
 
@@ -967,7 +967,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceD3D11(this);
-            resources.push_back(std::unique_ptr<Resource>(shader));
+            resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
@@ -976,7 +976,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
-            resources.push_back(std::unique_ptr<Resource>(meshBuffer));
+            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
             return meshBuffer;
         }
 

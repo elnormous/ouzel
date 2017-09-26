@@ -86,7 +86,7 @@ namespace ouzel
             // refills the draw queue
             refillQueue = true;
 
-            std::vector<std::unique_ptr<Resource>> deleteResources; // will be cleared at the end of the scope
+            std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
                 std::lock_guard<std::mutex> lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
@@ -134,11 +134,11 @@ namespace ouzel
             return std::vector<Size2>();
         }
 
-        void RenderDevice::deleteResource(Resource* resource)
+        void RenderDevice::deleteResource(RenderResource* resource)
         {
             std::lock_guard<std::mutex> lock(resourceMutex);
 
-            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<Resource>& ptr) {
+            auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<RenderResource>& ptr) {
                 return ptr.get() == resource;
             });
 

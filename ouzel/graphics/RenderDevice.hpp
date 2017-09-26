@@ -6,7 +6,7 @@
 #include "utils/Noncopyable.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
@@ -134,7 +134,7 @@ namespace ouzel
             virtual ShaderResource* createShader() = 0;
             virtual MeshBufferResource* createMeshBuffer() = 0;
             virtual BufferResource* createBuffer() = 0;
-            virtual void deleteResource(Resource* resource);
+            virtual void deleteResource(RenderResource* resource);
 
             virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
             virtual bool generateScreenshot(const std::string& filename);
@@ -171,8 +171,8 @@ namespace ouzel
             bool clearDepthBuffer = false;
 
             std::mutex resourceMutex;
-            std::vector<std::unique_ptr<Resource>> resources;
-            std::vector<std::unique_ptr<Resource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<RenderResource>> resources;
+            std::vector<std::unique_ptr<RenderResource>> resourceDeleteSet;
 
             uint32_t drawCallCount = 0;
 

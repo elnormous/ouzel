@@ -43,7 +43,7 @@
 #include "graphics/MeshBufferResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/Resource.hpp"
+#include "graphics/RenderResource.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/ShaderResource.hpp"
 #include "graphics/Texture.hpp"
