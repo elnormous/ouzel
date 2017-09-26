@@ -323,7 +323,7 @@ namespace ouzel
         }
 
         if (!renderer->init(window.get(),
-                            window->getSize() * window->getContentScale(),
+                            window->getResolution(),
                             sampleCount,
                             textureFilter,
                             maxAnisotropy,

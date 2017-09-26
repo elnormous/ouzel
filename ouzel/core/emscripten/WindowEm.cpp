@@ -52,6 +52,8 @@ namespace ouzel
             if (size.height <= 0.0f) size.height = static_cast<float>(height);
         }
 
+        resolution = size;
+
         emscripten_set_canvas_size(static_cast<int>(size.width),
                                    static_cast<int>(size.height));
 

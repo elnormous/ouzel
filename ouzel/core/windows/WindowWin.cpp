@@ -476,6 +476,12 @@ namespace ouzel
             AdjustWindowRect(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE);
 
             SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags);
+
+            Event resolutionChangeEvent;
+            resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+            resolutionChangeEvent.windowEvent.window = this;
+            resolutionChangeEvent.windowEvent.size = newSize;
+            sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
         });
 
         Window::setSize(newSize);

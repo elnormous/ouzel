@@ -20,19 +20,20 @@ namespace ouzel
 
         virtual void close();
 
-        virtual const Size2& getSize() const { return size; }
+        const Size2& getSize() const { return size; }
         virtual void setSize(const Size2& newSize);
-        virtual bool getResizable() const { return resizable; }
+
+        const Size2& getResolution() const { return resolution; }
+
+        bool getResizable() const { return resizable; }
 
         virtual void setFullscreen(bool newFullscreen);
-        virtual bool isFullscreen() const { return fullscreen; }
+        bool isFullscreen() const { return fullscreen; }
 
         bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
-        virtual const std::string& getTitle() const { return title; }
+        const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
-
-        float getContentScale() const { return contentScale; }
 
         Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {
@@ -71,13 +72,13 @@ namespace ouzel
         bool handleWindowChange(Event::Type type, const WindowEvent& event);
 
         Size2 size;
+        Size2 resolution;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true;
 
         std::string title;
-        float contentScale = 1.0f;
 
         ouzel::EventHandler eventHandler;
     };

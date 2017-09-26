@@ -64,7 +64,6 @@ namespace ouzel
     {
         Window* window = nullptr;
         Size2 size;
-        float contentScale = 1.0f;
         std::string title;
         bool fullscreen = false;
         uint32_t screenId = 0;
@@ -142,7 +141,6 @@ namespace ouzel
             WINDOW_TITLE_CHANGE,
             FULLSCREEN_CHANGE,
             SCREEN_CHANGE,
-            CONTENT_SCALE_CHANGE,
             RESOLUTION_CHANGE,
 
             // system events

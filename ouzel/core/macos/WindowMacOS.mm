@@ -196,17 +196,16 @@ namespace ouzel
         window.contentView = view;
         [window makeKeyAndOrderFront:nil];
 
+        size.width = static_cast<float>(windowSize.width);
+        size.height = static_cast<float>(windowSize.height);
+
         if (highDpi)
         {
-            contentScale = static_cast<float>(window.backingScaleFactor);
-
-            size.width = static_cast<float>(windowSize.width);
-            size.height = static_cast<float>(windowSize.height);
+            resolution = size;
         }
         else
         {
-            size.width = static_cast<float>(windowSize.width * window.backingScaleFactor);
-            size.height = static_cast<float>(windowSize.height * window.backingScaleFactor);
+            resolution = size * static_cast<float>(window.backingScaleFactor);
         }
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
@@ -257,14 +256,28 @@ namespace ouzel
         sharedEngine->executeOnMainThread([this, newSize] {
             NSRect frame = [window frame];
 
-            NSRect newFrame = [NSWindow frameRectForContentRect:
-                               NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
+            NSRect newFrame = [NSWindow frameRectForContentRect:NSMakeRect(NSMinX(frame), NSMinY(frame), newSize.width, newSize.height)
                                                       styleMask:[window styleMask]];
 
             if (frame.size.width != newFrame.size.width ||
                 frame.size.height != newFrame.size.height)
             {
                 [window setFrame:newFrame display:YES animate:NO];
+
+                Event resolutionChangeEvent;
+                resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+                resolutionChangeEvent.windowEvent.window = this;
+                if (highDpi)
+                {
+                    resolutionChangeEvent.windowEvent.size = Size2(static_cast<float>(newFrame.size.width),
+                                                                   static_cast<float>(newFrame.size.height));
+                }
+                else
+                {
+                    resolutionChangeEvent.windowEvent.size = Size2(static_cast<float>(newFrame.size.width * window.backingScaleFactor),
+                                                                   static_cast<float>(newFrame.size.height * window.backingScaleFactor));
+                }
+                sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
             }
         });
 
@@ -355,27 +368,26 @@ namespace ouzel
         NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                styleMask:window.styleMask];
 
-        Size2 newSize;
-
-        if (highDpi)
-        {
-            newSize = Size2(static_cast<float>(frame.size.width), static_cast<float>(frame.size.height));
-        }
-        else
-        {
-            newSize = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor), static_cast<float>(frame.size.height * window.backingScaleFactor));
-        }
-
         Event sizeChangeEvent;
         sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
         sizeChangeEvent.windowEvent.window = this;
-        sizeChangeEvent.windowEvent.size = newSize;
+        sizeChangeEvent.windowEvent.size = Size2(static_cast<float>(frame.size.width),
+                                                 static_cast<float>(frame.size.height));
         sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
 
         Event resolutionChangeEvent;
         resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
         resolutionChangeEvent.windowEvent.window = this;
-        resolutionChangeEvent.windowEvent.size = newSize;
+        if (highDpi)
+        {
+            resolutionChangeEvent.windowEvent.size = Size2(static_cast<float>(frame.size.width),
+                                                           static_cast<float>(frame.size.height));
+        }
+        else
+        {
+            resolutionChangeEvent.windowEvent.size = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor),
+                                                           static_cast<float>(frame.size.height * window.backingScaleFactor));
+        }
         sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
     }
 
@@ -399,25 +411,16 @@ namespace ouzel
     {
         if (highDpi)
         {
-            Event event;
-            event.type = Event::Type::CONTENT_SCALE_CHANGE;
-
-            event.windowEvent.window = this;
-            event.windowEvent.contentScale = static_cast<float>(window.backingScaleFactor);
-
-            sharedEngine->getEventDispatcher()->postEvent(event);
-        }
-        else
-        {
             NSRect frame = [NSWindow contentRectForFrameRect:window.frame
                                                    styleMask:window.styleMask];
 
+            Size2 windowSize(static_cast<float>(frame.size.width), static_cast<float>(frame.size.height));
+
             Event event;
-            event.type = Event::Type::WINDOW_SIZE_CHANGE;
+            event.type = Event::Type::RESOLUTION_CHANGE;
 
             event.windowEvent.window = this;
-            event.windowEvent.size = Size2(static_cast<float>(frame.size.width * window.backingScaleFactor),
-                                           static_cast<float>(frame.size.height * window.backingScaleFactor));
+            event.windowEvent.size = windowSize * static_cast<float>(window.backingScaleFactor);
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }

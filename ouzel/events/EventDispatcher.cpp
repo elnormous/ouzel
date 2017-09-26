@@ -116,7 +116,6 @@ namespace ouzel
                         case Event::Type::WINDOW_SIZE_CHANGE:
                         case Event::Type::WINDOW_TITLE_CHANGE:
                         case Event::Type::FULLSCREEN_CHANGE:
-                        case Event::Type::CONTENT_SCALE_CHANGE:
                         case Event::Type::SCREEN_CHANGE:
                         case Event::Type::RESOLUTION_CHANGE:
                             if (eventHandler->windowHandler)

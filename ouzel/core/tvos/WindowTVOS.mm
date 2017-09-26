@@ -119,7 +119,11 @@ namespace ouzel
 
         if (highDpi)
         {
-            contentScale = static_cast<float>(screen.scale);
+            resolution = size * static_cast<float>(screen.scale);
+        }
+        else
+        {
+            resolution = size;
         }
 
         return true;

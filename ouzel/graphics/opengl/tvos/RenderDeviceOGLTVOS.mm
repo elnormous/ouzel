@@ -48,7 +48,7 @@ namespace ouzel
             eaglLayer.opaque = YES;
             eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-            eaglLayer.contentsScale = newWindow->getContentScale();
+            //eaglLayer.contentsScale = newWindow->getContentScale();
 
             context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 

@@ -48,6 +48,7 @@ namespace ouzel
 
         size.width = static_cast<float>(screenWidth);
         size.height = static_cast<float>(screenHeight);
+        resolution = size;
 
         return true;
     }

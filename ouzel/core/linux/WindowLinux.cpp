@@ -75,7 +75,9 @@ namespace ouzel
         if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
         if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
 
-        switch(sharedEngine->getRenderer()->getDevice()->getDriver())
+        resolution = size;
+
+        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
             {
@@ -187,6 +189,12 @@ namespace ouzel
                 changes.width = static_cast<int>(newSize.width);
                 changes.height = static_cast<int>(newSize.height);
                 XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+
+                Event resolutionChangeEvent;
+                resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
+                resolutionChangeEvent.windowEvent.window = this;
+                resolutionChangeEvent.windowEvent.size = newSize;
+                sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
             });
         }
 

@@ -55,8 +55,6 @@ namespace ouzel
             event.windowEvent.fullscreen = fullscreen;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
-
-            sharedEngine->getRenderer()->setSize(size * getContentScale());
         }
     }
 
@@ -106,12 +104,9 @@ namespace ouzel
             case Event::Type::FULLSCREEN_CHANGE:
                 fullscreen = event.fullscreen;
                 break;
-            case Event::Type::CONTENT_SCALE_CHANGE:
-                contentScale = event.contentScale;
-                sharedEngine->getRenderer()->setSize(size * contentScale);
-                break;
             case Event::Type::RESOLUTION_CHANGE:
-                sharedEngine->getRenderer()->setSize(event.size * contentScale);
+                resolution = event.size;
+                sharedEngine->getRenderer()->setSize(resolution);
                 break;
             default:
                 break;
