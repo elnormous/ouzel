@@ -55,7 +55,7 @@ namespace ouzel
         {
             XEvent event;
 
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
             input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
 
             while (active)
@@ -129,13 +129,13 @@ namespace ouzel
                             if (event.type == ButtonPress)
                             {
                                 input->mouseButtonPress(button,
-                                                        window->convertWindowToNormalizedLocation(pos),
+                                                        window.convertWindowToNormalizedLocation(pos),
                                                         input::InputLinux::getModifiers(event.xbutton.state));
                             }
                             else
                             {
                                 input->mouseButtonRelease(button,
-                                                          window->convertWindowToNormalizedLocation(pos),
+                                                          window.convertWindowToNormalizedLocation(pos),
                                                           input::InputLinux::getModifiers(event.xbutton.state));
                             }
                             break;
@@ -145,7 +145,7 @@ namespace ouzel
                             Vector2 pos(static_cast<float>(event.xmotion.x),
                                         static_cast<float>(event.xmotion.y));
 
-                            input->mouseMove(window->convertWindowToNormalizedLocation(pos),
+                            input->mouseMove(window.convertWindowToNormalizedLocation(pos),
                                              input::InputLinux::getModifiers(event.xmotion.state));
 
                             break;
@@ -196,7 +196,7 @@ namespace ouzel
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
         executeOnMainThread([this, newScreenSaverEnabled]() {
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
 
             XScreenSaverSuspend(windowLinux->getDisplay(), !newScreenSaverEnabled);
         });
