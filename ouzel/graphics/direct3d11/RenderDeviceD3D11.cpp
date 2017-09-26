@@ -985,7 +985,7 @@ namespace ouzel
             std::lock_guard<std::mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceD3D11(this);
-            resources.push_back(std::unique_ptr<Resource>(buffer));
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 
