@@ -19,7 +19,7 @@ namespace ouzel
         virtual ~EngineAndroid();
 
         void onCreate(jobject aMainActivity);
-        void onSurfaceCreated(jobject aSurface, const Size2& surfaceSize);
+        void onSurfaceCreated(jobject aSurface);
         void onSurfaceDestroyed();
 
         virtual int run() override;

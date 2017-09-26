@@ -178,8 +178,6 @@ namespace ouzel
             Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
                                          static_cast<float>(frameBufferHeight));
 
-            newWindow->setSize(backBufferSize);
-
             if (!RenderDeviceOGL::init(newWindow,
                                        backBufferSize,
                                        newSampleCount,
@@ -310,11 +308,6 @@ namespace ouzel
 
             frameBufferWidth = surfaceWidth;
             frameBufferHeight = surfaceHeight;
-
-            Size2 backBufferSize = Size2(static_cast<float>(frameBufferWidth),
-                                         static_cast<float>(frameBufferHeight));
-
-            windowAndroid->setSize(backBufferSize);
 
             stateCache = StateCache();
 

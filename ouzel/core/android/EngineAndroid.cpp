@@ -134,7 +134,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::onSurfaceCreated(jobject aSurface, const Size2&)
+    void EngineAndroid::onSurfaceCreated(jobject aSurface)
     {
         JNIEnv* jniEnv;
 

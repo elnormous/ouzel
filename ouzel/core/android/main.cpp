@@ -28,9 +28,9 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onCrea
     engine->onCreate(mainActivity);
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface, jint width, jint height)
+extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
 {
-    engine->onSurfaceCreated(surface, ouzel::Size2(static_cast<float>(width), static_cast<float>(height)));
+    engine->onSurfaceCreated(surface);
 
     if (!engine->isActive()) engine->run();
 }
