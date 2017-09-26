@@ -3,7 +3,10 @@
 
 package org.ouzelengine;
 
+import com.sun.javafx.font.directwrite.RECT;
+
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -47,7 +50,8 @@ public class View extends SurfaceView implements SurfaceHolder.Callback
 
     @Override public void surfaceCreated(SurfaceHolder holder)
     {
-        OuzelLibJNIWrapper.onSurfaceCreated(holder.getSurface());
+        Rect surfaceFrame = holder.getSurfaceFrame();
+        OuzelLibJNIWrapper.onSurfaceCreated(holder.getSurface(), surfaceFrame.right - surfaceFrame.left, surfaceFrame.bottom - surfaceFrame.top);
     }
 
     @Override public void surfaceDestroyed(SurfaceHolder holder)
