@@ -916,6 +916,9 @@
     <ClInclude Include="..\ouzel\core\WindowResource.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\core\Platform.h">
+      <Filter>ouzel\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
