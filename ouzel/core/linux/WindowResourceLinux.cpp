@@ -83,12 +83,13 @@ namespace ouzel
             {
                 XSetWindowAttributes swa;
                 swa.background_pixel = XWhitePixel(display, screenIndex);
+                swa.border_pixel = 0;
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
                 window = XCreateWindow(display, RootWindow(display, screenIndex), 0, 0,
                                        static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                        0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
-                                       CWBackPixel | CWEventMask, &swa);
+                                       CWBorderPixel | CWBackPixel | CWEventMask, &swa);
 
                 break;
             }
@@ -182,31 +183,25 @@ namespace ouzel
     {
         WindowResource::setSize(newSize);
 
-        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        XWindowChanges changes;
+        changes.width = static_cast<int>(newSize.width);
+        changes.height = static_cast<int>(newSize.height);
+        XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+
+        resolution = size;
+
+        std::unique_lock<std::mutex> lock(listenerMutex);
+        if (listener)
         {
-            XWindowChanges changes;
-            changes.width = static_cast<int>(newSize.width);
-            changes.height = static_cast<int>(newSize.height);
-            XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
-
-            resolution = size;
-
-            std::unique_lock<std::mutex> lock(listenerMutex);
-            if (listener)
-            {
-                listener->onResolutionChange(resolution);
-            }
+            listener->onResolutionChange(resolution);
         }
     }
 
     void WindowResourceLinux::setFullscreen(bool newFullscreen)
     {
-        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (fullscreen != newFullscreen)
         {
-            if (fullscreen != newFullscreen)
-            {
-                toggleFullscreen();
-            }
+            toggleFullscreen();
         }
 
         WindowResource::setFullscreen(newFullscreen);
@@ -214,12 +209,9 @@ namespace ouzel
 
     void WindowResourceLinux::setTitle(const std::string& newTitle)
     {
-        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (title != newTitle)
         {
-            if (title != newTitle)
-            {
-                XStoreName(display, window, newTitle.c_str());
-            }
+            XStoreName(display, window, newTitle.c_str());
         }
 
         WindowResource::setTitle(newTitle);
@@ -227,28 +219,25 @@ namespace ouzel
 
     bool WindowResourceLinux::toggleFullscreen()
     {
-        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::OPENGL)
+        if (!state || !stateFullscreen)
         {
-            if (!state || !stateFullscreen)
-            {
-                return false;
-            }
+            return false;
+        }
 
-            XEvent event;
-            event.type = ClientMessage;
-            event.xclient.window = window;
-            event.xclient.message_type = state;
-            event.xclient.format = 32;
-            event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
-            event.xclient.data.l[1] = stateFullscreen;
-            event.xclient.data.l[2] = 0; // no second property to toggle
-            event.xclient.data.l[3] = 1; // source indication: application
-            event.xclient.data.l[4] = 0; // unused
+        XEvent event;
+        event.type = ClientMessage;
+        event.xclient.window = window;
+        event.xclient.message_type = state;
+        event.xclient.format = 32;
+        event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
+        event.xclient.data.l[1] = stateFullscreen;
+        event.xclient.data.l[2] = 0; // no second property to toggle
+        event.xclient.data.l[3] = 1; // source indication: application
+        event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-            {
-                Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
-            }
+        if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
+        {
+            Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
         }
 
         return true;

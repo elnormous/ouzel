@@ -64,8 +64,15 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
-        updateCondition.notify_one();
-        if (updateThread.joinable()) updateThread.join();
+        if (updateThread.joinable())
+        {
+            {
+                std::unique_lock<std::mutex> lock(updateMutex);
+                updateCondition.notify_one();
+            }
+            
+            updateThread.join();
+        }
 #endif
 
         for (UpdateCallback* updateCallback : updateCallbackAddSet)
@@ -427,9 +434,11 @@ namespace ouzel
             eventDispatcher.postEvent(event);
 
             previousUpdateTime = std::chrono::steady_clock::now();
+
             paused = false;
 
 #if OUZEL_MULTITHREADED
+            std::unique_lock<std::mutex> lock(updateMutex);
             updateCondition.notify_one();
 #endif
         }
@@ -452,7 +461,11 @@ namespace ouzel
         if (updateThread.joinable() &&
             updateThread.get_id() != std::this_thread::get_id())
         {
-            updateCondition.notify_one();
+            {
+                std::unique_lock<std::mutex> lock(updateMutex);
+                updateCondition.notify_one();
+            }
+
             updateThread.join();
         }
 #endif
