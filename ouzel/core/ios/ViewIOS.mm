@@ -13,11 +13,14 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
+        CGFloat force = 0.0;
+        if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
+            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
         ouzel::sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                        static_cast<float>(location.y))),
-                                                    (touch.maximumPossibleForce > 0.0f) ? static_cast<float>(touch.force / touch.maximumPossibleForce) : 0.0f);
+                                                    static_cast<float>(force));
     }
 }
 
@@ -26,11 +29,14 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
+        CGFloat force = 0.0;
+        if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
+            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
         ouzel::sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
                                                    ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                       static_cast<float>(location.y))),
-                                                   (touch.maximumPossibleForce > 0.0f) ? static_cast<float>(touch.force / touch.maximumPossibleForce) : 0.0f);
+                                                   static_cast<float>(force));
     }
 }
 
@@ -39,11 +45,14 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
+        CGFloat force = 0.0;
+        if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
+            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
         ouzel::sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                      static_cast<float>(location.y))),
-                                                  (touch.maximumPossibleForce > 0.0f) ? static_cast<float>(touch.force / touch.maximumPossibleForce) : 0.0f);
+                                                  static_cast<float>(force));
     }
 }
 
@@ -52,11 +61,14 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
+        CGFloat force = 0.0;
+        if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
+            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
         ouzel::sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
                                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                         static_cast<float>(location.y))),
-                                                     (touch.maximumPossibleForce > 0.0f) ? static_cast<float>(touch.force / touch.maximumPossibleForce) : 0.0f);
+                                                     static_cast<float>(force));
     }
 }
 
