@@ -19,10 +19,7 @@
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
 {
-    if (ouzel::sharedEngine)
-    {
-        ouzel::sharedEngine->start();
-    }
+    ouzel::sharedEngine->start();
 }
 
 -(void)applicationWillTerminate:(__unused NSNotification*)notification
@@ -80,9 +77,7 @@ namespace ouzel
         {
             NSApplication* application = [NSApplication sharedApplication];
             [application activateIgnoringOtherApps:YES];
-
-            AppDelegate* appDelegate = [[[AppDelegate alloc] init] autorelease];
-            [application setDelegate:appDelegate];
+            [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
             [application run];
         }
 

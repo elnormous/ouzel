@@ -112,8 +112,6 @@ namespace ouzel
 #endif
 
         graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
-        audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
-
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
         graphics::Texture::Filter textureFilter = graphics::Texture::Filter::POINT;
@@ -125,6 +123,7 @@ namespace ouzel
         bool debugRenderer = false;
         bool exclusiveFullscreen = false;
         bool highDpi = true; // should high DPI resolution be used
+        audio::Audio::Driver audioDriver = audio::Audio::Driver::DEFAULT;
         bool debugAudio = false;
 
         defaultSettings.init("settings.ini");
@@ -157,49 +156,6 @@ namespace ouzel
             else
             {
                 ouzel::Log(ouzel::Log::Level::WARN) << "Invalid graphics driver specified";
-                return false;
-            }
-        }
-
-        std::string audioDriverValue = userSettings.getValue("engine", "audioDriver", defaultSettings.getValue("engine", "audioDriver"));
-
-        if (!audioDriverValue.empty())
-        {
-            if (audioDriverValue == "default")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
-            }
-            else if (audioDriverValue == "empty")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::EMPTY;
-            }
-            else if (audioDriverValue == "openal")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::OPENAL;
-            }
-            else if (audioDriverValue == "directsound")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
-            }
-            else if (audioDriverValue == "xaudio2")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
-            }
-            else if (audioDriverValue == "opensl")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::OPENSL;
-            }
-            else if (audioDriverValue == "coreaudio")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
-            }
-            else if (audioDriverValue == "alsa")
-            {
-                audioDriver = ouzel::audio::Audio::Driver::ALSA;
-            }
-            else
-            {
-                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
                 return false;
             }
         }
@@ -262,6 +218,49 @@ namespace ouzel
 
         std::string highDpiValue = userSettings.getValue("engine", "highDpi", defaultSettings.getValue("engine", "highDpi"));
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
+
+        std::string audioDriverValue = userSettings.getValue("engine", "audioDriver", defaultSettings.getValue("engine", "audioDriver"));
+
+        if (!audioDriverValue.empty())
+        {
+            if (audioDriverValue == "default")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::DEFAULT;
+            }
+            else if (audioDriverValue == "empty")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::EMPTY;
+            }
+            else if (audioDriverValue == "openal")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::OPENAL;
+            }
+            else if (audioDriverValue == "directsound")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::DIRECTSOUND;
+            }
+            else if (audioDriverValue == "xaudio2")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::XAUDIO2;
+            }
+            else if (audioDriverValue == "opensl")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::OPENSL;
+            }
+            else if (audioDriverValue == "coreaudio")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::COREAUDIO;
+            }
+            else if (audioDriverValue == "alsa")
+            {
+                audioDriver = ouzel::audio::Audio::Driver::ALSA;
+            }
+            else
+            {
+                ouzel::Log(ouzel::Log::Level::WARN) << "Invalid audio driver specified";
+                return false;
+            }
+        }
 
         std::string debugAudioValue = userSettings.getValue("engine", "debugAudio", defaultSettings.getValue("engine", "debugAudio"));
         if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
