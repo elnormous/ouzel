@@ -28,8 +28,15 @@ namespace ouzel
         {
             running = false;
 
-            fillDataCondition.notify_one();
-            if (audioThread.joinable()) audioThread.join();
+            if (audioThread.joinable())
+            {
+                {
+                    std::unique_lock<std::mutex> lock(fillDataMutex);
+                    fillDataCondition.notify_one();
+                }
+
+                audioThread.join();
+            }
 
             if (sourceVoice) sourceVoice->DestroyVoice();
             if (masteringVoice) masteringVoice->DestroyVoice();
