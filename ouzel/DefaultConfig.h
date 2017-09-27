@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "core/Platform.h"
+
 #define OUZEL_ENABLE_OPENGL 1
 #define OUZEL_ENABLE_DIRECT3D11 1
 #define OUZEL_ENABLE_METAL 1

@@ -1232,6 +1232,7 @@
 		3082C3901D9565DE0090FC9D /* TextureVSGL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGL3.h; sourceTree = "<group>"; };
 		3082C3911D9565DE0090FC9D /* TextureVSGLES2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES2.h; sourceTree = "<group>"; };
 		3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES3.h; sourceTree = "<group>"; };
+		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3098A54B1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceALTVOS.hpp; sourceTree = "<group>"; };
 		3098A54C1E9FD6E900528A54 /* AudioDeviceALTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceALTVOS.mm; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOKit.hpp; sourceTree = "<group>"; };
@@ -1591,11 +1592,12 @@
 			children = (
 				30DADE9A1C5167BC001A63B4 /* Cache.cpp */,
 				30DADE9B1C5167BC001A63B4 /* Cache.hpp */,
-				304A8E871C248204008B1151 /* Setup.h */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.hpp */,
 				303B756F1C2A3D0300FEDE92 /* ios */,
 				303B751B1C29EDD900FEDE92 /* macos */,
+				30856EF81F7B289B00AA6222 /* Platform.h */,
+				304A8E871C248204008B1151 /* Setup.h */,
 				305B68D11ED1B31D003352A2 /* Timer.cpp */,
 				305B68D21ED1B31D003352A2 /* Timer.hpp */,
 				303B76311C355A3400FEDE92 /* tvos */,
