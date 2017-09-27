@@ -217,26 +217,28 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchBegin(uint64_t touchId, const Vector2& position)
+        void Input::touchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_BEGIN;
 
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
+            event.touchEvent.force = force;
 
             touchPositions[touchId] = position;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchEnd(uint64_t touchId, const Vector2& position)
+        void Input::touchEnd(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_END;
 
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
+            event.touchEvent.force = force;
 
             auto i = touchPositions.find(touchId);
 
@@ -248,7 +250,7 @@ namespace ouzel
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchMove(uint64_t touchId, const Vector2& position)
+        void Input::touchMove(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_MOVE;
@@ -256,19 +258,21 @@ namespace ouzel
             event.touchEvent.touchId = touchId;
             event.touchEvent.difference = position - touchPositions[touchId];
             event.touchEvent.position = position;
+            event.touchEvent.force = force;
 
             touchPositions[touchId] = position;
 
             sharedEngine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchCancel(uint64_t touchId, const Vector2& position)
+        void Input::touchCancel(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_CANCEL;
 
             event.touchEvent.touchId = touchId;
             event.touchEvent.position = position;
+            event.touchEvent.force = force;
 
             auto i = touchPositions.find(touchId);
 

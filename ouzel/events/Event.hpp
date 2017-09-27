@@ -46,6 +46,7 @@ namespace ouzel
         uint64_t touchId = 0;
         Vector2 difference;
         Vector2 position;
+        float force = 0.0f;
     };
 
     struct GamepadEvent
