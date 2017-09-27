@@ -32,6 +32,7 @@ namespace ouzel
             jmethodID getToolTypeMethod = nullptr;
             jmethodID getXMethod = nullptr;
             jmethodID getYMethod = nullptr;
+            jmethodID getPressureMethod = nullptr;
         };
     } // namespace input
 } // namespace ouzel
