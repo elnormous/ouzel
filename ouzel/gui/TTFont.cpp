@@ -221,7 +221,7 @@ namespace ouzel
                 nd.yOffset = static_cast<int16_t>(h - abs(yoff));
 
                 std::vector<uint8_t> currentBuffer(static_cast<size_t>(h * w));
-                std::copy(&bitmap[0], &bitmap[h * w], currentBuffer.begin());
+                std::copy(bitmap, bitmap + h * w, currentBuffer.begin());
 
                 glyphToBitmapData.emplace(c, std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), currentBuffer));
                 chars.emplace(c, nd);

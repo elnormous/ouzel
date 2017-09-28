@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include <iterator>
 #include "Matrix3.hpp"
 #include "MathUtils.hpp"
 
@@ -31,12 +32,12 @@ namespace ouzel
 
     Matrix3::Matrix3(const Matrix3& copy)
     {
-        std::copy(copy.m, copy.m + sizeof(copy.m) / sizeof(float), m);
+        std::copy(std::begin(copy.m), std::end(copy.m), m);
     }
 
     void Matrix3::createScale(const Vector2& scale, Matrix3& dst)
     {
-        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
+        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
 
         dst.m[0] = scale.x;
         dst.m[4] = scale.y;
@@ -44,7 +45,7 @@ namespace ouzel
 
     void Matrix3::createScale(float xScale, float yScale, Matrix3& dst)
     {
-        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
+        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
 
         dst.m[0] = xScale;
         dst.m[4] = yScale;
@@ -70,7 +71,7 @@ namespace ouzel
 
     void Matrix3::createTranslation(const Vector2& translation, Matrix3& dst)
     {
-        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
+        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
 
         dst.m[6] = translation.x;
         dst.m[7] = translation.y;
@@ -78,7 +79,7 @@ namespace ouzel
 
     void Matrix3::createTranslation(float xTranslation, float yTranslation, Matrix3& dst)
     {
-        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), dst.m);
+        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
 
         dst.m[6] = xTranslation;
         dst.m[7] = yTranslation;
@@ -214,7 +215,7 @@ namespace ouzel
         product[7]  = m1.m[1] * m2.m[6]  + m1.m[4] * m2.m[7] + m1.m[7]  * m2.m[8];
         product[8]  = m1.m[2] * m2.m[6]  + m1.m[5] * m2.m[7] + m1.m[8]  * m2.m[8];
 
-        std::copy(product, product + sizeof(product) / sizeof(float), dst.m);
+        std::copy(std::begin(product), std::end(product), dst.m);
     }
 
     void Matrix3::rotate(float angle)
@@ -284,7 +285,7 @@ namespace ouzel
 
     void Matrix3::setIdentity()
     {
-        std::copy(IDENTITY.m, IDENTITY.m + sizeof(IDENTITY.m) / sizeof(float), m);
+        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), m);
     }
 
     void Matrix3::setZero()
@@ -352,6 +353,6 @@ namespace ouzel
             m[1], m[4], m[7],
             m[2], m[5], m[8]
         };
-        std::copy(t, t + sizeof(t) / sizeof(float), dst.m);
+        std::copy(std::begin(t), std::end(t), dst.m);
     }
 }
