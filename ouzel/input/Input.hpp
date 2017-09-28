@@ -260,10 +260,10 @@ namespace ouzel
             virtual void mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers);
             virtual void mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers);
 
-            virtual void touchBegin(uint64_t touchId, const Vector2& position, float force = 0.0f);
-            virtual void touchEnd(uint64_t touchId, const Vector2& position, float force = 0.0f);
-            virtual void touchMove(uint64_t touchId, const Vector2& position, float force = 0.0f);
-            virtual void touchCancel(uint64_t touchId, const Vector2& position, float force = 0.0f);
+            virtual void touchBegin(uint64_t touchId, const Vector2& position, float force = 1.0f);
+            virtual void touchEnd(uint64_t touchId, const Vector2& position, float force = 1.0f);
+            virtual void touchMove(uint64_t touchId, const Vector2& position, float force = 1.0f);
+            virtual void touchCancel(uint64_t touchId, const Vector2& position, float force = 1.0f);
 
             virtual bool showVirtualKeyboard();
             virtual bool hideVirtualKeyboard();

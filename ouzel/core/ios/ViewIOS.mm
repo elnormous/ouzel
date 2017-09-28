@@ -13,7 +13,7 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        CGFloat force = 0.0;
+        CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
@@ -29,7 +29,7 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        CGFloat force = 0.0;
+        CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
@@ -45,7 +45,7 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        CGFloat force = 0.0;
+        CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
@@ -61,7 +61,7 @@
     for (UITouch* touch in touches)
     {
         CGPoint location = [touch locationInView:self];
-        CGFloat force = 0.0;
+        CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
