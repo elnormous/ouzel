@@ -15,7 +15,7 @@ namespace ouzel
     class Color
     {
     public:
-        enum: uint32_t
+        enum
         {
             BLACK = 0x000000ff,
             RED = 0xff0000ff,
