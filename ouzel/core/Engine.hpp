@@ -118,10 +118,8 @@ namespace ouzel
         std::atomic<bool> active;
         std::atomic<bool> paused;
 
-        // from application
         std::atomic<bool> screenSaverEnabled;
         std::vector<std::string> args;
-        // from application
     };
 
     extern Engine* sharedEngine;
