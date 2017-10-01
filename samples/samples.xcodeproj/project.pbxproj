@@ -281,6 +281,9 @@
 		30AFE1521CB5DD0400478AA2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		30B492A01CDF816F0021E170 /* ouzel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ouzel.xcodeproj; path = ../build/ouzel.xcodeproj; sourceTree = "<group>"; };
 		30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AmosisTechnik.ttf; sourceTree = "<group>"; };
+		30C2C33D1F817E5000B3AAC2 /* cube.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		30C2C3411F817E5100B3AAC2 /* cube.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
+		30C2C3421F817E5100B3AAC2 /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 		30C56C701CAB48A4007AEF8F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		30C56C711CAB48A4007AEF8F /* edit_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box.png; sourceTree = "<group>"; };
 		30C56C731CAB48A4007AEF8F /* radio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button.png; sourceTree = "<group>"; };
@@ -441,6 +444,9 @@
 				308493A11D63D0C100B7C515 /* button_selected.png */,
 				305B99B21C433061008589E1 /* button.png */,
 				30C56C701CAB48A4007AEF8F /* checkbox.png */,
+				30C2C3411F817E5100B3AAC2 /* cube.mtl */,
+				30C2C33D1F817E5000B3AAC2 /* cube.obj */,
+				30C2C3421F817E5100B3AAC2 /* cube.png */,
 				3049DCEE1EDF865B0000997A /* cursor.png */,
 				30C56C851CAB4E4E007AEF8F /* dot.png */,
 				30C56C711CAB48A4007AEF8F /* edit_box.png */,
