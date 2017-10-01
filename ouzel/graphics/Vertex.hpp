@@ -65,5 +65,19 @@ namespace ouzel
             VertexPCT();
             VertexPCT(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord);
         };
+
+        class VertexPCTN
+        {
+        public:
+            static const std::vector<VertexAttribute> ATTRIBUTES;
+
+            Vector3 position;
+            Color color;
+            Vector2 texCoord;
+            Vector3 normal;
+
+            VertexPCTN();
+            VertexPCTN(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord, const Vector3& aNormal);
+        };
     } // namespace graphics
 } // namespace ouzel
