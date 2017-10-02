@@ -106,7 +106,7 @@ namespace ouzel
 
             WindowResourceRasp* windowRasp = static_cast<WindowResourceRasp*>(newWindow->getResource());
 
-            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowRasp->getNativewindow()), nullptr);
+            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowRasp->getNativeWindow()), nullptr);
             if (surface == EGL_NO_SURFACE)
             {
                 Log(Log::Level::ERR) << "Failed to create EGL window surface, error: " << eglGetError();
