@@ -36,19 +36,28 @@ namespace ouzel
             return false;
         }
 
-        uint32_t screenWidth;
-        uint32_t screenHeight;
-        int32_t success = graphics_get_display_size(0, &screenWidth, &screenHeight);
+        DISPMANX_DISPLAY_HANDLE_T display = vc_dispmanx_display_open(0);
+        if (!display)
+        {
+            Log(Log::Level::ERR) << "Failed to open display";
+            return false;
+        }
+
+        DISPMANX_MODEINFO_T modeInfo;
+        int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
         {
             Log(Log::Level::ERR) << "Failed to get display size";
+            vc_dispmanx_display_close(display);
             return false;
         }
 
-        size.width = static_cast<float>(screenWidth);
-        size.height = static_cast<float>(screenHeight);
+        size.width = static_cast<float>(modeInfo.width);
+        size.height = static_cast<float>(modeInfo.height);
         resolution = size;
+
+        vc_dispmanx_display_close(display);
 
         return true;
     }
