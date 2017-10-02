@@ -104,35 +104,9 @@ namespace ouzel
                 return false;
             }
 
-            uint32_t width = static_cast<uint32_t>(newSize.width);
-            uint32_t height = static_cast<uint32_t>(newSize.height);
+            WindowResourceRasp* windowRasp = static_cast<WindowResourceRasp*>(newWindow->getResource());
 
-            VC_RECT_T dstRect;
-            dstRect.x = 0;
-            dstRect.y = 0;
-            dstRect.width = width;
-            dstRect.height = height;
-
-            VC_RECT_T srcRect;
-            srcRect.x = 0;
-            srcRect.y = 0;
-            srcRect.width = width;
-            srcRect.height = height;
-
-            DISPMANX_DISPLAY_HANDLE_T dispmanDisplay = vc_dispmanx_display_open(0);
-            DISPMANX_UPDATE_HANDLE_T dispmanUpdate = vc_dispmanx_update_start(0);
-
-            DISPMANX_ELEMENT_HANDLE_T dispmanElement = vc_dispmanx_element_add(dispmanUpdate, dispmanDisplay,
-                                                                               0, &dstRect, 0,
-                                                                               &srcRect, DISPMANX_PROTECTION_NONE,
-                                                                               0, 0, DISPMANX_NO_ROTATE);
-
-            nativewindow.element = dispmanElement;
-            nativewindow.width = width;
-            nativewindow.height = height;
-            vc_dispmanx_update_submit_sync(dispmanUpdate);
-
-            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&nativewindow), nullptr);
+            surface = eglCreateWindowSurface(display, config, reinterpret_cast<EGLNativeWindowType>(&windowRasp->getNativewindow()), nullptr);
             if (surface == EGL_NO_SURFACE)
             {
                 Log(Log::Level::ERR) << "Failed to create EGL window surface, error: " << eglGetError();
