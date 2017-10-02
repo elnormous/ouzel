@@ -40,7 +40,7 @@ namespace ouzel
         uint32_t screenHeight;
         int32_t success = graphics_get_display_size(0, &screenWidth, &screenHeight);
 
-        if (success == -1)
+        if (success < 0)
         {
             Log(Log::Level::ERR) << "Failed to get display size";
             return false;
