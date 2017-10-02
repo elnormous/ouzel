@@ -993,6 +993,18 @@ namespace ouzel
         {
             if (frameBufferWidth != newWidth || frameBufferHeight != newHeight)
             {
+                if (depthStencilTexture)
+                {
+                    depthStencilTexture->Release();
+                    depthStencilTexture = nullptr;
+                }
+
+                if (depthStencilView)
+                {
+                    depthStencilView->Release();
+                    depthStencilView = nullptr;
+                }
+
                 if (renderTargetView)
                 {
                     renderTargetView->Release();
@@ -1029,26 +1041,11 @@ namespace ouzel
                 D3D11_TEXTURE2D_DESC desc;
                 backBuffer->GetDesc(&desc);
 
-                frameBufferWidth = desc.Width;
-                frameBufferHeight = desc.Height;
-
-                if (depthStencilTexture)
-                {
-                    depthStencilTexture->Release();
-                    depthStencilTexture = nullptr;
-                }
-
-                if (depthStencilView)
-                {
-                    depthStencilView->Release();
-                    depthStencilView = nullptr;
-                }
-
                 if (depth)
                 {
                     D3D11_TEXTURE2D_DESC depthStencilDesc;
-                    depthStencilDesc.Width = frameBufferWidth;
-                    depthStencilDesc.Height = frameBufferHeight;
+                    depthStencilDesc.Width = desc.Width;
+                    depthStencilDesc.Height = desc.Height;
                     depthStencilDesc.MipLevels = 1;
                     depthStencilDesc.ArraySize = 1;
                     depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -1072,6 +1069,9 @@ namespace ouzel
                         return false;
                     }
                 }
+
+                frameBufferWidth = desc.Width;
+                frameBufferHeight = desc.Height;
             }
 
             return true;
