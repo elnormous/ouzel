@@ -161,9 +161,9 @@ namespace ouzel
             IDXGIDevice* dxgiDevice;
             IDXGIFactory* factory;
 
-            device->QueryInterface(IID_IDXGIDevice, (void**)&dxgiDevice);
-            dxgiDevice->GetParent(IID_IDXGIAdapter, (void**)&adapter);
-            hr = adapter->GetParent(IID_IDXGIFactory, (void**)&factory);
+            device->QueryInterface(IID_IDXGIDevice, reinterpret_cast<void**>(&dxgiDevice));
+            dxgiDevice->GetParent(IID_IDXGIAdapter, reinterpret_cast<void**>(&adapter));
+            hr = adapter->GetParent(IID_IDXGIFactory, reinterpret_cast<void**>(&factory));
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to get the DXGI factory, error: " << hr;
@@ -991,8 +991,7 @@ namespace ouzel
 
         bool RenderDeviceD3D11::resizeBackBuffer(UINT newWidth, UINT newHeight)
         {
-            if (frameBufferWidth != newWidth || newWidth == 0 ||
-                frameBufferHeight != newHeight || newHeight == 0)
+            if (frameBufferWidth != newWidth || frameBufferHeight != newHeight)
             {
                 if (renderTargetView)
                 {
@@ -1013,7 +1012,7 @@ namespace ouzel
                     return false;
                 }
 
-                hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)&backBuffer);
+                hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, reinterpret_cast<void**>(&backBuffer));
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to retrieve Direct3D 11 backbuffer, error: " << hr;
