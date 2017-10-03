@@ -49,6 +49,8 @@ namespace ouzel
         public:
             virtual ~RenderDeviceMetalMacOS();
 
+            virtual std::vector<Size2> getSupportedResolutions() const override;
+
             void renderCallback();
 
         private:

@@ -825,11 +825,6 @@ namespace ouzel
             return true;
         }
 
-        std::vector<Size2> RenderDeviceMetal::getSupportedResolutions() const
-        {
-            return std::vector<Size2>();
-        }
-
         bool RenderDeviceMetal::generateScreenshot(const std::string& filename)
         {
             if (!currentMetalTexture)
