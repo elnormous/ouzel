@@ -1168,11 +1168,6 @@ namespace ouzel
             return true;
         }
 
-        std::vector<Size2> RenderDeviceOGL::getSupportedResolutions() const
-        {
-            return std::vector<Size2>();
-        }
-
         bool RenderDeviceOGL::generateScreenshot(const std::string& filename)
         {
             bindFrameBuffer(frameBufferId);

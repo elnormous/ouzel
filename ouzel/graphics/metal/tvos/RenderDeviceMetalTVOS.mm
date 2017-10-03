@@ -58,11 +58,6 @@ namespace ouzel
 
             return true;
         }
-
-        std::vector<Size2> RenderDeviceMetalTVOS::getSupportedResolutions() const
-        {
-            return std::vector<Size2>();
-        }
     } // namespace graphics
 } // namespace ouzel
 

@@ -192,6 +192,26 @@ namespace ouzel
             [openGLContext update];
         }
 
+        std::vector<Size2> RenderDeviceOGLMacOS::getSupportedResolutions() const
+        {
+            std::vector<Size2> result;
+
+            CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
+            const CFIndex displayModeCount = CFArrayGetCount(displayModes);
+
+            for (CFIndex i = 0; i < displayModeCount; i++)
+            {
+                const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
+
+                result.push_back(Size2(static_cast<float>(CGDisplayModeGetWidth(displayMode)),
+                                       static_cast<float>(CGDisplayModeGetHeight(displayMode))));
+            }
+
+            CFRelease(displayModes);
+
+            return result;
+        }
+
         bool RenderDeviceOGLMacOS::lockContext()
         {
             [openGLContext makeCurrentContext];

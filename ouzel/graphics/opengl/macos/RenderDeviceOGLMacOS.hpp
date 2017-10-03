@@ -32,6 +32,8 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGLMacOS();
 
+            virtual std::vector<Size2> getSupportedResolutions() const override;
+
             NSOpenGLContextPtr getOpenGLContext() const { return openGLContext; }
 
             void renderCallback();

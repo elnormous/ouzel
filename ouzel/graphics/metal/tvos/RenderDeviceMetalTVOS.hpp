@@ -19,8 +19,6 @@ namespace ouzel
         public:
             virtual ~RenderDeviceMetalTVOS();
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
-
         private:
             virtual bool init(Window* newWindow,
                               const Size2& newSize,

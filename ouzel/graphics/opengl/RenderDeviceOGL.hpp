@@ -126,9 +126,6 @@ namespace ouzel
 
             virtual bool process() override;
 
-            virtual std::vector<Size2> getSupportedResolutions() const override;
-
-
             static inline bool checkOpenGLError(bool logError = true)
             {
                 GLenum error = glGetError();
