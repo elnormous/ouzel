@@ -32,9 +32,9 @@ InputSample::InputSample():
     flameParticleSystem->init("flame.json");
 
     flame.reset(new scene::Actor());
-    flame->addComponent(flameParticleSystem.get());
+    flame->addComponent(flameParticleSystem);
     flame->setPickable(false);
-    layer.addChild(flame.get());
+    layer.addChild(flame);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));

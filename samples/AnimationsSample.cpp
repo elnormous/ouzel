@@ -42,12 +42,12 @@ AnimationsSample::AnimationsSample():
                            Color("#ff0000"), false);
 
     drawActor.reset(new scene::Actor());
-    drawActor->addComponent(shapeDrawable.get());
+    drawActor->addComponent(shapeDrawable);
     drawActor->setPosition(Vector2(-300, 0.0f));
-    layer.addChild(drawActor.get());
+    layer.addChild(drawActor);
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
-    drawActor->addComponent(shake.get());
+    drawActor->addComponent(shake);
     shake->start();
 
     witchSprite.reset(new scene::Sprite());
@@ -55,8 +55,8 @@ AnimationsSample::AnimationsSample():
 
     witch.reset(new scene::Actor());
     witch->setPosition(Vector2(200, 0.0f));
-    witch->addComponent(witchSprite.get());
-    layer.addChild(witch.get());
+    witch->addComponent(witchSprite);
+    layer.addChild(witch);
 
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
     witchFade.reset(new scene::Fade(2.0f, 0.4f));
@@ -68,7 +68,7 @@ AnimationsSample::AnimationsSample():
 
     witchRotate.reset(new scene::Rotate(1.0f, Vector3(0.0f, 0.0f, TAU), false));
 
-    witchRepeat.reset(new scene::Repeat(witchRotate.get(), 3));
+    witchRepeat.reset(new scene::Repeat(witchRotate, 3));
     witchParallel.reset(new scene::Parallel(parallel));
 
     vector<scene::Animator*> sequence = {
@@ -78,19 +78,19 @@ AnimationsSample::AnimationsSample():
 
     witchSequence.reset(new scene::Sequence(sequence));
 
-    witch->addComponent(witchSequence.get());
+    witch->addComponent(witchSequence);
     witchSequence->start();
 
     ballSprite.reset(new scene::Sprite());
     ballSprite->init("ball.png");
 
     ball.reset(new scene::Actor());
-    ball->addComponent(ballSprite.get());
-    layer.addChild(ball.get());
+    ball->addComponent(ballSprite);
+    layer.addChild(ball);
 
     ballDelay.reset(new scene::Animator(1.0f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
-    ballEase.reset(new scene::Ease(ballMove.get(), scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
+    ballEase.reset(new scene::Ease(ballMove, scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
 
     vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
@@ -99,7 +99,7 @@ AnimationsSample::AnimationsSample():
      
     ballSequence.reset(new scene::Sequence(sequence2));
 
-    ball->addComponent(ballSequence.get());
+    ball->addComponent(ballSequence);
     ballSequence->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

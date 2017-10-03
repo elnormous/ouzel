@@ -16,7 +16,7 @@ RTSample::RTSample():
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     rtLayer.reset(new scene::Layer());
-    addLayer(rtLayer.get());
+    addLayer(rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
     renderTarget->init(Size2(256.0f, 256.0f), graphics::Texture::RENDER_TARGET, 0, 1);
@@ -25,7 +25,7 @@ RTSample::RTSample():
     rtCamera.reset(new scene::Camera());
     rtCamera->setRenderTarget(renderTarget);
 
-    rtLayer->addChild(rtCamera.get());
+    rtLayer->addChild(rtCamera);
 
     camera1.reset(new scene::Camera());
     camera1->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -37,23 +37,23 @@ RTSample::RTSample():
     camera2->setTargetContentSize(Size2(400.0f, 600.0f));
     camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
 
-    layer.addChild(camera1.get());
-    layer.addChild(camera2.get());
+    layer.addChild(camera1);
+    layer.addChild(camera2);
     addLayer(&layer);
 
     characterSprite.reset(new ouzel::scene::Sprite("run.json"));
     characterSprite->play(true);
 
     rtCharacter.reset(new scene::Actor());
-    rtCharacter->addComponent(characterSprite.get());
+    rtCharacter->addComponent(characterSprite);
 
-    rtLayer->addChild(rtCharacter.get());
+    rtLayer->addChild(rtCharacter);
 
     rtSprite.reset(new scene::Sprite());
     rtSprite->init(renderTarget);
     rtActor.reset(new scene::Actor());
-    rtActor->addComponent(rtSprite.get());
-    layer.addChild(rtActor.get());
+    rtActor->addComponent(rtSprite);
+    layer.addChild(rtActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));

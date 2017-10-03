@@ -40,8 +40,8 @@ PerspectiveSample::PerspectiveSample():
     floorSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
 
     floor.reset(new scene::Actor());
-    floor->addComponent(floorSprite.get());
-    layer.addChild(floor.get());
+    floor->addComponent(floorSprite);
+    layer.addChild(floor);
     floor->setPosition(Vector2(0.0f, -50.0f));
     floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
@@ -53,8 +53,8 @@ PerspectiveSample::PerspectiveSample():
     characterSprite->getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 
     character.reset(new scene::Actor());
-    character->addComponent(characterSprite.get());
-    layer.addChild(character.get());
+    character->addComponent(characterSprite);
+    layer.addChild(character);
     character->setPosition(Vector2(10.0f, 0.0f));
 
     jumpSound.reset(new audio::Sound());
@@ -64,7 +64,7 @@ PerspectiveSample::PerspectiveSample():
     jumpSound->setPosition(character->getPosition());
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
-    character->addComponent(rotate.get());
+    character->addComponent(rotate);
     rotate->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);

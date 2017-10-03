@@ -29,12 +29,12 @@ SpritesSample::SpritesSample():
     characterSprite->play(true);
 
     character.reset(new scene::Actor());
-    character->addComponent(characterSprite.get());
-    layer.addChild(character.get());
+    character->addComponent(characterSprite);
+    layer.addChild(character);
     character->setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character->addComponent(move.get());
+    character->addComponent(move);
     move->start();
 
     // fire
@@ -44,18 +44,18 @@ SpritesSample::SpritesSample():
     fireSprite->play(true);
 
     fireActor.reset(new scene::Actor());
-    fireActor->addComponent(fireSprite.get());
+    fireActor->addComponent(fireSprite);
     fireActor->setPosition(Vector2(-100.0f, -140.0f));
-    layer.addChild(fireActor.get());
+    layer.addChild(fireActor);
 
     // triangle
     triangleSprite.reset(new scene::Sprite());
     triangleSprite->init("triangle.json");
 
     triangleActor.reset(new scene::Actor());
-    triangleActor->addComponent(triangleSprite.get());
+    triangleActor->addComponent(triangleSprite);
     triangleActor->setPosition(Vector2(100.0f, -140.0f));
-    layer.addChild(triangleActor.get());
+    layer.addChild(triangleActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
