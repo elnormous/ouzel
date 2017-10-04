@@ -29,14 +29,23 @@ namespace ouzel
     {
         std::string path;
 
-        passwd* pw = getpwuid(getuid());
-        if (!pw)
-        {
-            Log(Log::Level::ERR) << "Failed to get home directory";
-            return "";
-        }
+        char* homeDirectory = getenv("XDG_DATA_HOME");
 
-        path = pw->pw_dir;
+        if (homeDirectory)
+        {
+            path = homeDirectory;
+        }
+        else
+        {
+            passwd* pw = getpwuid(getuid());
+            if (!pw)
+            {
+                Log(Log::Level::ERR) << "Failed to get home directory";
+                return "";
+            }
+
+            path = pw->pw_dir;
+        }
 
         path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
 
