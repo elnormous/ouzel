@@ -66,13 +66,13 @@
             event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT_UPSIDE_DOWN;
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT_REVERSE;
             break;
         case UIDeviceOrientationLandscapeLeft:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_LEFT;
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
             break;
         case UIDeviceOrientationLandscapeRight:
-            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_RIGHT;
+            event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_REVERSE;
             break;
         case UIDeviceOrientationFaceUp:
             event.systemEvent.orientation = ouzel::SystemEvent::Orientation::FACE_UP;

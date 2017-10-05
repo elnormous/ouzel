@@ -76,9 +76,9 @@ namespace ouzel
         {
             UNKNOWN,
             PORTRAIT,
-            PORTRAIT_UPSIDE_DOWN,
-            LANDSCAPE_LEFT,
-            LANDSCAPE_RIGHT,
+            PORTRAIT_REVERSE,
+            LANDSCAPE,
+            LANDSCAPE_REVERSE,
             FACE_UP,
             FACE_DOWN
         };

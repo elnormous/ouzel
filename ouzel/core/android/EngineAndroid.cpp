@@ -203,7 +203,7 @@ namespace ouzel
                     event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
                     break;
                 case ORIENTATION_LANDSCAPE:
-                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_LEFT;
+                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE;
                     break;
                 default:
                     event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
