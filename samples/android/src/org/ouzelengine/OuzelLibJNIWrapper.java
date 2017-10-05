@@ -4,6 +4,7 @@
 package org.ouzelengine;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.view.MotionEvent;
 import android.view.Surface;
 
@@ -22,7 +23,7 @@ public class OuzelLibJNIWrapper
     public static native void onStart();
     public static native void onPause();
     public static native void onResume();
-
+    public static native void onConfigurationChanged(Configuration newConfig);
     public static native void onLowMemory();
 
     public static native void onKeyDown(int keyCode);
