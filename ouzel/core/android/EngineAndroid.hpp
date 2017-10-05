@@ -19,8 +19,9 @@ namespace ouzel
         virtual ~EngineAndroid();
 
         void onCreate(jobject aMainActivity);
-        void onSurfaceCreated(jobject aSurface);
+        void onSurfaceCreated(jobject newSurface);
         void onSurfaceDestroyed();
+        void onConfigurationChanged(jobject newConfig);
 
         virtual int run() override;
 
@@ -51,6 +52,7 @@ namespace ouzel
         jmethodID intentConstructor = nullptr;
         jobject mainActivity = nullptr;
         jmethodID startActivityMethod = nullptr;
+        jclass configurationClass = nullptr;
         jobject surface = nullptr;
         AAssetManager* assetManager = nullptr;
         jobject androidWindow = nullptr;

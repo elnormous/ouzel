@@ -88,6 +88,16 @@ namespace ouzel
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
         startActivityMethod = jniEnv->GetMethodID(mainActivityClass, "startActivity", "(Landroid/content/Intent;)V");
 
+        // get resources
+        jclass resourcesClass = jniEnv->FindClass("android/content/res/Resources");
+        jmethodID getResourcesMethod = jniEnv->GetMethodID(mainActivityClass, "getResources", "()Landroid/content/res/Resources;");
+        jobject resourcesObject = jniEnv->CallObjectMethod(mainActivity, getResourcesMethod);
+        jmethodID getConfigurationMethod = jniEnv->GetMethodID(resourcesClass, "getConfiguration", "()Landroid/content/res/Configuration;");
+
+        // get configuration
+        configurationClass = jniEnv->FindClass("android/content/res/Configuration");
+        jobject configurationObject = jniEnv->CallObjectMethod(resourcesObject, getConfigurationMethod);
+
         // get asset manager
         jmethodID getAssetsMethod = jniEnv->GetMethodID(mainActivityClass, "getAssets", "()Landroid/content/res/AssetManager;");
         jobject assetManagerObject = jniEnv->CallObjectMethod(mainActivity, getAssetsMethod);
@@ -134,7 +144,7 @@ namespace ouzel
         }
     }
 
-    void EngineAndroid::onSurfaceCreated(jobject aSurface)
+    void EngineAndroid::onSurfaceCreated(jobject newSurface)
     {
         JNIEnv* jniEnv;
 
@@ -145,7 +155,7 @@ namespace ouzel
         }
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
-        surface = jniEnv->NewGlobalRef(aSurface);
+        surface = jniEnv->NewGlobalRef(newSurface);
 
         if (active)
         {
@@ -162,6 +172,10 @@ namespace ouzel
                 }
             }
         }
+    }
+
+    void EngineAndroid::onConfigurationChanged(jobject newConfig)
+    {
     }
 
     void EngineAndroid::onSurfaceDestroyed()
