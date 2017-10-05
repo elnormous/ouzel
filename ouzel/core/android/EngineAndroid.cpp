@@ -7,6 +7,7 @@
 #include <android/window.h>
 #include "EngineAndroid.hpp"
 #include "WindowResourceAndroid.hpp"
+#include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
 #include "utils/Log.hpp"
 
@@ -98,6 +99,9 @@ namespace ouzel
         configurationClass = jniEnv->FindClass("android/content/res/Configuration");
         jobject configurationObject = jniEnv->CallObjectMethod(resourcesObject, getConfigurationMethod);
 
+        orientationField = jniEnv->GetFieldID(configurationClass, "orientation", "I");
+        orientation = jniEnv->GetIntField(configurationObject, orientationField);
+
         // get asset manager
         jmethodID getAssetsMethod = jniEnv->GetMethodID(mainActivityClass, "getAssets", "()Landroid/content/res/AssetManager;");
         jobject assetManagerObject = jniEnv->CallObjectMethod(mainActivity, getAssetsMethod);
@@ -176,6 +180,38 @@ namespace ouzel
 
     void EngineAndroid::onConfigurationChanged(jobject newConfig)
     {
+        JNIEnv* jniEnv;
+        
+        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+        {
+            Log(Log::Level::ERR) << "Failed to get JNI environment";
+            return;
+        }
+
+        jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
+
+        if (orientation != newOrientation)
+        {
+            orientation = newOrientation;
+
+            ouzel::Event event;
+            event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
+        
+            switch (orientation)
+            {
+                case ORIENTATION_PORTRAIT:
+                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::PORTRAIT;
+                    break;
+                case ORIENTATION_LANDSCAPE:
+                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::LANDSCAPE_LEFT;
+                    break;
+                default:
+                    event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
+                    break;
+            }
+        
+            ouzel::sharedEngine->getEventDispatcher()->postEvent(event);
+        }
     }
 
     void EngineAndroid::onSurfaceDestroyed()

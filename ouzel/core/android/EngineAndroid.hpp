@@ -15,6 +15,9 @@ namespace ouzel
     class EngineAndroid: public Engine
     {
     public:
+        static const jint ORIENTATION_PORTRAIT = 0x00000001;
+        static const jint ORIENTATION_LANDSCAPE = 0x00000002;
+
         EngineAndroid(JavaVM* aJavaVM);
         virtual ~EngineAndroid();
 
@@ -53,6 +56,8 @@ namespace ouzel
         jobject mainActivity = nullptr;
         jmethodID startActivityMethod = nullptr;
         jclass configurationClass = nullptr;
+        jfieldID orientationField = nullptr;
+        jint orientation = 0;
         jobject surface = nullptr;
         AAssetManager* assetManager = nullptr;
         jobject androidWindow = nullptr;
