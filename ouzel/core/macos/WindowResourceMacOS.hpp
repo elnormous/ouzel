@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <CoreGraphics/CGGeometry.h>
+
 #if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -20,7 +22,6 @@ typedef uint32_t CGDirectDisplayID;
 #endif
 
 #include "core/WindowResource.hpp"
-#include "math/Rectangle.hpp"
 
 namespace ouzel
 {
@@ -65,6 +66,6 @@ namespace ouzel
         NSScreenPtr screen = nil;
         CGDirectDisplayID displayId = 0;
         NSUInteger windowStyleMask = 0;
-        Rectangle windowRectangle;
+        CGRect windowRect;
     };
 }

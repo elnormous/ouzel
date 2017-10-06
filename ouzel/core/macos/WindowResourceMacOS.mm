@@ -171,11 +171,7 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Failed to capture the main display";
                 }
 
-                windowRectangle.position.x = static_cast<float>(frame.origin.x);
-                windowRectangle.position.y = static_cast<float>(frame.origin.y);
-                windowRectangle.size.width = static_cast<float>(frame.size.width);
-                windowRectangle.size.height = static_cast<float>(frame.size.height);
-
+                windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
 
                 NSRect screenRect = [screen frame];
@@ -304,12 +300,7 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to capture the main display";
                     }
 
-                    NSRect windowFrame = [window frame];
-                    windowRectangle.position.x = static_cast<float>(windowFrame.origin.x);
-                    windowRectangle.position.y = static_cast<float>(windowFrame.origin.y);
-                    windowRectangle.size.width = static_cast<float>(windowFrame.size.width);
-                    windowRectangle.size.height = static_cast<float>(windowFrame.size.height);
-
+                    windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
 
                     NSRect screenRect = [screen frame];
@@ -322,14 +313,7 @@ namespace ouzel
                 else
                 {
                     [window setStyleMask:windowStyleMask];
-
-                    NSRect windowFrame;
-                    windowFrame.origin.x = windowRectangle.position.x;
-                    windowFrame.origin.y = windowRectangle.position.y;
-                    windowFrame.size.width = windowRectangle.size.width;
-                    windowFrame.size.height = windowRectangle.size.height;
-
-                    [window setFrame:windowFrame display:YES animate:NO];
+                    [window setFrame:windowRect display:YES animate:NO];
 
                     if (CGDisplayRelease(displayId) != kCGErrorSuccess)
                     {
