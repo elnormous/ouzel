@@ -514,32 +514,43 @@ namespace ouzel
 
     void WindowResourceWin::switchFullscreen(bool newFullscreen)
     {
-        windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
-        SetWindowLong(window, GWL_STYLE, windowStyle);
-
-        if (newFullscreen)
+        if (exclusiveFullscreen)
         {
-            RECT windowRect;
-            GetWindowRect(window, &windowRect);
-
-            windowX = windowRect.left;
-            windowY = windowRect.top;
-            windowWidth = windowRect.right - windowRect.left;
-            windowHeight = windowRect.bottom - windowRect.top;
-
-            MONITORINFO info;
-            info.cbSize = sizeof(MONITORINFO);
-            GetMonitorInfo(monitor, &info);
-
-            SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
-                         info.rcMonitor.right - info.rcMonitor.left,
-                         info.rcMonitor.bottom - info.rcMonitor.top,
-                         SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+            if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::DIRECT3D11)
+            {
+                graphics::RenderDeviceD3D11* renderDeviceD3D11 = static_cast<graphics::RenderDeviceD3D11*>(sharedEngine->getRenderer()->getDevice());
+                renderDeviceD3D11->setFullscreen(newFullscreen);
+            }
         }
         else
         {
-            SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
-                         SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+            windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
+            SetWindowLong(window, GWL_STYLE, windowStyle);
+
+            if (newFullscreen)
+            {
+                RECT windowRect;
+                GetWindowRect(window, &windowRect);
+
+                windowX = windowRect.left;
+                windowY = windowRect.top;
+                windowWidth = windowRect.right - windowRect.left;
+                windowHeight = windowRect.bottom - windowRect.top;
+
+                MONITORINFO info;
+                info.cbSize = sizeof(MONITORINFO);
+                GetMonitorInfo(monitor, &info);
+
+                SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
+                             info.rcMonitor.right - info.rcMonitor.left,
+                             info.rcMonitor.bottom - info.rcMonitor.top,
+                             SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+            }
+            else
+            {
+                SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
+                             SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER);
+            }
         }
     }
 

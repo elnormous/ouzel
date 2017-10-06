@@ -223,7 +223,7 @@ namespace ouzel
             swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             swapChainDesc.BufferCount = 1;
             swapChainDesc.OutputWindow = windowWin->getNativeWindow();
-            swapChainDesc.Windowed = TRUE;
+            swapChainDesc.Windowed = (windowWin->isExclusiveFullscreen() && windowWin->isFullscreen()) ? FALSE : TRUE;
             swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
             swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
@@ -459,6 +459,17 @@ namespace ouzel
             {
                 return;
             }
+        }
+
+        bool RenderDeviceD3D11::setFullscreen(bool newFullscreen)
+        {
+            if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
+            {
+                Log(Log::Level::ERR) << "Failed to set fullscreen state";
+                return false;
+            }
+
+            return true;
         }
 
         bool RenderDeviceD3D11::draw(const std::vector<DrawCommand>& drawCommands)
