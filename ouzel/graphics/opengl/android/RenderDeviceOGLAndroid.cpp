@@ -241,7 +241,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(sharedEngine->getWindow()->getResource());
+            WindowResourceAndroid* windowAndroid = static_cast<WindowResourceAndroid*>(window->getResource());
 
             ANativeWindow_setBuffersGeometry(windowAndroid->getNativeWindow(), 0, 0, format);
 
