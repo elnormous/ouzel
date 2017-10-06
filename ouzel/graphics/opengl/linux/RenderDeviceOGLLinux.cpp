@@ -5,6 +5,8 @@
 
 #if OUZEL_PLATFORM_LINUX && OUZEL_COMPILE_OPENGL
 
+#include <X11/Xlib.h>
+#include <X11/extensions/xf86vmode.h>
 #include "RenderDeviceOGLLinux.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
@@ -162,6 +164,28 @@ namespace ouzel
             renderThread = std::thread(&RenderDeviceOGLLinux::main, this);
 
             return true;
+        }
+
+        std::vector<Size2> RenderDeviceOGLLinux::getSupportedResolutions() const
+        {
+            std::vector<Size2> result;
+
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
+
+            int modeCount;
+            XF86VidModeModeInfo** modeInfo;
+
+            XF86VidModeGetAllModeLines(windowLinux->getDisplay(), 0, &modeCount, &modeInfo);
+
+            for (int i = 0; i < modeCount; ++i)
+            {
+                result.push_back(Size2(static_cast<float>(modeInfo[i]->hdisplay),
+                                       static_cast<float>(modeInfo[i]->vdisplay)));
+            }
+
+            XFree(modeInfo);
+
+            return result;
         }
 
         bool RenderDeviceOGLLinux::lockContext()

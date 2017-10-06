@@ -23,6 +23,8 @@ namespace ouzel
         public:
             virtual ~RenderDeviceOGLLinux();
 
+            virtual std::vector<Size2> getSupportedResolutions() const override;
+
         private:
             RenderDeviceOGLLinux();
 
