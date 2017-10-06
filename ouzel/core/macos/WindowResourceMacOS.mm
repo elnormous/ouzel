@@ -162,9 +162,35 @@ namespace ouzel
 
         [window setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary : NSWindowCollectionBehaviorFullScreenPrimary];
 
-        if (fullscreen)
+        if (exclusiveFullscreen)
         {
-            [window toggleFullScreen:nil];
+            if (fullscreen)
+            {
+                if (CGDisplayCapture(displayId) != kCGErrorSuccess)
+                {
+                    Log(Log::Level::ERR) << "Failed to capture the main display";
+                }
+
+                windowRectangle.position.x = static_cast<float>(frame.origin.x);
+                windowRectangle.position.y = static_cast<float>(frame.origin.y);
+                windowRectangle.size.width = static_cast<float>(frame.size.width);
+                windowRectangle.size.height = static_cast<float>(frame.size.height);
+
+                [window setStyleMask:NSBorderlessWindowMask];
+
+                NSRect screenRect = [screen frame];
+                [window setFrame:screenRect display:YES animate:NO];
+
+                CGWindowLevel windowLevel = CGShieldingWindowLevel();
+                [window setLevel:windowLevel];
+            }
+        }
+        else
+        {
+            if (fullscreen)
+            {
+                [window toggleFullScreen:nil];
+            }
         }
 
         [window setTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])];
