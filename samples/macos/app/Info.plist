@@ -45,7 +45,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>10.8</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2016 Elviss Strazdins. All rights reserved.</string>
+	<string>Copyright © 2017 Elviss Strazdins. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
