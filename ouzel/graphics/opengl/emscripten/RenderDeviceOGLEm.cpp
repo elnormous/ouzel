@@ -60,6 +60,8 @@ namespace ouzel
                 return false;
             }
 
+            emscripten_set_main_loop_timing(newVerticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
+
             return RenderDeviceOGL::init(newWindow,
                                          newSize,
                                          newSampleCount,
