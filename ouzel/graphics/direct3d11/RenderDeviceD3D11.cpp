@@ -463,11 +463,13 @@ namespace ouzel
 
         bool RenderDeviceD3D11::setFullscreen(bool newFullscreen)
         {
-            if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
-            {
-                Log(Log::Level::ERR) << "Failed to set fullscreen state";
-                return false;
-            }
+            executeOnRenderThread([this]() {
+                if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
+                {
+                    Log(Log::Level::ERR) << "Failed to set fullscreen state";
+                    return false;
+                }
+            });
 
             return true;
         }
