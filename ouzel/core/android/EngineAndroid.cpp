@@ -276,32 +276,33 @@ namespace ouzel
 
     bool EngineAndroid::openURL(const std::string& url)
     {
-        JNIEnv* jniEnv;
+        executeOnMainThread([url, this]() {
+            JNIEnv* jniEnv;
 
-        if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
-        {
-            Log(Log::Level::ERR) << "Failed to get JNI environment";
-            return false;
-        }
+            if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
+            {
+                Log(Log::Level::ERR) << "Failed to get JNI environment";
+                return;
+            }
 
-        jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
-        jstring urlString = jniEnv->NewStringUTF(url.c_str());
-        jobject uri = jniEnv->CallStaticObjectMethod(uriClass, parseMethod, urlString);
-        jobject intentObject = jniEnv->NewObject(intentClass, intentConstructor, actionString, uri);
+            jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
+            jstring urlString = jniEnv->NewStringUTF(url.c_str());
+            jobject uri = jniEnv->CallStaticObjectMethod(uriClass, parseMethod, urlString);
+            jobject intentObject = jniEnv->NewObject(intentClass, intentConstructor, actionString, uri);
 
-        jniEnv->CallVoidMethod(mainActivity, startActivityMethod, intentObject);
+            jniEnv->CallVoidMethod(mainActivity, startActivityMethod, intentObject);
 
-        jniEnv->DeleteLocalRef(intentObject);
-        jniEnv->DeleteLocalRef(uri);
-        jniEnv->DeleteLocalRef(urlString);
-        jniEnv->DeleteLocalRef(actionString);
+            jniEnv->DeleteLocalRef(intentObject);
+            jniEnv->DeleteLocalRef(uri);
+            jniEnv->DeleteLocalRef(urlString);
+            jniEnv->DeleteLocalRef(actionString);
 
-        if (jniEnv->ExceptionCheck())
-        {
-            Log(Log::Level::ERR) << "Failed to open URL";
-            jniEnv->ExceptionClear();
-            return false;
-        }
+            if (jniEnv->ExceptionCheck())
+            {
+                Log(Log::Level::ERR) << "Failed to open URL";
+                jniEnv->ExceptionClear();
+            }
+        });
 
         return true;
     }
