@@ -467,7 +467,6 @@ namespace ouzel
                 if (FAILED(swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr)))
                 {
                     Log(Log::Level::ERR) << "Failed to set fullscreen state";
-                    return false;
                 }
             });
 
