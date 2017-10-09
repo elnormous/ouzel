@@ -24,7 +24,7 @@ namespace ouzel
             };
 
             Stream();
-        	virtual ~Stream();
+            virtual ~Stream();
 
             virtual void reset();
 
