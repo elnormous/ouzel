@@ -32,8 +32,6 @@ Supported audio backends:
 * OpenSL ES
 * ALSA
 
-Windows Phone platform support is under development.
-
 ## Features
 
 * Cross-platform (Windows, macOS, iOS, tvOS, Android, Linux, and Emscripten targets supported)
