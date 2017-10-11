@@ -117,8 +117,15 @@ namespace ouzel
 
         [window makeKeyAndVisible];
 
-        resolution = size;
-        if (highDpi) resolution *= static_cast<float>(screen.scale);
+        if (highDpi)
+        {
+            contentScale = static_cast<float>(screen.scale);
+            resolution = size * contentScale;
+        }
+        else
+        {
+            resolution = size;
+        }
 
         return true;
     }
@@ -126,8 +133,7 @@ namespace ouzel
     void WindowResourceTVOS::handleResize(const Size2& newSize)
     {
         size = newSize;
-        resolution = size;
-        if (highDpi) resolution *= static_cast<float>(screen.scale);
+        resolution = size * contentScale;
 
         std::unique_lock<std::mutex> lock(listenerMutex);
         if (listener)

@@ -48,7 +48,6 @@ namespace ouzel
 
             metalLayer = (CAMetalLayer*)view.layer;
             metalLayer.device = device;
-            //metalLayer.contentsScale = newWindow->getContentScale();
             CGSize drawableSize = CGSizeMake(newSize.width, newSize.height);
             metalLayer.drawableSize = drawableSize;
 

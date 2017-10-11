@@ -38,8 +38,8 @@ namespace ouzel
 
         const Size2& getSize() const { return size; }
         virtual void setSize(const Size2& newSize);
-
         const Size2& getResolution() const { return resolution; }
+        float getContentScale() const { return contentScale; }
 
         bool getResizable() const { return resizable; }
 
@@ -56,6 +56,7 @@ namespace ouzel
     protected:
         Size2 size;
         Size2 resolution;
+        float contentScale = 1.0f;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;

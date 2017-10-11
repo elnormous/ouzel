@@ -221,8 +221,16 @@ namespace ouzel
         size.width = static_cast<float>(windowSize.width);
         size.height = static_cast<float>(windowSize.height);
 
-        resolution = size;
-        if (highDpi) resolution *= static_cast<float>(window.backingScaleFactor);
+        if (highDpi)
+        {
+            contentScale = static_cast<float>(screen.backingScaleFactor);
+            resolution = size * contentScale;
+        }
+        else
+        {
+            contentScale = 1.0f;
+            resolution = size;
+        }
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
@@ -278,9 +286,7 @@ namespace ouzel
             frame.size.height != newFrame.size.height)
         {
             [window setFrame:newFrame display:YES animate:NO];
-
-            resolution = size;
-            if (highDpi) resolution *= static_cast<float>(window.backingScaleFactor);
+            resolution = size * contentScale;
 
             std::unique_lock<std::mutex> lock(listenerMutex);
             if (listener) listener->onResolutionChange(resolution);
@@ -355,9 +361,7 @@ namespace ouzel
 
         size = Size2(static_cast<float>(frame.size.width),
                      static_cast<float>(frame.size.height));
-
-        resolution = size;
-        if (highDpi) resolution *= static_cast<float>(window.backingScaleFactor);
+        resolution = size * contentScale;
 
         std::unique_lock<std::mutex> lock(listenerMutex);
         if (listener)
@@ -385,8 +389,8 @@ namespace ouzel
     {
         if (highDpi)
         {
-            resolution = size;
-            if (highDpi) resolution *= static_cast<float>(window.backingScaleFactor);
+            contentScale = static_cast<float>(window.backingScaleFactor);
+            resolution = size * contentScale;
 
             std::unique_lock<std::mutex> lock(listenerMutex);
             if (listener) listener->onResolutionChange(resolution);
