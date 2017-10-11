@@ -23,7 +23,6 @@
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
     #define OUZEL_SUPPORTS_OPENGL 1
-    #define OUZEL_SUPPORTS_METAL 1
     #define OUZEL_SUPPORTS_OPENAL 1
     #define OUZEL_SUPPORTS_COREAUDIO 1
 
@@ -31,14 +30,22 @@
         #define OUZEL_PLATFORM_IOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
+        #if !TARGET_OS_SIMULATOR
+            #define OUZEL_SUPPORTS_METAL 1
+        #endif
     #elif TARGET_OS_TV
         #define OUZEL_PLATFORM_TVOS 1
         #define OUZEL_SUPPORTS_OPENGLES 1
         #define OUZEL_OPENGL_INTERFACE_EAGL 1
-
+        #if !TARGET_OS_SIMULATOR
+            #define OUZEL_SUPPORTS_METAL 1
+        #endif
     #elif TARGET_OS_MAC
         #define OUZEL_PLATFORM_MACOS 1
         #define OUZEL_OPENGL_INTERFACE_CGL 1
+        #if !TARGET_OS_SIMULATOR
+            #define OUZEL_SUPPORTS_METAL 1
+        #endif
     #endif
 
     #define OUZEL_MULTITHREADED 1
