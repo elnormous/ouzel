@@ -55,8 +55,7 @@ namespace ouzel
 
         std::vector<uint32_t> utf32Text = utf8to32(text);
 
-        for (uint32_t i = 0; i < 127; ++i)
-        //for (uint32_t i : utf32Text)
+        for (uint32_t i : utf32Text)
         {
             glyphs.insert(i);
         }
