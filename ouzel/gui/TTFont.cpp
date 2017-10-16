@@ -24,8 +24,6 @@ namespace ouzel
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
-
-        kernCount = static_cast<uint16_t>(kern.size());
     }
 
     void TTFont::getVertices(const std::string& text,
