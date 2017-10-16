@@ -39,22 +39,21 @@ namespace ouzel
             uint16_t x = 0, y = 0;
             uint16_t width = 0;
             uint16_t height = 0;
-            int16_t xOffset = 0;
-            int16_t yOffset = 0;
-            int16_t xAdvance = 0;
+            Vector2 offset;
+            float advance = 0;
+            std::vector<uint8_t> bitmap;
         };
+
+        std::unordered_map<uint32_t, CharDescriptor> chars;
 
         uint16_t width = 0;
         uint16_t height = 0;
-        std::unordered_map<uint32_t, CharDescriptor> chars;
 
         float s = stbtt_ScaleForPixelHeight(&font, fontSize);
 
-        std::set<uint32_t> glyphs;
-        std::map<uint32_t, std::pair<Size2, std::vector<uint8_t>>> glyphToBitmapData;
-
         std::vector<uint32_t> utf32Text = utf8to32(text);
 
+        std::set<uint32_t> glyphs;
         for (uint32_t i : utf32Text)
         {
             glyphs.insert(i);
@@ -63,20 +62,18 @@ namespace ouzel
         for (uint32_t c : glyphs)
         {
             int w, h, xoff, yoff;
-            unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, static_cast<int>(c), &w, &h, &xoff, &yoff);
-
-            if (bitmap)
+            if (unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, static_cast<int>(c), &w, &h, &xoff, &yoff))
             {
                 int advance, leftBearing;
                 stbtt_GetCodepointHMetrics(&font, static_cast<int>(c), &advance, &leftBearing);
                 CharDescriptor charDesc;
-                charDesc.xAdvance = static_cast<int16_t>(advance * s);
-                charDesc.height = static_cast<uint16_t>(h);
                 charDesc.width = static_cast<uint16_t>(w);
-                charDesc.xOffset = static_cast<int16_t>(leftBearing * s);
-                charDesc.yOffset = static_cast<int16_t>(yoff);
+                charDesc.height = static_cast<uint16_t>(h);
+                charDesc.offset.x = static_cast<float>(leftBearing * s);
+                charDesc.offset.y = static_cast<float>(yoff + fontSize / 2.0f);
+                charDesc.advance = static_cast<float>(advance * s);
 
-                glyphToBitmapData[c] = std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), std::vector<uint8_t>(bitmap, bitmap + h * w));
+                charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
                 chars[c] = charDesc;
 
                 width += static_cast<uint16_t>(w);
@@ -86,27 +83,24 @@ namespace ouzel
 
         std::vector<uint8_t> textureData(width * height * 4);
         uint16_t x = 0;
-        for (const auto& c : glyphToBitmapData)
+        for (auto& c : chars)
         {
-            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width);
-            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height);
-
-            CharDescriptor& charDesc = chars[c.first];
+            CharDescriptor& charDesc = c.second;
             charDesc.x = x;
-            x += charWidth;
+            x += charDesc.width;
 
-            for (uint16_t posX = 0; posX < charWidth; ++posX)
+            for (uint16_t posX = 0; posX < charDesc.width; ++posX)
             {
-                for (uint16_t posY = 0; posY < charHeight; ++posY)
+                for (uint16_t posY = 0; posY < charDesc.height; ++posY)
                 {
                     textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
                     textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
                     textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
-                    textureData[(posY * width + posX + charDesc.x) * 4 + 3] = c.second.second[posY * charWidth + posX];
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 3] = charDesc.bitmap[posY * charDesc.width + posX];
                 }
 
                 // add empty lines
-                for (uint16_t posY = charHeight; posY < height; ++posY)
+                for (uint16_t posY = charDesc.height; posY < height; ++posY)
                 {
                     textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
                     textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
@@ -159,13 +153,13 @@ namespace ouzel
                 textCoords[2] = Vector2(leftTop.x, leftTop.y);
                 textCoords[3] = Vector2(rightBottom.x, leftTop.y);
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.offset.x, -position.y - f.offset.y - f.height, 0.0f),
                                                        color, textCoords[0]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y - f.height, 0.0f),
                                                        color, textCoords[1]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.offset.x, -position.y - f.offset.y, 0.0f),
                                                        color, textCoords[2]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
+                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y, 0.0f),
                                                        color, textCoords[3]));
 
                 if ((i + 1) != utf32Text.end())
@@ -176,7 +170,7 @@ namespace ouzel
                     position.x += static_cast<float>(kernAdvance) * s;
                 }
 
-                position.x += f.xAdvance;
+                position.x += f.advance;
             }
 
             if (*i == static_cast<uint32_t>('\n') || // line feed
