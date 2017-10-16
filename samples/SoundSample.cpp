@@ -8,12 +8,12 @@ using namespace std;
 using namespace ouzel;
 
 SoundSample::SoundSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);

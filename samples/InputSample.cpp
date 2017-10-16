@@ -8,8 +8,8 @@ using namespace std;
 using namespace ouzel;
 
 InputSample::InputSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 0, Color::BLACK, Color::BLACK, Color::BLACK)
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0f, 63.0f));
     sharedEngine->getInput()->setCursor(&cursor);

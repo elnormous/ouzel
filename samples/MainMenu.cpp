@@ -14,14 +14,14 @@ using namespace std;
 using namespace ouzel;
 
 MainMenu::MainMenu():
-    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 0,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 0, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
+    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 1.0f,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
