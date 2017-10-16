@@ -55,7 +55,8 @@ namespace ouzel
 
         std::vector<uint32_t> utf32Text = utf8to32(text);
 
-        for (uint32_t i : utf32Text)
+        for (uint32_t i = 0; i < 127; ++i)
+        //for (uint32_t i : utf32Text)
         {
             glyphs.insert(i);
         }
@@ -74,13 +75,13 @@ namespace ouzel
                 charDesc.height = static_cast<uint16_t>(h);
                 charDesc.width = static_cast<uint16_t>(w);
                 charDesc.xOffset = static_cast<int16_t>(leftBearing * s);
-                charDesc.yOffset = static_cast<int16_t>(h - abs(yoff));
+                charDesc.yOffset = static_cast<int16_t>(yoff);
 
                 glyphToBitmapData[c] = std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), std::vector<uint8_t>(bitmap, bitmap + h * w));
                 chars[c] = charDesc;
 
-                height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
                 width += static_cast<uint16_t>(w);
+                height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
             }
         }
 
@@ -93,8 +94,6 @@ namespace ouzel
 
             CharDescriptor& charDesc = chars[c.first];
             charDesc.x = x;
-            charDesc.y = 0;
-            charDesc.yOffset += height - charHeight;
             x += charWidth;
 
             for (uint16_t posX = 0; posX < charWidth; ++posX)
