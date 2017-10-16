@@ -136,6 +136,9 @@ namespace ouzel
 
         size_t firstChar = 0;
 
+        int ascent, descent, lineGap;
+        stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
+
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
             std::unordered_map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
@@ -189,7 +192,7 @@ namespace ouzel
             {
                 float lineWidth = position.x;
                 position.x = 0.0f;
-                position.y += fontSize;
+                position.y += fontSize + lineGap;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
                 {
