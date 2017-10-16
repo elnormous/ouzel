@@ -9,7 +9,7 @@
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #define STB_TRUETYPE_IMPLEMENTATION
-#include "../../external/stb/stb_truetype.h"
+#include "stb_truetype.h"
 
 namespace ouzel
 {
