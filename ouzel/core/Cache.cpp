@@ -288,7 +288,7 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-    void Cache::preloadFont(const std::string& filename, float fontSize, bool mipmaps)
+    void Cache::preloadFont(const std::string& filename, bool mipmaps)
     {
         auto i = fonts.find(filename);
 
@@ -302,12 +302,12 @@ namespace ouzel
             }
             else if (extension == "ttf")
             {
-                fonts[filename] = std::make_shared<TTFont>(filename, fontSize, mipmaps);
+                fonts[filename] = std::make_shared<TTFont>(filename, mipmaps);
             }
         }
     }
 
-    const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, float fontSize, bool mipmaps) const
+    const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, bool mipmaps) const
     {
         auto i = fonts.find(filename);
 
@@ -327,7 +327,7 @@ namespace ouzel
             }
             else if (extension == "ttf")
             {
-                font = std::make_shared<TTFont>(filename, fontSize, mipmaps);
+                font = std::make_shared<TTFont>(filename, mipmaps);
             }
 
             i = fonts.insert(std::make_pair(filename, font)).first;

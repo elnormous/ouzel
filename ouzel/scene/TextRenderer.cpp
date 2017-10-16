@@ -14,12 +14,13 @@ namespace ouzel
     {
         TextRenderer::TextRenderer(const std::string& fontFile,
                                    bool aMipmaps,
-                                   float fontSize,
+                                   float aFontSize,
                                    const std::string& aText,
                                    Color aColor,
                                    const Vector2& aTextAnchor):
             Component(TYPE),
             text(aText),
+            fontSize(aFontSize),
             textAnchor(aTextAnchor),
             color(aColor),
             mipmaps(aMipmaps)
@@ -37,14 +38,14 @@ namespace ouzel
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
-            font = sharedEngine->getCache()->getFont(fontFile, fontSize, mipmaps);
+            font = sharedEngine->getCache()->getFont(fontFile, mipmaps);
 
             updateText();
         }
 
-        void TextRenderer::setFont(const std::string& fontFile, float fontSize)
+        void TextRenderer::setFont(const std::string& fontFile)
         {
-            font = sharedEngine->getCache()->getFont(fontFile, fontSize);
+            font = sharedEngine->getCache()->getFont(fontFile);
 
             updateText();
         }
@@ -56,9 +57,9 @@ namespace ouzel
             updateText();
         }
 
-        void TextRenderer::setTextScale(const Vector2& newTextScale)
+        void TextRenderer::setFontSize(float newFontSize)
         {
-            textScale = newTextScale;
+            fontSize = newFontSize;
 
             updateText();
         }
@@ -135,7 +136,7 @@ namespace ouzel
 
         void TextRenderer::updateText()
         {
-            font->getVertices(text, Color::WHITE, textAnchor, textScale, indices, vertices, texture);
+            font->getVertices(text, Color::WHITE, fontSize, textAnchor, indices, vertices, texture);
             needsMeshUpdate = true;
 
             boundingBox.reset();

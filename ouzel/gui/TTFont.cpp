@@ -3,13 +3,12 @@
 
 #include <cassert>
 
+#define STB_TRUETYPE_IMPLEMENTATION
 #include "TTFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
-#define STB_TRUETYPE_IMPLEMENTATION
-#include "stb_truetype.h"
 
 namespace ouzel
 {
@@ -18,9 +17,10 @@ namespace ouzel
     {
     }
 
-    TTFont::TTFont(const std::string & filename, float fontSize, bool mipmaps, UTFChars flag)
+    TTFont::TTFont(const std::string& filename, bool aMipmaps):
+        mipmaps(aMipmaps)
     {
-        if (!parseFont(filename, fontSize, mipmaps, flag))
+        if (!parseFont(filename))
         {
             Log(Log::Level::ERR) << "Failed to parse font " << filename;
         }
@@ -28,15 +28,100 @@ namespace ouzel
 
     void TTFont::getVertices(const std::string& text,
                              const Color& color,
+                             float fontSize,
                              const Vector2& anchor,
-                             const Vector2& scale,
                              std::vector<uint16_t>& indices,
                              std::vector<graphics::VertexPCT>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
-        Vector2 position;
+        struct CharDescriptor
+        {
+            uint16_t x = 0, y = 0;
+            uint16_t width = 0;
+            uint16_t height = 0;
+            int16_t xOffset = 0;
+            int16_t yOffset = 0;
+            int16_t xAdvance = 0;
+        };
+
+        uint16_t width = 0;
+        uint16_t height = 0;
+        std::unordered_map<uint32_t, CharDescriptor> chars;
+
+        float s = stbtt_ScaleForPixelHeight(&font, fontSize);
+
+        std::set<uint32_t> glyphs;
+        std::map<uint32_t, std::pair<Size2, std::vector<uint8_t>>> glyphToBitmapData;
 
         std::vector<uint32_t> utf32Text = utf8to32(text);
+
+        for (uint32_t i : utf32Text)
+        {
+            glyphs.insert(i);
+        }
+
+        for (uint32_t c : glyphs)
+        {
+            int w, h, xoff, yoff;
+            unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, static_cast<int>(c), &w, &h, &xoff, &yoff);
+
+            if (bitmap)
+            {
+                int advance, leftBearing;
+                stbtt_GetCodepointHMetrics(&font, static_cast<int>(c), &advance, &leftBearing);
+                CharDescriptor charDesc;
+                charDesc.xAdvance = static_cast<int16_t>(advance * s);
+                charDesc.height = static_cast<uint16_t>(h);
+                charDesc.width = static_cast<uint16_t>(w);
+                charDesc.xOffset = static_cast<int16_t>(leftBearing * s);
+                charDesc.yOffset = static_cast<int16_t>(h - abs(yoff));
+
+                glyphToBitmapData[c] = std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), std::vector<uint8_t>(bitmap, bitmap + h * w));
+                chars[c] = charDesc;
+
+                height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
+                width += static_cast<uint16_t>(w);
+            }
+        }
+
+        std::vector<uint8_t> textureData(width * height * 4);
+        uint16_t x = 0;
+        for (const auto& c : glyphToBitmapData)
+        {
+            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width);
+            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height);
+
+            CharDescriptor& charDesc = chars[c.first];
+            charDesc.x = x;
+            charDesc.y = 0;
+            charDesc.yOffset += height - charHeight;
+            x += charWidth;
+
+            for (uint16_t posX = 0; posX < charWidth; ++posX)
+            {
+                for (uint16_t posY = 0; posY < charHeight; ++posY)
+                {
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 3] = c.second.second[posY * charWidth + posX];
+                }
+
+                // add empty lines
+                for (uint16_t posY = charHeight; posY < height; ++posY)
+                {
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 0] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 1] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 2] = 255;
+                    textureData[(posY * width + posX + charDesc.x) * 4 + 3] = 0;
+                }
+            }
+        }
+
+        texture = std::make_shared<graphics::Texture>();
+        texture->init(textureData, Size2(width, height), 0, mipmaps ? 0 : 1);
+
+        Vector2 position;
 
         indices.clear();
         vertices.clear();
@@ -87,7 +172,10 @@ namespace ouzel
 
                 if ((i + 1) != utf32Text.end())
                 {
-                    position.x += static_cast<float>(getKerningPair(*i, *(i + 1)));
+                    int kernAdvance = stbtt_GetCodepointKernAdvance(&font,
+                                                                    static_cast<int>(*i),
+                                                                    static_cast<int>(*(i + 1)));
+                    position.x += static_cast<float>(kernAdvance) * s;
                 }
 
                 position.x += f.xAdvance;
@@ -98,7 +186,7 @@ namespace ouzel
             {
                 float lineWidth = position.x;
                 position.x = 0.0f;
-                position.y += lineHeight;
+                position.y += fontSize;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
                 {
@@ -114,54 +202,12 @@ namespace ouzel
         for (size_t c = 0; c < vertices.size(); ++c)
         {
             vertices[c].position.y += textHeight * (1.0f - anchor.y);
-
-            vertices[c].position.x *= scale.x;
-            vertices[c].position.y *= scale.y;
         }
-
-        texture = fontTexture;
     }
 
-    int16_t TTFont::getKerningPair(uint32_t first, uint32_t second)
+    bool TTFont::parseFont(const std::string & filename)
     {
-        auto i = kern.find(std::make_pair(first, second));
-
-        if (i != kern.end())
-        {
-            return i->second;
-        }
-
-        return 0;
-    }
-
-    float TTFont::getStringWidth(const std::string& text)
-    {
-        float total = 0.0f;
-
-        std::vector<uint32_t> utf32Text = utf8to32(text);
-
-        for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
-        {
-            std::unordered_map<uint32_t, CharDescriptor>::iterator iter = chars.find(*i);
-
-            if (iter != chars.end())
-            {
-                const CharDescriptor& f = iter->second;
-                total += f.xAdvance;
-            }
-        }
-
-        return total;
-    }
-
-    bool TTFont::parseFont(const std::string & filename, float fontSize, bool mipmaps, UTFChars flag)
-    {
-        stbtt_fontinfo font;
-        std::vector<unsigned char> data;
-
-        std::string f = ouzel::sharedEngine->getFileSystem()->getPath(filename);
-
-        if (!ouzel::sharedEngine->getFileSystem()->readFile(f, data))
+        if (!sharedEngine->getFileSystem()->readFile(sharedEngine->getFileSystem()->getPath(filename), data))
         {
             return false;
         }
@@ -171,108 +217,6 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to load font";
             return false;
         }
-
-        float s = stbtt_ScaleForPixelHeight(&font, fontSize);
-
-        int w, h, xoff, yoff;
-        height = 0;
-        width = 0;
-
-        std::vector<uint16_t> glyphs;
-        std::map<uint32_t, std::pair<Size2, std::vector<uint8_t>>> glyphToBitmapData;
-
-        if (flag && UTFChars::ASCII)
-        {
-            for (uint16_t i = 32; i < 127; i++)
-            {
-                glyphs.push_back(i);
-            }
-        }
-        if (flag && UTFChars::ASCIIPLUS)
-        {
-            for (uint16_t i = 128; i < 256; i++)
-            {
-                glyphs.push_back(i);
-            }
-        }
-
-        for (uint16_t c : glyphs)
-        {
-            unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, c, &w, &h, &xoff, &yoff);
-
-            if (bitmap)
-            {
-                for (uint16_t j : glyphs)
-                {
-                    int kx = stbtt_GetCodepointKernAdvance(&font, j, c);
-                    if (kx == 0) continue;
-                    kern.emplace(std::pair<uint32_t, uint32_t>(j, c), static_cast<int16_t>(kx * s));
-                }
-
-                int advance, leftBearing;
-                stbtt_GetCodepointHMetrics(&font, c, &advance, &leftBearing);
-                CharDescriptor nd;
-                nd.xAdvance = static_cast<int16_t>(advance * s);
-                nd.height = static_cast<int16_t>(h);
-                nd.width = static_cast<int16_t>(w);
-                nd.xOffset = static_cast<int16_t>(leftBearing * s);
-                nd.yOffset = static_cast<int16_t>(h - abs(yoff));
-
-                std::vector<uint8_t> currentBuffer(static_cast<size_t>(h * w));
-                std::copy(bitmap, bitmap + h * w, currentBuffer.begin());
-
-                glyphToBitmapData.emplace(c, std::make_pair(Size2(static_cast<float>(w), static_cast<float>(h)), currentBuffer));
-                chars.emplace(c, nd);
-                height = height < static_cast<uint16_t>(h) ? static_cast<uint16_t>(h) : height;
-                width += static_cast<uint16_t>(w);
-            }
-        }
-
-        std::vector<std::vector<uint8_t>> scanlines(height);
-        int x = 0;
-        for (const auto &c : glyphToBitmapData)
-        {
-            uint16_t charHeight = static_cast<uint16_t>(c.second.first.height);
-            uint16_t charWidth = static_cast<uint16_t>(c.second.first.width);
-            chars.at(c.first).x = static_cast<int16_t>(x);
-            chars.at(c.first).y = 0;
-            x += charWidth;
-
-            uint16_t extraRows = height - charHeight;
-            chars.at(c.first).yOffset += extraRows;
-            size_t extraSpaceSize = extraRows * charWidth;
-            unsigned int charSize = charHeight * charWidth;
-            std::vector<uint8_t> newCharBuffer(extraSpaceSize + charSize, 0x00);
-            std::copy(c.second.second.begin(), c.second.second.begin() + charSize, newCharBuffer.data());
-            assert(newCharBuffer.size() == height * charWidth);
-            for (uint16_t i = 0; i < height; i++)
-            {
-                size_t scanlinesPreSize = scanlines[i].size();
-                scanlines[i].resize(scanlinesPreSize + charWidth);
-                uint8_t* bufferStart = newCharBuffer.data() + static_cast<int>(charWidth * i);
-                std::copy(bufferStart, bufferStart + charWidth, scanlines[i].data() + scanlinesPreSize);
-            }
-        }
-
-        std::vector<uint8_t> textureData(scanlines[0].size() * height * 4);
-        for (uint16_t i = 0; i < height; i++)
-        {
-            for (uint32_t j = 0; j < scanlines[0].size(); j++)
-            {
-                uint8_t b = scanlines[i][j];
-                textureData[(i * scanlines[0].size() + j) * 4 + 0] = 255;
-                textureData[(i * scanlines[0].size() + j) * 4 + 1] = 255;
-                textureData[(i * scanlines[0].size() + j) * 4 + 2] = 255;
-                textureData[(i * scanlines[0].size() + j) * 4 + 3] = b;
-            }
-        }
-
-        fontTexture = std::make_shared<graphics::Texture>();
-        fontTexture->init(textureData, Size2(width, height), 0, mipmaps ? 0 : 1);
-        pages = 1;
-        lineHeight = fontSize;
-        kernCount = static_cast<uint16_t>(kern.size());
-        base = 0;
 
         return true;
     }

@@ -51,8 +51,8 @@ namespace ouzel
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
-        void preloadFont(const std::string& filename, float fontSize = 1.0f, bool mipmaps = true);
-        const std::shared_ptr<Font>& getFont(const std::string& filename, float fontSize = 1.0f, bool mipmaps = true) const;
+        void preloadFont(const std::string& filename, bool mipmaps = true);
+        const std::shared_ptr<Font>& getFont(const std::string& filename, bool mipmaps = true) const;
         void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
         void releaseFonts();
 

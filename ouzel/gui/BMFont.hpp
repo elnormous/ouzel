@@ -15,8 +15,8 @@ namespace ouzel
 
         virtual void getVertices(const std::string& text,
                                  const Color& color,
+                                 float fontSize,
                                  const Vector2& anchor,
-                                 const Vector2& scale,
                                  std::vector<uint16_t>& indices,
                                  std::vector<graphics::VertexPCT>& vertices,
                                  std::shared_ptr<graphics::Texture>& texture) override;

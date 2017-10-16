@@ -30,8 +30,8 @@ namespace ouzel
 
     void BMFont::getVertices(const std::string& text,
                              const Color& color,
+                             float fontSize,
                              const Vector2& anchor,
-                             const Vector2& scale,
                              std::vector<uint16_t>& indices,
                              std::vector<graphics::VertexPCT>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
@@ -117,8 +117,8 @@ namespace ouzel
         {
             vertices[c].position.y += textHeight * (1.0f - anchor.y);
 
-            vertices[c].position.x *= scale.x;
-            vertices[c].position.y *= scale.y;
+            vertices[c].position.x *= fontSize;
+            vertices[c].position.y *= fontSize;
         }
 
         texture = fontTexture;

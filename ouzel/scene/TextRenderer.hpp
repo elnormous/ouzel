@@ -24,7 +24,7 @@ namespace ouzel
 
             TextRenderer(const std::string& fontFile,
                          bool aMipmaps = true,
-                         float fontSize = 1.0f,
+                         float aFontSize = 1.0f,
                          const std::string& aText = std::string(),
                          Color aColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
@@ -40,13 +40,13 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void setFont(const std::string& fontFile, float fontSize = 1.0f);
+            virtual void setFont(const std::string& fontFile);
+
+            virtual void setFontSize(float newFontSize);
+            virtual float getFontSize() const { return fontSize; }
 
             virtual void setTextAnchor(const Vector2& newTextAnchor);
             virtual const Vector2& getTextAnchor() const { return textAnchor; }
-
-            virtual void setTextScale(const Vector2& newTextScale);
-            virtual const Vector2& getTextScale() const { return textScale; }
 
             virtual void setText(const std::string& newText);
             virtual const std::string& getText() const { return text; }
@@ -75,8 +75,8 @@ namespace ouzel
 
             std::shared_ptr<Font> font;
             std::string text;
+            float fontSize = 1.0f;
             Vector2 textAnchor;
-            Vector2 textScale = Vector2(1.0f, 1.0f);
 
             std::vector<uint16_t> indices;
             std::vector<graphics::VertexPCT> vertices;
