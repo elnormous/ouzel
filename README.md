@@ -38,6 +38,7 @@ Supported audio backends:
 * Multi-threaded (separate threads for rendering, sound, and game)
 * 2D and 3D scene management
 * GUI helper classes and management
+* Bitmap and true-type font support
 * Multiple side-by-side viewport support
 * Bitmap font support
 * XInput, DirectInput, IOKit, and Apple GameController gamepad support
