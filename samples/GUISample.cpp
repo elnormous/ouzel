@@ -39,7 +39,7 @@ GUISample::GUISample():
     menu.addWidget(&fullscreenButton);
 
     label1.getLabelDrawable()->setColor(Color::CYAN);
-    label1.setPosition(Vector2(-28.0f, 96.0f));
+    label1.setPosition(Vector2(-28.0f, 108.0f));
     guiLayer.addChild(&label1);
 
     sharedEngine->getLocalization()->addLanguage("latvian", "lv.mo");

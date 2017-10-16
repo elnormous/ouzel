@@ -61,6 +61,9 @@ namespace ouzel
         uint16_t width = 0;
         uint16_t height = 0;
 
+        int ascent, descent, lineGap;
+        stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
+
         for (uint32_t c : glyphs)
         {
             int w, h, xoff, yoff;
@@ -73,7 +76,7 @@ namespace ouzel
                 charDesc.width = static_cast<uint16_t>(w);
                 charDesc.height = static_cast<uint16_t>(h);
                 charDesc.offset.x = static_cast<float>(leftBearing * s);
-                charDesc.offset.y = static_cast<float>(yoff + fontSize / 2.0f);
+                charDesc.offset.y = static_cast<float>(yoff + (ascent - descent) * s);
                 charDesc.advance = static_cast<float>(advance * s);
                 charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
                 charDesc.x = width;
@@ -135,9 +138,6 @@ namespace ouzel
         Vector2 textCoords[4];
 
         size_t firstChar = 0;
-
-        int ascent, descent, lineGap;
-        stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
