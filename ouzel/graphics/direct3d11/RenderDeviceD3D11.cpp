@@ -375,60 +375,6 @@ namespace ouzel
 
             sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
 
-            std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
-
-            noBlendState->init(false,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD);
-
-            sharedEngine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
-
-            std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
-
-            addBlendState->init(true,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD);
-
-            sharedEngine->getCache()->setBlendState(BLEND_ADD, addBlendState);
-
-            std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
-
-            multiplyBlendState->init(true,
-                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
-                                     BlendState::BlendOperation::ADD,
-                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                     BlendState::BlendOperation::ADD);
-
-            sharedEngine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
-
-            std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
-
-            alphaBlendState->init(true,
-                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                  BlendState::BlendOperation::ADD,
-                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                  BlendState::BlendOperation::ADD);
-
-            sharedEngine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
-
-            std::shared_ptr<BlendState> screenBlendState = std::make_shared<BlendState>();
-
-            screenBlendState->init(true,
-                                    BlendState::BlendFactor::ONE, BlendState::BlendFactor::INV_SRC_COLOR,
-                                    BlendState::BlendOperation::ADD,
-                                    BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                    BlendState::BlendOperation::ADD);
-
-            sharedEngine->getCache()->setBlendState(BLEND_SCREEN, screenBlendState);
-
-            std::shared_ptr<Texture> whitePixelTexture = std::make_shared<Texture>();
-            whitePixelTexture->init({255, 255, 255, 255}, Size2(1.0f, 1.0f), 0, 1);
-            sharedEngine->getCache()->setTexture(TEXTURE_WHITE_PIXEL, whitePixelTexture);
-
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
