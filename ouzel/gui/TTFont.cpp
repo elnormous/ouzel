@@ -87,6 +87,8 @@ namespace ouzel
                 height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
 
                 chars[c] = charDesc;
+
+                stbtt_FreeBitmap(bitmap, nullptr);
             }
         }
 
