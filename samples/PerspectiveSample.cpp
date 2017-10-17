@@ -57,11 +57,14 @@ PerspectiveSample::PerspectiveSample():
     layer.addChild(character);
     character->setPosition(Vector2(10.0f, 0.0f));
 
+    cameraActor.addComponent(&listener);
+    sharedEngine->getAudio()->addListener(&listener);
+
     jumpSound.reset(new audio::Sound());
-    std::shared_ptr<ouzel::audio::SoundDataWave> soundData = std::make_shared<ouzel::audio::SoundDataWave>();
-    soundData->init("jump.wav");
-    jumpSound->init(soundData);
-    jumpSound->setPosition(character->getPosition());
+    jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
+    jumpSound->setOutput(&listener);
+    jumpSound->setRolloffFactor(0.01f);
+    character->addComponent(jumpSound);
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
     character->addComponent(rotate);

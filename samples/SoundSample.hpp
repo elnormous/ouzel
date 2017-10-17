@@ -28,6 +28,7 @@ private:
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 
+    ouzel::scene::Actor soundActor;
     ouzel::gui::Button test8BitButton;
     ouzel::gui::Button test24BitButton;
     ouzel::gui::Button jumpButton;

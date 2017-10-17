@@ -34,12 +34,7 @@ namespace ouzel
 
         void Sound::updateTransform()
         {
-            if (actor) position = actor->getWorldPosition();
-        }
-
-        void Sound::setPosition(const Vector3& newPosition)
-        {
-            position = newPosition;
+            transformDirty = true;
         }
 
         void Sound::setPitch(float newPitch)
@@ -116,6 +111,12 @@ namespace ouzel
         {
             if (soundData && stream && stream->isPlaying())
             {
+                if (transformDirty && actor)
+                {
+                    position = actor->getWorldPosition();
+                    transformDirty = false;
+                }
+
                 AudioDevice::RenderCommand renderCommand;
 
                 renderCommand.attributeCallback = std::bind(&Sound::setAttributes,

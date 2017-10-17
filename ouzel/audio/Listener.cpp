@@ -24,12 +24,7 @@ namespace ouzel
 
         void Listener::updateTransform()
         {
-            if (actor)
-            {
-                position = actor->getWorldPosition();
-                const Matrix4& transform = actor->getTransform();
-                rotation = transform.getRotation();
-            }
+            transformDirty = true;
         }
 
         AudioDevice::RenderCommand Listener::getRenderCommand()
@@ -39,6 +34,15 @@ namespace ouzel
             for (SoundInput* input : inputs)
             {
                 input->addRenderCommands(renderCommand.renderCommands);
+            }
+
+            if (transformDirty && actor)
+            {
+                position = actor->getWorldPosition();
+                const Matrix4& transform = actor->getTransform();
+                rotation = transform.getRotation();
+
+                transformDirty = false;
             }
 
             renderCommand.attributeCallback = std::bind(&Listener::setAttributes,

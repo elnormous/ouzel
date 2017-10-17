@@ -24,12 +24,6 @@ namespace ouzel
             Listener();
             virtual ~Listener();
 
-            const Vector3& getPosition() const { return position; }
-            void setPosition(const Vector3& newPosition) { position = newPosition; }
-
-            const Quaternion& getRotation() const { return rotation; }
-            void setRotation(const Quaternion& newRotation) { rotation = newRotation; }
-
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
@@ -47,6 +41,7 @@ namespace ouzel
 
             Vector3 position;
             Quaternion rotation;
+            bool transformDirty = true;
         };
     } // namespace audio
 } // namespace ouzel

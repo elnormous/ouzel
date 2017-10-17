@@ -30,9 +30,6 @@ namespace ouzel
 
             const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
-            const Vector3& getPosition() const { return position; }
-            void setPosition(const Vector3& newPosition);
-
             float getPitch() const { return pitch; }
             void setPitch(float newPitch);
 
@@ -101,6 +98,7 @@ namespace ouzel
             float minDistance = 1.0f;
             float maxDistance = FLT_MAX;
 
+            bool transformDirty = true;
             bool spatialized = true;
             bool playing = false;
             bool repeating = false;

@@ -15,6 +15,8 @@ private:
     bool handleTouch(ouzel::Event::Type type, const ouzel::TouchEvent& event);
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
 
+    ouzel::audio::Listener listener;
+
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
