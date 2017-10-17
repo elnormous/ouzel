@@ -412,6 +412,9 @@
     <ClCompile Include="..\ouzel\core\WindowResource.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\scene\Light.cpp">
+      <Filter>ouzel\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -918,6 +921,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\core\Platform.h">
       <Filter>ouzel\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\scene\Light.hpp">
+      <Filter>ouzel\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

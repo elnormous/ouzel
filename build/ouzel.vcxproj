@@ -147,6 +147,7 @@
     <ClCompile Include="..\ouzel\scene\Camera.cpp" />
     <ClCompile Include="..\ouzel\scene\Component.cpp" />
     <ClCompile Include="..\ouzel\scene\Layer.cpp" />
+    <ClCompile Include="..\ouzel\scene\Light.cpp" />
     <ClCompile Include="..\ouzel\scene\MeshRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleDefinition.cpp" />
     <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\ouzel\scene\Camera.hpp" />
     <ClInclude Include="..\ouzel\scene\Component.hpp" />
     <ClInclude Include="..\ouzel\scene\Layer.hpp" />
+    <ClInclude Include="..\ouzel\scene\Light.hpp" />
     <ClInclude Include="..\ouzel\scene\MeshRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\ParticleDefinition.hpp" />
     <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp" />
