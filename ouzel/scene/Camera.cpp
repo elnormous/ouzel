@@ -16,7 +16,7 @@ namespace ouzel
     namespace scene
     {
         Camera::Camera(Matrix4 aProjection):
-            Component(Component::Type::CAMERA),
+            Component(TYPE),
             type(Type::CUSTOM), projection(aProjection)
 
         {

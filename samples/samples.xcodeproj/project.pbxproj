@@ -399,13 +399,10 @@
 			isa = PBXGroup;
 			children = (
 				303B74EF1C27F6B000FEDE92 /* Frameworks */,
-				303B762A1C34D21100FEDE92 /* ios */,
-				304A8EA41C274113008B1151 /* macos */,
 				30B492A01CDF816F0021E170 /* ouzel.xcodeproj */,
 				304A8E0B1C237B95008B1151 /* Products */,
 				304A8EB21C2765C4008B1151 /* Resources */,
 				30E75F421D7B78DB000300D4 /* samples */,
-				30575A951C38C8ED0009C8A7 /* tvos */,
 			);
 			sourceTree = "<group>";
 		};
@@ -492,6 +489,9 @@
 		30E75F421D7B78DB000300D4 /* samples */ = {
 			isa = PBXGroup;
 			children = (
+				303B762A1C34D21100FEDE92 /* ios */,
+				304A8EA41C274113008B1151 /* macos */,
+				30575A951C38C8ED0009C8A7 /* tvos */,
 				3045F0C81D0F24B800125436 /* AnimationsSample.cpp */,
 				3045F0C91D0F24B800125436 /* AnimationsSample.hpp */,
 				3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */,

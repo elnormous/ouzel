@@ -130,6 +130,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Camera.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
+	$(ROOT_DIR)/../ouzel/scene/Light.cpp \
 	$(ROOT_DIR)/../ouzel/scene/MeshRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleDefinition.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \

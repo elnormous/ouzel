@@ -35,7 +35,8 @@ namespace ouzel
                 LISTENER = 6,
                 SOUND = 7,
                 SPRITE = 8,
-                TEXT_RENDERER = 9
+                TEXT_RENDERER = 9,
+                LIGHT = 10
             };
 
             Component(uint32_t aType);

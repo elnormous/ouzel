@@ -19,6 +19,8 @@ namespace ouzel
         {
             friend Layer;
         public:
+            static const uint32_t TYPE = Component::CAMERA;
+
             enum class Type
             {
                 CUSTOM,
