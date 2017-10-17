@@ -64,7 +64,8 @@ The following code will open create a scene with a sprite in the center of it:
         MainScene()
         {
             addLayer(&layer);
-            layer.addChild(&camera);
+            cameraActor.addComponent(&camera);
+            layer.addChild(&cameraActor);
             playerSprite.initFromFile("player.png");
             player.addComponent(&playerSprite);
             layer.addChild(&player);
@@ -73,6 +74,7 @@ The following code will open create a scene with a sprite in the center of it:
     private:
         ouzel::scene::Layer layer;
         ouzel::scene::Camera camera;
+        ouzel::scene::Actor cameraActor;
         ouzel::scene::Sprite playerSprite;
         ouzel::scene::Actor player;
     };
