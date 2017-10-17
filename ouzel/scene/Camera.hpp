@@ -4,7 +4,7 @@
 #pragma once
 
 #include <memory>
-#include "scene/Actor.hpp"
+#include "scene/Component.hpp"
 #include "math/MathUtils.hpp"
 #include "math/Rectangle.hpp"
 #include "graphics/Texture.hpp"
@@ -15,7 +15,7 @@ namespace ouzel
     {
         class Layer;
 
-        class Camera: public Actor
+        class Camera: public Component
         {
             friend Layer;
         public:
@@ -91,7 +91,7 @@ namespace ouzel
         protected:
             virtual void setLayer(Layer* newLayer) override;
 
-            virtual void calculateTransform() const override;
+            virtual void updateTransform() override;
             void calculateViewProjection() const;
 
             Type type;

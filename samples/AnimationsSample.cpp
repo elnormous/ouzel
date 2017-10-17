@@ -17,8 +17,8 @@ AnimationsSample::AnimationsSample():
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
-
-    layer.addChild(&camera);
+    cameraActor.addComponent(&camera);
+    layer.addChild(&cameraActor);
     addLayer(&layer);
 
     shapeDrawable.reset(new scene::ShapeRenderer());
@@ -41,13 +41,12 @@ AnimationsSample::AnimationsSample():
                             Vector2(25.0f, 55.0f)},
                            Color("#ff0000"), false);
 
-    drawActor.reset(new scene::Actor());
-    drawActor->addComponent(shapeDrawable);
-    drawActor->setPosition(Vector2(-300, 0.0f));
-    layer.addChild(drawActor);
+    drawActor.addComponent(shapeDrawable);
+    drawActor.setPosition(Vector2(-300, 0.0f));
+    layer.addChild(&drawActor);
 
     shake.reset(new scene::Shake(10.0f, Vector2(10.0f, 20.0f), 20.0f));
-    drawActor->addComponent(shake);
+    drawActor.addComponent(shake);
     shake->start();
 
     witchSprite.reset(new scene::Sprite());
@@ -84,9 +83,8 @@ AnimationsSample::AnimationsSample():
     ballSprite.reset(new scene::Sprite());
     ballSprite->init("ball.png");
 
-    ball.reset(new scene::Actor());
-    ball->addComponent(ballSprite);
-    layer.addChild(ball);
+    ball.addComponent(ballSprite);
+    layer.addChild(&ball);
 
     ballDelay.reset(new scene::Animator(1.0f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
@@ -99,13 +97,13 @@ AnimationsSample::AnimationsSample():
      
     ballSequence.reset(new scene::Sequence(sequence2));
 
-    ball->addComponent(ballSequence);
+    ball.addComponent(ballSequence);
     ballSequence->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-
-    guiLayer.addChild(&guiCamera);
+    guiCameraActor.addComponent(&guiCamera);
+    guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);

@@ -15,6 +15,7 @@ private:
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
 
     std::unique_ptr<ouzel::scene::Sprite> characterSprite;
     std::unique_ptr<ouzel::scene::Actor> character;
@@ -32,6 +33,7 @@ private:
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
+    ouzel::scene::Actor guiCameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 };

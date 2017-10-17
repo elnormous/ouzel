@@ -16,12 +16,15 @@ namespace ouzel
     namespace scene
     {
         Camera::Camera(Matrix4 aProjection):
+            Component(Component::Type::CAMERA),
             type(Type::CUSTOM), projection(aProjection)
+
         {
             calculateViewProjection();
         }
 
         Camera::Camera(const Size2& aTargetContentSize, ScaleMode aScaleMode):
+            Component(Component::Type::CAMERA),
             type(Type::ORTHOGRAPHIC), targetContentSize(aTargetContentSize),
             scaleMode(aScaleMode)
         {
@@ -29,6 +32,7 @@ namespace ouzel
         }
 
         Camera::Camera(float aFov, float aNearPlane, float aFarPlane):
+            Component(Component::Type::CAMERA),
             type(Type::PERSPECTIVE), fov(aFov),
             nearPlane(aNearPlane), farPlane(aFarPlane)
         {
@@ -42,7 +46,7 @@ namespace ouzel
 
         void Camera::setLayer(Layer* newLayer)
         {
-            Actor::setLayer(newLayer);
+            Component::setLayer(newLayer);
 
             if (addedToLayer)
             {
@@ -57,9 +61,9 @@ namespace ouzel
             }
         }
 
-        void Camera::calculateTransform() const
+        void Camera::updateTransform()
         {
-            Actor::calculateTransform();
+            Component::updateTransform();
 
             viewProjectionDirty = inverseViewProjectionDirty = true;
         }
@@ -135,7 +139,7 @@ namespace ouzel
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (viewProjectionDirty || transformDirty)
+            if (viewProjectionDirty)
             {
                 calculateViewProjection();
             }
@@ -145,7 +149,7 @@ namespace ouzel
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (viewProjectionDirty || transformDirty)
+            if (viewProjectionDirty)
             {
                 calculateViewProjection();
             }
@@ -155,7 +159,7 @@ namespace ouzel
 
         const Matrix4& Camera::getInverseViewProjection() const
         {
-            if (inverseViewProjectionDirty || transformDirty)
+            if (inverseViewProjectionDirty)
             {
                 inverseViewProjection = getViewProjection();
                 inverseViewProjection.invert();
@@ -168,13 +172,16 @@ namespace ouzel
 
         void Camera::calculateViewProjection() const
         {
-            viewProjection = projection * getInverseTransform();
+            if (actor)
+            {
+                viewProjection = projection * actor->getInverseTransform();
 
-            renderViewProjection = viewProjection;
+                renderViewProjection = viewProjection;
 
-            renderViewProjection = sharedEngine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
+                renderViewProjection = sharedEngine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
 
-            viewProjectionDirty = false;
+                viewProjectionDirty = false;
+            }
         }
 
         Vector3 Camera::convertNormalizedToWorld(const Vector2& normalizedPosition) const

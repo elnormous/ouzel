@@ -101,5 +101,14 @@ namespace ouzel
         {
             if (actor) actor->removeComponent(this);
         }
+
+        void Component::setLayer(Layer* newLayer)
+        {
+            layer = newLayer;
+        }
+
+        void Component::updateTransform()
+        {
+        }
     } // namespace scene
 } // namespace ouzel

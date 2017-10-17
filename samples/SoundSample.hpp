@@ -24,6 +24,7 @@ private:
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
+    ouzel::scene::Actor guiCameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 

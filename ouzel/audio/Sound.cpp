@@ -16,7 +16,6 @@ namespace ouzel
         Sound::Sound():
             scene::Component(scene::Component::SOUND)
         {
-            updateCallback.callback = std::bind(&Sound::update, this, std::placeholders::_1);
         }
 
         Sound::~Sound()
@@ -33,7 +32,7 @@ namespace ouzel
             return true;
         }
 
-        void Sound::update(float)
+        void Sound::updateTransform()
         {
             if (actor) position = actor->getWorldPosition();
         }
@@ -90,8 +89,6 @@ namespace ouzel
                 stream->setPlaying(true);
             }
 
-            sharedEngine->scheduleUpdate(&updateCallback);
-
             return true;
         }
 
@@ -99,8 +96,6 @@ namespace ouzel
         {
             playing = false;
             if (stream) stream->setPlaying(false);
-
-            sharedEngine->unscheduleUpdate(&updateCallback);
 
             return true;
         }
@@ -113,8 +108,6 @@ namespace ouzel
                 stream->setPlaying(false);
                 stream->setShouldReset(true);
             }
-
-            sharedEngine->unscheduleUpdate(&updateCallback);
 
             return true;
         }
@@ -176,8 +169,6 @@ namespace ouzel
                 event.soundEvent.sound = this;
                 sharedEngine->getEventDispatcher()->postEvent(event);
             });
-
-            sharedEngine->unscheduleUpdate(&updateCallback);
         }
 
         void Sound::setAttributes(Vector3&,

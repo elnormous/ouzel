@@ -17,6 +17,7 @@ private:
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
 
     ouzel::EventHandler eventHandler;
 };

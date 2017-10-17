@@ -111,21 +111,21 @@ namespace ouzel
             position.x = newPosition.x;
             position.y = newPosition.y;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setPosition(const Vector3& newPosition)
         {
             position = newPosition;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setRotation(const Quaternion& newRotation)
         {
             rotation = newRotation;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setRotation(const Vector3& newRotation)
@@ -135,7 +135,7 @@ namespace ouzel
 
             rotation = roationQuaternion;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setRotation(float newRotation)
@@ -145,7 +145,7 @@ namespace ouzel
 
             rotation = roationQuaternion;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setScale(const Vector2& newScale)
@@ -153,14 +153,14 @@ namespace ouzel
             scale.x = newScale.x;
             scale.y = newScale.y;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setScale(const Vector3& newScale)
         {
             scale = newScale;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setOpacity(float newOpacity)
@@ -172,14 +172,14 @@ namespace ouzel
         {
             flipX = newFlipX;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setFlipY(bool newFlipY)
         {
             flipY = newFlipY;
 
-            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            updateLocalTransform();
         }
 
         void Actor::setHidden(bool newHidden)
@@ -228,10 +228,23 @@ namespace ouzel
             return false;
         }
 
+        void Actor::updateLocalTransform()
+        {
+            localTransformDirty = transformDirty = inverseTransformDirty = true;
+            for (Component* component : components)
+            {
+                component->updateTransform();
+            }
+        }
+
         void Actor::updateTransform(const Matrix4& newParentTransform)
         {
             parentTransform = newParentTransform;
             transformDirty = inverseTransformDirty = true;
+            for (Component* component : components)
+            {
+                component->updateTransform();
+            }
         }
 
         Vector3 Actor::getWorldPosition() const
@@ -337,6 +350,16 @@ namespace ouzel
         {
             components.clear();
             ownedComponents.clear();
+        }
+
+        void Actor::setLayer(Layer* newLayer)
+        {
+            ActorContainer::setLayer(newLayer);
+
+            for (Component* component : components)
+            {
+                component->setLayer(newLayer);
+            }
         }
 
         std::vector<Component*> Actor::getComponents(uint32_t type) const

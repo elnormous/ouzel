@@ -106,8 +106,6 @@ namespace ouzel
                 return inverseTransform;
             }
 
-            virtual void updateTransform(const Matrix4& newParentTransform);
-
             Vector3 getWorldPosition() const;
             virtual int32_t getWorldOrder() const { return worldOrder; }
 
@@ -153,6 +151,11 @@ namespace ouzel
             virtual void addChildActor(Actor* actor) override;
             void addChildComponent(Component* component);
             bool removeChildComponent(Component* component);
+
+            virtual void setLayer(Layer* newLayer) override;
+
+            void updateLocalTransform();
+            void updateTransform(const Matrix4& newParentTransform);
 
             virtual void calculateLocalTransform() const;
             virtual void calculateTransform() const;

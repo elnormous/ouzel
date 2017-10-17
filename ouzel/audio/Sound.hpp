@@ -64,7 +64,7 @@ namespace ouzel
             virtual void onStop() override;
 
         private:
-            void update(float delta);
+            virtual void updateTransform() override;
 
             static void setAttributes(Vector3& listenerPosition,
                                       Quaternion& listenerRotation,
@@ -91,7 +91,6 @@ namespace ouzel
                                float maxDistance,
                                bool spatialized);
 
-            UpdateCallback updateCallback;
             std::shared_ptr<SoundData> soundData;
             std::shared_ptr<Stream> stream;
 

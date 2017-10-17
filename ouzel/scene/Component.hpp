@@ -18,6 +18,7 @@ namespace ouzel
     {
         class Camera;
         class Actor;
+        class Layer;
 
         class Component: public Noncopyable
         {
@@ -26,14 +27,15 @@ namespace ouzel
             enum Type
             {
                 NONE = 0,
-                ANIMATOR = 1,
-                MESH_RENDERER = 2,
-                PARTICLE_SYSTEM = 3,
-                SHAPE_RENDERER = 4,
-                LISTENER = 5,
-                SOUND = 6,
-                SPRITE = 7,
-                TEXT_RENDERER = 8
+                CAMERA = 1,
+                ANIMATOR = 2,
+                MESH_RENDERER = 3,
+                PARTICLE_SYSTEM = 4,
+                SHAPE_RENDERER = 5,
+                LISTENER = 6,
+                SOUND = 7,
+                SPRITE = 8,
+                TEXT_RENDERER = 9
             };
 
             Component(uint32_t aType);
@@ -65,11 +67,15 @@ namespace ouzel
             void removeFromActor();
 
         protected:
+            virtual void setLayer(Layer* newLayer);
+            virtual void updateTransform();
+
             uint32_t type;
 
             Box3 boundingBox;
             bool hidden = false;
 
+            Layer* layer = nullptr;
             Actor* actor = nullptr;
         };
     } // namespace scene

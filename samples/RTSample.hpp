@@ -15,22 +15,28 @@ private:
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
 
-    std::unique_ptr<ouzel::scene::Layer> rtLayer;
-    std::unique_ptr<ouzel::scene::Camera> rtCamera;
-    std::unique_ptr<ouzel::scene::Camera> camera1;
-    std::unique_ptr<ouzel::scene::Camera> camera2;
+    ouzel::scene::Layer rtLayer;
 
-    std::unique_ptr<ouzel::scene::Sprite> characterSprite;
-    std::unique_ptr<ouzel::scene::Actor> rtCharacter;
+    ouzel::scene::Camera rtCamera;
+    ouzel::scene::Actor rtCameraActor;
+    ouzel::scene::Camera camera1;
+    ouzel::scene::Actor camera1Actor;
+    ouzel::scene::Camera camera2;
+    ouzel::scene::Actor camera2Actor;
 
-    std::unique_ptr<ouzel::scene::Sprite> rtSprite;
-    std::unique_ptr<ouzel::scene::Actor> rtActor;
+    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Actor rtCharacter;
+
+    ouzel::scene::Sprite rtSprite;
+    ouzel::scene::Actor rtActor;
 
     ouzel::EventHandler eventHandler;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
+    ouzel::scene::Actor guiCameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 };

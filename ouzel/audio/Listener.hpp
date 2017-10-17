@@ -33,7 +33,7 @@ namespace ouzel
             AudioDevice::RenderCommand getRenderCommand();
 
         protected:
-            void update(float);
+            virtual void updateTransform() override;
 
             static void setAttributes(Vector3& listenerPosition,
                                       Quaternion& listenerRotation,
@@ -44,8 +44,6 @@ namespace ouzel
                                       const Quaternion& rotation);
 
             Audio* audio = nullptr;
-
-            UpdateCallback updateCallback;
 
             Vector3 position;
             Quaternion rotation;

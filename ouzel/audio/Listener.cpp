@@ -4,7 +4,8 @@
 #include "Listener.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
-#include "core/Engine.hpp"
+#include "SoundInput.hpp"
+#include "scene/Actor.hpp"
 #include "math/MathUtils.hpp"
 
 namespace ouzel
@@ -14,8 +15,6 @@ namespace ouzel
         Listener::Listener():
             scene::Component(scene::Component::LISTENER)
         {
-            updateCallback.callback = std::bind(&Listener::update, this, std::placeholders::_1);
-            sharedEngine->scheduleUpdate(&updateCallback);
         }
 
         Listener::~Listener()
@@ -23,7 +22,7 @@ namespace ouzel
             if (audio) audio->removeListener(this);
         }
 
-        void Listener::update(float)
+        void Listener::updateTransform()
         {
             if (actor)
             {

@@ -31,7 +31,8 @@ MainMenu::MainMenu():
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(400.0f, 600.0f));
-    layer.addChild(&camera);
+    cameraActor.addComponent(&camera);
+    layer.addChild(&cameraActor);
 
     layer.addChild(&menu);
 

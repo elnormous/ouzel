@@ -15,9 +15,10 @@ private:
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
 
     std::unique_ptr<ouzel::scene::ShapeRenderer> shapeDrawable;
-    std::unique_ptr<ouzel::scene::Actor> drawActor;
+    ouzel::scene::Actor drawActor;
 
     std::unique_ptr<ouzel::scene::Shake> shake;
 
@@ -32,7 +33,7 @@ private:
     std::unique_ptr<ouzel::scene::Animator> witchSequence;
 
     std::unique_ptr<ouzel::scene::Sprite> ballSprite;
-    std::unique_ptr<ouzel::scene::Actor> ball;
+    ouzel::scene::Actor ball;
 
     std::unique_ptr<ouzel::scene::Animator> ballDelay;
     std::unique_ptr<ouzel::scene::Animator> ballEase;
@@ -43,6 +44,7 @@ private:
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
+    ouzel::scene::Actor guiCameraActor;
     ouzel::gui::Menu menu;
     ouzel::gui::Button backButton;
 };

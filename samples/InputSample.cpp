@@ -24,8 +24,8 @@ InputSample::InputSample():
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
-
-    layer.addChild(&camera);
+    cameraActor.addComponent(&camera);
+    layer.addChild(&cameraActor);
     addLayer(&layer);
 
     flameParticleSystem.reset(new scene::ParticleSystem());
@@ -38,7 +38,8 @@ InputSample::InputSample():
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-    guiLayer.addChild(&guiCamera);
+    guiCameraActor.addComponent(&guiCamera);
+    guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
@@ -54,7 +55,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_PRESS)
     {
-        Vector2 position = camera.getPosition();
+        Vector2 position = cameraActor.getPosition();
         Vector2 flamePosition = camera.convertWorldToNormalized(flame->getPosition());
 
         switch (event.key)
@@ -98,7 +99,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
         }
 
-        camera.setPosition(position);
+        cameraActor.setPosition(position);
 
         Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
 

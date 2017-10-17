@@ -29,9 +29,9 @@ PerspectiveSample::PerspectiveSample():
 
     camera.setType(scene::Camera::Type::PERSPECTIVE);
     camera.setFarPlane(1000.0f);
-    camera.setPosition(Vector3(0.0f, 0.0f, -400.0f));
-
-    layer.addChild(&camera);
+    cameraActor.setPosition(Vector3(0.0f, 0.0f, -400.0f));
+    cameraActor.addComponent(&camera);
+    layer.addChild(&cameraActor);
     addLayer(&layer);
 
     // floor
@@ -69,8 +69,8 @@ PerspectiveSample::PerspectiveSample():
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-
-    guiLayer.addChild(&guiCamera);
+    guiCameraActor.addComponent(&guiCamera);
+    guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
@@ -128,7 +128,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
         if (cameraRotation.x < -TAU / 6.0f) cameraRotation.x = -TAU / 6.0f;
         if (cameraRotation.x > TAU / 6.0f) cameraRotation.x = TAU / 6.0f;
 
-        camera.setRotation(cameraRotation);
+        cameraActor.setRotation(cameraRotation);
 
         //sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
     }
@@ -148,7 +148,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
             if (cameraRotation.x < -TAU / 6.0f) cameraRotation.x = -TAU / 6.0f;
             if (cameraRotation.x > TAU / 6.0f) cameraRotation.x = TAU / 6.0f;
 
-            camera.setRotation(cameraRotation);
+            cameraActor.setRotation(cameraRotation);
         }
     }
 
@@ -165,7 +165,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
         if (cameraRotation.x < -TAU / 6.0f) cameraRotation.x = -TAU / 6.0f;
         if (cameraRotation.x > TAU / 6.0f) cameraRotation.x = TAU / 6.0f;
 
-        camera.setRotation(cameraRotation);
+        cameraActor.setRotation(cameraRotation);
     }
 
     return true;

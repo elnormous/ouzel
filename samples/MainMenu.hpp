@@ -14,6 +14,7 @@ private:
 
     ouzel::scene::Layer layer;
     ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
 
     ouzel::gui::Menu menu;
 

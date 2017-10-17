@@ -8,57 +8,50 @@ using namespace std;
 using namespace ouzel;
 
 RTSample::RTSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    characterSprite("run.json")
 {
     eventHandler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&RTSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    rtLayer.reset(new scene::Layer());
-    addLayer(rtLayer);
+    addLayer(&rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
     renderTarget->init(Size2(256.0f, 256.0f), graphics::Texture::RENDER_TARGET, 0, 1);
     renderTarget->setClearColor(Color(0, 64, 0));
 
-    rtCamera.reset(new scene::Camera());
-    rtCamera->setRenderTarget(renderTarget);
+    rtCamera.setRenderTarget(renderTarget);
+    rtCameraActor.addComponent(&rtCamera);
+    rtLayer.addChild(&rtCameraActor);
 
-    rtLayer->addChild(rtCamera);
+    camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera1.setTargetContentSize(Size2(400.0f, 600.0f));
+    camera1.setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+    camera1Actor.addComponent(&camera1);
 
-    camera1.reset(new scene::Camera());
-    camera1->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera1->setTargetContentSize(Size2(400.0f, 600.0f));
-    camera1->setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+    camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
+    camera2.setTargetContentSize(Size2(400.0f, 600.0f));
+    camera2.setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
+    camera2Actor.addComponent(&camera2);
 
-    camera2.reset(new scene::Camera());
-    camera2->setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera2->setTargetContentSize(Size2(400.0f, 600.0f));
-    camera2->setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
-
-    layer.addChild(camera1);
-    layer.addChild(camera2);
+    layer.addChild(&camera1Actor);
+    layer.addChild(&camera2Actor);
     addLayer(&layer);
 
-    characterSprite.reset(new ouzel::scene::Sprite("run.json"));
-    characterSprite->play(true);
+    characterSprite.play(true);
+    rtCharacter.addComponent(&characterSprite);
+    rtLayer.addChild(&rtCharacter);
 
-    rtCharacter.reset(new scene::Actor());
-    rtCharacter->addComponent(characterSprite);
-
-    rtLayer->addChild(rtCharacter);
-
-    rtSprite.reset(new scene::Sprite());
-    rtSprite->init(renderTarget);
-    rtActor.reset(new scene::Actor());
-    rtActor->addComponent(rtSprite);
-    layer.addChild(rtActor);
+    rtSprite.init(renderTarget);
+    rtActor.addComponent(&rtSprite);
+    layer.addChild(&rtActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
-
-    guiLayer.addChild(&guiCamera);
+    guiCameraActor.addComponent(&guiCamera);
+    guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
