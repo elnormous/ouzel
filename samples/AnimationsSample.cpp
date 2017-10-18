@@ -21,27 +21,26 @@ AnimationsSample::AnimationsSample():
     layer.addChild(&cameraActor);
     addLayer(&layer);
 
-    shapeDrawable.reset(new scene::ShapeRenderer());
-    shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
-    shapeDrawable->rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false, 2.0f);
-    shapeDrawable->line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN, 2.0f);
+    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color(0, 128, 128, 255), true);
+    shapeDrawable.rectangle(ouzel::Rectangle(100.0f, 100.0f), Color::WHITE, false, 2.0f);
+    shapeDrawable.line(Vector2(0.0f, 0.0f), Vector2(50.0f, 50.0f), Color::CYAN, 2.0f);
 
-    shapeDrawable->curve({Vector2(50.0f, 50.0f),
-                          Vector2(100.0f, 50.0f),
-                          Vector2(50.0f, 0.0f),
-                          Vector2(100.0f, 0.0f)},
-                         Color::YELLOW);
+    shapeDrawable.curve({Vector2(50.0f, 50.0f),
+                         Vector2(100.0f, 50.0f),
+                         Vector2(50.0f, 0.0f),
+                         Vector2(100.0f, 0.0f)},
+                        Color::YELLOW);
 
-    shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
-    shapeDrawable->circle(Vector2(25.0f, 75.0f), 20.0f, Color::WHITE, false);
-    shapeDrawable->circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
+    shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, Color::BLUE, true);
+    shapeDrawable.circle(Vector2(25.0f, 75.0f), 20.0f, Color::WHITE, false);
+    shapeDrawable.circle(Vector2(75.0f, 75.0f), 20.0f, Color::BLUE, false, 16, 4.0f);
 
-    shapeDrawable->polygon({Vector2(15.0f, 75.0f),
-                            Vector2(25.0f, 75.0f),
-                            Vector2(25.0f, 55.0f)},
-                           Color("#ff0000"), false);
+    shapeDrawable.polygon({Vector2(15.0f, 75.0f),
+                           Vector2(25.0f, 75.0f),
+                           Vector2(25.0f, 55.0f)},
+                          Color("#ff0000"), false);
 
-    drawActor.addComponent(shapeDrawable);
+    drawActor.addComponent(&shapeDrawable);
     drawActor.setPosition(Vector2(-300, 0.0f));
     layer.addChild(&drawActor);
 
@@ -49,13 +48,11 @@ AnimationsSample::AnimationsSample():
     drawActor.addComponent(shake);
     shake->start();
 
-    witchSprite.reset(new scene::Sprite());
-    witchSprite->init("witch.png");
+    witchSprite.init("witch.png");
 
-    witch.reset(new scene::Actor());
-    witch->setPosition(Vector2(200, 0.0f));
-    witch->addComponent(witchSprite);
-    layer.addChild(witch);
+    witch.setPosition(Vector2(200, 0.0f));
+    witch.addComponent(&witchSprite);
+    layer.addChild(&witch);
 
     witchScale.reset(new scene::Scale(2.0f, Vector2(0.1f, 0.1f), false));
     witchFade.reset(new scene::Fade(2.0f, 0.4f));
@@ -77,13 +74,12 @@ AnimationsSample::AnimationsSample():
 
     witchSequence.reset(new scene::Sequence(sequence));
 
-    witch->addComponent(witchSequence);
+    witch.addComponent(witchSequence);
     witchSequence->start();
 
-    ballSprite.reset(new scene::Sprite());
-    ballSprite->init("ball.png");
+    ballSprite.init("ball.png");
 
-    ball.addComponent(ballSprite);
+    ball.addComponent(&ballSprite);
     layer.addChild(&ball);
 
     ballDelay.reset(new scene::Animator(1.0f));

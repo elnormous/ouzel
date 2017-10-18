@@ -24,38 +24,32 @@ SpritesSample::SpritesSample():
     addLayer(&layer);
 
     // character
-    characterSprite.reset(new scene::Sprite());
-    characterSprite->init("run.json");
-    characterSprite->play(true);
+    characterSprite.init("run.json");
+    characterSprite.play(true);
 
-    character.reset(new scene::Actor());
-    character->addComponent(characterSprite);
-    layer.addChild(character);
-    character->setPosition(Vector2(-300.0f, 0.0f));
+    character.addComponent(&characterSprite);
+    layer.addChild(&character);
+    character.setPosition(Vector2(-300.0f, 0.0f));
 
     move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
-    character->addComponent(move);
+    character.addComponent(move);
     move->start();
 
     // fire
-    fireSprite.reset(new scene::Sprite());
-    fireSprite->init("fire.json");
-    fireSprite->setOffset(Vector2(0.0f, 20.0f));
-    fireSprite->play(true);
+    fireSprite.init("fire.json");
+    fireSprite.setOffset(Vector2(0.0f, 20.0f));
+    fireSprite.play(true);
 
-    fireActor.reset(new scene::Actor());
-    fireActor->addComponent(fireSprite);
-    fireActor->setPosition(Vector2(-100.0f, -140.0f));
-    layer.addChild(fireActor);
+    fireActor.addComponent(&fireSprite);
+    fireActor.setPosition(Vector2(-100.0f, -140.0f));
+    layer.addChild(&fireActor);
 
     // triangle
-    triangleSprite.reset(new scene::Sprite());
-    triangleSprite->init("triangle.json");
+    triangleSprite.init("triangle.json");
 
-    triangleActor.reset(new scene::Actor());
-    triangleActor->addComponent(triangleSprite);
-    triangleActor->setPosition(Vector2(100.0f, -140.0f));
-    layer.addChild(triangleActor);
+    triangleActor.addComponent(&triangleSprite);
+    triangleActor.setPosition(Vector2(100.0f, -140.0f));
+    layer.addChild(&triangleActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
@@ -99,7 +93,7 @@ bool SpritesSample::handleUI(Event::Type type, const UIEvent& event)
         }
         else if (event.actor == &hideButton)
         {
-            character->setHidden(!character->isHidden());
+            character.setHidden(!character.isHidden());
         }
         else if (event.actor == &wireframeButton)
         {

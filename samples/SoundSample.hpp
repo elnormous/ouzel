@@ -10,17 +10,17 @@ public:
 
 private:
     bool handleGamepad(ouzel::Event::Type type, const ouzel::GamepadEvent& event);
-    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event) const;
+    bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
     ouzel::audio::Listener listener;
     ouzel::audio::Mixer soundMixer;
 
-    std::unique_ptr<ouzel::audio::Sound> test8BitSound;
-    std::unique_ptr<ouzel::audio::Sound> test24BitSound;
-    std::unique_ptr<ouzel::audio::Sound> jumpSound;
-    std::unique_ptr<ouzel::audio::Sound> ambientSound;
-    std::unique_ptr<ouzel::audio::Sound> music;
+    ouzel::audio::Sound test8BitSound;
+    ouzel::audio::Sound test24BitSound;
+    ouzel::audio::Sound jumpSound;
+    ouzel::audio::Sound ambientSound;
+    ouzel::audio::Sound music;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

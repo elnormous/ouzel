@@ -35,39 +35,34 @@ PerspectiveSample::PerspectiveSample():
     addLayer(&layer);
 
     // floor
-    floorSprite.reset(new scene::Sprite());
-    floorSprite->init("floor.jpg");
-    floorSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
+    floorSprite.init("floor.jpg");
+    floorSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
 
-    floor.reset(new scene::Actor());
-    floor->addComponent(floorSprite);
-    layer.addChild(floor);
-    floor->setPosition(Vector2(0.0f, -50.0f));
-    floor->setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
+    floor.addComponent(&floorSprite);
+    layer.addChild(&floor);
+    floor.setPosition(Vector2(0.0f, -50.0f));
+    floor.setRotation(Vector3(TAU_4, TAU / 8.0f, 0.0f));
     
     // character
-    characterSprite.reset(new scene::Sprite());
-    characterSprite->init("run.json");
-    characterSprite->play(true);
-    characterSprite->getMaterial()->textures[0]->setMaxAnisotropy(4);
-    characterSprite->getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
+    characterSprite.init("run.json");
+    characterSprite.play(true);
+    characterSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
+    characterSprite.getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 
-    character.reset(new scene::Actor());
-    character->addComponent(characterSprite);
-    layer.addChild(character);
-    character->setPosition(Vector2(10.0f, 0.0f));
+    character.addComponent(&characterSprite);
+    layer.addChild(&character);
+    character.setPosition(Vector2(10.0f, 0.0f));
 
     cameraActor.addComponent(&listener);
     sharedEngine->getAudio()->addListener(&listener);
 
-    jumpSound.reset(new audio::Sound());
-    jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
-    jumpSound->setOutput(&listener);
-    jumpSound->setRolloffFactor(0.01f);
-    character->addComponent(jumpSound);
+    jumpSound.init(sharedEngine->getCache()->getSoundData("jump.wav"));
+    jumpSound.setOutput(&listener);
+    jumpSound.setRolloffFactor(0.01f);
+    character.addComponent(&jumpSound);
 
     rotate.reset(new scene::Rotate(10.0f, Vector3(0.0f, TAU, 0.0f)));
-    character->addComponent(rotate);
+    character.addComponent(rotate);
     rotate->start();
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -119,7 +114,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::KeyboardKey::TAB:
-                jumpSound->play();
+                jumpSound.play();
                 break;
             case input::KeyboardKey::S:
                 sharedEngine->getRenderer()->saveScreenshot("test.png");

@@ -17,13 +17,13 @@ private:
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
 
-    std::unique_ptr<ouzel::scene::ShapeRenderer> shapeDrawable;
+    ouzel::scene::ShapeRenderer shapeDrawable;
     ouzel::scene::Actor drawActor;
 
     std::unique_ptr<ouzel::scene::Shake> shake;
 
-    std::unique_ptr<ouzel::scene::Sprite> witchSprite;
-    std::unique_ptr<ouzel::scene::Actor> witch;
+    ouzel::scene::Sprite witchSprite;
+    ouzel::scene::Actor witch;
 
     std::unique_ptr<ouzel::scene::Animator> witchScale;
     std::unique_ptr<ouzel::scene::Animator> witchFade;
@@ -32,7 +32,7 @@ private:
     std::unique_ptr<ouzel::scene::Animator> witchParallel;
     std::unique_ptr<ouzel::scene::Animator> witchSequence;
 
-    std::unique_ptr<ouzel::scene::Sprite> ballSprite;
+    ouzel::scene::Sprite ballSprite;
     ouzel::scene::Actor ball;
 
     std::unique_ptr<ouzel::scene::Animator> ballDelay;

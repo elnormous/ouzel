@@ -22,8 +22,8 @@ private:
     ouzel::EventHandler eventHandler;
 
     ouzel::gui::Button hideButton;
-    std::unique_ptr<ouzel::scene::ParticleSystem> flameParticleSystem;
-    std::unique_ptr<ouzel::scene::Actor> flame;
+    ouzel::scene::ParticleSystem flameParticleSystem;
+    ouzel::scene::Actor flame;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

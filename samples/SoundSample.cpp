@@ -25,31 +25,26 @@ SoundSample::SoundSample():
     soundMixer.setOutput(&listener);
     soundMixer.setGain(1.2f);
 
-    test8BitSound.reset(new audio::Sound());
-    test8BitSound->init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
-    test8BitSound->setPitch(2.0f);
-    test8BitSound->setOutput(&soundMixer);
+    test8BitSound.init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
+    test8BitSound.setPitch(2.0f);
+    test8BitSound.setOutput(&soundMixer);
 
-    test24BitSound.reset(new audio::Sound());
-    test24BitSound->init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
-    test24BitSound->setPitch(0.5f);
-    test24BitSound->setOutput(&soundMixer);
+    test24BitSound.init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
+    test24BitSound.setPitch(0.5f);
+    test24BitSound.setOutput(&soundMixer);
 
-    jumpSound.reset(new audio::Sound());
-    jumpSound->init(sharedEngine->getCache()->getSoundData("jump.wav"));
+    jumpSound.init(sharedEngine->getCache()->getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
-    soundActor.addComponent(jumpSound);
+    soundActor.addComponent(&jumpSound);
     soundActor.setPosition(Vector3(8.0f, 0.0f, 10.0f));
-    jumpSound->setOutput(&soundMixer);
+    jumpSound.setOutput(&soundMixer);
 
-    ambientSound.reset(new audio::Sound());
-    ambientSound->init(sharedEngine->getCache()->getSoundData("ambient.wav"));
-    ambientSound->setOutput(&soundMixer);
+    ambientSound.init(sharedEngine->getCache()->getSoundData("ambient.wav"));
+    ambientSound.setOutput(&soundMixer);
 
-    music.reset(new audio::Sound());
-    music->init(sharedEngine->getCache()->getSoundData("music.ogg"));
-    music->setOutput(&listener);
+    music.init(sharedEngine->getCache()->getSoundData("music.ogg"));
+    music.setOutput(&listener);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
@@ -92,7 +87,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
     return true;
 }
 
-bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
+bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
 {
     if (type == Event::Type::ACTOR_CLICK)
     {
@@ -102,23 +97,23 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event) const
         }
         else if (event.actor == &test8BitButton)
         {
-            test8BitSound->play();
+            test8BitSound.play();
         }
         else if (event.actor == &test24BitButton)
         {
-            test24BitSound->play();
+            test24BitSound.play();
         }
         else if (event.actor == &jumpButton)
         {
-            jumpSound->play(true);
+            jumpSound.play(true);
         }
         else if (event.actor == &ambientButton)
         {
-            ambientSound->play();
+            ambientSound.play();
         }
         else if (event.actor == &musicButton)
         {
-            music->play();
+            music.play();
         }
     }
 
