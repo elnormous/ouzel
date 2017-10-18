@@ -29,7 +29,7 @@ namespace ouzel
                 NONE = 0,
                 CAMERA = 1,
                 ANIMATOR = 2,
-                MESH_RENDERER = 3,
+                MODEL_RENDERER = 3,
                 PARTICLE_SYSTEM = 4,
                 SHAPE_RENDERER = 5,
                 LISTENER = 6,

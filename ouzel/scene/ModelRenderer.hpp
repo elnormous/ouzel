@@ -9,12 +9,12 @@ namespace ouzel
 {
     namespace scene
     {
-        class MeshRenderer: public Component
+        class ModelRenderer: public Component
         {
         public:
-            static const uint32_t TYPE = Component::MESH_RENDERER;
+            static const uint32_t TYPE = Component::MODEL_RENDERER;
 
-            MeshRenderer();
+            ModelRenderer();
         };
     } // namespace scene
 } // namespace ouzel
