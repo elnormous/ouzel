@@ -46,8 +46,8 @@ namespace ouzel
         void setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition);
         void releaseSpriteDefinitions();
 
-        void preloadParticleDefinition(const std::string& filename);
-        const scene::ParticleDefinition& getParticleDefinition(const std::string& filename) const;
+        void preloadParticleDefinition(const std::string& filename, bool mipmaps = true);
+        const scene::ParticleDefinition& getParticleDefinition(const std::string& filename, bool mipmaps = true) const;
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 

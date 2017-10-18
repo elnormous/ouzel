@@ -8,10 +8,8 @@
 #include "math/Box2.hpp"
 #include "math/Rectangle.hpp"
 #include "graphics/Vertex.hpp"
-#include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
-#include "graphics/Texture.hpp"
 
 namespace ouzel
 {

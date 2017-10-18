@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "SpriteFrame.hpp"
+#include "graphics/Texture.hpp"
 
 namespace ouzel
 {
@@ -12,7 +13,7 @@ namespace ouzel
     {
         struct SpriteDefinition
         {
-            static SpriteDefinition loadSpriteDefinition(const std::string& filename, bool mipmaps = true);
+            static SpriteDefinition load(const std::string& filename, bool mipmaps = true);
 
             std::vector<SpriteFrame> frames;
             std::shared_ptr<graphics::Texture> texture;

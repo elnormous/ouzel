@@ -7,5 +7,11 @@ namespace ouzel
 {
     namespace scene
     {
+        ModelDefinition ModelDefinition::load(const std::string& filename, bool mipmaps)
+        {
+            ModelDefinition result;
+
+            return result;
+        }
     } // namespace scene
 } // namespace ouzel

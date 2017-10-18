@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        ParticleDefinition ParticleDefinition::loadParticleDefinition(const std::string& filename)
+        ParticleDefinition ParticleDefinition::load(const std::string& filename, bool mipmaps)
         {
             ParticleDefinition result;
 
@@ -102,7 +102,7 @@ namespace ouzel
             if (document.find("finishColorVarianceBlue") != document.end()) result.finishColorBlueVariance = document["finishColorVarianceBlue"].get<float>();
             if (document.find("finishColorVarianceAlpha") != document.end()) result.finishColorAlphaVariance = document["finishColorVarianceAlpha"].get<float>();
 
-            if (document.find("textureFileName") != document.end()) result.textureFilename = document["textureFileName"].get<std::string>();
+            if (document.find("textureFileName") != document.end()) result.texture = sharedEngine->getCache()->getTexture(document["textureFileName"].get<std::string>(), mipmaps);
 
             result.emissionRate = static_cast<float>(result.maxParticles) / result.particleLifespan;
 

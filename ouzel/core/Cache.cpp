@@ -166,7 +166,7 @@ namespace ouzel
 
         if (extension == "json")
         {
-            spriteDefinition = scene::SpriteDefinition::loadSpriteDefinition(filename, mipmaps);
+            spriteDefinition = scene::SpriteDefinition::load(filename, mipmaps);
         }
         else
         {
@@ -214,7 +214,7 @@ namespace ouzel
 
             if (extension == "json")
             {
-                spriteDefinition = scene::SpriteDefinition::loadSpriteDefinition(filename, mipmaps);
+                spriteDefinition = scene::SpriteDefinition::load(filename, mipmaps);
             }
             else if (spritesX > 0 && spritesY > 0)
             {
@@ -257,12 +257,12 @@ namespace ouzel
         spriteDefinitions.clear();
     }
 
-    void Cache::preloadParticleDefinition(const std::string& filename)
+    void Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
     {
-        particleDefinitions[filename] = scene::ParticleDefinition::loadParticleDefinition(filename);
+        particleDefinitions[filename] = scene::ParticleDefinition::load(filename, mipmaps);
     }
 
-    const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename) const
+    const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename, bool mipmaps) const
     {
         auto i = particleDefinitions.find(filename);
 
@@ -272,7 +272,7 @@ namespace ouzel
         }
         else
         {
-            i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::loadParticleDefinition(filename))).first;
+            i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::load(filename, mipmaps))).first;
 
             return i->second;
         }

@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        SpriteDefinition SpriteDefinition::loadSpriteDefinition(const std::string& filename, bool mipmaps)
+        SpriteDefinition SpriteDefinition::load(const std::string& filename, bool mipmaps)
         {
             SpriteDefinition spriteDefinition;
 

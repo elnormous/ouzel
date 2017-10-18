@@ -261,7 +261,7 @@ namespace ouzel
         {
             particleDefinition = newParticleDefinition;
 
-            texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
+            texture = particleDefinition.texture;
 
             if (!texture)
             {
@@ -278,7 +278,7 @@ namespace ouzel
         {
             particleDefinition = sharedEngine->getCache()->getParticleDefinition(filename);
 
-            texture = sharedEngine->getCache()->getTexture(particleDefinition.textureFilename);
+            texture = particleDefinition.texture;
 
             if (!texture)
             {

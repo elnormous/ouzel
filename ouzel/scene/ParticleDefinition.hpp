@@ -5,6 +5,7 @@
 
 #include <string>
 #include "math/Vector2.hpp"
+#include "graphics/Texture.hpp"
 
 namespace ouzel
 {
@@ -12,7 +13,7 @@ namespace ouzel
     {
         struct ParticleDefinition
         {
-            static ParticleDefinition loadParticleDefinition(const std::string& filename);
+            static ParticleDefinition load(const std::string& filename, bool mipmaps = true);
 
             enum class EmitterType
             {
@@ -102,7 +103,7 @@ namespace ouzel
 
             float emissionRate = 0.0f;
 
-            std::string textureFilename;
+            std::shared_ptr<graphics::Texture> texture;
         };
     } // namespace scene
 } // namespace ouzel
