@@ -195,9 +195,20 @@ namespace ouzel
         WindowResource::setSize(newSize);
 
         XWindowChanges changes;
-        changes.width = static_cast<int>(newSize.width);
-        changes.height = static_cast<int>(newSize.height);
+        changes.width = static_cast<int>(size.width);
+        changes.height = static_cast<int>(size.height);
         XConfigureWindow(display, window, CWWidth | CWHeight, &changes);
+
+        if (!resizable)
+        {
+            XSizeHints sizeHints;
+            sizeHints.flags = PMinSize | PMaxSize;
+            sizeHints.min_width = static_cast<int>(size.width);
+            sizeHints.max_width = static_cast<int>(size.width);
+            sizeHints.min_height = static_cast<int>(size.height);
+            sizeHints.max_height = static_cast<int>(size.height);
+            XSetWMNormalHints(display, window, &sizeHints);
+        }
 
         resolution = size;
 
