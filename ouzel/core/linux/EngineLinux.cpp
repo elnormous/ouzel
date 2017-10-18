@@ -44,7 +44,6 @@ namespace ouzel
 
         start();
 
-        
         /*for (;;)
         {
             executeAll();

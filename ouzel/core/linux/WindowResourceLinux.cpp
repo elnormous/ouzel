@@ -142,6 +142,17 @@ namespace ouzel
 
         XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, engineLinux->getArgv(), engineLinux->getArgc(), nullptr);
 
+        if (!resizable)
+        {
+            XSizeHints sizeHints;
+            sizeHints.flags = PMinSize | PMaxSize;
+            sizeHints.min_width = static_cast<int>(size.width);
+            sizeHints.max_width = static_cast<int>(size.width);
+            sizeHints.min_height = static_cast<int>(size.height);
+            sizeHints.max_height = static_cast<int>(size.height);
+            XSetWMNormalHints(display, window, &sizeHints);
+        }
+
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
 
