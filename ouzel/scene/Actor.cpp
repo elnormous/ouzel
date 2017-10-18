@@ -24,7 +24,7 @@ namespace ouzel
 
             for (const auto& component : components)
             {
-                component->actor = nullptr;
+                component->setActor(nullptr);
             }
         }
 
@@ -317,7 +317,7 @@ namespace ouzel
                 component->actor->removeComponent(component);
             }
 
-            component->actor = this;
+            component->setActor(this);
             components.push_back(component);
         }
 
@@ -329,7 +329,7 @@ namespace ouzel
 
             if (componentIterator != components.end())
             {
-                component->actor = nullptr;
+                component->setActor(nullptr);
                 components.erase(componentIterator);
                 result = true;
             }

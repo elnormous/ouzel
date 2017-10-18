@@ -68,6 +68,7 @@ namespace ouzel
             void removeFromActor();
 
         protected:
+            virtual void setActor(Actor* newActor);
             virtual void setLayer(Layer* newLayer);
             virtual void updateTransform();
 

@@ -44,6 +44,13 @@ namespace ouzel
             if (addedToLayer) addedToLayer->removeCamera(this);
         }
 
+        void Camera::setActor(Actor* newActor)
+        {
+            Component::setActor(newActor);
+
+            viewProjectionDirty = inverseViewProjectionDirty = true;
+        }
+
         void Camera::setLayer(Layer* newLayer)
         {
             Component::setLayer(newLayer);
@@ -206,15 +213,15 @@ namespace ouzel
                            (result.y / 2.0f + 0.5f) * viewport.size.height + viewport.position.y);
         }
 
-        bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const
+        bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& box) const
         {
             if (type == Type::ORTHOGRAPHIC)
             {
-                // calculate center point of the bounding box
-                Vector2 diff = boundingBox.max - boundingBox.min;
+                // calculate center point of the box
+                Vector2 diff = box.max - box.min;
 
                 // offset the center point, so that it is relative to 0,0
-                Vector3 v3p(boundingBox.min.x + diff.x / 2.0f, boundingBox.min.y + diff.y / 2.0f, 0.0f);
+                Vector3 v3p(box.min.x + diff.x / 2.0f, box.min.y + diff.y / 2.0f, 0.0f);
 
                 // apply local transform to the center point
                 boxTransform.transformPoint(v3p);
@@ -261,7 +268,7 @@ namespace ouzel
                 if (!modelViewProjection.getFrustum(frustum)) return false;
 
                 //if (!frustum.isPointInside(Vector4(0.0f, 0.0f, 0.0f, 1.0f))) return false;
-                if (!frustum.isBoxInside(boundingBox)) return false;
+                if (!frustum.isBoxInside(box)) return false;
 
                 return true;
             }

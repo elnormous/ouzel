@@ -102,6 +102,11 @@ namespace ouzel
             if (actor) actor->removeComponent(this);
         }
 
+        void Component::setActor(Actor* newActor)
+        {
+            actor = newActor;
+        }
+
         void Component::setLayer(Layer* newLayer)
         {
             layer = newLayer;

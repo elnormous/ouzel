@@ -63,7 +63,7 @@ namespace ouzel
             Vector3 convertNormalizedToWorld(const Vector2& normalizedPosition) const;
             Vector2 convertWorldToNormalized(const Vector3& worldPosition) const;
 
-            bool checkVisibility(const Matrix4& boxTransform, const Box3& boundingBox) const;
+            bool checkVisibility(const Matrix4& boxTransform, const Box3& box) const;
 
             void setViewport(const Rectangle& newViewport);
             const Rectangle& getViewport() const { return viewport; }
@@ -91,6 +91,7 @@ namespace ouzel
             void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
+            virtual void setActor(Actor* newActor) override;
             virtual void setLayer(Layer* newLayer) override;
 
             virtual void updateTransform() override;
@@ -116,11 +117,11 @@ namespace ouzel
             bool depthTest = false;
             bool wireframe = false;
 
-            mutable bool viewProjectionDirty = false;
+            mutable bool viewProjectionDirty = true;
             mutable Matrix4 viewProjection;
             mutable Matrix4 renderViewProjection;
 
-            mutable bool inverseViewProjectionDirty = false;
+            mutable bool inverseViewProjectionDirty = true;
             mutable Matrix4 inverseViewProjection;
 
             std::shared_ptr<graphics::Texture> renderTarget;
