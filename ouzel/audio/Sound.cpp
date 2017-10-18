@@ -233,7 +233,8 @@ namespace ouzel
 
                         if (channelVolume.size() > 1)
                         {
-                            Quaternion inverseRotation = -listenerRotation;
+                            Quaternion inverseRotation = listenerRotation;
+                            inverseRotation.invert();
                             Vector3 relative = inverseRotation * offset;
                             relative.normalize();
                             float angle = atan2f(relative.x, relative.z);
