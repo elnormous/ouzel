@@ -26,7 +26,7 @@ namespace ouzel
 
             for (Camera* camera : cameras)
             {
-                camera->addedToLayer = nullptr;
+                camera->setLayer(nullptr);
             }
         }
 
@@ -66,7 +66,6 @@ namespace ouzel
         void Layer::addCamera(Camera* camera)
         {
             cameras.push_back(camera);
-            camera->recalculateProjection();
         }
 
         void Layer::removeCamera(Camera* camera)
@@ -76,6 +75,21 @@ namespace ouzel
             if (i != cameras.end())
             {
                 cameras.erase(i);
+            }
+        }
+
+        void Layer::addLight(Light* light)
+        {
+            lights.push_back(light);
+        }
+
+        void Layer::removeLight(Light* light)
+        {
+            auto i = std::find(lights.begin(), lights.end(), light);
+
+            if (i != lights.end())
+            {
+                lights.erase(i);
             }
         }
 

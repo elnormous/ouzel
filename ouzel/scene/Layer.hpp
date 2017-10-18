@@ -13,13 +13,14 @@ namespace ouzel
     namespace scene
     {
         class Scene;
-        class Actor;
         class Camera;
+        class Light;
 
         class Layer: public ActorContainer
         {
             friend Scene;
             friend Camera;
+            friend Light;
         public:
             Layer();
             virtual ~Layer();
@@ -44,12 +45,16 @@ namespace ouzel
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
 
+            void addLight(Light* light);
+            void removeLight(Light* light);
+
             virtual void recalculateProjection();
             virtual void enter() override;
 
             Scene* scene = nullptr;
 
             std::vector<Camera*> cameras;
+            std::vector<Light*> lights;
 
             int32_t order = 0;
         };

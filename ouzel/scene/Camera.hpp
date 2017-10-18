@@ -125,7 +125,6 @@ namespace ouzel
             mutable Matrix4 inverseViewProjection;
 
             std::shared_ptr<graphics::Texture> renderTarget;
-            Layer* addedToLayer = nullptr;
         };
     } // namespace scene
 } // namespace ouzel

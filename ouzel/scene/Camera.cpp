@@ -41,7 +41,7 @@ namespace ouzel
 
         Camera::~Camera()
         {
-            if (addedToLayer) addedToLayer->removeCamera(this);
+            if (layer) layer->removeCamera(this);
         }
 
         void Camera::setActor(Actor* newActor)
@@ -53,19 +53,11 @@ namespace ouzel
 
         void Camera::setLayer(Layer* newLayer)
         {
+            if (layer) layer->removeCamera(this);
+
             Component::setLayer(newLayer);
 
-            if (addedToLayer)
-            {
-                addedToLayer->removeCamera(this);
-                addedToLayer = nullptr;
-            }
-
-            if (layer)
-            {
-                layer->addCamera(this);
-                addedToLayer = layer;
-            }
+            if (layer) layer->addCamera(this);
         }
 
         void Camera::updateTransform()

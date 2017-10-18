@@ -15,6 +15,10 @@ namespace ouzel
             static const uint32_t TYPE = Component::LIGHT;
 
             Light();
+            virtual ~Light();
+
+        protected:
+            virtual void setLayer(Layer* newLayer) override;
         };
     } // namespace scene
 } // namespace ouzel
