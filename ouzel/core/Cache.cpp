@@ -28,6 +28,8 @@ namespace ouzel
         releaseBlendStates();
         releaseSpriteDefinitions();
         releaseFonts();
+        releaseMaterials();
+        releaseModelDefinitions();
     }
 
     bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -171,7 +173,7 @@ namespace ouzel
 
         if (extension == "json")
         {
-            if (!scene::SpriteDefinition::load(filename, mipmaps, spriteDefinition))
+            if (!spriteDefinition.load(filename, mipmaps))
             {
                 return false;
             }
@@ -226,7 +228,7 @@ namespace ouzel
 
             if (extension == "json")
             {
-                scene::SpriteDefinition::load(filename, mipmaps, spriteDefinition);
+                spriteDefinition.load(filename, mipmaps);
             }
             else if (spritesX > 0 && spritesY > 0)
             {
@@ -272,7 +274,7 @@ namespace ouzel
     bool Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
     {
         scene::ParticleDefinition particleDefinition;
-        if (!scene::ParticleDefinition::load(filename, mipmaps, particleDefinition))
+        if (!particleDefinition.load(filename, mipmaps))
         {
             return false;
         }
@@ -293,7 +295,7 @@ namespace ouzel
         else
         {
             scene::ParticleDefinition particleDefinition;
-            scene::ParticleDefinition::load(filename, mipmaps, particleDefinition);
+            particleDefinition.load(filename, mipmaps);
 
             i = particleDefinitions.insert(std::make_pair(filename, particleDefinition)).first;
 
@@ -450,5 +452,89 @@ namespace ouzel
     void Cache::releaseSoundData()
     {
         soundData.clear();
+    }
+
+    bool Cache::preloadMaterial(const std::string& filename, bool mipmaps)
+    {
+        std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+        if (!material->init(filename, mipmaps))
+        {
+            return false;
+        }
+
+        materials[filename] = material;
+
+        return true;
+    }
+
+    const std::shared_ptr<graphics::Material>& Cache::getMaterial(const std::string& filename, bool mipmaps) const
+    {
+        auto i = materials.find(filename);
+
+        if (i != materials.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            std::shared_ptr<graphics::Material> result = std::make_shared<graphics::Material>();
+            result->init(filename, mipmaps);
+
+            i = materials.insert(std::make_pair(filename, result)).first;
+
+            return i->second;
+        }
+    }
+
+    void Cache::setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material)
+    {
+        materials[filename] = material;
+    }
+
+    void Cache::releaseMaterials()
+    {
+        materials.clear();
+    }
+
+    bool Cache::preloadModelDefinition(const std::string& filename, bool mipmaps)
+    {
+        scene::ModelDefinition modelDefinition;
+        if (!modelDefinition.load(filename, mipmaps))
+        {
+            return false;
+        }
+
+        modelDefinitions[filename] = modelDefinition;
+
+        return true;
+    }
+
+    const scene::ModelDefinition& Cache::getModelDefinition(const std::string& filename, bool mipmaps) const
+    {
+        auto i = modelDefinitions.find(filename);
+
+        if (i != modelDefinitions.end())
+        {
+            return i->second;
+        }
+        else
+        {
+            scene::ModelDefinition modelDefinition;
+            modelDefinition.load(filename, mipmaps);
+
+            i = modelDefinitions.insert(std::make_pair(filename, modelDefinition)).first;
+
+            return i->second;
+        }
+    }
+
+    void Cache::setModelDefinition(const std::string& filename, const scene::ModelDefinition& modelDefinition)
+    {
+        modelDefinitions[filename] = modelDefinition;
+    }
+
+    void Cache::releaseModelDefinitions()
+    {
+        particleDefinitions.clear();
     }
 }

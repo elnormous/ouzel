@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        bool SpriteDefinition::load(const std::string& filename, bool mipmaps, SpriteDefinition& spriteDefinition)
+        bool SpriteDefinition::load(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
             if (!sharedEngine->getFileSystem()->readFile(filename, data))
@@ -22,16 +22,16 @@ namespace ouzel
 
             const nlohmann::json& metaObject = document["meta"];
 
-            spriteDefinition.texture = sharedEngine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
+            texture = sharedEngine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
 
-            if (!spriteDefinition.texture)
+            if (!texture)
             {
                 return false;
             }
 
             const nlohmann::json& framesArray = document["frames"];
 
-            spriteDefinition.frames.reserve(framesArray.size());
+            frames.reserve(framesArray.size());
 
             for (const nlohmann::json& frameObject : framesArray)
             {
@@ -81,7 +81,7 @@ namespace ouzel
                     const nlohmann::json& verticesObject = frameObject["vertices"];
                     const nlohmann::json& verticesUVObject = frameObject["verticesUV"];
 
-                    const Size2& textureSize = spriteDefinition.texture->getSize();
+                    const Size2& textureSize = texture->getSize();
 
                     Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                         -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
@@ -99,13 +99,13 @@ namespace ouzel
                                                                        static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.height)));
                     }
 
-                    spriteDefinition.frames.push_back(SpriteFrame(indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].get<bool>();
 
-                    spriteDefinition.frames.push_back(SpriteFrame(spriteDefinition.texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
 

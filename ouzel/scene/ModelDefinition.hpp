@@ -14,7 +14,7 @@ namespace ouzel
         struct ModelDefinition
         {
         public:
-            static bool load(const std::string& filename, bool mipmaps, ModelDefinition& modelDefinition);
+            bool load(const std::string& filename, bool mipmaps = true);
 
         protected:
             Box3 boundingBox;

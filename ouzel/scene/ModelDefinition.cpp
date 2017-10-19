@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace scene
     {
-        bool ModelDefinition::load(const std::string& filename, bool mipmaps, ModelDefinition& modelDefinition)
+        bool ModelDefinition::load(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
 

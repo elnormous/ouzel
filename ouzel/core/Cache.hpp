@@ -7,13 +7,15 @@
 #include <string>
 #include <map>
 #include "utils/Noncopyable.hpp"
-#include "scene/SpriteDefinition.hpp"
-#include "scene/ParticleDefinition.hpp"
-#include "gui/Font.hpp"
+#include "audio/SoundData.hpp"
 #include "graphics/BlendState.hpp"
+#include "graphics/Material.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
-#include "audio/SoundData.hpp"
+#include "gui/Font.hpp"
+#include "scene/ModelDefinition.hpp"
+#include "scene/SpriteDefinition.hpp"
+#include "scene/ParticleDefinition.hpp"
 
 namespace ouzel
 {
@@ -61,6 +63,16 @@ namespace ouzel
         void setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData);
         void releaseSoundData();
 
+        bool preloadMaterial(const std::string& filename, bool mipmaps = true);
+        const std::shared_ptr<graphics::Material>& getMaterial(const std::string& filename, bool mipmaps = true) const;
+        void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
+        void releaseMaterials();
+
+        bool preloadModelDefinition(const std::string& filename, bool mipmaps = true);
+        const scene::ModelDefinition& getModelDefinition(const std::string& filename, bool mipmaps = true) const;
+        void setModelDefinition(const std::string& filename, const scene::ModelDefinition& modelDefinition);
+        void releaseModelDefinitions();
+
     protected:
         mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
         mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
@@ -69,5 +81,7 @@ namespace ouzel
         mutable std::map<std::string, scene::SpriteDefinition> spriteDefinitions;
         mutable std::map<std::string, std::shared_ptr<Font>> fonts;
         mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
+        mutable std::map<std::string, std::shared_ptr<graphics::Material>> materials;
+        mutable std::map<std::string, scene::ModelDefinition> modelDefinitions;
     };
 }
