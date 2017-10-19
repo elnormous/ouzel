@@ -35,6 +35,8 @@ namespace ouzel
 
             for (const nlohmann::json& frameObject : framesArray)
             {
+                std::string name = frameObject["filename"];
+
                 const nlohmann::json& frameRectangleObject = frameObject["frame"];
 
                 Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].get<int32_t>()),
@@ -99,13 +101,13 @@ namespace ouzel
                                                                        static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.height)));
                     }
 
-                    frames.push_back(SpriteFrame(indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].get<bool>();
 
-                    frames.push_back(SpriteFrame(texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    frames.push_back(SpriteFrame(name, texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
 

@@ -199,7 +199,7 @@ namespace ouzel
                                         spriteSize.width,
                                         spriteSize.height);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    scene::SpriteFrame frame = scene::SpriteFrame(filename, spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     spriteDefinition.frames.push_back(frame);
                 }
             }
@@ -248,7 +248,7 @@ namespace ouzel
                                                 spriteSize.width,
                                                 spriteSize.height);
 
-                            scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                            scene::SpriteFrame frame = scene::SpriteFrame(filename, spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                             spriteDefinition.frames.push_back(frame);
                         }
                     }

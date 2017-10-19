@@ -18,26 +18,30 @@ namespace ouzel
         class SpriteFrame
         {
         public:
-            SpriteFrame(const Size2& textureSize,
+            SpriteFrame(const std::string& frameName,
+                        const Size2& textureSize,
                         const Rectangle& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
-            SpriteFrame(const std::vector<uint16_t>& indices,
+            SpriteFrame(const std::string& frameName,
+                        const std::vector<uint16_t>& indices,
                         const std::vector<graphics::VertexPCT>& vertices,
                         const Rectangle& frameRectangle,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
+            const std::string& getName() const { return name; }
             const Rectangle& getRectangle() const { return rectangle; }
 
             const Box2& getBoundingBox() const { return boundingBox; }
             const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
 
         protected:
+            std::string name;
             Rectangle rectangle;
             Box2 boundingBox;
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;

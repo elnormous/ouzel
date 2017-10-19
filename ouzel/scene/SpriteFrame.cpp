@@ -13,12 +13,14 @@ namespace ouzel
 {
     namespace scene
     {
-        SpriteFrame::SpriteFrame(const Size2& textureSize,
+        SpriteFrame::SpriteFrame(const std::string& frameName,
+                                 const Size2& textureSize,
                                  const Rectangle& frameRectangle,
                                  bool rotated,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
-                                 const Vector2& pivot)
+                                 const Vector2& pivot):
+            name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
@@ -75,12 +77,14 @@ namespace ouzel
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
         }
 
-        SpriteFrame::SpriteFrame(const std::vector<uint16_t>& indices,
+        SpriteFrame::SpriteFrame(const std::string& frameName,
+                                 const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::VertexPCT>& vertices,
                                  const Rectangle& frameRectangle,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
-                                 const Vector2& pivot)
+                                 const Vector2& pivot):
+            name(frameName)
         {
             for (const graphics::VertexPCT& vertex : vertices)
             {
