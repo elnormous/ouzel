@@ -20,10 +20,23 @@ namespace ouzel
     TTFont::TTFont(const std::string& filename, bool aMipmaps):
         mipmaps(aMipmaps)
     {
-        if (!parseFont(filename))
+        init(filename);
+    }
+
+    bool TTFont::init(const std::string & filename)
+    {
+        if (!sharedEngine->getFileSystem()->readFile(sharedEngine->getFileSystem()->getPath(filename), data))
         {
-            Log(Log::Level::ERR) << "Failed to parse font " << filename;
+            return false;
         }
+
+        if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
+        {
+            Log(Log::Level::ERR) << "Failed to load font";
+            return false;
+        }
+
+        return true;
     }
 
     void TTFont::getVertices(const std::string& text,
@@ -209,21 +222,5 @@ namespace ouzel
         {
             vertices[c].position.y += textHeight * (1.0f - anchor.y);
         }
-    }
-
-    bool TTFont::parseFont(const std::string & filename)
-    {
-        if (!sharedEngine->getFileSystem()->readFile(sharedEngine->getFileSystem()->getPath(filename), data))
-        {
-            return false;
-        }
-
-        if (!stbtt_InitFont(&font, data.data(), stbtt_GetFontOffsetForIndex(data.data(), 0)))
-        {
-            Log(Log::Level::ERR) << "Failed to load font";
-            return false;
-        }
-
-        return true;
     }
 }

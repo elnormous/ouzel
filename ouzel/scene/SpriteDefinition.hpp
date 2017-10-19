@@ -13,7 +13,7 @@ namespace ouzel
     {
         struct SpriteDefinition
         {
-            static SpriteDefinition load(const std::string& filename, bool mipmaps = true);
+            static bool load(const std::string& filename, bool mipmaps, SpriteDefinition& spriteDefinition);
 
             std::vector<SpriteFrame> frames;
             std::shared_ptr<graphics::Texture> texture;

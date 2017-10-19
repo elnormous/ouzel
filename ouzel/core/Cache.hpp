@@ -24,7 +24,7 @@ namespace ouzel
 
         void clear();
 
-        void preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
+        bool preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
         const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
         void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
         void releaseTextures();
@@ -37,7 +37,7 @@ namespace ouzel
         void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
         void releaseBlendStates();
 
-        void preloadSpriteDefinition(const std::string& filename, bool mipmaps = true,
+        bool preloadSpriteDefinition(const std::string& filename, bool mipmaps = true,
                                      uint32_t spritesX = 1, uint32_t spritesY = 1,
                                      const Vector2& pivot = Vector2(0.5f, 0.5f));
         const scene::SpriteDefinition& getSpriteDefinition(const std::string& filename, bool mipmaps = true,
@@ -46,17 +46,17 @@ namespace ouzel
         void setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition);
         void releaseSpriteDefinitions();
 
-        void preloadParticleDefinition(const std::string& filename, bool mipmaps = true);
+        bool preloadParticleDefinition(const std::string& filename, bool mipmaps = true);
         const scene::ParticleDefinition& getParticleDefinition(const std::string& filename, bool mipmaps = true) const;
         void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
         void releaseParticleDefinitions();
 
-        void preloadFont(const std::string& filename, bool mipmaps = true);
+        bool preloadFont(const std::string& filename, bool mipmaps = true);
         const std::shared_ptr<Font>& getFont(const std::string& filename, bool mipmaps = true) const;
         void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
         void releaseFonts();
 
-        void preloadSoundData(const std::string& filename);
+        bool preloadSoundData(const std::string& filename);
         const std::shared_ptr<audio::SoundData>& getSoundData(const std::string& filename) const;
         void setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData);
         void releaseSoundData();

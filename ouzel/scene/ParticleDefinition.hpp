@@ -13,7 +13,7 @@ namespace ouzel
     {
         struct ParticleDefinition
         {
-            static ParticleDefinition load(const std::string& filename, bool mipmaps = true);
+            static bool load(const std::string& filename, bool mipmaps, ParticleDefinition& particleDefinition);
 
             enum class EmitterType
             {

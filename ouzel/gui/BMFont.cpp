@@ -20,12 +20,154 @@ namespace ouzel
 
     BMFont::BMFont(const std::string& filename, bool mipmaps)
     {
-        if (!parseFont(filename, mipmaps))
+        init(filename, mipmaps);
+    }
+
+    bool BMFont::init(const std::string& filename, bool mipmaps)
+    {
+        std::vector<uint8_t> data;
+        if (!sharedEngine->getFileSystem()->readFile(filename, data))
         {
-            Log(Log::Level::ERR) << "Failed to parse font " << filename;
+            return false;
         }
 
-        kernCount = static_cast<uint16_t>(kern.size());
+        std::stringstream stream;
+        std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
+
+        std::string line;
+        std::string read, key, value;
+        std::size_t i;
+
+        if (!stream)
+        {
+            Log(Log::Level::ERR) << "Failed to open font file " << filename;
+            return false;
+        }
+
+        int16_t k;
+        uint32_t first, second;
+        CharDescriptor c;
+
+        while (!stream.eof())
+        {
+            std::getline(stream, line);
+
+            std::stringstream lineStream;
+            lineStream << line;
+
+            lineStream >> read;
+
+            if (read == "page")
+            {
+                while (!lineStream.eof())
+                {
+                    std::stringstream converter;
+                    lineStream >> read;
+                    i = read.find('=');
+                    key = read.substr(0, i);
+                    value = read.substr(i + 1);
+
+                    //assign the correct value
+                    converter << value;
+                    if (key == "file")
+                    {
+                        // trim quotes
+                        if (value.length() && value[0] == '"' && value[value.length() - 1] == '"')
+                        {
+                            value = value.substr(1, value.length() - 2);
+                        }
+
+                        fontTexture = sharedEngine->getCache()->getTexture(value, false, mipmaps);
+                    }
+                }
+            }
+            else if (read == "common")
+            {
+                //this holds common data
+                while (!lineStream.eof())
+                {
+                    std::stringstream converter;
+                    lineStream >> read;
+                    i = read.find('=');
+                    key = read.substr(0, i);
+                    value = read.substr(i + 1);
+
+                    //assign the correct value
+                    converter << value;
+                    if (key == "lineHeight") converter >> lineHeight;
+                    else if (key == "base") converter >> base;
+                    else if (key == "scaleW") converter >> width;
+                    else if (key == "scaleH") converter >> height;
+                    else if (key == "pages") converter >> pages;
+                    else if (key == "outline") converter >> outline;
+                }
+            }
+            else if (read == "char")
+            {
+                //This is data for each specific character.
+                int32_t charId = 0;
+
+                while (!lineStream.eof())
+                {
+                    std::stringstream converter;
+                    lineStream >> read;
+                    i = read.find('=');
+                    key = read.substr(0, i);
+                    value = read.substr(i + 1);
+
+                    //Assign the correct value
+                    converter << value;
+                    if (key == "id") converter >> charId;
+                    else if (key == "x") converter >> c.x;
+                    else if (key == "y") converter >> c.y;
+                    else if (key == "width") converter >> c.width;
+                    else if (key == "height") converter >> c.height;
+                    else if (key == "xoffset") converter >> c.xOffset;
+                    else if (key == "yoffset") converter >> c.yOffset;
+                    else if (key == "xadvance") converter >> c.xAdvance;
+                    else if (key == "page") converter >> c.page;
+                }
+
+                chars.insert(std::unordered_map<int32_t, CharDescriptor>::value_type(charId, c));
+            }
+            else if (read == "kernings")
+            {
+                while (!lineStream.eof())
+                {
+                    std::stringstream converter;
+                    lineStream >> read;
+                    i = read.find('=');
+                    key = read.substr(0, i);
+                    value = read.substr(i + 1);
+
+                    // assign the correct value
+                    converter << value;
+                    if (key == "count") converter >> kernCount;
+                }
+            }
+            else if (read == "kerning")
+            {
+                k = 0;
+                first = second = 0;
+                while (!lineStream.eof())
+                {
+                    lineStream >> read;
+                    i = read.find('=');
+                    key = read.substr(0, i);
+                    value = read.substr(i + 1);
+
+                    //assign the correct value
+                    std::stringstream converter;
+                    converter << value;
+                    if (key == "first") converter >> first;
+                    else if (key == "second") converter >> second;
+                    else if (key == "amount") converter >> k;
+                }
+                kern[std::make_pair(first, second)] = k;
+            }
+        }
+
+        return true;
     }
 
     void BMFont::getVertices(const std::string& text,
@@ -154,152 +296,5 @@ namespace ouzel
         }
 
         return total;
-    }
-
-    bool BMFont::parseFont(const std::string& filename, bool mipmaps)
-    {
-        std::vector<uint8_t> data;
-        if (!sharedEngine->getFileSystem()->readFile(filename, data))
-        {
-            return false;
-        }
-
-        std::stringstream stream;
-        std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
-
-        std::string line;
-        std::string read, key, value;
-        std::size_t i;
-
-        if (!stream)
-        {
-            Log(Log::Level::ERR) << "Failed to open font file " << filename;
-            return false;
-        }
-
-        int16_t k;
-        uint32_t first, second;
-        CharDescriptor c;
-
-        while (!stream.eof())
-        {
-            std::getline(stream, line);
-
-            std::stringstream lineStream;
-            lineStream << line;
-
-            lineStream >> read;
-
-            if (read == "page")
-            {
-                while (!lineStream.eof())
-                {
-                    std::stringstream converter;
-                    lineStream >> read;
-                    i = read.find('=');
-                    key = read.substr(0, i);
-                    value = read.substr(i + 1);
-
-                    //assign the correct value
-                    converter << value;
-                    if (key == "file")
-                    {
-                        // trim quotes
-                        if (value.length() && value[0] == '"' && value[value.length() - 1] == '"')
-                        {
-                            value = value.substr(1, value.length() - 2);
-                        }
-
-                        fontTexture = sharedEngine->getCache()->getTexture(value, false, mipmaps);
-                    }
-                }
-            }
-            else if (read == "common")
-            {
-                //this holds common data
-                while (!lineStream.eof())
-                {
-                    std::stringstream converter;
-                    lineStream >> read;
-                    i = read.find('=');
-                    key = read.substr(0, i);
-                    value = read.substr(i + 1);
-
-                    //assign the correct value
-                    converter << value;
-                    if (key == "lineHeight") converter >> lineHeight;
-                    else if (key == "base") converter >> base;
-                    else if (key == "scaleW") converter >> width;
-                    else if (key == "scaleH") converter >> height;
-                    else if (key == "pages") converter >> pages;
-                    else if (key == "outline") converter >> outline;
-                }
-            }
-            else if (read == "char")
-            {
-                //This is data for each specific character.
-                int32_t charId = 0;
-
-                while (!lineStream.eof())
-                {
-                    std::stringstream converter;
-                    lineStream >> read;
-                    i = read.find('=');
-                    key = read.substr(0, i);
-                    value = read.substr(i + 1);
-
-                    //Assign the correct value
-                    converter << value;
-                    if (key == "id") converter >> charId;
-                    else if (key == "x") converter >> c.x;
-                    else if (key == "y") converter >> c.y;
-                    else if (key == "width") converter >> c.width;
-                    else if (key == "height") converter >> c.height;
-                    else if (key == "xoffset") converter >> c.xOffset;
-                    else if (key == "yoffset") converter >> c.yOffset;
-                    else if (key == "xadvance") converter >> c.xAdvance;
-                    else if (key == "page") converter >> c.page;
-                }
-
-                chars.insert(std::unordered_map<int32_t, CharDescriptor>::value_type(charId, c));
-            }
-            else if (read == "kernings")
-            {
-                while (!lineStream.eof())
-                {
-                    std::stringstream converter;
-                    lineStream >> read;
-                    i = read.find('=');
-                    key = read.substr(0, i);
-                    value = read.substr(i + 1);
-
-                    //assign the correct value
-                    converter << value;
-                    if (key == "count") converter >> kernCount;
-                }
-            }
-            else if (read == "kerning")
-            {
-                k = 0;
-                first = second = 0;
-                while (!lineStream.eof())
-                {
-                    lineStream >> read;
-                    i = read.find('=');
-                    key = read.substr(0, i);
-                    value = read.substr(i + 1);
-
-                    //assign the correct value
-                    std::stringstream converter;
-                    converter << value;
-                    if (key == "first") converter >> first;
-                    else if (key == "second") converter >> second;
-                    else if (key == "amount") converter >> k;
-                }
-                kern[std::make_pair(first, second)] = k;
-            }
-        }
-
-        return true;
     }
 }

@@ -13,6 +13,8 @@ namespace ouzel
         BMFont();
         BMFont(const std::string& filename, bool mipmaps = true);
 
+        bool init(const std::string& filename, bool mipmaps = true);
+
         virtual void getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
@@ -22,8 +24,6 @@ namespace ouzel
                                  std::shared_ptr<graphics::Texture>& texture) override;
 
     protected:
-        bool parseFont(const std::string& filename, bool mipmaps = true);
-
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 

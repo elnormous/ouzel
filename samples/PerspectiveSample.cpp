@@ -65,6 +65,10 @@ PerspectiveSample::PerspectiveSample():
     character.addComponent(rotate);
     rotate->start();
 
+    boxModel.init("box.obj", true);
+    box.addComponent(&boxModel);
+    layer.addChild(&box);
+
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
     guiCameraActor.addComponent(&guiCamera);

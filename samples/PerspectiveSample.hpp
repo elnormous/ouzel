@@ -23,13 +23,15 @@ private:
 
     ouzel::Vector3 cameraRotation;
 
-    ouzel::scene::Sprite characterSprite;
-    ouzel::scene::Actor character;
-
     ouzel::scene::Sprite floorSprite;
     ouzel::scene::Actor floor;
 
+    ouzel::scene::Sprite characterSprite;
+    ouzel::scene::Actor character;
     ouzel::audio::Sound jumpSound;
+
+    ouzel::scene::ModelRenderer boxModel;
+    ouzel::scene::Actor box;
 
     std::unique_ptr<ouzel::scene::Animator> rotate;
 

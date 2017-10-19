@@ -10,14 +10,12 @@ namespace ouzel
 {
     namespace scene
     {
-        SpriteDefinition SpriteDefinition::load(const std::string& filename, bool mipmaps)
+        bool SpriteDefinition::load(const std::string& filename, bool mipmaps, SpriteDefinition& spriteDefinition)
         {
-            SpriteDefinition spriteDefinition;
-
             std::vector<uint8_t> data;
             if (!sharedEngine->getFileSystem()->readFile(filename, data))
             {
-                return spriteDefinition;
+                return false;
             }
 
             nlohmann::json document = nlohmann::json::parse(data);
@@ -28,7 +26,7 @@ namespace ouzel
 
             if (!spriteDefinition.texture)
             {
-                return spriteDefinition;
+                return false;
             }
 
             const nlohmann::json& framesArray = document["frames"];
@@ -111,7 +109,7 @@ namespace ouzel
                 }
             }
 
-            return spriteDefinition;
+            return true;
         }
     } // namespace scene
 } // namespace ouzel

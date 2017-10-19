@@ -30,12 +30,17 @@ namespace ouzel
         releaseFonts();
     }
 
-    void Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
+    bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
     {
         std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
-        texture->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1);
+        if (!texture->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1))
+        {
+            return false;
+        }
 
         textures[filename] = texture;
+
+        return true;
     }
 
     const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
@@ -156,7 +161,7 @@ namespace ouzel
         }
     }
 
-    void Cache::preloadSpriteDefinition(const std::string& filename, bool mipmaps,
+    bool Cache::preloadSpriteDefinition(const std::string& filename, bool mipmaps,
                                         uint32_t spritesX, uint32_t spritesY,
                                         const Vector2& pivot)
     {
@@ -166,7 +171,10 @@ namespace ouzel
 
         if (extension == "json")
         {
-            spriteDefinition = scene::SpriteDefinition::load(filename, mipmaps);
+            if (!scene::SpriteDefinition::load(filename, mipmaps, spriteDefinition))
+            {
+                return false;
+            }
         }
         else
         {
@@ -174,26 +182,30 @@ namespace ouzel
 
             if (spriteDefinition.texture)
             {
-                Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
-                                         spriteDefinition.texture->getSize().height / spritesY);
+                return false;
+            }
 
-                for (uint32_t x = 0; x < spritesX; ++x)
+            Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
+                                     spriteDefinition.texture->getSize().height / spritesY);
+
+            for (uint32_t x = 0; x < spritesX; ++x)
+            {
+                for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    for (uint32_t y = 0; y < spritesY; ++y)
-                    {
-                        Rectangle rectangle(spriteSize.width * x,
-                                            spriteSize.height * y,
-                                            spriteSize.width,
-                                            spriteSize.height);
+                    Rectangle rectangle(spriteSize.width * x,
+                                        spriteSize.height * y,
+                                        spriteSize.width,
+                                        spriteSize.height);
 
-                        scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                        spriteDefinition.frames.push_back(frame);
-                    }
+                    scene::SpriteFrame frame = scene::SpriteFrame(spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    spriteDefinition.frames.push_back(frame);
                 }
             }
         }
 
         spriteDefinitions[filename] = spriteDefinition;
+
+        return true;
     }
 
     const scene::SpriteDefinition& Cache::getSpriteDefinition(const std::string& filename, bool mipmaps,
@@ -214,7 +226,7 @@ namespace ouzel
 
             if (extension == "json")
             {
-                spriteDefinition = scene::SpriteDefinition::load(filename, mipmaps);
+                scene::SpriteDefinition::load(filename, mipmaps, spriteDefinition);
             }
             else if (spritesX > 0 && spritesY > 0)
             {
@@ -257,9 +269,17 @@ namespace ouzel
         spriteDefinitions.clear();
     }
 
-    void Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
+    bool Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
     {
-        particleDefinitions[filename] = scene::ParticleDefinition::load(filename, mipmaps);
+        scene::ParticleDefinition particleDefinition;
+        if (!scene::ParticleDefinition::load(filename, mipmaps, particleDefinition))
+        {
+            return false;
+        }
+
+        particleDefinitions[filename] = particleDefinition;
+
+        return true;
     }
 
     const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename, bool mipmaps) const
@@ -272,7 +292,10 @@ namespace ouzel
         }
         else
         {
-            i = particleDefinitions.insert(std::make_pair(filename, scene::ParticleDefinition::load(filename, mipmaps))).first;
+            scene::ParticleDefinition particleDefinition;
+            scene::ParticleDefinition::load(filename, mipmaps, particleDefinition);
+
+            i = particleDefinitions.insert(std::make_pair(filename, particleDefinition)).first;
 
             return i->second;
         }
@@ -288,7 +311,7 @@ namespace ouzel
         particleDefinitions.clear();
     }
 
-    void Cache::preloadFont(const std::string& filename, bool mipmaps)
+    bool Cache::preloadFont(const std::string& filename, bool mipmaps)
     {
         auto i = fonts.find(filename);
 
@@ -298,13 +321,27 @@ namespace ouzel
 
             if (extension == "fnt")
             {
-                fonts[filename] = std::make_shared<BMFont>(filename, mipmaps);
+                std::shared_ptr<BMFont> font = std::make_shared<BMFont>();
+                if (!font->init(filename, mipmaps))
+                {
+                    return false;
+                }
+
+                fonts[filename] = font;
             }
             else if (extension == "ttf")
             {
-                fonts[filename] = std::make_shared<TTFont>(filename, mipmaps);
+                std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
+                if (!font->init(filename))
+                {
+                    return false;
+                }
+
+                fonts[filename] = font;
             }
         }
+
+        return true;
     }
 
     const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, bool mipmaps) const
@@ -346,22 +383,30 @@ namespace ouzel
         fonts.clear();
     }
 
-    void Cache::preloadSoundData(const std::string& filename)
+    bool Cache::preloadSoundData(const std::string& filename)
     {
         std::string extension = FileSystem::getExtensionPart(filename);
 
         if (extension == "wav")
         {
             std::shared_ptr<audio::SoundDataWave> newSoundData = std::make_shared<audio::SoundDataWave>();
-            newSoundData->init(filename);
+            if (!newSoundData->init(filename))
+            {
+                return false;
+            }
             soundData[filename] = newSoundData;
         }
         else if (extension == "ogg")
         {
             std::shared_ptr<audio::SoundDataVorbis> newSoundData = std::make_shared<audio::SoundDataVorbis>();
-            newSoundData->init(filename);
+            if (!newSoundData->init(filename))
+            {
+                return false;
+            }
             soundData[filename] = newSoundData;
         }
+
+        return true;
     }
 
     const std::shared_ptr<audio::SoundData>& Cache::getSoundData(const std::string& filename) const

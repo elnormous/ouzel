@@ -2,16 +2,22 @@
 // This file is part of the Ouzel engine.
 
 #include "ModelDefinition.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        ModelDefinition ModelDefinition::load(const std::string& filename, bool mipmaps)
+        bool ModelDefinition::load(const std::string& filename, bool mipmaps, ModelDefinition& modelDefinition)
         {
-            ModelDefinition result;
+            std::vector<uint8_t> data;
 
-            return result;
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            {
+                return false;
+            }
+
+            return true;
         }
     } // namespace scene
 } // namespace ouzel
