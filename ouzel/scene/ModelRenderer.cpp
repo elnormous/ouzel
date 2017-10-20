@@ -13,10 +13,10 @@ namespace ouzel
         {
         }
 
-        ModelRenderer::ModelRenderer(const ModelDefinition& modelDefinition):
+        ModelRenderer::ModelRenderer(const ModelData& modelData):
             Component(TYPE)
         {
-            init(modelDefinition);
+            init(modelData);
         }
 
         ModelRenderer::ModelRenderer(const std::string& filename, bool mipmaps):
@@ -25,14 +25,14 @@ namespace ouzel
             init(filename, mipmaps);
         }
 
-        bool ModelRenderer::init(const ModelDefinition& modelDefinition)
+        bool ModelRenderer::init(const ModelData& modelData)
         {
             return true;
         }
 
         bool ModelRenderer::init(const std::string& filename, bool mipmaps)
         {
-            //const ModelDefinition& modelDefinition = sharedEngine->getCache()->
+            //const ModelData& modelData = sharedEngine->getCache()->
             return true;
         }
     } // namespace scene

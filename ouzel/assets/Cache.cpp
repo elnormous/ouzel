@@ -6,7 +6,7 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/TextureResource.hpp"
 #include "graphics/ShaderResource.hpp"
-#include "scene/ParticleDefinition.hpp"
+#include "scene/ParticleSystemData.hpp"
 #include "scene/SpriteFrame.hpp"
 #include "files/FileSystem.hpp"
 #include "audio/SoundDataWave.hpp"
@@ -26,12 +26,12 @@ namespace ouzel
         {
             releaseTextures();
             releaseShaders();
-            releaseParticleDefinitions();
+            releaseParticleSystemData();
             releaseBlendStates();
-            releaseSpriteDefinitions();
+            releaseSpriteData();
             releaseFonts();
             releaseMaterials();
-            releaseModelDefinitions();
+            releaseModelData();
         }
 
         bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
@@ -165,32 +165,32 @@ namespace ouzel
             }
         }
 
-        bool Cache::preloadSpriteDefinition(const std::string& filename, bool mipmaps,
+        bool Cache::preloadSpriteData(const std::string& filename, bool mipmaps,
                                             uint32_t spritesX, uint32_t spritesY,
                                             const Vector2& pivot)
         {
             std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-            scene::SpriteDefinition spriteDefinition;
+            scene::SpriteData newSpriteData;
 
             if (extension == "json")
             {
-                if (!spriteDefinition.load(filename, mipmaps))
+                if (!newSpriteData.load(filename, mipmaps))
                 {
                     return false;
                 }
             }
             else
             {
-                spriteDefinition.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                newSpriteData.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
-                if (spriteDefinition.texture)
+                if (newSpriteData.texture)
                 {
                     return false;
                 }
 
-                Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
-                                         spriteDefinition.texture->getSize().height / spritesY);
+                Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
+                                         newSpriteData.texture->getSize().height / spritesY);
 
                 for (uint32_t x = 0; x < spritesX; ++x)
                 {
@@ -201,24 +201,24 @@ namespace ouzel
                                             spriteSize.width,
                                             spriteSize.height);
 
-                        scene::SpriteFrame frame = scene::SpriteFrame(filename, spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                        spriteDefinition.frames.push_back(frame);
+                        scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                        newSpriteData.frames.push_back(frame);
                     }
                 }
             }
 
-            spriteDefinitions[filename] = spriteDefinition;
+            spriteData[filename] = newSpriteData;
 
             return true;
         }
 
-        const scene::SpriteDefinition& Cache::getSpriteDefinition(const std::string& filename, bool mipmaps,
+        const scene::SpriteData& Cache::getSpriteData(const std::string& filename, bool mipmaps,
                                                                   uint32_t spritesX, uint32_t spritesY,
                                                                   const Vector2& pivot) const
         {
-            auto i = spriteDefinitions.find(filename);
+            auto i = spriteData.find(filename);
 
-            if (i != spriteDefinitions.end())
+            if (i != spriteData.end())
             {
                 return i->second;
             }
@@ -226,20 +226,20 @@ namespace ouzel
             {
                 std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-                scene::SpriteDefinition spriteDefinition;
+                scene::SpriteData newSpriteData;
 
                 if (extension == "json")
                 {
-                    spriteDefinition.load(filename, mipmaps);
+                    newSpriteData.load(filename, mipmaps);
                 }
                 else if (spritesX > 0 && spritesY > 0)
                 {
-                    spriteDefinition.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                    newSpriteData.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
 
-                    if (spriteDefinition.texture)
+                    if (newSpriteData.texture)
                     {
-                        Size2 spriteSize = Size2(spriteDefinition.texture->getSize().width / spritesX,
-                                                 spriteDefinition.texture->getSize().height / spritesY);
+                        Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
+                                                 newSpriteData.texture->getSize().height / spritesY);
 
                         for (uint32_t x = 0; x < spritesX; ++x)
                         {
@@ -250,80 +250,80 @@ namespace ouzel
                                                     spriteSize.width,
                                                     spriteSize.height);
 
-                                scene::SpriteFrame frame = scene::SpriteFrame(filename, spriteDefinition.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                                spriteDefinition.frames.push_back(frame);
+                                scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                                newSpriteData.frames.push_back(frame);
                             }
                         }
                     }
                 }
 
-                i = spriteDefinitions.insert(std::make_pair(filename, spriteDefinition)).first;
+                i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
 
                 return i->second;
             }
         }
 
-        void Cache::setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition)
+        void Cache::setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData)
         {
-            spriteDefinitions[filename] = spriteDefinition;
+            spriteData[filename] = newSpriteData;
         }
 
-        void Cache::releaseSpriteDefinitions()
+        void Cache::releaseSpriteData()
         {
-            spriteDefinitions.clear();
+            spriteData.clear();
         }
 
-        bool Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
+        bool Cache::preloadParticleSystemData(const std::string& filename, bool mipmaps)
         {
             std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
             if (extension == "json")
             {
-                scene::ParticleDefinition particleDefinition;
-                if (!particleDefinition.load(filename, mipmaps))
+                scene::ParticleSystemData newParticleSystemData;
+                if (!newParticleSystemData.load(filename, mipmaps))
                 {
                     return false;
                 }
 
-                particleDefinitions[filename] = particleDefinition;
+                particleSystemData[filename] = newParticleSystemData;
             }
 
             return true;
         }
 
-        const scene::ParticleDefinition& Cache::getParticleDefinition(const std::string& filename, bool mipmaps) const
+        const scene::ParticleSystemData& Cache::getParticleSystemData(const std::string& filename, bool mipmaps) const
         {
-            auto i = particleDefinitions.find(filename);
+            auto i = particleSystemData.find(filename);
 
-            if (i != particleDefinitions.end())
+            if (i != particleSystemData.end())
             {
                 return i->second;
             }
             else
             {
-                scene::ParticleDefinition particleDefinition;
+                scene::ParticleSystemData newParticleSystemData;
 
                 std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
                 if (extension == "json")
                 {
-                    particleDefinition.load(filename, mipmaps);
+                    newParticleSystemData.load(filename, mipmaps);
 
-                    i = particleDefinitions.insert(std::make_pair(filename, particleDefinition)).first;
+                    i = particleSystemData.insert(std::make_pair(filename, newParticleSystemData)).first;
                 }
 
                 return i->second;
             }
         }
 
-        void Cache::setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition)
+        void Cache::setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData)
         {
-            particleDefinitions[filename] = particleDefinition;
+            particleSystemData[filename] = newParticleSystemData;
         }
 
-        void Cache::releaseParticleDefinitions()
+        void Cache::releaseParticleSystemData()
         {
-            particleDefinitions.clear();
+            particleSystemData.clear();
         }
 
         bool Cache::preloadFont(const std::string& filename, bool mipmaps)
@@ -520,46 +520,46 @@ namespace ouzel
             materials.clear();
         }
 
-        bool Cache::preloadModelDefinition(const std::string& filename, bool mipmaps)
+        bool Cache::preloadModelData(const std::string& filename, bool mipmaps)
         {
-            scene::ModelDefinition modelDefinition;
-            if (!modelDefinition.load(filename, mipmaps))
+            scene::ModelData newModelData;
+            if (!newModelData.load(filename, mipmaps))
             {
                 return false;
             }
 
-            modelDefinitions[filename] = modelDefinition;
+            modelData[filename] = newModelData;
 
             return true;
         }
 
-        const scene::ModelDefinition& Cache::getModelDefinition(const std::string& filename, bool mipmaps) const
+        const scene::ModelData& Cache::getModelData(const std::string& filename, bool mipmaps) const
         {
-            auto i = modelDefinitions.find(filename);
+            auto i = modelData.find(filename);
 
-            if (i != modelDefinitions.end())
+            if (i != modelData.end())
             {
                 return i->second;
             }
             else
             {
-                scene::ModelDefinition modelDefinition;
-                modelDefinition.load(filename, mipmaps);
+                scene::ModelData newModelData;
+                newModelData.load(filename, mipmaps);
 
-                i = modelDefinitions.insert(std::make_pair(filename, modelDefinition)).first;
+                i = modelData.insert(std::make_pair(filename, newModelData)).first;
 
                 return i->second;
             }
         }
 
-        void Cache::setModelDefinition(const std::string& filename, const scene::ModelDefinition& modelDefinition)
+        void Cache::setModelData(const std::string& filename, const scene::ModelData& newModelData)
         {
-            modelDefinitions[filename] = modelDefinition;
+            modelData[filename] = newModelData;
         }
 
-        void Cache::releaseModelDefinitions()
+        void Cache::releaseModelData()
         {
-            particleDefinitions.clear();
+            particleSystemData.clear();
         }
     } // namespace assets
 } // namespace ouzel

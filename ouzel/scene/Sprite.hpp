@@ -6,7 +6,7 @@
 #include "scene/Component.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
-#include "scene/SpriteDefinition.hpp"
+#include "scene/SpriteData.hpp"
 #include "core/UpdateCallback.hpp"
 #include "graphics/Material.hpp"
 
@@ -22,7 +22,7 @@ namespace ouzel
             static const uint32_t TYPE = Component::SPRITE;
 
             Sprite();
-            Sprite(const SpriteDefinition& spriteDefinition);
+            Sprite(const SpriteData& spriteData);
             Sprite(const std::string& filename, bool mipmaps = true,
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                    const Vector2& pivot = Vector2(0.5f, 0.5f));
@@ -30,7 +30,7 @@ namespace ouzel
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
                    const Vector2& pivot = Vector2(0.5f, 0.5f));
 
-            bool init(const SpriteDefinition& spriteDefinition);
+            bool init(const SpriteData& spriteData);
             bool init(const std::string& filename, bool mipmaps = true,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5f, 0.5f));

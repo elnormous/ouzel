@@ -184,7 +184,7 @@
     <ClCompile Include="..\ouzel\gui\Menu.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\ModelDefinition.cpp">
+    <ClCompile Include="..\ouzel\scene\ModelData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\scene\ModelRenderer.cpp">
@@ -208,10 +208,10 @@
     <ClCompile Include="..\ouzel\animators\Parallel.cpp">
       <Filter>ouzel\animators</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\ParticleDefinition.cpp">
+    <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\ParticleSystem.cpp">
+    <ClCompile Include="..\ouzel\scene\ParticleSystemData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\math\Plane.cpp">
@@ -385,7 +385,7 @@
     <ClCompile Include="..\ouzel\graphics\opengl\TextureResourceOGL.cpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\scene\SpriteDefinition.cpp">
+    <ClCompile Include="..\ouzel\scene\SpriteData.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\audio\AudioDevice.cpp">
@@ -646,7 +646,7 @@
     <ClInclude Include="..\ouzel\gui\Menu.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ModelDefinition.hpp">
+    <ClInclude Include="..\ouzel\scene\ModelData.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\ModelRenderer.hpp">
@@ -673,10 +673,10 @@
     <ClInclude Include="..\ouzel\animators\Parallel.hpp">
       <Filter>ouzel\animators</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ParticleDefinition.hpp">
+    <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\ParticleSystem.hpp">
+    <ClInclude Include="..\ouzel\scene\ParticleSystemData.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Plane.hpp">
@@ -889,7 +889,7 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\scene\SpriteDefinition.hpp">
+    <ClInclude Include="..\ouzel\scene\SpriteData.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\audio\AudioDevice.hpp">

@@ -13,9 +13,9 @@
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "gui/Font.hpp"
-#include "scene/ModelDefinition.hpp"
-#include "scene/SpriteDefinition.hpp"
-#include "scene/ParticleDefinition.hpp"
+#include "scene/ModelData.hpp"
+#include "scene/SpriteData.hpp"
+#include "scene/ParticleSystemData.hpp"
 
 namespace ouzel
 {
@@ -41,19 +41,19 @@ namespace ouzel
             void setBlendState(const std::string& blendStateName, const std::shared_ptr<graphics::BlendState>& blendState);
             void releaseBlendStates();
 
-            bool preloadSpriteDefinition(const std::string& filename, bool mipmaps = true,
+            bool preloadSpriteData(const std::string& filename, bool mipmaps = true,
                                          uint32_t spritesX = 1, uint32_t spritesY = 1,
                                          const Vector2& pivot = Vector2(0.5f, 0.5f));
-            const scene::SpriteDefinition& getSpriteDefinition(const std::string& filename, bool mipmaps = true,
+            const scene::SpriteData& getSpriteData(const std::string& filename, bool mipmaps = true,
                                                                uint32_t spritesX = 1, uint32_t spritesY = 1,
                                                                const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
-            void setSpriteDefinition(const std::string& filename, const scene::SpriteDefinition& spriteDefinition);
-            void releaseSpriteDefinitions();
+            void setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData);
+            void releaseSpriteData();
 
-            bool preloadParticleDefinition(const std::string& filename, bool mipmaps = true);
-            const scene::ParticleDefinition& getParticleDefinition(const std::string& filename, bool mipmaps = true) const;
-            void setParticleDefinition(const std::string& filename, const scene::ParticleDefinition& particleDefinition);
-            void releaseParticleDefinitions();
+            bool preloadParticleSystemData(const std::string& filename, bool mipmaps = true);
+            const scene::ParticleSystemData& getParticleSystemData(const std::string& filename, bool mipmaps = true) const;
+            void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
+            void releaseParticleSystemData();
 
             bool preloadFont(const std::string& filename, bool mipmaps = true);
             const std::shared_ptr<Font>& getFont(const std::string& filename, bool mipmaps = true) const;
@@ -70,21 +70,21 @@ namespace ouzel
             void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
             void releaseMaterials();
 
-            bool preloadModelDefinition(const std::string& filename, bool mipmaps = true);
-            const scene::ModelDefinition& getModelDefinition(const std::string& filename, bool mipmaps = true) const;
-            void setModelDefinition(const std::string& filename, const scene::ModelDefinition& modelDefinition);
-            void releaseModelDefinitions();
+            bool preloadModelData(const std::string& filename, bool mipmaps = true);
+            const scene::ModelData& getModelData(const std::string& filename, bool mipmaps = true) const;
+            void setModelData(const std::string& filename, const scene::ModelData& newModelData);
+            void releaseModelData();
 
         protected:
             mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
             mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
-            mutable std::map<std::string, scene::ParticleDefinition> particleDefinitions;
+            mutable std::map<std::string, scene::ParticleSystemData> particleSystemData;
             mutable std::map<std::string, std::shared_ptr<graphics::BlendState>> blendStates;
-            mutable std::map<std::string, scene::SpriteDefinition> spriteDefinitions;
+            mutable std::map<std::string, scene::SpriteData> spriteData;
             mutable std::map<std::string, std::shared_ptr<Font>> fonts;
             mutable std::map<std::string, std::shared_ptr<audio::SoundData>> soundData;
             mutable std::map<std::string, std::shared_ptr<graphics::Material>> materials;
-            mutable std::map<std::string, scene::ModelDefinition> modelDefinitions;
+            mutable std::map<std::string, scene::ModelData> modelData;
         };
     } // namespace assets
 } // namespace ouzel

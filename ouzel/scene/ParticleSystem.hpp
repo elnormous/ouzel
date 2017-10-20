@@ -7,7 +7,7 @@
 #include <vector>
 #include <functional>
 #include "scene/Component.hpp"
-#include "scene/ParticleDefinition.hpp"
+#include "scene/ParticleSystemData.hpp"
 #include "math/Vector2.hpp"
 #include "math/Color.hpp"
 #include "graphics/Vertex.hpp"
@@ -41,7 +41,7 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            bool init(const ParticleDefinition& newParticleDefinition);
+            bool init(const ParticleSystemData& newParticleSystemData);
             bool init(const std::string& filename);
 
             void resume();
@@ -51,8 +51,8 @@ namespace ouzel
             bool isRunning() const { return running; }
             bool isActive() const { return active; }
 
-            void setPositionType(ParticleDefinition::PositionType newPositionType) { particleDefinition.positionType = newPositionType; }
-            ParticleDefinition::PositionType getPositionType() const { return particleDefinition.positionType; }
+            void setPositionType(ParticleSystemData::PositionType newPositionType) { particleSystemData.positionType = newPositionType; }
+            ParticleSystemData::PositionType getPositionType() const { return particleSystemData.positionType; }
 
         protected:
             void update(float delta);
@@ -62,7 +62,7 @@ namespace ouzel
 
             void emitParticles(uint32_t count);
 
-            ParticleDefinition particleDefinition;
+            ParticleSystemData particleSystemData;
 
             std::shared_ptr<graphics::Shader> shader;
             std::shared_ptr<graphics::BlendState> blendState;

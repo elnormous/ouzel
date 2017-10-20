@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "json.hpp"
-#include "ParticleDefinition.hpp"
+#include "ParticleSystemData.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        bool ParticleDefinition::load(const std::string& filename, bool mipmaps)
+        bool ParticleSystemData::load(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
             if (!sharedEngine->getFileSystem()->readFile(filename, data))
@@ -28,8 +28,8 @@ namespace ouzel
             {
                 switch (document["emitterType"].get<unsigned int>())
                 {
-                    case 0: emitterType = ParticleDefinition::EmitterType::GRAVITY; break;
-                    case 1: emitterType = ParticleDefinition::EmitterType::RADIUS; break;
+                    case 0: emitterType = ParticleSystemData::EmitterType::GRAVITY; break;
+                    case 1: emitterType = ParticleSystemData::EmitterType::RADIUS; break;
                 }
             }
 

@@ -23,10 +23,10 @@ namespace ouzel
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
 
-        Sprite::Sprite(const SpriteDefinition& spriteDefinition):
+        Sprite::Sprite(const SpriteData& spriteData):
             Sprite()
         {
-            init(spriteDefinition);
+            init(spriteData);
         }
 
         Sprite::Sprite(const std::string& filename, bool mipmaps,
@@ -45,15 +45,15 @@ namespace ouzel
             init(texture, spritesX, spritesY, pivot);
         }
 
-        bool Sprite::init(const SpriteDefinition& spriteDefinition)
+        bool Sprite::init(const SpriteData& spriteData)
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            material->textures[0] = spriteDefinition.texture;
+            material->textures[0] = spriteData.texture;
 
-            frames = spriteDefinition.frames;
+            frames = spriteData.frames;
 
             updateBoundingBox();
 
@@ -69,9 +69,9 @@ namespace ouzel
             material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            SpriteDefinition spriteDefinition = sharedEngine->getCache()->getSpriteDefinition(filename, mipmaps, spritesX, spritesY, pivot);
-            material->textures[0] = spriteDefinition.texture;
-            frames = spriteDefinition.frames;
+            SpriteData spriteData = sharedEngine->getCache()->getSpriteData(filename, mipmaps, spritesX, spritesY, pivot);
+            material->textures[0] = spriteData.texture;
+            frames = spriteData.frames;
 
             updateBoundingBox();
 

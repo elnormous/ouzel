@@ -3,14 +3,14 @@
 
 #include <algorithm>
 #include "json.hpp"
-#include "SpriteDefinition.hpp"
+#include "SpriteData.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        bool SpriteDefinition::load(const std::string& filename, bool mipmaps)
+        bool SpriteData::load(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
             if (!sharedEngine->getFileSystem()->readFile(filename, data))

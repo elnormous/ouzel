@@ -1,14 +1,14 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ModelDefinition.hpp"
+#include "ModelData.hpp"
 #include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        bool ModelDefinition::load(const std::string& filename, bool mipmaps)
+        bool ModelData::load(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
 

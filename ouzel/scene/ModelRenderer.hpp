@@ -4,7 +4,7 @@
 #pragma once
 
 #include "scene/Component.hpp"
-#include "scene/ModelDefinition.hpp"
+#include "scene/ModelData.hpp"
 
 namespace ouzel
 {
@@ -16,10 +16,10 @@ namespace ouzel
             static const uint32_t TYPE = Component::MODEL_RENDERER;
 
             ModelRenderer();
-            ModelRenderer(const ModelDefinition& modelDefinition);
+            ModelRenderer(const ModelData& modelData);
             ModelRenderer(const std::string& filename, bool mipmaps = true);
 
-            bool init(const ModelDefinition& modelDefinition);
+            bool init(const ModelData& modelData);
             bool init(const std::string& filename, bool mipmaps = true);
         };
     } // namespace scene

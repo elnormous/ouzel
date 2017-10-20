@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        struct ModelDefinition
+        struct ModelData
         {
         public:
             bool load(const std::string& filename, bool mipmaps = true);

@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        struct SpriteDefinition
+        struct SpriteData
         {
             bool load(const std::string& filename, bool mipmaps = true);
 

@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        struct ParticleDefinition
+        struct ParticleSystemData
         {
             bool load(const std::string& filename, bool mipmaps = true);
 

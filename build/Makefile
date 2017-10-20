@@ -131,15 +131,15 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Component.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Layer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Light.cpp \
-	$(ROOT_DIR)/../ouzel/scene/ModelDefinition.cpp \
+	$(ROOT_DIR)/../ouzel/scene/ModelData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ModelRenderer.cpp \
-	$(ROOT_DIR)/../ouzel/scene/ParticleDefinition.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ParticleSystem.cpp \
+	$(ROOT_DIR)/../ouzel/scene/ParticleSystemData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Scene.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SceneManager.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
-	$(ROOT_DIR)/../ouzel/scene/SpriteDefinition.cpp \
+	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
