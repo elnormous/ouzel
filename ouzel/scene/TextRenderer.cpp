@@ -5,7 +5,7 @@
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "scene/Camera.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel

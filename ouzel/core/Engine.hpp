@@ -20,7 +20,7 @@
 #include "files/FileSystem.hpp"
 #include "events/EventDispatcher.hpp"
 #include "scene/SceneManager.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
 #include "utils/INI.hpp"
@@ -44,7 +44,7 @@ namespace ouzel
         FileSystem* getFileSystem() { return fileSystem.get(); }
         EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         Timer* getTimer() { return &timer; }
-        Cache* getCache() { return &cache; }
+        assets::Cache* getCache() { return &cache; }
         Window* getWindow() { return &window; }
         graphics::Renderer* getRenderer() const { return renderer.get(); }
         audio::Audio* getAudio() const { return audio.get(); }
@@ -93,7 +93,7 @@ namespace ouzel
         std::unique_ptr<audio::Audio> audio;
         std::unique_ptr<input::Input> input;
         Localization localization;
-        Cache cache;
+        assets::Cache cache;
         scene::SceneManager sceneManager;
         network::Network network;
 

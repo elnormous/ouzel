@@ -7,7 +7,7 @@
 #include "core/Engine.hpp"
 #include "SceneManager.hpp"
 #include "files/FileSystem.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
 #include "graphics/MeshBufferResource.hpp"

@@ -35,6 +35,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Scale.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Sequence.cpp \
 	$(ROOT_DIR)/../ouzel/animators/Shake.cpp \
+	$(ROOT_DIR)/../ouzel/assets/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/audio/empty/AudioDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Audio.cpp \
 	$(ROOT_DIR)/../ouzel/audio/AudioDevice.cpp \
@@ -49,7 +50,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/Stream.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamVorbis.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
-	$(ROOT_DIR)/../ouzel/core/Cache.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
 	$(ROOT_DIR)/../ouzel/core/UpdateCallback.cpp \

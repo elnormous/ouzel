@@ -8,7 +8,7 @@
 #include "scene/Layer.hpp"
 #include "scene/Camera.hpp"
 #include "BMFont.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 
 namespace ouzel
 {

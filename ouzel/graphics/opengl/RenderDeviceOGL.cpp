@@ -41,7 +41,7 @@
 #include "BlendStateResourceOGL.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"

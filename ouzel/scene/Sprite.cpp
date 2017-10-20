@@ -9,7 +9,7 @@
 #include "SceneManager.hpp"
 #include "files/FileSystem.hpp"
 #include "Layer.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 
 namespace ouzel
 {

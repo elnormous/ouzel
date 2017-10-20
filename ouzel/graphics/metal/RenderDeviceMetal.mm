@@ -41,7 +41,7 @@
     #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
 #include "core/Engine.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"

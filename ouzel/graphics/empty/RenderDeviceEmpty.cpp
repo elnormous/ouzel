@@ -8,7 +8,7 @@
 #include "MeshBufferResourceEmpty.hpp"
 #include "BufferResourceEmpty.hpp"
 #include "core/Engine.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 
 namespace ouzel
 {

@@ -8,7 +8,7 @@
 #include "BMFont.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
-#include "core/Cache.hpp"
+#include "assets/Cache.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 

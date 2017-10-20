@@ -26,6 +26,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Scale.cpp \
     ../../ouzel/animators/Sequence.cpp \
     ../../ouzel/animators/Shake.cpp \
+    ../../ouzel/assets/Cache.cpp \
     ../../ouzel/audio/empty/AudioDeviceEmpty.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
@@ -44,7 +45,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/android/EngineAndroid.cpp \
     ../../ouzel/core/android/main.cpp \
     ../../ouzel/core/android/WindowResourceAndroid.cpp \
-    ../../ouzel/core/Cache.cpp \
     ../../ouzel/core/Engine.cpp \
     ../../ouzel/core/Timer.cpp \
     ../../ouzel/core/UpdateCallback.cpp \
