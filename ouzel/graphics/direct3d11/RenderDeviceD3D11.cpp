@@ -15,7 +15,6 @@
 #include "TextureVSD3D11.h"
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
-#include "core/Cache.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
 #include "core/windows/WindowResourceWin.hpp"
