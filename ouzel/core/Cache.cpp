@@ -273,13 +273,18 @@ namespace ouzel
 
     bool Cache::preloadParticleDefinition(const std::string& filename, bool mipmaps)
     {
-        scene::ParticleDefinition particleDefinition;
-        if (!particleDefinition.load(filename, mipmaps))
-        {
-            return false;
-        }
+        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-        particleDefinitions[filename] = particleDefinition;
+        if (extension == "json")
+        {
+            scene::ParticleDefinition particleDefinition;
+            if (!particleDefinition.load(filename, mipmaps))
+            {
+                return false;
+            }
+
+            particleDefinitions[filename] = particleDefinition;
+        }
 
         return true;
     }
@@ -295,9 +300,15 @@ namespace ouzel
         else
         {
             scene::ParticleDefinition particleDefinition;
-            particleDefinition.load(filename, mipmaps);
 
-            i = particleDefinitions.insert(std::make_pair(filename, particleDefinition)).first;
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+
+            if (extension == "json")
+            {
+                particleDefinition.load(filename, mipmaps);
+
+                i = particleDefinitions.insert(std::make_pair(filename, particleDefinition)).first;
+            }
 
             return i->second;
         }
@@ -456,13 +467,18 @@ namespace ouzel
 
     bool Cache::preloadMaterial(const std::string& filename, bool mipmaps)
     {
-        std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-        if (!material->init(filename, mipmaps))
-        {
-            return false;
-        }
+        std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-        materials[filename] = material;
+        if (extension == "mtl")
+        {
+            std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+            if (!material->init(filename, mipmaps))
+            {
+                return false;
+            }
+
+            materials[filename] = material;
+        }
 
         return true;
     }
@@ -478,9 +494,15 @@ namespace ouzel
         else
         {
             std::shared_ptr<graphics::Material> result = std::make_shared<graphics::Material>();
-            result->init(filename, mipmaps);
 
-            i = materials.insert(std::make_pair(filename, result)).first;
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+
+            if (extension == "mtl")
+            {
+                result->init(filename, mipmaps);
+
+                i = materials.insert(std::make_pair(filename, result)).first;
+            }
 
             return i->second;
         }
