@@ -61,12 +61,6 @@
     <ClCompile Include="..\ouzel\gui\Button.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\assets\Cache.cpp">
-      <Filter>ouzel\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ouzel\assets\Loader.cpp">
-      <Filter>ouzel\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Camera.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -421,6 +415,12 @@
     <ClCompile Include="..\ouzel\scene\Light.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\Cache.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\Loader.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -483,12 +483,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Button.hpp">
       <Filter>ouzel\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\assets\Cache.hpp">
-      <Filter>ouzel\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\assets\Loader.hpp">
-      <Filter>ouzel\core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Camera.hpp">
       <Filter>ouzel\scene</Filter>
@@ -937,6 +931,12 @@
     <ClInclude Include="..\ouzel\scene\Light.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\assets\Cache.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\Loader.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
@@ -1010,6 +1010,9 @@
     </Filter>
     <Filter Include="ouzel\network">
       <UniqueIdentifier>{57b86987-14d5-4d4a-97e6-c33cb1e9f749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ouzel\assets">
+      <UniqueIdentifier>{3321c286-5355-42bc-a945-fafc9b4abbb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
