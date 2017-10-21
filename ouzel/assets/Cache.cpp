@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Cache.hpp"
+#include "Loader.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/TextureResource.hpp"
@@ -22,6 +23,14 @@ namespace ouzel
         {
         }
 
+        Cache::~Cache()
+        {
+            for (Loader* loader : loaders)
+            {
+                loader->cache = nullptr;
+            }
+        }
+
         void Cache::clear()
         {
             releaseTextures();
@@ -32,6 +41,27 @@ namespace ouzel
             releaseFonts();
             releaseMaterials();
             releaseModelData();
+        }
+
+        void Cache::addLoader(Loader* loader)
+        {
+            auto i = std::find(loaders.begin(), loaders.end(), loader);
+            if (i == loaders.end())
+            {
+                if (loader->cache) loader->cache->removeLoader(loader);
+                loader->cache = this;
+                loaders.push_back(loader);
+            }
+        }
+
+        void Cache::removeLoader(Loader* loader)
+        {
+            auto i = std::find(loaders.begin(), loaders.end(), loader);
+            if (i != loaders.end())
+            {
+                loader->cache = nullptr;
+                loaders.erase(i);
+            }
         }
 
         bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)

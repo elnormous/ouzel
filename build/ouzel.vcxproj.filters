@@ -64,6 +64,9 @@
     <ClCompile Include="..\ouzel\assets\Cache.cpp">
       <Filter>ouzel\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\Loader.cpp">
+      <Filter>ouzel\core</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\scene\Camera.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
@@ -482,6 +485,9 @@
       <Filter>ouzel\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\Cache.hpp">
+      <Filter>ouzel\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\Loader.hpp">
       <Filter>ouzel\core</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Camera.hpp">

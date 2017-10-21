@@ -21,10 +21,16 @@ namespace ouzel
 {
     namespace assets
     {
+        class Loader;
+
         class Cache: public Noncopyable
         {
         public:
             Cache();
+            ~Cache();
+
+            void addLoader(Loader* loader);
+            void removeLoader(Loader* loader);
 
             void clear();
 
@@ -76,6 +82,7 @@ namespace ouzel
             void releaseModelData();
 
         protected:
+            std::vector<Loader*> loaders;
             mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
             mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;
             mutable std::map<std::string, scene::ParticleSystemData> particleSystemData;

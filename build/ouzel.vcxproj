@@ -52,6 +52,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\ouzel\assets\Cache.cpp" />
+    <ClCompile Include="..\ouzel\assets\Loader.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
     <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="..\ouzel\audio\xaudio2\AudioDeviceXA2.hpp" />
     <ClInclude Include="..\ouzel\audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="..\ouzel\assets\Cache.hpp" />
+    <ClInclude Include="..\ouzel\assets\Loader.hpp" />
     <ClInclude Include="..\ouzel\core\Platform.h" />
     <ClInclude Include="..\ouzel\core\Setup.h" />
     <ClInclude Include="..\ouzel\core\Engine.hpp" />
