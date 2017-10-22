@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -11,7 +12,7 @@ namespace ouzel
     {
         class Cache;
 
-        class Loader
+        class Loader: public Noncopyable
         {
             friend Cache;
         public:
