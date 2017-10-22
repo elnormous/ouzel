@@ -19,13 +19,11 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool ImageDataSTB::init(const std::string& newFilename,
+        bool ImageDataSTB::init(const std::string& filename,
                                 PixelFormat newPixelFormat)
         {
-            filename = newFilename;
-
             std::vector<uint8_t> newData;
-            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
+            if (!sharedEngine->getFileSystem()->readFile(filename, newData))
             {
                 return false;
             }
@@ -53,7 +51,7 @@ namespace ouzel
 
             if (!tempData)
             {
-                Log(Log::Level::ERR) << "Failed to open texture file " << filename << ", reason: " << stbi_failure_reason();
+                Log(Log::Level::ERR) << "Failed to load texture, reason: " << stbi_failure_reason();
                 return false;
             }
 

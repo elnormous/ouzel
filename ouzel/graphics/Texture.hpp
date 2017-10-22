@@ -60,7 +60,7 @@ namespace ouzel
                       uint32_t newMipmaps = 0,
                       uint32_t newSampleCount = 1,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
-            bool init(const std::string& newFilename,
+            bool init(const std::string& filename,
                       uint32_t newFlags = 0,
                       uint32_t newMipmaps = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
@@ -75,8 +75,6 @@ namespace ouzel
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             TextureResource* getResource() const { return resource; }
-
-            const std::string& getFilename() const { return filename; }
 
             const Size2& getSize() const;
             bool setSize(const Size2& newSize);
@@ -129,8 +127,6 @@ namespace ouzel
             Address addressX = Texture::Address::CLAMP;
             Address addressY = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
-
-            std::string filename;
         };
     } // namespace graphics
 } // namespace ouzel

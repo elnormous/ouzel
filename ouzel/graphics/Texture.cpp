@@ -28,7 +28,6 @@ namespace ouzel
                            uint32_t newSampleCount,
                            PixelFormat newPixelFormat)
         {
-            filename.clear();
             size = newSize;
             flags = newFlags;
             mipmaps = newMipmaps;
@@ -46,13 +45,11 @@ namespace ouzel
             return true;
         }
 
-        bool Texture::init(const std::string& newFilename,
+        bool Texture::init(const std::string& filename,
                            uint32_t newFlags,
                            uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
         {
-            filename = newFilename;
-
             ImageDataSTB image;
             if (!image.init(filename, newPixelFormat))
             {
@@ -82,7 +79,6 @@ namespace ouzel
                            uint32_t newMipmaps,
                            PixelFormat newPixelFormat)
         {
-            filename.clear();
             size = newSize;
             flags = newFlags;
             mipmaps = newMipmaps;
@@ -105,7 +101,6 @@ namespace ouzel
                            uint32_t newFlags,
                            PixelFormat newPixelFormat)
         {
-            filename.clear();
             size = newSize;
             flags = newFlags;
             mipmaps = static_cast<uint32_t>(newLevels.size());

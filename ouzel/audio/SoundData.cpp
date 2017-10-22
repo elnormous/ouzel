@@ -17,12 +17,10 @@ namespace ouzel
         {
         }
 
-        bool SoundData::init(const std::string& newFilename)
+        bool SoundData::init(const std::string& filename)
         {
-            filename = newFilename;
-
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->readFile(newFilename, data))
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
             {
                 return false;
             }

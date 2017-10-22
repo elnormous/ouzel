@@ -101,7 +101,7 @@ namespace ouzel
                                         spriteSize.width,
                                         spriteSize.height);
 
-                    scene::SpriteFrame frame = scene::SpriteFrame(newTexture->getFilename(), newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    scene::SpriteFrame frame = scene::SpriteFrame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
                 }
             }

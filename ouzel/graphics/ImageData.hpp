@@ -24,7 +24,6 @@ namespace ouzel
             PixelFormat getPixelFormat() const { return pixelFormat; }
 
         protected:
-            std::string filename;
             Size2 size;
             std::vector<uint8_t> data;
             PixelFormat pixelFormat = PixelFormat::DEFAULT;
