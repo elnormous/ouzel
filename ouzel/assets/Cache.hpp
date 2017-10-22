@@ -42,6 +42,7 @@ namespace ouzel
             void removeLoader(Loader* loader);
 
             bool loadAsset(const std::string& filename);
+            bool loadAssets(const std::vector<std::string>& filenames);
 
             void clear();
 

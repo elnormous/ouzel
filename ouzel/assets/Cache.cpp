@@ -15,6 +15,7 @@
 #include "audio/SoundDataVorbis.hpp"
 #include "gui/BMFont.hpp"
 #include "gui/TTFont.hpp"
+#include "utils/Log.hpp"
 
 namespace ouzel
 {
@@ -84,7 +85,7 @@ namespace ouzel
 
             std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
-            for (auto i = loaders.rend(); i != loaders.rbegin(); ++i)
+            for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
                 Loader* loader = *i;
                 if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
@@ -93,7 +94,18 @@ namespace ouzel
                 }
             }
 
+            Log(Log::Level::ERR) << "Failed to load asset " << filename;
             return false;
+        }
+
+        bool Cache::loadAssets(const std::vector<std::string>& filenames)
+        {
+            for (const std::string& filename : filenames)
+            {
+                loadAsset(filename);
+            }
+
+            return true;
         }
 
         bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
