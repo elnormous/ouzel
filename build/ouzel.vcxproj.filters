@@ -421,6 +421,33 @@
     <ClCompile Include="..\ouzel\assets\Loader.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderBMF.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderImage.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderMTL.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderOBJ.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderParticleSystem.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderSprite.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderTTF.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderVorbis.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderWave.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -935,6 +962,33 @@
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\Loader.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderBMF.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderImage.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderMTL.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderOBJ.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderParticleSystem.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderSprite.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderTTF.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderVorbis.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderWave.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
   </ItemGroup>
