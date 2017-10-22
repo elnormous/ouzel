@@ -22,6 +22,15 @@ namespace ouzel
     {
         Cache::Cache()
         {
+            addLoader(&loaderBMF);
+            addLoader(&loaderImage);
+            addLoader(&loaderMTL);
+            addLoader(&loaderOBJ);
+            addLoader(&loaderParticleSystem);
+            addLoader(&loaderSprite);
+            addLoader(&loaderTTF);
+            addLoader(&loaderVorbis);
+            addLoader(&loaderWave);
         }
 
         Cache::~Cache()

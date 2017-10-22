@@ -7,6 +7,15 @@
 #include <string>
 #include <map>
 #include "utils/Noncopyable.hpp"
+#include "assets/LoaderBMF.hpp"
+#include "assets/LoaderImage.hpp"
+#include "assets/LoaderMTL.hpp"
+#include "assets/LoaderOBJ.hpp"
+#include "assets/LoaderParticleSystem.hpp"
+#include "assets/LoaderSprite.hpp"
+#include "assets/LoaderTTF.hpp"
+#include "assets/LoaderVorbis.hpp"
+#include "assets/LoaderWave.hpp"
 #include "audio/SoundData.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Material.hpp"
@@ -82,6 +91,15 @@ namespace ouzel
             void releaseModelData();
 
         protected:
+            LoaderBMF loaderBMF;
+            LoaderImage loaderImage;
+            LoaderMTL loaderMTL;
+            LoaderOBJ loaderOBJ;
+            LoaderParticleSystem loaderParticleSystem;
+            LoaderSprite loaderSprite;
+            LoaderTTF loaderTTF;
+            LoaderVorbis loaderVorbis;
+            LoaderWave loaderWave;
             std::vector<Loader*> loaders;
             mutable std::map<std::string, std::shared_ptr<graphics::Texture>> textures;
             mutable std::map<std::string, std::shared_ptr<graphics::Shader>> shaders;

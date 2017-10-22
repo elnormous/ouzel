@@ -28,6 +28,15 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/animators/Shake.cpp \
     ../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/Loader.cpp \
+    ../../ouzel/assets/LoaderBMF.cpp \
+    ../../ouzel/assets/LoaderImage.cpp \
+    ../../ouzel/assets/LoaderMTL.cpp \
+    ../../ouzel/assets/LoaderOBJ.cpp \
+    ../../ouzel/assets/LoaderParticleSystem.cpp \
+    ../../ouzel/assets/LoaderSprite.cpp \
+    ../../ouzel/assets/LoaderTTF.cpp \
+    ../../ouzel/assets/LoaderVorbis.cpp \
+    ../../ouzel/assets/LoaderWave.cpp \
     ../../ouzel/audio/empty/AudioDeviceEmpty.cpp \
     ../../ouzel/audio/opensl/AudioDeviceSL.cpp \
     ../../ouzel/audio/Audio.cpp \
