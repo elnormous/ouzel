@@ -41,6 +41,8 @@ namespace ouzel
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
 
+            bool loadAsset(const std::string& filename);
+
             void clear();
 
             bool preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);

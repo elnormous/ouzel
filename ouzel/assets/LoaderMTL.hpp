@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderMTL: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderMTL();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

@@ -3,14 +3,28 @@
 
 #include "LoaderParticleSystem.hpp"
 #include "Cache.hpp"
+#include "ParticleSystemData.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        bool LoaderParticleSystem::loadAsset(const std::string& path)
+        LoaderParticleSystem::LoaderParticleSystem():
+            Loader({"json"})
         {
-            return false;
+        }
+
+        bool LoaderParticleSystem::loadAsset(const std::string& filename)
+        {
+            scene::ParticleSystemData particleSystemData;
+            if (!particleSystemData.load(filename))
+            {
+                return false;
+            }
+
+            cache->setParticleSystemData(filename, particleSystemData);
+
+            return true;
         }
     } // namespace assets
 } // namespace ouzel

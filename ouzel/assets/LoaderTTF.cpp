@@ -3,14 +3,28 @@
 
 #include "LoaderTTF.hpp"
 #include "Cache.hpp"
+#include "TTFont.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        bool LoaderTTF::loadAsset(const std::string& path)
+        LoaderTTF::LoaderTTF():
+            Loader({"ttf"})
         {
-            return false;
+        }
+
+        bool LoaderTTF::loadAsset(const std::string& filename)
+        {
+            std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
+            if (!font->init(filename))
+            {
+                return false;
+            }
+
+            cache->setFont(filename, font);
+
+            return true;
         }
     } // namespace assets
 } // namespace ouzel

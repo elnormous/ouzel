@@ -20,6 +20,12 @@ namespace ouzel
 
             nlohmann::json document = nlohmann::json::parse(data);
 
+            if (document.find("meta") == document.end() ||
+                document.find("frames") == document.end())
+            {
+                return false;
+            }
+            
             const nlohmann::json& metaObject = document["meta"];
 
             texture = sharedEngine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);

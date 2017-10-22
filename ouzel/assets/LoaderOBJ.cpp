@@ -8,7 +8,12 @@ namespace ouzel
 {
     namespace assets
     {
-        bool LoaderOBJ::loadAsset(const std::string& path)
+        LoaderOBJ::LoaderOBJ():
+            Loader({"obj"})
+        {
+        }
+
+        bool LoaderOBJ::loadAsset(const std::string& filename)
         {
             return false;
         }

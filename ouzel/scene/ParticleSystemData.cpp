@@ -21,6 +21,14 @@ namespace ouzel
 
             nlohmann::json document = nlohmann::json::parse(data);
 
+            if (document.find("textureFileName") == document.end() ||
+                document.find("configName") == document.end())
+            {
+                return false;
+            }
+
+            name = document["configName"];
+
             if (document.find("blendFuncSource") != document.end()) blendFuncSource = document["blendFuncSource"].get<unsigned int>();
             if (document.find("blendFuncDestination") != document.end()) blendFuncDestination = document["blendFuncDestination"].get<unsigned int>();
 

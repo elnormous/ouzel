@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderWave: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderWave();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

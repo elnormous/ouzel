@@ -8,7 +8,12 @@ namespace ouzel
 {
     namespace assets
     {
-        bool LoaderMTL::loadAsset(const std::string& path)
+        LoaderMTL::LoaderMTL():
+            Loader({"mtl"})
+        {
+        }
+
+        bool LoaderMTL::loadAsset(const std::string& filename)
         {
             return false;
         }

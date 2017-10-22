@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderSprite: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderSprite();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

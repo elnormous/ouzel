@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderTTF: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderTTF();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

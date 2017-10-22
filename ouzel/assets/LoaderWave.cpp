@@ -3,14 +3,28 @@
 
 #include "LoaderWave.hpp"
 #include "Cache.hpp"
+#include "SoundDataWave.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        bool LoaderWave::loadAsset(const std::string& path)
+        LoaderWave::LoaderWave():
+            Loader({"wav"})
         {
-            return false;
+        }
+
+        bool LoaderWave::loadAsset(const std::string& filename)
+        {
+            std::shared_ptr<audio::SoundDataWave> soundData = std::make_shared<audio::SoundDataWave>();
+            if (!soundData->init(filename))
+            {
+                return false;
+            }
+
+            cache->setSoundData(filename, soundData);
+
+            return true;
         }
     } // namespace assets
 } // namespace ouzel

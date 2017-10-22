@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderParticleSystem: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderParticleSystem();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

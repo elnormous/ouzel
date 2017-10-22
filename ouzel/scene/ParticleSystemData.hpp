@@ -28,6 +28,8 @@ namespace ouzel
                 GROUPED
             };
 
+            std::string name;
+
             uint32_t blendFuncSource = 1;
             uint32_t blendFuncDestination = 771;
 

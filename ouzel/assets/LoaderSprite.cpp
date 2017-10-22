@@ -8,9 +8,23 @@ namespace ouzel
 {
     namespace assets
     {
-        bool LoaderSprite::loadAsset(const std::string& path)
+        LoaderSprite::LoaderSprite():
+            Loader({"json"})
         {
-            return false;
+        }
+
+        bool LoaderSprite::loadAsset(const std::string& filename)
+        {
+            scene::SpriteData spriteData;
+
+            if (!spriteData.load(filename))
+            {
+                return false;
+            }
+
+            cache->setSpriteData(filename, spriteData);
+
+            return true;
         }
     } // namespace assets
 } // namespace ouzel

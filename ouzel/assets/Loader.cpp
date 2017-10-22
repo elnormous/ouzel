@@ -8,6 +8,11 @@ namespace ouzel
 {
     namespace assets
     {
+        Loader::Loader(const std::vector<std::string>& aExtensions):
+            extensions(aExtensions)
+        {
+        }
+
         Loader::~Loader()
         {
             if (cache)

@@ -3,14 +3,28 @@
 
 #include "LoaderBMF.hpp"
 #include "Cache.hpp"
+#include "BMFont.hpp"
 
 namespace ouzel
 {
     namespace assets
     {
-        bool LoaderBMF::loadAsset(const std::string& path)
+        LoaderBMF::LoaderBMF():
+            Loader({"fnt"})
         {
-            return false;
+        }
+
+        bool LoaderBMF::loadAsset(const std::string& filename)
+        {
+            std::shared_ptr<BMFont> font = std::make_shared<BMFont>();
+            if (!font->init(filename))
+            {
+                return false;
+            }
+
+            cache->setFont(filename, font);
+
+            return true;
         }
     } // namespace assets
 } // namespace ouzel

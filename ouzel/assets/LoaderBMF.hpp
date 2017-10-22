@@ -12,7 +12,8 @@ namespace ouzel
         class LoaderBMF: public Loader
         {
         public:
-            virtual bool loadAsset(const std::string& path) override;
+            LoaderBMF();
+            virtual bool loadAsset(const std::string& filename) override;
         };
     } // namespace assets
 } // namespace ouzel

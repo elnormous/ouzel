@@ -74,6 +74,22 @@ namespace ouzel
             }
         }
 
+        bool Cache::loadAsset(const std::string& filename)
+        {
+            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+
+            for (auto i = loaders.rend(); i != loaders.rbegin(); ++i)
+            {
+                Loader* loader = *i;
+                if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
+                {
+                    if (loader->loadAsset(filename)) return true;
+                }
+            }
+
+            return false;
+        }
+
         bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
         {
             std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();

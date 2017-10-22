@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "utils/Noncopyable.hpp"
 
 namespace ouzel
@@ -16,11 +17,13 @@ namespace ouzel
         {
             friend Cache;
         public:
+            Loader(const std::vector<std::string>& aExtensions);
             virtual ~Loader();
-            virtual bool loadAsset(const std::string& path) = 0;
+            virtual bool loadAsset(const std::string& filename) = 0;
 
         protected:
             Cache* cache = nullptr;
+            std::vector<std::string> extensions;
         };
     } // namespace assets
 } // namespace ouzel
