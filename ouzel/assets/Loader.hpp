@@ -19,7 +19,7 @@ namespace ouzel
         public:
             Loader(const std::vector<std::string>& aExtensions);
             virtual ~Loader();
-            virtual bool loadAsset(const std::string& filename) = 0;
+            virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data) = 0;
 
         protected:
             Cache* cache = nullptr;

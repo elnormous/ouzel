@@ -76,6 +76,12 @@ namespace ouzel
 
         bool Cache::loadAsset(const std::string& filename)
         {
+            std::vector<uint8_t> data;
+            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            {
+                return false;
+            }
+
             std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
 
             for (auto i = loaders.rend(); i != loaders.rbegin(); ++i)
@@ -83,7 +89,7 @@ namespace ouzel
                 Loader* loader = *i;
                 if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
                 {
-                    if (loader->loadAsset(filename)) return true;
+                    if (loader->loadAsset(filename, data)) return true;
                 }
             }
 
@@ -231,7 +237,7 @@ namespace ouzel
 
             if (extension == "json")
             {
-                if (!newSpriteData.load(filename, mipmaps))
+                if (!newSpriteData.init(filename, mipmaps))
                 {
                     return false;
                 }
@@ -286,7 +292,7 @@ namespace ouzel
 
                 if (extension == "json")
                 {
-                    newSpriteData.load(filename, mipmaps);
+                    newSpriteData.init(filename, mipmaps);
                 }
                 else if (spritesX > 0 && spritesY > 0)
                 {
@@ -336,7 +342,7 @@ namespace ouzel
             if (extension == "json")
             {
                 scene::ParticleSystemData newParticleSystemData;
-                if (!newParticleSystemData.load(filename, mipmaps))
+                if (!newParticleSystemData.init(filename, mipmaps))
                 {
                     return false;
                 }
@@ -363,7 +369,7 @@ namespace ouzel
 
                 if (extension == "json")
                 {
-                    newParticleSystemData.load(filename, mipmaps);
+                    newParticleSystemData.init(filename, mipmaps);
 
                     i = particleSystemData.insert(std::make_pair(filename, newParticleSystemData)).first;
                 }
@@ -460,7 +466,7 @@ namespace ouzel
 
             if (extension == "wav")
             {
-                std::shared_ptr<audio::SoundDataWave> newSoundData = std::make_shared<audio::SoundDataWave>();
+                std::shared_ptr<audio::SoundData> newSoundData = std::make_shared<audio::SoundDataWave>();
                 if (!newSoundData->init(filename))
                 {
                     return false;
@@ -469,7 +475,7 @@ namespace ouzel
             }
             else if (extension == "ogg")
             {
-                std::shared_ptr<audio::SoundDataVorbis> newSoundData = std::make_shared<audio::SoundDataVorbis>();
+                std::shared_ptr<audio::SoundData> newSoundData = std::make_shared<audio::SoundDataVorbis>();
                 if (!newSoundData->init(filename))
                 {
                     return false;
@@ -579,7 +585,7 @@ namespace ouzel
         bool Cache::preloadModelData(const std::string& filename, bool mipmaps)
         {
             scene::ModelData newModelData;
-            if (!newModelData.load(filename, mipmaps))
+            if (!newModelData.init(filename, mipmaps))
             {
                 return false;
             }
@@ -600,7 +606,7 @@ namespace ouzel
             else
             {
                 scene::ModelData newModelData;
-                newModelData.load(filename, mipmaps);
+                newModelData.init(filename, mipmaps);
 
                 i = modelData.insert(std::make_pair(filename, newModelData)).first;
 

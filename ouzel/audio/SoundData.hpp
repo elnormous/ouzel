@@ -35,6 +35,8 @@ namespace ouzel
         protected:
             virtual bool readData(Stream* stream, uint32_t frames, std::vector<float>& result) = 0;
 
+            std::string filename;
+
             uint16_t channels = 0;
             uint32_t sampleRate = 0;
 

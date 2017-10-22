@@ -14,10 +14,10 @@ namespace ouzel
         {
         }
 
-        bool LoaderWave::loadAsset(const std::string& filename)
+        bool LoaderWave::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
-            std::shared_ptr<audio::SoundDataWave> soundData = std::make_shared<audio::SoundDataWave>();
-            if (!soundData->init(filename))
+            std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataWave>();
+            if (!soundData->init(data))
             {
                 return false;
             }

@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             LoaderBMF();
-            virtual bool loadAsset(const std::string& filename) override;
+            virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data) override;
         };
     } // namespace assets
 } // namespace ouzel

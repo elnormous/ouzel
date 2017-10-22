@@ -14,10 +14,10 @@ namespace ouzel
         {
         }
 
-        bool LoaderParticleSystem::loadAsset(const std::string& filename)
+        bool LoaderParticleSystem::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
             scene::ParticleSystemData particleSystemData;
-            if (!particleSystemData.load(filename))
+            if (!particleSystemData.init(data))
             {
                 return false;
             }

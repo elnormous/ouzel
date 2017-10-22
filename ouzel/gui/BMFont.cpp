@@ -31,18 +31,17 @@ namespace ouzel
             return false;
         }
 
+        return init(data, mipmaps);
+    }
+
+    bool BMFont::init(const std::vector<uint8_t>& data, bool mipmaps)
+    {
         std::stringstream stream;
         std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
 
         std::string line;
         std::string read, key, value;
         std::size_t i;
-
-        if (!stream)
-        {
-            Log(Log::Level::ERR) << "Failed to open font file " << filename;
-            return false;
-        }
 
         int16_t k;
         uint32_t first, second;

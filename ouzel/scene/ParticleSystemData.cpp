@@ -11,7 +11,7 @@ namespace ouzel
 {
     namespace scene
     {
-        bool ParticleSystemData::load(const std::string& filename, bool mipmaps)
+        bool ParticleSystemData::init(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
             if (!sharedEngine->getFileSystem()->readFile(filename, data))
@@ -19,6 +19,11 @@ namespace ouzel
                 return false;
             }
 
+            return init(data, mipmaps);
+        }
+
+        bool ParticleSystemData::init(const std::vector<uint8_t>& data, bool mipmaps)
+        {
             nlohmann::json document = nlohmann::json::parse(data);
 
             if (document.find("textureFileName") == document.end() ||

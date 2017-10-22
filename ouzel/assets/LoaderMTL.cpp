@@ -13,7 +13,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderMTL::loadAsset(const std::string& filename)
+        bool LoaderMTL::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
             return false;
         }

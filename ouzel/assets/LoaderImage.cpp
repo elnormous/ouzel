@@ -22,10 +22,10 @@ namespace ouzel
             
         }
 
-        bool LoaderImage::loadAsset(const std::string& filename)
+        bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
             graphics::ImageDataSTB image;
-            if (!image.init(filename))
+            if (!image.init(data))
             {
                 return false;
             }

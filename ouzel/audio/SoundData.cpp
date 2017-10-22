@@ -3,6 +3,7 @@
 
 #include "SoundData.hpp"
 #include "Audio.hpp"
+#include "core/Engine.hpp"
 
 namespace ouzel
 {
@@ -16,9 +17,17 @@ namespace ouzel
         {
         }
 
-        bool SoundData::init(const std::string&)
+        bool SoundData::init(const std::string& newFilename)
         {
-            return true;
+            filename = newFilename;
+
+            std::vector<uint8_t> data;
+            if (!sharedEngine->getFileSystem()->readFile(newFilename, data))
+            {
+                return false;
+            }
+
+            return init(data);
         }
 
         bool SoundData::init(const std::vector<uint8_t>&)

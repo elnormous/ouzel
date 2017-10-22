@@ -14,10 +14,10 @@ namespace ouzel
         {
         }
 
-        bool LoaderTTF::loadAsset(const std::string& filename)
+        bool LoaderTTF::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
             std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
-            if (!font->init(filename))
+            if (!font->init(data))
             {
                 return false;
             }

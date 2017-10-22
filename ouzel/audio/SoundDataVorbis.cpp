@@ -3,7 +3,6 @@
 
 #include "SoundDataVorbis.hpp"
 #include "StreamVorbis.hpp"
-#include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -15,19 +14,6 @@ namespace ouzel
     {
         SoundDataVorbis::SoundDataVorbis()
         {
-        }
-
-        bool SoundDataVorbis::init(const std::string& newFilename)
-        {
-            filename = newFilename;
-
-            std::vector<uint8_t> newData;
-            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
-            {
-                return false;
-            }
-
-            return init(newData);
         }
 
         bool SoundDataVorbis::init(const std::vector<uint8_t>& newData)

@@ -14,7 +14,7 @@ namespace ouzel
         struct ModelData
         {
         public:
-            bool load(const std::string& filename, bool mipmaps = true);
+            bool init(const std::string& filename, bool mipmaps = true);
 
         protected:
             Box3 boundingBox;

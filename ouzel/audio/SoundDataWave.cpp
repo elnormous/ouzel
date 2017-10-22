@@ -4,7 +4,6 @@
 #include <iterator>
 #include "SoundDataWave.hpp"
 #include "StreamWave.hpp"
-#include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
@@ -21,19 +20,6 @@ namespace ouzel
     {
         SoundDataWave::SoundDataWave()
         {
-        }
-
-        bool SoundDataWave::init(const std::string& newFilename)
-        {
-            filename = newFilename;
-
-            std::vector<uint8_t> newData;
-            if (!sharedEngine->getFileSystem()->readFile(newFilename, newData))
-            {
-                return false;
-            }
-
-            return init(newData);
         }
 
         bool SoundDataWave::init(const std::vector<uint8_t>& newData)

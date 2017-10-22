@@ -14,10 +14,10 @@ namespace ouzel
         {
         }
 
-        bool LoaderVorbis::loadAsset(const std::string& filename)
+        bool LoaderVorbis::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
-            std::shared_ptr<audio::SoundDataVorbis> soundData = std::make_shared<audio::SoundDataVorbis>();
-            if (!soundData->init(filename))
+            std::shared_ptr<audio::SoundData> soundData = std::make_shared<audio::SoundDataVorbis>();
+            if (!soundData->init(data))
             {
                 return false;
             }
