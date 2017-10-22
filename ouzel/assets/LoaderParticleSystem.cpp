@@ -3,7 +3,7 @@
 
 #include "LoaderParticleSystem.hpp"
 #include "Cache.hpp"
-#include "ParticleSystemData.hpp"
+#include "scene/ParticleSystemData.hpp"
 
 namespace ouzel
 {

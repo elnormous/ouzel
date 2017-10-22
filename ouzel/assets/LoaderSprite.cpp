@@ -3,6 +3,7 @@
 
 #include "LoaderSprite.hpp"
 #include "Cache.hpp"
+#include "scene/SpriteData.hpp"
 
 namespace ouzel
 {

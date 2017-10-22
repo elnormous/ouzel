@@ -3,7 +3,7 @@
 
 #include "LoaderVorbis.hpp"
 #include "Cache.hpp"
-#include "SoundDataVorbis.hpp"
+#include "audio/SoundDataVorbis.hpp"
 
 namespace ouzel
 {

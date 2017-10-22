@@ -3,7 +3,7 @@
 
 #include "LoaderTTF.hpp"
 #include "Cache.hpp"
-#include "TTFont.hpp"
+#include "gui/TTFont.hpp"
 
 namespace ouzel
 {

@@ -3,7 +3,7 @@
 
 #include "LoaderWave.hpp"
 #include "Cache.hpp"
-#include "SoundDataWave.hpp"
+#include "audio/SoundDataWave.hpp"
 
 namespace ouzel
 {

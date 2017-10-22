@@ -3,7 +3,8 @@
 
 #include "LoaderImage.hpp"
 #include "Cache.hpp"
-#include "ImageDataSTB.hpp"
+#include "graphics/ImageDataSTB.hpp"
+#include "graphics/Texture.hpp"
 #include "stb_image.h"
 
 namespace ouzel

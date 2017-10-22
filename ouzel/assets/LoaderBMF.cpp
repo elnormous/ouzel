@@ -3,7 +3,7 @@
 
 #include "LoaderBMF.hpp"
 #include "Cache.hpp"
-#include "BMFont.hpp"
+#include "gui/BMFont.hpp"
 
 namespace ouzel
 {
