@@ -34,6 +34,7 @@ namespace ouzel
             std::vector<graphics::VertexPCT> vertices;
             std::map<std::tuple<uint32_t, uint32_t, uint32_t>, uint32_t> vertexMap;
             std::vector<uint16_t> indices;
+            Box3 boundingBox;
 
             uint32_t objectCount = 0;
             std::string read;
@@ -76,7 +77,7 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::ModelData modelData;
-                            modelData.init(indices, vertices, material);
+                            modelData.init(boundingBox, indices, vertices, material);
                             sharedEngine->getCache()->setModelData(name, modelData);
                         }
 
@@ -95,6 +96,7 @@ namespace ouzel
                         normals.clear();
                         vertices.clear();
                         indices.clear();
+                        boundingBox.reset();
                         ++objectCount;
                     }
                     else if (read == "v") // vertex
@@ -251,6 +253,7 @@ namespace ouzel
                                 //vertex.normal = normals[std::get<2>(i)];
                                 vertexIndices.push_back(static_cast<uint32_t>(vertices.size()));
                                 vertices.push_back(vertex);
+                                boundingBox.insertPoint(vertex.position);
                             }
                         }
                     }
@@ -262,10 +265,10 @@ namespace ouzel
             if (objectCount)
             {
                 scene::ModelData modelData;
-                modelData.init(indices, vertices, material);
+                modelData.init(boundingBox, indices, vertices, material);
                 sharedEngine->getCache()->setModelData(name, modelData);
             }
-            
+
             return true;
         }
     } // namespace assets

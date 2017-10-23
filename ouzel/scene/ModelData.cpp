@@ -21,10 +21,13 @@ namespace ouzel
             return true;
         }
 
-        bool ModelData::init(const std::vector<uint16_t> indices,
+        bool ModelData::init(Box3 newBoundingBox,
+                             const std::vector<uint16_t> indices,
                              const std::vector<graphics::VertexPCT>& vertices,
                              const std::shared_ptr<graphics::Material>& newMaterial)
         {
+            boundingBox = newBoundingBox;
+
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 
