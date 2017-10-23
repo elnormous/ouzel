@@ -208,7 +208,7 @@ namespace ouzel
             if (currentFrame < frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity};
+                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

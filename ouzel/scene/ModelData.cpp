@@ -3,6 +3,7 @@
 
 #include "ModelData.hpp"
 #include "core/Engine.hpp"
+#include "utils/Utils.hpp"
 
 namespace ouzel
 {
@@ -16,6 +17,24 @@ namespace ouzel
             {
                 return false;
             }
+
+            return true;
+        }
+
+        bool ModelData::init(const std::vector<uint16_t> indices,
+                             const std::vector<graphics::VertexPCT>& vertices,
+                             const std::shared_ptr<graphics::Material>& newMaterial)
+        {
+            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
+
+            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
+
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+
+            material = newMaterial;
 
             return true;
         }

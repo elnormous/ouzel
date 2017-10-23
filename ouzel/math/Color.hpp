@@ -60,6 +60,14 @@ namespace ouzel
         {
         }
 
+        Color(float color[4]):
+            r(static_cast<uint8_t>(color[0] * 255.0f)),
+            g(static_cast<uint8_t>(color[1] * 255.0f)),
+            b(static_cast<uint8_t>(color[2] * 255.0f)),
+            a(static_cast<uint8_t>(color[3] * 255.0f))
+        {
+        }
+
         Color(const Vector3& vec);
         Color& operator=(const Vector3& vec);
 

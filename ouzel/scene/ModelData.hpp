@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <vector>
+#include "graphics/Buffer.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/Material.hpp"
 #include "graphics/MeshBuffer.hpp"
@@ -15,9 +17,13 @@ namespace ouzel
         {
         public:
             bool init(const std::string& filename, bool mipmaps = true);
+            bool init(const std::vector<uint16_t> indices,
+                      const std::vector<graphics::VertexPCT>& vertices,
+                      const std::shared_ptr<graphics::Material>& newMaterial);
 
         protected:
             Box3 boundingBox;
+            std::shared_ptr<graphics::Material> material;
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
