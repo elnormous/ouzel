@@ -66,7 +66,7 @@ PerspectiveSample::PerspectiveSample():
     rotate->start();
 
     sharedEngine->getCache()->loadAsset("cube.obj");
-    boxModel.init(sharedEngine->getCache()->getModelData("cube"));
+    boxModel.init(sharedEngine->getCache()->getModelData("cube.obj"));
     box.addComponent(&boxModel);
     layer.addChild(&box);
 
