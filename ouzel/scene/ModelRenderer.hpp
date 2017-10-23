@@ -21,6 +21,28 @@ namespace ouzel
 
             bool init(const ModelData& modelData);
             bool init(const std::string& filename, bool mipmaps = true);
+
+            virtual void draw(const Matrix4& transformMatrix,
+                              float opacity,
+                              const Matrix4& renderViewProjection,
+                              const std::shared_ptr<graphics::Texture>& renderTarget,
+                              const Rectangle& renderViewport,
+                              bool depthWrite,
+                              bool depthTest,
+                              bool wireframe,
+                              bool scissorTest,
+                              const Rectangle& scissorRectangle) override;
+
+            virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
+            virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+
+        protected:
+            std::shared_ptr<graphics::Material> material;
+            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            std::shared_ptr<graphics::Buffer> indexBuffer;
+            std::shared_ptr<graphics::Buffer> vertexBuffer;
+
+            std::shared_ptr<graphics::Texture> whitePixelTexture;
         };
     } // namespace scene
 } // namespace ouzel

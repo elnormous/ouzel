@@ -18,7 +18,7 @@ namespace ouzel
         public:
             bool init(const std::string& filename, bool mipmaps = true);
             bool init(Box3 newBoundingBox,
-                      const std::vector<uint16_t> indices,
+                      const std::vector<uint32_t> indices,
                       const std::vector<graphics::VertexPCT>& vertices,
                       const std::shared_ptr<graphics::Material>& newMaterial);
 

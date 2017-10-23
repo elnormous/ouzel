@@ -33,7 +33,7 @@ namespace ouzel
             std::vector<Vector3> normals;
             std::vector<graphics::VertexPCT> vertices;
             std::map<std::tuple<uint32_t, uint32_t, uint32_t>, uint32_t> vertexMap;
-            std::vector<uint16_t> indices;
+            std::vector<uint32_t> indices;
             Box3 boundingBox;
 
             uint32_t objectCount = 0;
@@ -255,6 +255,23 @@ namespace ouzel
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);
                             }
+                        }
+
+                        if (vertexIndices.size() < 3)
+                        {
+                            Log(Log::Level::ERR) << "Invalid face count";
+                            return false;
+                        }
+                        else if (vertexIndices.size() == 3)
+                        {
+                            for (uint32_t vertexIndex : vertexIndices)
+                            {
+                                indices.push_back(vertexIndex);
+                            }
+                        }
+                        else
+                        {
+                            // TODO: implement
                         }
                     }
 

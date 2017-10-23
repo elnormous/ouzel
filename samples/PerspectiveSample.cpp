@@ -68,6 +68,7 @@ PerspectiveSample::PerspectiveSample():
     sharedEngine->getCache()->loadAsset("cube.obj");
     boxModel.init(sharedEngine->getCache()->getModelData("cube.obj"));
     box.addComponent(&boxModel);
+    box.setPosition(Vector3(-160.0f, 0.0f, -50.0f));
     layer.addChild(&box);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
