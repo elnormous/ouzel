@@ -330,7 +330,7 @@ namespace ouzel
         void AudioDeviceAL::run()
         {
 #if OUZEL_MULTITHREADED
-            sharedEngine->setCurrentThreadName("Audio");
+            engine->setCurrentThreadName("Audio");
 
             while (running)
             {

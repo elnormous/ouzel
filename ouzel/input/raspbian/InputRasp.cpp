@@ -399,11 +399,11 @@ namespace ouzel
 
                                     if (event->code == ABS_X)
                                     {
-                                        absolutePos.x = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
+                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        absolutePos.y = sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
+                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
                                     }
 
                                     mouseMove(absolutePos, getModifiers());
@@ -421,7 +421,7 @@ namespace ouzel
                                         relativePos.y = static_cast<float>(event->value);
                                     }
 
-                                    mouseRelativeMove(sharedEngine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), getModifiers());
+                                    mouseRelativeMove(engine->getWindow()->convertWindowToNormalizedLocationRelative(relativePos), getModifiers());
                                 }
                                 else if (event->type == EV_KEY)
                                 {

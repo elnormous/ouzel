@@ -14,12 +14,12 @@ namespace ouzel
     {
         Texture::Texture()
         {
-            resource = sharedEngine->getRenderer()->getDevice()->createTexture();
+            resource = engine->getRenderer()->getDevice()->createTexture();
         }
 
         Texture::~Texture()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
+            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Texture::init(const Size2& newSize,
@@ -34,7 +34,7 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          newSize,
                                                                          newFlags,
@@ -62,7 +62,7 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = image.getPixelFormat();
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          image.getData(),
                                                                          image.getSize(),
@@ -85,7 +85,7 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          newData,
                                                                          newSize,
@@ -107,7 +107,7 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                          resource,
                                                                          newLevels,
                                                                          newSize,
@@ -126,7 +126,7 @@ namespace ouzel
         {
             size = newSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
                                                                          resource,
                                                                          newSize));
 
@@ -137,7 +137,7 @@ namespace ouzel
         {
             size = newSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,
                                                                          resource,
                                                                          newData,
                                                                          newSize));
@@ -154,7 +154,7 @@ namespace ouzel
         {
             filter = newFilter;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
                                                                          resource,
                                                                          newFilter));
 
@@ -170,7 +170,7 @@ namespace ouzel
         {
             addressX = newAddressX;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
                                                                          resource,
                                                                          newAddressX));
 
@@ -186,7 +186,7 @@ namespace ouzel
         {
             addressY = newAddressY;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
                                                                          resource,
                                                                          newAddressY));
 
@@ -202,7 +202,7 @@ namespace ouzel
         {
             maxAnisotropy = newMaxAnisotropy;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
                                                                          resource,
                                                                          newMaxAnisotropy));
 
@@ -228,7 +228,7 @@ namespace ouzel
         {
             clearColorBuffer = clear;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
                                                                          resource,
                                                                          clear));
         }
@@ -242,7 +242,7 @@ namespace ouzel
         {
             clearDepthBuffer = clear;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
                                                                          resource,
                                                                          clear));
         }
@@ -256,7 +256,7 @@ namespace ouzel
         {
             clearColor = color;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
                                                                          resource,
                                                                          color));
         }
@@ -270,7 +270,7 @@ namespace ouzel
         {
             clearDepth = depth;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
                                                                          resource,
                                                                          depth));
         }

@@ -57,16 +57,16 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
     {
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
             inputEm->mouseButtonPress(button,
-                                      ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                       ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             inputEm->mouseButtonRelease(button,
-                                        ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                                        ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                         ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
-            inputEm->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+            inputEm->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                ouzel::input::InputEm::getMouseModifiers(mouseEvent));
             return true;
     }
@@ -83,7 +83,7 @@ static EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelE
                                 static_cast<float>(wheelEvent->mouse.canvasY));
 
         inputEm->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
-                             ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                              ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
 
         return true;
@@ -330,7 +330,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedEngine->executeOnMainThread([visible] {
+            engine->executeOnMainThread([visible] {
                 if (!visible)
                 {
                     emscripten_hide_mouse();
@@ -358,7 +358,7 @@ namespace ouzel
 
         void InputEm::setCursorLocked(bool locked)
         {
-            sharedEngine->executeOnMainThread([locked] {
+            engine->executeOnMainThread([locked] {
                 if (locked)
                 {
                     emscripten_request_pointerlock(nullptr, false);
@@ -391,7 +391,7 @@ namespace ouzel
 
             gamepads.push_back(std::move(gamepad));
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void InputEm::handleGamepadDisconnected(long index)
@@ -408,7 +408,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = (*i).get();
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
 
                 gamepads.erase(i);
             }

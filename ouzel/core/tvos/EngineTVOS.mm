@@ -12,16 +12,16 @@
 
 -(BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    ouzel::sharedEngine->init();
+    ouzel::engine->init();
 
     return YES;
 }
 
 -(BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
 {
-    if (ouzel::sharedEngine)
+    if (ouzel::engine)
     {
-        ouzel::sharedEngine->start();
+        ouzel::engine->start();
     }
 
     return YES;
@@ -29,12 +29,12 @@
 
 -(void)applicationDidBecomeActive:(__unused UIApplication*)application
 {
-    ouzel::sharedEngine->resume();
+    ouzel::engine->resume();
 }
 
 -(void)applicationWillResignActive:(__unused UIApplication*)application
 {
-    ouzel::sharedEngine->pause();
+    ouzel::engine->pause();
 }
 
 -(void)applicationDidEnterBackground:(__unused UIApplication*)application
@@ -47,17 +47,17 @@
 
 -(void)applicationWillTerminate:(__unused UIApplication*)application
 {
-    ouzel::sharedEngine->exit();
+    ouzel::engine->exit();
 }
 
 -(void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
 {
-    if (ouzel::sharedEngine)
+    if (ouzel::engine)
     {
         ouzel::Event event;
         event.type = ouzel::Event::Type::LOW_MEMORY;
 
-        ouzel::sharedEngine->getEventDispatcher()->postEvent(event);
+        ouzel::engine->getEventDispatcher()->postEvent(event);
     }
 }
 

@@ -212,7 +212,7 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
-            sharedEngine->setCurrentThreadName("Render");
+            engine->setCurrentThreadName("Render");
 
             while (running)
             {

@@ -134,8 +134,8 @@ namespace ouzel
 
         bool InputTVOS::showVirtualKeyboard()
         {
-            sharedEngine->executeOnMainThread([]() {
-                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([]() {
+                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField becomeFirstResponder];
             });
@@ -145,8 +145,8 @@ namespace ouzel
 
         bool InputTVOS::hideVirtualKeyboard()
         {
-            sharedEngine->executeOnMainThread([]() {
-                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([]() {
+                WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowTVOS->getTextField();
                 [textField resignFirstResponder];
             });
@@ -182,7 +182,7 @@ namespace ouzel
 
             gamepads.push_back(std::move(gamepad));
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void InputTVOS::handleGamepadDisconnected(GCControllerPtr controller)
@@ -199,7 +199,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = (*i).get();
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
 
                 gamepads.erase(i);
             }

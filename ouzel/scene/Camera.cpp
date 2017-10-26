@@ -71,7 +71,7 @@ namespace ouzel
         {
             Size2 renderTargetSize = renderTarget ?
                 renderTarget->getSize() :
-                sharedEngine->getRenderer()->getSize();
+                engine->getRenderer()->getSize();
 
             renderViewport.position.x = renderTargetSize.width * viewport.position.x;
             renderViewport.position.y = renderTargetSize.height * viewport.position.y;
@@ -177,7 +177,7 @@ namespace ouzel
 
                 renderViewProjection = viewProjection;
 
-                renderViewProjection = sharedEngine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
+                renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
 
                 viewProjectionDirty = false;
             }

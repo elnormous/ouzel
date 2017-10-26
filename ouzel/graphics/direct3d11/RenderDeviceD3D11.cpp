@@ -363,7 +363,7 @@ namespace ouzel
                                 {{"color", DataType::FLOAT_VECTOR4}},
                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
-            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
             colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
@@ -372,7 +372,7 @@ namespace ouzel
                               {{"color", DataType::FLOAT_VECTOR4}},
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
-            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -1143,7 +1143,7 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
-            sharedEngine->setCurrentThreadName("Render");
+            engine->setCurrentThreadName("Render");
 
             while (running)
             {

@@ -12,7 +12,7 @@ InputSample::InputSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0f, 63.0f));
-    sharedEngine->getInput()->setCursor(&cursor);
+    engine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -20,7 +20,7 @@ InputSample::InputSample():
     eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
@@ -83,15 +83,15 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 position.x += 10.0f;
                 break;
             case input::KeyboardKey::R:
-                sharedEngine->getWindow()->setSize(Size2(640.0f, 480.0f));
+                engine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
             case input::KeyboardKey::TAB:
                 hideButton.setEnabled(!hideButton.isEnabled());
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                sharedEngine->getInput()->setCursorVisible(true);
-                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getInput()->setCursorVisible(true);
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
                 break;
@@ -141,7 +141,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         switch (event.button)
         {
             case input::GamepadButton::FACE_RIGHT:
-                if (event.pressed) sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                if (event.pressed) engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -180,12 +180,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.actor == &backButton)
         {
-            sharedEngine->getInput()->setCursorVisible(true);
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getInput()->setCursorVisible(true);
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
         {
-            sharedEngine->getInput()->setCursorVisible(!sharedEngine->getInput()->isCursorVisible());
+            engine->getInput()->setCursorVisible(!engine->getInput()->isCursorVisible());
         }
     }
 

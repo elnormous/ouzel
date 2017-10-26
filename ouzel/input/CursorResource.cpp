@@ -40,9 +40,9 @@ namespace ouzel
 
         void CursorResource::reactivate()
         {
-            if (sharedEngine->getInput()->currentCursorResource == this)
+            if (engine->getInput()->currentCursorResource == this)
             {
-                sharedEngine->getInput()->activateCursorResource(this);
+                engine->getInput()->activateCursorResource(this);
             }
         }
     } // namespace input

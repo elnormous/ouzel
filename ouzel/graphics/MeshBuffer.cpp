@@ -14,12 +14,12 @@ namespace ouzel
     {
         MeshBuffer::MeshBuffer()
         {
-            resource = sharedEngine->getRenderer()->getDevice()->createMeshBuffer();
+            resource = engine->getRenderer()->getDevice()->createMeshBuffer();
         }
 
         MeshBuffer::~MeshBuffer()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
+            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
@@ -33,7 +33,7 @@ namespace ouzel
             BufferResource* indexBufferResource = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
             BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::init,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::init,
                                                                          resource,
                                                                          newIndexSize,
                                                                          indexBufferResource,
@@ -52,7 +52,7 @@ namespace ouzel
         {
             indexSize = newIndexSize;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexSize,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexSize,
                                                                          resource,
                                                                          newIndexSize));
 
@@ -65,7 +65,7 @@ namespace ouzel
 
             BufferResource* indexBufferResource = indexBuffer ? indexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexBuffer,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexBuffer,
                                                                          resource,
                                                                          indexBufferResource));
 
@@ -81,7 +81,7 @@ namespace ouzel
         {
             vertexAttributes = newVertexAttributes;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexAttributes,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexAttributes,
                                                                          resource,
                                                                          newVertexAttributes));
 
@@ -94,7 +94,7 @@ namespace ouzel
 
             BufferResource* vertexBufferResource = vertexBuffer ? vertexBuffer->getResource() : nullptr;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexBuffer,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexBuffer,
                                                                          resource,
                                                                          vertexBufferResource));
 

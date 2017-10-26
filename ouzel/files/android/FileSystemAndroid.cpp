@@ -15,14 +15,14 @@ namespace ouzel
 
     std::string FileSystemAndroid::getStorageDirectory(bool) const
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
         return engineAndroid->getFilesDirectory();
     }
 
     std::string FileSystemAndroid::getTempDirectory() const
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
         return engineAndroid->getCacheDirectory();
     }
@@ -31,7 +31,7 @@ namespace ouzel
     {
         if (!isAbsolutePath(filename))
         {
-            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
             AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 
@@ -60,7 +60,7 @@ namespace ouzel
 
     bool FileSystemAndroid::directoryExists(const std::string& dirname) const
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
         AAssetDir* assetDir = AAssetManager_openDir(engineAndroid->getAssetManager(), dirname.c_str());
         bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
@@ -73,7 +73,7 @@ namespace ouzel
 
     bool FileSystemAndroid::fileExists(const std::string& filename) const
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
 
         AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
 

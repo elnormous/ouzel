@@ -11,7 +11,7 @@
 
 static void loop(void)
 {
-    if (!static_cast<ouzel::EngineEm*>(ouzel::sharedEngine)->step())
+    if (!static_cast<ouzel::EngineEm*>(ouzel::engine)->step())
     {
         emscripten_cancel_main_loop();
     }

@@ -237,7 +237,7 @@ namespace ouzel
 
         bool InputLinux::init()
         {
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             ::Window window = windowLinux->getNativeWindow();
             Display* display = windowLinux->getDisplay();
 
@@ -290,9 +290,9 @@ namespace ouzel
 
         InputLinux::~InputLinux()
         {
-            if (sharedEngine)
+            if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (emptyCursor != None) XFreeCursor(display, emptyCursor);
             }
@@ -302,9 +302,9 @@ namespace ouzel
         {
             Input::activateCursorResource(resource);
 
-            if (sharedEngine)
+            if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
@@ -356,8 +356,8 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedEngine->executeOnMainThread([visible, this] {
-                    WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+                engine->executeOnMainThread([visible, this] {
+                    WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                     Display* display = windowLinux->getDisplay();
                     ::Window window = windowLinux->getNativeWindow();
 
@@ -389,8 +389,8 @@ namespace ouzel
 
         void InputLinux::setCursorLocked(bool locked)
         {
-            sharedEngine->executeOnMainThread([locked] {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([locked] {
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
@@ -423,15 +423,15 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedEngine->executeOnMainThread([position] {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([position] {
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 ::Window window = windowLinux->getNativeWindow();
 
                 XWindowAttributes attributes;
                 XGetWindowAttributes(display, window, &attributes);
 
-                ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
+                ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
 
                 XWarpPointer(display, None, window, 0, 0, 0, 0,
                              attributes.x + static_cast<int>(windowLocation.x),
@@ -450,7 +450,7 @@ namespace ouzel
                     {
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchBegin(xievent->detail,
-                                   sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                   engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                         static_cast<float>(xievent->event_y))));
                         break;
                     }
@@ -458,7 +458,7 @@ namespace ouzel
                     {
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchEnd(xievent->detail,
-                                 sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                 engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                       static_cast<float>(xievent->event_y))));
                         break;
                     }
@@ -466,7 +466,7 @@ namespace ouzel
                     {
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchMove(xievent->detail,
-                                  sharedEngine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
+                                  engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
                                                                                                        static_cast<float>(xievent->event_y))));
                         break;
                     }

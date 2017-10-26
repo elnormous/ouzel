@@ -77,7 +77,7 @@ namespace ouzel
 
         resolution = size;
 
-        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
+        switch (engine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
             {
@@ -138,7 +138,7 @@ namespace ouzel
                 return false;
         }
 
-        EngineLinux* engineLinux = static_cast<EngineLinux*>(sharedEngine);
+        EngineLinux* engineLinux = static_cast<EngineLinux*>(engine);
 
         XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, engineLinux->getArgv(), engineLinux->getArgc(), nullptr);
 

@@ -18,32 +18,32 @@ SoundSample::SoundSample():
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&SoundSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    sharedEngine->getAudio()->addListener(&listener);
+    engine->getAudio()->addListener(&listener);
 
     soundMixer.setOutput(&listener);
     soundMixer.setGain(1.2f);
 
-    test8BitSound.init(sharedEngine->getCache()->getSoundData("8-bit.wav"));
+    test8BitSound.init(engine->getCache()->getSoundData("8-bit.wav"));
     test8BitSound.setPitch(2.0f);
     test8BitSound.setOutput(&soundMixer);
 
-    test24BitSound.init(sharedEngine->getCache()->getSoundData("24-bit.wav"));
+    test24BitSound.init(engine->getCache()->getSoundData("24-bit.wav"));
     test24BitSound.setPitch(0.5f);
     test24BitSound.setOutput(&soundMixer);
 
-    jumpSound.init(sharedEngine->getCache()->getSoundData("jump.wav"));
+    jumpSound.init(engine->getCache()->getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpSound);
     soundActor.setPosition(Vector3(8.0f, 0.0f, 10.0f));
     jumpSound.setOutput(&soundMixer);
 
-    ambientSound.init(sharedEngine->getCache()->getSoundData("ambient.wav"));
+    ambientSound.init(engine->getCache()->getSoundData("ambient.wav"));
     ambientSound.setOutput(&soundMixer);
 
-    music.init(sharedEngine->getCache()->getSoundData("music.ogg"));
+    music.init(engine->getCache()->getSoundData("music.ogg"));
     music.setOutput(&listener);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
@@ -80,7 +80,7 @@ bool SoundSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -93,7 +93,7 @@ bool SoundSample::handleUI(Event::Type type, const UIEvent& event)
     {
         if (event.actor == &backButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &test8BitButton)
         {
@@ -128,7 +128,7 @@ bool SoundSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) c
         {
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

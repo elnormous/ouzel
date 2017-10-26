@@ -13,12 +13,12 @@ namespace ouzel
     {
         BlendState::BlendState()
         {
-            resource = sharedEngine->getRenderer()->getDevice()->createBlendState();
+            resource = engine->getRenderer()->getDevice()->createBlendState();
         }
 
         BlendState::~BlendState()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
+            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool BlendState::init(bool newEnableBlending,
@@ -37,7 +37,7 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
                                                                          resource,
                                                                          newEnableBlending,
                                                                          newColorBlendSource, newColorBlendDest,

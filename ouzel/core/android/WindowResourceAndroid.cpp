@@ -35,7 +35,7 @@ namespace ouzel
             return false;
         }
 
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
         JNIEnv* jniEnv;
 
@@ -69,7 +69,7 @@ namespace ouzel
 
     void WindowResourceAndroid::handleSurfaceChange(jobject surface)
     {
-        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(sharedEngine);
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
         JavaVM* javaVM = engineAndroid->getJavaVM();
         JNIEnv* jniEnv;
 

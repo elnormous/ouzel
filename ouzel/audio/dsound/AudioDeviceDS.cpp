@@ -70,7 +70,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource());
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
 
             hr = directSound->SetCooperativeLevel(windowWin->getNativeWindow(), DSSCL_PRIORITY);
             if (FAILED(hr))
@@ -200,7 +200,7 @@ namespace ouzel
 
         void AudioDeviceDS::run()
         {
-            sharedEngine->setCurrentThreadName("Audio");
+            engine->setCurrentThreadName("Audio");
 
             for (;;)
             {

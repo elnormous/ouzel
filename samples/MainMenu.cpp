@@ -25,7 +25,7 @@ MainMenu::MainMenu():
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     addLayer(&layer);
 
@@ -67,7 +67,7 @@ bool MainMenu::handleKeyboard(Event::Type type, const KeyboardEvent& event)
     {
         if (type == Event::Type::KEY_PRESS)
         {
-            sharedEngine->exit();
+            engine->exit();
         }
 
         return false;
@@ -82,35 +82,35 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
     {
         if (event.actor == &gitHubButton)
         {
-            sharedEngine->openURL("https://github.com/elnormous/ouzel");
+            engine->openURL("https://github.com/elnormous/ouzel");
         }
         else if (event.actor == &spritesButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
         }
         else if (event.actor == &guiButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
         }
         else if (event.actor == &renderTargetButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
         }
         else if (event.actor == &animationsButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
         }
         else if (event.actor == &inputButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
         }
         else if (event.actor == &soundButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
         }
         else if (event.actor == &perspectiveButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
         }
     }
 

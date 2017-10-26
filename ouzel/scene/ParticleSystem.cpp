@@ -22,9 +22,9 @@ namespace ouzel
         ParticleSystem::ParticleSystem():
             Component(TYPE)
         {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&ParticleSystem::update, this, std::placeholders::_1);
         }
@@ -85,7 +85,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
+                engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -148,7 +148,7 @@ namespace ouzel
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;
                     finishEvent.animationEvent.component = this;
-                    sharedEngine->getEventDispatcher()->postEvent(finishEvent);
+                    engine->getEventDispatcher()->postEvent(finishEvent);
 
                     return;
                 }
@@ -276,7 +276,7 @@ namespace ouzel
 
         bool ParticleSystem::init(const std::string& filename)
         {
-            particleSystemData = sharedEngine->getCache()->getParticleSystemData(filename);
+            particleSystemData = engine->getCache()->getParticleSystemData(filename);
 
             texture = particleSystemData.texture;
 
@@ -301,7 +301,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    sharedEngine->scheduleUpdate(&updateCallback);
+                    engine->scheduleUpdate(&updateCallback);
                 }
 
                 if (particleCount == 0)
@@ -309,7 +309,7 @@ namespace ouzel
                     Event startEvent;
                     startEvent.type = Event::Type::ANIMATION_START;
                     startEvent.animationEvent.component = this;
-                    sharedEngine->getEventDispatcher()->postEvent(startEvent);
+                    engine->getEventDispatcher()->postEvent(startEvent);
                 }
             }
         }

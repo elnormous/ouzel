@@ -14,17 +14,17 @@
 
 -(void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
-    ouzel::sharedEngine->init();
+    ouzel::engine->init();
 }
 
 -(void)applicationDidFinishLaunching:(__unused NSNotification*)notification
 {
-    ouzel::sharedEngine->start();
+    ouzel::engine->start();
 }
 
 -(void)applicationWillTerminate:(__unused NSNotification*)notification
 {
-    ouzel::sharedEngine->exit();
+    ouzel::engine->exit();
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
@@ -34,14 +34,14 @@
 
 -(BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
 {
-    if (ouzel::sharedEngine)
+    if (ouzel::engine)
     {
         ouzel::Event event;
         event.type = ouzel::Event::Type::OPEN_FILE;
 
         event.systemEvent.filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
 
-        ouzel::sharedEngine->getEventDispatcher()->postEvent(event);
+        ouzel::engine->getEventDispatcher()->postEvent(event);
     }
 
     return YES;
@@ -49,12 +49,12 @@
 
 -(void)applicationDidBecomeActive:(__unused NSNotification*)notification
 {
-    ouzel::sharedEngine->resume();
+    ouzel::engine->resume();
 }
 
 -(void)applicationDidResignActive:(__unused NSNotification*)notification
 {
-    ouzel::sharedEngine->pause();
+    ouzel::engine->pause();
 }
 
 @end

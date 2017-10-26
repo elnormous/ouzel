@@ -13,7 +13,7 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            resource = sharedEngine->getInput()->createCursorResource();
+            resource = engine->getInput()->createCursorResource();
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -30,12 +30,12 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            if (sharedEngine && resource) sharedEngine->getInput()->deleteCursorResource(resource);
+            if (engine && resource) engine->getInput()->deleteCursorResource(resource);
         }
 
         bool Cursor::init(SystemCursor systemCursor)
         {
-            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(SystemCursor)>(&CursorResource::init),
+            engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(SystemCursor)>(&CursorResource::init),
                                                         resource,
                                                         systemCursor));
 
@@ -61,7 +61,7 @@ namespace ouzel
                           graphics::PixelFormat pixelFormat,
                           const Vector2& hotSpot)
         {
-            sharedEngine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
+            engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
                                                         resource,
                                                         data,
                                                         size,

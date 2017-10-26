@@ -14,12 +14,12 @@ namespace ouzel
     {
         Shader::Shader()
         {
-            resource = sharedEngine->getRenderer()->getDevice()->createShader();
+            resource = engine->getRenderer()->getDevice()->createShader();
         }
 
         Shader::~Shader()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
+            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Shader::init(const std::string& newPixelShader,
@@ -39,19 +39,19 @@ namespace ouzel
 
             std::vector<uint8_t> pixelShaderData;
 
-            if (!sharedEngine->getFileSystem()->readFile(newPixelShader, pixelShaderData))
+            if (!engine->getFileSystem()->readFile(newPixelShader, pixelShaderData))
             {
                 return false;
             }
 
             std::vector<uint8_t> vertexShaderData;
 
-            if (!sharedEngine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
+            if (!engine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
             {
                 return false;
             }
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
                                                                          resource,
                                                                          pixelShaderData,
                                                                          vertexShaderData,
@@ -80,7 +80,7 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
                                                                          resource,
                                                                          newPixelShader,
                                                                          newVertexShader,

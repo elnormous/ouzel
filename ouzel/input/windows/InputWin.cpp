@@ -257,7 +257,7 @@ namespace ouzel
 
                         gamepads.push_back(std::move(gamepad));
 
-                        sharedEngine->getEventDispatcher()->postEvent(event);
+                        engine->getEventDispatcher()->postEvent(event);
                     }
 
                     gamepadsXI[userIndex]->update(state);
@@ -272,7 +272,7 @@ namespace ouzel
                         event.type = Event::Type::GAMEPAD_DISCONNECT;
                         event.gamepadEvent.gamepad = gamepadXI;
 
-                        sharedEngine->getEventDispatcher()->postEvent(event);
+                        engine->getEventDispatcher()->postEvent(event);
 
                         std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
                             return gamepadXI == gamepad.get();
@@ -303,7 +303,7 @@ namespace ouzel
                     event.type = Event::Type::GAMEPAD_DISCONNECT;
                     event.gamepadEvent.gamepad = gamepadDI;
 
-                    sharedEngine->getEventDispatcher()->postEvent(event);
+                    engine->getEventDispatcher()->postEvent(event);
 
                     i = gamepadsDI.erase(i);
                 }
@@ -344,7 +344,7 @@ namespace ouzel
         {
             cursorVisible = visible;
 
-            sharedEngine->executeOnMainThread([this, visible] {
+            engine->executeOnMainThread([this, visible] {
                 if (visible)
                 {
                     SetCursor(currentCursor);
@@ -363,10 +363,10 @@ namespace ouzel
 
         void InputWin::setCursorLocked(bool locked)
         {
-            sharedEngine->executeOnMainThread([locked] {
+            engine->executeOnMainThread([locked] {
                 if (locked)
                 {
-                    HWND nativeWindow = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource())->getNativeWindow();
+                    HWND nativeWindow = static_cast<WindowResourceWin*>(engine->getWindow()->getResource())->getNativeWindow();
 
                     RECT rect;
                     GetWindowRect(nativeWindow, &rect);
@@ -401,9 +401,9 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            sharedEngine->executeOnMainThread([position] {
-                ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
-                HWND nativeWindow = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource())->getNativeWindow();
+            engine->executeOnMainThread([position] {
+                ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
+                HWND nativeWindow = static_cast<WindowResourceWin*>(engine->getWindow()->getResource())->getNativeWindow();
 
                 POINT p;
                 p.x = static_cast<LONG>(windowLocation.x);
@@ -547,7 +547,7 @@ namespace ouzel
 
                     gamepads.push_back(std::move(gamepad));
 
-                    sharedEngine->getEventDispatcher()->postEvent(event);
+                    engine->getEventDispatcher()->postEvent(event);
                 }
             }
         }

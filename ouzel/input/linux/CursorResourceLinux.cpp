@@ -14,9 +14,9 @@ namespace ouzel
     {
         CursorResourceLinux::~CursorResourceLinux()
         {
-            if (sharedEngine)
+            if (engine)
             {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
                 Display* display = windowLinux->getDisplay();
                 if (cursor != None) XFreeCursor(display, cursor);
             }
@@ -29,7 +29,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)
@@ -81,7 +81,7 @@ namespace ouzel
                 return false;
             }
 
-            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(sharedEngine->getWindow()->getResource());
+            WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             Display* display = windowLinux->getDisplay();
 
             if (cursor != None)

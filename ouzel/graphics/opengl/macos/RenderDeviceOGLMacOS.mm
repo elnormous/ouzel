@@ -159,7 +159,7 @@ namespace ouzel
             }
 
             eventHandler.windowHandler = std::bind(&RenderDeviceOGLMacOS::handleWindow, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             CGDirectDisplayID displayId = windowMacOS->getDisplayId();
             if (CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink) != kCVReturnSuccess)
@@ -230,7 +230,7 @@ namespace ouzel
         {
             if (type == Event::Type::SCREEN_CHANGE)
             {
-                sharedEngine->executeOnMainThread([this, event]() {
+                engine->executeOnMainThread([this, event]() {
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)

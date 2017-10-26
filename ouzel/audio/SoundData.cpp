@@ -20,7 +20,7 @@ namespace ouzel
         bool SoundData::init(const std::string& filename)
         {
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            if (!engine->getFileSystem()->readFile(filename, data))
             {
                 return false;
             }

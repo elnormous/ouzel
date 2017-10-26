@@ -212,7 +212,7 @@ namespace ouzel
 
         void AudioDeviceXA2::run()
         {
-            sharedEngine->setCurrentThreadName("Audio");
+            engine->setCurrentThreadName("Audio");
 
             for (;;)
             {

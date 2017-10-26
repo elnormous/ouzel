@@ -134,8 +134,8 @@ namespace ouzel
 
         bool InputIOS::showVirtualKeyboard()
         {
-            sharedEngine->executeOnMainThread([]() {
-                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([]() {
+                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField becomeFirstResponder];
             });
@@ -145,8 +145,8 @@ namespace ouzel
 
         bool InputIOS::hideVirtualKeyboard()
         {
-            sharedEngine->executeOnMainThread([]() {
-                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(sharedEngine->getWindow()->getResource());
+            engine->executeOnMainThread([]() {
+                WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
                 UITextField* textField = windowIOS->getTextField();
                 [textField resignFirstResponder];
             });
@@ -182,7 +182,7 @@ namespace ouzel
 
             gamepads.push_back(std::move(gamepad));
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void InputIOS::handleGamepadDisconnected(GCControllerPtr controller)
@@ -199,7 +199,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = (*i).get();
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
 
                 gamepads.erase(i);
             }

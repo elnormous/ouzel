@@ -41,7 +41,7 @@ namespace ouzel
                 currentCursorResource = nullptr;
             }
 
-            sharedEngine->executeOnMainThread(std::bind(&Input::activateCursorResource,
+            engine->executeOnMainThread(std::bind(&Input::activateCursorResource,
                                                         this,
                                                         currentCursorResource));
         }
@@ -64,7 +64,7 @@ namespace ouzel
 
         void Input::deleteCursorResource(CursorResource* resource)
         {
-            sharedEngine->executeOnMainThread([this, resource] {
+            engine->executeOnMainThread([this, resource] {
                 std::lock_guard<std::mutex> lock(resourceMutex);
 
                 std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
@@ -131,12 +131,12 @@ namespace ouzel
                 keyboardKeyStates[static_cast<uint32_t>(key)] = true;
 
                 event.type = Event::Type::KEY_PRESS;
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
             }
             else
             {
                 event.type = Event::Type::KEY_REPEAT;
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
             }
         }
 
@@ -150,7 +150,7 @@ namespace ouzel
             event.keyboardEvent.key = key;
             event.keyboardEvent.modifiers = modifiers;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
@@ -164,7 +164,7 @@ namespace ouzel
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
@@ -178,7 +178,7 @@ namespace ouzel
             event.mouseEvent.position = position;
             event.mouseEvent.modifiers = modifiers;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::mouseMove(const Vector2& position, uint32_t modifiers)
@@ -192,7 +192,7 @@ namespace ouzel
 
             cursorPosition = position;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
@@ -214,7 +214,7 @@ namespace ouzel
             event.mouseEvent.scroll = scroll;
             event.mouseEvent.modifiers = modifiers;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::touchBegin(uint64_t touchId, const Vector2& position, float force)
@@ -228,7 +228,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::touchEnd(uint64_t touchId, const Vector2& position, float force)
@@ -247,7 +247,7 @@ namespace ouzel
                 touchPositions.erase(i);
             }
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::touchMove(uint64_t touchId, const Vector2& position, float force)
@@ -262,7 +262,7 @@ namespace ouzel
 
             touchPositions[touchId] = position;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         void Input::touchCancel(uint64_t touchId, const Vector2& position, float force)
@@ -281,7 +281,7 @@ namespace ouzel
                 touchPositions.erase(i);
             }
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         bool Input::showVirtualKeyboard()

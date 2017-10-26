@@ -16,7 +16,7 @@ std::string APPLICATION_NAME = "samples";
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver
-    ouzel::sharedEngine->setScreenSaverEnabled(false);
+    ouzel::engine->setScreenSaverEnabled(false);
 
     std::string sample;
 
@@ -47,9 +47,9 @@ void ouzelMain(const std::vector<std::string>& args)
         }
     }
 
-    ouzel::sharedEngine->getFileSystem()->addResourcePath("Resources");
+    ouzel::engine->getFileSystem()->addResourcePath("Resources");
 
-    ouzel::sharedEngine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
+    ouzel::engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
 
     std::unique_ptr<ouzel::scene::Scene> currentScene;
 
@@ -90,5 +90,5 @@ void ouzelMain(const std::vector<std::string>& args)
         currentScene.reset(new MainMenu());
     }
 
-    ouzel::sharedEngine->getSceneManager()->setScene(std::move(currentScene));
+    ouzel::engine->getSceneManager()->setScene(std::move(currentScene));
 }

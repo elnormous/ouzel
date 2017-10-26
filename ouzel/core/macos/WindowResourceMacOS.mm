@@ -194,7 +194,7 @@ namespace ouzel
         NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
                                                      styleMask:[window styleMask]];
 
-        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
+        switch (engine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewMacOS alloc] initWithFrame:windowFrame];

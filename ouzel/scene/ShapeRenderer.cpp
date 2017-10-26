@@ -16,8 +16,8 @@ namespace ouzel
         ShapeRenderer::ShapeRenderer():
             Component(TYPE)
         {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_COLOR);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            shader = engine->getCache()->getShader(graphics::SHADER_COLOR);
+            blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
@@ -69,7 +69,7 @@ namespace ouzel
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                sharedEngine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
+                engine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
                                                             shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,

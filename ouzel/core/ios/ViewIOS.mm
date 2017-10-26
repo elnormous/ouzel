@@ -17,8 +17,8 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
-        ouzel::sharedEngine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                    ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+        ouzel::engine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                        static_cast<float>(location.y))),
                                                     static_cast<float>(force));
     }
@@ -33,8 +33,8 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
-        ouzel::sharedEngine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                   ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+        ouzel::engine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                       static_cast<float>(location.y))),
                                                    static_cast<float>(force));
     }
@@ -49,8 +49,8 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
-        ouzel::sharedEngine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                  ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+        ouzel::engine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                                  ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                      static_cast<float>(location.y))),
                                                   static_cast<float>(force));
     }
@@ -65,8 +65,8 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
 
-        ouzel::sharedEngine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+        ouzel::engine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
                                                                                                                                         static_cast<float>(location.y))),
                                                      static_cast<float>(force));
     }
@@ -76,7 +76,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyPress(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -84,7 +84,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -92,7 +92,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyRelease(ouzel::input::InputIOS::convertKeyCode(press.type), 0);
     }
 }
 

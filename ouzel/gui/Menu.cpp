@@ -21,7 +21,7 @@ namespace ouzel
 
         void Menu::enter()
         {
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher()->addEventHandler(&eventHandler);
         }
 
         void Menu::leave()
@@ -199,7 +199,7 @@ namespace ouzel
                             clickEvent.uiEvent.actor = selectedWidget;
                             clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                            sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                            engine->getEventDispatcher()->postEvent(clickEvent);
                         }
                         break;
                     }
@@ -249,7 +249,7 @@ namespace ouzel
                         clickEvent.uiEvent.actor = selectedWidget;
                         clickEvent.uiEvent.position = selectedWidget->getPosition();
 
-                        sharedEngine->getEventDispatcher()->postEvent(clickEvent);
+                        engine->getEventDispatcher()->postEvent(clickEvent);
                     }
                 }
 #endif

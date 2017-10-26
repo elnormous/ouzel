@@ -227,7 +227,7 @@ namespace ouzel
                                 256, 256,
                                 "mainPS", "mainVS");
 
-            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
             colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL), std::end(COLOR_PIXEL_SHADER_METAL)),
@@ -238,7 +238,7 @@ namespace ouzel
                               256, 256,
                               "mainPS", "mainVS");
 
-            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             for (uint32_t i = 0; i < BUFFER_COUNT; ++i)
             {

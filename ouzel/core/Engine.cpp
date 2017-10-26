@@ -43,12 +43,12 @@ extern std::string APPLICATION_NAME;
 
 namespace ouzel
 {
-    ouzel::Engine* sharedEngine = nullptr;
+    ouzel::Engine* engine = nullptr;
 
     Engine::Engine():
         active(false), paused(false), screenSaverEnabled(true)
     {
-        sharedEngine = this;
+        engine = this;
     }
 
     Engine::~Engine()
@@ -86,7 +86,7 @@ namespace ouzel
             if (i == updateCallbackDeleteSet.end()) updateCallback->engine = nullptr;
         }
 
-        sharedEngine = nullptr;
+        engine = nullptr;
     }
 
     bool Engine::init()

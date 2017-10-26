@@ -183,7 +183,7 @@ namespace ouzel
 
         void AudioDeviceALSA::run()
         {
-            sharedEngine->setCurrentThreadName("Audio");
+            engine->setCurrentThreadName("Audio");
 
             while (running)
             {

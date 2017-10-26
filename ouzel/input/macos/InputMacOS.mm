@@ -360,7 +360,7 @@ namespace ouzel
                 currentCursor = defaultCursor;
             }
 
-            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(sharedEngine->getWindow()->getResource());
+            WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(engine->getWindow()->getResource());
             [windowMacOS->getNativeView() resetCursorRects];
         }
 
@@ -382,7 +382,7 @@ namespace ouzel
             {
                 cursorVisible = visible;
 
-                sharedEngine->executeOnMainThread([this, visible] {
+                engine->executeOnMainThread([this, visible] {
                     if (visible)
                     {
                         [currentCursor set];
@@ -404,12 +404,12 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            ouzel::Vector2 windowLocation = ouzel::sharedEngine->getWindow()->convertNormalizedToWindowLocation(position);
+            ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
 
-            sharedEngine->executeOnMainThread([windowLocation] {
+            engine->executeOnMainThread([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-                WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(sharedEngine->getWindow()->getResource());
+                WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(engine->getWindow()->getResource());
                 CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
                 CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.x,
@@ -419,7 +419,7 @@ namespace ouzel
 
         void InputMacOS::setCursorLocked(bool locked)
         {
-            sharedEngine->executeOnMainThread([locked] {
+            engine->executeOnMainThread([locked] {
                 CGAssociateMouseAndMouseCursorPosition(!locked);
             });
             cursorLocked = locked;
@@ -503,7 +503,7 @@ namespace ouzel
 
                 gamepads.push_back(std::move(gamepad));
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
             }
         }
 
@@ -522,7 +522,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = gamepadGC;
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
 
                 gamepadsGC.erase(i);
 
@@ -570,7 +570,7 @@ namespace ouzel
 
                 gamepads.push_back(std::move(gamepad));
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
             }
         }
 
@@ -589,7 +589,7 @@ namespace ouzel
 
                 event.gamepadEvent.gamepad = gamepadIOKit;
 
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
 
                 gamepadsIOKit.erase(i);
 

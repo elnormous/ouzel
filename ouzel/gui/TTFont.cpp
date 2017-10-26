@@ -26,7 +26,7 @@ namespace ouzel
     {
         mipmaps = newMipmaps;
 
-        if (!sharedEngine->getFileSystem()->readFile(sharedEngine->getFileSystem()->getPath(filename), data))
+        if (!engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data))
         {
             return false;
         }

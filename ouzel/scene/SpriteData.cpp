@@ -13,7 +13,7 @@ namespace ouzel
         bool SpriteData::init(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            if (!engine->getFileSystem()->readFile(filename, data))
             {
                 return false;
             }
@@ -33,7 +33,7 @@ namespace ouzel
             
             const nlohmann::json& metaObject = document["meta"];
 
-            texture = sharedEngine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
+            texture = engine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
 
             if (!texture)
             {

@@ -87,7 +87,7 @@ namespace ouzel
         size = Size2(static_cast<float>(windowFrame.size.width),
                      static_cast<float>(windowFrame.size.height));
 
-        switch (sharedEngine->getRenderer()->getDevice()->getDriver())
+        switch (engine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
                 view = [[ViewTVOS alloc] initWithFrame:windowFrame];

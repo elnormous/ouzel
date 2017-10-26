@@ -47,14 +47,14 @@ namespace ouzel
                         if (materialCount)
                         {
                             std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-                            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+                            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+                            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
                             material->textures[0] = diffuseTexture;
                             material->textures[1] = ambientTexture;
                             material->diffuseColor = diffuseColor;
                             material->opacity = opacity;
 
-                            sharedEngine->getCache()->setMaterial(name, material);
+                            engine->getCache()->setMaterial(name, material);
                         }
 
                         if (lineStream.eof())
@@ -81,7 +81,7 @@ namespace ouzel
 
                         lineStream >> read;
 
-                        ambientTexture = sharedEngine->getCache()->getTexture(read);
+                        ambientTexture = engine->getCache()->getTexture(read);
                     }
                     else if (read == "map_Kd") // diffuse texture map
                     {
@@ -93,7 +93,7 @@ namespace ouzel
 
                         lineStream >> read;
 
-                        diffuseTexture = sharedEngine->getCache()->getTexture(read);
+                        diffuseTexture = engine->getCache()->getTexture(read);
                     }
                     else if (read == "Ka") // ambient color
                     {
@@ -170,14 +170,14 @@ namespace ouzel
             if (materialCount)
             {
                 std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-                material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
+                material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+                material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
                 material->textures[0] = diffuseTexture;
                 material->textures[1] = ambientTexture;
                 material->diffuseColor = diffuseColor;
                 material->opacity = opacity;
 
-                sharedEngine->getCache()->setMaterial(name, material);
+                engine->getCache()->setMaterial(name, material);
             }
 
             return true;

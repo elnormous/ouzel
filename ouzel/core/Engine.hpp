@@ -122,5 +122,5 @@ namespace ouzel
         std::vector<std::string> args;
     };
 
-    extern Engine* sharedEngine;
+    extern Engine* engine;
 }

@@ -26,7 +26,7 @@ namespace ouzel
     bool BMFont::init(const std::string& filename, bool mipmaps)
     {
         std::vector<uint8_t> data;
-        if (!sharedEngine->getFileSystem()->readFile(filename, data))
+        if (!engine->getFileSystem()->readFile(filename, data))
         {
             return false;
         }
@@ -76,7 +76,7 @@ namespace ouzel
                                 value = value.substr(1, value.length() - 2);
                             }
 
-                            fontTexture = sharedEngine->getCache()->getTexture(value, false, mipmaps);
+                            fontTexture = engine->getCache()->getTexture(value, false, mipmaps);
                         }
                     }
                 }

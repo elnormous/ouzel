@@ -78,12 +78,12 @@ namespace ouzel
         bool Cache::loadAsset(const std::string& filename)
         {
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            if (!engine->getFileSystem()->readFile(filename, data))
             {
                 return false;
             }
 
-            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
@@ -243,7 +243,7 @@ namespace ouzel
                                             uint32_t spritesX, uint32_t spritesY,
                                             const Vector2& pivot)
         {
-            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
             scene::SpriteData newSpriteData;
 
@@ -256,7 +256,7 @@ namespace ouzel
             }
             else
             {
-                newSpriteData.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                newSpriteData.texture = engine->getCache()->getTexture(filename, false, mipmaps);
 
                 if (newSpriteData.texture)
                 {
@@ -298,7 +298,7 @@ namespace ouzel
             }
             else
             {
-                std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
                 scene::SpriteData newSpriteData;
 
@@ -308,7 +308,7 @@ namespace ouzel
                 }
                 else if (spritesX > 0 && spritesY > 0)
                 {
-                    newSpriteData.texture = sharedEngine->getCache()->getTexture(filename, false, mipmaps);
+                    newSpriteData.texture = engine->getCache()->getTexture(filename, false, mipmaps);
 
                     if (newSpriteData.texture)
                     {
@@ -349,7 +349,7 @@ namespace ouzel
 
         bool Cache::preloadParticleSystemData(const std::string& filename, bool mipmaps)
         {
-            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
             if (extension == "json")
             {
@@ -377,7 +377,7 @@ namespace ouzel
             {
                 scene::ParticleSystemData newParticleSystemData;
 
-                std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
                 if (extension == "json")
                 {
@@ -406,7 +406,7 @@ namespace ouzel
 
             if (i == fonts.end())
             {
-                std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
                 if (extension == "fnt")
                 {
@@ -443,7 +443,7 @@ namespace ouzel
             }
             else
             {
-                std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
                 std::shared_ptr<Font> font;
 
@@ -543,7 +543,7 @@ namespace ouzel
 
         bool Cache::preloadMaterial(const std::string& filename, bool mipmaps)
         {
-            std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
             if (extension == "mtl")
             {
@@ -571,7 +571,7 @@ namespace ouzel
             {
                 std::shared_ptr<graphics::Material> result = std::make_shared<graphics::Material>();
 
-                std::string extension = sharedEngine->getFileSystem()->getExtensionPart(filename);
+                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
 
                 if (extension == "mtl")
                 {

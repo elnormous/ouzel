@@ -35,11 +35,11 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_KEYDOWN)
     {
-        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key), 0);
+        ouzel::engine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
     else if (msg == WM_KEYUP)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key), 0);
+        ouzel::engine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
 }
 
@@ -48,7 +48,7 @@ static void handleMouseMoveEvent(UINT, WPARAM wParam, LPARAM lParam)
     ouzel::Vector2 position(static_cast<float>(GET_X_LPARAM(lParam)),
                             static_cast<float>(GET_Y_LPARAM(lParam)));
 
-    ouzel::sharedEngine->getInput()->mouseMove(ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+    ouzel::engine->getInput()->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                ouzel::input::InputWin::getModifiers(wParam));
 }
 
@@ -87,14 +87,14 @@ static void handleMouseButtonEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_XBUTTONDOWN)
     {
-        ouzel::sharedEngine->getInput()->mouseButtonPress(button,
-                                                          ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+        ouzel::engine->getInput()->mouseButtonPress(button,
+                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                           ouzel::input::InputWin::getModifiers(wParam));
     }
     else if (msg == WM_LBUTTONUP || msg == WM_RBUTTONUP || msg == WM_MBUTTONUP || msg == WM_XBUTTONUP)
     {
-        ouzel::sharedEngine->getInput()->mouseButtonRelease(button,
-                                                            ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+        ouzel::engine->getInput()->mouseButtonRelease(button,
+                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                             ouzel::input::InputWin::getModifiers(wParam));
     }
 }
@@ -107,15 +107,15 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_MOUSEWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
+                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::sharedEngine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
-                                                     ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position),
+        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
+                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getModifiers(wParam));
     }
 }
@@ -136,20 +136,20 @@ static void handleTouchEvent(WPARAM wParam, LPARAM lParam)
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
             {
-                ouzel::sharedEngine->getInput()->touchBegin(touch.dwID,
-                                                            ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInput()->touchBegin(touch.dwID,
+                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
             {
-                ouzel::sharedEngine->getInput()->touchEnd(touch.dwID,
-                                                          ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInput()->touchEnd(touch.dwID,
+                                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
             {
-                ouzel::sharedEngine->getInput()->touchMove(touch.dwID,
-                                                           ouzel::sharedEngine->getWindow()->convertWindowToNormalizedLocation(position));
+                ouzel::engine->getInput()->touchMove(touch.dwID,
+                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
             }
         }
 
@@ -178,11 +178,11 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (wParam)
             {
-                if (ouzel::sharedEngine) ouzel::sharedEngine->resume();
+                if (ouzel::engine) ouzel::engine->resume();
             }
             else
             {
-                if (ouzel::sharedEngine) ouzel::sharedEngine->pause();
+                if (ouzel::engine) ouzel::engine->pause();
             }
             break;
         }
@@ -240,7 +240,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             if (LOWORD(lParam) == HTCLIENT)
             {
-                ouzel::input::InputWin* inputWin = static_cast<ouzel::input::InputWin*>(ouzel::sharedEngine->getInput());
+                ouzel::input::InputWin* inputWin = static_cast<ouzel::input::InputWin*>(ouzel::engine->getInput());
                 inputWin->updateCursor();
                 return TRUE;
             }
@@ -251,10 +251,10 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             switch (wParam)
             {
                 case SIZE_MINIMIZED:
-                    ouzel::sharedEngine->pause();
+                    ouzel::engine->pause();
                     break;
                 case SIZE_RESTORED:
-                    ouzel::sharedEngine->resume();
+                    ouzel::engine->resume();
                     // fall through
                 case SIZE_MAXIMIZED:
                     windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
@@ -271,7 +271,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         case WM_ERASEBKGND:
         {
             // Erase background only for the Empty renderer
-            if (ouzel::sharedEngine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
+            if (ouzel::engine->getRenderer()->getDevice()->getDriver() != ouzel::graphics::Renderer::Driver::EMPTY)
             {
                 return TRUE;
             }
@@ -284,7 +284,7 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                 case SC_SCREENSAVE:
                 case SC_MONITORPOWER:
                 {
-                    if (!ouzel::sharedEngine->isScreenSaverEnabled())
+                    if (!ouzel::engine->isScreenSaverEnabled())
                     {
                         // Disable screensaver
                         return 0;
@@ -375,7 +375,7 @@ namespace ouzel
         // Application icon should be the first resource
         wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
         wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
+        if (engine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::EMPTY)
         {
             wc.hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW));
         }
@@ -516,9 +516,9 @@ namespace ouzel
     {
         if (exclusiveFullscreen)
         {
-            if (sharedEngine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::DIRECT3D11)
+            if (engine->getRenderer()->getDevice()->getDriver() == graphics::Renderer::Driver::DIRECT3D11)
             {
-                graphics::RenderDeviceD3D11* renderDeviceD3D11 = static_cast<graphics::RenderDeviceD3D11*>(sharedEngine->getRenderer()->getDevice());
+                graphics::RenderDeviceD3D11* renderDeviceD3D11 = static_cast<graphics::RenderDeviceD3D11*>(engine->getRenderer()->getDevice());
                 renderDeviceD3D11->setFullscreen(newFullscreen);
             }
         }
@@ -576,14 +576,14 @@ namespace ouzel
 
     void WindowResourceWin::addAccelerator(HACCEL accelerator)
     {
-        sharedEngine->executeOnMainThread([this, accelerator]() {
+        engine->executeOnMainThread([this, accelerator]() {
             accelerators.insert(accelerator);
         });
     }
 
     void WindowResourceWin::removeAccelerator(HACCEL accelerator)
     {
-        sharedEngine->executeOnMainThread([this, accelerator]() {
+        engine->executeOnMainThread([this, accelerator]() {
             accelerators.erase(accelerator);
         });
     }

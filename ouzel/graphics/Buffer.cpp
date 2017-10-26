@@ -13,12 +13,12 @@ namespace ouzel
     {
         Buffer::Buffer()
         {
-            resource = sharedEngine->getRenderer()->getDevice()->createBuffer();
+            resource = engine->getRenderer()->getDevice()->createBuffer();
         }
 
         Buffer::~Buffer()
         {
-            if (sharedEngine && resource) sharedEngine->getRenderer()->getDevice()->deleteResource(resource);
+            if (engine && resource) engine->getRenderer()->getDevice()->deleteResource(resource);
         }
 
         bool Buffer::init(Usage newUsage, uint32_t newFlags, uint32_t newSize)
@@ -26,7 +26,7 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, uint32_t)>(&BufferResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, uint32_t)>(&BufferResource::init),
                                                                          resource,
                                                                          newUsage,
                                                                          newFlags,
@@ -48,7 +48,7 @@ namespace ouzel
             usage = newUsage;
             flags = newFlags;
 
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
+            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
                                                                          resource,
                                                                          newUsage,
                                                                          newData,
@@ -65,7 +65,7 @@ namespace ouzel
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
-            sharedEngine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
+            engine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
                                                                          resource,
                                                                          newData));
 

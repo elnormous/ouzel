@@ -11,7 +11,7 @@ namespace ouzel
         ModelRenderer::ModelRenderer():
             Component(TYPE)
         {
-            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
         }
 
         ModelRenderer::ModelRenderer(const ModelData& modelData):
@@ -39,7 +39,7 @@ namespace ouzel
 
         bool ModelRenderer::init(const std::string& filename, bool mipmaps)
         {
-            //const ModelData& modelData = sharedEngine->getCache()->
+            //const ModelData& modelData = engine->getCache()->
             return true;
         }
 
@@ -80,7 +80,7 @@ namespace ouzel
             if (wireframe) textures.push_back(whitePixelTexture);
             else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-            sharedEngine->getRenderer()->addDrawCommand(textures,
+            engine->getRenderer()->addDrawCommand(textures,
                                                         material->shader,
                                                         pixelShaderConstants,
                                                         vertexShaderConstants,

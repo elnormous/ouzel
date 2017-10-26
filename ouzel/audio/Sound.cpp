@@ -156,19 +156,19 @@ namespace ouzel
             Event event;
             event.type = Event::Type::SOUND_RESET;
             event.soundEvent.sound = this;
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
 
         // executed on audio thread
         void Sound::onStop()
         {
-            sharedEngine->executeOnUpdateThread([this]() {
+            engine->executeOnUpdateThread([this]() {
                 playing = false;
 
                 Event event;
                 event.type = Event::Type::SOUND_FINISH;
                 event.soundEvent.sound = this;
-                sharedEngine->getEventDispatcher()->postEvent(event);
+                engine->getEventDispatcher()->postEvent(event);
             });
         }
 

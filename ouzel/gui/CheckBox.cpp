@@ -15,7 +15,7 @@ namespace ouzel
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             if (!normalImage.empty())
             {
@@ -123,7 +123,7 @@ namespace ouzel
                     Event changeEvent;
                     changeEvent.type = Event::Type::WIDGET_CHANGE;
                     changeEvent.uiEvent.actor = event.actor;
-                    sharedEngine->getEventDispatcher()->postEvent(changeEvent);
+                    engine->getEventDispatcher()->postEvent(changeEvent);
                 }
             }
 

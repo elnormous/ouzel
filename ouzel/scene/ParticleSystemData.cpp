@@ -14,7 +14,7 @@ namespace ouzel
         bool ParticleSystemData::init(const std::string& filename, bool mipmaps)
         {
             std::vector<uint8_t> data;
-            if (!sharedEngine->getFileSystem()->readFile(filename, data))
+            if (!engine->getFileSystem()->readFile(filename, data))
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace ouzel
             if (document.find("finishColorVarianceBlue") != document.end()) finishColorBlueVariance = document["finishColorVarianceBlue"].get<float>();
             if (document.find("finishColorVarianceAlpha") != document.end()) finishColorAlphaVariance = document["finishColorVarianceAlpha"].get<float>();
 
-            if (document.find("textureFileName") != document.end()) texture = sharedEngine->getCache()->getTexture(document["textureFileName"].get<std::string>(), mipmaps);
+            if (document.find("textureFileName") != document.end()) texture = engine->getCache()->getTexture(document["textureFileName"].get<std::string>(), mipmaps);
 
             emissionRate = static_cast<float>(maxParticles) / particleLifespan;
 

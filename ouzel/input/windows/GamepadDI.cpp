@@ -34,7 +34,7 @@ namespace ouzel
             name.resize(bytesNeeded);
             WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, &name.front(), bytesNeeded, nullptr, nullptr);
 
-            InputWin* inputWin = static_cast<InputWin*>(sharedEngine->getInput());
+            InputWin* inputWin = static_cast<InputWin*>(engine->getInput());
 
             HRESULT hr = inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr);
             if (FAILED(hr))
@@ -268,7 +268,7 @@ namespace ouzel
                 rightTrigger.offset = DIJOFS_RY;
             }
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(sharedEngine->getWindow()->getResource());
+            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
 
             // Exclusive access is needed for force feedback
             hr = device->SetCooperativeLevel(windowWin->getNativeWindow(),

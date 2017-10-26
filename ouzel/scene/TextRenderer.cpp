@@ -25,9 +25,9 @@ namespace ouzel
             color(aColor),
             mipmaps(aMipmaps)
         {
-            shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
-            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, graphics::Buffer::DYNAMIC);
@@ -38,14 +38,14 @@ namespace ouzel
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
             meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
 
-            font = sharedEngine->getCache()->getFont(fontFile, mipmaps);
+            font = engine->getCache()->getFont(fontFile, mipmaps);
 
             updateText();
         }
 
         void TextRenderer::setFont(const std::string& fontFile)
         {
-            font = sharedEngine->getCache()->getFont(fontFile);
+            font = engine->getCache()->getFont(fontFile);
 
             updateText();
         }
@@ -103,7 +103,7 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-            sharedEngine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
+            engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
                                                         shader,
                                                         pixelShaderConstants,
                                                         vertexShaderConstants,

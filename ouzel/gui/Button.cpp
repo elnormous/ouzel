@@ -17,7 +17,7 @@ namespace ouzel
         Button::Button()
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             pickable = true;
         }
@@ -40,7 +40,7 @@ namespace ouzel
             labelDisabledColor(aLabelDisabledColor)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
-            sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+            engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
             if (!normalImage.empty())
             {

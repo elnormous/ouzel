@@ -78,7 +78,7 @@ namespace ouzel
                         {
                             scene::ModelData modelData;
                             modelData.init(boundingBox, indices, vertices, material);
-                            sharedEngine->getCache()->setModelData(name, modelData);
+                            engine->getCache()->setModelData(name, modelData);
                         }
 
                         if (lineStream.eof())
@@ -283,7 +283,7 @@ namespace ouzel
             {
                 scene::ModelData modelData;
                 modelData.init(boundingBox, indices, vertices, material);
-                sharedEngine->getCache()->setModelData(name, modelData);
+                engine->getCache()->setModelData(name, modelData);
             }
 
             return true;

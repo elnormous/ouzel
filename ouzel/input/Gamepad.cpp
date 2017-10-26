@@ -54,7 +54,7 @@ namespace ouzel
             event.gamepadEvent.value = value;
             event.gamepadEvent.previousValue = buttonStates[static_cast<uint32_t>(button)].value;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
 
             buttonStates[static_cast<uint32_t>(button)].pressed = pressed;
             buttonStates[static_cast<uint32_t>(button)].value = value;

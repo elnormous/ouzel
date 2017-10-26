@@ -29,7 +29,7 @@ namespace ouzel
     {
         std::vector<uint8_t> data;
 
-        if (!sharedEngine->getFileSystem()->readFile(filename, data))
+        if (!engine->getFileSystem()->readFile(filename, data))
         {
             return false;
         }
@@ -252,7 +252,7 @@ namespace ouzel
         std::vector<uint8_t> data;
         encode(data);
 
-        return sharedEngine->getFileSystem()->writeFile(filename, data);
+        return engine->getFileSystem()->writeFile(filename, data);
     }
 
     bool INI::encode(std::vector<uint8_t>& data)

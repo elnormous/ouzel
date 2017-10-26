@@ -29,7 +29,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyPress(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyPress(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -37,7 +37,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -45,7 +45,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::sharedEngine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
     }
 }
 

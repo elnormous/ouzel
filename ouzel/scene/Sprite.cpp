@@ -18,7 +18,7 @@ namespace ouzel
         Sprite::Sprite():
             Component(TYPE)
         {
-            whitePixelTexture = sharedEngine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
+            whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
         }
@@ -49,8 +49,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = spriteData.texture;
 
             frames = spriteData.frames;
@@ -66,10 +66,10 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
 
-            SpriteData spriteData = sharedEngine->getCache()->getSpriteData(filename, mipmaps, spritesX, spritesY, pivot);
+            SpriteData spriteData = engine->getCache()->getSpriteData(filename, mipmaps, spritesX, spritesY, pivot);
             material->textures[0] = spriteData.texture;
             frames = spriteData.frames;
 
@@ -84,8 +84,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = sharedEngine->getCache()->getShader(graphics::SHADER_TEXTURE);
-            material->blendState = sharedEngine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
+            material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = newTexture;
             frames.clear();
 
@@ -134,7 +134,7 @@ namespace ouzel
                                 Event resetEvent;
                                 resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
-                                sharedEngine->getEventDispatcher()->postEvent(resetEvent);
+                                engine->getEventDispatcher()->postEvent(resetEvent);
                             }
                             else
                             {
@@ -145,7 +145,7 @@ namespace ouzel
                                 Event finishEvent;
                                 finishEvent.type = Event::Type::ANIMATION_FINISH;
                                 finishEvent.animationEvent.component = this;
-                                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
+                                engine->getEventDispatcher()->postEvent(finishEvent);
                             }
                         }
                     }
@@ -162,7 +162,7 @@ namespace ouzel
                                 Event resetEvent;
                                 resetEvent.type = Event::Type::ANIMATION_RESET;
                                 resetEvent.animationEvent.component = this;
-                                sharedEngine->getEventDispatcher()->postEvent(resetEvent);
+                                engine->getEventDispatcher()->postEvent(resetEvent);
                             }
                             else
                             {
@@ -173,7 +173,7 @@ namespace ouzel
                                 Event finishEvent;
                                 finishEvent.type = Event::Type::ANIMATION_FINISH;
                                 finishEvent.animationEvent.component = this;
-                                sharedEngine->getEventDispatcher()->postEvent(finishEvent);
+                                engine->getEventDispatcher()->postEvent(finishEvent);
                             }
                         }
                     }
@@ -220,7 +220,7 @@ namespace ouzel
                 if (wireframe) textures.push_back(whitePixelTexture);
                 else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-                sharedEngine->getRenderer()->addDrawCommand(textures,
+                engine->getRenderer()->addDrawCommand(textures,
                                                             material->shader,
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
@@ -281,14 +281,14 @@ namespace ouzel
 
                 updateBoundingBox();
 
-                sharedEngine->scheduleUpdate(&updateCallback);
+                engine->scheduleUpdate(&updateCallback);
 
                 if (currentFrame == 0)
                 {
                     Event startEvent;
                     startEvent.type = Event::Type::ANIMATION_START;
                     startEvent.animationEvent.component = this;
-                    sharedEngine->getEventDispatcher()->postEvent(startEvent);
+                    engine->getEventDispatcher()->postEvent(startEvent);
                 }
             }
         }

@@ -12,7 +12,7 @@ PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init(input::SystemCursor::CROSS);
-    sharedEngine->getInput()->setCursor(&cursor);
+    engine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     eventHandler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -20,9 +20,9 @@ PerspectiveSample::PerspectiveSample():
     eventHandler.gamepadHandler = bind(&PerspectiveSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&PerspectiveSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    sharedEngine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
-    sharedEngine->getRenderer()->setClearDepthBuffer(true);
+    engine->getRenderer()->setClearDepthBuffer(true);
 
     camera.setDepthTest(true);
     camera.setDepthWrite(true);
@@ -54,9 +54,9 @@ PerspectiveSample::PerspectiveSample():
     character.setPosition(Vector2(10.0f, 0.0f));
 
     cameraActor.addComponent(&listener);
-    sharedEngine->getAudio()->addListener(&listener);
+    engine->getAudio()->addListener(&listener);
 
-    jumpSound.init(sharedEngine->getCache()->getSoundData("jump.wav"));
+    jumpSound.init(engine->getCache()->getSoundData("jump.wav"));
     jumpSound.setOutput(&listener);
     jumpSound.setRolloffFactor(0.01f);
     character.addComponent(&jumpSound);
@@ -65,8 +65,8 @@ PerspectiveSample::PerspectiveSample():
     character.addComponent(rotate);
     rotate->start();
 
-    sharedEngine->getCache()->loadAsset("cube.obj");
-    boxModel.init(sharedEngine->getCache()->getModelData("cube.obj"));
+    engine->getCache()->loadAsset("cube.obj");
+    boxModel.init(engine->getCache()->getModelData("cube.obj"));
     box.addComponent(&boxModel);
     box.setPosition(Vector3(-160.0f, 0.0f, -50.0f));
     layer.addChild(&box);
@@ -89,7 +89,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     {
         if (event.actor == &backButton)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -117,13 +117,13 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::KeyboardKey::TAB:
                 jumpSound.play();
                 break;
             case input::KeyboardKey::S:
-                sharedEngine->getRenderer()->saveScreenshot("test.png");
+                engine->getRenderer()->saveScreenshot("test.png");
                 break;
             default:
                 break;
@@ -134,7 +134,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 
         cameraActor.setRotation(cameraRotation);
 
-        //sharedEngine->getAudio()->setListenerRotation(camera.getRotation());
+        //engine->getAudio()->setListenerRotation(camera.getRotation());
     }
 
     return true;
@@ -182,7 +182,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
         {
-            sharedEngine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 

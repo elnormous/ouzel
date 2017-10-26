@@ -403,7 +403,7 @@ namespace ouzel
 
         void RenderDeviceOGLWin::main()
         {
-            sharedEngine->setCurrentThreadName("Render");
+            engine->setCurrentThreadName("Render");
 
             while (running)
             {

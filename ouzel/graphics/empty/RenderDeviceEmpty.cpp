@@ -48,7 +48,7 @@ namespace ouzel
                                 {{"color", DataType::FLOAT_VECTOR4}},
                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
-            sharedEngine->getCache()->setShader(SHADER_TEXTURE, textureShader);
+            engine->getCache()->setShader(SHADER_TEXTURE, textureShader);
 
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
 
@@ -58,7 +58,7 @@ namespace ouzel
                               {{"color", DataType::FLOAT_VECTOR4}},
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
-            sharedEngine->getCache()->setShader(SHADER_COLOR, colorShader);
+            engine->getCache()->setShader(SHADER_COLOR, colorShader);
 
             return true;
         }

@@ -90,7 +90,7 @@ namespace ouzel
 
     void Window::close()
     {
-        sharedEngine->executeOnMainThread(std::bind(&WindowResource::close, resource));
+        engine->executeOnMainThread(std::bind(&WindowResource::close, resource));
     }
 
     void Window::setSize(const Size2& newSize)
@@ -99,7 +99,7 @@ namespace ouzel
         {
             size = newSize;
 
-            sharedEngine->executeOnMainThread(std::bind(&WindowResource::setSize, resource, newSize));
+            engine->executeOnMainThread(std::bind(&WindowResource::setSize, resource, newSize));
 
             Event event;
             event.type = Event::Type::WINDOW_SIZE_CHANGE;
@@ -109,7 +109,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
     }
 
@@ -119,7 +119,7 @@ namespace ouzel
         {
             fullscreen = newFullscreen;
 
-            sharedEngine->executeOnMainThread(std::bind(&WindowResource::setFullscreen, resource, newFullscreen));
+            engine->executeOnMainThread(std::bind(&WindowResource::setFullscreen, resource, newFullscreen));
 
             Event event;
             event.type = Event::Type::FULLSCREEN_CHANGE;
@@ -129,7 +129,7 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
     }
 
@@ -139,7 +139,7 @@ namespace ouzel
         {
             title = newTitle;
 
-            sharedEngine->executeOnMainThread(std::bind(&WindowResource::setTitle, resource, newTitle));
+            engine->executeOnMainThread(std::bind(&WindowResource::setTitle, resource, newTitle));
 
             Event event;
             event.type = Event::Type::WINDOW_TITLE_CHANGE;
@@ -149,41 +149,41 @@ namespace ouzel
             event.windowEvent.title = title;
             event.windowEvent.fullscreen = fullscreen;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         }
     }
 
     void Window::onSizeChange(const Size2& newSize)
     {
-        sharedEngine->executeOnUpdateThread([this, newSize]() {
+        engine->executeOnUpdateThread([this, newSize]() {
             size = newSize;
 
             Event sizeChangeEvent;
             sizeChangeEvent.type = Event::Type::WINDOW_SIZE_CHANGE;
             sizeChangeEvent.windowEvent.window = this;
             sizeChangeEvent.windowEvent.size = newSize;
-            sharedEngine->getEventDispatcher()->postEvent(sizeChangeEvent);
+            engine->getEventDispatcher()->postEvent(sizeChangeEvent);
         });
     }
 
     void Window::onResolutionChange(const Size2& newResolution)
     {
-        sharedEngine->executeOnUpdateThread([this, newResolution]() {
+        engine->executeOnUpdateThread([this, newResolution]() {
             resolution = newResolution;
 
             Event resolutionChangeEvent;
             resolutionChangeEvent.type = Event::Type::RESOLUTION_CHANGE;
             resolutionChangeEvent.windowEvent.window = this;
             resolutionChangeEvent.windowEvent.size = newResolution;
-            sharedEngine->getEventDispatcher()->postEvent(resolutionChangeEvent);
+            engine->getEventDispatcher()->postEvent(resolutionChangeEvent);
 
-            sharedEngine->getRenderer()->setSize(newResolution);
+            engine->getRenderer()->setSize(newResolution);
         });
     }
 
     void Window::onFullscreenChange(bool newFullscreen)
     {
-        sharedEngine->executeOnUpdateThread([this, newFullscreen]() {
+        engine->executeOnUpdateThread([this, newFullscreen]() {
             fullscreen = newFullscreen;
 
             Event event;
@@ -192,13 +192,13 @@ namespace ouzel
             event.windowEvent.window = this;
             event.windowEvent.fullscreen = newFullscreen;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         });
     }
 
     void Window::onScreenChange(uint32_t newDisplayId)
     {
-        sharedEngine->executeOnUpdateThread([this, newDisplayId]() {
+        engine->executeOnUpdateThread([this, newDisplayId]() {
             displayId = newDisplayId;
 
             Event event;
@@ -207,12 +207,12 @@ namespace ouzel
             event.windowEvent.window = this;
             event.windowEvent.screenId = newDisplayId;
 
-            sharedEngine->getEventDispatcher()->postEvent(event);
+            engine->getEventDispatcher()->postEvent(event);
         });
     }
 
     void Window::onClose()
     {
-        sharedEngine->exit();
+        engine->exit();
     }
 }
