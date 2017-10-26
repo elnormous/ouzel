@@ -9,9 +9,9 @@
 #include "input/emscripten/InputEm.hpp"
 #include "utils/Utils.hpp"
 
-static void loop(void)
+static void loop(void* arg)
 {
-    if (!static_cast<ouzel::EngineEm*>(ouzel::engine)->step())
+    if (!reinterpret_cast<ouzel::EngineEm*>(arg)->step())
     {
         emscripten_cancel_main_loop();
     }
@@ -36,7 +36,7 @@ namespace ouzel
 
         start();
 
-        emscripten_set_main_loop(loop, 0, 1);
+        emscripten_set_main_loop_arg(loop, this, 0, 1);
 
         return EXIT_SUCCESS;
     }

@@ -85,8 +85,8 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event)
         }
         else if (event.actor == &fullscreenButton)
         {
-            bool fullscreen = ouzel::engine->getWindow()->isFullscreen();
-            ouzel::engine->getWindow()->setFullscreen(!fullscreen);
+            bool fullscreen = engine->getWindow()->isFullscreen();
+            engine->getWindow()->setFullscreen(!fullscreen);
         }
     }
 

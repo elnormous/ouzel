@@ -210,7 +210,7 @@ namespace ouzel
                     break;
             }
         
-            ouzel::engine->getEventDispatcher()->postEvent(event);
+            eventDispatcher.postEvent(event);
         }
     }
 

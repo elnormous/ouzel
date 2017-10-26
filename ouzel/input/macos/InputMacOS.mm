@@ -404,7 +404,7 @@ namespace ouzel
         {
             Input::setCursorPosition(position);
 
-            ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
+            ouzel::Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
             engine->executeOnMainThread([windowLocation] {
                 CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;

@@ -431,7 +431,7 @@ namespace ouzel
                 XWindowAttributes attributes;
                 XGetWindowAttributes(display, window, &attributes);
 
-                ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
+                Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
                 XWarpPointer(display, None, window, 0, 0, 0, 0,
                              attributes.x + static_cast<int>(windowLocation.x),
@@ -451,7 +451,7 @@ namespace ouzel
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchBegin(xievent->detail,
                                    engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                        static_cast<float>(xievent->event_y))));
+                                                                                                  static_cast<float>(xievent->event_y))));
                         break;
                     }
                     case XI_TouchEnd:
@@ -459,7 +459,7 @@ namespace ouzel
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchEnd(xievent->detail,
                                  engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                      static_cast<float>(xievent->event_y))));
+                                                                                                static_cast<float>(xievent->event_y))));
                         break;
                     }
                     case XI_TouchUpdate:
@@ -467,7 +467,7 @@ namespace ouzel
                         XIDeviceEvent* xievent = reinterpret_cast<XIDeviceEvent*>(cookie->data);
                         touchMove(xievent->detail,
                                   engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(xievent->event_x),
-                                                                                                       static_cast<float>(xievent->event_y))));
+                                                                                                 static_cast<float>(xievent->event_y))));
                         break;
                     }
                 }

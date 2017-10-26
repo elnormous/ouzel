@@ -402,7 +402,7 @@ namespace ouzel
             Input::setCursorPosition(position);
 
             engine->executeOnMainThread([position] {
-                ouzel::Vector2 windowLocation = ouzel::engine->getWindow()->convertNormalizedToWindowLocation(position);
+                Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
                 HWND nativeWindow = static_cast<WindowResourceWin*>(engine->getWindow()->getResource())->getNativeWindow();
 
                 POINT p;
