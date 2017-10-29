@@ -76,7 +76,7 @@ namespace ouzel
 
             static std::set<Driver> getAvailableRenderDrivers();
 
-            RenderDevice* getDevice() const { return device.get(); }
+            inline RenderDevice* getDevice() const { return device.get(); }
 
             void executeOnRenderThread(const std::function<void(void)>& func);
 

@@ -36,19 +36,19 @@ namespace ouzel
 
         virtual void close();
 
-        const Size2& getSize() const { return size; }
+        inline const Size2& getSize() const { return size; }
         virtual void setSize(const Size2& newSize);
-        const Size2& getResolution() const { return resolution; }
+        inline const Size2& getResolution() const { return resolution; }
         float getContentScale() const { return contentScale; }
 
-        bool getResizable() const { return resizable; }
+        inline bool isResizable() const { return resizable; }
 
         virtual void setFullscreen(bool newFullscreen);
-        bool isFullscreen() const { return fullscreen; }
+        inline bool isFullscreen() const { return fullscreen; }
 
-        bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
+        inline bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
-        const std::string& getTitle() const { return title; }
+        inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
         void setListener(Listener* newListener);

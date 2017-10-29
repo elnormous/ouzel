@@ -33,30 +33,30 @@ namespace ouzel
         public:
             virtual ~RenderDevice();
 
-            Renderer::Driver getDriver() const { return driver; }
+            inline Renderer::Driver getDriver() const { return driver; }
 
             virtual void setClearColorBuffer(bool clear);
-            bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
 
             virtual void setClearDepthBuffer(bool clear);
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             virtual void setClearColor(Color color);
-            Color getClearColor() const { return clearColor; }
+            inline Color getClearColor() const { return clearColor; }
 
             virtual void setClearDepth(float newClearDepth);
-            float getClearDepth() const { return clearDepth; }
+            inline float getClearDepth() const { return clearDepth; }
 
             virtual bool process();
 
-            const Size2& getSize() const { return size; }
-            uint32_t getSampleCount() const { return sampleCount; }
-            Texture::Filter getTextureFilter() const { return textureFilter; }
-            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline const Size2& getSize() const { return size; }
+            inline uint32_t getSampleCount() const { return sampleCount; }
+            inline Texture::Filter getTextureFilter() const { return textureFilter; }
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
 
             virtual std::vector<Size2> getSupportedResolutions() const;
 
-            bool getRefillQueue() const { return refillQueue; }
+            inline bool getRefillQueue() const { return refillQueue; }
 
             struct DrawCommand
             {
@@ -94,23 +94,23 @@ namespace ouzel
                                (1.0f - position.y) * size.height);
             }
 
-            uint32_t getDrawCallCount() const { return drawCallCount; }
+            inline uint32_t getDrawCallCount() const { return drawCallCount; }
 
-            uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
-            uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+            inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
+            inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
-            bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
-            bool isMultisamplingSupported() const { return multisamplingSupported; }
-            bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
-            bool isRenderTargetsSupported() const { return renderTargetsSupported; }
+            inline bool isNPOTTexturesSupported() const { return npotTexturesSupported; }
+            inline bool isMultisamplingSupported() const { return multisamplingSupported; }
+            inline bool isAnisotropicFilteringSupported() const { return anisotropicFilteringSupported; }
+            inline bool isRenderTargetsSupported() const { return renderTargetsSupported; }
 
             const Matrix4& getProjectionTransform(bool renderTarget) const
             {
                 return renderTarget ? renderTargetProjectionTransform : projectionTransform;
             }
 
-            float getFPS() const { return currentFPS; }
-            float getAccumulatedFPS() const { return accumulatedFPS; }
+            inline float getFPS() const { return currentFPS; }
+            inline float getAccumulatedFPS() const { return accumulatedFPS; }
 
             void executeOnRenderThread(const std::function<void(void)>& func);
 

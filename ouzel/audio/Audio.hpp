@@ -70,7 +70,7 @@ namespace ouzel
 
             static std::set<Audio::Driver> getAvailableAudioDrivers();
 
-            AudioDevice* getDevice() const { return device.get(); }
+            inline AudioDevice* getDevice() const { return device.get(); }
 
             bool update();
 

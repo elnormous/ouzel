@@ -24,8 +24,8 @@ namespace ouzel
 
             virtual bool process();
 
-            uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
-            uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
+            inline uint16_t getAPIMajorVersion() const { return apiMajorVersion; }
+            inline uint16_t getAPIMinorVersion() const { return apiMinorVersion; }
 
             void executeOnAudioThread(const std::function<void(void)>& func);
 

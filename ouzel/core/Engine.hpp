@@ -39,22 +39,22 @@ namespace ouzel
 
         bool init();
 
-        const std::vector<std::string>& getArgs() { return args; }
+        inline const std::vector<std::string>& getArgs() { return args; }
 
-        FileSystem* getFileSystem() { return fileSystem.get(); }
-        EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
-        Timer* getTimer() { return &timer; }
-        assets::Cache* getCache() { return &cache; }
-        Window* getWindow() { return &window; }
-        graphics::Renderer* getRenderer() const { return renderer.get(); }
-        audio::Audio* getAudio() const { return audio.get(); }
-        scene::SceneManager* getSceneManager() { return &sceneManager; }
-        input::Input* getInput() const { return input.get(); }
-        Localization* getLocalization() { return &localization; }
-        network::Network* getNetwork() { return &network; }
+        inline FileSystem* getFileSystem() { return fileSystem.get(); }
+        inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
+        inline Timer* getTimer() { return &timer; }
+        inline assets::Cache* getCache() { return &cache; }
+        inline Window* getWindow() { return &window; }
+        inline graphics::Renderer* getRenderer() const { return renderer.get(); }
+        inline audio::Audio* getAudio() const { return audio.get(); }
+        inline scene::SceneManager* getSceneManager() { return &sceneManager; }
+        inline input::Input* getInput() const { return input.get(); }
+        inline Localization* getLocalization() { return &localization; }
+        inline network::Network* getNetwork() { return &network; }
 
-        const INI& getDefaultSettings() const { return defaultSettings; }
-        const INI& getUserSettings() const { return userSettings; }
+        inline const INI& getDefaultSettings() const { return defaultSettings; }
+        inline const INI& getUserSettings() const { return userSettings; }
 
         virtual int run();
         void start();
@@ -62,8 +62,8 @@ namespace ouzel
         void resume();
         void exit();
 
-        bool isPaused() const { return paused; }
-        bool isActive() const { return active; }
+        inline bool isPaused() const { return paused; }
+        inline bool isActive() const { return active; }
 
         void scheduleUpdate(UpdateCallback* callback);
         void unscheduleUpdate(UpdateCallback* callback);
