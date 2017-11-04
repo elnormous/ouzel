@@ -360,7 +360,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>ouzel</ProjectName>
+    <ProjectName>libouzel</ProjectName>
     <RootNamespace>ouzel</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>

@@ -3,6 +3,7 @@
 *.a
 build/ouzel.xcodeproj/xcuserdata
 build/ouzel.xcodeproj/project.xcworkspace
+build/.vs/
 build/obj
 build/Win32/
 build/x64/
@@ -34,3 +35,4 @@ samples/samples.app
 build/html
 samples/.vs/
 Config.h
+build/ouzel.VC.db
