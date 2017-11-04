@@ -186,8 +186,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
             }
             break;
         }
-        case WM_KEYUP:
         case WM_KEYDOWN:
+        case WM_KEYUP:
         case WM_SYSKEYDOWN:
         case WM_SYSKEYUP:
         {
