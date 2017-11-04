@@ -282,14 +282,12 @@ LIBRARY=libouzel.a
 DEPENDENCIES=$(OBJECTS:.o=.d)
 
 .PHONY: all
+ifeq ($(debug),1)
+all: CXXFLAGS+=-DDEBUG -g
+all: CFLAGS+=-DDEBUG -g
+endif
 all: config
 all: $(LIBRARY)
-
-.PHONY: debug
-debug: config
-debug: CXXFLAGS+=-DDEBUG -g
-debug: CFLAGS+=-DDEBUG -g
-debug: $(LIBRARY)
 
 $(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^

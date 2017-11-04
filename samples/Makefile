@@ -1,3 +1,4 @@
+debug=0
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
@@ -83,12 +84,10 @@ EXECUTABLE=samples
 endif
 
 .PHONY: all
+ifeq ($(debug),1)
+all: CXXFLAGS+=-DDEBUG -g
+endif
 all: bundle
-
-.PHONY: debug
-debug: target=debug
-debug: CXXFLAGS+=-DDEBUG -g
-debug: bundle
 
 .PHONY: bundle
 bundle: $(EXECUTABLE)
@@ -120,7 +119,7 @@ $(OBJECTS): Prefix.hpp.gch
 
 .PHONY: ouzel
 ouzel:
-	$(MAKE) -f ../build/Makefile platform=$(platform) $(target)
+	$(MAKE) -f ../build/Makefile debug=$(debug) platform=$(platform) $(target)
 
 .PHONY: clean
 clean:
