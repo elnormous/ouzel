@@ -2699,9 +2699,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		303B75321C2A3C5800FEDE92 /* ouzel_ios */ = {
+		303B75321C2A3C5800FEDE92 /* libouzel_ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_ios" */;
+			buildConfigurationList = 303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_ios" */;
 			buildPhases = (
 				304E76481F70AD820025C0DB /* ShellScript */,
 				303B752F1C2A3C5800FEDE92 /* Sources */,
@@ -2712,14 +2712,14 @@
 			);
 			dependencies = (
 			);
-			name = ouzel_ios;
+			name = libouzel_ios;
 			productName = ouzel_ios;
 			productReference = 303B75331C2A3C5800FEDE92 /* libouzel_ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		303B76321C355A3B00FEDE92 /* ouzel_tvos */ = {
+		303B76321C355A3B00FEDE92 /* libouzel_tvos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_tvos" */;
+			buildConfigurationList = 303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_tvos" */;
 			buildPhases = (
 				304E76491F70AD890025C0DB /* ShellScript */,
 				303B76331C355A3B00FEDE92 /* Sources */,
@@ -2730,14 +2730,14 @@
 			);
 			dependencies = (
 			);
-			name = ouzel_tvos;
+			name = libouzel_tvos;
 			productName = ouzel_ios;
 			productReference = 303B76801C355A3B00FEDE92 /* libouzel_tvos.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		304A8E241C237C30008B1151 /* ouzel_macos */ = {
+		304A8E241C237C30008B1151 /* libouzel_macos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 304A8E261C237C30008B1151 /* Build configuration list for PBXNativeTarget "ouzel_macos" */;
+			buildConfigurationList = 304A8E261C237C30008B1151 /* Build configuration list for PBXNativeTarget "libouzel_macos" */;
 			buildPhases = (
 				304E76471F70AD760025C0DB /* ShellScript */,
 				304A8E211C237C30008B1151 /* Sources */,
@@ -2748,7 +2748,7 @@
 			);
 			dependencies = (
 			);
-			name = ouzel_macos;
+			name = libouzel_macos;
 			productName = libblackbird_mac;
 			productReference = 304A8E251C237C30008B1151 /* libouzel_macos.a */;
 			productType = "com.apple.product-type.library.static";
@@ -2783,9 +2783,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				303B75321C2A3C5800FEDE92 /* ouzel_ios */,
-				304A8E241C237C30008B1151 /* ouzel_macos */,
-				303B76321C355A3B00FEDE92 /* ouzel_tvos */,
+				303B75321C2A3C5800FEDE92 /* libouzel_ios */,
+				304A8E241C237C30008B1151 /* libouzel_macos */,
+				303B76321C355A3B00FEDE92 /* libouzel_tvos */,
 			);
 		};
 /* End PBXProject section */
@@ -3491,7 +3491,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_ios" */ = {
+		303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				303B75351C2A3C5800FEDE92 /* Debug */,
@@ -3500,7 +3500,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "ouzel_tvos" */ = {
+		303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_tvos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				303B767E1C355A3B00FEDE92 /* Debug */,
@@ -3518,7 +3518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		304A8E261C237C30008B1151 /* Build configuration list for PBXNativeTarget "ouzel_macos" */ = {
+		304A8E261C237C30008B1151 /* Build configuration list for PBXNativeTarget "libouzel_macos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				304A8E271C237C30008B1151 /* Debug */,
