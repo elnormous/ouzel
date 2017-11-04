@@ -33,11 +33,11 @@ static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
             break;
     }
 
-    if (msg == WM_KEYDOWN)
+    if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN)
     {
         ouzel::engine->getInput()->keyPress(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
-    else if (msg == WM_KEYUP)
+    else if (msg == WM_KEYUP || msg == WM_SYSKEYUP)
     {
         ouzel::engine->getInput()->keyRelease(ouzel::input::InputWin::convertKeyCode(key), 0);
     }
@@ -188,6 +188,8 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         }
         case WM_KEYUP:
         case WM_KEYDOWN:
+        case WM_SYSKEYDOWN:
+        case WM_SYSKEYUP:
         {
             handleKeyEvent(msg, wParam, lParam);
             break;
