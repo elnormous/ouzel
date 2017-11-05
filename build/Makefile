@@ -153,9 +153,11 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/utils/INI.cpp \
+	$(ROOT_DIR)/../ouzel/utils/JSON.cpp \
 	$(ROOT_DIR)/../ouzel/utils/Log.cpp \
 	$(ROOT_DIR)/../ouzel/utils/OBF.cpp \
-	$(ROOT_DIR)/../ouzel/utils/Utils.cpp
+	$(ROOT_DIR)/../ouzel/utils/Utils.cpp \
+	$(ROOT_DIR)/../ouzel/utils/XML.cpp
 ifeq ($(platform),windows)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/EngineWin.cpp \

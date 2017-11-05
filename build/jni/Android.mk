@@ -152,9 +152,11 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/SpriteFrame.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
     ../../ouzel/utils/INI.cpp \
+    ../../ouzel/utils/JSON.cpp \
     ../../ouzel/utils/Log.cpp \
     ../../ouzel/utils/OBF.cpp \
-    ../../ouzel/utils/Utils.cpp
+    ../../ouzel/utils/Utils.cpp \
+    ../../ouzel/utils/XML.cpp
 
 include $(BUILD_STATIC_LIBRARY)
 $(call import-module, android/cpufeatures)
