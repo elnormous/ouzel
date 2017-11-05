@@ -170,9 +170,11 @@
     <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\utils\INI.cpp" />
+    <ClCompile Include="..\ouzel\utils\JSON.cpp" />
     <ClCompile Include="..\ouzel\utils\Log.cpp" />
     <ClCompile Include="..\ouzel\utils\OBF.cpp" />
     <ClCompile Include="..\ouzel\utils\Utils.cpp" />
+    <ClCompile Include="..\ouzel\utils\XML.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp" />
@@ -352,10 +354,12 @@
     <ClInclude Include="..\ouzel\scene\SpriteFrame.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
+    <ClInclude Include="..\ouzel\utils\JSON.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />
     <ClInclude Include="..\ouzel\utils\Noncopyable.hpp" />
     <ClInclude Include="..\ouzel\utils\OBF.hpp" />
     <ClInclude Include="..\ouzel\utils\Utils.hpp" />
+    <ClInclude Include="..\ouzel\utils\XML.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>

@@ -448,6 +448,12 @@
     <ClCompile Include="..\ouzel\assets\LoaderWave.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\utils\JSON.cpp">
+      <Filter>ouzel\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\utils\XML.cpp">
+      <Filter>ouzel\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\ouzel.hpp" />
@@ -990,6 +996,12 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\LoaderWave.hpp">
       <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\JSON.hpp">
+      <Filter>ouzel\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\utils\XML.hpp">
+      <Filter>ouzel\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
