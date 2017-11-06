@@ -148,10 +148,14 @@ namespace ouzel
                             else if (*i == 'v') token.value.push_back('\v');
                             else if (*i == 'f') token.value.push_back('\f');
                             else if (*i == 'r') token.value.push_back('\r');
-                            else if (*i == 'e') token.value.push_back('\e');
                             else if (*i == '"') token.value.push_back('"');
                             else if (*i == '\?') token.value.push_back('\?');
                             else if (*i == '\\') token.value.push_back('\\');
+                            else
+                            {
+                                Log(Log::Level::ERR) << "Unrecognized escape character";
+                                return false;
+                            }
                             // TODO: handle numeric character references
                         }
                         else if (*i == '\n')
