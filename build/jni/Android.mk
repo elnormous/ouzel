@@ -13,7 +13,6 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 LOCAL_CPPFLAGS += -std=c++11 -fexceptions
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../ouzel \
     $(LOCAL_PATH)/../../external/stb \
-    $(LOCAL_PATH)/../../external/json/src \
     $(LOCAL_PATH)/../../external/khronos
 
 LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \

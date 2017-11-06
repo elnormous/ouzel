@@ -2,9 +2,9 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "json.hpp"
 #include "SpriteData.hpp"
 #include "core/Engine.hpp"
+#include "utils/JSON.hpp"
 
 namespace ouzel
 {
@@ -23,66 +23,71 @@ namespace ouzel
 
         bool SpriteData::init(const std::vector<uint8_t>& data, bool mipmaps)
         {
-            nlohmann::json document = nlohmann::json::parse(data);
+            json::Value document;
 
-            if (document.find("meta") == document.end() ||
-                document.find("frames") == document.end())
+            if (!document.init(data))
+            {
+                return false;
+            }
+
+            if (!document.hasMember("meta") ||
+                !document.hasMember("frames"))
             {
                 return false;
             }
             
-            const nlohmann::json& metaObject = document["meta"];
+            const json::Value& metaObject = document["meta"];
 
-            texture = engine->getCache()->getTexture(metaObject["image"].get<std::string>(), false, mipmaps);
+            texture = engine->getCache()->getTexture(metaObject["image"].asString(), false, mipmaps);
 
             if (!texture)
             {
                 return false;
             }
 
-            const nlohmann::json& framesArray = document["frames"];
+            const json::Value& framesArray = document["frames"];
 
-            frames.reserve(framesArray.size());
+            frames.reserve(framesArray.getSize());
 
-            for (const nlohmann::json& frameObject : framesArray)
+            for (const json::Value& frameObject : framesArray.asArray())
             {
-                std::string name = frameObject["filename"];
+                std::string name = frameObject["filename"].asString();
 
-                const nlohmann::json& frameRectangleObject = frameObject["frame"];
+                const json::Value& frameRectangleObject = frameObject["frame"];
 
-                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].get<int32_t>()),
-                                         static_cast<float>(frameRectangleObject["y"].get<int32_t>()),
-                                         static_cast<float>(frameRectangleObject["w"].get<int32_t>()),
-                                         static_cast<float>(frameRectangleObject["h"].get<int32_t>()));
+                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].asInt32()),
+                                         static_cast<float>(frameRectangleObject["y"].asInt32()),
+                                         static_cast<float>(frameRectangleObject["w"].asInt32()),
+                                         static_cast<float>(frameRectangleObject["h"].asInt32()));
 
-                const nlohmann::json& sourceSizeObject = frameObject["sourceSize"];
+                const json::Value& sourceSizeObject = frameObject["sourceSize"];
 
-                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].get<int32_t>()),
-                                 static_cast<float>(sourceSizeObject["h"].get<int32_t>()));
+                Size2 sourceSize(static_cast<float>(sourceSizeObject["w"].asInt32()),
+                                 static_cast<float>(sourceSizeObject["h"].asInt32()));
 
-                const nlohmann::json& spriteSourceSizeObject = frameObject["spriteSourceSize"];
+                const json::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
-                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].get<int32_t>()),
-                                     static_cast<float>(spriteSourceSizeObject["y"].get<int32_t>()));
+                Vector2 sourceOffset(static_cast<float>(spriteSourceSizeObject["x"].asInt32()),
+                                     static_cast<float>(spriteSourceSizeObject["y"].asInt32()));
 
-                const nlohmann::json& pivotObject = frameObject["pivot"];
+                const json::Value& pivotObject = frameObject["pivot"];
 
-                Vector2 pivot(pivotObject["x"].get<float>(),
-                              pivotObject["y"].get<float>());
+                Vector2 pivot(pivotObject["x"].asFloat(),
+                              pivotObject["y"].asFloat());
 
-                if (frameObject.find("vertices") != frameObject.end() &&
-                    frameObject.find("verticesUV") != frameObject.end() &&
-                    frameObject.find("triangles") != frameObject.end())
+                if (frameObject.hasMember("vertices") &&
+                    frameObject.hasMember("verticesUV") &&
+                    frameObject.hasMember("triangles"))
                 {
                     std::vector<uint16_t> indices;
 
-                    const nlohmann::json& trianglesObject = frameObject["triangles"];
+                    const json::Value& trianglesObject = frameObject["triangles"];
 
-                    for (const nlohmann::json& triangleObject : trianglesObject)
+                    for (const json::Value& triangleObject : trianglesObject.asArray())
                     {
-                        for (const nlohmann::json& indexObject : triangleObject)
+                        for (const json::Value& indexObject : triangleObject.asArray())
                         {
-                            indices.push_back(indexObject.get<uint16_t>());
+                            indices.push_back(static_cast<uint16_t>(indexObject.asUInt32()));
                         }
                     }
 
@@ -91,32 +96,32 @@ namespace ouzel
 
                     std::vector<graphics::VertexPCT> vertices;
 
-                    const nlohmann::json& verticesObject = frameObject["vertices"];
-                    const nlohmann::json& verticesUVObject = frameObject["verticesUV"];
+                    const json::Value& verticesObject = frameObject["vertices"];
+                    const json::Value& verticesUVObject = frameObject["verticesUV"];
 
                     const Size2& textureSize = texture->getSize();
 
                     Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                         -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
-                    for (size_t vertexIndex = 0; vertexIndex < verticesObject.size(); ++vertexIndex)
+                    for (size_t vertexIndex = 0; vertexIndex < verticesObject.getSize(); ++vertexIndex)
                     {
-                        const nlohmann::json& vertexObject = verticesObject[vertexIndex];
-                        const nlohmann::json& vertexUVObject = verticesUVObject[vertexIndex];
+                        const json::Value& vertexObject = verticesObject[vertexIndex];
+                        const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].get<int32_t>()) + finalOffset.x,
-                                                                       -static_cast<float>(vertexObject[1].get<int32_t>()) - finalOffset.y,
+                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].asInt32()) + finalOffset.x,
+                                                                       -static_cast<float>(vertexObject[1].asInt32()) - finalOffset.y,
                                                                        0.0f),
                                                                Color::WHITE,
-                                                               Vector2(static_cast<float>(vertexUVObject[0].get<int32_t>()) / textureSize.width,
-                                                                       static_cast<float>(vertexUVObject[1].get<int32_t>()) / textureSize.height)));
+                                                               Vector2(static_cast<float>(vertexUVObject[0].asInt32()) / textureSize.width,
+                                                                       static_cast<float>(vertexUVObject[1].asInt32()) / textureSize.height)));
                     }
 
                     frames.push_back(SpriteFrame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
-                    bool rotated = frameObject["rotated"].get<bool>();
+                    bool rotated = frameObject["rotated"].asBool();
 
                     frames.push_back(SpriteFrame(name, texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }

@@ -21,7 +21,6 @@ endif
 CXXFLAGS=-c -std=c++11 -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel" \
 	-I"$(ROOT_DIR)/../external/stb" \
-	-I"$(ROOT_DIR)/../external/json/src" \
 	-I"$(ROOT_DIR)/../external/khronos"
 CFLAGS=-c -Wall -O2 \
 	-I"$(ROOT_DIR)/../ouzel"

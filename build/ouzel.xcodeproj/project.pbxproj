@@ -3438,7 +3438,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../ouzel/,
-					../external/json/src,
 					../external/khronos,
 					../external/stb/,
 				);
@@ -3493,7 +3492,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					../ouzel/,
-					../external/json/src,
 					../external/khronos,
 					../external/stb/,
 				);

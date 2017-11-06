@@ -1,10 +1,10 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "json.hpp"
 #include "ParticleSystemData.hpp"
 #include "core/Engine.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/JSON.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -24,94 +24,99 @@ namespace ouzel
 
         bool ParticleSystemData::init(const std::vector<uint8_t>& data, bool mipmaps)
         {
-            nlohmann::json document = nlohmann::json::parse(data);
+            json::Value document;
 
-            if (document.find("textureFileName") == document.end() ||
-                document.find("configName") == document.end())
+            if (!document.init(data))
             {
                 return false;
             }
 
-            name = document["configName"];
-
-            if (document.find("blendFuncSource") != document.end()) blendFuncSource = document["blendFuncSource"].get<unsigned int>();
-            if (document.find("blendFuncDestination") != document.end()) blendFuncDestination = document["blendFuncDestination"].get<unsigned int>();
-
-            if (document.find("emitterType") != document.end())
+            if (!document.hasMember("textureFileName") ||
+                !document.hasMember("configName"))
             {
-                switch (document["emitterType"].get<unsigned int>())
+                return false;
+            }
+
+            name = document["configName"].asString();
+
+            if (document.hasMember("blendFuncSource")) blendFuncSource = document["blendFuncSource"].asUInt32();
+            if (document.hasMember("blendFuncDestination")) blendFuncDestination = document["blendFuncDestination"].asUInt32();
+
+            if (document.hasMember("emitterType"))
+            {
+                switch (document["emitterType"].asUInt32())
                 {
                     case 0: emitterType = ParticleSystemData::EmitterType::GRAVITY; break;
                     case 1: emitterType = ParticleSystemData::EmitterType::RADIUS; break;
                 }
             }
 
-            if (document.find("maxParticles") != document.end()) maxParticles = document["maxParticles"].get<uint32_t>();
+            if (document.hasMember("maxParticles")) maxParticles = document["maxParticles"].asUInt32();
 
-            if (document.find("duration") != document.end()) duration = document["duration"].get<float>();
-            if (document.find("particleLifespan") != document.end()) particleLifespan = document["particleLifespan"].get<float>();
-            if (document.find("particleLifespanVariance") != document.end()) particleLifespanVariance = document["particleLifespanVariance"].get<float>();
+            if (document.hasMember("duration")) duration = document["duration"].asFloat();
+            if (document.hasMember("particleLifespan")) particleLifespan = document["particleLifespan"].asFloat();
+            if (document.hasMember("particleLifespanVariance")) particleLifespanVariance = document["particleLifespanVariance"].asFloat();
 
-            if (document.find("speed") != document.end()) speed = document["speed"].get<float>();
-            if (document.find("speedVariance") != document.end()) speedVariance = document["speedVariance"].get<float>();
+            if (document.hasMember("speed")) speed = document["speed"].asFloat();
+            if (document.hasMember("speedVariance")) speedVariance = document["speedVariance"].asFloat();
 
-            if (document.find("absolutePosition") != document.end()) absolutePosition = document["absolutePosition"].get<bool>();
+            if (document.hasMember("absolutePosition")) absolutePosition = document["absolutePosition"].asBool();
 
-            if (document.find("yCoordFlipped") != document.end()) yCoordFlipped = (document["yCoordFlipped"].get<uint32_t>() == 1);
+            if (document.hasMember("yCoordFlipped")) yCoordFlipped = (document["yCoordFlipped"].asUInt32() == 1);
 
-            if (document.find("sourcePositionx") != document.end()) sourcePosition.x = document["sourcePositionx"].get<float>();
-            if (document.find("sourcePositiony") != document.end()) sourcePosition.y = document["sourcePositiony"].get<float>();
-            if (document.find("sourcePositionVariancex") != document.end()) sourcePositionVariance.x = document["sourcePositionVariancex"].get<float>();
-            if (document.find("sourcePositionVariancey") != document.end()) sourcePositionVariance.y = document["sourcePositionVariancey"].get<float>();
+            if (document.hasMember("sourcePositionx")) sourcePosition.x = document["sourcePositionx"].asFloat();
+            if (document.hasMember("sourcePositiony")) sourcePosition.y = document["sourcePositiony"].asFloat();
+            if (document.hasMember("sourcePositionVariancex")) sourcePositionVariance.x = document["sourcePositionVariancex"].asFloat();
+            if (document.hasMember("sourcePositionVariancey")) sourcePositionVariance.y = document["sourcePositionVariancey"].asFloat();
 
-            if (document.find("startParticleSize") != document.end()) startParticleSize = document["startParticleSize"].get<float>();
-            if (document.find("startParticleSizeVariance") != document.end()) startParticleSizeVariance = document["startParticleSizeVariance"].get<float>();
-            if (document.find("finishParticleSize") != document.end()) finishParticleSize = document["finishParticleSize"].get<float>();
-            if (document.find("finishParticleSizeVariance") != document.end()) finishParticleSizeVariance = document["finishParticleSizeVariance"].get<float>();
-            if (document.find("angle") != document.end()) angle = document["angle"].get<float>();
-            if (document.find("angleVariance") != document.end()) angleVariance = document["angleVariance"].get<float>();
-            if (document.find("rotationStart") != document.end()) startRotation = document["rotationStart"].get<float>();
-            if (document.find("rotationStartVariance") != document.end()) startRotationVariance = document["rotationStartVariance"].get<float>();
-            if (document.find("rotationEnd") != document.end()) finishRotation = document["rotationEnd"].get<float>();
-            if (document.find("rotationEndVariance") != document.end()) finishRotationVariance = document["rotationEndVariance"].get<float>();
-            if (document.find("rotatePerSecond") != document.end()) rotatePerSecond = document["rotatePerSecond"].get<float>();
-            if (document.find("rotatePerSecondVariance") != document.end()) rotatePerSecondVariance = document["rotatePerSecondVariance"].get<float>();
-            if (document.find("minRadius") != document.end()) minRadius = document["minRadius"].get<float>();
-            if (document.find("minRadiusVariance") != document.end()) minRadiusVariance = document["minRadiusVariance"].get<float>();
-            if (document.find("maxRadius") != document.end()) maxRadius = document["maxRadius"].get<float>();
-            if (document.find("maxRadiusVariance") != document.end()) maxRadiusVariance = document["maxRadiusVariance"].get<float>();
+            if (document.hasMember("startParticleSize")) startParticleSize = document["startParticleSize"].asFloat();
+            if (document.hasMember("startParticleSizeVariance")) startParticleSizeVariance = document["startParticleSizeVariance"].asFloat();
+            if (document.hasMember("finishParticleSize")) finishParticleSize = document["finishParticleSize"].asFloat();
+            if (document.hasMember("finishParticleSizeVariance")) finishParticleSizeVariance = document["finishParticleSizeVariance"].asFloat();
+            if (document.hasMember("angle")) angle = document["angle"].asFloat();
+            if (document.hasMember("angleVariance")) angleVariance = document["angleVariance"].asFloat();
+            if (document.hasMember("rotationStart")) startRotation = document["rotationStart"].asFloat();
+            if (document.hasMember("rotationStartVariance")) startRotationVariance = document["rotationStartVariance"].asFloat();
+            if (document.hasMember("rotationEnd")) finishRotation = document["rotationEnd"].asFloat();
+            if (document.hasMember("rotationEndVariance")) finishRotationVariance = document["rotationEndVariance"].asFloat();
+            if (document.hasMember("rotatePerSecond")) rotatePerSecond = document["rotatePerSecond"].asFloat();
+            if (document.hasMember("rotatePerSecondVariance")) rotatePerSecondVariance = document["rotatePerSecondVariance"].asFloat();
+            if (document.hasMember("minRadius")) minRadius = document["minRadius"].asFloat();
+            if (document.hasMember("minRadiusVariance")) minRadiusVariance = document["minRadiusVariance"].asFloat();
+            if (document.hasMember("maxRadius")) maxRadius = document["maxRadius"].asFloat();
+            if (document.hasMember("maxRadiusVariance")) maxRadiusVariance = document["maxRadiusVariance"].asFloat();
 
-            if (document.find("radialAcceleration") != document.end()) radialAcceleration = document["radialAcceleration"].get<float>();
-            if (document.find("radialAccelVariance") != document.end()) radialAccelVariance = document["radialAccelVariance"].get<float>();
-            if (document.find("tangentialAcceleration") != document.end()) tangentialAcceleration = document["tangentialAcceleration"].get<float>();
-            if (document.find("tangentialAccelVariance") != document.end()) tangentialAccelVariance = document["tangentialAccelVariance"].get<float>();
+            if (document.hasMember("radialAcceleration")) radialAcceleration = document["radialAcceleration"].asFloat();
+            if (document.hasMember("radialAccelVariance")) radialAccelVariance = document["radialAccelVariance"].asFloat();
+            if (document.hasMember("tangentialAcceleration")) tangentialAcceleration = document["tangentialAcceleration"].asFloat();
+            if (document.hasMember("tangentialAccelVariance")) tangentialAccelVariance = document["tangentialAccelVariance"].asFloat();
 
-            if (document.find("rotationIsDir") != document.end()) rotationIsDir = document["rotationIsDir"].get<bool>();
+            if (document.hasMember("rotationIsDir")) rotationIsDir = document["rotationIsDir"].asBool();
 
-            if (document.find("gravityx") != document.end()) gravity.x = document["gravityx"].get<float>();
-            if (document.find("gravityy") != document.end()) gravity.y = document["gravityy"].get<float>();
+            if (document.hasMember("gravityx")) gravity.x = document["gravityx"].asFloat();
+            if (document.hasMember("gravityy")) gravity.y = document["gravityy"].asFloat();
 
-            if (document.find("startColorRed") != document.end()) startColorRed = document["startColorRed"].get<float>();
-            if (document.find("startColorGreen") != document.end()) startColorGreen = document["startColorGreen"].get<float>();
-            if (document.find("startColorBlue") != document.end()) startColorBlue = document["startColorBlue"].get<float>();
-            if (document.find("startColorAlpha") != document.end()) startColorAlpha = document["startColorAlpha"].get<float>();
+            if (document.hasMember("startColorRed")) startColorRed = document["startColorRed"].asFloat();
+            if (document.hasMember("startColorGreen")) startColorGreen = document["startColorGreen"].asFloat();
+            if (document.hasMember("startColorBlue")) startColorBlue = document["startColorBlue"].asFloat();
+            if (document.hasMember("startColorAlpha")) startColorAlpha = document["startColorAlpha"].asFloat();
 
-            if (document.find("startColorVarianceRed") != document.end()) startColorRedVariance = document["startColorVarianceRed"].get<float>();
-            if (document.find("startColorVarianceGreen") != document.end()) startColorGreenVariance = document["startColorVarianceGreen"].get<float>();
-            if (document.find("startColorVarianceBlue") != document.end()) startColorBlueVariance = document["startColorVarianceBlue"].get<float>();
-            if (document.find("startColorVarianceAlpha") != document.end()) startColorAlphaVariance = document["startColorVarianceAlpha"].get<float>();
+            if (document.hasMember("startColorVarianceRed")) startColorRedVariance = document["startColorVarianceRed"].asFloat();
+            if (document.hasMember("startColorVarianceGreen")) startColorGreenVariance = document["startColorVarianceGreen"].asFloat();
+            if (document.hasMember("startColorVarianceBlue")) startColorBlueVariance = document["startColorVarianceBlue"].asFloat();
+            if (document.hasMember("startColorVarianceAlpha")) startColorAlphaVariance = document["startColorVarianceAlpha"].asFloat();
 
-            if (document.find("finishColorRed") != document.end()) finishColorRed = document["finishColorRed"].get<float>();
-            if (document.find("finishColorGreen") != document.end()) finishColorGreen = document["finishColorGreen"].get<float>();
-            if (document.find("finishColorBlue") != document.end()) finishColorBlue = document["finishColorBlue"].get<float>();
-            if (document.find("finishColorAlpha") != document.end()) finishColorAlpha = document["finishColorAlpha"].get<float>();
+            if (document.hasMember("finishColorRed")) finishColorRed = document["finishColorRed"].asFloat();
+            if (document.hasMember("finishColorGreen")) finishColorGreen = document["finishColorGreen"].asFloat();
+            if (document.hasMember("finishColorBlue")) finishColorBlue = document["finishColorBlue"].asFloat();
+            if (document.hasMember("finishColorAlpha")) finishColorAlpha = document["finishColorAlpha"].asFloat();
 
-            if (document.find("finishColorVarianceRed") != document.end()) finishColorRedVariance = document["finishColorVarianceRed"].get<float>();
-            if (document.find("finishColorVarianceGreen") != document.end()) finishColorGreenVariance = document["finishColorVarianceGreen"].get<float>();
-            if (document.find("finishColorVarianceBlue") != document.end()) finishColorBlueVariance = document["finishColorVarianceBlue"].get<float>();
-            if (document.find("finishColorVarianceAlpha") != document.end()) finishColorAlphaVariance = document["finishColorVarianceAlpha"].get<float>();
+            if (document.hasMember("finishColorVarianceRed")) finishColorRedVariance = document["finishColorVarianceRed"].asFloat();
+            if (document.hasMember("finishColorVarianceGreen")) finishColorGreenVariance = document["finishColorVarianceGreen"].asFloat();
+            if (document.hasMember("finishColorVarianceBlue")) finishColorBlueVariance = document["finishColorVarianceBlue"].asFloat();
+            if (document.hasMember("finishColorVarianceAlpha")) finishColorAlphaVariance = document["finishColorVarianceAlpha"].asFloat();
 
-            if (document.find("textureFileName") != document.end()) texture = engine->getCache()->getTexture(document["textureFileName"].get<std::string>(), mipmaps);
+            if (document.hasMember("textureFileName")) texture = engine->getCache()->getTexture(document["textureFileName"].asString(), mipmaps);
 
             emissionRate = static_cast<float>(maxParticles) / particleLifespan;
 
