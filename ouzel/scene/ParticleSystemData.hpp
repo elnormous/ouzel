@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include "math/Vector2.hpp"
 #include "graphics/Texture.hpp"
