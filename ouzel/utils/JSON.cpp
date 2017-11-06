@@ -122,6 +122,8 @@ namespace ouzel
                             }
                         }
 
+                        // TODO: parse exponent
+
                         token.value.push_back(*i);
                         ++i;
                     }
