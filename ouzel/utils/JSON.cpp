@@ -145,7 +145,6 @@ namespace ouzel
                             else if (*i == 'b') token.value.push_back('\b');
                             else if (*i == 't') token.value.push_back('\t');
                             else if (*i == 'n') token.value.push_back('\n');
-                            else if (*i == 'v') token.value.push_back('\v');
                             else if (*i == 'f') token.value.push_back('\f');
                             else if (*i == 'r') token.value.push_back('\r');
                             else if (*i == '"') token.value.push_back('"');
