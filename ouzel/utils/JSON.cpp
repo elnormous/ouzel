@@ -104,28 +104,54 @@ namespace ouzel
                 {
                     token.type = Token::Type::LITERAL_NUMBER;
 
-                    bool dot = false;
-
                     while (i != utf32.end() &&
-                           ((*i >= '0' && *i <= '9') || *i == '.'))
+                           ((*i >= '0' && *i <= '9')))
                     {
-                        if (*i == '.')
-                        {
-                            if (dot)
-                            {
-                                Log(Log::Level::ERR) << "Invalid number";
-                                return false;
-                            }
-                            else
-                            {
-                                dot = true;
-                            }
-                        }
+                        token.value.push_back(*i);
+                        ++i;
+                    }
 
-                        // TODO: parse exponent
+                    if (i != utf32.end() && *i == '.')
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+
+                        while (i != utf32.end() &&
+                               ((*i >= '0' && *i <= '9')))
+                        {
+                            token.value.push_back(*i);
+                            ++i;
+                        }
+                    }
+
+                    // parse exponent
+                    if (i != utf32.end() &&
+                        (*i == 'e' || *i == 'E'))
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+
+                        if (i == utf32.end() || *i != '+' || *i != '-')
+                        {
+                            Log(Log::Level::ERR) << "Invalid exponent";
+                            return false;
+                        }
 
                         token.value.push_back(*i);
                         ++i;
+
+                        if (i == utf32.end() || *i < '0' || *i > '9')
+                        {
+                            Log(Log::Level::ERR) << "Invalid exponent";
+                            return false;
+                        }
+
+                        while (i != utf32.end() &&
+                               ((*i >= '0' && *i <= '9')))
+                        {
+                            token.value.push_back(*i);
+                            ++i;
+                        }
                     }
                 }
                 else if (*i == '"') // string literal
