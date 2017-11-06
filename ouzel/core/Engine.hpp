@@ -53,8 +53,8 @@ namespace ouzel
         inline Localization* getLocalization() { return &localization; }
         inline network::Network* getNetwork() { return &network; }
 
-        inline const INI& getDefaultSettings() const { return defaultSettings; }
-        inline const INI& getUserSettings() const { return userSettings; }
+        inline const ini::Data& getDefaultSettings() const { return defaultSettings; }
+        inline const ini::Data& getUserSettings() const { return userSettings; }
 
         virtual int run();
         void start();
@@ -97,8 +97,8 @@ namespace ouzel
         scene::SceneManager sceneManager;
         network::Network network;
 
-        INI defaultSettings;
-        INI userSettings;
+        ini::Data defaultSettings;
+        ini::Data userSettings;
 
         std::chrono::steady_clock::time_point previousUpdateTime;
 

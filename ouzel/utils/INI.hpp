@@ -10,23 +10,53 @@
 
 namespace ouzel
 {
-    class INI
+    namespace ini
     {
-    public:
-        INI();
-        INI(const std::string& filename);
-        INI(const std::vector<uint8_t>& data);
+        class Data;
 
-        bool init(const std::string& filename);
-        bool init(const std::vector<uint8_t>& data);
-        bool save(const std::string& filename);
-        bool encode(std::vector<uint8_t>& data);
+        class Section
+        {
+            friend Data;
+        public:
+            Section();
+            Section(const std::string& aName);
 
-        std::string getValue(const std::string& section, const std::string& key, const std::string& defaultValue = "") const;
-        void setValue(const std::string& section, const std::string& key, const std::string& value);
-        bool deleteValue(const std::string& section, const std::string& key);
+            const std::string& getName() const { return name; }
 
-    private:
-        std::map<std::string, std::map<std::string, std::string>> sections;
-    };
+            const std::map<std::string, std::string>& getValues() const { return values; }
+            bool hasValue(const std::string& key) const;
+            const std::string& getValue(const std::string& key);
+            std::string getValue(const std::string& key) const;
+            const std::string& getValue(const std::string& key, const std::string& defaultValue) const;
+            void setValue(const std::string& key, const std::string& value);
+            bool deleteValue(const std::string& key);
+
+        private:
+            std::string name;
+            std::map<std::string, std::string> values;
+        };
+
+        class Data
+        {
+        public:
+            Data();
+            Data(const std::string& filename);
+            Data(const std::vector<uint8_t>& data);
+
+            bool init(const std::string& filename);
+            bool init(const std::vector<uint8_t>& data);
+            bool save(const std::string& filename);
+            bool encode(std::vector<uint8_t>& data);
+
+            const std::map<std::string, Section>& getSections() const { return sections; }
+            bool hasSection(const std::string& name) const;
+            const Section& getSection(const std::string& name);
+            Section getSection(const std::string& name) const;
+            void setSection(const std::string& name, const Section& section);
+            bool deleteSection(const std::string& name);
+
+        private:
+            std::map<std::string, Section> sections;
+        };
+    }
 }

@@ -129,7 +129,10 @@ namespace ouzel
         defaultSettings.init("settings.ini");
         userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
-        std::string graphicsDriverValue = userSettings.getValue("engine", "graphicsDriver", defaultSettings.getValue("engine", "graphicsDriver"));
+        ini::Section userEngineSection = userSettings.getSection("engine");
+        ini::Section defaultEngineSection = defaultSettings.getSection("engine");
+
+        std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 
         if (!graphicsDriverValue.empty())
         {
@@ -160,16 +163,16 @@ namespace ouzel
             }
         }
 
-        std::string widthValue = userSettings.getValue("engine", "width", defaultSettings.getValue("engine", "width"));
+        std::string widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
         if (!widthValue.empty()) size.width = std::stof(widthValue);
 
-        std::string heightValue = userSettings.getValue("engine", "height", defaultSettings.getValue("engine", "height"));
+        std::string heightValue = userEngineSection.getValue("height", defaultEngineSection.getValue("height"));
         if (!heightValue.empty()) size.height = std::stof(heightValue);
 
-        std::string sampleCountValue = userSettings.getValue("engine", "sampleCount", defaultSettings.getValue("engine", "sampleCount"));
+        std::string sampleCountValue = userEngineSection.getValue("sampleCount", defaultEngineSection.getValue("sampleCount"));
         if (!sampleCountValue.empty()) sampleCount = static_cast<uint32_t>(std::stoul(sampleCountValue));
 
-        std::string textureFilterValue = userSettings.getValue("engine", "textureFilter", defaultSettings.getValue("engine", "textureFilter"));
+        std::string textureFilterValue = userEngineSection.getValue("textureFilter", defaultEngineSection.getValue("textureFilter"));
         if (!textureFilterValue.empty())
         {
             if (textureFilterValue == "point")
@@ -195,31 +198,31 @@ namespace ouzel
             }
         }
 
-        std::string maxAnisotropyValue = userSettings.getValue("engine", "maxAnisotropy", defaultSettings.getValue("engine", "maxAnisotropy"));
+        std::string maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
         if (!maxAnisotropyValue.empty()) maxAnisotropy = static_cast<uint32_t>(std::stoul(maxAnisotropyValue));
 
-        std::string resizableValue = userSettings.getValue("engine", "resizable", defaultSettings.getValue("engine", "resizable"));
+        std::string resizableValue = userEngineSection.getValue("resizable", defaultEngineSection.getValue("resizable"));
         if (!resizableValue.empty()) resizable = (resizableValue == "true" || resizableValue == "1" || resizableValue == "yes");
 
-        std::string fullscreenValue = userSettings.getValue("engine", "fullscreen", defaultSettings.getValue("engine", "fullscreen"));
+        std::string fullscreenValue = userEngineSection.getValue("fullscreen", defaultEngineSection.getValue("fullscreen"));
         if (!fullscreenValue.empty()) fullscreen = (fullscreenValue == "true" || fullscreenValue == "1" || fullscreenValue == "yes");
 
-        std::string verticalSyncValue = userSettings.getValue("engine", "verticalSync", defaultSettings.getValue("engine", "verticalSync"));
+        std::string verticalSyncValue = userEngineSection.getValue("verticalSync", defaultEngineSection.getValue("verticalSync"));
         if (!verticalSyncValue.empty()) verticalSync = (verticalSyncValue == "true" || verticalSyncValue == "1" || verticalSyncValue == "yes");
 
-        std::string exclusiveFullscreenValue = userSettings.getValue("engine", "exclusiveFullscreen", defaultSettings.getValue("engine", "exclusiveFullscreen"));
+        std::string exclusiveFullscreenValue = userEngineSection.getValue("exclusiveFullscreen", defaultEngineSection.getValue("exclusiveFullscreen"));
         if (!exclusiveFullscreenValue.empty()) exclusiveFullscreen = (exclusiveFullscreenValue == "true" || exclusiveFullscreenValue == "1" || exclusiveFullscreenValue == "yes");
 
-        std::string depthValue = userSettings.getValue("engine", "depth", defaultSettings.getValue("engine", "depth"));
+        std::string depthValue = userEngineSection.getValue("depth", defaultEngineSection.getValue("depth"));
         if (!depthValue.empty()) depth = (depthValue == "true" || depthValue == "1" || depthValue == "yes");
 
-        std::string debugRendererValue = userSettings.getValue("engine", "debugRenderer", defaultSettings.getValue("engine", "debugRenderer"));
+        std::string debugRendererValue = userEngineSection.getValue("debugRenderer", defaultEngineSection.getValue("debugRenderer"));
         if (!debugRendererValue.empty()) debugRenderer = (debugRendererValue == "true" || debugRendererValue == "1" || debugRendererValue == "yes");
 
-        std::string highDpiValue = userSettings.getValue("engine", "highDpi", defaultSettings.getValue("engine", "highDpi"));
+        std::string highDpiValue = userEngineSection.getValue("highDpi", defaultEngineSection.getValue("highDpi"));
         if (!highDpiValue.empty()) highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
 
-        std::string audioDriverValue = userSettings.getValue("engine", "audioDriver", defaultSettings.getValue("engine", "audioDriver"));
+        std::string audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
 
         if (!audioDriverValue.empty())
         {
@@ -262,7 +265,7 @@ namespace ouzel
             }
         }
 
-        std::string debugAudioValue = userSettings.getValue("engine", "debugAudio", defaultSettings.getValue("engine", "debugAudio"));
+        std::string debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
         if (!debugAudioValue.empty()) debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");
 
         if (graphicsDriver == graphics::Renderer::Driver::DEFAULT)
