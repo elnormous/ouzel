@@ -1,11 +1,11 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "json.hpp"
 #include "SpriteFrame.hpp"
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
 #include "files/FileSystem.hpp"
+#include "utils/JSON.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 
