@@ -21,6 +21,7 @@ namespace ouzel
             Section();
             Section(const std::string& aName);
 
+            void setName(const std::string& newName) { name = newName; }
             const std::string& getName() const { return name; }
 
             const std::map<std::string, std::string>& getValues() const { return values; }
