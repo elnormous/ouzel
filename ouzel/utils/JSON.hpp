@@ -106,7 +106,7 @@ namespace ouzel
                 return objectValue.find(member) != objectValue.end();
             }
 
-            const Value& operator[](const std::string& member)
+            Value& operator[](const std::string& member)
             {
                 assert(type == Type::OBJECT);
                 return objectValue[member];
@@ -126,7 +126,7 @@ namespace ouzel
                 return objectValue;
             }
 
-            const Value& operator[](size_t index)
+            Value& operator[](size_t index)
             {
                 assert(type == Type::ARRAY);
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
