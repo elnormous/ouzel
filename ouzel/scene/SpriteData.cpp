@@ -23,7 +23,7 @@ namespace ouzel
 
         bool SpriteData::init(const std::vector<uint8_t>& data, bool mipmaps)
         {
-            json::Value document;
+            json::Data document;
 
             if (!document.init(data))
             {

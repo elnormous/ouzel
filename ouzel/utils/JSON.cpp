@@ -14,252 +14,6 @@ namespace ouzel
         {
         }
 
-        Value::Value(const std::string& filename)
-        {
-            init(filename);
-        }
-
-        Value::Value(const std::vector<uint8_t>& data)
-        {
-            init(data);
-        }
-
-        bool Value::init(const std::string& filename)
-        {
-            std::vector<uint8_t> data;
-
-            if (!engine->getFileSystem()->readFile(filename, data))
-            {
-                return false;
-            }
-
-            return init(data);
-        }
-
-        bool Value::init(const std::vector<uint8_t>& data)
-        {
-            std::vector<Token> tokens;
-
-            if (!tokenize(data, tokens))
-            {
-                return false;
-            }
-
-            std::vector<Token>::iterator iterator = tokens.begin();
-
-            parseValue(tokens, iterator);
-
-
-            return true;
-        }
-
-        bool Value::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
-        {
-            tokens.clear();
-
-            std::vector<uint32_t> utf32;
-
-            // BOM
-            if (data.size() >= 3 &&
-                data[0] == 0xEF &&
-                data[1] == 0xBB &&
-                data[2] == 0xBF)
-            {
-                std::vector<uint8_t> newData(data.begin() + 3, data.end());
-
-                utf32 = utf8to32(newData);
-            }
-            else
-            {
-                utf32 = utf8to32(data);
-            }
-
-            static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
-                {{0x74, 0x72, 0x75, 0x65}, Token::Type::KEYWORD_TRUE},
-                {{0x66, 0x61, 0x6c, 0x73, 0x65}, Token::Type::KEYWORD_FALSE},
-                {{0x6e, 0x75, 0x6c, 0x6c}, Token::Type::KEYWORD_NULL}
-            };
-
-            // tokenize
-            for (std::vector<uint32_t>::const_iterator i = utf32.begin(); i != utf32.end();)
-            {
-                Token token;
-
-                if (*i == '{' || *i == '}' ||
-                    *i == '[' || *i == ']' ||
-                    *i == ',' || *i == ':') // punctuation
-                {
-                    if (*i == '{') token.type = Token::Type::LEFT_BRACE;
-                    if (*i == '}') token.type = Token::Type::RIGHT_BRACE;
-                    if (*i == '[') token.type = Token::Type::LEFT_BRACKET;
-                    if (*i == ']') token.type = Token::Type::RIGHT_BRACKET;
-                    if (*i == ',') token.type = Token::Type::COMMA;
-                    if (*i == ':') token.type = Token::Type::COLON;
-                    token.value.push_back(*i);
-
-                    ++i;
-                }
-                else if ((*i >= '0' && *i <= '9') ||  // number
-                         (*i == '.' && (i + 1) != utf32.end() && *(i + 1) >= '0' && *(i + 1) <= '9')) // starts with a dot
-                {
-                    token.type = Token::Type::LITERAL_NUMBER;
-
-                    while (i != utf32.end() &&
-                           ((*i >= '0' && *i <= '9')))
-                    {
-                        token.value.push_back(*i);
-                        ++i;
-                    }
-
-                    if (i != utf32.end() && *i == '.')
-                    {
-                        token.value.push_back(*i);
-                        ++i;
-
-                        while (i != utf32.end() &&
-                               ((*i >= '0' && *i <= '9')))
-                        {
-                            token.value.push_back(*i);
-                            ++i;
-                        }
-                    }
-
-                    // parse exponent
-                    if (i != utf32.end() &&
-                        (*i == 'e' || *i == 'E'))
-                    {
-                        token.value.push_back(*i);
-                        ++i;
-
-                        if (i == utf32.end() || *i != '+' || *i != '-')
-                        {
-                            Log(Log::Level::ERR) << "Invalid exponent";
-                            return false;
-                        }
-
-                        token.value.push_back(*i);
-                        ++i;
-
-                        if (i == utf32.end() || *i < '0' || *i > '9')
-                        {
-                            Log(Log::Level::ERR) << "Invalid exponent";
-                            return false;
-                        }
-
-                        while (i != utf32.end() &&
-                               ((*i >= '0' && *i <= '9')))
-                        {
-                            token.value.push_back(*i);
-                            ++i;
-                        }
-                    }
-                }
-                else if (*i == '"') // string literal
-                {
-                    token.type = Token::Type::LITERAL_STRING;
-
-                    while (++i != utf32.end() &&
-                           *i != '"')
-                    {
-                        if (*i == '\\')
-                        {
-                            if (++i == utf32.end())
-                            {
-                                Log(Log::Level::ERR) << "Unterminated string literal";
-                                return false;
-                            }
-
-                            if (*i == 'a') token.value.push_back('\a');
-                            else if (*i == 'b') token.value.push_back('\b');
-                            else if (*i == 't') token.value.push_back('\t');
-                            else if (*i == 'n') token.value.push_back('\n');
-                            else if (*i == 'f') token.value.push_back('\f');
-                            else if (*i == 'r') token.value.push_back('\r');
-                            else if (*i == '"') token.value.push_back('"');
-                            else if (*i == '\?') token.value.push_back('\?');
-                            else if (*i == '\\') token.value.push_back('\\');
-                            else
-                            {
-                                Log(Log::Level::ERR) << "Unrecognized escape character";
-                                return false;
-                            }
-                            // TODO: handle numeric character references
-                        }
-                        else if (*i == '\n')
-                        {
-                            Log(Log::Level::ERR) << "Unterminated string literal";
-                            return false;
-                        }
-                        else
-                        {
-                            token.value.push_back(*i);
-                        }
-                    }
-
-                    if (*i == '"')
-                    {
-                        ++i;
-                    }
-                    else
-                    {
-                        Log(Log::Level::ERR) << "Unterminated string literal";
-                        return false;
-                    }
-                }
-                else if ((*i >= 'a' && *i <= 'z') ||
-                         (*i >= 'A' && *i <= 'Z') ||
-                         *i == '_')
-                {
-                    while (i != utf32.end() &&
-                           ((*i >= 'a' && *i <= 'z') ||
-                            (*i >= 'A' && *i <= 'Z') ||
-                            *i == '_' ||
-                            (*i >= '0' && *i <= '9')))
-                    {
-                        token.value.push_back(*i);
-                        ++i;
-                    }
-
-                    std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
-
-                    if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
-                    {
-                        token.type = keywordIterator->second;
-                    }
-                    else
-                    {
-                        Log(Log::Level::ERR) << "Unknown keyword";
-                        return false;
-                    }
-                }
-                else if (*i == '-')
-                {
-                    token.type = Token::Type::OPERATOR_MINUS;
-                    token.value.push_back(*i);
-                    ++i;
-                }
-                else if (*i == '\n')
-                {
-                    ++i;
-                    continue;
-                }
-                else if (*i == ' ' || *i == '\t' || *i == '\r') // whitespace
-                {
-                    ++i;
-                    continue;
-                }
-                else
-                {
-                    Log(Log::Level::ERR) << "Unknown character";
-                    return false;
-                }
-                
-                tokens.push_back(token);
-            }
-
-            return true;
-        }
-
         bool Value::parseValue(const std::vector<Token>& tokens,
                                std::vector<Token>::iterator& iterator)
         {
@@ -492,6 +246,259 @@ namespace ouzel
 
             type = Type::ARRAY;
 
+            return true;
+        }
+
+        Data::Data()
+        {
+        }
+
+        Data::Data(const std::string& filename)
+        {
+            init(filename);
+        }
+
+        Data::Data(const std::vector<uint8_t>& data)
+        {
+            init(data);
+        }
+
+        bool Data::init(const std::string& filename)
+        {
+            std::vector<uint8_t> data;
+
+            if (!engine->getFileSystem()->readFile(filename, data))
+            {
+                return false;
+            }
+
+            return init(data);
+        }
+
+        bool Data::init(const std::vector<uint8_t>& data)
+        {
+            std::vector<Token> tokens;
+
+            if (!tokenize(data, tokens))
+            {
+                return false;
+            }
+
+            std::vector<Token>::iterator iterator = tokens.begin();
+
+            parseValue(tokens, iterator);
+
+            return true;
+        }
+
+        bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
+        {
+            tokens.clear();
+
+            std::vector<uint32_t> utf32;
+
+            // BOM
+            if (data.size() >= 3 &&
+                data[0] == 0xEF &&
+                data[1] == 0xBB &&
+                data[2] == 0xBF)
+            {
+                bom = true;
+
+                std::vector<uint8_t> newData(data.begin() + 3, data.end());
+
+                utf32 = utf8to32(newData);
+            }
+            else
+            {
+                bom = false;
+
+                utf32 = utf8to32(data);
+            }
+
+            static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
+                {{0x74, 0x72, 0x75, 0x65}, Token::Type::KEYWORD_TRUE},
+                {{0x66, 0x61, 0x6c, 0x73, 0x65}, Token::Type::KEYWORD_FALSE},
+                {{0x6e, 0x75, 0x6c, 0x6c}, Token::Type::KEYWORD_NULL}
+            };
+
+            // tokenize
+            for (std::vector<uint32_t>::const_iterator i = utf32.begin(); i != utf32.end();)
+            {
+                Token token;
+
+                if (*i == '{' || *i == '}' ||
+                    *i == '[' || *i == ']' ||
+                    *i == ',' || *i == ':') // punctuation
+                {
+                    if (*i == '{') token.type = Token::Type::LEFT_BRACE;
+                    if (*i == '}') token.type = Token::Type::RIGHT_BRACE;
+                    if (*i == '[') token.type = Token::Type::LEFT_BRACKET;
+                    if (*i == ']') token.type = Token::Type::RIGHT_BRACKET;
+                    if (*i == ',') token.type = Token::Type::COMMA;
+                    if (*i == ':') token.type = Token::Type::COLON;
+                    token.value.push_back(*i);
+
+                    ++i;
+                }
+                else if ((*i >= '0' && *i <= '9') ||  // number
+                         (*i == '.' && (i + 1) != utf32.end() && *(i + 1) >= '0' && *(i + 1) <= '9')) // starts with a dot
+                {
+                    token.type = Token::Type::LITERAL_NUMBER;
+
+                    while (i != utf32.end() &&
+                           ((*i >= '0' && *i <= '9')))
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+                    }
+
+                    if (i != utf32.end() && *i == '.')
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+
+                        while (i != utf32.end() &&
+                               ((*i >= '0' && *i <= '9')))
+                        {
+                            token.value.push_back(*i);
+                            ++i;
+                        }
+                    }
+
+                    // parse exponent
+                    if (i != utf32.end() &&
+                        (*i == 'e' || *i == 'E'))
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+
+                        if (i == utf32.end() || *i != '+' || *i != '-')
+                        {
+                            Log(Log::Level::ERR) << "Invalid exponent";
+                            return false;
+                        }
+
+                        token.value.push_back(*i);
+                        ++i;
+
+                        if (i == utf32.end() || *i < '0' || *i > '9')
+                        {
+                            Log(Log::Level::ERR) << "Invalid exponent";
+                            return false;
+                        }
+
+                        while (i != utf32.end() &&
+                               ((*i >= '0' && *i <= '9')))
+                        {
+                            token.value.push_back(*i);
+                            ++i;
+                        }
+                    }
+                }
+                else if (*i == '"') // string literal
+                {
+                    token.type = Token::Type::LITERAL_STRING;
+
+                    while (++i != utf32.end() &&
+                           *i != '"')
+                    {
+                        if (*i == '\\')
+                        {
+                            if (++i == utf32.end())
+                            {
+                                Log(Log::Level::ERR) << "Unterminated string literal";
+                                return false;
+                            }
+
+                            if (*i == 'a') token.value.push_back('\a');
+                            else if (*i == 'b') token.value.push_back('\b');
+                            else if (*i == 't') token.value.push_back('\t');
+                            else if (*i == 'n') token.value.push_back('\n');
+                            else if (*i == 'f') token.value.push_back('\f');
+                            else if (*i == 'r') token.value.push_back('\r');
+                            else if (*i == '"') token.value.push_back('"');
+                            else if (*i == '\?') token.value.push_back('\?');
+                            else if (*i == '\\') token.value.push_back('\\');
+                            else
+                            {
+                                Log(Log::Level::ERR) << "Unrecognized escape character";
+                                return false;
+                            }
+                            // TODO: handle numeric character references
+                        }
+                        else if (*i == '\n')
+                        {
+                            Log(Log::Level::ERR) << "Unterminated string literal";
+                            return false;
+                        }
+                        else
+                        {
+                            token.value.push_back(*i);
+                        }
+                    }
+
+                    if (*i == '"')
+                    {
+                        ++i;
+                    }
+                    else
+                    {
+                        Log(Log::Level::ERR) << "Unterminated string literal";
+                        return false;
+                    }
+                }
+                else if ((*i >= 'a' && *i <= 'z') ||
+                         (*i >= 'A' && *i <= 'Z') ||
+                         *i == '_')
+                {
+                    while (i != utf32.end() &&
+                           ((*i >= 'a' && *i <= 'z') ||
+                            (*i >= 'A' && *i <= 'Z') ||
+                            *i == '_' ||
+                            (*i >= '0' && *i <= '9')))
+                    {
+                        token.value.push_back(*i);
+                        ++i;
+                    }
+                    
+                    std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
+                    
+                    if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
+                    {
+                        token.type = keywordIterator->second;
+                    }
+                    else
+                    {
+                        Log(Log::Level::ERR) << "Unknown keyword";
+                        return false;
+                    }
+                }
+                else if (*i == '-')
+                {
+                    token.type = Token::Type::OPERATOR_MINUS;
+                    token.value.push_back(*i);
+                    ++i;
+                }
+                else if (*i == '\n')
+                {
+                    ++i;
+                    continue;
+                }
+                else if (*i == ' ' || *i == '\t' || *i == '\r') // whitespace
+                {
+                    ++i;
+                    continue;
+                }
+                else
+                {
+                    Log(Log::Level::ERR) << "Unknown character";
+                    return false;
+                }
+                
+                tokens.push_back(token);
+            }
+            
             return true;
         }
     }

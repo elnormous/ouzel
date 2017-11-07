@@ -12,6 +12,29 @@ namespace ouzel
 {
     namespace json
     {
+        struct Token
+        {
+            enum class Type
+            {
+                NONE,
+                LITERAL_NUMBER, // float
+                LITERAL_STRING, // string
+                KEYWORD_TRUE, // true
+                KEYWORD_FALSE, // false
+                KEYWORD_NULL, // null
+                LEFT_BRACE, // {
+                RIGHT_BRACE, // }
+                LEFT_BRACKET, // [
+                RIGHT_BRACKET, // ]
+                COMMA, // ,
+                COLON, // :
+                OPERATOR_MINUS // -
+            };
+
+            Type type = Type::NONE;
+            std::vector<uint32_t> value;
+        };
+
         class Value
         {
         public:
@@ -26,11 +49,6 @@ namespace ouzel
             };
 
             Value();
-            Value(const std::string& filename);
-            Value(const std::vector<uint8_t>& data);
-
-            bool init(const std::string& filename);
-            bool init(const std::vector<uint8_t>& data);
 
             bool asBool() const
             {
@@ -152,31 +170,7 @@ namespace ouzel
                 return arrayValue.size();
             }
 
-        private:
-            struct Token
-            {
-                enum class Type
-                {
-                    NONE,
-                    LITERAL_NUMBER, // float
-                    LITERAL_STRING, // string
-                    KEYWORD_TRUE, // true
-                    KEYWORD_FALSE, // false
-                    KEYWORD_NULL, // null
-                    LEFT_BRACE, // {
-                    RIGHT_BRACE, // }
-                    LEFT_BRACKET, // [
-                    RIGHT_BRACKET, // ]
-                    COMMA, // ,
-                    COLON, // :
-                    OPERATOR_MINUS // -
-                };
-
-                Type type = Type::NONE;
-                std::vector<uint32_t> value;
-            };
-
-            bool tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens);
+        protected:
             bool parseValue(const std::vector<Token>& tokens,
                             std::vector<Token>::iterator& iterator);
             bool parseObject(const std::vector<Token>& tokens,
@@ -194,6 +188,25 @@ namespace ouzel
                 bool nullValue;
                 double doubleValue;
             };
+        };
+
+        class Data: public Value
+        {
+        public:
+            Data();
+            Data(const std::string& filename);
+            Data(const std::vector<uint8_t>& data);
+
+            bool init(const std::string& filename);
+            bool init(const std::vector<uint8_t>& data);
+
+            bool hasBOM() const { return bom; }
+            void setBOM(bool newBOM) { bom = newBOM; }
+
+        protected:
+            bool tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens);
+
+            bool bom = false;
         };
     }
 }
