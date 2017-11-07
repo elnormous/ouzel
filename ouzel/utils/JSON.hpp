@@ -208,6 +208,6 @@ namespace ouzel
 
             bool bom = false;
         };
-    }
+    } // namespace json
 }
 

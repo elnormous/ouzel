@@ -304,15 +304,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-
                 std::vector<uint8_t> newData(data.begin() + 3, data.end());
-
                 utf32 = utf8to32(newData);
             }
             else
             {
                 bom = false;
-
                 utf32 = utf8to32(data);
             }
 
@@ -501,5 +498,5 @@ namespace ouzel
             
             return true;
         }
-    }
+    } // namespace json
 }

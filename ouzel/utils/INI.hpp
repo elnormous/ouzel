@@ -56,8 +56,12 @@ namespace ouzel
             void setSection(const std::string& name, const Section& section);
             bool deleteSection(const std::string& name);
 
+            bool hasBOM() const { return bom; }
+            void setBOM(bool newBOM) { bom = newBOM; }
+            
         private:
+            bool bom = false;
             std::map<std::string, Section> sections;
         };
-    }
+    } // namespace ini
 }
