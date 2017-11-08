@@ -50,6 +50,8 @@ namespace ouzel
 
             Value();
 
+            Type getType() const { return type; }
+
             bool asBool() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);

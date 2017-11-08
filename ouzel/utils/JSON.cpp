@@ -286,9 +286,7 @@ namespace ouzel
 
             std::vector<Token>::iterator iterator = tokens.begin();
 
-            parseValue(tokens, iterator);
-
-            return true;
+            return parseValue(tokens, iterator);
         }
 
         bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
