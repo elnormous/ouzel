@@ -311,6 +311,36 @@ namespace ouzel
         return result;
     }
 
+    inline std::string utf32to8(uint32_t c)
+    {
+        std::string result;
+
+        if (c <= 0x7f)
+        {
+            result.push_back(static_cast<char>(c));
+        }
+        else if (c <= 0x7ff)
+        {
+            result.push_back(static_cast<char>(0xc0 | ((c >> 6) & 0x1f)));
+            result.push_back(static_cast<char>(0x80 | (c & 0x3f)));
+        }
+        else if (c <= 0xffff)
+        {
+            result.push_back(static_cast<char>(0xe0 | ((c >> 12) & 0x0f)));
+            result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3f)));
+            result.push_back(static_cast<char>(0x80 | (c & 0x3f)));
+        }
+        else
+        {
+            result.push_back(static_cast<char>(0xf0 | ((c >> 18) & 0x07)));
+            result.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3f)));
+            result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3f)));
+            result.push_back(static_cast<char>(0x80 | (c & 0x3f)));
+        }
+
+        return result;
+    }
+
     inline std::string utf32to8(const std::vector<uint32_t>& text)
     {
         std::string result;
