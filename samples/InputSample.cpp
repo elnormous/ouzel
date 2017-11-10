@@ -7,6 +7,53 @@
 using namespace std;
 using namespace ouzel;
 
+class Mover: public scene::Component
+{
+public:
+    Mover():
+        scene::Component(10)
+    {
+        eventHandler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
+        
+        engine->getEventDispatcher()->addEventHandler(&eventHandler);
+    }
+    
+    bool handleKeyboard(Event::Type type, const KeyboardEvent& event)
+    {
+        if (actor)
+        {
+            if (type == Event::Type::KEY_PRESS)
+            {
+                Vector2 position = actor->getPosition();
+                
+                switch (event.key)
+                {
+                    case input::KeyboardKey::W:
+                        position.y += 10.0f;
+                        break;
+                    case input::KeyboardKey::S:
+                        position.y -= 10.0f;
+                        break;
+                    case input::KeyboardKey::A:
+                        position.x -= 10.0f;
+                        break;
+                    case input::KeyboardKey::D:
+                        position.x += 10.0f;
+                        break;
+                    default:
+                        break;
+                }
+                
+                actor->setPosition(position);
+            }
+        }
+        
+        return true;
+    }
+    
+    ouzel::EventHandler eventHandler;
+};
+
 InputSample::InputSample():
     hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
@@ -25,6 +72,10 @@ InputSample::InputSample():
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
     cameraActor.addComponent(&camera);
+    
+    std::unique_ptr<Mover> mover(new Mover());
+    cameraActor.addComponent(std::move(mover));
+    
     layer.addChild(&cameraActor);
     addLayer(&layer);
 
@@ -53,7 +104,6 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
 {
     if (type == Event::Type::KEY_PRESS)
     {
-        Vector2 position = cameraActor.getPosition();
         Vector2 flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
         switch (event.key)
@@ -70,18 +120,6 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::RIGHT:
                 flamePosition.x += 0.01f;
                 break;
-            case input::KeyboardKey::W:
-                position.y += 10.0f;
-                break;
-            case input::KeyboardKey::S:
-                position.y -= 10.0f;
-                break;
-            case input::KeyboardKey::A:
-                position.x -= 10.0f;
-                break;
-            case input::KeyboardKey::D:
-                position.x += 10.0f;
-                break;
             case input::KeyboardKey::R:
                 engine->getWindow()->setSize(Size2(640.0f, 480.0f));
                 break;
@@ -96,8 +134,6 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             default:
                 break;
         }
-
-        cameraActor.setPosition(position);
 
         Vector2 worldLocation = camera.convertNormalizedToWorld(flamePosition);
 
