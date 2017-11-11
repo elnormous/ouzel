@@ -249,6 +249,66 @@ namespace ouzel
             return true;
         }
 
+        bool Value::storeValue(std::vector<uint8_t>& data) const
+        {
+            switch (type)
+            {
+                case Type::NUMBER:
+                {
+                    std::string value = std::to_string(doubleValue);
+                    data.insert(data.end(), value.begin(), value.end());
+                    break;
+                }
+                case Type::STRING:
+                    data.insert(data.end(), stringValue.begin(), stringValue.end());
+                    break;
+                case Type::OBJECT:
+                {
+                    data.push_back('{');
+                    
+                    bool first = true;
+                    
+                    for (const auto& value : objectValue)
+                    {
+                        if (first) first = false;
+                        else data.push_back(',');
+                        
+                        data.insert(data.end(), value.first.begin(), value.first.end());
+                        data.push_back(':');
+                        value.second.storeValue(data);
+                    }
+                    
+                    data.push_back('}');
+                    break;
+                }
+                case Type::ARRAY:
+                {
+                    data.push_back('[');
+                    
+                    bool first = true;
+                    
+                    for (const auto& value : arrayValue)
+                    {
+                        if (first) first = false;
+                        else data.push_back(',');
+                        
+                        value.storeValue(data);
+                    }
+                    
+                    data.push_back(']');
+                    break;
+                }
+                case Type::BOOLEAN:
+                    if (boolValue) data.insert(data.end(), {'t', 'r', 'u', 'e'});
+                    else data.insert(data.end(), {'f', 'a', 'l', 's', 'e'});
+                    break;
+                default:
+                    return false;
+            }
+            
+            return true;
+        }
+        
         Data::Data()
         {
         }
@@ -289,6 +349,22 @@ namespace ouzel
             return parseValue(tokens, iterator);
         }
 
+        bool Data::save(const std::string& filename) const
+        {
+            std::vector<uint8_t> data;
+            
+            if (!save(data)) return false;
+            
+            return engine->getFileSystem()->writeFile(filename, data);
+        }
+        
+        bool Data::save(std::vector<uint8_t>& data) const
+        {
+            data.clear();
+            
+            return storeValue(data);
+        }
+        
         bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
         {
             tokens.clear();

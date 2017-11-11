@@ -179,7 +179,8 @@ namespace ouzel
                              std::vector<Token>::iterator& iterator);
             bool parseArray(const std::vector<Token>& tokens,
                             std::vector<Token>::iterator& iterator);
-
+            bool storeValue(std::vector<uint8_t>& data) const;
+            
             Type type = Type::NONE;
             std::map<std::string, Value> objectValue;
             std::vector<Value> arrayValue;
@@ -201,6 +202,9 @@ namespace ouzel
 
             bool init(const std::string& filename);
             bool init(const std::vector<uint8_t>& data);
+            
+            bool save(const std::string& filename) const;
+            bool save(std::vector<uint8_t>& data) const;
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }
