@@ -353,12 +353,12 @@ namespace ouzel
         {
             std::vector<uint8_t> data;
             
-            if (!save(data)) return false;
+            if (!encode(data)) return false;
             
             return engine->getFileSystem()->writeFile(filename, data);
         }
         
-        bool Data::save(std::vector<uint8_t>& data) const
+        bool Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
             
