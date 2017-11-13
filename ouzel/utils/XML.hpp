@@ -42,6 +42,7 @@ namespace ouzel
                                             std::vector<uint32_t>::iterator& iterator);
             bool parseTag(const std::vector<uint32_t>& utf32,
                           std::vector<uint32_t>::iterator& iterator);
+            bool encodeTag(std::vector<uint8_t>& data) const;
 
             Type type = Type::NONE;
 
@@ -59,6 +60,9 @@ namespace ouzel
 
             bool init(const std::string& filename);
             bool init(const std::vector<uint8_t>& data);
+            
+            bool save(const std::string& filename) const;
+            bool encode(std::vector<uint8_t>& data) const;
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }

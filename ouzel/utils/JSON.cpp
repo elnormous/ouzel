@@ -249,7 +249,7 @@ namespace ouzel
             return true;
         }
 
-        bool Value::storeValue(std::vector<uint8_t>& data) const
+        bool Value::encodeValue(std::vector<uint8_t>& data) const
         {
             switch (type)
             {
@@ -275,7 +275,7 @@ namespace ouzel
                         
                         data.insert(data.end(), value.first.begin(), value.first.end());
                         data.push_back(':');
-                        value.second.storeValue(data);
+                        value.second.encodeValue(data);
                     }
                     
                     data.push_back('}');
@@ -292,7 +292,7 @@ namespace ouzel
                         if (first) first = false;
                         else data.push_back(',');
                         
-                        value.storeValue(data);
+                        value.encodeValue(data);
                     }
                     
                     data.push_back(']');
@@ -362,7 +362,7 @@ namespace ouzel
         {
             data.clear();
             
-            return storeValue(data);
+            return encodeValue(data);
         }
         
         bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)

@@ -177,6 +177,11 @@ namespace ouzel
             return true;
         }
 
+        bool Node::encodeTag(std::vector<uint8_t>& data) const
+        {
+            return true;
+        }
+        
         Data::Data()
         {
         }
@@ -228,6 +233,22 @@ namespace ouzel
             // TODO: parse xml declaration <?xml ... ?>
 
             return parseNode(utf32, iterator);
+        }
+        
+        bool Data::save(const std::string& filename) const
+        {
+            std::vector<uint8_t> data;
+            
+            if (!encode(data)) return false;
+            
+            return engine->getFileSystem()->writeFile(filename, data);
+        }
+        
+        bool Data::encode(std::vector<uint8_t>& data) const
+        {
+            data.clear();
+            
+            return encodeTag(data);
         }
     } // namespace xml
 }
