@@ -95,7 +95,7 @@ namespace ouzel
                                     }
                                     else
                                     {
-                                        Log(Log::Level::ERR) << "Expected >";
+                                        Log(Log::Level::ERR) << "Unexpected double-hyphen inside comment";
                                         return false;
                                     }
                                 }
