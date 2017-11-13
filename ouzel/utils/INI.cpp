@@ -74,6 +74,27 @@ namespace ouzel
             return false;
         }
 
+        bool Section::encode(std::vector<uint8_t>& data) const
+        {
+            if (!name.empty())
+            {
+                data.push_back('[');
+                data.insert(data.end(), name.begin(), name.end());
+                data.push_back(']');
+                data.push_back('\n');
+            }
+            
+            for (const auto& value : values)
+            {
+                data.insert(data.end(), value.first.begin(), value.first.end());
+                data.push_back('=');
+                data.insert(data.end(), value.second.begin(), value.second.end());
+                data.push_back('\n');
+            }
+
+            return true;
+        }
+        
         Data::Data()
         {
         }
@@ -313,7 +334,7 @@ namespace ouzel
             return true;
         }
 
-        bool Data::save(const std::string& filename)
+        bool Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
             encode(data);
@@ -321,23 +342,22 @@ namespace ouzel
             return engine->getFileSystem()->writeFile(filename, data);
         }
 
-        bool Data::encode(std::vector<uint8_t>& data)
+        bool Data::encode(std::vector<uint8_t>& data) const
         {
-            std::string result;
-
+            auto i = sections.find("");
+            if (i != sections.end())
+            {
+                i->second.encode(data);
+            }
+            
             for (const auto& section : sections)
             {
-                data.push_back('[');
-                std::copy(section.first.begin(), section.first.end(), std::back_inserter(data));
-                data.push_back(']');
-                data.push_back('\n');
-
-                for (const auto& value : section.second.values)
+                if (!section.first.empty())
                 {
-                    std::copy(value.first.begin(), value.first.end(), std::back_inserter(data));
-                    data.push_back('=');
-                    std::copy(value.second.begin(), value.second.end(), std::back_inserter(data));
-                    data.push_back('\n');
+                    if (!section.second.encode(data))
+                    {
+                        return false;
+                    }
                 }
             }
 
