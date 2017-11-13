@@ -18,11 +18,11 @@ public:
         engine->getEventDispatcher()->addEventHandler(&eventHandler);
     }
     
-    bool handleKeyboard(Event::Type type, const KeyboardEvent& event)
+    bool handleKeyboard(Event::Type eventType, const KeyboardEvent& event)
     {
         if (actor)
         {
-            if (type == Event::Type::KEY_PRESS)
+            if (eventType == Event::Type::KEY_PRESS)
             {
                 Vector2 position = actor->getPosition();
                 
