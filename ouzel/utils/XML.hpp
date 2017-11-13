@@ -32,17 +32,7 @@ namespace ouzel
         protected:
             bool parseNode(const std::vector<uint32_t>& utf32,
                             std::vector<uint32_t>::iterator& iterator);
-            bool parseComment(const std::vector<uint32_t>& utf32,
-                           std::vector<uint32_t>::iterator& iterator);
-            bool parseCData(const std::vector<uint32_t>& utf32,
-                            std::vector<uint32_t>::iterator& iterator);
-            bool parseDoctypeDefinition(const std::vector<uint32_t>& utf32,
-                                        std::vector<uint32_t>::iterator& iterator);
-            bool parseProcessingInstruction(const std::vector<uint32_t>& utf32,
-                                            std::vector<uint32_t>::iterator& iterator);
-            bool parseTag(const std::vector<uint32_t>& utf32,
-                          std::vector<uint32_t>::iterator& iterator);
-            bool encodeTag(std::vector<uint8_t>& data) const;
+            bool encodeNode(std::vector<uint8_t>& data) const;
 
             Type type = Type::NONE;
 

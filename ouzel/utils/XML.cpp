@@ -43,40 +43,86 @@ namespace ouzel
 
             if (*iterator == '<')
             {
-                if (iterator + 1 == utf32.end())
+                ++iterator;
+                
+                if (iterator == utf32.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
                 }
 
-                if (*(iterator + 1) == '!') // <!
+                if (*iterator == '!') // <!
                 {
-                    if (iterator + 2 == utf32.end())
+                    ++iterator;
+                    
+                    if (iterator == utf32.end())
                     {
                         Log(Log::Level::ERR) << "Unexpected end of file";
                         return false;
                     }
 
-                    if (*(iterator + 2) == '-') // <!-
+                    if (*iterator == '-') // <!-
                     {
-                        return parseComment(utf32, iterator);
+                        ++iterator;
+                        
+                        for (;;)
+                        {
+                            if (iterator == utf32.end())
+                            {
+                                Log(Log::Level::ERR) << "Unexpected end of file";
+                                return false;
+                            }
+
+                            if (*iterator == '-')
+                            {
+                                if (iterator + 1 == utf32.end())
+                                {
+                                    Log(Log::Level::ERR) << "Unexpected end of file";
+                                    return false;
+                                }
+                                
+                                if (*(iterator + 1) == '-') // --
+                                {
+                                    if (iterator + 2 == utf32.end())
+                                    {
+                                        Log(Log::Level::ERR) << "Unexpected end of file";
+                                        return false;
+                                    }
+                                    
+                                    if (*(iterator + 2) == '>') // -->
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Log(Log::Level::ERR) << "Expected >";
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            value += utf32to8(*iterator);
+                            ++iterator;
+                        }
+                        
+                        type = Type::COMMENT;
                     }
-                    else if (*(iterator + 2) == '[') // <![
+                    else if (*iterator == '[') // <![
                     {
-                        return parseCData(utf32, iterator);
+                        return true;
                     }
                     else
                     {
-                        return parseDoctypeDefinition(utf32, iterator);
+                        return true;
                     }
                 }
-                else if (*(iterator + 1) == '?') // <?
+                else if (*iterator == '?') // <?
                 {
-                    return parseProcessingInstruction(utf32, iterator);
+                    return true;
                 }
                 else // <
                 {
-                    return parseTag(utf32, iterator);
+                    return true;
                 }
             }
             else
@@ -88,96 +134,7 @@ namespace ouzel
             return true;
         }
 
-        bool Node::parseComment(const std::vector<uint32_t>& utf32,
-                                std::vector<uint32_t>::iterator& iterator)
-        {
-            if (utf32.end() - iterator < commentStart.end() - commentStart.begin())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of file";
-                return false;
-            }
-
-            if (!std::equal(commentStart.begin(), commentStart.end(), iterator))
-            {
-                Log(Log::Level::ERR) << "Expected start of a comment";
-                return false;
-            }
-
-            iterator += commentStart.end() - commentStart.begin();
-
-            for (;;)
-            {
-                if (iterator == utf32.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
-                if (*iterator == '-' &&
-                    iterator + 1 != utf32.end() &&
-                    *(iterator + 1) == '-')
-                {
-                    if (utf32.end() - iterator < commentEnd.end() - commentEnd.begin())
-                    {
-                        Log(Log::Level::ERR) << "Unexpected end of file";
-                        return false;
-                    }
-
-                    if (!std::equal(commentEnd.begin(), commentEnd.end(), iterator))
-                    {
-                        Log(Log::Level::ERR) << "Expected end of a comment";
-                        return false;
-                    }
-
-                    break;
-                }
-                else
-                {
-                    value += utf32to8(*iterator);
-                    ++iterator;
-                }
-            }
-
-            type = Type::COMMENT;
-            return true;
-        }
-
-        bool Node::parseCData(const std::vector<uint32_t>& utf32,
-                              std::vector<uint32_t>::iterator& iterator)
-        {
-            // TODO: parse CDATA <![CDATA[
-
-            type = Type::CDATA;
-            return true;
-        }
-
-        bool Node::parseDoctypeDefinition(const std::vector<uint32_t>& utf32,
-                                          std::vector<uint32_t>::iterator& iterator)
-        {
-            // TODO: parse doctype (DTD) <!
-
-            type = Type::DOCTYPE_DEFINITION;
-            return true;
-        }
-
-        bool Node::parseProcessingInstruction(const std::vector<uint32_t>& utf32,
-                                              std::vector<uint32_t>::iterator& iterator)
-        {
-            // TODO: parse processing instruction <?
-
-            type = Type::PROCESSING_INSTRUCTION;
-            return true;
-        }
-
-        bool Node::parseTag(const std::vector<uint32_t>& utf32,
-                            std::vector<uint32_t>::iterator& iterator)
-        {
-            // TODO: parse until whitespace
-            type = Type::TAG;
-            return true;
-        }
-
-        bool Node::encodeTag(std::vector<uint8_t>& data) const
+        bool Node::encodeNode(std::vector<uint8_t>& data) const
         {
             return true;
         }
@@ -248,7 +205,7 @@ namespace ouzel
         {
             data.clear();
             
-            return encodeTag(data);
+            return encodeNode(data);
         }
     } // namespace xml
 }
