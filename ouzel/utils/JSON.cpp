@@ -498,7 +498,7 @@ namespace ouzel
                             }
                             // TODO: handle numeric character references
                         }
-                        else if (*i == '\n')
+                        else if (*i == '\n' || *i == '\r')
                         {
                             Log(Log::Level::ERR) << "Unterminated string literal";
                             return false;
@@ -551,12 +551,7 @@ namespace ouzel
                     token.value.push_back(*i);
                     ++i;
                 }
-                else if (*i == '\n')
-                {
-                    ++i;
-                    continue;
-                }
-                else if (*i == ' ' || *i == '\t' || *i == '\r') // whitespace
+                else if (*i == ' ' || *i == '\t' || *i == '\n' || *i == '\r') // whitespace
                 {
                     ++i;
                     continue;

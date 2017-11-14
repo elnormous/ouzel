@@ -177,7 +177,7 @@ namespace ouzel
 
                     for (;;)
                     {
-                        if (i == utf32.end() || *i == '\r' || *i == '\n')
+                        if (i == utf32.end() || *i == '\n' || *i == '\r')
                         {
                             if (!parsedSection)
                             {
@@ -199,7 +199,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (i == utf32.end() || *i == '\r' || *i == '\n')
+                                if (i == utf32.end() || *i == '\n' || *i == '\r')
                                 {
                                     ++i; // skip the newline
                                     break;
