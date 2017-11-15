@@ -122,6 +122,22 @@ namespace ouzel
                 }
                 else // <
                 {
+                    ++iterator;
+                    
+                    for (;;)
+                    {
+                        if (iterator == utf32.end())
+                        {
+                            Log(Log::Level::ERR) << "Unexpected end of file";
+                            return false;
+                        }
+                        
+                        if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t') // whitespace
+                        {
+                            
+                        }
+                    }
+                    
                     return true;
                 }
             }
