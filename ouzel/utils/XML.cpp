@@ -131,10 +131,14 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
                         }
-                        
+
                         if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t') // whitespace
                         {
                             
+                        }
+                        else
+                        {
+                            value += utf32to8(*iterator);
                         }
                     }
                     
@@ -159,17 +163,17 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename)
+        Data::Data(const std::string& filename, bool preserveComments, bool preserveDeclaration)
         {
-            init(filename);
+            init(filename, preserveComments, preserveDeclaration);
         }
 
-        Data::Data(const std::vector<uint8_t>& data)
+        Data::Data(const std::vector<uint8_t>& data, bool preserveComments, bool preserveDeclaration)
         {
-            init(data);
+            init(data, preserveComments, preserveDeclaration);
         }
 
-        bool Data::init(const std::string& filename)
+        bool Data::init(const std::string& filename, bool preserveComments, bool preserveDeclaration)
         {
             std::vector<uint8_t> data;
 
@@ -178,10 +182,10 @@ namespace ouzel
                 return false;
             }
 
-            return init(data);
+            return init(data, preserveComments, preserveDeclaration);
         }
 
-        bool Data::init(const std::vector<uint8_t>& data)
+        bool Data::init(const std::vector<uint8_t>& data, bool preserveComments, bool preserveDeclaration)
         {
             std::vector<uint32_t> utf32;
 
