@@ -17,7 +17,6 @@ namespace ouzel
             enum class Type
             {
                 NONE,
-                DECLARATION,
                 COMMENT,
                 CDATA,
                 DOCTYPE_DEFINITION,
@@ -50,11 +49,11 @@ namespace ouzel
         {
         public:
             Data();
-            Data(const std::string& filename, bool preserveComments = false, bool preserveDeclaration = false);
-            Data(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveDeclaration = false);
+            Data(const std::string& filename, bool preserveComments = false, bool preserveProcessingInstructions = false);
+            Data(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveProcessingInstructions = false);
 
-            bool init(const std::string& filename, bool preserveComments = false, bool preserveDeclaration = false);
-            bool init(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveDeclaration = false);
+            bool init(const std::string& filename, bool preserveComments = false, bool preserveProcessingInstructions = false);
+            bool init(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveProcessingInstructions = false);
             
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;

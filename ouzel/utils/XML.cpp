@@ -157,6 +157,29 @@ namespace ouzel
 
         bool Node::encode(std::vector<uint8_t>& data) const
         {
+            switch (type)
+            {
+                case Node::Type::COMMENT:
+                    break;
+                case Node::Type::CDATA:
+                    break;
+                case Node::Type::DOCTYPE_DEFINITION:
+                    break;
+                case Node::Type::PROCESSING_INSTRUCTION:
+                    break;
+                case Node::Type::TAG:
+                    break;
+                case Node::Type::TEXT:
+                    break;
+                default:
+                    return false;
+            }
+
+            for (const Node& node : children)
+            {
+                node.encode(data);
+            }
+
             return true;
         }
         
@@ -164,17 +187,17 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename, bool preserveComments, bool preserveDeclaration)
+        Data::Data(const std::string& filename, bool preserveComments, bool preserveProcessingInstructions)
         {
-            init(filename, preserveComments, preserveDeclaration);
+            init(filename, preserveComments, preserveProcessingInstructions);
         }
 
-        Data::Data(const std::vector<uint8_t>& data, bool preserveComments, bool preserveDeclaration)
+        Data::Data(const std::vector<uint8_t>& data, bool preserveComments, bool preserveProcessingInstructions)
         {
-            init(data, preserveComments, preserveDeclaration);
+            init(data, preserveComments, preserveProcessingInstructions);
         }
 
-        bool Data::init(const std::string& filename, bool preserveComments, bool preserveDeclaration)
+        bool Data::init(const std::string& filename, bool preserveComments, bool preserveProcessingInstructions)
         {
             std::vector<uint8_t> data;
 
@@ -183,10 +206,10 @@ namespace ouzel
                 return false;
             }
 
-            return init(data, preserveComments, preserveDeclaration);
+            return init(data, preserveComments, preserveProcessingInstructions);
         }
 
-        bool Data::init(const std::vector<uint8_t>& data, bool preserveComments, bool preserveDeclaration)
+        bool Data::init(const std::vector<uint8_t>& data, bool preserveComments, bool preserveProcessingInstructions)
         {
             std::vector<uint32_t> utf32;
 
@@ -217,7 +240,7 @@ namespace ouzel
                 }
 
                 if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
-                    (preserveDeclaration || node.getType() != Node::Type::DECLARATION))
+                    (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))
                 {
                     children.push_back(node);
                 }
