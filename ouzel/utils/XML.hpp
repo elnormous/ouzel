@@ -28,13 +28,17 @@ namespace ouzel
 
             Node();
 
+            Type getType() const { return type; }
+
             const std::string& getValue() const { return value; }
 
-        protected:
-            bool parseNode(const std::vector<uint32_t>& utf32,
-                            std::vector<uint32_t>::iterator& iterator);
-            bool encodeNode(std::vector<uint8_t>& data) const;
+            const std::vector<Node>& getChildren() const { return children; }
 
+            bool parse(const std::vector<uint32_t>& utf32,
+                       std::vector<uint32_t>::iterator& iterator);
+            bool encode(std::vector<uint8_t>& data) const;
+
+        protected:
             Type type = Type::NONE;
 
             std::string value;
@@ -42,7 +46,7 @@ namespace ouzel
             std::vector<Node> children;
         };
 
-        class Data: public Node
+        class Data
         {
         public:
             Data();
@@ -58,9 +62,11 @@ namespace ouzel
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }
 
-        protected:
+            const std::vector<Node>& getChildren() const { return children; }
 
+        protected:
             bool bom = false;
+            std::vector<Node> children;
         };
     } // namespace xml
 }

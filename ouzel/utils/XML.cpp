@@ -32,8 +32,8 @@ namespace ouzel
         {
         }
 
-        bool Node::parseNode(const std::vector<uint32_t>& utf32,
-                             std::vector<uint32_t>::iterator& iterator)
+        bool Node::parse(const std::vector<uint32_t>& utf32,
+                         std::vector<uint32_t>::iterator& iterator)
         {
             if (iterator == utf32.end())
             {
@@ -118,6 +118,7 @@ namespace ouzel
                 }
                 else if (*iterator == '?') // <?
                 {
+                    // TODO: parse xml declaration <?xml ... ?>
                     return true;
                 }
                 else // <
@@ -134,7 +135,7 @@ namespace ouzel
 
                         if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t') // whitespace
                         {
-                            
+                            break;
                         }
                         else
                         {
@@ -154,7 +155,7 @@ namespace ouzel
             return true;
         }
 
-        bool Node::encodeNode(std::vector<uint8_t>& data) const
+        bool Node::encode(std::vector<uint8_t>& data) const
         {
             return true;
         }
@@ -207,9 +208,24 @@ namespace ouzel
 
             std::vector<uint32_t>::iterator iterator = utf32.begin();
 
-            // TODO: parse xml declaration <?xml ... ?>
+            while (iterator != utf32.end())
+            {
+                Node node;
+                if (!node.parse(utf32, iterator))
+                {
+                    return false;
+                }
 
-            return parseNode(utf32, iterator);
+                if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
+                    (preserveDeclaration || node.getType() != Node::Type::DECLARATION))
+                {
+                    children.push_back(node);
+                }
+            }
+
+            // TODO: check if only single tag is in the children list
+
+            return true;
         }
         
         bool Data::save(const std::string& filename) const
@@ -225,7 +241,12 @@ namespace ouzel
         {
             data.clear();
             
-            return encodeNode(data);
+            for (const Node& node : children)
+            {
+                if (!node.encode(data)) return false;
+            }
+
+            return true;
         }
     } // namespace xml
 }
