@@ -361,7 +361,9 @@ namespace ouzel
         bool Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
-            
+
+            if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
+
             return encodeValue(data);
         }
         
@@ -378,8 +380,7 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                std::vector<uint8_t> newData(data.begin() + 3, data.end());
-                utf32 = utf8to32(newData);
+                utf32 = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
