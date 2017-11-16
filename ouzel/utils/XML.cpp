@@ -100,6 +100,11 @@ namespace ouzel
                                     }
                                 }
                             }
+                            else
+                            {
+                                Log(Log::Level::ERR) << "Expected a comment";
+                                return false;
+                            }
 
                             value += utf32to8(*iterator);
                             ++iterator;
@@ -160,6 +165,9 @@ namespace ouzel
             switch (type)
             {
                 case Node::Type::COMMENT:
+                    data.insert(data.end(), {'<', '!', '-', '-'});
+                    data.insert(data.end(), value.begin(), value.end());
+                    data.insert(data.end(), {'-', '-', '>'});
                     break;
                 case Node::Type::CDATA:
                     break;
