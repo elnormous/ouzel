@@ -176,14 +176,60 @@ namespace ouzel
                 case Node::Type::PROCESSING_INSTRUCTION:
                     data.insert(data.end(), {'<', '?'});
                     data.insert(data.end(), value.begin(), value.end());
-                    data.insert(data.end(), ' ');
+
+                    if (attributes.empty())
+                    {
+                        data.insert(data.end(), ' ');
+                    }
+                    else
+                    {
+                        for (const auto& attribute : attributes)
+                        {
+                            data.insert(data.end(), attribute.first.begin(), attribute.first.end());
+                            data.insert(data.end(), {'=', '"'});
+                            data.insert(data.end(), attribute.second.begin(), attribute.second.end());
+                            data.insert(data.end(), '"');
+                        }
+                    }
+
                     data.insert(data.end(), {'?', '>'});
                     break;
                 case Node::Type::TAG:
                     data.insert(data.end(), '<');
                     data.insert(data.end(), value.begin(), value.end());
-                    data.insert(data.end(), ' ');
-                    data.insert(data.end(), '>');
+
+                    if (attributes.empty())
+                    {
+                        data.insert(data.end(), ' ');
+                    }
+                    else
+                    {
+                        for (const auto& attribute : attributes)
+                        {
+                            data.insert(data.end(), attribute.first.begin(), attribute.first.end());
+                            data.insert(data.end(), {'=', '"'});
+                            data.insert(data.end(), attribute.second.begin(), attribute.second.end());
+                            data.insert(data.end(), '"');
+                        }
+                    }
+
+                    if (children.empty())
+                    {
+                        data.insert(data.end(), {'/', '>'});
+                    }
+                    else
+                    {
+                        data.insert(data.end(), '>');
+
+                        for (const Node& node : children)
+                        {
+                            node.encode(data);
+                        }
+
+                        data.insert(data.end(), {'<', '/'});
+                        data.insert(data.end(), value.begin(), value.end());
+                        data.insert(data.end(), '>');
+                    }
                     break;
                 case Node::Type::TEXT:
                     data.insert(data.end(), value.begin(), value.end());
