@@ -174,10 +174,19 @@ namespace ouzel
                 case Node::Type::DOCTYPE_DEFINITION:
                     break;
                 case Node::Type::PROCESSING_INSTRUCTION:
+                    data.insert(data.end(), {'<', '?'});
+                    data.insert(data.end(), value.begin(), value.end());
+                    data.insert(data.end(), ' ');
+                    data.insert(data.end(), {'?', '>'});
                     break;
                 case Node::Type::TAG:
+                    data.insert(data.end(), '<');
+                    data.insert(data.end(), value.begin(), value.end());
+                    data.insert(data.end(), ' ');
+                    data.insert(data.end(), '>');
                     break;
                 case Node::Type::TEXT:
+                    data.insert(data.end(), value.begin(), value.end());
                     break;
                 default:
                     return false;
