@@ -80,14 +80,17 @@ namespace ouzel
                                 
                                 if (*(iterator + 1) == '-') // --
                                 {
-                                    if (iterator + 2 == utf32.end())
+                                    iterator += 2;
+
+                                    if (iterator == utf32.end())
                                     {
                                         Log(Log::Level::ERR) << "Unexpected end of file";
                                         return false;
                                     }
                                     
-                                    if (*(iterator + 2) == '>') // -->
+                                    if (*iterator == '>') // -->
                                     {
+                                        ++iterator;
                                         break;
                                     }
                                     else
@@ -137,16 +140,32 @@ namespace ouzel
                         else
                         {
                             value += utf32to8(*iterator);
+                            ++iterator;
                         }
                     }
-                    
+
                     return true;
                 }
             }
             else
             {
-                Log(Log::Level::ERR) << "Expected start of a tag";
-                return false;
+                for (;;)
+                {
+                    if (iterator == utf32.end() || // end of a file
+                        *iterator == '<') // start of a tag
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        value += utf32to8(*iterator);
+                        ++iterator;
+                    }
+                }
+
+                type = Node::Type::TEXT;
+
+                return true;
             }
 
             return true;
