@@ -47,7 +47,21 @@ namespace ouzel
                     if (*iterator == '-') // <!-
                     {
                         ++iterator;
-                        
+
+                        if (iterator == utf32.end())
+                        {
+                            Log(Log::Level::ERR) << "Unexpected end of file";
+                            return false;
+                        }
+
+                        if (*iterator != '-') // <!--
+                        {
+                            Log(Log::Level::ERR) << "Expected a comment";
+                            return false;
+                        }
+
+                        ++iterator;
+
                         for (;;)
                         {
                             if (iterator == utf32.end())
@@ -82,11 +96,6 @@ namespace ouzel
                                         return false;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                Log(Log::Level::ERR) << "Expected a comment";
-                                return false;
                             }
 
                             value += utf32to8(*iterator);
