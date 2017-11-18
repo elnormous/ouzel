@@ -389,9 +389,9 @@ namespace ouzel
             }
 
             static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
-                {{0x74, 0x72, 0x75, 0x65}, Token::Type::KEYWORD_TRUE},
-                {{0x66, 0x61, 0x6c, 0x73, 0x65}, Token::Type::KEYWORD_FALSE},
-                {{0x6e, 0x75, 0x6c, 0x6c}, Token::Type::KEYWORD_NULL}
+                {{'t', 'r', 'u', 'e'}, Token::Type::KEYWORD_TRUE},
+                {{'f', 'a', 'l', 's', 'e'}, Token::Type::KEYWORD_FALSE},
+                {{'n', 'u', 'l', 'l'}, Token::Type::KEYWORD_NULL}
             };
 
             // tokenize

@@ -7,23 +7,6 @@
 #include "Log.hpp"
 #include "Utils.hpp"
 
-static const std::vector<uint32_t> commentStart = {0x3c, 0x21, 0x2d, 0x2d}; // <!--
-static const std::vector<uint32_t> commentEnd = {0x2d, 0x2d, 0x3e}; // -->
-
-static const std::vector<uint32_t> cDataStart = {0x3c, 0x21, 0x5b, 0x43, 0x44, 0x41, 0x54, 0x41, 0x5b}; // <![CDATA[
-static const std::vector<uint32_t> cDataEnd = {0x5d, 0x5d, 0x3e}; // ]]>
-
-static const std::vector<uint32_t> doctypeStart = {0x3c, 0x21}; // <!
-static const std::vector<uint32_t> doctypeEnd = {0x3e}; // >
-static const std::vector<uint32_t> doctypeListStart = {0x5b}; // [
-static const std::vector<uint32_t> doctypeListEnd = {0x5d}; // ]
-
-static const std::vector<uint32_t> processingInstructionStart = {0x3c, 0x3f}; // <?
-static const std::vector<uint32_t> processingInstructionEnd = {0x3f, 0x3e}; // ?>
-
-static const std::vector<uint32_t> tagStart = {0x3c}; // <
-static const std::vector<uint32_t> tagEnd = {0x3e}; // >
-
 namespace ouzel
 {
     namespace xml
