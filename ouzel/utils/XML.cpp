@@ -144,6 +144,33 @@ namespace ouzel
                         }
                     }
 
+                    for (;;)
+                    {
+                        // skip whitespaces
+                        for (;;)
+                        {
+                            if (iterator == utf32.end())
+                            {
+                                Log(Log::Level::ERR) << "Unexpected end of file";
+                                return false;
+                            }
+
+                            if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t')
+                            {
+                                ++iterator;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        // TODO: parse attributes
+                    }
+
+                    // TODO: parse end of tag
+                    // TODO: parse child tags
+
                     return true;
                 }
             }
