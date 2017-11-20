@@ -133,6 +133,12 @@ namespace ouzel
                             return false;
                         }
 
+                        if (*iterator == '=' || *iterator == '<')
+                        {
+                            Log(Log::Level::ERR) << "Illegal character in tag name";
+                            return false;
+                        }
+
                         if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t') // whitespace
                         {
                             break;
