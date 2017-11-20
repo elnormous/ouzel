@@ -91,6 +91,8 @@ namespace ouzel
 
     bool Engine::init()
     {
+        setCurrentThreadName("Main");
+
 #if OUZEL_PLATFORM_MACOS
         fileSystem.reset(new FileSystemMacOS());
 #elif OUZEL_PLATFORM_IOS

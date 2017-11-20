@@ -131,7 +131,8 @@ namespace ouzel
                         return false;
                     }
 
-                    if (*iterator == '-' || *iterator == '.') // tag name can not start with - or .
+                    if (*iterator == '-' || *iterator == '.' || // tag name can not start with - or .
+                        (*iterator >= '0' && *iterator <= '9'))
                     {
                         Log(Log::Level::ERR) << "Invalid tag name";
                         return false;
@@ -185,6 +186,7 @@ namespace ouzel
                         }
 
                         // TODO: parse attributes
+                        break;
                     }
 
                     // TODO: parse end of tag
