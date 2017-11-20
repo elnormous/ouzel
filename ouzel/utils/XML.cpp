@@ -124,7 +124,19 @@ namespace ouzel
                 else // <
                 {
                     ++iterator;
-                    
+
+                    if (iterator == utf32.end())
+                    {
+                        Log(Log::Level::ERR) << "Unexpected end of file";
+                        return false;
+                    }
+
+                    if (*iterator == '-' || *iterator == '.') // tag name can not start with - or .
+                    {
+                        Log(Log::Level::ERR) << "Invalid tag name";
+                        return false;
+                    }
+
                     for (;;)
                     {
                         if (iterator == utf32.end())
@@ -133,13 +145,14 @@ namespace ouzel
                             return false;
                         }
 
-                        if (*iterator == '=' || *iterator == '<')
+                        if (*iterator == '+' || *iterator == '=' || *iterator == '<')
                         {
                             Log(Log::Level::ERR) << "Illegal character in tag name";
                             return false;
                         }
 
-                        if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t') // whitespace
+                        if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t' || // whitespace
+                            *iterator == '>') // end of the opening
                         {
                             break;
                         }
