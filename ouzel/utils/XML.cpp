@@ -336,7 +336,8 @@ namespace ouzel
                 }
 
                 if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t' || // whitespace
-                    *iterator == '+' || *iterator == '=' || *iterator == '<' || *iterator == '>') // end of the opening
+                    *iterator == '+' || *iterator == '=' || *iterator == '<' || *iterator == '>' || // end of the opening
+                    *iterator == '\'' || *iterator == '"') // quotes
                 {
                     break;
                 }
