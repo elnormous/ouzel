@@ -119,7 +119,12 @@ namespace ouzel
                 }
                 else if (*iterator == '?') // <?
                 {
-                    // TODO: parse xml declaration <?xml ... ?>
+                    if (!parseName(utf32, iterator, value)) return false;
+
+                    // TODO: parse attributes
+
+                    type = Type::PROCESSING_INSTRUCTION;
+
                     return true;
                 }
                 else // <
@@ -237,8 +242,8 @@ namespace ouzel
                                     return false;
                                 }
 
-                                if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
-                                    (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))
+                                if ((preserveComments || node.getType() != Type::COMMENT) &&
+                                    (preserveProcessingInstructions || node.getType() != Type::PROCESSING_INSTRUCTION))
                                 {
                                     children.push_back(node);
                                 }
@@ -246,7 +251,7 @@ namespace ouzel
                         }
                     }
 
-                    type = Node::Type::TAG;
+                    type = Type::TAG;
 
                     return true;
                 }
@@ -267,7 +272,7 @@ namespace ouzel
                     }
                 }
 
-                type = Node::Type::TEXT;
+                type = Type::TEXT;
 
                 return true;
             }
@@ -397,8 +402,10 @@ namespace ouzel
                 return false;
             }
 
-            if (*iterator == '-' || *iterator == '.' || // tag name can not start with - or .
-                (*iterator >= '0' && *iterator <= '9'))
+            if (*iterator < 128 &&
+                !(*iterator >= 'a' && *iterator <= 'z') && // name must start with a letter
+                !(*iterator >= 'A' && *iterator <= 'Z') &&
+                *iterator != '_') // or underscore
             {
                 Log(Log::Level::ERR) << "Invalid name";
                 return false;
@@ -412,9 +419,11 @@ namespace ouzel
                     return false;
                 }
 
-                if (*iterator == ' ' || *iterator == '\r' || *iterator == '\n' || *iterator == '\t' || // whitespace
-                    *iterator == '+' || *iterator == '=' || *iterator == '<' || *iterator == '>' || // end of the opening
-                    *iterator == '\'' || *iterator == '"') // quotes
+                if (*iterator < 128 &&
+                    !(*iterator >= 'a' && *iterator <= 'z') &&
+                    !(*iterator >= 'A' && *iterator <= 'Z') &&
+                    *iterator != '_' && *iterator != '-' && *iterator != '.' &&
+                    !(*iterator >= '0' && *iterator <= '9'))
                 {
                     break;
                 }
