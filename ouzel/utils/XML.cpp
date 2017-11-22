@@ -127,6 +127,8 @@ namespace ouzel
 
                     if (!parseName(utf32, iterator, value)) return false;
 
+                    bool tagClosed = false;
+
                     for (;;)
                     {
                         if (!skipWhitespaces(utf32, iterator)) return false;
@@ -137,8 +139,29 @@ namespace ouzel
                             return false;
                         }
 
-                        if (*iterator == '/' || *iterator == '>')
+                        if (*iterator == '>')
                         {
+                            ++iterator;
+                            break;
+                        }
+                        else if (*iterator == '/')
+                        {
+                            ++iterator;
+
+                            if (iterator == utf32.end())
+                            {
+                                Log(Log::Level::ERR) << "Unexpected end of file";
+                                return false;
+                            }
+
+                            if (*iterator != '>')
+                            {
+                                Log(Log::Level::ERR) << "Expected a right angle bracket";
+                                return false;
+                            }
+
+                            tagClosed = true;
+                            ++iterator;
                             break;
                         }
 
@@ -168,8 +191,11 @@ namespace ouzel
                         break;
                     }
 
-                    // TODO: parse end of tag
-                    // TODO: parse child tags
+                    if (!tagClosed)
+                    {
+                        // TODO: parse child tags
+                        // TODO: parse end of tag
+                    }
 
                     return true;
                 }
