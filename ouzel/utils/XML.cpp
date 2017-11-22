@@ -444,6 +444,30 @@ namespace ouzel
             return true;
         }
 
+        static bool isNameStartChar(uint32_t c)
+        {
+            return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_' ||
+                (c >= 0xC0 && c <= 0xD6) ||
+                (c >= 0xD8 && c <= 0xF6) ||
+                (c >= 0xF8 && c <= 0x2FF) ||
+                (c >= 0x370 && c <= 0x37D) ||
+                (c >= 0x37F && c <= 0x1FFF) ||
+                (c >= 0x200C && c <= 0x200D) ||
+                (c >= 0x2070 && c <= 0x218F);
+        }
+
+        static bool isNameChar(uint32_t c)
+        {
+            return isNameStartChar(c) ||
+                c == '-' || c == '.' ||
+                (c >= '0' && c <= '9') ||
+                c == 0xB7 ||
+                (c >= 0x0300 && c <= 0x036F) ||
+                (c >= 0x203F && c <= 0x2040);
+        }
+
         bool Node::parseName(const std::vector<uint32_t>& utf32,
                              std::vector<uint32_t>::iterator& iterator,
                              std::string& result)
@@ -456,12 +480,9 @@ namespace ouzel
                 return false;
             }
 
-            if (*iterator < 128 &&
-                !(*iterator >= 'a' && *iterator <= 'z') && // name must start with a letter
-                !(*iterator >= 'A' && *iterator <= 'Z') &&
-                *iterator != '_') // or underscore
+            if (!isNameStartChar(*iterator))
             {
-                Log(Log::Level::ERR) << "Invalid name";
+                Log(Log::Level::ERR) << "Invalid name start";
                 return false;
             }
 
@@ -473,11 +494,7 @@ namespace ouzel
                     return false;
                 }
 
-                if (*iterator < 128 &&
-                    !(*iterator >= 'a' && *iterator <= 'z') &&
-                    !(*iterator >= 'A' && *iterator <= 'Z') &&
-                    *iterator != '_' && *iterator != '-' && *iterator != '.' &&
-                    !(*iterator >= '0' && *iterator <= '9'))
+                if (!isNameChar(*iterator))
                 {
                     break;
                 }
