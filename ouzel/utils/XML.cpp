@@ -428,27 +428,27 @@ namespace ouzel
         static bool isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            c == '_' ||
-            (c >= 0xC0 && c <= 0xD6) ||
-            (c >= 0xD8 && c <= 0xF6) ||
-            (c >= 0xF8 && c <= 0x2FF) ||
-            (c >= 0x370 && c <= 0x37D) ||
-            (c >= 0x37F && c <= 0x1FFF) ||
-            (c >= 0x200C && c <= 0x200D) ||
-            (c >= 0x2070 && c <= 0x218F);
+                (c >= 'A' && c <= 'Z') ||
+                c == '_' ||
+                (c >= 0xC0 && c <= 0xD6) ||
+                (c >= 0xD8 && c <= 0xF6) ||
+                (c >= 0xF8 && c <= 0x2FF) ||
+                (c >= 0x370 && c <= 0x37D) ||
+                (c >= 0x37F && c <= 0x1FFF) ||
+                (c >= 0x200C && c <= 0x200D) ||
+                (c >= 0x2070 && c <= 0x218F);
         }
 
         static bool isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
-            c == '-' || c == '.' ||
-            (c >= '0' && c <= '9') ||
-            c == 0xB7 ||
-            (c >= 0x0300 && c <= 0x036F) ||
-            (c >= 0x203F && c <= 0x2040);
+                c == '-' || c == '.' ||
+                (c >= '0' && c <= '9') ||
+                c == 0xB7 ||
+                (c >= 0x0300 && c <= 0x036F) ||
+                (c >= 0x203F && c <= 0x2040);
         }
-        
+
         bool Node::skipWhitespaces(const std::vector<uint32_t>& utf32,
                                    std::vector<uint32_t>::iterator& iterator)
         {
