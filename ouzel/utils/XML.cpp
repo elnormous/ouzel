@@ -16,7 +16,8 @@ namespace ouzel
         }
 
         bool Node::parse(const std::vector<uint32_t>& utf32,
-                         std::vector<uint32_t>::iterator& iterator)
+                         std::vector<uint32_t>::iterator& iterator,
+                         bool preserveComments, bool preserveProcessingInstructions)
         {
             if (iterator == utf32.end())
             {
@@ -123,8 +124,6 @@ namespace ouzel
                 }
                 else // <
                 {
-                    ++iterator;
-
                     if (!parseName(utf32, iterator, value)) return false;
 
                     bool tagClosed = false;
@@ -199,26 +198,14 @@ namespace ouzel
                                 return false;
                             }
 
-                            if (*iterator == '<')
+                            if (*iterator == '<' && iterator + 1 != utf32.end() &&
+                                *(iterator + 1) == '/')
                             {
-                                ++iterator;
-
-                                if (iterator == utf32.end())
-                                {
-                                    Log(Log::Level::ERR) << "Unexpected end of file";
-                                    return false;
-                                }
-
-                                if (*iterator != '/')
-                                {
-                                    Log(Log::Level::ERR) << "Expected a slash";
-                                    return false;
-                                }
-
-                                ++iterator;
+                                ++iterator; // skip the left angle bracket
+                                ++iterator; // skip the slash
 
                                 std::string tag;
-                                if (parseName(utf32, iterator, tag)) return false;
+                                if (!parseName(utf32, iterator, tag)) return false;
 
                                 if (tag != value)
                                 {
@@ -242,10 +229,24 @@ namespace ouzel
 
                                 break;
                             }
+                            else
+                            {
+                                Node node;
+                                if (!node.parse(utf32, iterator, preserveComments, preserveProcessingInstructions))
+                                {
+                                    return false;
+                                }
 
-                            // TODO: parse child tags
+                                if ((preserveComments || node.getType() != Node::Type::COMMENT) &&
+                                    (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))
+                                {
+                                    children.push_back(node);
+                                }
+                            }
                         }
                     }
+
+                    type = Node::Type::TAG;
 
                     return true;
                 }
@@ -515,12 +516,14 @@ namespace ouzel
                 utf32 = utf8to32(data);
             }
 
+            bool rootTagFound = false;
+
             std::vector<uint32_t>::iterator iterator = utf32.begin();
 
             while (iterator != utf32.end())
             {
                 Node node;
-                if (!node.parse(utf32, iterator))
+                if (!node.parse(utf32, iterator, preserveComments, preserveProcessingInstructions))
                 {
                     return false;
                 }
@@ -529,7 +532,26 @@ namespace ouzel
                     (preserveProcessingInstructions || node.getType() != Node::Type::PROCESSING_INSTRUCTION))
                 {
                     children.push_back(node);
+
+                    if (node.getType() == Node::Type::TAG)
+                    {
+                        if (rootTagFound)
+                        {
+                            Log(Log::Level::ERR) << "Multiple root tags found";
+                            return false;
+                        }
+                        else
+                        {
+                            rootTagFound = true;
+                        }
+                    }
                 }
+            }
+
+            if (!rootTagFound)
+            {
+                Log(Log::Level::ERR) << "No root tag found";
+                return false;
             }
 
             // TODO: check if only single tag is in the children list
