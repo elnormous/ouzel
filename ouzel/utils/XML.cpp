@@ -119,9 +119,63 @@ namespace ouzel
                 }
                 else if (*iterator == '?') // <?
                 {
+                    ++iterator;
+
                     if (!parseName(utf32, iterator, value)) return false;
 
-                    // TODO: parse attributes
+                    for (;;)
+                    {
+                        if (!skipWhitespaces(utf32, iterator)) return false;
+
+                        if (iterator == utf32.end())
+                        {
+                            Log(Log::Level::ERR) << "Unexpected end of file";
+                            return false;
+                        }
+
+                        if (*iterator == '?')
+                        {
+                            ++iterator;
+
+                            if (iterator == utf32.end())
+                            {
+                                Log(Log::Level::ERR) << "Unexpected end of file";
+                                return false;
+                            }
+
+                            if (*iterator != '>') // ?>
+                            {
+                                Log(Log::Level::ERR) << "Expected a right angle bracket";
+                                return false;
+                            }
+
+                            ++iterator;
+                            break;
+                        }
+
+                        std::string attribute;
+                        if (!parseName(utf32, iterator, attribute)) return false;
+
+                        if (!skipWhitespaces(utf32, iterator)) return false;
+
+                        if (iterator == utf32.end())
+                        {
+                            Log(Log::Level::ERR) << "Unexpected end of file";
+                            return false;
+                        }
+
+                        if (*iterator != '=')
+                        {
+                            Log(Log::Level::ERR) << "Expected an equal sign";
+                            return false;
+                        }
+
+                        ++iterator;
+                        
+                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        
+                        if (!parseString(utf32, iterator, attributes[attribute])) return false;
+                    }
 
                     type = Type::PROCESSING_INSTRUCTION;
 
@@ -158,7 +212,7 @@ namespace ouzel
                                 return false;
                             }
 
-                            if (*iterator != '>')
+                            if (*iterator != '>') // />
                             {
                                 Log(Log::Level::ERR) << "Expected a right angle bracket";
                                 return false;
