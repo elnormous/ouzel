@@ -429,7 +429,7 @@ namespace ouzel
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
-                c == '_' ||
+                c == ':' || c == '_' ||
                 (c >= 0xC0 && c <= 0xD6) ||
                 (c >= 0xD8 && c <= 0xF6) ||
                 (c >= 0xF8 && c <= 0x2FF) ||
