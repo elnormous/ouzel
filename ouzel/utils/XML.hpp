@@ -39,17 +39,6 @@ namespace ouzel
             bool encode(std::vector<uint8_t>& data) const;
 
         protected:
-            bool skipWhitespaces(const std::vector<uint32_t>& utf32,
-                                 std::vector<uint32_t>::iterator& iterator);
-
-            bool parseName(const std::vector<uint32_t>& utf32,
-                           std::vector<uint32_t>::iterator& iterator,
-                           std::string& result);
-
-            bool parseString(const std::vector<uint32_t>& utf32,
-                             std::vector<uint32_t>::iterator& iterator,
-                             std::string& result);
-
             Type type = Type::NONE;
 
             std::string value;

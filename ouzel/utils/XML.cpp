@@ -11,6 +11,142 @@ namespace ouzel
 {
     namespace xml
     {
+        static bool isWhitespace(uint32_t c)
+        {
+            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+        }
+
+        static bool isNameStartChar(uint32_t c)
+        {
+            return (c >= 'a' && c <= 'z') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == ':' || c == '_' ||
+                (c >= 0xC0 && c <= 0xD6) ||
+                (c >= 0xD8 && c <= 0xF6) ||
+                (c >= 0xF8 && c <= 0x2FF) ||
+                (c >= 0x370 && c <= 0x37D) ||
+                (c >= 0x37F && c <= 0x1FFF) ||
+                (c >= 0x200C && c <= 0x200D) ||
+                (c >= 0x2070 && c <= 0x218F);
+        }
+
+        static bool isNameChar(uint32_t c)
+        {
+            return isNameStartChar(c) ||
+                c == '-' || c == '.' ||
+                (c >= '0' && c <= '9') ||
+                c == 0xB7 ||
+                (c >= 0x0300 && c <= 0x036F) ||
+                (c >= 0x203F && c <= 0x2040);
+        }
+
+        static bool skipWhitespaces(const std::vector<uint32_t>& utf32,
+                                    std::vector<uint32_t>::iterator& iterator)
+        {
+            for (;;)
+            {
+                if (iterator == utf32.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (isWhitespace(*iterator))
+                {
+                    ++iterator;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return true;
+        }
+
+        static bool parseName(const std::vector<uint32_t>& utf32,
+                              std::vector<uint32_t>::iterator& iterator,
+                              std::string& result)
+        {
+            result.clear();
+
+            if (iterator == utf32.end())
+            {
+                Log(Log::Level::ERR) << "Unexpected end of file";
+                return false;
+            }
+
+            if (!isNameStartChar(*iterator))
+            {
+                Log(Log::Level::ERR) << "Invalid name start";
+                return false;
+            }
+
+            for (;;)
+            {
+                if (iterator == utf32.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (!isNameChar(*iterator))
+                {
+                    break;
+                }
+                else
+                {
+                    result += utf32to8(*iterator);
+                    ++iterator;
+                }
+            }
+
+            return true;
+        }
+
+        static bool parseString(const std::vector<uint32_t>& utf32,
+                                std::vector<uint32_t>::iterator& iterator,
+                                std::string& result)
+        {
+            result.clear();
+
+            if (iterator == utf32.end())
+            {
+                Log(Log::Level::ERR) << "Unexpected end of file";
+                return false;
+            }
+
+            if (*iterator != '"' && *iterator != '\'')
+            {
+                Log(Log::Level::ERR) << "Expected quotes";
+                return false;
+            }
+
+            char quotes = static_cast<char>(*iterator);
+
+            ++iterator;
+
+            for (;;)
+            {
+                if (iterator == utf32.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (quotes == static_cast<char>(*iterator))
+                {
+                    ++iterator;
+                    break;
+                }
+                
+                result += utf32to8(*iterator);
+                ++iterator;
+            }
+            
+            return true;
+        }
+
         Node::Node()
         {
         }
@@ -415,142 +551,6 @@ namespace ouzel
             for (const Node& node : children)
             {
                 node.encode(data);
-            }
-
-            return true;
-        }
-
-        static bool isWhitespace(uint32_t c)
-        {
-            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-        }
-
-        static bool isNameStartChar(uint32_t c)
-        {
-            return (c >= 'a' && c <= 'z') ||
-                (c >= 'A' && c <= 'Z') ||
-                c == ':' || c == '_' ||
-                (c >= 0xC0 && c <= 0xD6) ||
-                (c >= 0xD8 && c <= 0xF6) ||
-                (c >= 0xF8 && c <= 0x2FF) ||
-                (c >= 0x370 && c <= 0x37D) ||
-                (c >= 0x37F && c <= 0x1FFF) ||
-                (c >= 0x200C && c <= 0x200D) ||
-                (c >= 0x2070 && c <= 0x218F);
-        }
-
-        static bool isNameChar(uint32_t c)
-        {
-            return isNameStartChar(c) ||
-                c == '-' || c == '.' ||
-                (c >= '0' && c <= '9') ||
-                c == 0xB7 ||
-                (c >= 0x0300 && c <= 0x036F) ||
-                (c >= 0x203F && c <= 0x2040);
-        }
-
-        bool Node::skipWhitespaces(const std::vector<uint32_t>& utf32,
-                                   std::vector<uint32_t>::iterator& iterator)
-        {
-            for (;;)
-            {
-                if (iterator == utf32.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
-                if (isWhitespace(*iterator))
-                {
-                    ++iterator;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return true;
-        }
-
-        bool Node::parseName(const std::vector<uint32_t>& utf32,
-                             std::vector<uint32_t>::iterator& iterator,
-                             std::string& result)
-        {
-            result.clear();
-
-            if (iterator == utf32.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of file";
-                return false;
-            }
-
-            if (!isNameStartChar(*iterator))
-            {
-                Log(Log::Level::ERR) << "Invalid name start";
-                return false;
-            }
-
-            for (;;)
-            {
-                if (iterator == utf32.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
-                if (!isNameChar(*iterator))
-                {
-                    break;
-                }
-                else
-                {
-                    result += utf32to8(*iterator);
-                    ++iterator;
-                }
-            }
-
-            return true;
-        }
-
-        bool Node::parseString(const std::vector<uint32_t>& utf32,
-                               std::vector<uint32_t>::iterator& iterator,
-                               std::string& result)
-        {
-            result.clear();
-
-            if (iterator == utf32.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of file";
-                return false;
-            }
-
-            if (*iterator != '"' && *iterator != '\'')
-            {
-                Log(Log::Level::ERR) << "Expected quotes";
-                return false;
-            }
-
-            char quotes = static_cast<char>(*iterator);
-
-            ++iterator;
-
-            for (;;)
-            {
-                if (iterator == utf32.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
-                if (quotes == static_cast<char>(*iterator))
-                {
-                    ++iterator;
-                    break;
-                }
-
-                result += utf32to8(*iterator);
-                ++iterator;
             }
 
             return true;
