@@ -104,6 +104,27 @@ namespace ouzel
             return true;
         }
 
+        static bool parseEntity(const std::vector<uint32_t>& str,
+                                std::vector<uint32_t>::iterator& iterator,
+                                std::string& result)
+        {
+            result.clear();
+
+            if (iterator == str.end())
+            {
+                Log(Log::Level::ERR) << "Unexpected end of file";
+                return false;
+            }
+
+            if (*iterator != '&')
+            {
+                Log(Log::Level::ERR) << "Expected an ampersand";
+                return false;
+            }
+
+            return true;
+        }
+
         static bool parseString(const std::vector<uint32_t>& str,
                                 std::vector<uint32_t>::iterator& iterator,
                                 std::string& result)
@@ -134,14 +155,22 @@ namespace ouzel
                     return false;
                 }
 
-                if (quotes == static_cast<char>(*iterator))
+                if (*iterator == static_cast<uint32_t>(quotes))
                 {
                     ++iterator;
                     break;
                 }
-                
-                result += utf32to8(*iterator);
-                ++iterator;
+                else if (*iterator == '&')
+                {
+                    std::string entity;
+                    if (!parseEntity(str, iterator, entity)) return false;
+                    result += entity;
+                }
+                else
+                {
+                    result += utf32to8(*iterator);
+                    ++iterator;
+                }
             }
             
             return true;
@@ -163,9 +192,7 @@ namespace ouzel
 
             if (*iterator == '<')
             {
-                ++iterator;
-                
-                if (iterator == str.end())
+                if (++iterator == str.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -173,9 +200,7 @@ namespace ouzel
 
                 if (*iterator == '!') // <!
                 {
-                    ++iterator;
-                    
-                    if (iterator == str.end())
+                    if (++iterator == str.end())
                     {
                         Log(Log::Level::ERR) << "Unexpected end of file";
                         return false;
@@ -183,9 +208,7 @@ namespace ouzel
 
                     if (*iterator == '-') // <!-
                     {
-                        ++iterator;
-
-                        if (iterator == str.end())
+                        if (++iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -197,11 +220,9 @@ namespace ouzel
                             return false;
                         }
 
-                        ++iterator;
-
                         for (;;)
                         {
-                            if (iterator == str.end())
+                            if (++iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
@@ -239,7 +260,6 @@ namespace ouzel
                             }
 
                             value += utf32to8(*iterator);
-                            ++iterator;
                         }
                         
                         type = Type::COMMENT;
@@ -270,9 +290,7 @@ namespace ouzel
 
                         if (*iterator == '?')
                         {
-                            ++iterator;
-
-                            if (iterator == str.end())
+                            if (++iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
@@ -339,9 +357,7 @@ namespace ouzel
                         }
                         else if (*iterator == '/')
                         {
-                            ++iterator;
-
-                            if (iterator == str.end())
+                            if (++iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;

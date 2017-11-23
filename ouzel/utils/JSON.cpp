@@ -39,9 +39,7 @@ namespace ouzel
             }
             else if (iterator->type == Token::Type::OPERATOR_MINUS)
             {
-                ++iterator;
-
-                if (iterator == tokens.end())
+                if (++iterator == tokens.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -100,16 +98,24 @@ namespace ouzel
                 return false;
             }
 
-            if (++iterator == tokens.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of file";
-                return false;
-            }
+            ++iterator; // skip the left brace
 
             bool first = true;
 
-            while (iterator->type != Token::Type::RIGHT_BRACE)
+            for (;;)
             {
+                if (iterator == tokens.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (iterator->type == Token::Type::RIGHT_BRACE)
+                {
+                    ++iterator;// skip the right brace
+                    break;
+                }
+
                 if (first)
                 {
                     first = false;
@@ -167,16 +173,8 @@ namespace ouzel
                     return false;
                 }
 
-                if (iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
                 objectValue[key] = value;
             }
-
-            ++iterator;
 
             type = Type::OBJECT;
 
@@ -194,20 +192,28 @@ namespace ouzel
 
             if (iterator->type != Token::Type::LEFT_BRACKET)
             {
-                Log(Log::Level::ERR) << "Expected a left brace";
+                Log(Log::Level::ERR) << "Expected a left bracket";
                 return false;
             }
 
-            if (++iterator == tokens.end())
-            {
-                Log(Log::Level::ERR) << "Unexpected end of file";
-                return false;
-            }
+            ++iterator; // skip the left bracket
 
             bool first = true;
 
-            while (iterator->type != Token::Type::RIGHT_BRACKET)
+            for (;;)
             {
+                if (iterator == tokens.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (iterator->type == Token::Type::RIGHT_BRACKET)
+                {
+                    ++iterator;// skip the right bracket
+                    break;
+                }
+
                 if (first)
                 {
                     first = false;
@@ -233,16 +239,8 @@ namespace ouzel
                     return false;
                 }
 
-                if (iterator == tokens.end())
-                {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
-                    return false;
-                }
-
                 arrayValue.push_back(value);
             }
-
-            ++iterator;
 
             type = Type::ARRAY;
 
@@ -404,18 +402,16 @@ namespace ouzel
                         (*i == 'e' || *i == 'E'))
                     {
                         token.value.push_back(*i);
-                        ++i;
 
-                        if (i == str.end() || *i != '+' || *i != '-')
+                        if (++i == str.end() || *i != '+' || *i != '-')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;
                         }
 
                         token.value.push_back(*i);
-                        ++i;
 
-                        if (i == str.end() || *i < '0' || *i > '9')
+                        if (++i == str.end() || *i < '0' || *i > '9')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;

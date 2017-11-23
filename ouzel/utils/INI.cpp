@@ -241,17 +241,13 @@ namespace ouzel
                 }
                 else if (*i == ';') // comment
                 {
-                    ++i; // skip the semicolon
-
-                    while (i != str.end())
+                    while (++i != str.end())
                     {
                         if (*i == '\r' || *i == '\n')
                         {
                             ++i; // skip the newline
                             break;
                         }
-
-                        ++i;
                     }
                 }
                 else // key, value pair
