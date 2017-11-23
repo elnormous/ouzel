@@ -244,14 +244,13 @@ namespace ouzel
                         
                         type = Type::COMMENT;
                     }
-                    else if (*iterator == '[') // <![
-                    {
-                        return true;
-                    }
                     else
                     {
-                        return true;
+                        Log(Log::Level::ERR) << "Type declarations are not supported";
+                        return false;
                     }
+
+                    // TODO: handle CDATA
                 }
                 else if (*iterator == '?') // <?
                 {
@@ -481,7 +480,8 @@ namespace ouzel
                     break;
                 case Node::Type::CDATA:
                     break;
-                case Node::Type::DOCTYPE_DEFINITION:
+                case Node::Type::TYPE_DECLARATION:
+                    Log(Log::Level::ERR) << "Type declarations are not supported";
                     break;
                 case Node::Type::PROCESSING_INSTRUCTION:
                     data.insert(data.end(), {'<', '?'});

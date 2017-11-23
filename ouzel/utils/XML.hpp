@@ -19,7 +19,7 @@ namespace ouzel
                 NONE,
                 COMMENT,
                 CDATA,
-                DOCTYPE_DEFINITION,
+                TYPE_DECLARATION,
                 PROCESSING_INSTRUCTION,
                 TAG,
                 TEXT
