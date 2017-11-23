@@ -33,7 +33,7 @@ namespace ouzel
 
             const std::vector<Node>& getChildren() const { return children; }
 
-            bool parse(const std::vector<uint32_t>& utf32,
+            bool parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::iterator& iterator,
                        bool preserveComments = false, bool preserveProcessingInstructions = false);
             bool encode(std::vector<uint8_t>& data) const;

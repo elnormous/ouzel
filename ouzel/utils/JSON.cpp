@@ -335,38 +335,6 @@ namespace ouzel
             return init(data);
         }
 
-        bool Data::init(const std::vector<uint8_t>& data)
-        {
-            std::vector<Token> tokens;
-
-            if (!tokenize(data, tokens))
-            {
-                return false;
-            }
-
-            std::vector<Token>::iterator iterator = tokens.begin();
-
-            return parseValue(tokens, iterator);
-        }
-
-        bool Data::save(const std::string& filename) const
-        {
-            std::vector<uint8_t> data;
-            
-            if (!encode(data)) return false;
-            
-            return engine->getFileSystem()->writeFile(filename, data);
-        }
-        
-        bool Data::encode(std::vector<uint8_t>& data) const
-        {
-            data.clear();
-
-            if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
-
-            return encodeValue(data);
-        }
-
         static bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
@@ -377,26 +345,9 @@ namespace ouzel
             return c <= 0x1F;
         }
 
-        bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
+        static bool tokenize(const std::vector<uint32_t>& str, std::vector<Token>& tokens)
         {
             tokens.clear();
-
-            std::vector<uint32_t> utf32;
-
-            // BOM
-            if (data.size() >= 3 &&
-                data[0] == 0xEF &&
-                data[1] == 0xBB &&
-                data[2] == 0xBF)
-            {
-                bom = true;
-                utf32 = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
-            }
-            else
-            {
-                bom = false;
-                utf32 = utf8to32(data);
-            }
 
             static const std::map<std::vector<uint32_t>, Token::Type> keywordMap = {
                 {{'t', 'r', 'u', 'e'}, Token::Type::KEYWORD_TRUE},
@@ -405,7 +356,7 @@ namespace ouzel
             };
 
             // tokenize
-            for (std::vector<uint32_t>::const_iterator i = utf32.begin(); i != utf32.end();)
+            for (std::vector<uint32_t>::const_iterator i = str.begin(); i != str.end();)
             {
                 Token token;
 
@@ -424,23 +375,23 @@ namespace ouzel
                     ++i;
                 }
                 else if ((*i >= '0' && *i <= '9') ||  // number
-                         (*i == '.' && (i + 1) != utf32.end() && *(i + 1) >= '0' && *(i + 1) <= '9')) // starts with a dot
+                         (*i == '.' && (i + 1) != str.end() && *(i + 1) >= '0' && *(i + 1) <= '9')) // starts with a dot
                 {
                     token.type = Token::Type::LITERAL_NUMBER;
 
-                    while (i != utf32.end() &&
+                    while (i != str.end() &&
                            ((*i >= '0' && *i <= '9')))
                     {
                         token.value.push_back(*i);
                         ++i;
                     }
 
-                    if (i != utf32.end() && *i == '.')
+                    if (i != str.end() && *i == '.')
                     {
                         token.value.push_back(*i);
                         ++i;
 
-                        while (i != utf32.end() &&
+                        while (i != str.end() &&
                                ((*i >= '0' && *i <= '9')))
                         {
                             token.value.push_back(*i);
@@ -449,13 +400,13 @@ namespace ouzel
                     }
 
                     // parse exponent
-                    if (i != utf32.end() &&
+                    if (i != str.end() &&
                         (*i == 'e' || *i == 'E'))
                     {
                         token.value.push_back(*i);
                         ++i;
 
-                        if (i == utf32.end() || *i != '+' || *i != '-')
+                        if (i == str.end() || *i != '+' || *i != '-')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;
@@ -464,13 +415,13 @@ namespace ouzel
                         token.value.push_back(*i);
                         ++i;
 
-                        if (i == utf32.end() || *i < '0' || *i > '9')
+                        if (i == str.end() || *i < '0' || *i > '9')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;
                         }
 
-                        while (i != utf32.end() &&
+                        while (i != str.end() &&
                                ((*i >= '0' && *i <= '9')))
                         {
                             token.value.push_back(*i);
@@ -482,12 +433,12 @@ namespace ouzel
                 {
                     token.type = Token::Type::LITERAL_STRING;
 
-                    while (++i != utf32.end() &&
+                    while (++i != str.end() &&
                            *i != '"')
                     {
                         if (*i == '\\')
                         {
-                            if (++i == utf32.end())
+                            if (++i == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unterminated string literal";
                                 return false;
@@ -534,7 +485,7 @@ namespace ouzel
                          (*i >= 'A' && *i <= 'Z') ||
                          *i == '_')
                 {
-                    while (i != utf32.end() &&
+                    while (i != str.end() &&
                            ((*i >= 'a' && *i <= 'z') ||
                             (*i >= 'A' && *i <= 'Z') ||
                             *i == '_' ||
@@ -543,9 +494,9 @@ namespace ouzel
                         token.value.push_back(*i);
                         ++i;
                     }
-                    
+
                     std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
-                    
+
                     if ((keywordIterator = keywordMap.find(token.value)) != keywordMap.end())
                     {
                         token.type = keywordIterator->second;
@@ -577,6 +528,55 @@ namespace ouzel
             }
             
             return true;
+        }
+
+        bool Data::init(const std::vector<uint8_t>& data)
+        {
+            std::vector<Token> tokens;
+
+            std::vector<uint32_t> str;
+
+            // BOM
+            if (data.size() >= 3 &&
+                data[0] == 0xEF &&
+                data[1] == 0xBB &&
+                data[2] == 0xBF)
+            {
+                bom = true;
+                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+            }
+            else
+            {
+                bom = false;
+                str = utf8to32(data);
+            }
+
+            if (!tokenize(str, tokens))
+            {
+                return false;
+            }
+
+            std::vector<Token>::iterator iterator = tokens.begin();
+
+            return parseValue(tokens, iterator);
+        }
+
+        bool Data::save(const std::string& filename) const
+        {
+            std::vector<uint8_t> data;
+            
+            if (!encode(data)) return false;
+            
+            return engine->getFileSystem()->writeFile(filename, data);
+        }
+        
+        bool Data::encode(std::vector<uint8_t>& data) const
+        {
+            data.clear();
+
+            if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
+
+            return encodeValue(data);
         }
     } // namespace json
 }

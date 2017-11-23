@@ -40,12 +40,12 @@ namespace ouzel
                 (c >= 0x203F && c <= 0x2040);
         }
 
-        static bool skipWhitespaces(const std::vector<uint32_t>& utf32,
+        static bool skipWhitespaces(const std::vector<uint32_t>& str,
                                     std::vector<uint32_t>::iterator& iterator)
         {
             for (;;)
             {
-                if (iterator == utf32.end())
+                if (iterator == str.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -64,13 +64,13 @@ namespace ouzel
             return true;
         }
 
-        static bool parseName(const std::vector<uint32_t>& utf32,
+        static bool parseName(const std::vector<uint32_t>& str,
                               std::vector<uint32_t>::iterator& iterator,
                               std::string& result)
         {
             result.clear();
 
-            if (iterator == utf32.end())
+            if (iterator == str.end())
             {
                 Log(Log::Level::ERR) << "Unexpected end of file";
                 return false;
@@ -84,7 +84,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (iterator == utf32.end())
+                if (iterator == str.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -104,13 +104,13 @@ namespace ouzel
             return true;
         }
 
-        static bool parseString(const std::vector<uint32_t>& utf32,
+        static bool parseString(const std::vector<uint32_t>& str,
                                 std::vector<uint32_t>::iterator& iterator,
                                 std::string& result)
         {
             result.clear();
 
-            if (iterator == utf32.end())
+            if (iterator == str.end())
             {
                 Log(Log::Level::ERR) << "Unexpected end of file";
                 return false;
@@ -128,7 +128,7 @@ namespace ouzel
 
             for (;;)
             {
-                if (iterator == utf32.end())
+                if (iterator == str.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -151,11 +151,11 @@ namespace ouzel
         {
         }
 
-        bool Node::parse(const std::vector<uint32_t>& utf32,
+        bool Node::parse(const std::vector<uint32_t>& str,
                          std::vector<uint32_t>::iterator& iterator,
                          bool preserveComments, bool preserveProcessingInstructions)
         {
-            if (iterator == utf32.end())
+            if (iterator == str.end())
             {
                 Log(Log::Level::ERR) << "Unexpected end of file";
                 return false;
@@ -165,7 +165,7 @@ namespace ouzel
             {
                 ++iterator;
                 
-                if (iterator == utf32.end())
+                if (iterator == str.end())
                 {
                     Log(Log::Level::ERR) << "Unexpected end of file";
                     return false;
@@ -175,7 +175,7 @@ namespace ouzel
                 {
                     ++iterator;
                     
-                    if (iterator == utf32.end())
+                    if (iterator == str.end())
                     {
                         Log(Log::Level::ERR) << "Unexpected end of file";
                         return false;
@@ -185,7 +185,7 @@ namespace ouzel
                     {
                         ++iterator;
 
-                        if (iterator == utf32.end())
+                        if (iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -201,7 +201,7 @@ namespace ouzel
 
                         for (;;)
                         {
-                            if (iterator == utf32.end())
+                            if (iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
@@ -209,7 +209,7 @@ namespace ouzel
 
                             if (*iterator == '-')
                             {
-                                if (iterator + 1 == utf32.end())
+                                if (iterator + 1 == str.end())
                                 {
                                     Log(Log::Level::ERR) << "Unexpected end of file";
                                     return false;
@@ -219,7 +219,7 @@ namespace ouzel
                                 {
                                     iterator += 2;
 
-                                    if (iterator == utf32.end())
+                                    if (iterator == str.end())
                                     {
                                         Log(Log::Level::ERR) << "Unexpected end of file";
                                         return false;
@@ -257,13 +257,13 @@ namespace ouzel
                 {
                     ++iterator;
 
-                    if (!parseName(utf32, iterator, value)) return false;
+                    if (!parseName(str, iterator, value)) return false;
 
                     for (;;)
                     {
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
 
-                        if (iterator == utf32.end())
+                        if (iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -273,7 +273,7 @@ namespace ouzel
                         {
                             ++iterator;
 
-                            if (iterator == utf32.end())
+                            if (iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
@@ -290,11 +290,11 @@ namespace ouzel
                         }
 
                         std::string attribute;
-                        if (!parseName(utf32, iterator, attribute)) return false;
+                        if (!parseName(str, iterator, attribute)) return false;
 
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
 
-                        if (iterator == utf32.end())
+                        if (iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -308,9 +308,9 @@ namespace ouzel
 
                         ++iterator;
                         
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
                         
-                        if (!parseString(utf32, iterator, attributes[attribute])) return false;
+                        if (!parseString(str, iterator, attributes[attribute])) return false;
                     }
 
                     type = Type::PROCESSING_INSTRUCTION;
@@ -319,15 +319,15 @@ namespace ouzel
                 }
                 else // <
                 {
-                    if (!parseName(utf32, iterator, value)) return false;
+                    if (!parseName(str, iterator, value)) return false;
 
                     bool tagClosed = false;
 
                     for (;;)
                     {
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
 
-                        if (iterator == utf32.end())
+                        if (iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -342,7 +342,7 @@ namespace ouzel
                         {
                             ++iterator;
 
-                            if (iterator == utf32.end())
+                            if (iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
@@ -360,11 +360,11 @@ namespace ouzel
                         }
 
                         std::string attribute;
-                        if (!parseName(utf32, iterator, attribute)) return false;
+                        if (!parseName(str, iterator, attribute)) return false;
 
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
 
-                        if (iterator == utf32.end())
+                        if (iterator == str.end())
                         {
                             Log(Log::Level::ERR) << "Unexpected end of file";
                             return false;
@@ -378,29 +378,29 @@ namespace ouzel
 
                         ++iterator;
 
-                        if (!skipWhitespaces(utf32, iterator)) return false;
+                        if (!skipWhitespaces(str, iterator)) return false;
 
-                        if (!parseString(utf32, iterator, attributes[attribute])) return false;
+                        if (!parseString(str, iterator, attributes[attribute])) return false;
                     }
 
                     if (!tagClosed)
                     {
                         for (;;)
                         {
-                            if (iterator == utf32.end())
+                            if (iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of file";
                                 return false;
                             }
 
-                            if (*iterator == '<' && iterator + 1 != utf32.end() &&
+                            if (*iterator == '<' && iterator + 1 != str.end() &&
                                 *(iterator + 1) == '/')
                             {
                                 ++iterator; // skip the left angle bracket
                                 ++iterator; // skip the slash
 
                                 std::string tag;
-                                if (!parseName(utf32, iterator, tag)) return false;
+                                if (!parseName(str, iterator, tag)) return false;
 
                                 if (tag != value)
                                 {
@@ -408,7 +408,7 @@ namespace ouzel
                                     return false;
                                 }
 
-                                if (iterator == utf32.end())
+                                if (iterator == str.end())
                                 {
                                     Log(Log::Level::ERR) << "Unexpected end of file";
                                     return false;
@@ -427,7 +427,7 @@ namespace ouzel
                             else
                             {
                                 Node node;
-                                if (!node.parse(utf32, iterator, preserveComments, preserveProcessingInstructions))
+                                if (!node.parse(str, iterator, preserveComments, preserveProcessingInstructions))
                                 {
                                     return false;
                                 }
@@ -450,7 +450,7 @@ namespace ouzel
             {
                 for (;;)
                 {
-                    if (iterator == utf32.end() || // end of a file
+                    if (iterator == str.end() || // end of a file
                         *iterator == '<') // start of a tag
                     {
                         break;
@@ -584,7 +584,7 @@ namespace ouzel
 
         bool Data::init(const std::vector<uint8_t>& data, bool preserveComments, bool preserveProcessingInstructions)
         {
-            std::vector<uint32_t> utf32;
+            std::vector<uint32_t> str;
 
             // BOM
             if (data.size() >= 3 &&
@@ -593,22 +593,22 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                utf32 = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                utf32 = utf8to32(data);
+                str = utf8to32(data);
             }
 
             bool rootTagFound = false;
 
-            std::vector<uint32_t>::iterator iterator = utf32.begin();
+            std::vector<uint32_t>::iterator iterator = str.begin();
 
-            while (iterator != utf32.end())
+            while (iterator != str.end())
             {
                 Node node;
-                if (!node.parse(utf32, iterator, preserveComments, preserveProcessingInstructions))
+                if (!node.parse(str, iterator, preserveComments, preserveProcessingInstructions))
                 {
                     return false;
                 }

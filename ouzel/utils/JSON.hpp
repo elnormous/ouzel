@@ -210,8 +210,6 @@ namespace ouzel
             void setBOM(bool newBOM) { bom = newBOM; }
 
         protected:
-            bool tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens);
-
             bool bom = false;
         };
     } // namespace json

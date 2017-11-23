@@ -142,7 +142,7 @@ namespace ouzel
 
         bool Data::init(const std::vector<uint8_t>& data)
         {
-            std::vector<uint32_t> utf32;
+            std::vector<uint32_t> str;
 
             // BOM
             if (data.size() >= 3 &&
@@ -151,17 +151,17 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                utf32 = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                utf32 = utf8to32(data);
+                str = utf8to32(data);
             }
 
             Section* section = &sections[""]; // default section
 
-            for (auto i = utf32.begin(); i != utf32.end();)
+            for (auto i = str.begin(); i != str.end();)
             {
                 if (*i == '\n' || *i == '\r' || *i == ' ' || *i == '\t') // line starts with a whitespace
                 {
@@ -176,7 +176,7 @@ namespace ouzel
 
                     for (;;)
                     {
-                        if (i == utf32.end() || *i == '\n' || *i == '\r')
+                        if (i == str.end() || *i == '\n' || *i == '\r')
                         {
                             if (!parsedSection)
                             {
@@ -198,7 +198,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (i == utf32.end() || *i == '\n' || *i == '\r')
+                                if (i == str.end() || *i == '\n' || *i == '\r')
                                 {
                                     ++i; // skip the newline
                                     break;
@@ -243,7 +243,7 @@ namespace ouzel
                 {
                     ++i; // skip the semicolon
 
-                    while (i != utf32.end())
+                    while (i != str.end())
                     {
                         if (*i == '\r' || *i == '\n')
                         {
@@ -262,7 +262,7 @@ namespace ouzel
 
                     for (;;)
                     {
-                        if (i == utf32.end())
+                        if (i == str.end())
                         {
                             break;
                         }
@@ -289,7 +289,7 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (i == utf32.end() || *i == '\r' || *i == '\n')
+                                if (i == str.end() || *i == '\r' || *i == '\n')
                                 {
                                     ++i; // skip the newline
                                     break;
