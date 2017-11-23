@@ -366,7 +366,17 @@ namespace ouzel
 
             return encodeValue(data);
         }
-        
+
+        static bool isWhitespace(uint32_t c)
+        {
+            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+        }
+
+        static bool isControlChar(uint32_t c)
+        {
+            return c <= 0x1F;
+        }
+
         bool Data::tokenize(const std::vector<uint8_t>& data, std::vector<Token>& tokens)
         {
             tokens.clear();
@@ -499,7 +509,7 @@ namespace ouzel
                             }
                             // TODO: handle numeric character references
                         }
-                        else if (*i == '\n' || *i == '\r')
+                        else if (isControlChar(*i))
                         {
                             Log(Log::Level::ERR) << "Unterminated string literal";
                             return false;
@@ -552,7 +562,7 @@ namespace ouzel
                     token.value.push_back(*i);
                     ++i;
                 }
-                else if (*i == ' ' || *i == '\t' || *i == '\n' || *i == '\r') // whitespace
+                else if (isWhitespace(*i)) // whitespace
                 {
                     ++i;
                     continue;
