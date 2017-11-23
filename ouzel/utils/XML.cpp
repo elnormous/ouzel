@@ -122,6 +122,57 @@ namespace ouzel
                 return false;
             }
 
+            std::string value;
+
+            for (;;)
+            {
+                if (++iterator == str.end())
+                {
+                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    return false;
+                }
+
+                if (*iterator == ';')
+                {
+                    ++iterator;
+                    break;
+                }
+                else
+                {
+                    value.push_back(static_cast<char>(*iterator));
+                }
+            }
+
+            if (value == "quot")
+            {
+                result = "\"";
+            }
+            else if (value == "amp")
+            {
+                result = "&";
+            }
+            else if (value == "apos")
+            {
+                result = "'";
+            }
+            else if (value == "lt")
+            {
+                result = "<";
+            }
+            else if (value == "gt")
+            {
+                result = ">";
+            }
+            else if (result[0] == '#')
+            {
+                // TODO: handle character reference
+            }
+            else
+            {
+                Log(Log::Level::ERR) << "Invalid entity";
+                return false;
+            }
+
             return true;
         }
 
@@ -469,6 +520,12 @@ namespace ouzel
                         *iterator == '<') // start of a tag
                     {
                         break;
+                    }
+                    else if (*iterator == '&')
+                    {
+                        std::string entity;
+                        if (!parseEntity(str, iterator, entity)) return false;
+                        value += entity;
                     }
                     else
                     {
