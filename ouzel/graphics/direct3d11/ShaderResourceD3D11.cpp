@@ -222,12 +222,11 @@ namespace ouzel
 
             if (inputLayout) inputLayout->Release();
 
-            hr = renderDeviceD3D11->getDevice()->CreateInputLayout(
-                vertexInputElements.data(),
-                static_cast<UINT>(vertexInputElements.size()),
-                vertexShaderData.data(),
-                vertexShaderData.size(),
-                &inputLayout);
+            hr = renderDeviceD3D11->getDevice()->CreateInputLayout(vertexInputElements.data(),
+                                                                   static_cast<UINT>(vertexInputElements.size()),
+                                                                   vertexShaderData.data(),
+                                                                   vertexShaderData.size(),
+                                                                   &inputLayout);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader, error: " << hr;

@@ -41,6 +41,14 @@ namespace ouzel
 
         const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
 
+        class Vertex
+        {
+            Vector3 position;
+            Color color;
+            Vector2 texCoords[2];
+            Vector3 normal;
+        };
+
         class VertexPC
         {
         public:
