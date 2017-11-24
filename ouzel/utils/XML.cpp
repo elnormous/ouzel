@@ -594,7 +594,9 @@ namespace ouzel
                     data.insert(data.end(), {'-', '-', '>'});
                     break;
                 case Node::Type::CDATA:
-                    // TODO: implement
+                    data.insert(data.end(), {'<', '!', '[', 'C', 'D', 'A', 'T', 'A', '['});
+                    data.insert(data.end(), value.begin(), value.end());
+                    data.insert(data.end(), {']', ']', '>'});
                     break;
                 case Node::Type::TYPE_DECLARATION:
                     Log(Log::Level::ERR) << "Type declarations are not supported";
