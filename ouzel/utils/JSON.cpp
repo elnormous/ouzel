@@ -19,7 +19,7 @@ namespace ouzel
         {
             if (iterator == tokens.end())
             {
-                Log(Log::Level::ERR) << "Unexpected end of file";
+                Log(Log::Level::ERR) << "Unexpected end of data";
                 return false;
             }
 
@@ -41,7 +41,7 @@ namespace ouzel
             {
                 if (++iterator == tokens.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    Log(Log::Level::ERR) << "Unexpected end of data";
                     return false;
                 }
 
@@ -88,7 +88,7 @@ namespace ouzel
         {
             if (iterator == tokens.end())
             {
-                Log(Log::Level::ERR) << "Unexpected end of file";
+                Log(Log::Level::ERR) << "Unexpected end of data";
                 return false;
             }
 
@@ -106,7 +106,7 @@ namespace ouzel
             {
                 if (iterator == tokens.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    Log(Log::Level::ERR) << "Unexpected end of data";
                     return false;
                 }
 
@@ -130,7 +130,7 @@ namespace ouzel
 
                     if (++iterator == tokens.end())
                     {
-                        Log(Log::Level::ERR) << "Unexpected end of file";
+                        Log(Log::Level::ERR) << "Unexpected end of data";
                         return false;
                     }
                 }
@@ -151,7 +151,7 @@ namespace ouzel
 
                 if (++iterator == tokens.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    Log(Log::Level::ERR) << "Unexpected end of data";
                     return false;
                 }
 
@@ -163,7 +163,7 @@ namespace ouzel
 
                 if (++iterator == tokens.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    Log(Log::Level::ERR) << "Unexpected end of data";
                     return false;
                 }
 
@@ -186,7 +186,7 @@ namespace ouzel
         {
             if (iterator == tokens.end())
             {
-                Log(Log::Level::ERR) << "Unexpected end of file";
+                Log(Log::Level::ERR) << "Unexpected end of data";
                 return false;
             }
 
@@ -204,7 +204,7 @@ namespace ouzel
             {
                 if (iterator == tokens.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of file";
+                    Log(Log::Level::ERR) << "Unexpected end of data";
                     return false;
                 }
 
@@ -228,7 +228,7 @@ namespace ouzel
 
                     if (++iterator == tokens.end())
                     {
-                        Log(Log::Level::ERR) << "Unexpected end of file";
+                        Log(Log::Level::ERR) << "Unexpected end of data";
                         return false;
                     }
                 }
