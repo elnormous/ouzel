@@ -318,7 +318,7 @@ namespace ouzel
                     else if (*iterator == '[') // <![
                     {
                         std::string name;
-                        if (!parseName(str, iterator, name)) return false;
+                        if (!parseName(str, ++iterator, name)) return false;
 
                         if (name != "CDATA")
                         {
@@ -338,8 +338,28 @@ namespace ouzel
                             return false;
                         }
 
-                        // TODO: parse the body
-                        // TOOD: parse the ]]>
+                        for (;;)
+                        {
+                            if (++iterator == str.end())
+                            {
+                                Log(Log::Level::ERR) << "Unexpected end of data";
+                                return false;
+                            }
+
+                            if (*iterator == ']' &&
+                                iterator + 1 != str.end() &&
+                                *(iterator + 1) == ']' &&
+                                iterator + 2 != str.end() &&
+                                *(iterator + 2) == '>')
+                            {
+                                iterator += 3;
+                                break;
+                            }
+
+                            value += utf32to8(*iterator);
+                        }
+
+                        type = Type::CDATA;
                     }
                     else
                     {
@@ -349,9 +369,7 @@ namespace ouzel
                 }
                 else if (*iterator == '?') // <?
                 {
-                    ++iterator;
-
-                    if (!parseName(str, iterator, value)) return false;
+                    if (!parseName(str, ++iterator, value)) return false;
 
                     for (;;)
                     {
