@@ -263,7 +263,7 @@ namespace ouzel
                 else if (c <= 0x1F)
                 {
                     data.insert(data.end(), {'\\', 'u'});
-                    std::string hexValue = hexToString(c);
+                    std::string hexValue = hexToString(c, 4);
                     data.insert(data.end(), hexValue.begin(), hexValue.end());
                 }
                 else
