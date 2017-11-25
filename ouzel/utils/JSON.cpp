@@ -507,10 +507,24 @@ namespace ouzel
                                 }
 
                                 uint32_t c = 0;
+
+                                for (int i = 0; i < 4; ++i, ++iterator)
+                                {
+                                    uint8_t value = 0;
+
+                                    if (*iterator >= '0' && *iterator <= '9') value = static_cast<uint8_t>(*iterator) - '0';
+                                    else if (*iterator >= 'a' && *iterator <='f') value = static_cast<uint8_t>(*iterator) - 'a' + 10;
+                                    else if (*iterator >= 'A' && *iterator <='F') value = static_cast<uint8_t>(*iterator) - 'A' + 10;
+                                    else
+                                    {
+                                        Log(Log::Level::ERR) << "Invalid character code";
+                                        return false;
+                                    }
+                                    c = (c << 4) | value;
+                                }
+
                                 token.value.push_back(c);
 
-                                // TODO: implement
-                                Log(Log::Level::ERR) << "Character codes are not supported";
                                 return false;
                             }
                             else
