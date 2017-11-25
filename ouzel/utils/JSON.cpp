@@ -34,7 +34,7 @@ namespace ouzel
             else if (iterator->type == Token::Type::LITERAL_NUMBER)
             {
                 type = Type::NUMBER;
-                doubleValue = std::stod(utf32to8(iterator->value));
+                doubleValue = std::stod(utf32ToUtf8(iterator->value));
                 ++iterator;
             }
             else if (iterator->type == Token::Type::OPERATOR_MINUS)
@@ -52,13 +52,13 @@ namespace ouzel
                 }
 
                 type = Type::NUMBER;
-                doubleValue = -std::stod(utf32to8(iterator->value));
+                doubleValue = -std::stod(utf32ToUtf8(iterator->value));
                 ++iterator;
             }
             else if (iterator->type == Token::Type::LITERAL_STRING)
             {
                 type = Type::STRING;
-                stringValue = utf32to8(iterator->value);
+                stringValue = utf32ToUtf8(iterator->value);
                 ++iterator;
             }
             else if (iterator->type == Token::Type::KEYWORD_TRUE ||
@@ -141,7 +141,7 @@ namespace ouzel
                     return false;
                 }
 
-                std::string key = utf32to8(iterator->value);
+                std::string key = utf32ToUtf8(iterator->value);
 
                 if (objectValue.find(key) != objectValue.end())
                 {
@@ -247,6 +247,35 @@ namespace ouzel
             return true;
         }
 
+        static bool encodeString(std::vector<uint8_t>& data,
+                                 const std::vector<uint32_t>& str)
+        {
+            for (uint32_t c : str)
+            {
+                if (c == '"') data.insert(data.end(), {'\\', '"'});
+                else if (c == '\\') data.insert(data.end(), {'\\', '\\'});
+                else if (c == '/') data.insert(data.end(), {'\\', '/'});
+                else if (c == '\b') data.insert(data.end(), {'\\', 'b'});
+                else if (c == '\f') data.insert(data.end(), {'\\', 'f'});
+                else if (c == '\n') data.insert(data.end(), {'\\', 'n'});
+                else if (c == '\r') data.insert(data.end(), {'\\', 'r'});
+                else if (c == '\t') data.insert(data.end(), {'\\', 't'});
+                else if (c <= 0x1F)
+                {
+                    data.insert(data.end(), {'\\', 'u'});
+                    std::string hexValue = hexToString(c);
+                    data.insert(data.end(), hexValue.begin(), hexValue.end());
+                }
+                else
+                {
+                    std::string encoded = utf32ToUtf8(c);
+                    data.insert(data.end(), encoded.begin(), encoded.end());
+                }
+            }
+
+            return true;
+        }
+
         bool Value::encodeValue(std::vector<uint8_t>& data) const
         {
             switch (type)
@@ -258,7 +287,9 @@ namespace ouzel
                     break;
                 }
                 case Type::STRING:
-                    data.insert(data.end(), stringValue.begin(), stringValue.end());
+                    data.push_back('"');
+                    if (!encodeString(data, utf8ToUtf32(stringValue))) return false;
+                    data.push_back('"');
                     break;
                 case Type::OBJECT:
                 {
@@ -270,9 +301,10 @@ namespace ouzel
                     {
                         if (first) first = false;
                         else data.push_back(',');
-                        
-                        data.insert(data.end(), value.first.begin(), value.first.end());
-                        data.push_back(':');
+
+                        data.push_back('"');
+                        if (!encodeString(data, utf8ToUtf32(value.first))) return false;
+                        data.insert(data.end(), {'"', ':'});
                         value.second.encodeValue(data);
                     }
                     
@@ -440,21 +472,25 @@ namespace ouzel
                                 return false;
                             }
 
-                            if (*i == 'a') token.value.push_back('\a');
-                            else if (*i == 'b') token.value.push_back('\b');
-                            else if (*i == 't') token.value.push_back('\t');
-                            else if (*i == 'n') token.value.push_back('\n');
-                            else if (*i == 'f') token.value.push_back('\f');
-                            else if (*i == 'r') token.value.push_back('\r');
-                            else if (*i == '"') token.value.push_back('"');
-                            else if (*i == '\?') token.value.push_back('\?');
+                            if (*i == '"') token.value.push_back('"');
                             else if (*i == '\\') token.value.push_back('\\');
+                            else if (*i == '/') token.value.push_back('/');
+                            else if (*i == 'b') token.value.push_back('\b');
+                            else if (*i == 'f') token.value.push_back('\f');
+                            else if (*i == 'n') token.value.push_back('\n');
+                            else if (*i == 'r') token.value.push_back('\r');
+                            else if (*i == 't') token.value.push_back('\t');
+                            else if (*i == 'u')
+                            {
+                                // TODO: implement
+                                Log(Log::Level::ERR) << "Character codes are not supported";
+                                return false;
+                            }
                             else
                             {
                                 Log(Log::Level::ERR) << "Unrecognized escape character";
                                 return false;
                             }
-                            // TODO: handle numeric character references
                         }
                         else if (isControlChar(*i))
                         {
@@ -539,12 +575,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8to32(data);
+                str = utf8ToUtf32(data);
             }
 
             if (!tokenize(str, tokens))

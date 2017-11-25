@@ -271,7 +271,7 @@ namespace ouzel
     };
 
     template<class T>
-    inline std::vector<uint32_t> utf8to32(const T& text)
+    inline std::vector<uint32_t> utf8ToUtf32(const T& text)
     {
         std::vector<uint32_t> result;
 
@@ -311,7 +311,7 @@ namespace ouzel
         return result;
     }
 
-    inline std::string utf32to8(uint32_t c)
+    inline std::string utf32ToUtf8(uint32_t c)
     {
         std::string result;
 
@@ -341,7 +341,7 @@ namespace ouzel
         return result;
     }
 
-    inline std::string utf32to8(const std::vector<uint32_t>& text)
+    inline std::string utf32ToUtf8(const std::vector<uint32_t>& text)
     {
         std::string result;
 
@@ -371,6 +371,18 @@ namespace ouzel
             }
         }
 
+        return result;
+    }
+
+    template<typename T> std::string hexToString(T n, size_t len = 0)
+    {
+        static const char* digits = "0123456789ABCDEF";
+        if (len == 0) for (len = 1; (1 << (len * 4)) <= n; ++len) {}
+
+        std::string result(len, '0');
+        for (size_t i = 0, j = (len - 1) * 4 ; i < len; ++i, j -= 4)
+            result[i] = digits[(n >> j) & 0x0f];
+        
         return result;
     }
 }

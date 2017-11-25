@@ -78,7 +78,7 @@ namespace ouzel
 
         float s = stbtt_ScaleForPixelHeight(&font, fontSize);
 
-        std::vector<uint32_t> utf32Text = utf8to32(text);
+        std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
 
         std::set<uint32_t> glyphs;
         for (uint32_t i : utf32Text)

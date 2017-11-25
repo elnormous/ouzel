@@ -180,7 +180,7 @@ namespace ouzel
     {
         Vector2 position;
 
-        std::vector<uint32_t> utf32Text = utf8to32(text);
+        std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
 
         indices.clear();
         vertices.clear();
@@ -282,7 +282,7 @@ namespace ouzel
     {
         float total = 0.0f;
 
-        std::vector<uint32_t> utf32Text = utf8to32(text);
+        std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {

@@ -151,12 +151,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8to32(data);
+                str = utf8ToUtf32(data);
             }
 
             Section* section = &sections[""]; // default section
@@ -235,7 +235,7 @@ namespace ouzel
                         return false;
                     }
 
-                    std::string sectionName = utf32to8(sectionUtf32);
+                    std::string sectionName = utf32ToUtf8(sectionUtf32);
 
                     section = &sections[sectionName];
                 }
@@ -319,8 +319,8 @@ namespace ouzel
                     keyUtf32 = trimUtf32(keyUtf32);
                     valueUtf32 = trimUtf32(valueUtf32);
 
-                    std::string key = utf32to8(keyUtf32);
-                    std::string value = utf32to8(valueUtf32);
+                    std::string key = utf32ToUtf8(keyUtf32);
+                    std::string value = utf32ToUtf8(valueUtf32);
 
                     section->values[key] = value;
                 }

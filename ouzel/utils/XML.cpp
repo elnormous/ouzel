@@ -96,7 +96,7 @@ namespace ouzel
                 }
                 else
                 {
-                    result += utf32to8(*iterator);
+                    result += utf32ToUtf8(*iterator);
                     ++iterator;
                 }
             }
@@ -219,7 +219,7 @@ namespace ouzel
                 }
                 else
                 {
-                    result += utf32to8(*iterator);
+                    result += utf32ToUtf8(*iterator);
                     ++iterator;
                 }
             }
@@ -310,7 +310,7 @@ namespace ouzel
                                 }
                             }
 
-                            value += utf32to8(*iterator);
+                            value += utf32ToUtf8(*iterator);
                         }
                         
                         type = Type::COMMENT;
@@ -356,7 +356,7 @@ namespace ouzel
                                 break;
                             }
 
-                            value += utf32to8(*iterator);
+                            value += utf32ToUtf8(*iterator);
                         }
 
                         type = Type::CDATA;
@@ -571,7 +571,7 @@ namespace ouzel
                     }
                     else
                     {
-                        value += utf32to8(*iterator);
+                        value += utf32ToUtf8(*iterator);
                         ++iterator;
                     }
                 }
@@ -711,12 +711,12 @@ namespace ouzel
                 data[2] == 0xBF)
             {
                 bom = true;
-                str = utf8to32(std::vector<uint8_t>(data.begin() + 3, data.end()));
+                str = utf8ToUtf32(std::vector<uint8_t>(data.begin() + 3, data.end()));
             }
             else
             {
                 bom = false;
-                str = utf8to32(data);
+                str = utf8ToUtf32(data);
             }
 
             bool rootTagFound = false;
