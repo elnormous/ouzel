@@ -293,7 +293,7 @@ namespace ouzel
 
                         for (;;)
                         {
-                            if (++iterator == str.end())
+                            if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 3)
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of data";
                                 return false;
@@ -301,21 +301,9 @@ namespace ouzel
 
                             if (*iterator == '-')
                             {
-                                if (iterator + 1 == str.end())
-                                {
-                                    Log(Log::Level::ERR) << "Unexpected end of data";
-                                    return false;
-                                }
-                                
                                 if (*(iterator + 1) == '-') // --
                                 {
                                     iterator += 2;
-
-                                    if (iterator == str.end())
-                                    {
-                                        Log(Log::Level::ERR) << "Unexpected end of data";
-                                        return false;
-                                    }
                                     
                                     if (*iterator == '>') // -->
                                     {
@@ -360,16 +348,14 @@ namespace ouzel
 
                         for (;;)
                         {
-                            if (++iterator == str.end())
+                            if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 3)
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of data";
                                 return false;
                             }
 
                             if (*iterator == ']' &&
-                                iterator + 1 != str.end() &&
                                 *(iterator + 1) == ']' &&
-                                iterator + 2 != str.end() &&
                                 *(iterator + 2) == '>')
                             {
                                 iterator += 3;
@@ -521,7 +507,8 @@ namespace ouzel
                                 return false;
                             }
 
-                            if (*iterator == '<' && iterator + 1 != str.end() &&
+                            if (*iterator == '<' &&
+                                iterator + 1 != str.end() &&
                                 *(iterator + 1) == '/')
                             {
                                 ++iterator; // skip the left angle bracket
