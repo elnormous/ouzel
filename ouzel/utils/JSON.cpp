@@ -293,22 +293,29 @@ namespace ouzel
                     break;
                 case Type::OBJECT:
                 {
-                    data.push_back('{');
-                    
-                    bool first = true;
-                    
-                    for (const auto& value : objectValue)
+                    if (nullValue)
                     {
-                        if (first) first = false;
-                        else data.push_back(',');
-
-                        data.push_back('"');
-                        if (!encodeString(data, utf8ToUtf32(value.first))) return false;
-                        data.insert(data.end(), {'"', ':'});
-                        value.second.encodeValue(data);
+                        data.insert(data.end(), {'n', 'u', 'l', 'l'});
                     }
-                    
-                    data.push_back('}');
+                    else
+                    {
+                        data.push_back('{');
+                        
+                        bool first = true;
+                        
+                        for (const auto& value : objectValue)
+                        {
+                            if (first) first = false;
+                            else data.push_back(',');
+
+                            data.push_back('"');
+                            if (!encodeString(data, utf8ToUtf32(value.first))) return false;
+                            data.insert(data.end(), {'"', ':'});
+                            value.second.encodeValue(data);
+                        }
+                        
+                        data.push_back('}');
+                    }
                     break;
                 }
                 case Type::ARRAY:
