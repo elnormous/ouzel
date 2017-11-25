@@ -227,6 +227,26 @@ namespace ouzel
             return true;
         }
 
+        static bool encodeString(std::vector<uint8_t>& data,
+                                 const std::vector<uint32_t>& str)
+        {
+            for (uint32_t c : str)
+            {
+                if (c == '"') data.insert(data.end(), {'&', 'q', 'u', 'o', 't', ';'});
+                else if (c == '&') data.insert(data.end(), {'&', 'a', 'm', 'p', ';'});
+                else if (c == '\'') data.insert(data.end(), {'&', 'a', 'p', 'o', 's', ';'});
+                else if (c == '<') data.insert(data.end(), {'&', 'l', 't', ';'});
+                else if (c == '>') data.insert(data.end(), {'&', 'g', 't', ';'});
+                else
+                {
+                    std::string encoded = utf32ToUtf8(c);
+                    data.insert(data.end(), encoded.begin(), encoded.end());
+                }
+            }
+
+            return true;
+        }
+
         Node::Node()
         {
         }
@@ -615,7 +635,7 @@ namespace ouzel
                         {
                             data.insert(data.end(), attribute.first.begin(), attribute.first.end());
                             data.insert(data.end(), {'=', '"'});
-                            data.insert(data.end(), attribute.second.begin(), attribute.second.end());
+                            if (!encodeString(data, utf8ToUtf32(attribute.second))) return false;
                             data.insert(data.end(), '"');
                         }
                     }
@@ -660,7 +680,7 @@ namespace ouzel
                     }
                     break;
                 case Node::Type::TEXT:
-                    data.insert(data.end(), value.begin(), value.end());
+                    if (!encodeString(data, utf8ToUtf32(value))) return false;
                     break;
                 default:
                     return false;
