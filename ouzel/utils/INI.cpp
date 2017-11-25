@@ -161,34 +161,34 @@ namespace ouzel
 
             Section* section = &sections[""]; // default section
 
-            for (auto i = str.begin(); i != str.end();)
+            for (auto iterator = str.begin(); iterator != str.end();)
             {
-                if (*i == '\n' || *i == '\r' || *i == ' ' || *i == '\t') // line starts with a whitespace
+                if (*iterator == '\n' || *iterator == '\r' || *iterator == ' ' || *iterator == '\t') // line starts with a whitespace
                 {
-                    ++i; // skip the white space
+                    ++iterator; // skip the white space
                 }
-                else if (*i == '[') // section
+                else if (*iterator == '[') // section
                 {
-                    ++i; // skip the left bracket
+                    ++iterator; // skip the left bracket
 
                     std::vector<uint32_t> sectionUtf32;
                     bool parsedSection = false;
 
                     for (;;)
                     {
-                        if (i == str.end() || *i == '\n' || *i == '\r')
+                        if (iterator == str.end() || *iterator == '\n' || *iterator == '\r')
                         {
                             if (!parsedSection)
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of section";
                                 return false;
                             }
-                            ++i; // skip the newline
+                            ++iterator; // skip the newline
                             break;
                         }
-                        else if (*i == ';')
+                        else if (*iterator == ';')
                         {
-                            ++i; // skip the semicolon
+                            ++iterator; // skip the semicolon
 
                             if (!parsedSection)
                             {
@@ -198,21 +198,25 @@ namespace ouzel
 
                             for (;;)
                             {
-                                if (i == str.end() || *i == '\n' || *i == '\r')
+                                if (iterator == str.end())
                                 {
-                                    ++i; // skip the newline
+                                    break;
+                                }
+                                else if (*iterator == '\n' || *iterator == '\r')
+                                {
+                                    ++iterator; // skip the newline
                                     break;
                                 }
 
-                                ++i;
+                                ++iterator;
                             }
                             break;
                         }
-                        else if (*i == ']')
+                        else if (*iterator == ']')
                         {
                             parsedSection = true;
                         }
-                        else if (*i != ' ' && *i != '\t')
+                        else if (*iterator != ' ' && *iterator != '\t')
                         {
                             if (parsedSection)
                             {
@@ -223,10 +227,10 @@ namespace ouzel
 
                         if (!parsedSection)
                         {
-                            sectionUtf32.push_back(*i);
+                            sectionUtf32.push_back(*iterator);
                         }
 
-                        ++i;
+                        ++iterator;
                     }
 
                     if (sectionUtf32.empty())
@@ -239,13 +243,13 @@ namespace ouzel
 
                     section = &sections[sectionName];
                 }
-                else if (*i == ';') // comment
+                else if (*iterator == ';') // comment
                 {
-                    while (++i != str.end())
+                    while (++iterator != str.end())
                     {
-                        if (*i == '\r' || *i == '\n')
+                        if (*iterator == '\r' || *iterator == '\n')
                         {
-                            ++i; // skip the newline
+                            ++iterator; // skip the newline
                             break;
                         }
                     }
@@ -258,16 +262,16 @@ namespace ouzel
 
                     for (;;)
                     {
-                        if (i == str.end())
+                        if (iterator == str.end())
                         {
                             break;
                         }
-                        else if (*i == '\r' || *i == '\n')
+                        else if (*iterator == '\r' || *iterator == '\n')
                         {
-                            ++i; // skip the newline
+                            ++iterator; // skip the newline
                             break;
                         }
-                        else if (*i == '=')
+                        else if (*iterator == '=')
                         {
                             if (!parsedKey)
                             {
@@ -279,19 +283,23 @@ namespace ouzel
                                 return false;
                             }
                         }
-                        else if (*i == ';')
+                        else if (*iterator == ';')
                         {
-                            ++i; // skip the semicolon
+                            ++iterator; // skip the semicolon
 
                             for (;;)
                             {
-                                if (i == str.end() || *i == '\r' || *i == '\n')
+                                if (iterator == str.end())
                                 {
-                                    ++i; // skip the newline
+                                    break;
+                                }
+                                else if (*iterator == '\r' || *iterator == '\n')
+                                {
+                                    ++iterator; // skip the newline
                                     break;
                                 }
 
-                                ++i;
+                                ++iterator;
                             }
                             break;
                         }
@@ -299,15 +307,15 @@ namespace ouzel
                         {
                             if (!parsedKey)
                             {
-                                keyUtf32.push_back(*i);
+                                keyUtf32.push_back(*iterator);
                             }
                             else
                             {
-                                valueUtf32.push_back(*i);
+                                valueUtf32.push_back(*iterator);
                             }
                         }
 
-                        ++i;
+                        ++iterator;
                     }
 
                     if (keyUtf32.empty())

@@ -393,102 +393,122 @@ namespace ouzel
             };
 
             // tokenize
-            for (std::vector<uint32_t>::const_iterator i = str.begin(); i != str.end();)
+            for (std::vector<uint32_t>::const_iterator iterator = str.begin(); iterator != str.end();)
             {
                 Token token;
 
-                if (*i == '{' || *i == '}' ||
-                    *i == '[' || *i == ']' ||
-                    *i == ',' || *i == ':') // punctuation
+                if (*iterator == '{' || *iterator == '}' ||
+                    *iterator == '[' || *iterator == ']' ||
+                    *iterator == ',' || *iterator == ':') // punctuation
                 {
-                    if (*i == '{') token.type = Token::Type::LEFT_BRACE;
-                    if (*i == '}') token.type = Token::Type::RIGHT_BRACE;
-                    if (*i == '[') token.type = Token::Type::LEFT_BRACKET;
-                    if (*i == ']') token.type = Token::Type::RIGHT_BRACKET;
-                    if (*i == ',') token.type = Token::Type::COMMA;
-                    if (*i == ':') token.type = Token::Type::COLON;
-                    token.value.push_back(*i);
+                    if (*iterator == '{') token.type = Token::Type::LEFT_BRACE;
+                    if (*iterator == '}') token.type = Token::Type::RIGHT_BRACE;
+                    if (*iterator == '[') token.type = Token::Type::LEFT_BRACKET;
+                    if (*iterator == ']') token.type = Token::Type::RIGHT_BRACKET;
+                    if (*iterator == ',') token.type = Token::Type::COMMA;
+                    if (*iterator == ':') token.type = Token::Type::COLON;
+                    token.value.push_back(*iterator);
 
-                    ++i;
+                    ++iterator;
                 }
-                else if ((*i >= '0' && *i <= '9') ||  // number
-                         (*i == '.' && (i + 1) != str.end() && *(i + 1) >= '0' && *(i + 1) <= '9')) // starts with a dot
+                else if ((*iterator >= '0' && *iterator <= '9') ||  // number
+                         (*iterator == '.' && (iterator + 1) != str.end() &&
+                          *(iterator + 1) >= '0' && *(iterator + 1) <= '9')) // starts with a dot
                 {
                     token.type = Token::Type::LITERAL_NUMBER;
 
-                    while (i != str.end() &&
-                           ((*i >= '0' && *i <= '9')))
+                    while (iterator != str.end() &&
+                           ((*iterator >= '0' && *iterator <= '9')))
                     {
-                        token.value.push_back(*i);
-                        ++i;
+                        token.value.push_back(*iterator);
+                        ++iterator;
                     }
 
-                    if (i != str.end() && *i == '.')
+                    if (iterator != str.end() && *iterator == '.')
                     {
-                        token.value.push_back(*i);
-                        ++i;
+                        token.value.push_back(*iterator);
+                        ++iterator;
 
-                        while (i != str.end() &&
-                               ((*i >= '0' && *i <= '9')))
+                        while (iterator != str.end() &&
+                               ((*iterator >= '0' && *iterator <= '9')))
                         {
-                            token.value.push_back(*i);
-                            ++i;
+                            token.value.push_back(*iterator);
+                            ++iterator;
                         }
                     }
 
                     // parse exponent
-                    if (i != str.end() &&
-                        (*i == 'e' || *i == 'E'))
+                    if (iterator != str.end() &&
+                        (*iterator == 'e' || *iterator == 'E'))
                     {
-                        token.value.push_back(*i);
+                        token.value.push_back(*iterator);
 
-                        if (++i == str.end() || *i != '+' || *i != '-')
+                        if (++iterator == str.end() || *iterator != '+' || *iterator != '-')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;
                         }
 
-                        token.value.push_back(*i);
+                        token.value.push_back(*iterator);
 
-                        if (++i == str.end() || *i < '0' || *i > '9')
+                        if (++iterator == str.end() || *iterator < '0' || *iterator > '9')
                         {
                             Log(Log::Level::ERR) << "Invalid exponent";
                             return false;
                         }
 
-                        while (i != str.end() &&
-                               ((*i >= '0' && *i <= '9')))
+                        while (iterator != str.end() &&
+                               ((*iterator >= '0' && *iterator <= '9')))
                         {
-                            token.value.push_back(*i);
-                            ++i;
+                            token.value.push_back(*iterator);
+                            ++iterator;
                         }
                     }
                 }
-                else if (*i == '"') // string literal
+                else if (*iterator == '"') // string literal
                 {
                     token.type = Token::Type::LITERAL_STRING;
 
-                    while (++i != str.end() &&
-                           *i != '"')
+                    for (;;)
                     {
-                        if (*i == '\\')
+                        if (++iterator == str.end())
                         {
-                            if (++i == str.end())
+                            Log(Log::Level::ERR) << "Unterminated string literal";
+                            return false;
+                        }
+
+                        if (*iterator == '"')
+                        {
+                            ++iterator;
+                            break;
+                        }
+                        else if (*iterator == '\\')
+                        {
+                            if (++iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unterminated string literal";
                                 return false;
                             }
 
-                            if (*i == '"') token.value.push_back('"');
-                            else if (*i == '\\') token.value.push_back('\\');
-                            else if (*i == '/') token.value.push_back('/');
-                            else if (*i == 'b') token.value.push_back('\b');
-                            else if (*i == 'f') token.value.push_back('\f');
-                            else if (*i == 'n') token.value.push_back('\n');
-                            else if (*i == 'r') token.value.push_back('\r');
-                            else if (*i == 't') token.value.push_back('\t');
-                            else if (*i == 'u')
+                            if (*iterator == '"') token.value.push_back('"');
+                            else if (*iterator == '\\') token.value.push_back('\\');
+                            else if (*iterator == '/') token.value.push_back('/');
+                            else if (*iterator == 'b') token.value.push_back('\b');
+                            else if (*iterator == 'f') token.value.push_back('\f');
+                            else if (*iterator == 'n') token.value.push_back('\n');
+                            else if (*iterator == 'r') token.value.push_back('\r');
+                            else if (*iterator == 't') token.value.push_back('\t');
+                            else if (*iterator == 'u')
                             {
+                                if (std::distance<std::vector<uint32_t>::const_iterator>(++iterator, str.end()) < 4)
+                                {
+                                    Log(Log::Level::ERR) << "Unexpected end of data";
+                                    return false;
+                                }
+
+                                uint32_t c = 0;
+                                token.value.push_back(c);
+
                                 // TODO: implement
                                 Log(Log::Level::ERR) << "Character codes are not supported";
                                 return false;
@@ -499,39 +519,29 @@ namespace ouzel
                                 return false;
                             }
                         }
-                        else if (isControlChar(*i))
+                        else if (isControlChar(*iterator))
                         {
                             Log(Log::Level::ERR) << "Unterminated string literal";
                             return false;
                         }
                         else
                         {
-                            token.value.push_back(*i);
+                            token.value.push_back(*iterator);
                         }
                     }
-
-                    if (*i == '"')
-                    {
-                        ++i;
-                    }
-                    else
-                    {
-                        Log(Log::Level::ERR) << "Unterminated string literal";
-                        return false;
-                    }
                 }
-                else if ((*i >= 'a' && *i <= 'z') ||
-                         (*i >= 'A' && *i <= 'Z') ||
-                         *i == '_')
+                else if ((*iterator >= 'a' && *iterator <= 'z') ||
+                         (*iterator >= 'A' && *iterator <= 'Z') ||
+                         *iterator == '_')
                 {
-                    while (i != str.end() &&
-                           ((*i >= 'a' && *i <= 'z') ||
-                            (*i >= 'A' && *i <= 'Z') ||
-                            *i == '_' ||
-                            (*i >= '0' && *i <= '9')))
+                    while (iterator != str.end() &&
+                           ((*iterator >= 'a' && *iterator <= 'z') ||
+                            (*iterator >= 'A' && *iterator <= 'Z') ||
+                            *iterator == '_' ||
+                            (*iterator >= '0' && *iterator <= '9')))
                     {
-                        token.value.push_back(*i);
-                        ++i;
+                        token.value.push_back(*iterator);
+                        ++iterator;
                     }
 
                     std::map<std::vector<uint32_t>, Token::Type>::const_iterator keywordIterator;
@@ -546,15 +556,15 @@ namespace ouzel
                         return false;
                     }
                 }
-                else if (*i == '-')
+                else if (*iterator == '-')
                 {
                     token.type = Token::Type::OPERATOR_MINUS;
-                    token.value.push_back(*i);
-                    ++i;
+                    token.value.push_back(*iterator);
+                    ++iterator;
                 }
-                else if (isWhitespace(*i)) // whitespace
+                else if (isWhitespace(*iterator)) // whitespace
                 {
-                    ++i;
+                    ++iterator;
                     continue;
                 }
                 else
