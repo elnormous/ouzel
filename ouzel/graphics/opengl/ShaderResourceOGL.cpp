@@ -27,7 +27,7 @@ namespace ouzel
 
         bool ShaderResourceOGL::init(const std::vector<uint8_t>& newPixelShader,
                                      const std::vector<uint8_t>& newVertexShader,
-                                     const std::vector<VertexAttribute>& newVertexAttributes,
+                                     const std::vector<Vertex::Attribute>& newVertexAttributes,
                                      const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                      uint32_t newPixelShaderDataAlignment,
@@ -153,40 +153,40 @@ namespace ouzel
 
             GLuint index = 0;
 
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
             {
                 std::string name;
 
                 switch (vertexAttribute.usage)
                 {
-                    case VertexAttribute::Usage::BINORMAL:
+                    case Vertex::Attribute::Usage::BINORMAL:
                         name = "binormal" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::BLEND_INDICES:
+                    case Vertex::Attribute::Usage::BLEND_INDICES:
                         name = "blendIndices" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::BLEND_WEIGHT:
+                    case Vertex::Attribute::Usage::BLEND_WEIGHT:
                         name = "blendWeight" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::COLOR:
+                    case Vertex::Attribute::Usage::COLOR:
                         name = "color" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::NORMAL:
+                    case Vertex::Attribute::Usage::NORMAL:
                         name = "normal" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::POSITION:
+                    case Vertex::Attribute::Usage::POSITION:
                         name = "position" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::POSITION_TRANSFORMED:
+                    case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
                         name = "positionT";
                         break;
-                    case VertexAttribute::Usage::POINT_SIZE:
+                    case Vertex::Attribute::Usage::POINT_SIZE:
                         name = "pointSize" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::TANGENT:
+                    case Vertex::Attribute::Usage::TANGENT:
                         name = "tangent" + std::to_string(vertexAttribute.index);
                         break;
-                    case VertexAttribute::Usage::TEXTURE_COORDINATES:
+                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES:
                         name = "texCoord" + std::to_string(vertexAttribute.index);
                         break;
                     default:

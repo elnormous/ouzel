@@ -34,7 +34,7 @@ namespace ouzel
 
             bool init(const std::vector<uint8_t>& newPixelShader,
                       const std::vector<uint8_t>& newVertexShader,
-                      const std::vector<VertexAttribute>& newVertexAttributes,
+                      const std::vector<Vertex::Attribute>& newVertexAttributes,
                       const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
                       uint32_t newPixelShaderDataAlignment = 0,
@@ -43,7 +43,7 @@ namespace ouzel
                       const std::string& vertexShaderFunction = "");
             bool init(const std::string& newPixelShader,
                       const std::string& newVertexShader,
-                      const std::vector<VertexAttribute>& newVertexAttributes,
+                      const std::vector<Vertex::Attribute>& newVertexAttributes,
                       const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
                       uint32_t newPixelShaderDataAlignment = 0,
@@ -53,12 +53,12 @@ namespace ouzel
 
             ShaderResource* getResource() const { return resource; }
 
-            const std::vector<VertexAttribute>& getVertexAttributes() const;
+            const std::vector<Vertex::Attribute>& getVertexAttributes() const;
 
         private:
             ShaderResource* resource = nullptr;
 
-            std::vector<VertexAttribute> vertexAttributes;
+            std::vector<Vertex::Attribute> vertexAttributes;
 
             std::string pixelShaderFilename;
             std::string vertexShaderFilename;

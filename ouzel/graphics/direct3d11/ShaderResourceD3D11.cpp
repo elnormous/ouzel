@@ -120,7 +120,7 @@ namespace ouzel
 
         bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newPixelShader,
                                        const std::vector<uint8_t>& newVertexShader,
-                                       const std::vector<VertexAttribute>& newVertexAttributes,
+                                       const std::vector<Vertex::Attribute>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newPixelShaderDataAlignment,
@@ -163,7 +163,7 @@ namespace ouzel
 
             UINT offset = 0;
 
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
             {
                 DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
 
@@ -177,34 +177,34 @@ namespace ouzel
 
                 switch (vertexAttribute.usage)
                 {
-                    case VertexAttribute::Usage::BINORMAL:
+                    case Vertex::Attribute::Usage::BINORMAL:
                         usage = "BINORMAL";
                         break;
-                    case VertexAttribute::Usage::BLEND_INDICES:
+                    case Vertex::Attribute::Usage::BLEND_INDICES:
                         usage = "BLENDINDICES";
                         break;
-                    case VertexAttribute::Usage::BLEND_WEIGHT:
+                    case Vertex::Attribute::Usage::BLEND_WEIGHT:
                         usage = "BLENDWEIGHT";
                         break;
-                    case VertexAttribute::Usage::COLOR:
+                    case Vertex::Attribute::Usage::COLOR:
                         usage = "COLOR";
                         break;
-                    case VertexAttribute::Usage::NORMAL:
+                    case Vertex::Attribute::Usage::NORMAL:
                         usage = "NORMAL";
                         break;
-                    case VertexAttribute::Usage::POSITION:
+                    case Vertex::Attribute::Usage::POSITION:
                         usage = "POSITION";
                         break;
-                    case VertexAttribute::Usage::POSITION_TRANSFORMED:
+                    case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
                         usage = "POSITIONT";
                         break;
-                    case VertexAttribute::Usage::POINT_SIZE:
+                    case Vertex::Attribute::Usage::POINT_SIZE:
                         usage = "PSIZE";
                         break;
-                    case VertexAttribute::Usage::TANGENT:
+                    case Vertex::Attribute::Usage::TANGENT:
                         usage = "TANGENT";
                         break;
-                    case VertexAttribute::Usage::TEXTURE_COORDINATES:
+                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES:
                         usage = "TEXCOORD";
                         break;
                     default:

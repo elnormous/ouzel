@@ -14,35 +14,41 @@ namespace ouzel
 {
     namespace graphics
     {
-        struct VertexAttribute
-        {
-            enum class Usage
-            {
-                NONE,
-                BINORMAL,
-                BLEND_INDICES,
-                BLEND_WEIGHT,
-                COLOR,
-                NORMAL,
-                POSITION,
-                POSITION_TRANSFORMED,
-                POINT_SIZE,
-                TANGENT,
-                TEXTURE_COORDINATES
-            };
-
-            VertexAttribute(Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
-                usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) {}
-            Usage usage = Usage::NONE;
-            uint32_t index = 0;
-            DataType dataType = DataType::NONE;
-            bool normalized = false;
-        };
-
-        const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
-
         class Vertex
         {
+        public:
+            struct Attribute
+            {
+                enum class Usage
+                {
+                    NONE,
+                    BINORMAL,
+                    BLEND_INDICES,
+                    BLEND_WEIGHT,
+                    COLOR,
+                    NORMAL,
+                    POSITION,
+                    POSITION_TRANSFORMED,
+                    POINT_SIZE,
+                    TANGENT,
+                    TEXTURE_COORDINATES
+                };
+
+                Attribute(Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
+                    usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) {}
+                Usage usage = Usage::NONE;
+                uint32_t index = 0;
+                DataType dataType = DataType::NONE;
+                bool normalized = false;
+            };
+            
+            static const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
+
+            static const std::vector<Attribute> ATTRIBUTES;
+
+            Vertex();
+            Vertex(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord, const Vector3& aNormal);
+
             Vector3 position;
             Color color;
             Vector2 texCoords[2];
@@ -52,7 +58,7 @@ namespace ouzel
         class VertexPC
         {
         public:
-            static const std::vector<VertexAttribute> ATTRIBUTES;
+            static const std::vector<Vertex::Attribute> ATTRIBUTES;
 
             Vector3 position;
             Color color;
@@ -64,7 +70,7 @@ namespace ouzel
         class VertexPCT
         {
         public:
-            static const std::vector<VertexAttribute> ATTRIBUTES;
+            static const std::vector<Vertex::Attribute> ATTRIBUTES;
 
             Vector3 position;
             Color color;
@@ -77,7 +83,7 @@ namespace ouzel
         class VertexPCTN
         {
         public:
-            static const std::vector<VertexAttribute> ATTRIBUTES;
+            static const std::vector<Vertex::Attribute> ATTRIBUTES;
 
             Vector3 position;
             Color color;

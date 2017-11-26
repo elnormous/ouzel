@@ -23,7 +23,7 @@ namespace ouzel
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
-                              const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
+                              const std::vector<Vertex::Attribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
         {
             indexBuffer = newIndexBuffer;
             vertexBuffer = newVertexBuffer;
@@ -72,12 +72,12 @@ namespace ouzel
             return true;
         }
 
-        const std::vector<VertexAttribute>& MeshBuffer::getVertexAttributes() const
+        const std::vector<Vertex::Attribute>& MeshBuffer::getVertexAttributes() const
         {
             return vertexAttributes;
         }
 
-        bool MeshBuffer::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        bool MeshBuffer::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
         {
             vertexAttributes = newVertexAttributes;
 

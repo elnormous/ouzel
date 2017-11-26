@@ -124,7 +124,7 @@ namespace ouzel
         }
 
         bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                         const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+                                         const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer)
         {
             if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
             {
@@ -152,7 +152,7 @@ namespace ouzel
 
             GLuint offset = 0;
 
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
             {
                 GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
 
@@ -240,7 +240,7 @@ namespace ouzel
             return true;
         }
 
-        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes)
+        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
         {
             if (MeshBufferResource::setVertexAttributes(newVertexAttributes))
             {
@@ -251,7 +251,7 @@ namespace ouzel
 
             GLuint offset = 0;
 
-            for (const VertexAttribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
             {
                 GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
 
@@ -288,7 +288,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
                         if (index < vertexAttribs.size())
                         {
@@ -335,7 +335,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
                         if (index < vertexAttribs.size())
                         {
@@ -398,7 +398,7 @@ namespace ouzel
                     return false;
                 }
 
-                for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
                     if (index < vertexAttribs.size())
                     {
@@ -454,7 +454,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (GLuint index = 0; index < VERTEX_ATTRIBUTE_COUNT; ++index)
+                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
                         if (index < vertexAttribs.size())
                         {

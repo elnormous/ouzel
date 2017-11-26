@@ -24,7 +24,7 @@ namespace ouzel
 
         bool Shader::init(const std::string& newPixelShader,
                           const std::string& newVertexShader,
-                          const std::vector<VertexAttribute>& newVertexAttributes,
+                          const std::vector<Vertex::Attribute>& newVertexAttributes,
                           const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
                           const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
                           uint32_t newPixelShaderDataAlignment,
@@ -68,7 +68,7 @@ namespace ouzel
 
         bool Shader::init(const std::vector<uint8_t>& newPixelShader,
                           const std::vector<uint8_t>& newVertexShader,
-                          const std::vector<VertexAttribute>& newVertexAttributes,
+                          const std::vector<Vertex::Attribute>& newVertexAttributes,
                           const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                           const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                           uint32_t newPixelShaderDataAlignment,
@@ -95,7 +95,7 @@ namespace ouzel
             return  true;
         }
 
-        const std::vector<VertexAttribute>& Shader::getVertexAttributes() const
+        const std::vector<Vertex::Attribute>& Shader::getVertexAttributes() const
         {
             return vertexAttributes;
         }

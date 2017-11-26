@@ -22,7 +22,7 @@ namespace ouzel
             virtual ~MeshBuffer();
 
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
-                      const std::vector<VertexAttribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer);
+                      const std::vector<Vertex::Attribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer);
 
             MeshBufferResource* getResource() const { return resource; }
 
@@ -32,8 +32,8 @@ namespace ouzel
             const std::shared_ptr<Buffer>& getIndexBuffer() const { return indexBuffer; }
             bool setIndexBuffer(const std::shared_ptr<Buffer>& newIndexBuffer);
 
-            const std::vector<VertexAttribute>& getVertexAttributes() const;
-            bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
+            const std::vector<Vertex::Attribute>& getVertexAttributes() const;
+            bool setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes);
 
             const std::shared_ptr<Buffer>& getVertexBuffer() const { return vertexBuffer; }
             bool setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer);
@@ -44,7 +44,7 @@ namespace ouzel
             std::shared_ptr<Buffer> indexBuffer;
             std::shared_ptr<Buffer> vertexBuffer;
             uint32_t indexSize = 0;
-            std::vector<VertexAttribute> vertexAttributes;
+            std::vector<Vertex::Attribute> vertexAttributes;
         };
     } // namespace graphics
 } // namespace ouzel

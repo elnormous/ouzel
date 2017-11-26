@@ -20,7 +20,7 @@ namespace ouzel
             virtual ~MeshBufferResource();
 
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                              const std::vector<VertexAttribute>& newVertexAttributes, BufferResource* newVertexBuffer);
+                              const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer);
 
             uint32_t getIndexSize() const { return indexSize; }
             virtual bool setIndexSize(uint32_t newIndexSize);
@@ -29,8 +29,8 @@ namespace ouzel
             virtual bool setIndexBuffer(BufferResource* newIndexBuffer);
 
             uint32_t getVertexSize() const { return vertexSize; }
-            const std::vector<VertexAttribute>& getVertexAttributes() const { return vertexAttributes; }
-            virtual bool setVertexAttributes(const std::vector<VertexAttribute>& newVertexAttributes);
+            const std::vector<Vertex::Attribute>& getVertexAttributes() const { return vertexAttributes; }
+            virtual bool setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes);
 
             BufferResource* getVertexBuffer() const { return vertexBuffer; }
             virtual bool setVertexBuffer(BufferResource* newVertexBuffer);
@@ -40,7 +40,7 @@ namespace ouzel
 
             uint32_t indexSize = 0;
             BufferResource* indexBuffer = nullptr;
-            std::vector<VertexAttribute> vertexAttributes;
+            std::vector<Vertex::Attribute> vertexAttributes;
             uint32_t vertexSize = 0;
             BufferResource* vertexBuffer = nullptr;
         };
