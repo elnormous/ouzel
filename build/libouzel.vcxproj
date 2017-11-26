@@ -94,7 +94,6 @@
     <ClCompile Include="..\ouzel\graphics\ImageData.cpp" />
     <ClCompile Include="..\ouzel\graphics\ImageDataSTB.cpp" />
     <ClCompile Include="..\ouzel\graphics\Material.cpp" />
-    <ClCompile Include="..\ouzel\graphics\Mesh.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp" />
     <ClCompile Include="..\ouzel\graphics\MeshBufferResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.cpp" />
@@ -256,7 +255,6 @@
     <ClInclude Include="..\ouzel\graphics\ImageData.hpp" />
     <ClInclude Include="..\ouzel\graphics\ImageDataSTB.hpp" />
     <ClInclude Include="..\ouzel\graphics\Material.hpp" />
-    <ClInclude Include="..\ouzel\graphics\Mesh.hpp" />
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.hpp" />
     <ClInclude Include="..\ouzel\graphics\MeshBufferResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
