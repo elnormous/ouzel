@@ -143,6 +143,12 @@ namespace ouzel
                 }
             }
 
+            if (value.empty())
+            {
+                Log(Log::Level::ERR) << "Invalid entity";
+                return false;
+            }
+
             if (value == "quot")
             {
                 result = "\"";
@@ -163,9 +169,62 @@ namespace ouzel
             {
                 result = ">";
             }
-            else if (result[0] == '#')
+            else if (value[0] == '#')
             {
-                // TODO: handle character reference
+                if (value.length() < 2)
+                {
+                    Log(Log::Level::ERR) << "Invalid entity";
+                    return false;
+                }
+
+                uint32_t c = 0;
+
+                if (value[1] == 'x') // hex value
+                {
+                    if (value.length() != 2 + 4)
+                    {
+                        Log(Log::Level::ERR) << "Invalid entity";
+                        return false;
+                    }
+
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        uint8_t code = 0;
+
+                        if (value[i + 2] >= '0' && value[i + 2] <= '9') code = static_cast<uint8_t>(value[i + 2]) - '0';
+                        else if (value[i + 2] >= 'a' && value[i + 2] <='f') code = static_cast<uint8_t>(value[i + 2]) - 'a' + 10;
+                        else if (value[i + 2] >= 'A' && value[i + 2] <='F') code = static_cast<uint8_t>(value[i + 2]) - 'A' + 10;
+                        else
+                        {
+                            Log(Log::Level::ERR) << "Invalid character code";
+                            return false;
+                        }
+                        c = (c << 4) | code;
+                    }
+                }
+                else
+                {
+                    if (value.length() != 1 + 4)
+                    {
+                        Log(Log::Level::ERR) << "Invalid entity";
+                        return false;
+                    }
+
+                    for (size_t i = 0; i < 4; ++i)
+                    {
+                        uint8_t code = 0;
+
+                        if (value[i + 1] >= '0' && value[i + 1] <= '9') code = static_cast<uint8_t>(value[i + 1]) - '0';
+                        else
+                        {
+                            Log(Log::Level::ERR) << "Invalid character code";
+                            return false;
+                        }
+                        c = c * 10 + code;
+                    }
+                }
+
+                result = utf32ToUtf8(c);
             }
             else
             {
