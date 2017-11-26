@@ -87,6 +87,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageDataSTB.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
+	$(ROOT_DIR)/../ouzel/graphics/Mesh.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \

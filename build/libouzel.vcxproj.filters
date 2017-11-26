@@ -244,6 +244,9 @@
     <ClCompile Include="..\ouzel\scene\Scene.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\graphics\Mesh.cpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\graphics\MeshBuffer.cpp">
       <Filter>ouzel\graphics</Filter>
     </ClCompile>
@@ -744,6 +747,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\scene\Scene.hpp">
       <Filter>ouzel\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\Mesh.hpp">
+      <Filter>ouzel\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\graphics\MeshBuffer.hpp">
       <Filter>ouzel\graphics</Filter>
