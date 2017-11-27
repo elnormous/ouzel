@@ -150,13 +150,6 @@ namespace ouzel
 
             vertexAttribs.clear();
 
-            GLsizei vertexSize = 0;
-
-            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
-
             GLuint offset = 0;
 
             for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
@@ -165,7 +158,8 @@ namespace ouzel
 
                 vertexAttribs.push_back({
                     getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
-                    vertexSize, static_cast<const GLchar*>(nullptr) + offset
+                    static_cast<GLsizei>(sizeof(Vertex)),
+                    static_cast<const GLchar*>(nullptr) + offset
                 });
                 offset += getDataTypeSize(vertexAttribute.dataType);
             }

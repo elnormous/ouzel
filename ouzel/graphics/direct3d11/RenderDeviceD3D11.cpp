@@ -698,7 +698,7 @@ namespace ouzel
                 }
 
                 ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
-                UINT strides[] = {meshBufferD3D11->getVertexSize()};
+                UINT strides[] = {sizeof(Vertex)};
                 UINT offsets[] = {0};
                 context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
                 context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), meshBufferD3D11->getIndexFormat(), 0);
