@@ -19,8 +19,8 @@ namespace ouzel
         {
         }
 
-        Plane(float aA, float aB, float aC, float aD):
-            a(aA), b(aB), c(aC), d(aD)
+        Plane(float initA, float initB, float initC, float initD):
+            a(initA), b(initB), c(initC), d(initD)
         {
         }
 

@@ -47,7 +47,7 @@ namespace ouzel
             static const std::vector<Attribute> ATTRIBUTES;
 
             Vertex();
-            Vertex(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord, const Vector3& aNormal);
+            Vertex(const Vector3& initPosition, Color initColor, const Vector2& initTexCoord, const Vector3& initNormal);
 
             Vector3 position;
             Color color;

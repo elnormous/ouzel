@@ -18,23 +18,23 @@ namespace ouzel
         {
         }
 
-        Rectangle(float aWidth, float aHeight):
-            size(aWidth, aHeight)
+        Rectangle(float width, float height):
+            size(width, height)
         {
         }
 
-        Rectangle(float aX, float aY, float aWidth, float aHeight):
-            position(aX, aY), size(aWidth, aHeight)
+        Rectangle(float initX, float initY, float width, float height):
+            position(initX, initY), size(width, height)
         {
         }
 
-        Rectangle(const Vector2& aPosition, float aWidth, float aHeight):
-            position(aPosition), size(aWidth, aHeight)
+        Rectangle(const Vector2& initPosition, float width, float height):
+            position(initPosition), size(width, height)
         {
         }
 
-        Rectangle(const Vector2& aPosition, const Size2& aSize):
-            position(aPosition), size(aSize)
+        Rectangle(const Vector2& initPosition, const Size2& initSize):
+            position(initPosition), size(initSize)
         {
         }
 

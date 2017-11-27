@@ -60,8 +60,8 @@ namespace ouzel
         {
         }
 
-        Vector4(float aX, float aY, float aZ, float aW):
-            x(aX), y(aY), z(aZ), w(aW)
+        Vector4(float initX, float initY, float initZ, float initW):
+            x(initX), y(initY), z(initZ), w(initW)
         {
         }
 

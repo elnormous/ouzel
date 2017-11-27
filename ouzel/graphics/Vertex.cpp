@@ -19,10 +19,10 @@ namespace ouzel
         {
         }
 
-        Vertex::Vertex(const Vector3& aPosition, Color aColor, const Vector2& aTexCoord, const Vector3& aNormal):
-            position(aPosition), color(aColor), normal(aNormal)
+        Vertex::Vertex(const Vector3& initPosition, Color initColor, const Vector2& initTexCoord, const Vector3& initNormal):
+            position(initPosition), color(initColor), normal(initNormal)
         {
-            texCoords[0] = aTexCoord;
+            texCoords[0] = initTexCoord;
         }
     } // namespace graphics
 } // namespace ouzel

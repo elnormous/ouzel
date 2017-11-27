@@ -17,8 +17,8 @@ namespace ouzel
         {
         }
 
-        ConvexVolume(const std::vector<Plane>& aPlanes):
-            planes(aPlanes)
+        ConvexVolume(const std::vector<Plane>& initPlanes):
+            planes(initPlanes)
         {
         }
 

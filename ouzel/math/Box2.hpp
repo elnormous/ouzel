@@ -22,8 +22,8 @@ namespace ouzel
         {
         }
 
-        Box2(const Vector2& aMin, const Vector2& aMax):
-            min(aMin), max(aMax)
+        Box2(const Vector2& initMin, const Vector2& initMax):
+            min(initMin), max(initMax)
         {
         }
 

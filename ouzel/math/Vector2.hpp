@@ -28,8 +28,8 @@ namespace ouzel
         {
         }
 
-        Vector2(float aX, float aY):
-            x(aX), y(aY)
+        Vector2(float initX, float initY):
+            x(initX), y(initY)
         {
         }
 

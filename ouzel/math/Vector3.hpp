@@ -32,8 +32,8 @@ namespace ouzel
         {
         }
 
-        Vector3(float aX, float aY, float aZ):
-            x(aX), y(aY), z(aZ)
+        Vector3(float initX, float initY, float initZ):
+            x(initX), y(initY), z(initZ)
         {
         }
 

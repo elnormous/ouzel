@@ -23,8 +23,8 @@ namespace ouzel
         {
         }
 
-        Quaternion(float aX, float aY, float aZ, float aW):
-            x(aX), y(aY), z(aZ), w(aW)
+        Quaternion(float initX, float initY, float initZ, float initW):
+            x(initX), y(initY), z(initZ), w(initW)
         {
         }
 

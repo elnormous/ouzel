@@ -20,8 +20,8 @@ namespace ouzel
         {
         }
 
-        Size3(float w, float h, float d):
-            width(w), height(h), depth(d)
+        Size3(float initWidth, float initHeight, float initDepth):
+            width(initWidth), height(initHeight), depth(initDepth)
         {
         }
 

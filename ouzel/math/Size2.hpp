@@ -19,8 +19,8 @@ namespace ouzel
         {
         }
 
-        Size2(float w, float h):
-            width(w), height(h)
+        Size2(float initWidth, float initHeight):
+            width(initWidth), height(initHeight)
         {
         }
 
