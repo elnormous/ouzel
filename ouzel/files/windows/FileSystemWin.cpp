@@ -20,6 +20,7 @@ namespace ouzel
         if (exePath)
         {
             appPath = getDirectoryPart(exePath);
+            Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
         {
