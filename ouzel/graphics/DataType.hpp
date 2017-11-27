@@ -14,30 +14,55 @@ namespace ouzel
             NONE,
 
             BYTE,
-            BYTE_VECTOR2,
-            BYTE_VECTOR3,
-            BYTE_VECTOR4,
+            BYTE_NORM,
             UNSIGNED_BYTE,
+            UNSIGNED_BYTE_NORM,
+
+            BYTE_VECTOR2,
+            BYTE_VECTOR2_NORM,
             UNSIGNED_BYTE_VECTOR2,
+            UNSIGNED_BYTE_VECTOR2_NORM,
+
+            BYTE_VECTOR3,
+            BYTE_VECTOR3_NORM,
             UNSIGNED_BYTE_VECTOR3,
+            UNSIGNED_BYTE_VECTOR3_NORM,
+
+            BYTE_VECTOR4,
+            BYTE_VECTOR4_NORM,
             UNSIGNED_BYTE_VECTOR4,
+            UNSIGNED_BYTE_VECTOR4_NORM,
 
             SHORT,
-            SHORT_VECTOR2,
-            SHORT_VECTOR3,
-            SHORT_VECTOR4,
+            SHORT_NORM,
             UNSIGNED_SHORT,
+            UNSIGNED_SHORT_NORM,
+
+            SHORT_VECTOR2,
+            SHORT_VECTOR2_NORM,
             UNSIGNED_SHORT_VECTOR2,
+            UNSIGNED_SHORT_VECTOR2_NORM,
+
+            SHORT_VECTOR3,
+            SHORT_VECTOR3_NORM,
             UNSIGNED_SHORT_VECTOR3,
+            UNSIGNED_SHORT_VECTOR3_NORM,
+
+            SHORT_VECTOR4,
+            SHORT_VECTOR4_NORM,
             UNSIGNED_SHORT_VECTOR4,
+            UNSIGNED_SHORT_VECTOR4_NORM,
 
             INTEGER,
-            INTEGER_VECTOR2,
-            INTEGER_VECTOR3,
-            INTEGER_VECTOR4,
             UNSIGNED_INTEGER,
+
+            INTEGER_VECTOR2,
             UNSIGNED_INTEGER_VECTOR2,
+
+            INTEGER_VECTOR3,
             UNSIGNED_INTEGER_VECTOR3,
+
+            INTEGER_VECTOR4,
             UNSIGNED_INTEGER_VECTOR4,
 
             FLOAT,
@@ -56,29 +81,45 @@ namespace ouzel
                     return 0;
 
                 case DataType::BYTE:
+                case DataType::BYTE_NORM:
                 case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
                     return sizeof(uint8_t);
                 case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
                     return 2 * sizeof(uint8_t);
                 case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
                     return 3 * sizeof(uint8_t);
                 case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
                     return 4 * sizeof(uint8_t);
 
                 case DataType::SHORT:
+                case DataType::SHORT_NORM:
                 case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
                     return sizeof(uint16_t);
                 case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
                     return 2 * sizeof(uint16_t);
                 case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
                     return 3 * sizeof(uint16_t);
                 case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
                     return 4 * sizeof(uint16_t);
 
                 case DataType::INTEGER:

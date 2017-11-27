@@ -19,27 +19,43 @@ namespace ouzel
             switch (dataType)
             {
                 case DataType::BYTE:
+                case DataType::BYTE_NORM:
                 case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
                 case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
                 case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
                     return GL_BYTE;
 
                 case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
                     return GL_UNSIGNED_BYTE;
 
                 case DataType::SHORT:
+                case DataType::SHORT_NORM:
                 case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
                 case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
                 case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
                     return GL_SHORT;
 
                 case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
                     return GL_UNSIGNED_SHORT;
 
                 case DataType::INTEGER:
@@ -58,11 +74,15 @@ namespace ouzel
                 case DataType::FLOAT_VECTOR2:
                 case DataType::FLOAT_VECTOR3:
                 case DataType::FLOAT_VECTOR4:
+                case DataType::FLOAT_MATRIX3:
+                case DataType::FLOAT_MATRIX4:
                     return GL_FLOAT;
 
-                default:
+                case DataType::NONE:
                     return 0;
             }
+
+            return 0;
         }
 
         static GLint getArraySize(DataType dataType)
@@ -70,43 +90,93 @@ namespace ouzel
             switch (dataType)
             {
                 case DataType::BYTE:
+                case DataType::BYTE_NORM:
                 case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
                 case DataType::SHORT:
+                case DataType::SHORT_NORM:
                 case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
                 case DataType::INTEGER:
                 case DataType::UNSIGNED_INTEGER:
                 case DataType::FLOAT:
                     return 1;
 
                 case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
                 case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
                 case DataType::INTEGER_VECTOR2:
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
                 case DataType::FLOAT_VECTOR2:
                     return 2;
 
                 case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
                 case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
                 case DataType::INTEGER_VECTOR3:
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
                 case DataType::FLOAT_VECTOR3:
                     return 3;
 
                 case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
                 case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
                 case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
                 case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
                 case DataType::INTEGER_VECTOR4:
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
                 case DataType::FLOAT_VECTOR4:
                     return 4;
 
-                default:
+                case DataType::FLOAT_MATRIX3:
+                    return 3 * 3;
+
+                case DataType::FLOAT_MATRIX4:
+                    return 4 * 4;
+
+                case DataType::NONE:
                     return 0;
+            }
+
+            return 0;
+        }
+
+        static GLboolean isNormalized(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE_NORM:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::BYTE_VECTOR4_NORM:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::SHORT_NORM:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR4_NORM:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    return GL_TRUE;
+                default:
+                    return GL_FALSE;
             }
         }
 
@@ -154,10 +224,10 @@ namespace ouzel
 
             for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
             {
-                GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
-
                 vertexAttribs.push_back({
-                    getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
+                    getArraySize(vertexAttribute.dataType),
+                    getVertexFormat(vertexAttribute.dataType),
+                    isNormalized(vertexAttribute.dataType),
                     static_cast<GLsizei>(sizeof(Vertex)),
                     static_cast<const GLchar*>(nullptr) + offset
                 });

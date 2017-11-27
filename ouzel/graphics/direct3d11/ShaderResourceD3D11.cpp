@@ -13,76 +13,73 @@ namespace ouzel
 {
     namespace graphics
     {
-        static DXGI_FORMAT getVertexFormat(DataType dataType, bool normalized)
+        static DXGI_FORMAT getVertexFormat(DataType dataType)
         {
             switch (dataType)
             {
-                case DataType::BYTE:
-                    return normalized ? DXGI_FORMAT_R8_SNORM : DXGI_FORMAT_R8_SINT;
-                case DataType::BYTE_VECTOR2:
-                    return normalized ? DXGI_FORMAT_R8G8_SNORM : DXGI_FORMAT_R8G8_SINT;
-                case DataType::BYTE_VECTOR3:
-                    return DXGI_FORMAT_UNKNOWN;
-                case DataType::BYTE_VECTOR4:
-                    return normalized ? DXGI_FORMAT_R8G8B8A8_SNORM : DXGI_FORMAT_R8G8B8A8_SINT;
+                case DataType::BYTE: return DXGI_FORMAT_R8_SINT;
+                case DataType::BYTE_NORM: return DXGI_FORMAT_R8_SNORM;
+                case DataType::UNSIGNED_BYTE: return DXGI_FORMAT_R8_UINT;
+                case DataType::UNSIGNED_BYTE_NORM: return DXGI_FORMAT_R8_UNORM;
 
-                case DataType::UNSIGNED_BYTE:
-                    return normalized ? DXGI_FORMAT_R8_UNORM : DXGI_FORMAT_R8_UINT;
-                case DataType::UNSIGNED_BYTE_VECTOR2:
-                    return normalized ? DXGI_FORMAT_R8G8_UNORM : DXGI_FORMAT_R8G8_UINT;
-                case DataType::UNSIGNED_BYTE_VECTOR3:
-                    return DXGI_FORMAT_UNKNOWN;
-                case DataType::UNSIGNED_BYTE_VECTOR4:
-                    return normalized ? DXGI_FORMAT_R8G8B8A8_UNORM : DXGI_FORMAT_R8G8B8A8_UINT;
+                case DataType::BYTE_VECTOR2: return DXGI_FORMAT_R8G8_SINT;
+                case DataType::BYTE_VECTOR2_NORM: return DXGI_FORMAT_R8G8_SNORM;
+                case DataType::UNSIGNED_BYTE_VECTOR2: return DXGI_FORMAT_R8G8_UINT;
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM: return DXGI_FORMAT_R8G8_UNORM;
 
-                case DataType::SHORT:
-                    return normalized ? DXGI_FORMAT_R16_SNORM : DXGI_FORMAT_R16_SINT;
-                case DataType::SHORT_VECTOR2:
-                    return normalized ? DXGI_FORMAT_R16G16_SNORM : DXGI_FORMAT_R16G16_SINT;
-                case DataType::SHORT_VECTOR3:
-                    return DXGI_FORMAT_UNKNOWN;
-                case DataType::SHORT_VECTOR4:
-                    return normalized ? DXGI_FORMAT_R16G16B16A16_SNORM : DXGI_FORMAT_R16G16B16A16_SINT;
+                case DataType::BYTE_VECTOR3: return DXGI_FORMAT_UNKNOWN;
+                case DataType::BYTE_VECTOR3_NORM: return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_BYTE_VECTOR3: return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM: return DXGI_FORMAT_UNKNOWN;
 
-                case DataType::UNSIGNED_SHORT:
-                    return normalized ? DXGI_FORMAT_R16_UNORM : DXGI_FORMAT_R16_UINT;
-                case DataType::UNSIGNED_SHORT_VECTOR2:
-                    return normalized ? DXGI_FORMAT_R16G16_UNORM : DXGI_FORMAT_R16G16_UINT;
-                case DataType::UNSIGNED_SHORT_VECTOR3:
-                    return DXGI_FORMAT_UNKNOWN;
-                case DataType::UNSIGNED_SHORT_VECTOR4:
-                    return normalized ? DXGI_FORMAT_R16G16B16A16_UNORM : DXGI_FORMAT_R16G16B16A16_UINT;
+                case DataType::BYTE_VECTOR4: return DXGI_FORMAT_R8G8B8A8_SINT;
+                case DataType::BYTE_VECTOR4_NORM: return DXGI_FORMAT_R8G8B8A8_SNORM;
+                case DataType::UNSIGNED_BYTE_VECTOR4: return DXGI_FORMAT_R8G8B8A8_UINT;
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM: return DXGI_FORMAT_R8G8B8A8_UNORM;
 
-                case DataType::INTEGER:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_SINT;
-                case DataType::INTEGER_VECTOR2:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_SINT;
-                case DataType::INTEGER_VECTOR3:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_SINT;
-                case DataType::INTEGER_VECTOR4:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_SINT;
+                case DataType::SHORT: return DXGI_FORMAT_R16_SINT;
+                case DataType::SHORT_NORM: return DXGI_FORMAT_R16_SNORM;
+                case DataType::UNSIGNED_SHORT: return DXGI_FORMAT_R16_UINT;
+                case DataType::UNSIGNED_SHORT_NORM: return DXGI_FORMAT_R16_UNORM;
 
-                case DataType::UNSIGNED_INTEGER:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_UINT;
-                case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_UINT;
-                case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_UINT;
-                case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_UINT;
+                case DataType::SHORT_VECTOR2: return DXGI_FORMAT_R16G16_SINT;
+                case DataType::SHORT_VECTOR2_NORM: return DXGI_FORMAT_R16G16_SNORM;
+                case DataType::UNSIGNED_SHORT_VECTOR2: return DXGI_FORMAT_R16G16_UINT;
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM: return DXGI_FORMAT_R16G16_UNORM;
 
-                case DataType::FLOAT:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32_FLOAT;
-                case DataType::FLOAT_VECTOR2:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32_FLOAT;
-                case DataType::FLOAT_VECTOR3:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32_FLOAT;
-                case DataType::FLOAT_VECTOR4:
-                    return normalized ? DXGI_FORMAT_UNKNOWN : DXGI_FORMAT_R32G32B32A32_FLOAT;
+                case DataType::SHORT_VECTOR3: return DXGI_FORMAT_UNKNOWN;
+                case DataType::SHORT_VECTOR3_NORM: return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_SHORT_VECTOR3: return DXGI_FORMAT_UNKNOWN;
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM: return DXGI_FORMAT_UNKNOWN;
 
-                default:
-                    return DXGI_FORMAT_UNKNOWN;
+                case DataType::SHORT_VECTOR4: return DXGI_FORMAT_R16G16B16A16_SINT;
+                case DataType::SHORT_VECTOR4_NORM: return DXGI_FORMAT_R16G16B16A16_SNORM;
+                case DataType::UNSIGNED_SHORT_VECTOR4: return DXGI_FORMAT_R16G16B16A16_UINT;
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM: return DXGI_FORMAT_R16G16B16A16_UNORM;
+
+                case DataType::INTEGER: return DXGI_FORMAT_R32_SINT;
+                case DataType::UNSIGNED_INTEGER: return DXGI_FORMAT_R32_UINT;
+
+                case DataType::INTEGER_VECTOR2: return DXGI_FORMAT_R32G32_SINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR2: return DXGI_FORMAT_R32G32_UINT;
+
+                case DataType::INTEGER_VECTOR3: return DXGI_FORMAT_R32G32B32_SINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR3: return DXGI_FORMAT_R32G32B32_UINT;
+
+                case DataType::INTEGER_VECTOR4: return DXGI_FORMAT_R32G32B32A32_SINT;
+                case DataType::UNSIGNED_INTEGER_VECTOR4: return DXGI_FORMAT_R32G32B32A32_UINT;
+
+                case DataType::FLOAT: return DXGI_FORMAT_R32_FLOAT;
+                case DataType::FLOAT_VECTOR2: return DXGI_FORMAT_R32G32_FLOAT;
+                case DataType::FLOAT_VECTOR3: return DXGI_FORMAT_R32G32B32_FLOAT;
+                case DataType::FLOAT_VECTOR4: return DXGI_FORMAT_R32G32B32A32_FLOAT;
+                case DataType::FLOAT_MATRIX3: return DXGI_FORMAT_UNKNOWN;
+                case DataType::FLOAT_MATRIX4: return DXGI_FORMAT_UNKNOWN;
+
+                case DataType::NONE: return DXGI_FORMAT_UNKNOWN;
             }
+
+            return DXGI_FORMAT_UNKNOWN;
         }
 
         ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11):
@@ -167,7 +164,7 @@ namespace ouzel
             {
                 if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
+                    DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                     if (vertexFormat == DXGI_FORMAT_UNKNOWN)
                     {

@@ -35,11 +35,10 @@ namespace ouzel
                     TEXTURE_COORDINATES1
                 };
 
-                Attribute(Usage aUsage, DataType aDataType, bool aNormalized):
-                    usage(aUsage), dataType(aDataType), normalized(aNormalized) {}
+                Attribute(Usage initUsage, DataType initDataType):
+                    usage(initUsage), dataType(initDataType) {}
                 Usage usage = Usage::NONE;
                 DataType dataType = DataType::NONE;
-                bool normalized = false;
             };
             
             static const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;

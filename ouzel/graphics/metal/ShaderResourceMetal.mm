@@ -38,66 +38,73 @@ namespace ouzel
             }
         }
 
-        static MTLVertexFormat getVertexFormat(DataType dataType, bool normalized)
+        static MTLVertexFormat getVertexFormat(DataType dataType)
         {
             switch (dataType)
             {
-                case DataType::BYTE_VECTOR2:
-                    return normalized ? MTLVertexFormatChar2Normalized : MTLVertexFormatChar2;
-                case DataType::BYTE_VECTOR3:
-                    return normalized ? MTLVertexFormatChar3Normalized : MTLVertexFormatChar3;
-                case DataType::BYTE_VECTOR4:
-                    return normalized ? MTLVertexFormatChar4Normalized : MTLVertexFormatChar4;
-                case DataType::UNSIGNED_BYTE_VECTOR2:
-                    return normalized ? MTLVertexFormatUChar2Normalized : MTLVertexFormatUChar2;
-                case DataType::UNSIGNED_BYTE_VECTOR3:
-                    return normalized ? MTLVertexFormatUChar3Normalized : MTLVertexFormatUChar3;
-                case DataType::UNSIGNED_BYTE_VECTOR4:
-                    return normalized ? MTLVertexFormatUChar4Normalized : MTLVertexFormatUChar4;
+                case DataType::BYTE: return MTLVertexFormatInvalid;
+                case DataType::BYTE_NORM: return MTLVertexFormatInvalid;
+                case DataType::UNSIGNED_BYTE: return MTLVertexFormatInvalid;
+                case DataType::UNSIGNED_BYTE_NORM: return MTLVertexFormatInvalid;
 
-                case DataType::SHORT_VECTOR2:
-                    return normalized ? MTLVertexFormatShort2Normalized : MTLVertexFormatShort2;
-                case DataType::SHORT_VECTOR3:
-                    return normalized ? MTLVertexFormatShort3Normalized : MTLVertexFormatShort3;
-                case DataType::SHORT_VECTOR4:
-                    return normalized ? MTLVertexFormatShort4Normalized : MTLVertexFormatShort4;
-                case DataType::UNSIGNED_SHORT_VECTOR2:
-                    return normalized ? MTLVertexFormatUShort2Normalized : MTLVertexFormatUShort2;
-                case DataType::UNSIGNED_SHORT_VECTOR3:
-                    return normalized ? MTLVertexFormatUShort3Normalized : MTLVertexFormatUShort3;
-                case DataType::UNSIGNED_SHORT_VECTOR4:
-                    return normalized ? MTLVertexFormatUShort4Normalized : MTLVertexFormatUShort4;
+                case DataType::BYTE_VECTOR2: return MTLVertexFormatChar2;
+                case DataType::BYTE_VECTOR2_NORM: return MTLVertexFormatChar2Normalized;
+                case DataType::UNSIGNED_BYTE_VECTOR2: return MTLVertexFormatUChar2;
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM: return MTLVertexFormatUChar2Normalized;
 
-                case DataType::INTEGER:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt;
-                case DataType::INTEGER_VECTOR2:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt2;
-                case DataType::INTEGER_VECTOR3:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt3;
-                case DataType::INTEGER_VECTOR4:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatInt4;
+                case DataType::BYTE_VECTOR3: return MTLVertexFormatChar3;
+                case DataType::BYTE_VECTOR3_NORM: return MTLVertexFormatChar3Normalized;
+                case DataType::UNSIGNED_BYTE_VECTOR3: return MTLVertexFormatUChar3;
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM: return MTLVertexFormatUChar3Normalized;
 
-                case DataType::UNSIGNED_INTEGER:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt;
-                case DataType::UNSIGNED_INTEGER_VECTOR2:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt2;
-                case DataType::UNSIGNED_INTEGER_VECTOR3:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt3;
-                case DataType::UNSIGNED_INTEGER_VECTOR4:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatUInt4;
+                case DataType::BYTE_VECTOR4: return MTLVertexFormatChar4;
+                case DataType::BYTE_VECTOR4_NORM: return MTLVertexFormatChar4Normalized;
+                case DataType::UNSIGNED_BYTE_VECTOR4: return MTLVertexFormatUChar4;
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM: return MTLVertexFormatUChar4Normalized;
 
-                case DataType::FLOAT:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat;
-                case DataType::FLOAT_VECTOR2:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat2;
-                case DataType::FLOAT_VECTOR3:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat3;
-                case DataType::FLOAT_VECTOR4:
-                    return normalized ? MTLVertexFormatInvalid : MTLVertexFormatFloat4;
+                case DataType::SHORT: return MTLVertexFormatInvalid;
+                case DataType::SHORT_NORM: return MTLVertexFormatInvalid;
+                case DataType::UNSIGNED_SHORT: return MTLVertexFormatInvalid;
+                case DataType::UNSIGNED_SHORT_NORM: return MTLVertexFormatInvalid;
 
-                default:
-                    return MTLVertexFormatInvalid;
+                case DataType::SHORT_VECTOR2: return MTLVertexFormatShort2;
+                case DataType::SHORT_VECTOR2_NORM: return MTLVertexFormatShort2Normalized;
+                case DataType::UNSIGNED_SHORT_VECTOR2: return MTLVertexFormatUShort2;
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM: return MTLVertexFormatUShort2Normalized;
+
+                case DataType::SHORT_VECTOR3: return MTLVertexFormatShort3;
+                case DataType::SHORT_VECTOR3_NORM: return MTLVertexFormatShort3Normalized;
+                case DataType::UNSIGNED_SHORT_VECTOR3: return MTLVertexFormatUShort3;
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM: return MTLVertexFormatUShort3Normalized;
+
+                case DataType::SHORT_VECTOR4: return MTLVertexFormatShort4;
+                case DataType::SHORT_VECTOR4_NORM: return MTLVertexFormatShort4Normalized;
+                case DataType::UNSIGNED_SHORT_VECTOR4: return MTLVertexFormatUShort4;
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM: return MTLVertexFormatUShort4Normalized;
+
+                case DataType::INTEGER: return MTLVertexFormatInt;
+                case DataType::UNSIGNED_INTEGER: return MTLVertexFormatUInt;
+
+                case DataType::INTEGER_VECTOR2: return MTLVertexFormatInt2;
+                case DataType::UNSIGNED_INTEGER_VECTOR2: return MTLVertexFormatUInt2;
+
+                case DataType::INTEGER_VECTOR3: return MTLVertexFormatInt3;
+                case DataType::UNSIGNED_INTEGER_VECTOR3: return MTLVertexFormatUInt3;
+
+                case DataType::INTEGER_VECTOR4: return MTLVertexFormatInt4;
+                case DataType::UNSIGNED_INTEGER_VECTOR4: return MTLVertexFormatUInt4;
+
+                case DataType::FLOAT: return MTLVertexFormatFloat;
+                case DataType::FLOAT_VECTOR2: return MTLVertexFormatFloat2;
+                case DataType::FLOAT_VECTOR3: return MTLVertexFormatFloat3;
+                case DataType::FLOAT_VECTOR4: return MTLVertexFormatFloat4;
+                case DataType::FLOAT_MATRIX3: return MTLVertexFormatInvalid;
+                case DataType::FLOAT_MATRIX4: return MTLVertexFormatInvalid;
+
+                case DataType::NONE: return MTLVertexFormatInvalid;
             }
+
+            return MTLVertexFormatInvalid;
         }
 
         bool ShaderResourceMetal::init(const std::vector<uint8_t>& newPixelShader,
@@ -132,7 +139,7 @@ namespace ouzel
             {
                 if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
+                    MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                     if (vertexFormat == MTLVertexFormatInvalid)
                     {
