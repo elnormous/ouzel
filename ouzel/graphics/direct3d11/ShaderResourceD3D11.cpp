@@ -173,39 +173,44 @@ namespace ouzel
                     return false;
                 }
 
-                const char* usage;
+                const char* semantic;
+                UINT index = 0;
 
                 switch (vertexAttribute.usage)
                 {
                     case Vertex::Attribute::Usage::BINORMAL:
-                        usage = "BINORMAL";
+                        semantic = "BINORMAL";
                         break;
                     case Vertex::Attribute::Usage::BLEND_INDICES:
-                        usage = "BLENDINDICES";
+                        semantic = "BLENDINDICES";
                         break;
                     case Vertex::Attribute::Usage::BLEND_WEIGHT:
-                        usage = "BLENDWEIGHT";
+                        semantic = "BLENDWEIGHT";
                         break;
                     case Vertex::Attribute::Usage::COLOR:
-                        usage = "COLOR";
+                        semantic = "COLOR";
                         break;
                     case Vertex::Attribute::Usage::NORMAL:
-                        usage = "NORMAL";
+                        semantic = "NORMAL";
                         break;
                     case Vertex::Attribute::Usage::POSITION:
-                        usage = "POSITION";
+                        semantic = "POSITION";
                         break;
                     case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
-                        usage = "POSITIONT";
+                        semantic = "POSITIONT";
                         break;
                     case Vertex::Attribute::Usage::POINT_SIZE:
-                        usage = "PSIZE";
+                        semantic = "PSIZE";
                         break;
                     case Vertex::Attribute::Usage::TANGENT:
-                        usage = "TANGENT";
+                        semantic = "TANGENT";
                         break;
-                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES:
-                        usage = "TEXCOORD";
+                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES0:
+                        semantic = "TEXCOORD";
+                        break;
+                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES1:
+                        semantic = "TEXCOORD";
+                        index = 1;
                         break;
                     default:
                         Log(Log::Level::ERR) << "Invalid vertex attribute usage";
@@ -213,7 +218,7 @@ namespace ouzel
                 }
 
                 vertexInputElements.push_back({
-                    usage, vertexAttribute.index,
+                    semantic, index,
                     vertexFormat,
                     0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
                 });

@@ -31,13 +31,13 @@ namespace ouzel
                     POSITION_TRANSFORMED,
                     POINT_SIZE,
                     TANGENT,
-                    TEXTURE_COORDINATES
+                    TEXTURE_COORDINATES0,
+                    TEXTURE_COORDINATES1
                 };
 
-                Attribute(Usage aUsage, uint32_t aIndex, DataType aDataType, bool aNormalized):
-                    usage(aUsage), index(aIndex), dataType(aDataType), normalized(aNormalized) {}
+                Attribute(Usage aUsage, DataType aDataType, bool aNormalized):
+                    usage(aUsage), dataType(aDataType), normalized(aNormalized) {}
                 Usage usage = Usage::NONE;
-                uint32_t index = 0;
                 DataType dataType = DataType::NONE;
                 bool normalized = false;
             };
