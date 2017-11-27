@@ -10,6 +10,8 @@
 #include "BufferResourceOGL.hpp"
 #include "utils/Log.hpp"
 
+static const uint32_t MAX_VERTEX_ATTRIBUTE_COUNT = 5;
+
 namespace ouzel
 {
     namespace graphics
@@ -322,7 +324,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
+                    for (GLuint index = 0; index < MAX_VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
                         if (index < vertexAttribs.size())
                         {
@@ -385,7 +387,7 @@ namespace ouzel
                     return false;
                 }
 
-                for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
+                for (GLuint index = 0; index < MAX_VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
                     if (index < vertexAttribs.size())
                     {
@@ -441,7 +443,7 @@ namespace ouzel
                         return false;
                     }
 
-                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
+                    for (GLuint index = 0; index < MAX_VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
                         if (index < vertexAttribs.size())
                         {

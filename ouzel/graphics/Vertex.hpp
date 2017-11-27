@@ -40,8 +40,6 @@ namespace ouzel
                 Usage usage = Usage::NONE;
                 DataType dataType = DataType::NONE;
             };
-            
-            static const uint32_t VERTEX_ATTRIBUTE_COUNT = 5;
 
             static const std::vector<Attribute> ATTRIBUTES;
 
