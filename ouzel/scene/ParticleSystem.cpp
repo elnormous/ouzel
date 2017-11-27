@@ -342,10 +342,14 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, -1.0f, 0.0f), Color::WHITE, Vector2(0.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, -1.0f, 0.0f), Color::WHITE, Vector2(1.0f, 1.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(-1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(0.0f, 0.0f)));
-                vertices.push_back(graphics::VertexPCT(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE, Vector2(1.0f, 0.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(-1.0f, -1.0f, 0.0f), Color::WHITE,
+                                                    Vector2(0.0f, 1.0f), Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(1.0f, -1.0f, 0.0f), Color::WHITE,
+                                                    Vector2(1.0f, 1.0f), Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(-1.0f, 1.0f, 0.0f),  Color::WHITE,
+                                                    Vector2(0.0f, 0.0f), Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE,
+                                                    Vector2(1.0f, 0.0f), Vector3(0.0f, 0.0f, -1.0f)));
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
@@ -355,7 +359,7 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), graphics::Buffer::DYNAMIC);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::Vertex::ATTRIBUTES, vertexBuffer);
 
             particles.resize(particleSystemData.maxParticles);
 

@@ -79,7 +79,7 @@ namespace ouzel
             Vector2 textAnchor;
 
             std::vector<uint16_t> indices;
-            std::vector<graphics::VertexPCT> vertices;
+            std::vector<graphics::Vertex> vertices;
 
             Color color = Color::WHITE;
 

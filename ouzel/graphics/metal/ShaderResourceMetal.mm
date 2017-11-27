@@ -102,7 +102,7 @@ namespace ouzel
 
         bool ShaderResourceMetal::init(const std::vector<uint8_t>& newPixelShader,
                                        const std::vector<uint8_t>& newVertexShader,
-                                       const std::vector<Vertex::Attribute>& newVertexAttributes,
+                                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newPixelShaderDataAlignment,
@@ -128,20 +128,24 @@ namespace ouzel
 
             vertexDescriptor = [MTLVertexDescriptor new];
 
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
             {
-                MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
-
-                if (vertexFormat == MTLVertexFormatInvalid)
+                if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    Log(Log::Level::ERR) << "Invalid vertex format";
-                    return false;
+                    MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
+
+                    if (vertexFormat == MTLVertexFormatInvalid)
+                    {
+                        Log(Log::Level::ERR) << "Invalid vertex format";
+                        return false;
+                    }
+
+                    vertexDescriptor.attributes[index].format = vertexFormat;
+                    vertexDescriptor.attributes[index].offset = offset;
+                    vertexDescriptor.attributes[index].bufferIndex = 0;
+                    ++index;
                 }
 
-                vertexDescriptor.attributes[index].format = vertexFormat;
-                vertexDescriptor.attributes[index].offset = offset;
-                vertexDescriptor.attributes[index].bufferIndex = 0;
-                ++index;
                 offset += getDataTypeSize(vertexAttribute.dataType);
             }
 

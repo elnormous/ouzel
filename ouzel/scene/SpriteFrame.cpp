@@ -55,11 +55,15 @@ namespace ouzel
                 textCoords[3] = Vector2(rightBottom.x, rightBottom.y);
             }
 
-            std::vector<graphics::VertexPCT> vertices = {
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y, 0.0f), Color::WHITE, textCoords[0]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0f), Color::WHITE, textCoords[1]),
-                graphics::VertexPCT(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE, textCoords[2]),
-                graphics::VertexPCT(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE, textCoords[3])
+            std::vector<graphics::Vertex> vertices = {
+                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y, 0.0f), Color::WHITE,
+                                 textCoords[0], Vector3(0.0f, 0.0f, -1.0f)),
+                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0f), Color::WHITE,
+                                 textCoords[1], Vector3(0.0f, 0.0f, -1.0f)),
+                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE,
+                                 textCoords[2], Vector3(0.0f, 0.0f, -1.0f)),
+                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE,
+                                 textCoords[3], Vector3(0.0f, 0.0f, -1.0f))
             };
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
@@ -74,19 +78,19 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::Vertex::ATTRIBUTES, vertexBuffer);
         }
 
         SpriteFrame::SpriteFrame(const std::string& frameName,
                                  const std::vector<uint16_t>& indices,
-                                 const std::vector<graphics::VertexPCT>& vertices,
+                                 const std::vector<graphics::Vertex>& vertices,
                                  const Rectangle& frameRectangle,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
                                  const Vector2& pivot):
             name(frameName)
         {
-            for (const graphics::VertexPCT& vertex : vertices)
+            for (const graphics::Vertex& vertex : vertices)
             {
                 boundingBox.insertPoint(vertex.position);
             }
@@ -104,7 +108,7 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, graphics::Vertex::ATTRIBUTES, vertexBuffer);
         }
 
     } // scene

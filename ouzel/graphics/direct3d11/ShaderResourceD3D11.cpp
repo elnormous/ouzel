@@ -120,7 +120,7 @@ namespace ouzel
 
         bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newPixelShader,
                                        const std::vector<uint8_t>& newVertexShader,
-                                       const std::vector<Vertex::Attribute>& newVertexAttributes,
+                                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                        const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                        uint32_t newPixelShaderDataAlignment,
@@ -163,65 +163,69 @@ namespace ouzel
 
             UINT offset = 0;
 
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
             {
-                DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
-
-                if (vertexFormat == DXGI_FORMAT_UNKNOWN)
+                if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    Log(Log::Level::ERR) << "Invalid vertex format";
-                    return false;
-                }
+                    DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType, vertexAttribute.normalized);
 
-                const char* semantic;
-                UINT index = 0;
-
-                switch (vertexAttribute.usage)
-                {
-                    case Vertex::Attribute::Usage::BINORMAL:
-                        semantic = "BINORMAL";
-                        break;
-                    case Vertex::Attribute::Usage::BLEND_INDICES:
-                        semantic = "BLENDINDICES";
-                        break;
-                    case Vertex::Attribute::Usage::BLEND_WEIGHT:
-                        semantic = "BLENDWEIGHT";
-                        break;
-                    case Vertex::Attribute::Usage::COLOR:
-                        semantic = "COLOR";
-                        break;
-                    case Vertex::Attribute::Usage::NORMAL:
-                        semantic = "NORMAL";
-                        break;
-                    case Vertex::Attribute::Usage::POSITION:
-                        semantic = "POSITION";
-                        break;
-                    case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
-                        semantic = "POSITIONT";
-                        break;
-                    case Vertex::Attribute::Usage::POINT_SIZE:
-                        semantic = "PSIZE";
-                        break;
-                    case Vertex::Attribute::Usage::TANGENT:
-                        semantic = "TANGENT";
-                        break;
-                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES0:
-                        semantic = "TEXCOORD";
-                        break;
-                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES1:
-                        semantic = "TEXCOORD";
-                        index = 1;
-                        break;
-                    default:
-                        Log(Log::Level::ERR) << "Invalid vertex attribute usage";
+                    if (vertexFormat == DXGI_FORMAT_UNKNOWN)
+                    {
+                        Log(Log::Level::ERR) << "Invalid vertex format";
                         return false;
+                    }
+
+                    const char* semantic;
+                    UINT index = 0;
+
+                    switch (vertexAttribute.usage)
+                    {
+                        case Vertex::Attribute::Usage::BINORMAL:
+                            semantic = "BINORMAL";
+                            break;
+                        case Vertex::Attribute::Usage::BLEND_INDICES:
+                            semantic = "BLENDINDICES";
+                            break;
+                        case Vertex::Attribute::Usage::BLEND_WEIGHT:
+                            semantic = "BLENDWEIGHT";
+                            break;
+                        case Vertex::Attribute::Usage::COLOR:
+                            semantic = "COLOR";
+                            break;
+                        case Vertex::Attribute::Usage::NORMAL:
+                            semantic = "NORMAL";
+                            break;
+                        case Vertex::Attribute::Usage::POSITION:
+                            semantic = "POSITION";
+                            break;
+                        case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
+                            semantic = "POSITIONT";
+                            break;
+                        case Vertex::Attribute::Usage::POINT_SIZE:
+                            semantic = "PSIZE";
+                            break;
+                        case Vertex::Attribute::Usage::TANGENT:
+                            semantic = "TANGENT";
+                            break;
+                        case Vertex::Attribute::Usage::TEXTURE_COORDINATES0:
+                            semantic = "TEXCOORD";
+                            break;
+                        case Vertex::Attribute::Usage::TEXTURE_COORDINATES1:
+                            semantic = "TEXCOORD";
+                            index = 1;
+                            break;
+                        default:
+                            Log(Log::Level::ERR) << "Invalid vertex attribute usage";
+                            return false;
+                    }
+
+                    vertexInputElements.push_back({
+                        semantic, index,
+                        vertexFormat,
+                        0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
+                    });
                 }
 
-                vertexInputElements.push_back({
-                    semantic, index,
-                    vertexFormat,
-                    0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0
-                });
                 offset += getDataTypeSize(vertexAttribute.dataType);
             }
 

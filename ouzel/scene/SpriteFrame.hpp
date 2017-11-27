@@ -28,7 +28,7 @@ namespace ouzel
 
             SpriteFrame(const std::string& frameName,
                         const std::vector<uint16_t>& indices,
-                        const std::vector<graphics::VertexPCT>& vertices,
+                        const std::vector<graphics::Vertex>& vertices,
                         const Rectangle& frameRectangle,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,

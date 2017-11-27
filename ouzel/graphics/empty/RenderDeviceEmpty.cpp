@@ -44,7 +44,7 @@ namespace ouzel
 
             textureShader->init(std::vector<uint8_t>(),
                                 std::vector<uint8_t>(),
-                                VertexPCT::ATTRIBUTES,
+                                {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                 {{"color", DataType::FLOAT_VECTOR4}},
                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
@@ -54,7 +54,7 @@ namespace ouzel
 
             colorShader->init(std::vector<uint8_t>(),
                               std::vector<uint8_t>(),
-                              VertexPC::ATTRIBUTES,
+                              {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                               {{"color", DataType::FLOAT_VECTOR4}},
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 

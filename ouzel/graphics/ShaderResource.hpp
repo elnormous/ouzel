@@ -26,7 +26,7 @@ namespace ouzel
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
                               const std::vector<uint8_t>& newVertexShader,
-                              const std::vector<Vertex::Attribute>& newVertexAttributes,
+                              const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                               const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                               const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                               uint32_t newPixelShaderDataAlignment = 0,
@@ -34,8 +34,7 @@ namespace ouzel
                               const std::string& newPixelShaderFunction = "",
                               const std::string& newVertexShaderFunction = "");
 
-            const std::vector<Vertex::Attribute>& getVertexAttributes() const { return vertexAttributes; }
-            uint32_t getVertexSize() const { return vertexSize; }
+            const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
 
             uint32_t getPixelShaderAlignment() const { return pixelShaderAlignment; }
             uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
@@ -43,8 +42,7 @@ namespace ouzel
         protected:
             ShaderResource();
 
-            std::vector<Vertex::Attribute> vertexAttributes;
-            uint32_t vertexSize = 0;
+            std::set<Vertex::Attribute::Usage> vertexAttributes;
 
             std::vector<uint8_t> pixelShaderData;
             std::vector<uint8_t> vertexShaderData;

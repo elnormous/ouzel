@@ -110,7 +110,7 @@ namespace ouzel
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 
             std::vector<uint16_t> indices;
-            std::vector<graphics::VertexPCT> vertices;
+            std::vector<graphics::Vertex> vertices;
 
             uint32_t particleCount = 0;
 

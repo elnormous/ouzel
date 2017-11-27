@@ -175,7 +175,7 @@ namespace ouzel
                              float fontSize,
                              const Vector2& anchor,
                              std::vector<uint16_t>& indices,
-                             std::vector<graphics::VertexPCT>& vertices,
+                             std::vector<graphics::Vertex>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
         Vector2 position;
@@ -220,14 +220,14 @@ namespace ouzel
                 textCoords[2] = Vector2(leftTop.x, leftTop.y);
                 textCoords[3] = Vector2(rightBottom.x, leftTop.y);
 
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
-                                                       color, textCoords[0]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
-                                                       color, textCoords[1]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
-                                                       color, textCoords[2]));
-                vertices.push_back(graphics::VertexPCT(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
-                                                       color, textCoords[3]));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
+                                                    color, textCoords[0], Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
+                                                    color, textCoords[1], Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
+                                                    color, textCoords[2], Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
+                                                    color, textCoords[3], Vector3(0.0f, 0.0f, -1.0f)));
 
                 if ((i + 1) != utf32Text.end())
                 {

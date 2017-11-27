@@ -27,7 +27,7 @@ namespace ouzel
 
         bool ShaderResourceOGL::init(const std::vector<uint8_t>& newPixelShader,
                                      const std::vector<uint8_t>& newVertexShader,
-                                     const std::vector<Vertex::Attribute>& newVertexAttributes,
+                                     const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
                                      const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
                                      uint32_t newPixelShaderDataAlignment,
@@ -153,52 +153,55 @@ namespace ouzel
 
             GLuint index = 0;
 
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
             {
-                std::string name;
-
-                switch (vertexAttribute.usage)
+                if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    case Vertex::Attribute::Usage::BINORMAL:
-                        name = "binormal0";
-                        break;
-                    case Vertex::Attribute::Usage::BLEND_INDICES:
-                        name = "blendIndices0";
-                        break;
-                    case Vertex::Attribute::Usage::BLEND_WEIGHT:
-                        name = "blendWeight0";
-                        break;
-                    case Vertex::Attribute::Usage::COLOR:
-                        name = "color0";
-                        break;
-                    case Vertex::Attribute::Usage::NORMAL:
-                        name = "normal0";
-                        break;
-                    case Vertex::Attribute::Usage::POSITION:
-                        name = "position0";
-                        break;
-                    case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
-                        name = "positionT";
-                        break;
-                    case Vertex::Attribute::Usage::POINT_SIZE:
-                        name = "pointSize0";
-                        break;
-                    case Vertex::Attribute::Usage::TANGENT:
-                        name = "tangent0";
-                        break;
-                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES0:
-                        name = "texCoord0";
-                        break;
-                    case Vertex::Attribute::Usage::TEXTURE_COORDINATES1:
-                        name = "texCoord1";
-                        break;
-                    default:
-                        Log(Log::Level::ERR) << "Invalid vertex attribute usage";
-                        return false;
-                }
+                    std::string name;
 
-                glBindAttribLocationProc(programId, index, name.c_str());
-                ++index;
+                    switch (vertexAttribute.usage)
+                    {
+                        case Vertex::Attribute::Usage::BINORMAL:
+                            name = "binormal0";
+                            break;
+                        case Vertex::Attribute::Usage::BLEND_INDICES:
+                            name = "blendIndices0";
+                            break;
+                        case Vertex::Attribute::Usage::BLEND_WEIGHT:
+                            name = "blendWeight0";
+                            break;
+                        case Vertex::Attribute::Usage::COLOR:
+                            name = "color0";
+                            break;
+                        case Vertex::Attribute::Usage::NORMAL:
+                            name = "normal0";
+                            break;
+                        case Vertex::Attribute::Usage::POSITION:
+                            name = "position0";
+                            break;
+                        case Vertex::Attribute::Usage::POSITION_TRANSFORMED:
+                            name = "positionT";
+                            break;
+                        case Vertex::Attribute::Usage::POINT_SIZE:
+                            name = "pointSize0";
+                            break;
+                        case Vertex::Attribute::Usage::TANGENT:
+                            name = "tangent0";
+                            break;
+                        case Vertex::Attribute::Usage::TEXTURE_COORDINATES0:
+                            name = "texCoord0";
+                            break;
+                        case Vertex::Attribute::Usage::TEXTURE_COORDINATES1:
+                            name = "texCoord1";
+                            break;
+                        default:
+                            Log(Log::Level::ERR) << "Invalid vertex attribute usage";
+                            return false;
+                    }
+
+                    glBindAttribLocationProc(programId, index, name.c_str());
+                    ++index;
+                }
             }
 
             glLinkProgramProc(programId);

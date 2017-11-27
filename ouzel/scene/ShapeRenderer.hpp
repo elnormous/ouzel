@@ -86,7 +86,7 @@ namespace ouzel
             std::vector<DrawCommand> drawCommands;
 
             std::vector<uint16_t> indices;
-            std::vector<ouzel::graphics::VertexPC> vertices;
+            std::vector<ouzel::graphics::Vertex> vertices;
             bool dirty = false;
         };
     } // namespace scene

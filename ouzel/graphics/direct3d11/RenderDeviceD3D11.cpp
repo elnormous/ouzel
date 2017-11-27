@@ -359,7 +359,7 @@ namespace ouzel
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
             textureShader->init(std::vector<uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11), std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                 std::vector<uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11), std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                VertexPCT::ATTRIBUTES,
+                                {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                 {{"color", DataType::FLOAT_VECTOR4}},
                                 {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
@@ -368,7 +368,7 @@ namespace ouzel
             std::shared_ptr<Shader> colorShader = std::make_shared<Shader>();
             colorShader->init(std::vector<uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11), std::end(COLOR_PIXEL_SHADER_D3D11)),
                               std::vector<uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11), std::end(COLOR_VERTEX_SHADER_D3D11)),
-                              VertexPC::ATTRIBUTES,
+                              {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                               {{"color", DataType::FLOAT_VECTOR4}},
                               {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 

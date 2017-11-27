@@ -537,14 +537,14 @@ namespace ouzel
                 case 2:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES2_glsl), std::end(TexturePSGLES2_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGLES2_glsl), std::end(TextureVSGLES2_glsl)),
-                                        VertexPCT::ATTRIBUTES,
+                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                         {{"color", DataType::FLOAT_VECTOR4}},
                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGLES3_glsl), std::end(TexturePSGLES3_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGLES3_glsl), std::end(TextureVSGLES3_glsl)),
-                                        VertexPCT::ATTRIBUTES,
+                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                         {{"color", DataType::FLOAT_VECTOR4}},
                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
@@ -552,21 +552,21 @@ namespace ouzel
                 case 2:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL2_glsl), std::end(TexturePSGL2_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGL2_glsl), std::end(TextureVSGL2_glsl)),
-                                        VertexPCT::ATTRIBUTES,
+                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                         {{"color", DataType::FLOAT_VECTOR4}},
                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL3_glsl), std::end(TexturePSGL3_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGL3_glsl), std::end(TextureVSGL3_glsl)),
-                                        VertexPCT::ATTRIBUTES,
+                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                         {{"color", DataType::FLOAT_VECTOR4}},
                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 4:
                     textureShader->init(std::vector<uint8_t>(std::begin(TexturePSGL4_glsl), std::end(TexturePSGL4_glsl)),
                                         std::vector<uint8_t>(std::begin(TextureVSGL4_glsl), std::end(TextureVSGL4_glsl)),
-                                        VertexPCT::ATTRIBUTES,
+                                        {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR, Vertex::Attribute::Usage::TEXTURE_COORDINATES0},
                                         {{"color", DataType::FLOAT_VECTOR4}},
                                         {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
@@ -586,7 +586,7 @@ namespace ouzel
                 case 2:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES2_glsl), std::end(ColorPSGLES2_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGLES2_glsl), std::end(ColorVSGLES2_glsl)),
-                                      VertexPC::ATTRIBUTES,
+                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                                       {{"color", DataType::FLOAT_VECTOR4}},
                                       {{"modelViewProj", DataType::FLOAT_MATRIX4}});
 
@@ -594,7 +594,7 @@ namespace ouzel
                 case 3:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGLES3_glsl), std::end(ColorPSGLES3_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGLES3_glsl), std::end(ColorVSGLES3_glsl)),
-                                      VertexPC::ATTRIBUTES,
+                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                                       {{"color", DataType::FLOAT_VECTOR4}},
                                       {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
@@ -602,21 +602,21 @@ namespace ouzel
                 case 2:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL2_glsl), std::end(ColorPSGL2_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGL2_glsl), std::end(ColorVSGL2_glsl)),
-                                      VertexPC::ATTRIBUTES,
+                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                                       {{"color", DataType::FLOAT_VECTOR4}},
                                       {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 3:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL3_glsl), std::end(ColorPSGL3_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGL3_glsl), std::end(ColorVSGL3_glsl)),
-                                      VertexPC::ATTRIBUTES,
+                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                                       {{"color", DataType::FLOAT_VECTOR4}},
                                       {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;
                 case 4:
                     colorShader->init(std::vector<uint8_t>(std::begin(ColorPSGL4_glsl), std::end(ColorPSGL4_glsl)),
                                       std::vector<uint8_t>(std::begin(ColorVSGL4_glsl), std::end(ColorVSGL4_glsl)),
-                                      VertexPC::ATTRIBUTES,
+                                      {Vertex::Attribute::Usage::POSITION, Vertex::Attribute::Usage::COLOR},
                                       {{"color", DataType::FLOAT_VECTOR4}},
                                       {{"modelViewProj", DataType::FLOAT_MATRIX4}});
                     break;

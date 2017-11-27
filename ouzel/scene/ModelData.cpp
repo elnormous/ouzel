@@ -23,7 +23,7 @@ namespace ouzel
 
         bool ModelData::init(Box3 newBoundingBox,
                              const std::vector<uint32_t> indices,
-                             const std::vector<graphics::VertexPCT>& vertices,
+                             const std::vector<graphics::Vertex>& vertices,
                              const std::shared_ptr<graphics::Material>& newMaterial)
         {
             boundingBox = newBoundingBox;
@@ -35,7 +35,7 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint32_t), indexBuffer, graphics::VertexPCT::ATTRIBUTES, vertexBuffer);
+            meshBuffer->init(sizeof(uint32_t), indexBuffer, graphics::Vertex::ATTRIBUTES, vertexBuffer);
 
             material = newMaterial;
 

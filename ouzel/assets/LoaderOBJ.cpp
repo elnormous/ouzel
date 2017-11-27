@@ -31,7 +31,7 @@ namespace ouzel
             std::vector<Vector3> positions;
             std::vector<Vector2> texCoords;
             std::vector<Vector3> normals;
-            std::vector<graphics::VertexPCT> vertices;
+            std::vector<graphics::Vertex> vertices;
             std::map<std::tuple<uint32_t, uint32_t, uint32_t>, uint32_t> vertexMap;
             std::vector<uint32_t> indices;
             Box3 boundingBox;
@@ -246,11 +246,11 @@ namespace ouzel
                             }
                             else
                             {
-                                graphics::VertexPCT vertex;
+                                graphics::Vertex vertex;
                                 vertex.position = positions[std::get<0>(i)];
-                                vertex.texCoord = texCoords[std::get<1>(i)];
+                                vertex.texCoords[0] = texCoords[std::get<1>(i)];
                                 vertex.color = Color::WHITE;
-                                //vertex.normal = normals[std::get<2>(i)];
+                                vertex.normal = normals[std::get<2>(i)];
                                 vertexIndices.push_back(static_cast<uint32_t>(vertices.size()));
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);

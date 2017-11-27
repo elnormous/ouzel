@@ -94,7 +94,7 @@ namespace ouzel
                     // reverse the vertices, so that they are counterclockwise
                     std::reverse(indices.begin(), indices.end());
 
-                    std::vector<graphics::VertexPCT> vertices;
+                    std::vector<graphics::Vertex> vertices;
 
                     const json::Value& verticesObject = frameObject["vertices"];
                     const json::Value& verticesUVObject = frameObject["verticesUV"];
@@ -109,12 +109,13 @@ namespace ouzel
                         const json::Value& vertexObject = verticesObject[vertexIndex];
                         const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
 
-                        vertices.push_back(graphics::VertexPCT(Vector3(static_cast<float>(vertexObject[0].asInt32()) + finalOffset.x,
-                                                                       -static_cast<float>(vertexObject[1].asInt32()) - finalOffset.y,
-                                                                       0.0f),
-                                                               Color::WHITE,
-                                                               Vector2(static_cast<float>(vertexUVObject[0].asInt32()) / textureSize.width,
-                                                                       static_cast<float>(vertexUVObject[1].asInt32()) / textureSize.height)));
+                        vertices.push_back(graphics::Vertex(Vector3(static_cast<float>(vertexObject[0].asInt32()) + finalOffset.x,
+                                                                    -static_cast<float>(vertexObject[1].asInt32()) - finalOffset.y,
+                                                                    0.0f),
+                                                            Color::WHITE,
+                                                            Vector2(static_cast<float>(vertexUVObject[0].asInt32()) / textureSize.width,
+                                                                    static_cast<float>(vertexUVObject[1].asInt32()) / textureSize.height),
+                                                            Vector3(0.0f, 0.0f, -1.0f)));
                     }
 
                     frames.push_back(SpriteFrame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));

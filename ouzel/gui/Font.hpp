@@ -26,7 +26,7 @@ namespace ouzel
                                  float fontSize,
                                  const Vector2& anchor,
                                  std::vector<uint16_t>& indices,
-                                 std::vector<graphics::VertexPCT>& vertices,
+                                 std::vector<graphics::Vertex>& vertices,
                                  std::shared_ptr<graphics::Texture>& texture) = 0;
     };
 }
