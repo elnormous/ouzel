@@ -116,7 +116,7 @@ namespace ouzel
             if (document.hasMember("finishColorVarianceBlue")) finishColorBlueVariance = document["finishColorVarianceBlue"].asFloat();
             if (document.hasMember("finishColorVarianceAlpha")) finishColorAlphaVariance = document["finishColorVarianceAlpha"].asFloat();
 
-            if (document.hasMember("textureFileName")) texture = engine->getCache()->getTexture(document["textureFileName"].asString(), mipmaps);
+            if (document.hasMember("textureFileName")) texture = engine->getCache()->getTexture(document["textureFileName"].asString(), false, mipmaps);
 
             emissionRate = static_cast<float>(maxParticles) / particleLifespan;
 
