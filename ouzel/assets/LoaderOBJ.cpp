@@ -133,7 +133,7 @@ namespace ouzel
                         Vector3 texCoord;
                         if (lineStream.eof())
                         {
-                            Log(Log::Level::ERR) << "Failed to parse position";
+                            Log(Log::Level::ERR) << "Failed to parse texture coordinates";
                             return false;
                         }
 
@@ -141,7 +141,7 @@ namespace ouzel
 
                         if (lineStream.eof())
                         {
-                            Log(Log::Level::ERR) << "Failed to parse position";
+                            Log(Log::Level::ERR) << "Failed to parse texture coordinates";
                             return false;
                         }
 
@@ -154,7 +154,7 @@ namespace ouzel
                         Vector3 normal;
                         if (lineStream.eof())
                         {
-                            Log(Log::Level::ERR) << "Failed to parse position";
+                            Log(Log::Level::ERR) << "Failed to parse normal";
                             return false;
                         }
 
@@ -162,7 +162,7 @@ namespace ouzel
 
                         if (lineStream.eof())
                         {
-                            Log(Log::Level::ERR) << "Failed to parse position";
+                            Log(Log::Level::ERR) << "Failed to parse normal";
                             return false;
                         }
 
@@ -170,7 +170,7 @@ namespace ouzel
 
                         if (lineStream.eof())
                         {
-                            Log(Log::Level::ERR) << "Failed to parse position";
+                            Log(Log::Level::ERR) << "Failed to parse normal";
                             return false;
                         }
 
