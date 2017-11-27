@@ -37,7 +37,6 @@ namespace ouzel
             Box3 boundingBox;
 
             uint32_t objectCount = 0;
-            std::string read;
 
             for (std::string line; std::getline(stream, line);)
             {
@@ -48,6 +47,7 @@ namespace ouzel
                     std::stringstream lineStream;
                     lineStream << line;
 
+                    std::string read;
                     lineStream >> read;
 
                     if (read == "mtllib")
