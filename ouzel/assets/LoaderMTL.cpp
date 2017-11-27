@@ -81,7 +81,7 @@ namespace ouzel
 
                         lineStream >> read;
 
-                        ambientTexture = engine->getCache()->getTexture(read);
+                        ambientTexture = engine->getCache()->getTexture(read, false, true);
                     }
                     else if (read == "map_Kd") // diffuse texture map
                     {
@@ -93,7 +93,7 @@ namespace ouzel
 
                         lineStream >> read;
 
-                        diffuseTexture = engine->getCache()->getTexture(read);
+                        diffuseTexture = engine->getCache()->getTexture(read, false, true);
                     }
                     else if (read == "Ka") // ambient color
                     {
