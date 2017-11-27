@@ -157,7 +157,7 @@ namespace ouzel
             {
                 if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
                 {
-                    std::string name;
+                    const GLchar* name;
 
                     switch (vertexAttribute.usage)
                     {
@@ -199,7 +199,7 @@ namespace ouzel
                             return false;
                     }
 
-                    glBindAttribLocationProc(programId, index, name.c_str());
+                    glBindAttribLocationProc(programId, index, name);
                     ++index;
                 }
             }

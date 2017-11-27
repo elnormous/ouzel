@@ -124,9 +124,9 @@ namespace ouzel
         }
 
         bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                         const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+                                         BufferResource* newVertexBuffer)
         {
-            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexBuffer))
             {
                 return false;
             }
@@ -150,24 +150,24 @@ namespace ouzel
 
             vertexAttribs.clear();
 
+            GLsizei vertexSize = 0;
+
+            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
+            {
+                vertexSize += getDataTypeSize(vertexAttribute.dataType);
+            }
+
             GLuint offset = 0;
 
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
+            for (const Vertex::Attribute& vertexAttribute : Vertex::ATTRIBUTES)
             {
                 GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
 
                 vertexAttribs.push_back({
                     getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
-                    static_cast<GLsizei>(vertexSize),
-                    static_cast<const GLchar*>(nullptr) + offset
+                    vertexSize, static_cast<const GLchar*>(nullptr) + offset
                 });
                 offset += getDataTypeSize(vertexAttribute.dataType);
-            }
-
-            if (offset != vertexSize)
-            {
-                Log(Log::Level::ERR) << "Invalid vertex size";
-                return false;
             }
 
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
@@ -232,83 +232,6 @@ namespace ouzel
                 {
                     if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        bool MeshBufferResourceOGL::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
-        {
-            if (MeshBufferResource::setVertexAttributes(newVertexAttributes))
-            {
-                return false;
-            }
-
-            vertexAttribs.clear();
-
-            GLuint offset = 0;
-
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
-            {
-                GLboolean normalized = vertexAttribute.normalized ? GL_TRUE : GL_FALSE;
-
-                vertexAttribs.push_back({
-                    getArraySize(vertexAttribute.dataType), getVertexFormat(vertexAttribute.dataType), normalized,
-                    static_cast<GLsizei>(vertexSize),
-                    static_cast<const GLchar*>(nullptr) + offset
-                });
-                offset += getDataTypeSize(vertexAttribute.dataType);
-            }
-
-            if (offset != vertexSize)
-            {
-                Log(Log::Level::ERR) << "Invalid vertex size";
-                return false;
-            }
-
-            if (vertexArrayId)
-            {
-                renderDeviceOGL->bindVertexArray(vertexArrayId);
-
-                if (indexBufferOGL && indexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-                }
-
-                if (vertexBufferOGL && vertexBufferOGL->getBufferId())
-                {
-                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                    {
-                        return false;
-                    }
-
-                    for (GLuint index = 0; index < Vertex::VERTEX_ATTRIBUTE_COUNT; ++index)
-                    {
-                        if (index < vertexAttribs.size())
-                        {
-                            glEnableVertexAttribArrayProc(index);
-                            glVertexAttribPointerProc(index,
-                                                      vertexAttribs[index].size,
-                                                      vertexAttribs[index].type,
-                                                      vertexAttribs[index].normalized,
-                                                      vertexAttribs[index].stride,
-                                                      vertexAttribs[index].pointer);
-                        }
-                        else
-                        {
-                            glDisableVertexAttribArrayProc(index);
-                        }
-                    }
-
-                    if (RenderDeviceOGL::checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to update vertex attributes";
                         return false;
                     }
                 }

@@ -18,18 +18,11 @@ namespace ouzel
         }
 
         bool MeshBufferResource::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                      const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+                                      BufferResource* newVertexBuffer)
         {
             indexSize = newIndexSize;
             indexBuffer = newIndexBuffer;
-            vertexAttributes = newVertexAttributes;
             vertexBuffer = newVertexBuffer;
-            vertexSize = 0;
-
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
 
             return true;
         }
@@ -37,19 +30,6 @@ namespace ouzel
         bool MeshBufferResource::setIndexSize(uint32_t newIndexSize)
         {
             indexSize = newIndexSize;
-
-            return true;
-        }
-
-        bool MeshBufferResource::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
-        {
-            vertexAttributes = newVertexAttributes;
-            vertexSize = 0;
-
-            for (const Vertex::Attribute& vertexAttribute : vertexAttributes)
-            {
-                vertexSize += getDataTypeSize(vertexAttribute.dataType);
-            }
 
             return true;
         }

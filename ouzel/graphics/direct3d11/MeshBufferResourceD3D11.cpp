@@ -22,9 +22,9 @@ namespace ouzel
         }
 
         bool MeshBufferResourceD3D11::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                           const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+                                           BufferResource* newVertexBuffer)
         {
-            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexBuffer))
             {
                 return false;
             }
@@ -81,16 +81,6 @@ namespace ouzel
             }
 
             indexBufferD3D11 = static_cast<BufferResourceD3D11*>(indexBuffer);
-
-            return true;
-        }
-
-        bool MeshBufferResourceD3D11::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
-        {
-            if (MeshBufferResource::setVertexAttributes(newVertexAttributes))
-            {
-                return false;
-            }
 
             return true;
         }

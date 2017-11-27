@@ -35,7 +35,7 @@ namespace ouzel
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
 
             meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint32_t), indexBuffer, graphics::Vertex::ATTRIBUTES, vertexBuffer);
+            meshBuffer->init(sizeof(uint32_t), indexBuffer, vertexBuffer);
 
             material = newMaterial;
 

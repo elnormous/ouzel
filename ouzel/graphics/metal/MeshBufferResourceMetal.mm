@@ -24,9 +24,9 @@ namespace ouzel
         }
 
         bool MeshBufferResourceMetal::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
-                                           const std::vector<Vertex::Attribute>& newVertexAttributes, BufferResource* newVertexBuffer)
+                                           BufferResource* newVertexBuffer)
         {
-            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexAttributes, newVertexBuffer))
+            if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexBuffer))
             {
                 return false;
             }
@@ -87,16 +87,6 @@ namespace ouzel
             }
 
             indexBufferMetal = static_cast<BufferResourceMetal*>(indexBuffer);
-
-            return true;
-        }
-
-        bool MeshBufferResourceMetal::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
-        {
-            if (MeshBufferResource::setVertexAttributes(newVertexAttributes))
-            {
-                return false;
-            }
 
             return true;
         }

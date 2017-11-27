@@ -23,12 +23,11 @@ namespace ouzel
         }
 
         bool MeshBuffer::init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
-                              const std::vector<Vertex::Attribute>& newVertexAttributes, const std::shared_ptr<Buffer>& newVertexBuffer)
+                              const std::shared_ptr<Buffer>& newVertexBuffer)
         {
             indexBuffer = newIndexBuffer;
             vertexBuffer = newVertexBuffer;
             indexSize = newIndexSize;
-            vertexAttributes = newVertexAttributes;
 
             BufferResource* indexBufferResource = newIndexBuffer ? newIndexBuffer->getResource() : nullptr;
             BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
@@ -37,7 +36,6 @@ namespace ouzel
                                                                          resource,
                                                                          newIndexSize,
                                                                          indexBufferResource,
-                                                                         newVertexAttributes,
                                                                          vertexBufferResource));
 
             return true;
@@ -68,22 +66,6 @@ namespace ouzel
             engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexBuffer,
                                                                          resource,
                                                                          indexBufferResource));
-
-            return true;
-        }
-
-        const std::vector<Vertex::Attribute>& MeshBuffer::getVertexAttributes() const
-        {
-            return vertexAttributes;
-        }
-
-        bool MeshBuffer::setVertexAttributes(const std::vector<Vertex::Attribute>& newVertexAttributes)
-        {
-            vertexAttributes = newVertexAttributes;
-
-            engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexAttributes,
-                                                                         resource,
-                                                                         newVertexAttributes));
 
             return true;
         }
