@@ -731,24 +731,28 @@ namespace ouzel
                     glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER:
+                    if (!glUniform1uivProc) return false;
                     glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR2:
                     glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR2:
+                    if (!glUniform2uivProc) return false;
                     glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR3:
                     glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR3:
+                    if (!glUniform3uivProc) return false;
                     glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::INTEGER_VECTOR4:
                     glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
                     break;
                 case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    if (!glUniform4uivProc) return false;
                     glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
                     break;
                 case DataType::FLOAT:
