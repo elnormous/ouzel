@@ -230,10 +230,6 @@ namespace ouzel
             glUniform2ivProc = glUniform2iv;
             glUniform3ivProc = glUniform3iv;
             glUniform4ivProc = glUniform4iv;
-            glUniform1uivProc = glUniform1uiv;
-            glUniform2uivProc = glUniform2uiv;
-            glUniform3uivProc = glUniform3uiv;
-            glUniform4uivProc = glUniform4uiv;
             glUniformMatrix3fvProc = glUniformMatrix3fv;
             glUniformMatrix4fvProc = glUniformMatrix4fv;
 
@@ -295,10 +291,6 @@ namespace ouzel
             glUniform2ivProc = reinterpret_cast<PFNGLUNIFORM2IVPROC>(getProcAddress("glUniform2iv"));
             glUniform3ivProc = reinterpret_cast<PFNGLUNIFORM3IVPROC>(getProcAddress("glUniform3iv"));
             glUniform4ivProc = reinterpret_cast<PFNGLUNIFORM4IVPROC>(getProcAddress("glUniform4iv"));
-            glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(getProcAddress("glUniform1uiv"));
-            glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(getProcAddress("glUniform2uiv"));
-            glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(getProcAddress("glUniform3uiv"));
-            glUniform4uivProc = reinterpret_cast<PFNGLUNIFORM4UIVPROC>(getProcAddress("glUniform4uiv"));
             glUniformMatrix3fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX3FVPROC>(getProcAddress("glUniformMatrix3fv"));
             glUniformMatrix4fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX4FVPROC>(getProcAddress("glUniformMatrix4fv"));
 
@@ -408,6 +400,11 @@ namespace ouzel
                 }
 
 #if OUZEL_OPENGL_INTERFACE_EAGL
+                glUniform1uivProc = glUniform1uiv;
+                glUniform2uivProc = glUniform2uiv;
+                glUniform3uivProc = glUniform3uiv;
+                glUniform4uivProc = glUniform4uiv;
+
                 glGenVertexArraysProc = glGenVertexArraysOES;
                 glBindVertexArrayProc = glBindVertexArrayOES;
                 glDeleteVertexArraysProc = glDeleteVertexArraysOES;
@@ -417,6 +414,11 @@ namespace ouzel
 
                 glRenderbufferStorageMultisampleProc = glRenderbufferStorageMultisampleAPPLE;
 #else
+                glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(getProcAddress("glUniform1uiv"));
+                glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(getProcAddress("glUniform2uiv"));
+                glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(getProcAddress("glUniform3uiv"));
+                glUniform4uivProc = reinterpret_cast<PFNGLUNIFORM4UIVPROC>(getProcAddress("glUniform4uiv"));
+
                 glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(getProcAddress("glGenVertexArrays"));
                 glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(getProcAddress("glBindVertexArray"));
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
