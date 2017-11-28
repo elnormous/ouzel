@@ -171,9 +171,6 @@
 		30C56C801CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
 		30C56C811CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
 		30C56C821CAB48A4007AEF8F /* radio_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C731CAB48A4007AEF8F /* radio_button.png */; };
-		30C56C871CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
-		30C56C881CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
-		30C56C891CAB4E4E007AEF8F /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C851CAB4E4E007AEF8F /* dot.png */; };
 		30C56C8A1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
 		30C56C8B1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
 		30C56C8C1CAB4E4E007AEF8F /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C56C861CAB4E4E007AEF8F /* tick.png */; };
@@ -296,7 +293,6 @@
 		30C56C701CAB48A4007AEF8F /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		30C56C711CAB48A4007AEF8F /* edit_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_box.png; sourceTree = "<group>"; };
 		30C56C731CAB48A4007AEF8F /* radio_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_button.png; sourceTree = "<group>"; };
-		30C56C851CAB4E4E007AEF8F /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot.png; sourceTree = "<group>"; };
 		30C56C861CAB4E4E007AEF8F /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -454,7 +450,6 @@
 				30C2C33D1F817E5000B3AAC2 /* cube.obj */,
 				30C2C3421F817E5100B3AAC2 /* cube.png */,
 				3049DCEE1EDF865B0000997A /* cursor.png */,
-				30C56C851CAB4E4E007AEF8F /* dot.png */,
 				30C56C711CAB48A4007AEF8F /* edit_box.png */,
 				303B75F51C33756100FEDE92 /* fire.json */,
 				303B75F61C33756100FEDE92 /* fire.png */,
@@ -672,7 +667,6 @@
 				303647A11C418E4C0024DB5B /* Assets.xcassets in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
 				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
-				30C56C881CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
 				304736D41E0AE4CE009BC562 /* floor.jpg in Resources */,
@@ -715,7 +709,6 @@
 				303647A31C418E7C0024DB5B /* Assets.xcassets in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
 				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
-				30C56C891CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
 				304736D61E0AE4CE009BC562 /* floor.jpg in Resources */,
@@ -758,7 +751,6 @@
 				303647A21C418E790024DB5B /* Assets.xcassets in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
 				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
-				30C56C871CAB4E4E007AEF8F /* dot.png in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,
 				304736D51E0AE4CE009BC562 /* floor.jpg in Resources */,
