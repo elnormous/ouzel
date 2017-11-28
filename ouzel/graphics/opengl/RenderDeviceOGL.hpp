@@ -38,6 +38,10 @@ extern PFNGLUNIFORM1IVPROC glUniform1ivProc;
 extern PFNGLUNIFORM2IVPROC glUniform2ivProc;
 extern PFNGLUNIFORM3IVPROC glUniform3ivProc;
 extern PFNGLUNIFORM4IVPROC glUniform4ivProc;
+extern PFNGLUNIFORM1UIVPROC glUniform1uivProc;
+extern PFNGLUNIFORM2UIVPROC glUniform2uivProc;
+extern PFNGLUNIFORM3UIVPROC glUniform3uivProc;
+extern PFNGLUNIFORM4UIVPROC glUniform4uivProc;
 extern PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
 extern PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
 

@@ -82,6 +82,10 @@ PFNGLUNIFORM1IVPROC glUniform1ivProc;
 PFNGLUNIFORM2IVPROC glUniform2ivProc;
 PFNGLUNIFORM3IVPROC glUniform3ivProc;
 PFNGLUNIFORM4IVPROC glUniform4ivProc;
+PFNGLUNIFORM1UIVPROC glUniform1uivProc;
+PFNGLUNIFORM2UIVPROC glUniform2uivProc;
+PFNGLUNIFORM3UIVPROC glUniform3uivProc;
+PFNGLUNIFORM4UIVPROC glUniform4uivProc;
 PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fvProc;
 PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fvProc;
 
@@ -226,6 +230,10 @@ namespace ouzel
             glUniform2ivProc = glUniform2iv;
             glUniform3ivProc = glUniform3iv;
             glUniform4ivProc = glUniform4iv;
+            glUniform1uivProc = glUniform1uiv;
+            glUniform2uivProc = glUniform2uiv;
+            glUniform3uivProc = glUniform3uiv;
+            glUniform4uivProc = glUniform4uiv;
             glUniformMatrix3fvProc = glUniformMatrix3fv;
             glUniformMatrix4fvProc = glUniformMatrix4fv;
 
@@ -287,6 +295,10 @@ namespace ouzel
             glUniform2ivProc = reinterpret_cast<PFNGLUNIFORM2IVPROC>(getProcAddress("glUniform2iv"));
             glUniform3ivProc = reinterpret_cast<PFNGLUNIFORM3IVPROC>(getProcAddress("glUniform3iv"));
             glUniform4ivProc = reinterpret_cast<PFNGLUNIFORM4IVPROC>(getProcAddress("glUniform4iv"));
+            glUniform1uivProc = reinterpret_cast<PFNGLUNIFORM1UIVPROC>(getProcAddress("glUniform1uiv"));
+            glUniform2uivProc = reinterpret_cast<PFNGLUNIFORM2UIVPROC>(getProcAddress("glUniform2uiv"));
+            glUniform3uivProc = reinterpret_cast<PFNGLUNIFORM3UIVPROC>(getProcAddress("glUniform3uiv"));
+            glUniform4uivProc = reinterpret_cast<PFNGLUNIFORM4UIVPROC>(getProcAddress("glUniform4uiv"));
             glUniformMatrix3fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX3FVPROC>(getProcAddress("glUniformMatrix3fv"));
             glUniformMatrix4fvProc = reinterpret_cast<PFNGLUNIFORMMATRIX4FVPROC>(getProcAddress("glUniformMatrix4fv"));
 
@@ -711,6 +723,60 @@ namespace ouzel
             return RenderDevice::process();
         }
 
+        static bool setUniform(GLint location, DataType dataType, const void* data)
+        {
+            switch (dataType)
+            {
+                case DataType::INTEGER:
+                    glUniform1ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    break;
+                case DataType::UNSIGNED_INTEGER:
+                    glUniform1uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    break;
+                case DataType::INTEGER_VECTOR2:
+                    glUniform2ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    break;
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                    glUniform2uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    break;
+                case DataType::INTEGER_VECTOR3:
+                    glUniform3ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    break;
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                    glUniform3uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    break;
+                case DataType::INTEGER_VECTOR4:
+                    glUniform4ivProc(location, 1, reinterpret_cast<const GLint*>(data));
+                    break;
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    glUniform4uivProc(location, 1, reinterpret_cast<const GLuint*>(data));
+                    break;
+                case DataType::FLOAT:
+                    glUniform1fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                case DataType::FLOAT_VECTOR2:
+                    glUniform2fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                case DataType::FLOAT_VECTOR3:
+                    glUniform3fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                case DataType::FLOAT_VECTOR4:
+                    glUniform4fvProc(location, 1, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                case DataType::FLOAT_MATRIX3:
+                    glUniformMatrix3fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                case DataType::FLOAT_MATRIX4:
+                    glUniformMatrix4fvProc(location, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(data));
+                    break;
+                default:
+                    Log(Log::Level::ERR) << "Unsupported uniform size";
+                    return false;
+            }
+
+            return true;
+        }
+
         bool RenderDeviceOGL::draw(const std::vector<DrawCommand>& drawCommands)
         {
             if (drawCommands.empty())
@@ -868,41 +934,11 @@ namespace ouzel
                     const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
                     const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
 
-                    switch (pixelShaderConstantLocation.dataType)
+                    if (!setUniform(pixelShaderConstantLocation.location,
+                                    pixelShaderConstantLocation.dataType,
+                                    pixelShaderConstant.data()))
                     {
-                        case DataType::INTEGER:
-                            glUniform1ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR2:
-                            glUniform2ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR3:
-                            glUniform3ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR4:
-                            glUniform4ivProc(pixelShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(pixelShaderConstant.data()));
-                            break;
-                        case DataType::FLOAT:
-                            glUniform1fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR2:
-                            glUniform2fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR3:
-                            glUniform3fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR4:
-                            glUniform4fvProc(pixelShaderConstantLocation.location, 1, pixelShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_MATRIX3:
-                            glUniformMatrix3fvProc(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_MATRIX4:
-                            glUniformMatrix4fvProc(pixelShaderConstantLocation.location, 1, GL_FALSE, pixelShaderConstant.data());
-                            break;
-                        default:
-                            Log(Log::Level::ERR) << "Unsupported uniform size";
-                            return false;
+                        return false;
                     }
                 }
 
@@ -920,41 +956,11 @@ namespace ouzel
                     const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
                     const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
 
-                    switch (vertexShaderConstantLocation.dataType)
+                    if (!setUniform(vertexShaderConstantLocation.location,
+                                    vertexShaderConstantLocation.dataType,
+                                    vertexShaderConstant.data()))
                     {
-                        case DataType::INTEGER:
-                            glUniform1ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR2:
-                            glUniform2ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR3:
-                            glUniform3ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
-                            break;
-                        case DataType::INTEGER_VECTOR4:
-                            glUniform4ivProc(vertexShaderConstantLocation.location, 1, reinterpret_cast<const GLint*>(vertexShaderConstant.data()));
-                            break;
-                        case DataType::FLOAT:
-                            glUniform1fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR2:
-                            glUniform2fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR3:
-                            glUniform3fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_VECTOR4:
-                            glUniform4fvProc(vertexShaderConstantLocation.location, 1, vertexShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_MATRIX3:
-                            glUniformMatrix3fvProc(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
-                            break;
-                        case DataType::FLOAT_MATRIX4:
-                            glUniformMatrix4fvProc(vertexShaderConstantLocation.location, 1, GL_FALSE, vertexShaderConstant.data());
-                            break;
-                        default:
-                            Log(Log::Level::ERR) << "Unsupported uniform size";
-                            return false;
+                        return false;
                     }
                 }
 
