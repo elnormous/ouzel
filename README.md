@@ -66,7 +66,7 @@ The following code will open create a scene with a sprite in the center of it:
             addLayer(&layer);
             cameraActor.addComponent(&camera);
             layer.addChild(&cameraActor);
-            playerSprite.initFromFile("player.png");
+            playerSprite.init("player.png");
             player.addComponent(&playerSprite);
             layer.addChild(&player);
         }
