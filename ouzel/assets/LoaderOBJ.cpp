@@ -42,15 +42,17 @@ namespace ouzel
             {
                 if (!line.empty())
                 {
-                    if (line[0] == '#') continue; // comment
-
                     std::stringstream lineStream;
                     lineStream << line;
 
                     std::string read;
                     lineStream >> read;
 
-                    if (read == "mtllib")
+                    if (read.empty() || read[0] == '#') // empty or comment
+                    {
+                        continue;
+                    }
+                    else if (read == "mtllib")
                     {
                         if (lineStream.eof())
                         {
