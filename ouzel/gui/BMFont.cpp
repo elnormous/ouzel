@@ -39,7 +39,6 @@ namespace ouzel
         std::stringstream stream;
         std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
 
-        ;
         std::string read, key, value;
         std::size_t i;
 
