@@ -10,10 +10,6 @@ namespace ouzel
 {
     namespace json
     {
-        Value::Value()
-        {
-        }
-
         bool Value::parseValue(const std::vector<Token>& tokens,
                                std::vector<Token>::iterator& iterator)
         {

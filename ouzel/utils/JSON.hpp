@@ -48,7 +48,38 @@ namespace ouzel
                 BOOLEAN
             };
 
-            Value();
+            Value() {}
+            Value(Type initType): type(initType) {}
+            Value(double val): type(Type::NUMBER), doubleValue(val) {}
+            Value(const std::string& str): type(Type::STRING), stringValue(str) {}
+            Value(bool val): type(Type::BOOLEAN), boolValue(val) {}
+
+            Value& operator=(Type newType)
+            {
+                type = newType;
+                return *this;
+            }
+
+            Value& operator=(double val)
+            {
+                type = Type::NUMBER;
+                doubleValue = val;
+                return *this;
+            }
+
+            Value& operator=(const std::string& str)
+            {
+                type = Type::STRING;
+                stringValue = str;
+                return *this;
+            }
+
+            Value& operator=(bool val)
+            {
+                type = Type::BOOLEAN;
+                boolValue = val;
+                return *this;
+            }
 
             Type getType() const { return type; }
 
@@ -118,6 +149,11 @@ namespace ouzel
             {
                 assert(type == Type::OBJECT);
                 return nullValue;
+            }
+
+            void setNull(bool val)
+            {
+                nullValue = val;
             }
 
             bool hasMember(const std::string& member) const
