@@ -53,7 +53,7 @@ namespace ouzel
 
             const std::map<std::string, Section>& getSections() const { return sections; }
             bool hasSection(const std::string& name) const;
-            const Section& getSection(const std::string& name);
+            Section& getSection(const std::string& name);
             Section getSection(const std::string& name) const;
             void setSection(const std::string& name, const Section& section);
             bool deleteSection(const std::string& name);
