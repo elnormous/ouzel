@@ -377,7 +377,7 @@ namespace ouzel
             return sectionIterator != sections.end();
         }
 
-        const Section& Data::getSection(const std::string& name)
+        Section& Data::getSection(const std::string& name)
         {
             return sections[name];
         }
