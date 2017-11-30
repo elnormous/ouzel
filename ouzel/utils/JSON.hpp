@@ -67,6 +67,34 @@ namespace ouzel
                 return *this;
             }
 
+            Value& operator=(int32_t val)
+            {
+                type = Type::NUMBER;
+                doubleValue = static_cast<double>(val);
+                return *this;
+            }
+
+            Value& operator=(uint32_t val)
+            {
+                type = Type::NUMBER;
+                doubleValue = static_cast<double>(val);
+                return *this;
+            }
+
+            Value& operator=(int64_t val)
+            {
+                type = Type::NUMBER;
+                doubleValue = static_cast<double>(val);
+                return *this;
+            }
+
+            Value& operator=(uint64_t val)
+            {
+                type = Type::NUMBER;
+                doubleValue = static_cast<double>(val);
+                return *this;
+            }
+
             Value& operator=(const std::string& str)
             {
                 type = Type::STRING;

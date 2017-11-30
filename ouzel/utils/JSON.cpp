@@ -342,7 +342,8 @@ namespace ouzel
             return true;
         }
         
-        Data::Data()
+        Data::Data():
+            Value(Value::Type::OBJECT)
         {
         }
 
