@@ -25,7 +25,14 @@ namespace ouzel
                 TEXT
             };
 
-            Node();
+            Node() {}
+            Node(Type initType): type(initType) {}
+
+            Node& operator=(Type newType)
+            {
+                type = newType;
+                return *this;
+            }
 
             Type getType() const { return type; }
 

@@ -306,10 +306,6 @@ namespace ouzel
             return true;
         }
 
-        Node::Node()
-        {
-        }
-
         bool Node::parse(const std::vector<uint32_t>& str,
                          std::vector<uint32_t>::iterator& iterator,
                          bool preserveComments, bool preserveProcessingInstructions)
