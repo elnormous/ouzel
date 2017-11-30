@@ -224,6 +224,12 @@ namespace ouzel
                 else return Value();
             }
 
+            std::vector<Value>& asArray()
+            {
+                assert(type == Type::ARRAY);
+                return arrayValue;
+            }
+
             const std::vector<Value>& asArray() const
             {
                 assert(type == Type::ARRAY);
