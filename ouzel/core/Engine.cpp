@@ -131,8 +131,8 @@ namespace ouzel
         defaultSettings.init("settings.ini");
         userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
-        ini::Section userEngineSection = userSettings.getSection("engine");
-        ini::Section defaultEngineSection = defaultSettings.getSection("engine");
+        const ini::Section& userEngineSection = userSettings.getSection("engine");
+        const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
 
         std::string graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
 
