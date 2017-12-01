@@ -13,7 +13,7 @@ namespace ouzel
         class Scale: public Animator
         {
         public:
-            Scale(float aLength, const Vector3& aScale, bool aRelative = false);
+            Scale(float initLength, const Vector3& initScale, bool initRelative = false);
 
             virtual void play() override;
 

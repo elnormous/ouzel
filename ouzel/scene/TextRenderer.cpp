@@ -13,17 +13,17 @@ namespace ouzel
     namespace scene
     {
         TextRenderer::TextRenderer(const std::string& fontFile,
-                                   bool aMipmaps,
-                                   float aFontSize,
-                                   const std::string& aText,
-                                   Color aColor,
-                                   const Vector2& aTextAnchor):
+                                   bool initMipmaps,
+                                   float initFontSize,
+                                   const std::string& initText,
+                                   Color initColor,
+                                   const Vector2& initTextAnchor):
             Component(TYPE),
-            text(aText),
-            fontSize(aFontSize),
-            textAnchor(aTextAnchor),
-            color(aColor),
-            mipmaps(aMipmaps)
+            text(initText),
+            fontSize(initFontSize),
+            textAnchor(initTextAnchor),
+            color(initColor),
+            mipmaps(initMipmaps)
         {
             shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
             blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);

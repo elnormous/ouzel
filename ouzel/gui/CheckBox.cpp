@@ -11,7 +11,11 @@ namespace ouzel
 {
     namespace gui
     {
-        CheckBox::CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage):
+        CheckBox::CheckBox(const std::string& normalImage,
+                           const std::string& selectedImage,
+                           const std::string& pressedImage,
+                           const std::string& disabledImage,
+                           const std::string& tickImage):
             eventHandler(EventHandler::PRIORITY_MAX + 1)
         {
             eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1, std::placeholders::_2);

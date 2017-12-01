@@ -15,26 +15,26 @@ namespace ouzel
 {
     namespace scene
     {
-        Camera::Camera(Matrix4 aProjection):
+        Camera::Camera(Matrix4 initProjection):
             Component(TYPE),
-            type(Type::CUSTOM), projection(aProjection)
+            type(Type::CUSTOM), projection(initProjection)
 
         {
             calculateViewProjection();
         }
 
-        Camera::Camera(const Size2& aTargetContentSize, ScaleMode aScaleMode):
+        Camera::Camera(const Size2& initTargetContentSize, ScaleMode initScaleMode):
             Component(Component::Type::CAMERA),
-            type(Type::ORTHOGRAPHIC), targetContentSize(aTargetContentSize),
-            scaleMode(aScaleMode)
+            type(Type::ORTHOGRAPHIC), targetContentSize(initTargetContentSize),
+            scaleMode(initScaleMode)
         {
             calculateViewProjection();
         }
 
-        Camera::Camera(float aFov, float aNearPlane, float aFarPlane):
+        Camera::Camera(float initFov, float initNearPlane, float initFarPlane):
             Component(Component::Type::CAMERA),
-            type(Type::PERSPECTIVE), fov(aFov),
-            nearPlane(aNearPlane), farPlane(aFarPlane)
+            type(Type::PERSPECTIVE), fov(initFov),
+            nearPlane(initNearPlane), farPlane(initFarPlane)
         {
             calculateViewProjection();
         }

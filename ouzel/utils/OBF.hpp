@@ -48,7 +48,7 @@ namespace ouzel
             };
 
             Value() {}
-            Value(Type aType): type(aType) {}
+            Value(Type initType): type(initType) {}
             Value(uint8_t value):
                 type(Type::INT), intValue(value)
             {

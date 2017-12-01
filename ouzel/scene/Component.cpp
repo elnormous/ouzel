@@ -9,8 +9,8 @@ namespace ouzel
 {
     namespace scene
     {
-        Component::Component(uint32_t aType):
-            type(aType)
+        Component::Component(uint32_t initType):
+            type(initType)
         {
         }
 

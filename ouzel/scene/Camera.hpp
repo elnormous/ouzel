@@ -36,9 +36,9 @@ namespace ouzel
                 SHOW_ALL
             };
 
-            Camera(Matrix4 aProjection);
-            Camera(const Size2& aTargetContentSize = Size2(), ScaleMode aScaleMode = ScaleMode::NONE);
-            Camera(float aFov, float aNearPlane = 1.0f, float aFarPlane = 100.0f);
+            Camera(Matrix4 initProjection);
+            Camera(const Size2& initTargetContentSize = Size2(), ScaleMode initScaleMode = ScaleMode::NONE);
+            Camera(float initFov, float initNearPlane = 1.0f, float initFarPlane = 100.0f);
             virtual ~Camera();
 
             void setType(Type newType) { type = newType; }

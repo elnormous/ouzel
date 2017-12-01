@@ -12,7 +12,7 @@ namespace ouzel
         class Fade: public Animator
         {
         public:
-            Fade(float aLength, float aOpacity, bool aRelative = false);
+            Fade(float initLength, float initOpacity, bool initRelative = false);
 
             virtual void play() override;
 

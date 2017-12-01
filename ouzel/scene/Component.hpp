@@ -39,7 +39,7 @@ namespace ouzel
                 LIGHT = 10
             };
 
-            Component(uint32_t aType);
+            Component(uint32_t initType);
             virtual ~Component();
 
             uint32_t getType() const { return type; }

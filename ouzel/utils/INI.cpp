@@ -17,8 +17,8 @@ namespace ouzel
         {
         }
 
-        Section::Section(const std::string& aName):
-            name(aName)
+        Section::Section(const std::string& initName):
+            name(initName)
         {
         }
 

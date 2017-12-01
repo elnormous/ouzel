@@ -8,10 +8,10 @@ namespace ouzel
 {
     namespace scene
     {
-        Parallel::Parallel(const std::vector<Animator*>& aAnimators):
+        Parallel::Parallel(const std::vector<Animator*>& initAnimators):
             Animator(0.0f)
         {
-            for (Animator* animator : aAnimators)
+            for (Animator* animator : initAnimators)
             {
                 addAnimator(animator);
 
@@ -22,10 +22,10 @@ namespace ouzel
             }
         }
 
-        Parallel::Parallel(const std::vector<std::unique_ptr<Animator>>& aAnimators):
+        Parallel::Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators):
             Animator(0.0f)
         {
-            for (const std::unique_ptr<Animator>& animator : aAnimators)
+            for (const std::unique_ptr<Animator>& animator : initAnimators)
             {
                 addAnimator(animator.get());
 

@@ -29,15 +29,15 @@ namespace ouzel
                        const std::string& label,
                        const std::string& font,
                        float fontSize,
-                       const Color& aLabelColor,
-                       const Color& aLabelSelectedColor,
-                       const Color& aLabelPressedColor,
-                       const Color& aLabelDisabledColor):
+                       const Color& initLabelColor,
+                       const Color& initLabelSelectedColor,
+                       const Color& initLabelPressedColor,
+                       const Color& initLabelDisabledColor):
             eventHandler(EventHandler::PRIORITY_MAX + 1),
-            labelColor(aLabelColor),
-            labelSelectedColor(aLabelSelectedColor),
-            labelPressedColor(aLabelPressedColor),
-            labelDisabledColor(aLabelDisabledColor)
+            labelColor(initLabelColor),
+            labelSelectedColor(initLabelSelectedColor),
+            labelPressedColor(initLabelPressedColor),
+            labelDisabledColor(initLabelDisabledColor)
         {
             eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1, std::placeholders::_2);
             engine->getEventDispatcher()->addEventHandler(&eventHandler);

@@ -16,7 +16,7 @@ namespace ouzel
         class Label: public Widget
         {
         public:
-            Label(const std::string& aText,
+            Label(const std::string& initText,
                   const std::string& fontFile,
                   float fontSize = 1.0f,
                   Color color = Color::WHITE,

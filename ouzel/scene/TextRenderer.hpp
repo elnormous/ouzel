@@ -23,10 +23,10 @@ namespace ouzel
             static const uint32_t TYPE = Component::TEXT_RENDERER;
 
             TextRenderer(const std::string& fontFile,
-                         bool aMipmaps = true,
-                         float aFontSize = 1.0f,
-                         const std::string& aText = std::string(),
-                         Color aColor = Color::WHITE,
+                         bool initMipmaps = true,
+                         float initFontSize = 1.0f,
+                         const std::string& initText = std::string(),
+                         Color initColor = Color::WHITE,
                          const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
 
             virtual void draw(const Matrix4& transformMatrix,

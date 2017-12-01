@@ -15,7 +15,11 @@ namespace ouzel
         class CheckBox: public Widget
         {
         public:
-            CheckBox(const std::string& normalImage, const std::string& selectedImage, const std::string& pressedImage, const std::string& disabledImage, const std::string& tickImage);
+            CheckBox(const std::string& normalImage,
+                     const std::string& selectedImage,
+                     const std::string& pressedImage,
+                     const std::string& disabledImage,
+                     const std::string& tickImage);
 
             virtual void setEnabled(bool newEnabled) override;
 

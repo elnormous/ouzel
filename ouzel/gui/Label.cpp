@@ -14,12 +14,12 @@ namespace ouzel
 {
     namespace gui
     {
-        Label::Label(const std::string& aText,
+        Label::Label(const std::string& initText,
                      const std::string& fontFile,
                      float fontSize,
                      Color color,
                      const Vector2& textAnchor):
-            text(aText),
+            text(initText),
             labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, true, fontSize, text, color, textAnchor))
         {
             addComponent(labelDrawable.get());

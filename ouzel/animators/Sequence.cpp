@@ -9,19 +9,19 @@ namespace ouzel
 {
     namespace scene
     {
-        Sequence::Sequence(const std::vector<Animator*>& aAnimators):
-            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); }))
+        Sequence::Sequence(const std::vector<Animator*>& initAnimators):
+            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); }))
         {
-            for (Animator* animator : aAnimators)
+            for (Animator* animator : initAnimators)
             {
                 addAnimator(animator);
             }
         }
 
-        Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& aAnimators):
-            Animator(std::accumulate(aAnimators.begin(), aAnimators.end(), 0.0f, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
+        Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
+            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
         {
-            for (const std::unique_ptr<Animator>& animator : aAnimators)
+            for (const std::unique_ptr<Animator>& animator : initAnimators)
             {
                 addAnimator(animator.get());
             }

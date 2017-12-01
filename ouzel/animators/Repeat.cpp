@@ -8,14 +8,14 @@ namespace ouzel
 {
     namespace scene
     {
-        Repeat::Repeat(Animator* animator, uint32_t aCount):
-            Animator(animator->getLength() * static_cast<float>(aCount)), count(aCount)
+        Repeat::Repeat(Animator* animator, uint32_t initCount):
+            Animator(animator->getLength() * static_cast<float>(initCount)), count(initCount)
         {
             addAnimator(animator);
         }
 
-        Repeat::Repeat(const std::unique_ptr<Animator>& animator, uint32_t aCount):
-            Repeat(animator.get(), aCount)
+        Repeat::Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount):
+            Repeat(animator.get(), initCount)
         {
         }
 

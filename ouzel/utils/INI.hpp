@@ -19,7 +19,7 @@ namespace ouzel
             friend Data;
         public:
             Section();
-            Section(const std::string& aName);
+            Section(const std::string& initName);
 
             void setName(const std::string& newName) { name = newName; }
             const std::string& getName() const { return name; }

@@ -29,7 +29,7 @@ namespace ouzel
 
         static Level threshold;
 
-        Log(Level aLevel = Level::INFO): level(aLevel)
+        Log(Level initLevel = Level::INFO): level(initLevel)
         {
         }
 

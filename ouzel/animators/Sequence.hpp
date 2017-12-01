@@ -13,8 +13,8 @@ namespace ouzel
         class Sequence: public Animator
         {
         public:
-            Sequence(const std::vector<Animator*>& aAnimators);
-            Sequence(const std::vector<std::unique_ptr<Animator>>& aAnimators);
+            Sequence(const std::vector<Animator*>& initAnimators);
+            Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
             virtual void play() override;
 

@@ -17,9 +17,9 @@ namespace ouzel
     {
     }
 
-    TTFont::TTFont(const std::string& filename, bool aMipmaps)
+    TTFont::TTFont(const std::string& filename, bool initMipmaps)
     {
-        init(filename, aMipmaps);
+        init(filename, initMipmaps);
     }
 
     bool TTFont::init(const std::string & filename, bool newMipmaps)
