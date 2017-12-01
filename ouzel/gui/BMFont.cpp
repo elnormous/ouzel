@@ -65,7 +65,7 @@ namespace ouzel
                         key = read.substr(0, i);
                         value = read.substr(i + 1);
 
-                        //assign the correct value
+                        // assign the correct value
                         converter << value;
                         if (key == "file")
                         {
@@ -81,7 +81,7 @@ namespace ouzel
                 }
                 else if (read == "common")
                 {
-                    //this holds common data
+                    // this holds common data
                     while (!lineStream.eof())
                     {
                         std::stringstream converter;
@@ -90,7 +90,7 @@ namespace ouzel
                         key = read.substr(0, i);
                         value = read.substr(i + 1);
 
-                        //assign the correct value
+                        // assign the correct value
                         converter << value;
                         if (key == "lineHeight") converter >> lineHeight;
                         else if (key == "base") converter >> base;
@@ -102,7 +102,7 @@ namespace ouzel
                 }
                 else if (read == "char")
                 {
-                    //This is data for each specific character.
+                    // this is data for each specific character
                     int32_t charId = 0;
 
                     while (!lineStream.eof())
@@ -113,7 +113,7 @@ namespace ouzel
                         key = read.substr(0, i);
                         value = read.substr(i + 1);
 
-                        //Assign the correct value
+                        // assign the correct value
                         converter << value;
                         if (key == "id") converter >> charId;
                         else if (key == "x") converter >> c.x;
@@ -154,7 +154,7 @@ namespace ouzel
                         key = read.substr(0, i);
                         value = read.substr(i + 1);
 
-                        //assign the correct value
+                        // assign the correct value
                         std::stringstream converter;
                         converter << value;
                         if (key == "first") converter >> first;

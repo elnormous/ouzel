@@ -202,17 +202,17 @@ namespace ouzel
                                 particles[i].position.y = -sinf(particles[i].angle) * particles[i].radius * particleSystemData.yCoordFlipped;
                             }
 
-                            //color r,g,b,a
+                            // color r,g,b,a
                             particles[i].colorRed += particles[i].deltaColorRed * UPDATE_STEP;
                             particles[i].colorGreen += particles[i].deltaColorGreen * UPDATE_STEP;
                             particles[i].colorBlue += particles[i].deltaColorBlue * UPDATE_STEP;
                             particles[i].colorAlpha += particles[i].deltaColorAlpha * UPDATE_STEP;
 
-                            //size
+                            // size
                             particles[i].size += (particles[i].deltaSize * UPDATE_STEP);
                             particles[i].size = std::max(0.0f, particles[i].size);
 
-                            //angle
+                            // angle
                             particles[i].rotation += particles[i].deltaRotation * UPDATE_STEP;
                         }
                         else

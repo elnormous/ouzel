@@ -103,7 +103,7 @@ namespace ouzel
         float theta = fieldOfView * 0.5f;
         if (fabsf(fmodf(theta, PI_2)) < EPSILON)
         {
-            //Invalid field of view value
+            // invalid field of view value
             return;
         }
         float divisor = tanf(theta);
@@ -416,7 +416,7 @@ namespace ouzel
         asm volatile
         (
             "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
-            "ld1r {v4.4s}, [%2]                       \n\t" //ssss
+            "ld1r {v4.4s}, [%2]                       \n\t" // ssss
 
             "fadd v8.4s, v0.4s, v4.4s                 \n\t" // DST->M[m0-m3] = M[m0-m3] + s
             "fadd v9.4s, v1.4s, v4.4s                 \n\t" // DST->M[m4-m7] = M[m4-m7] + s
@@ -706,8 +706,8 @@ namespace ouzel
 #elif OUZEL_SUPPORTS_NEON64
         asm volatile
         (
-            "ld1 {v0.s}[0], [%2]                      \n\t" //s
-            "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]   \n\t" //M[m0-m7] M[m8-m15]
+            "ld1 {v0.s}[0], [%2]                      \n\t" // s
+            "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
 
             "fmul v8.4s, v4.4s, v0.s[0]               \n\t" // DST->M[m0-m3] = M[m0-m3] * s
             "fmul v9.4s, v5.4s, v0.s[0]               \n\t" // DST->M[m4-m7] = M[m4-m7] * s
