@@ -37,6 +37,7 @@ namespace ouzel
             Type getType() const { return type; }
 
             const std::string& getValue() const { return value; }
+            void getValue(const std::string& newValue) { value = newValue; }
 
             const std::vector<Node>& getChildren() const { return children; }
 
