@@ -819,8 +819,6 @@ namespace ouzel
                 return false;
             }
 
-            // TODO: check if only single tag is in the children list
-
             return true;
         }
         
