@@ -30,17 +30,17 @@ namespace ouzel
         {
             if (animators.empty()) return;
 
-            if (animators[0]->getLength() != 0.0f)
+            if (animators.front()->getLength() != 0.0f)
             {
-                currentCount = static_cast<uint32_t>(currentTime / animators[0]->getLength());
+                currentCount = static_cast<uint32_t>(currentTime / animators.front()->getLength());
 
                 if (count == 0 || currentCount < count)
                 {
                     done = false;
                     running = true;
 
-                    float remainingTime = currentTime - animators[0]->getLength() * static_cast<float>(currentCount);
-                    animators[0]->setProgress(remainingTime / animators[0]->getLength());
+                    float remainingTime = currentTime - animators.front()->getLength() * static_cast<float>(currentCount);
+                    animators.front()->setProgress(remainingTime / animators.front()->getLength());
 
                     Event resetEvent;
                     resetEvent.type = Event::Type::ANIMATION_RESET;

@@ -327,7 +327,7 @@ namespace ouzel
                 }
             }
 
-            animators[0]->setProgress(progress);
+            animators.front()->setProgress(progress);
         }
     } // namespace scene
 } // namespace ouzel
