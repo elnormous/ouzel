@@ -244,11 +244,11 @@ namespace ouzel
 
         protected:
             bool parseValue(const std::vector<Token>& tokens,
-                            std::vector<Token>::iterator& iterator);
+                            std::vector<Token>::const_iterator& iterator);
             bool parseObject(const std::vector<Token>& tokens,
-                             std::vector<Token>::iterator& iterator);
+                             std::vector<Token>::const_iterator& iterator);
             bool parseArray(const std::vector<Token>& tokens,
-                            std::vector<Token>::iterator& iterator);
+                            std::vector<Token>::const_iterator& iterator);
             bool encodeValue(std::vector<uint8_t>& data) const;
             
             Type type = Type::NONE;

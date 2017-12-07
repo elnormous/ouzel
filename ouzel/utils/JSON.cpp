@@ -11,7 +11,7 @@ namespace ouzel
     namespace json
     {
         bool Value::parseValue(const std::vector<Token>& tokens,
-                               std::vector<Token>::iterator& iterator)
+                               std::vector<Token>::const_iterator&iterator)
         {
             if (iterator == tokens.end())
             {
@@ -80,7 +80,7 @@ namespace ouzel
         }
 
         bool Value::parseObject(const std::vector<Token>& tokens,
-                                std::vector<Token>::iterator& iterator)
+                                std::vector<Token>::const_iterator&iterator)
         {
             if (iterator == tokens.end())
             {
@@ -178,7 +178,7 @@ namespace ouzel
         }
 
         bool Value::parseArray(const std::vector<Token>& tokens,
-                               std::vector<Token>::iterator& iterator)
+                               std::vector<Token>::const_iterator&iterator)
         {
             if (iterator == tokens.end())
             {
@@ -616,7 +616,7 @@ namespace ouzel
                 return false;
             }
 
-            std::vector<Token>::iterator iterator = tokens.begin();
+            std::vector<Token>::const_iterator iterator = tokens.cbegin();
 
             return parseValue(tokens, iterator);
         }

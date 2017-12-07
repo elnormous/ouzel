@@ -41,7 +41,7 @@ namespace ouzel
         }
 
         static bool skipWhitespaces(const std::vector<uint32_t>& str,
-                                    std::vector<uint32_t>::iterator& iterator)
+                                    std::vector<uint32_t>::const_iterator& iterator)
         {
             for (;;)
             {
@@ -65,7 +65,7 @@ namespace ouzel
         }
 
         static bool parseName(const std::vector<uint32_t>& str,
-                              std::vector<uint32_t>::iterator& iterator,
+                              std::vector<uint32_t>::const_iterator& iterator,
                               std::string& result)
         {
             result.clear();
@@ -105,7 +105,7 @@ namespace ouzel
         }
 
         static bool parseEntity(const std::vector<uint32_t>& str,
-                                std::vector<uint32_t>::iterator& iterator,
+                                std::vector<uint32_t>::const_iterator& iterator,
                                 std::string& result)
         {
             result.clear();
@@ -236,7 +236,7 @@ namespace ouzel
         }
 
         static bool parseString(const std::vector<uint32_t>& str,
-                                std::vector<uint32_t>::iterator& iterator,
+                                std::vector<uint32_t>::const_iterator& iterator,
                                 std::string& result)
         {
             result.clear();
@@ -307,7 +307,7 @@ namespace ouzel
         }
 
         bool Node::parse(const std::vector<uint32_t>& str,
-                         std::vector<uint32_t>::iterator& iterator,
+                         std::vector<uint32_t>::const_iterator& iterator,
                          bool preserveComments, bool preserveProcessingInstructions)
         {
             if (iterator == str.end())
@@ -783,7 +783,7 @@ namespace ouzel
 
             bool rootTagFound = false;
 
-            std::vector<uint32_t>::iterator iterator = str.begin();
+            std::vector<uint32_t>::const_iterator iterator = str.cbegin();
 
             while (iterator != str.end())
             {
