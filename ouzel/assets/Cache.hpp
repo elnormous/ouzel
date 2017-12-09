@@ -8,6 +8,7 @@
 #include <map>
 #include "utils/Noncopyable.hpp"
 #include "assets/LoaderBMF.hpp"
+#include "assets/LoaderCollada.hpp"
 #include "assets/LoaderImage.hpp"
 #include "assets/LoaderMTL.hpp"
 #include "assets/LoaderOBJ.hpp"
@@ -95,6 +96,7 @@ namespace ouzel
 
         protected:
             LoaderBMF loaderBMF;
+            LoaderCollada loaderCollada;
             LoaderImage loaderImage;
             LoaderMTL loaderMTL;
             LoaderOBJ loaderOBJ;

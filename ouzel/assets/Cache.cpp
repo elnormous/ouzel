@@ -24,6 +24,7 @@ namespace ouzel
         Cache::Cache()
         {
             addLoader(&loaderBMF);
+            addLoader(&loaderCollada);
             addLoader(&loaderImage);
             addLoader(&loaderMTL);
             addLoader(&loaderOBJ);
