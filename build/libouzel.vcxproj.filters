@@ -424,6 +424,9 @@
     <ClCompile Include="..\ouzel\assets\LoaderBMF.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\assets\LoaderCollada.cpp">
+      <Filter>ouzel\assets</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\assets\LoaderImage.cpp">
       <Filter>ouzel\assets</Filter>
     </ClCompile>
@@ -971,6 +974,9 @@
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\LoaderBMF.hpp">
+      <Filter>ouzel\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\assets\LoaderCollada.hpp">
       <Filter>ouzel\assets</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\assets\LoaderImage.hpp">

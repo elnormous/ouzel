@@ -28,6 +28,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/assets/Cache.cpp \
     ../../ouzel/assets/Loader.cpp \
     ../../ouzel/assets/LoaderBMF.cpp \
+    ../../ouzel/assets/LoaderCollada.cpp \
     ../../ouzel/assets/LoaderImage.cpp \
     ../../ouzel/assets/LoaderMTL.cpp \
     ../../ouzel/assets/LoaderOBJ.cpp \

@@ -63,6 +63,12 @@
 		30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
 		30216B841ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
 		30216B851ED5C3900073E3D5 /* Plane.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30216B7F1ED5C3900073E3D5 /* Plane.hpp */; };
+		302261811FDB8C59005279FC /* LoaderCollada.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3022617F1FDB8C59005279FC /* LoaderCollada.cpp */; };
+		302261821FDB8C59005279FC /* LoaderCollada.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3022617F1FDB8C59005279FC /* LoaderCollada.cpp */; };
+		302261831FDB8C59005279FC /* LoaderCollada.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3022617F1FDB8C59005279FC /* LoaderCollada.cpp */; };
+		302261841FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
+		302261851FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
+		302261861FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
 		302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
 		302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
 		302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
@@ -1040,6 +1046,8 @@
 		30216B721ED464730073E3D5 /* Material.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		30216B7E1ED5C3900073E3D5 /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
 		30216B7F1ED5C3900073E3D5 /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
+		3022617F1FDB8C59005279FC /* LoaderCollada.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoaderCollada.cpp; sourceTree = "<group>"; };
+		302261801FDB8C59005279FC /* LoaderCollada.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoaderCollada.hpp; sourceTree = "<group>"; };
 		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
 		302511A71CD36FBA00D04209 /* SpriteFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteFrame.hpp; sourceTree = "<group>"; };
 		302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystemData.cpp; sourceTree = "<group>"; };
@@ -1977,6 +1985,8 @@
 				30519CAB1F9B4E3E00AF3DC4 /* Loader.hpp */,
 				30519CBE1F9B53B700AF3DC4 /* LoaderBMF.cpp */,
 				30519CBF1F9B53B700AF3DC4 /* LoaderBMF.hpp */,
+				3022617F1FDB8C59005279FC /* LoaderCollada.cpp */,
+				302261801FDB8C59005279FC /* LoaderCollada.hpp */,
 				30519CCE1F9B53CB00AF3DC4 /* LoaderImage.cpp */,
 				30519CCF1F9B53CB00AF3DC4 /* LoaderImage.hpp */,
 				30519CE61F9B53F500AF3DC4 /* LoaderMTL.cpp */,
@@ -2324,6 +2334,7 @@
 				303821481D81876E00677CAB /* RenderDeviceEmpty.hpp in Headers */,
 				3031C1371F0C4350002CA717 /* SoundDataVorbis.hpp in Headers */,
 				3011E1E61F01790000CB1DDC /* FileSystemIOS.hpp in Headers */,
+				302261841FDB8C59005279FC /* LoaderCollada.hpp in Headers */,
 				304B277D1C95C54D00BA162D /* EditBox.hpp in Headers */,
 				30B8598F1F3D286600A16952 /* TTFont.hpp in Headers */,
 				306A26BE1F5DD19300E2B0B6 /* Mixer.hpp in Headers */,
@@ -2487,6 +2498,7 @@
 				30C56C9A1CAC3ECE007AEF8F /* SlideBar.hpp in Headers */,
 				30575ADD1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				303B76741C355A3B00FEDE92 /* ShaderResource.hpp in Headers */,
+				302261861FDB8C59005279FC /* LoaderCollada.hpp in Headers */,
 				30A883691E7432DA004A033F /* Archive.hpp in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.hpp in Headers */,
 				302511AD1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */,
@@ -2680,6 +2692,7 @@
 				300C39EE1E51355000330E4F /* SoundDataWave.hpp in Headers */,
 				309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */,
 				30ADCBB71E9A9479000DC9AC /* RenderDeviceMetalMacOS.hpp in Headers */,
+				302261851FDB8C59005279FC /* LoaderCollada.hpp in Headers */,
 				30381F771D80A3EC00677CAB /* MeshBufferResourceOGL.hpp in Headers */,
 				3047F7511C4C4FAF00774E3D /* Rotate.hpp in Headers */,
 				30547E7B1CB47E050055EE79 /* Shake.hpp in Headers */,
@@ -3005,6 +3018,7 @@
 				303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */,
 				3047F7781C4D39C500774E3D /* Repeat.cpp in Sources */,
 				304736D91E0B4776009BC562 /* Box3.cpp in Sources */,
+				302261811FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30C758AD1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D41E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F791D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
@@ -3166,6 +3180,7 @@
 				303B76541C355A3B00FEDE92 /* Actor.cpp in Sources */,
 				3047F7791C4D39C500774E3D /* Repeat.cpp in Sources */,
 				304736DB1E0B4776009BC562 /* Box3.cpp in Sources */,
+				302261831FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30C758AF1F4A0196008499DC /* AudioDevice.cpp in Sources */,
 				303696D61E32DDA9007F4211 /* Buffer.cpp in Sources */,
 				30381F7B1D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
@@ -3327,6 +3342,7 @@
 				304A8E961C26EDFB008B1151 /* ParticleSystem.cpp in Sources */,
 				304736DA1E0B4776009BC562 /* Box3.cpp in Sources */,
 				303696D51E32DDA9007F4211 /* Buffer.cpp in Sources */,
+				302261821FDB8C59005279FC /* LoaderCollada.cpp in Sources */,
 				30381F7A1D80A3EC00677CAB /* RenderDeviceOGL.cpp in Sources */,
 				30419DE11D162BCF00A63759 /* Audio.cpp in Sources */,
 				30216B811ED5C3900073E3D5 /* Plane.cpp in Sources */,
