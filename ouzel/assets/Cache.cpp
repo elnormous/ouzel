@@ -86,7 +86,7 @@ namespace ouzel
             }
 
             std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-            std::transform(extension.begin(), extension.end(), extension.begin(), std::tolower);
+            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {

@@ -15,7 +15,7 @@ namespace ouzel
         {
             for (std::string& extension : extensions)
             {
-                std::transform(extension.begin(), extension.end(), extension.begin(), std::tolower);
+                std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
             }
         }
 
