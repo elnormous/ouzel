@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cctype>
 #include <algorithm>
 #include "Loader.hpp"
 #include "Cache.hpp"
