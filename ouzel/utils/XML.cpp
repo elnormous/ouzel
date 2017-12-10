@@ -599,7 +599,7 @@ namespace ouzel
                             else
                             {
                                 Node node;
-                                if (!node.parse(str, iterator, preserveComments, preserveProcessingInstructions))
+                                if (!node.parse(str, iterator, preserveWhitespaces, preserveComments, preserveProcessingInstructions))
                                 {
                                     return false;
                                 }
