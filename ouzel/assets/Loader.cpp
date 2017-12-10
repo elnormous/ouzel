@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "Loader.hpp"
 #include "Cache.hpp"
 
@@ -11,6 +12,10 @@ namespace ouzel
         Loader::Loader(const std::vector<std::string>& initExtensions):
             extensions(initExtensions)
         {
+            for (std::string& extension : extensions)
+            {
+                std::transform(extension.begin(), extension.end(), extension.begin(), std::tolower);
+            }
         }
 
         Loader::~Loader()
