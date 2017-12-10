@@ -43,7 +43,9 @@ namespace ouzel
 
             bool parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::const_iterator& iterator,
-                       bool preserveComments = false, bool preserveProcessingInstructions = false);
+                       bool preserveWhitespaces = false,
+                       bool preserveComments = false,
+                       bool preserveProcessingInstructions = false);
             bool encode(std::vector<uint8_t>& data) const;
 
         protected:
@@ -58,11 +60,23 @@ namespace ouzel
         {
         public:
             Data();
-            Data(const std::string& filename, bool preserveComments = false, bool preserveProcessingInstructions = false);
-            Data(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveProcessingInstructions = false);
+            Data(const std::string& filename,
+                 bool preserveWhitespaces = false,
+                 bool preserveComments = false,
+                 bool preserveProcessingInstructions = false);
+            Data(const std::vector<uint8_t>& data,
+                 bool preserveWhitespaces = false,
+                 bool preserveComments = false,
+                 bool preserveProcessingInstructions = false);
 
-            bool init(const std::string& filename, bool preserveComments = false, bool preserveProcessingInstructions = false);
-            bool init(const std::vector<uint8_t>& data, bool preserveComments = false, bool preserveProcessingInstructions = false);
+            bool init(const std::string& filename,
+                      bool preserveWhitespaces = false,
+                      bool preserveComments = false,
+                      bool preserveProcessingInstructions = false);
+            bool init(const std::vector<uint8_t>& data,
+                      bool preserveWhitespaces = false,
+                      bool preserveComments = false,
+                      bool preserveProcessingInstructions = false);
             
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;

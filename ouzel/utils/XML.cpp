@@ -308,7 +308,9 @@ namespace ouzel
 
         bool Node::parse(const std::vector<uint32_t>& str,
                          std::vector<uint32_t>::const_iterator& iterator,
-                         bool preserveComments, bool preserveProcessingInstructions)
+                         bool preserveWhitespaces,
+                         bool preserveComments,
+                         bool preserveProcessingInstructions)
         {
             if (iterator == str.end())
             {
@@ -740,17 +742,32 @@ namespace ouzel
         {
         }
 
-        Data::Data(const std::string& filename, bool preserveComments, bool preserveProcessingInstructions)
+        Data::Data(const std::string& filename,
+                   bool preserveWhitespaces,
+                   bool preserveComments,
+                   bool preserveProcessingInstructions)
         {
-            init(filename, preserveComments, preserveProcessingInstructions);
+            init(filename,
+                 preserveWhitespaces,
+                 preserveComments,
+                 preserveProcessingInstructions);
         }
 
-        Data::Data(const std::vector<uint8_t>& data, bool preserveComments, bool preserveProcessingInstructions)
+        Data::Data(const std::vector<uint8_t>& data,
+                   bool preserveWhitespaces,
+                   bool preserveComments,
+                   bool preserveProcessingInstructions)
         {
-            init(data, preserveComments, preserveProcessingInstructions);
+            init(data,
+                 preserveWhitespaces,
+                 preserveComments,
+                 preserveProcessingInstructions);
         }
 
-        bool Data::init(const std::string& filename, bool preserveComments, bool preserveProcessingInstructions)
+        bool Data::init(const std::string& filename,
+                        bool preserveWhitespaces,
+                        bool preserveComments,
+                        bool preserveProcessingInstructions)
         {
             std::vector<uint8_t> data;
 
@@ -759,10 +776,16 @@ namespace ouzel
                 return false;
             }
 
-            return init(data, preserveComments, preserveProcessingInstructions);
+            return init(data,
+                        preserveWhitespaces,
+                        preserveComments,
+                        preserveProcessingInstructions);
         }
 
-        bool Data::init(const std::vector<uint8_t>& data, bool preserveComments, bool preserveProcessingInstructions)
+        bool Data::init(const std::vector<uint8_t>& data,
+                        bool preserveWhitespaces,
+                        bool preserveComments,
+                        bool preserveProcessingInstructions)
         {
             std::vector<uint32_t> str;
 
@@ -788,7 +811,10 @@ namespace ouzel
             while (iterator != str.end())
             {
                 Node node;
-                if (!node.parse(str, iterator, preserveComments, preserveProcessingInstructions))
+                if (!node.parse(str, iterator,
+                                preserveWhitespaces,
+                                preserveComments,
+                                preserveProcessingInstructions))
                 {
                     return false;
                 }
