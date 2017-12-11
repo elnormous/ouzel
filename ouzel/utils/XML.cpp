@@ -871,4 +871,4 @@ namespace ouzel
             return true;
         }
     } // namespace xml
-}
+} // namespace ouzel

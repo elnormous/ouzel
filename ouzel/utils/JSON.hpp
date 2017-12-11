@@ -283,5 +283,4 @@ namespace ouzel
             bool bom = false;
         };
     } // namespace json
-}
-
+} // namespace ouzel

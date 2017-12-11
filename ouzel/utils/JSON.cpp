@@ -639,4 +639,4 @@ namespace ouzel
             return encodeValue(data);
         }
     } // namespace json
-}
+} // namespace ouzel
