@@ -24,6 +24,7 @@ namespace ouzel
 
     bool TTFont::init(const std::string & filename, bool newMipmaps)
     {
+        loaded = false;
         mipmaps = newMipmaps;
 
         if (!engine->getFileSystem()->readFile(engine->getFileSystem()->getPath(filename), data))
@@ -37,11 +38,14 @@ namespace ouzel
             return false;
         }
 
+        loaded = true;
+
         return true;
     }
 
     bool TTFont::init(const std::vector<uint8_t>& newData, bool newMipmaps)
     {
+        loaded = false;
         data = newData;
         mipmaps = newMipmaps;
 
@@ -50,6 +54,8 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to load font";
             return false;
         }
+
+        loaded = true;
 
         return true;
     }
@@ -62,7 +68,7 @@ namespace ouzel
                              std::vector<graphics::Vertex>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
-        if (!font.index_map) return false;
+        if (!loaded) return false;
 
         static const uint32_t SPACING = 2;
 
