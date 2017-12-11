@@ -169,7 +169,7 @@ namespace ouzel
         return true;
     }
 
-    void BMFont::getVertices(const std::string& text,
+    bool BMFont::getVertices(const std::string& text,
                              const Color& color,
                              float fontSize,
                              const Vector2& anchor,
@@ -263,6 +263,8 @@ namespace ouzel
         }
 
         texture = fontTexture;
+
+        return true;
     }
 
     int16_t BMFont::getKerningPair(uint32_t first, uint32_t second)

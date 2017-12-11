@@ -21,7 +21,7 @@ namespace ouzel
     public:
         virtual ~Font();
 
-        virtual void getVertices(const std::string& text,
+        virtual bool getVertices(const std::string& text,
                                  const Color& color,
                                  float fontSize,
                                  const Vector2& anchor,

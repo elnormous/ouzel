@@ -54,7 +54,7 @@ namespace ouzel
         return true;
     }
 
-    void TTFont::getVertices(const std::string& text,
+    bool TTFont::getVertices(const std::string& text,
                              const Color& color,
                              float fontSize,
                              const Vector2& anchor,
@@ -62,6 +62,8 @@ namespace ouzel
                              std::vector<graphics::Vertex>& vertices,
                              std::shared_ptr<graphics::Texture>& texture)
     {
+        if (!font.index_map) return false;
+
         static const uint32_t SPACING = 2;
 
         struct CharDescriptor
@@ -237,5 +239,7 @@ namespace ouzel
         {
             vertices[c].position.y += textHeight * (1.0f - anchor.y);
         }
+
+        return true;
     }
 }
