@@ -47,18 +47,13 @@ namespace ouzel
             {
                 if (iterator == str.end())
                 {
-                    Log(Log::Level::ERR) << "Unexpected end of data";
-                    return false;
+                    break;
                 }
 
                 if (isWhitespace(*iterator))
-                {
                     ++iterator;
-                }
                 else
-                {
                     break;
-                }
             }
 
             return true;
@@ -558,6 +553,8 @@ namespace ouzel
                     {
                         for (;;)
                         {
+                            if (!preserveWhitespaces) skipWhitespaces(str, iterator);
+
                             if (iterator == str.end())
                             {
                                 Log(Log::Level::ERR) << "Unexpected end of data";
@@ -808,8 +805,12 @@ namespace ouzel
 
             std::vector<uint32_t>::const_iterator iterator = str.cbegin();
 
-            while (iterator != str.end())
+            for (;;)
             {
+                if (!preserveWhitespaces) skipWhitespaces(str, iterator);
+
+                if (iterator == str.end()) break;
+
                 Node node;
                 if (!node.parse(str, iterator,
                                 preserveWhitespaces,
