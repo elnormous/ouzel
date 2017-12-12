@@ -279,6 +279,8 @@ namespace ouzel
                         else
                         {
                             // TODO: implement
+                            Log(Log::Level::ERR) << "Non-triangle faces are not supported";
+                            return false;
                         }
                     }
 
