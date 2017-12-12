@@ -37,6 +37,7 @@ namespace ouzel
             Box3 boundingBox;
 
             uint32_t objectCount = 0;
+            std::string read;
 
             for (std::string line; std::getline(stream, line);)
             {
@@ -45,7 +46,7 @@ namespace ouzel
                     std::stringstream lineStream;
                     lineStream << line;
 
-                    std::string read;
+                    read.clear();
                     lineStream >> read;
 
                     if (read.empty() || read[0] == '#') // empty or comment
@@ -60,6 +61,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
                         cache->loadAsset(read);
                     }
@@ -71,6 +73,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
                         material = cache->getMaterial(read);
                     }
@@ -89,6 +92,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
 
                         name = read;
@@ -186,6 +190,7 @@ namespace ouzel
 
                         while (!lineStream.eof())
                         {
+                            read.clear();
                             lineStream >> read;
 
                             std::stringstream vertexStream;

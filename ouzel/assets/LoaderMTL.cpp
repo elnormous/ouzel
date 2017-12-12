@@ -40,6 +40,7 @@ namespace ouzel
                     std::stringstream lineStream;
                     lineStream << line;
 
+                    read.clear();
                     lineStream >> read;
 
                     if (read == "newmtl")
@@ -63,6 +64,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
 
                         name = read;
@@ -79,6 +81,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
 
                         ambientTexture = engine->getCache()->getTexture(read, false, true);
@@ -91,6 +94,7 @@ namespace ouzel
                             return false;
                         }
 
+                        read.clear();
                         lineStream >> read;
 
                         diffuseTexture = engine->getCache()->getTexture(read, false, true);
