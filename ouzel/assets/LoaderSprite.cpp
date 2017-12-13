@@ -14,11 +14,11 @@ namespace ouzel
         {
         }
 
-        bool LoaderSprite::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
+        bool LoaderSprite::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             scene::SpriteData spriteData;
 
-            if (!spriteData.init(data))
+            if (!spriteData.init(data, mipmaps))
             {
                 return false;
             }

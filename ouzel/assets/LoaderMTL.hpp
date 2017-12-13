@@ -13,7 +13,7 @@ namespace ouzel
         {
         public:
             LoaderMTL();
-            virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data) override;
+            virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
         };
     } // namespace assets
 } // namespace ouzel

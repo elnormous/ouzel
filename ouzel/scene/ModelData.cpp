@@ -9,18 +9,6 @@ namespace ouzel
 {
     namespace scene
     {
-        bool ModelData::init(const std::string& filename, bool mipmaps)
-        {
-            std::vector<uint8_t> data;
-
-            if (!engine->getFileSystem()->readFile(filename, data))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         bool ModelData::init(Box3 newBoundingBox,
                              const std::vector<uint32_t> indices,
                              const std::vector<graphics::Vertex>& vertices,

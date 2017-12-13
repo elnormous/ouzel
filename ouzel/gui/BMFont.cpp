@@ -75,7 +75,7 @@ namespace ouzel
                                 value = value.substr(1, value.length() - 2);
                             }
 
-                            fontTexture = engine->getCache()->getTexture(value, false, mipmaps);
+                            fontTexture = engine->getCache()->getTexture(value, mipmaps);
                         }
                     }
                 }

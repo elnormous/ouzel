@@ -14,9 +14,6 @@ namespace ouzel
     {
         struct ParticleSystemData
         {
-            bool init(const std::string& filename, bool mipmaps = true);
-            bool init(const std::vector<uint8_t>& data, bool mipmaps = true);
-
             enum class EmitterType
             {
                 GRAVITY,

@@ -22,7 +22,7 @@ namespace ouzel
             
         }
 
-        bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
+        bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             graphics::ImageDataSTB image;
             if (!image.init(data))
@@ -32,7 +32,7 @@ namespace ouzel
 
             std::shared_ptr<graphics::Texture> texture(new graphics::Texture());
 
-            if (texture->init(image.getData(), image.getSize(), 0, 0, image.getPixelFormat()))
+            if (!texture->init(image.getData(), image.getSize(), 0, mipmaps ? 0 : 1, image.getPixelFormat()))
             {
                 return false;
             }

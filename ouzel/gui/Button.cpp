@@ -45,7 +45,7 @@ namespace ouzel
             if (!normalImage.empty())
             {
                 normalSprite.reset(new scene::Sprite());
-                if (normalSprite->init(normalImage, false))
+                if (normalSprite->init(normalImage, true))
                 {
                     addComponent(normalSprite.get());
                 }
@@ -54,7 +54,7 @@ namespace ouzel
             if (!selectedImage.empty())
             {
                 selectedSprite.reset(new scene::Sprite());
-                if (selectedSprite->init(selectedImage, false))
+                if (selectedSprite->init(selectedImage, true))
                 {
                     addComponent(selectedSprite.get());
                 }
@@ -63,7 +63,7 @@ namespace ouzel
             if (!pressedImage.empty())
             {
                 pressedSprite.reset(new scene::Sprite());
-                if (pressedSprite->init(pressedImage, false))
+                if (pressedSprite->init(pressedImage, true))
                 {
                     addComponent(pressedSprite.get());
                 }
@@ -72,7 +72,7 @@ namespace ouzel
             if (!disabledImage.empty())
             {
                 disabledSprite.reset(new scene::Sprite());
-                if (disabledSprite->init(disabledImage, false))
+                if (disabledSprite->init(disabledImage, true))
                 {
                     addComponent(disabledSprite.get());
                 }

@@ -42,13 +42,12 @@ namespace ouzel
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);
 
-            bool loadAsset(const std::string& filename);
-            bool loadAssets(const std::vector<std::string>& filenames);
+            bool loadAsset(const std::string& filename, bool mipmaps = true) const;
+            bool loadAssets(const std::vector<std::string>& filenames, bool mipmaps = true) const;
 
             void clear();
 
-            bool preloadTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true);
-            const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool dynamic = false, bool mipmaps = true) const;
+            const std::shared_ptr<graphics::Texture>& getTexture(const std::string& filename, bool mipmaps = true) const;
             void setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture);
             void releaseTextures();
 
@@ -69,27 +68,22 @@ namespace ouzel
             void setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData);
             void releaseSpriteData();
 
-            bool preloadParticleSystemData(const std::string& filename, bool mipmaps = true);
             const scene::ParticleSystemData& getParticleSystemData(const std::string& filename, bool mipmaps = true) const;
             void setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData);
             void releaseParticleSystemData();
 
-            bool preloadFont(const std::string& filename, bool mipmaps = true);
             const std::shared_ptr<Font>& getFont(const std::string& filename, bool mipmaps = true) const;
             void setFont(const std::string& filename, const std::shared_ptr<Font>& font);
             void releaseFonts();
 
-            bool preloadSoundData(const std::string& filename);
             const std::shared_ptr<audio::SoundData>& getSoundData(const std::string& filename) const;
             void setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData);
             void releaseSoundData();
 
-            bool preloadMaterial(const std::string& filename, bool mipmaps = true);
             const std::shared_ptr<graphics::Material>& getMaterial(const std::string& filename, bool mipmaps = true) const;
             void setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material);
             void releaseMaterials();
 
-            bool preloadModelData(const std::string& filename, bool mipmaps = true);
             const scene::ModelData& getModelData(const std::string& filename, bool mipmaps = true) const;
             void setModelData(const std::string& filename, const scene::ModelData& newModelData);
             void releaseModelData();

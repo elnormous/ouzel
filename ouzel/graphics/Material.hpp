@@ -20,8 +20,6 @@ namespace ouzel
         class Material: public Noncopyable
         {
         public:
-            bool init(const std::string& filename, bool mipmaps);
-
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
             std::shared_ptr<Texture> textures[Texture::LAYERS];

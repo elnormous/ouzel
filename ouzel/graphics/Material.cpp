@@ -7,9 +7,5 @@ namespace ouzel
 {
     namespace graphics
     {
-        bool Material::init(const std::string& filename, bool mipmaps)
-        {
-            return true;
-        }
     } // namespace graphics
 } // namespace ouzel

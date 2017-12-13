@@ -176,7 +176,7 @@ namespace ouzel
         {
         }
 
-        bool LoaderOBJ::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
+        bool LoaderOBJ::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)
         {
             std::string name = filename;
             std::shared_ptr<graphics::Material> material;
@@ -229,7 +229,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        cache->loadAsset(value);
+                        cache->loadAsset(value, mipmaps);
                     }
                     else if (keyword == "usemtl")
                     {

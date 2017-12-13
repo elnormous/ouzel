@@ -77,7 +77,7 @@ namespace ouzel
             }
         }
 
-        bool Cache::loadAsset(const std::string& filename)
+        bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data;
             if (!engine->getFileSystem()->readFile(filename, data))
@@ -93,7 +93,7 @@ namespace ouzel
                 Loader* loader = *i;
                 if (std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
                 {
-                    if (loader->loadAsset(filename, data)) return true;
+                    if (loader->loadAsset(filename, data, mipmaps)) return true;
                 }
             }
 
@@ -101,46 +101,34 @@ namespace ouzel
             return false;
         }
 
-        bool Cache::loadAssets(const std::vector<std::string>& filenames)
+        bool Cache::loadAssets(const std::vector<std::string>& filenames, bool mipmaps) const
         {
             for (const std::string& filename : filenames)
             {
-                loadAsset(filename);
+                loadAsset(filename, mipmaps);
             }
 
             return true;
         }
 
-        bool Cache::preloadTexture(const std::string& filename, bool dynamic, bool mipmaps)
-        {
-            std::shared_ptr<graphics::Texture> texture = std::make_shared<graphics::Texture>();
-            if (!texture->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1))
-            {
-                return false;
-            }
-
-            textures[filename] = texture;
-
-            return true;
-        }
-
-        const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool dynamic, bool mipmaps) const
+        const std::shared_ptr<graphics::Texture>& Cache::getTexture(const std::string& filename, bool mipmaps) const
         {
             auto i = textures.find(filename);
 
-            if (i != textures.end())
+            if (i == textures.end())
             {
-                return i->second;
-            }
-            else
-            {
-                std::shared_ptr<graphics::Texture> result = std::make_shared<graphics::Texture>();
-                result->init(filename, dynamic ? graphics::Texture::DYNAMIC : 0, mipmaps ? 0 : 1);
+                loadAsset(filename, mipmaps);
 
-                i = textures.insert(std::make_pair(filename, result)).first;
+                i = textures.find(filename);
 
-                return i->second;
+                if (i == textures.end())
+                {
+                    std::shared_ptr<graphics::Texture> result;
+                    i = textures.insert(std::make_pair(filename, result)).first;
+                }
             }
+
+            return i->second;
         }
 
         void Cache::setTexture(const std::string& filename, const std::shared_ptr<graphics::Texture>& texture)
@@ -259,7 +247,7 @@ namespace ouzel
             }
             else
             {
-                newSpriteData.texture = engine->getCache()->getTexture(filename, false, mipmaps);
+                newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
                 {
@@ -311,7 +299,7 @@ namespace ouzel
                 }
                 else if (spritesX > 0 && spritesY > 0)
                 {
-                    newSpriteData.texture = engine->getCache()->getTexture(filename, false, mipmaps);
+                    newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
 
                     if (newSpriteData.texture)
                     {
@@ -350,47 +338,24 @@ namespace ouzel
             spriteData.clear();
         }
 
-        bool Cache::preloadParticleSystemData(const std::string& filename, bool mipmaps)
-        {
-            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-
-            if (extension == "json")
-            {
-                scene::ParticleSystemData newParticleSystemData;
-                if (!newParticleSystemData.init(filename, mipmaps))
-                {
-                    return false;
-                }
-
-                particleSystemData[filename] = newParticleSystemData;
-            }
-
-            return true;
-        }
-
         const scene::ParticleSystemData& Cache::getParticleSystemData(const std::string& filename, bool mipmaps) const
         {
             auto i = particleSystemData.find(filename);
 
-            if (i != particleSystemData.end())
+            if (i == particleSystemData.end())
             {
-                return i->second;
-            }
-            else
-            {
-                scene::ParticleSystemData newParticleSystemData;
+                loadAsset(filename, mipmaps);
 
-                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+                i = particleSystemData.find(filename);
 
-                if (extension == "json")
+                if (i == particleSystemData.end())
                 {
-                    newParticleSystemData.init(filename, mipmaps);
-
+                    scene::ParticleSystemData newParticleSystemData;
                     i = particleSystemData.insert(std::make_pair(filename, newParticleSystemData)).first;
                 }
-
-                return i->second;
             }
+
+            return i->second;
         }
 
         void Cache::setParticleSystemData(const std::string& filename, const scene::ParticleSystemData& newParticleSystemData)
@@ -403,66 +368,24 @@ namespace ouzel
             particleSystemData.clear();
         }
 
-        bool Cache::preloadFont(const std::string& filename, bool mipmaps)
+        const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, bool mipmaps) const
         {
             auto i = fonts.find(filename);
 
             if (i == fonts.end())
             {
-                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+                loadAsset(filename, mipmaps);
 
-                if (extension == "fnt")
+                i = fonts.find(filename);
+
+                if (i == fonts.end())
                 {
-                    std::shared_ptr<BMFont> font = std::make_shared<BMFont>();
-                    if (!font->init(filename, mipmaps))
-                    {
-                        return false;
-                    }
-
-                    fonts[filename] = font;
-                }
-                else if (extension == "ttf")
-                {
-                    std::shared_ptr<TTFont> font = std::make_shared<TTFont>();
-                    if (!font->init(filename))
-                    {
-                        return false;
-                    }
-
-                    fonts[filename] = font;
+                    std::shared_ptr<Font> result;
+                    i = fonts.insert(std::make_pair(filename, result)).first;
                 }
             }
 
-            return true;
-        }
-
-        const std::shared_ptr<Font>& Cache::getFont(const std::string& filename, bool mipmaps) const
-        {
-            auto i = fonts.find(filename);
-
-            if (i != fonts.end())
-            {
-                return i->second;
-            }
-            else
-            {
-                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-
-                std::shared_ptr<Font> font;
-
-                if (extension == "fnt")
-                {
-                    font = std::make_shared<BMFont>(filename, mipmaps);
-                }
-                else if (extension == "ttf")
-                {
-                    font = std::make_shared<TTFont>(filename, mipmaps);
-                }
-
-                i = fonts.insert(std::make_pair(filename, font)).first;
-
-                return i->second;
-            }
+            return i->second;
         }
 
         void Cache::setFont(const std::string& filename, const std::shared_ptr<Font>& font)
@@ -475,63 +398,24 @@ namespace ouzel
             fonts.clear();
         }
 
-        bool Cache::preloadSoundData(const std::string& filename)
-        {
-            std::string extension = FileSystem::getExtensionPart(filename);
-
-            if (extension == "wav")
-            {
-                std::shared_ptr<audio::SoundData> newSoundData = std::make_shared<audio::SoundDataWave>();
-                if (!newSoundData->init(filename))
-                {
-                    return false;
-                }
-                soundData[filename] = newSoundData;
-            }
-            else if (extension == "ogg")
-            {
-                std::shared_ptr<audio::SoundData> newSoundData = std::make_shared<audio::SoundDataVorbis>();
-                if (!newSoundData->init(filename))
-                {
-                    return false;
-                }
-                soundData[filename] = newSoundData;
-            }
-
-            return true;
-        }
-
         const std::shared_ptr<audio::SoundData>& Cache::getSoundData(const std::string& filename) const
         {
             auto i = soundData.find(filename);
 
-            if (i != soundData.end())
+            if (i == soundData.end())
             {
-                return i->second;
-            }
-            else
-            {
-                std::shared_ptr<audio::SoundData> newSoundData;
+                loadAsset(filename);
 
-                std::string extension = FileSystem::getExtensionPart(filename);
+                i = soundData.find(filename);
 
-                if (extension == "wav")
+                if (i == soundData.end())
                 {
-                    newSoundData = std::make_shared<audio::SoundDataWave>();
-                    newSoundData->init(filename);
-                    soundData[filename] = newSoundData;
+                    std::shared_ptr<audio::SoundData> result;
+                    i = soundData.insert(std::make_pair(filename, result)).first;
                 }
-                else if (extension == "ogg")
-                {
-                    newSoundData = std::make_shared<audio::SoundDataVorbis>();
-                    newSoundData->init(filename);
-                    soundData[filename] = newSoundData;
-                }
-
-                i = soundData.insert(std::make_pair(filename, newSoundData)).first;
-
-                return i->second;
             }
+
+            return i->second;
         }
 
         void Cache::setSoundData(const std::string& filename, const std::shared_ptr<audio::SoundData>& newSoundData)
@@ -544,47 +428,24 @@ namespace ouzel
             soundData.clear();
         }
 
-        bool Cache::preloadMaterial(const std::string& filename, bool mipmaps)
-        {
-            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-
-            if (extension == "mtl")
-            {
-                std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
-                if (!material->init(filename, mipmaps))
-                {
-                    return false;
-                }
-
-                materials[filename] = material;
-            }
-
-            return true;
-        }
-
         const std::shared_ptr<graphics::Material>& Cache::getMaterial(const std::string& filename, bool mipmaps) const
         {
             auto i = materials.find(filename);
 
-            if (i != materials.end())
+            if (i == materials.end())
             {
-                return i->second;
-            }
-            else
-            {
-                std::shared_ptr<graphics::Material> result = std::make_shared<graphics::Material>();
+                loadAsset(filename, mipmaps);
 
-                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+                i = materials.find(filename);
 
-                if (extension == "mtl")
+                if (i == materials.end())
                 {
-                    result->init(filename, mipmaps);
-
+                    std::shared_ptr<graphics::Material> result;
                     i = materials.insert(std::make_pair(filename, result)).first;
                 }
-
-                return i->second;
             }
+
+            return i->second;
         }
 
         void Cache::setMaterial(const std::string& filename, const std::shared_ptr<graphics::Material>& material)
@@ -597,36 +458,24 @@ namespace ouzel
             materials.clear();
         }
 
-        bool Cache::preloadModelData(const std::string& filename, bool mipmaps)
-        {
-            scene::ModelData newModelData;
-            if (!newModelData.init(filename, mipmaps))
-            {
-                return false;
-            }
-
-            modelData[filename] = newModelData;
-
-            return true;
-        }
-
         const scene::ModelData& Cache::getModelData(const std::string& filename, bool mipmaps) const
         {
             auto i = modelData.find(filename);
 
-            if (i != modelData.end())
+            if (i == modelData.end())
             {
-                return i->second;
-            }
-            else
-            {
-                scene::ModelData newModelData;
-                newModelData.init(filename, mipmaps);
+                loadAsset(filename, mipmaps);
 
-                i = modelData.insert(std::make_pair(filename, newModelData)).first;
+                i = modelData.find(filename);
 
-                return i->second;
+                if (i == modelData.end())
+                {
+                    scene::ModelData newModelData;
+                    i = modelData.insert(std::make_pair(filename, newModelData)).first;
+                }
             }
+
+            return i->second;
         }
 
         void Cache::setModelData(const std::string& filename, const scene::ModelData& newModelData)
