@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <iterator>
-#include <sstream>
+#include <string>
 #include "LoaderMTL.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
@@ -12,6 +12,150 @@ namespace ouzel
 {
     namespace assets
     {
+        static bool isWhitespace(uint8_t c)
+        {
+            return c == ' ' || c == '\t';
+        }
+
+        static bool isNewline(uint8_t c)
+        {
+            return c == '\r' || c == '\n';
+        }
+
+        static bool isControlChar(uint8_t c)
+        {
+            return c <= 0x1F;
+        }
+
+        static bool skipWhitespaces(const std::vector<uint8_t>& str,
+                                    std::vector<uint8_t>::const_iterator& iterator)
+        {
+            if (iterator == str.end()) return false;
+
+            for (;;)
+            {
+                if (iterator == str.end()) break;
+
+                if (isWhitespace(*iterator))
+                    ++iterator;
+                else
+                    break;
+            }
+
+            return true;
+        }
+
+        static void skipLine(const std::vector<uint8_t>& str,
+                             std::vector<uint8_t>::const_iterator& iterator)
+        {
+            for (;;)
+            {
+                if (iterator == str.end()) break;
+
+                if (isNewline(*iterator))
+                {
+                    ++iterator;
+                    break;
+                }
+
+                ++iterator;
+            }
+        }
+
+        static bool parseString(const std::vector<uint8_t>& str,
+                                std::vector<uint8_t>::const_iterator& iterator,
+                                std::string& result)
+        {
+            result.clear();
+
+            for (;;)
+            {
+                if (iterator == str.end() || isControlChar(*iterator) || isWhitespace(*iterator)) break;
+
+                result.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            return !result.empty();
+        }
+
+        static bool parseInt32(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator,
+                               int32_t& result)
+        {
+            std::string value;
+            uint32_t length = 1;
+
+            if (iterator != str.end() && *iterator == '-')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+            }
+
+            for (;;)
+            {
+                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                value.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            if (value.length() < length) return false;
+
+            result = std::stoi(value);
+
+            return true;
+        }
+
+        static bool parseFloat(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator,
+                               float& result)
+        {
+            std::string value;
+            uint32_t length = 1;
+
+            if (iterator != str.end() && *iterator == '-')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+            }
+
+            for (;;)
+            {
+                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                value.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            if (iterator != str.end() && *iterator == '.')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+
+                for (;;)
+                {
+                    if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                    value.push_back(static_cast<char>(*iterator));
+
+                    ++iterator;
+                }
+            }
+
+            if (value.length() < length) return false;
+
+            result = std::stof(value);
+
+            return true;
+        }
+
         LoaderMTL::LoaderMTL():
             Loader({"mtl"})
         {
@@ -19,9 +163,6 @@ namespace ouzel
 
         bool LoaderMTL::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
-            std::stringstream stream;
-            std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
-
             std::string name = filename;
             std::shared_ptr<graphics::Texture> diffuseTexture;
             std::shared_ptr<graphics::Texture> ambientTexture;
@@ -29,21 +170,36 @@ namespace ouzel
             float opacity = 1.0f;
 
             uint32_t materialCount = 0;
-            std::string read;
 
-            for (std::string line; std::getline(stream, line);)
+            std::vector<uint8_t>::const_iterator iterator = data.begin();
+
+            std::string keyword;
+            std::string value;
+
+            for (;;)
             {
-                if (!line.empty())
+                if (iterator == data.end()) break;
+
+                if (isNewline(*iterator))
                 {
-                    if (line[0] == '#') continue; // comment
+                    // skip empty lines
+                    ++iterator;
+                }
+                else if (*iterator == '#')
+                {
+                    // skip the comment
+                    skipLine(data, iterator);
+                }
+                else
+                {
+                    if (!skipWhitespaces(data, iterator) ||
+                        !parseString(data, iterator, keyword))
+                    {
+                        Log(Log::Level::ERR) << "Failed to parse keyword";
+                        return false;
+                    }
 
-                    std::stringstream lineStream;
-                    lineStream << line;
-
-                    read.clear();
-                    lineStream >> read;
-
-                    if (read == "newmtl")
+                    if (keyword == "newmtl")
                     {
                         if (materialCount)
                         {
@@ -58,113 +214,109 @@ namespace ouzel
                             engine->getCache()->setMaterial(name, material);
                         }
 
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, name))
                         {
                             Log(Log::Level::ERR) << "Failed to parse material name";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
+                        skipLine(data, iterator);
 
-                        name = read;
                         diffuseTexture.reset();
                         ambientTexture.reset();
                         diffuseColor = Color::WHITE;
                         opacity = 1.0f;
                     }
-                    else if (read == "map_Ka") // ambient texture map
+                    else if (keyword == "map_Ka") // ambient texture map
                     {
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, value))
                         {
-                            Log(Log::Level::ERR) << "Failed to parse ambient texture file name";
+                            Log(Log::Level::ERR) << "Failed to parse ambient texture map";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
+                        skipLine(data, iterator);
 
-                        ambientTexture = engine->getCache()->getTexture(read, false, true);
+                        ambientTexture = engine->getCache()->getTexture(value, false, true);
                     }
-                    else if (read == "map_Kd") // diffuse texture map
+                    else if (keyword == "map_Kd") // diffuse texture map
                     {
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, value))
                         {
-                            Log(Log::Level::ERR) << "Failed to parse diffuse texture file name";
+                            Log(Log::Level::ERR) << "Failed to parse diffuse texture map";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
+                        skipLine(data, iterator);
 
-                        diffuseTexture = engine->getCache()->getTexture(read, false, true);
+                        diffuseTexture = engine->getCache()->getTexture(value, false, true);
                     }
-                    else if (read == "Ka") // ambient color
+                    else if (keyword == "Ka") // ambient color
                     {
-
+                        skipLine(data, iterator);
                     }
-                    else if (read == "Kd") // diffuse color
+                    else if (keyword == "Kd") // diffuse color
                     {
                         float color[4];
-                        if (lineStream.eof())
+
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, color[0]) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, color[1]) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, color[2]))
                         {
-                            Log(Log::Level::ERR) << "Failed to parse diffuse color";
+                            Log(Log::Level::ERR) << "Failed to parse normal";
                             return false;
                         }
 
-                        lineStream >> color[0];
+                        skipLine(data, iterator);
 
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse diffuse color";
-                            return false;
-                        }
-
-                        lineStream >> color[1];
-
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse diffuse color";
-                            return false;
-                        }
-
-                        lineStream >> color[2];
                         color[3] = 1.0f;
-
                         diffuseColor = Color(color);
                     }
-                    else if (read == "Ks") // specular color
+                    else if (keyword == "Ks") // specular color
                     {
-
+                        skipLine(data, iterator);
                     }
-                    else if (read == "Ke") // emissive color
+                    else if (keyword == "Ke") // emissive color
                     {
-
+                        skipLine(data, iterator);
                     }
-                    else if (read == "d") // opacity
+                    else if (keyword == "d") // opacity
                     {
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, opacity))
                         {
                             Log(Log::Level::ERR) << "Failed to parse opacity";
                             return false;
                         }
 
-                        lineStream >> opacity;
+                        skipLine(data, iterator);
                     }
-                    else if (read == "Tr") // transparency
+                    else if (keyword == "Tr") // transparency
                     {
                         float transparency;
 
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, transparency))
                         {
                             Log(Log::Level::ERR) << "Failed to parse transparency";
                             return false;
                         }
 
-                        lineStream >> transparency;
+                        skipLine(data, iterator);
 
                         // d = 1 - Tr
                         opacity = 1.0f - transparency;
+                    }
+                    else
+                    {
+                        // skip all unknown commands
+                        skipLine(data, iterator);
                     }
 
                     if (!materialCount) ++materialCount; // if we got at least one attribute, we have an material

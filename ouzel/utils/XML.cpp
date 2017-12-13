@@ -45,10 +45,7 @@ namespace ouzel
         {
             for (;;)
             {
-                if (iterator == str.end())
-                {
-                    break;
-                }
+                if (iterator == str.end()) break;
 
                 if (isWhitespace(*iterator))
                     ++iterator;

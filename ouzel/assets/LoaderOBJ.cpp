@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <map>
-#include <sstream>
+#include <string>
 #include <tuple>
 #include "LoaderOBJ.hpp"
 #include "Cache.hpp"
@@ -16,6 +16,161 @@ namespace ouzel
 {
     namespace assets
     {
+        static bool isWhitespace(uint8_t c)
+        {
+            return c == ' ' || c == '\t';
+        }
+
+        static bool isNewline(uint8_t c)
+        {
+            return c == '\r' || c == '\n';
+        }
+
+        static bool isControlChar(uint8_t c)
+        {
+            return c <= 0x1F;
+        }
+
+        static bool skipWhitespaces(const std::vector<uint8_t>& str,
+                                    std::vector<uint8_t>::const_iterator& iterator)
+        {
+            if (iterator == str.end()) return false;
+
+            for (;;)
+            {
+                if (iterator == str.end()) break;
+
+                if (isWhitespace(*iterator))
+                    ++iterator;
+                else
+                    break;
+            }
+
+            return true;
+        }
+
+        static void skipLine(const std::vector<uint8_t>& str,
+                             std::vector<uint8_t>::const_iterator& iterator)
+        {
+            for (;;)
+            {
+                if (iterator == str.end()) break;
+
+                if (isNewline(*iterator))
+                {
+                    ++iterator;
+                    break;
+                }
+
+                ++iterator;
+            }
+        }
+
+        static bool parseString(const std::vector<uint8_t>& str,
+                                std::vector<uint8_t>::const_iterator& iterator,
+                                std::string& result)
+        {
+            result.clear();
+
+            for (;;)
+            {
+                if (iterator == str.end() || isControlChar(*iterator) || isWhitespace(*iterator)) break;
+
+                result.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            return !result.empty();
+        }
+
+        static bool parseInt32(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator,
+                               int32_t& result)
+        {
+            std::string value;
+            uint32_t length = 1;
+
+            if (iterator != str.end() && *iterator == '-')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+            }
+
+            for (;;)
+            {
+                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                value.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            if (value.length() < length) return false;
+
+            result = std::stoi(value);
+
+            return true;
+        }
+
+        static bool parseFloat(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator,
+                               float& result)
+        {
+            std::string value;
+            uint32_t length = 1;
+
+            if (iterator != str.end() && *iterator == '-')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+            }
+
+            for (;;)
+            {
+                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                value.push_back(static_cast<char>(*iterator));
+
+                ++iterator;
+            }
+
+            if (iterator != str.end() && *iterator == '.')
+            {
+                value.push_back(static_cast<char>(*iterator));
+                ++length;
+                ++iterator;
+
+                for (;;)
+                {
+                    if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
+
+                    value.push_back(static_cast<char>(*iterator));
+
+                    ++iterator;
+                }
+            }
+
+            if (value.length() < length) return false;
+
+            result = std::stof(value);
+
+            return true;
+        }
+
+        static bool parseToken(const std::vector<uint8_t>& str,
+                               std::vector<uint8_t>::const_iterator& iterator,
+                               char token)
+        {
+            if (iterator == str.end() || *iterator != static_cast<uint8_t>(token)) return false;
+
+            ++iterator;
+
+            return true;
+        }
+
         LoaderOBJ::LoaderOBJ():
             Loader({"obj"})
         {
@@ -23,9 +178,6 @@ namespace ouzel
 
         bool LoaderOBJ::loadAsset(const std::string& filename, const std::vector<uint8_t>& data)
         {
-            std::stringstream stream;
-            std::copy(data.begin(), data.end(), std::ostream_iterator<uint8_t>(stream));
-
             std::string name = filename;
             std::shared_ptr<graphics::Material> material;
             std::vector<Vector3> positions;
@@ -37,47 +189,62 @@ namespace ouzel
             Box3 boundingBox;
 
             uint32_t objectCount = 0;
-            std::string read;
 
-            for (std::string line; std::getline(stream, line);)
+            std::vector<uint8_t>::const_iterator iterator = data.begin();
+
+            std::string keyword;
+            std::string value;
+
+            for (;;)
             {
-                if (!line.empty())
+                if (iterator == data.end()) break;
+
+                if (isNewline(*iterator))
                 {
-                    std::stringstream lineStream;
-                    lineStream << line;
-
-                    read.clear();
-                    lineStream >> read;
-
-                    if (read.empty() || read[0] == '#') // empty or comment
+                    // skip empty lines
+                    ++iterator;
+                }
+                else if (*iterator == '#')
+                {
+                    // skip the comment
+                    skipLine(data, iterator);
+                }
+                else
+                {
+                    if (!skipWhitespaces(data, iterator) ||
+                        !parseString(data, iterator, keyword))
                     {
-                        continue;
+                        Log(Log::Level::ERR) << "Failed to parse keyword";
+                        return false;
                     }
-                    else if (read == "mtllib")
+
+                    if (keyword == "mtllib")
                     {
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, value))
                         {
-                            Log(Log::Level::ERR) << "Failed to parse material library file name";
+                            Log(Log::Level::ERR) << "Failed to parse material library";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
-                        cache->loadAsset(read);
+                        skipLine(data, iterator);
+
+                        cache->loadAsset(value);
                     }
-                    else if (read == "usemtl")
+                    else if (keyword == "usemtl")
                     {
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, value))
                         {
                             Log(Log::Level::ERR) << "Failed to parse material name";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
-                        material = cache->getMaterial(read);
+                        skipLine(data, iterator);
+
+                        material = cache->getMaterial(value);
                     }
-                    else if (read == "o") // object name
+                    else if (keyword == "o")
                     {
                         if (objectCount)
                         {
@@ -86,16 +253,15 @@ namespace ouzel
                             engine->getCache()->setModelData(name, modelData);
                         }
 
-                        if (lineStream.eof())
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseString(data, iterator, name))
                         {
                             Log(Log::Level::ERR) << "Failed to parse object name";
                             return false;
                         }
 
-                        read.clear();
-                        lineStream >> read;
+                        skipLine(data, iterator);
 
-                        name = read;
                         material.reset();
                         positions.clear();
                         texCoords.clear();
@@ -105,145 +271,116 @@ namespace ouzel
                         boundingBox.reset();
                         ++objectCount;
                     }
-                    else if (read == "v") // vertex
+                    else if (keyword == "v")
                     {
                         Vector3 position;
-                        if (lineStream.eof())
+
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, position.x) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, position.y) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, position.z))
                         {
                             Log(Log::Level::ERR) << "Failed to parse position";
                             return false;
                         }
 
-                        lineStream >> position.x;
-
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse position";
-                            return false;
-                        }
-
-                        lineStream >> position.y;
-
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse position";
-                            return false;
-                        }
-
-                        lineStream >> position.z;
+                        skipLine(data, iterator);
 
                         positions.push_back(position);
                     }
-                    else if (read == "vt") // texture coordinates
+                    else if (keyword == "vt")
                     {
                         Vector3 texCoord;
-                        if (lineStream.eof())
+
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, texCoord.x) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, texCoord.y))
                         {
                             Log(Log::Level::ERR) << "Failed to parse texture coordinates";
                             return false;
                         }
 
-                        lineStream >> texCoord.x;
+                        skipLine(data, iterator);
 
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse texture coordinates";
-                            return false;
-                        }
-
-                        lineStream >> texCoord.y;
-                        
                         texCoords.push_back(texCoord);
                     }
-                    else if (read == "vn") // normal
+                    else if (keyword == "vn")
                     {
                         Vector3 normal;
-                        if (lineStream.eof())
+
+                        if (!skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, normal.x) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, normal.y) ||
+                            !skipWhitespaces(data, iterator) ||
+                            !parseFloat(data, iterator, normal.z))
                         {
                             Log(Log::Level::ERR) << "Failed to parse normal";
                             return false;
                         }
 
-                        lineStream >> normal.x;
+                        skipLine(data, iterator);
 
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse normal";
-                            return false;
-                        }
-
-                        lineStream >> normal.y;
-
-                        if (lineStream.eof())
-                        {
-                            Log(Log::Level::ERR) << "Failed to parse normal";
-                            return false;
-                        }
-
-                        lineStream >> normal.z;
-                        
                         normals.push_back(normal);
                     }
-                    else if (read == "f") // face
+                    else if (keyword == "f")
                     {
                         std::vector<uint32_t> vertexIndices;
 
-                        while (!lineStream.eof())
+                        std::tuple<uint32_t, uint32_t, uint32_t> i = std::make_tuple(0, 0, 0);
+                        int32_t positionIndex = 0, texCoordIndex = 0, normalIndex = 0;
+
+                        for (;;)
                         {
-                            read.clear();
-                            lineStream >> read;
+                            if (iterator == data.end() || isNewline(*iterator)) break;
 
-                            std::stringstream vertexStream;
-                            vertexStream << read;
-
-                            std::tuple<uint32_t, uint32_t, uint32_t> i = std::make_tuple(0, 0, 0);
-
-                            if (!std::getline(vertexStream, read, '/'))
+                            if (!skipWhitespaces(data, iterator))
                             {
                                 Log(Log::Level::ERR) << "Failed to parse face";
                                 return false;
                             }
 
-                            long index = std::strtol(read.c_str(), nullptr, 0);
+                            if (!parseInt32(data, iterator, positionIndex) ||
+                                !parseToken(data, iterator, '/') ||
+                                !parseInt32(data, iterator, texCoordIndex) ||
+                                !parseToken(data, iterator, '/') ||
+                                !parseInt32(data, iterator, normalIndex))
+                            {
+                                Log(Log::Level::ERR) << "Failed to parse face";
+                                return false;
+                            }
 
-                            if (index < 0)
-                                std::get<0>(i) = static_cast<uint32_t>(static_cast<long>(positions.size()) + index);
-                            else if (index > 0)
-                                std::get<0>(i) = static_cast<uint32_t>(index - 1);
+                            if (positionIndex < 0)
+                                std::get<0>(i) = static_cast<uint32_t>(static_cast<long>(positions.size()) + positionIndex);
+                            else if (positionIndex > 0)
+                                std::get<0>(i) = static_cast<uint32_t>(positionIndex - 1);
                             else
                             {
                                 Log(Log::Level::ERR) << "Failed to parse face";
                                 return false;
                             }
 
-                            if (std::getline(vertexStream, read, '/'))
+                            if (texCoordIndex < 0)
+                                std::get<1>(i) = static_cast<uint32_t>(static_cast<long>(texCoords.size()) + texCoordIndex);
+                            else if (texCoordIndex > 0)
+                                std::get<1>(i) = static_cast<uint32_t>(texCoordIndex - 1);
+                            else
                             {
-                                index = std::strtol(read.c_str(), nullptr, 0);
-
-                                if (index < 0)
-                                    std::get<1>(i) = static_cast<uint32_t>(static_cast<long>(texCoords.size()) + index);
-                                else if (index > 0)
-                                    std::get<1>(i) = static_cast<uint32_t>(index - 1);
-                                else
-                                {
-                                    Log(Log::Level::ERR) << "Failed to parse face";
-                                    return false;
-                                }
+                                Log(Log::Level::ERR) << "Failed to parse face";
+                                return false;
                             }
 
-                            if (std::getline(vertexStream, read, '/'))
+                            if (normalIndex < 0)
+                                std::get<2>(i) = static_cast<uint32_t>(static_cast<long>(normals.size()) + normalIndex);
+                            else if (normalIndex > 0)
+                                std::get<2>(i) = static_cast<uint32_t>(normalIndex - 1);
+                            else
                             {
-                                index = std::strtol(read.c_str(), nullptr, 0);
-
-                                if (index < 0)
-                                    std::get<2>(i) = static_cast<uint32_t>(static_cast<long>(normals.size()) + index);
-                                else if (index > 0)
-                                    std::get<2>(i) = static_cast<uint32_t>(index - 1);
-                                else
-                                {
-                                    Log(Log::Level::ERR) << "Failed to parse face";
-                                    return false;
-                                }
+                                Log(Log::Level::ERR) << "Failed to parse face";
+                                return false;
                             }
 
                             auto vertexIterator = vertexMap.find(i);
@@ -282,6 +419,11 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Non-triangle faces are not supported";
                             return false;
                         }
+                    }
+                    else
+                    {
+                        // skip all unknown commands
+                        skipLine(data, iterator);
                     }
 
                     if (!objectCount) ++objectCount; // if we got at least one attribute, we have an object
