@@ -80,36 +80,6 @@ namespace ouzel
             return !result.empty();
         }
 
-        static bool parseInt32(const std::vector<uint8_t>& str,
-                               std::vector<uint8_t>::const_iterator& iterator,
-                               int32_t& result)
-        {
-            std::string value;
-            uint32_t length = 1;
-
-            if (iterator != str.end() && *iterator == '-')
-            {
-                value.push_back(static_cast<char>(*iterator));
-                ++length;
-                ++iterator;
-            }
-
-            for (;;)
-            {
-                if (iterator == str.end() || *iterator < '0' || *iterator > '9') break;
-
-                value.push_back(static_cast<char>(*iterator));
-
-                ++iterator;
-            }
-
-            if (value.length() < length) return false;
-
-            result = std::stoi(value);
-
-            return true;
-        }
-
         static bool parseFloat(const std::vector<uint8_t>& str,
                                std::vector<uint8_t>::const_iterator& iterator,
                                float& result)
