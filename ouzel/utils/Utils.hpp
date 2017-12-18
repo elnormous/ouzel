@@ -10,7 +10,6 @@
 #include <limits>
 #include <functional>
 #include <random>
-#include <sstream>
 
 #include "core/Setup.h"
 #if OUZEL_PLATFORM_ANDROID
