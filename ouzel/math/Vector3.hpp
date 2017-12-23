@@ -7,7 +7,6 @@
 
 namespace ouzel
 {
-    class Matrix;
     class Vector2;
     class Vector4;
     class Color;
