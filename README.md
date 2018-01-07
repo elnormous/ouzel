@@ -2,6 +2,8 @@
 
 # Ouzel v0.37
 
+[![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/ouzelengine/Lobby.svg)](https://gitter.im/ouzelengine/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel)
 
 Ouzel is a C++ game engine mainly targeted for development of 2D games.
