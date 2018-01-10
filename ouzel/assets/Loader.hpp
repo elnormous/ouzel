@@ -20,16 +20,14 @@ namespace ouzel
             enum Type
             {
                 NONE,
-                BMF,
-                COLLADA,
+                FONT,
+                MODEL,
                 IMAGE,
-                MTL,
-                OBJ,
+                MATERIAL,
+                OBJECT,
                 PARTICLE_SYSTEM,
                 SPRITE,
-                TTF,
-                VORBIS,
-                WAVE
+                SOUND
             };
 
             Loader(uint32_t initType, const std::vector<std::string>& initExtensions);

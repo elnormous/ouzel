@@ -91,7 +91,8 @@ namespace ouzel
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
             {
                 Loader* loader = *i;
-                if (loader->getType() == loaderType)
+                if (loader->getType() == loaderType &&
+                    std::find(loader->extensions.begin(), loader->extensions.end(), extension) != loader->extensions.end())
                 {
                     if (loader->loadAsset(filename, data, mipmaps)) return true;
                 }
@@ -141,7 +142,7 @@ namespace ouzel
 
             if (i == textures.end())
             {
-                loadAsset(filename, mipmaps);
+                loadAsset(Loader::IMAGE, filename, mipmaps);
 
                 i = textures.find(filename);
 
@@ -368,7 +369,7 @@ namespace ouzel
 
             if (i == particleSystemData.end())
             {
-                loadAsset(filename, mipmaps);
+                loadAsset(Loader::PARTICLE_SYSTEM, filename, mipmaps);
 
                 i = particleSystemData.find(filename);
 
@@ -398,7 +399,7 @@ namespace ouzel
 
             if (i == fonts.end())
             {
-                loadAsset(filename, mipmaps);
+                loadAsset(Loader::FONT, filename, mipmaps);
 
                 i = fonts.find(filename);
 
@@ -428,7 +429,7 @@ namespace ouzel
 
             if (i == soundData.end())
             {
-                loadAsset(filename);
+                loadAsset(Loader::SOUND, filename);
 
                 i = soundData.find(filename);
 
@@ -458,7 +459,7 @@ namespace ouzel
 
             if (i == materials.end())
             {
-                loadAsset(filename, mipmaps);
+                loadAsset(Loader::MATERIAL, filename, mipmaps);
 
                 i = materials.find(filename);
 
@@ -488,7 +489,7 @@ namespace ouzel
 
             if (i == modelData.end())
             {
-                loadAsset(filename, mipmaps);
+                loadAsset(Loader::MODEL, filename, mipmaps);
 
                 i = modelData.find(filename);
 
