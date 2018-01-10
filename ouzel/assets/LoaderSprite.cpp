@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         LoaderSprite::LoaderSprite():
-            Loader({"json"})
+            Loader(TYPE, {"json"})
         {
         }
 

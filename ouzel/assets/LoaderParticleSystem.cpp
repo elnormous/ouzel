@@ -14,7 +14,7 @@ namespace ouzel
     namespace assets
     {
         LoaderParticleSystem::LoaderParticleSystem():
-            Loader({"json"})
+            Loader(TYPE, {"json"})
         {
         }
 

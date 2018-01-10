@@ -172,7 +172,7 @@ namespace ouzel
         }
 
         LoaderOBJ::LoaderOBJ():
-            Loader({"obj"})
+            Loader(TYPE, {"obj"})
         {
         }
 

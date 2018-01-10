@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         LoaderVorbis::LoaderVorbis():
-            Loader({"ogg"})
+            Loader(TYPE, {"ogg"})
         {
         }
 

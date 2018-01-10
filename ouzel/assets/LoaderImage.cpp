@@ -17,7 +17,7 @@ namespace ouzel
     namespace assets
     {
         LoaderImage::LoaderImage():
-            Loader({"jpg", "jpeg", "png", "bmp", "tga"})
+            Loader(TYPE, {"jpg", "jpeg", "png", "bmp", "tga"})
         {
             
         }

@@ -11,7 +11,7 @@ namespace ouzel
     namespace assets
     {
         LoaderCollada::LoaderCollada():
-            Loader({"dae"})
+            Loader(TYPE, {"dae"})
         {
         }
 
@@ -22,7 +22,9 @@ namespace ouzel
             if (!colladaData.init(data)) return false;
 
             scene::ModelData modelData;
-            //modelData.init(boundingBox, indices, vertices, material);
+
+            // TODO: load the model
+
             engine->getCache()->setModelData(filename, modelData);
 
             return true;
