@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         LoaderWave::LoaderWave():
-            Loader({"wav"})
+            Loader(TYPE, {"wav"})
         {
         }
 

@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         LoaderBMF::LoaderBMF():
-            Loader({"fnt"})
+            Loader(TYPE, {"fnt"})
         {
         }
 

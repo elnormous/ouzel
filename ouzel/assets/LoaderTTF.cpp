@@ -10,7 +10,7 @@ namespace ouzel
     namespace assets
     {
         LoaderTTF::LoaderTTF():
-            Loader({"ttf"})
+            Loader(TYPE, {"ttf"})
         {
         }
 
