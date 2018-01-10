@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderWave: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::WAVE;
+            static const uint32_t TYPE = Loader::SOUND;
 
             LoaderWave();
             virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;

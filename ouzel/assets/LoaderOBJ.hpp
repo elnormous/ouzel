@@ -12,7 +12,7 @@ namespace ouzel
         class LoaderOBJ: public Loader
         {
         public:
-            static const uint32_t TYPE = Loader::OBJ;
+            static const uint32_t TYPE = Loader::OBJECT;
 
             LoaderOBJ();
             virtual bool loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps = true) override;
