@@ -77,6 +77,30 @@ namespace ouzel
             }
         }
 
+        bool Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
+        {
+            std::vector<uint8_t> data;
+            if (!engine->getFileSystem()->readFile(filename, data))
+            {
+                return false;
+            }
+
+            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
+
+            for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
+            {
+                Loader* loader = *i;
+                if (loader->getType() == loaderType)
+                {
+                    if (loader->loadAsset(filename, data, mipmaps)) return true;
+                }
+            }
+
+            Log(Log::Level::ERR) << "Failed to load asset " << filename;
+            return false;
+        }
+
         bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data;

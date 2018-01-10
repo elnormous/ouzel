@@ -43,6 +43,7 @@ namespace ouzel
             void removeLoader(Loader* loader);
 
             bool loadAsset(const std::string& filename, bool mipmaps = true) const;
+            bool loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps = true) const;
             bool loadAssets(const std::vector<std::string>& filenames, bool mipmaps = true) const;
 
             void clear();
