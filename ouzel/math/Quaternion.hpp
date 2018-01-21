@@ -195,7 +195,7 @@ namespace ouzel
 
         inline Vector3 rotateVector(const Vector3& vector) const
         {
-            Vector3 q(x, y, z);
+            Vector3 q(-x, -y, -z);
             Vector3 t = 2.0f * Vector3::cross(q, vector);
             Vector3 result = vector + (w * t) + Vector3::cross(q, t);
             return result;
