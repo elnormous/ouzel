@@ -195,7 +195,7 @@ namespace ouzel
 
         inline Vector3 rotateVector(const Vector3& vector) const
         {
-            Vector3 q(-x, -y, -z);
+            Vector3 q(x, y, z);
             Vector3 t = 2.0f * Vector3::cross(q, vector);
             Vector3 result = vector + (w * t) + Vector3::cross(q, t);
             return result;
@@ -234,17 +234,17 @@ namespace ouzel
             float zz = z * z;
 
             result.m[0] = 1.0f - 2.0f * (yy + zz);
-            result.m[1] = 2.0f * (xy + wz);
-            result.m[2] = 2.0f * (xz - wy);
+            result.m[1] = 2.0f * (xy - wz);
+            result.m[2] = 2.0f * (xz + wy);
             result.m[3] = 0.0f;
 
-            result.m[4] = 2.0f * (xy - wz);
+            result.m[4] = 2.0f * (xy + wz);
             result.m[5] = 1.0f - 2.0f * (xx + zz);
-            result.m[6] = 2.0f * (yz + wx);
+            result.m[6] = 2.0f * (yz - wx);
             result.m[7] = 0.0f;
 
-            result.m[8] = 2.0f * (xz +  wy);
-            result.m[9] = 2.0f * (yz - wx);
+            result.m[8] = 2.0f * (xz - wy);
+            result.m[9] = 2.0f * (yz + wx);
             result.m[10] = 1.0f - 2.0f * (xx + yy);
             result.m[11] = 0.0f;
 

@@ -284,8 +284,8 @@ namespace ouzel
         float s = sinf(angle);
 
         dst.m[5]  = c;
-        dst.m[6]  = s;
-        dst.m[9]  = -s;
+        dst.m[6]  = -s;
+        dst.m[9]  = s;
         dst.m[10] = c;
     }
 
@@ -297,8 +297,8 @@ namespace ouzel
         float s = sinf(angle);
 
         dst.m[0]  = c;
-        dst.m[2]  = -s;
-        dst.m[8]  = s;
+        dst.m[2]  = s;
+        dst.m[8]  = -s;
         dst.m[10] = c;
     }
 
@@ -310,8 +310,8 @@ namespace ouzel
         float s = sinf(angle);
 
         dst.m[0] = c;
-        dst.m[1] = s;
-        dst.m[4] = -s;
+        dst.m[1] = -s;
+        dst.m[4] = s;
         dst.m[5] = c;
     }
 
