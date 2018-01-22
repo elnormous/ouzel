@@ -14,10 +14,10 @@ public:
         scene::Component(10)
     {
         eventHandler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
-        
+
         engine->getEventDispatcher()->addEventHandler(&eventHandler);
     }
-    
+
     bool handleKeyboard(Event::Type eventType, const KeyboardEvent& event)
     {
         if (actor)
@@ -25,7 +25,7 @@ public:
             if (eventType == Event::Type::KEY_PRESS)
             {
                 Vector2 position = actor->getPosition();
-                
+
                 switch (event.key)
                 {
                     case input::KeyboardKey::W:
@@ -43,14 +43,14 @@ public:
                     default:
                         break;
                 }
-                
+
                 actor->setPosition(position);
             }
         }
-        
+
         return true;
     }
-    
+
     ouzel::EventHandler eventHandler;
 };
 
@@ -72,10 +72,10 @@ InputSample::InputSample():
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
     cameraActor.addComponent(&camera);
-    
+
     std::unique_ptr<Mover> mover(new Mover());
     cameraActor.addComponent(std::move(mover));
-    
+
     layer.addChild(&cameraActor);
     addLayer(&layer);
 

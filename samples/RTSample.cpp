@@ -98,6 +98,6 @@ bool RTSample::handleKeyboard(Event::Type type, const KeyboardEvent& event) cons
                 break;
         }
     }
-    
+
     return true;
 }

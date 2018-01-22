@@ -77,7 +77,7 @@ namespace ouzel
                       bool preserveWhitespaces = false,
                       bool preserveComments = false,
                       bool preserveProcessingInstructions = false);
-            
+
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;
 

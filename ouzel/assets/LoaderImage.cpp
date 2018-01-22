@@ -19,7 +19,6 @@ namespace ouzel
         LoaderImage::LoaderImage():
             Loader(TYPE, {"jpg", "jpeg", "png", "bmp", "tga"})
         {
-            
         }
 
         bool LoaderImage::loadAsset(const std::string& filename, const std::vector<uint8_t>& data, bool mipmaps)

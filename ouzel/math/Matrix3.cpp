@@ -130,7 +130,6 @@ namespace ouzel
         float a4 = m[1] * m[3] * m[8];
         float a5 = m[0] * m[5] * m[7];
 
-        // Calculate the determinant.
         return a0 + a1 + a2 - a3 - a4 - a5;
     }
 
@@ -145,13 +144,13 @@ namespace ouzel
                     -m[1] * (m[3] * m[8] - m[5] * m[6])
                     +m[2] * (m[3] * m[7] - m[4] * m[6]);
 
-        // Close to zero, can't invert.
-        if (fabs(det) <= TOLERANCE)
+        // Close to zero, can't invert
+        if (fabs(det) < TOLERANCE)
             return false;
 
         float invdet = 1.0f / det;
 
-        // Support the case where m == dst.
+        // Support the case where m == dst
         dst.m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
         dst.m[3] = -(m[1] * m[8] - m[2] * m[7]) * invdet;
         dst.m[6] =  (m[1] * m[5] - m[2] * m[4]) * invdet;
@@ -200,7 +199,7 @@ namespace ouzel
 
     void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        // Support the case where m1 or m2 is the same array as dst.
+        // Support the case where m1 or m2 is the same array as dst
         float product[9];
 
         product[0]  = m1.m[0] * m2.m[0]  + m1.m[3] * m2.m[1] + m1.m[6]  * m2.m[2];
@@ -313,7 +312,7 @@ namespace ouzel
 
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
-        // Handle case where v == dst.
+        // Handle case where v == dst
         dst.x = vector.x * m[0] + vector.y * m[3] + vector.z * m[6];
         dst.y = vector.x * m[1] + vector.y * m[4] + vector.z * m[7];
         dst.z = vector.x * m[2] + vector.y * m[5] + vector.z * m[8];

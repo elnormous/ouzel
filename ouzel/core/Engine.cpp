@@ -70,7 +70,7 @@ namespace ouzel
                 std::unique_lock<std::mutex> lock(updateMutex);
                 updateCondition.notify_one();
             }
-            
+
             updateThread.join();
         }
 #endif

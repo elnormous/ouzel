@@ -70,9 +70,9 @@ namespace ouzel
 
             sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
             result = ntohl(addr->sin_addr.s_addr);
-            
+
             freeaddrinfo(info);
-            
+
             return true;
         }
 
@@ -87,7 +87,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to start Winsock failed, error: " << error;
                 return false;
             }
-    
+
             if (wsaData.wVersion != sockVersion)
             {
                 Log(Log::Level::ERR) << "Incorrect Winsock version";

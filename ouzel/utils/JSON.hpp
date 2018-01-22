@@ -250,7 +250,7 @@ namespace ouzel
             bool parseArray(const std::vector<Token>& tokens,
                             std::vector<Token>::const_iterator& iterator);
             bool encodeValue(std::vector<uint8_t>& data) const;
-            
+
             Type type = Type::NONE;
             std::map<std::string, Value> objectValue;
             std::vector<Value> arrayValue;
@@ -272,7 +272,7 @@ namespace ouzel
 
             bool init(const std::string& filename);
             bool init(const std::vector<uint8_t>& data);
-            
+
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;
 

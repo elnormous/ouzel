@@ -39,7 +39,7 @@ private:
     std::unique_ptr<ouzel::scene::Animator> ballEase;
     std::unique_ptr<ouzel::scene::Animator> ballMove;
     std::unique_ptr<ouzel::scene::Animator> ballSequence;
-    
+
     ouzel::EventHandler eventHandler;
 
     ouzel::scene::Layer guiLayer;
