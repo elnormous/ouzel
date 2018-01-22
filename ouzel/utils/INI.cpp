@@ -83,7 +83,7 @@ namespace ouzel
                 data.push_back(']');
                 data.push_back('\n');
             }
-            
+
             for (const auto& value : values)
             {
                 data.insert(data.end(), value.first.begin(), value.first.end());
@@ -94,7 +94,7 @@ namespace ouzel
 
             return true;
         }
-        
+
         Data::Data()
         {
         }
@@ -356,7 +356,7 @@ namespace ouzel
             {
                 i->second.encode(data);
             }
-            
+
             for (const auto& section : sections)
             {
                 if (!section.first.empty())

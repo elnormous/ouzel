@@ -35,7 +35,7 @@ namespace ouzel
             {
                 return false;
             }
-            
+
             const json::Value& metaObject = document["meta"];
 
             texture = engine->getCache()->getTexture(metaObject["image"].asString(), mipmaps);

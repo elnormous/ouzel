@@ -63,7 +63,7 @@ namespace ouzel
         bool highDpi = true;
 
         std::string title;
-        
+
         std::mutex listenerMutex;
         Listener* listener = nullptr;
     };

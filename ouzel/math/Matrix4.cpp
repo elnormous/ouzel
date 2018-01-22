@@ -181,7 +181,7 @@ namespace ouzel
         dst.m[11] = objectPosition.z;
 
         // As per the contracts for the 2 variants of createBillboard, we need
-        // either a safe default or a sufficient distance between object and camera.
+        // either a safe default or a sufficient distance between object and camera
         if (isSufficientDelta)
         {
             Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - cameraForwardVector);
@@ -225,14 +225,14 @@ namespace ouzel
         float y = axis.y;
         float z = axis.z;
 
-        // Make sure the input axis is normalized.
+        // Make sure the input axis is normalized
         float n = x * x + y * y + z * z;
         if (n != 1.0f)
         {
-            // Not normalized.
+            // Not normalized
             n = sqrtf(n);
-            // Prevent divide too close to zero.
-            if (n > 0.000001f)
+            // Prevent divide too close to zero
+            if (n >= TOLERANCE)
             {
                 n = 1.0f / n;
                 x *= n;
@@ -561,7 +561,7 @@ namespace ouzel
         float b4 = m[9] * m[15] - m[11] * m[13];
         float b5 = m[10] * m[15] - m[11] * m[14];
 
-        // Calculate the determinant.
+        // Calculate the determinant
         return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
     }
 
@@ -627,14 +627,14 @@ namespace ouzel
         float b4 = m[9] * m[15] - m[11] * m[13];
         float b5 = m[10] * m[15] - m[11] * m[14];
 
-        // Calculate the determinant.
+        // Calculate the determinant
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-        // Close to zero, can't invert.
-        if (fabs(det) <= TOLERANCE)
+        // Close to zero, can't invert
+        if (fabs(det) < TOLERANCE)
             return false;
 
-        // Support the case where m == dst.
+        // Support the case where m == dst
         Matrix4 inverse;
         inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
         inverse.m[1]  = -m[1] * b5 + m[2] * b4 - m[3] * b3;
@@ -797,7 +797,7 @@ namespace ouzel
             "vst1.32 {d28 - d31}, [%0]  \n\t" // DST->M[m8-m15]
 
             : // output
-            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change.
+            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
             : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
         );
     #if OUZEL_SUPPORTS_NEON_CHECK
@@ -832,7 +832,7 @@ namespace ouzel
             "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7]// DST->M[m8-m15]
 
             : // output
-            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change.
+            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
             : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
         );
 #elif OUZEL_SUPPORTS_SSE
@@ -919,7 +919,7 @@ namespace ouzel
         else
         {
     #endif
-        // Support the case where m1 or m2 is the same array as dst.
+        // Support the case where m1 or m2 is the same array as dst
         float product[16];
 
         product[0]  = m1.m[0] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[8]   * m2.m[2]  + m1.m[12] * m2.m[3];
@@ -1289,7 +1289,7 @@ namespace ouzel
         else
         {
     #endif
-        // Handle case where v == dst.
+        // Handle case where v == dst
         dst.x = vector.x * m[0] + vector.y * m[4] + vector.z * m[8] + vector.w * m[12];
         dst.y = vector.x * m[1] + vector.y * m[5] + vector.z * m[9] + vector.w * m[13];
         dst.z = vector.x * m[2] + vector.y * m[6] + vector.z * m[10] + vector.w * m[14];

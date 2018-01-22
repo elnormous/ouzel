@@ -90,7 +90,7 @@ AnimationsSample::AnimationsSample():
         ballDelay.get(),
         ballEase.get()
     };
-     
+
     ballSequence.reset(new scene::Sequence(sequence2));
 
     ball.addComponent(ballSequence);

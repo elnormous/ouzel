@@ -34,7 +34,7 @@ namespace ouzel
 
         protected:
             bool encode(std::vector<uint8_t>& data) const;
-            
+
             std::string name;
             std::map<std::string, std::string> values;
         };
@@ -60,7 +60,7 @@ namespace ouzel
 
             bool hasBOM() const { return bom; }
             void setBOM(bool newBOM) { bom = newBOM; }
-            
+
         private:
             bool bom = false;
             std::map<std::string, Section> sections;

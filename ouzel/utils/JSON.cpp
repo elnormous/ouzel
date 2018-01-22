@@ -296,9 +296,9 @@ namespace ouzel
                     else
                     {
                         data.push_back('{');
-                        
+
                         bool first = true;
-                        
+
                         for (const auto& value : objectValue)
                         {
                             if (first) first = false;
@@ -309,7 +309,7 @@ namespace ouzel
                             data.insert(data.end(), {'"', ':'});
                             value.second.encodeValue(data);
                         }
-                        
+
                         data.push_back('}');
                     }
                     break;
@@ -317,17 +317,17 @@ namespace ouzel
                 case Type::ARRAY:
                 {
                     data.push_back('[');
-                    
+
                     bool first = true;
-                    
+
                     for (const auto& value : arrayValue)
                     {
                         if (first) first = false;
                         else data.push_back(',');
-                        
+
                         value.encodeValue(data);
                     }
-                    
+
                     data.push_back(']');
                     break;
                 }
@@ -338,10 +338,10 @@ namespace ouzel
                 default:
                     return false;
             }
-            
+
             return true;
         }
-        
+
         Data::Data():
             Value(Value::Type::OBJECT)
         {
@@ -583,10 +583,10 @@ namespace ouzel
                     Log(Log::Level::ERR) << "Unknown character";
                     return false;
                 }
-                
+
                 tokens.push_back(token);
             }
-            
+
             return true;
         }
 
@@ -624,12 +624,12 @@ namespace ouzel
         bool Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
-            
+
             if (!encode(data)) return false;
-            
+
             return engine->getFileSystem()->writeFile(filename, data);
         }
-        
+
         bool Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();

@@ -164,7 +164,7 @@ namespace ouzel
             }
 
             std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
-                                
+
             noBlendState->init(false,
                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
                                BlendState::BlendOperation::ADD,

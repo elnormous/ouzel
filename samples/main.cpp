@@ -86,7 +86,7 @@ void ouzelMain(const std::vector<std::string>& args)
             currentScene.reset(new PerspectiveSample());
         }
     }
-    
+
     if (!currentScene)
     {
         currentScene.reset(new MainMenu());

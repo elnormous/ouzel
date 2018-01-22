@@ -47,7 +47,7 @@ PerspectiveSample::PerspectiveSample():
     Quaternion rotationY;
     rotationY.setEulerAngles(Vector3(0.0f, TAU / 8.0f, 0.0f));
     floor.setRotation(rotationX * rotationY);
-    
+
     // character
     characterSprite.init("run.json");
     characterSprite.play(true);
@@ -150,7 +150,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
 }
 
 bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseEvent& event)
-{    
+{
     if (event.modifiers & LEFT_MOUSE_DOWN)
     {
         if (type == Event::Type::MOUSE_MOVE)

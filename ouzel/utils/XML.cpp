@@ -274,7 +274,7 @@ namespace ouzel
                     ++iterator;
                 }
             }
-            
+
             return true;
         }
 
@@ -353,7 +353,7 @@ namespace ouzel
                                 if (*(iterator + 1) == '-') // --
                                 {
                                     iterator += 2;
-                                    
+
                                     if (*iterator == '>') // -->
                                     {
                                         ++iterator;
@@ -369,7 +369,7 @@ namespace ouzel
 
                             value += utf32ToUtf8(*iterator);
                         }
-                        
+
                         type = Type::COMMENT;
                     }
                     else if (*iterator == '[') // <![
@@ -472,9 +472,9 @@ namespace ouzel
                         }
 
                         ++iterator;
-                        
+
                         if (!skipWhitespaces(str, iterator)) return false;
-                        
+
                         if (!parseString(str, iterator, attributes[attribute])) return false;
                     }
 
@@ -845,22 +845,22 @@ namespace ouzel
 
             return true;
         }
-        
+
         bool Data::save(const std::string& filename) const
         {
             std::vector<uint8_t> data;
-            
+
             if (!encode(data)) return false;
-            
+
             return engine->getFileSystem()->writeFile(filename, data);
         }
-        
+
         bool Data::encode(std::vector<uint8_t>& data) const
         {
             data.clear();
 
             if (bom) data.insert(data.end(), {0xEF, 0xBB, 0xBF});
-            
+
             for (const Node& node : children)
             {
                 if (!node.encode(data)) return false;
