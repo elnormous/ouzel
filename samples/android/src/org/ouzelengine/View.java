@@ -3,8 +3,6 @@
 
 package org.ouzelengine;
 
-import com.sun.javafx.font.directwrite.RECT;
-
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
