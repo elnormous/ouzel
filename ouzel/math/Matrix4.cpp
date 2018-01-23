@@ -256,17 +256,17 @@ namespace ouzel
         float sz = s * z;
 
         dst.m[0] = c + tx * x;
-        dst.m[1] = txy + sz;
-        dst.m[2] = txz - sy;
+        dst.m[1] = txy - sz;
+        dst.m[2] = txz + sy;
         dst.m[3] = 0.0f;
 
-        dst.m[4] = txy - sz;
+        dst.m[4] = txy + sz;
         dst.m[5] = c + ty * y;
-        dst.m[6] = tyz + sx;
+        dst.m[6] = tyz - sx;
         dst.m[7] = 0.0f;
 
-        dst.m[8] = txz + sy;
-        dst.m[9] = tyz - sx;
+        dst.m[8] = txz - sy;
+        dst.m[9] = tyz + sx;
         dst.m[10] = c + tz * z;
         dst.m[11] = 0.0f;
 
