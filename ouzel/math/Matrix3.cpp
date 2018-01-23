@@ -347,11 +347,14 @@ namespace ouzel
 
     void Matrix3::transpose(Matrix3& dst) const
     {
-        float t[9] = {
-            m[0], m[3], m[6],
-            m[1], m[4], m[7],
-            m[2], m[5], m[8]
-        };
-        std::copy(std::begin(t), std::end(t), dst.m);
+        dst.m[0] = m[0];
+        dst.m[1] = m[3];
+        dst.m[2] = m[6];
+        dst.m[3] = m[1];
+        dst.m[4] = m[4];
+        dst.m[5] = m[7];
+        dst.m[6] = m[2];
+        dst.m[7] = m[5];
+        dst.m[8] = m[8];
     }
 }

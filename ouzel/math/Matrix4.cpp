@@ -1376,13 +1376,10 @@ namespace ouzel
         else
         {
     #endif
-        float t[16] = {
-            m[0], m[4], m[8], m[12],
-            m[1], m[5], m[9], m[13],
-            m[2], m[6], m[10], m[14],
-            m[3], m[7], m[11], m[15]
-        };
-        std::copy(std::begin(t), std::end(t), dst.m);
+        dst.m[0] = m[0]; dst.m[1] = m[4]; dst.m[2] = m[8]; dst.m[3] = m[12];
+        dst.m[4] = m[1]; dst.m[5] = m[5]; dst.m[6] = m[9]; dst.m[7] = m[13];
+        dst.m[8] = m[2]; dst.m[9] = m[6]; dst.m[10] = m[10]; dst.m[11] = m[14];
+        dst.m[12] = m[3]; dst.m[13] = m[7]; dst.m[14] = m[11]; dst.m[15] = m[15];
     #if OUZEL_SUPPORTS_NEON_CHECK
         }
     #endif
