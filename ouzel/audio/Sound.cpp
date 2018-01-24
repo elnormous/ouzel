@@ -26,8 +26,11 @@ namespace ouzel
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
         {
             soundData = newSoundData;
-            stream = soundData->createStream();
-            stream->setListener(this);
+            if (soundData)
+            {
+                stream = soundData->createStream();
+                stream->setListener(this);
+            }
 
             return true;
         }
