@@ -15,10 +15,10 @@ namespace ouzel
         class Stream: public Noncopyable
         {
         public:
-            class Listener
+            class EventListener
             {
             public:
-                virtual ~Listener() = 0;
+                virtual ~EventListener() = 0;
                 virtual void onReset() = 0;
                 virtual void onStop() = 0;
             };
@@ -37,7 +37,7 @@ namespace ouzel
             bool getShouldReset() const { return shouldReset; }
             void setShouldReset(bool newReset) { shouldReset = newReset; }
 
-            void setListener(Listener* newListener);
+            void setEventListener(EventListener* newEventListener);
 
         private:
             std::atomic<bool> playing;
@@ -45,7 +45,7 @@ namespace ouzel
             std::atomic<bool> shouldReset;
 
             std::mutex listenerMutex;
-            Listener* listener = nullptr;
+            EventListener* eventListener = nullptr;
         };
     } // namespace audio
 } // namespace ouzel
