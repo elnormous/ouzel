@@ -22,10 +22,10 @@ namespace ouzel
         }
 
         bool BlendState::init(bool newEnableBlending,
-                              BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                              BlendOperation newColorOperation,
-                              BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                              BlendOperation newAlphaOperation,
+                              Factor newColorBlendSource, Factor newColorBlendDest,
+                              Operation newColorOperation,
+                              Factor newAlphaBlendSource, Factor newAlphaBlendDest,
+                              Operation newAlphaOperation,
                               uint8_t newColorMask)
         {
             enableBlending = newEnableBlending;
@@ -54,32 +54,32 @@ namespace ouzel
             return enableBlending;
         }
 
-        BlendState::BlendFactor BlendState::getColorBlendSource() const
+        BlendState::Factor BlendState::getColorBlendSource() const
         {
             return colorBlendSource;
         }
 
-        BlendState::BlendFactor BlendState::getColorBlendDest() const
+        BlendState::Factor BlendState::getColorBlendDest() const
         {
             return colorBlendDest;
         }
 
-        BlendState::BlendOperation BlendState::getColorOperation() const
+        BlendState::Operation BlendState::getColorOperation() const
         {
             return colorOperation;
         }
 
-        BlendState::BlendFactor BlendState::getAlphaBlendSource() const
+        BlendState::Factor BlendState::getAlphaBlendSource() const
         {
             return alphaBlendSource;
         }
 
-        BlendState::BlendFactor BlendState::getAlphaBlendDest() const
+        BlendState::Factor BlendState::getAlphaBlendDest() const
         {
             return alphaBlendDest;
         }
 
-        BlendState::BlendOperation BlendState::getAlphaOperation() const
+        BlendState::Operation BlendState::getAlphaOperation() const
         {
             return alphaOperation;
         }

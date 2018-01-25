@@ -20,30 +20,30 @@ namespace ouzel
             virtual ~BlendStateResource();
 
             virtual bool init(bool newEnableBlending,
-                              BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
-                              BlendState::BlendOperation newColorOperation,
-                              BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                              BlendState::BlendOperation newAlphaOperation,
+                              BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
+                              BlendState::Operation newColorOperation,
+                              BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
+                              BlendState::Operation newAlphaOperation,
                               uint8_t newColorMask);
 
             bool isBlendingEnabled() const { return enableBlending; }
-            BlendState::BlendFactor getColorBlendSource() const { return colorBlendSource; }
-            BlendState::BlendFactor getColorBlendDest() const { return colorBlendDest; }
-            BlendState::BlendOperation getColorOperation() const { return colorOperation; }
-            BlendState::BlendFactor getAlphaBlendSource() const { return alphaBlendSource; }
-            BlendState::BlendFactor getAlphaBlendDest() const { return alphaBlendDest; }
-            BlendState::BlendOperation getAlphaOperation() const { return alphaOperation; }
+            BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
+            BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
+            BlendState::Operation getColorOperation() const { return colorOperation; }
+            BlendState::Factor getAlphaBlendSource() const { return alphaBlendSource; }
+            BlendState::Factor getAlphaBlendDest() const { return alphaBlendDest; }
+            BlendState::Operation getAlphaOperation() const { return alphaOperation; }
             uint8_t getColorMask() const { return colorMask; }
 
         protected:
             BlendStateResource();
 
-            BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
-            BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
-            BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
-            BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
-            BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
-            BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation colorOperation = BlendState::Operation::ADD;
+            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
         };

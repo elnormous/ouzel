@@ -166,50 +166,50 @@ namespace ouzel
             std::shared_ptr<BlendState> noBlendState = std::make_shared<BlendState>();
 
             noBlendState->init(false,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD,
-                               BlendState::BlendFactor::ONE, BlendState::BlendFactor::ZERO,
-                               BlendState::BlendOperation::ADD);
+                               BlendState::Factor::ONE, BlendState::Factor::ZERO,
+                               BlendState::Operation::ADD,
+                               BlendState::Factor::ONE, BlendState::Factor::ZERO,
+                               BlendState::Operation::ADD);
 
             engine->getCache()->setBlendState(BLEND_NO_BLEND, noBlendState);
 
             std::shared_ptr<BlendState> addBlendState = std::make_shared<BlendState>();
 
             addBlendState->init(true,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD,
-                                BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                BlendState::BlendOperation::ADD);
+                                BlendState::Factor::ONE, BlendState::Factor::ONE,
+                                BlendState::Operation::ADD,
+                                BlendState::Factor::ONE, BlendState::Factor::ONE,
+                                BlendState::Operation::ADD);
 
             engine->getCache()->setBlendState(BLEND_ADD, addBlendState);
 
             std::shared_ptr<BlendState> multiplyBlendState = std::make_shared<BlendState>();
 
             multiplyBlendState->init(true,
-                                     BlendState::BlendFactor::DEST_COLOR, BlendState::BlendFactor::ZERO,
-                                     BlendState::BlendOperation::ADD,
-                                     BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                     BlendState::BlendOperation::ADD);
+                                     BlendState::Factor::DEST_COLOR, BlendState::Factor::ZERO,
+                                     BlendState::Operation::ADD,
+                                     BlendState::Factor::ONE, BlendState::Factor::ONE,
+                                     BlendState::Operation::ADD);
 
             engine->getCache()->setBlendState(BLEND_MULTIPLY, multiplyBlendState);
 
             std::shared_ptr<BlendState> alphaBlendState = std::make_shared<BlendState>();
 
             alphaBlendState->init(true,
-                                  BlendState::BlendFactor::SRC_ALPHA, BlendState::BlendFactor::INV_SRC_ALPHA,
-                                  BlendState::BlendOperation::ADD,
-                                  BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                  BlendState::BlendOperation::ADD);
+                                  BlendState::Factor::SRC_ALPHA, BlendState::Factor::INV_SRC_ALPHA,
+                                  BlendState::Operation::ADD,
+                                  BlendState::Factor::ONE, BlendState::Factor::ONE,
+                                  BlendState::Operation::ADD);
 
             engine->getCache()->setBlendState(BLEND_ALPHA, alphaBlendState);
 
             std::shared_ptr<BlendState> screenBlendState = std::make_shared<BlendState>();
 
             screenBlendState->init(true,
-                                   BlendState::BlendFactor::ONE, BlendState::BlendFactor::INV_SRC_COLOR,
-                                   BlendState::BlendOperation::ADD,
-                                   BlendState::BlendFactor::ONE, BlendState::BlendFactor::ONE,
-                                   BlendState::BlendOperation::ADD);
+                                   BlendState::Factor::ONE, BlendState::Factor::INV_SRC_COLOR,
+                                   BlendState::Operation::ADD,
+                                   BlendState::Factor::ONE, BlendState::Factor::ONE,
+                                   BlendState::Operation::ADD);
 
             engine->getCache()->setBlendState(BLEND_SCREEN, screenBlendState);
 
