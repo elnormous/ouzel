@@ -20,7 +20,7 @@ namespace ouzel
 
         Sound::~Sound()
         {
-            if (stream) stream->setListener(nullptr);
+            if (stream) stream->setEventListener(nullptr);
         }
 
         bool Sound::init(const std::shared_ptr<SoundData>& newSoundData)
@@ -29,7 +29,7 @@ namespace ouzel
             if (soundData)
             {
                 stream = soundData->createStream();
-                stream->setListener(this);
+                stream->setEventListener(this);
             }
 
             return true;

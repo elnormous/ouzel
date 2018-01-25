@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace audio
     {
-        Stream::Listener::~Listener()
+        Stream::EventListener::~EventListener()
         {
         }
 
@@ -23,18 +23,18 @@ namespace ouzel
         void Stream::reset()
         {
             std::unique_lock<std::mutex> lock(listenerMutex);
-            if (listener) listener->onReset();
+            if (eventListener) eventListener->onReset();
             if (!repeating)
             {
                 playing = false;
-                if (listener) listener->onStop();
+                if (eventListener) eventListener->onStop();
             }
         }
 
-        void Stream::setListener(Listener* newListener)
+        void Stream::setEventListener(EventListener* newEventListener)
         {
             std::unique_lock<std::mutex> lock(listenerMutex);
-            listener = newListener;
+            eventListener = newEventListener;
         }
     } // namespace audio
 } // namespace ouzel
