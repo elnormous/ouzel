@@ -62,7 +62,7 @@ namespace ouzel
             }
             syslog(priority, "%s", s.c_str());
 #elif OUZEL_PLATFORM_WINDOWS
-            std::vector<wchar_t> szBuffer(s.length() + 1);
+            std::vector<wchar_t> szBuffer(s.length() + 1 + 1); // for the newline and the terminating char
             if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer.data(), static_cast<int>(szBuffer.size())) == 0)
             {
                 Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
