@@ -19,8 +19,8 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadIOKit::GamepadIOKit(IOHIDDeviceRef aDevice):
-            device(aDevice)
+        GamepadIOKit::GamepadIOKit(IOHIDDeviceRef initDevice):
+            device(initDevice)
         {
             IOReturn ret = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)

@@ -51,8 +51,8 @@ namespace ouzel
             }
         }
 
-        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal* aRenderDeviceMetal):
-            renderDeviceMetal(aRenderDeviceMetal)
+        TextureResourceMetal::TextureResourceMetal(RenderDeviceMetal* initRenderDeviceMetal):
+            renderDeviceMetal(initRenderDeviceMetal)
         {
         }
 

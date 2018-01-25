@@ -104,10 +104,10 @@ namespace ouzel
             return Vector2(position.x + size.width, position.y + size.height);
         }
 
-        bool containsPoint(float aX, float aY) const
+        bool containsPoint(float x, float y) const
         {
-            return aX >= position.x && aX <= (position.x + size.width) &&
-                aY >= position.y && aY <= (position.y + size.height);
+            return x >= position.x && x <= (position.x + size.width) &&
+                y >= position.y && y <= (position.y + size.height);
         }
 
         bool containsPoint(const Vector2& point) const
@@ -116,9 +116,9 @@ namespace ouzel
                 point.y >= position.y && point.y <= (position.y + size.height);
         }
 
-        bool contains(float aX, float aY, float aWidth, float aHeight) const
+        bool contains(float x, float y, float aWidth, float aHeight) const
         {
-            return containsPoint(aX, aY) && containsPoint(aX + aWidth, aY + aHeight);
+            return containsPoint(x, y) && containsPoint(x + aWidth, y + aHeight);
         }
 
         bool contains(const Rectangle& r) const

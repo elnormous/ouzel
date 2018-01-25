@@ -14,8 +14,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
-            renderDeviceOGL(aRenderDeviceOGL)
+        TextureResourceOGL::TextureResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+            renderDeviceOGL(initRenderDeviceOGL)
         {
         }
 

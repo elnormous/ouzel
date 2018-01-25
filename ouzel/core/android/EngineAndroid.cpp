@@ -31,8 +31,8 @@ static int looperCallback(int fd, int events, void* data)
 
 namespace ouzel
 {
-    EngineAndroid::EngineAndroid(JavaVM* aJavaVM):
-        javaVM(aJavaVM)
+    EngineAndroid::EngineAndroid(JavaVM* initJavaVM):
+        javaVM(initJavaVM)
     {
         std::fill(std::begin(fd), std::end(fd), 0);
 
@@ -74,7 +74,7 @@ namespace ouzel
         if (fd[1]) close(fd[1]);
     }
 
-    void EngineAndroid::onCreate(jobject aMainActivity)
+    void EngineAndroid::onCreate(jobject initMainActivity)
     {
         JNIEnv* jniEnv;
 
@@ -84,7 +84,7 @@ namespace ouzel
             return;
         }
 
-        mainActivity = jniEnv->NewGlobalRef(aMainActivity);
+        mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
         jclass mainActivityClass = jniEnv->GetObjectClass(mainActivity);
         startActivityMethod = jniEnv->GetMethodID(mainActivityClass, "startActivity", "(Landroid/content/Intent;)V");

@@ -18,10 +18,10 @@ namespace ouzel
         static const jint ORIENTATION_PORTRAIT = 0x00000001;
         static const jint ORIENTATION_LANDSCAPE = 0x00000002;
 
-        EngineAndroid(JavaVM* aJavaVM);
+        EngineAndroid(JavaVM* initJavaVM);
         virtual ~EngineAndroid();
 
-        void onCreate(jobject aMainActivity);
+        void onCreate(jobject initMainActivity);
         void onSurfaceCreated(jobject newSurface);
         void onSurfaceDestroyed();
         void onConfigurationChanged(jobject newConfig);
