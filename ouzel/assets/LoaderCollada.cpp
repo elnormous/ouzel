@@ -4,6 +4,7 @@
 #include "LoaderCollada.hpp"
 #include "core/Engine.hpp"
 #include "scene/ModelData.hpp"
+#include "utils/Log.hpp"
 #include "utils/XML.hpp"
 
 namespace ouzel
@@ -20,6 +21,20 @@ namespace ouzel
             xml::Data colladaData;
 
             if (!colladaData.init(data)) return false;
+
+            if (colladaData.getChildren().empty())
+            {
+                Log(Log::Level::ERR) << "Invalid collada Collada file";
+                return false;
+            }
+
+            xml::Node rootNode = colladaData.getChildren().front();
+
+            if (rootNode.getValue() != "COLLADA")
+            {
+                Log(Log::Level::ERR) << "Invalid collada Collada file";
+                return false;
+            }
 
             scene::ModelData modelData;
 

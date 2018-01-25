@@ -64,8 +64,8 @@ namespace ouzel
                                          uint32_t spritesX = 1, uint32_t spritesY = 1,
                                          const Vector2& pivot = Vector2(0.5f, 0.5f));
             const scene::SpriteData& getSpriteData(const std::string& filename, bool mipmaps = true,
-                                                               uint32_t spritesX = 1, uint32_t spritesY = 1,
-                                                               const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
+                                                   uint32_t spritesX = 1, uint32_t spritesY = 1,
+                                                   const Vector2& pivot = Vector2(0.5f, 0.5f)) const;
             void setSpriteData(const std::string& filename, const scene::SpriteData& newSpriteData);
             void releaseSpriteData();
 
