@@ -23,9 +23,9 @@ namespace ouzel
         argc = initArgc;
         argv = initArgv;
 
-        for (int i = 0; i < aArgc; ++i)
+        for (int i = 0; i < initArgc; ++i)
         {
-            args.push_back(aArgv[i]);
+            args.push_back(initArgv[i]);
         }
     }
 
