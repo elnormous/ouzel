@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadIOS::GamepadIOS(GCControllerPtr aController):
-            controller(aController)
+        GamepadIOS::GamepadIOS(GCControllerPtr initController):
+            controller(initController)
         {
             if (controller.extendedGamepad)
             {

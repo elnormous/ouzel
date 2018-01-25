@@ -10,7 +10,7 @@ namespace ouzel
     class EngineLinux: public Engine
     {
     public:
-        EngineLinux(int aArgc, char* aArgv[]);
+        EngineLinux(int initArgc, char* initArgv[]);
 
         virtual int run() override;
 

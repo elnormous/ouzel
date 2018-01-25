@@ -10,7 +10,7 @@ namespace ouzel
     class EngineRasp: public Engine
     {
     public:
-        EngineRasp(int aArgc, char* aArgv[]);
+        EngineRasp(int argc, char* argv[]);
 
         virtual int run() override;
 

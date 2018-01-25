@@ -19,11 +19,11 @@ static void loop(void* arg)
 
 namespace ouzel
 {
-    EngineEm::EngineEm(int aArgc, char* aArgv[])
+    EngineEm::EngineEm(int argc, char* argv[])
     {
-        for (int i = 0; i < aArgc; ++i)
+        for (int i = 0; i < argc; ++i)
         {
-            args.push_back(aArgv[i]);
+            args.push_back(argv[i]);
         }
     }
 

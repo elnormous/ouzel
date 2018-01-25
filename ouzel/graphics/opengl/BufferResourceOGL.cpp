@@ -13,8 +13,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
-            renderDeviceOGL(aRenderDeviceOGL)
+        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+            renderDeviceOGL(initRenderDeviceOGL)
         {
         }
 

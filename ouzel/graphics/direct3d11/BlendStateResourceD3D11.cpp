@@ -13,8 +13,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11* aRenderDeviceD3D11):
-            renderDeviceD3D11(aRenderDeviceD3D11)
+        BlendStateResourceD3D11::BlendStateResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+            renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
 

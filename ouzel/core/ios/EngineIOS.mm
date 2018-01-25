@@ -65,14 +65,14 @@
 
 namespace ouzel
 {
-    EngineIOS::EngineIOS(int aArgc, char* aArgv[])
+    EngineIOS::EngineIOS(int initArgc, char* initArgv[])
     {
-        argc = aArgc;
-        argv = aArgv;
+        argc = initArgc;
+        argv = initArgv;
 
-        for (int i = 0; i < aArgc; ++i)
+        for (int i = 0; i < initArgc; ++i)
         {
-            args.push_back(aArgv[i]);
+            args.push_back(initArgv[i]);
         }
 
         mainQueue = dispatch_get_main_queue();

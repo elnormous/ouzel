@@ -32,7 +32,7 @@ namespace ouzel
             GCControllerPtr getController() const { return controller; }
 
         protected:
-            GamepadGC(GCControllerPtr aController);
+            GamepadGC(GCControllerPtr initController);
 
             GCControllerPtr controller;
         };

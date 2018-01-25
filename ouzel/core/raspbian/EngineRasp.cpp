@@ -9,11 +9,11 @@
 
 namespace ouzel
 {
-    EngineRasp::EngineRasp(int aArgc, char* aArgv[])
+    EngineRasp::EngineRasp(int argc, char* argv[])
     {
-        for (int i = 0; i < aArgc; ++i)
+        for (int i = 0; i < argc; ++i)
         {
-            args.push_back(aArgv[i]);
+            args.push_back(argv[i]);
         }
     }
 

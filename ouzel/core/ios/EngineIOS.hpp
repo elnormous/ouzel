@@ -11,7 +11,7 @@ namespace ouzel
     class EngineIOS: public Engine
     {
     public:
-        EngineIOS(int aArgc, char* aArgv[]);
+        EngineIOS(int initArgc, char* initArgv[]);
 
         virtual int run() override;
 

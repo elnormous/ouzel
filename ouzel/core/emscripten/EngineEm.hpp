@@ -10,7 +10,7 @@ namespace ouzel
     class EngineEm: public Engine
     {
     public:
-        EngineEm(int aArgc, char* aArgv[]);
+        EngineEm(int argc, char* argv[]);
 
         virtual int run() override;
 

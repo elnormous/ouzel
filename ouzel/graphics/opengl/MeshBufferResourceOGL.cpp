@@ -182,8 +182,8 @@ namespace ouzel
             }
         }
 
-        MeshBufferResourceOGL::MeshBufferResourceOGL(RenderDeviceOGL* aRenderDeviceOGL):
-            renderDeviceOGL(aRenderDeviceOGL)
+        MeshBufferResourceOGL::MeshBufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+            renderDeviceOGL(initRenderDeviceOGL)
         {
         }
 

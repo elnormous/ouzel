@@ -11,7 +11,7 @@ namespace ouzel
     class EngineTVOS: public Engine
     {
     public:
-        EngineTVOS(int aArgc, char* aArgv[]);
+        EngineTVOS(int initArgc, char* initArgv[]);
 
         virtual int run() override;
 

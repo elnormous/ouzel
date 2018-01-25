@@ -15,8 +15,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal* aRenderDeviceMetal):
-            renderDeviceMetal(aRenderDeviceMetal)
+        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal* initRenderDeviceMetal):
+            renderDeviceMetal(initRenderDeviceMetal)
         {
         }
 
