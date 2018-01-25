@@ -15,7 +15,7 @@ namespace ouzel
         class BlendState: public Noncopyable
         {
         public:
-            enum class BlendFactor
+            enum class Factor
             {
                 ZERO,
                 ONE,
@@ -32,7 +32,7 @@ namespace ouzel
                 INV_BLEND_FACTOR
             };
 
-            enum class BlendOperation
+            enum class Operation
             {
                 ADD,
                 SUBTRACT,
@@ -54,32 +54,32 @@ namespace ouzel
             virtual ~BlendState();
 
             bool init(bool newEnableBlending,
-                      BlendFactor newColorBlendSource, BlendFactor newColorBlendDest,
-                      BlendOperation newColorOperation,
-                      BlendFactor newAlphaBlendSource, BlendFactor newAlphaBlendDest,
-                      BlendOperation newAlphaOperation,
+                      Factor newColorBlendSource, Factor newColorBlendDest,
+                      Operation newColorOperation,
+                      Factor newAlphaBlendSource, Factor newAlphaBlendDest,
+                      Operation newAlphaOperation,
                       uint8_t newColorMask = COLOR_MASK_ALL);
 
             BlendStateResource* getResource() const { return resource; }
 
             bool isBlendingEnabled() const;
-            BlendFactor getColorBlendSource() const;
-            BlendFactor getColorBlendDest() const;
-            BlendOperation getColorOperation() const;
-            BlendFactor getAlphaBlendSource() const;
-            BlendFactor getAlphaBlendDest() const;
-            BlendOperation getAlphaOperation() const;
+            Factor getColorBlendSource() const;
+            Factor getColorBlendDest() const;
+            Operation getColorOperation() const;
+            Factor getAlphaBlendSource() const;
+            Factor getAlphaBlendDest() const;
+            Operation getAlphaOperation() const;
             uint8_t getColorMask() const;
 
         private:
             BlendStateResource* resource = nullptr;
 
-            BlendState::BlendFactor colorBlendSource = BlendState::BlendFactor::ONE;
-            BlendState::BlendFactor colorBlendDest = BlendState::BlendFactor::ZERO;
-            BlendState::BlendOperation colorOperation = BlendState::BlendOperation::ADD;
-            BlendState::BlendFactor alphaBlendSource = BlendState::BlendFactor::ONE;
-            BlendState::BlendFactor alphaBlendDest = BlendState::BlendFactor::ZERO;
-            BlendState::BlendOperation alphaOperation = BlendState::BlendOperation::ADD;
+            BlendState::Factor colorBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor colorBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation colorOperation = BlendState::Operation::ADD;
+            BlendState::Factor alphaBlendSource = BlendState::Factor::ONE;
+            BlendState::Factor alphaBlendDest = BlendState::Factor::ZERO;
+            BlendState::Operation alphaOperation = BlendState::Operation::ADD;
             uint8_t colorMask = BlendState::COLOR_MASK_ALL;
             bool enableBlending = false;
         };

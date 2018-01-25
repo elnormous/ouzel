@@ -15,47 +15,47 @@ namespace ouzel
         {
         }
 
-        static MTLBlendFactor getBlendFactor(BlendState::BlendFactor blendFactor)
+        static MTLBlendFactor getBlendFactor(BlendState::Factor blendFactor)
         {
             switch (blendFactor)
             {
-                case BlendState::BlendFactor::ZERO: return MTLBlendFactorZero;
-                case BlendState::BlendFactor::ONE: return MTLBlendFactorOne;
-                case BlendState::BlendFactor::SRC_COLOR: return MTLBlendFactorSourceColor;
-                case BlendState::BlendFactor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
-                case BlendState::BlendFactor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
-                case BlendState::BlendFactor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
-                case BlendState::BlendFactor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
-                case BlendState::BlendFactor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
-                case BlendState::BlendFactor::DEST_COLOR: return MTLBlendFactorDestinationColor;
-                case BlendState::BlendFactor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
-                case BlendState::BlendFactor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
-                case BlendState::BlendFactor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
-                case BlendState::BlendFactor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
+                case BlendState::Factor::ZERO: return MTLBlendFactorZero;
+                case BlendState::Factor::ONE: return MTLBlendFactorOne;
+                case BlendState::Factor::SRC_COLOR: return MTLBlendFactorSourceColor;
+                case BlendState::Factor::INV_SRC_COLOR: return MTLBlendFactorOneMinusSourceColor;
+                case BlendState::Factor::SRC_ALPHA: return MTLBlendFactorSourceAlpha;
+                case BlendState::Factor::INV_SRC_ALPHA: return MTLBlendFactorOneMinusSourceAlpha;
+                case BlendState::Factor::DEST_ALPHA: return MTLBlendFactorDestinationAlpha;
+                case BlendState::Factor::INV_DEST_ALPHA: return MTLBlendFactorOneMinusDestinationAlpha;
+                case BlendState::Factor::DEST_COLOR: return MTLBlendFactorDestinationColor;
+                case BlendState::Factor::INV_DEST_COLOR: return MTLBlendFactorOneMinusDestinationColor;
+                case BlendState::Factor::SRC_ALPHA_SAT: return MTLBlendFactorSourceAlphaSaturated;
+                case BlendState::Factor::BLEND_FACTOR: return MTLBlendFactorBlendColor;
+                case BlendState::Factor::INV_BLEND_FACTOR: return MTLBlendFactorOneMinusBlendColor;
             }
 
             return MTLBlendFactorZero;
         }
 
-        static MTLBlendOperation getBlendOperation(BlendState::BlendOperation blendOperation)
+        static MTLBlendOperation getBlendOperation(BlendState::Operation blendOperation)
         {
             switch (blendOperation)
             {
-                case BlendState::BlendOperation::ADD: return MTLBlendOperationAdd;
-                case BlendState::BlendOperation::SUBTRACT: return MTLBlendOperationSubtract;
-                case BlendState::BlendOperation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
-                case BlendState::BlendOperation::MIN: return MTLBlendOperationMin;
-                case BlendState::BlendOperation::MAX: return MTLBlendOperationMax;
+                case BlendState::Operation::ADD: return MTLBlendOperationAdd;
+                case BlendState::Operation::SUBTRACT: return MTLBlendOperationSubtract;
+                case BlendState::Operation::REV_SUBTRACT: return MTLBlendOperationReverseSubtract;
+                case BlendState::Operation::MIN: return MTLBlendOperationMin;
+                case BlendState::Operation::MAX: return MTLBlendOperationMax;
             }
 
             return MTLBlendOperationAdd;
         }
 
         bool BlendStateResourceMetal::init(bool newEnableBlending,
-                                           BlendState::BlendFactor newColorBlendSource, BlendState::BlendFactor newColorBlendDest,
-                                           BlendState::BlendOperation newColorOperation,
-                                           BlendState::BlendFactor newAlphaBlendSource, BlendState::BlendFactor newAlphaBlendDest,
-                                           BlendState::BlendOperation newAlphaOperation,
+                                           BlendState::Factor newColorBlendSource, BlendState::Factor newColorBlendDest,
+                                           BlendState::Operation newColorOperation,
+                                           BlendState::Factor newAlphaBlendSource, BlendState::Factor newAlphaBlendDest,
+                                           BlendState::Operation newAlphaOperation,
                                            uint8_t newColorMask)
         {
             if (!BlendStateResource::init(newEnableBlending,
