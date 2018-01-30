@@ -103,31 +103,37 @@ namespace ouzel
         for (uint32_t c : glyphs)
         {
             int w, h, xoff, yoff;
-            if (unsigned char* bitmap = stbtt_GetCodepointBitmap(&font, s, s, static_cast<int>(c), &w, &h, &xoff, &yoff))
+
+            if (int index = stbtt_FindGlyphIndex(&font, static_cast<int>(c)))
             {
                 int advance, leftBearing;
-                stbtt_GetCodepointHMetrics(&font, static_cast<int>(c), &advance, &leftBearing);
+                stbtt_GetGlyphHMetrics(&font, index, &advance, &leftBearing);
 
                 CharDescriptor charDesc;
-                charDesc.width = static_cast<uint16_t>(w);
-                charDesc.height = static_cast<uint16_t>(h);
-                charDesc.offset.x = static_cast<float>(leftBearing * s);
-                charDesc.offset.y = static_cast<float>(yoff + (ascent - descent) * s);
-                charDesc.advance = static_cast<float>(advance * s);
-                charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
-                charDesc.x = width;
 
-                width += static_cast<uint16_t>(w);
+                if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0f, 0.0f, index, &w, &h, &xoff, &yoff))
+                {
+                    charDesc.width = static_cast<uint16_t>(w);
+                    charDesc.height = static_cast<uint16_t>(h);
+                    charDesc.offset.x = static_cast<float>(leftBearing * s);
+                    charDesc.offset.y = static_cast<float>(yoff + (ascent - descent) * s);
+                    charDesc.bitmap = std::vector<uint8_t>(bitmap, bitmap + h * w);
+                    charDesc.x = width;
+
+                    width += static_cast<uint16_t>(w);
+                    height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
+
+                    stbtt_FreeBitmap(bitmap, nullptr);
+                }
+
+                charDesc.advance = static_cast<float>(advance * s);
 
                 if (!chars.empty())
                 {
                     width += SPACING;
                 }
-                height = height > static_cast<uint16_t>(h) ? height : static_cast<uint16_t>(h);
 
                 chars[c] = charDesc;
-
-                stbtt_FreeBitmap(bitmap, nullptr);
             }
         }
 
