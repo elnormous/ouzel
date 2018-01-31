@@ -16,7 +16,7 @@ namespace ouzel
     public:
         static const int32_t PRIORITY_MAX = 0x1000;
 
-        UpdateCallback(int32_t initPriority = 0): priority(initPriority) {}
+        explicit UpdateCallback(int32_t initPriority = 0): priority(initPriority) {}
         ~UpdateCallback();
 
         void remove();

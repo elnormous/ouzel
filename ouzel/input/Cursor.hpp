@@ -31,7 +31,7 @@ namespace ouzel
         {
         public:
             Cursor();
-            Cursor(SystemCursor systemCursor);
+            explicit Cursor(SystemCursor systemCursor);
             Cursor(const std::string& filename, const Vector2& hotSpot);
             virtual ~Cursor();
 

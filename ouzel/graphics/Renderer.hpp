@@ -120,7 +120,7 @@ namespace ouzel
                                 CullMode cullMode);
 
         protected:
-            Renderer(Driver driver);
+            explicit Renderer(Driver driver);
             bool init(Window* newWindow,
                       const Size2& newSize,
                       uint32_t newSampleCount,
