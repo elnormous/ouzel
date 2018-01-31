@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Size2.hpp"
 
