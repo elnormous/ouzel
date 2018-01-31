@@ -17,7 +17,7 @@ namespace ouzel
     public:
         static const int32_t PRIORITY_MAX = 0x1000;
 
-        EventHandler(int32_t initPriority = 0): priority(initPriority) {}
+        explicit EventHandler(int32_t initPriority = 0): priority(initPriority) {}
         ~EventHandler();
 
         void remove();
