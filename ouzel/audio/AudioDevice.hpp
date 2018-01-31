@@ -6,7 +6,6 @@
 #include <mutex>
 #include <queue>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "audio/Audio.hpp"
 
 namespace ouzel
@@ -16,11 +15,17 @@ namespace ouzel
         class ListenerResource;
         class MixerResource;
 
-        class AudioDevice: public Noncopyable
+        class AudioDevice
         {
             friend Audio;
         public:
             virtual ~AudioDevice();
+
+            AudioDevice(const AudioDevice&) = delete;
+            AudioDevice& operator=(const AudioDevice&) = delete;
+
+            AudioDevice(const AudioDevice&&) = delete;
+            AudioDevice& operator=(const AudioDevice&&) = delete;
 
             virtual bool process();
 

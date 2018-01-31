@@ -358,7 +358,6 @@
     <ClInclude Include="..\ouzel\utils\INI.hpp" />
     <ClInclude Include="..\ouzel\utils\JSON.hpp" />
     <ClInclude Include="..\ouzel\utils\Log.hpp" />
-    <ClInclude Include="..\ouzel\utils\Noncopyable.hpp" />
     <ClInclude Include="..\ouzel\utils\OBF.hpp" />
     <ClInclude Include="..\ouzel\utils\Utils.hpp" />
     <ClInclude Include="..\ouzel\utils\XML.hpp" />

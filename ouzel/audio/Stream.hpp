@@ -6,13 +6,12 @@
 #include <cstdint>
 #include <atomic>
 #include <mutex>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        class Stream: public Noncopyable
+        class Stream
         {
         public:
             class EventListener
@@ -25,6 +24,12 @@ namespace ouzel
 
             Stream();
             virtual ~Stream();
+
+            Stream(const Stream&) = delete;
+            Stream& operator=(const Stream&) = delete;
+
+            Stream(const Stream&&) = delete;
+            Stream& operator=(const Stream&&) = delete;
 
             virtual void reset();
 

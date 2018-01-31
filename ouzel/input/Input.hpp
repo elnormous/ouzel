@@ -7,7 +7,6 @@
 #include <mutex>
 #include <vector>
 #include <unordered_map>
-#include "utils/Noncopyable.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -217,13 +216,19 @@ namespace ouzel
 
         class Gamepad;
 
-        class Input: public Noncopyable
+        class Input
         {
             friend Engine;
             friend Cursor;
             friend CursorResource;
         public:
             virtual ~Input();
+
+            Input(const Input&) = delete;
+            Input& operator=(const Input&) = delete;
+
+            Input(const Input&&) = delete;
+            Input& operator=(const Input&&) = delete;
 
             template<class T>
             void setCursor(const std::unique_ptr<T>& cursor)

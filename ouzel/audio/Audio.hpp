@@ -8,7 +8,6 @@
 #include <memory>
 #include <set>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
@@ -21,7 +20,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio: public Noncopyable
+        class Audio
         {
             friend Engine;
         public:
@@ -67,6 +66,12 @@ namespace ouzel
             };
 
             ~Audio();
+
+            Audio(const Audio&) = delete;
+            Audio& operator=(const Audio&) = delete;
+
+            Audio(const Audio&&) = delete;
+            Audio& operator=(const Audio&&) = delete;
 
             static std::set<Audio::Driver> getAvailableAudioDrivers();
 

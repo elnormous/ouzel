@@ -6,7 +6,6 @@
 #include <vector>
 #include <unordered_map>
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 #include "math/Vector2.hpp"
 #include "events/EventHandler.hpp"
 
@@ -17,12 +16,18 @@ namespace ouzel
         class SceneManager;
         class Layer;
 
-        class Scene: public Noncopyable
+        class Scene
         {
             friend SceneManager;
         public:
             Scene();
             virtual ~Scene();
+
+            Scene(const Scene&) = delete;
+            Scene& operator=(const Scene&) = delete;
+
+            Scene(const Scene&&) = delete;
+            Scene& operator=(const Scene&&) = delete;
 
             virtual void draw();
 

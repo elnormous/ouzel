@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 #include <map>
-#include "utils/Noncopyable.hpp"
 #include "assets/LoaderBMF.hpp"
 #include "assets/LoaderCollada.hpp"
 #include "assets/LoaderImage.hpp"
@@ -33,11 +32,17 @@ namespace ouzel
     {
         class Loader;
 
-        class Cache: public Noncopyable
+        class Cache
         {
         public:
             Cache();
             ~Cache();
+
+            Cache(const Cache&) = delete;
+            Cache& operator=(const Cache&) = delete;
+
+            Cache(const Cache&&) = delete;
+            Cache& operator=(const Cache&&) = delete;
 
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);

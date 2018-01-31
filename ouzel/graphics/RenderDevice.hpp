@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "utils/Noncopyable.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/RenderResource.hpp"
@@ -22,7 +21,7 @@ namespace ouzel
         class ShaderResource;
         class TextureResource;
 
-        class RenderDevice: public Noncopyable
+        class RenderDevice
         {
             friend Renderer;
             friend BlendState;
@@ -32,6 +31,12 @@ namespace ouzel
             friend Texture;
         public:
             virtual ~RenderDevice();
+
+            RenderDevice(const RenderDevice&) = delete;
+            RenderDevice& operator=(const RenderDevice&) = delete;
+
+            RenderDevice(const RenderDevice&&) = delete;
+            RenderDevice& operator=(const RenderDevice&&) = delete;
 
             inline Renderer::Driver getDriver() const { return driver; }
 

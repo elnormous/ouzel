@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
@@ -28,13 +27,19 @@ namespace ouzel
             I_BEAM
         };
 
-        class Cursor: public Noncopyable
+        class Cursor
         {
         public:
             Cursor();
             Cursor(SystemCursor systemCursor);
             Cursor(const std::string& filename, const Vector2& hotSpot);
             virtual ~Cursor();
+
+            Cursor(const Cursor&) = delete;
+            Cursor& operator=(const Cursor&) = delete;
+
+            Cursor(const Cursor&&) = delete;
+            Cursor& operator=(const Cursor&&) = delete;
 
             bool init(SystemCursor systemCursor);
             bool init(const std::string& filename, const Vector2& hotSpot);

@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "math/Vector2.hpp"
 
 namespace ouzel
@@ -15,11 +14,17 @@ namespace ouzel
         class Actor;
         class Layer;
 
-        class ActorContainer: public Noncopyable
+        class ActorContainer
         {
         public:
             ActorContainer();
             virtual ~ActorContainer();
+
+            ActorContainer(const ActorContainer&) = delete;
+            ActorContainer& operator=(const ActorContainer&) = delete;
+
+            ActorContainer(const ActorContainer&&) = delete;
+            ActorContainer& operator=(const ActorContainer&&) = delete;
 
             void addChild(Actor* actor)
             {

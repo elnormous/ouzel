@@ -7,7 +7,6 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "graphics/DataType.hpp"
 #include "graphics/Vertex.hpp"
 
@@ -17,7 +16,7 @@ namespace ouzel
     {
         class ShaderResource;
 
-        class Shader: public Noncopyable
+        class Shader
         {
         public:
             struct ConstantInfo
@@ -32,6 +31,12 @@ namespace ouzel
 
             Shader();
             virtual ~Shader();
+
+            Shader(const Shader&) = delete;
+            Shader& operator=(const Shader&) = delete;
+
+            Shader(const Shader&&) = delete;
+            Shader& operator=(const Shader&&) = delete;
 
             bool init(const std::vector<uint8_t>& newPixelShader,
                       const std::vector<uint8_t>& newVertexShader,

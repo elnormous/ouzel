@@ -7,7 +7,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -16,12 +15,18 @@ namespace ouzel
         class Audio;
         class Stream;
 
-        class SoundData: public Noncopyable
+        class SoundData
         {
             friend Audio;
         public:
             SoundData();
             virtual ~SoundData();
+
+            SoundData(const SoundData&) = delete;
+            SoundData& operator=(const SoundData&) = delete;
+
+            SoundData(const SoundData&&) = delete;
+            SoundData& operator=(const SoundData&&) = delete;
 
             virtual bool init(const std::string& filename);
             virtual bool init(const std::vector<uint8_t>& newData);

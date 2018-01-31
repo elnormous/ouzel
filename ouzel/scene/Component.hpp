@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "math/Box3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Color.hpp"
@@ -20,7 +19,7 @@ namespace ouzel
         class Actor;
         class Layer;
 
-        class Component: public Noncopyable
+        class Component
         {
             friend Actor;
         public:
@@ -39,8 +38,14 @@ namespace ouzel
                 LIGHT = 10
             };
 
-            Component(uint32_t initType);
+            explicit Component(uint32_t initType);
             virtual ~Component();
+
+            Component(const Component&) = delete;
+            Component& operator=(const Component&) = delete;
+
+            Component(const Component&&) = delete;
+            Component& operator=(const Component&&) = delete;
 
             uint32_t getType() const { return type; }
 

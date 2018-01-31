@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "utils/Noncopyable.hpp"
 #include "audio/SoundInput.hpp"
 #include "audio/SoundOutput.hpp"
 
@@ -11,11 +10,17 @@ namespace ouzel
 {
     namespace audio
     {
-        class Mixer: public Noncopyable, public SoundInput, public SoundOutput
+        class Mixer: public SoundInput, public SoundOutput
         {
         public:
             Mixer();
             virtual ~Mixer();
+
+            Mixer(const Mixer&) = delete;
+            Mixer& operator=(const Mixer&) = delete;
+
+            Mixer(const Mixer&&) = delete;
+            Mixer& operator=(const Mixer&&) = delete;
 
             float getPitch() const { return pitch; }
             void setPitch(float newPitch) { pitch = newPitch; }
