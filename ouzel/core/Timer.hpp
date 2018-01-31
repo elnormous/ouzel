@@ -3,16 +3,22 @@
 
 #pragma once
 
-#include "utils/Noncopyable.hpp"
-
 namespace ouzel
 {
     class Engine;
 
-    class Timer: public Noncopyable
+    class Timer
     {
         friend Engine;
     public:
+        ~Timer() = default;
+
+        Timer(const Timer&) = delete;
+        Timer& operator=(const Timer&) = delete;
+
+        Timer(const Timer&&) = delete;
+        Timer& operator=(const Timer&&) = delete;
+
         void update(float delta);
 
     protected:

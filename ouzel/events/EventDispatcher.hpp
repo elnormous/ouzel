@@ -8,17 +8,22 @@
 #include <queue>
 #include <set>
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 #include "events/Event.hpp"
 #include "events/EventHandler.hpp"
 
 namespace ouzel
 {
-    class EventDispatcher: public Noncopyable
+    class EventDispatcher
     {
         friend Engine;
     public:
         virtual ~EventDispatcher();
+
+        EventDispatcher(const EventDispatcher&) = delete;
+        EventDispatcher& operator=(const EventDispatcher&) = delete;
+
+        EventDispatcher(const EventDispatcher&&) = delete;
+        EventDispatcher& operator=(const EventDispatcher&&) = delete;
 
         void dispatchEvents();
 

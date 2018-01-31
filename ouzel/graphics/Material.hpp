@@ -4,7 +4,6 @@
 #pragma once
 
 #include <memory>
-#include "utils/Noncopyable.hpp"
 #include "Renderer.hpp"
 #include "Texture.hpp"
 #include "math/Color.hpp"
@@ -17,9 +16,18 @@ namespace ouzel
         class Shader;
         class Texture;
 
-        class Material: public Noncopyable
+        class Material
         {
         public:
+            Material() = default;
+            ~Material() = default;
+
+            Material(const Material&) = delete;
+            Material& operator=(const Material&) = delete;
+
+            Material(const Material&&) = delete;
+            Material& operator=(const Material&&) = delete;
+
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;
             std::shared_ptr<Texture> textures[Texture::LAYERS];

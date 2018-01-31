@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -13,7 +12,7 @@ namespace ouzel
     {
         class BufferResource;
 
-        class Buffer: public Noncopyable
+        class Buffer
         {
         public:
             enum Flags
@@ -30,6 +29,12 @@ namespace ouzel
 
             Buffer();
             virtual ~Buffer();
+
+            Buffer(const Buffer&) = delete;
+            Buffer& operator=(const Buffer&) = delete;
+
+            Buffer(const Buffer&&) = delete;
+            Buffer& operator=(const Buffer&&) = delete;
 
             bool init(Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0);
             bool init(Usage newUsage, const void* newData, uint32_t newSize, uint32_t newFlags = 0);

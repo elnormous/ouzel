@@ -7,17 +7,24 @@
 #include <string>
 #include <vector>
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
     class Engine;
     class Archive;
 
-    class FileSystem: public Noncopyable
+    class FileSystem
     {
         friend Engine;
     public:
+        ~FileSystem() = default;
+
+        FileSystem(const FileSystem&) = delete;
+        FileSystem& operator=(const FileSystem&) = delete;
+
+        FileSystem(const FileSystem&&) = delete;
+        FileSystem& operator=(const FileSystem&&) = delete;
+
         static const std::string DIRECTORY_SEPARATOR;
 
         virtual std::string getStorageDirectory(bool user = true) const;

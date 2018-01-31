@@ -4,7 +4,6 @@
 #pragma once
 
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -12,7 +11,7 @@ namespace ouzel
     {
         class BlendStateResource;
 
-        class BlendState: public Noncopyable
+        class BlendState
         {
         public:
             enum class Factor
@@ -52,6 +51,12 @@ namespace ouzel
 
             BlendState();
             virtual ~BlendState();
+
+            BlendState(const BlendState&) = delete;
+            BlendState& operator=(const BlendState&) = delete;
+
+            BlendState(const BlendState&&) = delete;
+            BlendState& operator=(const BlendState&&) = delete;
 
             bool init(bool newEnableBlending,
                       Factor newColorBlendSource, Factor newColorBlendDest,

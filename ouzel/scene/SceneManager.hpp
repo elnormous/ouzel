@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -15,11 +14,17 @@ namespace ouzel
     {
         class Scene;
 
-        class SceneManager: public Noncopyable
+        class SceneManager
         {
             friend Engine;
         public:
             virtual ~SceneManager();
+
+            SceneManager(const SceneManager&) = delete;
+            SceneManager& operator=(const SceneManager&) = delete;
+
+            SceneManager(const SceneManager&&) = delete;
+            SceneManager& operator=(const SceneManager&&) = delete;
 
             void draw();
 
@@ -48,9 +53,9 @@ namespace ouzel
             Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
         protected:
+            SceneManager();
             virtual void addChildScene(Scene* scene);
             virtual bool removeChildScene(Scene* scene);
-            SceneManager();
 
             std::vector<Scene*> scenes;
             std::vector<std::unique_ptr<Scene>> ownedScenes;

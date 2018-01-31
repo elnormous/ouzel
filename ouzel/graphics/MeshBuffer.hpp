@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "graphics/Vertex.hpp"
 
 namespace ouzel
@@ -15,11 +14,17 @@ namespace ouzel
         class MeshBufferResource;
         class Buffer;
 
-        class MeshBuffer: public Noncopyable
+        class MeshBuffer
         {
         public:
             MeshBuffer();
             virtual ~MeshBuffer();
+
+            MeshBuffer(const MeshBuffer&) = delete;
+            MeshBuffer& operator=(const MeshBuffer&) = delete;
+
+            MeshBuffer(const MeshBuffer&&) = delete;
+            MeshBuffer& operator=(const MeshBuffer&&) = delete;
 
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
                       const std::shared_ptr<Buffer>& newVertexBuffer);

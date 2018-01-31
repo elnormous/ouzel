@@ -9,17 +9,23 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "math/Color.hpp"
 #include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
-    class Font: public Noncopyable
+    class Font
     {
     public:
+        Font() = default;
         virtual ~Font();
+
+        Font(const Font&) = delete;
+        Font& operator=(const Font&) = delete;
+
+        Font(const Font&&) = delete;
+        Font& operator=(const Font&&) = delete;
 
         virtual bool getVertices(const std::string& text,
                                  const Color& color,

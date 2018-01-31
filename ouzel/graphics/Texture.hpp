@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "math/Color.hpp"
 #include "math/Size2.hpp"
@@ -17,7 +16,7 @@ namespace ouzel
     {
         class TextureResource;
 
-        class Texture: public Noncopyable
+        class Texture
         {
         public:
             enum Flags
@@ -54,6 +53,12 @@ namespace ouzel
 
             Texture();
             virtual ~Texture();
+
+            Texture(const Texture&) = delete;
+            Texture& operator=(const Texture&) = delete;
+
+            Texture(const Texture&&) = delete;
+            Texture& operator=(const Texture&&) = delete;
 
             bool init(const Size2& newSize,
                       uint32_t newFlags = 0,

@@ -5,7 +5,6 @@
 
 #include <string>
 #include <vector>
-#include "utils/Noncopyable.hpp"
 
 namespace ouzel
 {
@@ -13,7 +12,7 @@ namespace ouzel
     {
         class Cache;
 
-        class Loader: public Noncopyable
+        class Loader
         {
             friend Cache;
         public:
@@ -32,6 +31,12 @@ namespace ouzel
 
             Loader(uint32_t initType, const std::vector<std::string>& initExtensions);
             virtual ~Loader();
+
+            Loader(const Loader&) = delete;
+            Loader& operator=(const Loader&) = delete;
+
+            Loader(const Loader&&) = delete;
+            Loader& operator=(const Loader&&) = delete;
 
             inline uint32_t getType() const { return type; }
 

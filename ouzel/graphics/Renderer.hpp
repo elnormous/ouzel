@@ -12,7 +12,6 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
-#include "utils/Noncopyable.hpp"
 #include "math/Rectangle.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
@@ -42,7 +41,7 @@ namespace ouzel
         class MeshBuffer;
         class Shader;
 
-        class Renderer: public Noncopyable
+        class Renderer
         {
             friend Engine;
             friend Window;
@@ -73,6 +72,12 @@ namespace ouzel
             };
 
             ~Renderer();
+
+            Renderer(const Renderer&) = delete;
+            Renderer& operator=(const Renderer&) = delete;
+
+            Renderer(const Renderer&&) = delete;
+            Renderer& operator=(const Renderer&&) = delete;
 
             static std::set<Driver> getAvailableRenderDrivers();
 

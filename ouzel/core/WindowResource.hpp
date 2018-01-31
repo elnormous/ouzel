@@ -5,12 +5,11 @@
 
 #include <string>
 #include <mutex>
-#include "utils/Noncopyable.hpp"
 #include "math/Size2.hpp"
 
 namespace ouzel
 {
-    class WindowResource: public Noncopyable
+    class WindowResource
     {
     public:
         class Listener
@@ -24,7 +23,14 @@ namespace ouzel
             virtual void onClose() = 0;
         };
 
+        WindowResource() = default;
         virtual ~WindowResource() {}
+
+        WindowResource(const WindowResource&) = delete;
+        WindowResource& operator=(const WindowResource&) = delete;
+
+        WindowResource(const WindowResource&&) = delete;
+        WindowResource& operator=(const WindowResource&&) = delete;
 
         virtual bool init(const Size2& newSize,
                           bool newResizable,

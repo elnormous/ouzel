@@ -11,7 +11,6 @@
 #include <atomic>
 #include <chrono>
 #include "Setup.h"
-#include "utils/Noncopyable.hpp"
 #include "core/UpdateCallback.hpp"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
@@ -31,11 +30,17 @@ namespace ouzel
 {
     class Window;
 
-    class Engine: public Noncopyable
+    class Engine
     {
     public:
         Engine();
         virtual ~Engine();
+
+        Engine(const Engine&) = delete;
+        Engine& operator=(const Engine&) = delete;
+
+        Engine(const Engine&&) = delete;
+        Engine& operator=(const Engine&&) = delete;
 
         bool init();
 

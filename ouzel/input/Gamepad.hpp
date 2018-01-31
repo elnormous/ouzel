@@ -4,14 +4,13 @@
 #pragma once
 
 #include <cstdint>
-#include "utils/Noncopyable.hpp"
 #include "events/Event.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class Gamepad: public Noncopyable
+        class Gamepad
         {
         public:
             enum class Motor
@@ -28,6 +27,12 @@ namespace ouzel
             };
 
             virtual ~Gamepad();
+
+            Gamepad(const Gamepad&) = delete;
+            Gamepad& operator=(const Gamepad&) = delete;
+
+            Gamepad(const Gamepad&&) = delete;
+            Gamepad& operator=(const Gamepad&&) = delete;
 
             const std::string& getName() const { return name; }
             int32_t getVendorId() const { return vendorId; }

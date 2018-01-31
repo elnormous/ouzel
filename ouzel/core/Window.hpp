@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include "utils/Noncopyable.hpp"
 #include "core/WindowResource.hpp"
 #include "math/Size2.hpp"
 #include "events/EventHandler.hpp"
@@ -13,11 +12,17 @@ namespace ouzel
 {
     class Engine;
 
-    class Window: public Noncopyable, public WindowResource::Listener
+    class Window: public WindowResource::Listener
     {
         friend Engine;
     public:
         virtual ~Window();
+
+        Window(const Window&) = delete;
+        Window& operator=(const Window&) = delete;
+
+        Window(const Window&&) = delete;
+        Window& operator=(const Window&&) = delete;
 
         WindowResource* getResource() const { return resource; }
 
