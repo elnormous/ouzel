@@ -57,15 +57,20 @@ namespace ouzel
 
         void negate()
         {
-            m[0] = -m[0];
-            m[1] = -m[1];
-            m[2] = -m[2];
-            m[3] = -m[3];
-            m[4] = -m[4];
-            m[5] = -m[5];
-            m[6] = -m[6];
-            m[7] = -m[7];
-            m[8] = -m[8];
+            negate(*this);
+        }
+
+        void negate(Matrix3& dst) const
+        {
+            dst.m[0] = -dst.m[0];
+            dst.m[1] = -dst.m[1];
+            dst.m[2] = -dst.m[2];
+            dst.m[3] = -dst.m[3];
+            dst.m[4] = -dst.m[4];
+            dst.m[5] = -dst.m[5];
+            dst.m[6] = -dst.m[6];
+            dst.m[7] = -dst.m[7];
+            dst.m[8] = -dst.m[8];
         }
 
         void rotate(float angle);
@@ -133,7 +138,7 @@ namespace ouzel
         inline Matrix3 operator+(const Matrix3& matrix) const
         {
             Matrix3 result(*this);
-            result.add(matrix);
+            add(result, matrix, result);
             return result;
         }
 
@@ -146,7 +151,7 @@ namespace ouzel
         inline Matrix3 operator-(const Matrix3& matrix) const
         {
             Matrix3 result(*this);
-            result.subtract(matrix);
+            subtract(result, matrix, result);
             return result;
         }
 
@@ -159,14 +164,14 @@ namespace ouzel
         inline Matrix3 operator-() const
         {
             Matrix3 result(*this);
-            result.negate();
+            negate(result);
             return result;
         }
 
         inline Matrix3 operator*(const Matrix3& matrix) const
         {
             Matrix3 result(*this);
-            result.multiply(matrix);
+            multiply(result, matrix, result);
             return result;
         }
 
