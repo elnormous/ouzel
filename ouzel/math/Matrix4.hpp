@@ -209,7 +209,7 @@ namespace ouzel
         inline Matrix4 operator+(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
-            result.add(matrix);
+            add(result, matrix, result);
             return result;
         }
 
@@ -222,7 +222,7 @@ namespace ouzel
         inline Matrix4 operator-(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
-            result.subtract(matrix);
+            subtract(result, matrix, result);
             return result;
         }
 
@@ -235,14 +235,14 @@ namespace ouzel
         inline Matrix4 operator-() const
         {
             Matrix4 result(*this);
-            result.negate();
+            negate(result);
             return result;
         }
 
         inline Matrix4 operator*(const Matrix4& matrix) const
         {
             Matrix4 result(*this);
-            result.multiply(matrix);
+            multiply(result, matrix, result);
             return result;
         }
 
