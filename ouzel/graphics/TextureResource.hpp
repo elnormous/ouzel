@@ -39,42 +39,42 @@ namespace ouzel
                               PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
             virtual bool setSize(const Size2& newSize);
-            const Size2& getSize() const { return size; }
+            inline const Size2& getSize() const { return size; }
 
             virtual bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            uint32_t getFlags() const { return flags; }
-            uint32_t getMipmaps() const { return mipmaps; }
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getMipmaps() const { return mipmaps; }
 
-            Texture::Filter getFilter() const { return filter; }
+            inline Texture::Filter getFilter() const { return filter; }
             virtual bool setFilter(Texture::Filter newFilter);
 
-            Texture::Address getAddressX() const { return addressX; }
+            inline Texture::Address getAddressX() const { return addressX; }
             virtual bool setAddressX(Texture::Address newAddressX);
 
-            Texture::Address getAddressY() const { return addressY; }
+            inline Texture::Address getAddressY() const { return addressY; }
             virtual bool setAddressY(Texture::Address newAddressY);
 
-            uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             virtual bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
             virtual bool setClearColorBuffer(bool clear);
 
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
             virtual bool setClearDepthBuffer(bool clear);
 
-            Color getClearColor() const { return clearColor; }
+            inline Color getClearColor() const { return clearColor; }
             virtual bool setClearColor(Color color);
 
-            float getClearDepth() const { return clearDepth; }
+            inline float getClearDepth() const { return clearDepth; }
             virtual bool setClearDepth(float clear);
 
-            uint32_t getSampleCount() const { return sampleCount; }
+            inline uint32_t getSampleCount() const { return sampleCount; }
 
-            PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
+            inline uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
             void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
 
         protected:

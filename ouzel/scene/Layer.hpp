@@ -27,16 +27,16 @@ namespace ouzel
 
             virtual void draw();
 
-            const std::vector<Camera*>& getCameras() const { return cameras; }
+            inline const std::vector<Camera*>& getCameras() const { return cameras; }
 
             std::pair<Actor*, ouzel::Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
             std::vector<std::pair<Actor*, ouzel::Vector3>> pickActors(const Vector2& position, bool renderTargets = false) const;
             std::vector<Actor*> pickActors(const std::vector<Vector2>& edges, bool renderTargets = false) const;
 
-            int32_t getOrder() const { return order; }
+            inline int32_t getOrder() const { return order; }
             void setOrder(int32_t newOrder);
 
-            Scene* getScene() const { return scene; }
+            inline Scene* getScene() const { return scene; }
             void removeFromScene();
 
         protected:

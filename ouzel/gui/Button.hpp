@@ -33,11 +33,11 @@ namespace ouzel
 
             virtual void setEnabled(bool newEnabled) override;
 
-            scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
-            scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
-            scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
-            scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
-            scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
+            inline scene::Sprite* getNormalSprite() const { return normalSprite.get(); }
+            inline scene::Sprite* getSelectedSprite() const { return selectedSprite.get(); }
+            inline scene::Sprite* getPressedSprite() const { return pressedSprite.get(); }
+            inline scene::Sprite* getDisabledSprite() const { return disabledSprite.get(); }
+            inline scene::TextRenderer* getLabelDrawable() const { return labelDrawable.get(); }
 
         protected:
             virtual void setSelected(bool newSelected) override;

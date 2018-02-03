@@ -51,10 +51,10 @@ namespace ouzel
                 DataType dataType;
             };
 
-            const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
-            const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+            inline const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            GLuint getProgramId() const { return programId; }
+            inline GLuint getProgramId() const { return programId; }
 
         protected:
             bool compileShader();

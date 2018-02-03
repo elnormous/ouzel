@@ -20,7 +20,7 @@ namespace ouzel
             virtual ~StreamVorbis();
             virtual void reset() override;
 
-            stb_vorbis* getVorbisStream() const { return vorbisStream; }
+            inline stb_vorbis* getVorbisStream() const { return vorbisStream; }
 
         private:
             stb_vorbis* vorbisStream = nullptr;

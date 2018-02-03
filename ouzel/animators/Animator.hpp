@@ -33,13 +33,13 @@ namespace ouzel
             bool isRunning() const { return running; }
             bool isDone() const { return done; }
 
-            float getLength() const { return length; }
-            float getCurrentTime() const { return currentTime; }
+            inline float getLength() const { return length; }
+            inline float getCurrentTime() const { return currentTime; }
 
-            float getProgress() const { return progress; }
+            inline float getProgress() const { return progress; }
             virtual void setProgress(float newProgress);
 
-            Actor* getTargetActor() const { return targetActor; }
+            inline Actor* getTargetActor() const { return targetActor; }
 
             void addAnimator(Animator* animator)
             {
@@ -65,7 +65,7 @@ namespace ouzel
             }
             void removeAllAnimators();
 
-            Animator* getParent() const { return parent; }
+            inline Animator* getParent() const { return parent; }
             void removeFromParent();
 
         protected:

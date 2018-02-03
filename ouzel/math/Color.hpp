@@ -79,7 +79,7 @@ namespace ouzel
         float normB() const { return b / 255.0f; }
         float normA() const { return a / 255.0f; }
 
-        uint32_t getIntValue() const
+        inline uint32_t getIntValue() const
         {
             return (static_cast<uint32_t>(r) << 24) |
                    (static_cast<uint32_t>(g) << 16) |

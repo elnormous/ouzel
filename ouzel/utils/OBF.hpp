@@ -75,7 +75,7 @@ namespace ouzel
             Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), objectValue(value) {}
             Value(const std::vector<Value>& value): type(Type::ARRAY), arrayValue(value) {}
 
-            Value& operator=(Type newType)
+            inline Value& operator=(Type newType)
             {
                 type = newType;
 
@@ -110,7 +110,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(uint8_t value)
+            inline Value& operator=(uint8_t value)
             {
                 type = Type::INT;
                 intValue = value;
@@ -118,7 +118,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(uint16_t value)
+            inline Value& operator=(uint16_t value)
             {
                 type = Type::INT;
                 intValue = value;
@@ -126,7 +126,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(uint32_t value)
+            inline Value& operator=(uint32_t value)
             {
                 type = Type::INT;
                 intValue = value;
@@ -134,7 +134,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(uint64_t value)
+            inline Value& operator=(uint64_t value)
             {
                 type = Type::INT;
                 intValue = value;
@@ -142,7 +142,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(float value)
+            inline Value& operator=(float value)
             {
                 type = Type::FLOAT;
                 doubleValue = value;
@@ -150,7 +150,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(double value)
+            inline Value& operator=(double value)
             {
                 type = Type::DOUBLE;
                 doubleValue = value;
@@ -158,7 +158,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(const std::string& value)
+            inline Value& operator=(const std::string& value)
             {
                 type = Type::STRING;
                 stringValue = value;
@@ -166,7 +166,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(const std::vector<uint8_t>& value)
+            inline Value& operator=(const std::vector<uint8_t>& value)
             {
                 type = Type::BYTE_ARRAY;
                 byteArrayValue = value;
@@ -174,7 +174,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(const std::map<uint32_t, Value>& value)
+            inline Value& operator=(const std::map<uint32_t, Value>& value)
             {
                 type = Type::OBJECT;
                 objectValue = value;
@@ -182,7 +182,7 @@ namespace ouzel
                 return *this;
             }
 
-            Value& operator=(const std::vector<Value>& value)
+            inline Value& operator=(const std::vector<Value>& value)
             {
                 type = Type::ARRAY;
                 arrayValue = value;
@@ -190,15 +190,15 @@ namespace ouzel
                 return *this;
             }
 
-            Type getType() const { return type; }
-            bool isIntType() const { return type == Type::INT; }
-            bool isFloatType() const { return type == Type::FLOAT || type == Type::DOUBLE; }
-            bool isStringType() const { return type == Type::STRING; }
+            inline Type getType() const { return type; }
+            inline bool isIntType() const { return type == Type::INT; }
+            inline bool isFloatType() const { return type == Type::FLOAT || type == Type::DOUBLE; }
+            inline bool isStringType() const { return type == Type::STRING; }
 
             uint32_t decode(const std::vector<uint8_t>& buffer, uint32_t offset = 0);
             uint32_t encode(std::vector<uint8_t>& buffer) const;
 
-            bool operator!()
+            inline bool operator!()
             {
                 switch (type)
                 {
@@ -218,147 +218,147 @@ namespace ouzel
                 }
             }
 
-            int8_t asInt8() const
+            inline int8_t asInt8() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<int8_t>(intValue);
             }
 
-            uint8_t asUInt8() const
+            inline uint8_t asUInt8() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<uint8_t>(intValue);
             }
 
-            int16_t asInt16() const
+            inline int16_t asInt16() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<int16_t>(intValue);
             }
 
-            uint16_t asUInt16() const
+            inline uint16_t asUInt16() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<uint16_t>(intValue);
             }
 
-            int32_t asInt32() const
+            inline int32_t asInt32() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<int32_t>(intValue);
             }
 
-            uint32_t asUInt32() const
+            inline uint32_t asUInt32() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<uint32_t>(intValue);
             }
 
-            int64_t asInt64() const
+            inline int64_t asInt64() const
             {
                 assert(type == Type::INT);
 
                 return static_cast<int64_t>(intValue);
             }
 
-            uint64_t asUInt64() const
+            inline uint64_t asUInt64() const
             {
                 assert(type == Type::INT);
 
                 return intValue;
             }
 
-            float asFloat() const
+            inline float asFloat() const
             {
                 assert(type == Type::FLOAT || type == Type::DOUBLE);
 
                 return static_cast<float>(doubleValue);
             }
 
-            double asDouble() const
+            inline double asDouble() const
             {
                 assert(type == Type::FLOAT || type == Type::DOUBLE);
 
                 return doubleValue;
             }
 
-            const std::string& asString() const
+            inline const std::string& asString() const
             {
                 assert(type == Type::STRING);
 
                 return stringValue;
             }
 
-            const std::vector<uint8_t>& asByteArray() const
+            inline const std::vector<uint8_t>& asByteArray() const
             {
                 assert(type == Type::BYTE_ARRAY);
 
                 return byteArrayValue;
             }
 
-            const std::map<uint32_t, Value>& asMap() const
+            inline const std::map<uint32_t, Value>& asMap() const
             {
                 assert(type == Type::OBJECT);
 
                 return objectValue;
             }
 
-            const std::vector<Value>& asVector() const
+            inline const std::vector<Value>& asVector() const
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue;
             }
 
-            const std::map<std::string, Value>& asDictionary() const
+            inline const std::map<std::string, Value>& asDictionary() const
             {
                 assert(type == Type::DICTIONARY);
 
                 return dictionaryValue;
             }
 
-            std::vector<Value>::iterator begin()
+            inline std::vector<Value>::iterator begin()
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.begin();
             }
 
-            std::vector<Value>::const_iterator begin() const
+            inline std::vector<Value>::const_iterator begin() const
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.begin();
             }
 
-            std::vector<Value>::iterator end()
+            inline std::vector<Value>::iterator end()
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.end();
             }
 
-            std::vector<Value>::const_iterator end() const
+            inline std::vector<Value>::const_iterator end() const
             {
                 assert(type == Type::ARRAY);
 
                 return arrayValue.end();
             }
 
-            uint32_t getSize() const
+            inline uint32_t getSize() const
             {
                 assert(type == Type::ARRAY);
 
                 return static_cast<uint32_t>(arrayValue.size());
             }
 
-            Value operator[](uint32_t key) const
+            inline Value operator[](uint32_t key) const
             {
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
@@ -382,7 +382,7 @@ namespace ouzel
                 return Value();
             }
 
-            Value& operator[](uint32_t key)
+            inline Value& operator[](uint32_t key)
             {
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
@@ -398,7 +398,7 @@ namespace ouzel
                 }
             }
 
-            Value operator[](const std::string& key) const
+            inline Value operator[](const std::string& key) const
             {
                 assert(type == Type::DICTIONARY);
 
@@ -412,14 +412,14 @@ namespace ouzel
                 return Value();
             }
 
-            Value& operator[](const std::string& key)
+            inline Value& operator[](const std::string& key)
             {
                 assert(type == Type::DICTIONARY);
 
                 return dictionaryValue[key];
             }
 
-            bool hasElement(uint32_t key) const
+            inline bool hasElement(uint32_t key) const
             {
                 assert(type == Type::OBJECT || type == Type::ARRAY);
 
@@ -437,14 +437,14 @@ namespace ouzel
                 }
             }
 
-            bool hasElement(const std::string& key) const
+            inline bool hasElement(const std::string& key) const
             {
                 assert(type == Type::DICTIONARY);
 
                 return dictionaryValue.find(key) != dictionaryValue.end();
             }
 
-            void append(const Value& node)
+            inline void append(const Value& node)
             {
                 arrayValue.push_back(node);
             }

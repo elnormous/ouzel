@@ -65,16 +65,18 @@ namespace ouzel
                       Operation newAlphaOperation,
                       uint8_t newColorMask = COLOR_MASK_ALL);
 
-            BlendStateResource* getResource() const { return resource; }
+            inline BlendStateResource* getResource() const { return resource; }
 
-            bool isBlendingEnabled() const;
-            Factor getColorBlendSource() const;
-            Factor getColorBlendDest() const;
-            Operation getColorOperation() const;
-            Factor getAlphaBlendSource() const;
-            Factor getAlphaBlendDest() const;
-            Operation getAlphaOperation() const;
-            uint8_t getColorMask() const;
+            inline bool isBlendingEnabled() const { return enableBlending; }
+
+            inline BlendState::Factor getColorBlendSource() const { return colorBlendSource; }
+            inline BlendState::Factor getColorBlendDest() const { return colorBlendDest; }
+            inline BlendState::Operation getColorOperation() const { return colorOperation; }
+            inline BlendState::Factor getAlphaBlendSource() const { return alphaBlendSource; }
+            inline BlendState::Factor getAlphaBlendDest() const { return alphaBlendDest; }
+            inline BlendState::Operation getAlphaOperation() const { return alphaOperation; }
+
+            inline uint8_t getColorMask() const { return colorMask; }
 
         private:
             BlendStateResource* resource = nullptr;

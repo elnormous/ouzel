@@ -43,10 +43,10 @@ namespace ouzel
             bool setData(const void* newData, uint32_t newSize);
             bool setData(const std::vector<uint8_t>& newData);
 
-            BufferResource* getResource() const { return resource; }
+            inline BufferResource* getResource() const { return resource; }
 
-            uint32_t getFlags() const { return flags; }
-            Usage getUsage() const { return usage; }
+            inline uint32_t getFlags() const { return flags; }
+            inline Usage getUsage() const { return usage; }
 
         private:
             BufferResource* resource = nullptr;

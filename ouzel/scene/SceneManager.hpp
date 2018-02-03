@@ -50,7 +50,7 @@ namespace ouzel
             {
                 return removeChildScene(scene.get());
             }
-            Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
+            inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
         protected:
             SceneManager();

@@ -15,8 +15,8 @@ namespace ouzel
         public:
             virtual void reset() override;
 
-            uint32_t getOffset() const { return offset; }
-            void setOffset(uint32_t newOffset) { offset = newOffset; }
+            inline uint32_t getOffset() const { return offset; }
+            inline void setOffset(uint32_t newOffset) { offset = newOffset; }
 
         private:
             uint32_t offset = 0;

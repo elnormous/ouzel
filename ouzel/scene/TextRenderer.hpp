@@ -40,25 +40,25 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual void setFont(const std::string& fontFile);
+            void setFont(const std::string& fontFile);
 
-            virtual void setFontSize(float newFontSize);
-            virtual float getFontSize() const { return fontSize; }
+            inline float getFontSize() const { return fontSize; }
+            void setFontSize(float newFontSize);
 
-            virtual void setTextAnchor(const Vector2& newTextAnchor);
-            virtual const Vector2& getTextAnchor() const { return textAnchor; }
+            inline const Vector2& getTextAnchor() const { return textAnchor; }
+            void setTextAnchor(const Vector2& newTextAnchor);
 
-            virtual void setText(const std::string& newText);
-            virtual const std::string& getText() const { return text; }
+            inline const std::string& getText() const { return text; }
+            void setText(const std::string& newText);
 
-            virtual const Color& getColor() const { return color; }
-            virtual void setColor(const Color& newColor);
+            inline const Color& getColor() const { return color; }
+            void setColor(const Color& newColor);
 
-            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
-            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
+            inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
+            inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
+            inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
+            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
         protected:
             void updateText();

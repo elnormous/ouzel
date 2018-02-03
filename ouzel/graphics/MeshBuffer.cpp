@@ -41,11 +41,6 @@ namespace ouzel
             return true;
         }
 
-        uint32_t MeshBuffer::getIndexSize() const
-        {
-            return indexSize;
-        }
-
         bool MeshBuffer::setIndexSize(uint32_t newIndexSize)
         {
             indexSize = newIndexSize;

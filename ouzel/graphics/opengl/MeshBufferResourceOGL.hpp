@@ -47,12 +47,12 @@ namespace ouzel
 
             bool bindBuffers();
 
-            GLenum getIndexType() const { return indexType; }
-            GLuint getBytesPerIndex() const { return bytesPerIndex; }
-            GLuint getVertexArrayId() const { return vertexArrayId; }
+            inline GLenum getIndexType() const { return indexType; }
+            inline GLuint getBytesPerIndex() const { return bytesPerIndex; }
+            inline GLuint getVertexArrayId() const { return vertexArrayId; }
 
-            BufferResourceOGL* getIndexBufferOGL() const { return indexBufferOGL; }
-            BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
+            inline BufferResourceOGL* getIndexBufferOGL() const { return indexBufferOGL; }
+            inline BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         protected:
             bool createVertexArray();

@@ -63,18 +63,18 @@ namespace ouzel
             virtual bool setClearColor(Color color) override;
             virtual bool setClearDepth(float clear) override;
 
-            MTLTexturePtr getTexture() const { return texture; }
-            MTLPixelFormat getColorFormat() const { return colorFormat; }
-            MTLPixelFormat getDepthFormat() const { return depthFormat; }
+            inline MTLTexturePtr getTexture() const { return texture; }
+            inline MTLPixelFormat getColorFormat() const { return colorFormat; }
+            inline MTLPixelFormat getDepthFormat() const { return depthFormat; }
 
-            MTLSamplerStatePtr getSamplerState() const { return samplerState; }
-            MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
+            inline MTLSamplerStatePtr getSamplerState() const { return samplerState; }
+            inline MTLRenderPassDescriptorPtr getRenderPassDescriptor() const { return renderPassDescriptor; }
 
-            NSUInteger getWidth() const { return width; }
-            NSUInteger getHeight() const { return height; }
+            inline NSUInteger getWidth() const { return width; }
+            inline NSUInteger getHeight() const { return height; }
 
-            MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
-            MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
+            inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
+            inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
         protected:
             bool createTexture();

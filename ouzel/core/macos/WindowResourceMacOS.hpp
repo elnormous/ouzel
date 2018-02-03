@@ -45,10 +45,10 @@ namespace ouzel
         void handleScaleFactorChange();
         void handleScreenChange();
 
-        NSWindowPtr getNativeWindow() const { return window; }
-        NSViewPtr getNativeView() const { return view; }
-        NSScreenPtr getScreen() const { return screen; }
-        CGDirectDisplayID getDisplayId() const { return displayId; }
+        inline NSWindowPtr getNativeWindow() const { return window; }
+        inline NSViewPtr getNativeView() const { return view; }
+        inline NSScreenPtr getScreen() const { return screen; }
+        inline CGDirectDisplayID getDisplayId() const { return displayId; }
 
     protected:
         WindowResourceMacOS();

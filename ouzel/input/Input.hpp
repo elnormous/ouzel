@@ -247,7 +247,7 @@ namespace ouzel
             virtual void setCursorLocked(bool locked);
             virtual bool isCursorLocked() const;
 
-            const Vector2& getCursorPosition() const { return cursorPosition; }
+            inline const Vector2& getCursorPosition() const { return cursorPosition; }
             virtual void setCursorPosition(const Vector2& position);
 
             virtual void startGamepadDiscovery();

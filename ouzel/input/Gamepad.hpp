@@ -34,10 +34,10 @@ namespace ouzel
             Gamepad(const Gamepad&&) = delete;
             Gamepad& operator=(const Gamepad&&) = delete;
 
-            const std::string& getName() const { return name; }
-            int32_t getVendorId() const { return vendorId; }
-            int32_t getProductId() const { return productId; }
-            bool isAttached() const { return attached; }
+            inline const std::string& getName() const { return name; }
+            inline int32_t getVendorId() const { return vendorId; }
+            inline int32_t getProductId() const { return productId; }
+            inline bool isAttached() const { return attached; }
 
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues);
             virtual bool isAbsoluteDpadValues() const;

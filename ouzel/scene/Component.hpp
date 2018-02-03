@@ -47,7 +47,7 @@ namespace ouzel
             Component(const Component&&) = delete;
             Component& operator=(const Component&&) = delete;
 
-            uint32_t getType() const { return type; }
+            inline uint32_t getType() const { return type; }
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
@@ -69,7 +69,7 @@ namespace ouzel
             bool isHidden() const { return hidden; }
             void setHidden(bool newHidden) { hidden = newHidden; }
 
-            Actor* getActor() const { return actor; }
+            inline Actor* getActor() const { return actor; }
             void removeFromActor();
 
         protected:

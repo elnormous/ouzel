@@ -58,7 +58,7 @@ namespace ouzel
             virtual bool hasChild(Actor* actor, bool recursive = false) const;
             virtual const std::vector<Actor*>& getChildren() const { return children; }
 
-            Layer* getLayer() const { return layer; }
+            inline Layer* getLayer() const { return layer; }
 
             virtual void findActors(const Vector2& position, std::vector<std::pair<Actor*, Vector3>>& actors) const;
             virtual void findActors(const std::vector<Vector2>& edges, std::vector<Actor*>& actors) const;

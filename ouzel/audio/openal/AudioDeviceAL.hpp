@@ -38,8 +38,8 @@ namespace ouzel
 
             virtual bool process() override;
 
-            ALCdevice* getDevice() const { return device; }
-            ALCcontext* getContext() const { return context; }
+            inline ALCdevice* getDevice() const { return device; }
+            inline ALCcontext* getContext() const { return context; }
 
         protected:
             AudioDeviceAL();

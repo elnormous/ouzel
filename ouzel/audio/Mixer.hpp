@@ -22,14 +22,14 @@ namespace ouzel
             Mixer(const Mixer&&) = delete;
             Mixer& operator=(const Mixer&&) = delete;
 
-            float getPitch() const { return pitch; }
-            void setPitch(float newPitch) { pitch = newPitch; }
+            inline float getPitch() const { return pitch; }
+            inline void setPitch(float newPitch) { pitch = newPitch; }
 
-            float getGain() const { return gain; }
-            void setGain(float newGain) { gain = newGain; }
+            inline float getGain() const { return gain; }
+            inline void setGain(float newGain) { gain = newGain; }
 
-            float getRolloffScale() const { return rolloffScale; }
-            void setRolloffScale(float newRolloffScale) { rolloffScale = newRolloffScale; }
+            inline float getRolloffScale() const { return rolloffScale; }
+            inline void setRolloffScale(float newRolloffScale) { rolloffScale = newRolloffScale; }
 
             virtual void addRenderCommands(std::vector<AudioDevice::RenderCommand>& renderCommands) override;
 

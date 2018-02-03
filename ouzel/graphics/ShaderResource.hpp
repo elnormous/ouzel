@@ -34,10 +34,10 @@ namespace ouzel
                               const std::string& newPixelShaderFunction = "",
                               const std::string& newVertexShaderFunction = "");
 
-            const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
+            inline const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const { return vertexAttributes; }
 
-            uint32_t getPixelShaderAlignment() const { return pixelShaderAlignment; }
-            uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
+            inline uint32_t getPixelShaderAlignment() const { return pixelShaderAlignment; }
+            inline uint32_t getVertexShaderAlignment() const { return vertexShaderAlignment; }
 
         protected:
             ShaderResource();

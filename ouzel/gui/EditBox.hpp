@@ -16,7 +16,7 @@ namespace ouzel
             EditBox();
 
             void setValue(const std::string& newValue);
-            const std::string& getValue() const { return value; }
+            inline const std::string& getValue() const { return value; }
 
         protected:
             std::string value;

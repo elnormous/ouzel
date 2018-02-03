@@ -67,7 +67,7 @@ namespace ouzel
             virtual void setClearColor(Color color) override;
             virtual void setClearDepth(float newClearDepth) override;
 
-            MTLDevicePtr getDevice() const { return device; }
+            inline MTLDevicePtr getDevice() const { return device; }
 
             struct SamplerStateDescriptor
             {

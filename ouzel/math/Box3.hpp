@@ -37,7 +37,7 @@ namespace ouzel
         Box3(const Box2& box);
         Box3& operator=(const Box2& box);
 
-        Vector3 getCenter()
+        inline Vector3 getCenter()
         {
             return Vector3(0.5f * (min.x + max.x),
                            0.5f * (min.y + max.y),

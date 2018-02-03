@@ -54,64 +54,64 @@ namespace ouzel
             Value(const std::string& str): type(Type::STRING), stringValue(str) {}
             Value(bool val): type(Type::BOOLEAN), boolValue(val) {}
 
-            Value& operator=(Type newType)
+            inline Value& operator=(Type newType)
             {
                 type = newType;
                 return *this;
             }
 
-            Value& operator=(double val)
+            inline Value& operator=(double val)
             {
                 type = Type::NUMBER;
                 doubleValue = val;
                 return *this;
             }
 
-            Value& operator=(int32_t val)
+            inline Value& operator=(int32_t val)
             {
                 type = Type::NUMBER;
                 doubleValue = static_cast<double>(val);
                 return *this;
             }
 
-            Value& operator=(uint32_t val)
+            inline Value& operator=(uint32_t val)
             {
                 type = Type::NUMBER;
                 doubleValue = static_cast<double>(val);
                 return *this;
             }
 
-            Value& operator=(int64_t val)
+            inline Value& operator=(int64_t val)
             {
                 type = Type::NUMBER;
                 doubleValue = static_cast<double>(val);
                 return *this;
             }
 
-            Value& operator=(uint64_t val)
+            inline Value& operator=(uint64_t val)
             {
                 type = Type::NUMBER;
                 doubleValue = static_cast<double>(val);
                 return *this;
             }
 
-            Value& operator=(const std::string& str)
+            inline Value& operator=(const std::string& str)
             {
                 type = Type::STRING;
                 stringValue = str;
                 return *this;
             }
 
-            Value& operator=(bool val)
+            inline Value& operator=(bool val)
             {
                 type = Type::BOOLEAN;
                 boolValue = val;
                 return *this;
             }
 
-            Type getType() const { return type; }
+            inline Type getType() const { return type; }
 
-            bool asBool() const
+            inline bool asBool() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -119,7 +119,7 @@ namespace ouzel
                 else return false;
             }
 
-            float asFloat() const
+            inline float asFloat() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -127,7 +127,7 @@ namespace ouzel
                 else return 0.0f;
             }
 
-            double asDouble() const
+            inline double asDouble() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -135,7 +135,7 @@ namespace ouzel
                 else return 0.0;
             }
 
-            int32_t asInt32() const
+            inline int32_t asInt32() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -143,7 +143,7 @@ namespace ouzel
                 else return 0;
             }
 
-            uint32_t asUInt32() const
+            inline uint32_t asUInt32() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -151,7 +151,7 @@ namespace ouzel
                 else return 0;
             }
 
-            int64_t asInt64() const
+            inline int64_t asInt64() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -159,7 +159,7 @@ namespace ouzel
                 else return 0;
             }
 
-            uint64_t asUInt64() const
+            inline uint64_t asUInt64() const
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
@@ -167,36 +167,36 @@ namespace ouzel
                 else return 0;
             }
 
-            const std::string& asString() const
+            inline const std::string& asString() const
             {
                 assert(type == Type::STRING);
                 return stringValue;
             }
 
-            bool isNull() const
+            inline bool isNull() const
             {
                 assert(type == Type::OBJECT);
                 return nullValue;
             }
 
-            void setNull(bool val)
+            inline void setNull(bool val)
             {
                 nullValue = val;
             }
 
-            bool hasMember(const std::string& member) const
+            inline bool hasMember(const std::string& member) const
             {
                 assert(type == Type::OBJECT);
                 return objectValue.find(member) != objectValue.end();
             }
 
-            Value& operator[](const std::string& member)
+            inline Value& operator[](const std::string& member)
             {
                 assert(type == Type::OBJECT);
                 return objectValue[member];
             }
 
-            Value operator[](const std::string& member) const
+            inline Value operator[](const std::string& member) const
             {
                 assert(type == Type::OBJECT);
                 auto i = objectValue.find(member);
@@ -204,39 +204,39 @@ namespace ouzel
                 else return Value();
             }
 
-            const std::map<std::string, Value>& asMap() const
+            inline const std::map<std::string, Value>& asMap() const
             {
                 assert(type == Type::OBJECT);
                 return objectValue;
             }
 
-            Value& operator[](size_t index)
+            inline Value& operator[](size_t index)
             {
                 assert(type == Type::ARRAY);
                 if (index >= arrayValue.size()) arrayValue.resize(index + 1);
                 return arrayValue[index];
             }
 
-            Value operator[](size_t index) const
+            inline Value operator[](size_t index) const
             {
                 assert(type == Type::ARRAY);
                 if (index < arrayValue.size()) return arrayValue[index];
                 else return Value();
             }
 
-            std::vector<Value>& asArray()
+            inline std::vector<Value>& asArray()
             {
                 assert(type == Type::ARRAY);
                 return arrayValue;
             }
 
-            const std::vector<Value>& asArray() const
+            inline const std::vector<Value>& asArray() const
             {
                 assert(type == Type::ARRAY);
                 return arrayValue;
             }
 
-            size_t getSize() const
+            inline size_t getSize() const
             {
                 assert(type == Type::ARRAY);
                 return arrayValue.size();

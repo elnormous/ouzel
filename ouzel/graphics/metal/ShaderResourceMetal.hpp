@@ -47,16 +47,16 @@ namespace ouzel
                 uint32_t size;
             };
 
-            const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
-            const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
+            inline const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            MTLFunctionPtr getPixelShader() const { return pixelShader; }
-            MTLFunctionPtr getVertexShader() const { return vertexShader; }
+            inline MTLFunctionPtr getPixelShader() const { return pixelShader; }
+            inline MTLFunctionPtr getVertexShader() const { return vertexShader; }
 
-            MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
+            inline MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
 
-            uint32_t getPixelShaderConstantBufferSize() const { return pixelShaderConstantSize; }
-            uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
+            inline uint32_t getPixelShaderConstantBufferSize() const { return pixelShaderConstantSize; }
+            inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
         protected:
             RenderDeviceMetal* renderDeviceMetal;

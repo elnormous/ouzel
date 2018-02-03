@@ -37,11 +37,11 @@ namespace ouzel
             virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;
             virtual bool setVertexBuffer(BufferResource* newVertexBuffer) override;
 
-            MTLIndexType getIndexType() const { return indexType; }
-            NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
+            inline MTLIndexType getIndexType() const { return indexType; }
+            inline NSUInteger getBytesPerIndex() const { return bytesPerIndex; }
 
-            BufferResourceMetal* getIndexBufferMetal() const { return indexBufferMetal; }
-            BufferResourceMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
+            inline BufferResourceMetal* getIndexBufferMetal() const { return indexBufferMetal; }
+            inline BufferResourceMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
 
         protected:
             MTLIndexType indexType;

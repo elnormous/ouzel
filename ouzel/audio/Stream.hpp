@@ -39,8 +39,8 @@ namespace ouzel
             bool isRepeating() { return repeating; }
             void setRepeating(bool newRepeating) { repeating = newRepeating; }
 
-            bool getShouldReset() const { return shouldReset; }
-            void setShouldReset(bool newReset) { shouldReset = newReset; }
+            inline bool getShouldReset() const { return shouldReset; }
+            inline void setShouldReset(bool newReset) { shouldReset = newReset; }
 
             void setEventListener(EventListener* newEventListener);
 

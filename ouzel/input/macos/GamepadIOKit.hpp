@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend InputMacOS;
         public:
-            IOHIDDeviceRef getDevice() const { return device; }
+            inline IOHIDDeviceRef getDevice() const { return device; }
 
             void handleInput(IOHIDValueRef value);
 

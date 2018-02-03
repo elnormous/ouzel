@@ -25,9 +25,9 @@ namespace ouzel
 
             virtual bool setData(const std::vector<uint8_t>& newData);
 
-            uint32_t getFlags() const { return flags; }
-            Buffer::Usage getUsage() const { return usage; }
-            uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+            inline uint32_t getFlags() const { return flags; }
+            inline Buffer::Usage getUsage() const { return usage; }
+            inline uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
 
         protected:
             BufferResource();

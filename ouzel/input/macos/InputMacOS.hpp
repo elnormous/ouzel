@@ -53,8 +53,8 @@ namespace ouzel
             static NSUInteger getKeyMask(uint16_t keyCode);
             static uint32_t getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons);
 
-            NSCursorPtr getNativeCursor() const { return currentCursor; }
-            NSCursorPtr getEmptyCursor() const { return emptyCursor; }
+            inline NSCursorPtr getNativeCursor() const { return currentCursor; }
+            inline NSCursorPtr getEmptyCursor() const { return emptyCursor; }
 
         protected:
             InputMacOS();

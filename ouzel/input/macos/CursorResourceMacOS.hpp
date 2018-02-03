@@ -27,7 +27,7 @@ namespace ouzel
                               graphics::PixelFormat newPixelFormat,
                               const Vector2& newHotSpot) override;
 
-            NSCursor* getNativeCursor() const { return cursor; }
+            inline NSCursor* getNativeCursor() const { return cursor; }
 
         protected:
             NSCursor* cursor = nil;

@@ -43,7 +43,7 @@ namespace ouzel
             virtual const Vector3& getPosition() const { return position; }
 
             void setOrder(int32_t newOrder) { order = newOrder; }
-            int32_t getOrder() const { return order; }
+            inline int32_t getOrder() const { return order; }
 
             virtual void setRotation(const Quaternion& newRotation);
             virtual void setRotation(const Vector3& newRotation);
@@ -112,7 +112,7 @@ namespace ouzel
             Vector3 convertWorldToLocal(const Vector3& worldPosition) const;
             Vector3 convertLocalToWorld(const Vector3& localPosition) const;
 
-            ActorContainer* getParent() const { return parent; }
+            inline ActorContainer* getParent() const { return parent; }
             void removeFromParent();
 
             void addComponent(Component* component)
@@ -142,7 +142,7 @@ namespace ouzel
             }
 
             void removeAllComponents();
-            const std::vector<Component*>& getComponents() const { return components; }
+            inline const std::vector<Component*>& getComponents() const { return components; }
             std::vector<Component*> getComponents(uint32_t type) const;
 
             Box3 getBoundingBox() const;

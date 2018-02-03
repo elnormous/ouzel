@@ -18,9 +18,9 @@ namespace ouzel
         public:
             ImageData();
 
-            const Size2& getSize() const { return size; }
-            const std::vector<uint8_t>& getData() const { return data; }
-            PixelFormat getPixelFormat() const { return pixelFormat; }
+            inline const Size2& getSize() const { return size; }
+            inline const std::vector<uint8_t>& getData() const { return data; }
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
         protected:
             Size2 size;

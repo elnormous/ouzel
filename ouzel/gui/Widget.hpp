@@ -17,7 +17,7 @@ namespace ouzel
         public:
             Widget();
 
-            Menu* getMenu() const { return menu; }
+            inline Menu* getMenu() const { return menu; }
 
             virtual void setEnabled(bool newEnabled);
             bool isEnabled() const { return enabled; }
