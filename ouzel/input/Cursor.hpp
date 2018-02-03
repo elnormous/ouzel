@@ -48,7 +48,7 @@ namespace ouzel
                       graphics::PixelFormat pixelFormat,
                       const Vector2& hotSpot);
 
-            CursorResource* getResource() const { return resource; }
+            inline CursorResource* getResource() const { return resource; }
 
         private:
             CursorResource* resource = nullptr;

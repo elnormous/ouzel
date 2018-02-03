@@ -45,7 +45,7 @@ namespace ouzel
         inline const Size2& getSize() const { return size; }
         virtual void setSize(const Size2& newSize);
         inline const Size2& getResolution() const { return resolution; }
-        float getContentScale() const { return contentScale; }
+        inline float getContentScale() const { return contentScale; }
 
         inline bool isResizable() const { return resizable; }
 

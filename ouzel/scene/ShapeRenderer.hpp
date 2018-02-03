@@ -63,11 +63,11 @@ namespace ouzel
                        uint32_t segments = 16,
                        float thickness = 0.0f);
 
-            virtual const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
-            virtual void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
+            inline const std::shared_ptr<graphics::Shader>& getShader() const { return shader; }
+            inline void setShader(const std::shared_ptr<graphics::Shader>& newShader) { shader = newShader; }
 
-            virtual const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
-            virtual void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
+            inline const std::shared_ptr<graphics::BlendState>& getBlendState() const { return blendState; }
+            inline void setBlendState(const std::shared_ptr<graphics::BlendState>& newBlendState)  { blendState = newBlendState; }
 
         protected:
             struct DrawCommand

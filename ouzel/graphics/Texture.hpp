@@ -79,41 +79,42 @@ namespace ouzel
                       uint32_t newFlags = 0,
                       PixelFormat newPixelFormat = PixelFormat::RGBA8_UNORM);
 
-            TextureResource* getResource() const { return resource; }
+            inline TextureResource* getResource() const { return resource; }
 
-            const Size2& getSize() const;
+            inline const Size2& getSize() const { return size; }
             bool setSize(const Size2& newSize);
 
             bool setData(const std::vector<uint8_t>& newData, const Size2& newSize);
 
-            uint32_t getFlags() const { return flags; }
-            uint32_t getMipmaps() const { return mipmaps; }
+            inline uint32_t getFlags() const { return flags; }
+            inline uint32_t getMipmaps() const { return mipmaps; }
 
-            Filter getFilter() const;
+            inline Filter getFilter() const { return filter; }
             bool setFilter(Filter newFilter);
 
-            Address getAddressX() const;
+            inline Address getAddressX() const { return addressX; }
             bool setAddressX(Address newAddressX);
 
-            Address getAddressY() const;
+            inline Address getAddressY() const { return addressY; }
             bool setAddressY(Address newAddressY);
 
-            uint32_t getMaxAnisotropy() const;
+            inline uint32_t getMaxAnisotropy() const { return maxAnisotropy; }
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
-            uint32_t getSampleCount() const;
-            PixelFormat getPixelFormat() const;
+            inline uint32_t getSampleCount() const { return sampleCount; }
+            
+            inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            bool getClearColorBuffer() const;
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
             void setClearColorBuffer(bool clear);
 
-            bool getClearDepthBuffer() const;
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
             void setClearDepthBuffer(bool clear);
 
-            Color getClearColor() const;
+            inline Color getClearColor() const { return clearColor; }
             void setClearColor(Color color);
 
-            float getClearDepth() const;
+            inline float getClearDepth() const { return clearDepth; }
             void setClearDepth(float depth);
 
         private:

@@ -22,10 +22,10 @@ namespace ouzel
                   Color color = Color::WHITE,
                   const Vector2& textAnchor = Vector2(0.5f, 0.5f));
 
+            inline const std::string& getText() const { return text; }
             virtual void setText(const std::string& newText);
-            virtual const std::string& getText() const { return text; }
 
-            const std::shared_ptr<scene::TextRenderer>& getLabelDrawable() { return labelDrawable; }
+            inline const std::shared_ptr<scene::TextRenderer>& getLabelDrawable() const { return labelDrawable; }
 
         protected:
             std::string text;

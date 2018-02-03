@@ -57,7 +57,7 @@ namespace ouzel
                       const std::string& newPixelShaderFunction = "",
                       const std::string& newVertexShaderFunction = "");
 
-            ShaderResource* getResource() const { return resource; }
+            inline ShaderResource* getResource() const { return resource; }
 
             const std::set<Vertex::Attribute::Usage>& getVertexAttributes() const;
 

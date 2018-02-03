@@ -34,14 +34,14 @@ namespace ouzel
                               BlendState::Operation newAlphaOperation,
                               uint8_t newColorMask) override;
 
-            MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
-            MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
-            MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }
-            MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
-            MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
-            MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
-            MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
-            bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
+            inline MTLBlendOperation getRGBBlendOperation() const { return rgbBlendOperation; }
+            inline MTLBlendOperation getAlphaBlendOperation() const { return alphaBlendOperation; }
+            inline MTLBlendFactor getSourceRGBBlendFactor() const { return sourceRGBBlendFactor; }
+            inline MTLBlendFactor getDestinationRGBBlendFactor() const { return destinationRGBBlendFactor; }
+            inline MTLBlendFactor getSourceAlphaBlendFactor() const { return sourceAlphaBlendFactor; }
+            inline MTLBlendFactor getDestinationAlphaBlendFactor() const { return destinationAlphaBlendFactor; }
+            inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
+            inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
         protected:
             MTLBlendOperation rgbBlendOperation;

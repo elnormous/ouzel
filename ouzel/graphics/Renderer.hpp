@@ -86,18 +86,18 @@ namespace ouzel
             void executeOnRenderThread(const std::function<void(void)>& func);
 
             void setClearColorBuffer(bool clear);
-            bool getClearColorBuffer() const { return clearColorBuffer; }
+            inline bool getClearColorBuffer() const { return clearColorBuffer; }
 
             void setClearDepthBuffer(bool clear);
-            bool getClearDepthBuffer() const { return clearDepthBuffer; }
+            inline bool getClearDepthBuffer() const { return clearDepthBuffer; }
 
             void setClearColor(Color color);
-            Color getClearColor() const { return clearColor; }
+            inline Color getClearColor() const { return clearColor; }
 
             void setClearDepth(float newClearDepth);
-            float getClearDepth() const { return clearDepth; }
+            inline float getClearDepth() const { return clearDepth; }
 
-            const Size2& getSize() const { return size; }
+            inline const Size2& getSize() const { return size; }
 
             bool saveScreenshot(const std::string& filename);
 

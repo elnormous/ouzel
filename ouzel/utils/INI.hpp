@@ -21,10 +21,10 @@ namespace ouzel
             Section();
             Section(const std::string& initName);
 
-            void setName(const std::string& newName) { name = newName; }
-            const std::string& getName() const { return name; }
+            inline const std::string& getName() const { return name; }
+            inline void setName(const std::string& newName) { name = newName; }
 
-            const std::map<std::string, std::string>& getValues() const { return values; }
+            inline const std::map<std::string, std::string>& getValues() const { return values; }
             bool hasValue(const std::string& key) const;
             const std::string& getValue(const std::string& key);
             std::string getValue(const std::string& key) const;
@@ -51,7 +51,7 @@ namespace ouzel
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;
 
-            const std::map<std::string, Section>& getSections() const { return sections; }
+            inline const std::map<std::string, Section>& getSections() const { return sections; }
             bool hasSection(const std::string& name) const;
             Section& getSection(const std::string& name);
             Section getSection(const std::string& name) const;

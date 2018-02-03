@@ -31,9 +31,9 @@ namespace ouzel
     public:
         virtual ~WindowResourceIOS();
 
-        UIWindowPtr getNativeWindow() const { return window; }
-        UIViewPtr getNativeView() const { return view; }
-        UITextFieldPtr getTextField() const { return textField; }
+        inline UIWindowPtr getNativeWindow() const { return window; }
+        inline UIViewPtr getNativeView() const { return view; }
+        inline UITextFieldPtr getTextField() const { return textField; }
 
         void handleResize(const Size2& newSize);
 

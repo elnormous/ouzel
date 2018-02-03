@@ -60,14 +60,14 @@ namespace ouzel
             virtual bool setClearDepthBuffer(bool clear) override;
             virtual bool setClearColor(Color color) override;
 
-            GLuint getTextureId() const { return textureId; }
+            inline GLuint getTextureId() const { return textureId; }
 
-            GLuint getFrameBufferId() const { return frameBufferId; }
-            GLsizei getWidth() const { return width; }
-            GLsizei getHeight() const { return height; }
+            inline GLuint getFrameBufferId() const { return frameBufferId; }
+            inline GLsizei getWidth() const { return width; }
+            inline GLsizei getHeight() const { return height; }
 
-            GLbitfield getClearMask() const { return clearMask; }
-            const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
+            inline GLbitfield getClearMask() const { return clearMask; }
+            inline const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
         protected:
             bool createTexture();

@@ -44,7 +44,7 @@ namespace ouzel
 
         bool init();
 
-        inline const std::vector<std::string>& getArgs() { return args; }
+        inline const std::vector<std::string>& getArgs() const { return args; }
 
         inline FileSystem* getFileSystem() { return fileSystem.get(); }
         inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }

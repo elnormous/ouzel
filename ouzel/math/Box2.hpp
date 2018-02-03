@@ -32,7 +32,7 @@ namespace ouzel
         {
         }
 
-        Vector2 getCenter()
+        inline Vector2 getCenter()
         {
             return Vector2(0.5f * (min.x + max.x),
                            0.5f * (min.y + max.y));

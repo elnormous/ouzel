@@ -24,23 +24,23 @@ namespace ouzel
         Window(const Window&&) = delete;
         Window& operator=(const Window&&) = delete;
 
-        WindowResource* getResource() const { return resource; }
+        inline WindowResource* getResource() const { return resource; }
 
         void close();
 
-        const Size2& getSize() const { return size; }
+        inline const Size2& getSize() const { return size; }
         void setSize(const Size2& newSize);
 
-        const Size2& getResolution() const { return resolution; }
+        inline const Size2& getResolution() const { return resolution; }
 
-        bool getResizable() const { return resizable; }
+        inline bool isResizable() const { return resizable; }
 
         void setFullscreen(bool newFullscreen);
         bool isFullscreen() const { return fullscreen; }
 
         bool isExclusiveFullscreen() const { return exclusiveFullscreen; }
 
-        const std::string& getTitle() const { return title; }
+        inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
         Vector2 convertWindowToNormalizedLocation(const Vector2& position) const

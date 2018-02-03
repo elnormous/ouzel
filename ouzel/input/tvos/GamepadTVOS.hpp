@@ -29,7 +29,7 @@ namespace ouzel
             virtual int32_t getPlayerIndex() const override;
             virtual bool setPlayerIndex(int32_t playerIndex) override;
 
-            GCControllerPtr getController() const { return controller; }
+            inline GCControllerPtr getController() const { return controller; }
 
         protected:
             GamepadTVOS(GCControllerPtr initController);

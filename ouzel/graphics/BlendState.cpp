@@ -48,45 +48,5 @@ namespace ouzel
 
             return true;
         }
-
-        bool BlendState::isBlendingEnabled() const
-        {
-            return enableBlending;
-        }
-
-        BlendState::Factor BlendState::getColorBlendSource() const
-        {
-            return colorBlendSource;
-        }
-
-        BlendState::Factor BlendState::getColorBlendDest() const
-        {
-            return colorBlendDest;
-        }
-
-        BlendState::Operation BlendState::getColorOperation() const
-        {
-            return colorOperation;
-        }
-
-        BlendState::Factor BlendState::getAlphaBlendSource() const
-        {
-            return alphaBlendSource;
-        }
-
-        BlendState::Factor BlendState::getAlphaBlendDest() const
-        {
-            return alphaBlendDest;
-        }
-
-        BlendState::Operation BlendState::getAlphaOperation() const
-        {
-            return alphaOperation;
-        }
-
-        uint8_t BlendState::getColorMask() const
-        {
-            return colorMask;
-        }
     } // namespace graphics
 } // namespace ouzel

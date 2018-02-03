@@ -28,24 +28,24 @@ namespace ouzel
 
             bool init(const std::shared_ptr<SoundData>& newSoundData);
 
-            const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
+            inline const std::shared_ptr<SoundData>& getSoundData() const { return soundData; }
 
-            float getPitch() const { return pitch; }
+            inline float getPitch() const { return pitch; }
             void setPitch(float newPitch);
 
-            float getGain() const { return gain; }
+            inline float getGain() const { return gain; }
             void setGain(float newGain);
 
-            float getRolloffFactor() const { return rolloffFactor; }
+            inline float getRolloffFactor() const { return rolloffFactor; }
             void setRolloffFactor(float newRolloffFactor);
 
-            float getMinDistance() { return minDistance; }
+            inline float getMinDistance() const { return minDistance; }
             void setMinDistance(float newMinDistance);
 
-            float getMaxDistance() { return maxDistance; }
+            inline float getMaxDistance() const { return maxDistance; }
             void setMaxDistance(float newMaxDistance);
 
-            bool isSpatialized() { return spatialized; }
+            inline bool isSpatialized() const { return spatialized; }
             void setSpatialized(bool newSpatialized);
 
             bool play(bool repeatSound = false);

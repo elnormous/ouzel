@@ -37,19 +37,19 @@ namespace ouzel
                               BlendState::Operation newAlphaOperation,
                               uint8_t newColorMask) override;
 
-            GLenum getModeRGB() const { return modeRGB; }
-            GLenum getModeAlpha() const { return modeAlpha; }
+            inline GLenum getModeRGB() const { return modeRGB; }
+            inline GLenum getModeAlpha() const { return modeAlpha; }
 
-            GLenum getSourceFactorRGB() const { return sourceFactorRGB; }
-            GLenum getDestFactorRGB() const { return destFactorRGB; }
-            GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
-            GLenum getDestFactorAlpha() const { return destFactorAlpha; }
-            bool isGLBlendEnabled() const { return glBlendEnabled; }
+            inline GLenum getSourceFactorRGB() const { return sourceFactorRGB; }
+            inline GLenum getDestFactorRGB() const { return destFactorRGB; }
+            inline GLenum getSourceFactorAlpha() const { return sourceFactorAlpha; }
+            inline GLenum getDestFactorAlpha() const { return destFactorAlpha; }
+            inline bool isGLBlendEnabled() const { return glBlendEnabled; }
 
-            GLboolean getRedMask() const { return redMask; }
-            GLboolean getGreenMask() const { return greenMask; }
-            GLboolean getBlueMask() const { return blueMask; }
-            GLboolean getAlphaMask() const { return alphaMask; }
+            inline GLboolean getRedMask() const { return redMask; }
+            inline GLboolean getGreenMask() const { return greenMask; }
+            inline GLboolean getBlueMask() const { return blueMask; }
+            inline GLboolean getAlphaMask() const { return alphaMask; }
 
         protected:
             GLenum modeRGB = GL_NONE;

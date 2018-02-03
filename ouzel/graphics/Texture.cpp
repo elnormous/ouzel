@@ -117,11 +117,6 @@ namespace ouzel
             return true;
         }
 
-        const Size2& Texture::getSize() const
-        {
-            return size;
-        }
-
         bool Texture::setSize(const Size2& newSize)
         {
             size = newSize;
@@ -145,11 +140,6 @@ namespace ouzel
             return true;
         }
 
-        Texture::Filter Texture::getFilter() const
-        {
-            return filter;
-        }
-
         bool Texture::setFilter(Filter newFilter)
         {
             filter = newFilter;
@@ -159,11 +149,6 @@ namespace ouzel
                                                                          newFilter));
 
             return true;
-        }
-
-        Texture::Address Texture::getAddressX() const
-        {
-            return addressX;
         }
 
         bool Texture::setAddressX(Address newAddressX)
@@ -177,11 +162,6 @@ namespace ouzel
             return true;
         }
 
-        Texture::Address Texture::getAddressY() const
-        {
-            return addressY;
-        }
-
         bool Texture::setAddressY(Address newAddressY)
         {
             addressY = newAddressY;
@@ -191,11 +171,6 @@ namespace ouzel
                                                                          newAddressY));
 
             return true;
-        }
-
-        uint32_t Texture::getMaxAnisotropy() const
-        {
-            return maxAnisotropy;
         }
 
         bool Texture::setMaxAnisotropy(uint32_t newMaxAnisotropy)
@@ -209,21 +184,6 @@ namespace ouzel
             return true;
         }
 
-        uint32_t Texture::getSampleCount() const
-        {
-            return sampleCount;
-        }
-
-        PixelFormat Texture::getPixelFormat() const
-        {
-            return pixelFormat;
-        }
-
-        bool Texture::getClearColorBuffer() const
-        {
-            return clearColorBuffer;
-        }
-
         void Texture::setClearColorBuffer(bool clear)
         {
             clearColorBuffer = clear;
@@ -231,11 +191,6 @@ namespace ouzel
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
                                                                          resource,
                                                                          clear));
-        }
-
-        bool Texture::getClearDepthBuffer() const
-        {
-            return clearDepthBuffer;
         }
 
         void Texture::setClearDepthBuffer(bool clear)
@@ -247,11 +202,6 @@ namespace ouzel
                                                                          clear));
         }
 
-        Color Texture::getClearColor() const
-        {
-            return clearColor;
-        }
-
         void Texture::setClearColor(Color color)
         {
             clearColor = color;
@@ -259,11 +209,6 @@ namespace ouzel
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
                                                                          resource,
                                                                          color));
-        }
-
-        float Texture::getClearDepth() const
-        {
-            return clearDepth;
         }
 
         void Texture::setClearDepth(float depth)

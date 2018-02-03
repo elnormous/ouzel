@@ -42,16 +42,16 @@ namespace ouzel
             virtual ~Camera();
 
             void setType(Type newType) { type = newType; }
-            Type getType() const { return type; }
+            inline Type getType() const { return type; }
 
             void setFOV(float newFOV) { fov = newFOV; }
-            float getFOV() const { return fov; }
+            inline float getFOV() const { return fov; }
 
             void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
-            float getNearPlane() const { return nearPlane; }
+            inline float getNearPlane() const { return nearPlane; }
 
             void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
-            float getFarPlane() const { return farPlane; }
+            inline float getFarPlane() const { return farPlane; }
 
             const Matrix4& getProjection() const { return projection; }
             void recalculateProjection();
@@ -66,29 +66,29 @@ namespace ouzel
             bool checkVisibility(const Matrix4& boxTransform, const Box3& box) const;
 
             void setViewport(const Rectangle& newViewport);
-            const Rectangle& getViewport() const { return viewport; }
-            const Rectangle& getRenderViewport() const { return renderViewport; }
+            inline const Rectangle& getViewport() const { return viewport; }
+            inline const Rectangle& getRenderViewport() const { return renderViewport; }
 
             void setScaleMode(ScaleMode newScaleMode);
-            ScaleMode getScaleMode() const { return scaleMode; }
+            inline ScaleMode getScaleMode() const { return scaleMode; }
 
             void setTargetContentSize(const Size2& newTargetContentSize);
-            const Size2& getTargetContentSize() const { return targetContentSize; }
+            inline const Size2& getTargetContentSize() const { return targetContentSize; }
 
-            const Size2& getContentSize() const { return contentSize; }
-            const Vector2& getContentScale() const { return contentScale; }
-            const Vector2& getContentPosition() const { return contentPosition; }
+            inline const Size2& getContentSize() const { return contentSize; }
+            inline const Vector2& getContentScale() const { return contentScale; }
+            inline const Vector2& getContentPosition() const { return contentPosition; }
 
             void setRenderTarget(const std::shared_ptr<graphics::Texture>& newRenderTarget);
-            const std::shared_ptr<graphics::Texture>& getRenderTarget() const { return renderTarget; }
+            inline const std::shared_ptr<graphics::Texture>& getRenderTarget() const { return renderTarget; }
 
-            bool getDepthWrite() const { return depthWrite; }
-            void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
-            bool getDepthTest() const { return depthTest; }
-            void setDepthTest(bool newDepthTest) { depthTest = newDepthTest; }
+            inline bool getDepthWrite() const { return depthWrite; }
+            inline void setDepthWrite(bool newDepthWrite) { depthWrite = newDepthWrite; }
+            inline bool getDepthTest() const { return depthTest; }
+            inline void setDepthTest(bool newDepthTest) { depthTest = newDepthTest; }
 
-            bool getWireframe() const { return wireframe; }
-            void setWireframe(bool newWireframe) { wireframe = newWireframe; }
+            inline bool getWireframe() const { return wireframe; }
+            inline void setWireframe(bool newWireframe) { wireframe = newWireframe; }
 
         protected:
             virtual void setActor(Actor* newActor) override;

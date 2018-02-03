@@ -29,15 +29,15 @@ namespace ouzel
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
                       const std::shared_ptr<Buffer>& newVertexBuffer);
 
-            MeshBufferResource* getResource() const { return resource; }
+            inline MeshBufferResource* getResource() const { return resource; }
 
-            uint32_t getIndexSize() const;
+            inline uint32_t getIndexSize() const { return indexSize; }
             bool setIndexSize(uint32_t newIndexSize);
 
-            const std::shared_ptr<Buffer>& getIndexBuffer() const { return indexBuffer; }
+            inline const std::shared_ptr<Buffer>& getIndexBuffer() const { return indexBuffer; }
             bool setIndexBuffer(const std::shared_ptr<Buffer>& newIndexBuffer);
 
-            const std::shared_ptr<Buffer>& getVertexBuffer() const { return vertexBuffer; }
+            inline const std::shared_ptr<Buffer>& getVertexBuffer() const { return vertexBuffer; }
             bool setVertexBuffer(const std::shared_ptr<Buffer>& newVertexBuffer);
 
         private:

@@ -28,18 +28,18 @@ namespace ouzel
             Node() {}
             Node(Type initType): type(initType) {}
 
-            Node& operator=(Type newType)
+            inline Node& operator=(Type newType)
             {
                 type = newType;
                 return *this;
             }
 
-            Type getType() const { return type; }
+            inline Type getType() const { return type; }
 
-            const std::string& getValue() const { return value; }
-            void getValue(const std::string& newValue) { value = newValue; }
+            inline const std::string& getValue() const { return value; }
+            inline void getValue(const std::string& newValue) { value = newValue; }
 
-            const std::vector<Node>& getChildren() const { return children; }
+            inline const std::vector<Node>& getChildren() const { return children; }
 
             bool parse(const std::vector<uint32_t>& str,
                        std::vector<uint32_t>::const_iterator& iterator,
@@ -81,10 +81,10 @@ namespace ouzel
             bool save(const std::string& filename) const;
             bool encode(std::vector<uint8_t>& data) const;
 
-            bool hasBOM() const { return bom; }
-            void setBOM(bool newBOM) { bom = newBOM; }
+            inline bool hasBOM() const { return bom; }
+            inline void setBOM(bool newBOM) { bom = newBOM; }
 
-            const std::vector<Node>& getChildren() const { return children; }
+            inline const std::vector<Node>& getChildren() const { return children; }
 
         protected:
             bool bom = false;

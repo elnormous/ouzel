@@ -51,12 +51,12 @@ namespace ouzel
                               bool scissorTest,
                               const Rectangle& scissorRectangle) override;
 
-            virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
-            virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+            inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
+            inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
             virtual const Size2& getSize() const { return size; }
 
-            const Vector2& getOffset() const { return offset; }
+            inline const Vector2& getOffset() const { return offset; }
             void setOffset(const Vector2& newOffset);
 
             virtual void play(bool repeat = true, float newFrameInterval = 0.1f);
@@ -64,7 +64,7 @@ namespace ouzel
             virtual void reset();
             virtual bool isPlaying() const { return playing; }
 
-            const std::vector<SpriteFrame>& getFrames() const { return frames; }
+            inline const std::vector<SpriteFrame>& getFrames() const { return frames; }
             virtual void setCurrentFrame(uint32_t frame);
 
         protected:

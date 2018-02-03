@@ -34,11 +34,11 @@ namespace ouzel
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
-            const std::string& getName() const { return name; }
-            const Rectangle& getRectangle() const { return rectangle; }
+            inline const std::string& getName() const { return name; }
+            inline const Rectangle& getRectangle() const { return rectangle; }
 
-            const Box2& getBoundingBox() const { return boundingBox; }
-            const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
+            inline const Box2& getBoundingBox() const { return boundingBox; }
+            inline const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
 
         protected:
             std::string name;

@@ -36,7 +36,7 @@ namespace ouzel
 
             virtual bool setData(const std::vector<uint8_t>& newData) override;
 
-            MTLBufferPtr getBuffer() const { return buffer; }
+            inline MTLBufferPtr getBuffer() const { return buffer; }
 
         protected:
             bool createBuffer();

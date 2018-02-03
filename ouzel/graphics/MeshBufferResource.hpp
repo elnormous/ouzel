@@ -22,13 +22,13 @@ namespace ouzel
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                               BufferResource* newVertexBuffer);
 
-            uint32_t getIndexSize() const { return indexSize; }
+            inline uint32_t getIndexSize() const { return indexSize; }
             virtual bool setIndexSize(uint32_t newIndexSize);
 
-            BufferResource* getIndexBuffer() const { return indexBuffer; }
+            inline BufferResource* getIndexBuffer() const { return indexBuffer; }
             virtual bool setIndexBuffer(BufferResource* newIndexBuffer);
 
-            BufferResource* getVertexBuffer() const { return vertexBuffer; }
+            inline BufferResource* getVertexBuffer() const { return vertexBuffer; }
             virtual bool setVertexBuffer(BufferResource* newVertexBuffer);
 
         protected:
