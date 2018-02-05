@@ -25,11 +25,10 @@
     <ClInclude Include="RTSample.hpp" />
     <ClInclude Include="SoundSample.hpp" />
     <ClInclude Include="SpritesSample.hpp" />
-    <ClInclude Include="win\resource.hpp" />
-    <ClInclude Include="windows\resource.h">
+    <ClInclude Include="windows\stdafx.h">
       <Filter>windows</Filter>
     </ClInclude>
-    <ClInclude Include="windows\stdafx.h">
+    <ClInclude Include="windows\resource.h">
       <Filter>windows</Filter>
     </ClInclude>
   </ItemGroup>

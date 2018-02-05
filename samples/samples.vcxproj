@@ -197,9 +197,8 @@ copy "$(ProjectDir)Resources\*" "$(OutDir)Resources\"</Command>
     <ClInclude Include="RTSample.hpp" />
     <ClInclude Include="SoundSample.hpp" />
     <ClInclude Include="SpritesSample.hpp" />
-    <ClInclude Include="windows\resource.hpp" />
+    <ClInclude Include="windows\resource.h" />
     <ClInclude Include="windows\stdafx.h" />
-    <ClInclude Include="win\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="windows\icon1.ico" />
