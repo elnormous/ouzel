@@ -459,7 +459,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ouzel\ouzel.hpp" />
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
       <Filter>ouzel\animators</Filter>
     </ClInclude>
@@ -1005,6 +1004,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\utils\XML.hpp">
       <Filter>ouzel\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\ouzel.hpp">
+      <Filter>ouzel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
