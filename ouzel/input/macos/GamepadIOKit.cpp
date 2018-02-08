@@ -106,7 +106,7 @@ namespace ouzel
                 rightThumbYMap = kHIDUsage_GD_Rz;
                 rightTriggerMap = kHIDUsage_GD_Ry;
             }
-            else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
+            else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
             {
                 usageMap[0] = GamepadButton::FACE_BOTTOM; // A
                 usageMap[1] = GamepadButton::FACE_RIGHT; // B
