@@ -105,7 +105,7 @@ namespace ouzel
                 rightThumbY.offset = DIJOFS_RZ;
                 rightTrigger.offset = DIJOFS_RY;
             }
-            else if (vendorId == 0x045E && productId == 0x02d1) // Xbox One controller
+            else if (vendorId == 0x045E && productId == 0x02D1) // Xbox One controller
             {
                 buttonMap[0] = GamepadButton::FACE_BOTTOM; // A
                 buttonMap[1] = GamepadButton::FACE_RIGHT; // B
