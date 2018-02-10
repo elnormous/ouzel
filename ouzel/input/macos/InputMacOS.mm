@@ -311,12 +311,10 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to initialize manager, error: " << ret;
                 return false;
             }
-            else
-            {
-                IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
-                IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
-                IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-            }
+
+            IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
+            IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
+            IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
             unsigned char data[4] = {0, 0, 0, 0};
             unsigned char* rgba = data;
