@@ -64,7 +64,7 @@ static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
     inputMacOS->handleGamepadConnected(device);
 }
 
-static void deviceRemoved(void *ctx, IOReturn, void*, IOHIDDeviceRef device)
+static void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {
     ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
     inputMacOS->handleGamepadDisconnected(device);
