@@ -275,7 +275,7 @@ namespace ouzel
                     else if (element.usage == rightTriggerMap) rightTrigger = element.element;
                 }
 
-                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage > 1 &&element.usage < 25) ||
+                if ((element.type == kIOHIDElementTypeInput_Button && element.usagePage == kHIDPage_Button && element.usage > 1 && element.usage < 25) ||
                     ((element.type == kIOHIDElementTypeInput_Misc || element.type == kIOHIDElementTypeInput_Axis) && element.usagePage == kHIDPage_GenericDesktop))
                 {
                     element.min = IOHIDElementGetLogicalMin(element.element);
