@@ -249,11 +249,12 @@ namespace ouzel
             }
 
             CFArrayRef elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
+            CFIndex count = CFArrayGetCount(elementArray);
 
-            for (CFIndex i = 0; i < CFArrayGetCount(elementArray); ++i)
+            for (CFIndex i = 0; i < count; ++i)
             {
                 Element element;
-                element.element = (IOHIDElementRef)CFArrayGetValueAtIndex(elementArray, i);
+                element.element = static_cast<IOHIDElementRef>(const_cast<void*>(CFArrayGetValueAtIndex(elementArray, i)));
                 element.type = IOHIDElementGetType(element.element);
                 element.usagePage = IOHIDElementGetUsagePage(element.element);
                 element.usage = IOHIDElementGetUsage(element.element);
