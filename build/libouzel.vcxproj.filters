@@ -457,6 +457,18 @@
     <ClCompile Include="..\ouzel\utils\XML.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\thread\Thread.cpp">
+      <Filter>ouzel\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\thread\Condition.cpp">
+      <Filter>ouzel\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\thread\Lock.cpp">
+      <Filter>ouzel\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ouzel\thread\Mutex.cpp">
+      <Filter>ouzel\thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -1008,6 +1020,18 @@
     <ClInclude Include="..\ouzel\ouzel.hpp">
       <Filter>ouzel</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\thread\Thread.hpp">
+      <Filter>ouzel\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\thread\Condition.hpp">
+      <Filter>ouzel\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\thread\Lock.hpp">
+      <Filter>ouzel\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\thread\Mutex.hpp">
+      <Filter>ouzel\thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
@@ -1084,6 +1108,9 @@
     </Filter>
     <Filter Include="ouzel\assets">
       <UniqueIdentifier>{3321c286-5355-42bc-a945-fafc9b4abbb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ouzel\thread">
+      <UniqueIdentifier>{07047ccf-c574-4c41-8bd9-f721dd46f07a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
