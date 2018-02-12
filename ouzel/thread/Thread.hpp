@@ -29,6 +29,15 @@ namespace ouzel
 
         bool run();
         bool join();
+        
+        inline bool isJoinable() const
+        {
+#if defined(_MSC_VER)
+            return handle != nullptr;
+#else
+            return thread != 0;
+#endif
+        }
 
         struct Parameters
         {

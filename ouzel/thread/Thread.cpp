@@ -43,7 +43,7 @@ static void* threadFunction(void* parameter)
 #ifdef __APPLE__
     if (!parameters->name.empty()) pthread_setname_np(parameters->name.c_str());
 #else
-    if (!parameters->name.empty()) pthread_setname_np(pthread_self(), name.c_str());
+    if (!parameters->name.empty()) pthread_setname_np(pthread_self(), parameters->name.c_str());
 #endif
 #endif
 
