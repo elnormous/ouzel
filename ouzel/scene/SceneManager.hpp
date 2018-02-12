@@ -23,8 +23,8 @@ namespace ouzel
             SceneManager(const SceneManager&) = delete;
             SceneManager& operator=(const SceneManager&) = delete;
 
-            SceneManager(const SceneManager&&) = delete;
-            SceneManager& operator=(const SceneManager&&) = delete;
+            SceneManager(SceneManager&&) = delete;
+            SceneManager& operator=(SceneManager&&) = delete;
 
             void draw();
 

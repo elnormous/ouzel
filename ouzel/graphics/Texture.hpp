@@ -57,8 +57,8 @@ namespace ouzel
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
 
-            Texture(const Texture&&) = delete;
-            Texture& operator=(const Texture&&) = delete;
+            Texture(Texture&&) = delete;
+            Texture& operator=(Texture&&) = delete;
 
             bool init(const Size2& newSize,
                       uint32_t newFlags = 0,

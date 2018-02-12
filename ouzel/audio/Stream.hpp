@@ -28,8 +28,8 @@ namespace ouzel
             Stream(const Stream&) = delete;
             Stream& operator=(const Stream&) = delete;
 
-            Stream(const Stream&&) = delete;
-            Stream& operator=(const Stream&&) = delete;
+            Stream(Stream&&) = delete;
+            Stream& operator=(Stream&&) = delete;
 
             virtual void reset();
 

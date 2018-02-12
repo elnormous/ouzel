@@ -227,8 +227,8 @@ namespace ouzel
             Input(const Input&) = delete;
             Input& operator=(const Input&) = delete;
 
-            Input(const Input&&) = delete;
-            Input& operator=(const Input&&) = delete;
+            Input(Input&&) = delete;
+            Input& operator=(Input&&) = delete;
 
             template<class T>
             void setCursor(const std::unique_ptr<T>& cursor)

@@ -19,8 +19,8 @@ namespace ouzel
             Mixer(const Mixer&) = delete;
             Mixer& operator=(const Mixer&) = delete;
 
-            Mixer(const Mixer&&) = delete;
-            Mixer& operator=(const Mixer&&) = delete;
+            Mixer(Mixer&&) = delete;
+            Mixer& operator=(Mixer&&) = delete;
 
             inline float getPitch() const { return pitch; }
             inline void setPitch(float newPitch) { pitch = newPitch; }

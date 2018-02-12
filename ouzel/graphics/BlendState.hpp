@@ -55,8 +55,8 @@ namespace ouzel
             BlendState(const BlendState&) = delete;
             BlendState& operator=(const BlendState&) = delete;
 
-            BlendState(const BlendState&&) = delete;
-            BlendState& operator=(const BlendState&&) = delete;
+            BlendState(BlendState&&) = delete;
+            BlendState& operator=(BlendState&&) = delete;
 
             bool init(bool newEnableBlending,
                       Factor newColorBlendSource, Factor newColorBlendDest,

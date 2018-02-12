@@ -70,8 +70,8 @@ namespace ouzel
             Audio(const Audio&) = delete;
             Audio& operator=(const Audio&) = delete;
 
-            Audio(const Audio&&) = delete;
-            Audio& operator=(const Audio&&) = delete;
+            Audio(Audio&&) = delete;
+            Audio& operator=(Audio&&) = delete;
 
             static std::set<Audio::Driver> getAvailableAudioDrivers();
 

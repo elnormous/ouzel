@@ -22,8 +22,8 @@ namespace ouzel
         EventDispatcher(const EventDispatcher&) = delete;
         EventDispatcher& operator=(const EventDispatcher&) = delete;
 
-        EventDispatcher(const EventDispatcher&&) = delete;
-        EventDispatcher& operator=(const EventDispatcher&&) = delete;
+        EventDispatcher(EventDispatcher&&) = delete;
+        EventDispatcher& operator=(EventDispatcher&&) = delete;
 
         void dispatchEvents();
 

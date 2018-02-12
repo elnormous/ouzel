@@ -23,8 +23,8 @@ namespace ouzel
             ActorContainer(const ActorContainer&) = delete;
             ActorContainer& operator=(const ActorContainer&) = delete;
 
-            ActorContainer(const ActorContainer&&) = delete;
-            ActorContainer& operator=(const ActorContainer&&) = delete;
+            ActorContainer(ActorContainer&&) = delete;
+            ActorContainer& operator=(ActorContainer&&) = delete;
 
             void addChild(Actor* actor)
             {

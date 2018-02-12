@@ -16,8 +16,8 @@ namespace ouzel
         Timer(const Timer&) = delete;
         Timer& operator=(const Timer&) = delete;
 
-        Timer(const Timer&&) = delete;
-        Timer& operator=(const Timer&&) = delete;
+        Timer(Timer&&) = delete;
+        Timer& operator=(Timer&&) = delete;
 
         void update(float delta);
 

@@ -16,8 +16,8 @@ namespace ouzel
             RenderResource(const RenderResource&) = delete;
             RenderResource& operator=(const RenderResource&) = delete;
 
-            RenderResource(const RenderResource&&) = delete;
-            RenderResource& operator=(const RenderResource&&) = delete;
+            RenderResource(RenderResource&&) = delete;
+            RenderResource& operator=(RenderResource&&) = delete;
 
             virtual bool reload() { return true; }
         };

@@ -35,8 +35,8 @@ namespace ouzel
             RenderDevice(const RenderDevice&) = delete;
             RenderDevice& operator=(const RenderDevice&) = delete;
 
-            RenderDevice(const RenderDevice&&) = delete;
-            RenderDevice& operator=(const RenderDevice&&) = delete;
+            RenderDevice(RenderDevice&&) = delete;
+            RenderDevice& operator=(RenderDevice&&) = delete;
 
             inline Renderer::Driver getDriver() const { return driver; }
 

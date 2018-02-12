@@ -39,8 +39,8 @@ namespace ouzel
         Engine(const Engine&) = delete;
         Engine& operator=(const Engine&) = delete;
 
-        Engine(const Engine&&) = delete;
-        Engine& operator=(const Engine&&) = delete;
+        Engine(Engine&&) = delete;
+        Engine& operator=(Engine&&) = delete;
 
         bool init();
 

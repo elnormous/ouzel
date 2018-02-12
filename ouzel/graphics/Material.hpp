@@ -25,8 +25,8 @@ namespace ouzel
             Material(const Material&) = delete;
             Material& operator=(const Material&) = delete;
 
-            Material(const Material&&) = delete;
-            Material& operator=(const Material&&) = delete;
+            Material(Material&&) = delete;
+            Material& operator=(Material&&) = delete;
 
             std::shared_ptr<BlendState> blendState;
             std::shared_ptr<Shader> shader;

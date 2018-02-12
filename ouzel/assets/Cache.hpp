@@ -41,8 +41,8 @@ namespace ouzel
             Cache(const Cache&) = delete;
             Cache& operator=(const Cache&) = delete;
 
-            Cache(const Cache&&) = delete;
-            Cache& operator=(const Cache&&) = delete;
+            Cache(Cache&&) = delete;
+            Cache& operator=(Cache&&) = delete;
 
             void addLoader(Loader* loader);
             void removeLoader(Loader* loader);

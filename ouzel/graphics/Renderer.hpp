@@ -76,8 +76,8 @@ namespace ouzel
             Renderer(const Renderer&) = delete;
             Renderer& operator=(const Renderer&) = delete;
 
-            Renderer(const Renderer&&) = delete;
-            Renderer& operator=(const Renderer&&) = delete;
+            Renderer(Renderer&&) = delete;
+            Renderer& operator=(Renderer&&) = delete;
 
             static std::set<Driver> getAvailableRenderDrivers();
 
