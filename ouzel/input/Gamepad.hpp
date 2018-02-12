@@ -31,8 +31,8 @@ namespace ouzel
             Gamepad(const Gamepad&) = delete;
             Gamepad& operator=(const Gamepad&) = delete;
 
-            Gamepad(const Gamepad&&) = delete;
-            Gamepad& operator=(const Gamepad&&) = delete;
+            Gamepad(Gamepad&&) = delete;
+            Gamepad& operator=(Gamepad&&) = delete;
 
             inline const std::string& getName() const { return name; }
             inline int32_t getVendorId() const { return vendorId; }

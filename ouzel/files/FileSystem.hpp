@@ -22,8 +22,8 @@ namespace ouzel
         FileSystem(const FileSystem&) = delete;
         FileSystem& operator=(const FileSystem&) = delete;
 
-        FileSystem(const FileSystem&&) = delete;
-        FileSystem& operator=(const FileSystem&&) = delete;
+        FileSystem(FileSystem&&) = delete;
+        FileSystem& operator=(FileSystem&&) = delete;
 
         static const std::string DIRECTORY_SEPARATOR;
 

@@ -23,8 +23,8 @@ namespace ouzel
             MeshBuffer(const MeshBuffer&) = delete;
             MeshBuffer& operator=(const MeshBuffer&) = delete;
 
-            MeshBuffer(const MeshBuffer&&) = delete;
-            MeshBuffer& operator=(const MeshBuffer&&) = delete;
+            MeshBuffer(MeshBuffer&&) = delete;
+            MeshBuffer& operator=(MeshBuffer&&) = delete;
 
             bool init(uint32_t newIndexSize, const std::shared_ptr<Buffer>& newIndexBuffer,
                       const std::shared_ptr<Buffer>& newVertexBuffer);

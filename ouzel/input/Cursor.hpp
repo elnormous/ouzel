@@ -38,8 +38,8 @@ namespace ouzel
             Cursor(const Cursor&) = delete;
             Cursor& operator=(const Cursor&) = delete;
 
-            Cursor(const Cursor&&) = delete;
-            Cursor& operator=(const Cursor&&) = delete;
+            Cursor(Cursor&&) = delete;
+            Cursor& operator=(Cursor&&) = delete;
 
             bool init(SystemCursor systemCursor);
             bool init(const std::string& filename, const Vector2& hotSpot);

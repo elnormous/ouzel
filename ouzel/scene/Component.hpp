@@ -44,8 +44,8 @@ namespace ouzel
             Component(const Component&) = delete;
             Component& operator=(const Component&) = delete;
 
-            Component(const Component&&) = delete;
-            Component& operator=(const Component&&) = delete;
+            Component(Component&&) = delete;
+            Component& operator=(Component&&) = delete;
 
             inline uint32_t getType() const { return type; }
 

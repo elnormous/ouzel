@@ -29,8 +29,8 @@ namespace ouzel
         WindowResource(const WindowResource&) = delete;
         WindowResource& operator=(const WindowResource&) = delete;
 
-        WindowResource(const WindowResource&&) = delete;
-        WindowResource& operator=(const WindowResource&&) = delete;
+        WindowResource(WindowResource&&) = delete;
+        WindowResource& operator=(WindowResource&&) = delete;
 
         virtual bool init(const Size2& newSize,
                           bool newResizable,

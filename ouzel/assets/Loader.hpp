@@ -35,8 +35,8 @@ namespace ouzel
             Loader(const Loader&) = delete;
             Loader& operator=(const Loader&) = delete;
 
-            Loader(const Loader&&) = delete;
-            Loader& operator=(const Loader&&) = delete;
+            Loader(Loader&&) = delete;
+            Loader& operator=(Loader&&) = delete;
 
             inline uint32_t getType() const { return type; }
 

@@ -25,8 +25,8 @@ namespace ouzel
             SoundData(const SoundData&) = delete;
             SoundData& operator=(const SoundData&) = delete;
 
-            SoundData(const SoundData&&) = delete;
-            SoundData& operator=(const SoundData&&) = delete;
+            SoundData(SoundData&&) = delete;
+            SoundData& operator=(SoundData&&) = delete;
 
             virtual bool init(const std::string& filename);
             virtual bool init(const std::vector<uint8_t>& newData);
