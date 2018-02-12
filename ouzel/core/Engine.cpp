@@ -39,6 +39,8 @@
 #include "input/emscripten/InputEm.hpp"
 #endif
 
+#include "Thread.hpp"
+
 extern std::string APPLICATION_NAME;
 
 namespace ouzel
