@@ -4,6 +4,17 @@
 #include "Thread.hpp"
 
 #if defined(_MSC_VER)
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
+#pragma pack(push,8)
+typedef struct tagTHREADNAME_INFO
+{
+    DWORD dwType; // Must be 0x1000.
+    LPCSTR szName; // Pointer to name (in user addr space).
+    DWORD dwThreadID; // Thread ID (-1=caller thread).
+    DWORD dwFlags; // Reserved for future use, must be zero.
+} THREADNAME_INFO;
+#pragma pack(pop)
+
 static DWORD WINAPI threadFunction(LPVOID parameter)
 #else
 static void* threadFunction(void* parameter)
@@ -11,8 +22,29 @@ static void* threadFunction(void* parameter)
 {
     ouzel::Thread::Parameters* parameters = static_cast<ouzel::Thread::Parameters*>(parameter);
 
+#if defined(_MSC_VER)
+    if (!parameters->name.empty())
+    {
+        THREADNAME_INFO info;
+        info.dwType = 0x1000;
+        info.szName = parameters->name.c_str();
+        info.dwThreadID = static_cast<DWORD>(-1);
+        info.dwFlags = 0;
+
+        __try
+        {
+            RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+        }
+    }
+#else
 #ifdef __APPLE__
     if (!parameters->name.empty()) pthread_setname_np(parameters->name.c_str());
+#else
+    if (!parameters->name.empty()) pthread_setname_np(pthread_self(), name.c_str());
+#endif
 #endif
 
     parameters->function();
@@ -32,32 +64,10 @@ namespace ouzel
         parameters.name = name;
 
 #if defined(_MSC_VER)
-        DWORD threadId;
-        handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, &threadId);
-        if (thread->handle == nullptr) return;
-
-        if (!name.empty())
-        {
-            THREADNAME_INFO info;
-            info.dwType = 0x1000;
-            info.szName = name.c_str();
-            info.dwThreadID = threadId;
-            info.dwFlags = 0;
-
-            __try
-            {
-                RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
-            }
-            __except (EXCEPTION_EXECUTE_HANDLER)
-            {
-            }
-        }
+        handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, nullptr);
+        if (handle == nullptr) return;
 #else
         if (pthread_create(&thread, NULL, threadFunction, &parameters) != 0) return;
-
-#ifndef __APPLE__
-        if (!name.empty()) pthread_setname_np(thread->thread, name.c_str());
-#endif
 #endif
     }
 
