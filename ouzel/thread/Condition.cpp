@@ -77,7 +77,7 @@ namespace ouzel
         ts.tv_nsec += std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
 
         ts.tv_sec += static_cast<int32_t>(ts.tv_nsec / NANOSEC_PER_SEC);
-        ts.tv_nsec %= NSEC_PER_SEC;
+        ts.tv_nsec %= NANOSEC_PER_SEC;
 
         return pthread_cond_timedwait(&condition, &mutex.mutex, &ts) == 0;
 #endif
