@@ -1,9 +1,8 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#ifdef __MACH__
-#include <mach/clock.h>
-#include <mach/mach.h>
+#ifdef __APPLE__
+#include <sys/time.h>
 #endif
 #include "Condition.hpp"
 
@@ -60,16 +59,12 @@ namespace ouzel
         return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 #else
         static const long NANOSEC_PER_SEC = 1000000000L;
-        struct timespec ts;
+        timespec ts;
 
-#ifdef __MACH__ // OS X does not have clock_gettime, use clock_get_time
-        clock_serv_t cclock;
-        mach_timespec_t mts;
-        host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
-        clock_get_time(cclock, &mts);
-        mach_port_deallocate(mach_task_self(), cclock);
-        ts.tv_sec = mts.tv_sec;
-        ts.tv_nsec = mts.tv_nsec;
+#ifdef __APPLE__ // OS X does not have clock_gettime, use gettimeofday
+        timeval tv;
+        gettimeofday(&tv, nullptr);
+        TIMEVAL_TO_TIMESPEC(&tv, &ts);
 #else
         clock_gettime(CLOCK_REALTIME, &ts);
 #endif
