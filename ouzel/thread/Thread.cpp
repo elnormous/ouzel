@@ -64,7 +64,7 @@ namespace ouzel
         parameters.name = name;
 
 #if defined(_MSC_VER)
-        handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, nullptr);
+        handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, &threadId);
         if (handle == nullptr) return;
 #else
         if (pthread_create(&thread, NULL, threadFunction, &parameters) != 0) return;
@@ -75,7 +75,9 @@ namespace ouzel
     {
 #if defined(_MSC_VER)
         handle = other.handle;
+        threadId = other.threadId;
         other.handle = nullptr;
+        other.threadId = 0;
 #else
         thread = other.thread;
         other.thread = 0;
@@ -91,7 +93,9 @@ namespace ouzel
             CloseHandle(handle);
         }
         handle = other.handle;
+        threadId = other.threadId;
         other.handle = nullptr;
+        other.threadId = 0;
 #else
         if (thread) pthread_join(thread, nullptr);
         thread = other.thread;

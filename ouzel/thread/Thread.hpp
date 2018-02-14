@@ -33,7 +33,7 @@ namespace ouzel
         inline uint64_t getId() const
         {
 #if defined(_MSC_VER)
-            return reinterpret_cast<uint64_t>(handle);
+            return static_cast<uint64_t>(threadId);
 #else
             return reinterpret_cast<uint64_t>(thread);
 #endif
@@ -58,6 +58,7 @@ namespace ouzel
         Parameters parameters;
 
 #if defined(_MSC_VER)
+        DWORD threadId = 0;
         HANDLE handle = nullptr;
 #else
         pthread_t thread = 0;
