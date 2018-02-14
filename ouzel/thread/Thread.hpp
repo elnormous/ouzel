@@ -29,7 +29,16 @@ namespace ouzel
 
         bool run();
         bool join();
-        
+
+        inline uint64_t getId() const
+        {
+#if defined(_MSC_VER)
+            return reinterpret_cast<uint64_t>(handle);
+#else
+            return reinterpret_cast<uint64_t>(thread);
+#endif
+        }
+
         inline bool isJoinable() const
         {
 #if defined(_MSC_VER)
