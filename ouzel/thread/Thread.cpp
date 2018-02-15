@@ -42,7 +42,7 @@ namespace ouzel
         state->name = name;
 
 #if defined(_MSC_VER)
-        handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, &threadId);
+        handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, &threadId);
         if (handle == nullptr) return;
 #else
         if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0) return;
