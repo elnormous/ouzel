@@ -20,11 +20,11 @@ static DWORD WINAPI threadFunction(LPVOID parameter)
 static void* threadFunction(void* parameter)
 #endif
 {
-    ouzel::Thread::Parameters* parameters = static_cast<ouzel::Thread::Parameters*>(parameter);
+    ouzel::Thread::State* state = static_cast<ouzel::Thread::State*>(parameter);
 
-    if (!parameters->name.empty()) ouzel::Thread::setCurrentThreadName(parameters->name);
+    if (!state->name.empty()) ouzel::Thread::setCurrentThreadName(state->name);
 
-    parameters->function();
+    state->function();
 
 #if defined(_MSC_VER)
     return 0;
@@ -35,16 +35,17 @@ static void* threadFunction(void* parameter)
 
 namespace ouzel
 {
-    Thread::Thread(const std::function<void()>& function, const std::string& name)
+    Thread::Thread(const std::function<void()>& function, const std::string& name):
+        state(new State())
     {
-        parameters.function = function;
-        parameters.name = name;
+        state->function = function;
+        state->name = name;
 
 #if defined(_MSC_VER)
         handle = CreateThread(nullptr, 0, threadFunction, &parameters, 0, &threadId);
         if (handle == nullptr) return;
 #else
-        if (pthread_create(&thread, NULL, threadFunction, &parameters) != 0) return;
+        if (pthread_create(&thread, NULL, threadFunction, state.get()) != 0) return;
 #endif
     }
 
@@ -72,6 +73,7 @@ namespace ouzel
         thread = other.thread;
         other.thread = 0;
 #endif
+        state = std::move(other.state);
     }
 
     Thread& Thread::operator=(Thread&& other)
@@ -91,6 +93,7 @@ namespace ouzel
         thread = other.thread;
         other.thread = 0;
 #endif
+        state = std::move(other.state);
 
         return *this;
     }

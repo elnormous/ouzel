@@ -59,14 +59,14 @@ namespace ouzel
 
         static bool setCurrentThreadName(const std::string& name);
 
-        struct Parameters
+        struct State
         {
             std::function<void()> function;
             std::string name;
         };
 
     protected:
-        Parameters parameters;
+        std::unique_ptr<State> state;
 
 #if defined(_MSC_VER)
         DWORD threadId = 0;
