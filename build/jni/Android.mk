@@ -126,7 +126,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/math/Matrix4.cpp \
     ../../ouzel/math/Plane.cpp \
     ../../ouzel/math/Quaternion.cpp \
-    ../../ouzel/math/Rectangle.cpp \
+    ../../ouzel/math/Rect.cpp \
     ../../ouzel/math/Size2.cpp \
     ../../ouzel/math/Size3.cpp \
     ../../ouzel/math/Vector2.cpp \
