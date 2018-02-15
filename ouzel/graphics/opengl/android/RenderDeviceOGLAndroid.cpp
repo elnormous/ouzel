@@ -205,7 +205,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             const EGLint attributeList[] =
             {
@@ -347,7 +347,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             if (context)
             {

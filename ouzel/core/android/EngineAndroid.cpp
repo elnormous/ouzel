@@ -54,7 +54,7 @@ namespace ouzel
 
     EngineAndroid::~EngineAndroid()
     {
-        if (updateThread.joinable()) updateThread.join();
+        if (updateThread.isJoinable()) updateThread.join();
 
         JNIEnv* jniEnv;
 
