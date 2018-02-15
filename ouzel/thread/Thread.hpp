@@ -4,6 +4,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <string>
 #if defined(_MSC_VER)
 #include <Windows.h>
