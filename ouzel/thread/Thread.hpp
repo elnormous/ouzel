@@ -31,15 +31,6 @@ namespace ouzel
         bool run();
         bool join();
 
-        inline uint64_t getId() const
-        {
-#if defined(_MSC_VER)
-            return static_cast<uint64_t>(threadId);
-#else
-            return reinterpret_cast<uint64_t>(thread);
-#endif
-        }
-
         inline bool isJoinable() const
         {
 #if defined(_MSC_VER)
@@ -49,15 +40,9 @@ namespace ouzel
 #endif
         }
 
-        static uint64_t getCurrentThreadId()
-        {
-#if defined(_MSC_VER)
-            return static_cast<uint64_t>(GetCurrentThreadId());
-#else
-            return reinterpret_cast<uint64_t>(pthread_self());
-#endif
-        }
+        bool operator==(const Thread& other);
 
+        bool isCurrentThread() const;
         static bool setCurrentThreadName(const std::string& name);
 
         struct State
@@ -70,8 +55,8 @@ namespace ouzel
         std::unique_ptr<State> state;
 
 #if defined(_MSC_VER)
-        DWORD threadId = 0;
         HANDLE handle = nullptr;
+        DWORD threadId = 0;
 #else
         pthread_t thread = 0;
 #endif

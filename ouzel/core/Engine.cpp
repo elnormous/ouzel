@@ -463,7 +463,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
         if (updateThread.isJoinable() &&
-            updateThread.getId() != Thread::getCurrentThreadId())
+            !updateThread.isCurrentThread())
         {
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
