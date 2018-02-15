@@ -223,7 +223,7 @@
     <ClCompile Include="..\ouzel\gui\RadioButtonGroup.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Rectangle.cpp">
+    <ClCompile Include="..\ouzel\math\Rect.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\animators\Repeat.cpp">
@@ -735,7 +735,7 @@
     <ClInclude Include="..\ouzel\gui\RadioButtonGroup.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\math\Rectangle.hpp">
+    <ClInclude Include="..\ouzel\math\Rect.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\animators\Repeat.hpp">
