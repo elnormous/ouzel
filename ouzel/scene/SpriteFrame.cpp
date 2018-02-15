@@ -15,7 +15,7 @@ namespace ouzel
     {
         SpriteFrame::SpriteFrame(const std::string& frameName,
                                  const Size2& textureSize,
-                                 const Rectangle& frameRectangle,
+                                 const Rect& frameRectangle,
                                  bool rotated,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
@@ -68,8 +68,8 @@ namespace ouzel
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
 
-            rectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                  sourceSize.width, sourceSize.height);
+            rectangle = Rect(finalOffset.x, finalOffset.y,
+                             sourceSize.width, sourceSize.height);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
@@ -84,7 +84,7 @@ namespace ouzel
         SpriteFrame::SpriteFrame(const std::string& frameName,
                                  const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices,
-                                 const Rectangle& frameRectangle,
+                                 const Rect& frameRectangle,
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
                                  const Vector2& pivot):
@@ -98,8 +98,8 @@ namespace ouzel
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                 -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
-            rectangle = Rectangle(finalOffset.x, finalOffset.y,
-                                  sourceSize.width, sourceSize.height);
+            rectangle = Rect(finalOffset.x, finalOffset.y,
+                             sourceSize.width, sourceSize.height);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);

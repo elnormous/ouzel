@@ -75,12 +75,12 @@ namespace ouzel
                 Renderer::DrawMode drawMode;
                 uint32_t startIndex;
                 TextureResource* renderTarget;
-                Rectangle viewport;
+                Rect viewport;
                 bool depthWrite;
                 bool depthTest;
                 bool wireframe;
                 bool scissorTest;
-                Rectangle scissorRectangle;
+                Rect scissorRectangle;
                 Renderer::CullMode cullMode;
             };
 

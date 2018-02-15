@@ -12,7 +12,7 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
-#include "math/Rectangle.hpp"
+#include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
 #include "math/Color.hpp"
@@ -111,12 +111,12 @@ namespace ouzel
                                 DrawMode drawMode,
                                 uint32_t startIndex,
                                 const std::shared_ptr<Texture>& renderTarget,
-                                const Rectangle& viewport,
+                                const Rect& viewport,
                                 bool depthWrite,
                                 bool depthTest,
                                 bool wireframe,
                                 bool scissorTest,
-                                const Rectangle& scissorRectangle,
+                                const Rect& scissorRectangle,
                                 CullMode cullMode);
 
         protected:

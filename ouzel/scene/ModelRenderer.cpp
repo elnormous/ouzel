@@ -47,12 +47,12 @@ namespace ouzel
                                  float opacity,
                                  const Matrix4& renderViewProjection,
                                  const std::shared_ptr<graphics::Texture>& renderTarget,
-                                 const Rectangle& renderViewport,
+                                 const Rect& renderViewport,
                                  bool depthWrite,
                                  bool depthTest,
                                  bool wireframe,
                                  bool scissorTest,
-                                 const Rectangle& scissorRectangle)
+                                 const Rect& scissorRectangle)
         {
             Component::draw(transformMatrix,
                             opacity,

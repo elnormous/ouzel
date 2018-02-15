@@ -34,12 +34,12 @@ namespace ouzel
                               float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
+                              const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
+                              const Rect& scissorRectangle) override;
 
             bool init(const ParticleSystemData& newParticleSystemData);
             bool init(const std::string& filename);

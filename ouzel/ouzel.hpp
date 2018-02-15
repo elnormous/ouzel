@@ -86,7 +86,7 @@
 #include "math/Matrix4.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
-#include "math/Rectangle.hpp"
+#include "math/Rect.hpp"
 #include "math/Size2.hpp"
 #include "math/Size3.hpp"
 #include "math/Vector2.hpp"

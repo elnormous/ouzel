@@ -286,10 +286,10 @@ namespace ouzel
                 {
                     for (uint32_t y = 0; y < spritesY; ++y)
                     {
-                        Rectangle rectangle(spriteSize.width * x,
-                                            spriteSize.height * y,
-                                            spriteSize.width,
-                                            spriteSize.height);
+                        Rect rectangle(spriteSize.width * x,
+                                       spriteSize.height * y,
+                                       spriteSize.width,
+                                       spriteSize.height);
 
                         scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                         newSpriteData.frames.push_back(frame);
@@ -335,10 +335,10 @@ namespace ouzel
                         {
                             for (uint32_t y = 0; y < spritesY; ++y)
                             {
-                                Rectangle rectangle(spriteSize.width * x,
-                                                    spriteSize.height * y,
-                                                    spriteSize.width,
-                                                    spriteSize.height);
+                                Rect rectangle(spriteSize.width * x,
+                                               spriteSize.height * y,
+                                               spriteSize.width,
+                                               spriteSize.height);
 
                                 scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                                 newSpriteData.frames.push_back(frame);
