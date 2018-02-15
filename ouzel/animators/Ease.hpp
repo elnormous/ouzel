@@ -14,9 +14,9 @@ namespace ouzel
         public:
             enum class Type
             {
-                IN,
-                OUT,
-                INOUT
+                EASE_IN,
+                EASE_OUT,
+                EASE_INOUT
             };
 
             enum class Func

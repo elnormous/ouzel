@@ -272,7 +272,7 @@ namespace ouzel
 
             switch (type)
             {
-                case Type::IN:
+                case Type::EASE_IN:
                 {
                     switch (func)
                     {
@@ -290,7 +290,7 @@ namespace ouzel
                     break;
                 }
 
-                case Type::OUT:
+                case Type::EASE_OUT:
                 {
                     switch (func)
                     {
@@ -308,7 +308,7 @@ namespace ouzel
                     break;
                 }
 
-                case Type::INOUT:
+                case Type::EASE_INOUT:
                 {
                     switch (func)
                     {
