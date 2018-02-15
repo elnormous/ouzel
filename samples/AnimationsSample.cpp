@@ -84,7 +84,7 @@ AnimationsSample::AnimationsSample():
 
     ballDelay.reset(new scene::Animator(1.0f));
     ballMove.reset(new scene::Move(2.0f, Vector2(0.0f, -240.0f), false));
-    ballEase.reset(new scene::Ease(ballMove, scene::Ease::Type::OUT, scene::Ease::Func::BOUNCE));
+    ballEase.reset(new scene::Ease(ballMove, scene::Ease::Type::EASE_OUT, scene::Ease::Func::BOUNCE));
 
     vector<scene::Animator*> sequence2 = {
         ballDelay.get(),
