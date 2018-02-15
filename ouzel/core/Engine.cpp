@@ -64,7 +64,7 @@ namespace ouzel
         active = false;
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.joinable())
+        if (updateThread.isJoinable())
         {
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
@@ -91,7 +91,7 @@ namespace ouzel
 
     bool Engine::init()
     {
-        setCurrentThreadName("Main");
+        Thread::setCurrentThreadName("Main");
 
 #if OUZEL_PLATFORM_MACOS
         fileSystem.reset(new FileSystemMacOS());
@@ -410,7 +410,7 @@ namespace ouzel
             previousUpdateTime = std::chrono::steady_clock::now();
 
 #if OUZEL_MULTITHREADED
-            updateThread = std::thread(&Engine::main, this);
+            updateThread = Thread(std::bind(&Engine::main, this), "Game");
 #else
             main();
 #endif
@@ -462,8 +462,8 @@ namespace ouzel
         }
 
 #if OUZEL_MULTITHREADED
-        if (updateThread.joinable() &&
-            updateThread.get_id() != std::this_thread::get_id())
+        if (updateThread.isJoinable() &&
+            updateThread.getId() != Thread::getCurrentThreadId())
         {
             {
                 std::unique_lock<std::mutex> lock(updateMutex);
@@ -550,8 +550,6 @@ namespace ouzel
         ouzelMain(args);
 
 #if OUZEL_MULTITHREADED
-        setCurrentThreadName("Game");
-
         while (active)
         {
             if (!paused)
@@ -643,10 +641,5 @@ namespace ouzel
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         screenSaverEnabled = newScreenSaverEnabled;
-    }
-
-    bool Engine::setCurrentThreadName(const std::string&)
-    {
-        return false;
     }
 }

@@ -18,7 +18,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             if (context)
             {
@@ -196,7 +196,7 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
+            renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
 
             return true;
         }
@@ -338,7 +338,7 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLAndroid::main, this);
+            renderThread = Thread(std::bind(&RenderDeviceOGLAndroid::main, this), "Render");
 
             return true;
         }
@@ -401,8 +401,6 @@ namespace ouzel
 
         void RenderDeviceOGLAndroid::main()
         {
-            engine->setCurrentThreadName("Render");
-
             while (running)
             {
                 process();

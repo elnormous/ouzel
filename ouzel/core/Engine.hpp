@@ -7,7 +7,6 @@
 #include <set>
 #include <vector>
 #include <functional>
-#include <thread>
 #include <atomic>
 #include <chrono>
 #include "Setup.h"
@@ -22,6 +21,7 @@
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
+#include "thread/Thread.hpp"
 #include "utils/INI.hpp"
 
 void ouzelMain(const std::vector<std::string>& args);
@@ -84,8 +84,6 @@ namespace ouzel
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
         bool isScreenSaverEnabled() const { return screenSaverEnabled; }
 
-        virtual bool setCurrentThreadName(const std::string& name);
-
     protected:
         virtual void main();
         void executeAll();
@@ -112,7 +110,7 @@ namespace ouzel
         std::set<UpdateCallback*> updateCallbackDeleteSet;
 
 #if OUZEL_MULTITHREADED
-        std::thread updateThread;
+        Thread updateThread;
         std::mutex updateMutex;
         std::condition_variable updateCondition;
 #endif

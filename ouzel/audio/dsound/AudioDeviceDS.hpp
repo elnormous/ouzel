@@ -8,9 +8,9 @@
 #if OUZEL_COMPILE_DIRECTSOUND
 
 #include <atomic>
-#include <thread>
 #include <dsound.h>
 #include "audio/AudioDevice.hpp"
+#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -42,7 +42,7 @@ namespace ouzel
             std::vector<uint8_t> data;
 
             std::atomic<bool> running;
-            std::thread audioThread;
+            Thread audioThread;
         };
     } // namespace audio
 } // namespace ouzel

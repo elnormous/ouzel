@@ -23,7 +23,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             if (context)
             {
@@ -176,7 +176,7 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLRasp::main, this);
+            renderThread = Thread(std::bind(&RenderDeviceOGLRasp::main, this), "Render");
 
             return true;
         }
@@ -205,8 +205,6 @@ namespace ouzel
 
         void RenderDeviceOGLRasp::main()
         {
-            engine->setCurrentThreadName("Render");
-
             while (running)
             {
                 process();

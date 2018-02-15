@@ -21,7 +21,7 @@ namespace ouzel
         AudioDeviceALSA::~AudioDeviceALSA()
         {
             running = false;
-            if (audioThread.joinable()) audioThread.join();
+            if (audioThread.isJoinable()) audioThread.join();
 
             if (swParams) snd_pcm_sw_params_free(swParams);
             if (hwParams) snd_pcm_hw_params_free(hwParams);
@@ -176,15 +176,13 @@ namespace ouzel
             snd_pcm_sw_params_free(swParams);
             swParams = nullptr;
 
-            audioThread = std::thread(&AudioDeviceALSA::run, this);
+            audioThread = Thread(std::bind(&AudioDeviceALSA::run, this), "Audio");
 
             return true;
         }
 
         void AudioDeviceALSA::run()
         {
-            engine->setCurrentThreadName("Audio");
-
             while (running)
             {
                 int err;

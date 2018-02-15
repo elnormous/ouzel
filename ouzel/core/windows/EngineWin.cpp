@@ -183,27 +183,4 @@ namespace ouzel
         intptr_t result = reinterpret_cast<intptr_t>(ShellExecuteW(nullptr, L"open", urlBuffer, nullptr, nullptr, SW_SHOWNORMAL));
         return result > 32;
     }
-
-    bool EngineWin::setCurrentThreadName(const std::string& name)
-    {
-#ifndef __GNUC__ // clang and gcc do not support SEH exceptions
-        THREADNAME_INFO info;
-        info.dwType = 0x1000;
-        info.szName = name.c_str();
-        info.dwThreadID = static_cast<DWORD>(-1);
-        info.dwFlags = 0;
-
-        __try
-        {
-            RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER)
-        {
-        }
-
-        return true;
-#else
-        return false;
-#endif
-    }
 }

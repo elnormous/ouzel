@@ -7,11 +7,11 @@
 
 #if OUZEL_PLATFORM_RASPBIAN && OUZEL_COMPILE_OPENGL
 
-#include <thread>
 #include <atomic>
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -43,7 +43,7 @@ namespace ouzel
             EGLContext context = 0;
 
             std::atomic<bool> running;
-            std::thread renderThread;
+            Thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

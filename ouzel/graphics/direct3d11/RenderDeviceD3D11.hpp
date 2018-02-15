@@ -7,12 +7,12 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
-#include <thread>
 #include <atomic>
 #include <map>
 #include <d3d11.h>
 #include "graphics/RenderDevice.hpp"
 #include "graphics/Texture.hpp"
+#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -94,7 +94,7 @@ namespace ouzel
             FLOAT frameBufferClearColor[4];
 
             std::atomic<bool> running;
-            std::thread renderThread;
+            Thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel
