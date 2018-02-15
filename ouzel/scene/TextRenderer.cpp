@@ -136,16 +136,24 @@ namespace ouzel
 
         void TextRenderer::updateText()
         {
-            font->getVertices(text, Color::WHITE, fontSize, textAnchor, indices, vertices, texture);
-            needsMeshUpdate = true;
-
             boundingBox.reset();
 
-            for (const graphics::Vertex& vertex : vertices)
+            if (font)
             {
-                boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
-            }
+                font->getVertices(text, Color::WHITE, fontSize, textAnchor, indices, vertices, texture);
+                needsMeshUpdate = true;
 
+                for (const graphics::Vertex& vertex : vertices)
+                {
+                    boundingBox.insertPoint(Vector2(vertex.position.x, vertex.position.y));
+                }
+            }
+            else
+            {
+                indices.clear();
+                vertices.clear();
+                texture.reset();
+            }
         }
     } // namespace scene
 } // namespace ouzel
