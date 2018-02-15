@@ -120,6 +120,7 @@ namespace ouzel
         __except (EXCEPTION_EXECUTE_HANDLER)
         {
         }
+        return true;
 #else
 #ifdef __APPLE__
         return pthread_setname_np(name.c_str()) == 0;
