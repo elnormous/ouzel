@@ -392,8 +392,8 @@
 		303B75501C2A3CB700FEDE92 /* Matrix3.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E331C237C70008B1151 /* Matrix3.hpp */; };
 		303B75511C2A3CB700FEDE92 /* Matrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix4.cpp */; };
 		303B75521C2A3CB700FEDE92 /* Matrix4.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix4.hpp */; };
-		303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
-		303B75541C2A3CB700FEDE92 /* Rectangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.hpp */; };
+		303B75531C2A3CB700FEDE92 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rect.cpp */; };
+		303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		303B75551C2A3CB700FEDE92 /* Size2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E981C26F5CF008B1151 /* Size2.cpp */; };
 		303B75561C2A3CB700FEDE92 /* Size2.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E991C26F5CF008B1151 /* Size2.hpp */; };
 		303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4A1C237C70008B1151 /* Vector2.cpp */; };
@@ -438,7 +438,7 @@
 		303B76431C355A3B00FEDE92 /* TextureResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E461C237C70008B1151 /* TextureResource.cpp */; };
 		303B76441C355A3B00FEDE92 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74FE1C28208800FEDE92 /* FileSystem.cpp */; };
 		303B76461C355A3B00FEDE92 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4A1C237C70008B1151 /* Vector2.cpp */; };
-		303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
+		303B76491C355A3B00FEDE92 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rect.cpp */; };
 		303B764B1C355A3B00FEDE92 /* ImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B74E11C277A7500FEDE92 /* ImageData.cpp */; };
 		303B764C1C355A3B00FEDE92 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2B1C237C70008B1151 /* Camera.cpp */; };
 		303B764D1C355A3B00FEDE92 /* Matrix4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E341C237C70008B1151 /* Matrix4.cpp */; };
@@ -457,7 +457,7 @@
 		303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
 		303B76661C355A3B00FEDE92 /* Actor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Actor.hpp */; };
 		303B76681C355A3B00FEDE92 /* Input.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.hpp */; };
-		303B76691C355A3B00FEDE92 /* Rectangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.hpp */; };
+		303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
 		303B766E1C355A3B00FEDE92 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
 		303B76701C355A3B00FEDE92 /* Event.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.hpp */; };
@@ -578,8 +578,8 @@
 		304A8E5B1C237C70008B1151 /* Matrix4.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix4.hpp */; };
 		304A8E5C1C237C70008B1151 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E361C237C70008B1151 /* Actor.cpp */; };
 		304A8E5D1C237C70008B1151 /* Actor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Actor.hpp */; };
-		304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rectangle.cpp */; };
-		304A8E621C237C70008B1151 /* Rectangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rectangle.hpp */; };
+		304A8E611C237C70008B1151 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3B1C237C70008B1151 /* Rect.cpp */; };
+		304A8E621C237C70008B1151 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		304A8E641C237C70008B1151 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		304A8E651C237C70008B1151 /* Renderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Renderer.hpp */; };
 		304A8E661C237C70008B1151 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E401C237C70008B1151 /* SceneManager.cpp */; };
@@ -1248,8 +1248,8 @@
 		304A8E351C237C70008B1151 /* Matrix4.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix4.hpp; sourceTree = "<group>"; };
 		304A8E361C237C70008B1151 /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		304A8E371C237C70008B1151 /* Actor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Actor.hpp; sourceTree = "<group>"; };
-		304A8E3B1C237C70008B1151 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
-		304A8E3C1C237C70008B1151 /* Rectangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rectangle.hpp; sourceTree = "<group>"; };
+		304A8E3B1C237C70008B1151 /* Rect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rect.cpp; sourceTree = "<group>"; };
+		304A8E3C1C237C70008B1151 /* Rect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rect.hpp; sourceTree = "<group>"; };
 		304A8E3E1C237C70008B1151 /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		304A8E3F1C237C70008B1151 /* Renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
 		304A8E401C237C70008B1151 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
@@ -1693,8 +1693,8 @@
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384C1DFDE49E00305B3B /* Quaternion.cpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
-				304A8E3B1C237C70008B1151 /* Rectangle.cpp */,
-				304A8E3C1C237C70008B1151 /* Rectangle.hpp */,
+				304A8E3B1C237C70008B1151 /* Rect.cpp */,
+				304A8E3C1C237C70008B1151 /* Rect.hpp */,
 				304A8E981C26F5CF008B1151 /* Size2.cpp */,
 				304A8E991C26F5CF008B1151 /* Size2.hpp */,
 				304B27531C9384A600BA162D /* Size3.cpp */,
@@ -2331,7 +2331,7 @@
 				300985132031276000BB0340 /* Condition.hpp in Headers */,
 				304E763C1F7095DE0025C0DB /* Client.hpp in Headers */,
 				3038201B1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
-				303B75541C2A3CB700FEDE92 /* Rectangle.hpp in Headers */,
+				303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */,
 				30519CBB1F9B53AB00AF3DC4 /* LoaderWave.hpp in Headers */,
 				306672631F964A77004515F2 /* Light.hpp in Headers */,
 				3082C39F1D9565DE0090FC9D /* ColorVSGL2.h in Headers */,
@@ -2517,7 +2517,7 @@
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				3038201D1D80A40700677CAB /* TexturePSTVOS.h in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
-				303B76691C355A3B00FEDE92 /* Rectangle.hpp in Headers */,
+				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
 				3082C3A11D9565DE0090FC9D /* ColorVSGL2.h in Headers */,
 				303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */,
 				3098A55F1EA01CA900528A54 /* GamepadTVOS.hpp in Headers */,
@@ -2756,7 +2756,7 @@
 				3038213D1D81876E00677CAB /* BufferResourceEmpty.hpp in Headers */,
 				3031C1401F0C43D0002CA717 /* StreamVorbis.hpp in Headers */,
 				3047F7611C4C60B900774E3D /* Fade.hpp in Headers */,
-				304A8E621C237C70008B1151 /* Rectangle.hpp in Headers */,
+				304A8E621C237C70008B1151 /* Rect.hpp in Headers */,
 				30FE38521DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				301EB3AD1CCD77F600466E92 /* TextRenderer.hpp in Headers */,
 				303821431D81876E00677CAB /* MeshBufferResourceEmpty.hpp in Headers */,
@@ -3035,7 +3035,7 @@
 				3031C13C1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */,
 				3047F7471C4C350D00774E3D /* Move.cpp in Sources */,
 				30419DF21D162BEF00A63759 /* SoundData.cpp in Sources */,
-				303B75531C2A3CB700FEDE92 /* Rectangle.cpp in Sources */,
+				303B75531C2A3CB700FEDE92 /* Rect.cpp in Sources */,
 				303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */,
 				30519CB81F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
@@ -3204,7 +3204,7 @@
 				3047F7481C4C350D00774E3D /* Move.cpp in Sources */,
 				30381F6F1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
 				30519CBA1F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
-				303B76491C355A3B00FEDE92 /* Rectangle.cpp in Sources */,
+				303B76491C355A3B00FEDE92 /* Rect.cpp in Sources */,
 				300985222031277D00BB0340 /* Lock.cpp in Sources */,
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
 				303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
@@ -3346,7 +3346,7 @@
 				30381F121D8094F100677CAB /* BufferResource.cpp in Sources */,
 				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				304A8E6C1C237C70008B1151 /* TextureResource.cpp in Sources */,
-				304A8E611C237C70008B1151 /* Rectangle.cpp in Sources */,
+				304A8E611C237C70008B1151 /* Rect.cpp in Sources */,
 				30381F8C1D80A3EC00677CAB /* TextureResourceOGL.cpp in Sources */,
 				30C758B61F4A0309008499DC /* RenderDevice.cpp in Sources */,
 				30519CB41F9B506F00AF3DC4 /* Loader.cpp in Sources */,

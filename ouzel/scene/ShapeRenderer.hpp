@@ -27,12 +27,12 @@ namespace ouzel
                               float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
+                              const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
+                              const Rect& scissorRectangle) override;
 
             void clear();
 
@@ -48,7 +48,7 @@ namespace ouzel
                         uint32_t segments = 16,
                         float thickness = 0.0f);
 
-            bool rectangle(const Rectangle& rectangle,
+            bool rectangle(const Rect& rectangle,
                            const Color& color,
                            bool fill = false,
                            float thickness = 0.0f);

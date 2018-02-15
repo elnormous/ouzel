@@ -8,37 +8,37 @@
 
 namespace ouzel
 {
-    class Rectangle
+    class Rect
     {
     public:
         Vector2 position;
         Size2 size;
 
-        Rectangle()
+        Rect()
         {
         }
 
-        Rectangle(float width, float height):
+        Rect(float width, float height):
             size(width, height)
         {
         }
 
-        Rectangle(float initX, float initY, float width, float height):
+        Rect(float initX, float initY, float width, float height):
             position(initX, initY), size(width, height)
         {
         }
 
-        Rectangle(const Vector2& initPosition, float width, float height):
+        Rect(const Vector2& initPosition, float width, float height):
             position(initPosition), size(width, height)
         {
         }
 
-        Rectangle(const Vector2& initPosition, const Size2& initSize):
+        Rect(const Vector2& initPosition, const Size2& initSize):
             position(initPosition), size(initSize)
         {
         }
 
-        Rectangle(const Rectangle& copy):
+        Rect(const Rect& copy):
             position(copy.position), size(copy.size)
         {
         }
@@ -121,7 +121,7 @@ namespace ouzel
             return containsPoint(x, y) && containsPoint(x + aWidth, y + aHeight);
         }
 
-        bool contains(const Rectangle& r) const
+        bool contains(const Rect& r) const
         {
             return contains(r.position.x, r.position.y, r.size.width, r.size.height);
         }
@@ -136,14 +136,14 @@ namespace ouzel
             return true;
         }
 
-        bool intersects(const Rectangle& r) const
+        bool intersects(const Rect& r) const
         {
             return intersects(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
-        static bool intersect(const Rectangle& r1, const Rectangle& r2, Rectangle* dst);
+        static bool intersect(const Rect& r1, const Rect& r2, Rect* dst);
 
-        static void combine(const Rectangle& r1, const Rectangle& r2, Rectangle* dst);
+        static void combine(const Rect& r1, const Rect& r2, Rect* dst);
 
         void inflate(float horizontalAmount, float verticalAmount)
         {
@@ -153,7 +153,7 @@ namespace ouzel
             size.height += verticalAmount * 2;
         }
 
-        Rectangle& operator=(const Rectangle& r)
+        Rect& operator=(const Rect& r)
         {
             position.x = r.position.x;
             position.y = r.position.y;
@@ -162,25 +162,25 @@ namespace ouzel
             return *this;
         }
 
-        bool operator==(const Rectangle& r) const
+        bool operator==(const Rect& r) const
         {
             return position.x == r.position.x && size.width == r.size.width &&
                 position.y == r.position.y && size.height == r.size.height;
         }
 
-        bool operator!=(const Rectangle& r) const
+        bool operator!=(const Rect& r) const
         {
             return position.x != r.position.x || size.width != r.size.width ||
                 position.y != r.position.y || size.height != r.size.height;
         }
 
-        inline Rectangle operator*(float scalar) const
+        inline Rect operator*(float scalar) const
         {
-            return Rectangle(position.x * scalar, position.y * scalar,
-                             size.width * scalar, size.height * scalar);
+            return Rect(position.x * scalar, position.y * scalar,
+                        size.width * scalar, size.height * scalar);
         }
 
-        inline Rectangle& operator*=(float scalar)
+        inline Rect& operator*=(float scalar)
         {
             position.x *= scalar;
             position.y *= scalar;
@@ -189,13 +189,13 @@ namespace ouzel
             return *this;
         }
 
-        inline Rectangle operator/(float scalar) const
+        inline Rect operator/(float scalar) const
         {
-            return Rectangle(position.x / scalar, position.y / scalar,
-                             size.width / scalar, size.height / scalar);
+            return Rect(position.x / scalar, position.y / scalar,
+                        size.width / scalar, size.height / scalar);
         }
 
-        inline Rectangle& operator/=(float scalar)
+        inline Rect& operator/=(float scalar)
         {
             position.x /= scalar;
             position.y /= scalar;

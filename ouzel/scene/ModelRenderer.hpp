@@ -26,12 +26,12 @@ namespace ouzel
                               float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
+                              const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle) override;
+                              const Rect& scissorRectangle) override;
 
             virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }

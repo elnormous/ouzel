@@ -55,10 +55,10 @@ namespace ouzel
 
                 const json::Value& frameRectangleObject = frameObject["frame"];
 
-                Rectangle frameRectangle(static_cast<float>(frameRectangleObject["x"].asInt32()),
-                                         static_cast<float>(frameRectangleObject["y"].asInt32()),
-                                         static_cast<float>(frameRectangleObject["w"].asInt32()),
-                                         static_cast<float>(frameRectangleObject["h"].asInt32()));
+                Rect frameRectangle(static_cast<float>(frameRectangleObject["x"].asInt32()),
+                                    static_cast<float>(frameRectangleObject["y"].asInt32()),
+                                    static_cast<float>(frameRectangleObject["w"].asInt32()),
+                                    static_cast<float>(frameRectangleObject["h"].asInt32()));
 
                 const json::Value& sourceSizeObject = frameObject["sourceSize"];
 

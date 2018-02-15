@@ -23,12 +23,12 @@ namespace ouzel
                              float,
                              const Matrix4&,
                              const std::shared_ptr<graphics::Texture>&,
-                             const Rectangle&,
+                             const Rect&,
                              bool,
                              bool,
                              bool,
                              bool,
-                             const Rectangle&)
+                             const Rect&)
         {
         }
 

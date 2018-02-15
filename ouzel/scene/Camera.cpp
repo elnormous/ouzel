@@ -244,10 +244,10 @@ namespace ouzel
                 halfWorldSize.height *= (fabsf(viewProjection.m[1]) + fabsf(viewProjection.m[5])) / 2.0f;
 
                 // create visible rect in clip space
-                Rectangle visibleRect(-halfWorldSize.width,
-                                      -halfWorldSize.height,
-                                      1.0f + halfWorldSize.width * 2.0f,
-                                      1.0f + halfWorldSize.height * 2.0f);
+                Rect visibleRect(-halfWorldSize.width,
+                                 -halfWorldSize.height,
+                                 1.0f + halfWorldSize.width * 2.0f,
+                                 1.0f + halfWorldSize.height * 2.0f);
 
                 return visibleRect.containsPoint(v2p);
             }
@@ -266,7 +266,7 @@ namespace ouzel
             }
         }
 
-        void Camera::setViewport(const Rectangle& newViewport)
+        void Camera::setViewport(const Rect& newViewport)
         {
             viewport = newViewport;
             recalculateProjection();

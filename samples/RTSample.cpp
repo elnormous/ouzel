@@ -28,12 +28,12 @@ RTSample::RTSample():
 
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera1.setTargetContentSize(Size2(400.0f, 600.0f));
-    camera1.setViewport(Rectangle(0.0f, 0.0f, 0.5f, 1.0f));
+    camera1.setViewport(Rect(0.0f, 0.0f, 0.5f, 1.0f));
     camera1Actor.addComponent(&camera1);
 
     camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera2.setTargetContentSize(Size2(400.0f, 600.0f));
-    camera2.setViewport(Rectangle(0.5f, 0.0f, 0.5f, 1.0f));
+    camera2.setViewport(Rect(0.5f, 0.0f, 0.5f, 1.0f));
     camera2Actor.addComponent(&camera2);
 
     layer.addChild(&camera1Actor);

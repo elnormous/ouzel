@@ -4,11 +4,11 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
-#include "Rectangle.hpp"
+#include "Rect.hpp"
 
 namespace ouzel
 {
-    bool Rectangle::intersect(const Rectangle& r1, const Rectangle& r2, Rectangle* dst)
+    bool Rect::intersect(const Rect& r1, const Rect& r2, Rect* dst)
     {
         assert(dst);
 
@@ -29,7 +29,7 @@ namespace ouzel
         return false;
     }
 
-    void Rectangle::combine(const Rectangle& r1, const Rectangle& r2, Rectangle* dst)
+    void Rect::combine(const Rect& r1, const Rect& r2, Rect* dst)
     {
         assert(dst);
 

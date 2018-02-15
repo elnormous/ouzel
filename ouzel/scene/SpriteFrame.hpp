@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include "math/Box2.hpp"
-#include "math/Rectangle.hpp"
+#include "math/Rect.hpp"
 #include "graphics/Vertex.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
@@ -20,7 +20,7 @@ namespace ouzel
         public:
             SpriteFrame(const std::string& frameName,
                         const Size2& textureSize,
-                        const Rectangle& frameRectangle,
+                        const Rect& frameRectangle,
                         bool rotated,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
@@ -29,20 +29,20 @@ namespace ouzel
             SpriteFrame(const std::string& frameName,
                         const std::vector<uint16_t>& indices,
                         const std::vector<graphics::Vertex>& vertices,
-                        const Rectangle& frameRectangle,
+                        const Rect& frameRectangle,
                         const Size2& sourceSize,
                         const Vector2& sourceOffset,
                         const Vector2& pivot);
 
             inline const std::string& getName() const { return name; }
-            inline const Rectangle& getRectangle() const { return rectangle; }
+            inline const Rect& getRectangle() const { return rectangle; }
 
             inline const Box2& getBoundingBox() const { return boundingBox; }
             inline const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
 
         protected:
             std::string name;
-            Rectangle rectangle;
+            Rect rectangle;
             Box2 boundingBox;
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;

@@ -8,7 +8,7 @@
 #include "math/Box3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Color.hpp"
-#include "math/Rectangle.hpp"
+#include "math/Rect.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -53,12 +53,12 @@ namespace ouzel
                               float opacity,
                               const Matrix4& renderViewProjection,
                               const std::shared_ptr<graphics::Texture>& renderTarget,
-                              const Rectangle& renderViewport,
+                              const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
                               bool wireframe,
                               bool scissorTest,
-                              const Rectangle& scissorRectangle);
+                              const Rect& scissorRectangle);
 
             virtual void setBoundingBox(const Box3& newBoundingBox) { boundingBox = newBoundingBox; }
             virtual const Box3& getBoundingBox() const { return boundingBox; }

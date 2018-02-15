@@ -6,7 +6,7 @@
 #include <memory>
 #include "scene/Component.hpp"
 #include "math/MathUtils.hpp"
-#include "math/Rectangle.hpp"
+#include "math/Rect.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -65,9 +65,9 @@ namespace ouzel
 
             bool checkVisibility(const Matrix4& boxTransform, const Box3& box) const;
 
-            void setViewport(const Rectangle& newViewport);
-            inline const Rectangle& getViewport() const { return viewport; }
-            inline const Rectangle& getRenderViewport() const { return renderViewport; }
+            void setViewport(const Rect& newViewport);
+            inline const Rect& getViewport() const { return viewport; }
+            inline const Rect& getRenderViewport() const { return renderViewport; }
 
             void setScaleMode(ScaleMode newScaleMode);
             inline ScaleMode getScaleMode() const { return scaleMode; }
@@ -104,8 +104,8 @@ namespace ouzel
 
             Matrix4 projection;
 
-            Rectangle viewport = Rectangle(0.0f, 0.0f, 1.0f, 1.0f);
-            Rectangle renderViewport;
+            Rect viewport = Rect(0.0f, 0.0f, 1.0f, 1.0f);
+            Rect renderViewport;
             Size2 targetContentSize;
 
             ScaleMode scaleMode = ScaleMode::NONE;

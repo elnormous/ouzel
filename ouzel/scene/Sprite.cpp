@@ -96,10 +96,10 @@ namespace ouzel
             {
                 for (uint32_t y = 0; y < spritesY; ++y)
                 {
-                    Rectangle rectangle(spriteSize.width * x,
-                                        spriteSize.height * y,
-                                        spriteSize.width,
-                                        spriteSize.height);
+                    Rect rectangle(spriteSize.width * x,
+                                   spriteSize.height * y,
+                                   spriteSize.width,
+                                   spriteSize.height);
 
                     SpriteFrame frame = SpriteFrame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     frames.push_back(frame);
@@ -187,12 +187,12 @@ namespace ouzel
                           float opacity,
                           const Matrix4& renderViewProjection,
                           const std::shared_ptr<graphics::Texture>& renderTarget,
-                          const Rectangle& renderViewport,
+                          const Rect& renderViewport,
                           bool depthWrite,
                           bool depthTest,
                           bool wireframe,
                           bool scissorTest,
-                          const Rectangle& scissorRectangle)
+                          const Rect& scissorRectangle)
         {
             Component::draw(transformMatrix,
                             opacity,
