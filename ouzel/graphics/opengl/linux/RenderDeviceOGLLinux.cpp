@@ -24,7 +24,7 @@ namespace ouzel
         {
             running = false;
             flushCommands();
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window->getResource());
 
@@ -161,7 +161,7 @@ namespace ouzel
             }
 
             running = true;
-            renderThread = std::thread(&RenderDeviceOGLLinux::main, this);
+            renderThread = Thread(std::bind(&RenderDeviceOGLLinux::main, this), "Render");
 
             return true;
         }
@@ -212,8 +212,6 @@ namespace ouzel
 
         void RenderDeviceOGLLinux::main()
         {
-            engine->setCurrentThreadName("Render");
-
             while (running)
             {
                 process();

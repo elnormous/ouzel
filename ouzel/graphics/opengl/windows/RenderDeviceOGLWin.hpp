@@ -7,10 +7,10 @@
 
 #if OUZEL_PLATFORM_WINDOWS && OUZEL_COMPILE_OPENGL
 
-#include <thread>
 #include <atomic>
 #include <windows.h>
 #include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "thread/Thread.hpp"
 
 namespace ouzel
 {
@@ -41,7 +41,7 @@ namespace ouzel
             HGLRC renderContext = 0;
 
             std::atomic<bool> running;
-            std::thread renderThread;
+            Thread renderThread;
         };
     } // namespace graphics
 } // namespace ouzel

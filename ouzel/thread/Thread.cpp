@@ -22,30 +22,7 @@ static void* threadFunction(void* parameter)
 {
     ouzel::Thread::Parameters* parameters = static_cast<ouzel::Thread::Parameters*>(parameter);
 
-#if defined(_MSC_VER)
-    if (!parameters->name.empty())
-    {
-        THREADNAME_INFO info;
-        info.dwType = 0x1000;
-        info.szName = parameters->name.c_str();
-        info.dwThreadID = static_cast<DWORD>(-1);
-        info.dwFlags = 0;
-
-        __try
-        {
-            RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER)
-        {
-        }
-    }
-#else
-#ifdef __APPLE__
-    if (!parameters->name.empty()) pthread_setname_np(parameters->name.c_str());
-#else
-    if (!parameters->name.empty()) pthread_setname_np(pthread_self(), parameters->name.c_str());
-#endif
-#endif
+    if (!parameters->name.empty()) ouzel::Thread::setCurrentThreadName(parameters->name);
 
     parameters->function();
 
@@ -68,6 +45,19 @@ namespace ouzel
         if (handle == nullptr) return;
 #else
         if (pthread_create(&thread, NULL, threadFunction, &parameters) != 0) return;
+#endif
+    }
+
+    Thread::~Thread()
+    {
+#if defined(_MSC_VER)
+        if (handle)
+        {
+            WaitForSingleObject(handle, INFINITE);
+            CloseHandle(handle);
+        }
+#else
+        if (thread) pthread_join(thread, nullptr);
 #endif
     }
 
@@ -105,25 +95,37 @@ namespace ouzel
         return *this;
     }
 
-    Thread::~Thread()
-    {
-#if defined(_MSC_VER)
-        if (handle)
-        {
-            WaitForSingleObject(handle, INFINITE);
-            CloseHandle(handle);
-        }
-#else
-        if (thread) pthread_join(thread, nullptr);
-#endif
-    }
-
     bool Thread::join()
     {
 #if defined(_MSC_VER)
         return handle ? (WaitForSingleObject(handle, INFINITE) != WAIT_FAILED) : false;
 #else
         return thread ? (pthread_join(thread, nullptr) == 0) : false;
+#endif
+    }
+
+    bool Thread::setCurrentThreadName(const std::string& name)
+    {
+#if defined(_MSC_VER)
+        THREADNAME_INFO info;
+        info.dwType = 0x1000;
+        info.szName = name.c_str();
+        info.dwThreadID = static_cast<DWORD>(-1);
+        info.dwFlags = 0;
+
+        __try
+        {
+            RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<ULONG_PTR*>(&info));
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+        }
+#else
+#ifdef __APPLE__
+        return pthread_setname_np(name.c_str()) == 0;
+#else
+        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
+#endif
 #endif
     }
 }

@@ -84,7 +84,7 @@ namespace ouzel
         {
 #if OUZEL_MULTITHREADED
             running = false;
-            if (audioThread.joinable()) audioThread.join();
+            if (audioThread.isJoinable()) audioThread.join();
 #endif
 
             if (sourceId)
@@ -248,7 +248,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             running = true;
-            audioThread = std::thread(&AudioDeviceAL::run, this);
+            audioThread = Thread(std::bind(&AudioDeviceAL::run, this), "Audio");
 #endif
 
             return true;
@@ -330,8 +330,6 @@ namespace ouzel
         void AudioDeviceAL::run()
         {
 #if OUZEL_MULTITHREADED
-            engine->setCurrentThreadName("Audio");
-
             while (running)
             {
                 if (!process())

@@ -18,8 +18,6 @@ namespace ouzel
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
         virtual bool openURL(const std::string& url) override;
 
-        virtual bool setCurrentThreadName(const std::string& name) override;
-
     protected:
         void executeAll();
 

@@ -197,11 +197,6 @@ namespace ouzel
         });
     }
 
-    bool EngineLinux::setCurrentThreadName(const std::string& name)
-    {
-        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
-    }
-
     void EngineLinux::executeAll()
     {
         std::function<void(void)> func;

@@ -19,8 +19,6 @@ namespace ouzel
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
-        virtual bool setCurrentThreadName(const std::string& name) override;
-
         int getArgc() const { return argc; }
         char** getArgv() const { return argv; }
 

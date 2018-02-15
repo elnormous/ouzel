@@ -47,11 +47,6 @@ namespace ouzel
         executeQueue.push(func);
     }
 
-    bool EngineRasp::setCurrentThreadName(const std::string& name)
-    {
-        return pthread_setname_np(pthread_self(), name.c_str()) == 0;
-    }
-
     void EngineRasp::executeAll()
     {
         std::function<void(void)> func;

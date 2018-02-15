@@ -28,7 +28,7 @@ namespace ouzel
         {
             running = false;
 
-            if (audioThread.joinable())
+            if (audioThread.isJoinable())
             {
                 {
                     std::unique_lock<std::mutex> lock(fillDataMutex);
@@ -205,15 +205,13 @@ namespace ouzel
             }
 
             running = true;
-            audioThread = std::thread(&AudioDeviceXA2::run, this);
+            audioThread = Thread(std::bind(&AudioDeviceXA2::run, this), "Audio");
 
             return true;
         }
 
         void AudioDeviceXA2::run()
         {
-            engine->setCurrentThreadName("Audio");
-
             for (;;)
             {
                 std::unique_lock<std::mutex> lock(fillDataMutex);

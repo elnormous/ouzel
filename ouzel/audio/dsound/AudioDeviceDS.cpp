@@ -36,7 +36,7 @@ namespace ouzel
             {
                 SetEvent(notifyEvent);
             }
-            if (audioThread.joinable()) audioThread.join();
+            if (audioThread.isJoinable()) audioThread.join();
 
             for (HANDLE notifyEvent : notifyEvents)
             {
@@ -193,15 +193,13 @@ namespace ouzel
             }
 
             running = true;
-            audioThread = std::thread(&AudioDeviceDS::run, this);
+            audioThread = Thread(std::bind(&AudioDeviceDS::run, this), "Audio");
 
             return true;
         }
 
         void AudioDeviceDS::run()
         {
-            engine->setCurrentThreadName("Audio");
-
             for (;;)
             {
                 if (WaitForSingleObject(notifyEvents[nextBuffer], INFINITE) == WAIT_OBJECT_0)

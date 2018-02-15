@@ -48,6 +48,17 @@ namespace ouzel
 #endif
         }
 
+        static uint64_t getCurrentThreadId()
+        {
+#if defined(_MSC_VER)
+            return static_cast<uint64_t>(GetCurrentThreadId());
+#else
+            return reinterpret_cast<uint64_t>(pthread_self());
+#endif
+        }
+
+        static bool setCurrentThreadName(const std::string& name);
+
         struct Parameters
         {
             std::function<void()> function;

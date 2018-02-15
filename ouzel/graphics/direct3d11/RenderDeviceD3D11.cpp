@@ -39,7 +39,7 @@ namespace ouzel
             running = false;
             flushCommands();
 
-            if (renderThread.joinable()) renderThread.join();
+            if (renderThread.isJoinable()) renderThread.join();
 
             resourceDeleteSet.clear();
             resources.clear();
@@ -380,7 +380,7 @@ namespace ouzel
             frameBufferClearColor[3] = clearColor.normA();
 
             running = true;
-            renderThread = std::thread(&RenderDeviceD3D11::main, this);
+            renderThread = Thread(std::bind(&RenderDeviceD3D11::main, this), "Render");
 
             return true;
         }
@@ -1143,8 +1143,6 @@ namespace ouzel
 
         void RenderDeviceD3D11::main()
         {
-            engine->setCurrentThreadName("Render");
-
             while (running)
             {
                 process();

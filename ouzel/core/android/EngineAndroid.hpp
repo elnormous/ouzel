@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <thread>
 #include <jni.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
@@ -32,8 +31,6 @@ namespace ouzel
         virtual bool openURL(const std::string& url) override;
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
-
-        virtual bool setCurrentThreadName(const std::string& name) override;
 
         JavaVM* getJavaVM() const { return javaVM; }
         jobject getMainActivity() const { return mainActivity; }
