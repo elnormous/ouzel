@@ -47,7 +47,7 @@ namespace ouzel
     bool Condition::wait(Mutex& mutex)
     {
 #if defined(_MSC_VER)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, INFINITE);
+        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, INFINITE) != 0;
 #else
         return pthread_cond_wait(&condition, &mutex.mutex) == 0;
 #endif
@@ -56,7 +56,7 @@ namespace ouzel
     bool Condition::wait(Mutex& mutex, std::chrono::steady_clock::duration duration)
     {
 #if defined(_MSC_VER)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
+        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()) != 0;
 #else
         static const long NANOSEC_PER_SEC = 1000000000L;
         timespec ts;
