@@ -464,7 +464,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
         if (updateThread.isJoinable() &&
-            !updateThread.isCurrentThread())
+            updateThread.getId() != Thread::getCurrentThreadId())
         {
             {
                 Lock lock(updateMutex);

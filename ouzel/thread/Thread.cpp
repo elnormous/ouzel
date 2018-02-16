@@ -107,15 +107,6 @@ namespace ouzel
 #endif
     }
 
-    bool Thread::operator==(const Thread& other)
-    {
-#if defined(_MSC_VER)
-        return threadId == other.threadId;
-#else
-        return pthread_equal(thread, other.thread) != 0;
-#endif
-    }
-
     bool Thread::setCurrentThreadName(const std::string& name)
     {
 #if defined(_MSC_VER)
@@ -139,15 +130,6 @@ namespace ouzel
 #else
         return pthread_setname_np(pthread_self(), name.c_str()) == 0;
 #endif
-#endif
-    }
-
-    bool Thread::isCurrentThread() const
-    {
-#if defined(_MSC_VER)
-        return threadId == GetCurrentThreadId();
-#else
-        return pthread_equal(thread, pthread_self()) != 0;
 #endif
     }
 }

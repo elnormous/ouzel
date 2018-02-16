@@ -17,6 +17,46 @@ namespace ouzel
     class Thread
     {
     public:
+        class ID
+        {
+            friend Thread;
+        public:
+            bool operator==(const ID& other)
+            {
+#if defined(_MSC_VER)
+                return threadId == other.threadId;
+#else
+                return pthread_equal(thread, other.thread) != 0;
+#endif
+            }
+
+            bool operator!=(const ID& other)
+            {
+#if defined(_MSC_VER)
+                return threadId != other.threadId;
+#else
+                return pthread_equal(thread, other.thread) == 0;
+#endif
+            }
+
+        protected:
+#if defined(_MSC_VER)
+            ID(DWORD id):
+                threadId(id)
+#else
+            ID(pthread_t t):
+                thread(t)
+#endif
+            {
+            }
+        private:
+#if defined(_MSC_VER)
+            DWORD threadId = 0;
+#else
+            pthread_t thread = 0;
+#endif
+        };
+
         Thread() {}
         explicit Thread(const std::function<void()>& function, const std::string& name = "");
 
@@ -40,9 +80,24 @@ namespace ouzel
 #endif
         }
 
-        bool operator==(const Thread& other);
+        ID getId() const
+        {
+#if defined(_MSC_VER)
+            return ID(threadId);
+#else
+            return ID(thread);
+#endif
+        }
 
-        bool isCurrentThread() const;
+        static ID getCurrentThreadId()
+        {
+#if defined(_MSC_VER)
+            return ID(GetCurrentThreadId());
+#else
+            return ID(pthread_self());
+#endif
+        }
+
         static bool setCurrentThreadName(const std::string& name);
 
         struct State
