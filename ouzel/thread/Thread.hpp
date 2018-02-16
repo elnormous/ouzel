@@ -83,18 +83,18 @@ namespace ouzel
         ID getId() const
         {
 #if defined(_MSC_VER)
-            return ID(threadId);
+            return threadId;
 #else
-            return ID(thread);
+            return thread;
 #endif
         }
 
         static ID getCurrentThreadId()
         {
 #if defined(_MSC_VER)
-            return ID(GetCurrentThreadId());
+            return GetCurrentThreadId();
 #else
-            return ID(pthread_self());
+            return pthread_self();
 #endif
         }
 
