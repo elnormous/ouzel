@@ -14,7 +14,9 @@ typedef struct tagTHREADNAME_INFO
     DWORD dwFlags; // Reserved for future use, must be zero.
 } THREADNAME_INFO;
 #pragma pack(pop)
+#endif
 
+#if defined(_MSC_VER)
 static DWORD WINAPI threadFunction(LPVOID parameter)
 #else
 static void* threadFunction(void* parameter)
