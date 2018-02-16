@@ -10,6 +10,7 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "audio/Audio.hpp"
+#include "thread/Lock.hpp"
 
 #if OUZEL_PLATFORM_MACOS
 #include "files/macos/FileSystemMacOS.hpp"
@@ -67,8 +68,8 @@ namespace ouzel
         if (updateThread.isJoinable())
         {
             {
-                std::unique_lock<std::mutex> lock(updateMutex);
-                updateCondition.notify_one();
+                Lock lock(updateMutex);
+                updateCondition.signal();
             }
 
             updateThread.join();
@@ -442,8 +443,8 @@ namespace ouzel
             paused = false;
 
 #if OUZEL_MULTITHREADED
-            std::unique_lock<std::mutex> lock(updateMutex);
-            updateCondition.notify_one();
+            Lock lock(updateMutex);
+            updateCondition.signal();
 #endif
         }
     }
@@ -466,8 +467,8 @@ namespace ouzel
             !updateThread.isCurrentThread())
         {
             {
-                std::unique_lock<std::mutex> lock(updateMutex);
-                updateCondition.notify_one();
+                Lock lock(updateMutex);
+                updateCondition.signal();
             }
 
             updateThread.join();
@@ -560,8 +561,9 @@ namespace ouzel
             }
             else
             {
-                std::unique_lock<std::mutex> lock(updateMutex);
-                updateCondition.wait(lock, [this]() { return !active || !paused; });
+                Lock lock(updateMutex);
+                while (active && paused)
+                    updateCondition.wait(updateMutex);
             }
         }
 
@@ -607,7 +609,7 @@ namespace ouzel
 
     void Engine::executeOnUpdateThread(const std::function<void(void)>& func)
     {
-        std::lock_guard<std::mutex> lock(executeMutex);
+        Lock lock(executeMutex);
 
         executeQueue.push(func);
     }
@@ -619,7 +621,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<std::mutex> lock(executeMutex);
+                Lock lock(executeMutex);
                 if (executeQueue.empty()) break;
 
                 func = std::move(executeQueue.front());
