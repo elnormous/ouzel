@@ -21,6 +21,8 @@
 #include "assets/Cache.hpp"
 #include "localization/Localization.hpp"
 #include "network/Network.hpp"
+#include "thread/Condition.hpp"
+#include "thread/Mutex.hpp"
 #include "thread/Thread.hpp"
 #include "utils/INI.hpp"
 
@@ -111,12 +113,12 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
         Thread updateThread;
-        std::mutex updateMutex;
-        std::condition_variable updateCondition;
+        Mutex updateMutex;
+        Condition updateCondition;
 #endif
 
         std::queue<std::function<void(void)>> executeQueue;
-        std::mutex executeMutex;
+        Mutex executeMutex;
 
         std::atomic<bool> active;
         std::atomic<bool> paused;
