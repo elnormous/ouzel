@@ -30,11 +30,11 @@ namespace ouzel
 
             if (!rotated)
             {
-                Vector2 leftTop(sourceOffset.x / textureSize.width,
-                                sourceOffset.y / textureSize.height);
+                Vector2 leftTop(frameRectangle.position.x / textureSize.width,
+                                frameRectangle.position.y / textureSize.height);
 
-                Vector2 rightBottom((sourceOffset.x + sourceSize.width) / textureSize.width,
-                                    (sourceOffset.y + sourceSize.height) / textureSize.height);
+                Vector2 rightBottom((frameRectangle.position.x + frameRectangle.size.width) / textureSize.width,
+                                    (frameRectangle.position.y + frameRectangle.size.height) / textureSize.height);
 
                 textCoords[0] = Vector2(leftTop.x, rightBottom.y);
                 textCoords[1] = Vector2(rightBottom.x, rightBottom.y);
@@ -43,11 +43,11 @@ namespace ouzel
             }
             else
             {
-                Vector2 leftTop = Vector2(sourceOffset.x / textureSize.width,
-                                          sourceOffset.y / textureSize.height);
+                Vector2 leftTop = Vector2(frameRectangle.position.x / textureSize.width,
+                                          frameRectangle.position.y / textureSize.height);
 
-                Vector2 rightBottom = Vector2((sourceOffset.x + sourceSize.height) / textureSize.width,
-                                              (sourceOffset.y + sourceSize.width) / textureSize.height);
+                Vector2 rightBottom = Vector2((frameRectangle.position.x + frameRectangle.size.height) / textureSize.width,
+                                              (frameRectangle.position.y + frameRectangle.size.width) / textureSize.height);
 
                 textCoords[0] = Vector2(leftTop.x, leftTop.y);
                 textCoords[1] = Vector2(leftTop.x, rightBottom.y);
