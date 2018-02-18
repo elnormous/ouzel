@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <cmath>
+#include "MathUtils.hpp"
+
 namespace ouzel
 {
     class Vector4;
@@ -43,6 +46,20 @@ namespace ouzel
         inline bool operator!=(const Plane& plane) const
         {
             return a != plane.a || b != plane.b || c != plane.c || d != plane.d;
+        }
+
+        static inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
+        {
+            float n = sqrtf(a * a + b * b + c * c);
+            if (n < EPSILON)
+            {
+                return false;
+            }
+
+            n = 1.0f / n;
+            plane = Plane(a * n, b * n, c * n, d * n);
+
+            return true;
         }
     };
 }

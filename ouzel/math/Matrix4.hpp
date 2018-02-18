@@ -71,12 +71,36 @@ namespace ouzel
         static void createTranslation(const Vector3& translation, Matrix4& dst);
         static void createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst);
 
-        bool getFrustumLeftPlane(Plane& plane) const;
-        bool getFrustumRightPlane(Plane& plane) const;
-        bool getFrustumBottomPlane(Plane& plane) const;
-        bool getFrustumTopPlane(Plane& plane) const;
-        bool getFrustumNearPlane(Plane& plane) const;
-        bool getFrustumFarPlane(Plane& plane) const;
+        bool getFrustumLeftPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12], plane);
+        }
+
+        bool getFrustumRightPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12], plane);
+        }
+
+        bool getFrustumBottomPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13], plane);
+        }
+
+        bool getFrustumTopPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13], plane);
+        }
+
+        bool getFrustumNearPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14], plane);
+        }
+
+        bool getFrustumFarPlane(Plane& plane) const
+        {
+            return Plane::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14], plane);
+        }
+
         bool getFrustum(ConvexVolume& frustum) const
         {
             frustum.planes.clear();

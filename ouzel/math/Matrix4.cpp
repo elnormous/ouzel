@@ -333,50 +333,6 @@ namespace ouzel
         dst.m[14] = zTranslation;
     }
 
-    inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
-    {
-        float n = sqrtf(a * a + b * b + c * c);
-        if (n < EPSILON)
-        {
-            return false;
-        }
-
-        n = 1.0f / n;
-        plane = Plane(a * n, b * n, c * n, d * n);
-
-        return true;
-    }
-
-    bool Matrix4::getFrustumLeftPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12], plane);
-    }
-
-    bool Matrix4::getFrustumRightPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12], plane);
-    }
-
-    bool Matrix4::getFrustumBottomPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13], plane);
-    }
-
-    bool Matrix4::getFrustumTopPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13], plane);
-    }
-
-    bool Matrix4::getFrustumNearPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14], plane);
-    }
-
-    bool Matrix4::getFrustumFarPlane(Plane& plane) const
-    {
-        return makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14], plane);
-    }
-
     void Matrix4::add(float scalar)
     {
         add(scalar, *this);
