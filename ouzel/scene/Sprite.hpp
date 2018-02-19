@@ -54,8 +54,6 @@ namespace ouzel
             inline const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             inline void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
-            virtual const Size2& getSize() const { return size; }
-
             inline const Vector2& getOffset() const { return offset; }
             void setOffset(const Vector2& newOffset);
 
@@ -75,7 +73,6 @@ namespace ouzel
 
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
-            Size2 size;
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
