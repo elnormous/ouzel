@@ -68,9 +68,6 @@ namespace ouzel
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));
 
-            rectangle = Rect(finalOffset.x, finalOffset.y,
-                             sourceSize.width, sourceSize.height);
-
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
 
@@ -97,9 +94,6 @@ namespace ouzel
 
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                 -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
-
-            rectangle = Rect(finalOffset.x, finalOffset.y,
-                             sourceSize.width, sourceSize.height);
 
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);

@@ -334,14 +334,11 @@ namespace ouzel
             {
                 const SpriteFrame& frame = frames[currentFrame];
 
-                size = frame.getRectangle().size;
-
                 boundingBox = frame.getBoundingBox();
                 boundingBox += offset;
             }
             else
             {
-                size.width = size.height = 0.0f;
                 boundingBox.reset();
             }
         }
