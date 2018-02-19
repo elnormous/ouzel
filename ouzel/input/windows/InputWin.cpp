@@ -419,7 +419,7 @@ namespace ouzel
             HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
             if (FAILED(hr))
             {
-                Log(Log::Level::ERR) << "Failed to enumerate devices: " << hr;
+                Log(Log::Level::ERR) << "Failed to enumerate devices, error: " << hr;
             }
         }
 
