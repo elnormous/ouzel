@@ -74,6 +74,7 @@ namespace ouzel
             Value(const std::vector<uint8_t>& value): type(Type::BYTE_ARRAY), byteArrayValue(value) {}
             Value(const std::map<uint32_t, Value>& value): type(Type::OBJECT), objectValue(value) {}
             Value(const std::vector<Value>& value): type(Type::ARRAY), arrayValue(value) {}
+            Value(const std::map<std::string, Value>& value): type(Type::DICTIONARY), dictionaryValue(value) {}
 
             inline Value& operator=(Type newType)
             {
@@ -186,6 +187,14 @@ namespace ouzel
             {
                 type = Type::ARRAY;
                 arrayValue = value;
+
+                return *this;
+            }
+
+            inline Value& operator=(const std::map<std::string, Value>& value)
+            {
+                type = Type::DICTIONARY;
+                dictionaryValue = value;
 
                 return *this;
             }
