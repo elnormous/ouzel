@@ -1,10 +1,11 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <sys/proc.h>
 #include "Thread.hpp"
 
 #if defined(_MSC_VER)
-const DWORD MS_VC_EXCEPTION = 0x406D1388;
+static const DWORD MS_VC_EXCEPTION = 0x406D1388;
 #pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
 {
