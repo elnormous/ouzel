@@ -122,67 +122,55 @@ namespace ouzel
 
         void Sprite::update(float delta)
         {
-            if (currentAnimation && playing)
+            if (currentAnimation && currentAnimation->frameInterval > 0.0f && playing)
             {
                 timeSinceLastFrame += delta;
 
-                while (timeSinceLastFrame > fabsf(frameInterval))
+                while (timeSinceLastFrame > currentAnimation->frameInterval)
                 {
-                    timeSinceLastFrame -= fabsf(frameInterval);
+                    timeSinceLastFrame -= currentAnimation->frameInterval;
 
-                    if (frameInterval > 0.0f)
+                    ++currentFrame;
+
+                    if (currentFrame >= currentAnimation->frames.size())
                     {
-                        ++currentFrame;
-
-                        if (currentFrame >= currentAnimation->frames.size())
+                        if (repeating)
                         {
-                            if (repeating)
-                            {
-                                currentFrame = 0;
+                            currentFrame = 0;
 
-                                Event resetEvent;
-                                resetEvent.type = Event::Type::ANIMATION_RESET;
-                                resetEvent.animationEvent.component = this;
-                                engine->getEventDispatcher()->postEvent(resetEvent);
-                            }
-                            else
-                            {
-                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
-                                playing = false;
-                                updateCallback.remove();
-
-                                Event finishEvent;
-                                finishEvent.type = Event::Type::ANIMATION_FINISH;
-                                finishEvent.animationEvent.component = this;
-                                engine->getEventDispatcher()->postEvent(finishEvent);
-                            }
+                            Event resetEvent;
+                            resetEvent.type = Event::Type::ANIMATION_RESET;
+                            resetEvent.animationEvent.component = this;
+                            resetEvent.animationEvent.name = currentAnimation->name;
+                            engine->getEventDispatcher()->postEvent(resetEvent);
                         }
-                    }
-                    else if (frameInterval < 0.0f)
-                    {
-                        --currentFrame;
-
-                        if (currentFrame >= currentAnimation->frames.size()) // wrap around happened
+                        else
                         {
-                            if (repeating)
+                            if (!animationQueue.empty()) animationQueue.pop();
+
+                            Event finishEvent;
+                            finishEvent.type = Event::Type::ANIMATION_FINISH;
+                            finishEvent.animationEvent.component = this;
+                            finishEvent.animationEvent.name = currentAnimation->name;
+                            engine->getEventDispatcher()->postEvent(finishEvent);
+
+                            if (animationQueue.empty())
                             {
                                 currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
-
-                                Event resetEvent;
-                                resetEvent.type = Event::Type::ANIMATION_RESET;
-                                resetEvent.animationEvent.component = this;
-                                engine->getEventDispatcher()->postEvent(resetEvent);
+                                playing = false;
+                                updateCallback.remove();
                             }
                             else
                             {
                                 currentFrame = 0;
-                                playing = false;
-                                updateCallback.remove();
+                                currentAnimation = animationQueue.back().first;
+                                repeating = animationQueue.back().second;
 
-                                Event finishEvent;
-                                finishEvent.type = Event::Type::ANIMATION_FINISH;
-                                finishEvent.animationEvent.component = this;
-                                engine->getEventDispatcher()->postEvent(finishEvent);
+                                Event startEvent;
+                                startEvent.type = Event::Type::ANIMATION_START;
+                                startEvent.animationEvent.component = this;
+                                startEvent.animationEvent.name = currentAnimation->name;
+                                engine->getEventDispatcher()->postEvent(startEvent);
                             }
                         }
                     }
@@ -256,36 +244,17 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::play(bool repeat, float newFrameInterval)
+        void Sprite::play()
         {
-            if (newFrameInterval == 0.0f)
-            {
-                playing = false;
-                return;
-            }
-
-            repeating = repeat;
-            frameInterval = newFrameInterval;
-
-            if (currentAnimation && !playing && currentAnimation->frames.size() > 1)
+            if (currentAnimation && currentAnimation->frameInterval > 0.0f &&
+                !playing && currentAnimation->frames.size() > 1)
             {
                 playing = true;
 
-                if (frameInterval > 0.0f)
+                if (currentFrame >= currentAnimation->frames.size() - 1)
                 {
-                    if (currentFrame >= currentAnimation->frames.size() - 1)
-                    {
-                        currentFrame = 0;
-                        timeSinceLastFrame = 0.0f;
-                    }
-                }
-                else if (frameInterval < 0.0f)
-                {
-                    if (currentFrame == 0)
-                    {
-                        currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
-                        timeSinceLastFrame = 0.0f;
-                    }
+                    currentFrame = 0;
+                    timeSinceLastFrame = 0.0f;
                 }
 
                 updateBoundingBox();
@@ -297,8 +266,13 @@ namespace ouzel
                     Event startEvent;
                     startEvent.type = Event::Type::ANIMATION_START;
                     startEvent.animationEvent.component = this;
+                    startEvent.animationEvent.name = currentAnimation->name;
                     engine->getEventDispatcher()->postEvent(startEvent);
                 }
+            }
+            else
+            {
+                playing = false;
             }
         }
 
@@ -337,12 +311,29 @@ namespace ouzel
             updateBoundingBox();
         }
 
-        void Sprite::setAnimation(const std::string& newAnimation)
+        void Sprite::setAnimation(const std::string& newAnimation, bool repeat)
         {
-            currentAnimation = &animations[newAnimation];
+            while (!animationQueue.empty()) animationQueue.pop();
+
+            const SpriteData::Animation& animation = animations[newAnimation];
+            animationQueue.push(std::make_pair(&animation, repeat));
+            currentAnimation = &animation;
             currentFrame = 0;
+            repeating = repeat;
 
             updateBoundingBox();
+        }
+
+        void Sprite::addAnimation(const std::string& newAnimation, bool repeat)
+        {
+            const SpriteData::Animation& animation = animations[newAnimation];
+            if (animationQueue.empty())
+            {
+                currentAnimation = &animation;
+                currentFrame = 0;
+                repeating = repeat;
+            }
+            animationQueue.push(std::make_pair(&animation, repeat));
         }
 
         void Sprite::updateBoundingBox()

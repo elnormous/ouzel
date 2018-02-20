@@ -45,7 +45,8 @@ PerspectiveSample::PerspectiveSample():
 
     // character
     characterSprite.init("run.json");
-    characterSprite.play(true);
+    characterSprite.setAnimation("", true);
+    characterSprite.play();
     characterSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
     characterSprite.getMaterial()->cullMode = graphics::Renderer::CullMode::NONE;
 

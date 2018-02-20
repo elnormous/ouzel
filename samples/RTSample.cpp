@@ -40,7 +40,8 @@ RTSample::RTSample():
     layer.addChild(&camera2Actor);
     addLayer(&layer);
 
-    characterSprite.play(true);
+    characterSprite.setAnimation("", true);
+    characterSprite.play();
     rtCharacter.addComponent(&characterSprite);
     rtLayer.addChild(&rtCharacter);
 
