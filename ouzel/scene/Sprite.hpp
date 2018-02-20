@@ -38,7 +38,7 @@ namespace ouzel
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
                       const Vector2& pivot = Vector2(0.5f, 0.5f));
 
-            virtual void update(float delta);
+            void update(float delta);
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
@@ -57,19 +57,22 @@ namespace ouzel
             inline const Vector2& getOffset() const { return offset; }
             void setOffset(const Vector2& newOffset);
 
-            virtual void play(bool repeat = true, float newFrameInterval = 0.1f);
-            virtual void stop(bool resetAnimation = true);
-            virtual void reset();
-            virtual bool isPlaying() const { return playing; }
+            void play(bool repeat = true, float newFrameInterval = 0.1f);
+            void stop(bool resetAnimation = true);
+            void reset();
+            bool isPlaying() const { return playing; }
 
-            inline const std::vector<SpriteFrame>& getFrames() const { return frames; }
-            virtual void setCurrentFrame(uint32_t frame);
+            inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
+            void setCurrentFrame(uint32_t frame);
+            inline std::string getAnimation() const { return currentAnimation ? currentAnimation->name : ""; }
+            void setAnimation(const std::string& newAnimation);
 
         protected:
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;
-            std::vector<SpriteFrame> frames;
+            std::map<std::string, SpriteData::Animation> animations;
+            SpriteData::Animation* currentAnimation = nullptr;
 
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
