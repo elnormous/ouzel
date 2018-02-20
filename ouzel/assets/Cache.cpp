@@ -10,7 +10,7 @@
 #include "graphics/TextureResource.hpp"
 #include "graphics/ShaderResource.hpp"
 #include "scene/ParticleSystemData.hpp"
-#include "scene/SpriteFrame.hpp"
+#include "scene/SpriteData.hpp"
 #include "files/FileSystem.hpp"
 #include "audio/SoundDataWave.hpp"
 #include "audio/SoundDataVorbis.hpp"
@@ -294,7 +294,7 @@ namespace ouzel
                                        spriteSize.width,
                                        spriteSize.height);
 
-                        scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                        scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                         animation.frames.push_back(frame);
                     }
                 }
@@ -348,7 +348,7 @@ namespace ouzel
                                                spriteSize.width,
                                                spriteSize.height);
 
-                                scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                                scene::SpriteData::Frame frame = scene::SpriteData::Frame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                                 animation.frames.push_back(frame);
                             }
                         }

@@ -151,7 +151,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/ShapeRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
-	$(ROOT_DIR)/../ouzel/scene/SpriteFrame.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
 	$(ROOT_DIR)/../ouzel/thread/Condition.cpp \
 	$(ROOT_DIR)/../ouzel/thread/Lock.cpp \

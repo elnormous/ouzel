@@ -5,7 +5,11 @@
 
 #include <map>
 #include <vector>
-#include "SpriteFrame.hpp"
+#include "math/Box2.hpp"
+#include "math/Rect.hpp"
+#include "graphics/Vertex.hpp"
+#include "graphics/Buffer.hpp"
+#include "graphics/MeshBuffer.hpp"
 #include "graphics/Texture.hpp"
 
 namespace ouzel
@@ -17,10 +21,41 @@ namespace ouzel
             bool init(const std::string& filename, bool mipmaps = true);
             bool init(const std::vector<uint8_t>& data, bool mipmaps = true);
 
+            struct Frame
+            {
+                Frame(const std::string& frameName,
+                      const Size2& textureSize,
+                      const Rect& frameRectangle,
+                      bool rotated,
+                      const Size2& sourceSize,
+                      const Vector2& sourceOffset,
+                      const Vector2& pivot);
+
+                Frame(const std::string& frameName,
+                      const std::vector<uint16_t>& indices,
+                      const std::vector<graphics::Vertex>& vertices,
+                      const Rect& frameRectangle,
+                      const Size2& sourceSize,
+                      const Vector2& sourceOffset,
+                      const Vector2& pivot);
+
+                inline const std::string& getName() const { return name; }
+
+                inline const Box2& getBoundingBox() const { return boundingBox; }
+                inline const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
+
+            protected:
+                std::string name;
+                Box2 boundingBox;
+                std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+                std::shared_ptr<graphics::Buffer> indexBuffer;
+                std::shared_ptr<graphics::Buffer> vertexBuffer;
+            };
+
             struct Animation
             {
                 std::string name;
-                std::vector<SpriteFrame> frames;
+                std::vector<Frame> frames;
             };
 
             std::map<std::string, Animation> animations;
