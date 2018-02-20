@@ -15,7 +15,6 @@ namespace ouzel
     {
         struct ModelData
         {
-        public:
             bool init(Box3 newBoundingBox,
                       const std::vector<uint32_t> indices,
                       const std::vector<graphics::Vertex>& vertices,
