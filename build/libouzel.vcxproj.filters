@@ -109,6 +109,9 @@
     <ClCompile Include="..\ouzel\animators\Fade.cpp">
       <Filter>ouzel\animators</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\files\File.cpp">
+      <Filter>ouzel\files</Filter>
+    </ClCompile>
     <ClCompile Include="..\ouzel\files\FileSystem.cpp">
       <Filter>ouzel\files</Filter>
     </ClCompile>
@@ -623,6 +626,9 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\animators\Fade.hpp">
       <Filter>ouzel\animators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\files\File.hpp">
+      <Filter>ouzel\files</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\files\FileSystem.hpp">
       <Filter>ouzel\files</Filter>
