@@ -107,7 +107,7 @@ namespace ouzel
                                    spriteSize.width,
                                    spriteSize.height);
 
-                    SpriteFrame frame = SpriteFrame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
+                    SpriteData::Frame frame = SpriteData::Frame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
                     animation.frames.push_back(frame);
                 }
             }
@@ -347,7 +347,7 @@ namespace ouzel
         {
             if (currentAnimation && currentFrame < currentAnimation->frames.size())
             {
-                const SpriteFrame& frame = currentAnimation->frames[currentFrame];
+                const SpriteData::Frame& frame = currentAnimation->frames[currentFrame];
 
                 boundingBox = frame.getBoundingBox();
                 boundingBox += offset;

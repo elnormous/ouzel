@@ -169,7 +169,6 @@
     <ClCompile Include="..\ouzel\scene\ShapeRenderer.cpp" />
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
-    <ClCompile Include="..\ouzel\scene\SpriteFrame.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\thread\Condition.cpp" />
     <ClCompile Include="..\ouzel\thread\Lock.cpp" />
@@ -359,7 +358,6 @@
     <ClInclude Include="..\ouzel\scene\ShapeRenderer.hpp" />
     <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp" />
-    <ClInclude Include="..\ouzel\scene\SpriteFrame.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
     <ClInclude Include="..\ouzel\thread\Condition.hpp" />
     <ClInclude Include="..\ouzel\thread\Lock.hpp" />

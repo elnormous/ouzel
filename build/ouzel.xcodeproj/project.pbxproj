@@ -93,12 +93,6 @@
 		302261841FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
 		302261851FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
 		302261861FDB8C59005279FC /* LoaderCollada.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302261801FDB8C59005279FC /* LoaderCollada.hpp */; };
-		302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
-		302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
-		302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511A61CD36FBA00D04209 /* SpriteFrame.cpp */; };
-		302511AB1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.hpp */; };
-		302511AC1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.hpp */; };
-		302511AD1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302511A71CD36FBA00D04209 /* SpriteFrame.hpp */; };
 		302511B01CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
 		302511B11CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
 		302511B21CD3CA2200D04209 /* ParticleSystemData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */; };
@@ -1083,8 +1077,6 @@
 		30216B7F1ED5C3900073E3D5 /* Plane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
 		3022617F1FDB8C59005279FC /* LoaderCollada.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoaderCollada.cpp; sourceTree = "<group>"; };
 		302261801FDB8C59005279FC /* LoaderCollada.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoaderCollada.hpp; sourceTree = "<group>"; };
-		302511A61CD36FBA00D04209 /* SpriteFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrame.cpp; sourceTree = "<group>"; };
-		302511A71CD36FBA00D04209 /* SpriteFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteFrame.hpp; sourceTree = "<group>"; };
 		302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystemData.cpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
 		3030D5011DAEF1FA007CC8EB /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Log.hpp; sourceTree = "<group>"; };
@@ -1672,8 +1664,6 @@
 				304A8E451C237C70008B1151 /* Sprite.hpp */,
 				3053FF6F1F43834900760E67 /* SpriteData.cpp */,
 				3053FF6E1F437F0800760E67 /* SpriteData.hpp */,
-				302511A61CD36FBA00D04209 /* SpriteFrame.cpp */,
-				302511A71CD36FBA00D04209 /* SpriteFrame.hpp */,
 				301EB3A81CCD77F600466E92 /* TextRenderer.cpp */,
 				301EB3A91CCD77F600466E92 /* TextRenderer.hpp */,
 			);
@@ -2369,7 +2359,6 @@
 				307237151FAFDAC9002EA399 /* XML.hpp in Headers */,
 				303B75491C2A3C9200FEDE92 /* ShaderResource.hpp in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
-				302511AC1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */,
 				306A26C61F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
 				30519CAF1F9B4E3E00AF3DC4 /* Loader.hpp in Headers */,
 				303B75601C2A3CBF00FEDE92 /* Camera.hpp in Headers */,
@@ -2561,7 +2550,6 @@
 				302261861FDB8C59005279FC /* LoaderCollada.hpp in Headers */,
 				30A883691E7432DA004A033F /* Archive.hpp in Headers */,
 				303B76761C355A3B00FEDE92 /* Vertex.hpp in Headers */,
-				302511AD1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */,
 				303B76771C355A3B00FEDE92 /* Camera.hpp in Headers */,
 				30ADCBBA1E9A9550000DC9AC /* RenderDeviceMetalTVOS.hpp in Headers */,
 				303B76781C355A3B00FEDE92 /* Setup.h in Headers */,
@@ -2672,7 +2660,6 @@
 				3038201F1D80A40700677CAB /* TextureVSIOS.h in Headers */,
 				30381FE91D80A40700677CAB /* ColorPSMacOS.h in Headers */,
 				3038200A1D80A40700677CAB /* ShaderResourceMetal.hpp in Headers */,
-				302511AB1CD36FBA00D04209 /* SpriteFrame.hpp in Headers */,
 				30575ADB1C3B48740009C8A7 /* EventDispatcher.hpp in Headers */,
 				3082C3BB1D9565DE0090FC9D /* TextureVSGL3.h in Headers */,
 				304A8E9B1C26F5CF008B1151 /* Size2.hpp in Headers */,
@@ -2952,7 +2939,6 @@
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				3038213F1D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				302511A91CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303820FE1D817F4900677CAB /* InputIOS.mm in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
@@ -3119,7 +3105,6 @@
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				303821411D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				302511AA1CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				3098A5621EA01CA900528A54 /* InputTVOS.mm in Sources */,
 				300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
@@ -3289,7 +3274,6 @@
 				30381F741D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				300C39F11E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30381FB61D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				302511A81CD36FBA00D04209 /* SpriteFrame.cpp in Sources */,
 				303821581D81876E00677CAB /* TextureResourceEmpty.cpp in Sources */,
 				303820871D816C9E00677CAB /* WindowResourceMacOS.mm in Sources */,
 				30216B641ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
