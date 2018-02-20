@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <map>
 #include <vector>
 #include "SpriteFrame.hpp"
 #include "graphics/Texture.hpp"
@@ -16,7 +17,13 @@ namespace ouzel
             bool init(const std::string& filename, bool mipmaps = true);
             bool init(const std::vector<uint8_t>& data, bool mipmaps = true);
 
-            std::vector<SpriteFrame> frames;
+            struct Animation
+            {
+                std::string name;
+                std::vector<SpriteFrame> frames;
+            };
+
+            std::map<std::string, Animation> animations;
             std::shared_ptr<graphics::Texture> texture;
         };
     } // namespace scene

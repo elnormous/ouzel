@@ -282,6 +282,9 @@ namespace ouzel
                 Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
                                          newSpriteData.texture->getSize().height / spritesY);
 
+                scene::SpriteData::Animation animation;
+                animation.frames.reserve(spritesX * spritesY);
+
                 for (uint32_t x = 0; x < spritesX; ++x)
                 {
                     for (uint32_t y = 0; y < spritesY; ++y)
@@ -292,9 +295,11 @@ namespace ouzel
                                        spriteSize.height);
 
                         scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                        newSpriteData.frames.push_back(frame);
+                        animation.frames.push_back(frame);
                     }
                 }
+
+                newSpriteData.animations[""] = std::move(animation);
             }
 
             spriteData[filename] = newSpriteData;
@@ -328,6 +333,9 @@ namespace ouzel
 
                     if (newSpriteData.texture)
                     {
+                        scene::SpriteData::Animation animation;
+                        animation.frames.reserve(spritesX * spritesY);
+
                         Size2 spriteSize = Size2(newSpriteData.texture->getSize().width / spritesX,
                                                  newSpriteData.texture->getSize().height / spritesY);
 
@@ -341,9 +349,11 @@ namespace ouzel
                                                spriteSize.height);
 
                                 scene::SpriteFrame frame = scene::SpriteFrame(filename, newSpriteData.texture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                                newSpriteData.frames.push_back(frame);
+                                animation.frames.push_back(frame);
                             }
                         }
+
+                        newSpriteData.animations[""] = std::move(animation);
                     }
                 }
 

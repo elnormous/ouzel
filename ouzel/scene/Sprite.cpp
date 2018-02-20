@@ -53,7 +53,8 @@ namespace ouzel
             material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = spriteData.texture;
 
-            frames = spriteData.frames;
+            animations = spriteData.animations;
+            currentAnimation = &animations[""];
 
             updateBoundingBox();
 
@@ -71,7 +72,9 @@ namespace ouzel
 
             SpriteData spriteData = engine->getCache()->getSpriteData(filename, mipmaps, spritesX, spritesY, pivot);
             material->textures[0] = spriteData.texture;
-            frames = spriteData.frames;
+
+            animations = spriteData.animations;
+            currentAnimation = &animations[""];
 
             updateBoundingBox();
 
@@ -87,10 +90,13 @@ namespace ouzel
             material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
             material->textures[0] = newTexture;
-            frames.clear();
+            animations.clear();
 
             Size2 spriteSize = Size2(material->textures[0]->getSize().width / spritesX,
                                      material->textures[0]->getSize().height / spritesY);
+
+            SpriteData::Animation animation;
+            animation.frames.reserve(spritesX * spritesY);
 
             for (uint32_t x = 0; x < spritesX; ++x)
             {
@@ -102,9 +108,12 @@ namespace ouzel
                                    spriteSize.height);
 
                     SpriteFrame frame = SpriteFrame("", newTexture->getSize(), rectangle, false, spriteSize, Vector2(), pivot);
-                    frames.push_back(frame);
+                    animation.frames.push_back(frame);
                 }
             }
+
+            animations[""] = std::move(animation);
+            currentAnimation = &animations[""];
 
             updateBoundingBox();
 
@@ -113,7 +122,7 @@ namespace ouzel
 
         void Sprite::update(float delta)
         {
-            if (playing)
+            if (currentAnimation && playing)
             {
                 timeSinceLastFrame += delta;
 
@@ -125,7 +134,7 @@ namespace ouzel
                     {
                         ++currentFrame;
 
-                        if (currentFrame >= frames.size())
+                        if (currentFrame >= currentAnimation->frames.size())
                         {
                             if (repeating)
                             {
@@ -138,7 +147,7 @@ namespace ouzel
                             }
                             else
                             {
-                                currentFrame = static_cast<uint32_t>(frames.size() - 1);
+                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
                                 playing = false;
                                 updateCallback.remove();
 
@@ -153,11 +162,11 @@ namespace ouzel
                     {
                         --currentFrame;
 
-                        if (currentFrame >= frames.size()) // wrap around happened
+                        if (currentFrame >= currentAnimation->frames.size()) // wrap around happened
                         {
                             if (repeating)
                             {
-                                currentFrame = static_cast<uint32_t>(frames.size() - 1);
+                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
 
                                 Event resetEvent;
                                 resetEvent.type = Event::Type::ANIMATION_RESET;
@@ -205,7 +214,7 @@ namespace ouzel
                             scissorTest,
                             scissorRectangle);
 
-            if (currentFrame < frames.size() && material)
+            if (currentAnimation && currentFrame < currentAnimation->frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
@@ -225,7 +234,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             material->blendState,
-                                                            frames[currentFrame].getMeshBuffer(),
+                                                            currentAnimation->frames[currentFrame].getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -258,13 +267,13 @@ namespace ouzel
             repeating = repeat;
             frameInterval = newFrameInterval;
 
-            if (!playing && frames.size() > 1)
+            if (currentAnimation && !playing && currentAnimation->frames.size() > 1)
             {
                 playing = true;
 
                 if (frameInterval > 0.0f)
                 {
-                    if (currentFrame >= frames.size() - 1)
+                    if (currentFrame >= currentAnimation->frames.size() - 1)
                     {
                         currentFrame = 0;
                         timeSinceLastFrame = 0.0f;
@@ -274,7 +283,7 @@ namespace ouzel
                 {
                     if (currentFrame == 0)
                     {
-                        currentFrame = static_cast<uint32_t>(frames.size() - 1);
+                        currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
                         timeSinceLastFrame = 0.0f;
                     }
                 }
@@ -320,19 +329,25 @@ namespace ouzel
         {
             currentFrame = frame;
 
-            if (currentFrame >= frames.size())
+            if (currentAnimation && currentFrame >= currentAnimation->frames.size())
             {
-                currentFrame = static_cast<uint32_t>(frames.size() - 1);
+                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
             }
 
             updateBoundingBox();
         }
 
+        void Sprite::setAnimation(const std::string& newAnimation)
+        {
+            currentAnimation = &animations[newAnimation];
+            currentFrame = 0;
+        }
+
         void Sprite::updateBoundingBox()
         {
-            if (currentFrame < frames.size())
+            if (currentAnimation && currentFrame < currentAnimation->frames.size())
             {
-                const SpriteFrame& frame = frames[currentFrame];
+                const SpriteFrame& frame = currentAnimation->frames[currentFrame];
 
                 boundingBox = frame.getBoundingBox();
                 boundingBox += offset;

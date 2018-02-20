@@ -47,7 +47,9 @@ namespace ouzel
 
             const json::Value& framesArray = document["frames"];
 
-            frames.reserve(framesArray.getSize());
+            Animation animation;
+
+            animation.frames.reserve(framesArray.getSize());
 
             for (const json::Value& frameObject : framesArray.asArray())
             {
@@ -118,15 +120,17 @@ namespace ouzel
                                                             Vector3(0.0f, 0.0f, -1.0f)));
                     }
 
-                    frames.push_back(SpriteFrame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
+                    animation.frames.push_back(SpriteFrame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));
                 }
                 else
                 {
                     bool rotated = frameObject["rotated"].asBool();
 
-                    frames.push_back(SpriteFrame(name, texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
+                    animation.frames.push_back(SpriteFrame(name, texture->getSize(), frameRectangle, rotated, sourceSize, sourceOffset, pivot));
                 }
             }
+
+            animations[""] = std::move(animation);
 
             return true;
         }
