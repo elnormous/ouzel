@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <queue>
 #include "scene/Component.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
@@ -57,7 +58,7 @@ namespace ouzel
             inline const Vector2& getOffset() const { return offset; }
             void setOffset(const Vector2& newOffset);
 
-            void play(bool repeat = true, float newFrameInterval = 0.1f);
+            void play();
             void stop(bool resetAnimation = true);
             void reset();
             bool isPlaying() const { return playing; }
@@ -65,14 +66,17 @@ namespace ouzel
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
             void setCurrentFrame(uint32_t frame);
             inline std::string getAnimation() const { return currentAnimation ? currentAnimation->name : ""; }
-            void setAnimation(const std::string& newAnimation);
+            void setAnimation(const std::string& newAnimation, bool repeat = true);
+            void addAnimation(const std::string& newAnimation, bool repeat = true);
 
         protected:
             void updateBoundingBox();
 
             std::shared_ptr<graphics::Material> material;
             std::map<std::string, SpriteData::Animation> animations;
-            SpriteData::Animation* currentAnimation = nullptr;
+            std::queue<std::pair<const SpriteData::Animation*, bool>> animationQueue;
+            const SpriteData::Animation* currentAnimation = nullptr;
+            bool repeating = false;
 
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
@@ -80,9 +84,7 @@ namespace ouzel
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
             uint32_t currentFrame = 0;
-            float frameInterval = 0.0f;
             bool playing = false;
-            bool repeating = false;
             float timeSinceLastFrame = 0.0f;
 
             UpdateCallback updateCallback;

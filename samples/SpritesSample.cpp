@@ -25,7 +25,8 @@ SpritesSample::SpritesSample():
 
     // character
     characterSprite.init("run.json");
-    characterSprite.play(true);
+    characterSprite.setAnimation("", true);
+    characterSprite.play();
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
@@ -38,7 +39,8 @@ SpritesSample::SpritesSample():
     // fire
     fireSprite.init("fire.json");
     fireSprite.setOffset(Vector2(0.0f, 20.0f));
-    fireSprite.play(true);
+    fireSprite.setAnimation("", true);
+    fireSprite.play();
 
     fireActor.addComponent(&fireSprite);
     fireActor.setPosition(Vector2(-100.0f, -140.0f));

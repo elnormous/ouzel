@@ -99,6 +99,7 @@ namespace ouzel
     struct AnimationEvent
     {
         scene::Component* component;
+        std::string name;
     };
 
     struct SoundEvent
