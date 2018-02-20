@@ -311,6 +311,13 @@ namespace ouzel
             updateBoundingBox();
         }
 
+        bool Sprite::hasAnimation(const std::string& animation) const
+        {
+            auto i = animations.find(animation);
+
+            return i != animations.end();
+        }
+
         void Sprite::setAnimation(const std::string& newAnimation, bool repeat)
         {
             while (!animationQueue.empty()) animationQueue.pop();
