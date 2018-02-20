@@ -341,6 +341,8 @@ namespace ouzel
         {
             currentAnimation = &animations[newAnimation];
             currentFrame = 0;
+
+            updateBoundingBox();
         }
 
         void Sprite::updateBoundingBox()
