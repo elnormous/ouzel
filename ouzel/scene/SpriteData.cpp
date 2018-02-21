@@ -75,6 +75,26 @@ namespace ouzel
 
         SpriteData::Frame::Frame(const std::string& frameName,
                                  const std::vector<uint16_t>& indices,
+                                 const std::vector<graphics::Vertex>& vertices):
+            name(frameName)
+        {
+            for (const graphics::Vertex& vertex : vertices)
+            {
+                boundingBox.insertPoint(vertex.position);
+            }
+
+            indexBuffer = std::make_shared<graphics::Buffer>();
+            indexBuffer->init(graphics::Buffer::Usage::INDEX, indices.data(), static_cast<uint32_t>(getVectorSize(indices)), 0);
+
+            vertexBuffer = std::make_shared<graphics::Buffer>();
+            vertexBuffer->init(graphics::Buffer::Usage::VERTEX, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)), 0);
+
+            meshBuffer = std::make_shared<graphics::MeshBuffer>();
+            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
+        }
+
+        SpriteData::Frame::Frame(const std::string& frameName,
+                                 const std::vector<uint16_t>& indices,
                                  const std::vector<graphics::Vertex>& vertices,
                                  const Rect& frameRectangle,
                                  const Size2& sourceSize,
@@ -87,6 +107,7 @@ namespace ouzel
                 boundingBox.insertPoint(vertex.position);
             }
 
+            // TODO: fix
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
                                 -sourceSize.height * pivot.y + (sourceSize.height - frameRectangle.size.height - sourceOffset.y));
 
