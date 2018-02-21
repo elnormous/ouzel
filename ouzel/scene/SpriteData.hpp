@@ -30,6 +30,10 @@ namespace ouzel
 
                 Frame(const std::string& frameName,
                       const std::vector<uint16_t>& indices,
+                      const std::vector<graphics::Vertex>& vertices);
+
+                Frame(const std::string& frameName,
+                      const std::vector<uint16_t>& indices,
                       const std::vector<graphics::Vertex>& vertices,
                       const Rect& frameRectangle,
                       const Size2& sourceSize,
