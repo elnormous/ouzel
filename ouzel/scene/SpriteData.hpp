@@ -18,9 +18,6 @@ namespace ouzel
     {
         struct SpriteData
         {
-            bool init(const std::string& filename, bool mipmaps = true);
-            bool init(const std::vector<uint8_t>& data, bool mipmaps = true);
-
             struct Frame
             {
                 Frame(const std::string& frameName,
