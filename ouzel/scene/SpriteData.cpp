@@ -1,7 +1,6 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <algorithm>
 #include "SpriteData.hpp"
 #include "utils/Utils.hpp"
 

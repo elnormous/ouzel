@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <algorithm>
 #include "LoaderSprite.hpp"
 #include "Cache.hpp"
 #include "core/Engine.hpp"
