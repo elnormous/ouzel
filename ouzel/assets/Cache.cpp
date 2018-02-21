@@ -259,19 +259,14 @@ namespace ouzel
                                             uint32_t spritesX, uint32_t spritesY,
                                             const Vector2& pivot)
         {
-            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-
-            scene::SpriteData newSpriteData;
-
-            if (extension == "json")
+            if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
+                          engine->getFileSystem()->getExtensionPart(filename)) != loaderImage.extensions.end())
             {
-                if (!newSpriteData.init(filename, mipmaps))
-                {
-                    return false;
-                }
-            }
-            else
-            {
+                scene::SpriteData newSpriteData;
+
+                if (spritesX == 0) spritesX = 1;
+                if (spritesY == 0) spritesY = 1;
+
                 newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
@@ -300,9 +295,13 @@ namespace ouzel
                 }
 
                 newSpriteData.animations[""] = std::move(animation);
-            }
 
-            spriteData[filename] = newSpriteData;
+                spriteData[filename] = newSpriteData;
+            }
+            else
+            {
+                return loadAsset(Loader::SPRITE, filename, mipmaps);
+            }
 
             return true;
         }
@@ -319,16 +318,14 @@ namespace ouzel
             }
             else
             {
-                std::string extension = engine->getFileSystem()->getExtensionPart(filename);
-
-                scene::SpriteData newSpriteData;
-
-                if (extension == "json")
+                if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
+                              engine->getFileSystem()->getExtensionPart(filename)) != loaderImage.extensions.end())
                 {
-                    newSpriteData.init(filename, mipmaps);
-                }
-                else if (spritesX > 0 && spritesY > 0)
-                {
+                    scene::SpriteData newSpriteData;
+
+                    if (spritesX == 0) spritesX = 1;
+                    if (spritesY == 0) spritesY = 1;
+
                     newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
 
                     if (newSpriteData.texture)
@@ -355,9 +352,21 @@ namespace ouzel
 
                         newSpriteData.animations[""] = std::move(animation);
                     }
-                }
 
-                i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
+                    i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
+                }
+                else
+                {
+                    loadAsset(Loader::SPRITE, filename, mipmaps);
+
+                    i = spriteData.find(filename);
+
+                    if (i == spriteData.end())
+                    {
+                        scene::SpriteData newSpriteData;
+                        i = spriteData.insert(std::make_pair(filename, newSpriteData)).first;
+                    }
+                }
 
                 return i->second;
             }
