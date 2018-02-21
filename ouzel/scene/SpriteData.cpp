@@ -16,7 +16,7 @@ namespace ouzel
                                  const Size2& sourceSize,
                                  const Vector2& sourceOffset,
                                  const Vector2& pivot):
-        name(frameName)
+            name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
 
