@@ -56,7 +56,8 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         WCHAR szBuffer[MAX_PATH];
-        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, filename.c_str(), filename.length(), nullptr, nullptr);
+        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, szBuffer, MAX_PATH) == 0)
+            return false;
         file = CreateFile(szBuffer, GENERIC_READ, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
         return file != INVALID_HANDLE_VALUE;
 #else
