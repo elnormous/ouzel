@@ -64,9 +64,7 @@ namespace ouzel
 #elif OUZEL_PLATFORM_WINDOWS
             std::vector<wchar_t> szBuffer(s.length() + 1 + 1); // for the newline and the terminating char
             if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, szBuffer.data(), static_cast<int>(szBuffer.size())) == 0)
-            {
                 return;
-            }
 
             StringCchCatW(szBuffer.data(), szBuffer.size(), L"\n");
             OutputDebugStringW(szBuffer.data());
