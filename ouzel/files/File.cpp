@@ -55,7 +55,9 @@ namespace ouzel
     bool File::open(const std::string& filename, int mode)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        file = CreateFile(filename.c_str(), GENERIC_READ, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+        WCHAR szBuffer[MAX_PATH];
+        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, filename.c_str(), filename.length(), nullptr, nullptr);
+        file = CreateFile(szBuffer, GENERIC_READ, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
         return file != INVALID_HANDLE_VALUE;
 #else
         fd = ::open(filename.c_str(), O_RDONLY);
