@@ -30,11 +30,11 @@ namespace ouzel
 
         bool read(char* buffer, uint32_t& size);
         bool write(const char* buffer, uint32_t& size);
-        bool seek(uint32_t position, int mode);
+        bool seek(int32_t offset, int mode);
 
     protected:
 #if OUZEL_PLATFORM_WINDOWS
-        HANDLE file = nullptr;
+        HANDLE file = INVALID_HANDLE_VALUE;
 #else
         int fd = -1;
 #if OUZEL_PLATFORM_ANDROID
