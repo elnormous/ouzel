@@ -15,6 +15,14 @@ namespace ouzel
     class File
     {
     public:
+        enum Mode
+        {
+            READ = 0x01,
+            WRITE = 0x02,
+            CREATE = 0x04,
+            APPEND = 0x08
+        };
+
         File();
         File(const std::string& filename, int mode);
         ~File();

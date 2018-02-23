@@ -55,13 +55,26 @@ namespace ouzel
     bool File::open(const std::string& filename, int mode)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        WCHAR szBuffer[MAX_PATH];
-        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, szBuffer, MAX_PATH) == 0)
+        DWORD access = 0;
+        if (mode & READ) access |= GENERIC_READ;
+        if (mode & WRITE) access |= GENERIC_WRITE;
+        if (mode & APPEND) access |= FILE_APPEND_DATA;
+        DWORD createDisposition = (mode & CREATE) ? OPEN_ALWAYS : OPEN_EXISTING;
+
+        WCHAR buffer[MAX_PATH];
+        if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer, MAX_PATH) == 0)
             return false;
-        file = CreateFile(szBuffer, GENERIC_READ, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+        file = CreateFile(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         return file != INVALID_HANDLE_VALUE;
 #else
-        fd = ::open(filename.c_str(), O_RDONLY);
+        int access = 0;
+        if ((mode & READ) && (mode & WRITE)) access |= O_RDWR;
+        else if (mode & READ) access |= O_RDONLY;
+        else if (mode & WRITE) access |= O_WRONLY;
+        if (mode & CREATE) access |= O_CREAT;
+        if (mode & APPEND) access |= O_APPEND;
+
+        fd = ::open(filename.c_str(), access);
         return fd != -1;
 #endif
     }
