@@ -23,6 +23,13 @@ namespace ouzel
             APPEND = 0x08
         };
 
+        enum Seek
+        {
+            BEGIN,
+            CURRENT,
+            END
+        };
+
         File();
         File(const std::string& filename, int mode);
         ~File();
@@ -38,7 +45,7 @@ namespace ouzel
 
         bool read(char* buffer, uint32_t& size);
         bool write(const char* buffer, uint32_t& size);
-        bool seek(int32_t offset, int mode);
+        bool seek(int32_t offset, int method);
 
     protected:
 #if OUZEL_PLATFORM_WINDOWS

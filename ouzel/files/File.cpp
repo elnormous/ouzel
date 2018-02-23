@@ -109,12 +109,20 @@ namespace ouzel
         return true;
     }
 
-    bool File::seek(int32_t offset, int mode)
+    bool File::seek(int32_t offset, int method)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        //if (file) return SetFilePointer(file, FILE_BEGIN) != 0;
+        DWORD moveMethod = 0;
+        if (method == BEGIN) moveMethod = FILE_BEGIN;
+        else if (method == CURRENT) moveMethod = FILE_CURRENT;
+        else if (method == END) moveMethod = FILE_END;
+        if (file != INVALID_HANDLE_VALUE) return SetFilePointer(file, offset, moveMethod) != 0;
 #else
-        //if (fd != -1) return lseek(fd, offset, SEEK_SET) == 0;
+        int whence = 0;
+        if (method == BEGIN) whence = SEEK_SET;
+        else if (method == CURRENT) whence = SEEK_CUR;
+        else if (method == END) whence = SEEK_END;
+        if (fd != -1) return lseek(fd, offset, whence) == 0;
 #endif
         return true;
     }
