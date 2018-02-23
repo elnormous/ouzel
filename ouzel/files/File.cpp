@@ -48,7 +48,6 @@ namespace ouzel
         fd = other.fd;
         other.fd = -1;
 #endif
-
         return *this;
     }
 
@@ -82,19 +81,26 @@ namespace ouzel
     bool File::close()
     {
 #if OUZEL_PLATFORM_WINDOWS
-        if (file != INVALID_HANDLE_VALUE) return CloseHandle(file) != 0;
+        if (file == INVALID_HANDLE_VALUE) return false;
+        return CloseHandle(file) != 0;
 #else
-        if (fd != -1) return ::close(fd) == 0;
+        if (fd == -1) return false;
+        return ::close(fd) == 0;
 #endif
-        return true;
     }
 
     bool File::read(void* buffer, uint32_t& size)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        //if (file != INVALID_HANDLE_VALUE) return ReadFile(file) != 0;
+        if (file == INVALID_HANDLE_VALUE) return false;
+        DWORD bytesRead;
+        if (ReadFile(file, buffer, size, &bytesRead, nullptr) == 0) return false;
+        size = bytesRead;
 #else
-        //if (fd != -1) return ::read(fd, buffer, size) == 0;
+        if (fd == -1) return false;
+        ssize_t ret = ::read(fd, buffer, size);
+        if (ret == -1) return false;
+        size = static_cast<uint32_t>(ret);
 #endif
         return true;
     }
@@ -102,9 +108,15 @@ namespace ouzel
     bool File::write(const void* buffer, uint32_t& size)
     {
 #if OUZEL_PLATFORM_WINDOWS
-        //if (file != INVALID_HANDLE_VALUE) return WriteFile(file) != 0;
+        if (file == INVALID_HANDLE_VALUE) return false;
+        DWORD bytesWritten;
+        if (WriteFile(file, buffer, size, &bytesWritten, nullptr) == 0) return false;
+        size = bytesWritten;
 #else
-        //if (fd != -1) return ::write(fd, buffer, size) == 0;
+        if (fd == -1) return false;
+        ssize_t ret = ::write(fd, buffer, size);
+        if (ret == -1) return false;
+        size = static_cast<uint32_t>(ret);
 #endif
         return true;
     }
@@ -112,18 +124,19 @@ namespace ouzel
     bool File::seek(int32_t offset, int method)
     {
 #if OUZEL_PLATFORM_WINDOWS
+        if (file == INVALID_HANDLE_VALUE) false;
         DWORD moveMethod = 0;
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
         else if (method == END) moveMethod = FILE_END;
-        if (file != INVALID_HANDLE_VALUE) return SetFilePointer(file, offset, nullptr, moveMethod) != 0;
+        return SetFilePointer(file, offset, nullptr, moveMethod) != 0;
 #else
+        if (fd == -1) return false;
         int whence = 0;
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
-        if (fd != -1) return lseek(fd, offset, whence) == 0;
+        return lseek(fd, offset, whence) == 0;
 #endif
-        return true;
     }
 }
