@@ -43,8 +43,17 @@ namespace ouzel
         bool open(const std::string& filename, int mode);
         bool close();
 
-        bool read(char* buffer, uint32_t& size);
-        bool write(const char* buffer, uint32_t& size);
+        inline bool isOpen() const
+        {
+#if OUZEL_PLATFORM_WINDOWS
+            return file != INVALID_HANDLE_VALUE;
+#else
+            return fd != -1;
+#endif
+        }
+
+        bool read(void* buffer, uint32_t& size);
+        bool write(const void* buffer, uint32_t& size);
         bool seek(int32_t offset, int method);
 
     protected:
