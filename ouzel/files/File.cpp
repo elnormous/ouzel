@@ -116,7 +116,7 @@ namespace ouzel
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
         else if (method == END) moveMethod = FILE_END;
-        if (file != INVALID_HANDLE_VALUE) return SetFilePointer(file, offset, moveMethod) != 0;
+        if (file != INVALID_HANDLE_VALUE) return SetFilePointer(file, offset, nullptr, moveMethod) != 0;
 #else
         int whence = 0;
         if (method == BEGIN) whence = SEEK_SET;
