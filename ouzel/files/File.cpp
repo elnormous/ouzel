@@ -89,7 +89,7 @@ namespace ouzel
         return true;
     }
 
-    bool File::read(char* buffer, uint32_t& size)
+    bool File::read(void* buffer, uint32_t& size)
     {
 #if OUZEL_PLATFORM_WINDOWS
         //if (file != INVALID_HANDLE_VALUE) return ReadFile(file) != 0;
@@ -99,7 +99,7 @@ namespace ouzel
         return true;
     }
 
-    bool File::write(const char* buffer, uint32_t& size)
+    bool File::write(const void* buffer, uint32_t& size)
     {
 #if OUZEL_PLATFORM_WINDOWS
         //if (file != INVALID_HANDLE_VALUE) return WriteFile(file) != 0;
