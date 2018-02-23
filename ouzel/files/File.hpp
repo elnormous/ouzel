@@ -7,7 +7,10 @@
 
 #if OUZEL_PLATFORM_WINDOWS
 #include <windows.h>
-#else
+#endif
+
+#if OUZEL_PLATFORM_ANDROID
+#include <android/asset_manager_jni.h>
 #endif
 
 namespace ouzel
@@ -61,9 +64,10 @@ namespace ouzel
         HANDLE file = INVALID_HANDLE_VALUE;
 #else
         int fd = -1;
+#endif
+
 #if OUZEL_PLATFORM_ANDROID
         AAsset* asset = nullptr;
-#endif
 #endif
     };
 }
