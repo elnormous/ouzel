@@ -193,13 +193,27 @@ namespace ouzel
         }
     }
 
-    void FileSystem::addArchive(std::shared_ptr<Archive>& archive)
+    void FileSystem::addArchive(Archive* archive)
     {
+        if (archive->fileSystem) archive->fileSystem->removeArchive(archive);
+
         auto i = std::find(archives.begin(), archives.end(), archive);
 
         if (i == archives.end())
         {
+            archive->fileSystem = this;
             archives.push_back(archive);
+        }
+    }
+
+    void FileSystem::removeArchive(Archive* archive)
+    {
+        auto i = std::find(archives.begin(), archives.end(), archive);
+
+        if (i != archives.end())
+        {
+            archive->fileSystem = nullptr;
+            archives.erase(i);
         }
     }
 

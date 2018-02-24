@@ -2,9 +2,15 @@
 // This file is part of the Ouzel engine.
 
 #include "Archive.hpp"
+#include "FileSystem.hpp"
 
 namespace ouzel
 {
+    Archive::~Archive()
+    {
+        if (fileSystem) fileSystem->removeArchive(this);
+    }
+
     bool Archive::readFile(const std::string&, std::vector<uint8_t>&) const
     {
         return false;
