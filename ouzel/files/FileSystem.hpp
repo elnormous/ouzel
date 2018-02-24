@@ -36,7 +36,8 @@ namespace ouzel
         bool resourceFileExists(const std::string& filename) const;
         std::string getPath(const std::string& filename, bool searchResources = true) const;
         void addResourcePath(const std::string& path);
-        void addArchive(std::shared_ptr<Archive>& archive);
+        void addArchive(Archive* archive);
+        void removeArchive(Archive* archive);
 
         static std::string getExtensionPart(const std::string& path);
         static std::string getFilenamePart(const std::string& path);
@@ -51,6 +52,6 @@ namespace ouzel
 
         std::string appPath;
         std::vector<std::string> resourcePaths;
-        std::vector<std::shared_ptr<Archive>> archives;
+        std::vector<Archive*> archives;
     };
 }
