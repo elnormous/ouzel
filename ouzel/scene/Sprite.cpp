@@ -247,7 +247,7 @@ namespace ouzel
         void Sprite::play()
         {
             if (currentAnimation && currentAnimation->frameInterval > 0.0f &&
-                !playing && currentAnimation->frames.size() > 1)
+                currentAnimation->frames.size() > 1)
             {
                 playing = true;
 
