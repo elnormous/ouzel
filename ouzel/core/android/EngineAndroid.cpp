@@ -262,7 +262,7 @@ namespace ouzel
     void EngineAndroid::executeOnMainThread(const std::function<void(void)>& func)
     {
         {
-            std::lock_guard<std::mutex> lock(executeMutex);
+            std::lock_guard<Mutex> lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -336,7 +336,7 @@ namespace ouzel
         std::function<void(void)> func;
 
         {
-            std::lock_guard<std::mutex> lock(executeMutex);
+            std::lock_guard<Mutex> lock(executeMutex);
 
             if (!executeQueue.empty())
             {

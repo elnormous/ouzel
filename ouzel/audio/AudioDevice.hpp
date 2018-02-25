@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include <mutex>
 #include <queue>
 #include <vector>
 #include "audio/Audio.hpp"
+#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -87,10 +87,10 @@ namespace ouzel
             uint32_t currentBuffer = 0;
 
             std::queue<std::function<void(void)>> executeQueue;
-            std::mutex executeMutex;
+            Mutex executeMutex;
 
             std::vector<RenderCommand> renderQueue;
-            std::mutex renderQueueMutex;
+            Mutex renderQueueMutex;
         };
     } // namespace audio
 } // namespace ouzel

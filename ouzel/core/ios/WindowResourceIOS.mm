@@ -196,7 +196,7 @@ namespace ouzel
         size = newSize;
         resolution = size * contentScale;
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener)
         {
             listener->onSizeChange(size);

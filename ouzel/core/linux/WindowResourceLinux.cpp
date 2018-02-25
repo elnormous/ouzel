@@ -212,7 +212,7 @@ namespace ouzel
 
         resolution = size;
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener)
         {
             listener->onResolutionChange(resolution);
@@ -270,7 +270,7 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener)
         {
             listener->onSizeChange(size);

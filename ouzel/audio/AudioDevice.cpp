@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "AudioDevice.hpp"
 #include "math/MathUtils.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -33,7 +34,7 @@ namespace ouzel
 
         void AudioDevice::setRenderCommands(const std::vector<RenderCommand>& newRenderCommands)
         {
-            std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+            Lock renderQueueLock(renderQueueMutex);
 
             renderQueue = newRenderCommands;
         }
@@ -43,7 +44,7 @@ namespace ouzel
             std::vector<RenderCommand> renderCommands;
 
             {
-                std::lock_guard<std::mutex> renderQueueLock(renderQueueMutex);
+                Lock renderQueueLock(renderQueueMutex);
 
                 renderCommands = renderQueue;
             }
@@ -181,7 +182,7 @@ namespace ouzel
 
         void AudioDevice::executeOnAudioThread(const std::function<void(void)>& func)
         {
-            std::lock_guard<std::mutex> lock(executeMutex);
+            Lock lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -193,7 +194,7 @@ namespace ouzel
             for (;;)
             {
                 {
-                    std::lock_guard<std::mutex> lock(executeMutex);
+                    Lock lock(executeMutex);
                     if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());

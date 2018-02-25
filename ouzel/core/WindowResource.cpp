@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "WindowResource.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -48,7 +49,7 @@ namespace ouzel
 
     void WindowResource::setListener(Listener* newListener)
     {
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         listener = newListener;
     }
 }

@@ -10,6 +10,8 @@
 #include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
+#include "thread/Condition.hpp"
+#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -175,15 +177,15 @@ namespace ouzel
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
 
-            std::mutex resourceMutex;
+            Mutex resourceMutex;
             std::vector<std::unique_ptr<RenderResource>> resources;
             std::vector<std::unique_ptr<RenderResource>> resourceDeleteSet;
 
             uint32_t drawCallCount = 0;
 
             std::vector<DrawCommand> drawQueue;
-            std::mutex drawQueueMutex;
-            std::condition_variable queueCondition;
+            Mutex drawQueueMutex;
+            Condition queueCondition;
             bool queueFinished = false;
             std::atomic<bool> refillQueue;
 
@@ -195,7 +197,7 @@ namespace ouzel
             std::atomic<float> accumulatedFPS;
 
             std::queue<std::function<void(void)>> executeQueue;
-            std::mutex executeMutex;
+            Mutex executeMutex;
         };
     } // namespace graphics
 } // namespace ouzel

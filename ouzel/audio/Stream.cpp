@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Stream.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -22,7 +23,7 @@ namespace ouzel
 
         void Stream::reset()
         {
-            std::unique_lock<std::mutex> lock(listenerMutex);
+            Lock lock(listenerMutex);
             if (eventListener) eventListener->onReset();
             if (!repeating)
             {
@@ -33,7 +34,7 @@ namespace ouzel
 
         void Stream::setEventListener(EventListener* newEventListener)
         {
-            std::unique_lock<std::mutex> lock(listenerMutex);
+            Lock lock(listenerMutex);
             eventListener = newEventListener;
         }
     } // namespace audio

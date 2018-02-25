@@ -8,6 +8,7 @@
 #include <vector>
 #include <unordered_map>
 #include "math/Vector2.hpp"
+#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -289,7 +290,7 @@ namespace ouzel
             std::unordered_map<uint64_t, Vector2> touchPositions;
             std::vector<std::unique_ptr<Gamepad>> gamepads;
 
-            std::mutex resourceMutex;
+            Mutex resourceMutex;
             std::vector<std::unique_ptr<CursorResource>> resources;
             std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
             CursorResource* currentCursorResource = nullptr;

@@ -26,7 +26,7 @@ namespace ouzel
         void executeAll();
 
         std::queue<std::function<void(void)>> executeQueue;
-        std::mutex executeMutex;
+        Mutex executeMutex;
 
         int argc = 0;
         char** argv = nullptr;

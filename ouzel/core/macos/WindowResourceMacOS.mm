@@ -8,6 +8,7 @@
 #include "graphics/metal/macos/MetalView.h"
 #include "input/macos/InputMacOS.hpp"
 #include "core/Engine.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 @interface WindowDelegate: NSObject<NSWindowDelegate>
@@ -288,7 +289,7 @@ namespace ouzel
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * contentScale;
 
-            std::unique_lock<std::mutex> lock(listenerMutex);
+            Lock lock(listenerMutex);
             if (listener) listener->onResolutionChange(resolution);
         }
     }
@@ -363,7 +364,7 @@ namespace ouzel
                      static_cast<float>(frame.size.height));
         resolution = size * contentScale;
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener)
         {
             listener->onSizeChange(size);
@@ -373,7 +374,7 @@ namespace ouzel
 
     void WindowResourceMacOS::handleClose()
     {
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener) listener->onClose();
     }
 
@@ -381,7 +382,7 @@ namespace ouzel
     {
         fullscreen = newFullscreen;
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener) listener->onFullscreenChange(newFullscreen);
     }
 
@@ -392,7 +393,7 @@ namespace ouzel
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * contentScale;
 
-            std::unique_lock<std::mutex> lock(listenerMutex);
+            Lock lock(listenerMutex);
             if (listener) listener->onResolutionChange(resolution);
         }
     }
@@ -402,7 +403,7 @@ namespace ouzel
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        std::unique_lock<std::mutex> lock(listenerMutex);
+        Lock lock(listenerMutex);
         if (listener) listener->onScreenChange(displayId);
     }
 }

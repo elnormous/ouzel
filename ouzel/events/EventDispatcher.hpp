@@ -39,7 +39,7 @@ namespace ouzel
         std::set<EventHandler*> eventHandlerAddSet;
         std::set<EventHandler*> eventHandlerDeleteSet;
 
-        std::mutex eventQueueMutex;
+        Mutex eventQueueMutex;
         std::queue<Event> eventQueue;
     };
 }
