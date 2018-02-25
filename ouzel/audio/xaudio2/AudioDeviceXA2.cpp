@@ -216,7 +216,7 @@ namespace ouzel
             for (;;)
             {
                 Lock lock(fillDataMutex);
-                while (!fillData && running) fillDataCondition.wait(drawQueueMutex);
+                while (!fillData && running) fillDataCondition.wait(fillDataMutex);
 
                 if (!running) break;
 
