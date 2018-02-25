@@ -78,7 +78,6 @@ namespace ouzel
         size = newSize;
         resolution = size;
 
-        Lock lock(listenerMutex);
         if (listener)
         {
             listener->onSizeChange(size);

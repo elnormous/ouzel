@@ -13,6 +13,7 @@
 #include "WindowResourceLinux.hpp"
 #include "EngineLinux.hpp"
 #include "graphics/RenderDevice.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 static const long _NET_WM_STATE_TOGGLE = 2;
