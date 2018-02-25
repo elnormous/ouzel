@@ -4,8 +4,9 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
+#include <functional>
 #include <string>
+#include <vector>
 #include <queue>
 #include <set>
 #include <memory>
