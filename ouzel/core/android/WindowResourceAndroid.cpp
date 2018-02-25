@@ -3,6 +3,7 @@
 
 #include "WindowResourceAndroid.hpp"
 #include "EngineAndroid.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
