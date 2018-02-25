@@ -9,6 +9,7 @@
 #include "WindowResourceAndroid.hpp"
 #include "events/EventDispatcher.hpp"
 #include "graphics/opengl/android/RenderDeviceOGLAndroid.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 static int looperCallback(int fd, int events, void* data)
@@ -262,7 +263,7 @@ namespace ouzel
     void EngineAndroid::executeOnMainThread(const std::function<void(void)>& func)
     {
         {
-            std::lock_guard<Mutex> lock(executeMutex);
+           Lock lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -336,7 +337,7 @@ namespace ouzel
         std::function<void(void)> func;
 
         {
-            std::lock_guard<Mutex> lock(executeMutex);
+           Lock lock(executeMutex);
 
             if (!executeQueue.empty())
             {

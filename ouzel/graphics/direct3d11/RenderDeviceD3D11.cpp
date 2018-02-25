@@ -16,6 +16,7 @@
 #include "ColorPSD3D11.h"
 #include "ColorVSD3D11.h"
 #include "core/Engine.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "stb_image_write.h"
@@ -903,7 +904,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceD3D11::createBlendState()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -912,7 +913,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceD3D11::createTexture()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -921,7 +922,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceD3D11::createShader()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -930,7 +931,7 @@ namespace ouzel
 
         MeshBufferResource* RenderDeviceD3D11::createMeshBuffer()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
             resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
@@ -939,7 +940,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceD3D11::createBuffer()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));

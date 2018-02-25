@@ -8,6 +8,7 @@
 #include "RenderDeviceOGLAndroid.hpp"
 #include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -321,7 +322,7 @@ namespace ouzel
             }
 
             {
-                std::lock_guard<Mutex> lock(resourceMutex);
+               Lock lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
                 {

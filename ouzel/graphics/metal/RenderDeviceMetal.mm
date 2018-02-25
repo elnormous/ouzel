@@ -42,6 +42,7 @@
 #endif
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 #include "utils/Utils.hpp"
 #include "stb_image_write.h"
@@ -807,7 +808,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceMetal::createBlendState()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceMetal();
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -816,7 +817,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceMetal::createTexture()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceMetal(this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -825,7 +826,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceMetal::createShader()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceMetal(this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -834,7 +835,7 @@ namespace ouzel
 
         MeshBufferResource* RenderDeviceMetal::createMeshBuffer()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceMetal();
             resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
@@ -843,7 +844,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceMetal::createBuffer()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceMetal(this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));

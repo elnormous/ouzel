@@ -89,7 +89,7 @@ namespace ouzel
 
             std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
-                std::lock_guard<Mutex> lock(resourceMutex);
+                Lock lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
             }
 
@@ -137,7 +137,7 @@ namespace ouzel
 
         void RenderDevice::deleteResource(RenderResource* resource)
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<RenderResource>& ptr) {
                 return ptr.get() == resource;
@@ -152,7 +152,7 @@ namespace ouzel
 
         bool RenderDevice::addDrawCommand(const DrawCommand& drawCommand)
         {
-            std::lock_guard<Mutex> lock(drawQueueMutex);
+            Lock lock(drawQueueMutex);
 
             drawQueue.push_back(drawCommand);
 
@@ -161,7 +161,7 @@ namespace ouzel
 
         void RenderDevice::flushCommands()
         {
-            std::lock_guard<Mutex> lock(drawQueueMutex);
+            Lock lock(drawQueueMutex);
             refillQueue = false;
 
             queueFinished = true;
@@ -179,7 +179,7 @@ namespace ouzel
 
         void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)
         {
-            std::lock_guard<Mutex> lock(executeMutex);
+            Lock lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -191,7 +191,7 @@ namespace ouzel
             for (;;)
             {
                 {
-                    std::lock_guard<Mutex> lock(executeMutex);
+                    Lock lock(executeMutex);
                     if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());

@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <mutex>
 #include "graphics/RenderResource.hpp"
 #include "graphics/Buffer.hpp"
 

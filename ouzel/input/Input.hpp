@@ -4,7 +4,6 @@
 #pragma once
 
 #include <memory>
-#include <mutex>
 #include <vector>
 #include <unordered_map>
 #include "math/Vector2.hpp"

@@ -9,9 +9,7 @@
 #include <queue>
 #include <set>
 #include <memory>
-#include <mutex>
 #include <atomic>
-#include <condition_variable>
 #include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
