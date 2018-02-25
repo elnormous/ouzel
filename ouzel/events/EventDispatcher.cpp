@@ -61,7 +61,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<std::mutex> lock(eventQueueMutex);
+                std::lock_guard<Mutex> lock(eventQueueMutex);
                 if (eventQueue.empty()) break;
 
                 event = std::move(eventQueue.front());
@@ -218,7 +218,7 @@ namespace ouzel
 
     void EventDispatcher::postEvent(const Event& event)
     {
-        std::lock_guard<std::mutex> lock(eventQueueMutex);
+        std::lock_guard<Mutex> lock(eventQueueMutex);
 
         eventQueue.push(event);
     }

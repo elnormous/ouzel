@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -73,8 +74,8 @@ namespace ouzel
             std::vector<DrawCommand> drawCommands;
             {
 #if OUZEL_MULTITHREADED
-                std::unique_lock<std::mutex> lock(drawQueueMutex);
-                queueCondition.wait(lock, [this]() { return queueFinished; });
+                Lock lock(drawQueueMutex);
+                while (!queueFinished) queueCondition.wait(drawQueueMutex);
 #endif
 
                 drawCommands = drawQueue;
@@ -88,7 +89,7 @@ namespace ouzel
 
             std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
-                std::lock_guard<std::mutex> lock(resourceMutex);
+                std::lock_guard<Mutex> lock(resourceMutex);
                 deleteResources = std::move(resourceDeleteSet);
             }
 
@@ -136,7 +137,7 @@ namespace ouzel
 
         void RenderDevice::deleteResource(RenderResource* resource)
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             auto resourceIterator = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<RenderResource>& ptr) {
                 return ptr.get() == resource;
@@ -151,7 +152,7 @@ namespace ouzel
 
         bool RenderDevice::addDrawCommand(const DrawCommand& drawCommand)
         {
-            std::lock_guard<std::mutex> lock(drawQueueMutex);
+            std::lock_guard<Mutex> lock(drawQueueMutex);
 
             drawQueue.push_back(drawCommand);
 
@@ -160,14 +161,14 @@ namespace ouzel
 
         void RenderDevice::flushCommands()
         {
-            std::lock_guard<std::mutex> lock(drawQueueMutex);
+            std::lock_guard<Mutex> lock(drawQueueMutex);
             refillQueue = false;
 
             queueFinished = true;
             drawCallCount = static_cast<uint32_t>(drawQueue.size());
 
 #if OUZEL_MULTITHREADED
-            queueCondition.notify_one();
+            queueCondition.signal();
 #endif
         }
 
@@ -178,7 +179,7 @@ namespace ouzel
 
         void RenderDevice::executeOnRenderThread(const std::function<void(void)>& func)
         {
-            std::lock_guard<std::mutex> lock(executeMutex);
+            std::lock_guard<Mutex> lock(executeMutex);
 
             executeQueue.push(func);
         }
@@ -190,7 +191,7 @@ namespace ouzel
             for (;;)
             {
                 {
-                    std::lock_guard<std::mutex> lock(executeMutex);
+                    std::lock_guard<Mutex> lock(executeMutex);
                     if (executeQueue.empty()) break;
 
                     func = std::move(executeQueue.front());

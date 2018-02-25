@@ -67,6 +67,6 @@ namespace ouzel
         std::string cacheDirectory;
 
         std::queue<std::function<void(void)>> executeQueue;
-        std::mutex executeMutex;
+        Mutex executeMutex;
     };
 }

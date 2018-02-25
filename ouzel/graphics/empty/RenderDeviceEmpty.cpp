@@ -70,7 +70,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceEmpty::createBlendState()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceEmpty();
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -79,7 +79,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceEmpty::createTexture()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             TextureResource* texture(new TextureResourceEmpty());
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -88,7 +88,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceEmpty::createShader()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceEmpty();
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -97,7 +97,7 @@ namespace ouzel
 
         MeshBufferResource* RenderDeviceEmpty::createMeshBuffer()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceEmpty();
             resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
@@ -106,7 +106,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceEmpty::createBuffer()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceEmpty();
             resources.push_back(std::unique_ptr<RenderResource>(buffer));

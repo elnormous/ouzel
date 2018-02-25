@@ -31,8 +31,8 @@ namespace ouzel
             if (audioThread.isJoinable())
             {
                 {
-                    std::unique_lock<std::mutex> lock(fillDataMutex);
-                    fillDataCondition.notify_one();
+                    Lock lock(fillDataMutex);
+                    fillDataCondition.signal();
                 }
 
                 audioThread.join();
@@ -214,8 +214,8 @@ namespace ouzel
         {
             for (;;)
             {
-                std::unique_lock<std::mutex> lock(fillDataMutex);
-                fillDataCondition.wait(lock, [this] { return fillData || !running; });
+                Lock lock(fillDataMutex);
+                while (!fillData && running) fillDataCondition.wait(drawQueueMutex);
 
                 if (!running) break;
 
@@ -270,9 +270,9 @@ namespace ouzel
 
         void AudioDeviceXA2::OnBufferEnd(void*)
         {
-            std::unique_lock<std::mutex> lock(fillDataMutex);
+            Lock lock(fillDataMutex);
             fillData = true;
-            fillDataCondition.notify_one();
+            fillDataCondition.signal();
         }
 
         void AudioDeviceXA2::OnLoopEnd(void*)

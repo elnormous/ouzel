@@ -321,7 +321,7 @@ namespace ouzel
             }
 
             {
-                std::lock_guard<std::mutex> lock(resourceMutex);
+                std::lock_guard<Mutex> lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
                 {

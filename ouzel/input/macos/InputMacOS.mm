@@ -364,7 +364,7 @@ namespace ouzel
 
         CursorResource* InputMacOS::createCursorResource()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
             CursorResource* result = cursorResource.get();

@@ -340,7 +340,7 @@ namespace ouzel
 
         CursorResource* InputLinux::createCursorResource()
         {
-            std::lock_guard<std::mutex> lock(resourceMutex);
+            std::lock_guard<Mutex> lock(resourceMutex);
 
             std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
             CursorResource* result = cursorResource.get();

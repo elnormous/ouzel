@@ -10,6 +10,7 @@
 #include <atomic>
 #include <xaudio2.h>
 #include "audio/AudioDevice.hpp"
+#include "thread/Condition.hpp"
 #include "thread/Thread.hpp"
 
 namespace ouzel
@@ -47,9 +48,9 @@ namespace ouzel
 
             std::atomic<bool> running;
             Thread audioThread;
-            std::condition_variable fillDataCondition;
+            Condition fillDataCondition;
             bool fillData = false;
-            std::mutex fillDataMutex;
+            Mutex fillDataMutex;
         };
     } // namespace audio
 } // namespace ouzel

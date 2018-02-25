@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "math/Size2.hpp"
+#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -70,7 +71,7 @@ namespace ouzel
 
         std::string title;
 
-        std::mutex listenerMutex;
+        Mutex listenerMutex;
         Listener* listener = nullptr;
     };
 }
