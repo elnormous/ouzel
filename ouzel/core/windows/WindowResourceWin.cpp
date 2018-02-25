@@ -9,6 +9,7 @@
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "graphics/direct3d11/RenderDeviceD3D11.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 static void handleKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam)
