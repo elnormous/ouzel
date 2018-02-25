@@ -8,6 +8,7 @@
 #include "events/Event.hpp"
 #include "core/Engine.hpp"
 #include "core/linux/WindowResourceLinux.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -340,7 +341,7 @@ namespace ouzel
 
         CursorResource* InputLinux::createCursorResource()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
             CursorResource* result = cursorResource.get();

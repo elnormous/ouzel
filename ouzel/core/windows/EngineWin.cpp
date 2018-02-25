@@ -6,6 +6,7 @@
 #include "EngineWin.hpp"
 #include "WindowResourceWin.hpp"
 #include "input/windows/InputWin.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
@@ -141,7 +142,7 @@ namespace ouzel
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
     {
-        std::lock_guard<Mutex> lock(executeMutex);
+       Lock lock(executeMutex);
 
         executeQueue.push(func);
     }
@@ -153,7 +154,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<Mutex> lock(executeMutex);
+               Lock lock(executeMutex);
 
                 if (executeQueue.empty())
                 {

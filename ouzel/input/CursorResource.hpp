@@ -4,7 +4,6 @@
 #pragma once
 
 #include <cstdint>
-#include <mutex>
 #include <vector>
 #include "input/Cursor.hpp"
 #include "math/Size2.hpp"

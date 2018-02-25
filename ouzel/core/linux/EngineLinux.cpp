@@ -9,11 +9,12 @@
 #include <X11/XKBlib.h>
 #include <X11/extensions/scrnsaver.h>
 #include "EngineLinux.hpp"
+#include "WindowResourceLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
 #include "input/Input.hpp"
 #include "input/linux/InputLinux.hpp"
-#include "WindowResourceLinux.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
@@ -174,7 +175,7 @@ namespace ouzel
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
-        std::lock_guard<Mutex> lock(executeMutex);
+       Lock lock(executeMutex);
 
         executeQueue.push(func);
     }
@@ -204,7 +205,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<Mutex> lock(executeMutex);
+               Lock lock(executeMutex);
 
                 if (executeQueue.empty())
                 {

@@ -12,6 +12,7 @@
 #include "core/Engine.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "events/EventDispatcher.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
@@ -330,7 +331,7 @@ namespace ouzel
 
         CursorResource* InputWin::createCursorResource()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+           Lock lock(resourceMutex);
 
             std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
             CursorResource* result = cursorResource.get();

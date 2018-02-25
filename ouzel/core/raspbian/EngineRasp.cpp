@@ -42,7 +42,7 @@ namespace ouzel
 
     void EngineRasp::executeOnMainThread(const std::function<void(void)>& func)
     {
-        std::lock_guard<Mutex> lock(executeMutex);
+       Lock lock(executeMutex);
 
         executeQueue.push(func);
     }
@@ -54,7 +54,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<Mutex> lock(executeMutex);
+               Lock lock(executeMutex);
 
                 if (executeQueue.empty())
                 {

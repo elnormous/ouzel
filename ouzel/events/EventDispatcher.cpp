@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -61,7 +62,7 @@ namespace ouzel
         for (;;)
         {
             {
-                std::lock_guard<Mutex> lock(eventQueueMutex);
+                Lock lock(eventQueueMutex);
                 if (eventQueue.empty()) break;
 
                 event = std::move(eventQueue.front());
@@ -218,7 +219,7 @@ namespace ouzel
 
     void EventDispatcher::postEvent(const Event& event)
     {
-        std::lock_guard<Mutex> lock(eventQueueMutex);
+        Lock lock(eventQueueMutex);
 
         eventQueue.push(event);
     }

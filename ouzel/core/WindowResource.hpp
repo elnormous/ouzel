@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include <mutex>
 #include "math/Size2.hpp"
 #include "thread/Mutex.hpp"
 

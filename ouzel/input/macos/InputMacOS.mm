@@ -12,6 +12,7 @@
 #include "core/macos/WindowResourceMacOS.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient * IOHIDServiceClientRef;
@@ -364,7 +365,7 @@ namespace ouzel
 
         CursorResource* InputMacOS::createCursorResource()
         {
-            std::lock_guard<Mutex> lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
             CursorResource* result = cursorResource.get();
