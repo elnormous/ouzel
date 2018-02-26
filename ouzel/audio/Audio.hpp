@@ -84,9 +84,9 @@ namespace ouzel
             void addListener(Listener* listener);
             void removeListener(Listener* listener);
 
-            static void resampleLerp(const std::vector<float>& src, uint32_t srcFrames,
-                                     std::vector<float>& dst, uint32_t dstFrames,
-                                     uint32_t channels);
+            static void resample(const std::vector<float>& src, uint32_t srcFrames,
+                                 std::vector<float>& dst, uint32_t dstFrames,
+                                 uint32_t channels);
 
         protected:
             explicit Audio(Driver driver);
