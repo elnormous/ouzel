@@ -93,7 +93,10 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
-        return ReadFile(file, buffer, size, &bytesRead, nullptr) != 0;
+        DWORD n;
+        BOOL ret = ReadFile(file, buffer, size, &n, nullptr)
+        bytesRead = static_cast<uint32_t>(n);
+        return ret != 0;
 #else
         if (fd == -1) return false;
         ssize_t ret = ::read(fd, buffer, size);
@@ -106,7 +109,10 @@ namespace ouzel
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
-        return WriteFile(file, buffer, size, &bytesWritten, nullptr) != 0;
+        DWORD n;
+        BOOL ret = WriteFile(file, buffer, size, &n, nullptr);
+        bytesWritten = static_cast<uint32_t>(n);
+        return ret != 0;
 #else
         if (fd == -1) return false;
         ssize_t ret = ::write(fd, buffer, size);
