@@ -42,6 +42,8 @@
 #include "events/Event.hpp"
 #include "events/EventDispatcher.hpp"
 #include "events/EventHandler.hpp"
+#include "files/Archive.hpp"
+#include "files/File.hpp"
 #include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/BlendStateResource.hpp"
