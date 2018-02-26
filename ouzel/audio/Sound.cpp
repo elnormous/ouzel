@@ -205,7 +205,7 @@ namespace ouzel
                            float maxDistance,
                            bool spatialized)
         {
-            if (soundData && soundData->getChannels() > 0 && stream)
+            if (soundData && stream)
             {
                 if (!stream->isPlaying())
                 {

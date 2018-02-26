@@ -46,7 +46,7 @@ namespace ouzel
             {
                 uint32_t srcFrames = static_cast<uint32_t>(tempData.size()) / channels;
 
-                Audio::resampleLerp(tempData, srcFrames, resampledData, frames, channels);
+                Audio::resample(tempData, srcFrames, resampledData, frames, channels);
             }
             else
             {

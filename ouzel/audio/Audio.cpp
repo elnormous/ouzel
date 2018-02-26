@@ -171,9 +171,9 @@ namespace ouzel
             }
         }
 
-        void Audio::resampleLerp(const std::vector<float>& src, uint32_t srcFrames,
-                                 std::vector<float>& dst, uint32_t dstFrames,
-                                 uint32_t channels)
+        void Audio::resample(const std::vector<float>& src, uint32_t srcFrames,
+                             std::vector<float>& dst, uint32_t dstFrames,
+                             uint32_t channels)
         {
             if (dstFrames > 0) // do resampling only if destination is not empty
             {
