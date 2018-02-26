@@ -89,6 +89,20 @@ namespace ouzel
 #endif
     }
 
+    bool File::read(void* buffer, uint32_t size) const
+    {
+        uint8_t* dest = static_cast<uint8_t*>(buffer);
+        uint32_t bytesRead;
+
+        for (; size > 0; size -= bytesRead, dest += bytesRead)
+        {
+            if (!read(dest, size, bytesRead)) return false;
+            if (bytesRead == 0) return false;
+        }
+
+        return true;
+    }
+
     bool File::read(void* buffer, uint32_t size, uint32_t& bytesRead) const
     {
 #if OUZEL_PLATFORM_WINDOWS
@@ -103,6 +117,20 @@ namespace ouzel
         bytesRead = static_cast<uint32_t>(ret);
         return ret != -1;
 #endif
+    }
+
+    bool File::write(const void* buffer, uint32_t size) const
+    {
+        const uint8_t* src = static_cast<const uint8_t*>(buffer);
+        uint32_t bytesWritten;
+
+        for (; size > 0; size -= bytesWritten, src += bytesWritten)
+        {
+            if (!write(src, size, bytesWritten)) return false;
+            if (bytesWritten == 0) return false;
+        }
+
+        return true;
     }
 
     bool File::write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const
