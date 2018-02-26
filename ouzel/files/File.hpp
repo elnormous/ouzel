@@ -55,8 +55,8 @@ namespace ouzel
 #endif
         }
 
-        bool read(void* buffer, uint32_t& size);
-        bool write(const void* buffer, uint32_t& size);
+        bool read(void* buffer, uint32_t size, uint32_t& bytesRead);
+        bool write(const void* buffer, uint32_t size, uint32_t& bytesWritten);
         bool seek(int32_t offset, int method);
 
     protected:

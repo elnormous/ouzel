@@ -89,36 +89,30 @@ namespace ouzel
 #endif
     }
 
-    bool File::read(void* buffer, uint32_t& size)
+    bool File::read(void* buffer, uint32_t size, uint32_t& bytesRead)
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
-        DWORD bytesRead;
-        if (ReadFile(file, buffer, size, &bytesRead, nullptr) == 0) return false;
-        size = bytesRead;
+        return ReadFile(file, buffer, size, &bytesRead, nullptr) != 0;
 #else
         if (fd == -1) return false;
         ssize_t ret = ::read(fd, buffer, size);
-        if (ret == -1) return false;
-        size = static_cast<uint32_t>(ret);
+        bytesRead = static_cast<uint32_t>(ret);
+        return ret != -1;
 #endif
-        return true;
     }
 
-    bool File::write(const void* buffer, uint32_t& size)
+    bool File::write(const void* buffer, uint32_t size, uint32_t& bytesWritten)
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
-        DWORD bytesWritten;
-        if (WriteFile(file, buffer, size, &bytesWritten, nullptr) == 0) return false;
-        size = bytesWritten;
+        return WriteFile(file, buffer, size, &bytesWritten, nullptr) != 0;
 #else
         if (fd == -1) return false;
         ssize_t ret = ::write(fd, buffer, size);
-        if (ret == -1) return false;
-        size = static_cast<uint32_t>(ret);
+        bytesWritten = static_cast<uint32_t>(ret);
+        return ret != -1;
 #endif
-        return true;
     }
 
     bool File::seek(int32_t offset, int method)
@@ -136,7 +130,7 @@ namespace ouzel
         if (method == BEGIN) whence = SEEK_SET;
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
-        return lseek(fd, offset, whence) == 0;
+        return lseek(fd, offset, whence) != -1;
 #endif
     }
 }
