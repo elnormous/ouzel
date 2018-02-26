@@ -51,222 +51,270 @@ namespace ouzel
 
     // decoding
 
-    inline int64_t decodeInt64Big(const uint8_t* buffer)
+    inline int64_t decodeInt64Big(const void* buffer)
     {
-        return static_cast<int64_t>(buffer[7]) |
-            static_cast<int64_t>(buffer[6]) << 8 |
-            static_cast<int64_t>(buffer[5]) << 16 |
-            static_cast<int64_t>(buffer[4]) << 24 |
-            static_cast<int64_t>(buffer[3]) << 32 |
-            static_cast<int64_t>(buffer[2]) << 40 |
-            static_cast<int64_t>(buffer[1]) << 48 |
-            static_cast<int64_t>(buffer[0]) << 56;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<int64_t>(bytes[7]) |
+            static_cast<int64_t>(bytes[6]) << 8 |
+            static_cast<int64_t>(bytes[5]) << 16 |
+            static_cast<int64_t>(bytes[4]) << 24 |
+            static_cast<int64_t>(bytes[3]) << 32 |
+            static_cast<int64_t>(bytes[2]) << 40 |
+            static_cast<int64_t>(bytes[1]) << 48 |
+            static_cast<int64_t>(bytes[0]) << 56;
     };
 
-    inline uint64_t decodeUInt64Big(const uint8_t* buffer)
+    inline uint64_t decodeUInt64Big(const void* buffer)
     {
-        return static_cast<uint64_t>(buffer[7]) |
-            static_cast<uint64_t>(buffer[6]) << 8 |
-            static_cast<uint64_t>(buffer[5]) << 16 |
-            static_cast<uint64_t>(buffer[4]) << 24 |
-            static_cast<uint64_t>(buffer[3]) << 32 |
-            static_cast<uint64_t>(buffer[2]) << 40 |
-            static_cast<uint64_t>(buffer[1]) << 48 |
-            static_cast<uint64_t>(buffer[0]) << 56;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<uint64_t>(bytes[7]) |
+            static_cast<uint64_t>(bytes[6]) << 8 |
+            static_cast<uint64_t>(bytes[5]) << 16 |
+            static_cast<uint64_t>(bytes[4]) << 24 |
+            static_cast<uint64_t>(bytes[3]) << 32 |
+            static_cast<uint64_t>(bytes[2]) << 40 |
+            static_cast<uint64_t>(bytes[1]) << 48 |
+            static_cast<uint64_t>(bytes[0]) << 56;
     };
 
-    inline int64_t decodeInt64Little(const uint8_t* buffer)
+    inline int64_t decodeInt64Little(const void* buffer)
     {
-        return static_cast<int64_t>(buffer[0]) |
-            static_cast<int64_t>(buffer[1]) << 8 |
-            static_cast<int64_t>(buffer[2]) << 16 |
-            static_cast<int64_t>(buffer[3]) << 24 |
-            static_cast<int64_t>(buffer[4]) << 32 |
-            static_cast<int64_t>(buffer[5]) << 40 |
-            static_cast<int64_t>(buffer[6]) << 48 |
-            static_cast<int64_t>(buffer[7]) << 56;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<int64_t>(bytes[0]) |
+            static_cast<int64_t>(bytes[1]) << 8 |
+            static_cast<int64_t>(bytes[2]) << 16 |
+            static_cast<int64_t>(bytes[3]) << 24 |
+            static_cast<int64_t>(bytes[4]) << 32 |
+            static_cast<int64_t>(bytes[5]) << 40 |
+            static_cast<int64_t>(bytes[6]) << 48 |
+            static_cast<int64_t>(bytes[7]) << 56;
     };
 
-    inline uint64_t decodeUInt64Little(const uint8_t* buffer)
+    inline uint64_t decodeUInt64Little(const void* buffer)
     {
-        return static_cast<uint64_t>(buffer[0]) |
-            static_cast<uint64_t>(buffer[1]) << 8 |
-            static_cast<uint64_t>(buffer[2]) << 16 |
-            static_cast<uint64_t>(buffer[3]) << 24 |
-            static_cast<uint64_t>(buffer[4]) << 32 |
-            static_cast<uint64_t>(buffer[5]) << 40 |
-            static_cast<uint64_t>(buffer[6]) << 48 |
-            static_cast<uint64_t>(buffer[7]) << 56;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<uint64_t>(bytes[0]) |
+            static_cast<uint64_t>(bytes[1]) << 8 |
+            static_cast<uint64_t>(bytes[2]) << 16 |
+            static_cast<uint64_t>(bytes[3]) << 24 |
+            static_cast<uint64_t>(bytes[4]) << 32 |
+            static_cast<uint64_t>(bytes[5]) << 40 |
+            static_cast<uint64_t>(bytes[6]) << 48 |
+            static_cast<uint64_t>(bytes[7]) << 56;
     };
 
-    inline int32_t decodeInt32Big(const uint8_t* buffer)
+    inline int32_t decodeInt32Big(const void* buffer)
     {
-        return static_cast<int32_t>(buffer[3]) |
-            static_cast<int32_t>(buffer[2]) << 8 |
-            static_cast<int32_t>(buffer[1]) << 16 |
-            static_cast<int32_t>(buffer[0]) << 24;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<int32_t>(bytes[3]) |
+            static_cast<int32_t>(bytes[2]) << 8 |
+            static_cast<int32_t>(bytes[1]) << 16 |
+            static_cast<int32_t>(bytes[0]) << 24;
     };
 
-    inline uint32_t decodeUInt32Big(const uint8_t* buffer)
+    inline uint32_t decodeUInt32Big(const void* buffer)
     {
-        return static_cast<uint32_t>(buffer[3]) |
-            static_cast<uint32_t>(buffer[2]) << 8 |
-            static_cast<uint32_t>(buffer[1]) << 16 |
-            static_cast<uint32_t>(buffer[0]) << 24;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<uint32_t>(bytes[3]) |
+            static_cast<uint32_t>(bytes[2]) << 8 |
+            static_cast<uint32_t>(bytes[1]) << 16 |
+            static_cast<uint32_t>(bytes[0]) << 24;
     };
 
-    inline int32_t decodeInt32Little(const uint8_t* buffer)
+    inline int32_t decodeInt32Little(const void* buffer)
     {
-        return static_cast<int32_t>(buffer[0]) |
-            static_cast<int32_t>(buffer[1]) << 8 |
-            static_cast<int32_t>(buffer[2]) << 16 |
-            static_cast<int32_t>(buffer[3]) << 24;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<int32_t>(bytes[0]) |
+            static_cast<int32_t>(bytes[1]) << 8 |
+            static_cast<int32_t>(bytes[2]) << 16 |
+            static_cast<int32_t>(bytes[3]) << 24;
     };
 
-    inline uint32_t decodeUInt32Little(const uint8_t* buffer)
+    inline uint32_t decodeUInt32Little(const void* buffer)
     {
-        return static_cast<uint32_t>(buffer[0]) |
-            static_cast<uint32_t>(buffer[1]) << 8 |
-            static_cast<uint32_t>(buffer[2]) << 16 |
-            static_cast<uint32_t>(buffer[3]) << 24;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        return static_cast<uint32_t>(bytes[0]) |
+            static_cast<uint32_t>(bytes[1]) << 8 |
+            static_cast<uint32_t>(bytes[2]) << 16 |
+            static_cast<uint32_t>(bytes[3]) << 24;
     };
 
-    inline int16_t decodeInt16Big(const uint8_t* buffer)
+    inline int16_t decodeInt16Big(const void* buffer)
     {
-        int32_t result = static_cast<int32_t>(buffer[1]) |
-            static_cast<int32_t>(buffer[0]) << 8;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        int32_t result = static_cast<int32_t>(bytes[1]) |
+            static_cast<int32_t>(bytes[0]) << 8;
 
         return static_cast<int16_t>(result);
     };
 
-    inline uint16_t decodeUInt16Big(const uint8_t* buffer)
+    inline uint16_t decodeUInt16Big(const void* buffer)
     {
-        uint32_t result = static_cast<uint32_t>(buffer[1]) |
-            static_cast<uint32_t>(buffer[0]) << 8;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        uint32_t result = static_cast<uint32_t>(bytes[1]) |
+            static_cast<uint32_t>(bytes[0]) << 8;
 
         return static_cast<uint16_t>(result);
     };
 
-    inline int16_t decodeInt16Little(const uint8_t* buffer)
+    inline int16_t decodeInt16Little(const void* buffer)
     {
-        int32_t result = static_cast<int32_t>(buffer[0]) |
-            static_cast<int32_t>(buffer[1]) << 8;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        int32_t result = static_cast<int32_t>(bytes[0]) |
+            static_cast<int32_t>(bytes[1]) << 8;
 
         return static_cast<int16_t>(result);
     };
 
-    inline uint16_t decodeUInt16Little(const uint8_t* buffer)
+    inline uint16_t decodeUInt16Little(const void* buffer)
     {
-        uint32_t result = static_cast<uint32_t>(buffer[0]) |
-            static_cast<uint32_t>(buffer[1]) << 8;
+        const uint8_t* bytes = reinterpret_cast<const uint8_t*>(buffer);
+
+        uint32_t result = static_cast<uint32_t>(bytes[0]) |
+            static_cast<uint32_t>(bytes[1]) << 8;
 
         return static_cast<uint16_t>(result);
     };
 
     // encoding
 
-    inline void encodeInt64Big(uint8_t* buffer, int64_t value)
+    inline void encodeInt64Big(void* buffer, int64_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 56);
-        buffer[1] = static_cast<uint8_t>(value >> 48);
-        buffer[2] = static_cast<uint8_t>(value >> 40);
-        buffer[3] = static_cast<uint8_t>(value >> 32);
-        buffer[4] = static_cast<uint8_t>(value >> 24);
-        buffer[5] = static_cast<uint8_t>(value >> 16);
-        buffer[6] = static_cast<uint8_t>(value >> 8);
-        buffer[7] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 56);
+        bytes[1] = static_cast<uint8_t>(value >> 48);
+        bytes[2] = static_cast<uint8_t>(value >> 40);
+        bytes[3] = static_cast<uint8_t>(value >> 32);
+        bytes[4] = static_cast<uint8_t>(value >> 24);
+        bytes[5] = static_cast<uint8_t>(value >> 16);
+        bytes[6] = static_cast<uint8_t>(value >> 8);
+        bytes[7] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt64Big(uint8_t* buffer, uint64_t value)
+    inline void encodeUInt64Big(void* buffer, uint64_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 56);
-        buffer[1] = static_cast<uint8_t>(value >> 48);
-        buffer[2] = static_cast<uint8_t>(value >> 40);
-        buffer[3] = static_cast<uint8_t>(value >> 32);
-        buffer[4] = static_cast<uint8_t>(value >> 24);
-        buffer[5] = static_cast<uint8_t>(value >> 16);
-        buffer[6] = static_cast<uint8_t>(value >> 8);
-        buffer[7] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 56);
+        bytes[1] = static_cast<uint8_t>(value >> 48);
+        bytes[2] = static_cast<uint8_t>(value >> 40);
+        bytes[3] = static_cast<uint8_t>(value >> 32);
+        bytes[4] = static_cast<uint8_t>(value >> 24);
+        bytes[5] = static_cast<uint8_t>(value >> 16);
+        bytes[6] = static_cast<uint8_t>(value >> 8);
+        bytes[7] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeInt64Little(uint8_t* buffer, int64_t value)
+    inline void encodeInt64Little(void* buffer, int64_t value)
     {
-        buffer[7] = static_cast<uint8_t>(value >> 56);
-        buffer[6] = static_cast<uint8_t>(value >> 48);
-        buffer[5] = static_cast<uint8_t>(value >> 40);
-        buffer[4] = static_cast<uint8_t>(value >> 32);
-        buffer[3] = static_cast<uint8_t>(value >> 24);
-        buffer[2] = static_cast<uint8_t>(value >> 16);
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[7] = static_cast<uint8_t>(value >> 56);
+        bytes[6] = static_cast<uint8_t>(value >> 48);
+        bytes[5] = static_cast<uint8_t>(value >> 40);
+        bytes[4] = static_cast<uint8_t>(value >> 32);
+        bytes[3] = static_cast<uint8_t>(value >> 24);
+        bytes[2] = static_cast<uint8_t>(value >> 16);
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt64Little(uint8_t* buffer, uint64_t value)
+    inline void encodeUInt64Little(void* buffer, uint64_t value)
     {
-        buffer[7] = static_cast<uint8_t>(value >> 56);
-        buffer[6] = static_cast<uint8_t>(value >> 48);
-        buffer[5] = static_cast<uint8_t>(value >> 40);
-        buffer[4] = static_cast<uint8_t>(value >> 32);
-        buffer[3] = static_cast<uint8_t>(value >> 24);
-        buffer[2] = static_cast<uint8_t>(value >> 16);
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[7] = static_cast<uint8_t>(value >> 56);
+        bytes[6] = static_cast<uint8_t>(value >> 48);
+        bytes[5] = static_cast<uint8_t>(value >> 40);
+        bytes[4] = static_cast<uint8_t>(value >> 32);
+        bytes[3] = static_cast<uint8_t>(value >> 24);
+        bytes[2] = static_cast<uint8_t>(value >> 16);
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeInt32Big(uint8_t* buffer, int32_t value)
+    inline void encodeInt32Big(void* buffer, int32_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 24);
-        buffer[1] = static_cast<uint8_t>(value >> 16);
-        buffer[2] = static_cast<uint8_t>(value >> 8);
-        buffer[3] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 24);
+        bytes[1] = static_cast<uint8_t>(value >> 16);
+        bytes[2] = static_cast<uint8_t>(value >> 8);
+        bytes[3] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt32Big(uint8_t* buffer, uint32_t value)
+    inline void encodeUInt32Big(void* buffer, uint32_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 24);
-        buffer[1] = static_cast<uint8_t>(value >> 16);
-        buffer[2] = static_cast<uint8_t>(value >> 8);
-        buffer[3] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 24);
+        bytes[1] = static_cast<uint8_t>(value >> 16);
+        bytes[2] = static_cast<uint8_t>(value >> 8);
+        bytes[3] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeInt32Little(uint8_t* buffer, int32_t value)
+    inline void encodeInt32Little(void* buffer, int32_t value)
     {
-        buffer[3] = static_cast<uint8_t>(value >> 24);
-        buffer[2] = static_cast<uint8_t>(value >> 16);
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[3] = static_cast<uint8_t>(value >> 24);
+        bytes[2] = static_cast<uint8_t>(value >> 16);
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt32Little(uint8_t* buffer, uint32_t value)
+    inline void encodeUInt32Little(void* buffer, uint32_t value)
     {
-        buffer[3] = static_cast<uint8_t>(value >> 24);
-        buffer[2] = static_cast<uint8_t>(value >> 16);
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[3] = static_cast<uint8_t>(value >> 24);
+        bytes[2] = static_cast<uint8_t>(value >> 16);
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeInt16Big(uint8_t* buffer, int16_t value)
+    inline void encodeInt16Big(void* buffer, int16_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 8);
-        buffer[1] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 8);
+        bytes[1] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt16Big(uint8_t* buffer, uint16_t value)
+    inline void encodeUInt16Big(void* buffer, uint16_t value)
     {
-        buffer[0] = static_cast<uint8_t>(value >> 8);
-        buffer[1] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[0] = static_cast<uint8_t>(value >> 8);
+        bytes[1] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeInt16Little(uint8_t* buffer, int16_t value)
+    inline void encodeInt16Little(void* buffer, int16_t value)
     {
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
-    inline void encodeUInt16Little(uint8_t* buffer, uint16_t value)
+    inline void encodeUInt16Little(void* buffer, uint16_t value)
     {
-        buffer[1] = static_cast<uint8_t>(value >> 8);
-        buffer[0] = static_cast<uint8_t>(value);
+        uint8_t* bytes = reinterpret_cast<uint8_t*>(buffer);
+
+        bytes[1] = static_cast<uint8_t>(value >> 8);
+        bytes[0] = static_cast<uint8_t>(value);
     };
 
     template<class T>

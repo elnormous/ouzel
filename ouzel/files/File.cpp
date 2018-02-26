@@ -89,7 +89,7 @@ namespace ouzel
 #endif
     }
 
-    bool File::read(void* buffer, uint32_t size, uint32_t& bytesRead)
+    bool File::read(void* buffer, uint32_t size, uint32_t& bytesRead) const
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
@@ -105,7 +105,7 @@ namespace ouzel
 #endif
     }
 
-    bool File::write(const void* buffer, uint32_t size, uint32_t& bytesWritten)
+    bool File::write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const
     {
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
@@ -121,10 +121,10 @@ namespace ouzel
 #endif
     }
 
-    bool File::seek(int32_t offset, int method)
+    bool File::seek(int32_t offset, int method) const
     {
 #if OUZEL_PLATFORM_WINDOWS
-        if (file == INVALID_HANDLE_VALUE) false;
+        if (file == INVALID_HANDLE_VALUE) return false;
         DWORD moveMethod = 0;
         if (method == BEGIN) moveMethod = FILE_BEGIN;
         else if (method == CURRENT) moveMethod = FILE_CURRENT;
@@ -137,6 +137,20 @@ namespace ouzel
         else if (method == CURRENT) whence = SEEK_CUR;
         else if (method == END) whence = SEEK_END;
         return lseek(fd, offset, whence) != -1;
+#endif
+    }
+
+    uint32_t File::getOffset() const
+    {
+#if OUZEL_PLATFORM_WINDOWS
+        if (file == INVALID_HANDLE_VALUE) return 0;
+        DWORD ret = SetFilePointer(file, 0, nullptr, FILE_CURRENT);
+        return static_cast<uint32_t>(ret);
+#else
+        if (fd == -1) return 0;
+        off_t ret = lseek(fd, 0, SEEK_CUR);
+        if (ret == -1) return 0;
+        return static_cast<uint32_t>(ret);
 #endif
     }
 }

@@ -55,9 +55,10 @@ namespace ouzel
 #endif
         }
 
-        bool read(void* buffer, uint32_t size, uint32_t& bytesRead);
-        bool write(const void* buffer, uint32_t size, uint32_t& bytesWritten);
-        bool seek(int32_t offset, int method);
+        bool read(void* buffer, uint32_t size, uint32_t& bytesRead) const;
+        bool write(const void* buffer, uint32_t size, uint32_t& bytesWritten) const;
+        bool seek(int32_t offset, int method) const;
+        uint32_t getOffset() const;
 
     protected:
 #if OUZEL_PLATFORM_WINDOWS

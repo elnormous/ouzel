@@ -39,6 +39,8 @@ namespace ouzel
 
         struct Entry
         {
+            uint32_t offset;
+            uint32_t size;
         };
 
         std::map<std::string, Entry> entries;
