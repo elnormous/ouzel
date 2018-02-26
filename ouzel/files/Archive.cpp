@@ -30,9 +30,8 @@ namespace ouzel
         for (;;)
         {
             uint32_t signature;
-            uint32_t size;
 
-            if (!file.read(&signature, sizeof(signature), size))
+            if (!file.read(&signature, sizeof(signature)))
             {
                 Log(Log::Level::ERR) << "Failed to read signature";
                 return false;
@@ -51,7 +50,7 @@ namespace ouzel
 
             uint8_t version[2];
 
-            if (!file.read(version, sizeof(version), size))
+            if (!file.read(version, sizeof(version)))
             {
                 Log(Log::Level::ERR) << "Failed to read version";
                 return false;
@@ -59,14 +58,14 @@ namespace ouzel
 
             uint16_t flags;
 
-            if (!file.read(&flags, sizeof(flags), size))
+            if (!file.read(&flags, sizeof(flags)))
             {
                 Log(Log::Level::ERR) << "Failed to read flags";
                 return false;
             }
 
             uint16_t compression;
-            if (!file.read(&compression, sizeof(compression), size))
+            if (!file.read(&compression, sizeof(compression)))
             {
                 Log(Log::Level::ERR) << "Failed to read compression";
                 return false;
@@ -91,28 +90,28 @@ namespace ouzel
             }
 
             uint32_t compressedSize;
-            if (!file.read(&compressedSize, sizeof(compressedSize), size))
+            if (!file.read(&compressedSize, sizeof(compressedSize)))
             {
                 Log(Log::Level::ERR) << "Failed to read compressed size";
                 return false;
             }
 
             uint32_t uncompressedSize;
-            if (!file.read(&uncompressedSize, sizeof(uncompressedSize), size))
+            if (!file.read(&uncompressedSize, sizeof(uncompressedSize)))
             {
                 Log(Log::Level::ERR) << "Failed to read compressed size";
                 return false;
             }
 
             uint16_t fileNameLength;
-            if (!file.read(&fileNameLength, sizeof(fileNameLength), size))
+            if (!file.read(&fileNameLength, sizeof(fileNameLength)))
             {
                 Log(Log::Level::ERR) << "Failed to read file name length";
                 return false;
             }
 
             uint16_t extraFieldLength;
-            if (!file.read(&extraFieldLength, sizeof(extraFieldLength), size))
+            if (!file.read(&extraFieldLength, sizeof(extraFieldLength)))
             {
                 Log(Log::Level::ERR) << "Failed to read compression";
                 return false;
@@ -120,7 +119,7 @@ namespace ouzel
 
             char* name = new char[decodeUInt16Little(&fileNameLength) + 1];
 
-            if (!file.read(name, decodeUInt16Little(&fileNameLength), size))
+            if (!file.read(name, decodeUInt16Little(&fileNameLength)))
             {
                 delete[] name;
                 Log(Log::Level::ERR) << "Failed to read file name";
@@ -166,9 +165,7 @@ namespace ouzel
 
         data.resize(i->second.size);
 
-        uint32_t size;
-
-        if (!file.read(data.data(), i->second.size, size))
+        if (!file.read(data.data(), i->second.size))
         {
             Log(Log::Level::ERR) << "Failed to read file";
             return false;
