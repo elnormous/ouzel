@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 #include "files/File.hpp"
@@ -17,6 +18,7 @@ namespace ouzel
         friend FileSystem;
     public:
         Archive() {}
+        Archive(const std::string& filename);
         ~Archive();
 
         Archive(const Archive&) = delete;
@@ -25,13 +27,20 @@ namespace ouzel
         Archive(Archive&&) = delete;
         Archive& operator=(Archive&&) = delete;
 
+        bool open(const std::string& filename);
+
         bool readFile(const std::string& filename, std::vector<uint8_t>& data) const;
-        bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
         bool fileExists(const std::string& filename) const;
 
     private:
         FileSystem* fileSystem = nullptr;
         File file;
+
+        struct Entry
+        {
+        };
+
+        std::map<std::string, Entry> entries;
     };
 }
