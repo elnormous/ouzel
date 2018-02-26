@@ -144,7 +144,7 @@ namespace ouzel
 
     std::string FileSystem::getPath(const std::string& filename, bool searchResources) const
     {
-        if (!searchResources || isAbsolutePath(filename))
+        if (isAbsolutePath(filename))
         {
             if (fileExists(filename))
             {
@@ -159,7 +159,8 @@ namespace ouzel
             {
                 return str;
             }
-            else
+
+            if (searchResources)
             {
                 for (const std::string& path : resourcePaths)
                 {
