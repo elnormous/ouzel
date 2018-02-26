@@ -94,7 +94,7 @@ namespace ouzel
 #if OUZEL_PLATFORM_WINDOWS
         if (file == INVALID_HANDLE_VALUE) return false;
         DWORD n;
-        BOOL ret = ReadFile(file, buffer, size, &n, nullptr)
+        BOOL ret = ReadFile(file, buffer, size, &n, nullptr);
         bytesRead = static_cast<uint32_t>(n);
         return ret != 0;
 #else
