@@ -7,10 +7,11 @@
 #include <vector>
 #include "math/Box2.hpp"
 #include "math/Rect.hpp"
-#include "graphics/Vertex.hpp"
+#include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
 #include "graphics/Texture.hpp"
+#include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
@@ -62,6 +63,7 @@ namespace ouzel
 
             std::map<std::string, Animation> animations;
             std::shared_ptr<graphics::Texture> texture;
+            std::shared_ptr<graphics::BlendState> blendState;
         };
     } // namespace scene
 } // namespace ouzel
