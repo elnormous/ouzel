@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <memory>
-#include <vector>
 #include "scene/ActorContainer.hpp"
 #include "core/UpdateCallback.hpp"
 #include "math/Box3.hpp"
