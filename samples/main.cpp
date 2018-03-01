@@ -15,6 +15,8 @@ std::string APPLICATION_NAME = "samples";
 
 using namespace ouzel;
 
+Archive archive;
+
 void ouzelMain(const std::vector<std::string>& args)
 {
     // disable screen saver
@@ -49,6 +51,9 @@ void ouzelMain(const std::vector<std::string>& args)
         }
     }
 
+    archive.open("resources.zip");
+
+    engine->getFileSystem()->addArchive(&archive);
     engine->getFileSystem()->addResourcePath("Resources");
 
     engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
