@@ -14,7 +14,7 @@ namespace ouzel
     {
         class Scene;
 
-        class SceneManager
+        class SceneManager final
         {
             friend Engine;
         public:

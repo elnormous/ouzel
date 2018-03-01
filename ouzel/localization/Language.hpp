@@ -10,7 +10,7 @@
 
 namespace ouzel
 {
-    class Language
+    class Language final
     {
     public:
         bool init(const std::string& filename);

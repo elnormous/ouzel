@@ -11,7 +11,7 @@ namespace ouzel
 {
     class Language;
 
-    class Localization
+    class Localization final
     {
     public:
         void addLanguage(const std::string& name, const std::string& filename);

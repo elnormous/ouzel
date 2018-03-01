@@ -32,7 +32,7 @@ namespace ouzel
     {
         class Loader;
 
-        class Cache
+        class Cache final
         {
         public:
             Cache();
