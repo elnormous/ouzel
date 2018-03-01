@@ -74,10 +74,10 @@ namespace ouzel
         Color(const Vector4& vec);
         Color& operator=(const Vector4& vec);
 
-        float normR() const { return r / 255.0f; }
-        float normG() const { return g / 255.0f; }
-        float normB() const { return b / 255.0f; }
-        float normA() const { return a / 255.0f; }
+        inline float normR() const { return r / 255.0f; }
+        inline float normG() const { return g / 255.0f; }
+        inline float normB() const { return b / 255.0f; }
+        inline float normA() const { return a / 255.0f; }
 
         inline uint32_t getIntValue() const
         {

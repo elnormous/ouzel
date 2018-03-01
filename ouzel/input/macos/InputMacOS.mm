@@ -309,7 +309,7 @@ namespace ouzel
             IOReturn ret = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone);
             if (ret != kIOReturnSuccess)
             {
-                Log(Log::Level::ERR) << "Failed to initialize manager, error: " << ret;
+                Log(Log::Level::ERR) << "Failed to initialize HID manager, error: " << ret;
                 return false;
             }
 
