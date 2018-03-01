@@ -7,7 +7,7 @@
 
 namespace ouzel
 {
-    class Lock
+    class Lock final
     {
     public:
         Lock(Mutex& initMutex):

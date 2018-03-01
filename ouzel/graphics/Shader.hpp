@@ -16,7 +16,7 @@ namespace ouzel
     {
         class ShaderResource;
 
-        class Shader
+        class Shader final
         {
         public:
             struct ConstantInfo

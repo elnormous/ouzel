@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    class Condition
+    class Condition final
     {
     public:
         Condition();

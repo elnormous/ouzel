@@ -13,7 +13,7 @@ namespace ouzel
 {
     class Condition;
 
-    class Mutex
+    class Mutex final
     {
         friend Condition;
     public:

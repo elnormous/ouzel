@@ -12,7 +12,7 @@ namespace ouzel
     {
         class BufferResource;
 
-        class Buffer
+        class Buffer final
         {
         public:
             enum Flags

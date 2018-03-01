@@ -20,7 +20,7 @@ namespace ouzel
         class AudioDevice;
         class Listener;
 
-        class Audio
+        class Audio final
         {
             friend Engine;
         public:

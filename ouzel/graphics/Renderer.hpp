@@ -40,7 +40,7 @@ namespace ouzel
         class MeshBuffer;
         class Shader;
 
-        class Renderer
+        class Renderer final
         {
             friend Engine;
             friend Window;

@@ -16,7 +16,7 @@ namespace ouzel
     {
         class TextureResource;
 
-        class Texture
+        class Texture final
         {
         public:
             enum Flags
