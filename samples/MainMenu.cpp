@@ -81,37 +81,21 @@ bool MainMenu::handleUI(Event::Type type, const UIEvent& event)
     if (type == Event::Type::ACTOR_CLICK)
     {
         if (event.actor == &gitHubButton)
-        {
             engine->openURL("https://github.com/elnormous/ouzel");
-        }
         else if (event.actor == &spritesButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SpritesSample()));
-        }
         else if (event.actor == &guiButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new GUISample()));
-        }
         else if (event.actor == &renderTargetButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new RTSample()));
-        }
         else if (event.actor == &animationsButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new AnimationsSample()));
-        }
         else if (event.actor == &inputButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new InputSample()));
-        }
         else if (event.actor == &soundButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new SoundSample()));
-        }
         else if (event.actor == &perspectiveButton)
-        {
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new PerspectiveSample()));
-        }
     }
 
     return true;

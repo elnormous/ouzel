@@ -57,40 +57,16 @@ void ouzelMain(const std::vector<std::string>& args)
 
     if (!sample.empty())
     {
-        if (sample == "sprites")
-        {
-            currentScene.reset(new SpritesSample());
-        }
-        else if (sample == "gui")
-        {
-            currentScene.reset(new GUISample());
-        }
-        else if (sample == "render_target")
-        {
-            currentScene.reset(new RTSample());
-        }
-        else if (sample == "animations")
-        {
-            currentScene.reset(new AnimationsSample());
-        }
-        else if (sample == "input")
-        {
-            currentScene.reset(new InputSample());
-        }
-        else if (sample == "sound")
-        {
-            currentScene.reset(new SoundSample());
-        }
-        else if (sample == "perspective")
-        {
-            currentScene.reset(new PerspectiveSample());
-        }
+        if (sample == "sprites") currentScene.reset(new SpritesSample());
+        else if (sample == "gui") currentScene.reset(new GUISample());
+        else if (sample == "render_target") currentScene.reset(new RTSample());
+        else if (sample == "animations") currentScene.reset(new AnimationsSample());
+        else if (sample == "input") currentScene.reset(new InputSample());
+        else if (sample == "sound") currentScene.reset(new SoundSample());
+        else if (sample == "perspective") currentScene.reset(new PerspectiveSample());
     }
 
-    if (!currentScene)
-    {
-        currentScene.reset(new MainMenu());
-    }
+    if (!currentScene) currentScene.reset(new MainMenu());
 
     engine->getSceneManager()->setScene(std::move(currentScene));
 }
