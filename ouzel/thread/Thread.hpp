@@ -14,7 +14,7 @@
 
 namespace ouzel
 {
-    class Thread
+    class Thread final
     {
     public:
         class ID

@@ -14,7 +14,7 @@ namespace ouzel
         class MeshBufferResource;
         class Buffer;
 
-        class MeshBuffer
+        class MeshBuffer final
         {
         public:
             MeshBuffer();

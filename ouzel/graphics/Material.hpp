@@ -16,7 +16,7 @@ namespace ouzel
         class Shader;
         class Texture;
 
-        class Material
+        class Material final
         {
         public:
             Material() = default;

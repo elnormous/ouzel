@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        class Vertex
+        class Vertex final
         {
         public:
             struct Attribute

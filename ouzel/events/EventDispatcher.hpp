@@ -12,7 +12,7 @@
 
 namespace ouzel
 {
-    class EventDispatcher
+    class EventDispatcher final
     {
         friend Engine;
     public:

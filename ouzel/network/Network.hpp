@@ -23,7 +23,7 @@ namespace ouzel
         const uint32_t ANY_ADDRESS = 0;
         const uint16_t ANY_PORT = 0;
 
-        class Network
+        class Network final
         {
         public:
             Network();

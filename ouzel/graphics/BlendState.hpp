@@ -11,7 +11,7 @@ namespace ouzel
     {
         class BlendStateResource;
 
-        class BlendState
+        class BlendState final
         {
         public:
             enum class Factor
