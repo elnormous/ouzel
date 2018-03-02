@@ -146,22 +146,16 @@ namespace ouzel
                         }
                         else
                         {
-                            if (!animationQueue.empty()) animationQueue.pop();
-
                             Event finishEvent;
                             finishEvent.type = Event::Type::ANIMATION_FINISH;
                             finishEvent.animationEvent.component = this;
                             finishEvent.animationEvent.name = currentAnimation->name;
                             engine->getEventDispatcher()->postEvent(finishEvent);
 
-                            if (animationQueue.empty())
+                            if (animationQueue.size() > 1)
                             {
-                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
-                                playing = false;
-                                updateCallback.remove();
-                            }
-                            else
-                            {
+                                animationQueue.pop();
+
                                 currentFrame = 0;
                                 currentAnimation = animationQueue.back().first;
                                 repeating = animationQueue.back().second;
@@ -171,6 +165,10 @@ namespace ouzel
                                 startEvent.animationEvent.component = this;
                                 startEvent.animationEvent.name = currentAnimation->name;
                                 engine->getEventDispatcher()->postEvent(startEvent);
+                            }
+                            else
+                            {
+                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
                             }
                         }
                     }
@@ -246,11 +244,15 @@ namespace ouzel
 
         void Sprite::play()
         {
+            if (!playing)
+            {
+                engine->scheduleUpdate(&updateCallback);
+                playing = true;
+            }
+
             if (currentAnimation && currentAnimation->frameInterval > 0.0f &&
                 currentAnimation->frames.size() > 1)
             {
-                playing = true;
-
                 if (currentFrame >= currentAnimation->frames.size() - 1)
                 {
                     currentFrame = 0;
@@ -258,8 +260,6 @@ namespace ouzel
                 }
 
                 updateBoundingBox();
-
-                engine->scheduleUpdate(&updateCallback);
 
                 if (currentFrame == 0)
                 {
@@ -269,10 +269,6 @@ namespace ouzel
                     startEvent.animationEvent.name = currentAnimation->name;
                     engine->getEventDispatcher()->postEvent(startEvent);
                 }
-            }
-            else
-            {
-                playing = false;
             }
         }
 
@@ -292,7 +288,6 @@ namespace ouzel
 
         void Sprite::reset()
         {
-            playing = false;
             currentFrame = 0;
             timeSinceLastFrame = 0.0f;
 
