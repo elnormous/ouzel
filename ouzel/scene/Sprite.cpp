@@ -49,8 +49,8 @@ namespace ouzel
         {
             material = std::make_shared<graphics::Material>();
             material->cullMode = graphics::Renderer::CullMode::NONE;
-            material->shader = engine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache()->getBlendState(graphics::BLEND_ALPHA);
+            material->shader = spriteData.shader ? spriteData.shader : engine->getCache()->getShader(graphics::SHADER_TEXTURE);
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;

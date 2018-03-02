@@ -10,6 +10,7 @@
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
+#include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
 
@@ -64,6 +65,7 @@ namespace ouzel
             std::map<std::string, Animation> animations;
             std::shared_ptr<graphics::Texture> texture;
             std::shared_ptr<graphics::BlendState> blendState;
+            std::shared_ptr<graphics::Shader> shader;
         };
     } // namespace scene
 } // namespace ouzel
