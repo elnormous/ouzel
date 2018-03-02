@@ -1,12 +1,18 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/Setup.h"
+
 #include <algorithm>
 #include <fstream>
 #include <sys/stat.h>
+#if OUZEL_PLATFORM_WINDOWS
+#include <Windows.h>
+#include <Shlobj.h>
+#include <Shlwapi.h>
+#endif
 
 #include "FileSystem.hpp"
-#include "core/Setup.h"
 #include "Archive.hpp"
 #include "utils/Log.hpp"
 
@@ -258,6 +264,16 @@ namespace ouzel
 
     bool FileSystem::isAbsolutePath(const std::string& path) const
     {
+#if OUZEL_PLATFORM_WINDOWS
+        WCHAR szBuffer[MAX_PATH];
+        if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+        {
+            Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+            return false;
+        }
+        return PathIsRelativeW(szBuffer) == FALSE;
+#else
         return !path.empty() && path[0] == '/';
+#endif
     }
 }

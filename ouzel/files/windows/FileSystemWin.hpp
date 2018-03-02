@@ -19,8 +19,6 @@ namespace ouzel
         virtual std::string getStorageDirectory(bool user = true) const override;
         virtual std::string getTempDirectory() const override;
 
-        virtual bool isAbsolutePath(const std::string& path) const override;
-
     protected:
         FileSystemWin();
     };
