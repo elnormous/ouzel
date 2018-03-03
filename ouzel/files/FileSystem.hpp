@@ -12,7 +12,7 @@ namespace ouzel
     class Engine;
     class Archive;
 
-    class FileSystem
+    class FileSystem final
     {
         friend Engine;
     public:
