@@ -66,21 +66,4 @@ namespace ouzel
 
         return path;
     }
-
-    std::string FileSystemWin::getTempDirectory() const
-    {
-        WCHAR szBuffer[MAX_PATH];
-        if (GetTempPathW(MAX_PATH, szBuffer))
-        {
-            if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, TEMP_BUFFER, sizeof(TEMP_BUFFER), nullptr, nullptr) == 0)
-            {
-                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return "";
-            }
-
-            return TEMP_BUFFER;
-        }
-
-        return "";
-    }
 }

@@ -14,6 +14,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
 #include <unistd.h>
+#elif OUZEL_PLATFORM_ANDROID
+#include "core/android/EngineAndroid.hpp"
 #endif
 
 #include "FileSystem.hpp"
@@ -48,10 +50,10 @@ namespace ouzel
 
         if (path)
         {
-            UInt8 resourceDirectory[1024];
-            CFURLGetFileSystemRepresentation(path, TRUE, resourceDirectory, sizeof(resourceDirectory));
+            char resourceDirectory[1024];
+            CFURLGetFileSystemRepresentation(path, true, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
             CFRelease(path);
-            appPath = reinterpret_cast<const char*>(resourceDirectory);
+            appPath = resourceDirectory;
             Log(Log::Level::INFO) << "Application directory: " << appPath;
         }
         else
@@ -80,7 +82,43 @@ namespace ouzel
 
     std::string FileSystem::getTempDirectory() const
     {
+#if OUZEL_PLATFORM_WINDOWS
+        WCHAR szBuffer[MAX_PATH];
+        char tempDirectory[1024];
+        if (GetTempPathW(MAX_PATH, szBuffer))
+        {
+            if (WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, tempDirectory, sizeof(tempDirectory), nullptr, nullptr) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return "";
+            }
+
+            return tempDirectory;
+        }
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        char tempDirectory[1024];
+        size_t n = confstr(_CS_DARWIN_USER_TEMP_DIR, tempDirectory, sizeof(tempDirectory));
+        if ((n <= 0) || (n >= sizeof(tempDirectory)))
+            strlcpy(tempDirectory, getenv("TMPDIR"), sizeof(tempDirectory));
+        CFURLRef tmp = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault, reinterpret_cast<UInt8*>(tempDirectory), static_cast<CFIndex>(strlen(tempDirectory)), true);
+
+        CFURLGetFileSystemRepresentation(tmp, true, reinterpret_cast<UInt8*>(tempDirectory), sizeof(tempDirectory));
+        CFRelease(tmp);
+
+        return tempDirectory;
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        char const* path = getenv("TMPDIR");
+        if (path)
+            return path;
+        else
+            return "/tmp";
+#elif OUZEL_PLATFORM_ANDROID
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+
+        return engineAndroid->getCacheDirectory();
+#else
         return "";
+#endif
     }
 
     bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const

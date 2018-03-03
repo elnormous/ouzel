@@ -62,17 +62,4 @@ namespace ouzel
 
         return path;
     }
-
-    std::string FileSystemLinux::getTempDirectory() const
-    {
-        char const* path = getenv("TMPDIR");
-        if (path)
-        {
-            return path;
-        }
-        else
-        {
-            return "/tmp";
-        }
-    }
 }
