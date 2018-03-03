@@ -3,11 +3,6 @@
 
 #include <algorithm>
 #include "core/Setup.h"
-#if OUZEL_PLATFORM_IOS
-#include "audio/openal/ios/AudioDeviceALIOS.hpp"
-#elif OUZEL_PLATFORM_TVOS
-#include "audio/openal/tvos/AudioDeviceALTVOS.hpp"
-#endif
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Listener.hpp"
@@ -66,13 +61,7 @@ namespace ouzel
 #if OUZEL_COMPILE_OPENAL
                 case Driver::OPENAL:
                     Log(Log::Level::INFO) << "Using OpenAL audio driver";
-    #if OUZEL_PLATFORM_IOS
-                    device.reset(new AudioDeviceALIOS());
-    #elif OUZEL_PLATFORM_TVOS
-                    device.reset(new AudioDeviceALTVOS());
-    #else
                     device.reset(new AudioDeviceAL());
-    #endif
                     break;
 #endif
 #if OUZEL_COMPILE_DIRECTSOUND

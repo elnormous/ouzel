@@ -284,8 +284,8 @@
 		303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadIOS.mm */; };
 		303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputIOS.hpp */; };
 		303820FE1D817F4900677CAB /* InputIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputIOS.mm */; };
-		303821041D817F6400677CAB /* AudioDeviceALIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioDeviceALIOS.hpp */; };
-		303821071D817F6400677CAB /* AudioDeviceALIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioDeviceALIOS.mm */; };
+		303821041D817F6400677CAB /* AudioDeviceALApple.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioDeviceALApple.hpp */; };
+		303821071D817F6400677CAB /* AudioDeviceALApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioDeviceALApple.mm */; };
 		303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821341D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
@@ -880,8 +880,6 @@
 		3082C3C01D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
 		3082C3C11D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
 		3082C3C21D9565DE0090FC9D /* TextureVSGLES3.h in Headers */ = {isa = PBXBuildFile; fileRef = 3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */; };
-		3098A54D1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A54B1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp */; };
-		3098A54E1E9FD6E900528A54 /* AudioDeviceALTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A54C1E9FD6E900528A54 /* AudioDeviceALTVOS.mm */; };
 		3098A5571EA01C8A00528A54 /* GamepadIOKit.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */; };
 		3098A5581EA01C8A00528A54 /* GamepadIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */; };
 		3098A5591EA01C8A00528A54 /* InputMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5551EA01C8A00528A54 /* InputMacOS.hpp */; };
@@ -1143,8 +1141,8 @@
 		303820F21D817F4900677CAB /* GamepadIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadIOS.mm; sourceTree = "<group>"; };
 		303820F31D817F4900677CAB /* InputIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputIOS.hpp; sourceTree = "<group>"; };
 		303820F41D817F4900677CAB /* InputIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputIOS.mm; sourceTree = "<group>"; };
-		303821021D817F6400677CAB /* AudioDeviceALIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceALIOS.hpp; sourceTree = "<group>"; };
-		303821031D817F6400677CAB /* AudioDeviceALIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceALIOS.mm; sourceTree = "<group>"; };
+		303821021D817F6400677CAB /* AudioDeviceALApple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceALApple.hpp; sourceTree = "<group>"; };
+		303821031D817F6400677CAB /* AudioDeviceALApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceALApple.mm; sourceTree = "<group>"; };
 		303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResourceEmpty.cpp; sourceTree = "<group>"; };
 		303821241D81876E00677CAB /* BlendStateResourceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateResourceEmpty.hpp; sourceTree = "<group>"; };
 		303821251D81876E00677CAB /* BufferResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferResourceEmpty.cpp; sourceTree = "<group>"; };
@@ -1372,8 +1370,6 @@
 		3082C3911D9565DE0090FC9D /* TextureVSGLES2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES2.h; sourceTree = "<group>"; };
 		3082C3921D9565DE0090FC9D /* TextureVSGLES3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureVSGLES3.h; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
-		3098A54B1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceALTVOS.hpp; sourceTree = "<group>"; };
-		3098A54C1E9FD6E900528A54 /* AudioDeviceALTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceALTVOS.mm; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadIOKit.cpp; sourceTree = "<group>"; };
 		3098A5551EA01C8A00528A54 /* InputMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputMacOS.hpp; sourceTree = "<group>"; };
@@ -1546,13 +1542,13 @@
 			path = ios;
 			sourceTree = "<group>";
 		};
-		303821011D817F5600677CAB /* ios */ = {
+		303821011D817F5600677CAB /* apple */ = {
 			isa = PBXGroup;
 			children = (
-				303821021D817F6400677CAB /* AudioDeviceALIOS.hpp */,
-				303821031D817F6400677CAB /* AudioDeviceALIOS.mm */,
+				303821021D817F6400677CAB /* AudioDeviceALApple.hpp */,
+				303821031D817F6400677CAB /* AudioDeviceALApple.mm */,
 			);
-			path = ios;
+			path = apple;
 			sourceTree = "<group>";
 		};
 		3038210A1D81874D00677CAB /* empty */ = {
@@ -1897,8 +1893,7 @@
 			children = (
 				30381FAF1D80A3F900677CAB /* AudioDeviceAL.cpp */,
 				30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */,
-				303821011D817F5600677CAB /* ios */,
-				3098A54A1E9FD6C800528A54 /* tvos */,
+				303821011D817F5600677CAB /* apple */,
 			);
 			path = openal;
 			sourceTree = "<group>";
@@ -2107,15 +2102,6 @@
 			path = apple;
 			sourceTree = "<group>";
 		};
-		3098A54A1E9FD6C800528A54 /* tvos */ = {
-			isa = PBXGroup;
-			children = (
-				3098A54B1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp */,
-				3098A54C1E9FD6E900528A54 /* AudioDeviceALTVOS.mm */,
-			);
-			path = tvos;
-			sourceTree = "<group>";
-		};
 		3098A5511EA01C6600528A54 /* macos */ = {
 			isa = PBXGroup;
 			children = (
@@ -2242,7 +2228,7 @@
 				30519CE31F9B53E900AF3DC4 /* LoaderParticleSystem.hpp in Headers */,
 				30381FF41D80A40700677CAB /* ColorVSTVOS.h in Headers */,
 				3038213C1D81876E00677CAB /* BufferResourceEmpty.hpp in Headers */,
-				303821041D817F6400677CAB /* AudioDeviceALIOS.hpp in Headers */,
+				303821041D817F6400677CAB /* AudioDeviceALApple.hpp in Headers */,
 				30381F881D80A3EC00677CAB /* ShaderResourceOGL.hpp in Headers */,
 				30547E7C1CB47E050055EE79 /* Shake.hpp in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.hpp in Headers */,
@@ -2533,7 +2519,6 @@
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300985252031277D00BB0340 /* Lock.hpp in Headers */,
 				300C39EF1E51355000330E4F /* SoundDataWave.hpp in Headers */,
-				3098A54D1E9FD6E900528A54 /* AudioDeviceALTVOS.hpp in Headers */,
 				30381F901D80A3EC00677CAB /* TextureResourceOGL.hpp in Headers */,
 				30A9C13F1CAEBA540084C4BF /* Language.hpp in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.hpp in Headers */,
@@ -2977,7 +2962,7 @@
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303821451D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* TextureResource.cpp in Sources */,
-				303821071D817F6400677CAB /* AudioDeviceALIOS.mm in Sources */,
+				303821071D817F6400677CAB /* AudioDeviceALApple.mm in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
@@ -3163,7 +3148,6 @@
 				30381F511D80A3EC00677CAB /* BlendStateResourceOGL.cpp in Sources */,
 				30EA71211D52783000AE8C3E /* EngineTVOS.mm in Sources */,
 				30575ABE1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
-				3098A54E1E9FD6E900528A54 /* AudioDeviceALTVOS.mm in Sources */,
 				30EF364D1CA76ACD00F04F29 /* ScrollArea.cpp in Sources */,
 				303821531D81876E00677CAB /* ShaderResourceEmpty.cpp in Sources */,
 				30419DF31D162BEF00A63759 /* SoundData.cpp in Sources */,

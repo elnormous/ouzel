@@ -5,6 +5,10 @@
 
 #if OUZEL_COMPILE_OPENAL
 
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#include "apple/AudioDeviceALApple.hpp"
+#endif
+
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
 #include "utils/Log.hpp"
@@ -73,6 +77,10 @@ namespace ouzel
         AudioDeviceAL::AudioDeviceAL():
             AudioDevice(Audio::Driver::OPENAL)
         {
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+            setSessionCategoryApple();
+#endif
+
 #if OUZEL_MULTITHREADED
             running = false;
 #endif

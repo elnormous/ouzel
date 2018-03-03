@@ -223,7 +223,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/ios/AudioDeviceALIOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/apple/AudioDeviceALApple.mm \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/ios/DisplayLinkHandler.mm \
 	$(ROOT_DIR)/../ouzel/core/ios/EngineIOS.mm \
@@ -247,7 +247,7 @@ CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -mip
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
-	$(ROOT_DIR)/../ouzel/audio/openal/tvos/AudioDeviceALTVOS.mm \
+	$(ROOT_DIR)/../ouzel/audio/openal/apple/AudioDeviceALApple.mm \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/tvos/DisplayLinkHandler.mm \
 	$(ROOT_DIR)/../ouzel/core/tvos/EngineTVOS.mm \
