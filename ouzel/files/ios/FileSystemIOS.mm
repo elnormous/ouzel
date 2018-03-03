@@ -26,10 +26,4 @@ namespace ouzel
 
         return [[documentDirectory path] UTF8String];
     }
-
-    std::string FileSystemIOS::getTempDirectory() const
-    {
-        NSString* temporaryDirectory = NSTemporaryDirectory();
-        return [temporaryDirectory UTF8String];
-    }
 }

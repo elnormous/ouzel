@@ -27,7 +27,7 @@ namespace ouzel
         static const std::string DIRECTORY_SEPARATOR;
 
         virtual std::string getStorageDirectory(bool user = true) const;
-        virtual std::string getTempDirectory() const;
+        std::string getTempDirectory() const;
 
         virtual bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
         virtual bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;

@@ -14,7 +14,6 @@ namespace ouzel
         friend Engine;
     public:
         virtual std::string getStorageDirectory(bool user = true) const override;
-        virtual std::string getTempDirectory() const override;
 
     protected:
         FileSystemRasp();
