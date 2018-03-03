@@ -1,21 +1,30 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include "core/Setup.h"
+
 #include <Foundation/Foundation.h>
-#include "FileSystemMacOS.hpp"
+#include "FileSystemApple.hpp"
 #include "utils/Log.hpp"
 
+#if OUZEL_PLATFORM_MACOS
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;
+#endif
 
 namespace ouzel
 {
-    FileSystemMacOS::FileSystemMacOS()
+    std::string getResourceDirectoryApple()
     {
+        NSBundle* bundle = [NSBundle mainBundle];
+        NSString* path = [bundle resourcePath];
+
+        return [path UTF8String];
     }
 
-    std::string FileSystemMacOS::getStorageDirectory(bool user) const
+    std::string getStorageDirectoryApple(bool user)
     {
+#if OUZEL_PLATFORM_MACOS
         NSFileManager* fileManager = [NSFileManager defaultManager];
 
         NSError* error;
@@ -39,5 +48,25 @@ namespace ouzel
         [fileManager createDirectoryAtURL:path withIntermediateDirectories:YES attributes:nil error:nil];
 
         return [[path path] UTF8String];
+#else
+        NSFileManager* fileManager = [NSFileManager defaultManager];
+
+        NSError* error;
+        NSURL* documentDirectory = [fileManager URLForDirectory:NSDocumentDirectory inDomain:user ? NSUserDomainMask : NSLocalDomainMask appropriateForURL:nil create:YES error:&error];
+
+        if (!documentDirectory)
+        {
+            Log(Log::Level::ERR) << "Failed to get document directory";
+            return "";
+        }
+
+        return [[documentDirectory path] UTF8String];
+#endif
+    }
+
+    std::string getTempDirectoryApple()
+    {
+        NSString* temporaryDirectory = NSTemporaryDirectory();
+        return [temporaryDirectory UTF8String];
     }
 }

@@ -76,7 +76,6 @@
     <ClCompile Include="..\ouzel\files\Archive.cpp" />
     <ClCompile Include="..\ouzel\files\File.cpp" />
     <ClCompile Include="..\ouzel\files\FileSystem.cpp" />
-    <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendState.cpp" />
     <ClCompile Include="..\ouzel\graphics\BlendStateResource.cpp" />
     <ClCompile Include="..\ouzel\graphics\Buffer.cpp" />
@@ -237,7 +236,6 @@
     <ClInclude Include="..\ouzel\files\Archive.hpp" />
     <ClInclude Include="..\ouzel\files\File.hpp" />
     <ClInclude Include="..\ouzel\files\FileSystem.hpp" />
-    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.hpp" />
     <ClInclude Include="..\ouzel\graphics\BlendState.hpp" />
     <ClInclude Include="..\ouzel\graphics\BlendStateResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\Buffer.hpp" />

@@ -115,9 +115,6 @@
     <ClCompile Include="..\ouzel\files\FileSystem.cpp">
       <Filter>ouzel\files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\files\windows\FileSystemWin.cpp">
-      <Filter>ouzel\files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\gui\Font.cpp">
       <Filter>ouzel\gui</Filter>
     </ClCompile>
@@ -629,9 +626,6 @@
     </ClInclude>
     <ClInclude Include="..\ouzel\files\FileSystem.hpp">
       <Filter>ouzel\files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\files\windows\FileSystemWin.hpp">
-      <Filter>ouzel\files\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Font.hpp">
       <Filter>ouzel\gui</Filter>

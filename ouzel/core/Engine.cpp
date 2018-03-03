@@ -13,30 +13,22 @@
 #include "thread/Lock.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "files/macos/FileSystemMacOS.hpp"
 #include "input/macos/InputMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "files/ios/FileSystemIOS.hpp"
 #include "input/ios/InputIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "files/tvos/FileSystemTVOS.hpp"
 #include "input/tvos/InputTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "files/android/FileSystemAndroid.hpp"
 #include "input/android/InputAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowResourceLinux.hpp"
-#include "files/linux/FileSystemLinux.hpp"
 #include "input/linux/InputLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "files/windows/FileSystemWin.hpp"
 #include "input/windows/InputWin.hpp"
 #elif OUZEL_PLATFORM_RASPBIAN
-#include "files/raspbian/FileSystemRasp.hpp"
 #include "input/raspbian/InputRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "files/emscripten/FileSystemEm.hpp"
 #include "input/emscripten/InputEm.hpp"
 #endif
 
@@ -94,26 +86,6 @@ namespace ouzel
     {
         Thread::setCurrentThreadName("Main");
 
-#if OUZEL_PLATFORM_MACOS
-        fileSystem.reset(new FileSystemMacOS());
-#elif OUZEL_PLATFORM_IOS
-        fileSystem.reset(new FileSystemIOS());
-#elif OUZEL_PLATFORM_TVOS
-        fileSystem.reset(new FileSystemTVOS());
-#elif OUZEL_PLATFORM_ANDROID
-        fileSystem.reset(new FileSystemAndroid());
-#elif OUZEL_PLATFORM_LINUX
-        fileSystem.reset(new FileSystemLinux());
-#elif OUZEL_PLATFORM_WINDOWS
-        fileSystem.reset(new FileSystemWin());
-#elif OUZEL_PLATFORM_RASPBIAN
-        fileSystem.reset(new FileSystemRasp());
-#elif OUZEL_PLATFORM_EMSCRIPTEN
-        fileSystem.reset(new FileSystemEm());
-#else
-        fileSystem.reset(new FileSystem());
-#endif
-
         graphics::Renderer::Driver graphicsDriver = graphics::Renderer::Driver::DEFAULT;
         Size2 size;
         uint32_t sampleCount = 1; // MSAA sample count
@@ -130,7 +102,7 @@ namespace ouzel
         bool debugAudio = false;
 
         defaultSettings.init("settings.ini");
-        userSettings.init(fileSystem->getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
+        userSettings.init(fileSystem.getStorageDirectory() + FileSystem::DIRECTORY_SEPARATOR + "settings.ini");
 
         const ini::Section& userEngineSection = userSettings.getSection("engine");
         const ini::Section& defaultEngineSection = defaultSettings.getSection("engine");
