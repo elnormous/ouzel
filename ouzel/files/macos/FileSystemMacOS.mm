@@ -12,10 +12,15 @@ namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
     {
-        NSBundle* bundle = [NSBundle mainBundle];
-        NSString* path = [bundle resourcePath];
+        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
+        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
 
-        appPath = [path UTF8String];
+        UInt8 resourceDirectory[1024];
+        CFURLGetFileSystemRepresentation(path, 1, resourceDirectory, 1024);
+
+        CFRelease(path);
+        
+        appPath = reinterpret_cast<const char*>(resourceDirectory);
     }
 
     std::string FileSystemMacOS::getStorageDirectory(bool user) const

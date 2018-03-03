@@ -9,10 +9,6 @@ namespace ouzel
 {
     FileSystemIOS::FileSystemIOS()
     {
-        NSBundle* bundle = [NSBundle mainBundle];
-        NSString* path = [bundle resourcePath];
-
-        appPath = [path UTF8String];
     }
 
     std::string FileSystemIOS::getStorageDirectory(bool user) const
