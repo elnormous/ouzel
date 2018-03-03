@@ -12,15 +12,6 @@ namespace ouzel
 {
     FileSystemMacOS::FileSystemMacOS()
     {
-        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
-        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
-
-        UInt8 resourceDirectory[1024];
-        CFURLGetFileSystemRepresentation(path, 1, resourceDirectory, 1024);
-
-        CFRelease(path);
-        
-        appPath = reinterpret_cast<const char*>(resourceDirectory);
     }
 
     std::string FileSystemMacOS::getStorageDirectory(bool user) const
