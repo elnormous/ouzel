@@ -9,7 +9,6 @@
 
 extern std::string DEVELOPER_NAME;
 extern std::string APPLICATION_NAME;
-static char TEMP_BUFFER[1024];
 
 namespace ouzel
 {
