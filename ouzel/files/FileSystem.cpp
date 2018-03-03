@@ -14,6 +14,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include "apple/FileSystemApple.hpp"
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+#include <pwd.h>
 #include <unistd.h>
 #elif OUZEL_PLATFORM_ANDROID
 #include "core/android/EngineAndroid.hpp"
