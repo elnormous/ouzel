@@ -9,10 +9,6 @@ namespace ouzel
 {
     FileSystemTVOS::FileSystemTVOS()
     {
-        NSBundle* bundle = [NSBundle mainBundle];
-        NSString* path = [bundle resourcePath];
-
-        appPath = [path UTF8String];
     }
 
     std::string FileSystemTVOS::getStorageDirectory(bool user) const

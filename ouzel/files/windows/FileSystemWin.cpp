@@ -15,17 +15,6 @@ namespace ouzel
 {
     FileSystemWin::FileSystemWin()
     {
-        char* exePath = _pgmptr;
-
-        if (exePath)
-        {
-            appPath = getDirectoryPart(exePath);
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
-        {
-            Log(Log::Level::ERR) << "Failed to get current directory";
-        }
     }
 
     std::string FileSystemWin::getStorageDirectory(bool user) const

@@ -15,15 +15,6 @@ namespace ouzel
 {
     FileSystemLinux::FileSystemLinux()
     {
-        if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
-        {
-            appPath = getDirectoryPart(TEMP_BUFFER);
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
-        {
-            Log(Log::Level::ERR) << "Failed to get current directory";
-        }
     }
 
     std::string FileSystemLinux::getStorageDirectory(bool user) const

@@ -10,6 +10,8 @@
 #include <Windows.h>
 #include <Shlobj.h>
 #include <Shlwapi.h>
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 #include "FileSystem.hpp"
@@ -26,6 +28,45 @@ namespace ouzel
 
     FileSystem::FileSystem()
     {
+#if OUZEL_PLATFORM_WINDOWS
+        char* exePath = _pgmptr;
+
+        if (exePath)
+        {
+            appPath = getDirectoryPart(exePath);
+            Log(Log::Level::INFO) << "Application directory: " << appPath;
+        }
+        else
+        {
+            Log(Log::Level::ERR) << "Failed to get current directory";
+        }
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
+        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
+
+        if (path)
+        {
+            UInt8 resourceDirectory[1024];
+            CFURLGetFileSystemRepresentation(path, TRUE, resourceDirectory, sizeof(resourceDirectory));
+            CFRelease(path);
+            appPath = reinterpret_cast<const char*>(resourceDirectory);
+            Log(Log::Level::INFO) << "Application directory: " << appPath;
+        }
+        else
+        {
+            Log(Log::Level::ERR) << "Failed to get current directory";
+        }
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
+        {
+            appPath = getDirectoryPart(TEMP_BUFFER);
+            Log(Log::Level::INFO) << "Application directory: " << appPath;
+        }
+        else
+        {
+            Log(Log::Level::ERR) << "Failed to get current directory";
+        }
+#endif
     }
 
     std::string FileSystem::getStorageDirectory(bool) const
