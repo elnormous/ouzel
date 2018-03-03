@@ -54,7 +54,7 @@ namespace ouzel
         }
         else
         {
-            Log(Log::Level::ERR) << "Failed to get current directory";
+            Log(Log::Level::ERR) << "Failed to get resource directory";
         }
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         if (readlink("/proc/self/exe", TEMP_BUFFER, sizeof(TEMP_BUFFER)) != -1)
