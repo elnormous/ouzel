@@ -12,6 +12,7 @@
 #include <Shlwapi.h>
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
 #include <CoreFoundation/CoreFoundation.h>
+#include "apple/FileSystemApple.hpp"
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
 #include <unistd.h>
 #elif OUZEL_PLATFORM_ANDROID
@@ -21,6 +22,11 @@
 #include "FileSystem.hpp"
 #include "Archive.hpp"
 #include "utils/Log.hpp"
+
+#if OUZEL_PLATFORM_WINDOWS || OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+extern std::string DEVELOPER_NAME;
+extern std::string APPLICATION_NAME;
+#endif
 
 namespace ouzel
 {
@@ -45,21 +51,7 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to get current directory";
         }
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
-        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
-
-        if (path)
-        {
-            char resourceDirectory[1024];
-            CFURLGetFileSystemRepresentation(path, true, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
-            CFRelease(path);
-            appPath = resourceDirectory;
-            Log(Log::Level::INFO) << "Application directory: " << appPath;
-        }
-        else
-        {
-            Log(Log::Level::ERR) << "Failed to get resource directory";
-        }
+        appPath = getResourceDirectoryApple();
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char executableDirectory[1024];
 
@@ -75,9 +67,110 @@ namespace ouzel
 #endif
     }
 
-    std::string FileSystem::getStorageDirectory(bool) const
+    std::string FileSystem::getStorageDirectory(bool user) const
     {
+#if OUZEL_PLATFORM_WINDOWS
+        WCHAR szBuffer[MAX_PATH];
+        char appDataDirectory[1024];
+
+        HRESULT hr = SHGetFolderPathW(nullptr, (user ? CSIDL_LOCAL_APPDATA : CSIDL_COMMON_APPDATA) | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, szBuffer);
+        if (FAILED(hr))
+        {
+            Log(Log::Level::ERR) << "Failed to get the path of the AppData directory, error: " << hr;
+            return "";
+        }
+
+        WideCharToMultiByte(CP_UTF8, 0, szBuffer, -1, appDataDirectory, sizeof(appDataDirectory), nullptr, nullptr);
+        std::string path = appDataDirectory;
+
+        path += DIRECTORY_SEPARATOR + DEVELOPER_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return false;
+            }
+
+            if (!CreateDirectoryW(szBuffer, nullptr))
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
+            {
+                Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
+                return false;
+            }
+
+            if (!CreateDirectoryW(szBuffer, nullptr))
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        return path;
+#elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+        return getStorageDirectoryApple(user);
+#elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
+        std::string path;
+
+        char* homeDirectory = getenv("XDG_DATA_HOME");
+
+        if (homeDirectory)
+        {
+            path = homeDirectory;
+        }
+        else
+        {
+            passwd* pw = getpwuid(getuid());
+            if (!pw)
+            {
+                Log(Log::Level::ERR) << "Failed to get home directory";
+                return "";
+            }
+
+            path = pw->pw_dir;
+        }
+
+        path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        path += DIRECTORY_SEPARATOR + APPLICATION_NAME;
+
+        if (!directoryExists(path))
+        {
+            if (mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+            {
+                Log(Log::Level::ERR) << "Failed to create directory " << path;
+                return "";
+            }
+        }
+
+        return path;
+#elif OUZEL_PLATFORM_ANDROID
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+
+        return engineAndroid->getFilesDirectory();
+#else
         return "";
+#endif
     }
 
     std::string FileSystem::getTempDirectory() const
@@ -96,16 +189,7 @@ namespace ouzel
             return tempDirectory;
         }
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        char tempDirectory[1024];
-        size_t n = confstr(_CS_DARWIN_USER_TEMP_DIR, tempDirectory, sizeof(tempDirectory));
-        if ((n <= 0) || (n >= sizeof(tempDirectory)))
-            strlcpy(tempDirectory, getenv("TMPDIR"), sizeof(tempDirectory));
-        CFURLRef tmp = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault, reinterpret_cast<UInt8*>(tempDirectory), static_cast<CFIndex>(strlen(tempDirectory)), true);
-
-        CFURLGetFileSystemRepresentation(tmp, true, reinterpret_cast<UInt8*>(tempDirectory), sizeof(tempDirectory));
-        CFRelease(tmp);
-
-        return tempDirectory;
+        return getTempDirectoryApple();
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char const* path = getenv("TMPDIR");
         if (path)
@@ -123,6 +207,34 @@ namespace ouzel
 
     bool FileSystem::readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources) const
     {
+#if OUZEL_PLATFORM_ANDROID
+        if (!isAbsolutePath(filename))
+        {
+            char buffer[1024];
+
+            EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+
+            AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+
+            if (!asset)
+            {
+                Log(Log::Level::ERR) << "Failed to open file " << filename;
+                return false;
+            }
+
+            int bytesRead = 0;
+
+            while ((bytesRead = AAsset_read(asset, buffer, sizeof(buffer))) > 0)
+            {
+                data.insert(data.end(), reinterpret_cast<uint8_t*>(buffer), reinterpret_cast<uint8_t*>(buffer + bytesRead));
+            }
+
+            AAsset_close(asset);
+
+            return true;
+        }
+#endif
+
         if (searchResources)
         {
             for (const auto& archive : archives)
@@ -211,6 +323,16 @@ namespace ouzel
 
     bool FileSystem::directoryExists(const std::string& dirname) const
     {
+#if OUZEL_PLATFORM_ANDROID
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+
+        AAssetDir* assetDir = AAssetManager_openDir(engineAndroid->getAssetManager(), dirname.c_str());
+        bool exists = AAssetDir_getNextFileName(assetDir) != nullptr;
+        AAssetDir_close(assetDir);
+
+        if (exists) return true;
+#endif
+
         struct stat buf;
         if (stat(dirname.c_str(), &buf) != 0)
         {
@@ -222,6 +344,18 @@ namespace ouzel
 
     bool FileSystem::fileExists(const std::string& filename) const
     {
+#if OUZEL_PLATFORM_ANDROID
+        EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
+
+        AAsset* asset = AAssetManager_open(engineAndroid->getAssetManager(), filename.c_str(), AASSET_MODE_STREAMING);
+
+        if (asset)
+        {
+            AAsset_close(asset);
+            return true;
+        }
+#endif
+
         struct stat buf;
         if (stat(filename.c_str(), &buf) != 0)
         {

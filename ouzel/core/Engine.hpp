@@ -48,7 +48,7 @@ namespace ouzel
 
         inline const std::vector<std::string>& getArgs() const { return args; }
 
-        inline FileSystem* getFileSystem() { return fileSystem.get(); }
+        inline FileSystem* getFileSystem() { return &fileSystem; }
         inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
         inline Timer* getTimer() { return &timer; }
         inline assets::Cache* getCache() { return &cache; }
@@ -90,7 +90,7 @@ namespace ouzel
         virtual void main();
         void executeAll();
 
-        std::unique_ptr<FileSystem> fileSystem;
+        FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         Timer timer;
         Window window;

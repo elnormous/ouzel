@@ -26,11 +26,11 @@ namespace ouzel
 
         static const std::string DIRECTORY_SEPARATOR;
 
-        virtual std::string getStorageDirectory(bool user = true) const;
+        std::string getStorageDirectory(bool user = true) const;
         std::string getTempDirectory() const;
 
-        virtual bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
-        virtual bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
+        bool readFile(const std::string& filename, std::vector<uint8_t>& data, bool searchResources = true) const;
+        bool writeFile(const std::string& filename, const std::vector<uint8_t>& data) const;
 
         bool resourceFileExists(const std::string& filename) const;
         std::string getPath(const std::string& filename, bool searchResources = true) const;
@@ -43,8 +43,8 @@ namespace ouzel
         static std::string getDirectoryPart(const std::string& path);
         bool isAbsolutePath(const std::string& path) const;
 
-        virtual bool directoryExists(const std::string& dirname) const;
-        virtual bool fileExists(const std::string& filename) const;
+        bool directoryExists(const std::string& dirname) const;
+        bool fileExists(const std::string& filename) const;
 
     protected:
         FileSystem();
