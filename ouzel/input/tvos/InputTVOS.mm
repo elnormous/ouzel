@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include <unordered_map>
 #import <GameController/GameController.h>
 #include "InputTVOS.hpp"
 #include "GamepadTVOS.hpp"
@@ -48,7 +49,7 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<NSInteger, KeyboardKey> keyMap = {
+        static const std::unordered_map<NSInteger, KeyboardKey> keyMap = {
             {UIPressTypeUpArrow, KeyboardKey::UP},
             {UIPressTypeDownArrow, KeyboardKey::DOWN},
             {UIPressTypeLeftArrow, KeyboardKey::LEFT},

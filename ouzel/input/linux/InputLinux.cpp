@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <unordered_map>
 #include <X11/cursorfont.h>
 #include <X11/extensions/XInput2.h>
 #include "InputLinux.hpp"
@@ -15,7 +16,7 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<KeySym, KeyboardKey> keyMap = {
+        static const std::unordered_map<KeySym, KeyboardKey> keyMap = {
             {XK_BackSpace, KeyboardKey::BACKSPACE},
             {XK_Tab, KeyboardKey::TAB},
             {XK_ISO_Left_Tab, KeyboardKey::TAB},
