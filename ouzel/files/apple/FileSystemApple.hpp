@@ -7,7 +7,6 @@
 
 namespace ouzel
 {
-    std::string getResourceDirectoryApple();
     std::string getStorageDirectoryApple(bool user);
     std::string getTempDirectoryApple();
 }
