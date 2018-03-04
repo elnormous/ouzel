@@ -225,6 +225,26 @@ namespace ouzel
                 rightThumbYMap = kHIDUsage_GD_Ry;
                 rightTriggerMap = kHIDUsage_GD_Rz;
             }
+            else if (vendorId == 0x0079 && productId == 0x0006) // Acme Duplex
+            {
+                usageMap[0] = GamepadButton::FACE_TOP; // 1
+                usageMap[1] = GamepadButton::FACE_RIGHT; // 2
+                usageMap[2] = GamepadButton::FACE_BOTTOM; // 3
+                usageMap[3] = GamepadButton::FACE_LEFT; // 4
+                usageMap[4] = GamepadButton::LEFT_SHOULDER;
+                usageMap[5] = GamepadButton::RIGHT_SHOULDER;
+                usageMap[6] = GamepadButton::LEFT_TRIGGER;
+                usageMap[7] = GamepadButton::RIGHT_TRIGGER;
+                usageMap[8] = GamepadButton::BACK;
+                usageMap[9] = GamepadButton::START;
+                usageMap[10] = GamepadButton::LEFT_THUMB;
+                usageMap[11] = GamepadButton::RIGHT_THUMB;
+
+                leftThumbXMap = kHIDUsage_GD_X;
+                leftThumbYMap = kHIDUsage_GD_Y;
+                rightThumbXMap = kHIDUsage_GD_Rx;
+                rightThumbYMap = kHIDUsage_GD_Ry;
+            }
             else // Generic (based on Logitech RumblePad 2)
             {
                 usageMap[0] = GamepadButton::FACE_LEFT;
