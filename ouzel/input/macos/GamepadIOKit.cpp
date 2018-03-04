@@ -259,7 +259,7 @@ namespace ouzel
                 element.usagePage = IOHIDElementGetUsagePage(element.element);
                 element.usage = IOHIDElementGetUsage(element.element);
 
-                if (element.usage > 1 && element.usage < 25)
+                if (element.usage > 0 && element.usage < 25)
                 {
                     element.button = usageMap[element.usage - 1];
                 }
