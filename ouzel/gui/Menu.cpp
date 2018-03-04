@@ -240,8 +240,7 @@ namespace ouzel
 #if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
                 else if (event.button == input::GamepadButton::FACE_BOTTOM)
                 {
-                    if (event.previousPressed && event.pressed &&
-                        selectedWidget)
+                    if (!event.previousPressed && event.pressed && selectedWidget)
                     {
                         Event clickEvent;
                         clickEvent.type = Event::Type::ACTOR_CLICK;
