@@ -52,7 +52,21 @@ namespace ouzel
             Log(Log::Level::ERR) << "Failed to get current directory";
         }
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        appPath = getResourceDirectoryApple();
+        CFBundleRef bundle = CFBundleGetMainBundle(); // [NSBundle mainBundle]
+        CFURLRef path = CFBundleCopyResourcesDirectoryURL(bundle); // [bundle resourceURL]
+
+        if (path)
+        {
+            char resourceDirectory[1024];
+            CFURLGetFileSystemRepresentation(path, TRUE, reinterpret_cast<UInt8*>(resourceDirectory), sizeof(resourceDirectory));
+            CFRelease(path);
+            appPath = resourceDirectory;
+            Log(Log::Level::INFO) << "Application directory: " << appPath;
+        }
+        else
+        {
+            Log(Log::Level::ERR) << "Failed to get current directory";
+        }
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char executableDirectory[1024];
 

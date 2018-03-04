@@ -14,14 +14,6 @@ extern std::string APPLICATION_NAME;
 
 namespace ouzel
 {
-    std::string getResourceDirectoryApple()
-    {
-        NSBundle* bundle = [NSBundle mainBundle];
-        NSString* path = [bundle resourcePath];
-
-        return [path UTF8String];
-    }
-
     std::string getStorageDirectoryApple(bool user)
     {
 #if OUZEL_PLATFORM_MACOS
