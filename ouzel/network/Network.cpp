@@ -27,32 +27,31 @@ namespace ouzel
 
         Network::~Network()
         {
-            if (endpoint != NULL_SOCKET)
-            {
 #ifdef _WIN32
+            if (endpoint != INVALID_SOCKET)
+            {
                 int result = closesocket(endpoint);
-#else
-                int result = close(endpoint);
-#endif
 
                 if (result < 0)
                 {
-                    int error = getLastError();
+                    int error = WSAGetLastError();
                     Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
                 }
             }
 
-#ifdef _WIN32
             WSACleanup();
-#endif
-        }
-
-        int Network::getLastError()
-        {
-#ifdef _WIN32
-            return WSAGetLastError();
 #else
-            return errno;
+            if (endpoint != -1)
+            {
+                int result = close(endpoint);
+
+                if (result < 0)
+                {
+                    int error = errno;
+                    Log(Log::Level::ERR) << "Failed to close socket, error: " << error;
+                }
+            }
+
 #endif
         }
 
@@ -63,7 +62,11 @@ namespace ouzel
 
             if (ret != 0)
             {
+#ifdef _WIN32
                 int error = getLastError();
+#else
+                int error = errno;
+#endif
                 Log(Log::Level::ERR) << "Failed to get address info of " << address << ", error: " << error;
                 return false;
             }
