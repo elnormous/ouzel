@@ -63,7 +63,7 @@ namespace ouzel
             if (ret != 0)
             {
 #ifdef _WIN32
-                int error = getLastError();
+                int error = WSAGetLastError();
 #else
                 int error = errno;
 #endif
