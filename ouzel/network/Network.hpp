@@ -4,13 +4,9 @@
 #pragma once
 
 #ifdef _WIN32
-#include <basetsd.h>
-typedef UINT_PTR Socket;
-#define NULL_SOCKET static_cast<Socket>(~0)
+#include <winsock2.h>
 #else
 #include <errno.h>
-typedef int Socket;
-#define NULL_SOCKET -1
 #endif
 
 #include <cstdint>
@@ -29,7 +25,6 @@ namespace ouzel
             Network();
             ~Network();
 
-            static int getLastError();
             static bool getAddress(const std::string& address, uint32_t& result);
 
             bool init();
@@ -39,7 +34,11 @@ namespace ouzel
             bool disconnect();
 
         private:
-            Socket endpoint = NULL_SOCKET;
+#ifdef _WIN32
+            SOCKET endpoint = INVALID_SOCKET;
+#else
+            int endpoint = -1;
+#endif
         };
     } // namespace network
 } // namespace ouzel
