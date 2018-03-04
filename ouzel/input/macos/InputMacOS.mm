@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include <unordered_map>
 #import <Carbon/Carbon.h>
 #import <GameController/GameController.h>
 #import <objc/message.h>
@@ -75,7 +76,7 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<uint16_t, KeyboardKey> keyMap = {
+        static const std::unordered_map<uint16_t, KeyboardKey> keyMap = {
             {kVK_UpArrow, KeyboardKey::UP},
             {kVK_DownArrow, KeyboardKey::DOWN},
             {kVK_LeftArrow, KeyboardKey::LEFT},

@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
+#include <unordered_map>
 #include <windows.h>
 #include <wbemidl.h>
 #include <oleauto.h>
@@ -27,7 +28,7 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<UINT, KeyboardKey> keyMap = {
+        static const std::unordered_map<UINT, KeyboardKey> keyMap = {
             {VK_CANCEL, KeyboardKey::CANCEL},
             {VK_BACK, KeyboardKey::BACKSPACE},
             {VK_TAB, KeyboardKey::TAB},

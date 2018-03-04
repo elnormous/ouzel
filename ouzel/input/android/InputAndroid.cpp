@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <map>
+#include <unordered_map>
 #include <android/keycodes.h>
 #include <android/input.h>
 #include "InputAndroid.hpp"
@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace input
     {
-        static const std::map<jint, KeyboardKey> keyMap = {
+        static const std::unordered_map<jint, KeyboardKey> keyMap = {
             {AKEYCODE_0, KeyboardKey::NUM_0},
             {AKEYCODE_1, KeyboardKey::NUM_1},
             {AKEYCODE_2, KeyboardKey::NUM_2},
