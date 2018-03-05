@@ -253,10 +253,10 @@ namespace ouzel
                 buttonMap[10] = GamepadButton::LEFT_THUMB;
                 buttonMap[11] = GamepadButton::RIGHT_THUMB;
 
-                leftThumbXMap = HID_USAGE_GENERIC_X;
-                leftThumbYMap = HID_USAGE_GENERIC_Y;
-                rightThumbXMap = HID_USAGE_GENERIC_RX;
-                rightThumbYMap = HID_USAGE_GENERIC_RY;
+                leftThumbX.usage = HID_USAGE_GENERIC_X;
+                leftThumbY.usage = HID_USAGE_GENERIC_Y;
+                rightThumbX.usage = HID_USAGE_GENERIC_RX;
+                rightThumbY.usage = HID_USAGE_GENERIC_RY;
             }
             else // Generic (based on Logitech RumblePad 2)
             {
