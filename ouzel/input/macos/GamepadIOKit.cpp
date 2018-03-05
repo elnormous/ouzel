@@ -225,7 +225,7 @@ namespace ouzel
                 rightThumbYMap = kHIDUsage_GD_Ry;
                 rightTriggerMap = kHIDUsage_GD_Rz;
             }
-            else if (vendorId == 0x0079 && productId == 0x0006) // Acme Duplex
+            else if (vendorId == 0x0079 && productId == 0x0006) // Acme GA07
             {
                 usageMap[0] = GamepadButton::FACE_TOP; // 1
                 usageMap[1] = GamepadButton::FACE_RIGHT; // 2
