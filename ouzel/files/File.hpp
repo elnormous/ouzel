@@ -68,9 +68,5 @@ namespace ouzel
 #else
         int fd = -1;
 #endif
-
-#if OUZEL_PLATFORM_ANDROID
-        AAsset* asset = nullptr;
-#endif
     };
 }
