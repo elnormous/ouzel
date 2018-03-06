@@ -7,6 +7,7 @@
 #include "graphics/Vertex.hpp"
 #include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
+#include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
@@ -17,12 +18,6 @@ namespace ouzel
 {
     namespace graphics
     {
-        class BlendStateResource;
-        class BufferResource;
-        class MeshBufferResource;
-        class ShaderResource;
-        class TextureResource;
-
         class RenderDevice
         {
             friend Renderer;
