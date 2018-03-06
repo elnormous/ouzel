@@ -11,12 +11,12 @@ namespace ouzel
 {
     namespace xml
     {
-        static bool isWhitespace(uint32_t c)
+        static inline bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        static bool isNameStartChar(uint32_t c)
+        static inline bool isNameStartChar(uint32_t c)
         {
             return (c >= 'a' && c <= 'z') ||
                 (c >= 'A' && c <= 'Z') ||
@@ -30,7 +30,7 @@ namespace ouzel
                 (c >= 0x2070 && c <= 0x218F);
         }
 
-        static bool isNameChar(uint32_t c)
+        static inline bool isNameChar(uint32_t c)
         {
             return isNameStartChar(c) ||
                 c == '-' || c == '.' ||
