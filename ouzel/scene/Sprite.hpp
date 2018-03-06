@@ -61,7 +61,7 @@ namespace ouzel
             void play();
             void stop(bool resetAnimation = true);
             void reset();
-            bool isPlaying() const { return playing; }
+            inline bool isPlaying() const { return playing; }
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
             void setCurrentFrame(uint32_t frame);
