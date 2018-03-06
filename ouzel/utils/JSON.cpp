@@ -369,12 +369,12 @@ namespace ouzel
             return init(data);
         }
 
-        static bool isWhitespace(uint32_t c)
+        static inline bool isWhitespace(uint32_t c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
 
-        static bool isControlChar(uint32_t c)
+        static inline bool isControlChar(uint32_t c)
         {
             return c <= 0x1F;
         }

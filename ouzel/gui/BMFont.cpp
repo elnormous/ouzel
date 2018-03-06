@@ -12,17 +12,17 @@
 
 namespace ouzel
 {
-    static bool isWhitespace(uint8_t c)
+    static inline bool isWhitespace(uint8_t c)
     {
         return c == ' ' || c == '\t';
     }
 
-    static bool isNewline(uint8_t c)
+    static inline bool isNewline(uint8_t c)
     {
         return c == '\r' || c == '\n';
     }
 
-    static bool isControlChar(uint8_t c)
+    static inline bool isControlChar(uint8_t c)
     {
         return c <= 0x1F;
     }

@@ -12,8 +12,7 @@
 
 namespace ouzel
 {
-    TTFont::TTFont():
-        Font()
+    TTFont::TTFont()
     {
     }
 
