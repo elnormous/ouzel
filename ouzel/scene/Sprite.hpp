@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <queue>
+#include <list>
 #include "scene/Component.hpp"
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
@@ -65,8 +65,8 @@ namespace ouzel
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
             void setCurrentFrame(uint32_t frame);
-            inline const SpriteData::Animation* getAnimation() const { return currentAnimation; }
-            inline std::string getAnimationName() const { return currentAnimation ? currentAnimation->name : ""; }
+            inline const SpriteData::Animation* getAnimation() const { return currentAnimation->animation; }
+            inline std::string getAnimationName() const { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);
@@ -76,9 +76,15 @@ namespace ouzel
 
             std::shared_ptr<graphics::Material> material;
             std::map<std::string, SpriteData::Animation> animations;
-            std::queue<std::pair<const SpriteData::Animation*, bool>> animationQueue;
-            const SpriteData::Animation* currentAnimation = nullptr;
-            bool repeating = false;
+
+            struct QueuedAnimation
+            {
+                const SpriteData::Animation* animation;
+                bool repeat;
+            };
+
+            std::list<QueuedAnimation> animationQueue;
+            std::list<QueuedAnimation>::iterator currentAnimation;
 
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 

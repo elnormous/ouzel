@@ -54,7 +54,10 @@ namespace ouzel
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;
-            currentAnimation = &animations[""];
+
+            animationQueue.clear();
+            animationQueue.push_back({&animations[""], false});
+            currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
 
@@ -74,7 +77,10 @@ namespace ouzel
             material->textures[0] = spriteData.texture;
 
             animations = spriteData.animations;
-            currentAnimation = &animations[""];
+
+            animationQueue.clear();
+            animationQueue.push_back({&animations[""], false});
+            currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
 
@@ -113,7 +119,10 @@ namespace ouzel
             }
 
             animations[""] = std::move(animation);
-            currentAnimation = &animations[""];
+
+            animationQueue.clear();
+            animationQueue.push_back({&animations[""], false});
+            currentAnimation = animationQueue.begin();
 
             updateBoundingBox();
 
@@ -122,26 +131,26 @@ namespace ouzel
 
         void Sprite::update(float delta)
         {
-            if (currentAnimation && currentAnimation->frameInterval > 0.0f && playing)
+            if (currentAnimation->animation->frameInterval > 0.0f && playing)
             {
                 timeSinceLastFrame += delta;
 
-                while (timeSinceLastFrame > currentAnimation->frameInterval)
+                while (timeSinceLastFrame > currentAnimation->animation->frameInterval)
                 {
-                    timeSinceLastFrame -= currentAnimation->frameInterval;
+                    timeSinceLastFrame -= currentAnimation->animation->frameInterval;
 
                     ++currentFrame;
 
-                    if (currentFrame >= currentAnimation->frames.size())
+                    if (currentFrame >= currentAnimation->animation->frames.size())
                     {
-                        if (repeating)
+                        if (currentAnimation->repeat)
                         {
                             currentFrame = 0;
 
                             Event resetEvent;
                             resetEvent.type = Event::Type::ANIMATION_RESET;
                             resetEvent.animationEvent.component = this;
-                            resetEvent.animationEvent.name = currentAnimation->name;
+                            resetEvent.animationEvent.name = currentAnimation->animation->name;
                             engine->getEventDispatcher()->postEvent(resetEvent);
                         }
                         else
@@ -149,26 +158,26 @@ namespace ouzel
                             Event finishEvent;
                             finishEvent.type = Event::Type::ANIMATION_FINISH;
                             finishEvent.animationEvent.component = this;
-                            finishEvent.animationEvent.name = currentAnimation->name;
+                            finishEvent.animationEvent.name = currentAnimation->animation->name;
                             engine->getEventDispatcher()->postEvent(finishEvent);
 
-                            if (animationQueue.size() > 1)
+                            std::list<QueuedAnimation>::iterator nextAnimation = currentAnimation;
+
+                            if (++nextAnimation != animationQueue.end())
                             {
-                                animationQueue.pop();
+                                currentAnimation = nextAnimation;
 
                                 currentFrame = 0;
-                                currentAnimation = animationQueue.back().first;
-                                repeating = animationQueue.back().second;
 
                                 Event startEvent;
                                 startEvent.type = Event::Type::ANIMATION_START;
                                 startEvent.animationEvent.component = this;
-                                startEvent.animationEvent.name = currentAnimation->name;
+                                startEvent.animationEvent.name = currentAnimation->animation->name;
                                 engine->getEventDispatcher()->postEvent(startEvent);
                             }
                             else
                             {
-                                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
+                                currentFrame = static_cast<uint32_t>(currentAnimation->animation->frames.size() - 1);
                             }
                         }
                     }
@@ -200,7 +209,7 @@ namespace ouzel
                             scissorTest,
                             scissorRectangle);
 
-            if (currentAnimation && currentFrame < currentAnimation->frames.size() && material)
+            if (currentFrame < currentAnimation->animation->frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
@@ -220,7 +229,7 @@ namespace ouzel
                                                             pixelShaderConstants,
                                                             vertexShaderConstants,
                                                             material->blendState,
-                                                            currentAnimation->frames[currentFrame].getMeshBuffer(),
+                                                            currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
                                                             0,
                                                             graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                             0,
@@ -250,10 +259,10 @@ namespace ouzel
                 playing = true;
             }
 
-            if (currentAnimation && currentAnimation->frameInterval > 0.0f &&
-                currentAnimation->frames.size() > 1)
+            if (currentAnimation->animation->frameInterval > 0.0f &&
+                currentAnimation->animation->frames.size() > 1)
             {
-                if (currentFrame >= currentAnimation->frames.size() - 1)
+                if (currentFrame >= currentAnimation->animation->frames.size() - 1)
                 {
                     currentFrame = 0;
                     timeSinceLastFrame = 0.0f;
@@ -266,7 +275,7 @@ namespace ouzel
                     Event startEvent;
                     startEvent.type = Event::Type::ANIMATION_START;
                     startEvent.animationEvent.component = this;
-                    startEvent.animationEvent.name = currentAnimation->name;
+                    startEvent.animationEvent.name = currentAnimation->animation->name;
                     engine->getEventDispatcher()->postEvent(startEvent);
                 }
             }
@@ -298,9 +307,9 @@ namespace ouzel
         {
             currentFrame = frame;
 
-            if (currentAnimation && currentFrame >= currentAnimation->frames.size())
+            if (currentFrame >= currentAnimation->animation->frames.size())
             {
-                currentFrame = static_cast<uint32_t>(currentAnimation->frames.size() - 1);
+                currentFrame = static_cast<uint32_t>(currentAnimation->animation->frames.size() - 1);
             }
 
             updateBoundingBox();
@@ -315,13 +324,12 @@ namespace ouzel
 
         void Sprite::setAnimation(const std::string& newAnimation, bool repeat)
         {
-            while (!animationQueue.empty()) animationQueue.pop();
+            animationQueue.clear();
 
             const SpriteData::Animation& animation = animations[newAnimation];
-            animationQueue.push(std::make_pair(&animation, repeat));
-            currentAnimation = &animation;
+            animationQueue.push_back({&animation, repeat});
+            currentAnimation = animationQueue.begin();
             currentFrame = 0;
-            repeating = repeat;
 
             updateBoundingBox();
         }
@@ -329,20 +337,14 @@ namespace ouzel
         void Sprite::addAnimation(const std::string& newAnimation, bool repeat)
         {
             const SpriteData::Animation& animation = animations[newAnimation];
-            if (animationQueue.empty())
-            {
-                currentAnimation = &animation;
-                currentFrame = 0;
-                repeating = repeat;
-            }
-            animationQueue.push(std::make_pair(&animation, repeat));
+            animationQueue.push_back({&animation, repeat});
         }
 
         void Sprite::updateBoundingBox()
         {
-            if (currentAnimation && currentFrame < currentAnimation->frames.size())
+            if (currentFrame < currentAnimation->animation->frames.size())
             {
-                const SpriteData::Frame& frame = currentAnimation->frames[currentFrame];
+                const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
                 boundingBox = frame.getBoundingBox();
                 boundingBox += offset;
