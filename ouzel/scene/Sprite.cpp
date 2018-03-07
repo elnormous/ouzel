@@ -21,6 +21,8 @@ namespace ouzel
             whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
 
             updateCallback.callback = std::bind(&Sprite::update, this, std::placeholders::_1);
+
+            currentAnimation = animationQueue.end();
         }
 
         Sprite::Sprite(const SpriteData& spriteData):
@@ -131,11 +133,13 @@ namespace ouzel
 
         void Sprite::update(float delta)
         {
-            if (currentAnimation->animation->frameInterval > 0.0f && playing)
+            if (currentAnimation != animationQueue.end() &&
+                currentAnimation->animation->frameInterval > 0.0f && playing)
             {
                 timeSinceLastFrame += delta;
 
-                while (timeSinceLastFrame > currentAnimation->animation->frameInterval)
+                while (currentAnimation != animationQueue.end() &&
+                       timeSinceLastFrame > currentAnimation->animation->frameInterval)
                 {
                     timeSinceLastFrame -= currentAnimation->animation->frameInterval;
 
@@ -209,7 +213,8 @@ namespace ouzel
                             scissorTest,
                             scissorRectangle);
 
-            if (currentFrame < currentAnimation->animation->frames.size() && material)
+            if (currentAnimation != animationQueue.end() &&
+                currentFrame < currentAnimation->animation->frames.size() && material)
             {
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
@@ -259,7 +264,8 @@ namespace ouzel
                 playing = true;
             }
 
-            if (currentAnimation->animation->frameInterval > 0.0f &&
+            if (currentAnimation != animationQueue.end() &&
+                currentAnimation->animation->frameInterval > 0.0f &&
                 currentAnimation->animation->frames.size() > 1)
             {
                 if (currentFrame >= currentAnimation->animation->frames.size() - 1)
@@ -307,7 +313,8 @@ namespace ouzel
         {
             currentFrame = frame;
 
-            if (currentFrame >= currentAnimation->animation->frames.size())
+            if (currentAnimation != animationQueue.end() &&
+                currentFrame >= currentAnimation->animation->frames.size())
             {
                 currentFrame = static_cast<uint32_t>(currentAnimation->animation->frames.size() - 1);
             }
@@ -342,7 +349,8 @@ namespace ouzel
 
         void Sprite::updateBoundingBox()
         {
-            if (currentFrame < currentAnimation->animation->frames.size())
+            if (currentAnimation != animationQueue.end() &&
+                currentFrame < currentAnimation->animation->frames.size())
             {
                 const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
