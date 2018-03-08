@@ -64,12 +64,13 @@ namespace ouzel
             inline bool isPlaying() const { return playing; }
 
             inline const std::map<std::string, SpriteData::Animation>& getAnimations() const { return animations; }
-            void setCurrentFrame(uint32_t frame);
             inline const SpriteData::Animation* getAnimation() const { return currentAnimation->animation; }
             inline std::string getAnimationName() const { return currentAnimation->animation->name; }
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);
+            void setAnimatonProgress(float percentage);
+            void setAnimatonTime(float time);
 
         protected:
             void updateBoundingBox();
@@ -91,9 +92,9 @@ namespace ouzel
             Vector2 offset;
             Matrix4 offsetMatrix = Matrix4::IDENTITY;
 
-            uint32_t currentFrame = 0;
             bool playing = false;
-            float timeSinceLastFrame = 0.0f;
+            bool running = false;
+            float currentTime = 0.0f;
 
             UpdateCallback updateCallback;
         };
