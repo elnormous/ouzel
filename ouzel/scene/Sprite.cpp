@@ -323,7 +323,7 @@ namespace ouzel
             running = true;
         }
 
-        void Sprite::setAnimatonProgress(float progress)
+        void Sprite::setAnimationProgress(float progress)
         {
             float totalTime = 0.0f;
 
@@ -334,10 +334,10 @@ namespace ouzel
                 if (i->repeat) break;
             }
 
-            setAnimatonTime(totalTime * progress);
+            setAnimationTime(totalTime * progress);
         }
 
-        void Sprite::setAnimatonTime(float time)
+        void Sprite::setAnimationTime(float time)
         {
             currentTime = time;
 
