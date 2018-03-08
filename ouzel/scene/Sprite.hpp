@@ -69,8 +69,8 @@ namespace ouzel
             bool hasAnimation(const std::string& animation) const;
             void setAnimation(const std::string& newAnimation, bool repeat = true);
             void addAnimation(const std::string& newAnimation, bool repeat = true);
-            void setAnimatonProgress(float progress);
-            void setAnimatonTime(float time);
+            void setAnimationProgress(float progress);
+            void setAnimationTime(float time);
 
         protected:
             void updateBoundingBox();
