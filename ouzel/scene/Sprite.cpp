@@ -134,6 +134,7 @@ namespace ouzel
         void Sprite::update(float delta)
         {
             if (currentAnimation != animationQueue.end() &&
+                !currentAnimation->animation->frames.empty() &&
                 currentAnimation->animation->frameInterval > 0.0f && playing)
             {
                 timeSinceLastFrame += delta;
