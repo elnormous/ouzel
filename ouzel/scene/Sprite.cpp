@@ -220,43 +220,43 @@ namespace ouzel
                             scissorRectangle);
 
             if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0f)
+                currentAnimation->animation->frameInterval > 0.0f &&
+                !currentAnimation->animation->frames.empty() &&
+                material)
             {
-                uint32_t currentFrame = static_cast<uint32_t>(currentTime / currentAnimation->animation->frameInterval);
+                size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-                if (currentFrame < currentAnimation->animation->frames.size() && material)
-                {
-                    Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                    float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
+                Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
-                    std::vector<std::vector<float>> pixelShaderConstants(1);
-                    pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                std::vector<std::vector<float>> pixelShaderConstants(1);
+                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
-                    std::vector<std::vector<float>> vertexShaderConstants(1);
-                    vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
+                std::vector<std::vector<float>> vertexShaderConstants(1);
+                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                    std::vector<std::shared_ptr<graphics::Texture>> textures;
-                    if (wireframe) textures.push_back(whitePixelTexture);
-                    else textures.assign(std::begin(material->textures), std::end(material->textures));
+                std::vector<std::shared_ptr<graphics::Texture>> textures;
+                if (wireframe) textures.push_back(whitePixelTexture);
+                else textures.assign(std::begin(material->textures), std::end(material->textures));
 
-                    engine->getRenderer()->addDrawCommand(textures,
-                                                                material->shader,
-                                                                pixelShaderConstants,
-                                                                vertexShaderConstants,
-                                                                material->blendState,
-                                                                currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
-                                                                0,
-                                                                graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                                0,
-                                                                renderTarget,
-                                                                renderViewport,
-                                                                depthWrite,
-                                                                depthTest,
-                                                                wireframe,
-                                                                scissorTest,
-                                                                scissorRectangle,
-                                                                material->cullMode);
-                }
+                engine->getRenderer()->addDrawCommand(textures,
+                                                            material->shader,
+                                                            pixelShaderConstants,
+                                                            vertexShaderConstants,
+                                                            material->blendState,
+                                                            currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
+                                                            0,
+                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                            0,
+                                                            renderTarget,
+                                                            renderViewport,
+                                                            depthWrite,
+                                                            depthTest,
+                                                            wireframe,
+                                                            scissorTest,
+                                                            scissorRectangle,
+                                                            material->cullMode);
             }
         }
 
@@ -377,21 +377,20 @@ namespace ouzel
         void Sprite::updateBoundingBox()
         {
             if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0f)
+                currentAnimation->animation->frameInterval > 0.0f &&
+                !currentAnimation->animation->frames.empty())
             {
-                uint32_t currentFrame = static_cast<uint32_t>(currentTime / currentAnimation->animation->frameInterval);
+                size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);
+                if (currentFrame >= currentAnimation->animation->frames.size()) currentFrame = currentAnimation->animation->frames.size() - 1;
 
-                if (currentFrame < currentAnimation->animation->frames.size())
-                {
-                    const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+                const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
 
-                    boundingBox = frame.getBoundingBox();
-                    boundingBox += offset;
-                }
-                else
-                {
-                    boundingBox.reset();
-                }
+                boundingBox = frame.getBoundingBox();
+                boundingBox += offset;
+            }
+            else
+            {
+                boundingBox.reset();
             }
         }
     } // namespace scene
