@@ -133,56 +133,61 @@ namespace ouzel
 
         void Sprite::update(float delta)
         {
-            if (currentAnimation != animationQueue.end() &&
-                !currentAnimation->animation->frames.empty() &&
-                currentAnimation->animation->frameInterval > 0.0f && playing)
+            if (playing)
             {
-                timeSinceLastFrame += delta;
+                currentTime += delta;
 
-                while (currentAnimation != animationQueue.end() &&
-                       timeSinceLastFrame > currentAnimation->animation->frameInterval)
+                for (; currentAnimation != animationQueue.end(); ++currentAnimation)
                 {
-                    timeSinceLastFrame -= currentAnimation->animation->frameInterval;
+                    float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
 
-                    ++currentFrame;
-
-                    if (currentFrame >= currentAnimation->animation->frames.size())
+                    if (length > 0.0f)
                     {
-                        if (currentAnimation->repeat)
+                        if (length > currentTime)
                         {
-                            currentFrame = 0;
-
-                            Event resetEvent;
-                            resetEvent.type = Event::Type::ANIMATION_RESET;
-                            resetEvent.animationEvent.component = this;
-                            resetEvent.animationEvent.name = currentAnimation->animation->name;
-                            engine->getEventDispatcher()->postEvent(resetEvent);
+                            break;
                         }
                         else
                         {
-                            Event finishEvent;
-                            finishEvent.type = Event::Type::ANIMATION_FINISH;
-                            finishEvent.animationEvent.component = this;
-                            finishEvent.animationEvent.name = currentAnimation->animation->name;
-                            engine->getEventDispatcher()->postEvent(finishEvent);
-
-                            std::list<QueuedAnimation>::iterator nextAnimation = currentAnimation;
-
-                            if (++nextAnimation != animationQueue.end())
+                            if (currentAnimation->repeat)
                             {
-                                currentAnimation = nextAnimation;
+                                currentTime = fmodf(currentTime, length);
 
-                                currentFrame = 0;
-
-                                Event startEvent;
-                                startEvent.type = Event::Type::ANIMATION_START;
-                                startEvent.animationEvent.component = this;
-                                startEvent.animationEvent.name = currentAnimation->animation->name;
-                                engine->getEventDispatcher()->postEvent(startEvent);
+                                Event resetEvent;
+                                resetEvent.type = Event::Type::ANIMATION_RESET;
+                                resetEvent.animationEvent.component = this;
+                                resetEvent.animationEvent.name = currentAnimation->animation->name;
+                                engine->getEventDispatcher()->postEvent(resetEvent);
+                                break;
                             }
                             else
                             {
-                                currentFrame = static_cast<uint32_t>(currentAnimation->animation->frames.size() - 1);
+                                if (running)
+                                {
+                                    Event finishEvent;
+                                    finishEvent.type = Event::Type::ANIMATION_FINISH;
+                                    finishEvent.animationEvent.component = this;
+                                    finishEvent.animationEvent.name = currentAnimation->animation->name;
+                                    engine->getEventDispatcher()->postEvent(finishEvent);
+                                }
+
+                                auto nextAnimation = std::next(currentAnimation);
+                                if (nextAnimation == animationQueue.end())
+                                {
+                                    currentTime = length;
+                                    running = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    currentTime -= length;
+
+                                    Event startEvent;
+                                    startEvent.type = Event::Type::ANIMATION_START;
+                                    startEvent.animationEvent.component = this;
+                                    startEvent.animationEvent.name = nextAnimation->animation->name;
+                                    engine->getEventDispatcher()->postEvent(startEvent);
+                                }
                             }
                         }
                     }
@@ -215,38 +220,43 @@ namespace ouzel
                             scissorRectangle);
 
             if (currentAnimation != animationQueue.end() &&
-                currentFrame < currentAnimation->animation->frames.size() && material)
+                currentAnimation->animation->frameInterval > 0.0f)
             {
-                Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-                float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
+                uint32_t currentFrame = static_cast<uint32_t>(currentTime / currentAnimation->animation->frameInterval);
 
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                if (currentFrame < currentAnimation->animation->frames.size() && material)
+                {
+                    Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
+                    float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
-                std::vector<std::vector<float>> vertexShaderConstants(1);
-                vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
+                    std::vector<std::vector<float>> pixelShaderConstants(1);
+                    pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
-                std::vector<std::shared_ptr<graphics::Texture>> textures;
-                if (wireframe) textures.push_back(whitePixelTexture);
-                else textures.assign(std::begin(material->textures), std::end(material->textures));
+                    std::vector<std::vector<float>> vertexShaderConstants(1);
+                    vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
-                engine->getRenderer()->addDrawCommand(textures,
-                                                            material->shader,
-                                                            pixelShaderConstants,
-                                                            vertexShaderConstants,
-                                                            material->blendState,
-                                                            currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
-                                                            0,
-                                                            graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                            0,
-                                                            renderTarget,
-                                                            renderViewport,
-                                                            depthWrite,
-                                                            depthTest,
-                                                            wireframe,
-                                                            scissorTest,
-                                                            scissorRectangle,
-                                                            material->cullMode);
+                    std::vector<std::shared_ptr<graphics::Texture>> textures;
+                    if (wireframe) textures.push_back(whitePixelTexture);
+                    else textures.assign(std::begin(material->textures), std::end(material->textures));
+
+                    engine->getRenderer()->addDrawCommand(textures,
+                                                                material->shader,
+                                                                pixelShaderConstants,
+                                                                vertexShaderConstants,
+                                                                material->blendState,
+                                                                currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
+                                                                0,
+                                                                graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                                0,
+                                                                renderTarget,
+                                                                renderViewport,
+                                                                depthWrite,
+                                                                depthTest,
+                                                                wireframe,
+                                                                scissorTest,
+                                                                scissorRectangle,
+                                                                material->cullMode);
+                }
             }
         }
 
@@ -263,28 +273,7 @@ namespace ouzel
             {
                 engine->scheduleUpdate(&updateCallback);
                 playing = true;
-            }
-
-            if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0f &&
-                currentAnimation->animation->frames.size() > 1)
-            {
-                if (currentFrame >= currentAnimation->animation->frames.size() - 1)
-                {
-                    currentFrame = 0;
-                    timeSinceLastFrame = 0.0f;
-                }
-
-                updateBoundingBox();
-
-                if (currentFrame == 0)
-                {
-                    Event startEvent;
-                    startEvent.type = Event::Type::ANIMATION_START;
-                    startEvent.animationEvent.component = this;
-                    startEvent.animationEvent.name = currentAnimation->animation->name;
-                    engine->getEventDispatcher()->postEvent(startEvent);
-                }
+                running = true;
             }
         }
 
@@ -293,32 +282,17 @@ namespace ouzel
             if (playing)
             {
                 playing = false;
+                running = false;
                 updateCallback.remove();
             }
 
-            if (resetAnimation)
-            {
-                reset();
-            }
+            if (resetAnimation) reset();
         }
 
         void Sprite::reset()
         {
-            currentFrame = 0;
-            timeSinceLastFrame = 0.0f;
-
-            updateBoundingBox();
-        }
-
-        void Sprite::setCurrentFrame(uint32_t frame)
-        {
-            currentFrame = frame;
-
-            if (currentAnimation != animationQueue.end() &&
-                currentFrame >= currentAnimation->animation->frames.size())
-            {
-                currentFrame = static_cast<uint32_t>(currentAnimation->animation->frames.size() - 1);
-            }
+            currentTime = 0.0f;
+            running = true;
 
             updateBoundingBox();
         }
@@ -337,7 +311,7 @@ namespace ouzel
             const SpriteData::Animation& animation = animations[newAnimation];
             animationQueue.push_back({&animation, repeat});
             currentAnimation = animationQueue.begin();
-            currentFrame = 0;
+            running = true;
 
             updateBoundingBox();
         }
@@ -346,21 +320,78 @@ namespace ouzel
         {
             const SpriteData::Animation& animation = animations[newAnimation];
             animationQueue.push_back({&animation, repeat});
+            running = true;
+        }
+
+        void Sprite::setAnimatonProgress(float progress)
+        {
+            float totalTime = 0.0f;
+
+            for (auto i = animationQueue.begin(); i != animationQueue.end(); ++i)
+            {
+                totalTime += i->animation->frames.size() * i->animation->frameInterval;
+
+                if (i->repeat) break;
+            }
+
+            setAnimatonTime(totalTime * progress);
+        }
+
+        void Sprite::setAnimatonTime(float time)
+        {
+            currentTime = time;
+
+            for (currentAnimation = animationQueue.begin(); currentAnimation != animationQueue.end(); ++currentAnimation)
+            {
+                float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
+
+                if (length > 0.0f)
+                {
+                    if (length > currentTime)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (currentAnimation->repeat)
+                        {
+                            currentTime = fmodf(currentTime, length);
+                            break;
+                        }
+                        else if (std::next(currentAnimation) == animationQueue.end())
+                        {
+                            currentTime = length;
+                            break;
+                        }
+                        else
+                        {
+                            currentTime -= length;
+                        }
+                    }
+                }
+            }
+
+            running = true;
         }
 
         void Sprite::updateBoundingBox()
         {
             if (currentAnimation != animationQueue.end() &&
-                currentFrame < currentAnimation->animation->frames.size())
+                currentAnimation->animation->frameInterval > 0.0f)
             {
-                const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+                uint32_t currentFrame = static_cast<uint32_t>(currentTime / currentAnimation->animation->frameInterval);
 
-                boundingBox = frame.getBoundingBox();
-                boundingBox += offset;
-            }
-            else
-            {
-                boundingBox.reset();
+                if (currentFrame < currentAnimation->animation->frames.size())
+                {
+                    const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+
+                    boundingBox = frame.getBoundingBox();
+                    boundingBox += offset;
+                }
+                else
+                {
+                    boundingBox.reset();
+                }
             }
         }
     } // namespace scene
