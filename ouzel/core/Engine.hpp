@@ -50,7 +50,6 @@ namespace ouzel
 
         inline FileSystem* getFileSystem() { return &fileSystem; }
         inline EventDispatcher* getEventDispatcher() { return &eventDispatcher; }
-        inline Timer* getTimer() { return &timer; }
         inline assets::Cache* getCache() { return &cache; }
         inline Window* getWindow() { return &window; }
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
@@ -92,7 +91,6 @@ namespace ouzel
 
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;
-        Timer timer;
         Window window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
