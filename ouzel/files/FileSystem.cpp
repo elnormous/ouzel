@@ -278,8 +278,9 @@ namespace ouzel
             return false;
         }
 
+        std::streampos start = file.tellg();
         file.seekg(0, std::ios::end);
-        data.resize(static_cast<size_t>(file.tellg()));
+        data.resize(static_cast<size_t>(file.tellg() - start));
         file.seekg(0, std::ios_base::beg);
         data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 
