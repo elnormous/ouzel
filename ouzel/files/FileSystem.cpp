@@ -11,8 +11,10 @@
 #include <Shlobj.h>
 #include <Shlwapi.h>
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+#include <objc/message.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include "apple/FileSystemApple.hpp"
+extern "C" id NSTemporaryDirectory();
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
 #include <pwd.h>
 #include <unistd.h>
@@ -204,7 +206,8 @@ namespace ouzel
             return tempDirectory;
         }
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-        return getTempDirectoryApple();
+        id temporaryDirectory = NSTemporaryDirectory();
+        return reinterpret_cast<const char* (*)(id, SEL)>(objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char const* path = getenv("TMPDIR");
         if (path)
