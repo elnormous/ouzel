@@ -170,7 +170,6 @@
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
     <ClCompile Include="..\ouzel\thread\Condition.cpp" />
-    <ClCompile Include="..\ouzel\thread\Lock.cpp" />
     <ClCompile Include="..\ouzel\thread\Mutex.cpp" />
     <ClCompile Include="..\ouzel\thread\Thread.cpp" />
     <ClCompile Include="..\ouzel\utils\INI.cpp" />
