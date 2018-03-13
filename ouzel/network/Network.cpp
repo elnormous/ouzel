@@ -10,6 +10,7 @@
 #else
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <errno.h>
 #include <poll.h>
 #include <netdb.h>
 #include <unistd.h>
