@@ -151,7 +151,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/SpriteData.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
     ../../ouzel/thread/Condition.cpp \
-    ../../ouzel/thread/Lock.cpp \
     ../../ouzel/thread/Mutex.cpp \
     ../../ouzel/thread/Thread.cpp \
     ../../ouzel/utils/INI.cpp \

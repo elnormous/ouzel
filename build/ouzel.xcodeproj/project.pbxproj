@@ -33,9 +33,6 @@
 		3009851B2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
 		3009851C2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
 		3009851D2031276E00BB0340 /* Mutex.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 300985172031276E00BB0340 /* Mutex.hpp */; };
-		300985202031277D00BB0340 /* Lock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009851E2031277D00BB0340 /* Lock.cpp */; };
-		300985212031277D00BB0340 /* Lock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009851E2031277D00BB0340 /* Lock.cpp */; };
-		300985222031277D00BB0340 /* Lock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3009851E2031277D00BB0340 /* Lock.cpp */; };
 		300985232031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
 		300985242031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
 		300985252031277D00BB0340 /* Lock.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3009851F2031277D00BB0340 /* Lock.hpp */; };
@@ -1047,7 +1044,6 @@
 		3009850F2031276000BB0340 /* Condition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Condition.hpp; sourceTree = "<group>"; };
 		300985162031276E00BB0340 /* Mutex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mutex.cpp; sourceTree = "<group>"; };
 		300985172031276E00BB0340 /* Mutex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mutex.hpp; sourceTree = "<group>"; };
-		3009851E2031277D00BB0340 /* Lock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lock.cpp; sourceTree = "<group>"; };
 		3009851F2031277D00BB0340 /* Lock.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Lock.hpp; sourceTree = "<group>"; };
 		300C39EB1E51355000330E4F /* SoundDataWave.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundDataWave.hpp; sourceTree = "<group>"; };
 		300C39EC1E51355000330E4F /* SoundDataWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundDataWave.cpp; sourceTree = "<group>"; };
@@ -1469,7 +1465,6 @@
 			children = (
 				3009850E2031276000BB0340 /* Condition.cpp */,
 				3009850F2031276000BB0340 /* Condition.hpp */,
-				3009851E2031277D00BB0340 /* Lock.cpp */,
 				3009851F2031277D00BB0340 /* Lock.hpp */,
 				300985162031276E00BB0340 /* Mutex.cpp */,
 				300985172031276E00BB0340 /* Mutex.hpp */,
@@ -2993,7 +2988,6 @@
 				303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */,
 				30519CB81F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04B41E207B6100011CBE /* OpenGLView.m in Sources */,
-				300985202031277D00BB0340 /* Lock.cpp in Sources */,
 				303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				305B68D31ED1B31D003352A2 /* Timer.cpp in Sources */,
 				30381F6D1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
@@ -3158,7 +3152,6 @@
 				30381F6F1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
 				30519CBA1F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B76491C355A3B00FEDE92 /* Rect.cpp in Sources */,
-				300985222031277D00BB0340 /* Lock.cpp in Sources */,
 				303B04C41E207B7800011CBE /* OpenGLView.m in Sources */,
 				303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				305B68D51ED1B31D003352A2 /* Timer.cpp in Sources */,
@@ -3324,7 +3317,6 @@
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
-				300985212031277D00BB0340 /* Lock.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* RenderDeviceMetalMacOS.mm in Sources */,
 				303821341D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */,
 				303820011D80A40700677CAB /* RenderDeviceMetal.mm in Sources */,

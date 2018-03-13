@@ -460,9 +460,6 @@
     <ClCompile Include="..\ouzel\thread\Condition.cpp">
       <Filter>ouzel\thread</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\thread\Lock.cpp">
-      <Filter>ouzel\thread</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\thread\Mutex.cpp">
       <Filter>ouzel\thread</Filter>
     </ClCompile>
