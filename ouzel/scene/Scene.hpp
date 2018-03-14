@@ -35,11 +35,11 @@ namespace ouzel
             {
                 addChildLayer(layer);
             }
-            template<class T> void addLayer(const UniquePtr<T>& layer)
+            template<class T> void addLayer(const std::unique_ptr<T>& layer)
             {
                 addChildLayer(layer.get());
             }
-            template<class T> void addLayer(UniquePtr<T>&& layer)
+            template<class T> void addLayer(std::unique_ptr<T>&& layer)
             {
                 addChildLayer(layer.get());
                 ownedLayers.push_back(std::move(layer));
@@ -49,7 +49,7 @@ namespace ouzel
             {
                 return removeChildLayer(layer);
             }
-            template<class T> bool removeLayer(const UniquePtr<T>& layer)
+            template<class T> bool removeLayer(const std::unique_ptr<T>& layer)
             {
                 return removeChildLayer(layer.get());
             }
@@ -84,7 +84,7 @@ namespace ouzel
             SceneManager* sceneManger = nullptr;
 
             std::vector<Layer*> layers;
-            std::vector<UniquePtr<Layer>> ownedLayers;
+            std::vector<std::unique_ptr<Layer>> ownedLayers;
             ouzel::EventHandler eventHandler;
 
             std::unordered_map<uint64_t, std::pair<Actor*, ouzel::Vector3>> pointerDownOnActors;

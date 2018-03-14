@@ -53,7 +53,7 @@ void ouzelMain(const std::vector<std::string>& args)
 
     engine->getRenderer()->setClearColor(ouzel::Color(64, 0, 0));
 
-    UniquePtr<ouzel::scene::Scene> currentScene;
+    std::unique_ptr<ouzel::scene::Scene> currentScene;
 
     if (!sample.empty())
     {

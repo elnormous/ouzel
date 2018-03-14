@@ -1,15 +1,15 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <memory>
 #include <jni.h>
 #include "core/android/EngineAndroid.hpp"
 #include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
 #include "input/android/InputAndroid.hpp"
-#include "utils/Memory.hpp"
 
-static ouzel::UniquePtr<ouzel::EngineAndroid> engine;
+static std::unique_ptr<ouzel::EngineAndroid> engine;
 
 extern "C" JNIEXPORT jint JNIEXPORT JNI_OnLoad(JavaVM* javaVM, void*)
 {

@@ -14,7 +14,7 @@ namespace ouzel
             addAnimator(animator);
         }
 
-        Repeat::Repeat(const UniquePtr<Animator>& animator, uint32_t initCount):
+        Repeat::Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount):
             Repeat(animator.get(), initCount)
         {
         }

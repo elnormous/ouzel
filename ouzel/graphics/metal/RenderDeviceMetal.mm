@@ -811,7 +811,7 @@ namespace ouzel
            Lock lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceMetal();
-            resources.push_back(UniquePtr<RenderResource>(blendState));
+            resources.push_back(std::unique_ptr<RenderResource>(blendState));
             return blendState;
         }
 
@@ -820,7 +820,7 @@ namespace ouzel
            Lock lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceMetal(this);
-            resources.push_back(UniquePtr<RenderResource>(texture));
+            resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }
 
@@ -829,7 +829,7 @@ namespace ouzel
            Lock lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceMetal(this);
-            resources.push_back(UniquePtr<RenderResource>(shader));
+            resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
 
@@ -838,7 +838,7 @@ namespace ouzel
            Lock lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceMetal();
-            resources.push_back(UniquePtr<RenderResource>(meshBuffer));
+            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
             return meshBuffer;
         }
 
@@ -847,7 +847,7 @@ namespace ouzel
            Lock lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceMetal(this);
-            resources.push_back(UniquePtr<RenderResource>(buffer));
+            resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }
 

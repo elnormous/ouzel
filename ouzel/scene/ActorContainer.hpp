@@ -3,9 +3,9 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "math/Vector2.hpp"
-#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -31,18 +31,18 @@ namespace ouzel
                 addChildActor(actor);
             }
 
-            template<class T> void addChild(const UniquePtr<T>& actor)
+            template<class T> void addChild(const std::unique_ptr<T>& actor)
             {
                 addChildActor(actor.get());
             }
 
-            template<class T> void addChild(UniquePtr<T>&& actor)
+            template<class T> void addChild(std::unique_ptr<T>&& actor)
             {
                 addChildActor(actor.get());
                 ownedChildren.push_back(std::move(actor));
             }
 
-            template<class T> bool removeChild(const UniquePtr<T>& actor)
+            template<class T> bool removeChild(const std::unique_ptr<T>& actor)
             {
                 return removeChildActor(actor.get());
             }
@@ -73,7 +73,7 @@ namespace ouzel
             virtual void leave();
 
             std::vector<Actor*> children;
-            std::vector<UniquePtr<Actor>> ownedChildren;
+            std::vector<std::unique_ptr<Actor>> ownedChildren;
 
             Layer* layer = nullptr;
             bool entered = false;

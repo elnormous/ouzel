@@ -18,10 +18,10 @@ namespace ouzel
             }
         }
 
-        Sequence::Sequence(const std::vector<UniquePtr<Animator>>& initAnimators):
-            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, const UniquePtr<Animator>& b) { return a + b->getLength(); }))
+        Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
+            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
         {
-            for (const UniquePtr<Animator>& animator : initAnimators)
+            for (const std::unique_ptr<Animator>& animator : initAnimators)
             {
                 addAnimator(animator.get());
             }

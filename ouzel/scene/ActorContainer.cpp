@@ -55,7 +55,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<UniquePtr<Actor>>::iterator ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const UniquePtr<Actor>& other) {
+            std::vector<std::unique_ptr<Actor>>::iterator ownedIterator = std::find_if(ownedChildren.begin(), ownedChildren.end(), [actor](const std::unique_ptr<Actor>& other) {
                 return other.get() == actor;
             });
 

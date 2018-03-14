@@ -90,7 +90,7 @@ bool PerspectiveSample::handleUI(ouzel::Event::Type type, const ouzel::UIEvent& 
     {
         if (event.actor == &backButton)
         {
-            engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -118,7 +118,7 @@ bool PerspectiveSample::handleKeyboard(ouzel::Event::Type type, const ouzel::Key
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::KeyboardKey::TAB:
                 jumpSound.play();
@@ -183,7 +183,7 @@ bool PerspectiveSample::handleGamepad(Event::Type type, const GamepadEvent& even
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
         {
-            engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 

@@ -91,9 +91,9 @@ namespace ouzel
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;
         Window window;
-        UniquePtr<graphics::Renderer> renderer;
-        UniquePtr<audio::Audio> audio;
-        UniquePtr<input::Input> input;
+        std::unique_ptr<graphics::Renderer> renderer;
+        std::unique_ptr<audio::Audio> audio;
+        std::unique_ptr<input::Input> input;
         Localization localization;
         assets::Cache cache;
         scene::SceneManager sceneManager;

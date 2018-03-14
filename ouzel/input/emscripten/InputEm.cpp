@@ -277,7 +277,7 @@ namespace ouzel
 
         void InputEm::update()
         {
-            for (const UniquePtr<Gamepad>& gamepad : gamepads)
+            for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
             {
                 GamepadEm* gamepadEm = static_cast<GamepadEm*>(gamepad.get());
                 gamepadEm->update();
@@ -385,7 +385,7 @@ namespace ouzel
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
 
-            UniquePtr<GamepadEm> gamepad(new GamepadEm(index));
+            std::unique_ptr<GamepadEm> gamepad(new GamepadEm(index));
 
             event.gamepadEvent.gamepad = gamepad.get();
 
@@ -396,7 +396,7 @@ namespace ouzel
 
         void InputEm::handleGamepadDisconnected(long index)
         {
-            std::vector<UniquePtr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [index](const UniquePtr<Gamepad>& gamepad) {
+            std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());
                 return currentGamepad->getIndex() == index;
             });

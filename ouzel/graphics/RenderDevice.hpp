@@ -173,8 +173,8 @@ namespace ouzel
             bool clearDepthBuffer = false;
 
             Mutex resourceMutex;
-            std::vector<UniquePtr<RenderResource>> resources;
-            std::vector<UniquePtr<RenderResource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<RenderResource>> resources;
+            std::vector<std::unique_ptr<RenderResource>> resourceDeleteSet;
 
             uint32_t drawCallCount = 0;
 

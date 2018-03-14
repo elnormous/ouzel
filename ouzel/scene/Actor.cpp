@@ -334,7 +334,7 @@ namespace ouzel
                 result = true;
             }
 
-            std::vector<UniquePtr<Component>>::iterator ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const UniquePtr<Component>& other) {
+            std::vector<std::unique_ptr<Component>>::iterator ownedIterator = std::find_if(ownedComponents.begin(), ownedComponents.end(), [component](const std::unique_ptr<Component>& other) {
                 return other.get() == component;
             });
 
