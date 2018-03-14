@@ -259,7 +259,7 @@ namespace ouzel
             addAnimator(animator);
         }
 
-        Ease::Ease(const std::unique_ptr<Animator>& animator, Type initType, Func initFunc):
+        Ease::Ease(const UniquePtr<Animator>& animator, Type initType, Func initFunc):
             Ease(animator.get(), initType, initFunc)
         {
         }

@@ -81,7 +81,7 @@ The following code will open create a scene with a sprite in the center of it:
 
     void ouzelMain(const std::vector<std::string>& args)
     {
-        ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+        ouzel::engine->getSceneManager()->setScene(UniquePtr<ouzel::scene::Scene>(new MainScene()));
     }
 
 ## Showcase

@@ -368,7 +368,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
+            UniquePtr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS());
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
@@ -496,7 +496,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::GAMEPAD_CONNECT;
 
-                std::unique_ptr<GamepadGC> gamepad(new GamepadGC(controller));
+                UniquePtr<GamepadGC> gamepad(new GamepadGC(controller));
                 gamepadsGC.push_back(gamepad.get());
 
                 event.gamepadEvent.gamepad = gamepad.get();
@@ -526,7 +526,7 @@ namespace ouzel
 
                 gamepadsGC.erase(i);
 
-                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadGC](const std::unique_ptr<Gamepad>& gamepad) {
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadGC](const UniquePtr<Gamepad>& gamepad) {
                     return gamepad.get() == gamepadGC;
                 });
 
@@ -563,7 +563,7 @@ namespace ouzel
                 Event event;
                 event.type = Event::Type::GAMEPAD_CONNECT;
 
-                std::unique_ptr<GamepadIOKit> gamepad(new GamepadIOKit(device));
+                UniquePtr<GamepadIOKit> gamepad(new GamepadIOKit(device));
                 gamepadsIOKit.push_back(gamepad.get());
 
                 event.gamepadEvent.gamepad = gamepad.get();
@@ -593,7 +593,7 @@ namespace ouzel
 
                 gamepadsIOKit.erase(i);
 
-                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadIOKit](const std::unique_ptr<Gamepad>& gamepad) {
+                auto gamepadIterator = std::find_if(gamepads.begin(), gamepads.end(), [gamepadIOKit](const UniquePtr<Gamepad>& gamepad) {
                     return gamepad.get() == gamepadIOKit;
                 });
 

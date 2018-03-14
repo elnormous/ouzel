@@ -344,7 +344,7 @@ namespace ouzel
         {
            Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
+            UniquePtr<CursorResourceLinux> cursorResource(new CursorResourceLinux());
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));

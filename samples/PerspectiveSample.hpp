@@ -33,7 +33,7 @@ private:
     ouzel::scene::ModelRenderer boxModel;
     ouzel::scene::Actor box;
 
-    std::unique_ptr<ouzel::scene::Animator> rotate;
+    ouzel::UniquePtr<ouzel::scene::Animator> rotate;
 
     ouzel::EventHandler eventHandler;
 
