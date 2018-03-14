@@ -3,11 +3,11 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include "math/Vector2.hpp"
 #include "thread/Mutex.hpp"
-#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -231,7 +231,7 @@ namespace ouzel
             Input& operator=(Input&&) = delete;
 
             template<class T>
-            void setCursor(const UniquePtr<T>& cursor)
+            void setCursor(const std::unique_ptr<T>& cursor)
             {
                 setCurrentCursor(cursor.get());
             }
@@ -287,11 +287,11 @@ namespace ouzel
             bool mouseButtonStates[static_cast<uint32_t>(MouseButton::BUTTON_COUNT)];
 
             std::unordered_map<uint64_t, Vector2> touchPositions;
-            std::vector<UniquePtr<Gamepad>> gamepads;
+            std::vector<std::unique_ptr<Gamepad>> gamepads;
 
             Mutex resourceMutex;
-            std::vector<UniquePtr<CursorResource>> resources;
-            std::vector<UniquePtr<CursorResource>> resourceDeleteSet;
+            std::vector<std::unique_ptr<CursorResource>> resources;
+            std::vector<std::unique_ptr<CursorResource>> resourceDeleteSet;
             CursorResource* currentCursorResource = nullptr;
         };
     } // namespace input

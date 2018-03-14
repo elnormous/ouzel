@@ -22,10 +22,10 @@ namespace ouzel
             }
         }
 
-        Parallel::Parallel(const std::vector<UniquePtr<Animator>>& initAnimators):
+        Parallel::Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators):
             Animator(0.0f)
         {
-            for (const UniquePtr<Animator>& animator : initAnimators)
+            for (const std::unique_ptr<Animator>& animator : initAnimators)
             {
                 addAnimator(animator.get());
 

@@ -1005,9 +1005,6 @@
     <ClInclude Include="..\ouzel\utils\JSON.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\utils\Memory.hpp">
-      <Filter>ouzel\utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\utils\XML.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>

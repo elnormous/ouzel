@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 #include <queue>
@@ -15,7 +16,6 @@
 #include "math/Size2.hpp"
 #include "math/Color.hpp"
 #include "graphics/Texture.hpp"
-#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -131,7 +131,7 @@ namespace ouzel
 
             void setSize(const Size2& newSize);
 
-            UniquePtr<RenderDevice> device;
+            std::unique_ptr<RenderDevice> device;
 
             Size2 size;
             Color clearColor;

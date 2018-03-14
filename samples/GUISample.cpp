@@ -64,7 +64,7 @@ bool GUISample::handleGamepad(Event::Type type, const GamepadEvent& event)
         if (event.pressed &&
             event.button == input::GamepadButton::FACE_RIGHT)
         {
-            engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
     }
 
@@ -77,7 +77,7 @@ bool GUISample::handleUI(Event::Type type, const UIEvent& event)
     {
         if (event.actor == &backButton)
         {
-            engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &button)
         {
@@ -101,7 +101,7 @@ bool GUISample::handleKeyboard(Event::Type type, const KeyboardEvent& event) con
         {
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 break;
             default:
                 break;

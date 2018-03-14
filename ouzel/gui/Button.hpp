@@ -46,11 +46,11 @@ namespace ouzel
 
             void updateSprite();
 
-            UniquePtr<scene::Sprite> normalSprite;
-            UniquePtr<scene::Sprite> selectedSprite;
-            UniquePtr<scene::Sprite> pressedSprite;
-            UniquePtr<scene::Sprite> disabledSprite;
-            UniquePtr<scene::TextRenderer> labelDrawable;
+            std::unique_ptr<scene::Sprite> normalSprite;
+            std::unique_ptr<scene::Sprite> selectedSprite;
+            std::unique_ptr<scene::Sprite> pressedSprite;
+            std::unique_ptr<scene::Sprite> disabledSprite;
+            std::unique_ptr<scene::TextRenderer> labelDrawable;
 
             EventHandler eventHandler;
 

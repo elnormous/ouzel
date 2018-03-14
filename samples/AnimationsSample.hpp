@@ -20,25 +20,25 @@ private:
     ouzel::scene::ShapeRenderer shapeDrawable;
     ouzel::scene::Actor drawActor;
 
-    ouzel::UniquePtr<ouzel::scene::Shake> shake;
+    std::unique_ptr<ouzel::scene::Shake> shake;
 
     ouzel::scene::Sprite witchSprite;
     ouzel::scene::Actor witch;
 
-    ouzel::UniquePtr<ouzel::scene::Animator> witchScale;
-    ouzel::UniquePtr<ouzel::scene::Animator> witchFade;
-    ouzel::UniquePtr<ouzel::scene::Animator> witchRotate;
-    ouzel::UniquePtr<ouzel::scene::Animator> witchRepeat;
-    ouzel::UniquePtr<ouzel::scene::Animator> witchParallel;
-    ouzel::UniquePtr<ouzel::scene::Animator> witchSequence;
+    std::unique_ptr<ouzel::scene::Animator> witchScale;
+    std::unique_ptr<ouzel::scene::Animator> witchFade;
+    std::unique_ptr<ouzel::scene::Animator> witchRotate;
+    std::unique_ptr<ouzel::scene::Animator> witchRepeat;
+    std::unique_ptr<ouzel::scene::Animator> witchParallel;
+    std::unique_ptr<ouzel::scene::Animator> witchSequence;
 
     ouzel::scene::Sprite ballSprite;
     ouzel::scene::Actor ball;
 
-    ouzel::UniquePtr<ouzel::scene::Animator> ballDelay;
-    ouzel::UniquePtr<ouzel::scene::Animator> ballEase;
-    ouzel::UniquePtr<ouzel::scene::Animator> ballMove;
-    ouzel::UniquePtr<ouzel::scene::Animator> ballSequence;
+    std::unique_ptr<ouzel::scene::Animator> ballDelay;
+    std::unique_ptr<ouzel::scene::Animator> ballEase;
+    std::unique_ptr<ouzel::scene::Animator> ballMove;
+    std::unique_ptr<ouzel::scene::Animator> ballSequence;
 
     ouzel::EventHandler eventHandler;
 

@@ -73,7 +73,7 @@ InputSample::InputSample():
     camera.setTargetContentSize(Size2(800.0f, 600.0f));
     cameraActor.addComponent(&camera);
 
-    UniquePtr<Mover> mover(new Mover());
+    std::unique_ptr<Mover> mover(new Mover());
     cameraActor.addComponent(std::move(mover));
 
     layer.addChild(&cameraActor);
@@ -129,7 +129,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
                 engine->getInput()->setCursorVisible(true);
-                engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+                engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
                 break;
@@ -177,7 +177,7 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
         switch (event.button)
         {
             case input::GamepadButton::FACE_RIGHT:
-                if (event.pressed) engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+                if (event.pressed) engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
@@ -217,7 +217,7 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
         if (event.actor == &backButton)
         {
             engine->getInput()->setCursorVisible(true);
-            engine->getSceneManager()->setScene(UniquePtr<scene::Scene>(new MainMenu()));
+            engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
         {

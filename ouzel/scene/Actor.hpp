@@ -118,12 +118,12 @@ namespace ouzel
                 addChildComponent(component);
             }
 
-            template<class T> void addComponent(const UniquePtr<T>& component)
+            template<class T> void addComponent(const std::unique_ptr<T>& component)
             {
                 addChildComponent(component.get());
             }
 
-            template<class T> void addComponent(UniquePtr<T>&& component)
+            template<class T> void addComponent(std::unique_ptr<T>&& component)
             {
                 addChildComponent(component.get());
                 ownedComponents.push_back(std::move(component));
@@ -134,7 +134,7 @@ namespace ouzel
                 return removeChildComponent(component);
             }
 
-            template<class T> void removeComponent(const UniquePtr<T>& component)
+            template<class T> void removeComponent(const std::unique_ptr<T>& component)
             {
                 removeChildComponent(component.get());
             }
@@ -188,7 +188,7 @@ namespace ouzel
             ActorContainer* parent = nullptr;
 
             std::vector<Component*> components;
-            std::vector<UniquePtr<Component>> ownedComponents;
+            std::vector<std::unique_ptr<Component>> ownedComponents;
 
             UpdateCallback animationUpdateCallback;
         };

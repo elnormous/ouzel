@@ -5,11 +5,11 @@
 
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <set>
 #include <vector>
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
-#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -92,7 +92,7 @@ namespace ouzel
             explicit Audio(Driver driver);
             bool init(bool debugAudio);
 
-            UniquePtr<AudioDevice> device;
+            std::unique_ptr<AudioDevice> device;
 
             std::vector<Listener*> listeners;
         };

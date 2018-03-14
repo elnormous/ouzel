@@ -24,7 +24,7 @@ private:
     ouzel::scene::Sprite triangleSprite;
     ouzel::scene::Actor triangleActor;
 
-    ouzel::UniquePtr<ouzel::scene::Animator> move;
+    std::unique_ptr<ouzel::scene::Animator> move;
 
     ouzel::EventHandler eventHandler;
 
