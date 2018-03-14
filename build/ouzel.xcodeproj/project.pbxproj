@@ -1083,6 +1083,7 @@
 		303696E31E32DDC1007F4211 /* MeshBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MeshBuffer.hpp; sourceTree = "<group>"; };
 		303696EA1E32DE08007F4211 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		303696EB1E32DE08007F4211 /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		30380B4520592689006C34F2 /* Memory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Memory.hpp; sourceTree = "<group>"; };
 		30381F0F1D8094F100677CAB /* BufferResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferResource.cpp; sourceTree = "<group>"; };
 		30381F101D8094F100677CAB /* BufferResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferResource.hpp; sourceTree = "<group>"; };
 		30381F2F1D80A3EC00677CAB /* BlendStateResourceOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResourceOGL.cpp; sourceTree = "<group>"; };
@@ -2141,6 +2142,7 @@
 				307237091FAFDAB8002EA399 /* JSON.hpp */,
 				3030D5001DAEF1FA007CC8EB /* Log.cpp */,
 				3030D5011DAEF1FA007CC8EB /* Log.hpp */,
+				30380B4520592689006C34F2 /* Memory.hpp */,
 				304AA8BC1E1190E4006FA70E /* OBF.cpp */,
 				304AA8BD1E1190E4006FA70E /* OBF.hpp */,
 				304A8E481C237C70008B1151 /* Utils.cpp */,

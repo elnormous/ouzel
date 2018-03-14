@@ -55,7 +55,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResource> cursorResource(new CursorResource());
+            UniquePtr<CursorResource> cursorResource(new CursorResource());
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
@@ -68,7 +68,7 @@ namespace ouzel
             engine->executeOnMainThread([this, resource] {
                 Lock lock(resourceMutex);
 
-                std::vector<std::unique_ptr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const std::unique_ptr<CursorResource>& ptr) {
+                std::vector<UniquePtr<CursorResource>>::iterator i = std::find_if(resources.begin(), resources.end(), [resource](const UniquePtr<CursorResource>& ptr) {
                     return ptr.get() == resource;
                 });
 

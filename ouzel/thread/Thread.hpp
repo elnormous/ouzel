@@ -4,13 +4,13 @@
 #pragma once
 
 #include <functional>
-#include <memory>
 #include <string>
 #if defined(_MSC_VER)
 #include <Windows.h>
 #else
 #include <pthread.h>
 #endif
+#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -107,7 +107,7 @@ namespace ouzel
         };
 
     protected:
-        std::unique_ptr<State> state;
+        UniquePtr<State> state;
 
 #if defined(_MSC_VER)
         HANDLE handle = nullptr;

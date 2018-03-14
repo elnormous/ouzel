@@ -118,6 +118,7 @@
 #include "utils/INI.hpp"
 #include "utils/JSON.hpp"
 #include "utils/Log.hpp"
+#include "utils/Memory.hpp"
 #include "utils/OBF.hpp"
 #include "utils/Utils.hpp"
 #include "utils/XML.hpp"

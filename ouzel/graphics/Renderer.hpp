@@ -9,13 +9,13 @@
 #include <vector>
 #include <queue>
 #include <set>
-#include <memory>
 #include <atomic>
 #include "math/Rect.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Size2.hpp"
 #include "math/Color.hpp"
 #include "graphics/Texture.hpp"
+#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -131,7 +131,7 @@ namespace ouzel
 
             void setSize(const Size2& newSize);
 
-            std::unique_ptr<RenderDevice> device;
+            UniquePtr<RenderDevice> device;
 
             Size2 size;
             Color clearColor;

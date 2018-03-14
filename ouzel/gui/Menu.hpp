@@ -21,11 +21,11 @@ namespace ouzel
             {
                 addChildWidget(widget);
             }
-            template<class T> void addWidget(const std::unique_ptr<T>& widget)
+            template<class T> void addWidget(const UniquePtr<T>& widget)
             {
                 addChildWidget(widget.get());
             }
-            template<class T> void addWidget(std::unique_ptr<T>&& widget)
+            template<class T> void addWidget(UniquePtr<T>&& widget)
             {
                 addChildWidget(widget.get());
                 ownedChildren.push_back(std::move(widget));

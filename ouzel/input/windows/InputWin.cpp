@@ -250,7 +250,7 @@ namespace ouzel
                 {
                     if (!gamepadsXI[userIndex])
                     {
-                        std::unique_ptr<GamepadXI> gamepad(new GamepadXI(userIndex));
+                        UniquePtr<GamepadXI> gamepad(new GamepadXI(userIndex));
                         gamepadsXI[userIndex] = gamepad.get();
 
                         Event event;
@@ -276,7 +276,7 @@ namespace ouzel
 
                         engine->getEventDispatcher()->postEvent(event);
 
-                        std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const std::unique_ptr<Gamepad>& gamepad) {
+                        std::vector<UniquePtr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [gamepadXI](const UniquePtr<Gamepad>& gamepad) {
                             return gamepadXI == gamepad.get();
                         });
 
@@ -334,7 +334,7 @@ namespace ouzel
         {
            Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
+            UniquePtr<CursorResourceWin> cursorResource(new CursorResourceWin());
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
@@ -540,7 +540,7 @@ namespace ouzel
 
                 if (!found)
                 {
-                    std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance));
+                    UniquePtr<GamepadDI> gamepad(new GamepadDI(didInstance));
                     gamepadsDI.push_back(gamepad.get());
 
                     Event event;

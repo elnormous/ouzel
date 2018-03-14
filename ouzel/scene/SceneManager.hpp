@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <memory>
 #include <vector>
+#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -32,11 +32,11 @@ namespace ouzel
             {
                 addChildScene(scene);
             }
-            template<class T> void setScene(const std::unique_ptr<T>& scene)
+            template<class T> void setScene(const UniquePtr<T>& scene)
             {
                 addChildScene(scene.get());
             }
-            template<class T> void setScene(std::unique_ptr<T>&& scene)
+            template<class T> void setScene(UniquePtr<T>&& scene)
             {
                 addChildScene(scene.get());
                 ownedScenes.push_back(std::move(scene));
@@ -46,7 +46,7 @@ namespace ouzel
             {
                 return removeChildScene(scene);
             }
-            template<class T> bool setScene(const std::unique_ptr<T>& scene)
+            template<class T> bool setScene(const UniquePtr<T>& scene)
             {
                 return removeChildScene(scene.get());
             }
@@ -58,7 +58,7 @@ namespace ouzel
             virtual bool removeChildScene(Scene* scene);
 
             std::vector<Scene*> scenes;
-            std::vector<std::unique_ptr<Scene>> ownedScenes;
+            std::vector<UniquePtr<Scene>> ownedScenes;
         };
     } // namespace scene
 } // namespace ouzel

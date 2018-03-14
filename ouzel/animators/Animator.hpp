@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include <memory>
 #include <functional>
 #include "scene/Component.hpp"
 #include "core/UpdateCallback.hpp"
+#include "utils/Memory.hpp"
 
 namespace ouzel
 {
@@ -45,11 +45,11 @@ namespace ouzel
             {
                 addChildAnimator(animator);
             }
-            template<class T> void addAnimator(const std::unique_ptr<T>& animator)
+            template<class T> void addAnimator(const UniquePtr<T>& animator)
             {
                 addChildAnimator(animator.get());
             }
-            template<class T> void addAnimator(std::unique_ptr<T>&& animator)
+            template<class T> void addAnimator(UniquePtr<T>&& animator)
             {
                 addChildAnimator(animator.get());
                 ownedAnimators.push_back(std::move(animator));
@@ -59,7 +59,7 @@ namespace ouzel
             {
                 return removeChildAnimator(animator);
             }
-            template<class T> bool removeAnimator(const std::unique_ptr<T>& animator)
+            template<class T> bool removeAnimator(const UniquePtr<T>& animator)
             {
                 return removeChildAnimator(animator.get());
             }
@@ -86,7 +86,7 @@ namespace ouzel
             UpdateCallback updateCallback;
 
             std::vector<Animator*> animators;
-            std::vector<std::unique_ptr<Animator>> ownedAnimators;
+            std::vector<UniquePtr<Animator>> ownedAnimators;
         };
     } // namespace scene
 } // namespace ouzel
