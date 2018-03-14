@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <memory>
 #include "audio/AudioDevice.hpp"
 
 namespace ouzel
