@@ -281,8 +281,6 @@
 		303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadIOS.mm */; };
 		303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputIOS.hpp */; };
 		303820FE1D817F4900677CAB /* InputIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputIOS.mm */; };
-		303821041D817F6400677CAB /* AudioDeviceALApple.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303821021D817F6400677CAB /* AudioDeviceALApple.hpp */; };
-		303821071D817F6400677CAB /* AudioDeviceALApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303821031D817F6400677CAB /* AudioDeviceALApple.mm */; };
 		303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821341D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
@@ -1137,8 +1135,6 @@
 		303820F21D817F4900677CAB /* GamepadIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadIOS.mm; sourceTree = "<group>"; };
 		303820F31D817F4900677CAB /* InputIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputIOS.hpp; sourceTree = "<group>"; };
 		303820F41D817F4900677CAB /* InputIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputIOS.mm; sourceTree = "<group>"; };
-		303821021D817F6400677CAB /* AudioDeviceALApple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceALApple.hpp; sourceTree = "<group>"; };
-		303821031D817F6400677CAB /* AudioDeviceALApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceALApple.mm; sourceTree = "<group>"; };
 		303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResourceEmpty.cpp; sourceTree = "<group>"; };
 		303821241D81876E00677CAB /* BlendStateResourceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateResourceEmpty.hpp; sourceTree = "<group>"; };
 		303821251D81876E00677CAB /* BufferResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferResourceEmpty.cpp; sourceTree = "<group>"; };
@@ -1537,15 +1533,6 @@
 			path = ios;
 			sourceTree = "<group>";
 		};
-		303821011D817F5600677CAB /* apple */ = {
-			isa = PBXGroup;
-			children = (
-				303821021D817F6400677CAB /* AudioDeviceALApple.hpp */,
-				303821031D817F6400677CAB /* AudioDeviceALApple.mm */,
-			);
-			path = apple;
-			sourceTree = "<group>";
-		};
 		3038210A1D81874D00677CAB /* empty */ = {
 			isa = PBXGroup;
 			children = (
@@ -1888,7 +1875,6 @@
 			children = (
 				30381FAF1D80A3F900677CAB /* AudioDeviceAL.cpp */,
 				30381FB01D80A3F900677CAB /* AudioDeviceAL.hpp */,
-				303821011D817F5600677CAB /* apple */,
 			);
 			path = openal;
 			sourceTree = "<group>";
@@ -2223,7 +2209,6 @@
 				30519CE31F9B53E900AF3DC4 /* LoaderParticleSystem.hpp in Headers */,
 				30381FF41D80A40700677CAB /* ColorVSTVOS.h in Headers */,
 				3038213C1D81876E00677CAB /* BufferResourceEmpty.hpp in Headers */,
-				303821041D817F6400677CAB /* AudioDeviceALApple.hpp in Headers */,
 				30381F881D80A3EC00677CAB /* ShaderResourceOGL.hpp in Headers */,
 				30547E7C1CB47E050055EE79 /* Shake.hpp in Headers */,
 				303B755A1C2A3CB700FEDE92 /* Vector3.hpp in Headers */,
@@ -2957,7 +2942,6 @@
 				303B754F1C2A3CB700FEDE92 /* Matrix3.cpp in Sources */,
 				303821451D81876E00677CAB /* RenderDeviceEmpty.cpp in Sources */,
 				303B754A1C2A3C9200FEDE92 /* TextureResource.cpp in Sources */,
-				303821071D817F6400677CAB /* AudioDeviceALApple.mm in Sources */,
 				303B753D1C2A3C8E00FEDE92 /* FileSystem.cpp in Sources */,
 				303B75571C2A3CB700FEDE92 /* Vector2.cpp in Sources */,
 				304F92A51F4D89C50063EEC0 /* Network.cpp in Sources */,
