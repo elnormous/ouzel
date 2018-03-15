@@ -8,12 +8,16 @@
 #endif
 
 #include <cstdint>
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace ouzel
 {
     namespace network
     {
+        class Client;
+
         const uint32_t ANY_ADDRESS = 0;
         const uint16_t ANY_PORT = 0;
 
@@ -37,6 +41,8 @@ namespace ouzel
 #else
             int endpoint = -1;
 #endif
+
+            std::vector<std::unique_ptr<Client>> clients;
         };
     } // namespace network
 } // namespace ouzel

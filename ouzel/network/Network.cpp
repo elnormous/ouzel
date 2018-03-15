@@ -16,6 +16,7 @@
 #include <unistd.h>
 #endif
 #include "Network.hpp"
+#include "Client.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
