@@ -20,19 +20,19 @@
 
 @implementation WindowDelegate
 
--(void)handleQuit:(__unused id)sender
-{
-    window->close();
-}
-
--(id)initWithWindow:(ouzel::WindowResourceMacOS*)newWindow
+-(id)initWithWindow:(ouzel::WindowResourceMacOS*)initWindow
 {
     if (self = [super init])
     {
-        window = newWindow;
+        window = initWindow;
     }
 
     return self;
+}
+
+-(void)handleQuit:(__unused id)sender
+{
+    window->close();
 }
 
 -(void)windowDidResize:(__unused NSNotification*)notification
