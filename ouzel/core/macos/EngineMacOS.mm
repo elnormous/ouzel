@@ -73,13 +73,14 @@ namespace ouzel
 
     int EngineMacOS::run()
     {
-        @autoreleasepool
-        {
-            NSApplication* application = [NSApplication sharedApplication];
-            [application activateIgnoringOtherApps:YES];
-            [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
-            [application run];
-        }
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+        NSApplication* application = [NSApplication sharedApplication];
+        [application activateIgnoringOtherApps:YES];
+        [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
+        [application run];
+
+        [pool release];
 
         return EXIT_SUCCESS;
     }

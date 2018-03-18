@@ -80,10 +80,11 @@ namespace ouzel
 
     int EngineTVOS::run()
     {
-        @autoreleasepool
-        {
-            return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-        }
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+        int ret = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        [pool release];
+
+        return ret;
     }
 
     void EngineTVOS::executeOnMainThread(const std::function<void(void)>& func)
