@@ -144,7 +144,7 @@ namespace ouzel
 
                 if (windowClass)
                 {
-                    UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
+                    UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
                 }
             }
 
