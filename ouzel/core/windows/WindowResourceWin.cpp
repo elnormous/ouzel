@@ -327,7 +327,7 @@ namespace ouzel
 
         if (windowClass)
         {
-            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
+            UnregisterClassW(WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
         }
     }
 
