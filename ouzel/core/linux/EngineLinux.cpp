@@ -175,7 +175,7 @@ namespace ouzel
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
-       Lock lock(executeMutex);
+        Lock lock(executeMutex);
 
         executeQueue.push(func);
     }
@@ -205,7 +205,7 @@ namespace ouzel
         for (;;)
         {
             {
-               Lock lock(executeMutex);
+                Lock lock(executeMutex);
 
                 if (executeQueue.empty())
                 {
