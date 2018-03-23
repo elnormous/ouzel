@@ -57,8 +57,6 @@ namespace ouzel
 
         while (active)
         {
-            executeAll();
-
             // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
             if (paused || XPending(windowLinux->getDisplay()))
             {
@@ -68,9 +66,13 @@ namespace ouzel
                 {
                     case ClientMessage:
                     {
-                        if (static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteMessage())
+                        if (evt->message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
                         {
                             exit();
+                        }
+                        else if (event.xclient.message_type == windowLinux->getExecuteAtom())
+                        {
+                            executeAll();
                         }
                         break;
                     }
@@ -175,9 +177,27 @@ namespace ouzel
 
     void EngineLinux::executeOnMainThread(const std::function<void(void)>& func)
     {
+        WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
+
+        XEvent event;
+        event.type = ClientMessage;
+        event.xclient.window = windowLinux->getNativeWindow();
+        event.xclient.message_type = windowLinux->getExecuteAtom();
+        event.xclient.format = 32; // data is set as 32-bit integers
+        event.xclient.data.l[0] = 0;
+        event.xclient.data.l[1] = CurrentTime;
+        event.xclient.data.l[2] = 0; // unused
+        event.xclient.data.l[3] = 0; // unused
+        event.xclient.data.l[4] = 0; // unused
+
         Lock lock(executeMutex);
 
         executeQueue.push(func);
+
+        if (!XSendEvent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), False, NoEventMask, &event))
+        {
+            Log(Log::Level::ERR) << "Failed to send X11 delete message";
+        }
     }
 
     bool EngineLinux::openURL(const std::string& url)

@@ -155,11 +155,12 @@ namespace ouzel
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
 
-        deleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
-        XSetWMProtocols(display, window, &deleteMessage, 1);
-        protocols = XInternAtom(display, "WM_PROTOCOLS", False);
-        state = XInternAtom(display, "_NET_WM_STATE", False);
-        stateFullscreen = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+        protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
+        deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
+        XSetWMProtocols(display, window, &deleteAtom, 1);
+        stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
+        stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
+        executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         if (fullscreen)
         {
@@ -173,12 +174,14 @@ namespace ouzel
     {
         WindowResource::close();
 
+        if (!protocolsAtom || !deleteAtom) return;
+
         XEvent event;
         event.type = ClientMessage;
         event.xclient.window = window;
-        event.xclient.message_type = protocols;
+        event.xclient.message_type = protocolsAtom;
         event.xclient.format = 32; // data is set as 32-bit integers
-        event.xclient.data.l[0] = deleteMessage;
+        event.xclient.data.l[0] = deleteAtom;
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0; // unused
         event.xclient.data.l[3] = 0; // unused
@@ -220,38 +223,29 @@ namespace ouzel
 
     void WindowResourceLinux::setFullscreen(bool newFullscreen)
     {
-        if (fullscreen != newFullscreen)
-        {
-            toggleFullscreen();
-        }
+        if (fullscreen != newFullscreen) toggleFullscreen();
 
         WindowResource::setFullscreen(newFullscreen);
     }
 
     void WindowResourceLinux::setTitle(const std::string& newTitle)
     {
-        if (title != newTitle)
-        {
-            XStoreName(display, window, newTitle.c_str());
-        }
+        if (title != newTitle) XStoreName(display, window, newTitle.c_str());
 
         WindowResource::setTitle(newTitle);
     }
 
     bool WindowResourceLinux::toggleFullscreen()
     {
-        if (!state || !stateFullscreen)
-        {
-            return false;
-        }
+        if (!stateAtom || !stateFullscreenAtom) return false;
 
         XEvent event;
         event.type = ClientMessage;
         event.xclient.window = window;
-        event.xclient.message_type = state;
+        event.xclient.message_type = stateAtom;
         event.xclient.format = 32;
         event.xclient.data.l[0] = _NET_WM_STATE_TOGGLE;
-        event.xclient.data.l[1] = stateFullscreen;
+        event.xclient.data.l[1] = stateFullscreenAtom;
         event.xclient.data.l[2] = 0; // no second property to toggle
         event.xclient.data.l[3] = 1; // source indication: application
         event.xclient.data.l[4] = 0; // unused
