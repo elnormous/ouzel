@@ -198,6 +198,8 @@ namespace ouzel
         {
             Log(Log::Level::ERR) << "Failed to send X11 delete message";
         }
+
+        XFlush(windowLinux->getDisplay());
     }
 
     bool EngineLinux::openURL(const std::string& url)

@@ -162,10 +162,7 @@ namespace ouzel
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
-        if (fullscreen)
-        {
-            toggleFullscreen();
-        }
+        if (fullscreen) toggleFullscreen();
 
         return true;
     }
