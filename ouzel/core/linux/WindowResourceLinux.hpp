@@ -27,10 +27,12 @@ namespace ouzel
         virtual void setFullscreen(bool newFullscreen) override;
         virtual void setTitle(const std::string& newTitle) override;
 
-        Display* getDisplay() const { return display; }
-        ::Window getNativeWindow() const { return window; }
-        XVisualInfo* getVisualInfo() const { return visualInfo; }
-        Atom getDeleteMessage() const { return deleteMessage; }
+        inline Display* getDisplay() const { return display; }
+        inline ::Window getNativeWindow() const { return window; }
+        inline XVisualInfo* getVisualInfo() const { return visualInfo; }
+        inline Atom getProtocolsAtom() const { return protocolsAtom; }
+        inline Atom getDeleteAtom() const { return deleteAtom; }
+        inline Atom getExecuteAtom() const { return executeAtom; }
 
     protected:
         WindowResourceLinux();
@@ -47,9 +49,10 @@ namespace ouzel
         XVisualInfo* visualInfo = nullptr;
         Display* display = nullptr;
         ::Window window = 0;
-        Atom deleteMessage;
-        Atom protocols;
-        Atom state;
-        Atom stateFullscreen;
+        Atom deleteAtom;
+        Atom protocolsAtom;
+        Atom stateAtom;
+        Atom stateFullscreenAtom;
+        Atom executeAtom;
     };
 }
