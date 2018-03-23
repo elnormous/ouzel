@@ -3,6 +3,7 @@
 
 #include <windowsx.h>
 #include "WindowResourceWin.hpp"
+#include "EngineWin.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "input/windows/InputWin.hpp"
@@ -304,6 +305,12 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
         {
             PostQuitMessage(0);
             return 0;
+        }
+        case WM_USER:
+        {
+            ouzel::EngineWin* engineWin = static_cast<ouzel::EngineWin*>(ouzel::engine);
+            engineWin->executeAll();
+            break;
         }
     }
 

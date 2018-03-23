@@ -18,9 +18,9 @@ namespace ouzel
         virtual void executeOnMainThread(const std::function<void(void)>& func) override;
         virtual bool openURL(const std::string& url) override;
 
-    protected:
         void executeAll();
 
+    protected:
         std::queue<std::function<void(void)>> executeQueue;
         Mutex executeMutex;
     };

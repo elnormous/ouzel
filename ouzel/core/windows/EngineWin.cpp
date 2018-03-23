@@ -95,8 +95,6 @@ namespace ouzel
 
         while (active)
         {
-            executeAll();
-
             if (!paused)
             {
                 if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -142,9 +140,13 @@ namespace ouzel
 
     void EngineWin::executeOnMainThread(const std::function<void(void)>& func)
     {
-       Lock lock(executeMutex);
+        WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
+
+        Lock lock(executeMutex);
 
         executeQueue.push(func);
+        
+        PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0);
     }
 
     void EngineWin::executeAll()
