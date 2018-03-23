@@ -332,7 +332,7 @@ namespace ouzel
 
         CursorResource* InputWin::createCursorResource()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             std::unique_ptr<CursorResourceWin> cursorResource(new CursorResourceWin());
             CursorResource* result = cursorResource.get();

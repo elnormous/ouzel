@@ -904,7 +904,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceD3D11::createBlendState()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -913,7 +913,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceD3D11::createTexture()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -922,7 +922,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceD3D11::createShader()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -931,7 +931,7 @@ namespace ouzel
 
         MeshBufferResource* RenderDeviceD3D11::createMeshBuffer()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
             resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
@@ -940,7 +940,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceD3D11::createBuffer()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceD3D11(this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));

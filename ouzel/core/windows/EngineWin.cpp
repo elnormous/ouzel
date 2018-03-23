@@ -156,7 +156,7 @@ namespace ouzel
         for (;;)
         {
             {
-               Lock lock(executeMutex);
+                Lock lock(executeMutex);
 
                 if (executeQueue.empty())
                 {

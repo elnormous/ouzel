@@ -322,7 +322,7 @@ namespace ouzel
             }
 
             {
-               Lock lock(resourceMutex);
+                Lock lock(resourceMutex);
 
                 for (const std::unique_ptr<RenderResource>& resource : resources)
                 {

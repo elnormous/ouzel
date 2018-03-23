@@ -1166,7 +1166,7 @@ namespace ouzel
 
         BlendStateResource* RenderDeviceOGL::createBlendState()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             BlendStateResource* blendState = new BlendStateResourceOGL();
             resources.push_back(std::unique_ptr<RenderResource>(blendState));
@@ -1175,7 +1175,7 @@ namespace ouzel
 
         TextureResource* RenderDeviceOGL::createTexture()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             TextureResource* texture = new TextureResourceOGL(this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
@@ -1184,7 +1184,7 @@ namespace ouzel
 
         ShaderResource* RenderDeviceOGL::createShader()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             ShaderResource* shader = new ShaderResourceOGL(this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
@@ -1193,7 +1193,7 @@ namespace ouzel
 
         MeshBufferResource* RenderDeviceOGL::createMeshBuffer()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             MeshBufferResource* meshBuffer = new MeshBufferResourceOGL(this);
             resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
@@ -1202,7 +1202,7 @@ namespace ouzel
 
         BufferResource* RenderDeviceOGL::createBuffer()
         {
-           Lock lock(resourceMutex);
+            Lock lock(resourceMutex);
 
             BufferResource* buffer = new BufferResourceOGL(this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
