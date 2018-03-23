@@ -66,7 +66,7 @@ namespace ouzel
                 {
                     case ClientMessage:
                     {
-                        if (event->message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
+                        if (event.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
                         {
                             exit();
                         }
