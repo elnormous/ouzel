@@ -6,12 +6,12 @@
 
 @implementation DisplayLinkHandler
 
--(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)newRenderDevice andVerticalSync:(bool)newVerticalSync
+-(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)initRenderDevice andVerticalSync:(bool)initVerticalSync
 {
     if (self = [super init])
     {
-        renderDevice = newRenderDevice;
-        verticalSync = newVerticalSync;
+        renderDevice = initRenderDevice;
+        verticalSync = initVerticalSync;
         running = true;
 
         if (verticalSync)

@@ -23,11 +23,11 @@
 
 @implementation ConnectDelegate
 
--(id)initWithInput:(ouzel::input::InputTVOS*)newInput
+-(id)initWithInput:(ouzel::input::InputTVOS*)initInput
 {
     if (self = [super init])
     {
-        input = newInput;
+        input = initInput;
     }
 
     return self;

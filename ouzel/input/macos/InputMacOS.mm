@@ -31,11 +31,11 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @implementation ConnectDelegate
 
--(id)initWithInput:(ouzel::input::InputMacOS*)newInput
+-(id)initWithInput:(ouzel::input::InputMacOS*)initInput
 {
     if (self = [super init])
     {
-        input = newInput;
+        input = initInput;
     }
 
     return self;
