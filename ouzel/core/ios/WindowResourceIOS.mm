@@ -20,11 +20,11 @@
 
 @implementation ViewController
 
--(id)initWithWindow:(ouzel::WindowResourceIOS*)newWindow
+-(id)initWithWindow:(ouzel::WindowResourceIOS*)initWindow
 {
     if (self = [super init])
     {
-        window = newWindow;
+        window = initWindow;
     }
 
     return self;

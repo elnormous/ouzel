@@ -17,7 +17,7 @@
     bool running;
 }
 
--(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)newRenderDevice andVerticalSync:(bool)newVerticalSync;
+-(id)initWithRenderDevice:(ouzel::graphics::RenderDevice*)initRenderDevice andVerticalSync:(bool)initVerticalSync;
 -(void)stop;
 
 @end
