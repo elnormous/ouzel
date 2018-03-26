@@ -132,7 +132,7 @@ ouzel:
 clean:
 	$(MAKE) -f ../build/Makefile clean
 ifeq ($(platform),windows)
-	-del /f /q $(EXECUTABLE).exe *.o *.d *.js.mem *.js *.hpp.gch
+	-del /f /q $(EXECUTABLE).exe *.o *.d *.js.mem *.js *.hpp.gch assetcatalog_generated_info.plist
 else
 	$(RM) $(EXECUTABLE) *.o *.d *.js.mem *.js *.hpp.gch $(EXECUTABLE).exe
 	$(RM) -r $(EXECUTABLE).app
