@@ -107,6 +107,8 @@ bundle:
 	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
 	cp -f macos/app/AppIcon.icns $(EXECUTABLE).app/Contents/Resources
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 endif
 
 $(EXECUTABLE): ouzel $(OBJECTS)
