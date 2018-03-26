@@ -95,7 +95,12 @@ ifeq ($(platform),macos)
 bundle:
 	mkdir -p $(EXECUTABLE).app
 	mkdir -p $(EXECUTABLE).app/Contents
-	cp -f macos/app/Info.plist $(EXECUTABLE).app/Contents
+	sed -e s/'$$(DEVELOPMENT_LANGUAGE)'/en/ \
+		-e s/'$$(EXECUTABLE_NAME)'/samples/ \
+		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
+		-e s/'$$(PRODUCT_NAME)'/samples/ \
+		-e s/'$$(MACOSX_DEPLOYMENT_TARGET)'/10.8/ \
+		macos/Info.plist > $(EXECUTABLE).app/Contents/Info.plist
 	mkdir -p $(EXECUTABLE).app/Contents/MacOS
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app/Contents/MacOS
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
