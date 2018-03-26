@@ -52,9 +52,21 @@ matrix:
       script:
         - cd samples
         - make -j2
-        - make clean
+    - compiler: clang
+      os: osx
+      osx_image: xcode7.3
+      before_script:
+        - export CXX=clang++
+      script:
+        - cd samples
         - make platform=ios -j2
-        - make clean
+    - compiler: clang
+      os: osx
+      osx_image: xcode7.3
+      before_script:
+        - export CXX=clang++
+      script:
+        - cd samples
         - make platform=tvos -j2
 #cache:
 #  directories:
