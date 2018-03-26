@@ -106,7 +106,7 @@ bundle:
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
 	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
-	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 --platform macosx --product-type com.apple.product-type.application --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
+	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 --platform macosx --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 endif
