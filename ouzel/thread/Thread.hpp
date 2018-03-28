@@ -8,8 +8,10 @@
 #include <string>
 #if defined(_MSC_VER)
 #include <Windows.h>
+#define ThreadLocal __declspec(thread)
 #else
 #include <pthread.h>
+#define ThreadLocal __thread
 #endif
 
 namespace ouzel
