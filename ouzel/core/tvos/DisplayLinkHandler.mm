@@ -73,11 +73,6 @@
 
 -(void)stop
 {
-    [self performSelector:@selector(exit) onThread:renderThread withObject:nil waitUntilDone:NO];
-}
-
--(void)exit
-{
     running = false;
     if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
 }
