@@ -40,7 +40,7 @@ namespace ouzel
         return (x != 0) && (((x - 1) & x) == 0);
     }
 
-    inline int nextPOT(int x)
+    inline uint32_t nextPOT(uint32_t x)
     {
         x = x - 1;
         x = x | (x >> 1);
