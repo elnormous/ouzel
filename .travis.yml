@@ -25,7 +25,7 @@ matrix:
         - cd samples
         - make -j2
         - cd ..
-        - sonar-scanner
+        #- sonar-scanner
     - compiler: gcc
       os: linux
       addons:
@@ -49,7 +49,7 @@ matrix:
         - cd samples
         - make -j2
         - cd ..
-        - sonar-scanner
+        #- sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -64,7 +64,7 @@ matrix:
         - cd samples
         - make -j2
         - cd ..
-        - sonar-scanner
+        #- sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -79,7 +79,7 @@ matrix:
         - cd samples
         - make platform=ios -j2
         - cd ..
-        - sonar-scanner
+        #- sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -94,4 +94,4 @@ matrix:
         - cd samples
         - make platform=tvos -j2
         - cd ..
-        - sonar-scanner
+        #- sonar-scanner
