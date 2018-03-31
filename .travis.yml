@@ -24,6 +24,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - cd ..
         - sonar-scanner
     - compiler: gcc
       os: linux
@@ -47,6 +48,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - cd ..
         - sonar-scanner
     - compiler: clang
       os: osx
@@ -61,6 +63,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - cd ..
         - sonar-scanner
     - compiler: clang
       os: osx
@@ -75,6 +78,7 @@ matrix:
       script:
         - cd samples
         - make platform=ios -j2
+        - cd ..
         - sonar-scanner
     - compiler: clang
       os: osx
@@ -89,4 +93,5 @@ matrix:
       script:
         - cd samples
         - make platform=tvos -j2
+        - cd ..
         - sonar-scanner
