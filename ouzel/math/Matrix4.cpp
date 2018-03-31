@@ -10,15 +10,15 @@
 
 namespace ouzel
 {
-    const Matrix4 Matrix4::IDENTITY(1.0f, 0.0f, 0.0f, 0.0f,
-                                    0.0f, 1.0f, 0.0f, 0.0f,
-                                    0.0f, 0.0f, 1.0f, 0.0f,
-                                    0.0f, 0.0f, 0.0f, 1.0f);
+    const Matrix4 Matrix4::IDENTITY(1.0F, 0.0F, 0.0F, 0.0F,
+                                    0.0F, 1.0F, 0.0F, 0.0F,
+                                    0.0F, 0.0F, 1.0F, 0.0F,
+                                    0.0F, 0.0F, 0.0F, 1.0F);
 
-    const Matrix4 Matrix4::ZERO(0.0f, 0.0f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 0.0f, 0.0f);
+    const Matrix4 Matrix4::ZERO(0.0F, 0.0F, 0.0F, 0.0F,
+                                0.0F, 0.0F, 0.0F, 0.0F,
+                                0.0F, 0.0F, 0.0F, 0.0F,
+                                0.0F, 0.0F, 0.0F, 0.0F);
 
     Matrix4::Matrix4(float pm11, float pm12, float pm13, float pm14,
                      float pm21, float pm22, float pm23, float pm24,
@@ -76,22 +76,22 @@ namespace ouzel
         dst.m[0] = xaxis.x;
         dst.m[1] = yaxis.x;
         dst.m[2] = zaxis.x;
-        dst.m[3] = 0.0f;
+        dst.m[3] = 0.0F;
 
         dst.m[4] = xaxis.y;
         dst.m[5] = yaxis.y;
         dst.m[6] = zaxis.y;
-        dst.m[7] = 0.0f;
+        dst.m[7] = 0.0F;
 
         dst.m[8] = xaxis.z;
         dst.m[9] = yaxis.z;
         dst.m[10] = zaxis.z;
-        dst.m[11] = 0.0f;
+        dst.m[11] = 0.0F;
 
         dst.m[12] = Vector3::dot(xaxis, -eye);
         dst.m[13] = Vector3::dot(yaxis, -eye);
         dst.m[14] = Vector3::dot(zaxis, -eye);
-        dst.m[15] = 1.0f;
+        dst.m[15] = 1.0F;
     }
 
     void Matrix4::createPerspective(float fieldOfView, float aspectRatio,
@@ -100,7 +100,7 @@ namespace ouzel
     {
         assert(zFarPlane != zNearPlane);
 
-        float theta = fieldOfView * 0.5f;
+        float theta = fieldOfView * 0.5F;
         if (fabsf(fmodf(theta, PI_2)) < EPSILON)
         {
             // invalid field of view value
@@ -108,15 +108,15 @@ namespace ouzel
         }
         float divisor = tanf(theta);
         assert(divisor);
-        float factor = 1.0f / divisor;
+        float factor = 1.0F / divisor;
 
         dst.setZero();
 
         assert(aspectRatio);
-        dst.m[0] = (1.0f / aspectRatio) * factor;
+        dst.m[0] = (1.0F / aspectRatio) * factor;
         dst.m[5] = factor;
         dst.m[10] = zFarPlane / (zFarPlane - zNearPlane);
-        dst.m[11] = 1.0f;
+        dst.m[11] = 1.0F;
         dst.m[14] = -zNearPlane * zFarPlane / (zFarPlane - zNearPlane);
     }
 
@@ -124,8 +124,8 @@ namespace ouzel
                                              float zNearPlane, float zFarPlane,
                                              Matrix4& dst)
     {
-        float halfWidth = width / 2.0f;
-        float halfHeight = height / 2.0f;
+        float halfWidth = width / 2.0F;
+        float halfHeight = height / 2.0F;
         createOrthographicOffCenter(-halfWidth, halfWidth,
                                     -halfHeight, halfHeight,
                                     zNearPlane, zFarPlane, dst);
@@ -140,13 +140,13 @@ namespace ouzel
 
         dst.setZero();
 
-        dst.m[0] = 2.0f / (right - left);
-        dst.m[5] = 2.0f / (top - bottom);
-        dst.m[10] = 1.0f / (zFarPlane - zNearPlane);
+        dst.m[0] = 2.0F / (right - left);
+        dst.m[5] = 2.0F / (top - bottom);
+        dst.m[10] = 1.0F / (zFarPlane - zNearPlane);
         dst.m[12] = (left + right) / (left - right);
         dst.m[13] = (bottom + top) / (bottom - top);
         dst.m[14] = zNearPlane / (zNearPlane - zFarPlane);
-        dst.m[15] = 1.0f;
+        dst.m[15] = 1.0F;
     }
 
     void Matrix4::createBillboard(const Vector3& objectPosition,
@@ -227,14 +227,14 @@ namespace ouzel
 
         // Make sure the input axis is normalized
         float n = x * x + y * y + z * z;
-        if (n != 1.0f)
+        if (n != 1.0F)
         {
             // Not normalized
             n = sqrtf(n);
             // Prevent divide too close to zero
             if (n >= TOLERANCE)
             {
-                n = 1.0f / n;
+                n = 1.0F / n;
                 x *= n;
                 y *= n;
                 z *= n;
@@ -244,7 +244,7 @@ namespace ouzel
         float c = cosf(angle);
         float s = sinf(angle);
 
-        float t = 1.0f - c;
+        float t = 1.0F - c;
         float tx = t * x;
         float ty = t * y;
         float tz = t * z;
@@ -258,22 +258,22 @@ namespace ouzel
         dst.m[0] = c + tx * x;
         dst.m[4] = txy - sz;
         dst.m[8] = txz + sy;
-        dst.m[12] = 0.0f;
+        dst.m[12] = 0.0F;
 
         dst.m[1] = txy + sz;
         dst.m[5] = c + ty * y;
         dst.m[9] = tyz - sx;
-        dst.m[13] = 0.0f;
+        dst.m[13] = 0.0F;
 
         dst.m[2] = txz - sy;
         dst.m[6] = tyz + sx;
         dst.m[10] = c + tz * z;
-        dst.m[14] = 0.0f;
+        dst.m[14] = 0.0F;
 
-        dst.m[3] = 0.0f;
-        dst.m[7] = 0.0f;
-        dst.m[11] = 0.0f;
-        dst.m[15] = 1.0f;
+        dst.m[3] = 0.0F;
+        dst.m[7] = 0.0F;
+        dst.m[11] = 0.0F;
+        dst.m[15] = 1.0F;
     }
 
     void Matrix4::createRotationX(float angle, Matrix4& dst)
@@ -612,7 +612,7 @@ namespace ouzel
         inverse.m[14] = -m[12] * a3 + m[13] * a1 - m[14] * a0;
         inverse.m[15] = m[8] * a3 - m[9] * a1 + m[10] * a0;
 
-        multiply(inverse, 1.0f / det, dst);
+        multiply(inverse, 1.0F / det, dst);
 
         return true;
     }
@@ -1102,7 +1102,7 @@ namespace ouzel
 
     void Matrix4::setZero()
     {
-        std::fill(m, m + sizeof(m) / sizeof(float), 0.0f);
+        std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
     }
 
     void Matrix4::subtract(const Matrix4& matrix)
@@ -1377,10 +1377,10 @@ namespace ouzel
         float m33 = m[10] / scale.z;
 
         Quaternion result;
-        result.x = sqrtf(std::max(0.0f, 1 + m11 - m22 - m33)) / 2.0f;
-        result.y = sqrtf(std::max(0.0f, 1 - m11 + m22 - m33)) / 2.0f;
-        result.z = sqrtf(std::max(0.0f, 1 - m11 - m22 + m33)) / 2.0f;
-        result.w = sqrtf(std::max(0.0f, 1 + m11 + m22 + m33)) / 2.0f;
+        result.x = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+        result.y = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+        result.z = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+        result.w = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
 
         result.x *= sgn(result.x * (m32 - m23));
         result.y *= sgn(result.y * (m13 - m31));

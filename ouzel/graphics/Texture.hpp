@@ -125,7 +125,7 @@ namespace ouzel
             uint32_t mipmaps = 0;
             bool clearColorBuffer = true;
             bool clearDepthBuffer = false;
-            float clearDepth = 1.0f;
+            float clearDepth = 1.0F;
             uint32_t sampleCount = 1;
             PixelFormat pixelFormat = PixelFormat::RGBA8_UNORM;
             Color clearColor;

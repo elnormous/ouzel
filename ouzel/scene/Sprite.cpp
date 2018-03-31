@@ -141,7 +141,7 @@ namespace ouzel
                 {
                     float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
 
-                    if (length > 0.0f)
+                    if (length > 0.0F)
                     {
                         if (length > currentTime)
                         {
@@ -220,7 +220,7 @@ namespace ouzel
                             scissorRectangle);
 
             if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0f &&
+                currentAnimation->animation->frameInterval > 0.0F &&
                 !currentAnimation->animation->frames.empty() &&
                 material)
             {
@@ -291,7 +291,7 @@ namespace ouzel
 
         void Sprite::reset()
         {
-            currentTime = 0.0f;
+            currentTime = 0.0F;
             running = true;
 
             updateBoundingBox();
@@ -325,7 +325,7 @@ namespace ouzel
 
         void Sprite::setAnimationProgress(float progress)
         {
-            float totalTime = 0.0f;
+            float totalTime = 0.0F;
 
             for (auto i = animationQueue.begin(); i != animationQueue.end(); ++i)
             {
@@ -345,7 +345,7 @@ namespace ouzel
             {
                 float length = currentAnimation->animation->frames.size() * currentAnimation->animation->frameInterval;
 
-                if (length > 0.0f)
+                if (length > 0.0F)
                 {
                     if (length > currentTime)
                     {
@@ -377,7 +377,7 @@ namespace ouzel
         void Sprite::updateBoundingBox()
         {
             if (currentAnimation != animationQueue.end() &&
-                currentAnimation->animation->frameInterval > 0.0f &&
+                currentAnimation->animation->frameInterval > 0.0F &&
                 !currentAnimation->animation->frames.empty())
             {
                 size_t currentFrame = static_cast<size_t>(currentTime / currentAnimation->animation->frameInterval);

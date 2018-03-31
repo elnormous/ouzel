@@ -45,14 +45,14 @@ namespace ouzel
                 {
                     handleButtonValueChange(GamepadButton::LEFT_TRIGGER,
                         newState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0f);
+                        static_cast<float>(newState.Gamepad.bLeftTrigger) / 255.0F);
                 }
 
                 if (newState.Gamepad.bRightTrigger != state.Gamepad.bRightTrigger)
                 {
                     handleButtonValueChange(GamepadButton::RIGHT_TRIGGER,
                         newState.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD,
-                        static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0f);
+                        static_cast<float>(newState.Gamepad.bRightTrigger) / 255.0F);
                 }
 
                 // left thumbstick
@@ -92,11 +92,11 @@ namespace ouzel
                 {
                     if (oldValue > newValue)
                     {
-                        handleButtonValueChange(positiveButton, false, 0.0f);
+                        handleButtonValueChange(positiveButton, false, 0.0F);
                     }
                     else
                     {
-                        handleButtonValueChange(negativeButton, false, 0.0f);
+                        handleButtonValueChange(negativeButton, false, 0.0F);
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace ouzel
             if ((newState.Gamepad.wButtons & mask) != (state.Gamepad.wButtons & mask))
             {
                 bool pressed = ((newState.Gamepad.wButtons & mask) == mask);
-                handleButtonValueChange(button, pressed, pressed ? 1.0f : 0.0f);
+                handleButtonValueChange(button, pressed, pressed ? 1.0F : 0.0F);
             }
         }
 
@@ -142,7 +142,7 @@ namespace ouzel
                 return vibration.wRightMotorSpeed;
             }
 
-            return 0.0f;
+            return 0.0F;
         }
     } // namespace input
 } // namespace ouzel

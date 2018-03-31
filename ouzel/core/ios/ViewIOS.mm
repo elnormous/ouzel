@@ -15,7 +15,7 @@
         CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
-            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
+            force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInput()->touchBegin(reinterpret_cast<uint64_t>(touch),
                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
@@ -31,7 +31,7 @@
         CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
-            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
+            force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInput()->touchMove(reinterpret_cast<uint64_t>(touch),
                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
@@ -47,7 +47,7 @@
         CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
-            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
+            force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInput()->touchEnd(reinterpret_cast<uint64_t>(touch),
                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
@@ -63,7 +63,7 @@
         CGPoint location = [touch locationInView:self];
         CGFloat force = 1.0;
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
-            force = (touch.maximumPossibleForce > 0.0f) ? touch.force / touch.maximumPossibleForce : 0.0f;
+            force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInput()->touchCancel(reinterpret_cast<uint64_t>(touch),
                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),

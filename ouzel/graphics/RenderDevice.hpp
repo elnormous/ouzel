@@ -87,13 +87,13 @@ namespace ouzel
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
             {
                 return Vector2(position.x / size.width,
-                               1.0f - (position.y / size.height));
+                               1.0F - (position.y / size.height));
             }
 
             Vector2 convertNormalizedToScreenLocation(const Vector2& position)
             {
                 return Vector2(position.x * size.width,
-                               (1.0f - position.y) * size.height);
+                               (1.0F - position.y) * size.height);
             }
 
             inline uint32_t getDrawCallCount() const { return drawCallCount; }
@@ -187,8 +187,8 @@ namespace ouzel
             std::atomic<float> currentFPS;
             std::chrono::steady_clock::time_point previousFrameTime;
 
-            float accumulatedTime = 0.0f;
-            float currentAccumulatedFPS = 0.0f;
+            float accumulatedTime = 0.0F;
+            float currentAccumulatedFPS = 0.0F;
             std::atomic<float> accumulatedFPS;
 
             std::queue<std::function<void(void)>> executeQueue;

@@ -56,7 +56,7 @@ namespace ouzel
 #endif
 
         Vector4():
-            x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+            x(0.0F), y(0.0F), z(0.0F), w(0.0F)
         {
         }
 
@@ -83,12 +83,12 @@ namespace ouzel
 
         bool isZero() const
         {
-            return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
+            return x == 0.0F && y == 0.0F && z == 0.0F && w == 0.0F;
         }
 
         bool isOne() const
         {
-            return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
+            return x == 1.0F && y == 1.0F && z == 1.0F && w == 1.0F;
         }
 
         static float angle(const Vector4& v1, const Vector4& v2);

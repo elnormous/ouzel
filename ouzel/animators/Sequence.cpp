@@ -10,7 +10,7 @@ namespace ouzel
     namespace scene
     {
         Sequence::Sequence(const std::vector<Animator*>& initAnimators):
-            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, Animator* b) { return a + b->getLength(); }))
+            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) { return a + b->getLength(); }))
         {
             for (Animator* animator : initAnimators)
             {
@@ -19,7 +19,7 @@ namespace ouzel
         }
 
         Sequence::Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators):
-            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0f, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
+            Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, const std::unique_ptr<Animator>& b) { return a + b->getLength(); }))
         {
             for (const std::unique_ptr<Animator>& animator : initAnimators)
             {
@@ -29,7 +29,7 @@ namespace ouzel
 
         void Sequence::play()
         {
-            setProgress(0.0f);
+            setProgress(0.0F);
             done = false;
             running = true;
 
@@ -58,17 +58,17 @@ namespace ouzel
         {
             Animator::updateProgress();
 
-            float time = 0.0f;
+            float time = 0.0F;
 
             for (Animator* animator : animators)
             {
-                if (animator->getLength() <= 0.0f || currentTime > time + animator->getLength())
+                if (animator->getLength() <= 0.0F || currentTime > time + animator->getLength())
                 {
-                    if (animator == currentAnimator) animator->setProgress(1.0f);
+                    if (animator == currentAnimator) animator->setProgress(1.0F);
                 }
                 else if (currentTime <= time)
                 {
-                    if (animator == currentAnimator) animator->setProgress(0.0f);
+                    if (animator == currentAnimator) animator->setProgress(0.0F);
                 }
                 else
                 {

@@ -25,7 +25,7 @@ namespace ouzel
                    const std::string& disabledImage,
                    const std::string& label = "",
                    const std::string& font = "",
-                   float fontSize = 1.0f,
+                   float fontSize = 1.0F,
                    const Color& initLabelColor = Color::WHITE,
                    const Color& initLabelSelectedColor = Color::WHITE,
                    const Color& initLabelPressedColor = Color::WHITE,

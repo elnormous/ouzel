@@ -24,10 +24,10 @@ namespace ouzel
 
             TextRenderer(const std::string& fontFile,
                          bool initMipmaps = true,
-                         float initFontSize = 1.0f,
+                         float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
-                         const Vector2& aTextAnchor = Vector2(0.5f, 0.5f));
+                         const Vector2& aTextAnchor = Vector2(0.5F, 0.5F));
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
@@ -75,7 +75,7 @@ namespace ouzel
 
             std::shared_ptr<Font> font;
             std::string text;
-            float fontSize = 1.0f;
+            float fontSize = 1.0F;
             Vector2 textAnchor;
 
             std::vector<uint16_t> indices;

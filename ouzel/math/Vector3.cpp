@@ -12,14 +12,14 @@
 
 namespace ouzel
 {
-    const Vector3 Vector3::ZERO(0.0f, 0.0f, 0.0f);
-    const Vector3 Vector3::ONE(1.0f, 1.0f, 1.0f);
-    const Vector3 Vector3::UNIT_X(1.0f, 0.0f, 0.0f);
-    const Vector3 Vector3::UNIT_Y(0.0f, 1.0f, 0.0f);
-    const Vector3 Vector3::UNIT_Z(0.0f, 0.0f, 1.0f);
-    const Vector3 Vector3::NEGATIVE_UNIT_X(-1.0f, 0.0f, 0.0f);
-    const Vector3 Vector3::NEGATIVE_UNIT_Y(0.0f, -1.0f, 0.0f);
-    const Vector3 Vector3::NEGATIVE_UNIT_Z(0.0f, 0.0f, -1.0f);
+    const Vector3 Vector3::ZERO(0.0F, 0.0F, 0.0F);
+    const Vector3 Vector3::ONE(1.0F, 1.0F, 1.0F);
+    const Vector3 Vector3::UNIT_X(1.0F, 0.0F, 0.0F);
+    const Vector3 Vector3::UNIT_Y(0.0F, 1.0F, 0.0F);
+    const Vector3 Vector3::UNIT_Z(0.0F, 0.0F, 1.0F);
+    const Vector3 Vector3::NEGATIVE_UNIT_X(-1.0F, 0.0F, 0.0F);
+    const Vector3 Vector3::NEGATIVE_UNIT_Y(0.0F, -1.0F, 0.0F);
+    const Vector3 Vector3::NEGATIVE_UNIT_Z(0.0F, 0.0F, -1.0F);
 
     Vector3::Vector3(const Vector3& p1, const Vector3& p2)
     {
@@ -40,7 +40,7 @@ namespace ouzel
     {
         x = vec.x;
         y = vec.y;
-        z = 0.0f;
+        z = 0.0F;
 
         return *this;
     }
@@ -150,14 +150,14 @@ namespace ouzel
     void Vector3::normalize()
     {
         float n = x * x + y * y + z * z;
-        if (n == 1.0f) // already normalized
+        if (n == 1.0F) // already normalized
             return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
             return;
 
-        n = 1.0f / n;
+        n = 1.0F / n;
         x *= n;
         y *= n;
         z *= n;

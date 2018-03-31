@@ -66,7 +66,7 @@ namespace ouzel
 
         float Gamepad::getVibration(Motor)
         {
-            return 0.0f;
+            return 0.0F;
         }
     } // namespace input
 } // namespace ouzel

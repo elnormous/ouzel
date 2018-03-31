@@ -62,7 +62,7 @@ namespace ouzel
     protected:
         Size2 size;
         Size2 resolution;
-        float contentScale = 1.0f;
+        float contentScale = 1.0F;
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;

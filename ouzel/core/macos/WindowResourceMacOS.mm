@@ -136,11 +136,11 @@ namespace ouzel
             windowSize.height = round(size.height / screen.backingScaleFactor);
         }
 
-        if (windowSize.width <= 0.0f) windowSize.width = round(screen.frame.size.width * 0.6);
-        if (windowSize.height <= 0.0f) windowSize.height = round(screen.frame.size.height * 0.6);
+        if (windowSize.width <= 0.0F) windowSize.width = round(screen.frame.size.width * 0.8);
+        if (windowSize.height <= 0.0F) windowSize.height = round(screen.frame.size.height * 0.8);
 
-        NSRect frame = NSMakeRect(round(screen.frame.size.width / 2.0f - windowSize.width / 2.0f),
-                                  round(screen.frame.size.height / 2.0f - windowSize.height / 2.0f),
+        NSRect frame = NSMakeRect(round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
+                                  round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
                                   windowSize.width, windowSize.height);
 
         windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
@@ -229,7 +229,7 @@ namespace ouzel
         }
         else
         {
-            contentScale = 1.0f;
+            contentScale = 1.0F;
             resolution = size;
         }
 

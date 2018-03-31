@@ -20,9 +20,9 @@ namespace ouzel
             virtual void updateProgress() override;
 
             float opacity;
-            float startOpacity = 0.0f;
-            float targetOpacity = 0.0f;
-            float diff = 0.0f;
+            float startOpacity = 0.0F;
+            float targetOpacity = 0.0F;
+            float diff = 0.0F;
             bool relative;
         };
     } // namespace scene

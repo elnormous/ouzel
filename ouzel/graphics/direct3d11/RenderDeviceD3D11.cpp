@@ -429,8 +429,8 @@ namespace ouzel
             std::vector<float> shaderData;
 
             D3D11_VIEWPORT viewport;
-            viewport.MinDepth = 0.0f;
-            viewport.MaxDepth = 1.0f;
+            viewport.MinDepth = 0.0F;
+            viewport.MaxDepth = 1.0F;
 
             if (drawCommands.empty())
             {
@@ -440,7 +440,7 @@ namespace ouzel
                 context->RSSetState(rasterizerStates[0]);
                 context->OMSetDepthStencilState(depthStencilStates[1], 0); // enable depth write
 
-                viewport.TopLeftX = viewport.TopLeftY = 0.0f;
+                viewport.TopLeftX = viewport.TopLeftY = 0.0F;
                 viewport.Width = static_cast<FLOAT>(frameBufferWidth);
                 viewport.Height = static_cast<FLOAT>(frameBufferHeight);
                 context->RSSetViewports(1, &viewport);
@@ -1115,16 +1115,16 @@ namespace ouzel
                 }
 
                 samplerStateDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-                samplerStateDesc.MipLODBias = 0.0f;
+                samplerStateDesc.MipLODBias = 0.0F;
                 samplerStateDesc.MaxAnisotropy = desc.maxAnisotropy;
                 samplerStateDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 
-                samplerStateDesc.BorderColor[0] = 0.0f;
-                samplerStateDesc.BorderColor[1] = 0.0f;
-                samplerStateDesc.BorderColor[2] = 0.0f;
-                samplerStateDesc.BorderColor[3] = 0.0f;
+                samplerStateDesc.BorderColor[0] = 0.0F;
+                samplerStateDesc.BorderColor[1] = 0.0F;
+                samplerStateDesc.BorderColor[2] = 0.0F;
+                samplerStateDesc.BorderColor[3] = 0.0F;
 
-                samplerStateDesc.MinLOD = 0.0f;
+                samplerStateDesc.MinLOD = 0.0F;
                 samplerStateDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
                 ID3D11SamplerState* samplerState;

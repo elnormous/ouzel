@@ -18,9 +18,9 @@ namespace ouzel
         public:
             Label(const std::string& initText,
                   const std::string& fontFile,
-                  float fontSize = 1.0f,
+                  float fontSize = 1.0F,
                   Color color = Color::WHITE,
-                  const Vector2& textAnchor = Vector2(0.5f, 0.5f));
+                  const Vector2& textAnchor = Vector2(0.5F, 0.5F));
 
             inline const std::string& getText() const { return text; }
             virtual void setText(const std::string& newText);

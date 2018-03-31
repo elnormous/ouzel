@@ -140,8 +140,8 @@ namespace ouzel
             }
 
             controller.controllerPausedHandler = ^(GCController*) {
-                handleButtonValueChange(GamepadButton::PAUSE, true, 1.0f);
-                handleButtonValueChange(GamepadButton::PAUSE, false, 0.0f);
+                handleButtonValueChange(GamepadButton::PAUSE, true, 1.0F);
+                handleButtonValueChange(GamepadButton::PAUSE, false, 0.0F);
             };
 
             if (controller.vendorName)

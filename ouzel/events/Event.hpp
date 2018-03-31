@@ -46,7 +46,7 @@ namespace ouzel
         uint64_t touchId = 0;
         Vector2 difference;
         Vector2 position;
-        float force = 1.0f;
+        float force = 1.0F;
     };
 
     struct GamepadEvent
@@ -55,8 +55,8 @@ namespace ouzel
         input::GamepadButton button = input::GamepadButton::NONE;
         bool pressed = false;
         bool previousPressed = false;
-        float value = 0.0f;
-        float previousValue = 0.0f;
+        float value = 0.0F;
+        float previousValue = 0.0F;
     };
 
     class Window;

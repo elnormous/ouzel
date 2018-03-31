@@ -8,9 +8,9 @@ using namespace std;
 using namespace ouzel;
 
 SpritesSample::SpritesSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    wireframeButton("button.png", "button_selected.png", "button_down.png", "", "Wireframe", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&SpritesSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SpritesSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -18,7 +18,7 @@ SpritesSample::SpritesSample():
     engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0f, 600.0f));
+    camera.setTargetContentSize(Size2(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
     addLayer(&layer);
@@ -30,44 +30,44 @@ SpritesSample::SpritesSample():
 
     character.addComponent(&characterSprite);
     layer.addChild(&character);
-    character.setPosition(Vector2(-300.0f, 0.0f));
+    character.setPosition(Vector2(-300.0F, 0.0F));
 
-    move.reset(new scene::Move(4.0f, Vector2(300.0f, 0.0f)));
+    move.reset(new scene::Move(4.0F, Vector2(300.0F, 0.0F)));
     character.addComponent(move);
     move->start();
 
     // fire
     fireSprite.init("fire.json");
-    fireSprite.setOffset(Vector2(0.0f, 20.0f));
+    fireSprite.setOffset(Vector2(0.0F, 20.0F));
     fireSprite.setAnimation("", true);
     fireSprite.play();
 
     fireActor.addComponent(&fireSprite);
-    fireActor.setPosition(Vector2(-100.0f, -140.0f));
+    fireActor.setPosition(Vector2(-100.0F, -140.0F));
     layer.addChild(&fireActor);
 
     // triangle
     triangleSprite.init("triangle.json");
 
     triangleActor.addComponent(&triangleSprite);
-    triangleActor.setPosition(Vector2(100.0f, -140.0f));
+    triangleActor.setPosition(Vector2(100.0F, -140.0F));
     layer.addChild(&triangleActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    hideButton.setPosition(Vector2(-200.0f, 200.0f));
+    hideButton.setPosition(Vector2(-200.0F, 200.0F));
     menu.addWidget(&hideButton);
 
-    wireframeButton.setPosition(Vector2(-200.0f, 160.0f));
+    wireframeButton.setPosition(Vector2(-200.0F, 160.0F));
     menu.addWidget(&wireframeButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

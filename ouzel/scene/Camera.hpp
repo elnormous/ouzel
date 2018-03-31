@@ -38,7 +38,7 @@ namespace ouzel
 
             Camera(Matrix4 initProjection);
             Camera(const Size2& initTargetContentSize = Size2(), ScaleMode initScaleMode = ScaleMode::NONE);
-            Camera(float initFov, float initNearPlane = 1.0f, float initFarPlane = 100.0f);
+            Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             virtual ~Camera();
 
             void setType(Type newType) { type = newType; }
@@ -98,13 +98,13 @@ namespace ouzel
             void calculateViewProjection() const;
 
             Type type;
-            float fov = TAU / 6.0f;
-            float nearPlane = 1.0f;
-            float farPlane = 100.0f;
+            float fov = TAU / 6.0F;
+            float nearPlane = 1.0F;
+            float farPlane = 100.0F;
 
             Matrix4 projection;
 
-            Rect viewport = Rect(0.0f, 0.0f, 1.0f, 1.0f);
+            Rect viewport = Rect(0.0F, 0.0F, 1.0F, 1.0F);
             Rect renderViewport;
             Size2 targetContentSize;
 

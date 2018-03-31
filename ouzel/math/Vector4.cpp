@@ -12,14 +12,14 @@
 
 namespace ouzel
 {
-    const Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
-    const Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
-    const Vector4 Vector4::UNIT_X(1.0f, 0.0f, 0.0f, 1.0f);
-    const Vector4 Vector4::UNIT_Y(0.0f, 1.0f, 0.0f, 1.0f);
-    const Vector4 Vector4::UNIT_Z(0.0f, 0.0f, 1.0f, 1.0f);
-    const Vector4 Vector4::NEGATIVE_UNIT_X(-1.0f, 0.0f, 0.0f, 1.0f);
-    const Vector4 Vector4::NEGATIVE_UNIT_Y(0.0f, -1.0f, 0.0f, 1.0f);
-    const Vector4 Vector4::NEGATIVE_UNIT_Z(0.0f, 0.0f, -1.0f, 1.0f);
+    const Vector4 Vector4::ZERO(0.0F, 0.0F, 0.0F, 0.0F);
+    const Vector4 Vector4::ONE(1.0F, 1.0F, 1.0F, 1.0F);
+    const Vector4 Vector4::UNIT_X(1.0F, 0.0F, 0.0F, 1.0F);
+    const Vector4 Vector4::UNIT_Y(0.0F, 1.0F, 0.0F, 1.0F);
+    const Vector4 Vector4::UNIT_Z(0.0F, 0.0F, 1.0F, 1.0F);
+    const Vector4 Vector4::NEGATIVE_UNIT_X(-1.0F, 0.0F, 0.0F, 1.0F);
+    const Vector4 Vector4::NEGATIVE_UNIT_Y(0.0F, -1.0F, 0.0F, 1.0F);
+    const Vector4 Vector4::NEGATIVE_UNIT_Z(0.0F, 0.0F, -1.0F, 1.0F);
 
     Vector4::Vector4(const Vector4& p1, const Vector4& p2)
     {
@@ -27,7 +27,7 @@ namespace ouzel
     }
 
     Vector4::Vector4(const Vector2& vec):
-        x(vec.x), y(vec.y), z(0.0f), w(0.0f)
+        x(vec.x), y(vec.y), z(0.0F), w(0.0F)
     {
     }
 
@@ -35,13 +35,13 @@ namespace ouzel
     {
         x = vec.x;
         y = vec.y;
-        z = 0.0f;
-        w = 0.0f;
+        z = 0.0F;
+        w = 0.0F;
         return *this;
     }
 
     Vector4::Vector4(const Vector3& vec):
-        x(vec.x), y(vec.y), z(vec.z), w(0.0f)
+        x(vec.x), y(vec.y), z(vec.z), w(0.0F)
     {
     }
 
@@ -50,7 +50,7 @@ namespace ouzel
         x = vec.x;
         y = vec.y;
         z = vec.z;
-        w = 0.0f;
+        w = 0.0F;
         return *this;
     }
 
@@ -160,14 +160,14 @@ namespace ouzel
     void Vector4::normalize()
     {
         float n = x * x + y * y + z * z + w * w;
-        if (n == 1.0f) // already normalized
+        if (n == 1.0F) // already normalized
             return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
             return;
 
-        n = 1.0f / n;
+        n = 1.0F / n;
         x *= n;
         y *= n;
         z *= n;

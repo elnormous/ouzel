@@ -61,10 +61,10 @@ namespace ouzel
         }
 
         Color(float color[4]):
-            r(static_cast<uint8_t>(color[0] * 255.0f)),
-            g(static_cast<uint8_t>(color[1] * 255.0f)),
-            b(static_cast<uint8_t>(color[2] * 255.0f)),
-            a(static_cast<uint8_t>(color[3] * 255.0f))
+            r(static_cast<uint8_t>(color[0] * 255.0F)),
+            g(static_cast<uint8_t>(color[1] * 255.0F)),
+            b(static_cast<uint8_t>(color[2] * 255.0F)),
+            a(static_cast<uint8_t>(color[3] * 255.0F))
         {
         }
 
@@ -74,10 +74,10 @@ namespace ouzel
         Color(const Vector4& vec);
         Color& operator=(const Vector4& vec);
 
-        inline float normR() const { return r / 255.0f; }
-        inline float normG() const { return g / 255.0f; }
-        inline float normB() const { return b / 255.0f; }
-        inline float normA() const { return a / 255.0f; }
+        inline float normR() const { return r / 255.0F; }
+        inline float normG() const { return g / 255.0F; }
+        inline float normB() const { return b / 255.0F; }
+        inline float normA() const { return a / 255.0F; }
 
         inline uint32_t getIntValue() const
         {

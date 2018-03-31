@@ -400,11 +400,11 @@ namespace ouzel
 
                                     if (event->code == ABS_X)
                                     {
-                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0f)).x;
+                                        absolutePos.x = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(static_cast<float>(event->value), 0.0F)).x;
                                     }
                                     else if (event->code == ABS_Y)
                                     {
-                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0f, static_cast<float>(event->value))).y;
+                                        absolutePos.y = engine->getWindow()->convertWindowToNormalizedLocation(Vector2(0.0F, static_cast<float>(event->value))).y;
                                     }
 
                                     mouseMove(absolutePos, getModifiers());

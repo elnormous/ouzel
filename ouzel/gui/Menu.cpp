@@ -230,12 +230,12 @@ namespace ouzel
                 else if (event.button == input::GamepadButton::LEFT_THUMB_LEFT ||
                          event.button == input::GamepadButton::LEFT_THUMB_UP)
                 {
-                    if (event.previousValue < 0.6f && event.value > 0.6f) selectPreviousWidget();
+                    if (event.previousValue < 0.6F && event.value > 0.6F) selectPreviousWidget();
                 }
                 else if (event.button == input::GamepadButton::LEFT_THUMB_RIGHT ||
                          event.button == input::GamepadButton::LEFT_THUMB_DOWN)
                 {
-                    if (event.previousValue < 0.6f && event.value > 0.6f) selectNextWidget();
+                    if (event.previousValue < 0.6F && event.value > 0.6F) selectNextWidget();
                 }
 #if !OUZEL_PLATFORM_IOS && !OUZEL_PLATFORM_TVOS // on iOS and tvOS menu items ar selected with a SELECT button
                 else if (event.button == input::GamepadButton::FACE_BOTTOM)

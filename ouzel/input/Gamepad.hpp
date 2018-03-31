@@ -23,7 +23,7 @@ namespace ouzel
             struct ButtonState
             {
                 bool pressed = false;
-                float value = 0.0f;
+                float value = 0.0F;
             };
 
             virtual ~Gamepad();

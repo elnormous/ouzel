@@ -43,13 +43,13 @@ namespace ouzel
             return false;
         }
 
-        if (size.width <= 0.0f || size.height <= 0.0f)
+        if (size.width <= 0.0F || size.height <= 0.0F)
         {
             int width, height, fullscreen;
             emscripten_get_canvas_size(&width, &height, &fullscreen);
 
-            if (size.width <= 0.0f) size.width = static_cast<float>(width);
-            if (size.height <= 0.0f) size.height = static_cast<float>(height);
+            if (size.width <= 0.0F) size.width = static_cast<float>(width);
+            if (size.height <= 0.0F) size.height = static_cast<float>(height);
         }
 
         resolution = size;

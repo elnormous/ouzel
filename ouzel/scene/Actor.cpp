@@ -141,7 +141,7 @@ namespace ouzel
         void Actor::setRotation(float newRotation)
         {
             Quaternion roationQuaternion;
-            roationQuaternion.rotate(newRotation, Vector3(0.0f, 0.0f, 1.0f));
+            roationQuaternion.rotate(newRotation, Vector3(0.0F, 0.0F, 1.0F));
 
             rotation = roationQuaternion;
 
@@ -165,7 +165,7 @@ namespace ouzel
 
         void Actor::setOpacity(float newOpacity)
         {
-            opacity = clamp(newOpacity, 0.0f, 1.0f);
+            opacity = clamp(newOpacity, 0.0F, 1.0F);
         }
 
         void Actor::setFlipX(bool newFlipX)
@@ -281,8 +281,8 @@ namespace ouzel
             localTransform.translate(position);
             localTransform *= rotation.getMatrix();
 
-            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0f : 1.0f),
-                                        scale.y * (flipY ? -1.0f : 1.0f),
+            Vector3 realScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
+                                        scale.y * (flipY ? -1.0F : 1.0F),
                                         scale.z);
 
             localTransform.scale(realScale);

@@ -14,10 +14,10 @@ namespace ouzel
         static const Quaternion IDENTITY;
         static const Quaternion ZERO;
 
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float w = 0.0f;
+        float x = 0.0F;
+        float y = 0.0F;
+        float z = 0.0F;
+        float w = 0.0F;
 
         Quaternion()
         {
@@ -168,7 +168,7 @@ namespace ouzel
         {
             float n2 = x * x + y * y + z * z + w * w; // norm squared
 
-            if (n2 == 0.0f) return;
+            if (n2 == 0.0F) return;
 
             // conjugate divided by norm squared
             x = -x / n2;
@@ -196,7 +196,7 @@ namespace ouzel
         inline Vector3 rotateVector(const Vector3& vector) const
         {
             Vector3 q(x, y, z);
-            Vector3 t = 2.0f * Vector3::cross(q, vector);
+            Vector3 t = 2.0F * Vector3::cross(q, vector);
             Vector3 result = vector + (w * t) + Vector3::cross(q, t);
             return result;
         }
@@ -233,32 +233,32 @@ namespace ouzel
 
             float zz = z * z;
 
-            result.m[0] = 1.0f - 2.0f * (yy + zz);
-            result.m[4] = 2.0f * (xy - wz);
-            result.m[8] = 2.0f * (xz + wy);
-            result.m[12] = 0.0f;
+            result.m[0] = 1.0F - 2.0F * (yy + zz);
+            result.m[4] = 2.0F * (xy - wz);
+            result.m[8] = 2.0F * (xz + wy);
+            result.m[12] = 0.0F;
 
-            result.m[1] = 2.0f * (xy + wz);
-            result.m[5] = 1.0f - 2.0f * (xx + zz);
-            result.m[9] = 2.0f * (yz - wx);
-            result.m[13] = 0.0f;
+            result.m[1] = 2.0F * (xy + wz);
+            result.m[5] = 1.0F - 2.0F * (xx + zz);
+            result.m[9] = 2.0F * (yz - wx);
+            result.m[13] = 0.0F;
 
-            result.m[2] = 2.0f * (xz - wy);
-            result.m[6] = 2.0f * (yz + wx);
-            result.m[10] = 1.0f - 2.0f * (xx + yy);
-            result.m[14] = 0.0f;
+            result.m[2] = 2.0F * (xz - wy);
+            result.m[6] = 2.0F * (yz + wx);
+            result.m[10] = 1.0F - 2.0F * (xx + yy);
+            result.m[14] = 0.0F;
 
-            result.m[3] = 0.0f;
-            result.m[7] = 0.0f;
-            result.m[11] = 0.0f;
-            result.m[15] = 1.0f;
+            result.m[3] = 0.0F;
+            result.m[7] = 0.0F;
+            result.m[11] = 0.0F;
+            result.m[15] = 1.0F;
 
             return result;
         }
 
         Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)
         {
-            const float scale = 1.0f - t;
+            const float scale = 1.0F - t;
             return (*this = (q1 * scale) + (q2 * t));
         }
     };

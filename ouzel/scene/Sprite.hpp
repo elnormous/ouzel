@@ -26,18 +26,18 @@ namespace ouzel
             Sprite(const SpriteData& spriteData);
             Sprite(const std::string& filename, bool mipmaps = true,
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
-                   const Vector2& pivot = Vector2(0.5f, 0.5f));
+                   const Vector2& pivot = Vector2(0.5F, 0.5F));
             Sprite(std::shared_ptr<graphics::Texture> texture,
                    uint32_t spritesX = 1, uint32_t spritesY = 1,
-                   const Vector2& pivot = Vector2(0.5f, 0.5f));
+                   const Vector2& pivot = Vector2(0.5F, 0.5F));
 
             bool init(const SpriteData& spriteData);
             bool init(const std::string& filename, bool mipmaps = true,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
-                      const Vector2& pivot = Vector2(0.5f, 0.5f));
+                      const Vector2& pivot = Vector2(0.5F, 0.5F));
             bool init(std::shared_ptr<graphics::Texture> newTexture,
                       uint32_t spritesX = 1, uint32_t spritesY = 1,
-                      const Vector2& pivot = Vector2(0.5f, 0.5f));
+                      const Vector2& pivot = Vector2(0.5F, 0.5F));
 
             void update(float delta);
 
@@ -94,7 +94,8 @@ namespace ouzel
 
             bool playing = false;
             bool running = false;
-            float currentTime = 0.0f;
+            float animationTime = 0.0F;
+            float currentAnimationTime = 0.0F;
 
             UpdateCallback updateCallback;
         };

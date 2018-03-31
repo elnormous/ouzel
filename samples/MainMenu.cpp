@@ -14,14 +14,14 @@ using namespace std;
 using namespace ouzel;
 
 MainMenu::MainMenu():
-    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 1.0f,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
-    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 1.0f, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
+    gitHubButton("button.png", "button_selected.png", "button_down.png", "", "GitHub", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    spritesButton("button.png", "button_selected.png", "button_down.png", "", "Sprites", "arial.fnt", 1.0F,Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    guiButton("button.png", "button_selected.png", "button_down.png", "", "GUI", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    renderTargetButton("button.png", "button_selected.png", "button_down.png", "", "Render target", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    animationsButton("button.png", "button_selected.png", "button_down.png", "", "Animations", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    inputButton("button.png", "button_selected.png", "button_down.png", "", "Input", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    soundButton("button.png", "button_selected.png", "button_down.png", "", "Sound", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK),
+    perspectiveButton("button.png", "button_selected.png", "button_down.png", "", "Perspective", "arial.fnt", 1.0F, Color(20, 0, 0, 255), Color::BLACK, Color::BLACK)
 {
     eventHandler.uiHandler = bind(&MainMenu::handleUI, this, placeholders::_1, placeholders::_2);
     eventHandler.keyboardHandler = bind(&MainMenu::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -30,34 +30,34 @@ MainMenu::MainMenu():
     addLayer(&layer);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(400.0f, 600.0f));
+    camera.setTargetContentSize(Size2(400.0F, 600.0F));
     cameraActor.addComponent(&camera);
     layer.addChild(&cameraActor);
 
     layer.addChild(&menu);
 
-    gitHubButton.setPosition(Vector2(0.0f, 120.0f));
+    gitHubButton.setPosition(Vector2(0.0F, 120.0F));
     menu.addWidget(&gitHubButton);
 
-    spritesButton.setPosition(Vector2(0.0f, 80.0f));
+    spritesButton.setPosition(Vector2(0.0F, 80.0F));
     menu.addWidget(&spritesButton);
 
-    guiButton.setPosition(Vector2(0.0f, 40.0f));
+    guiButton.setPosition(Vector2(0.0F, 40.0F));
     menu.addWidget(&guiButton);
 
-    renderTargetButton.setPosition(Vector2(0.0f, 0.0f));
+    renderTargetButton.setPosition(Vector2(0.0F, 0.0F));
     menu.addWidget(&renderTargetButton);
 
-    animationsButton.setPosition(Vector2(0.0f, -40.0f));
+    animationsButton.setPosition(Vector2(0.0F, -40.0F));
     menu.addWidget(&animationsButton);
 
-    inputButton.setPosition(Vector2(0.0f, -80.0f));
+    inputButton.setPosition(Vector2(0.0F, -80.0F));
     menu.addWidget(&inputButton);
 
-    soundButton.setPosition(Vector2(0.0f, -120.0f));
+    soundButton.setPosition(Vector2(0.0F, -120.0F));
     menu.addWidget(&soundButton);
 
-    perspectiveButton.setPosition(Vector2(0.0f, -160.0f));
+    perspectiveButton.setPosition(Vector2(0.0F, -160.0F));
     menu.addWidget(&perspectiveButton);
 }
 

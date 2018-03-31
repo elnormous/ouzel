@@ -458,7 +458,7 @@ namespace ouzel
             executeAll();
 
             previousUpdateTime = currentTime;
-            float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0f;
+            float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
 
             eventDispatcher.dispatchEvents();
 
@@ -501,7 +501,7 @@ namespace ouzel
 
                     if (updateCallback->timeSinceLastUpdate >= updateCallback->interval)
                     {
-                        updateCallback->timeSinceLastUpdate = (updateCallback->interval > 0.0f) ? fmodf(updateCallback->timeSinceLastUpdate, updateCallback->interval) : 0.0f;
+                        updateCallback->timeSinceLastUpdate = (updateCallback->interval > 0.0F) ? fmodf(updateCallback->timeSinceLastUpdate, updateCallback->interval) : 0.0F;
                         if (updateCallback->callback) updateCallback->callback(delta);
                     }
                 }

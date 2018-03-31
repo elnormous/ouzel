@@ -109,14 +109,14 @@ static void handleMouseWheelEvent(UINT msg, WPARAM wParam, LPARAM lParam)
     if (msg == WM_MOUSEWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(0.0f, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
+        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)),
                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getModifiers(wParam));
     }
     else if (msg == WM_MOUSEHWHEEL)
     {
         short param = static_cast<short>(HIWORD(wParam));
-        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0f),
+        ouzel::engine->getInput()->mouseScroll(ouzel::Vector2(static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F),
                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
                                                      ouzel::input::InputWin::getModifiers(wParam));
     }
@@ -424,8 +424,8 @@ namespace ouzel
 
         int width = CW_USEDEFAULT;
         int height = CW_USEDEFAULT;
-        if (size.width > 0.0f) width = windowRect.right - windowRect.left;
-        if (size.height > 0.0f) height = windowRect.bottom - windowRect.top;
+        if (size.width > 0.0F) width = windowRect.right - windowRect.left;
+        if (size.height > 0.0F) height = windowRect.bottom - windowRect.top;
 
         wchar_t titleBuffer[256] = L"";
 

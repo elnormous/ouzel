@@ -39,9 +39,9 @@ namespace ouzel
 
         inline Vector3 getCenter()
         {
-            return Vector3(0.5f * (min.x + max.x),
-                           0.5f * (min.y + max.y),
-                           0.5f * (min.z + max.z));
+            return Vector3(0.5F * (min.x + max.x),
+                           0.5F * (min.y + max.y),
+                           0.5F * (min.z + max.z));
         }
 
         void getCorners(Vector3* dst) const;

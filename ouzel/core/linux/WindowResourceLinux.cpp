@@ -71,8 +71,8 @@ namespace ouzel
         Screen* screen = XDefaultScreenOfDisplay(display);
         int screenIndex = XScreenNumberOfScreen(screen);
 
-        if (size.width <= 0.0f) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8f;
-        if (size.height <= 0.0f) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8f;
+        if (size.width <= 0.0F) size.width = static_cast<float>(XWidthOfScreen(screen)) * 0.8F;
+        if (size.height <= 0.0F) size.height = static_cast<float>(XHeightOfScreen(screen)) * 0.8F;
 
         resolution = size;
 

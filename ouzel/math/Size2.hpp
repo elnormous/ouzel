@@ -12,8 +12,8 @@ namespace ouzel
     class Size2
     {
     public:
-        float width = 0.0f;
-        float height = 0.0f;
+        float width = 0.0F;
+        float height = 0.0F;
 
         Size2()
         {
@@ -99,12 +99,12 @@ namespace ouzel
 
         bool isZero() const
         {
-            return width == 0.0f && height == 0.0f;
+            return width == 0.0F && height == 0.0F;
         }
 
         bool isOne() const
         {
-            return width == 1.0f && height == 1.0f;
+            return width == 1.0F && height == 1.0F;
         }
 
         float area() const

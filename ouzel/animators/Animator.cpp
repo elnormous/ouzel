@@ -30,16 +30,16 @@ namespace ouzel
         {
             if (running)
             {
-                if (length == 0.0f) // never-ending action
+                if (length == 0.0F) // never-ending action
                 {
                     currentTime += delta;
-                    progress = 0.0f;
+                    progress = 0.0F;
                 }
                 else if (currentTime + delta >= length)
                 {
                     done = true;
                     running = false;
-                    progress = 1.0f;
+                    progress = 1.0F;
                     currentTime = length;
 
                     Event finishEvent;
@@ -74,7 +74,7 @@ namespace ouzel
 
         void Animator::play()
         {
-            setProgress(0.0f);
+            setProgress(0.0F);
             done = false;
             running = true;
 
@@ -112,7 +112,7 @@ namespace ouzel
         void Animator::reset()
         {
             done = false;
-            setProgress(0.0f);
+            setProgress(0.0F);
 
             // reset animators in reverse order, so that Sequence is reset correctly
             for (auto i = animators.crbegin(); i != animators.crend(); ++i)

@@ -33,7 +33,7 @@ namespace ouzel
             std::shared_ptr<Texture> textures[Texture::LAYERS];
             graphics::Renderer::CullMode cullMode = graphics::Renderer::CullMode::BACK;
             Color diffuseColor = Color::WHITE;
-            float opacity = 1.0f;
+            float opacity = 1.0F;
         };
     } // namespace graphics
 } // namespace ouzel

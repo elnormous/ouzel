@@ -9,7 +9,7 @@ using namespace ouzel;
 
 RTSample::RTSample():
     characterSprite("run.json"),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&RTSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&RTSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -19,7 +19,7 @@ RTSample::RTSample():
     addLayer(&rtLayer);
 
     std::shared_ptr<graphics::Texture> renderTarget = std::make_shared<graphics::Texture>();
-    renderTarget->init(Size2(256.0f, 256.0f), graphics::Texture::RENDER_TARGET, 0, 1);
+    renderTarget->init(Size2(256.0F, 256.0F), graphics::Texture::RENDER_TARGET, 0, 1);
     renderTarget->setClearColor(Color(0, 64, 0));
 
     rtCamera.setRenderTarget(renderTarget);
@@ -27,13 +27,13 @@ RTSample::RTSample():
     rtLayer.addChild(&rtCameraActor);
 
     camera1.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera1.setTargetContentSize(Size2(400.0f, 600.0f));
-    camera1.setViewport(Rect(0.0f, 0.0f, 0.5f, 1.0f));
+    camera1.setTargetContentSize(Size2(400.0F, 600.0F));
+    camera1.setViewport(Rect(0.0F, 0.0F, 0.5F, 1.0F));
     camera1Actor.addComponent(&camera1);
 
     camera2.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera2.setTargetContentSize(Size2(400.0f, 600.0f));
-    camera2.setViewport(Rect(0.5f, 0.0f, 0.5f, 1.0f));
+    camera2.setTargetContentSize(Size2(400.0F, 600.0F));
+    camera2.setViewport(Rect(0.5F, 0.0F, 0.5F, 1.0F));
     camera2Actor.addComponent(&camera2);
 
     layer.addChild(&camera1Actor);
@@ -50,14 +50,14 @@ RTSample::RTSample():
     layer.addChild(&rtActor);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

@@ -12,9 +12,9 @@ namespace ouzel
     class Size3
     {
     public:
-        float width = 0.0f;
-        float height = 0.0f;
-        float depth = 0.0f;
+        float width = 0.0F;
+        float height = 0.0F;
+        float depth = 0.0F;
 
         Size3()
         {
@@ -105,12 +105,12 @@ namespace ouzel
 
         bool isZero() const
         {
-            return width == 0.0f && height == 0.0f && depth == 0.0f;
+            return width == 0.0F && height == 0.0F && depth == 0.0F;
         }
 
         bool isOne() const
         {
-            return width == 1.0f && height == 1.0f && depth == 1.0f;
+            return width == 1.0F && height == 1.0F && depth == 1.0F;
         }
 
         float volume() const

@@ -23,9 +23,9 @@ namespace ouzel
         static const Vector3 NEGATIVE_UNIT_Y;
         static const Vector3 NEGATIVE_UNIT_Z;
 
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
+        float x = 0.0F;
+        float y = 0.0F;
+        float z = 0.0F;
 
         Vector3()
         {
@@ -57,12 +57,12 @@ namespace ouzel
 
         inline bool isZero() const
         {
-            return x == 0.0f && y == 0.0f && z == 0.0f;
+            return x == 0.0F && y == 0.0F && z == 0.0F;
         }
 
         inline bool isOne() const
         {
-            return x == 1.0f && y == 1.0f && z == 1.0f;
+            return x == 1.0F && y == 1.0F && z == 1.0F;
         }
 
         static float angle(const Vector3& v1, const Vector3& v2);

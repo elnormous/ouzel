@@ -65,7 +65,7 @@ namespace ouzel
                 stream->reset();
             }
 
-            std::fill(result.begin() + totalSize, result.end(), 0.0f);
+            std::fill(result.begin() + totalSize, result.end(), 0.0F);
 
             return true;
         }

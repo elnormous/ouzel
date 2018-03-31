@@ -51,14 +51,14 @@ namespace ouzel
             }
 
             std::vector<graphics::Vertex> vertices = {
-                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y, 0.0f), Color::WHITE,
-                                 textCoords[0], Vector3(0.0f, 0.0f, -1.0f)),
-                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0f), Color::WHITE,
-                                 textCoords[1], Vector3(0.0f, 0.0f, -1.0f)),
-                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE,
-                                 textCoords[2], Vector3(0.0f, 0.0f, -1.0f)),
-                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0f),  Color::WHITE,
-                                 textCoords[3], Vector3(0.0f, 0.0f, -1.0f))
+                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y, 0.0F), Color::WHITE,
+                                 textCoords[0], Vector3(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y, 0.0F), Color::WHITE,
+                                 textCoords[1], Vector3(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3(finalOffset.x, finalOffset.y + frameRectangle.size.height, 0.0F),  Color::WHITE,
+                                 textCoords[2], Vector3(0.0F, 0.0F, -1.0F)),
+                graphics::Vertex(Vector3(finalOffset.x + frameRectangle.size.width, finalOffset.y + frameRectangle.size.height, 0.0F),  Color::WHITE,
+                                 textCoords[3], Vector3(0.0F, 0.0F, -1.0F))
             };
 
             boundingBox.set(finalOffset, finalOffset + Vector2(frameRectangle.size.width, frameRectangle.size.height));

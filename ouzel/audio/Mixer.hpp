@@ -43,9 +43,9 @@ namespace ouzel
                                       float gainScale,
                                       float rolloffScale);
 
-            float pitch = 1.0f;
-            float gain = 1.0f;
-            float rolloffScale = 1.0f;
+            float pitch = 1.0F;
+            float gain = 1.0F;
+            float rolloffScale = 1.0F;
         };
     } // namespace audio
 } // namespace ouzel
