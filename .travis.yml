@@ -2,6 +2,8 @@ dist: trusty
 addons:
   sonarcloud:
     organization: "elnormous-github"
+    token:
+      secure: "jQOQ1SK/1VKTtafovC39X/mTGXdc5S5qlDWHTDY7GOEceX+MldobaJ/RdiVR32h3OyM3n7ZhRolTGI+rX1wNyWEsxPQSJ8mOmVAYppldk7ueG/SPDmNnTIzeiw80aY+OtbXugFZija7iB63LsItcN4AgCJRGqjSYHSlqu7u0u1v0oq/uH6qeja/H32rIl2tWr0RilNedQamaumH3KTojQYioJ8dkGnFkksjAs1K0F/k9QsojmqNOk2HSN2Chp9WY1RMArLJCRbK4ND1SyAlsLPBlBLgJ6+rYQ4NYCJIJYiwyao2nRTw9Tx1leFP3PBcNbwmEwa3guvtF2p5wMSG1Gnfs9JeENunQbKbtBLXHSVMaH0NP0TNYgJ/ONVGDiwid7K9R7/EcN0HxyaITWACskyRchyuDHl0RS3Jf0qfWcgEeMe8Ri6fMwEjXiTQrAcveJWVShsA59DXbKfwWz5wpST/i+GqJuv9KYmnLIGfU6kFnsRc+OsDLBqd5Eu4j8Hwu5nd1wjVdpHsHAi3X61evVK07idW+aK2Mx8Bp89wtjdsTMMun1d4rLCJzcIoWG8jBpTrh2EgWlQ2UQtWZdmA0vfHV9T+QCwDAwHItOJYtGk14HqE/QorhtFnX9B8hm6qTgC0MA2Vfvw0qswC6ifcuWqFV2RM5aetcwq8Qg8hGAZk="
 language: cpp
 matrix:
   include:
@@ -23,6 +25,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - sonar-scanner
     - compiler: gcc
       os: linux
       addons:
@@ -41,6 +44,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -49,6 +53,7 @@ matrix:
       script:
         - cd samples
         - make -j2
+        - sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -57,6 +62,7 @@ matrix:
       script:
         - cd samples
         - make platform=ios -j2
+        - sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -65,5 +71,4 @@ matrix:
       script:
         - cd samples
         - make platform=tvos -j2
-script:
-  - sonar-scanner
+        - sonar-scanner
