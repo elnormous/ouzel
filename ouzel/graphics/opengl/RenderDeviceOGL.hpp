@@ -660,7 +660,7 @@ namespace ouzel
                     bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
                     bufferId[GL_ARRAY_BUFFER] = 0;
                     std::fill(std::begin(textureId), std::end(textureId), 0);
-                    std::fill(std::begin(clearColor), std::end(clearColor), 0.0f);
+                    std::fill(std::begin(clearColor), std::end(clearColor), 0.0F);
                 }
 
                 GLuint textureId[Texture::LAYERS];
@@ -703,7 +703,7 @@ namespace ouzel
                 GLenum cullFace = GL_NONE;
 
                 float clearColor[4];
-                float clearDepth = 1.0f;
+                float clearDepth = 1.0F;
             } stateCache;
         };
     } // namespace graphics

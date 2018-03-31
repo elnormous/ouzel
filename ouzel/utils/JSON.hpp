@@ -115,7 +115,7 @@ namespace ouzel
             {
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
-                else if (type == Type::NUMBER) return doubleValue != 0.0f;
+                else if (type == Type::NUMBER) return doubleValue != 0.0F;
                 else return false;
             }
 
@@ -124,7 +124,7 @@ namespace ouzel
                 assert(type == Type::BOOLEAN || type == Type::NUMBER);
                 if (type == Type::BOOLEAN) return boolValue;
                 else if (type == Type::NUMBER) return static_cast<float>(doubleValue);
-                else return 0.0f;
+                else return 0.0F;
             }
 
             inline double asDouble() const

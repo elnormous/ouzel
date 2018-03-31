@@ -8,13 +8,13 @@ using namespace std;
 using namespace ouzel;
 
 GUISample::GUISample():
-    button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 1.0f, Color::RED, Color::RED, Color::BLACK),
-    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
+    button("button.png", "button_selected.png", "button_down.png", "", "Button", "arial.fnt", 1.0F, Color::RED, Color::RED, Color::BLACK),
+    fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
     checkBox("checkbox.png", "", "", "", "tick.png"),
-    label1("checkbox test", "AmosisTechnik.ttf", 24.0f, Color::WHITE, Vector2(0.0f, 0.5f)),
+    label1("checkbox test", "AmosisTechnik.ttf", 24.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
     label2(engine->getLocalization()->getString("Ouzel"), "ArialBlack.fnt"),
-    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0f, Color::WHITE, Vector2(0.0f, 0.5f)),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    label3("UTF-8 ĀāČč\nNew line", "ArialBlack.fnt", 1.0F, Color::WHITE, Vector2(0.0F, 0.5F)),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&GUISample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&GUISample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -22,38 +22,38 @@ GUISample::GUISample():
     engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    button.setPosition(Vector2(-200.0f, 100.0f));
+    button.setPosition(Vector2(-200.0F, 100.0F));
     menu.addWidget(&button);
 
-    checkBox.setPosition(Vector2(-100.0f, 100.0f));
+    checkBox.setPosition(Vector2(-100.0F, 100.0F));
     guiLayer.addChild(&checkBox);
 
-    fullscreenButton.setPosition(Vector2(-200.0f, 40.0f));
+    fullscreenButton.setPosition(Vector2(-200.0F, 40.0F));
     menu.addWidget(&fullscreenButton);
 
     label1.getLabelDrawable()->setColor(Color::CYAN);
-    label1.setPosition(Vector2(-88.0f, 108.0f));
+    label1.setPosition(Vector2(-88.0F, 108.0F));
     guiLayer.addChild(&label1);
 
     engine->getLocalization()->addLanguage("latvian", "lv.mo");
     engine->getLocalization()->setLanguage("latvian");
 
-    label2.setPosition(Vector2(10.0f, 0.0f));
+    label2.setPosition(Vector2(10.0F, 0.0F));
     guiLayer.addChild(&label2);
 
     label3.getLabelDrawable()->setColor(Color::BLUE);
-    label3.setPosition(Vector2(-100.0f, -100.0f));
-    label3.setScale(Vector3(0.5f, 0.5f, 1.0f));
+    label3.setPosition(Vector2(-100.0F, -100.0F));
+    label3.setScale(Vector3(0.5F, 0.5F, 1.0F));
     guiLayer.addChild(&label3);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

@@ -92,10 +92,10 @@ namespace ouzel
             std::shared_ptr<Stream> stream;
 
             Vector3 position;
-            float pitch = 1.0f;
-            float gain = 1.0f;
-            float rolloffFactor = 1.0f;
-            float minDistance = 1.0f;
+            float pitch = 1.0F;
+            float gain = 1.0F;
+            float rolloffFactor = 1.0F;
+            float minDistance = 1.0F;
             float maxDistance = FLT_MAX;
 
             bool transformDirty = true;

@@ -8,12 +8,12 @@ using namespace std;
 using namespace ouzel;
 
 SoundSample::SoundSample():
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    test8BitButton("button.png", "button_selected.png", "button_down.png", "", "8-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    test24BitButton("button.png", "button_selected.png", "button_down.png", "", "24-bit", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    jumpButton("button.png", "button_selected.png", "button_down.png", "", "Jump", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    ambientButton("button.png", "button_selected.png", "button_down.png", "", "Ambient", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    musicButton("button.png", "button_selected.png", "button_down.png", "", "Music", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     eventHandler.gamepadHandler = bind(&SoundSample::handleGamepad, this, placeholders::_1, placeholders::_2);
     eventHandler.uiHandler = bind(&SoundSample::handleUI, this, placeholders::_1, placeholders::_2);
@@ -23,21 +23,21 @@ SoundSample::SoundSample():
     engine->getAudio()->addListener(&listener);
 
     soundMixer.setOutput(&listener);
-    soundMixer.setGain(1.2f);
+    soundMixer.setGain(1.2F);
 
     test8BitSound.init(engine->getCache()->getSoundData("8-bit.wav"));
-    test8BitSound.setPitch(2.0f);
+    test8BitSound.setPitch(2.0F);
     test8BitSound.setOutput(&soundMixer);
 
     test24BitSound.init(engine->getCache()->getSoundData("24-bit.wav"));
-    test24BitSound.setPitch(0.5f);
+    test24BitSound.setPitch(0.5F);
     test24BitSound.setOutput(&soundMixer);
 
     jumpSound.init(engine->getCache()->getSoundData("jump.wav"));
 
     guiLayer.addChild(&soundActor);
     soundActor.addComponent(&jumpSound);
-    soundActor.setPosition(Vector3(8.0f, 0.0f, 10.0f));
+    soundActor.setPosition(Vector3(8.0F, 0.0F, 10.0F));
     jumpSound.setOutput(&soundMixer);
 
     ambientSound.init(engine->getCache()->getSoundData("ambient.wav"));
@@ -47,29 +47,29 @@ SoundSample::SoundSample():
     music.setOutput(&listener);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    test8BitButton.setPosition(Vector2(0.0f, 80.0f));
+    test8BitButton.setPosition(Vector2(0.0F, 80.0F));
     menu.addWidget(&test8BitButton);
 
-    test24BitButton.setPosition(Vector2(0.0f, 40.0f));
+    test24BitButton.setPosition(Vector2(0.0F, 40.0F));
     menu.addWidget(&test24BitButton);
 
-    jumpButton.setPosition(Vector2(0.0f, 0.0f));
+    jumpButton.setPosition(Vector2(0.0F, 0.0F));
     menu.addWidget(&jumpButton);
 
-    ambientButton.setPosition(Vector2(0.0f, -40.0f));
+    ambientButton.setPosition(Vector2(0.0F, -40.0F));
     menu.addWidget(&ambientButton);
 
-    musicButton.setPosition(Vector2(0.0f, -80.0f));
+    musicButton.setPosition(Vector2(0.0F, -80.0F));
     menu.addWidget(&musicButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 

@@ -13,10 +13,10 @@ namespace ouzel
     class Plane
     {
     public:
-        float a = 0.0f;
-        float b = 0.0f;
-        float c = 0.0f;
-        float d = 0.0f;
+        float a = 0.0F;
+        float b = 0.0F;
+        float c = 0.0F;
+        float d = 0.0F;
 
         Plane()
         {
@@ -56,7 +56,7 @@ namespace ouzel
                 return false;
             }
 
-            n = 1.0f / n;
+            n = 1.0F / n;
             plane = Plane(a * n, b * n, c * n, d * n);
 
             return true;

@@ -42,7 +42,7 @@ namespace ouzel
                 return false;
             }
 
-            if (pitch != 1.0f)
+            if (pitch != 1.0F)
             {
                 uint32_t srcFrames = static_cast<uint32_t>(tempData.size()) / channels;
 
@@ -78,7 +78,7 @@ namespace ouzel
                         // fill the front left channel with zeros
                         for (uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            result[destination] = 0.0f;
+                            result[destination] = 0.0F;
                             destination += neededChannels;
                         }
                     }
@@ -133,7 +133,7 @@ namespace ouzel
                         // calculate the average of the front left and the front right channel
                         for (uint32_t frame = 0; frame < frames; ++frame)
                         {
-                            result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0f;
+                            result[destination + 2] = (result[destination] + result[destination + 1]) / 2.0F;
                             destination += neededChannels;
                         }
                     }

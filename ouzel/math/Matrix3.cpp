@@ -10,13 +10,13 @@
 
 namespace ouzel
 {
-    const Matrix3 Matrix3::IDENTITY(1.0f, 0.0f, 0.0f,
-                                    0.0f, 1.0f, 0.0f,
-                                    0.0f, 0.0f, 1.0f);
+    const Matrix3 Matrix3::IDENTITY(1.0F, 0.0F, 0.0F,
+                                    0.0F, 1.0F, 0.0F,
+                                    0.0F, 0.0F, 1.0F);
 
-    const Matrix3 Matrix3::ZERO(0.0f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 0.0f,
-                                0.0f, 0.0f, 0.0f);
+    const Matrix3 Matrix3::ZERO(0.0F, 0.0F, 0.0F,
+                                0.0F, 0.0F, 0.0F,
+                                0.0F, 0.0F, 0.0F);
 
     Matrix3::Matrix3(float pm11, float pm12, float pm13,
                      float pm21, float pm22, float pm23,
@@ -58,15 +58,15 @@ namespace ouzel
 
         dst.m[0] = c;
         dst.m[3] = -s;
-        dst.m[6] = 0.0f;
+        dst.m[6] = 0.0F;
 
         dst.m[1] = s;
         dst.m[4] = c;
-        dst.m[7] = 0.0f;
+        dst.m[7] = 0.0F;
 
-        dst.m[2] = 0.0f;
-        dst.m[5] = 0.0f;
-        dst.m[8] = 1.0f;
+        dst.m[2] = 0.0F;
+        dst.m[5] = 0.0F;
+        dst.m[8] = 1.0F;
     }
 
     void Matrix3::createTranslation(const Vector2& translation, Matrix3& dst)
@@ -148,7 +148,7 @@ namespace ouzel
         if (fabs(det) < TOLERANCE)
             return false;
 
-        float invdet = 1.0f / det;
+        float invdet = 1.0F / det;
 
         // Support the case where m == dst
         dst.m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
@@ -289,7 +289,7 @@ namespace ouzel
 
     void Matrix3::setZero()
     {
-        std::fill(m, m + sizeof(m) / sizeof(float), 0.0f);
+        std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
     }
 
     void Matrix3::subtract(const Matrix3& matrix)

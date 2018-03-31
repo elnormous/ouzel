@@ -593,14 +593,14 @@ namespace ouzel
                 textCoords[2] = Vector2(leftTop.x, leftTop.y);
                 textCoords[3] = Vector2(rightBottom.x, leftTop.y);
 
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0f),
-                                                    color, textCoords[0], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0f),
-                                                    color, textCoords[1], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0f),
-                                                    color, textCoords[2], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0f),
-                                                    color, textCoords[3], Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset - f.height, 0.0F),
+                                                    color, textCoords[0], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset - f.height, 0.0F),
+                                                    color, textCoords[1], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset, -position.y - f.yOffset, 0.0F),
+                                                    color, textCoords[2], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.xOffset + f.width, -position.y - f.yOffset, 0.0F),
+                                                    color, textCoords[3], Vector3(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
                 {
@@ -614,7 +614,7 @@ namespace ouzel
                 (i + 1) == utf32Text.end()) // end of string
             {
                 float lineWidth = position.x;
-                position.x = 0.0f;
+                position.x = 0.0F;
                 position.y += lineHeight;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
@@ -630,7 +630,7 @@ namespace ouzel
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertices[c].position.y += textHeight * (1.0f - anchor.y);
+            vertices[c].position.y += textHeight * (1.0F - anchor.y);
 
             vertices[c].position.x *= fontSize;
             vertices[c].position.y *= fontSize;
@@ -655,7 +655,7 @@ namespace ouzel
 
     float BMFont::getStringWidth(const std::string& text)
     {
-        float total = 0.0f;
+        float total = 0.0F;
 
         std::vector<uint32_t> utf32Text = utf8ToUtf32(text);
 

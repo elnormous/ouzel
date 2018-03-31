@@ -77,7 +77,7 @@ namespace ouzel
                     transform = renderViewProjection * transformMatrix;
                 }
 
-                float colorVector[] = {1.0f, 1.0f, 1.0f, opacity};
+                float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
 
                 std::vector<std::vector<float>> pixelShaderConstants(1);
                 pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
@@ -109,22 +109,22 @@ namespace ouzel
         {
             timeSinceUpdate += delta;
 
-            static const float UPDATE_STEP = 1.0f / 60.0f;
+            static const float UPDATE_STEP = 1.0F / 60.0F;
             bool needsBoundingBoxUpdate = false;
 
             while (timeSinceUpdate >= UPDATE_STEP)
             {
                 timeSinceUpdate -= UPDATE_STEP;
 
-                if (running && particleSystemData.emissionRate > 0.0f)
+                if (running && particleSystemData.emissionRate > 0.0F)
                 {
-                    float rate = 1.0f / particleSystemData.emissionRate;
+                    float rate = 1.0F / particleSystemData.emissionRate;
 
                     if (particleCount < particleSystemData.maxParticles)
                     {
                         emitCounter += UPDATE_STEP;
-                        if (emitCounter < 0.f)
-                            emitCounter = 0.f;
+                        if (emitCounter < 0.0F)
+                            emitCounter = 0.0F;
                     }
 
                     uint32_t emitCount = static_cast<uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
@@ -132,9 +132,9 @@ namespace ouzel
                     emitCounter -= rate * emitCount;
 
                     elapsed += UPDATE_STEP;
-                    if (elapsed < 0.f)
-                        elapsed = 0.f;
-                    if (particleSystemData.duration >= 0.0f && particleSystemData.duration < elapsed)
+                    if (elapsed < 0.0F)
+                        elapsed = 0.0F;
+                    if (particleSystemData.duration >= 0.0F && particleSystemData.duration < elapsed)
                     {
                         finished = true;
                         stop();
@@ -161,14 +161,14 @@ namespace ouzel
 
                         particles[i].life -= UPDATE_STEP;
 
-                        if (particles[i].life >= 0.0f)
+                        if (particles[i].life >= 0.0F)
                         {
                             if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                             {
                                 Vector2 tmp, radial, tangential;
 
                                 // radial acceleration
-                                if (particles[i].position.x == 0.0f || particles[i].position.y == 0.0f)
+                                if (particles[i].position.x == 0.0F || particles[i].position.y == 0.0F)
                                 {
                                     radial = particles[i].position;
                                     radial.normalize();
@@ -210,7 +210,7 @@ namespace ouzel
 
                             // size
                             particles[i].size += (particles[i].deltaSize * UPDATE_STEP);
-                            particles[i].size = std::max(0.0f, particles[i].size);
+                            particles[i].size = std::max(0.0F, particles[i].size);
 
                             // angle
                             particles[i].rotation += particles[i].deltaRotation * UPDATE_STEP;
@@ -321,9 +321,9 @@ namespace ouzel
 
         void ParticleSystem::reset()
         {
-            emitCounter = 0.0f;
-            elapsed = 0.0f;
-            timeSinceUpdate = 0.0f;
+            emitCounter = 0.0F;
+            elapsed = 0.0F;
+            timeSinceUpdate = 0.0F;
             particleCount = 0;
             finished = false;
         }
@@ -342,14 +342,14 @@ namespace ouzel
                 indices.push_back(i * 4 + 3);
                 indices.push_back(i * 4 + 2);
 
-                vertices.push_back(graphics::Vertex(Vector3(-1.0f, -1.0f, 0.0f), Color::WHITE,
-                                                    Vector2(0.0f, 1.0f), Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0f, -1.0f, 0.0f), Color::WHITE,
-                                                    Vector2(1.0f, 1.0f), Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(-1.0f, 1.0f, 0.0f),  Color::WHITE,
-                                                    Vector2(0.0f, 0.0f), Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(1.0f, 1.0f, 0.0f),  Color::WHITE,
-                                                    Vector2(1.0f, 0.0f), Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(-1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2(0.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(1.0F, -1.0F, 0.0F), Color::WHITE,
+                                                    Vector2(1.0F, 1.0F), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(-1.0F, 1.0F, 0.0F),  Color::WHITE,
+                                                    Vector2(0.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(1.0F, 1.0F, 0.0F),  Color::WHITE,
+                                                    Vector2(1.0F, 0.0F), Vector3(0.0F, 0.0F, -1.0F)));
             }
 
             indexBuffer = std::make_shared<graphics::Buffer>();
@@ -385,7 +385,7 @@ namespace ouzel
                         position = actor->getPosition() + particles[i].position;
                     }
 
-                    float size_2 = particles[i].size / 2.0f;
+                    float size_2 = particles[i].size / 2.0F;
                     Vector2 v1(-size_2, -size_2);
                     Vector2 v2(size_2, size_2);
 
@@ -451,25 +451,25 @@ namespace ouzel
                     {
                         if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                         {
-                            particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
+                            particles[i].life = fmaxf(particleSystemData.particleLifespan + particleSystemData.particleLifespanVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
-                            particles[i].position = particleSystemData.sourcePosition + position + Vector2(particleSystemData.sourcePositionVariance.x * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine),
-                                                                                                             particleSystemData.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                            particles[i].position = particleSystemData.sourcePosition + position + Vector2(particleSystemData.sourcePositionVariance.x * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine),
+                                                                                                             particleSystemData.sourcePositionVariance.y * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
-                            particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
+                            particles[i].size = fmaxf(particleSystemData.startParticleSize + particleSystemData.startParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
 
-                            float finishSize = fmaxf(particleSystemData.finishParticleSize + particleSystemData.finishParticleSizeVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f);
+                            float finishSize = fmaxf(particleSystemData.finishParticleSize + particleSystemData.finishParticleSizeVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F);
                             particles[i].deltaSize = (finishSize - particles[i].size) / particles[i].life;
 
-                            particles[i].colorRed = clamp(particleSystemData.startColorRed + particleSystemData.startColorRedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            particles[i].colorGreen = clamp(particleSystemData.startColorGreen + particleSystemData.startColorGreenVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            particles[i].colorBlue = clamp(particleSystemData.startColorBlue + particleSystemData.startColorBlueVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            particles[i].colorAlpha = clamp(particleSystemData.startColorAlpha + particleSystemData.startColorAlphaVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            particles[i].colorRed = clamp(particleSystemData.startColorRed + particleSystemData.startColorRedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            particles[i].colorGreen = clamp(particleSystemData.startColorGreen + particleSystemData.startColorGreenVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            particles[i].colorBlue = clamp(particleSystemData.startColorBlue + particleSystemData.startColorBlueVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            particles[i].colorAlpha = clamp(particleSystemData.startColorAlpha + particleSystemData.startColorAlphaVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
 
-                            float finishColorRed = clamp(particleSystemData.finishColorRed + particleSystemData.finishColorRedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            float finishColorGreen = clamp(particleSystemData.finishColorGreen + particleSystemData.finishColorGreenVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            float finishColorBlue = clamp(particleSystemData.finishColorBlue + particleSystemData.finishColorBlueVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
-                            float finishColorAlpha = clamp(particleSystemData.finishColorAlpha + particleSystemData.finishColorAlphaVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine), 0.0f, 1.0f);
+                            float finishColorRed = clamp(particleSystemData.finishColorRed + particleSystemData.finishColorRedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            float finishColorGreen = clamp(particleSystemData.finishColorGreen + particleSystemData.finishColorGreenVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            float finishColorBlue = clamp(particleSystemData.finishColorBlue + particleSystemData.finishColorBlueVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
+                            float finishColorAlpha = clamp(particleSystemData.finishColorAlpha + particleSystemData.finishColorAlphaVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine), 0.0F, 1.0F);
 
                             particles[i].deltaColorRed = (finishColorRed - particles[i].colorRed) / particles[i].life;
                             particles[i].deltaColorGreen = (finishColorGreen - particles[i].colorGreen) / particles[i].life;
@@ -478,39 +478,39 @@ namespace ouzel
 
                             //_particles[i].finishColor = finishColor;
 
-                            particles[i].rotation = particleSystemData.startRotation + particleSystemData.startRotationVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            particles[i].rotation = particleSystemData.startRotation + particleSystemData.startRotationVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
 
-                            float finishRotation = particleSystemData.finishRotation + particleSystemData.finishRotationVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            float finishRotation = particleSystemData.finishRotation + particleSystemData.finishRotationVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                             particles[i].deltaRotation = (finishRotation - particles[i].rotation) / particles[i].life;
 
-                            particles[i].radialAcceleration = particleSystemData.radialAcceleration + particleSystemData.radialAcceleration * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
-                            particles[i].tangentialAcceleration = particleSystemData.tangentialAcceleration + particleSystemData.tangentialAcceleration * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            particles[i].radialAcceleration = particleSystemData.radialAcceleration + particleSystemData.radialAcceleration * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
+                            particles[i].tangentialAcceleration = particleSystemData.tangentialAcceleration + particleSystemData.tangentialAcceleration * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
 
                             if (particleSystemData.rotationIsDir)
                             {
-                                float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                                float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                                float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                                 Vector2 dir = v * s;
                                 particles[i].direction = dir;
                                 particles[i].rotation = -radToDeg(dir.getAngle());
                             }
                             else
                             {
-                                float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                                float a = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
                                 Vector2 v(cosf(a), sinf(a));
-                                float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                                float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                                 Vector2 dir = v * s;
                                 particles[i].direction = dir;
                             }
                         }
                         else
                         {
-                            particles[i].radius = particleSystemData.maxRadius + particleSystemData.maxRadiusVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
-                            particles[i].angle = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
-                            particles[i].degreesPerSecond = degToRad(particleSystemData.rotatePerSecond + particleSystemData.rotatePerSecondVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine));
+                            particles[i].radius = particleSystemData.maxRadius + particleSystemData.maxRadiusVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
+                            particles[i].angle = degToRad(particleSystemData.angle + particleSystemData.angleVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
+                            particles[i].degreesPerSecond = degToRad(particleSystemData.rotatePerSecond + particleSystemData.rotatePerSecondVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine));
 
-                            float endRadius = particleSystemData.minRadius + particleSystemData.minRadiusVariance * std::uniform_real_distribution<float>{-1.0f, 1.0f}(randomEngine);
+                            float endRadius = particleSystemData.minRadius + particleSystemData.minRadiusVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
                             particles[i].deltaRadius = (endRadius - particles[i].radius) / particles[i].life;
                         }
                     }

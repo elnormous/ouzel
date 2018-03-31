@@ -22,11 +22,11 @@ namespace ouzel
         void remove();
 
         std::function<void(float)> callback;
-        float interval = 0.0f;
+        float interval = 0.0F;
 
     protected:
         int32_t priority;
         Engine* engine = nullptr;
-        float timeSinceLastUpdate = 0.0f;
+        float timeSinceLastUpdate = 0.0F;
     };
 }

@@ -26,7 +26,7 @@ namespace ouzel
         {
             for (const Plane& plane : planes)
             {
-                if (plane.dot(position) < 0.0f)
+                if (plane.dot(position) < 0.0F)
                 {
                     return false;
                 }
@@ -52,42 +52,42 @@ namespace ouzel
         {
             for (const Plane& plane : planes)
             {
-                if (plane.dot(Vector4(box.min.x, box.min.y, box.min.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.min.y, box.min.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.x, box.min.y, box.min.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.min.y, box.min.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.x, box.max.y, box.min.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.max.y, box.min.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.x, box.min.y, box.max.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.min.y, box.max.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.x, box.max.y, box.min.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.max.y, box.min.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.x, box.min.y, box.max.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.min.y, box.max.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.min.x, box.max.y, box.max.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.min.x, box.max.y, box.max.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }
 
-                if (plane.dot(Vector4(box.max.x, box.max.y, box.max.z, 1.0f)) >= 0.0f)
+                if (plane.dot(Vector4(box.max.x, box.max.y, box.max.z, 1.0F)) >= 0.0F)
                 {
                     continue;
                 }

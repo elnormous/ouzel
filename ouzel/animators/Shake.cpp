@@ -46,16 +46,16 @@ namespace ouzel
 
                 if (x1 != 0)
                 {
-                    previousPosition.x = (2.0f * (static_cast<float>(fnvHash(seedX | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.x;
-                    previousPosition.y = (2.0f * (static_cast<float>(fnvHash(seedY | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.y;
-                    previousPosition.z = (2.0f * (static_cast<float>(fnvHash(seedZ | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.z;
+                    previousPosition.x = (2.0F * (static_cast<float>(fnvHash(seedX | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.x;
+                    previousPosition.y = (2.0F * (static_cast<float>(fnvHash(seedY | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.y;
+                    previousPosition.z = (2.0F * (static_cast<float>(fnvHash(seedZ | (x1 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.z;
                 }
 
                 if (x2 != static_cast<uint32_t>(timeScale))
                 {
-                    nextPosition.x = (2.0f * (static_cast<float>(fnvHash(seedX | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.x;
-                    nextPosition.y = (2.0f * (static_cast<float>(fnvHash(seedY | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.y;
-                    nextPosition.z = (2.0f * (static_cast<float>(fnvHash(seedZ | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0f) * distance.z;
+                    nextPosition.x = (2.0F * (static_cast<float>(fnvHash(seedX | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.x;
+                    nextPosition.y = (2.0F * (static_cast<float>(fnvHash(seedY | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.y;
+                    nextPosition.z = (2.0F * (static_cast<float>(fnvHash(seedZ | (x2 << 32))) / std::numeric_limits<uint64_t>::max()) - 1.0F) * distance.z;
                 }
 
                 Vector3 noise(smoothStep(previousPosition.x, nextPosition.x, t),

@@ -170,12 +170,12 @@ namespace ouzel
                 {
                     dst.resize(dstFrames * channels);
 
-                    std::fill(dst.begin(), dst.end(), 0.0f);
+                    std::fill(dst.begin(), dst.end(), 0.0F);
                 }
                 else
                 {
                     float srcIncrement = static_cast<float>(srcFrames - 1) / static_cast<float>(dstFrames - 1);
-                    float srcPosition = 0.0f;
+                    float srcPosition = 0.0F;
 
                     dst.resize(dstFrames * channels);
 

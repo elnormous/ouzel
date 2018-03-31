@@ -8,7 +8,7 @@
 #include "GamepadEm.hpp"
 #include "utils/Log.hpp"
 
-static const float THUMB_DEADZONE = 0.2f;
+static const float THUMB_DEADZONE = 0.2F;
 
 namespace ouzel
 {
@@ -38,8 +38,8 @@ namespace ouzel
         GamepadEm::GamepadEm(long aIndex):
             index(aIndex)
         {
-            std::fill(std::begin(axis), std::end(axis), 0.0f);
-            std::fill(std::begin(analogButton), std::end(analogButton), 0.0f);
+            std::fill(std::begin(axis), std::end(axis), 0.0F);
+            std::fill(std::begin(analogButton), std::end(analogButton), 0.0F);
         }
 
         void GamepadEm::update()
@@ -94,11 +94,11 @@ namespace ouzel
             {
                 if (oldValue > newValue)
                 {
-                    handleButtonValueChange(positiveButton, false, 0.0f);
+                    handleButtonValueChange(positiveButton, false, 0.0F);
                 }
                 else
                 {
-                    handleButtonValueChange(negativeButton, false, 0.0f);
+                    handleButtonValueChange(negativeButton, false, 0.0F);
                 }
             }
         }

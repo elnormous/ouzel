@@ -11,12 +11,12 @@
 
 namespace ouzel
 {
-    const Vector2 Vector2::ZERO(0.0f, 0.0f);
-    const Vector2 Vector2::ONE(1.0f, 1.0f);
-    const Vector2 Vector2::UNIT_X(1.0f, 0.0f);
-    const Vector2 Vector2::UNIT_Y(0.0f, 1.0f);
-    const Vector2 Vector2::NEGATIVE_UNIT_X(-1.0f, 0.0f);
-    const Vector2 Vector2::NEGATIVE_UNIT_Y(0.0f, -1.0f);
+    const Vector2 Vector2::ZERO(0.0F, 0.0F);
+    const Vector2 Vector2::ONE(1.0F, 1.0F);
+    const Vector2 Vector2::UNIT_X(1.0F, 0.0F);
+    const Vector2 Vector2::UNIT_Y(0.0F, 1.0F);
+    const Vector2 Vector2::NEGATIVE_UNIT_X(-1.0F, 0.0F);
+    const Vector2 Vector2::NEGATIVE_UNIT_Y(0.0F, -1.0F);
 
     Vector2::Vector2(const Vector2& p1, const Vector2& p2)
     {
@@ -111,14 +111,14 @@ namespace ouzel
     void Vector2::normalize()
     {
         float n = x * x + y * y;
-        if (n == 1.0f) // already normalized
+        if (n == 1.0F) // already normalized
             return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
             return;
 
-        n = 1.0f / n;
+        n = 1.0F / n;
         x *= n;
         y *= n;
     }

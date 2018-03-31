@@ -162,15 +162,15 @@ namespace ouzel
         RenderDeviceOGL::RenderDeviceOGL():
             RenderDevice(Renderer::Driver::OPENGL)
         {
-            projectionTransform = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
-                                          0.0f, 1.0f, 0.0f, 0.0f,
-                                          0.0f, 0.0f, 2.0f, -1.0f,
-                                          0.0f, 0.0f, 0.0f, 1.0f);
+            projectionTransform = Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
+                                          0.0F, 1.0F, 0.0F, 0.0F,
+                                          0.0F, 0.0F, 2.0F, -1.0F,
+                                          0.0F, 0.0F, 0.0F, 1.0F);
 
-            renderTargetProjectionTransform = Matrix4(1.0f, 0.0f, 0.0f, 0.0f,
-                                                      0.0f, -1.0f, 0.0f, 0.0f,
-                                                      0.0f, 0.0f, 2.0f, -1.0f,
-                                                      0.0f, 0.0f, 0.0f, 1.0f);
+            renderTargetProjectionTransform = Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
+                                                      0.0F, -1.0F, 0.0F, 0.0F,
+                                                      0.0F, 0.0F, 2.0F, -1.0F,
+                                                      0.0F, 0.0F, 0.0F, 1.0F);
         }
 
         RenderDeviceOGL::~RenderDeviceOGL()

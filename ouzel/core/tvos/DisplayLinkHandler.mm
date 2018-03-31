@@ -22,7 +22,7 @@
                 ouzel::Log(ouzel::Log::Level::ERR) << "Failed to create display link";
                 return nil;
             }
-            [displayLink setFrameInterval:1.0f];
+            [displayLink setFrameInterval:1.0F];
         }
 
         runLock = [[NSConditionLock alloc] initWithCondition:0];

@@ -7,7 +7,7 @@
 #include "events/EventDispatcher.hpp"
 #include "utils/Log.hpp"
 
-static const float THUMB_DEADZONE = 0.2f;
+static const float THUMB_DEADZONE = 0.2F;
 
 static void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
 {
@@ -328,7 +328,7 @@ namespace ouzel
                         (element.button != GamepadButton::LEFT_TRIGGER || !leftThumbX) && // don't send digital trigger if analog trigger exists
                         (element.button != GamepadButton::RIGHT_TRIGGER || !rightThumbY))
                     {
-                        handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0f : 0.0f);
+                        handleButtonValueChange(element.button, newValue > 0, (newValue > 0) ? 1.0F : 0.0F);
                     }
                 }
                 else if (elementRef == leftThumbX)
@@ -377,16 +377,16 @@ namespace ouzel
 
                     if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
                                                                                          (newBitmask & 0x01) > 0,
-                                                                                         (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
                                                                                          (newBitmask & 0x02) > 0,
-                                                                                         (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
                                                                                          (newBitmask & 0x04) > 0,
-                                                                                         (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
                                                                                          (newBitmask & 0x08) > 0,
-                                                                                         (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
                 }
 
                 element.value = newValue;
@@ -397,15 +397,15 @@ namespace ouzel
                                                  int64_t min, int64_t max,
                                                  GamepadButton negativeButton, GamepadButton positiveButton)
         {
-            float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+            float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
 
-            if (floatValue > 0.0f)
+            if (floatValue > 0.0F)
             {
                 handleButtonValueChange(positiveButton,
                                         floatValue > THUMB_DEADZONE,
                                         floatValue);
             }
-            else if (floatValue < 0.0f)
+            else if (floatValue < 0.0F)
             {
                 handleButtonValueChange(negativeButton,
                                         -floatValue > THUMB_DEADZONE,
@@ -415,11 +415,11 @@ namespace ouzel
             {
                 if (oldValue > newValue)
                 {
-                    handleButtonValueChange(positiveButton, false, 0.0f);
+                    handleButtonValueChange(positiveButton, false, 0.0F);
                 }
                 else
                 {
-                    handleButtonValueChange(negativeButton, false, 0.0f);
+                    handleButtonValueChange(negativeButton, false, 0.0F);
                 }
             }
         }

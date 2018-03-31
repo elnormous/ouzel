@@ -21,8 +21,8 @@ namespace ouzel
         static const Vector2 NEGATIVE_UNIT_X;
         static const Vector2 NEGATIVE_UNIT_Y;
 
-        float x = 0.0f;
-        float y = 0.0f;
+        float x = 0.0F;
+        float y = 0.0F;
 
         Vector2()
         {
@@ -50,12 +50,12 @@ namespace ouzel
 
         inline bool isZero() const
         {
-            return x == 0.0f && y == 0.0f;
+            return x == 0.0F && y == 0.0F;
         }
 
         inline bool isOne() const
         {
-            return x == 1.0f && y == 1.0f;
+            return x == 1.0F && y == 1.0F;
         }
 
         static float angle(const Vector2& v1, const Vector2& v2);

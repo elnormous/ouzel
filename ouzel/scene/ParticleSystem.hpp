@@ -71,36 +71,36 @@ namespace ouzel
 
             struct Particle
             {
-                float life = 0.0f;
+                float life = 0.0F;
 
                 Vector2 position;
 
-                float colorRed = 0.0f;
-                float colorGreen = 0.0f;
-                float colorBlue = 0.0f;
-                float colorAlpha = 0.0f;
+                float colorRed = 0.0F;
+                float colorGreen = 0.0F;
+                float colorBlue = 0.0F;
+                float colorAlpha = 0.0F;
 
-                float deltaColorRed = 0.0f;
-                float deltaColorGreen = 0.0f;
-                float deltaColorBlue = 0.0f;
-                float deltaColorAlpha = 0.0f;
+                float deltaColorRed = 0.0F;
+                float deltaColorGreen = 0.0F;
+                float deltaColorBlue = 0.0F;
+                float deltaColorAlpha = 0.0F;
 
-                float angle = 0.0f;
-                float speed = 0.0f;
+                float angle = 0.0F;
+                float speed = 0.0F;
 
-                float size = 0.0f;
-                float deltaSize = 0.0f;
+                float size = 0.0F;
+                float deltaSize = 0.0F;
 
-                float rotation = 0.0f;
-                float deltaRotation = 0.0f;
+                float rotation = 0.0F;
+                float deltaRotation = 0.0F;
 
-                float radialAcceleration = 0.0f;
-                float tangentialAcceleration = 0.0f;
+                float radialAcceleration = 0.0F;
+                float tangentialAcceleration = 0.0F;
 
                 Vector2 direction;
-                float radius = 0.0f;
-                float degreesPerSecond = 0.0f;
-                float deltaRadius = 0.0f;
+                float radius = 0.0F;
+                float degreesPerSecond = 0.0F;
+                float deltaRadius = 0.0F;
             };
 
             std::vector<Particle> particles;
@@ -114,9 +114,9 @@ namespace ouzel
 
             uint32_t particleCount = 0;
 
-            float emitCounter = 0.0f;
-            float elapsed = 0.0f;
-            float timeSinceUpdate = 0.0f;
+            float emitCounter = 0.0F;
+            float elapsed = 0.0F;
+            float timeSinceUpdate = 0.0F;
             bool active = false;
             bool running = false;
             bool finished = false;

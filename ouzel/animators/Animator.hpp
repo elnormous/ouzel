@@ -74,9 +74,9 @@ namespace ouzel
 
             virtual void updateProgress();
 
-            float length = 0.0f;
-            float currentTime = 0.0f;
-            float progress = 0.0f;
+            float length = 0.0F;
+            float currentTime = 0.0F;
+            float progress = 0.0F;
             bool done = false;
             bool running = false;
 

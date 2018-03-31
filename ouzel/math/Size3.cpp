@@ -15,7 +15,7 @@ namespace ouzel
     {
         width = s.width;
         height = s.height;
-        depth = 0.0f;
+        depth = 0.0F;
         return *this;
     }
 }

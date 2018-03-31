@@ -15,8 +15,8 @@ namespace ouzel
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
             refillQueue(true),
-            currentFPS(0.0f),
-            accumulatedFPS(0.0f)
+            currentFPS(0.0F),
+            accumulatedFPS(0.0F)
         {
         }
 
@@ -54,21 +54,21 @@ namespace ouzel
             auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
             previousFrameTime = currentTime;
 
-            float delta = diff.count() / 1000000000.0f;
+            float delta = diff.count() / 1000000000.0F;
 
-            if (delta > 0.0f)
+            if (delta > 0.0F)
             {
-                currentFPS = 1.0f / delta;
+                currentFPS = 1.0F / delta;
             }
 
             accumulatedTime += delta;
-            currentAccumulatedFPS += 1.0f;
+            currentAccumulatedFPS += 1.0F;
 
-            if (accumulatedTime > 1.0f)
+            if (accumulatedTime > 1.0F)
             {
                 accumulatedFPS = currentAccumulatedFPS;
-                accumulatedTime = 0.0f;
-                currentAccumulatedFPS = 0.0f;
+                accumulatedTime = 0.0F;
+                currentAccumulatedFPS = 0.0F;
             }
 
             std::vector<DrawCommand> drawCommands;

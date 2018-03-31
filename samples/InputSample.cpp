@@ -29,16 +29,16 @@ public:
                 switch (event.key)
                 {
                     case input::KeyboardKey::W:
-                        position.y += 10.0f;
+                        position.y += 10.0F;
                         break;
                     case input::KeyboardKey::S:
-                        position.y -= 10.0f;
+                        position.y -= 10.0F;
                         break;
                     case input::KeyboardKey::A:
-                        position.x -= 10.0f;
+                        position.x -= 10.0F;
                         break;
                     case input::KeyboardKey::D:
-                        position.x += 10.0f;
+                        position.x += 10.0F;
                         break;
                     default:
                         break;
@@ -55,10 +55,10 @@ public:
 };
 
 InputSample::InputSample():
-    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK),
-    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0f, Color::BLACK, Color::BLACK, Color::BLACK)
+    hideButton("button.png", "button_selected.png", "button_down.png", "", "Show/hide", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK),
+    backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
-    cursor.init("cursor.png", Vector2(0.0f, 63.0f));
+    cursor.init("cursor.png", Vector2(0.0F, 63.0F));
     engine->getInput()->setCursor(&cursor);
 
     eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
@@ -70,7 +70,7 @@ InputSample::InputSample():
     engine->getEventDispatcher()->addEventHandler(&eventHandler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    camera.setTargetContentSize(Size2(800.0f, 600.0f));
+    camera.setTargetContentSize(Size2(800.0F, 600.0F));
     cameraActor.addComponent(&camera);
 
     std::unique_ptr<Mover> mover(new Mover());
@@ -86,17 +86,17 @@ InputSample::InputSample():
     layer.addChild(&flame);
 
     guiCamera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
-    guiCamera.setTargetContentSize(Size2(800.0f, 600.0f));
+    guiCamera.setTargetContentSize(Size2(800.0F, 600.0F));
     guiCameraActor.addComponent(&guiCamera);
     guiLayer.addChild(&guiCameraActor);
     addLayer(&guiLayer);
 
     guiLayer.addChild(&menu);
 
-    hideButton.setPosition(Vector2(-200.0f, 200.0f));
+    hideButton.setPosition(Vector2(-200.0F, 200.0F));
     menu.addWidget(&hideButton);
 
-    backButton.setPosition(Vector2(-200.0f, -200.0f));
+    backButton.setPosition(Vector2(-200.0F, -200.0F));
     menu.addWidget(&backButton);
 }
 
@@ -109,19 +109,19 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
         switch (event.key)
         {
             case input::KeyboardKey::UP:
-                flamePosition.y += 0.01f;
+                flamePosition.y += 0.01F;
                 break;
             case input::KeyboardKey::DOWN:
-                flamePosition.y -= 0.01f;
+                flamePosition.y -= 0.01F;
                 break;
             case input::KeyboardKey::LEFT:
-                flamePosition.x -= 0.01f;
+                flamePosition.x -= 0.01F;
                 break;
             case input::KeyboardKey::RIGHT:
-                flamePosition.x += 0.01f;
+                flamePosition.x += 0.01F;
                 break;
             case input::KeyboardKey::R:
-                engine->getWindow()->setSize(Size2(640.0f, 480.0f));
+                engine->getWindow()->setSize(Size2(640.0F, 480.0F));
                 break;
             case input::KeyboardKey::TAB:
                 hideButton.setEnabled(!hideButton.isEnabled());
@@ -182,22 +182,22 @@ bool InputSample::handleGamepad(Event::Type type, const GamepadEvent& event)
             case input::GamepadButton::DPAD_UP:
             case input::GamepadButton::LEFT_THUMB_UP:
             case input::GamepadButton::RIGHT_THUMB_UP:
-                flamePosition.y = event.value / 2.0f + 0.5f;
+                flamePosition.y = event.value / 2.0F + 0.5F;
                 break;
             case input::GamepadButton::DPAD_DOWN:
             case input::GamepadButton::LEFT_THUMB_DOWN:
             case input::GamepadButton::RIGHT_THUMB_DOWN:
-                flamePosition.y = -event.value / 2.0f + 0.5f;
+                flamePosition.y = -event.value / 2.0F + 0.5F;
                 break;
             case input::GamepadButton::DPAD_LEFT:
             case input::GamepadButton::LEFT_THUMB_LEFT:
             case input::GamepadButton::RIGHT_THUMB_LEFT:
-                flamePosition.x = -event.value / 2.0f + 0.5f;
+                flamePosition.x = -event.value / 2.0F + 0.5F;
                 break;
             case input::GamepadButton::DPAD_RIGHT:
             case input::GamepadButton::LEFT_THUMB_RIGHT:
             case input::GamepadButton::RIGHT_THUMB_RIGHT:
-                flamePosition.x = event.value / 2.0f + 0.5f;
+                flamePosition.x = event.value / 2.0F + 0.5F;
                 break;
             default:
                 break;

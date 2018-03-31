@@ -162,7 +162,7 @@ namespace ouzel
                 {
                     for (uint32_t i = 0; i < samples; ++i)
                     {
-                        data[i] = 2.0f * static_cast<float>(soundData[i]) / 255.0f - 1.0f;
+                        data[i] = 2.0F * static_cast<float>(soundData[i]) / 255.0F - 1.0F;
                     }
                 }
                 else if (bitsPerSample == 16)
@@ -170,7 +170,7 @@ namespace ouzel
                     for (uint32_t i = 0; i < samples; ++i)
                     {
                         data[i] = static_cast<float>(static_cast<int16_t>(soundData[i * 2] |
-                                                                          (soundData[i * 2 + 1] << 8))) / 32767.0f;
+                                                                          (soundData[i * 2 + 1] << 8))) / 32767.0F;
                     }
                 }
                 else if (bitsPerSample == 24)
@@ -179,7 +179,7 @@ namespace ouzel
                     {
                         data[i] = static_cast<float>(static_cast<int32_t>((soundData[i * 3] << 8) |
                                                                           (soundData[i * 3 + 1] << 16) |
-                                                                          (soundData[i * 3 + 2] << 24))) / 2147483648.0f;
+                                                                          (soundData[i * 3 + 2] << 24))) / 2147483648.0F;
                     }
                 }
                 else
@@ -254,7 +254,7 @@ namespace ouzel
 
             if ((data.size() - streamWave->getOffset()) == 0) streamWave->reset();
 
-            std::fill(result.begin() + totalSize, result.end(), 0.0f);
+            std::fill(result.begin() + totalSize, result.end(), 0.0F);
 
             return true;
         }

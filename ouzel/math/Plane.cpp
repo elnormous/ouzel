@@ -15,14 +15,14 @@ namespace ouzel
     void Plane::normalize()
     {
         float n = a * a + b * b + c * c + d * d;
-        if (n == 1.0f) // already normalized
+        if (n == 1.0F) // already normalized
             return;
 
         n = sqrtf(n);
         if (n < TOLERANCE) // too close to zero
             return;
 
-        n = 1.0f / n;
+        n = 1.0F / n;
         a *= n;
         b *= n;
         c *= n;

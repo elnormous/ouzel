@@ -111,11 +111,11 @@ namespace ouzel
 
                         vertices.push_back(graphics::Vertex(Vector3(static_cast<float>(vertexObject[0].asInt32()) + finalOffset.x,
                                                                     -static_cast<float>(vertexObject[1].asInt32()) - finalOffset.y,
-                                                                    0.0f),
+                                                                    0.0F),
                                                             Color::WHITE,
                                                             Vector2(static_cast<float>(vertexUVObject[0].asInt32()) / textureSize.width,
                                                                     static_cast<float>(vertexUVObject[1].asInt32()) / textureSize.height),
-                                                            Vector3(0.0f, 0.0f, -1.0f)));
+                                                            Vector3(0.0F, 0.0F, -1.0F)));
                     }
 
                     animation.frames.push_back(scene::SpriteData::Frame(name, indices, vertices, frameRectangle, sourceSize, sourceOffset, pivot));

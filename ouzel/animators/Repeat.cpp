@@ -30,7 +30,7 @@ namespace ouzel
         {
             if (animators.empty()) return;
 
-            if (animators.front()->getLength() != 0.0f)
+            if (animators.front()->getLength() != 0.0F)
             {
                 currentCount = static_cast<uint32_t>(currentTime / animators.front()->getLength());
 
@@ -52,7 +52,7 @@ namespace ouzel
                     done = true;
                     running = false;
                     currentTime = length;
-                    progress = 1.0f;
+                    progress = 1.0F;
 
                     Event finishEvent;
                     finishEvent.type = Event::Type::ANIMATION_FINISH;

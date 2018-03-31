@@ -110,7 +110,7 @@ namespace ouzel
 
                 CharDescriptor charDesc;
 
-                if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0f, 0.0f, index, &w, &h, &xoff, &yoff))
+                if (unsigned char* bitmap = stbtt_GetGlyphBitmapSubpixel(&font, s, s, 0.0F, 0.0F, index, &w, &h, &xoff, &yoff))
                 {
                     charDesc.width = static_cast<uint16_t>(w);
                     charDesc.height = static_cast<uint16_t>(h);
@@ -208,14 +208,14 @@ namespace ouzel
                 textCoords[2] = Vector2(leftTop.x, leftTop.y);
                 textCoords[3] = Vector2(rightBottom.x, leftTop.y);
 
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y - f.height, 0.0f),
-                                                    color, textCoords[0], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y - f.height, 0.0f),
-                                                    color, textCoords[1], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y, 0.0f),
-                                                    color, textCoords[2], Vector3(0.0f, 0.0f, -1.0f)));
-                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y, 0.0f),
-                                                    color, textCoords[3], Vector3(0.0f, 0.0f, -1.0f)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y - f.height, 0.0F),
+                                                    color, textCoords[0], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y - f.height, 0.0F),
+                                                    color, textCoords[1], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x, -position.y - f.offset.y, 0.0F),
+                                                    color, textCoords[2], Vector3(0.0F, 0.0F, -1.0F)));
+                vertices.push_back(graphics::Vertex(Vector3(position.x + f.offset.x + f.width, -position.y - f.offset.y, 0.0F),
+                                                    color, textCoords[3], Vector3(0.0F, 0.0F, -1.0F)));
 
                 if ((i + 1) != utf32Text.end())
                 {
@@ -232,7 +232,7 @@ namespace ouzel
                 (i + 1) == utf32Text.end()) // end of string
             {
                 float lineWidth = position.x;
-                position.x = 0.0f;
+                position.x = 0.0F;
                 position.y += fontSize + lineGap;
 
                 for (size_t c = firstChar; c < vertices.size(); ++c)
@@ -248,7 +248,7 @@ namespace ouzel
 
         for (size_t c = 0; c < vertices.size(); ++c)
         {
-            vertices[c].position.y += textHeight * (1.0f - anchor.y);
+            vertices[c].position.y += textHeight * (1.0F - anchor.y);
         }
 
         return true;

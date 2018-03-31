@@ -59,7 +59,7 @@ namespace ouzel
             {
                 std::string name;
                 std::vector<Frame> frames;
-                float frameInterval = 0.1f;
+                float frameInterval = 0.1F;
             };
 
             std::map<std::string, Animation> animations;

@@ -11,7 +11,7 @@ namespace ouzel
     {
         static float sineIn(float t)
         {
-            return 1.0f - cosf(t * PI_2);
+            return 1.0F - cosf(t * PI_2);
         }
 
         static float sineOut(float t)
@@ -21,7 +21,7 @@ namespace ouzel
 
         static float sineInOut(float t)
         {
-            return -0.5f * (cosf(PI * t) - 1.0f);
+            return -0.5F * (cosf(PI * t) - 1.0F);
         }
 
         static float quadIn(float t)
@@ -31,15 +31,15 @@ namespace ouzel
 
         static float quadOut(float t)
         {
-            return t * (2.0f - t);
+            return t * (2.0F - t);
         }
 
         static float quadInOut(float t)
         {
-            if (t < 0.5f)
-                return 2.0f * t * t;
+            if (t < 0.5F)
+                return 2.0F * t * t;
             else
-                return -1.0f + (4.0f - 2.0f * t) * t;
+                return -1.0F + (4.0F - 2.0F * t) * t;
         }
 
         static float cubicIn(float t)
@@ -49,16 +49,16 @@ namespace ouzel
 
         static float cubicOut(float t)
         {
-            t -= 1.0f;
-            return t * t * t + 1.0f;
+            t -= 1.0F;
+            return t * t * t + 1.0F;
         }
 
         static float cubicInOut(float t)
         {
-            if (t < 0.5f)
-                return 4.0f * t * t * t;
+            if (t < 0.5F)
+                return 4.0F * t * t * t;
             else
-                return (t - 1.0f) * (2.0f * t - 2.0f) * (2.0f * t - 2.0f) + 1.0f;
+                return (t - 1.0F) * (2.0F * t - 2.0F) * (2.0F * t - 2.0F) + 1.0F;
         }
 
         static float quartIn(float t)
@@ -68,18 +68,18 @@ namespace ouzel
 
         static float quartOut(float t)
         {
-            t -= 1.0f;
-            return 1.0f - t * t * t;
+            t -= 1.0F;
+            return 1.0F - t * t * t;
         }
 
         static float quartInOut(float t)
         {
-            if (t < 0.5f)
-                return 8.0f * t * t * t * t;
+            if (t < 0.5F)
+                return 8.0F * t * t * t * t;
             else
             {
-                t -= 1.0f;
-                return 1.0f - 8.0f * t * t * t * t;
+                t -= 1.0F;
+                return 1.0F - 8.0F * t * t * t * t;
             }
         }
 
@@ -90,167 +90,167 @@ namespace ouzel
 
         static float quintOut(float t)
         {
-            t -= 1.0f;
-            return 1.0f + t * t * t * t * t;
+            t -= 1.0F;
+            return 1.0F + t * t * t * t * t;
         }
 
         static float quintInOut(float t)
         {
-            if (t < 0.5f)
-                return 16.0f * t * t * t * t * t;
+            if (t < 0.5F)
+                return 16.0F * t * t * t * t * t;
             else
             {
-                t -= 1.0f;
-                return 1.0f + 16.0f * t * t * t * t * t;
+                t -= 1.0F;
+                return 1.0F + 16.0F * t * t * t * t * t;
             }
         }
 
         static float expoIn(float t)
         {
-            return powf(2.0f, 10.0f * (t - 1.0f));
+            return powf(2.0F, 10.0F * (t - 1.0F));
         }
 
         static float expoOut(float t)
         {
-            return 1.0f - powf(2.0f, -10.0f * t);
+            return 1.0F - powf(2.0F, -10.0F * t);
         }
 
         static float expoInOut(float t)
         {
-            if (t < 0.5f)
-                return 0.5f * powf(2.0f, 10.0f * (2.0f * t - 1.0f));
+            if (t < 0.5F)
+                return 0.5F * powf(2.0F, 10.0F * (2.0F * t - 1.0F));
             else
-                return 0.5f * (powf(2.0f, -10.0f * (t * 2.0f - 1.0f)) - 2.0f);
+                return 0.5F * (powf(2.0F, -10.0F * (t * 2.0F - 1.0F)) - 2.0F);
         }
 
         static float circIn(float t)
         {
-            return 1.0f - sqrtf(1.0f - t * t);
+            return 1.0F - sqrtf(1.0F - t * t);
         }
 
         static float circOut(float t)
         {
-            t -= 1.0f;
-            return sqrtf(1.0f - t * t);
+            t -= 1.0F;
+            return sqrtf(1.0F - t * t);
         }
 
         static float circInOut(float t)
         {
-            if (t < 0.5f)
+            if (t < 0.5F)
             {
-                t *= 2.0f;
-                return 0.5f * (-sqrtf(1.0f - t * t) + 1.0f);
+                t *= 2.0F;
+                return 0.5F * (-sqrtf(1.0F - t * t) + 1.0F);
             }
             else
             {
-                t = t * 2.0f - 2.0f;
-                return 0.5f * (sqrtf(1.0f - t * t) + 1.0f);
+                t = t * 2.0F - 2.0F;
+                return 0.5F * (sqrtf(1.0F - t * t) + 1.0F);
             }
         }
 
         static float backIn(float t)
         {
-            const float s = 1.70158f;
-            return t * t * ((s + 1.0f) * t - s);
+            const float s = 1.70158F;
+            return t * t * ((s + 1.0F) * t - s);
         }
 
         static float backOut(float t)
         {
-            const float s = 1.70158f;
-            t -= 1.0f;
-            return t * t * ((s + 1.0f) * t + s) + 1.0f;
+            const float s = 1.70158F;
+            t -= 1.0F;
+            return t * t * ((s + 1.0F) * t + s) + 1.0F;
         }
 
         static float backInOut(float t)
         {
-            const float s = 1.70158f * 1.525f;
-            if (t < 0.5f)
+            const float s = 1.70158F * 1.525F;
+            if (t < 0.5F)
             {
-                t *= 2.0f;
-                return 0.5f * (t * t * ((s + 1.0f) * t - s));
+                t *= 2.0F;
+                return 0.5F * (t * t * ((s + 1.0F) * t - s));
             }
             else
             {
-                t = t * 2.0f - 2.0f;
-                return 0.5f * (t * t * ((s + 1.0f) * t + s) + 2.0f);
+                t = t * 2.0F - 2.0F;
+                return 0.5F * (t * t * ((s + 1.0F) * t + s) + 2.0F);
             }
         }
 
         static float elasticIn(float t)
         {
-            if (t == 0.0f) return 0.0f;
-            if (t == 1.0f) return 1.0f;
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
 
-            float p = 0.3f;
+            float p = 0.3F;
 
-            t -= 1.0f;
+            t -= 1.0F;
 
-            return -powf(2.0f, 10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p);
+            return -powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p);
         }
 
         static float elasticOut(float t)
         {
-            if (t == 0.0f) return 0.0f;
-            if (t == 1.0f) return 1.0f;
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
 
-            float p = 0.3f;
+            float p = 0.3F;
 
-            return powf(2.0f, -10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p) + 1.0f;
+            return powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p) + 1.0F;
         }
 
         static float elasticInOut(float t)
         {
-            if (t == 0.0f) return 0.0f;
-            if (t == 1.0f) return 1.0f;
+            if (t == 0.0F) return 0.0F;
+            if (t == 1.0F) return 1.0F;
 
-            float p = 0.3f * 1.5f;
+            float p = 0.3F * 1.5F;
 
-            if (t < 0.5f)
+            if (t < 0.5F)
             {
-                t = t * 2.0f - 1.0f;
-                return -0.5f * (powf(2.0f, 10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p));
+                t = t * 2.0F - 1.0F;
+                return -0.5F * (powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p));
             }
             else
             {
-                t = t * 2.0f - 1.0f;
-                return 0.5f * powf(2.0f, -10.0f * t) * sinf((t - p / 4.0f) * (2.0f * PI) / p) + 1.0f;
+                t = t * 2.0F - 1.0F;
+                return 0.5F * powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p) + 1.0F;
             }
         }
 
         static float bounceOut(float t)
         {
-            if (t < (1.0f / 2.75f))
+            if (t < (1.0F / 2.75F))
             {
-                return 7.5625f * t * t;
+                return 7.5625F * t * t;
             }
-            else if (t < (2.0f / 2.75f))
+            else if (t < (2.0F / 2.75F))
             {
-                t -= 1.5f / 2.75f;
-                return 7.5625f * t * t + 0.75f;
+                t -= 1.5F / 2.75F;
+                return 7.5625F * t * t + 0.75F;
             }
             else if (t < (2.5/2.75))
             {
-                t -= 2.25f / 2.75f;
-                return 7.5625f * t * t + 0.9375f;
+                t -= 2.25F / 2.75F;
+                return 7.5625F * t * t + 0.9375F;
             }
             else
             {
-                t -= 2.625f / 2.75f;
-                return 7.5625f * t * t + 0.984375f;
+                t -= 2.625F / 2.75F;
+                return 7.5625F * t * t + 0.984375F;
             }
         }
 
         static float bounceIn(float t)
         {
-            return 1.0f - bounceOut(1.0f - t);
+            return 1.0F - bounceOut(1.0F - t);
         }
 
         static float bounceInOut(float t)
         {
-            if (t < 0.5f)
-                return bounceOut(t * 2.0f) * 0.5f;
+            if (t < 0.5F)
+                return bounceOut(t * 2.0F) * 0.5F;
             else
-                return bounceOut(t * 2.0f - 1.0f) * 0.5f + 0.5f;
+                return bounceOut(t * 2.0F - 1.0F) * 0.5F + 0.5F;
         }
 
         Ease::Ease(Animator* animator, Type initType, Func initFunc):

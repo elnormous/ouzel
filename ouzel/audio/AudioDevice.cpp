@@ -53,7 +53,7 @@ namespace ouzel
             if (currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
             for (const RenderCommand& renderCommand : renderCommands)
             {
@@ -61,12 +61,12 @@ namespace ouzel
                                           frames,
                                           Vector3(), // listener position
                                           Quaternion(), // listener rotation
-                                          1.0f, // pitch
-                                          1.0f, // gain
-                                          1.0f, // rolloff factor
+                                          1.0F, // pitch
+                                          1.0F, // gain
+                                          1.0F, // rolloff factor
                                           buffers[buffer])) return false;
 
-                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0f);
+                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0F);
 
                 for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
                 {
@@ -91,7 +91,7 @@ namespace ouzel
             if (currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
             if (renderCommand.attributeCallback)
             {
@@ -145,13 +145,13 @@ namespace ouzel
             if (currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
-            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0f);
+            std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
 
             if (!processRenderCommands(frames, buffers[buffer])) return false;
 
             for (float& f : buffers[buffer])
             {
-                f = clamp(f, -1.0f, 1.0f);
+                f = clamp(f, -1.0F, 1.0F);
             }
 
             switch (format)
@@ -163,7 +163,7 @@ namespace ouzel
 
                     for (uint32_t i = 0; i < buffers[buffer].size(); ++i)
                     {
-                        *resultPtr = static_cast<int16_t>(buffers[buffer][i] * 32767.0f);
+                        *resultPtr = static_cast<int16_t>(buffers[buffer][i] * 32767.0F);
                         ++resultPtr;
                     }
                     break;

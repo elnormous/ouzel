@@ -137,7 +137,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> diffuseTexture;
             std::shared_ptr<graphics::Texture> ambientTexture;
             Color diffuseColor = Color::WHITE;
-            float opacity = 1.0f;
+            float opacity = 1.0F;
 
             uint32_t materialCount = 0;
 
@@ -196,7 +196,7 @@ namespace ouzel
                         diffuseTexture.reset();
                         ambientTexture.reset();
                         diffuseColor = Color::WHITE;
-                        opacity = 1.0f;
+                        opacity = 1.0F;
                     }
                     else if (keyword == "map_Ka") // ambient texture map
                     {
@@ -245,7 +245,7 @@ namespace ouzel
 
                         skipLine(data, iterator);
 
-                        color[3] = 1.0f;
+                        color[3] = 1.0F;
                         diffuseColor = Color(color);
                     }
                     else if (keyword == "Ks") // specular color
@@ -281,7 +281,7 @@ namespace ouzel
                         skipLine(data, iterator);
 
                         // d = 1 - Tr
-                        opacity = 1.0f - transparency;
+                        opacity = 1.0F - transparency;
                     }
                     else
                     {

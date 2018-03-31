@@ -7,7 +7,7 @@
 #include "core/windows/WindowResourceWin.hpp"
 #include "utils/Log.hpp"
 
-static const float THUMB_DEADZONE = 0.2f;
+static const float THUMB_DEADZONE = 0.2F;
 static const size_t INPUT_QUEUE_SIZE = 32;
 
 BOOL CALLBACK enumObjectsCallback(const DIDEVICEOBJECTINSTANCEW* didObjectInstance, VOID* context)
@@ -464,7 +464,7 @@ namespace ouzel
                         {
                             handleButtonValueChange(button,
                                 events[e].dwData > 0,
-                                (events[e].dwData > 0) ? 1.0f : 0.0f);
+                                (events[e].dwData > 0) ? 1.0F : 0.0F);
                         }
 
                         diState.rgbButtons[i] = static_cast<BYTE>(events[e].dwData);
@@ -503,16 +503,16 @@ namespace ouzel
 
                     if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
                                                                                          (newBitmask & 0x01) > 0,
-                                                                                         (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
                                                                                          (newBitmask & 0x02) > 0,
-                                                                                         (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
                                                                                          (newBitmask & 0x04) > 0,
-                                                                                         (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                     if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
                                                                                          (newBitmask & 0x08) > 0,
-                                                                                         (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
+                                                                                         (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
 
                     diState.rgdwPOV[0] = events[e].dwData;
                 }
@@ -612,7 +612,7 @@ namespace ouzel
                     {
                         handleButtonValueChange(button,
                                                 newDIState.rgbButtons[i] > 0,
-                                                (newDIState.rgbButtons[i] > 0) ? 1.0f : 0.0f);
+                                                (newDIState.rgbButtons[i] > 0) ? 1.0F : 0.0F);
                     }
                 }
             }
@@ -649,16 +649,16 @@ namespace ouzel
 
                 if ((bitmask & 0x01) != (newBitmask & 0x01)) handleButtonValueChange(GamepadButton::DPAD_UP,
                                                                                      (newBitmask & 0x01) > 0,
-                                                                                     (newBitmask & 0x01) > 0 ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x01) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x02) != (newBitmask & 0x02)) handleButtonValueChange(GamepadButton::DPAD_RIGHT,
                                                                                      (newBitmask & 0x02) > 0,
-                                                                                     (newBitmask & 0x02) > 0 ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x02) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x04) != (newBitmask & 0x04)) handleButtonValueChange(GamepadButton::DPAD_DOWN,
                                                                                      (newBitmask & 0x04) > 0,
-                                                                                     (newBitmask & 0x04) > 0 ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x04) > 0 ? 1.0F : 0.0F);
                 if ((bitmask & 0x08) != (newBitmask & 0x08)) handleButtonValueChange(GamepadButton::DPAD_LEFT,
                                                                                      (newBitmask & 0x08) > 0,
-                                                                                     (newBitmask & 0x08) > 0 ? 1.0f : 0.0f);
+                                                                                     (newBitmask & 0x08) > 0 ? 1.0F : 0.0F);
             }
 
             if (leftThumbX.offset != 0xFFFFFFFF)
@@ -715,15 +715,15 @@ namespace ouzel
         {
             if (oldValue != newValue)
             {
-                float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+                float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
 
-                if (floatValue > 0.0f)
+                if (floatValue > 0.0F)
                 {
                     handleButtonValueChange(positiveButton,
                         floatValue > THUMB_DEADZONE,
                         floatValue);
                 }
-                else if (floatValue < 0.0f)
+                else if (floatValue < 0.0F)
                 {
                     handleButtonValueChange(negativeButton,
                         -floatValue > THUMB_DEADZONE,
@@ -733,11 +733,11 @@ namespace ouzel
                 {
                     if (oldValue > newValue)
                     {
-                        handleButtonValueChange(positiveButton, false, 0.0f);
+                        handleButtonValueChange(positiveButton, false, 0.0F);
                     }
                     else
                     {
-                        handleButtonValueChange(negativeButton, false, 0.0f);
+                        handleButtonValueChange(negativeButton, false, 0.0F);
                     }
                 }
             }
@@ -749,10 +749,10 @@ namespace ouzel
         {
             if (oldValue != newValue)
             {
-                float floatValue = 2.0f * (newValue - min) / (max - min) - 1.0f;
+                float floatValue = 2.0F * (newValue - min) / (max - min) - 1.0F;
 
                 handleButtonValueChange(button,
-                                        floatValue > 0.0f,
+                                        floatValue > 0.0F,
                                         floatValue);
             }
         }
