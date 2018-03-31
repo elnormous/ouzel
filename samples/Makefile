@@ -117,7 +117,7 @@ else ifeq ($(platform),ios)
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app
 	cp -f settings.ini $(EXECUTABLE).app
 	cp -f Resources/* $(EXECUTABLE).app
-	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --platform ios --compile $(EXECUTABLE).app ios/Assets.xcassets
+	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --platform iphoneos --compile $(EXECUTABLE).app ios/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 else ifeq ($(platform),tvos)
