@@ -59,7 +59,7 @@ matrix:
       before_script:
         - export CXX=clang++
       script:
-        - build-wrapper-macosx-x86 --out-dir bw_output make -j2 -f samples/Makefile
+        - build-wrapper-macosx-x86 --out-dir bw-output make -j2 -f samples/Makefile
         #- make -j2 -f samples/Makefile
         - sonar-scanner
     - compiler: clang
