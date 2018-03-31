@@ -286,9 +286,9 @@ all: CXXFLAGS+=-DDEBUG -g
 all: CFLAGS+=-DDEBUG -g
 endif
 all: config
-all: $(LIBRARY)
+all: $(ROOT_DIR)/$(LIBRARY)
 
-$(LIBRARY): $(OBJECTS)
+$(ROOT_DIR)/$(LIBRARY): $(OBJECTS)
 	$(AR) rs $@ $^
 
 -include $(DEPENDENCIES)
@@ -296,10 +296,10 @@ $(LIBRARY): $(OBJECTS)
 .PHONY: config
 config:
 ifeq ($(platform),windows)
-	if not exist ..\ouzel\Config.h copy ..\ouzel\DefaultConfig.h ..\ouzel\Config.h
+	if not exist $(ROOT_DIR)\..\ouzel\Config.h copy $(ROOT_DIR)\..\ouzel\DefaultConfig.h $(ROOT_DIR)\..\ouzel\Config.h
 else
-	if [ ! -f ../ouzel/Config.h ]; then \
-		cp ../ouzel/DefaultConfig.h ../ouzel/Config.h; \
+	if [ ! -f $(ROOT_DIR)/../ouzel/Config.h ]; then \
+		cp $(ROOT_DIR)/../ouzel/DefaultConfig.h $(ROOT_DIR)/../ouzel/Config.h; \
 	fi
 endif
 
@@ -315,11 +315,11 @@ endif
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
-	-del /f /q $(LIBRARY)
+	-del /f /q $(ROOT_DIR)/$(LIBRARY)
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
-	$(RM) $(LIBRARY)
+	$(RM) $(ROOT_DIR)/$(LIBRARY)
 	find "$(ROOT_DIR)/.." -name "*.o" -type f -delete
 	find "$(ROOT_DIR)/.." -name "*.d" -type f -delete
 endif
