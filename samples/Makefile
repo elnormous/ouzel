@@ -105,7 +105,11 @@ bundle:
 	mkdir -p $(EXECUTABLE).app/Contents/Resources
 	cp -f settings.ini $(EXECUTABLE).app/Contents/Resources
 	cp -f Resources/* $(EXECUTABLE).app/Contents/Resources/
-	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 --platform macosx --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
+	xcrun actool --output-format human-readable-text --notices --warnings \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
+		--enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 \
+		--platform macosx --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 else ifeq ($(platform),ios)
@@ -117,7 +121,11 @@ else ifeq ($(platform),ios)
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app
 	cp -f settings.ini $(EXECUTABLE).app
 	cp -f Resources/* $(EXECUTABLE).app
-	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --platform iphoneos --compile $(EXECUTABLE).app ios/Assets.xcassets
+	xcrun actool --output-format human-readable-text --notices --warnings \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
+		--enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 \
+		--platform iphoneos --compile $(EXECUTABLE).app ios/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 else ifeq ($(platform),tvos)
@@ -129,7 +137,11 @@ else ifeq ($(platform),tvos)
 	cp -f $(EXECUTABLE) $(EXECUTABLE).app
 	cp -f settings.ini $(EXECUTABLE).app
 	cp -f Resources/* $(EXECUTABLE).app
-	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device tv --minimum-deployment-target 9.0 --platform appletvos --compile $(EXECUTABLE).app tvos/Assets.xcassets
+	xcrun actool --output-format human-readable-text --notices --warnings \
+		--output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon \
+		--export-dependency-info assetcatalog_dependencies \
+		--enable-on-demand-resources NO --target-device tv --minimum-deployment-target 9.0 \
+		--platform appletvos --compile $(EXECUTABLE).app tvos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 endif
