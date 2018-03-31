@@ -47,7 +47,7 @@ matrix:
         - export CXX=g++-5
       script:
         - cd samples
-        - build-wrapper-linux-x86-64 --out-dir bw-output make -j2
+        - build-wrapper-linux-x86-64 --out-dir ../bw-output make -j2
         - cd ..
         - sonar-scanner
     - compiler: clang
