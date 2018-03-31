@@ -23,7 +23,6 @@ matrix:
         - export CXX=g++-4.9
       script:
         - build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -f samples/Makefile
-        #- make -j2 -f samples/Makefile
         - sonar-scanner
     - compiler: gcc
       os: linux
@@ -46,7 +45,6 @@ matrix:
         - export CXX=g++-5
       script:
         - build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -f samples/Makefile
-        #- make -j2 -f samples/Makefile
         - sonar-scanner
     - compiler: clang
       os: osx
@@ -60,7 +58,6 @@ matrix:
         - export CXX=clang++
       script:
         - build-wrapper-macosx-x86 --out-dir bw-output make -j2 -f samples/Makefile
-        #- make -j2 -f samples/Makefile
         - sonar-scanner
     - compiler: clang
       os: osx
@@ -73,8 +70,8 @@ matrix:
       before_script:
         - export CXX=clang++
       script:
-        - make platform=ios -j2 -f samples/Makefile
-        #- sonar-scanner
+        - build-wrapper-macosx-x86 --out-dir bw-output make platform=ios -j2 -f samples/Makefile
+        - sonar-scanner
     - compiler: clang
       os: osx
       osx_image: xcode7.3
@@ -86,5 +83,5 @@ matrix:
       before_script:
         - export CXX=clang++
       script:
-        - make platform=tvos -j2 -f samples/Makefile
-        #- sonar-scanner
+        - build-wrapper-macosx-x86 --out-dir bw-output make platform=tvos -j2 -f samples/Makefile
+        - sonar-scanner
