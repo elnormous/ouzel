@@ -22,9 +22,9 @@ matrix:
       before_script:
         - export CXX=g++-4.9
       script:
-        #- build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -f samples/Makefile
-        - make -j2 -f samples/Makefile
-        #- sonar-scanner
+        - build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -f samples/Makefile
+        #- make -j2 -f samples/Makefile
+        - sonar-scanner
     - compiler: gcc
       os: linux
       addons:
