@@ -205,6 +205,8 @@ namespace ouzel
 
             return tempDirectory;
         }
+        else
+            return "";
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         id temporaryDirectory = NSTemporaryDirectory();
         return reinterpret_cast<const char* (*)(id, SEL)>(objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
