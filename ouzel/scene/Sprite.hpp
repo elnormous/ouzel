@@ -94,8 +94,7 @@ namespace ouzel
 
             bool playing = false;
             bool running = false;
-            float animationTime = 0.0F;
-            float currentAnimationTime = 0.0F;
+            float currentTime = 0.0F;
 
             UpdateCallback updateCallback;
         };
