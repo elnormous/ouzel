@@ -66,7 +66,7 @@ namespace ouzel
                                           1.0f, // rolloff factor
                                           buffers[buffer])) return false;
 
-                if (buffers[buffer].size() > buffers[buffer].size()) result.resize(buffers[buffer].size(), 0.0f);
+                if (buffers[buffer].size() > result.size()) result.resize(buffers[buffer].size(), 0.0f);
 
                 for (uint32_t i = 0; i < buffers[buffer].size() && i < result.size(); ++i)
                 {
