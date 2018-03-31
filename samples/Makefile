@@ -95,8 +95,7 @@ ifeq ($(platform),macos)
 bundle:
 	mkdir -p $(EXECUTABLE).app
 	mkdir -p $(EXECUTABLE).app/Contents
-	sed -e s/'$$(DEVELOPMENT_LANGUAGE)'/en/ \
-		-e s/'$$(EXECUTABLE_NAME)'/samples/ \
+	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
 		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
 		-e s/'$$(PRODUCT_NAME)'/samples/ \
 		-e s/'$$(MACOSX_DEPLOYMENT_TARGET)'/10.8/ \
@@ -109,6 +108,28 @@ bundle:
 	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device mac --minimum-deployment-target 10.8 --platform macosx --compile $(EXECUTABLE).app/Contents/Resources macos/Assets.xcassets
 	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
 	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Contents/Info.plist
+else ifeq ($(platform),ios)
+	mkdir -p $(EXECUTABLE).app
+	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
+		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
+		-e s/'$$(PRODUCT_NAME)'/samples/ \
+		ios/Info.plist > $(EXECUTABLE).app/Info.plist
+	cp -f settings.ini $(EXECUTABLE).app
+	cp -f Resources/* $(EXECUTABLE).app
+	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device iphone --target-device ipad --minimum-deployment-target 8.0 --platform ios --compile $(EXECUTABLE).app ios/Assets.xcassets
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
+else ifeq ($(platform),tvos)
+	mkdir -p $(EXECUTABLE).app
+	sed -e s/'$$(EXECUTABLE_NAME)'/samples/ \
+		-e s/'$$(PRODUCT_BUNDLE_IDENTIFIER)'/lv.elviss.ouzel/ \
+		-e s/'$$(PRODUCT_NAME)'/samples/ \
+		tvos/Info.plist > $(EXECUTABLE).app/Info.plist
+	cp -f settings.ini $(EXECUTABLE).app
+	cp -f Resources/* $(EXECUTABLE).app
+	xcrun actool --output-partial-info-plist assetcatalog_generated_info.plist --app-icon AppIcon --enable-on-demand-resources NO --target-device tv --minimum-deployment-target 9.0 --platform appletvos --compile $(EXECUTABLE).app tvos/Assets.xcassets
+	plutil -replace CFBundleIconFile -string AppIcon $(EXECUTABLE).app/Info.plist
+	plutil -replace CFBundleIconName -string AppIcon $(EXECUTABLE).app/Info.plist
 endif
 
 $(EXECUTABLE): ouzel $(OBJECTS)
