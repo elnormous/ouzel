@@ -70,7 +70,7 @@ namespace ouzel
             uint16_t formatTag = 0;
             std::vector<uint8_t> soundData;
 
-            for (; offset < newData.size();)
+            while (offset < newData.size())
             {
                 if (newData.size() < offset + 8)
                 {
