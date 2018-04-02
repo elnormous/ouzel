@@ -47,6 +47,7 @@ namespace ouzel
 
             void run();
 
+        private:
             ALCdevice* device = nullptr;
             ALCcontext* context = nullptr;
 
