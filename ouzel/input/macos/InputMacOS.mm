@@ -465,11 +465,11 @@ namespace ouzel
 
             if (class_respondsToSelector(object_getClass(controller), sel_getUid("hidServices")))
             {
-                NSArray* hidServices = reinterpret_cast<NSArray* (*)(id, SEL)>(objc_msgSend)(controller, sel_getUid("hidServices"));
+                NSArray* hidServices = reinterpret_cast<NSArray* (*)(id, SEL)>(&objc_msgSend)(controller, sel_getUid("hidServices"));
 
                 if (hidServices && [hidServices count] > 0)
                 {
-                    IOHIDServiceClientRef service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(objc_msgSend)([hidServices firstObject], sel_getUid("service"));
+                    IOHIDServiceClientRef service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(&objc_msgSend)([hidServices firstObject], sel_getUid("service"));
 
                     CFNumberRef vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey)));
                     if (vendor)

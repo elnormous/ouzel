@@ -209,7 +209,7 @@ namespace ouzel
             return "";
 #elif OUZEL_PLATFORM_MACOS || OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
         id temporaryDirectory = NSTemporaryDirectory();
-        return reinterpret_cast<const char* (*)(id, SEL)>(objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
+        return reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(temporaryDirectory, sel_getUid("UTF8String")); // [temporaryDirectory UTF8String]
 #elif OUZEL_PLATFORM_LINUX || OUZEL_PLATFORM_RASPBIAN
         char const* path = getenv("TMPDIR");
         if (path)
