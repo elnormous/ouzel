@@ -26,7 +26,7 @@ namespace ouzel
             {
                 if (logError)
                 {
-                    const char* errorStr = "Unknown error";
+                    const char* errorStr;
 
                     switch (error)
                     {
@@ -35,6 +35,7 @@ namespace ouzel
                         case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
                         case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
                         case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
+                        default: errorStr = "Unknown error"; break;
                     }
 
                     Log(Log::Level::ERR) << "OpenAL error: " << errorStr << "(" << error << ")";
