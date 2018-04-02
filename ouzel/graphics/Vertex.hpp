@@ -17,8 +17,9 @@ namespace ouzel
         class Vertex final
         {
         public:
-            struct Attribute
+            class Attribute
             {
+            public:
                 enum class Usage
                 {
                     NONE,
