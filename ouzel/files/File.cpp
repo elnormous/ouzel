@@ -39,15 +39,19 @@ namespace ouzel
 
     File& File::operator=(File&& other)
     {
+        if (&other != this)
+        {
 #if OUZEL_PLATFORM_WINDOWS
-        if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
-        file = other.file;
-        other.file = nullptr;
+            if (file != INVALID_HANDLE_VALUE) CloseHandle(file);
+            file = other.file;
+            other.file = nullptr;
 #else
-        if (fd != -1) ::close(fd);
-        fd = other.fd;
-        other.fd = -1;
+            if (fd != -1) ::close(fd);
+            fd = other.fd;
+            other.fd = -1;
 #endif
+        }
+
         return *this;
     }
 

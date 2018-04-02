@@ -80,22 +80,25 @@ namespace ouzel
 
     Thread& Thread::operator=(Thread&& other)
     {
-#if defined(_MSC_VER)
-        if (handle)
+        if (&other != this)
         {
-            WaitForSingleObject(handle, INFINITE);
-            CloseHandle(handle);
-        }
-        handle = other.handle;
-        threadId = other.threadId;
-        other.handle = nullptr;
-        other.threadId = 0;
+#if defined(_MSC_VER)
+            if (handle)
+            {
+                WaitForSingleObject(handle, INFINITE);
+                CloseHandle(handle);
+            }
+            handle = other.handle;
+            threadId = other.threadId;
+            other.handle = nullptr;
+            other.threadId = 0;
 #else
-        if (thread) pthread_join(thread, nullptr);
-        thread = other.thread;
-        other.thread = 0;
+            if (thread) pthread_join(thread, nullptr);
+            thread = other.thread;
+            other.thread = 0;
 #endif
-        state = std::move(other.state);
+            state = std::move(other.state);
+        }
 
         return *this;
     }
