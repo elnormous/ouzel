@@ -5,10 +5,8 @@
 
 namespace ouzel
 {
-#if OUZEL_PLATFORM_ANDROID
-    #if OUZEL_SUPPORTS_NEON_CHECK
-        AnrdoidNEONChecker anrdoidNEONChecker;
-    #endif
+#if OUZEL_PLATFORM_ANDROID && OUZEL_SUPPORTS_NEON_CHECK
+    AnrdoidNEONChecker anrdoidNEONChecker;
 #endif
 
     std::mt19937 randomEngine(std::random_device{}());
