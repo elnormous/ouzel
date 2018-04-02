@@ -13,8 +13,8 @@ namespace ouzel
         class Repeat: public Animator
         {
         public:
-            Repeat(Animator* animator, uint32_t initCount = 0);
-            Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount = 0);
+            explicit Repeat(Animator* animator, uint32_t initCount = 0);
+            explicit Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount = 0);
 
             virtual void reset() override;
 
