@@ -31,6 +31,7 @@ namespace ouzel
             AudioDeviceCA();
             virtual bool init(bool debugAudio) override;
 
+        private:
 #if OUZEL_PLATFORM_MACOS
             AudioDeviceID deviceId = 0;
 #endif

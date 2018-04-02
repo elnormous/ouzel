@@ -32,6 +32,7 @@ namespace ouzel
             AudioDeviceSL();
             virtual bool init(bool debugAudio) override;
 
+        private:
             SLObjectItf engineObject = nullptr;
             SLEngineItf engine = nullptr;
             SLObjectItf outputMixObject = nullptr;

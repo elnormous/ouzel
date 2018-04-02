@@ -37,6 +37,7 @@ namespace ouzel
             virtual void STDMETHODCALLTYPE OnLoopEnd(void* bufferContext) override;
             virtual void STDMETHODCALLTYPE OnVoiceError(void* bufferContext, HRESULT error) override;
 
+        private:
             HMODULE xAudio2Library = nullptr;
 
             IXAudio2* xAudio = nullptr;

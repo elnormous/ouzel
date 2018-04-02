@@ -30,6 +30,7 @@ namespace ouzel
 
             void run();
 
+        private:
             IDirectSound8* directSound = nullptr;
 
             IDirectSoundBuffer* primaryBuffer = nullptr;
