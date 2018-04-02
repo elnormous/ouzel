@@ -16,7 +16,7 @@ namespace ouzel
     {
         friend Engine;
     public:
-        virtual ~EventDispatcher();
+        ~EventDispatcher();
 
         EventDispatcher(const EventDispatcher&) = delete;
         EventDispatcher& operator=(const EventDispatcher&) = delete;
@@ -34,6 +34,7 @@ namespace ouzel
     protected:
         EventDispatcher();
 
+    private:
         std::vector<EventHandler*> eventHandlers;
         std::set<EventHandler*> eventHandlerAddSet;
         std::set<EventHandler*> eventHandlerDeleteSet;
