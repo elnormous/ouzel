@@ -10,7 +10,7 @@ namespace ouzel
     class Lock final
     {
     public:
-        Lock(Mutex& initMutex):
+        explicit Lock(Mutex& initMutex):
             mutex(&initMutex)
         {
             mutex->lock();
