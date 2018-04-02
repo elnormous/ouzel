@@ -146,7 +146,7 @@ namespace ouzel
                      (vendorId == 0x1430 && productId == 0x4734) || // GH4Guitar
                      (vendorId == 0x046D && productId == 0xC21D) || // GamepadF310
                      (vendorId == 0x0E6F && productId == 0x0301) || // GamepadforXbox360
-                     (vendorId == 0x0E6F && productId == 0x0401) || // GamepadforXbox360Z
+                     (vendorId == 0x0E6F && productId == 0x0401) || // GamepadforXbox360Z (GameStop XBox 360 Controller)
                      (vendorId == 0x12AB && productId == 0x0302) || // GamepadforXbox360ZZ
                      (vendorId == 0x1BAD && productId == 0xF902) || // GamepadforXbox360ZZZ
                      (vendorId == 0x1BAD && productId == 0xF901) || // GamestopXbox360Controller
@@ -200,8 +200,7 @@ namespace ouzel
                      (vendorId == 0x1BAD && productId == 0xF903) || // TronXbox360controller
                      (vendorId == 0x1BAD && productId == 0x5500) || // USBGamepad
                      (vendorId == 0x1BAD && productId == 0xF906) || // XB360MortalKombatFightStick
-                     (vendorId == 0x15E4 && productId == 0x3F0A) || // XboxAirflowiredcontroller
-                     (vendorId == 0x0E6F && productId == 0x0401)) // GameStop XBox 360 Controller
+                     (vendorId == 0x15E4 && productId == 0x3F0A)) // XboxAirflowiredcontroller
             {
                 usageMap[0] = GamepadButton::FACE_BOTTOM; // A
                 usageMap[1] = GamepadButton::FACE_RIGHT; // B
