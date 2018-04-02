@@ -69,7 +69,7 @@ namespace ouzel
             StringCchCatW(szBuffer.data(), szBuffer.size(), L"\n");
             OutputDebugStringW(szBuffer.data());
 
-    #if DEBUG
+#if DEBUG
             HANDLE handle = 0;
             switch (level)
             {
@@ -89,7 +89,7 @@ namespace ouzel
                 DWORD bytesWritten;
                 WriteConsoleW(handle, szBuffer.data(), static_cast<DWORD>(wcslen(szBuffer.data())), &bytesWritten, nullptr);
             }
-    #endif
+#endif // #if DEBUG
 
 #elif OUZEL_PLATFORM_ANDROID
             int priority = 0;

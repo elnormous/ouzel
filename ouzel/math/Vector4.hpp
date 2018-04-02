@@ -30,8 +30,8 @@ namespace ouzel
 
 #if OUZEL_SUPPORTS_SSE
 #ifdef _MSC_VER
-    #pragma warning(push)
-    #pragma warning(disable:4201)
+#pragma warning(push)
+#pragma warning(disable:4201)
 #endif
         union
         {
@@ -46,7 +46,7 @@ namespace ouzel
             };
         };
 #ifdef _MSC_VER
-    #pragma warning(pop)
+#pragma warning(pop)
 #endif
 #else
         float x;

@@ -4,8 +4,8 @@
 #include "core/Setup.h"
 
 #if OUZEL_COMPILE_OPENGL
-    #define GL_GLEXT_PROTOTYPES 1
-    #include <GL/glx.h>
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/glx.h>
 #endif
 
 #include "WindowResourceLinux.hpp"
