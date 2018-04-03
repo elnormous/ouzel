@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Repeat: public Animator
+        class Repeat final: public Animator
         {
         public:
             explicit Repeat(Animator* animator, uint32_t initCount = 0);
@@ -21,6 +21,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             uint32_t count = 0;
             uint32_t currentCount = 0;
         };

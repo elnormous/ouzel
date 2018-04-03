@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Shake: public Animator
+        class Shake final: public Animator
         {
         public:
             Shake(float initLength, const Vector3& initDistance, float initTimeScale);
@@ -22,6 +22,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             uint32_t seedX;
             uint32_t seedY;
             uint32_t seedZ;

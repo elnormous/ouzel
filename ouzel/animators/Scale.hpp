@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Scale: public Animator
+        class Scale final: public Animator
         {
         public:
             Scale(float initLength, const Vector3& initScale, bool initRelative = false);
@@ -20,6 +20,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             Vector3 scale;
             Vector3 startScale;
             Vector3 targetScale;

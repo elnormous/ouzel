@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Sequence: public Animator
+        class Sequence final: public Animator
         {
         public:
             explicit Sequence(const std::vector<Animator*>& initAnimators);
@@ -21,6 +21,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             Animator* currentAnimator = nullptr;
         };
     } // namespace scene

@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Ease: public Animator
+        class Ease final: public Animator
         {
         public:
             enum class Type
@@ -39,6 +39,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             Type type;
             Func func;
         };
