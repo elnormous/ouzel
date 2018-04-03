@@ -34,6 +34,7 @@ typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
+typedef void* CVDisplayLinkRef;
 #endif
 
 #include "graphics/metal/RenderDeviceMetal.hpp"

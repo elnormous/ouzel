@@ -27,7 +27,6 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
-typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
 typedef id MTLBufferPtr;
@@ -42,7 +41,6 @@ typedef NSUInteger MTLPixelFormat;
 typedef NSUInteger MTLLoadAction;
 #define MTLLoadActionDontCare 0
 #define MTLLoadActionClear 2
-typedef NSUInteger MTLColorWriteMask;
 #endif
 
 #include "graphics/RenderDevice.hpp"
@@ -69,8 +67,9 @@ namespace ouzel
 
             inline MTLDevicePtr getDevice() const { return device; }
 
-            struct SamplerStateDescriptor
+            class SamplerStateDescriptor
             {
+            public:
                 Texture::Filter filter;
                 Texture::Address addressX;
                 Texture::Address addressY;
@@ -107,8 +106,9 @@ namespace ouzel
             virtual MeshBufferResource* createMeshBuffer() override;
             virtual BufferResource* createBuffer() override;
 
-            struct PipelineStateDesc
+            class PipelineStateDesc
             {
+            public:
                 BlendStateResourceMetal* blendState;
                 ShaderResourceMetal* shader;
                 NSUInteger sampleCount;
