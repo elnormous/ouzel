@@ -31,7 +31,8 @@ namespace ouzel
         class CharDescriptor
         {
         public:
-            int16_t x = 0, y = 0;
+            int16_t x = 0;
+            int16_t y = 0;
             int16_t width = 0;
             int16_t height = 0;
             int16_t xOffset = 0;
