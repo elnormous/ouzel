@@ -24,6 +24,7 @@ typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
 #else
 #include <objc/objc.h>
 #include <objc/NSObjCRuntime.h>
+typedef void* CVDisplayLinkRef;
 typedef id CAMetalLayerPtr;
 typedef id MTLDevicePtr;
 typedef id MTLRenderPassDescriptorPtr;
@@ -34,7 +35,6 @@ typedef id MTLCommandBufferPtr;
 typedef id MTLRenderCommandEncoderPtr;
 typedef id MTLTexturePtr;
 typedef id MTLDepthStencilStatePtr;
-typedef void* CVDisplayLinkRef;
 #endif
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
