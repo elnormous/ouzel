@@ -132,7 +132,7 @@ namespace ouzel
 #else
 #ifdef __APPLE__
         return pthread_setname_np(name.c_str()) == 0;
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__ANDROID__)
         return pthread_setname_np(pthread_self(), name.c_str()) == 0;
 #endif
 #endif
