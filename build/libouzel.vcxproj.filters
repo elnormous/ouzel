@@ -534,42 +534,6 @@
     <ClInclude Include="..\ouzel\math\Color.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h">
-      <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h">
-      <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\gui\ComboBox.hpp">
       <Filter>ouzel\gui</Filter>
     </ClInclude>
