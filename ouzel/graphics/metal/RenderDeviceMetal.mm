@@ -12,34 +12,38 @@
 #include "BufferResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
+
 #if OUZEL_PLATFORM_MACOS
-    #include "ColorPSMacOS.h"
-    #include "ColorVSMacOS.h"
-    #include "TexturePSMacOS.h"
-    #include "TextureVSMacOS.h"
-    #define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
-    #define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
-    #define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
-    #define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
+#include "ColorPSMacOS.h"
+#include "ColorVSMacOS.h"
+#include "TexturePSMacOS.h"
+#include "TextureVSMacOS.h"
+#define COLOR_PIXEL_SHADER_METAL ColorPSMacOS_metallib
+#define COLOR_VERTEX_SHADER_METAL ColorVSMacOS_metallib
+#define TEXTURE_PIXEL_SHADER_METAL TexturePSMacOS_metallib
+#define TEXTURE_VERTEX_SHADER_METAL TextureVSMacOS_metallib
+
 #elif OUZEL_PLATFORM_TVOS
-    #include "ColorPSTVOS.h"
-    #include "ColorVSTVOS.h"
-    #include "TexturePSTVOS.h"
-    #include "TextureVSTVOS.h"
-    #define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
-    #define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
-    #define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
-    #define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
+#include "ColorPSTVOS.h"
+#include "ColorVSTVOS.h"
+#include "TexturePSTVOS.h"
+#include "TextureVSTVOS.h"
+#define COLOR_PIXEL_SHADER_METAL ColorPSTVOS_metallib
+#define COLOR_VERTEX_SHADER_METAL ColorVSTVOS_metallib
+#define TEXTURE_PIXEL_SHADER_METAL TexturePSTVOS_metallib
+#define TEXTURE_VERTEX_SHADER_METAL TextureVSTVOS_metallib
+
 #elif OUZEL_PLATFORM_IOS
-    #include "ColorPSIOS.h"
-    #include "ColorVSIOS.h"
-    #include "TexturePSIOS.h"
-    #include "TextureVSIOS.h"
-    #define COLOR_PIXEL_SHADER_METAL ColorPSIOS_metallib
-    #define COLOR_VERTEX_SHADER_METAL ColorVSIOS_metallib
-    #define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
-    #define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
+#include "ColorPSIOS.h"
+#include "ColorVSIOS.h"
+#include "TexturePSIOS.h"
+#include "TextureVSIOS.h"
+#define COLOR_PIXEL_SHADER_METAL ColorPSIOS_metallib
+#define COLOR_VERTEX_SHADER_METAL ColorVSIOS_metallib
+#define TEXTURE_PIXEL_SHADER_METAL TexturePSIOS_metallib
+#define TEXTURE_VERTEX_SHADER_METAL TextureVSIOS_metallib
 #endif
+
 #include "core/Engine.hpp"
 #include "assets/Cache.hpp"
 #include "thread/Lock.hpp"

@@ -12,25 +12,25 @@
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GLES/gl.h"
-    #include "GLES2/gl2.h"
-    #include "GLES2/gl2ext.h"
-    #include "GLES3/gl3.h"
+#define GL_GLEXT_PROTOTYPES 1
+#include "GLES/gl.h"
+#include "GLES2/gl2.h"
+#include "GLES2/gl2ext.h"
+#include "GLES3/gl3.h"
 #else
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GL/glcorearb.h"
-    #include "GL/glext.h"
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #endif
 
 #if OUZEL_OPENGL_INTERFACE_EGL
-    #include "EGL/egl.h"
+#include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_GLX
-    #define GL_GLEXT_PROTOTYPES 1
-    #include "GL/glx.h"
-    #include "GL/glxext.h"
+#define GL_GLEXT_PROTOTYPES 1
+#include "GL/glx.h"
+#include "GL/glxext.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
-    #include "GL/wglext.h"
+#include "GL/wglext.h"
 #endif
 
 #include "RenderDeviceOGL.hpp"
@@ -423,9 +423,9 @@ namespace ouzel
                 glGenVertexArraysProc = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(getProcAddress("glGenVertexArrays"));
                 glBindVertexArrayProc = reinterpret_cast<PFNGLBINDVERTEXARRAYPROC>(getProcAddress("glBindVertexArray"));
                 glDeleteVertexArraysProc = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(getProcAddress("glDeleteVertexArrays"));
-    #if OUZEL_OPENGL_INTERFACE_EGL
+#if OUZEL_OPENGL_INTERFACE_EGL
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFEROESPROC>(getProcAddress("glMapBuffer"));
-    #elif !OUZEL_SUPPORTS_OPENGLES
+#elif !OUZEL_SUPPORTS_OPENGLES
                 glMapBufferProc = reinterpret_cast<PFNGLMAPBUFFERPROC>(getProcAddress("glMapBuffer"));
 
                 glGenFramebuffersProc = reinterpret_cast<PFNGLGENFRAMEBUFFERSPROC>(getProcAddress("glGenFramebuffers"));
@@ -440,14 +440,14 @@ namespace ouzel
                 glDeleteRenderbuffersProc = reinterpret_cast<PFNGLDELETERENDERBUFFERSPROC>(getProcAddress("glDeleteRenderbuffers"));
                 glBindRenderbufferProc = reinterpret_cast<PFNGLBINDRENDERBUFFERPROC>(getProcAddress("glBindRenderbuffer"));
                 glRenderbufferStorageProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEPROC>(getProcAddress("glRenderbufferStorage"));
-    #endif
+#endif
                 glUnmapBufferProc = reinterpret_cast<PFNGLUNMAPBUFFERPROC>(getProcAddress("glUnmapBuffer"));
                 glMapBufferRangeProc = reinterpret_cast<PFNGLMAPBUFFERRANGEPROC>(getProcAddress("glMapBufferRange"));
                 glRenderbufferStorageMultisampleProc = reinterpret_cast<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>(getProcAddress("glRenderbufferStorageMultisample"));
 
-    #if OUZEL_SUPPORTS_OPENGLES
+#if OUZEL_SUPPORTS_OPENGLES
                 glFramebufferTexture2DMultisampleProc = reinterpret_cast<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>(getProcAddress("glFramebufferTexture2DMultisample"));
-    #endif
+#endif
 #endif
             }
             else
