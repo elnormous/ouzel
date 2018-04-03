@@ -242,14 +242,10 @@
     <ClInclude Include="..\ouzel\graphics\DataType.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BlendStateResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\BufferResourceD3D11.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorPSD3D11.h" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\ColorVSD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\MeshBufferResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\RenderDeviceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\ShaderResourceD3D11.hpp" />
     <ClInclude Include="..\ouzel\graphics\direct3d11\TextureResourceD3D11.hpp" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h" />
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureVSD3D11.h" />
     <ClInclude Include="..\ouzel\graphics\empty\BlendStateResourceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\BufferResourceEmpty.hpp" />
     <ClInclude Include="..\ouzel\graphics\empty\MeshBufferResourceEmpty.hpp" />
@@ -263,16 +259,6 @@
     <ClInclude Include="..\ouzel\graphics\MeshBufferResource.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BlendStateResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\BufferResourceOGL.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGL4.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorPSGLES3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGL4.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\ColorVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\MeshBufferResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp" />
@@ -418,23 +404,23 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\stb;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <IncludePath>..\ouzel\;..\external\stb;..\external\khronos;$(IncludePath)</IncludePath>
+    <IncludePath>..\ouzel;..\shaders;..\external\khronos;..\external\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
