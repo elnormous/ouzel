@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Rotate: public Animator
+        class Rotate final: public Animator
         {
         public:
             Rotate(float initLength, const Vector3& initRotation, bool initRelative = false);
@@ -20,6 +20,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             Vector3 rotation;
             Vector3 startRotation;
             Vector3 targetRotation;

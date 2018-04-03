@@ -130,10 +130,6 @@ namespace ouzel
             updateProgress();
         }
 
-        void Animator::updateProgress()
-        {
-        }
-
         void Animator::addChildAnimator(Animator* animator)
         {
             if (animator)

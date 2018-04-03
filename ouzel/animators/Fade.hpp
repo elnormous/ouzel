@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Fade: public Animator
+        class Fade final: public Animator
         {
         public:
             Fade(float initLength, float initOpacity, bool initRelative = false);
@@ -19,6 +19,7 @@ namespace ouzel
         protected:
             virtual void updateProgress() override;
 
+        private:
             float opacity;
             float startOpacity = 0.0F;
             float targetOpacity = 0.0F;

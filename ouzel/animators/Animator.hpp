@@ -45,10 +45,12 @@ namespace ouzel
             {
                 addChildAnimator(animator);
             }
+
             template<class T> void addAnimator(const std::unique_ptr<T>& animator)
             {
                 addChildAnimator(animator.get());
             }
+
             template<class T> void addAnimator(std::unique_ptr<T>&& animator)
             {
                 addChildAnimator(animator.get());
@@ -59,10 +61,12 @@ namespace ouzel
             {
                 return removeChildAnimator(animator);
             }
+
             template<class T> bool removeAnimator(const std::unique_ptr<T>& animator)
             {
                 return removeChildAnimator(animator.get());
             }
+
             void removeAllAnimators();
 
             inline Animator* getParent() const { return parent; }
@@ -72,7 +76,7 @@ namespace ouzel
             virtual void addChildAnimator(Animator* animator);
             virtual bool removeChildAnimator(Animator* animator);
 
-            virtual void updateProgress();
+            virtual void updateProgress() {}
 
             float length = 0.0F;
             float currentTime = 0.0F;

@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class Parallel: public Animator
+        class Parallel final: public Animator
         {
         public:
             explicit Parallel(const std::vector<Animator*>& initAnimators);
