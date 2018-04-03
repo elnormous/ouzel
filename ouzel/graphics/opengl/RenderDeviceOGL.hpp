@@ -653,8 +653,9 @@ namespace ouzel
             bool textureBaseLevelSupported = true;
             bool textureMaxLevelSupported = true;
 
-            struct StateCache
+            class StateCache
             {
+            public:
                 StateCache()
                 {
                     bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
