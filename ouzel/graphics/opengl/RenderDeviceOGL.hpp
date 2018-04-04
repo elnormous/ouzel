@@ -705,7 +705,9 @@ namespace ouzel
 
                 float clearColor[4];
                 float clearDepth = 1.0F;
-            } stateCache;
+            };
+
+            StateCache stateCache;
         };
     } // namespace graphics
 } // namespace ouzel

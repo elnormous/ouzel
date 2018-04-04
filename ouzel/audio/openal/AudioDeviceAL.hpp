@@ -57,7 +57,7 @@ namespace ouzel
             ALuint sourceId = 0;
             ALenum sampleFormat = 0;
             uint32_t nextBuffer = 0;
-            ALuint buffers[2];
+            ALuint bufferIds[2];
 
             std::vector<uint8_t> data;
 
