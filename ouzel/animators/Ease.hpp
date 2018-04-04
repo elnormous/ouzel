@@ -12,7 +12,7 @@ namespace ouzel
         class Ease final: public Animator
         {
         public:
-            enum class Type
+            enum class Mode
             {
                 EASE_IN,
                 EASE_OUT,
@@ -33,14 +33,14 @@ namespace ouzel
                 BOUNCE
             };
 
-            Ease(Animator* animator, Type initType, Func initFunc);
-            Ease(const std::unique_ptr<Animator>& animator, Type initType, Func initFunc);
+            Ease(Animator* animator, Mode initModee, Func initFunc);
+            Ease(const std::unique_ptr<Animator>& animator, Mode initMode, Func initFunc);
 
         protected:
             virtual void updateProgress() override;
 
         private:
-            Type type;
+            Mode mode;
             Func func;
         };
     } // namespace scene

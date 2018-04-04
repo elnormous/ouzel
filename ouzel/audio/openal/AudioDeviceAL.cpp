@@ -88,7 +88,7 @@ namespace ouzel
             running = false;
 #endif
 
-            std::fill(std::begin(buffers), std::end(buffers), 0);
+            std::fill(std::begin(bufferIds), std::end(bufferIds), 0);
         }
 
         AudioDeviceAL::~AudioDeviceAL()
@@ -110,11 +110,11 @@ namespace ouzel
                 }
             }
 
-            for (ALuint buffer : buffers)
+            for (ALuint bufferId : bufferIds)
             {
-                if (buffer)
+                if (bufferId)
                 {
-                    alDeleteBuffers(1, &buffer);
+                    alDeleteBuffers(1, &bufferId);
 
                     if (checkOpenALError())
                     {
@@ -200,7 +200,7 @@ namespace ouzel
                 return false;
             }
 
-            alGenBuffers(2, buffers);
+            alGenBuffers(2, bufferIds);
 
             if (checkOpenALError())
             {
@@ -227,21 +227,21 @@ namespace ouzel
 
             getData(bufferSize / (channels * sizeof(int16_t)), data);
 
-            alBufferData(buffers[0], sampleFormat,
+            alBufferData(bufferIds[0], sampleFormat,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
             getData(bufferSize / (channels * sizeof(int16_t)), data);
 
-            alBufferData(buffers[1], sampleFormat,
+            alBufferData(bufferIds[1], sampleFormat,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
             nextBuffer = 0;
 
-            alSourceQueueBuffers(sourceId, 2, buffers);
+            alSourceQueueBuffers(sourceId, 2, bufferIds);
 
             if (checkOpenALError())
             {
@@ -292,7 +292,7 @@ namespace ouzel
             // requeue all processed buffers
             for (; buffersProcessed > 0; --buffersProcessed)
             {
-                alSourceUnqueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+                alSourceUnqueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
                 if (checkOpenALError())
                 {
@@ -305,12 +305,12 @@ namespace ouzel
                     return false;
                 }
 
-                alBufferData(buffers[nextBuffer], sampleFormat,
+                alBufferData(bufferIds[nextBuffer], sampleFormat,
                              data.data(),
                              static_cast<ALsizei>(data.size()),
                              static_cast<ALsizei>(sampleRate));
 
-                alSourceQueueBuffers(sourceId, 1, &buffers[nextBuffer]);
+                alSourceQueueBuffers(sourceId, 1, &bufferIds[nextBuffer]);
 
                 if (checkOpenALError())
                 {
