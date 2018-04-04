@@ -478,8 +478,6 @@ namespace ouzel
                             particles[i].deltaColorBlue = (finishColorBlue - particles[i].colorBlue) / particles[i].life;
                             particles[i].deltaColorAlpha = (finishColorAlpha - particles[i].colorAlpha) / particles[i].life;
 
-                            //_particles[i].finishColor = finishColor;
-
                             particles[i].rotation = particleSystemData.startRotation + particleSystemData.startRotationVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);
 
                             float finishRotation = particleSystemData.finishRotation + particleSystemData.finishRotationVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(randomEngine);

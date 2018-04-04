@@ -374,8 +374,9 @@ namespace ouzel
                     }
                     else if (*iterator == '[') // <![
                     {
+                        ++iterator;
                         std::string name;
-                        if (!parseName(str, ++iterator, name)) return false;
+                        if (!parseName(str, iterator, name)) return false;
 
                         if (name != "CDATA")
                         {
@@ -424,7 +425,8 @@ namespace ouzel
                 }
                 else if (*iterator == '?') // <?
                 {
-                    if (!parseName(str, ++iterator, value)) return false;
+                    ++iterator;
+                    if (!parseName(str, iterator, value)) return false;
 
                     for (;;)
                     {
