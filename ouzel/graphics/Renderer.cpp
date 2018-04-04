@@ -128,7 +128,6 @@ namespace ouzel
 #endif
                     break;
 #endif
-                case Driver::EMPTY:
                 default:
                     Log(Log::Level::INFO) << "Not using render driver";
                     device.reset(new RenderDeviceEmpty());

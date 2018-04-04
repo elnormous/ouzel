@@ -57,7 +57,7 @@ namespace ouzel
             void setRenderCommands(const std::vector<RenderCommand>& newRenderCommands);
 
         protected:
-            AudioDevice(Audio::Driver aDriver);
+            explicit AudioDevice(Audio::Driver aDriver);
             virtual bool init(bool debugAudio);
 
             void executeAll();

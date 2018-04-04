@@ -7,8 +7,6 @@
 
 namespace ouzel
 {
-    class Engine;
-
     namespace audio
     {
         class AudioDeviceEmpty: public AudioDevice
