@@ -30,8 +30,6 @@ namespace ouzel
 {
     namespace assets
     {
-        class Loader;
-
         class Cache final
         {
         public:

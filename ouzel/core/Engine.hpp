@@ -29,8 +29,6 @@ void ouzelMain(const std::vector<std::string>& args);
 
 namespace ouzel
 {
-    class Window;
-
     class Engine
     {
     public:

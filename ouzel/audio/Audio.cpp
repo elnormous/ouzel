@@ -94,7 +94,6 @@ namespace ouzel
                     device.reset(new AudioDeviceALSA());
                     break;
 #endif
-                case Driver::EMPTY:
                 default:
                     Log(Log::Level::INFO) << "Not using audio driver";
                     device.reset(new AudioDeviceEmpty());

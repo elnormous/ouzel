@@ -12,8 +12,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class Actor;
-
         class Animator: public Component
         {
             friend Actor;

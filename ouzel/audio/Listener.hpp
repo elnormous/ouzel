@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
-
         class Listener: public SoundOutput, public scene::Component
         {
             friend Audio;

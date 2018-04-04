@@ -15,9 +15,7 @@ namespace ouzel
 {
     namespace audio
     {
-        class Audio;
         class SoundData;
-        class Stream;
 
         class Sound: public SoundInput, public Stream::EventListener, public scene::Component
         {
