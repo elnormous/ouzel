@@ -165,7 +165,9 @@ namespace ouzel
                         {
                             if (particleSystemData.emitterType == ParticleSystemData::EmitterType::GRAVITY)
                             {
-                                Vector2 tmp, radial, tangential;
+                                Vector2 tmp;
+                                Vector2 radial;
+                                Vector2 tangential;
 
                                 // radial acceleration
                                 if (particles[i].position.x == 0.0F || particles[i].position.y == 0.0F)
