@@ -28,7 +28,7 @@ namespace ouzel
         class ShaderResourceMetal: public ShaderResource
         {
         public:
-            ShaderResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit ShaderResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
             virtual ~ShaderResourceMetal();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,

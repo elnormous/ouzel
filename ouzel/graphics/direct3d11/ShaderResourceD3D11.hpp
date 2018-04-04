@@ -20,7 +20,7 @@ namespace ouzel
         class ShaderResourceD3D11: public ShaderResource
         {
         public:
-            ShaderResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
+            explicit ShaderResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
             virtual ~ShaderResourceD3D11();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,

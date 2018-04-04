@@ -16,10 +16,10 @@ namespace ouzel
             explicit Repeat(Animator* animator, uint32_t initCount = 0);
             explicit Repeat(const std::unique_ptr<Animator>& animator, uint32_t initCount = 0);
 
-            virtual void reset() override;
+            void reset() override;
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             uint32_t count = 0;

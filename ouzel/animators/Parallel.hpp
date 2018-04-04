@@ -17,7 +17,7 @@ namespace ouzel
             explicit Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
         };
     } // namespace scene
 } // namespace ouzel

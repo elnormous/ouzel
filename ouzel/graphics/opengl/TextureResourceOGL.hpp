@@ -30,7 +30,7 @@ namespace ouzel
         class TextureResourceOGL: public TextureResource
         {
         public:
-            TextureResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit TextureResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
             virtual ~TextureResourceOGL();
 
             virtual bool init(const Size2& newSize,

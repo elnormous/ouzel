@@ -33,7 +33,7 @@ namespace ouzel
         class MeshBufferResourceOGL: public MeshBufferResource
         {
         public:
-            MeshBufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit MeshBufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
             virtual ~MeshBufferResourceOGL();
 
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,

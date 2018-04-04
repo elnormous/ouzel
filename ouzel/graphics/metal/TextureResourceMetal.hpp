@@ -34,7 +34,7 @@ namespace ouzel
         class TextureResourceMetal: public TextureResource
         {
         public:
-            TextureResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit TextureResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
             virtual ~TextureResourceMetal();
 
             virtual bool init(const Size2& newSize,
