@@ -27,7 +27,7 @@ PerspectiveSample::PerspectiveSample():
     camera.setDepthTest(true);
     camera.setDepthWrite(true);
 
-    camera.setType(scene::Camera::Type::PERSPECTIVE);
+    camera.setProjectionMode(scene::Camera::ProjectionMode::PERSPECTIVE);
     camera.setFarPlane(1000.0F);
     cameraActor.setPosition(Vector3(0.0F, 0.0F, -400.0F));
     cameraActor.addComponent(&camera);
