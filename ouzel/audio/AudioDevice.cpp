@@ -49,8 +49,8 @@ namespace ouzel
                 renderCommands = renderQueue;
             }
 
-            uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) return true; // out of buffers
+            uint32_t buffer = currentBuffer;
+            if (++currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
@@ -87,8 +87,9 @@ namespace ouzel
                                                float rolloffFactor,
                                                std::vector<float>& result)
         {
-            uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) return true; // out of buffers
+            uint32_t buffer = currentBuffer;
+
+            if (++currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);
@@ -141,8 +142,9 @@ namespace ouzel
         bool AudioDevice::getData(uint32_t frames, std::vector<uint8_t>& result)
         {
             currentBuffer = 0;
-            uint32_t buffer = currentBuffer++;
-            if (currentBuffer > buffers.size()) return true; // out of buffers
+            uint32_t buffer = currentBuffer;
+
+            if (++currentBuffer > buffers.size()) return true; // out of buffers
 
             buffers[buffer].resize(frames * channels);
             std::fill(buffers[buffer].begin(), buffers[buffer].end(), 0.0F);

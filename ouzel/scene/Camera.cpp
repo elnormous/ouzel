@@ -259,7 +259,6 @@ namespace ouzel
 
                 if (!modelViewProjection.getFrustum(frustum)) return false;
 
-                //if (!frustum.isPointInside(Vector4(0.0F, 0.0F, 0.0F, 1.0F))) return false;
                 if (!frustum.isBoxInside(box)) return false;
 
                 return true;

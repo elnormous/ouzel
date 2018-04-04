@@ -203,7 +203,6 @@ namespace ouzel
             frameBufferWidth = static_cast<GLsizei>(size.width);
             frameBufferHeight = static_cast<GLsizei>(size.height);
 
-            //const GLubyte* deviceVendor = glGetString(GL_VENDOR);
             const GLubyte* deviceName = glGetString(GL_RENDERER);
 
             if (checkOpenGLError() || !deviceName)
