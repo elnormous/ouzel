@@ -73,7 +73,8 @@ namespace ouzel
 
         struct CharDescriptor
         {
-            uint16_t x = 0, y = 0;
+            uint16_t x = 0;
+            uint16_t y = 0;
             uint16_t width = 0;
             uint16_t height = 0;
             Vector2 offset;
@@ -96,16 +97,22 @@ namespace ouzel
         uint16_t width = 0;
         uint16_t height = 0;
 
-        int ascent, descent, lineGap;
+        int ascent;
+        int descent;
+        int lineGap;
         stbtt_GetFontVMetrics(&font,  &ascent, &descent, &lineGap);
 
         for (uint32_t c : glyphs)
         {
-            int w, h, xoff, yoff;
+            int w;
+            int h;
+            int xoff;
+            int yoff;
 
             if (int index = stbtt_FindGlyphIndex(&font, static_cast<int>(c)))
             {
-                int advance, leftBearing;
+                int advance;
+                int leftBearing;
                 stbtt_GetGlyphHMetrics(&font, index, &advance, &leftBearing);
 
                 CharDescriptor charDesc;

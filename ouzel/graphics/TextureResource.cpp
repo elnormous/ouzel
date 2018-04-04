@@ -174,7 +174,10 @@ namespace ouzel
 
             if (dstWidth > 0 && dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
                     const uint8_t* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
@@ -191,7 +194,10 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
                 {
                     const uint8_t* pixel = src;
 
@@ -223,7 +229,10 @@ namespace ouzel
 
             if (dstWidth > 0 && dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
                     const uint8_t* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
@@ -240,7 +249,10 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 1)
                 {
                     const uint8_t* pixel = src;
 
@@ -272,12 +284,16 @@ namespace ouzel
 
             if (dstWidth > 0 && dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
                     const uint8_t* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                     {
-                        float r = 0.0F, g = 0.0F;
+                        float r = 0.0F;
+                        float g = 0.0F;
 
                         r += GAMMA_DECODE[pixel[0]];
                         g += GAMMA_DECODE[pixel[1]];
@@ -303,10 +319,13 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 2)
+                uint32_t y;
+                uint32_t ystep;
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 2)
                 {
                     const uint8_t* pixel = src;
-                    float r = 0.0F, g = 0.0F;
+                    float r = 0.0F;
+                    float g = 0.0F;
 
                     r += GAMMA_DECODE[pixel[0]];
                     g += GAMMA_DECODE[pixel[1]];
@@ -326,7 +345,8 @@ namespace ouzel
                 const uint8_t* pixel = src;
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                 {
-                    float r = 0.0F, g = 0.0F;
+                    float r = 0.0F;
+                    float g = 0.0F;
 
                     r += GAMMA_DECODE[pixel[0]];
                     g += GAMMA_DECODE[pixel[1]];
@@ -350,13 +370,18 @@ namespace ouzel
 
             if (dstWidth > 0 && dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
+                uint32_t y;
+                uint32_t ystep;
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep)
                 {
                     const uint8_t* pixel = src;
                     for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                     {
                         float pixels = 0.0F;
-                        float r = 0.0F, g = 0.0F, b = 0.0F, a = 0.0F;
+                        float r = 0.0F;
+                        float g = 0.0F;
+                        float b = 0.0F;
+                        float a = 0.0F;
 
                         if (pixel[3] > 0)
                         {
@@ -417,12 +442,18 @@ namespace ouzel
             }
             else if (dstHeight > 0)
             {
-                for (uint32_t y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 4)
+                uint32_t y;
+                uint32_t ystep;
+
+                for (y = 0, ystep = pitch * 2; y < dstHeight; ++y, src += ystep, dst += 4)
                 {
                     const uint8_t* pixel = src;
 
                     float pixels = 0.0F;
-                    float r = 0.0F, g = 0.0F, b = 0.0F, a = 0.0F;
+                    float r = 0.0F;
+                    float g = 0.0F;
+                    float b = 0.0F;
+                    float a = 0.0F;
 
                     if (pixel[3] > 0)
                     {
@@ -468,7 +499,10 @@ namespace ouzel
                 for (uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                 {
                     float pixels = 0.0F;
-                    float r = 0.0F, g = 0.0F, b = 0.0F, a = 0.0F;
+                    float r = 0.0F;
+                    float g = 0.0F;
+                    float b = 0.0F;
+                    float a = 0.0F;
 
                     if (pixel[3] > 0)
                     {
