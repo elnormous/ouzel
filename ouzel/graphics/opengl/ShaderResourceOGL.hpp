@@ -30,7 +30,7 @@ namespace ouzel
         class ShaderResourceOGL: public ShaderResource
         {
         public:
-            ShaderResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit ShaderResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
             virtual ~ShaderResourceOGL();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,

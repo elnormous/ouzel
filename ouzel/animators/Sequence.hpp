@@ -16,10 +16,10 @@ namespace ouzel
             explicit Sequence(const std::vector<Animator*>& initAnimators);
             explicit Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
-            virtual void play() override;
+            void play() override;
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             Animator* currentAnimator = nullptr;

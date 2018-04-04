@@ -37,7 +37,7 @@ namespace ouzel
             Ease(const std::unique_ptr<Animator>& animator, Mode initMode, Func initFunc);
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             Mode mode;

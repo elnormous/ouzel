@@ -16,7 +16,7 @@ namespace ouzel
         class StreamVorbis: public Stream
         {
         public:
-            StreamVorbis(const std::vector<uint8_t>& data);
+            explicit StreamVorbis(const std::vector<uint8_t>& data);
             virtual ~StreamVorbis();
             virtual void reset() override;
 

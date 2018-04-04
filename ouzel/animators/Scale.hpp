@@ -15,10 +15,10 @@ namespace ouzel
         public:
             Scale(float initLength, const Vector3& initScale, bool initRelative = false);
 
-            virtual void play() override;
+            void play() override;
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             Vector3 scale;

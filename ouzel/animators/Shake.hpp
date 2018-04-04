@@ -20,7 +20,7 @@ namespace ouzel
             void play() override;
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             uint32_t seedX;

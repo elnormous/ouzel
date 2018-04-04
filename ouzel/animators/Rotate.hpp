@@ -15,10 +15,10 @@ namespace ouzel
         public:
             Rotate(float initLength, const Vector3& initRotation, bool initRelative = false);
 
-            virtual void play() override;
+            void play() override;
 
         protected:
-            virtual void updateProgress() override;
+            void updateProgress() override;
 
         private:
             Vector3 rotation;

@@ -19,7 +19,7 @@ namespace ouzel
         class TextureResourceD3D11: public TextureResource
         {
         public:
-            TextureResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
+            explicit TextureResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
             virtual ~TextureResourceD3D11();
 
             virtual bool init(const Size2& newSize,

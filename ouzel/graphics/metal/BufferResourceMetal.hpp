@@ -28,7 +28,7 @@ namespace ouzel
         {
             friend MeshBufferResourceMetal;
         public:
-            BufferResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit BufferResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
             virtual ~BufferResourceMetal();
 
             virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;

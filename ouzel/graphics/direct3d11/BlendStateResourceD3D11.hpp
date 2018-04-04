@@ -19,7 +19,7 @@ namespace ouzel
         class BlendStateResourceD3D11: public BlendStateResource
         {
         public:
-            BlendStateResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
+            explicit BlendStateResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
             virtual ~BlendStateResourceD3D11();
 
             virtual bool init(bool newEnableBlending,
