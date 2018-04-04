@@ -17,7 +17,7 @@ namespace ouzel
     {
         Camera::Camera(Matrix4 initProjection):
             Component(TYPE),
-            type(Type::CUSTOM), projection(initProjection)
+            projectionMode(ProjectionMode::CUSTOM), projection(initProjection)
 
         {
             calculateViewProjection();
@@ -25,7 +25,7 @@ namespace ouzel
 
         Camera::Camera(const Size2& initTargetContentSize, ScaleMode initScaleMode):
             Component(Component::Type::CAMERA),
-            type(Type::ORTHOGRAPHIC), targetContentSize(initTargetContentSize),
+            projectionMode(ProjectionMode::ORTHOGRAPHIC), targetContentSize(initTargetContentSize),
             scaleMode(initScaleMode)
         {
             calculateViewProjection();
@@ -33,7 +33,7 @@ namespace ouzel
 
         Camera::Camera(float initFov, float initNearPlane, float initFarPlane):
             Component(Component::Type::CAMERA),
-            type(Type::PERSPECTIVE), fov(initFov),
+            projectionMode(ProjectionMode::PERSPECTIVE), fov(initFov),
             nearPlane(initNearPlane), farPlane(initFarPlane)
         {
             calculateViewProjection();
@@ -120,15 +120,15 @@ namespace ouzel
                 contentPosition = Vector2(0.0F, 0.0F);
             }
 
-            switch (type)
+            switch (projectionMode)
             {
-                case Type::CUSTOM:
+                case ProjectionMode::CUSTOM:
                     // do nothing
                     break;
-                case Type::ORTHOGRAPHIC:
+                case ProjectionMode::ORTHOGRAPHIC:
                     Matrix4::createOrthographicFromSize(contentSize.width, contentSize.height, -1.0F, 1.0F, projection);
                     break;
-                case Type::PERSPECTIVE:
+                case ProjectionMode::PERSPECTIVE:
                     Matrix4::createPerspective(fov, contentSize.width / contentSize.height, nearPlane, farPlane, projection);
                     break;
             }
@@ -207,7 +207,7 @@ namespace ouzel
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& box) const
         {
-            if (type == Type::ORTHOGRAPHIC)
+            if (projectionMode == ProjectionMode::ORTHOGRAPHIC)
             {
                 // calculate center point of the box
                 Vector2 diff = box.max - box.min;

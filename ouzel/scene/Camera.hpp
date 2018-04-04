@@ -21,7 +21,7 @@ namespace ouzel
         public:
             static const uint32_t TYPE = Component::CAMERA;
 
-            enum class Type
+            enum class ProjectionMode
             {
                 CUSTOM,
                 ORTHOGRAPHIC,
@@ -41,8 +41,8 @@ namespace ouzel
             Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
             virtual ~Camera();
 
-            void setType(Type newType) { type = newType; }
-            inline Type getType() const { return type; }
+            void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
+            inline ProjectionMode getProjectionMode() const { return projectionMode; }
 
             void setFOV(float newFOV) { fov = newFOV; }
             inline float getFOV() const { return fov; }
@@ -97,7 +97,7 @@ namespace ouzel
             virtual void updateTransform() override;
             void calculateViewProjection() const;
 
-            Type type;
+            ProjectionMode projectionMode;
             float fov = TAU / 6.0F;
             float nearPlane = 1.0F;
             float farPlane = 100.0F;
