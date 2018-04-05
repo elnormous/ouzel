@@ -65,11 +65,9 @@
 
 namespace ouzel
 {
-    EngineIOS::EngineIOS(int initArgc, char* initArgv[])
+    EngineIOS::EngineIOS(int initArgc, char* initArgv[]):
+        argc(initArgc), argv(initArgv)
     {
-        argc = initArgc;
-        argv = initArgv;
-
         for (int i = 0; i < initArgc; ++i)
         {
             args.push_back(initArgv[i]);
