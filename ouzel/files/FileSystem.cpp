@@ -148,14 +148,25 @@ namespace ouzel
         }
         else
         {
-            passwd* pw = getpwuid(getuid());
-            if (!pw)
+            struct passwd pwent;
+            struct passwd* pwentp;
+            std::vector<char> buffer(1024);
+            int e;
+
+            while ((e == getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) == ERANGE)
+            {
+                buffer.resize(buffer.size() * 2);
+            }
+
+            if (e != 0)
             {
                 Log(Log::Level::ERR) << "Failed to get home directory";
                 return "";
             }
-
-            path = pw->pw_dir;
+            else
+            {
+                path = pwent.pw_dir;
+            }            
         }
 
         path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;
