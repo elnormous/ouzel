@@ -23,7 +23,7 @@ namespace ouzel
             void handleInput(IOHIDValueRef value);
 
         protected:
-            GamepadIOKit(IOHIDDeviceRef initDevice);
+            explicit GamepadIOKit(IOHIDDeviceRef initDevice);
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                        int64_t min, int64_t max,
                                        GamepadButton negativeButton, GamepadButton positiveButton);

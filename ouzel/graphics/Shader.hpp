@@ -31,7 +31,7 @@ namespace ouzel
             };
 
             Shader();
-            virtual ~Shader();
+            ~Shader();
 
             Shader(const Shader&) = delete;
             Shader& operator=(const Shader&) = delete;

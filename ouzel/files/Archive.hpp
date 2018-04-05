@@ -18,7 +18,7 @@ namespace ouzel
         friend FileSystem;
     public:
         Archive() {}
-        Archive(const std::string& filename);
+        explicit Archive(const std::string& filename);
         ~Archive();
 
         Archive(const Archive&) = delete;
