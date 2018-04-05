@@ -170,6 +170,8 @@ namespace ouzel
                                 propagate = eventHandler->userHandler(event.type, event.userEvent);
                             }
                             break;
+                        default:
+                            return; // custom event should not be sent
                     }
                 }
             }

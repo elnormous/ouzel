@@ -80,7 +80,7 @@ namespace ouzel
                 case DataType::FLOAT_MATRIX4:
                     return GL_FLOAT;
 
-                case DataType::NONE:
+                default:
                     return 0;
             }
 
@@ -148,8 +148,8 @@ namespace ouzel
 
                 case DataType::FLOAT_MATRIX4:
                     return 4 * 4;
-
-                case DataType::NONE:
+;
+                default:
                     return 0;
             }
 

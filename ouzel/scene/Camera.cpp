@@ -107,6 +107,8 @@ namespace ouzel
                         contentScale.x = contentScale.y = std::min(contentScale.x, contentScale.y);
                         break;
                     }
+                    default:
+                        return;
                 }
 
                 contentSize = Size2(renderViewport.size.width / contentScale.x, renderViewport.size.height / contentScale.y);
@@ -131,6 +133,8 @@ namespace ouzel
                 case ProjectionMode::PERSPECTIVE:
                     Matrix4::createPerspective(fov, contentSize.width / contentSize.height, nearPlane, farPlane, projection);
                     break;
+                default:
+                    return;
             }
 
             viewProjectionDirty = inverseViewProjectionDirty = true;
