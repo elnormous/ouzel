@@ -665,6 +665,8 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
@@ -702,6 +704,8 @@ namespace ouzel
                 case Texture::Address::MIRROR_REPEAT:
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
@@ -739,6 +743,8 @@ namespace ouzel
                 case Texture::Address::MIRROR_REPEAT:
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
@@ -971,6 +977,8 @@ namespace ouzel
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (levels.size() > 1) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
@@ -990,6 +998,8 @@ namespace ouzel
                 case Texture::Address::MIRROR_REPEAT:
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
@@ -1009,6 +1019,8 @@ namespace ouzel
                 case Texture::Address::MIRROR_REPEAT:
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
                     break;
+                default:
+                    return false;
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
