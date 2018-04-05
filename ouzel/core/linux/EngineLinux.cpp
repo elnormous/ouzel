@@ -19,11 +19,9 @@
 
 namespace ouzel
 {
-    EngineLinux::EngineLinux(int initArgc, char* initArgv[])
+    EngineLinux::EngineLinux(int initArgc, char* initArgv[]):
+        argc(initArgc), argv(initArgv)
     {
-        argc = initArgc;
-        argv = initArgv;
-
         for (int i = 0; i < initArgc; ++i)
         {
             args.push_back(initArgv[i]);
