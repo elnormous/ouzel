@@ -153,7 +153,7 @@ namespace ouzel
             std::vector<char> buffer(1024);
             int e;
 
-            while ((e == getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) == ERANGE)
+            while ((e = getpwuid_r(getuid(), &pwent, buffer.data(), buffer.size(), &pwentp)) == ERANGE)
             {
                 buffer.resize(buffer.size() * 2);
             }
