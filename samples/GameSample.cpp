@@ -9,13 +9,13 @@ using namespace ouzel;
 
 GameSample::GameSample()
 {
-    eventHandler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    eventHandler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1, placeholders::_2);
-    eventHandler.touchHandler = bind(&GameSample::handleTouch, this, placeholders::_1, placeholders::_2);
-    eventHandler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    eventHandler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1, placeholders::_2);
+    handler.keyboardHandler = bind(&GameSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.mouseHandler = bind(&GameSample::handleMouse, this, placeholders::_1, placeholders::_2);
+    handler.touchHandler = bind(&GameSample::handleTouch, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&GameSample::handleGamepad, this, placeholders::_1, placeholders::_2);
+    handler.uiHandler = bind(&GameSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    engine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&handler);
 
     addLayer(&layer);
     cameraActor.addComponent(&camera);

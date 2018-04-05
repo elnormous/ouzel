@@ -13,9 +13,9 @@ public:
     Mover():
         scene::Component(10)
     {
-        eventHandler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
+        handler.keyboardHandler = bind(&Mover::handleKeyboard, this, placeholders::_1, placeholders::_2);
 
-        engine->getEventDispatcher()->addEventHandler(&eventHandler);
+        engine->getEventDispatcher()->addEventHandler(&handler);
     }
 
     bool handleKeyboard(Event::Type eventType, const KeyboardEvent& event)
@@ -51,7 +51,7 @@ public:
         return true;
     }
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 };
 
 InputSample::InputSample():
@@ -61,13 +61,13 @@ InputSample::InputSample():
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
     engine->getInput()->setCursor(&cursor);
 
-    eventHandler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
-    eventHandler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
-    eventHandler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2);
-    eventHandler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
-    eventHandler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
+    handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
+    handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
+    handler.touchHandler = bind(&InputSample::handleTouch, this, placeholders::_1, placeholders::_2);
+    handler.gamepadHandler = bind(&InputSample::handleGamepad, this, placeholders::_1, placeholders::_2);
+    handler.uiHandler = bind(&InputSample::handleUI, this, placeholders::_1, placeholders::_2);
 
-    engine->getEventDispatcher()->addEventHandler(&eventHandler);
+    engine->getEventDispatcher()->addEventHandler(&handler);
 
     camera.setScaleMode(scene::Camera::ScaleMode::SHOW_ALL);
     camera.setTargetContentSize(Size2(800.0F, 600.0F));

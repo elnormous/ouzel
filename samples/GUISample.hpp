@@ -13,7 +13,7 @@ private:
     bool handleUI(ouzel::Event::Type type, const ouzel::UIEvent& event);
     bool handleKeyboard(ouzel::Event::Type type, const ouzel::KeyboardEvent& event) const;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::gui::Button button;
     ouzel::gui::Button fullscreenButton;

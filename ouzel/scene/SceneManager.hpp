@@ -32,10 +32,12 @@ namespace ouzel
             {
                 addChildScene(scene);
             }
+
             template<class T> void setScene(const std::unique_ptr<T>& scene)
             {
                 addChildScene(scene.get());
             }
+
             template<class T> void setScene(std::unique_ptr<T>&& scene)
             {
                 addChildScene(scene.get());
@@ -46,10 +48,12 @@ namespace ouzel
             {
                 return removeChildScene(scene);
             }
+
             template<class T> bool setScene(const std::unique_ptr<T>& scene)
             {
                 return removeChildScene(scene.get());
             }
+
             inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
         protected:

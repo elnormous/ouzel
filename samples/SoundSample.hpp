@@ -35,5 +35,5 @@ private:
     ouzel::gui::Button ambientButton;
     ouzel::gui::Button musicButton;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 };

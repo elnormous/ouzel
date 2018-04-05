@@ -26,7 +26,7 @@ private:
 
     std::unique_ptr<ouzel::scene::Animator> move;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::gui::Button hideButton;
     ouzel::gui::Button wireframeButton;

@@ -35,7 +35,7 @@ private:
 
     std::unique_ptr<ouzel::scene::Animator> rotate;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

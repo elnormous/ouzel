@@ -18,7 +18,7 @@ private:
 
     ouzel::gui::Menu menu;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
     ouzel::gui::Button gitHubButton;
     ouzel::gui::Button spritesButton;
     ouzel::gui::Button guiButton;

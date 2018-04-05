@@ -16,8 +16,8 @@ namespace ouzel
             static const uint32_t TYPE = Component::MODEL_RENDERER;
 
             ModelRenderer();
-            ModelRenderer(const ModelData& modelData);
-            ModelRenderer(const std::string& filename, bool mipmaps = true);
+            explicit ModelRenderer(const ModelData& modelData);
+            explicit ModelRenderer(const std::string& filename, bool mipmaps = true);
 
             bool init(const ModelData& modelData);
             bool init(const std::string& filename, bool mipmaps = true);
