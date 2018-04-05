@@ -50,7 +50,7 @@ namespace ouzel
             };
 
             BlendState();
-            virtual ~BlendState();
+            ~BlendState();
 
             BlendState(const BlendState&) = delete;
             BlendState& operator=(const BlendState&) = delete;

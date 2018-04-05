@@ -18,7 +18,7 @@ namespace ouzel
         {
         public:
             MeshBuffer();
-            virtual ~MeshBuffer();
+            ~MeshBuffer();
 
             MeshBuffer(const MeshBuffer&) = delete;
             MeshBuffer& operator=(const MeshBuffer&) = delete;

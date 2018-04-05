@@ -28,7 +28,7 @@ namespace ouzel
             };
 
             Buffer();
-            virtual ~Buffer();
+            ~Buffer();
 
             Buffer(const Buffer&) = delete;
             Buffer& operator=(const Buffer&) = delete;

@@ -18,7 +18,7 @@ namespace ouzel
         {
             friend Engine;
         public:
-            virtual ~SceneManager();
+            ~SceneManager();
 
             SceneManager(const SceneManager&) = delete;
             SceneManager& operator=(const SceneManager&) = delete;
@@ -58,8 +58,8 @@ namespace ouzel
 
         protected:
             SceneManager();
-            virtual void addChildScene(Scene* scene);
-            virtual bool removeChildScene(Scene* scene);
+            void addChildScene(Scene* scene);
+            bool removeChildScene(Scene* scene);
 
             std::vector<Scene*> scenes;
             std::vector<std::unique_ptr<Scene>> ownedScenes;

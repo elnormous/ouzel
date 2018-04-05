@@ -15,8 +15,6 @@ namespace ouzel
 {
     namespace scene
     {
-        class SceneManager;
-
         class Sprite: public Component
         {
         public:
