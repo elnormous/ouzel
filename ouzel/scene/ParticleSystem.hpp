@@ -28,7 +28,7 @@ namespace ouzel
             static const uint32_t TYPE = Component::PARTICLE_SYSTEM;
 
             ParticleSystem();
-            ParticleSystem(const std::string& filename);
+            explicit ParticleSystem(const std::string& filename);
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,

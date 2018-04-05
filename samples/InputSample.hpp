@@ -19,7 +19,7 @@ private:
     ouzel::scene::Camera camera;
     ouzel::scene::Actor cameraActor;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::gui::Button hideButton;
     ouzel::scene::ParticleSystem flameParticleSystem;

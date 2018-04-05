@@ -23,13 +23,13 @@ namespace ouzel
             static const uint32_t TYPE = Component::SPRITE;
 
             Sprite();
-            Sprite(const SpriteData& spriteData);
-            Sprite(const std::string& filename, bool mipmaps = true,
-                   uint32_t spritesX = 1, uint32_t spritesY = 1,
-                   const Vector2& pivot = Vector2(0.5F, 0.5F));
-            Sprite(std::shared_ptr<graphics::Texture> texture,
-                   uint32_t spritesX = 1, uint32_t spritesY = 1,
-                   const Vector2& pivot = Vector2(0.5F, 0.5F));
+            explicit Sprite(const SpriteData& spriteData);
+            explicit Sprite(const std::string& filename, bool mipmaps = true,
+                            uint32_t spritesX = 1, uint32_t spritesY = 1,
+                            const Vector2& pivot = Vector2(0.5F, 0.5F));
+            explicit Sprite(std::shared_ptr<graphics::Texture> texture,
+                            uint32_t spritesX = 1, uint32_t spritesY = 1,
+                            const Vector2& pivot = Vector2(0.5F, 0.5F));
 
             bool init(const SpriteData& spriteData);
             bool init(const std::string& filename, bool mipmaps = true,

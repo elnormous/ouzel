@@ -32,7 +32,7 @@ private:
     ouzel::scene::Sprite rtSprite;
     ouzel::scene::Actor rtActor;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;

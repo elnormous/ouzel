@@ -40,7 +40,7 @@ private:
     std::unique_ptr<ouzel::scene::Animator> ballMove;
     std::unique_ptr<ouzel::scene::Animator> ballSequence;
 
-    ouzel::EventHandler eventHandler;
+    ouzel::EventHandler handler;
 
     ouzel::scene::Layer guiLayer;
     ouzel::scene::Camera guiCamera;
