@@ -112,8 +112,8 @@ namespace ouzel
         Condition updateCondition;
 #endif
 
-        std::queue<std::function<void(void)>> executeQueue;
-        Mutex executeMutex;
+        std::queue<std::function<void(void)>> updateThreadExecuteQueue;
+        Mutex updateThreadExecuteMutex;
 
         std::atomic<bool> active;
         std::atomic<bool> paused;

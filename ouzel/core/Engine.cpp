@@ -580,9 +580,9 @@ namespace ouzel
 
     void Engine::executeOnUpdateThread(const std::function<void(void)>& func)
     {
-        Lock lock(executeMutex);
+        Lock lock(updateThreadExecuteMutex);
 
-        executeQueue.push(func);
+        updateThreadExecuteQueue.push(func);
     }
 
     void Engine::executeAll()
@@ -592,11 +592,11 @@ namespace ouzel
         for (;;)
         {
             {
-                Lock lock(executeMutex);
-                if (executeQueue.empty()) break;
+                Lock lock(updateThreadExecuteMutex);
+                if (updateThreadExecuteQueue.empty()) break;
 
-                func = std::move(executeQueue.front());
-                executeQueue.pop();
+                func = std::move(updateThreadExecuteQueue.front());
+                updateThreadExecuteQueue.pop();
             }
 
             if (func)
