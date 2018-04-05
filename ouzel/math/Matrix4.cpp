@@ -789,7 +789,7 @@ namespace ouzel
             : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
         );
 #elif OUZEL_SUPPORTS_SSE
-        __m128 dst0, dst1, dst2, dst3;
+        __m128 dest[4];
         {
             __m128 e0 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(0, 0, 0, 0));
             __m128 e1 = _mm_shuffle_ps(m2.col[0], m2.col[0], _MM_SHUFFLE(1, 1, 1, 1));
@@ -805,7 +805,7 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dst0 = a2;
+            dest[0] = a2;
         }
 
         {
@@ -823,7 +823,7 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dst1 = a2;
+            dest[1] = a2;
         }
 
         {
@@ -841,7 +841,7 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dst2 = a2;
+            dest[2] = a2;
         }
 
         {
@@ -859,12 +859,12 @@ namespace ouzel
             __m128 a1 = _mm_add_ps(v2, v3);
             __m128 a2 = _mm_add_ps(a0, a1);
 
-            dst3 = a2;
+            dest[3] = a2;
         }
-        dst.col[0] = dst0;
-        dst.col[1] = dst1;
-        dst.col[2] = dst2;
-        dst.col[3] = dst3;
+        dst.col[0] = dest[0];
+        dst.col[1] = dest[1];
+        dst.col[2] = dest[2];
+        dst.col[3] = dest[3];
 #endif
 
 #if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
