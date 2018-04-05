@@ -415,7 +415,7 @@ namespace ouzel
                     token.type = Token::Type::LITERAL_NUMBER;
 
                     while (iterator != str.end() &&
-                           ((*iterator >= '0' && *iterator <= '9')))
+                           (*iterator >= '0' && *iterator <= '9'))
                     {
                         token.value.push_back(*iterator);
                         ++iterator;
@@ -427,7 +427,7 @@ namespace ouzel
                         ++iterator;
 
                         while (iterator != str.end() &&
-                               ((*iterator >= '0' && *iterator <= '9')))
+                               (*iterator >= '0' && *iterator <= '9'))
                         {
                             token.value.push_back(*iterator);
                             ++iterator;
@@ -455,7 +455,7 @@ namespace ouzel
                         }
 
                         while (iterator != str.end() &&
-                               ((*iterator >= '0' && *iterator <= '9')))
+                               (*iterator >= '0' && *iterator <= '9'))
                         {
                             token.value.push_back(*iterator);
                             ++iterator;

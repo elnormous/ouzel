@@ -77,7 +77,7 @@ namespace ouzel
                 if (*iterator == '"' &&
                     (iterator + 1 == str.end() ||
                      isWhitespace(*(iterator + 1)) ||
-                     isNewline((*(iterator + 1)))))
+                     isNewline(*(iterator + 1))))
                 {
                     ++iterator;
                     break;

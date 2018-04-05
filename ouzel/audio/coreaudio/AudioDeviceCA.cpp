@@ -6,8 +6,8 @@
 #if OUZEL_COMPILE_COREAUDIO
 
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-#import <AVFoundation/AVFoundation.h>
-#include <AudioToolbox/AudioToolbox.h>
+#include <objc/message.h>
+extern "C" id const AVAudioSessionCategoryAmbient;
 #endif
 
 #include "AudioDeviceCA.hpp"
@@ -202,9 +202,11 @@ namespace ouzel
 
                 CFRelease(tempStringRef);
             }
+#endif // #if OUZEL_PLATFORM_MACOS
 
-#else
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
+#if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
+            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
+            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
             AudioComponentDescription desc;
