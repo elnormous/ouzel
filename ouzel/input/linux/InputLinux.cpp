@@ -255,10 +255,12 @@ namespace ouzel
                 XFreePixmap(display, pixmap);
             }
 
-            int event, err;
+            int event;
+            int err;
             if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &event, &err))
             {
-                int majorVersion = 2, minorVersion = 0;
+                int majorVersion = 2;
+                int minorVersion = 0;
 
                 XIQueryVersion(display, &majorVersion, &minorVersion);
 
