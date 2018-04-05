@@ -805,9 +805,9 @@
 		309B483A1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
 		309B483B1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
 		309B483C1DEA5EE600A718C5 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309B48361DEA5EE600A718C5 /* Color.hpp */; };
-		309BA3131F183D6E006F2240 /* AudioDeviceCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.mm */; };
-		309BA3141F183D6E006F2240 /* AudioDeviceCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.mm */; };
-		309BA3151F183D6E006F2240 /* AudioDeviceCA.mm in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.mm */; };
+		309BA3131F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */; };
+		309BA3141F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */; };
+		309BA3151F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */; };
 		309BA3161F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
 		309BA3171F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
 		309BA3181F183D6E006F2240 /* AudioDeviceCA.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */; };
@@ -1261,7 +1261,7 @@
 		309ACD261C70DA73005325D3 /* ParticleSystemData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystemData.hpp; sourceTree = "<group>"; };
 		309B48351DEA5EE600A718C5 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		309B48361DEA5EE600A718C5 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
-		309BA3111F183D6E006F2240 /* AudioDeviceCA.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioDeviceCA.mm; sourceTree = "<group>"; };
+		309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceCA.cpp; sourceTree = "<group>"; };
 		309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioDeviceCA.hpp; sourceTree = "<group>"; };
 		30A883621E7432DA004A033F /* Archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Archive.cpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
@@ -1972,7 +1972,7 @@
 		309BA3101F183D3D006F2240 /* coreaudio */ = {
 			isa = PBXGroup;
 			children = (
-				309BA3111F183D6E006F2240 /* AudioDeviceCA.mm */,
+				309BA3111F183D6E006F2240 /* AudioDeviceCA.cpp */,
 				309BA3121F183D6E006F2240 /* AudioDeviceCA.hpp */,
 			);
 			path = coreaudio;
@@ -2642,7 +2642,7 @@
 				306672601F964A77004515F2 /* Light.cpp in Sources */,
 				30E75F401D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				30A9C13B1CAEBA540084C4BF /* Language.cpp in Sources */,
-				309BA3131F183D6E006F2240 /* AudioDeviceCA.mm in Sources */,
+				309BA3131F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598C1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30381F731D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				3049DCE01EDCD0450000997A /* CursorResource.cpp in Sources */,
@@ -2806,7 +2806,7 @@
 				306672621F964A77004515F2 /* Light.cpp in Sources */,
 				30E75F411D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */,
-				309BA3151F183D6E006F2240 /* AudioDeviceCA.mm in Sources */,
+				309BA3151F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				30B8598E1F3D286600A16952 /* TTFont.cpp in Sources */,
 				30381F751D80A3EC00677CAB /* MeshBufferResourceOGL.cpp in Sources */,
 				3049DCE21EDCD0450000997A /* CursorResource.cpp in Sources */,
@@ -2970,7 +2970,7 @@
 				306672611F964A77004515F2 /* Light.cpp in Sources */,
 				30E75F3F1D7B783B000300D4 /* EventHandler.cpp in Sources */,
 				3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */,
-				309BA3141F183D6E006F2240 /* AudioDeviceCA.mm in Sources */,
+				309BA3141F183D6E006F2240 /* AudioDeviceCA.cpp in Sources */,
 				3038216A1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				3049DCE11EDCD0450000997A /* CursorResource.cpp in Sources */,
 				3053FF711F43834900760E67 /* SpriteData.cpp in Sources */,

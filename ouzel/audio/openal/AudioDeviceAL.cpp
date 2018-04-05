@@ -80,8 +80,8 @@ namespace ouzel
             AudioDevice(Audio::Driver::OPENAL)
         {
 #if OUZEL_PLATFORM_IOS || OUZEL_PLATFORM_TVOS
-            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance")); // [AVAudioSession sharedInstance]
-            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil); // [audioSession setCategory:AVAudioSessionCategoryAmbient error:nil];
+            id audioSession = reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(objc_getClass("AVAudioSession"), sel_getUid("sharedInstance"));
+            reinterpret_cast<BOOL (*)(id, SEL, id, id)>(&objc_msgSend)(audioSession, sel_getUid("setCategory:error:"), AVAudioSessionCategoryAmbient, nil);
 #endif
 
 #if OUZEL_MULTITHREADED
