@@ -83,6 +83,8 @@ namespace ouzel
                     return 16;
                 case PixelFormat::DEFAULT:
                     return 0;
+                default:
+                    return 0;
             }
 
             return 0;
@@ -126,6 +128,8 @@ namespace ouzel
                     return 4;
                 case PixelFormat::DEFAULT:
                     return 0;
+                default:
+                    return 0;
             }
 
             return 0;
@@ -168,6 +172,8 @@ namespace ouzel
                 case PixelFormat::RGBA32_FLOAT:
                     return 4;
                 case PixelFormat::DEFAULT:
+                    return 0;
+                default:
                     return 0;
             }
 

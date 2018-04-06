@@ -46,6 +46,7 @@ namespace ouzel
                 {
                     case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::GRAVITY; break;
                     case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::RADIUS; break;
+                    default: return false;
                 }
             }
 

@@ -286,6 +286,7 @@ namespace ouzel
                         case Func::BACK: progress = backIn(progress); break;
                         case Func::ELASTIC: progress = elasticIn(progress); break;
                         case Func::BOUNCE: progress = bounceIn(progress); break;
+                        default: return;
                     }
                     break;
                 }
@@ -304,6 +305,7 @@ namespace ouzel
                         case Func::BACK: progress = backOut(progress); break;
                         case Func::ELASTIC: progress = elasticOut(progress); break;
                         case Func::BOUNCE: progress = bounceOut(progress); break;
+                        default: return;
                     }
                     break;
                 }
@@ -322,9 +324,12 @@ namespace ouzel
                         case Func::BACK: progress = backInOut(progress); break;
                         case Func::ELASTIC: progress = elasticInOut(progress); break;
                         case Func::BOUNCE: progress = bounceInOut(progress); break;
+                        default: return;
                     }
                     break;
                 }
+
+                default: return;
             }
 
             animators.front()->setProgress(progress);

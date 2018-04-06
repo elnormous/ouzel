@@ -148,7 +148,7 @@ namespace ouzel
 
                 case DataType::FLOAT_MATRIX4:
                     return 4 * 4;
-;
+
                 default:
                     return 0;
             }
