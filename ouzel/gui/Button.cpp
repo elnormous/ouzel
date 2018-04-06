@@ -129,15 +129,8 @@ namespace ouzel
                     pressed = true;
                     updateSprite();
                 }
-                else if (type == Event::Type::ACTOR_RELEASE)
-                {
-                    if (pressed)
-                    {
-                        pressed = false;
-                        updateSprite();
-                    }
-                }
-                else if (type == Event::Type::ACTOR_CLICK)
+                else if (type == Event::Type::ACTOR_RELEASE ||
+                         type == Event::Type::ACTOR_CLICK)
                 {
                     if (pressed)
                     {
