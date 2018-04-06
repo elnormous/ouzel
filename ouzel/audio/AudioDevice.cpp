@@ -177,6 +177,8 @@ namespace ouzel
                                   reinterpret_cast<uint8_t*>(buffers[buffer].data()) + buffers[buffer].size() * sizeof(float));
                     break;
                 }
+                default:
+                    return false;
             }
 
             return true;

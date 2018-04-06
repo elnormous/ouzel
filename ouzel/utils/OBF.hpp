@@ -82,8 +82,6 @@ namespace ouzel
 
                 switch (type)
                 {
-                    case Type::NONE: // do nothing
-                        break;
                     case Type::INT:
                         intValue = 0;
                         break;
@@ -105,6 +103,8 @@ namespace ouzel
                         break;
                     case Type::DICTIONARY:
                         dictionaryValue.clear();
+                        break;
+                    default:
                         break;
                 }
 
@@ -211,8 +211,6 @@ namespace ouzel
             {
                 switch (type)
                 {
-                    case Type::NONE: // do nothing
-                        return true;
                     case Type::INT:
                         return intValue == 0;
                     case Type::FLOAT:
@@ -224,6 +222,8 @@ namespace ouzel
                     case Type::ARRAY:
                     case Type::DICTIONARY:
                         return false;
+                    default:
+                        return true;
                 }
             }
 

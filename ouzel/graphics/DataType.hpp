@@ -147,6 +147,8 @@ namespace ouzel
                     return 9 * sizeof(float);
                 case DataType::FLOAT_MATRIX4:
                     return 16 * sizeof(float);
+                default:
+                    return 0;
             }
 
             return 0;
