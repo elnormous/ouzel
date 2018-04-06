@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include "EngineRasp.hpp"
 #include "input/raspbian/InputRasp.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Utils.hpp"
 
 namespace ouzel
