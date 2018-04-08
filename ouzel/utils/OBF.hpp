@@ -460,11 +460,8 @@ namespace ouzel
 
         private:
             Type type = Type::NONE;
-            union
-            {
-                uint64_t intValue = 0;
-                double doubleValue;
-            };
+            uint64_t intValue = 0;
+            double doubleValue = 0.0;
             std::string stringValue;
             std::vector<uint8_t> byteArrayValue;
             std::map<uint32_t, Value> objectValue;
