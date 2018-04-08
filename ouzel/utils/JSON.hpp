@@ -252,15 +252,12 @@ namespace ouzel
             bool encodeValue(std::vector<uint8_t>& data) const;
 
             Type type = Type::NONE;
+            bool boolValue = false;
+            bool nullValue = false;
+            double doubleValue = 0.0f;
             std::map<std::string, Value> objectValue;
             std::vector<Value> arrayValue;
             std::string stringValue;
-            union
-            {
-                bool boolValue = false;
-                bool nullValue;
-                double doubleValue;
-            };
         };
 
         class Data: public Value
