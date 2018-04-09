@@ -3,11 +3,16 @@ ROOT_DIR:=$(realpath $(dir $(MAKEFILE_PATH)))
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
-	UNAME:=$(shell uname -s)
-	ifeq ($(UNAME),Linux)
-		platform=linux
+	architecture=$(shell uname -m)
+
+	ifeq ($(shell uname -s),Linux)
+		ifneq ($(filter arm%,$(UNAME_P)),)
+			platform=raspbian
+		else
+			platform=linux
+		endif
 	endif
-	ifeq ($(UNAME),Darwin)
+	ifeq ($(shell uname -s),Darwin)
 		platform=macos
 	endif
 endif
@@ -188,7 +193,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RenderDeviceOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
-CXXFLAGS+=-DRASPBIAN -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
+CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \

@@ -4,11 +4,16 @@ debug=0
 ifeq ($(OS),Windows_NT)
 	platform=windows
 else
-	UNAME:=$(shell uname -s)
-	ifeq ($(UNAME),Linux)
-		platform=linux
+	architecture=$(shell uname -m)
+
+	ifeq ($(shell uname -s),Linux)
+		ifneq ($(filter arm%,$(UNAME_P)),)
+			platform=raspbian
+		else
+			platform=linux
+		endif
 	endif
-	ifeq ($(UNAME),Darwin)
+	ifeq ($(shell uname -s),Darwin)
 		platform=macos
 	endif
 endif
@@ -21,7 +26,6 @@ LDFLAGS=-O2 -L$(ROOT_DIR)/../build -louzel
 ifeq ($(platform),windows)
 LDFLAGS+=-u WinMain -ld3d11 -lopengl32 -ldxguid -lxinput9_1_0 -lshlwapi -ldinput8 -luser32 -lgdi32 -lshell32 -lole32 -loleaut32 -ldsound -luuid -lws2_32.lib
 else ifeq ($(platform),raspbian)
-CXXFLAGS+=-DRASPBIAN
 LDFLAGS+=-L/opt/vc/lib -lGLESv2 -lEGL -lbcm_host -lopenal -lpthread -lasound
 else ifeq ($(platform),linux)
 LDFLAGS+=-lGL -lopenal -lpthread -lasound -lX11 -lXcursor -lXss -lXi -lXxf86vm
