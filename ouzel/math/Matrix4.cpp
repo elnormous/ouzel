@@ -342,6 +342,24 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
+            "ld1r {v4.4s}, [%2]                       \n\t" // ssss
+
+            "fadd v8.4s, v0.4s, v4.4s                 \n\t" // DST->M[m0-m3] = M[m0-m3] + s
+            "fadd v9.4s, v1.4s, v4.4s                 \n\t" // DST->M[m4-m7] = M[m4-m7] + s
+            "fadd v10.4s, v2.4s, v4.4s                \n\t" // DST->M[m8-m11] = M[m8-m11] + s
+            "fadd v11.4s, v3.4s, v4.4s                \n\t" // DST->M[m12-m15] = M[m12-m15] + s
+
+            "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0] \n\t" // Result in V9
+            :
+            : "r"(dst.m), "r"(m), "r"(&scalar)
+            : "v0", "v1", "v2", "v3", "v4", "v8", "v9", "v10", "v11", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {q0, q1}, [%1]!  \n\t" // M[m0-m7]
@@ -362,25 +380,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m), "r"(&scalar)
             : "q0", "q1", "q2", "q3", "q4", "q8", "q9", "q10", "q11", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
-            "ld1r {v4.4s}, [%2]                       \n\t" // ssss
 
-            "fadd v8.4s, v0.4s, v4.4s                 \n\t" // DST->M[m0-m3] = M[m0-m3] + s
-            "fadd v9.4s, v1.4s, v4.4s                 \n\t" // DST->M[m4-m7] = M[m4-m7] + s
-            "fadd v10.4s, v2.4s, v4.4s                \n\t" // DST->M[m8-m11] = M[m8-m11] + s
-            "fadd v11.4s, v3.4s, v4.4s                \n\t" // DST->M[m12-m15] = M[m12-m15] + s
-
-            "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0] \n\t" // Result in V9
-            :
-            : "r"(dst.m), "r"(m), "r"(&scalar)
-            : "v0", "v1", "v2", "v3", "v4", "v8", "v9", "v10", "v11", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         __m128 s = _mm_set1_ps(scalar);
         dst.col[0] = _mm_add_ps(col[0], s);
@@ -389,7 +394,7 @@ namespace ouzel
         dst.col[3] = _mm_add_ps(col[3], s);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -428,6 +433,24 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]     \n\t" // M1[m0-m7] M1[m8-m15]
+            "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]   \n\t" // M2[m0-m7] M2[m8-m15]
+
+            "fadd v12.4s, v0.4s, v8.4s                  \n\t" // DST->M[m0-m3] = M1[m0-m3] + M2[m0-m3]
+            "fadd v13.4s, v1.4s, v9.4s                  \n\t" // DST->M[m4-m7] = M1[m4-m7] + M2[m4-m7]
+            "fadd v14.4s, v2.4s, v10.4s                 \n\t" // DST->M[m8-m11] = M1[m8-m11] + M2[m8-m11]
+            "fadd v15.4s, v3.4s, v11.4s                 \n\t" // DST->M[m12-m15] = M1[m12-m15] + M2[m12-m15]
+
+            "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
+            :
+            : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+            : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {q0, q1}, [%1]!    \n\t" // M1[m0-m7]
@@ -446,25 +469,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m1.m), "r"(m2.m)
             : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]     \n\t" // M1[m0-m7] M1[m8-m15]
-            "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]   \n\t" // M2[m0-m7] M2[m8-m15]
 
-            "fadd v12.4s, v0.4s, v8.4s                  \n\t" // DST->M[m0-m3] = M1[m0-m3] + M2[m0-m3]
-            "fadd v13.4s, v1.4s, v9.4s                  \n\t" // DST->M[m4-m7] = M1[m4-m7] + M2[m4-m7]
-            "fadd v14.4s, v2.4s, v10.4s                 \n\t" // DST->M[m8-m11] = M1[m8-m11] + M2[m8-m11]
-            "fadd v15.4s, v3.4s, v11.4s                 \n\t" // DST->M[m12-m15] = M1[m12-m15] + M2[m12-m15]
-
-            "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
-            :
-            : "r"(dst.m), "r"(m1.m), "r"(m2.m)
-            : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         dst.col[0] = _mm_add_ps(m1.col[0], m2.col[0]);
         dst.col[1] = _mm_add_ps(m1.col[1], m2.col[1]);
@@ -472,7 +482,7 @@ namespace ouzel
         dst.col[3] = _mm_add_ps(m1.col[3], m2.col[3]);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -636,6 +646,24 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld1 {v0.s}[0], [%2]                      \n\t" // s
+            "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
+
+            "fmul v8.4s, v4.4s, v0.s[0]               \n\t" // DST->M[m0-m3] = M[m0-m3] * s
+            "fmul v9.4s, v5.4s, v0.s[0]               \n\t" // DST->M[m4-m7] = M[m4-m7] * s
+            "fmul v10.4s, v6.4s, v0.s[0]              \n\t" // DST->M[m8-m11] = M[m8-m11] * s
+            "fmul v11.4s, v7.4s, v0.s[0]              \n\t" // DST->M[m12-m15] = M[m12-m15] * s
+
+            "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
+            :
+            : "r"(dst.m), "r"(m.m), "r"(&scalar)
+            : "v0", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {d0[0]}, [%2]   \n\t" // M[m0-m7]
@@ -653,25 +681,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m.m), "r"(&scalar)
             : "q0", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld1 {v0.s}[0], [%2]                      \n\t" // s
-            "ld4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%1]   \n\t" // M[m0-m7] M[m8-m15]
 
-            "fmul v8.4s, v4.4s, v0.s[0]               \n\t" // DST->M[m0-m3] = M[m0-m3] * s
-            "fmul v9.4s, v5.4s, v0.s[0]               \n\t" // DST->M[m4-m7] = M[m4-m7] * s
-            "fmul v10.4s, v6.4s, v0.s[0]              \n\t" // DST->M[m8-m11] = M[m8-m11] * s
-            "fmul v11.4s, v7.4s, v0.s[0]              \n\t" // DST->M[m12-m15] = M[m12-m15] * s
-
-            "st4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
-            :
-            : "r"(dst.m), "r"(m.m), "r"(&scalar)
-            : "v0", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         __m128 s = _mm_set1_ps(scalar);
         dst.col[0] = _mm_mul_ps(m.col[0], s);
@@ -680,7 +695,7 @@ namespace ouzel
         dst.col[3] = _mm_mul_ps(m.col[3], s);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -719,6 +734,40 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]   \n\t" // M1[m0-m7] M1[m8-m15] M2[m0-m7]  M2[m8-m15]
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%2]     \n\t" // M2[m0-m15]
+
+            "fmul v12.4s, v8.4s, v0.s[0]                \n\t" // DST->M[m0-m3] = M1[m0-m3] * M2[m0]
+            "fmul v13.4s, v8.4s, v0.s[1]                \n\t" // DST->M[m4-m7] = M1[m4-m7] * M2[m4]
+            "fmul v14.4s, v8.4s, v0.s[2]                \n\t" // DST->M[m8-m11] = M1[m8-m11] * M2[m8]
+            "fmul v15.4s, v8.4s, v0.s[3]                \n\t" // DST->M[m12-m15] = M1[m12-m15] * M2[m12]
+
+            "fmla v12.4s, v9.4s, v1.s[0]                \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m1]
+            "fmla v13.4s, v9.4s, v1.s[1]                \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m5]
+            "fmla v14.4s, v9.4s, v1.s[2]                \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m9]
+            "fmla v15.4s, v9.4s, v1.s[3]                \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m13]
+
+            "fmla v12.4s, v10.4s, v2.s[0]               \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m2]
+            "fmla v13.4s, v10.4s, v2.s[1]               \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m6]
+            "fmla v14.4s, v10.4s, v2.s[2]               \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m10]
+            "fmla v15.4s, v10.4s, v2.s[3]               \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m14]
+
+            "fmla v12.4s, v11.4s, v3.s[0]               \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m3]
+            "fmla v13.4s, v11.4s, v3.s[1]               \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m7]
+            "fmla v14.4s, v11.4s, v3.s[2]               \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m11]
+            "fmla v15.4s, v11.4s, v3.s[3]               \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m15]
+
+            "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7]// DST->M[m8-m15]
+
+            : // output
+            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
+            : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {d16 - d19}, [%1]! \n\t" // M1[m0-m7]
@@ -753,41 +802,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
             : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%1]   \n\t" // M1[m0-m7] M1[m8-m15] M2[m0-m7]  M2[m8-m15]
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%2]     \n\t" // M2[m0-m15]
 
-            "fmul v12.4s, v8.4s, v0.s[0]                \n\t" // DST->M[m0-m3] = M1[m0-m3] * M2[m0]
-            "fmul v13.4s, v8.4s, v0.s[1]                \n\t" // DST->M[m4-m7] = M1[m4-m7] * M2[m4]
-            "fmul v14.4s, v8.4s, v0.s[2]                \n\t" // DST->M[m8-m11] = M1[m8-m11] * M2[m8]
-            "fmul v15.4s, v8.4s, v0.s[3]                \n\t" // DST->M[m12-m15] = M1[m12-m15] * M2[m12]
-
-            "fmla v12.4s, v9.4s, v1.s[0]                \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m1]
-            "fmla v13.4s, v9.4s, v1.s[1]                \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m5]
-            "fmla v14.4s, v9.4s, v1.s[2]                \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m9]
-            "fmla v15.4s, v9.4s, v1.s[3]                \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m13]
-
-            "fmla v12.4s, v10.4s, v2.s[0]               \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m2]
-            "fmla v13.4s, v10.4s, v2.s[1]               \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m6]
-            "fmla v14.4s, v10.4s, v2.s[2]               \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m10]
-            "fmla v15.4s, v10.4s, v2.s[3]               \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m14]
-
-            "fmla v12.4s, v11.4s, v3.s[0]               \n\t" // DST->M[m0-m3] += M1[m0-m3] * M2[m3]
-            "fmla v13.4s, v11.4s, v3.s[1]               \n\t" // DST->M[m4-m7] += M1[m4-m7] * M2[m7]
-            "fmla v14.4s, v11.4s, v3.s[2]               \n\t" // DST->M[m8-m11] += M1[m8-m11] * M2[m11]
-            "fmla v15.4s, v11.4s, v3.s[3]               \n\t" // DST->M[m12-m15] += M1[m12-m15] * M2[m15]
-
-            "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7]// DST->M[m8-m15]
-
-            : // output
-            : "r"(dst.m), "r"(m1.m), "r"(m2.m) // input - note *value* of pointer doesn't change
-            : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
-        );
 #elif OUZEL_SUPPORTS_SSE
         __m128 dest[4];
         {
@@ -867,7 +887,7 @@ namespace ouzel
         dst.col[3] = dest[3];
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -914,6 +934,23 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // load m0-m7 load m8-m15
+
+            "fneg v4.4s, v0.4s                      \n\t" // negate m0-m3
+            "fneg v5.4s, v1.4s                      \n\t" // negate m4-m7
+            "fneg v6.4s, v2.4s                      \n\t" // negate m8-m15
+            "fneg v7.4s, v3.4s                      \n\t" // negate m8-m15
+
+            "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0] \n\t" // store m0-m7 store m8-m15
+            :
+            : "r"(dst.m), "r"(m)
+            : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {q0-q1}, [%1]! \n\t" // load m0-m7
@@ -930,24 +967,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m)
             : "q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // load m0-m7 load m8-m15
 
-            "fneg v4.4s, v0.4s                      \n\t" // negate m0-m3
-            "fneg v5.4s, v1.4s                      \n\t" // negate m4-m7
-            "fneg v6.4s, v2.4s                      \n\t" // negate m8-m15
-            "fneg v7.4s, v3.4s                      \n\t" // negate m8-m15
-
-            "st4 {v4.4s, v5.4s, v6.4s, v7.4s}, [%0] \n\t" // store m0-m7 store m8-m15
-            :
-            : "r"(dst.m), "r"(m)
-            : "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         __m128 z = _mm_setzero_ps();
         dst.col[0] = _mm_sub_ps(z, col[0]);
@@ -956,7 +981,7 @@ namespace ouzel
         dst.col[3] = _mm_sub_ps(z, col[3]);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -1114,6 +1139,24 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]     \n\t" // M1[m0-m7] M1[m8-m15]
+            "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]   \n\t" // M2[m0-m7] M2[m8-m15]
+
+            "fsub v12.4s, v0.4s, v8.4s                  \n\t" // DST->M[m0-m3] = M1[m0-m3] - M2[m0-m3]
+            "fsub v13.4s, v1.4s, v9.4s                  \n\t" // DST->M[m4-m7] = M1[m4-m7] - M2[m4-m7]
+            "fsub v14.4s, v2.4s, v10.4s                 \n\t" // DST->M[m8-m11] = M1[m8-m11] - M2[m8-m11]
+            "fsub v15.4s, v3.4s, v11.4s                 \n\t" // DST->M[m12-m15] = M1[m12-m15] - M2[m12-m15]
+
+            "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
+            :
+            : "r"(dst.m), "r"(m1.m), "r"(m2.m)
+            : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {q0, q1}, [%1]!   \n\t" // M1[m0-m7]
@@ -1132,25 +1175,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m1.m), "r"(m2.m)
             : "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]     \n\t" // M1[m0-m7] M1[m8-m15]
-            "ld4 {v8.4s, v9.4s, v10.4s, v11.4s}, [%2]   \n\t" // M2[m0-m7] M2[m8-m15]
 
-            "fsub v12.4s, v0.4s, v8.4s                  \n\t" // DST->M[m0-m3] = M1[m0-m3] - M2[m0-m3]
-            "fsub v13.4s, v1.4s, v9.4s                  \n\t" // DST->M[m4-m7] = M1[m4-m7] - M2[m4-m7]
-            "fsub v14.4s, v2.4s, v10.4s                 \n\t" // DST->M[m8-m11] = M1[m8-m11] - M2[m8-m11]
-            "fsub v15.4s, v3.4s, v11.4s                 \n\t" // DST->M[m12-m15] = M1[m12-m15] - M2[m12-m15]
-
-            "st4 {v12.4s, v13.4s, v14.4s, v15.4s}, [%0] \n\t" // DST->M[m0-m7] DST->M[m8-m15]
-            :
-            : "r"(dst.m), "r"(m1.m), "r"(m2.m)
-            : "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         dst.col[0] = _mm_sub_ps(m1.col[0], m2.col[0]);
         dst.col[1] = _mm_sub_ps(m1.col[1], m2.col[1]);
@@ -1158,7 +1188,7 @@ namespace ouzel
         dst.col[3] = _mm_sub_ps(m1.col[3], m2.col[3]);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -1192,6 +1222,24 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld1 {v0.4s}, [%1]                         \n\t" // V[x, y, z, w]
+            "ld1 {v9.4s, v10.4s, v11.4s, v12.4s}, [%2] \n\t" // M[m0-m7] M[m8-m15]
+
+            "fmul v13.4s, v9.4s, v0.s[0]               \n\t" // DST->V = M[m0-m3] * V[x]
+            "fmla v13.4s, v10.4s, v0.s[1]              \n\t" // DST->V = M[m4-m7] * V[y]
+            "fmla v13.4s, v11.4s, v0.s[2]              \n\t" // DST->V = M[m8-m11] * V[z]
+            "fmla v13.4s, v12.4s, v0.s[3]              \n\t" // DST->V = M[m12-m15] * V[w]
+
+            "st1 {v13.4s}, [%0]                        \n\t" // DST->V
+            :
+            : "r"(&dst.x), "r"(&vector.x), "r"(m)
+            : "v0", "v9", "v10","v11", "v12", "v13", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld1.32 {d0, d1}, [%1]      \n\t" // V[x, y, z, w]
@@ -1208,25 +1256,12 @@ namespace ouzel
             : "r"(&dst.x), "r"(&vector.x), "r"(m)
             : "q0", "q9", "q10","q11", "q12", "q13", "memory"
          );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld1 {v0.4s}, [%1]                         \n\t" // V[x, y, z, w]
-            "ld1 {v9.4s, v10.4s, v11.4s, v12.4s}, [%2] \n\t" // M[m0-m7] M[m8-m15]
 
-            "fmul v13.4s, v9.4s, v0.s[0]               \n\t" // DST->V = M[m0-m3] * V[x]
-            "fmla v13.4s, v10.4s, v0.s[1]              \n\t" // DST->V = M[m4-m7] * V[y]
-            "fmla v13.4s, v11.4s, v0.s[2]              \n\t" // DST->V = M[m8-m11] * V[z]
-            "fmla v13.4s, v12.4s, v0.s[3]              \n\t" // DST->V = M[m12-m15] * V[w]
-
-            "st1 {v13.4s}, [%0]                        \n\t" // DST->V
-            :
-            : "r"(&dst.x), "r"(&vector.x), "r"(m)
-            : "v0", "v9", "v10","v11", "v12", "v13", "memory"
-        );
 #elif OUZEL_SUPPORTS_SSE
         __m128 col1 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(0, 0, 0, 0));
         __m128 col2 = _mm_shuffle_ps(vector.s, vector.s, _MM_SHUFFLE(1, 1, 1, 1));
@@ -1237,7 +1272,7 @@ namespace ouzel
                            _mm_add_ps(_mm_mul_ps(col[2], col3), _mm_mul_ps(col[3], col4)));
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
@@ -1287,6 +1322,17 @@ namespace ouzel
         if (anrdoidNEONChecker.isNEONAvailable())
         {
 #endif
+
+#if OUZEL_64BITS // NEON64
+        asm volatile
+        (
+            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
+            "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0] \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
+            :
+            : "r"(dst.m), "r"(m)
+            : "v0", "v1", "v2", "v3", "memory"
+        );
+#else // NEON
         asm volatile
         (
             "vld4.32 {d0[0], d2[0], d4[0], d6[0]}, [%1]! \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
@@ -1300,18 +1346,12 @@ namespace ouzel
             : "r"(dst.m), "r"(m)
             : "q0", "q1", "q2", "q3", "memory"
         );
+#endif
+
 #if OUZEL_SUPPORTS_NEON_CHECK
         }
 #endif
-#elif OUZEL_SUPPORTS_NEON64
-        asm volatile
-        (
-            "ld4 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
-            "st1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%0] \n\t" // DST->M[m1, m5, m9, m12] = M[m4-m7]
-            :
-            : "r"(dst.m), "r"(m)
-            : "v0", "v1", "v2", "v3", "memory"
-        );
+
 #elif OUZEL_SUPPORTS_SSE
         __m128 tmp0 = _mm_shuffle_ps(col[0], col[1], 0x44);
         __m128 tmp2 = _mm_shuffle_ps(col[0], col[1], 0xEE);
@@ -1324,7 +1364,7 @@ namespace ouzel
         dst.col[3] = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
 #endif
 
-#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_NEON64 && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
+#if (!OUZEL_SUPPORTS_NEON && !OUZEL_SUPPORTS_SSE) || OUZEL_SUPPORTS_NEON_CHECK
 #if OUZEL_SUPPORTS_NEON_CHECK
         else
         {
