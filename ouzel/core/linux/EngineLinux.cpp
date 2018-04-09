@@ -55,111 +55,115 @@ namespace ouzel
 
         while (active)
         {
-            XNextEvent(windowLinux->getDisplay(), &event);
-
-            switch (event.type)
+            // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
+            if (paused || XPending(windowLinux->getDisplay()))
             {
-                case ClientMessage:
-                {
-                    if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
-                    {
-                        exit();
-                    }
-                    else if (event.xclient.message_type == windowLinux->getExecuteAtom())
-                    {
-                        executeAll();
-                    }
-                    break;
-                }
-                case FocusIn:
-                    resume();
-                    break;
-                case FocusOut:
-                    pause();
-                    break;
-                case KeyPress: // keyboard
-                case KeyRelease:
-                {
-                    KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(),
-                                                        event.xkey.keycode, 0,
-                                                        event.xkey.state & ShiftMask ? 1 : 0);
+                XNextEvent(windowLinux->getDisplay(), &event);
 
-                    if (event.type == KeyPress)
+                switch (event.type)
+                {
+                    case ClientMessage:
                     {
-                        input->keyPress(input::InputLinux::convertKeyCode(keySym),
-                                        input::InputLinux::getModifiers(event.xkey.state));
+                        if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
+                        {
+                            exit();
+                        }
+                        else if (event.xclient.message_type == windowLinux->getExecuteAtom())
+                        {
+                            executeAll();
+                        }
+                        break;
                     }
-                    else
+                    case FocusIn:
+                        resume();
+                        break;
+                    case FocusOut:
+                        pause();
+                        break;
+                    case KeyPress: // keyboard
+                    case KeyRelease:
                     {
-                        input->keyRelease(input::InputLinux::convertKeyCode(keySym),
+                        KeySym keySym = XkbKeycodeToKeysym(windowLinux->getDisplay(),
+                                                           event.xkey.keycode, 0,
+                                                           event.xkey.state & ShiftMask ? 1 : 0);
+
+                        if (event.type == KeyPress)
+                        {
+                            input->keyPress(input::InputLinux::convertKeyCode(keySym),
                                             input::InputLinux::getModifiers(event.xkey.state));
-                    }
-                    break;
-                }
-                case ButtonPress: // mouse button
-                case ButtonRelease:
-                {
-                    Vector2 pos(static_cast<float>(event.xbutton.x),
-                                static_cast<float>(event.xbutton.y));
-
-                    input::MouseButton button;
-
-                    switch (event.xbutton.button)
-                    {
-                    case 1:
-                        button = input::MouseButton::LEFT;
-                        break;
-                    case 2:
-                        button = input::MouseButton::RIGHT;
-                        break;
-                    case 3:
-                        button = input::MouseButton::MIDDLE;
-                        break;
-                    default:
-                        button = input::MouseButton::NONE;
+                        }
+                        else
+                        {
+                            input->keyRelease(input::InputLinux::convertKeyCode(keySym),
+                                              input::InputLinux::getModifiers(event.xkey.state));
+                        }
                         break;
                     }
+                    case ButtonPress: // mouse button
+                    case ButtonRelease:
+                    {
+                        Vector2 pos(static_cast<float>(event.xbutton.x),
+                                    static_cast<float>(event.xbutton.y));
 
-                    if (event.type == ButtonPress)
-                    {
-                        input->mouseButtonPress(button,
-                                                window.convertWindowToNormalizedLocation(pos),
-                                                input::InputLinux::getModifiers(event.xbutton.state));
-                    }
-                    else
-                    {
-                        input->mouseButtonRelease(button,
+                        input::MouseButton button;
+
+                        switch (event.xbutton.button)
+                        {
+                        case 1:
+                            button = input::MouseButton::LEFT;
+                            break;
+                        case 2:
+                            button = input::MouseButton::RIGHT;
+                            break;
+                        case 3:
+                            button = input::MouseButton::MIDDLE;
+                            break;
+                        default:
+                            button = input::MouseButton::NONE;
+                            break;
+                        }
+
+                        if (event.type == ButtonPress)
+                        {
+                            input->mouseButtonPress(button,
                                                     window.convertWindowToNormalizedLocation(pos),
                                                     input::InputLinux::getModifiers(event.xbutton.state));
+                        }
+                        else
+                        {
+                            input->mouseButtonRelease(button,
+                                                      window.convertWindowToNormalizedLocation(pos),
+                                                      input::InputLinux::getModifiers(event.xbutton.state));
+                        }
+                        break;
                     }
-                    break;
-                }
-                case MotionNotify:
-                {
-                    Vector2 pos(static_cast<float>(event.xmotion.x),
-                                static_cast<float>(event.xmotion.y));
+                    case MotionNotify:
+                    {
+                        Vector2 pos(static_cast<float>(event.xmotion.x),
+                                    static_cast<float>(event.xmotion.y));
 
-                    input->mouseMove(window.convertWindowToNormalizedLocation(pos),
-                                        input::InputLinux::getModifiers(event.xmotion.state));
+                        input->mouseMove(window.convertWindowToNormalizedLocation(pos),
+                                         input::InputLinux::getModifiers(event.xmotion.state));
 
-                    break;
-                }
-                case ConfigureNotify:
-                {
-                    windowLinux->handleResize(Size2(static_cast<float>(event.xconfigure.width),
-                                                    static_cast<float>(event.xconfigure.height)));
-                    break;
-                }
-                case Expose:
-                {
-                    // need to redraw
-                    break;
-                }
-                case GenericEvent:
-                {
-                    XGenericEventCookie* cookie = &event.xcookie;
-                    inputLinux->handleXInput2Event(cookie);
-                    break;
+                        break;
+                    }
+                    case ConfigureNotify:
+                    {
+                        windowLinux->handleResize(Size2(static_cast<float>(event.xconfigure.width),
+                                                        static_cast<float>(event.xconfigure.height)));
+                        break;
+                    }
+                    case Expose:
+                    {
+                        // need to redraw
+                        break;
+                    }
+                    case GenericEvent:
+                    {
+                        XGenericEventCookie* cookie = &event.xcookie;
+                        inputLinux->handleXInput2Event(cookie);
+                        break;
+                    }
                 }
             }
         }
