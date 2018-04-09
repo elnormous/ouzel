@@ -6,7 +6,7 @@ else
 	architecture=$(shell uname -m)
 
 	ifeq ($(shell uname -s),Linux)
-		ifneq ($(filter arm%,$(UNAME_P)),)
+		ifneq ($(filter arm%,$(architecture)),)
 			platform=raspbian
 		else
 			platform=linux
