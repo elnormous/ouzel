@@ -80,12 +80,9 @@ namespace ouzel
 
             targetActor = actor;
 
-            if (!targetActor)
+            if (!targetActor && parent)
             {
-                if (parent)
-                {
-                    targetActor = parent->getTargetActor();
-                }
+                targetActor = parent->getTargetActor();
             }
 
             for (const auto& animator : animators)
