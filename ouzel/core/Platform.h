@@ -31,8 +31,6 @@
 #define OUZEL_SUPPORTS_OPENAL 1
 #define OUZEL_SUPPORTS_COREAUDIO 1
 
-
-
 #if TARGET_OS_IOS
 #define OUZEL_PLATFORM_IOS 1
 #define OUZEL_SUPPORTS_OPENGLES 1
@@ -63,15 +61,15 @@
 #define OUZEL_64BITS 1
 #elif defined(__i386__)
 #define OUZEL_32BITS 1
-#elif defined(__ARM_NEON__)
-#if defined(__arm64__)
-#define OUZEL_SUPPORTS_NEON64 1
+#elif defined(__arm64__)
 #define OUZEL_64BITS 1
 #elif defined(__arm__)
-#define OUZEL_SUPPORTS_NEON 1
 #define OUZEL_32BITS 1
 #endif
-#endif
+
+#if defined(__ARM_NEON__)
+#define OUZEL_SUPPORTS_NEON 1
+#endif // #if defined(__ARM_NEON__)
 
 #endif // #if defined(__APPLE__)
 
@@ -88,22 +86,24 @@
 #define OUZEL_64BITS 1
 #elif defined(__i386__)
 #define OUZEL_32BITS 1
-#elif defined(__ARM_NEON__)
-#if defined(__arm64__) || defined(__aarch64__)
-#define OUZEL_SUPPORTS_NEON64 1
+#elif defined(__arm64__) || defined(__aarch64__)
 #define OUZEL_64BITS 1
 #elif defined(__arm__)
-#define OUZEL_SUPPORTS_NEON 1
-#define OUZEL_SUPPORTS_NEON_CHECK 1
 #define OUZEL_32BITS 1
 #endif
-#endif
+
+#if defined(__ARM_NEON__)
+#define OUZEL_SUPPORTS_NEON 1
+#if defined(__arm__) // NEON support must be checked on Android for 32-bit platforms
+#define OUZEL_SUPPORTS_NEON_CHECK 1
+#endif // #if defined(__arm__)
+#endif // #if defined(__ARM_NEON__)
 
 #endif // #if defined(__ANDROID__)
 
 #if defined(__linux__) // Linux
 
-#if defined(RASPBIAN) // Raspbian
+#if defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // Raspbian
 #define OUZEL_PLATFORM_RASPBIAN 1
 #define OUZEL_SUPPORTS_OPENGL 1
 #define OUZEL_SUPPORTS_OPENGLES 1
@@ -112,44 +112,30 @@
 #define OUZEL_SUPPORTS_ALSA 1
 #define OUZEL_MULTITHREADED 1
 
-#if defined(__x86_64__)
-#define OUZEL_64BITS 1
-#elif defined(__i386__)
-#define OUZEL_32BITS 1
-#elif defined(__ARM_NEON__)
 #if defined(__arm64__) || defined(__aarch64__)
-#define OUZEL_SUPPORTS_NEON64 1
 #define OUZEL_64BITS 1
-#else defined(__arm__)
-#define OUZEL_SUPPORTS_NEON 1
+#elif defined(__arm__)
 #define OUZEL_32BITS 1
-#endif
 #endif
 
-#else // #if defined(RASPBIAN)
+#if defined(__ARM_NEON__)
+#define OUZEL_SUPPORTS_NEON 1
+#endif // #if defined(__ARM_NEON__)
+
+#else // #if defined(__arm64__) || defined(__aarch64__)
 
 #define OUZEL_PLATFORM_LINUX 1
 #define OUZEL_SUPPORTS_OPENGL 1
-#if defined(__arm__) || defined(__aarch64__)
-#define OUZEL_SUPPORTS_OPENGLES 1
-#endif
 #define OUZEL_OPENGL_INTERFACE_GLX 1
 #define OUZEL_SUPPORTS_OPENAL 1
 #define OUZEL_SUPPORTS_ALSA 1
 #define OUZEL_MULTITHREADED 1
+#define OUZEL_SUPPORTS_X11 1
 
 #if defined(__x86_64__)
 #define OUZEL_64BITS 1
 #elif defined(__i386__)
 #define OUZEL_32BITS 1
-#elif defined(__ARM_NEON__)
-#if defined(__arm64__) || defined(__aarch64__)
-#define OUZEL_SUPPORTS_NEON64 1
-#define OUZEL_64BITS 1
-#else defined(__arm__)
-#define OUZEL_SUPPORTS_NEON 1
-#define OUZEL_32BITS 1
-#endif
 #endif
 
 #endif
