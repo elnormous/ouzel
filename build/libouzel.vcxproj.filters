@@ -852,42 +852,6 @@
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp">
       <Filter>ouzel\graphics\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TexturePSD3D11.h">
-      <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\direct3d11\TextureVSD3D11.h">
-      <Filter>ouzel\graphics\direct3d11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h">
-      <Filter>ouzel\graphics\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp">
       <Filter>ouzel\scene</Filter>
     </ClInclude>
