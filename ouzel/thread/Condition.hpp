@@ -26,7 +26,7 @@ namespace ouzel
         bool wait(Mutex& mutex, std::chrono::steady_clock::duration duration);
 
     protected:
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         CONDITION_VARIABLE conditionVariable;
 #else
         pthread_cond_t condition;

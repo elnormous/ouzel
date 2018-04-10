@@ -6,7 +6,7 @@
 #include <functional>
 #include <memory>
 #include <string>
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 #include <Windows.h>
 #define ThreadLocal __declspec(thread)
 #else
@@ -25,7 +25,7 @@ namespace ouzel
         public:
             bool operator==(const ID& other)
             {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
                 return threadId == other.threadId;
 #else
                 return pthread_equal(thread, other.thread) != 0;
@@ -34,7 +34,7 @@ namespace ouzel
 
             bool operator!=(const ID& other)
             {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
                 return threadId != other.threadId;
 #else
                 return pthread_equal(thread, other.thread) == 0;
@@ -42,7 +42,7 @@ namespace ouzel
             }
 
         protected:
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             ID(DWORD id):
                 threadId(id)
 #else
@@ -52,7 +52,7 @@ namespace ouzel
             {
             }
         private:
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             DWORD threadId = 0;
 #else
             pthread_t thread = 0;
@@ -75,7 +75,7 @@ namespace ouzel
 
         inline bool isJoinable() const
         {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             return handle != nullptr;
 #else
             return thread != 0;
@@ -84,7 +84,7 @@ namespace ouzel
 
         ID getId() const
         {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             return threadId;
 #else
             return thread;
@@ -93,7 +93,7 @@ namespace ouzel
 
         static ID getCurrentThreadId()
         {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             return GetCurrentThreadId();
 #else
             return pthread_self();
@@ -111,7 +111,7 @@ namespace ouzel
     protected:
         std::unique_ptr<State> state;
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         HANDLE handle = nullptr;
         DWORD threadId = 0;
 #else

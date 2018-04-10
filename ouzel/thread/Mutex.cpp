@@ -7,7 +7,7 @@ namespace ouzel
 {
     Mutex::Mutex()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         InitializeCriticalSection(&criticalSection);
 #else
         pthread_mutex_init(&mutex, nullptr);
@@ -16,7 +16,7 @@ namespace ouzel
 
     Mutex::~Mutex()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         DeleteCriticalSection(&criticalSection);
 #else
         pthread_mutex_destroy(&mutex);
@@ -25,7 +25,7 @@ namespace ouzel
 
     bool Mutex::lock()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         EnterCriticalSection(&criticalSection);
         return true;
 #else
@@ -35,7 +35,7 @@ namespace ouzel
 
     bool Mutex::tryLock()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         return TryEnterCriticalSection(&criticalSection) != 0;
 #else
         return pthread_mutex_trylock(&mutex) == 0;
@@ -44,7 +44,7 @@ namespace ouzel
 
     bool Mutex::unlock()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         LeaveCriticalSection(&criticalSection);
         return true;
 #else
