@@ -163,7 +163,7 @@ namespace ouzel
                 }
             }
 
-            format = Audio::Format::FLOAT32;
+            sampleFormat = Audio::SampleFormat::FLOAT32;
 
             getData(bufferSize / (channels * sizeof(float)), data[0]);
 

@@ -55,7 +55,7 @@ namespace ouzel
             ALenum format71 = 0;
 
             ALuint sourceId = 0;
-            ALenum sampleFormat = 0;
+            ALenum format = 0;
             uint32_t nextBuffer = 0;
             ALuint bufferIds[2];
 

@@ -297,13 +297,13 @@ namespace ouzel
                 }
                 else
                 {
-                    format = Audio::Format::SINT16;
+                    sampleFormat = Audio::SampleFormat::SINT16;
                     sampleSize = sizeof(int16_t);
                 }
             }
             else
             {
-                format = Audio::Format::FLOAT32;
+                sampleFormat = Audio::SampleFormat::FLOAT32;
                 sampleSize = sizeof(float);
             }
 

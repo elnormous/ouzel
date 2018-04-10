@@ -110,7 +110,7 @@ namespace ouzel
                 return false;
             }
 
-            format = Audio::Format::SINT16;
+            sampleFormat = Audio::SampleFormat::SINT16;
 
             IDirectSoundBuffer* tempBuffer = nullptr;
 

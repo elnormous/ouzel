@@ -70,7 +70,7 @@ namespace ouzel
                     return false;
                 }
 
-                format = Audio::Format::FLOAT32;
+                sampleFormat = Audio::SampleFormat::FLOAT32;
             }
             else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
             {
@@ -80,7 +80,7 @@ namespace ouzel
                     return false;
                 }
 
-                format = Audio::Format::SINT16;
+                sampleFormat = Audio::SampleFormat::SINT16;
             }
             else
             {
