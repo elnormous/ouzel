@@ -263,16 +263,6 @@
     <ClInclude Include="..\ouzel\graphics\opengl\RenderDeviceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\ShaderResourceOGL.hpp" />
     <ClInclude Include="..\ouzel\graphics\opengl\TextureResourceOGL.hpp" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGL4.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TexturePSGLES3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL3.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGL4.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES2.h" />
-    <ClInclude Include="..\ouzel\graphics\opengl\TextureVSGLES3.h" />
     <ClInclude Include="..\ouzel\graphics\opengl\windows\RenderDeviceOGLWin.hpp" />
     <ClInclude Include="..\ouzel\graphics\PixelFormat.hpp" />
     <ClInclude Include="..\ouzel\graphics\RenderDevice.hpp" />
