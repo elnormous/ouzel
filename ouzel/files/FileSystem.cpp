@@ -107,7 +107,7 @@ namespace ouzel
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
             {
                 Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return false;
+                return "";
             }
 
             if (!CreateDirectoryW(szBuffer, nullptr))
@@ -124,7 +124,7 @@ namespace ouzel
             if (MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, szBuffer, MAX_PATH) == 0)
             {
                 Log(Log::Level::ERR) << "Failed to convert UTF-8 to wide char";
-                return false;
+                return "";
             }
 
             if (!CreateDirectoryW(szBuffer, nullptr))
