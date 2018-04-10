@@ -210,12 +210,12 @@ namespace ouzel
 
             switch (channels)
             {
-                case 1: sampleFormat = AL_FORMAT_MONO16; break;
-                case 2: sampleFormat = AL_FORMAT_STEREO16; break;
-                case 4: sampleFormat = format40; break;
-                case 6: sampleFormat = format51; break;
-                case 7: sampleFormat = format61; break;
-                case 8: sampleFormat = format71; break;
+                case 1: format = AL_FORMAT_MONO16; break;
+                case 2: format = AL_FORMAT_STEREO16; break;
+                case 4: format = format40; break;
+                case 6: format = format51; break;
+                case 7: format = format61; break;
+                case 8: format = format71; break;
                 default:
                 {
                     Log(Log::Level::ERR) << "Invalid channel count";
@@ -223,18 +223,18 @@ namespace ouzel
                 }
             }
 
-            format = Audio::Format::SINT16;
+            sampleFormat = Audio::SampleFormat::SINT16;
 
             getData(bufferSize / (channels * sizeof(int16_t)), data);
 
-            alBufferData(bufferIds[0], sampleFormat,
+            alBufferData(bufferIds[0], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
 
             getData(bufferSize / (channels * sizeof(int16_t)), data);
 
-            alBufferData(bufferIds[1], sampleFormat,
+            alBufferData(bufferIds[1], format,
                          data.data(),
                          static_cast<ALsizei>(data.size()),
                          static_cast<ALsizei>(sampleRate));
@@ -305,7 +305,7 @@ namespace ouzel
                     return false;
                 }
 
-                alBufferData(bufferIds[nextBuffer], sampleFormat,
+                alBufferData(bufferIds[nextBuffer], format,
                              data.data(),
                              static_cast<ALsizei>(data.size()),
                              static_cast<ALsizei>(sampleRate));

@@ -127,7 +127,7 @@ namespace ouzel
                 return false;
             }
 
-            format = Audio::Format::SINT16;
+            sampleFormat = Audio::SampleFormat::SINT16;
 
             if ((*playerObject)->Realize(playerObject, SL_BOOLEAN_FALSE) != SL_RESULT_SUCCESS)
             {

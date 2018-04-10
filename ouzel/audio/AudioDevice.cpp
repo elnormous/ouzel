@@ -156,9 +156,9 @@ namespace ouzel
                 f = clamp(f, -1.0F, 1.0F);
             }
 
-            switch (format)
+            switch (sampleFormat)
             {
-                case Audio::Format::SINT16:
+                case Audio::SampleFormat::SINT16:
                 {
                     result.resize(frames * channels * sizeof(int16_t));
                     int16_t* resultPtr = reinterpret_cast<int16_t*>(result.data());
@@ -170,7 +170,7 @@ namespace ouzel
                     }
                     break;
                 }
-                case Audio::Format::FLOAT32:
+                case Audio::SampleFormat::FLOAT32:
                 {
                     result.reserve(frames * channels * sizeof(float));
                     result.assign(reinterpret_cast<uint8_t*>(buffers[buffer].data()),

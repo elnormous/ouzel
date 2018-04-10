@@ -78,7 +78,7 @@ namespace ouzel
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
-            Audio::Format format = Audio::Format::SINT16;
+            Audio::SampleFormat sampleFormat = Audio::SampleFormat::SINT16;
             const uint32_t bufferSize = 2 * 4096;
             const uint32_t sampleRate = 44100;
             const uint16_t channels = 2;

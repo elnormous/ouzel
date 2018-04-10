@@ -59,7 +59,7 @@ namespace ouzel
                 SURROUND71
             };
 
-            enum class Format
+            enum class SampleFormat
             {
                 SINT16,
                 FLOAT32
