@@ -3,7 +3,7 @@
 
 #include "Thread.hpp"
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static const DWORD MS_VC_EXCEPTION = 0x406D1388;
 #pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
@@ -16,7 +16,7 @@ typedef struct tagTHREADNAME_INFO
 #pragma pack(pop)
 #endif
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 static DWORD WINAPI threadFunction(LPVOID parameter)
 #else
 static void* threadFunction(void* parameter)
@@ -28,7 +28,7 @@ static void* threadFunction(void* parameter)
 
     state->function();
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
     return 0;
 #else
     return NULL;
@@ -43,7 +43,7 @@ namespace ouzel
         state->function = function;
         state->name = name;
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         handle = CreateThread(nullptr, 0, threadFunction, state.get(), 0, &threadId);
         if (handle == nullptr) return;
 #else
@@ -53,7 +53,7 @@ namespace ouzel
 
     Thread::~Thread()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         if (handle)
         {
             WaitForSingleObject(handle, INFINITE);
@@ -66,7 +66,7 @@ namespace ouzel
 
     Thread::Thread(Thread&& other)
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         handle = other.handle;
         threadId = other.threadId;
         other.handle = nullptr;
@@ -82,7 +82,7 @@ namespace ouzel
     {
         if (&other != this)
         {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
             if (handle)
             {
                 WaitForSingleObject(handle, INFINITE);
@@ -105,7 +105,7 @@ namespace ouzel
 
     bool Thread::join()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         return handle ? (WaitForSingleObject(handle, INFINITE) != WAIT_FAILED) : false;
 #else
         return thread ? (pthread_join(thread, nullptr) == 0) : false;
@@ -134,6 +134,8 @@ namespace ouzel
         return pthread_setname_np(name.c_str()) == 0;
 #elif defined(__linux__) || defined(__ANDROID__)
         return pthread_setname_np(pthread_self(), name.c_str()) == 0;
+#else
+        return true;
 #endif
 #endif
     }

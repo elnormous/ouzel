@@ -10,7 +10,7 @@ namespace ouzel
 {
     Condition::Condition()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         InitializeConditionVariable(&conditionVariable);
 #else
         pthread_cond_init(&condition, NULL);
@@ -19,14 +19,14 @@ namespace ouzel
 
     Condition::~Condition()
     {
-#if !defined(_MSC_VER)
+#if !defined(_WIN32)
         pthread_cond_destroy(&condition);
 #endif
     }
 
     bool Condition::signal()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         WakeConditionVariable(&conditionVariable);
         return true;
 #else
@@ -36,7 +36,7 @@ namespace ouzel
 
     bool Condition::broadcast()
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         WakeAllConditionVariable(&conditionVariable);
         return true;
 #else
@@ -46,7 +46,7 @@ namespace ouzel
 
     bool Condition::wait(Mutex& mutex)
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, INFINITE) != 0;
 #else
         return pthread_cond_wait(&condition, &mutex.mutex) == 0;
@@ -55,7 +55,7 @@ namespace ouzel
 
     bool Condition::wait(Mutex& mutex, std::chrono::steady_clock::duration duration)
     {
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection,
                                         static_cast<DWORD>(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count())) != 0;
 #else

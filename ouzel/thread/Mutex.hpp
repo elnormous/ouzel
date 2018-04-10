@@ -3,7 +3,7 @@
 
 #pragma once
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
 #include <Windows.h>
 #else
 #include <pthread.h>
@@ -31,7 +31,7 @@ namespace ouzel
         bool unlock();
 
     protected:
-#if defined(_MSC_VER)
+#if defined(_WIN32)
         CRITICAL_SECTION criticalSection;
 #else
         pthread_mutex_t mutex;
