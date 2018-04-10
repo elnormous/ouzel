@@ -83,8 +83,6 @@ namespace ouzel
                 default:
                     return 0;
             }
-
-            return 0;
         }
 
         static GLint getArraySize(DataType dataType)
@@ -152,8 +150,6 @@ namespace ouzel
                 default:
                     return 0;
             }
-
-            return 0;
         }
 
         static GLboolean isNormalized(DataType dataType)
