@@ -36,7 +36,7 @@ namespace ouzel
                 ALSA
             };
 
-            enum Channel
+            enum class Channel
             {
                 FRONT_LEFT = 0,
                 FRONT_RIGHT = 1,
@@ -48,7 +48,7 @@ namespace ouzel
                 SIDE_RIGHT = 7
             };
 
-            enum ChannelConfiguration
+            enum class ChannelConfiguration
             {
                 MONO,
                 STEREO,
