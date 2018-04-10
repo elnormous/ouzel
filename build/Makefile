@@ -321,11 +321,11 @@ endif
 .PHONY: clean
 clean:
 ifeq ($(platform),windows)
-	-del /f /q $(ROOT_DIR)/$(LIBRARY)
+	-del /f /q "$(ROOT_DIR)\$(LIBRARY)"
 	-del /s "$(ROOT_DIR)\..\*.o"
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
 	$(RM) $(ROOT_DIR)/$(LIBRARY)
-	find "$(ROOT_DIR)/.." -name "*.o" -type f -delete
-	find "$(ROOT_DIR)/.." -name "*.d" -type f -delete
+	find $(ROOT_DIR)/.. -name *.o -type f -delete
+	find $(ROOT_DIR)/.. -name *.d -type f -delete
 endif

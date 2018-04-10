@@ -67,7 +67,7 @@ namespace ouzel
         WCHAR buffer[MAX_PATH];
         if (MultiByteToWideChar(CP_UTF8, 0, filename.c_str(), -1, buffer, MAX_PATH) == 0)
             return false;
-        file = CreateFile(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
+        file = CreateFileW(buffer, access, 0, nullptr, createDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
         return file != INVALID_HANDLE_VALUE;
 #else
         int access = 0;
