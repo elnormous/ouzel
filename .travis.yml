@@ -90,6 +90,6 @@ matrix:
           - android-26
       install:
         - yes | sdkmanager "ndk-bundle"
-        - export ANDROID_NDK_HOME=$HOME/android-sdk/ndk-bundle
+        - export ANDROID_NDK_HOME=/usr/local/android-sdk/ndk-bundle
       script:
-        - $ANDROID_NDK_HOME/ndk-build -j8 NDK_PROJECT_PATH=samples/android/
+        - $ANDROID_NDK_HOME/ndk-build -j2 NDK_PROJECT_PATH=samples/android/
