@@ -80,3 +80,15 @@ matrix:
       script:
         - build-wrapper-macosx-x86 --out-dir bw-output make platform=tvos -j2 -f samples/Makefile
         - sonar-scanner -D sonar.projectKey=OuzelTVOS -D sonar.projectName="Ouzel tvOS"
+    - language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - tools
+          - build-tools-26.0.0
+          - android-26
+      install:
+        - sdkmanager "ndk-bundle"
+      script:
+        - ndk-build -j8 NDK_PROJECT_PATH=samples/android/
