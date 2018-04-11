@@ -10,7 +10,7 @@
 #endif
 
 #if OUZEL_PLATFORM_WINDOWS
-#include <windows.h>
+#include <Windows.h>
 #include <strsafe.h>
 #endif
 
