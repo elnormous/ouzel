@@ -8,7 +8,7 @@
 #if OUZEL_PLATFORM_WINDOWS && OUZEL_COMPILE_OPENGL
 
 #include <atomic>
-#include <windows.h>
+#include <Windows.h>
 #include "graphics/opengl/RenderDeviceOGL.hpp"
 #include "thread/Thread.hpp"
 

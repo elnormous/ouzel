@@ -5,7 +5,7 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
-#include <xinput.h>
+#include <Xinput.h>
 #include "input/Input.hpp"
 
 namespace ouzel

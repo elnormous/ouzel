@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <windows.h>
+#include <Windows.h>
 #include <cstdlib>
 #include "EngineWin.hpp"
 #include "WindowResourceWin.hpp"

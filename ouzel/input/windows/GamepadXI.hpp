@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <windows.h>
-#include <xinput.h>
+#include <Windows.h>
+#include <Xinput.h>
 #include "input/Gamepad.hpp"
 
 namespace ouzel

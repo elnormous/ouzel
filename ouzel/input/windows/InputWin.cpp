@@ -3,9 +3,9 @@
 
 #include <algorithm>
 #include <unordered_map>
-#include <windows.h>
-#include <wbemidl.h>
-#include <oleauto.h>
+#include <Windows.h>
+#include <WbemIdl.h>
+#include <OleAuto.h>
 #include "InputWin.hpp"
 #include "CursorResourceWin.hpp"
 #include "GamepadDI.hpp"
