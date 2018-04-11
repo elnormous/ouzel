@@ -89,6 +89,6 @@ matrix:
           - build-tools-26.0.0
           - android-26
       install:
-        - echo y | sdkmanager "ndk-bundle"
+        - yes | sdkmanager "ndk-bundle"
       script:
         - ndk-build -j8 NDK_PROJECT_PATH=samples/android/
