@@ -214,9 +214,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
                 if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONUP)
                     return TRUE;
-
-                return 0;
             }
+
+            return 0;
         }
         case WM_MOUSEMOVE:
         {
@@ -224,10 +224,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
 
             // don't handle mouse event that came from touch
             if ((extraInfo & SIGNATURE_MASK) != MOUSEEVENTF_FROMTOUCH)
-            {
                 handleMouseMoveEvent(msg, wParam, lParam);
-                return 0;
-            }
+
+            return 0;
         }
         case WM_MOUSEWHEEL:
         case WM_MOUSEHWHEEL:
@@ -259,7 +258,9 @@ static LRESULT CALLBACK windowProc(HWND window, UINT msg, WPARAM wParam, LPARAM 
                     break;
                 case SIZE_RESTORED:
                     ouzel::engine->resume();
-                    // fall through
+                    windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
+                                                         static_cast<float>(HIWORD(lParam))));
+                    break;
                 case SIZE_MAXIMIZED:
                     windowWin->handleResize(ouzel::Size2(static_cast<float>(LOWORD(lParam)),
                                                          static_cast<float>(HIWORD(lParam))));

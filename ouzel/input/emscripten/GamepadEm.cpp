@@ -35,8 +35,8 @@ namespace ouzel
             GamepadButton::PAUSE // 16
         };
 
-        GamepadEm::GamepadEm(long aIndex):
-            index(aIndex)
+        GamepadEm::GamepadEm(long initIndex):
+            index(initIndex)
         {
             std::fill(std::begin(axis), std::end(axis), 0.0F);
             std::fill(std::begin(analogButton), std::end(analogButton), 0.0F);
