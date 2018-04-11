@@ -25,7 +25,7 @@ namespace ouzel
             virtual float getVibration(Motor motor) override;
 
         protected:
-            GamepadXI(DWORD aPlayerIndex);
+            explicit GamepadXI(DWORD aPlayerIndex);
 
             void checkThumbAxis(SHORT oldValue, SHORT newValue, GamepadButton negativeButton, GamepadButton positiveButton);
             void checkButton(const XINPUT_STATE& newState, WORD mask, GamepadButton button);

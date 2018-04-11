@@ -20,7 +20,7 @@ namespace ouzel
             long getIndex() const { return index; }
 
         protected:
-            GamepadEm(long aIndex);
+            explicit GamepadEm(long initIndex);
             void handleThumbAxisChange(double oldValue, double newValue,
                                        GamepadButton negativeButton, GamepadButton positiveButton);
 
