@@ -23,9 +23,8 @@
 #define OUZEL_32BITS 1
 #endif
 
-#endif // #if defined(_WIN32)
-
-#if defined(__APPLE__) // macOS, iOS, tvOS
+// #if defined(_WIN32)
+#elif defined(__APPLE__) // macOS, iOS, tvOS
 #include <TargetConditionals.h>
 #define OUZEL_SUPPORTS_OPENGL 1
 #define OUZEL_SUPPORTS_OPENAL 1
@@ -71,9 +70,8 @@
 #define OUZEL_SUPPORTS_NEON 1
 #endif // #if defined(__ARM_NEON__)
 
-#endif // #if defined(__APPLE__)
-
-#if defined(__ANDROID__) // Android
+// #if defined(__APPLE__)
+#elif defined(__ANDROID__) // Android
 #define OUZEL_PLATFORM_ANDROID 1
 #define OUZEL_SUPPORTS_OPENGL 1
 #define OUZEL_SUPPORTS_OPENGLES 1
@@ -99,9 +97,8 @@
 #endif // #if defined(__arm__)
 #endif // #if defined(__ARM_NEON__)
 
-#endif // #if defined(__ANDROID__)
-
-#if defined(__linux__) // Linux
+// #if defined(__ANDROID__)
+#elif defined(__linux__) // Linux
 
 #if defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // Raspbian
 #define OUZEL_PLATFORM_RASPBIAN 1
@@ -140,9 +137,8 @@
 
 #endif
 
-#endif // #if defined(__linux__)
-
-#if defined(EMSCRIPTEN) // Emscripten
+// #if defined(__linux__)
+#elif defined(EMSCRIPTEN) // Emscripten
 #define OUZEL_PLATFORM_EMSCRIPTEN 1
 #define OUZEL_SUPPORTS_OPENGL 1
 #define OUZEL_SUPPORTS_OPENGLES 1
