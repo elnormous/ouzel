@@ -2,6 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <cstdio>
+#include <cstring>
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
