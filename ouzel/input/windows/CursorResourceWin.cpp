@@ -49,6 +49,9 @@ namespace ouzel
                 case SystemCursor::I_BEAM:
                     cursor = LoadCursor(nullptr, IDC_IBEAM);
                     break;
+                default:
+                    cursor = 0;
+                    break;
             }
 
             if (!cursor)
