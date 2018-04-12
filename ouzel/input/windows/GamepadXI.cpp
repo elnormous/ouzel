@@ -125,6 +125,8 @@ namespace ouzel
             case Motor::RIGHT:
                 vibration.wRightMotorSpeed = static_cast<WORD>(speed);
                 break;
+            default:
+                return;
             }
 
             XInputSetState(playerIndex, &vibration);
@@ -140,9 +142,9 @@ namespace ouzel
                 break;
             case Motor::RIGHT:
                 return vibration.wRightMotorSpeed;
+            default:
+                return 0.0f;
             }
-
-            return 0.0F;
         }
     } // namespace input
 } // namespace ouzel
