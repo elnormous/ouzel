@@ -12,7 +12,6 @@
 #include "WindowResourceLinux.hpp"
 #include "events/Event.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/Input.hpp"
 #include "input/linux/InputLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"
@@ -43,10 +42,7 @@ namespace ouzel
 
         start();
 
-        /*for (;;)
-        {
-            executeAll();
-        }*/
+        input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
 
         XEvent event;
 
@@ -165,6 +161,8 @@ namespace ouzel
                         break;
                     }
                 }
+
+                inputLinux->update();
             }
         }
 
