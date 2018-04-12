@@ -42,8 +42,6 @@ namespace ouzel
 
         start();
 
-        input::InputLinux* inputLinux = static_cast<input::InputLinux*>(input.get());
-
         XEvent event;
 
         WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(window.getResource());
