@@ -10,6 +10,7 @@
 namespace ouzel
 {
     class Engine;
+    class EngineRasp;
 
     namespace input
     {
@@ -30,14 +31,15 @@ namespace ouzel
         class InputRasp: public Input
         {
             friend Engine;
+            friend EngineRasp;
         public:
             virtual ~InputRasp();
-
-            void update();
 
         protected:
             InputRasp();
             virtual bool init() override;
+
+            void update();
 
             uint32_t getModifiers() const;
 

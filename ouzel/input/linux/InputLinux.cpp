@@ -1,7 +1,11 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cstdio>
+#include <dirent.h>
+#include <fcntl.h>
 #include <unordered_map>
+#include <linux/joystick.h>
 #include <X11/cursorfont.h>
 #include <X11/extensions/XInput2.h>
 #include "InputLinux.hpp"
@@ -11,6 +15,11 @@
 #include "core/linux/WindowResourceLinux.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"
+
+static int isInputDevice(const struct dirent* dir)
+{
+	return strncmp("event", dir->d_name, 5) == 0;
+}
 
 namespace ouzel
 {
@@ -289,6 +298,24 @@ namespace ouzel
                 Log(Log::Level::WARN) << "XInput not supported";
             }
 
+            struct dirent** list;
+            int count = scandir("/dev/input", &list, isInputDevice, versionsort);
+
+            for (int i = 0; i < count; ++i)
+            {
+                char filename[64];
+
+                snprintf(filename, sizeof(filename), "/dev/input/%s", list[i]->d_name);
+
+                int fd = open(filename, O_RDONLY);
+
+                if (fd < 0) continue;
+
+                // TODO: check if this is a joystick
+
+                close(fd);
+            }
+
             return true;
         }
 
@@ -300,6 +327,11 @@ namespace ouzel
                 Display* display = windowLinux->getDisplay();
                 if (emptyCursor != None) XFreeCursor(display, emptyCursor);
             }
+        }
+
+        void InputLinux::update()
+        {
+
         }
 
         void InputLinux::activateCursorResource(CursorResource* resource)

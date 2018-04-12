@@ -10,12 +10,14 @@
 namespace ouzel
 {
     class Engine;
+    class EngineLinux;
 
     namespace input
     {
         class InputLinux: public Input
         {
             friend Engine;
+            friend EngineLinux;
         public:
             static KeyboardKey convertKeyCode(KeySym keyCode);
             static uint32_t getModifiers(unsigned int state);
@@ -35,6 +37,8 @@ namespace ouzel
         protected:
             InputLinux();
             virtual bool init() override;
+
+            void update();
 
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;
