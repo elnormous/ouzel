@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <dirent.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <unordered_map>
 #include <linux/joystick.h>
 #include <X11/cursorfont.h>
