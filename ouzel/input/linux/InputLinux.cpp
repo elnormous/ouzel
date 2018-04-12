@@ -331,7 +331,8 @@ namespace ouzel
 
         void InputLinux::update()
         {
-
+            // TODO: check for new gamepads
+            // TODO: update gamepads
         }
 
         void InputLinux::activateCursorResource(CursorResource* resource)
