@@ -13,7 +13,7 @@
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
 
-#define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
+#define DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
 #define BITS_PER_LONG (8 * sizeof(long))
 #define BITS_TO_LONGS(nr) DIV_ROUND_UP(nr, BITS_PER_LONG)
 
@@ -246,6 +246,7 @@ namespace ouzel
                     ioctl(inputDevice.fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
                 {
                     Log(Log::Level::WARN) << "Failed to get device event bits";
+                    close(inputDevice.fd);
                     continue;
                 }
 
