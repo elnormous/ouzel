@@ -419,7 +419,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceD3D11::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
+        bool RenderDeviceD3D11::processCommands(const std::vector<Command>& commands)
         {
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
@@ -432,14 +432,12 @@ namespace ouzel
             viewport.MinDepth = 0.0F;
             viewport.MaxDepth = 1.0F;
 
-            for (const std::unique_ptr<Command>& command : commands)
+            for (const Command& command : commands)
             {
-                switch (command->type)
+                switch (command.type)
                 {
                     case Command::Type::CLEAR:
                     {
-                        ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
-
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
                         const FLOAT* newClearColor;
@@ -449,9 +447,9 @@ namespace ouzel
                         UINT renderTargetWidth = 0;
                         UINT renderTargetHeight = 0;
 
-                        if (clearCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(clearCommand->renderTarget);
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(command.renderTarget);
 
                             if (!renderTargetD3D11->getRenderTargetView())
                             {
@@ -501,15 +499,13 @@ namespace ouzel
 
                     case Command::Type::DRAW:
                     {
-                        DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
                         // render target
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
 
-                        if (drawCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->renderTarget);
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(command.renderTarget);
 
                             if (!renderTargetD3D11->getRenderTargetView())
                             {
@@ -527,27 +523,27 @@ namespace ouzel
 
                         context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
-                        viewport.TopLeftX = drawCommand->viewport.position.x;
-                        viewport.TopLeftY = drawCommand->viewport.position.y;
-                        viewport.Width = drawCommand->viewport.size.width;
-                        viewport.Height = drawCommand->viewport.size.height;
+                        viewport.TopLeftX = command.viewport.position.x;
+                        viewport.TopLeftY = command.viewport.position.y;
+                        viewport.Width = command.viewport.size.width;
+                        viewport.Height = command.viewport.size.height;
                         context->RSSetViewports(1, &viewport);
 
                         // scissor test
-                        if (drawCommand->scissorTest)
+                        if (command.scissorTest)
                         {
                             D3D11_RECT rect;
-                            rect.left = static_cast<LONG>(drawCommand->scissorRectangle.position.x);
-                            rect.top = static_cast<LONG>(drawCommand->scissorRectangle.position.y);
-                            rect.right = static_cast<LONG>(drawCommand->scissorRectangle.position.x + drawCommand->scissorRectangle.size.width);
-                            rect.bottom = static_cast<LONG>(drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height);
+                            rect.left = static_cast<LONG>(command.scissorRectangle.position.x);
+                            rect.top = static_cast<LONG>(command.scissorRectangle.position.y);
+                            rect.right = static_cast<LONG>(command.scissorRectangle.position.x + command.scissorRectangle.size.width);
+                            rect.bottom = static_cast<LONG>(command.scissorRectangle.position.y + command.scissorRectangle.size.height);
                             context->RSSetScissorRects(1, &rect);
                         }
 
-                        uint32_t fillModeIndex = (drawCommand->wireframe) ? 1 : 0;
-                        uint32_t scissorEnableIndex = (drawCommand->scissorTest) ? 1 : 0;
+                        uint32_t fillModeIndex = (command.wireframe) ? 1 : 0;
+                        uint32_t scissorEnableIndex = (command.scissorTest) ? 1 : 0;
                         uint32_t cullModeIndex;
-                        switch (drawCommand->cullMode)
+                        switch (command.cullMode)
                         {
                             case Renderer::CullMode::NONE: cullModeIndex = 0; break;
                             case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
@@ -558,7 +554,7 @@ namespace ouzel
                         context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                         // shader
-                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand->shader);
+                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(command.shader);
 
                         if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
                         {
@@ -574,7 +570,7 @@ namespace ouzel
                         // pixel shader constants
                         const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
 
-                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (command.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
@@ -582,10 +578,10 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.pixelShaderConstants.size(); ++i)
                         {
                             const ShaderResourceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
+                            const std::vector<float>& pixelShaderConstant = command.pixelShaderConstants[i];
 
                             if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
                             {
@@ -609,7 +605,7 @@ namespace ouzel
                         // vertex shader constants
                         const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
 
-                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        if (command.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                             return false;
@@ -617,10 +613,10 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.vertexShaderConstants.size(); ++i)
                         {
                             const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
+                            const std::vector<float>& vertexShaderConstant = command.vertexShaderConstants[i];
 
                             if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                             {
@@ -642,7 +638,7 @@ namespace ouzel
                         context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
                         // blend state
-                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(drawCommand->blendState);
+                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(command.blendState);
 
                         if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
                         {
@@ -659,9 +655,9 @@ namespace ouzel
                         {
                             TextureResourceD3D11* textureD3D11 = nullptr;
 
-                            if (drawCommand->textures.size() > layer)
+                            if (command.textures.size() > layer)
                             {
-                                textureD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->textures[layer]);
+                                textureD3D11 = static_cast<TextureResourceD3D11*>(command.textures[layer]);
                             }
 
                             if (textureD3D11)
@@ -692,14 +688,14 @@ namespace ouzel
                         context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                         // depth-stencil state
-                        uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
+                        uint32_t depthTestIndex = command.depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = command.depthWrite ? 1 : 0;
                         uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
 
                         context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
 
                         // draw// mesh buffer
-                        MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand->meshBuffer);
+                        MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(command.meshBuffer);
                         BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
                         BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
 
@@ -720,7 +716,7 @@ namespace ouzel
 
                         D3D_PRIMITIVE_TOPOLOGY topology;
 
-                        switch (drawCommand->drawMode)
+                        switch (command.drawMode)
                         {
                             case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
                             case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
@@ -732,14 +728,14 @@ namespace ouzel
 
                         context->IASetPrimitiveTopology(topology);
 
-                        uint32_t indexCount = drawCommand->indexCount;
+                        uint32_t indexCount = command.indexCount;
 
                         if (!indexCount)
                         {
-                            indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand->startIndex;
+                            indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - command.startIndex;
                         }
 
-                        context->DrawIndexed(indexCount, drawCommand->startIndex, 0);
+                        context->DrawIndexed(indexCount, command.startIndex, 0);
 
                         break;
                     }

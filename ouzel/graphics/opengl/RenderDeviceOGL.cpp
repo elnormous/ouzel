@@ -783,16 +783,14 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceOGL::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
+        bool RenderDeviceOGL::processCommands(const std::vector<Command>& commands)
         {
-            for (const std::unique_ptr<Command>& command : commands)
+            for (const Command& command : commands)
             {
-                switch (command->type)
+                switch (command.type)
                 {
                     case Command::Type::CLEAR:
                     {
-                        ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
-
                         GLuint newFrameBufferId = 0;
                         GLbitfield newClearMask = 0;
                         const float* newClearColor;
@@ -800,9 +798,9 @@ namespace ouzel
                         GLsizei renderTargetWidth = 0;
                         GLsizei renderTargetHeight = 0;
 
-                        if (clearCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(clearCommand->renderTarget);
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(command.renderTarget);
 
                             if (!renderTargetOGL->getFrameBufferId())
                             {
@@ -868,19 +866,17 @@ namespace ouzel
 
                     case Command::Type::DRAW:
                     {
-                        DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
 #if !OUZEL_SUPPORTS_OPENGLES
-                        setPolygonFillMode(drawCommand->wireframe ? GL_LINE : GL_FILL);
+                        setPolygonFillMode(command.wireframe ? GL_LINE : GL_FILL);
 #else
-                        if (drawCommand->wireframe)
+                        if (command.wireframe)
                         {
                             continue;
                         }
 #endif
 
                         // blend state
-                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand->blendState);
+                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(command.blendState);
 
                         if (!blendStateOGL)
                         {
@@ -909,11 +905,11 @@ namespace ouzel
 
                         GLenum cullFace = GL_NONE;
 
-                        switch (drawCommand->cullMode)
+                        switch (command.cullMode)
                         {
                             case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                            case Renderer::CullMode::FRONT: cullFace = (drawCommand->renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                            case Renderer::CullMode::BACK: cullFace = (drawCommand->renderTarget ? GL_BACK : GL_FRONT); break;
+                            case Renderer::CullMode::FRONT: cullFace = (command.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                            case Renderer::CullMode::BACK: cullFace = (command.renderTarget ? GL_BACK : GL_FRONT); break;
                             default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                         }
 
@@ -929,9 +925,9 @@ namespace ouzel
                         {
                             TextureResourceOGL* textureOGL = nullptr;
 
-                            if (drawCommand->textures.size() > layer)
+                            if (command.textures.size() > layer)
                             {
-                                textureOGL = static_cast<TextureResourceOGL*>(drawCommand->textures[layer]);
+                                textureOGL = static_cast<TextureResourceOGL*>(command.textures[layer]);
                             }
 
                             if (textureOGL)
@@ -962,7 +958,7 @@ namespace ouzel
                         }
 
                         // shader
-                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(drawCommand->shader);
+                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(command.shader);
 
                         if (!shaderOGL || !shaderOGL->getProgramId())
                         {
@@ -975,16 +971,16 @@ namespace ouzel
                         // pixel shader constants
                         const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
 
-                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (command.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
                         }
 
-                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.pixelShaderConstants.size(); ++i)
                         {
                             const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
+                            const std::vector<float>& pixelShaderConstant = command.pixelShaderConstants[i];
 
                             if (!setUniform(pixelShaderConstantLocation.location,
                                             pixelShaderConstantLocation.dataType,
@@ -997,16 +993,16 @@ namespace ouzel
                         // vertex shader constants
                         const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
 
-                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        if (command.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                             return false;
                         }
 
-                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.vertexShaderConstants.size(); ++i)
                         {
                             const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
+                            const std::vector<float>& vertexShaderConstant = command.vertexShaderConstants[i];
 
                             if (!setUniform(vertexShaderConstantLocation.location,
                                             vertexShaderConstantLocation.dataType,
@@ -1020,9 +1016,9 @@ namespace ouzel
                         GLuint newFrameBufferId = 0;
                         GLsizei renderTargetHeight = 0;
 
-                        if (drawCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(drawCommand->renderTarget);
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(command.renderTarget);
 
                             if (!renderTargetOGL->getFrameBufferId())
                             {
@@ -1043,23 +1039,23 @@ namespace ouzel
                             return false;
                         }
 
-                        setViewport(static_cast<GLint>(drawCommand->viewport.position.x),
-                                    static_cast<GLint>(renderTargetHeight - (drawCommand->viewport.position.y + drawCommand->viewport.size.height)),
-                                    static_cast<GLsizei>(drawCommand->viewport.size.width),
-                                    static_cast<GLsizei>(drawCommand->viewport.size.height));
+                        setViewport(static_cast<GLint>(command.viewport.position.x),
+                                    static_cast<GLint>(renderTargetHeight - (command.viewport.position.y + command.viewport.size.height)),
+                                    static_cast<GLsizei>(command.viewport.size.width),
+                                    static_cast<GLsizei>(command.viewport.size.height));
 
-                        enableDepthTest(drawCommand->depthTest);
-                        setDepthMask(drawCommand->depthWrite);
+                        enableDepthTest(command.depthTest);
+                        setDepthMask(command.depthWrite);
 
                         // scissor test
-                        setScissorTest(drawCommand->scissorTest,
-                                       static_cast<GLint>(drawCommand->scissorRectangle.position.x),
-                                       static_cast<GLint>(renderTargetHeight - (drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height)),
-                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.width),
-                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.height));
+                        setScissorTest(command.scissorTest,
+                                       static_cast<GLint>(command.scissorRectangle.position.x),
+                                       static_cast<GLint>(renderTargetHeight - (command.scissorRectangle.position.y + command.scissorRectangle.size.height)),
+                                       static_cast<GLsizei>(command.scissorRectangle.size.width),
+                                       static_cast<GLsizei>(command.scissorRectangle.size.height));
 
                         // mesh buffer
-                        MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);
+                        MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(command.meshBuffer);
                         BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
                         BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
 
@@ -1076,7 +1072,7 @@ namespace ouzel
                         // draw
                         GLenum mode;
 
-                        switch (drawCommand->drawMode)
+                        switch (command.drawMode)
                         {
                             case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
                             case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
@@ -1091,17 +1087,17 @@ namespace ouzel
                             return false;
                         }
 
-                        uint32_t indexCount = drawCommand->indexCount;
+                        uint32_t indexCount = command.indexCount;
 
                         if (!indexCount)
                         {
-                            indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - drawCommand->startIndex;
+                            indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - command.startIndex;
                         }
 
                         glDrawElements(mode,
                                        static_cast<GLsizei>(indexCount),
                                        meshBufferOGL->getIndexType(),
-                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * meshBufferOGL->getBytesPerIndex()));
+                                       static_cast<const char*>(nullptr) + (command.startIndex * meshBufferOGL->getBytesPerIndex()));
 
                         if (checkOpenGLError())
                         {
