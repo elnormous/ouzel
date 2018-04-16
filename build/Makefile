@@ -326,6 +326,6 @@ ifeq ($(platform),windows)
 	-del /s "$(ROOT_DIR)\..\*.d"
 else
 	$(RM) $(ROOT_DIR)/$(LIBRARY)
-	find $(ROOT_DIR)/.. -name *.o -type f -delete
-	find $(ROOT_DIR)/.. -name *.d -type f -delete
+	find $(ROOT_DIR)/.. -name '*.o' -type f -delete
+	find $(ROOT_DIR)/.. -name '*.d' -type f -delete
 endif
