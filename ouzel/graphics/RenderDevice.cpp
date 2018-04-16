@@ -71,15 +71,14 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0F;
             }
 
-            std::vector<DrawCommand> drawCommands;
+            std::vector<std::unique_ptr<Command>> commands;
             {
 #if OUZEL_MULTITHREADED
-                Lock lock(drawQueueMutex);
-                while (!queueFinished) queueCondition.wait(drawQueueMutex);
+                Lock lock(commandQueueMutex);
+                while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
 #endif
 
-                drawCommands = drawQueue;
-                drawQueue.clear();
+                commands = std::move(commandQueue);
 
                 queueFinished = false;
             }
@@ -95,9 +94,7 @@ namespace ouzel
 
             executeAll();
 
-            ++currentFrame;
-
-            if (!draw(drawCommands))
+            if (!processCommands(commands))
             {
                 return false;
             }
@@ -150,25 +147,25 @@ namespace ouzel
             }
         }
 
-        bool RenderDevice::addDrawCommand(const DrawCommand& drawCommand)
+        bool RenderDevice::addCommand(std::unique_ptr<Command>&& command)
         {
-            Lock lock(drawQueueMutex);
+            Lock lock(commandQueueMutex);
 
-            drawQueue.push_back(drawCommand);
+            commandQueue.push_back(std::move(command));
 
             return true;
         }
 
         void RenderDevice::flushCommands()
         {
-            Lock lock(drawQueueMutex);
+            Lock lock(commandQueueMutex);
             refillQueue = false;
 
             queueFinished = true;
-            drawCallCount = static_cast<uint32_t>(drawQueue.size());
+            drawCallCount = static_cast<uint32_t>(commandQueue.size());
 
 #if OUZEL_MULTITHREADED
-            queueCondition.signal();
+            commandQueueCondition.signal();
 #endif
         }
 

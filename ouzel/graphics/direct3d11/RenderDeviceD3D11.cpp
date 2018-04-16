@@ -419,7 +419,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceD3D11::draw(const std::vector<DrawCommand>& drawCommands)
+        bool RenderDeviceD3D11::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
         {
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
@@ -432,300 +432,321 @@ namespace ouzel
             viewport.MinDepth = 0.0F;
             viewport.MaxDepth = 1.0F;
 
-            if (drawCommands.empty())
+            for (const std::unique_ptr<Command>& command : commands)
             {
-                frameBufferClearedFrame = currentFrame;
-
-                context->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
-                context->RSSetState(rasterizerStates[0]);
-                context->OMSetDepthStencilState(depthStencilStates[1], 0); // enable depth write
-
-                viewport.TopLeftX = viewport.TopLeftY = 0.0F;
-                viewport.Width = static_cast<FLOAT>(frameBufferWidth);
-                viewport.Height = static_cast<FLOAT>(frameBufferHeight);
-                context->RSSetViewports(1, &viewport);
-
-                if (clearColorBuffer)
+                switch (command->type)
                 {
-                    context->ClearRenderTargetView(renderTargetView, frameBufferClearColor);
-                }
-
-                if (clearDepthBuffer)
-                {
-                    context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, clearDepth, 0);
-                }
-            }
-            else for (const DrawCommand& drawCommand : drawCommands)
-            {
-                // render target
-                ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                ID3D11DepthStencilView* newDepthStencilView = nullptr;
-                const FLOAT* newClearColor;
-                FLOAT newClearDepth;
-                bool newClearFrameBufferView = false;
-                bool newClearDepthBufferView = false;
-
-                if (drawCommand.renderTarget)
-                {
-                    TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand.renderTarget);
-
-                    if (!renderTargetD3D11->getRenderTargetView())
+                    case Command::Type::CLEAR:
                     {
-                        continue;
-                    }
+                        ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
 
-                    newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                    newDepthStencilView = renderTargetD3D11->getDepthStencilView();
-                    newClearColor = renderTargetD3D11->getFrameBufferClearColor();
-                    newClearDepth = renderTargetD3D11->getClearDepth();
+                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
+                        const FLOAT* newClearColor;
+                        FLOAT newClearDepth;
+                        bool newClearFrameBufferView = false;
+                        bool newClearDepthBufferView = false;
 
-                    if (renderTargetD3D11->getFrameBufferClearedFrame() != currentFrame)
-                    {
-                        renderTargetD3D11->setFrameBufferClearedFrame(currentFrame);
-                        newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
-                        newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
-                    }
-                }
-                else
-                {
-                    newRenderTargetView = renderTargetView;
-                    newDepthStencilView = depthStencilView;
-                    newClearColor = frameBufferClearColor;
-                    newClearDepth = clearDepth;
+                        FLOAT renderTargetWidth = 0;
+                        FLOAT renderTargetHeight = 0;
 
-                    if (frameBufferClearedFrame != currentFrame)
-                    {
-                        frameBufferClearedFrame = currentFrame;
-                        newClearFrameBufferView = clearColorBuffer;
-                        newClearDepthBufferView = clearDepthBuffer;
-                    }
-                }
-
-                context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
-
-                viewport.TopLeftX = drawCommand.viewport.position.x;
-                viewport.TopLeftY = drawCommand.viewport.position.y;
-                viewport.Width = drawCommand.viewport.size.width;
-                viewport.Height = drawCommand.viewport.size.height;
-                context->RSSetViewports(1, &viewport);
-
-                if (newClearFrameBufferView)
-                {
-                    context->ClearRenderTargetView(newRenderTargetView, newClearColor);
-                }
-
-                if (newClearDepthBufferView)
-                {
-                    context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
-                }
-
-                // scissor test
-                if (drawCommand.scissorTest)
-                {
-                    D3D11_RECT rect;
-                    rect.left = static_cast<LONG>(drawCommand.scissorRectangle.position.x);
-                    rect.top = static_cast<LONG>(drawCommand.scissorRectangle.position.y);
-                    rect.right = static_cast<LONG>(drawCommand.scissorRectangle.position.x + drawCommand.scissorRectangle.size.width);
-                    rect.bottom = static_cast<LONG>(drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height);
-                    context->RSSetScissorRects(1, &rect);
-                }
-
-                uint32_t fillModeIndex = (drawCommand.wireframe) ? 1 : 0;
-                uint32_t scissorEnableIndex = (drawCommand.scissorTest) ? 1 : 0;
-                uint32_t cullModeIndex;
-                switch (drawCommand.cullMode)
-                {
-                    case Renderer::CullMode::NONE: cullModeIndex = 0; break;
-                    case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
-                    case Renderer::CullMode::BACK: cullModeIndex = 2; break;
-                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                }
-                uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                context->RSSetState(rasterizerStates[rasterizerStateIndex]);
-
-                // shader
-                ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand.shader);
-
-                if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
-                {
-                    // don't render if invalid shader
-                    continue;
-                }
-
-                context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-                context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-                context->IASetInputLayout(shaderD3D11->getInputLayout());
-
-                // pixel shader constants
-                const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
-
-                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
-                {
-                    Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                    return false;
-                }
-
-                shaderData.clear();
-
-                for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
-                {
-                    const ShaderResourceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                    const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
-
-                    if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
-                    {
-                        Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                        return false;
-                    }
-
-                    shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
-                }
-
-                if (!uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
-                                  shaderData.data(),
-                                  static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                {
-                    return false;
-                }
-
-                ID3D11Buffer* pixelShaderConstantBuffers[1] = {shaderD3D11->getPixelShaderConstantBuffer()};
-                context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
-
-                // vertex shader constants
-                const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
-
-                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                {
-                    Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                    return false;
-                }
-
-                shaderData.clear();
-
-                for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
-                {
-                    const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                    const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
-
-                    if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                    {
-                        Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                        return false;
-                    }
-
-                    shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
-                }
-
-                if (!uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
-                                  shaderData.data(),
-                                  static_cast<uint32_t>(sizeof(float) * shaderData.size())))
-                {
-                    return false;
-                }
-
-                ID3D11Buffer* vertexShaderConstantBuffers[1] = {shaderD3D11->getVertexShaderConstantBuffer()};
-                context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-                // blend state
-                BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(drawCommand.blendState);
-
-                if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
-                {
-                    // don't render if invalid blend state
-                    continue;
-                }
-
-                context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
-
-                // textures
-                bool texturesValid = true;
-
-                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                {
-                    TextureResourceD3D11* textureD3D11 = nullptr;
-
-                    if (drawCommand.textures.size() > layer)
-                    {
-                        textureD3D11 = static_cast<TextureResourceD3D11*>(drawCommand.textures[layer]);
-                    }
-
-                    if (textureD3D11)
-                    {
-                        if (!textureD3D11->getResourceView() ||
-                            !textureD3D11->getSamplerState())
+                        if (clearCommand->renderTarget)
                         {
-                            texturesValid = false;
-                            break;
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(clearCommand->renderTarget);
+
+                            if (!renderTargetD3D11->getRenderTargetView())
+                            {
+                                continue;
+                            }
+
+                            renderTargetWidth = renderTargetD3D11->getWidth();
+                            renderTargetHeight = renderTargetD3D11->getHeight();
+                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                            newClearColor = renderTargetD3D11->getFrameBufferClearColor();
+                            newClearDepth = renderTargetD3D11->getClearDepth();
+                            newClearFrameBufferView = renderTargetD3D11->getClearFrameBufferView();
+                            newClearDepthBufferView = renderTargetD3D11->getClearDepthBufferView();
+                        }
+                        else
+                        {
+                            renderTargetWidth = frameBufferWidth;
+                            renderTargetHeight = frameBufferHeight;
+                            newRenderTargetView = renderTargetView;
+                            newDepthStencilView = depthStencilView;
+                            newClearColor = frameBufferClearColor;
+                            newClearDepth = clearDepth;
+                            newClearFrameBufferView = clearColorBuffer;
+                            newClearDepthBufferView = clearDepthBuffer;
                         }
 
-                        resourceViews[layer] = textureD3D11->getResourceView();
-                        samplers[layer] = textureD3D11->getSamplerState();
+                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                        viewport.originX = viewport.originY = 0.0;
+                        viewport.Width = renderTargetWidth;
+                        viewport.Height = renderTargetHeight;
+                        context->RSSetViewports(1, &viewport);
+
+                        if (newClearFrameBufferView)
+                        {
+                            context->ClearRenderTargetView(newRenderTargetView, newClearColor);
+                        }
+
+                        if (newClearDepthBufferView)
+                        {
+                            context->ClearDepthStencilView(newDepthStencilView, D3D11_CLEAR_DEPTH, newClearDepth, 0);
+                        }
+
+                        break;
                     }
-                    else
+
+                    case Command::Type::DRAW:
                     {
-                        resourceViews[layer] = nullptr;
-                        samplers[layer] = nullptr;
+                        DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
+
+                        // render target
+                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
+
+                        if (drawCommand->renderTarget)
+                        {
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->renderTarget);
+
+                            if (!renderTargetD3D11->getRenderTargetView())
+                            {
+                                continue;
+                            }
+
+                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                        }
+                        else
+                        {
+                            newRenderTargetView = renderTargetView;
+                            newDepthStencilView = depthStencilView;
+                        }
+
+                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                        viewport.TopLeftX = drawCommand->viewport.position.x;
+                        viewport.TopLeftY = drawCommand->viewport.position.y;
+                        viewport.Width = drawCommand->viewport.size.width;
+                        viewport.Height = drawCommand->viewport.size.height;
+                        context->RSSetViewports(1, &viewport);
+
+                        // scissor test
+                        if (drawCommand->scissorTest)
+                        {
+                            D3D11_RECT rect;
+                            rect.left = static_cast<LONG>(drawCommand->scissorRectangle.position.x);
+                            rect.top = static_cast<LONG>(drawCommand->scissorRectangle.position.y);
+                            rect.right = static_cast<LONG>(drawCommand->scissorRectangle.position.x + drawCommand->scissorRectangle.size.width);
+                            rect.bottom = static_cast<LONG>(drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height);
+                            context->RSSetScissorRects(1, &rect);
+                        }
+
+                        uint32_t fillModeIndex = (drawCommand->wireframe) ? 1 : 0;
+                        uint32_t scissorEnableIndex = (drawCommand->scissorTest) ? 1 : 0;
+                        uint32_t cullModeIndex;
+                        switch (drawCommand->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullModeIndex = 0; break;
+                            case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
+                            case Renderer::CullMode::BACK: cullModeIndex = 2; break;
+                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                        }
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        // shader
+                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand->shader);
+
+                        if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
+                        {
+                            // don't render if invalid shader
+                            continue;
+                        }
+
+                        context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                        context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
+                        context->IASetInputLayout(shaderD3D11->getInputLayout());
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
+
+                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                            return false;
+                        }
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
+
+                            if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
+                            {
+                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                                return false;
+                            }
+
+                            shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                        }
+
+                        if (!uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
+                                        shaderData.data(),
+                                        static_cast<uint32_t>(sizeof(float) * shaderData.size())))
+                        {
+                            return false;
+                        }
+
+                        ID3D11Buffer* pixelShaderConstantBuffers[1] = {shaderD3D11->getPixelShaderConstantBuffer()};
+                        context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
+
+                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
+                            return false;
+                        }
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceD3D11::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
+
+                            if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
+                            {
+                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                                return false;
+                            }
+
+                            shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                        }
+
+                        if (!uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
+                                        shaderData.data(),
+                                        static_cast<uint32_t>(sizeof(float) * shaderData.size())))
+                        {
+                            return false;
+                        }
+
+                        ID3D11Buffer* vertexShaderConstantBuffers[1] = {shaderD3D11->getVertexShaderConstantBuffer()};
+                        context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
+
+                        // blend state
+                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(drawCommand->blendState);
+
+                        if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
+                        {
+                            // don't render if invalid blend state
+                            continue;
+                        }
+
+                        context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
+
+                        // textures
+                        bool texturesValid = true;
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceD3D11* textureD3D11 = nullptr;
+
+                            if (drawCommand->textures.size() > layer)
+                            {
+                                textureD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->textures[layer]);
+                            }
+
+                            if (textureD3D11)
+                            {
+                                if (!textureD3D11->getResourceView() ||
+                                    !textureD3D11->getSamplerState())
+                                {
+                                    texturesValid = false;
+                                    break;
+                                }
+
+                                resourceViews[layer] = textureD3D11->getResourceView();
+                                samplers[layer] = textureD3D11->getSamplerState();
+                            }
+                            else
+                            {
+                                resourceViews[layer] = nullptr;
+                                samplers[layer] = nullptr;
+                            }
+                        }
+
+                        if (!texturesValid)
+                        {
+                            continue;
+                        }
+
+                        context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
+                        context->PSSetSamplers(0, Texture::LAYERS, samplers);
+
+                        // depth-stencil state
+                        uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
+                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
+                        context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
+
+                        // draw// mesh buffer
+                        MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand->meshBuffer);
+                        BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
+                        BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
+
+                        if (!meshBufferD3D11 ||
+                            !indexBufferD3D11 ||
+                            !indexBufferD3D11->getBuffer() ||
+                            !vertexBufferD3D11 ||
+                            !vertexBufferD3D11->getBuffer())
+                        {
+                            continue;
+                        }
+
+                        ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
+                        UINT strides[] = {sizeof(Vertex)};
+                        UINT offsets[] = {0};
+                        context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
+                        context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+
+                        D3D_PRIMITIVE_TOPOLOGY topology;
+
+                        switch (drawCommand->drawMode)
+                        {
+                            case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
+                            case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
+                            case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
+                            case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
+                            case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
+                            default: Log(Log::Level::ERR) << "Invalid draw mode";  return false;
+                        }
+
+                        context->IASetPrimitiveTopology(topology);
+
+                        uint32_t indexCount = drawCommand->indexCount;
+
+                        if (!indexCount)
+                        {
+                            indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand->startIndex;
+                        }
+
+                        context->DrawIndexed(indexCount, drawCommand->startIndex, 0);
+
+                        break;
                     }
+
+                    default: return false;
                 }
-
-                if (!texturesValid)
-                {
-                    continue;
-                }
-
-                context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
-                context->PSSetSamplers(0, Texture::LAYERS, samplers);
-
-                // depth-stencil state
-                uint32_t depthTestIndex = drawCommand.depthTest ? 1 : 0;
-                uint32_t depthWriteIndex = drawCommand.depthWrite ? 1 : 0;
-                uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
-
-                context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
-
-                // draw// mesh buffer
-                MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand.meshBuffer);
-                BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
-                BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
-
-                if (!meshBufferD3D11 ||
-                    !indexBufferD3D11 ||
-                    !indexBufferD3D11->getBuffer() ||
-                    !vertexBufferD3D11 ||
-                    !vertexBufferD3D11->getBuffer())
-                {
-                    continue;
-                }
-
-                ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
-                UINT strides[] = {sizeof(Vertex)};
-                UINT offsets[] = {0};
-                context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), meshBufferD3D11->getIndexFormat(), 0);
-
-                D3D_PRIMITIVE_TOPOLOGY topology;
-
-                switch (drawCommand.drawMode)
-                {
-                    case Renderer::DrawMode::POINT_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_POINTLIST; break;
-                    case Renderer::DrawMode::LINE_LIST: topology = D3D_PRIMITIVE_TOPOLOGY_LINELIST; break;
-                    case Renderer::DrawMode::LINE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_LINESTRIP; break;
-                    case Renderer::DrawMode::TRIANGLE_LIST: topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST; break;
-                    case Renderer::DrawMode::TRIANGLE_STRIP: topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP; break;
-                    default: Log(Log::Level::ERR) << "Invalid draw mode";  return false;
-                }
-
-                context->IASetPrimitiveTopology(topology);
-
-                uint32_t indexCount = drawCommand.indexCount;
-
-                if (!indexCount)
-                {
-                    indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand.startIndex;
-                }
-
-                context->DrawIndexed(indexCount, drawCommand.startIndex, 0);
             }
 
             swapChain->Present(swapInterval, 0);

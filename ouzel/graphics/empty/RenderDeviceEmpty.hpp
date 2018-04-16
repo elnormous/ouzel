@@ -24,7 +24,7 @@ namespace ouzel
                               bool newDepth,
                               bool newDebugRenderer) override;
 
-            virtual bool draw(const std::vector<DrawCommand>& drawCommands) override;
+            virtual bool processCommands(const std::vector<std::unique_ptr<Command>>& commands) override;
 
             virtual BlendStateResource* createBlendState() override;
             virtual TextureResource* createTexture() override;
