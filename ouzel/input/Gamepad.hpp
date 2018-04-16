@@ -4,13 +4,14 @@
 #pragma once
 
 #include <cstdint>
+#include "input/InputDevice.hpp"
 #include "events/Event.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class Gamepad
+        class Gamepad: public InputDevice
         {
         public:
             enum class Motor

@@ -10,7 +10,8 @@ namespace ouzel
 {
     namespace input
     {
-        Gamepad::Gamepad()
+        Gamepad::Gamepad():
+            InputDevice(InputDevice::Type::GAMEPAD)
         {
         }
 

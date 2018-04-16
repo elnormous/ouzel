@@ -11,6 +11,11 @@
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
 #include "input/Input.hpp"
+#include "input/Gamepad.hpp"
+#include "input/InputDevice.hpp"
+#include "input/Keyboard.hpp"
+#include "input/Mouse.hpp"
+#include "input/Touchpad.hpp"
 
 namespace ouzel
 {
@@ -28,12 +33,14 @@ namespace ouzel
 
     struct KeyboardEvent
     {
+        input::Keyboard* keyboard = nullptr;
         uint32_t modifiers = 0;
         input::KeyboardKey key = input::KeyboardKey::NONE;
     };
 
     struct MouseEvent
     {
+        input::Mouse* mouse = nullptr;
         uint32_t modifiers = 0;
         input::MouseButton button = input::MouseButton::NONE;
         Vector2 difference;
@@ -43,6 +50,7 @@ namespace ouzel
 
     struct TouchEvent
     {
+        input::Touchpad* touchpad = nullptr;
         uint64_t touchId = 0;
         Vector2 difference;
         Vector2 position;
