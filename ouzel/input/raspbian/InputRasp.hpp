@@ -14,7 +14,7 @@ namespace ouzel
 
     namespace input
     {
-        struct InputDeviceRasp
+        class InputDeviceRasp
         {
             enum DeviceClass
             {
@@ -24,6 +24,37 @@ namespace ouzel
                 CLASS_GAMEPAD = 8
             };
 
+            InputDeviceRasp(int initFd);
+            ~InputDeviceRasp();
+
+            InputDeviceRasp(const InputDeviceRasp& other) = delete;
+            InputDeviceRasp& operator=(const InputDeviceRasp& other) = delete;
+
+            InputDeviceRasp(InputDeviceRasp&& other)
+            {
+                fd = other.fd;
+                deviceClass = other.deviceClass;
+                other.fd = -1;
+                other.deviceClass = 0;
+            }
+
+            InputDeviceRasp& operator=(InputDeviceRasp&& other)
+            {
+                if (&other != this)
+                {
+                    fd = other.fd;
+                    deviceClass = other.deviceClass;
+                    other.fd = -1;
+                    other.deviceClass = 0;
+                }
+
+                return *this;
+            }
+
+            inline uint32_t getDeviceClass() const { return deviceClass; }
+            inline int getFd() const { return fd; }
+
+        private:
             uint32_t deviceClass = 0;
             int fd = 0;
         };
@@ -32,9 +63,6 @@ namespace ouzel
         {
             friend Engine;
             friend EngineRasp;
-        public:
-            virtual ~InputRasp();
-
         protected:
             InputRasp();
             virtual bool init() override;
