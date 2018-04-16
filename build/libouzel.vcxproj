@@ -292,6 +292,10 @@
     <ClInclude Include="..\ouzel\input\CursorResource.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
     <ClInclude Include="..\ouzel\input\Input.hpp" />
+    <ClInclude Include="..\ouzel\input\InputDevice.hpp" />
+    <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
+    <ClInclude Include="..\ouzel\input\Mouse.hpp" />
+    <ClInclude Include="..\ouzel\input\Touchpad.hpp" />
     <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp" />

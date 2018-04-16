@@ -951,6 +951,18 @@
     <ClInclude Include="..\ouzel\thread\Mutex.hpp">
       <Filter>ouzel\thread</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\input\InputDevice.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\Keyboard.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\Mouse.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\Touchpad.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
