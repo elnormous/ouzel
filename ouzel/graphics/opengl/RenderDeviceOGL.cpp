@@ -923,12 +923,7 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceOGL* textureOGL = nullptr;
-
-                            if (command.textures.size() > layer)
-                            {
-                                textureOGL = static_cast<TextureResourceOGL*>(command.textures[layer]);
-                            }
+                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(command.textures[layer]);
 
                             if (textureOGL)
                             {

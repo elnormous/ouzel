@@ -653,12 +653,7 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceD3D11* textureD3D11 = nullptr;
-
-                            if (command.textures.size() > layer)
-                            {
-                                textureD3D11 = static_cast<TextureResourceD3D11*>(command.textures[layer]);
-                            }
+                            TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(command.textures[layer]);
 
                             if (textureD3D11)
                             {

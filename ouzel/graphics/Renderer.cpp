@@ -320,7 +320,12 @@ namespace ouzel
 
             RenderDevice::Command drawCommand;
             drawCommand.type = RenderDevice::Command::DRAW;
-            drawCommand.textures = drawTextures;
+
+            for (uint32_t i = 0; i < Texture::LAYERS; ++i)
+            {
+                drawCommand.textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
+            }
+
             drawCommand.shader = shader->getResource();
             drawCommand.pixelShaderConstants = pixelShaderConstants;
             drawCommand.vertexShaderConstants = vertexShaderConstants;
