@@ -57,8 +57,7 @@ namespace ouzel
                 ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
             {
                 Log(Log::Level::WARN) << "Failed to get device event bits";
-                close(fd);
-                continue;
+                return;
             }
 
             if (isBitSet(eventBits, EV_KEY) && (
