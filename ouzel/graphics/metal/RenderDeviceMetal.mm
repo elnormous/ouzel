@@ -473,22 +473,18 @@ namespace ouzel
                             newDepthBufferLoadAction = depthBufferLoadAction;
                         }
 
-                        if (currentRenderPassDescriptor != newRenderPassDescriptor ||
-                            !currentRenderCommandEncoder)
+                        if (currentRenderCommandEncoder)
                         {
-                            if (currentRenderCommandEncoder)
-                            {
-                                [currentRenderCommandEncoder endEncoding];
-                            }
+                            [currentRenderCommandEncoder endEncoding];
+                        }
 
-                            currentRenderPassDescriptor = newRenderPassDescriptor;
-                            currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+                        currentRenderPassDescriptor = newRenderPassDescriptor;
+                        currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
 
-                            if (!currentRenderCommandEncoder)
-                            {
-                                Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
-                                return false;
-                            }
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
+                            return false;
                         }
 
                         viewport.originX = viewport.originY = 0.0;
