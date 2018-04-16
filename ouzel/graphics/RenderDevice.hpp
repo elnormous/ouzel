@@ -70,7 +70,7 @@ namespace ouzel
                 };
 
                 Type type;
-                std::vector<TextureResource*> textures;
+                TextureResource* textures[Texture::LAYERS];
                 ShaderResource* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;

@@ -724,12 +724,7 @@ namespace ouzel
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
-                            TextureResourceMetal* textureMetal = nullptr;
-
-                            if (command.textures.size() > layer)
-                            {
-                                textureMetal = static_cast<TextureResourceMetal*>(command.textures[layer]);
-                            }
+                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(command.textures[layer]);
 
                             if (textureMetal)
                             {
