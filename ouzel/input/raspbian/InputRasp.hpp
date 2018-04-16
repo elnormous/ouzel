@@ -16,6 +16,7 @@ namespace ouzel
     {
         class InputDeviceRasp
         {
+        public:
             enum DeviceClass
             {
                 CLASS_KEYBOARD = 1,
