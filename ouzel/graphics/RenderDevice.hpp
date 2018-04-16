@@ -60,8 +60,71 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            struct DrawCommand
+            class Command
             {
+            public:
+                enum Type
+                {
+                    CLEAR,
+                    DRAW
+                };
+
+                Command(Type initType): type(initType) {}
+
+                Type type;
+            };
+
+            class ClearCommand: public Command
+            {
+            public:
+                ClearCommand(TextureResource* initRenderTarget):
+                    Command(RenderDevice::Command::Type::CLEAR),
+                    renderTarget(initRenderTarget)
+                {}
+
+                TextureResource* renderTarget;
+            };
+
+            class DrawCommand: public Command
+            {
+            public:
+                DrawCommand(std::vector<TextureResource*> initTextures,
+                            ShaderResource* initShader,
+                            std::vector<std::vector<float>> initPixelShaderConstants,
+                            std::vector<std::vector<float>> initVertexShaderConstants,
+                            BlendStateResource* initBlendState,
+                            MeshBufferResource* initMeshBuffer,
+                            uint32_t initIndexCount,
+                            Renderer::DrawMode initDrawMode,
+                            uint32_t initStartIndex,
+                            TextureResource* initRenderTarget,
+                            Rect initViewport,
+                            bool initDepthWrite,
+                            bool initDepthTest,
+                            bool initWireframe,
+                            bool initScissorTest,
+                            Rect initScissorRectangle,
+                            Renderer::CullMode initCullMode):
+                    Command(RenderDevice::Command::Type::DRAW),
+                    textures(initTextures),
+                    shader(initShader),
+                    pixelShaderConstants(initPixelShaderConstants),
+                    vertexShaderConstants(initVertexShaderConstants),
+                    blendState(initBlendState),
+                    meshBuffer(initMeshBuffer),
+                    indexCount(initIndexCount),
+                    drawMode(initDrawMode),
+                    startIndex(initStartIndex),
+                    renderTarget(initRenderTarget),
+                    viewport(initViewport),
+                    depthWrite(initDepthWrite),
+                    depthTest(initDepthTest),
+                    wireframe(initWireframe),
+                    scissorTest(initScissorTest),
+                    scissorRectangle(initScissorRectangle),
+                    cullMode(initCullMode)
+                {}
+
                 std::vector<TextureResource*> textures;
                 ShaderResource* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
@@ -81,7 +144,7 @@ namespace ouzel
                 Renderer::CullMode cullMode;
             };
 
-            bool addDrawCommand(const DrawCommand& drawCommand);
+            bool addCommand(std::unique_ptr<Command>&& command);
             void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -138,7 +201,7 @@ namespace ouzel
             virtual BufferResource* createBuffer() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool draw(const std::vector<DrawCommand>& drawCommands) = 0;
+            virtual bool processCommands(const std::vector<std::unique_ptr<Command>>& commands) = 0;
             virtual bool generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -148,8 +211,6 @@ namespace ouzel
             uint16_t apiMajorVersion = 0;
             uint16_t apiMinorVersion = 0;
 
-            uint32_t currentFrame = 0;
-            uint32_t frameBufferClearedFrame = 0;
             uint32_t sampleCount = 1; // MSAA sample count
             Texture::Filter textureFilter = Texture::Filter::POINT;
             uint32_t maxAnisotropy = 1;
@@ -178,9 +239,10 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            std::vector<DrawCommand> drawQueue;
-            Mutex drawQueueMutex;
-            Condition queueCondition;
+            std::vector<std::unique_ptr<Command>> commandQueue;
+            Mutex commandQueueMutex;
+            Condition commandQueueCondition;
+
             bool queueFinished = false;
             std::atomic<bool> refillQueue;
 

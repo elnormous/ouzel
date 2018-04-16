@@ -783,328 +783,336 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceOGL::draw(const std::vector<DrawCommand>& drawCommands)
+        bool RenderDeviceOGL::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
         {
-            if (drawCommands.empty())
+            for (const std::unique_ptr<Command>& command : commands)
             {
-                frameBufferClearedFrame = currentFrame;
-
-                if (clearMask)
+                switch (command->type)
                 {
-                    if (!bindFrameBuffer(frameBufferId))
+                    case Command::Type::CLEAR:
                     {
-                        return false;
+                        ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
+
+                        GLuint newFrameBufferId = 0;
+                        GLbitfield newClearMask = 0;
+                        const float* newClearColor;
+                        GLfloat newClearDepth;
+                        GLsizei renderTargetWidth = 0;
+                        GLsizei renderTargetHeight = 0;
+
+                        if (clearCommand->renderTarget)
+                        {
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(clearCommand->renderTarget);
+
+                            if (!renderTargetOGL->getFrameBufferId())
+                            {
+                                continue;
+                            }
+
+                            renderTargetWidth = renderTargetOGL->getWidth();
+                            renderTargetHeight = renderTargetOGL->getHeight();
+                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                            newClearColor = renderTargetOGL->getFrameBufferClearColor();
+                            newClearDepth = renderTargetOGL->getClearDepth();
+                            newClearMask = renderTargetOGL->getClearMask();
+                        }
+                        else
+                        {
+                            renderTargetWidth = frameBufferWidth;
+                            renderTargetHeight = frameBufferHeight;
+                            newFrameBufferId = frameBufferId;
+                            newClearColor = frameBufferClearColor;
+                            newClearDepth = clearDepth;
+                            newClearMask = clearMask;
+                        }
+
+                        if (newClearMask)
+                        {
+                            if (!bindFrameBuffer(newFrameBufferId))
+                            {
+                                return false;
+                            }
+
+                            if (!setViewport(0, 0,
+                                             renderTargetWidth,
+                                             renderTargetHeight))
+                            {
+                                return false;
+                            }
+
+                            setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
+
+                            if (newClearMask & GL_DEPTH_BUFFER_BIT)
+                            {
+                                // allow clearing the depth buffer
+                                setDepthMask(true);
+                                setClearDepthValue(newClearDepth);
+                            }
+
+                            if (newClearMask & GL_COLOR_BUFFER_BIT)
+                            {
+                                setClearColorValue(newClearColor);
+                            }
+
+                            glClear(newClearMask);
+
+                            if (checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to clear frame buffer";
+                                return false;
+                            }
+                        }
+
+                        break;
                     }
 
-                    if (!setViewport(0, 0,
-                                     frameBufferWidth,
-                                     frameBufferHeight))
+                    case Command::Type::DRAW:
                     {
-                        return false;
-                    }
+                        DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                    setClearColorValue(frameBufferClearColor);
-
-                    setDepthMask(true);
-                    setClearDepthValue(clearDepth);
-
-                    glClear(clearMask);
-
-                    if (checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to clear frame buffer";
-                        return false;
-                    }
-                }
-
-                if (!swapBuffers())
-                {
-                    return false;
-                }
-            }
-            else for (const DrawCommand& drawCommand : drawCommands)
-            {
 #if !OUZEL_SUPPORTS_OPENGLES
-                setPolygonFillMode(drawCommand.wireframe ? GL_LINE : GL_FILL);
+                        setPolygonFillMode(drawCommand->wireframe ? GL_LINE : GL_FILL);
 #else
-                if (drawCommand.wireframe)
-                {
-                    continue;
-                }
+                        if (drawCommand->wireframe)
+                        {
+                            continue;
+                        }
 #endif
 
-                // blend state
-                BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand.blendState);
+                        // blend state
+                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand->blendState);
 
-                if (!blendStateOGL)
-                {
-                    // don't render if invalid blend state
-                    continue;
-                }
-
-                if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
-                                   blendStateOGL->getModeRGB(),
-                                   blendStateOGL->getModeAlpha(),
-                                   blendStateOGL->getSourceFactorRGB(),
-                                   blendStateOGL->getDestFactorRGB(),
-                                   blendStateOGL->getSourceFactorAlpha(),
-                                   blendStateOGL->getDestFactorAlpha()))
-                {
-                    return false;
-                }
-
-                if (!setColorMask(blendStateOGL->getRedMask(),
-                                  blendStateOGL->getGreenMask(),
-                                  blendStateOGL->getBlueMask(),
-                                  blendStateOGL->getAlphaMask()))
-                {
-                    return false;
-                }
-
-                GLenum cullFace = GL_NONE;
-
-                switch (drawCommand.cullMode)
-                {
-                    case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                    case Renderer::CullMode::FRONT: cullFace = (drawCommand.renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                    case Renderer::CullMode::BACK: cullFace = (drawCommand.renderTarget ? GL_BACK : GL_FRONT); break;
-                    default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                }
-
-                if (!setCullFace(cullFace != GL_NONE, cullFace))
-                {
-                    return false;
-                }
-
-                // textures
-                bool texturesValid = true;
-
-                for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                {
-                    TextureResourceOGL* textureOGL = nullptr;
-
-                    if (drawCommand.textures.size() > layer)
-                    {
-                        textureOGL = static_cast<TextureResourceOGL*>(drawCommand.textures[layer]);
-                    }
-
-                    if (textureOGL)
-                    {
-                        if (!textureOGL->getTextureId())
+                        if (!blendStateOGL)
                         {
-                            texturesValid = false;
-                            break;
+                            // don't render if invalid blend state
+                            continue;
                         }
 
-                        if (!bindTexture(textureOGL->getTextureId(), layer))
+                        if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
+                                           blendStateOGL->getModeRGB(),
+                                           blendStateOGL->getModeAlpha(),
+                                           blendStateOGL->getSourceFactorRGB(),
+                                           blendStateOGL->getDestFactorRGB(),
+                                           blendStateOGL->getSourceFactorAlpha(),
+                                           blendStateOGL->getDestFactorAlpha()))
                         {
                             return false;
                         }
-                    }
-                    else
-                    {
-                        if (!bindTexture(0, layer))
+
+                        if (!setColorMask(blendStateOGL->getRedMask(),
+                                          blendStateOGL->getGreenMask(),
+                                          blendStateOGL->getBlueMask(),
+                                          blendStateOGL->getAlphaMask()))
                         {
                             return false;
                         }
+
+                        GLenum cullFace = GL_NONE;
+
+                        switch (drawCommand->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
+                            case Renderer::CullMode::FRONT: cullFace = (drawCommand->renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                            case Renderer::CullMode::BACK: cullFace = (drawCommand->renderTarget ? GL_BACK : GL_FRONT); break;
+                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                        }
+
+                        if (!setCullFace(cullFace != GL_NONE, cullFace))
+                        {
+                            return false;
+                        }
+
+                        // textures
+                        bool texturesValid = true;
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceOGL* textureOGL = nullptr;
+
+                            if (drawCommand->textures.size() > layer)
+                            {
+                                textureOGL = static_cast<TextureResourceOGL*>(drawCommand->textures[layer]);
+                            }
+
+                            if (textureOGL)
+                            {
+                                if (!textureOGL->getTextureId())
+                                {
+                                    texturesValid = false;
+                                    break;
+                                }
+
+                                if (!bindTexture(textureOGL->getTextureId(), layer))
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (!bindTexture(0, layer))
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+
+                        if (!texturesValid)
+                        {
+                            continue;
+                        }
+
+                        // shader
+                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(drawCommand->shader);
+
+                        if (!shaderOGL || !shaderOGL->getProgramId())
+                        {
+                            // don't render if invalid shader
+                            continue;
+                        }
+
+                        useProgram(shaderOGL->getProgramId());
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
+
+                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                            return false;
+                        }
+
+                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
+
+                            if (!setUniform(pixelShaderConstantLocation.location,
+                                            pixelShaderConstantLocation.dataType,
+                                            pixelShaderConstant.data()))
+                            {
+                                return false;
+                            }
+                        }
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
+
+                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
+                            return false;
+                        }
+
+                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
+
+                            if (!setUniform(vertexShaderConstantLocation.location,
+                                            vertexShaderConstantLocation.dataType,
+                                            vertexShaderConstant.data()))
+                            {
+                                return false;
+                            }
+                        }
+
+                        // render target
+                        GLuint newFrameBufferId = 0;
+                        GLsizei renderTargetHeight = 0;
+
+                        if (drawCommand->renderTarget)
+                        {
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(drawCommand->renderTarget);
+
+                            if (!renderTargetOGL->getFrameBufferId())
+                            {
+                                continue;
+                            }
+
+                            renderTargetHeight = renderTargetOGL->getHeight();
+                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                        }
+                        else
+                        {
+                            renderTargetHeight = frameBufferHeight;
+                            newFrameBufferId = frameBufferId;
+                        }
+
+                        if (!bindFrameBuffer(newFrameBufferId))
+                        {
+                            return false;
+                        }
+
+                        setViewport(static_cast<GLint>(drawCommand->viewport.position.x),
+                                    static_cast<GLint>(renderTargetHeight - (drawCommand->viewport.position.y + drawCommand->viewport.size.height)),
+                                    static_cast<GLsizei>(drawCommand->viewport.size.width),
+                                    static_cast<GLsizei>(drawCommand->viewport.size.height));
+
+                        enableDepthTest(drawCommand->depthTest);
+                        setDepthMask(drawCommand->depthWrite);
+
+                        // scissor test
+                        setScissorTest(drawCommand->scissorTest,
+                                       static_cast<GLint>(drawCommand->scissorRectangle.position.x),
+                                       static_cast<GLint>(renderTargetHeight - (drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height)),
+                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.width),
+                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.height));
+
+                        // mesh buffer
+                        MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);
+                        BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
+                        BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
+
+                        if (!meshBufferOGL ||
+                            !indexBufferOGL ||
+                            !indexBufferOGL->getBufferId() ||
+                            !vertexBufferOGL ||
+                            !vertexBufferOGL->getBufferId())
+                        {
+                            // don't render if invalid mesh buffer
+                            continue;
+                        }
+
+                        // draw
+                        GLenum mode;
+
+                        switch (drawCommand->drawMode)
+                        {
+                            case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
+                            case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
+                            case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
+                            case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
+                            case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
+                            default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
+                        }
+
+                        if (!meshBufferOGL->bindBuffers())
+                        {
+                            return false;
+                        }
+
+                        uint32_t indexCount = drawCommand->indexCount;
+
+                        if (!indexCount)
+                        {
+                            indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - drawCommand->startIndex;
+                        }
+
+                        glDrawElements(mode,
+                                       static_cast<GLsizei>(indexCount),
+                                       meshBufferOGL->getIndexType(),
+                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * meshBufferOGL->getBytesPerIndex()));
+
+                        if (checkOpenGLError())
+                        {
+                            Log(Log::Level::ERR) << "Failed to draw elements";
+                            return false;
+                        }
+
+                        break;
                     }
-                }
 
-                if (!texturesValid)
-                {
-                    continue;
-                }
-
-                // shader
-                ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(drawCommand.shader);
-
-                if (!shaderOGL || !shaderOGL->getProgramId())
-                {
-                    // don't render if invalid shader
-                    continue;
-                }
-
-                useProgram(shaderOGL->getProgramId());
-
-                // pixel shader constants
-                const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
-
-                if (drawCommand.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
-                {
-                    Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                    return false;
-                }
-
-                for (size_t i = 0; i < drawCommand.pixelShaderConstants.size(); ++i)
-                {
-                    const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                    const std::vector<float>& pixelShaderConstant = drawCommand.pixelShaderConstants[i];
-
-                    if (!setUniform(pixelShaderConstantLocation.location,
-                                    pixelShaderConstantLocation.dataType,
-                                    pixelShaderConstant.data()))
-                    {
-                        return false;
-                    }
-                }
-
-                // vertex shader constants
-                const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
-
-                if (drawCommand.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                {
-                    Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                    return false;
-                }
-
-                for (size_t i = 0; i < drawCommand.vertexShaderConstants.size(); ++i)
-                {
-                    const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                    const std::vector<float>& vertexShaderConstant = drawCommand.vertexShaderConstants[i];
-
-                    if (!setUniform(vertexShaderConstantLocation.location,
-                                    vertexShaderConstantLocation.dataType,
-                                    vertexShaderConstant.data()))
-                    {
-                        return false;
-                    }
-                }
-
-                // render target
-                GLuint newFrameBufferId = 0;
-                GLbitfield newClearMask = 0;
-                const float* newClearColor;
-                GLfloat newClearDepth;
-                GLsizei renderTargetHeight = 0;
-
-                if (drawCommand.renderTarget)
-                {
-                    TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(drawCommand.renderTarget);
-
-                    if (!renderTargetOGL->getFrameBufferId())
-                    {
-                        continue;
-                    }
-
-                    renderTargetHeight = renderTargetOGL->getHeight();
-                    newFrameBufferId = renderTargetOGL->getFrameBufferId();
-
-                    newClearColor = renderTargetOGL->getFrameBufferClearColor();
-                    newClearDepth = renderTargetOGL->getClearDepth();
-
-                    if (renderTargetOGL->getFrameBufferClearedFrame() != currentFrame)
-                    {
-                        renderTargetOGL->setFrameBufferClearedFrame(currentFrame);
-                        newClearMask = renderTargetOGL->getClearMask();
-                    }
-                }
-                else
-                {
-                    renderTargetHeight = frameBufferHeight;
-                    newFrameBufferId = frameBufferId;
-
-                    newClearColor = frameBufferClearColor;
-                    newClearDepth = clearDepth;
-
-                    if (frameBufferClearedFrame != currentFrame)
-                    {
-                        frameBufferClearedFrame = currentFrame;
-                        newClearMask = clearMask;
-                    }
-                }
-
-                if (!bindFrameBuffer(newFrameBufferId))
-                {
-                    return false;
-                }
-
-                setViewport(static_cast<GLint>(drawCommand.viewport.position.x),
-                            static_cast<GLint>(renderTargetHeight - (drawCommand.viewport.position.y + drawCommand.viewport.size.height)),
-                            static_cast<GLsizei>(drawCommand.viewport.size.width),
-                            static_cast<GLsizei>(drawCommand.viewport.size.height));
-
-                if (newClearMask)
-                {
-                    if (newClearMask & GL_DEPTH_BUFFER_BIT)
-                    {
-                        // allow clearing the depth buffer
-                        setDepthMask(true);
-                        setClearDepthValue(newClearDepth);
-                    }
-
-                    if (newClearMask & GL_COLOR_BUFFER_BIT)
-                    {
-                        setClearColorValue(newClearColor);
-                    }
-
-                    glClear(newClearMask);
-
-                    if (checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to clear frame buffer";
-                        return false;
-                    }
-                }
-
-                enableDepthTest(drawCommand.depthTest);
-                setDepthMask(drawCommand.depthWrite);
-
-                // scissor test
-                setScissorTest(drawCommand.scissorTest,
-                               static_cast<GLint>(drawCommand.scissorRectangle.position.x),
-                               static_cast<GLint>(renderTargetHeight - (drawCommand.scissorRectangle.position.y + drawCommand.scissorRectangle.size.height)),
-                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.width),
-                               static_cast<GLsizei>(drawCommand.scissorRectangle.size.height));
-
-                // mesh buffer
-                MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand.meshBuffer);
-                BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
-                BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
-
-                if (!meshBufferOGL ||
-                    !indexBufferOGL ||
-                    !indexBufferOGL->getBufferId() ||
-                    !vertexBufferOGL ||
-                    !vertexBufferOGL->getBufferId())
-                {
-                    // don't render if invalid mesh buffer
-                    continue;
-                }
-
-                // draw
-                GLenum mode;
-
-                switch (drawCommand.drawMode)
-                {
-                    case Renderer::DrawMode::POINT_LIST: mode = GL_POINTS; break;
-                    case Renderer::DrawMode::LINE_LIST: mode = GL_LINES; break;
-                    case Renderer::DrawMode::LINE_STRIP: mode = GL_LINE_STRIP; break;
-                    case Renderer::DrawMode::TRIANGLE_LIST: mode = GL_TRIANGLES; break;
-                    case Renderer::DrawMode::TRIANGLE_STRIP: mode = GL_TRIANGLE_STRIP; break;
-                    default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
-                }
-
-                if (!meshBufferOGL->bindBuffers())
-                {
-                    return false;
-                }
-
-                uint32_t indexCount = drawCommand.indexCount;
-
-                if (!indexCount)
-                {
-                    indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - drawCommand.startIndex;
-                }
-
-                glDrawElements(mode,
-                               static_cast<GLsizei>(indexCount),
-                               meshBufferOGL->getIndexType(),
-                               static_cast<const char*>(nullptr) + (drawCommand.startIndex * meshBufferOGL->getBytesPerIndex()));
-
-                if (checkOpenGLError())
-                {
-                    Log(Log::Level::ERR) << "Failed to draw elements";
-                    return false;
+                    default: return false;
                 }
             }
 

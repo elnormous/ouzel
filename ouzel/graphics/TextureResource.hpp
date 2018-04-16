@@ -74,9 +74,6 @@ namespace ouzel
 
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
-            inline uint32_t getFrameBufferClearedFrame() const { return frameBufferClearedFrame; }
-            void setFrameBufferClearedFrame(uint32_t clearedFrame) { frameBufferClearedFrame = clearedFrame; }
-
         protected:
             TextureResource();
 
@@ -97,8 +94,6 @@ namespace ouzel
             Texture::Address addressX = Texture::Address::CLAMP;
             Texture::Address addressY = Texture::Address::CLAMP;
             uint32_t maxAnisotropy = 0;
-
-            uint32_t frameBufferClearedFrame = 0;
         };
     } // namespace graphics
 } // namespace ouzel

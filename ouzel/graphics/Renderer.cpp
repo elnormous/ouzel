@@ -266,6 +266,13 @@ namespace ouzel
             return true;
         }
 
+        bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
+        {
+            std::unique_ptr<RenderDevice::Command> clearCommand(new RenderDevice::ClearCommand(renderTarget ? renderTarget->getResource() : nullptr));
+
+            return device->addCommand(std::move(clearCommand));
+        }
+
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                       const std::shared_ptr<Shader>& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -309,7 +316,7 @@ namespace ouzel
                 drawTextures.push_back(texture ? texture->getResource() : nullptr);
             }
 
-            RenderDevice::DrawCommand drawCommand = {
+            std::unique_ptr<RenderDevice::Command> drawCommand(new RenderDevice::DrawCommand(
                 drawTextures,
                 shader->getResource(),
                 pixelShaderConstants,
@@ -327,9 +334,9 @@ namespace ouzel
                 scissorTest,
                 scissorRectangle,
                 cullMode
-            };
+            ));
 
-            return device->addDrawCommand(drawCommand);
+            return device->addCommand(std::move(drawCommand));
         }
     } // namespace graphics
 } // namespace ouzel
