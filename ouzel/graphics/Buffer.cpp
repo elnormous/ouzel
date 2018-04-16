@@ -27,10 +27,10 @@ namespace ouzel
             flags = newFlags;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, uint32_t)>(&BufferResource::init),
-                                                                         resource,
-                                                                         newUsage,
-                                                                         newFlags,
-                                                                         newSize));
+                                                                   resource,
+                                                                   newUsage,
+                                                                   newFlags,
+                                                                   newSize));
 
             return true;
         }
@@ -49,10 +49,10 @@ namespace ouzel
             flags = newFlags;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
-                                                                         resource,
-                                                                         newUsage,
-                                                                         newData,
-                                                                         newFlags));
+                                                                   resource,
+                                                                   newUsage,
+                                                                   newData,
+                                                                   newFlags));
 
             return true;
         }
@@ -66,8 +66,8 @@ namespace ouzel
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
             engine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
-                                                                         resource,
-                                                                         newData));
+                                                                   resource,
+                                                                   newData));
 
             return true;
         }

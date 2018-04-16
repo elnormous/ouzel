@@ -33,10 +33,10 @@ namespace ouzel
             BufferResource* vertexBufferResource = newVertexBuffer ? newVertexBuffer->getResource() : nullptr;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::init,
-                                                                         resource,
-                                                                         newIndexSize,
-                                                                         indexBufferResource,
-                                                                         vertexBufferResource));
+                                                                   resource,
+                                                                   newIndexSize,
+                                                                   indexBufferResource,
+                                                                   vertexBufferResource));
 
             return true;
         }
@@ -46,8 +46,8 @@ namespace ouzel
             indexSize = newIndexSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexSize,
-                                                                         resource,
-                                                                         newIndexSize));
+                                                                   resource,
+                                                                   newIndexSize));
 
             return true;
         }
@@ -59,8 +59,8 @@ namespace ouzel
             BufferResource* indexBufferResource = indexBuffer ? indexBuffer->getResource() : nullptr;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setIndexBuffer,
-                                                                         resource,
-                                                                         indexBufferResource));
+                                                                   resource,
+                                                                   indexBufferResource));
 
             return true;
         }
@@ -72,8 +72,8 @@ namespace ouzel
             BufferResource* vertexBufferResource = vertexBuffer ? vertexBuffer->getResource() : nullptr;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&MeshBufferResource::setVertexBuffer,
-                                                                         resource,
-                                                                         vertexBufferResource));
+                                                                   resource,
+                                                                   vertexBufferResource));
 
             return true;
         }
