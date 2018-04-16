@@ -52,16 +52,16 @@ namespace ouzel
             }
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                         resource,
-                                                                         pixelShaderData,
-                                                                         vertexShaderData,
-                                                                         newVertexAttributes,
-                                                                         newPixelShaderConstantInfo,
-                                                                         newVertexShaderConstantInfo,
-                                                                         newPixelShaderDataAlignment,
-                                                                         newVertexShaderDataAlignment,
-                                                                         newPixelShaderFunction,
-                                                                         newVertexShaderFunction));
+                                                                   resource,
+                                                                   pixelShaderData,
+                                                                   vertexShaderData,
+                                                                   newVertexAttributes,
+                                                                   newPixelShaderConstantInfo,
+                                                                   newVertexShaderConstantInfo,
+                                                                   newPixelShaderDataAlignment,
+                                                                   newVertexShaderDataAlignment,
+                                                                   newPixelShaderFunction,
+                                                                   newVertexShaderFunction));
 
             return true;
         }
@@ -81,16 +81,16 @@ namespace ouzel
             vertexShaderFilename.clear();
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                         resource,
-                                                                         newPixelShader,
-                                                                         newVertexShader,
-                                                                         newVertexAttributes,
-                                                                         newPixelShaderConstantInfo,
-                                                                         newVertexShaderConstantInfo,
-                                                                         newPixelShaderDataAlignment,
-                                                                         newVertexShaderDataAlignment,
-                                                                         newPixelShaderFunction,
-                                                                         newVertexShaderFunction));
+                                                                   resource,
+                                                                   newPixelShader,
+                                                                   newVertexShader,
+                                                                   newVertexAttributes,
+                                                                   newPixelShaderConstantInfo,
+                                                                   newVertexShaderConstantInfo,
+                                                                   newPixelShaderDataAlignment,
+                                                                   newVertexShaderDataAlignment,
+                                                                   newPixelShaderFunction,
+                                                                   newVertexShaderFunction));
 
             return  true;
         }

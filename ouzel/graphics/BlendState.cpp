@@ -38,13 +38,13 @@ namespace ouzel
             colorMask = newColorMask;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
-                                                                         resource,
-                                                                         newEnableBlending,
-                                                                         newColorBlendSource, newColorBlendDest,
-                                                                         newColorOperation,
-                                                                         newAlphaBlendSource, newAlphaBlendDest,
-                                                                         newAlphaOperation,
-                                                                         newColorMask));
+                                                                   resource,
+                                                                   newEnableBlending,
+                                                                   newColorBlendSource, newColorBlendDest,
+                                                                   newColorOperation,
+                                                                   newAlphaBlendSource, newAlphaBlendDest,
+                                                                   newAlphaOperation,
+                                                                   newColorMask));
 
             return true;
         }

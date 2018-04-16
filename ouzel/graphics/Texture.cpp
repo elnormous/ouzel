@@ -35,12 +35,12 @@ namespace ouzel
             pixelFormat = newPixelFormat;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                         resource,
-                                                                         newSize,
-                                                                         newFlags,
-                                                                         newMipmaps,
-                                                                         newSampleCount,
-                                                                         newPixelFormat));
+                                                                   resource,
+                                                                   newSize,
+                                                                   newFlags,
+                                                                   newMipmaps,
+                                                                   newSampleCount,
+                                                                   newPixelFormat));
 
             return true;
         }
@@ -63,12 +63,12 @@ namespace ouzel
             pixelFormat = image.getPixelFormat();
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                         resource,
-                                                                         image.getData(),
-                                                                         image.getSize(),
-                                                                         newFlags,
-                                                                         newMipmaps,
-                                                                         image.getPixelFormat()));
+                                                                   resource,
+                                                                   image.getData(),
+                                                                   image.getSize(),
+                                                                   newFlags,
+                                                                   newMipmaps,
+                                                                   image.getPixelFormat()));
 
             return true;
         }
@@ -86,12 +86,12 @@ namespace ouzel
             pixelFormat = newPixelFormat;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                         resource,
-                                                                         newData,
-                                                                         newSize,
-                                                                         newFlags,
-                                                                         newMipmaps,
-                                                                         newPixelFormat));
+                                                                   resource,
+                                                                   newData,
+                                                                   newSize,
+                                                                   newFlags,
+                                                                   newMipmaps,
+                                                                   newPixelFormat));
 
             return true;
         }
@@ -108,11 +108,11 @@ namespace ouzel
             pixelFormat = newPixelFormat;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
-                                                                         resource,
-                                                                         newLevels,
-                                                                         newSize,
-                                                                         newFlags,
-                                                                         newPixelFormat));
+                                                                   resource,
+                                                                   newLevels,
+                                                                   newSize,
+                                                                   newFlags,
+                                                                   newPixelFormat));
 
             return true;
         }
@@ -122,8 +122,8 @@ namespace ouzel
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
-                                                                         resource,
-                                                                         newSize));
+                                                                   resource,
+                                                                   newSize));
 
             return true;
         }
@@ -133,9 +133,9 @@ namespace ouzel
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,
-                                                                         resource,
-                                                                         newData,
-                                                                         newSize));
+                                                                   resource,
+                                                                   newData,
+                                                                   newSize));
 
             return true;
         }
@@ -145,8 +145,8 @@ namespace ouzel
             filter = newFilter;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setFilter,
-                                                                         resource,
-                                                                         newFilter));
+                                                                   resource,
+                                                                   newFilter));
 
             return true;
         }
@@ -156,8 +156,8 @@ namespace ouzel
             addressX = newAddressX;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressX,
-                                                                         resource,
-                                                                         newAddressX));
+                                                                   resource,
+                                                                   newAddressX));
 
             return true;
         }
@@ -167,8 +167,8 @@ namespace ouzel
             addressY = newAddressY;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setAddressY,
-                                                                         resource,
-                                                                         newAddressY));
+                                                                   resource,
+                                                                   newAddressY));
 
             return true;
         }
@@ -178,8 +178,8 @@ namespace ouzel
             maxAnisotropy = newMaxAnisotropy;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setMaxAnisotropy,
-                                                                         resource,
-                                                                         newMaxAnisotropy));
+                                                                   resource,
+                                                                   newMaxAnisotropy));
 
             return true;
         }
@@ -189,8 +189,8 @@ namespace ouzel
             clearColorBuffer = clear;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColorBuffer,
-                                                                         resource,
-                                                                         clear));
+                                                                   resource,
+                                                                   clear));
         }
 
         void Texture::setClearDepthBuffer(bool clear)
@@ -198,8 +198,8 @@ namespace ouzel
             clearDepthBuffer = clear;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepthBuffer,
-                                                                         resource,
-                                                                         clear));
+                                                                   resource,
+                                                                   clear));
         }
 
         void Texture::setClearColor(Color color)
@@ -207,8 +207,8 @@ namespace ouzel
             clearColor = color;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearColor,
-                                                                         resource,
-                                                                         color));
+                                                                   resource,
+                                                                   color));
         }
 
         void Texture::setClearDepth(float depth)
@@ -216,8 +216,8 @@ namespace ouzel
             clearDepth = depth;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setClearDepth,
-                                                                         resource,
-                                                                         depth));
+                                                                   resource,
+                                                                   depth));
         }
 
     } // namespace graphics
