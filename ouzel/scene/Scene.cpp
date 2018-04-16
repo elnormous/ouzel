@@ -40,14 +40,15 @@ namespace ouzel
 
             std::set<graphics::Texture*> clearedRenderTargets;
 
-            // clear all the render targets
             for (Layer* layer : layers)
+            {
+                // clear all the render targets
                 for (Camera* camera : layer->getCameras())
                     if (clearedRenderTargets.insert(camera->getRenderTarget().get()).second)
                         engine->getRenderer()->addClearCommand(camera->getRenderTarget());
 
-            for (Layer* layer : layers)
                 layer->draw();
+            }
         }
 
         void Scene::addChildLayer(Layer* layer)
