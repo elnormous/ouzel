@@ -60,71 +60,16 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            class Command
+            struct Command
             {
-            public:
                 enum Type
                 {
                     CLEAR,
-                    DRAW
+                    DRAW,
+                    BLIT // TODO: implement
                 };
 
-                Command(Type initType): type(initType) {}
-
                 Type type;
-            };
-
-            class ClearCommand: public Command
-            {
-            public:
-                ClearCommand(TextureResource* initRenderTarget):
-                    Command(RenderDevice::Command::Type::CLEAR),
-                    renderTarget(initRenderTarget)
-                {}
-
-                TextureResource* renderTarget;
-            };
-
-            class DrawCommand: public Command
-            {
-            public:
-                DrawCommand(std::vector<TextureResource*> initTextures,
-                            ShaderResource* initShader,
-                            std::vector<std::vector<float>> initPixelShaderConstants,
-                            std::vector<std::vector<float>> initVertexShaderConstants,
-                            BlendStateResource* initBlendState,
-                            MeshBufferResource* initMeshBuffer,
-                            uint32_t initIndexCount,
-                            Renderer::DrawMode initDrawMode,
-                            uint32_t initStartIndex,
-                            TextureResource* initRenderTarget,
-                            Rect initViewport,
-                            bool initDepthWrite,
-                            bool initDepthTest,
-                            bool initWireframe,
-                            bool initScissorTest,
-                            Rect initScissorRectangle,
-                            Renderer::CullMode initCullMode):
-                    Command(RenderDevice::Command::Type::DRAW),
-                    textures(initTextures),
-                    shader(initShader),
-                    pixelShaderConstants(initPixelShaderConstants),
-                    vertexShaderConstants(initVertexShaderConstants),
-                    blendState(initBlendState),
-                    meshBuffer(initMeshBuffer),
-                    indexCount(initIndexCount),
-                    drawMode(initDrawMode),
-                    startIndex(initStartIndex),
-                    renderTarget(initRenderTarget),
-                    viewport(initViewport),
-                    depthWrite(initDepthWrite),
-                    depthTest(initDepthTest),
-                    wireframe(initWireframe),
-                    scissorTest(initScissorTest),
-                    scissorRectangle(initScissorRectangle),
-                    cullMode(initCullMode)
-                {}
-
                 std::vector<TextureResource*> textures;
                 ShaderResource* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
@@ -144,7 +89,7 @@ namespace ouzel
                 Renderer::CullMode cullMode;
             };
 
-            bool addCommand(std::unique_ptr<Command>&& command);
+            bool addCommand(Command&& command);
             void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -201,7 +146,7 @@ namespace ouzel
             virtual BufferResource* createBuffer() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool processCommands(const std::vector<std::unique_ptr<Command>>& commands) = 0;
+            virtual bool processCommands(const std::vector<Command>& commands) = 0;
             virtual bool generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -239,7 +184,10 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            std::vector<std::unique_ptr<Command>> commandQueue;
+            std::vector<Command> commandBuffers[2];
+            std::vector<Command>* fillBuffer = &commandBuffers[0];
+            std::vector<Command>* renderBuffer = &commandBuffers[1];
+
             Mutex commandQueueMutex;
             Condition commandQueueCondition;
 

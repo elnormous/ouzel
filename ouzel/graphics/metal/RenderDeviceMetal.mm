@@ -303,7 +303,7 @@ namespace ouzel
             metalLayer.drawableSize = drawableSize;
         }
 
-        bool RenderDeviceMetal::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
+        bool RenderDeviceMetal::processCommands(const std::vector<Command>& commands)
         {
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
@@ -422,14 +422,12 @@ namespace ouzel
 
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
 
-            for (const std::unique_ptr<Command>& command : commands)
+            for (const Command& command : commands)
             {
-                switch (command->type)
+                switch (command.type)
                 {
                     case Command::Type::CLEAR:
                     {
-                        ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
-
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         PipelineStateDesc pipelineStateDesc;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -439,9 +437,9 @@ namespace ouzel
                         NSUInteger renderTargetHeight = 0;
 
                         // render target
-                        if (clearCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(clearCommand->renderTarget);
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(command.renderTarget);
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                             if (!newRenderPassDescriptor)
@@ -502,8 +500,6 @@ namespace ouzel
 
                     case Command::Type::DRAW:
                     {
-                        DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         PipelineStateDesc pipelineStateDesc;
 
@@ -511,9 +507,9 @@ namespace ouzel
                         NSUInteger renderTargetHeight = 0;
 
                         // render target
-                        if (drawCommand->renderTarget)
+                        if (command.renderTarget)
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(drawCommand->renderTarget);
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(command.renderTarget);
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
                             if (!newRenderPassDescriptor)
@@ -559,20 +555,20 @@ namespace ouzel
                             currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
                         }
 
-                        viewport.originX = static_cast<double>(drawCommand->viewport.position.x);
-                        viewport.originY = static_cast<double>(drawCommand->viewport.position.y);
-                        viewport.width = static_cast<double>(drawCommand->viewport.size.width);
-                        viewport.height = static_cast<double>(drawCommand->viewport.size.height);
+                        viewport.originX = static_cast<double>(command.viewport.position.x);
+                        viewport.originY = static_cast<double>(command.viewport.position.y);
+                        viewport.width = static_cast<double>(command.viewport.size.width);
+                        viewport.height = static_cast<double>(command.viewport.size.height);
 
                         [currentRenderCommandEncoder setViewport: viewport];
-                        [currentRenderCommandEncoder setTriangleFillMode:drawCommand->wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
+                        [currentRenderCommandEncoder setTriangleFillMode:command.wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
 
-                        if (drawCommand->scissorTest)
+                        if (command.scissorTest)
                         {
-                            scissorRect.x = static_cast<NSUInteger>(drawCommand->scissorRectangle.position.x);
-                            scissorRect.y = static_cast<NSUInteger>(drawCommand->scissorRectangle.position.y);
-                            scissorRect.width = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.width);
-                            scissorRect.height = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.height);
+                            scissorRect.x = static_cast<NSUInteger>(command.scissorRectangle.position.x);
+                            scissorRect.y = static_cast<NSUInteger>(command.scissorRectangle.position.y);
+                            scissorRect.width = static_cast<NSUInteger>(command.scissorRectangle.size.width);
+                            scissorRect.height = static_cast<NSUInteger>(command.scissorRectangle.size.height);
                             if (scissorRect.x >= renderTargetWidth) scissorRect.x = renderTargetWidth - 1;
                             if (scissorRect.y >= renderTargetHeight) scissorRect.y = renderTargetHeight - 1;
                             if (scissorRect.width > renderTargetWidth - scissorRect.x) scissorRect.width = renderTargetWidth - scissorRect.x;
@@ -587,15 +583,15 @@ namespace ouzel
 
                         [currentRenderCommandEncoder setScissorRect: scissorRect];
 
-                        uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
+                        uint32_t depthTestIndex = command.depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = command.depthWrite ? 1 : 0;
                         uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
 
                         [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
 
                         MTLCullMode cullMode;
 
-                        switch (drawCommand->cullMode)
+                        switch (command.cullMode)
                         {
                             case Renderer::CullMode::NONE: cullMode = MTLCullModeNone; break;
                             case Renderer::CullMode::FRONT: cullMode = MTLCullModeFront; break;
@@ -606,7 +602,7 @@ namespace ouzel
                         [currentRenderCommandEncoder setCullMode:cullMode];
 
                         // shader
-                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand->shader);
+                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(command.shader);
 
                         if (!shaderMetal || !shaderMetal->getPixelShader() || !shaderMetal->getVertexShader())
                         {
@@ -619,7 +615,7 @@ namespace ouzel
                         // pixel shader constants
                         const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
 
-                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (command.pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
@@ -627,10 +623,10 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.pixelShaderConstants.size(); ++i)
                         {
                             const ShaderResourceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
+                            const std::vector<float>& pixelShaderConstant = command.pixelShaderConstants[i];
 
                             if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
                             {
@@ -662,7 +658,7 @@ namespace ouzel
                         // vertex shader constants
                         const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
 
-                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        if (command.vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid vertex shader constant size";
                             return false;
@@ -670,10 +666,10 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < command.vertexShaderConstants.size(); ++i)
                         {
                             const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
+                            const std::vector<float>& vertexShaderConstant = command.vertexShaderConstants[i];
 
                             if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                             {
@@ -703,7 +699,7 @@ namespace ouzel
                         shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                         // blend state
-                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(drawCommand->blendState);
+                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(command.blendState);
 
                         if (!blendStateMetal)
                         {
@@ -730,9 +726,9 @@ namespace ouzel
                         {
                             TextureResourceMetal* textureMetal = nullptr;
 
-                            if (drawCommand->textures.size() > layer)
+                            if (command.textures.size() > layer)
                             {
-                                textureMetal = static_cast<TextureResourceMetal*>(drawCommand->textures[layer]);
+                                textureMetal = static_cast<TextureResourceMetal*>(command.textures[layer]);
                             }
 
                             if (textureMetal)
@@ -758,7 +754,7 @@ namespace ouzel
                         }
 
                         // mesh buffer
-                        MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(drawCommand->meshBuffer);
+                        MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(command.meshBuffer);
                         BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
                         BufferResourceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
 
@@ -777,7 +773,7 @@ namespace ouzel
                         // draw
                         MTLPrimitiveType primitiveType;
 
-                        switch (drawCommand->drawMode)
+                        switch (command.drawMode)
                         {
                             case Renderer::DrawMode::POINT_LIST: primitiveType = MTLPrimitiveTypePoint; break;
                             case Renderer::DrawMode::LINE_LIST: primitiveType = MTLPrimitiveTypeLine; break;
@@ -787,18 +783,18 @@ namespace ouzel
                             default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                         }
 
-                        uint32_t indexCount = drawCommand->indexCount;
+                        uint32_t indexCount = command.indexCount;
 
                         if (!indexCount)
                         {
-                            indexCount = (indexBufferMetal->getSize() / meshBufferMetal->getIndexSize()) - drawCommand->startIndex;
+                            indexCount = (indexBufferMetal->getSize() / meshBufferMetal->getIndexSize()) - command.startIndex;
                         }
 
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                                 indexCount:indexCount
                                                                  indexType:meshBufferMetal->getIndexType()
                                                                indexBuffer:indexBufferMetal->getBuffer()
-                                                         indexBufferOffset:drawCommand->startIndex * meshBufferMetal->getBytesPerIndex()];
+                                                         indexBufferOffset:command.startIndex * meshBufferMetal->getBytesPerIndex()];
 
                         break;
                     }

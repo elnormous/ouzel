@@ -71,21 +71,6 @@ namespace ouzel
                 currentAccumulatedFPS = 0.0F;
             }
 
-            std::vector<std::unique_ptr<Command>> commands;
-            {
-#if OUZEL_MULTITHREADED
-                Lock lock(commandQueueMutex);
-                while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
-#endif
-
-                commands = std::move(commandQueue);
-
-                queueFinished = false;
-            }
-
-            // refills the draw queue
-            refillQueue = true;
-
             std::vector<std::unique_ptr<RenderResource>> deleteResources; // will be cleared at the end of the scope
             {
                 Lock lock(resourceMutex);
@@ -94,9 +79,17 @@ namespace ouzel
 
             executeAll();
 
-            if (!processCommands(commands))
             {
-                return false;
+#if OUZEL_MULTITHREADED
+                Lock lock(commandQueueMutex);
+                while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
+#endif
+
+                processCommands(*renderBuffer);
+
+                queueFinished = false;
+                // refills the draw queue
+                refillQueue = true;
             }
 
             return true;
@@ -147,22 +140,26 @@ namespace ouzel
             }
         }
 
-        bool RenderDevice::addCommand(std::unique_ptr<Command>&& command)
+        bool RenderDevice::addCommand(Command&& command)
         {
-            Lock lock(commandQueueMutex);
-
-            commandQueue.push_back(std::move(command));
+            fillBuffer->push_back(std::move(command));
 
             return true;
         }
 
         void RenderDevice::flushCommands()
         {
+#if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
+#endif
+
             refillQueue = false;
 
+            std::swap(fillBuffer, renderBuffer);
+            fillBuffer->clear();
+
             queueFinished = true;
-            drawCallCount = static_cast<uint32_t>(commandQueue.size());
+            drawCallCount = static_cast<uint32_t>(renderBuffer->size());
 
 #if OUZEL_MULTITHREADED
             commandQueueCondition.signal();
