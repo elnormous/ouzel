@@ -66,7 +66,8 @@ namespace ouzel
                 {
                     CLEAR,
                     DRAW,
-                    BLIT // TODO: implement
+                    BLIT, // TODO: implement
+                    COMPUTE // TODO: implement
                 };
 
                 Type type;
