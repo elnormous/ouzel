@@ -446,9 +446,8 @@ namespace ouzel
                         FLOAT newClearDepth;
                         bool newClearFrameBufferView = false;
                         bool newClearDepthBufferView = false;
-
-                        FLOAT renderTargetWidth = 0;
-                        FLOAT renderTargetHeight = 0;
+                        UINT renderTargetWidth = 0;
+                        UINT renderTargetHeight = 0;
 
                         if (clearCommand->renderTarget)
                         {
@@ -482,9 +481,9 @@ namespace ouzel
 
                         context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
-                        viewport.originX = viewport.originY = 0.0;
-                        viewport.Width = renderTargetWidth;
-                        viewport.Height = renderTargetHeight;
+                        viewport.TopLeftX = viewport.TopLeftY = 0.0f;
+                        viewport.Width = static_cast<FLOAT>(renderTargetWidth);
+                        viewport.Height = static_cast<FLOAT>(renderTargetHeight);
                         context->RSSetViewports(1, &viewport);
 
                         if (newClearFrameBufferView)
