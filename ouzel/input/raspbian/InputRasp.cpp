@@ -28,6 +28,114 @@ namespace ouzel
 {
     namespace input
     {
+        InputDeviceRasp::InputDeviceRasp(int initFd):
+            fd(initFd)
+        {
+            if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
+            {
+                Log(Log::Level::WARN) << "Failed to get grab device";
+            }
+
+            std::fill(std::begin(TEMP_BUFFER), std::end(TEMP_BUFFER), 0);
+            if (ioctl(fd, EVIOCGNAME(sizeof(TEMP_BUFFER) - 1), TEMP_BUFFER) == -1)
+            {
+                Log(Log::Level::WARN) << "Failed to get device name";
+            }
+            else
+            {
+                Log(Log::Level::INFO) << "Got device: " << TEMP_BUFFER;
+            }
+
+            unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
+            unsigned long absBits[BITS_TO_LONGS(ABS_CNT)];
+            unsigned long relBits[BITS_TO_LONGS(REL_CNT)];
+            unsigned long keyBits[BITS_TO_LONGS(KEY_CNT)];
+
+            if (ioctl(fd, EVIOCGBIT(0, sizeof(eventBits)), eventBits) == -1 ||
+                ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absBits)), absBits) == -1 ||
+                ioctl(fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
+                ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
+            {
+                Log(Log::Level::WARN) << "Failed to get device event bits";
+                close(fd);
+                continue;
+            }
+
+            if (isBitSet(eventBits, EV_KEY) && (
+                    isBitSet(keyBits, KEY_1) ||
+                    isBitSet(keyBits, KEY_2) ||
+                    isBitSet(keyBits, KEY_3) ||
+                    isBitSet(keyBits, KEY_4) ||
+                    isBitSet(keyBits, KEY_5) ||
+                    isBitSet(keyBits, KEY_6) ||
+                    isBitSet(keyBits, KEY_7) ||
+                    isBitSet(keyBits, KEY_8) ||
+                    isBitSet(keyBits, KEY_9) ||
+                    isBitSet(keyBits, KEY_0)
+                ))
+            {
+                Log(Log::Level::INFO) << "Device class: keyboard";
+                deviceClass = InputDeviceRasp::CLASS_KEYBOARD;
+            }
+
+            if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
+            {
+                if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
+                {
+                    Log(Log::Level::INFO) << "Device class: tablet";
+                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                }
+                else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
+                {
+                    Log(Log::Level::INFO) << "Device class: touchpad";
+                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                }
+                else if (isBitSet(keyBits, BTN_MOUSE))
+                {
+                    Log(Log::Level::INFO) << "Device class: mouse";
+                    deviceClass |= InputDeviceRasp::CLASS_MOUSE;
+                }
+                else if (isBitSet(keyBits, BTN_TOUCH))
+                {
+                    Log(Log::Level::INFO) << "Device class: touchscreen";
+                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                }
+            }
+            else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
+            {
+                if (isBitSet(keyBits, BTN_MOUSE))
+                {
+                    Log(Log::Level::INFO) << "Device class: mouse";
+                    deviceClass |= InputDeviceRasp::CLASS_MOUSE;
+                }
+            }
+
+            if (isBitSet(keyBits, BTN_JOYSTICK))
+            {
+                Log(Log::Level::INFO) << "Device class: joystick";
+                deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
+            }
+
+            if (isBitSet(keyBits, BTN_GAMEPAD))
+            {
+                Log(Log::Level::INFO) << "Device class: gamepad";
+                deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
+            }                
+        }
+        
+        InputDeviceRasp::~InputDeviceRasp()
+        {
+            if (fd != -1)
+            {
+                if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
+                {
+                    Log(Log::Level::WARN) << "Failed to release device";
+                }
+
+                close(fd);
+            }
+        }
+
         static const std::unordered_map<uint16_t, KeyboardKey> keyMap = {
             {KEY_ESC, KeyboardKey::ESCAPE},
             {KEY_1, KeyboardKey::NUM_1},
@@ -211,133 +319,22 @@ namespace ouzel
 
             for (size_t i = 0; i < g.gl_pathc; i++)
             {
-                InputDeviceRasp inputDevice;
+                int fd = open(g.gl_pathv[i], O_RDONLY);
 
-                inputDevice.fd = open(g.gl_pathv[i], O_RDONLY);
-                if (inputDevice.fd == -1)
+                if (fd == -1)
                 {
-                    Log(Log::Level::WARN) << "Failed to open device file descriptor";
+                    Log(Log::Level::WARN) << "Failed to open device file";
                     continue;
                 }
 
-                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
-                {
-                    Log(Log::Level::WARN) << "Failed to get grab device";
-                }
+                if (fd > maxFd) maxFd = fd;
 
-                std::fill(std::begin(TEMP_BUFFER), std::end(TEMP_BUFFER), 0);
-                if (ioctl(inputDevice.fd, EVIOCGNAME(sizeof(TEMP_BUFFER) - 1), TEMP_BUFFER) == -1)
-                {
-                    Log(Log::Level::WARN) << "Failed to get device name";
-                }
-                else
-                {
-                    Log(Log::Level::INFO) << "Got device: " << TEMP_BUFFER;
-                }
-
-                unsigned long eventBits[BITS_TO_LONGS(EV_CNT)];
-                unsigned long absBits[BITS_TO_LONGS(ABS_CNT)];
-                unsigned long relBits[BITS_TO_LONGS(REL_CNT)];
-                unsigned long keyBits[BITS_TO_LONGS(KEY_CNT)];
-
-                if (ioctl(inputDevice.fd, EVIOCGBIT(0, sizeof(eventBits)), eventBits) == -1 ||
-                    ioctl(inputDevice.fd, EVIOCGBIT(EV_ABS, sizeof(absBits)), absBits) == -1 ||
-                    ioctl(inputDevice.fd, EVIOCGBIT(EV_REL, sizeof(relBits)), relBits) == -1 ||
-                    ioctl(inputDevice.fd, EVIOCGBIT(EV_KEY, sizeof(keyBits)), keyBits) == -1)
-                {
-                    Log(Log::Level::WARN) << "Failed to get device event bits";
-                    close(inputDevice.fd);
-                    continue;
-                }
-
-                if (isBitSet(eventBits, EV_KEY) && (
-                     isBitSet(keyBits, KEY_1) ||
-                     isBitSet(keyBits, KEY_2) ||
-                     isBitSet(keyBits, KEY_3) ||
-                     isBitSet(keyBits, KEY_4) ||
-                     isBitSet(keyBits, KEY_5) ||
-                     isBitSet(keyBits, KEY_6) ||
-                     isBitSet(keyBits, KEY_7) ||
-                     isBitSet(keyBits, KEY_8) ||
-                     isBitSet(keyBits, KEY_9) ||
-                     isBitSet(keyBits, KEY_0)
-                    ))
-                {
-                    Log(Log::Level::INFO) << "Device class: keyboard";
-                    inputDevice.deviceClass = InputDeviceRasp::CLASS_KEYBOARD;
-                }
-
-                if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
-                {
-                    if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
-                    {
-                        Log(Log::Level::INFO) << "Device class: tablet";
-                        inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
-                    }
-                    else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
-                    {
-                        Log(Log::Level::INFO) << "Device class: touchpad";
-                        inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
-                    }
-                    else if (isBitSet(keyBits, BTN_MOUSE))
-                    {
-                        Log(Log::Level::INFO) << "Device class: mouse";
-                        inputDevice.deviceClass |= InputDeviceRasp::CLASS_MOUSE;
-                    }
-                    else if (isBitSet(keyBits, BTN_TOUCH))
-                    {
-                        Log(Log::Level::INFO) << "Device class: touchscreen";
-                        inputDevice.deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
-                    }
-                }
-                else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
-                {
-                    if (isBitSet(keyBits, BTN_MOUSE))
-                    {
-                        Log(Log::Level::INFO) << "Device class: mouse";
-                        inputDevice.deviceClass |= InputDeviceRasp::CLASS_MOUSE;
-                    }
-                }
-
-                if (isBitSet(keyBits, BTN_JOYSTICK))
-                {
-                    Log(Log::Level::INFO) << "Device class: joystick";
-                    inputDevice.deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
-                }
-
-                if (isBitSet(keyBits, BTN_GAMEPAD))
-                {
-                    Log(Log::Level::INFO) << "Device class: gamepad";
-                    inputDevice.deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
-                }
-
-                if (inputDevice.fd > maxFd)
-                {
-                    maxFd = inputDevice.fd;
-                }
-
-                inputDevices.push_back(inputDevice);
+                inputDevices.push_back(InputDeviceRasp(fd));
             }
 
             globfree(&g);
 
             return true;
-        }
-
-        InputRasp::~InputRasp()
-        {
-            for (const InputDeviceRasp& inputDevice : inputDevices)
-            {
-                if (ioctl(inputDevice.fd, EVIOCGRAB, reinterpret_cast<void*>(0)) == -1)
-                {
-                    Log(Log::Level::WARN) << "Failed to release device";
-                }
-
-                if (close(inputDevice.fd) == -1)
-                {
-                    Log(Log::Level::ERR) << "Failed to close file descriptor";
-                }
-            }
         }
 
         void InputRasp::update()
@@ -351,7 +348,7 @@ namespace ouzel
 
             for (const InputDeviceRasp& inputDevice : inputDevices)
             {
-                FD_SET(inputDevice.fd, &rfds);
+                FD_SET(inputDevice.getFd(), &rfds);
             }
 
             int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
@@ -364,9 +361,9 @@ namespace ouzel
             {
                 for (const InputDeviceRasp& inputDevice : inputDevices)
                 {
-                    if (FD_ISSET(inputDevice.fd, &rfds))
+                    if (FD_ISSET(inputDevice.getFd(), &rfds))
                     {
-                        ssize_t bytesRead = read(inputDevice.fd, TEMP_BUFFER, sizeof(TEMP_BUFFER));
+                        ssize_t bytesRead = read(inputDevice.getFd(), TEMP_BUFFER, sizeof(TEMP_BUFFER));
 
                         if (bytesRead == -1)
                         {
@@ -377,7 +374,7 @@ namespace ouzel
                         {
                             input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
 
-                            if (inputDevice.deviceClass & InputDeviceRasp::CLASS_KEYBOARD)
+                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_KEYBOARD)
                             {
                                 if (event->type == EV_KEY)
                                 {
@@ -393,7 +390,7 @@ namespace ouzel
                                     }
                                 }
                             }
-                            if (inputDevice.deviceClass & InputDeviceRasp::CLASS_MOUSE)
+                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_MOUSE)
                             {
                                 if (event->type == EV_ABS)
                                 {
@@ -460,11 +457,11 @@ namespace ouzel
                                     }
                                 }
                             }
-                            if (inputDevice.deviceClass & InputDeviceRasp::CLASS_TOUCHPAD)
+                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_TOUCHPAD)
                             {
                                 // TODO: implement
                             }
-                            if (inputDevice.deviceClass & InputDeviceRasp::CLASS_GAMEPAD)
+                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_GAMEPAD)
                             {
                                 // TODO: implement
                             }
