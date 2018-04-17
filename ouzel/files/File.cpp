@@ -77,7 +77,7 @@ namespace ouzel
         if (mode & CREATE) access |= O_CREAT;
         if (mode & APPEND) access |= O_APPEND;
 
-        fd = ::open(filename.c_str(), access);
+        fd = ::open(filename.c_str(), access, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         return fd != -1;
 #endif
     }
