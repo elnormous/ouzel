@@ -77,8 +77,6 @@ namespace ouzel
                 deleteResources = std::move(resourceDeleteSet);
             }
 
-            executeAll();
-
 #if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
             while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
@@ -91,6 +89,8 @@ namespace ouzel
 
             // refills the draw queue
             refillQueue = true;
+
+            executeAll();
 
             processCommands(*renderBuffer);
 
