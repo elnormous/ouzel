@@ -1,6 +1,6 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.37
+# Ouzel v0.38
 
 [![Build Status](https://api.travis-ci.org/elnormous/ouzel.svg?branch=master)](https://travis-ci.org/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=Ouzel)](https://sonarcloud.io/dashboard/index/Ouzel) [![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/elnormous/ouzel.svg)](https://gitter.im/elnormous/ouzel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -8,7 +8,7 @@ Ouzel is a C++ game engine mainly targeted for development of 2D games.
 
 Supported platforms:
 
-* Windows 7, 8, 10 
+* Windows 7, 8, 10
 * macOS 10.8+
 * Linux
 * iOS 8+
