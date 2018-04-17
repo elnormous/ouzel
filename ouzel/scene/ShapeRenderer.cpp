@@ -70,22 +70,22 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 engine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
-                                                            shader,
-                                                            pixelShaderConstants,
-                                                            vertexShaderConstants,
-                                                            blendState,
-                                                            meshBuffer,
-                                                            drawCommand.indexCount,
-                                                            drawCommand.mode,
-                                                            drawCommand.startIndex,
-                                                            renderTarget,
-                                                            renderViewport,
-                                                            depthWrite,
-                                                            depthTest,
-                                                            wireframe,
-                                                            scissorTest,
-                                                            scissorRectangle,
-                                                            graphics::Renderer::CullMode::NONE);
+                                                      shader,
+                                                      pixelShaderConstants,
+                                                      vertexShaderConstants,
+                                                      blendState,
+                                                      meshBuffer,
+                                                      drawCommand.indexCount,
+                                                      drawCommand.mode,
+                                                      drawCommand.startIndex,
+                                                      renderTarget,
+                                                      renderViewport,
+                                                      depthWrite,
+                                                      depthTest,
+                                                      wireframe,
+                                                      scissorTest,
+                                                      scissorRectangle,
+                                                      graphics::Renderer::CullMode::NONE);
             }
         }
 

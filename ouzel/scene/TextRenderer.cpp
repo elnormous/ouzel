@@ -104,22 +104,22 @@ namespace ouzel
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
             engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
-                                                        shader,
-                                                        pixelShaderConstants,
-                                                        vertexShaderConstants,
-                                                        blendState,
-                                                        meshBuffer,
-                                                        static_cast<uint32_t>(indices.size()),
-                                                        graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                        0,
-                                                        renderTarget,
-                                                        renderViewport,
-                                                        depthWrite,
-                                                        depthTest,
-                                                        wireframe,
-                                                        scissorTest,
-                                                        scissorRectangle,
-                                                        graphics::Renderer::CullMode::NONE);
+                                                  shader,
+                                                  pixelShaderConstants,
+                                                  vertexShaderConstants,
+                                                  blendState,
+                                                  meshBuffer,
+                                                  static_cast<uint32_t>(indices.size()),
+                                                  graphics::Renderer::DrawMode::TRIANGLE_LIST,
+                                                  0,
+                                                  renderTarget,
+                                                  renderViewport,
+                                                  depthWrite,
+                                                  depthTest,
+                                                  wireframe,
+                                                  scissorTest,
+                                                  scissorRectangle,
+                                                  graphics::Renderer::CullMode::NONE);
         }
 
         void TextRenderer::setText(const std::string& newText)
