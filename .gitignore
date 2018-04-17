@@ -15,15 +15,18 @@ samples/samples.xcodeproj/xcuserdata
 samples/Win32/
 samples/x64/
 samples/ipch/
+samples/.gradle
 samples/samples.sdf
 samples/samples.VC.opendb
 samples/samples.opensdf
 samples/samples.VC.VC.opendb
 samples/samples.VC.db
-samples/android/bin
-samples/android/gen
-samples/android/libs
-samples/android/obj
+samples/app/.idea
+samples/app/bin
+samples/app/build
+samples/app/gen
+samples/app/libs
+samples/app/obj
 samples/sprite/win/ipch/
 samples/sprite/win/sprite.sdf
 samples/sprite/win/x64/
@@ -38,3 +41,4 @@ Config.h
 build/ouzel.VC.db
 assetcatalog_generated_info.plist
 assetcatalog_dependencies
+local.properties
