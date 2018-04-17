@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <dispatch/dispatch.h>
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -21,8 +20,11 @@ namespace ouzel
 
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled) override;
 
+        void executeAll();
+
     protected:
-        dispatch_queue_t mainQueue;
+        std::queue<std::function<void(void)>> executeQueue;
+        Mutex executeMutex;
 
         int argc = 0;
         char** argv = nullptr;

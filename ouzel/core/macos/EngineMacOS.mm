@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #include "EngineMacOS.hpp"
+#include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
 @interface AppDelegate: NSObject<NSApplicationDelegate>
@@ -57,6 +58,13 @@
     ouzel::engine->pause();
 }
 
+-(void)executeAll
+{
+    ouzel::EngineMacOS* engineMacOS = static_cast<ouzel::EngineMacOS*>(ouzel::engine);
+
+    engineMacOS->executeAll();
+}
+
 @end
 
 namespace ouzel
@@ -67,8 +75,6 @@ namespace ouzel
         {
             args.push_back(argv[i]);
         }
-
-        mainQueue = dispatch_get_main_queue();
     }
 
     int EngineMacOS::run()
@@ -87,14 +93,13 @@ namespace ouzel
 
     void EngineMacOS::executeOnMainThread(const std::function<void(void)>& func)
     {
-        if (func)
-        {
-            std::function<void(void)> localFunction = func;
+        Lock lock(executeMutex);
 
-            dispatch_async(mainQueue, ^{
-                localFunction();
-            });
-        }
+        executeQueue.push(func);
+
+        NSApplication* application = [NSApplication sharedApplication];
+        NSObject* delegate = application.delegate;
+        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
     bool EngineMacOS::openURL(const std::string& url)
@@ -109,7 +114,7 @@ namespace ouzel
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        dispatch_async(mainQueue, ^{
+        executeOnMainThread([this, newScreenSaverEnabled]() {
             if (newScreenSaverEnabled)
             {
                 if (noSleepAssertionID)
@@ -142,9 +147,34 @@ namespace ouzel
     {
         Engine::main();
 
-        dispatch_async(mainQueue, ^{
+        executeOnMainThread([]() {
             NSApplication* application = [NSApplication sharedApplication];
             if ([application isRunning]) [application terminate:nil];
         });
+    }
+
+    void EngineMacOS::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                Lock lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
     }
 }

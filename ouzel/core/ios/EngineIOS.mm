@@ -3,6 +3,7 @@
 
 #import <UIKit/UIKit.h>
 #include "EngineIOS.hpp"
+#include "thread/Lock.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 
@@ -61,6 +62,13 @@
     }
 }
 
+-(void)executeAll
+{
+    ouzel::EngineIOS* engineIOS = static_cast<ouzel::EngineIOS*>(ouzel::engine);
+
+    engineIOS->executeAll();
+}
+
 @end
 
 namespace ouzel
@@ -72,8 +80,6 @@ namespace ouzel
         {
             args.push_back(initArgv[i]);
         }
-
-        mainQueue = dispatch_get_main_queue();
     }
 
     int EngineIOS::run()
@@ -87,14 +93,13 @@ namespace ouzel
 
     void EngineIOS::executeOnMainThread(const std::function<void(void)>& func)
     {
-        if (func)
-        {
-            std::function<void(void)> localFunction = func;
+        Lock lock(executeMutex);
 
-            dispatch_async(mainQueue, ^{
-                localFunction();
-            });
-        }
+        executeQueue.push(func);
+
+        UIApplication* application = [UIApplication sharedApplication];
+        NSObject* delegate = application.delegate;
+        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
     bool EngineIOS::openURL(const std::string& url)
@@ -109,8 +114,33 @@ namespace ouzel
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        dispatch_async(mainQueue, ^{
+        executeOnMainThread([newScreenSaverEnabled]() {
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
+    }
+
+    void EngineIOS::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                Lock lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
     }
 }
