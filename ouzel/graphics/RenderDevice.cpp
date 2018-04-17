@@ -79,18 +79,20 @@ namespace ouzel
 
             executeAll();
 
-            {
 #if OUZEL_MULTITHREADED
-                Lock lock(commandQueueMutex);
-                while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
+            Lock lock(commandQueueMutex);
+            while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
 #endif
 
-                processCommands(*renderBuffer);
+            std::swap(fillBuffer, renderBuffer);
+            fillBuffer->clear();
 
-                queueFinished = false;
-                // refills the draw queue
-                refillQueue = true;
-            }
+            queueFinished = false;
+
+            // refills the draw queue
+            refillQueue = true;
+
+            processCommands(*renderBuffer);
 
             return true;
         }
@@ -153,13 +155,10 @@ namespace ouzel
             Lock lock(commandQueueMutex);
 #endif
 
+            drawCallCount = static_cast<uint32_t>(fillBuffer->size());
+
             refillQueue = false;
-
-            std::swap(fillBuffer, renderBuffer);
-            fillBuffer->clear();
-
             queueFinished = true;
-            drawCallCount = static_cast<uint32_t>(renderBuffer->size());
 
 #if OUZEL_MULTITHREADED
             commandQueueCondition.signal();
