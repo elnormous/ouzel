@@ -3,6 +3,7 @@
 
 #import <UIKit/UIKit.h>
 #include "EngineTVOS.hpp"
+#include "thread/Lock.hpp"
 
 @interface AppDelegate: UIResponder<UIApplicationDelegate>
 
@@ -61,6 +62,13 @@
     }
 }
 
+-(void)executeAll
+{
+    ouzel::EngineTVOS* engineTVOS = static_cast<ouzel::EngineTVOS*>(ouzel::engine);
+
+    engineTVOS->executeAll();
+}
+
 @end
 
 namespace ouzel
@@ -72,8 +80,6 @@ namespace ouzel
         {
             args.push_back(initArgv[i]);
         }
-
-        mainQueue = dispatch_get_main_queue();
     }
 
     int EngineTVOS::run()
@@ -87,14 +93,9 @@ namespace ouzel
 
     void EngineTVOS::executeOnMainThread(const std::function<void(void)>& func)
     {
-        if (func)
-        {
-            std::function<void(void)> localFunction = func;
+        Lock lock(executeMutex);
 
-            dispatch_async(mainQueue, ^{
-                localFunction();
-            });
-        }
+        executeQueue.push(func);
     }
 
     bool EngineTVOS::openURL(const std::string& url)
@@ -109,8 +110,33 @@ namespace ouzel
     {
         Engine::setScreenSaverEnabled(newScreenSaverEnabled);
 
-        dispatch_async(mainQueue, ^{
+        executeOnMainThread([newScreenSaverEnabled]() {
             [UIApplication sharedApplication].idleTimerDisabled = newScreenSaverEnabled ? YES : NO;
         });
+    }
+
+    void EngineTVOS::executeAll()
+    {
+        std::function<void(void)> func;
+
+        for (;;)
+        {
+            {
+                Lock lock(executeMutex);
+
+                if (executeQueue.empty())
+                {
+                    break;
+                }
+
+                func = std::move(executeQueue.front());
+                executeQueue.pop();
+            }
+
+            if (func)
+            {
+                func();
+            }
+        }
     }
 }
