@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "org.ouzelengine.samples"
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 17
         versionCode 1
         versionName "1.0"
     }
