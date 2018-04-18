@@ -68,7 +68,7 @@ LDFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -m
 	-framework QuartzCore \
 	-framework UIKit
 else ifeq ($(platform),emscripten)
-LDFLAGS+=--embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=134217728
+LDFLAGS+=-lopenal --embed-file settings.ini --embed-file Resources -s TOTAL_MEMORY=134217728
 endif
 SOURCES=$(ROOT_DIR)/AnimationsSample.cpp \
 	$(ROOT_DIR)/GameSample.cpp \
