@@ -18,7 +18,7 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-
+                arguments '-j' + Runtime.runtime.availableProcessors()
             }
         }
     }
