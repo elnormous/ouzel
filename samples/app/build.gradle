@@ -11,26 +11,47 @@ android {
         targetSdkVersion 17
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
+        }
+
+        externalNativeBuild {
+            ndkBuild {
+
+            }
+        }
     }
     buildTypes {
         release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=0'
+                }
+            }
+        }
+
+        debug {
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=1'
+                }
+            }
         }
     }
-    sourceSets.main {
-        jniLibs.srcDir 'libs' //set libs as .so's location instead of jniLibs
-        jni.srcDirs = [] //disable automatic ndk-build call with auto-generated Android.mk
-    }
-    task ndkBuild(type: Exec) {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            commandLine 'ndk-build.cmd', '-C', file('jni').absolutePath
-        } else {
-            commandLine 'ndk-build', '-C', file('jni').absolutePath
+    externalNativeBuild {
+        ndkBuild {
+           path 'src/main/jni/Android.mk'
         }
-    }
-    tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn ndkBuild
     }
 }
 
