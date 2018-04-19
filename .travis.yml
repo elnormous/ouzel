@@ -92,4 +92,4 @@ matrix:
         - yes | sdkmanager "ndk-bundle"
         - export ANDROID_NDK_HOME=/usr/local/android-sdk/ndk-bundle
       script:
-        - $ANDROID_NDK_HOME/ndk-build -j2 -C samples/app/
+        - $ANDROID_NDK_HOME/ndk-build -j2 -C samples/app/src/main/

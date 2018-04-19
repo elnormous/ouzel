@@ -21,12 +21,9 @@ samples/samples.VC.opendb
 samples/samples.opensdf
 samples/samples.VC.VC.opendb
 samples/samples.VC.db
+samples/app/.externalNativeBuild
 samples/app/.idea
-samples/app/bin
 samples/app/build
-samples/app/gen
-samples/app/libs
-samples/app/obj
 samples/sprite/win/ipch/
 samples/sprite/win/sprite.sdf
 samples/sprite/win/x64/
