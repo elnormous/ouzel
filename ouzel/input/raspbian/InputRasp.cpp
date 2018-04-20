@@ -38,8 +38,6 @@ namespace ouzel
                 return;
             }
 
-            if (fd > maxFd) maxFd = fd;
-
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
             {
                 Log(Log::Level::WARN) << "Failed to grab device";
@@ -329,7 +327,11 @@ namespace ouzel
                     InputDeviceRasp inputDevice(std::string("/dev/input/") + ent.d_name);
 
                     if (inputDevice.getDeviceClass() != InputDeviceRasp::CLASS_NONE)
+                    {
+                        if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
+
                         inputDevices.push_back(std::move(inputDevice));
+                    }
                 }
             }
 
