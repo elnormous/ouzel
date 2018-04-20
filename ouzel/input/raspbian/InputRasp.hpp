@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 #include <vector>
 #include "input/Input.hpp"
 
@@ -19,13 +20,14 @@ namespace ouzel
         public:
             enum DeviceClass
             {
+                CLASS_NONE = 0,
                 CLASS_KEYBOARD = 1,
                 CLASS_MOUSE = 2,
                 CLASS_TOUCHPAD = 4,
                 CLASS_GAMEPAD = 8
             };
 
-            InputDeviceRasp(int initFd);
+            InputDeviceRasp(const std::string& filename);
             ~InputDeviceRasp();
 
             InputDeviceRasp(const InputDeviceRasp& other) = delete;
@@ -56,8 +58,8 @@ namespace ouzel
             inline int getFd() const { return fd; }
 
         private:
-            uint32_t deviceClass = 0;
-            int fd = 0;
+            uint32_t deviceClass = CLASS_NONE;
+            int fd = -1;
         };
 
         class InputRasp: public Input
