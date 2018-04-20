@@ -4,9 +4,9 @@
 #include <algorithm>
 #include <unordered_map>
 #include <cstring>
+#include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <glob.h>
 #include <linux/input.h>
 #include "InputRasp.hpp"
 #include "core/Engine.hpp"
@@ -302,36 +302,38 @@ namespace ouzel
             std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
 
-            glob_t g;
-            int result = glob("/dev/input/event*", GLOB_NOSORT, nullptr, &g);
+            DIR* dir = opendir("/dev/input");
 
-            if (result == GLOB_NOMATCH)
+            if (!dir)
             {
-                Log(Log::Level::WARN) << "No event devices found";
-                return false;
-            }
-            else if (result)
-            {
-                Log(Log::Level::ERR) << "Could not read /dev/input/event*";
+                Log(Log::Level::ERR) << "Failed to open directory";
                 return false;
             }
 
-            for (size_t i = 0; i < g.gl_pathc; i++)
-            {
-                int fd = open(g.gl_pathv[i], O_RDONLY);
+            dirent ent;
+            dirent* p;
 
-                if (fd == -1)
+            while (readdir_r(dir, &ent, &p) == 0 && p)
+            {
+                if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    Log(Log::Level::WARN) << "Failed to open device file";
-                    continue;
+                    std::string filename = std::string("/dev/input/") + ent.d_name;
+
+                    int fd = open(filename.c_str(), O_RDONLY);
+
+                    if (fd == -1)
+                    {
+                        Log(Log::Level::WARN) << "Failed to open device file";
+                        continue;
+                    }
+
+                    if (fd > maxFd) maxFd = fd;
+
+                    inputDevices.push_back(InputDeviceRasp(fd));
                 }
-
-                if (fd > maxFd) maxFd = fd;
-
-                inputDevices.push_back(InputDeviceRasp(fd));
             }
 
-            globfree(&g);
+            closedir(dir);
 
             return true;
         }
