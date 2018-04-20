@@ -28,9 +28,18 @@ namespace ouzel
 {
     namespace input
     {
-        InputDeviceRasp::InputDeviceRasp(int initFd):
-            fd(initFd)
+        InputDeviceRasp::InputDeviceRasp(const std::string& filename)
         {
+            int fd = open(filename.c_str(), O_RDONLY);
+
+            if (fd == -1)
+            {
+                Log(Log::Level::WARN) << "Failed to open device file";
+                return;
+            }
+
+            if (fd > maxFd) maxFd = fd;
+
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
             {
                 Log(Log::Level::WARN) << "Failed to get grab device";
@@ -317,19 +326,10 @@ namespace ouzel
             {
                 if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    std::string filename = std::string("/dev/input/") + ent.d_name;
+                    InputDeviceRasp inputDevice(std::string("/dev/input/") + ent.d_name);
 
-                    int fd = open(filename.c_str(), O_RDONLY);
-
-                    if (fd == -1)
-                    {
-                        Log(Log::Level::WARN) << "Failed to open device file";
-                        continue;
-                    }
-
-                    if (fd > maxFd) maxFd = fd;
-
-                    inputDevices.push_back(InputDeviceRasp(fd));
+                    if (inputDevice.getDeviceClass() != InputDeviceRasp::CLASS_NONE)
+                        inputDevices.push_back(std::move(inputDevice));
                 }
             }
 
