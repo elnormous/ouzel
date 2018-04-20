@@ -42,7 +42,7 @@ namespace ouzel
 
             if (ioctl(fd, EVIOCGRAB, reinterpret_cast<void*>(1)) == -1)
             {
-                Log(Log::Level::WARN) << "Failed to get grab device";
+                Log(Log::Level::WARN) << "Failed to grab device";
             }
 
             std::fill(std::begin(TEMP_BUFFER), std::end(TEMP_BUFFER), 0);
