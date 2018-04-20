@@ -30,7 +30,7 @@ namespace ouzel
     {
         InputDeviceRasp::InputDeviceRasp(const std::string& filename)
         {
-            int fd = open(filename.c_str(), O_RDONLY);
+            fd = open(filename.c_str(), O_RDONLY);
 
             if (fd == -1)
             {
@@ -81,7 +81,7 @@ namespace ouzel
                 ))
             {
                 Log(Log::Level::INFO) << "Device class: keyboard";
-                deviceClass = InputDeviceRasp::CLASS_KEYBOARD;
+                deviceClass |= InputDeviceRasp::CLASS_KEYBOARD;
             }
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
