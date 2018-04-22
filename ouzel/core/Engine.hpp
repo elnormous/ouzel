@@ -84,7 +84,7 @@ namespace ouzel
 
     protected:
         virtual void main();
-        void executeAll();
+        void executeAllOnUpdateThread();
 
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;

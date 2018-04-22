@@ -455,7 +455,7 @@ namespace ouzel
 
         if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
         {
-            executeAll();
+            executeAllOnUpdateThread();
 
             previousUpdateTime = currentTime;
             float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
@@ -585,7 +585,7 @@ namespace ouzel
         updateThreadExecuteQueue.push(func);
     }
 
-    void Engine::executeAll()
+    void Engine::executeAllOnUpdateThread()
     {
         std::function<void(void)> func;
 
