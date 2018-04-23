@@ -8,7 +8,7 @@
 
 namespace ouzel
 {
-    class TTFont : public Font
+    class TTFont: public Font
     {
     public:
         TTFont();
@@ -25,7 +25,7 @@ namespace ouzel
                                  std::vector<graphics::Vertex>& vertices,
                                  std::shared_ptr<graphics::Texture>& texture) override;
 
-    protected:
+    private:
         int16_t getKerningPair(uint32_t, uint32_t);
         float getStringWidth(const std::string& text);
 

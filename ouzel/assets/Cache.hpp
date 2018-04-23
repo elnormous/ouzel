@@ -92,7 +92,7 @@ namespace ouzel
             void setModelData(const std::string& filename, const scene::ModelData& newModelData);
             void releaseModelData();
 
-        protected:
+        private:
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;
             LoaderImage loaderImage;

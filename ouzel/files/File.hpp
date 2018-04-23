@@ -15,7 +15,7 @@
 
 namespace ouzel
 {
-    class File
+    class File final
     {
     public:
         enum Mode
@@ -62,7 +62,7 @@ namespace ouzel
         bool seek(int32_t offset, int method) const;
         uint32_t getOffset() const;
 
-    protected:
+    private:
 #if OUZEL_PLATFORM_WINDOWS
         HANDLE file = INVALID_HANDLE_VALUE;
 #else
