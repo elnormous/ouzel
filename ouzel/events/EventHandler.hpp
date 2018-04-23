@@ -33,7 +33,7 @@ namespace ouzel
         std::function<bool(Event::Type, const SoundEvent&)> soundHandler;
         std::function<bool(Event::Type, const UserEvent&)> userHandler;
 
-    protected:
+    private:
         int32_t priority;
         EventDispatcher* eventDispatcher = nullptr;
     };

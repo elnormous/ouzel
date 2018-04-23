@@ -46,7 +46,7 @@ namespace ouzel
         bool directoryExists(const std::string& dirname) const;
         bool fileExists(const std::string& filename) const;
 
-    protected:
+    private:
         FileSystem();
 
         std::string appPath;

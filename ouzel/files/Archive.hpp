@@ -13,7 +13,7 @@ namespace ouzel
 {
     class FileSystem;
 
-    class Archive
+    class Archive final
     {
         friend FileSystem;
     public:
