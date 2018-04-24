@@ -18,11 +18,6 @@
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
-static int isInputDevice(const struct dirent* dir)
-{
-	return strncmp("event", dir->d_name, 5) == 0;
-}
-
 namespace ouzel
 {
     namespace input
@@ -300,23 +295,26 @@ namespace ouzel
                 Log(Log::Level::WARN) << "XInput not supported";
             }
 
-            struct dirent** list;
-            int count = scandir("/dev/input", &list, isInputDevice, versionsort);
+            DIR* dir = opendir("/dev/input");
 
-            for (int i = 0; i < count; ++i)
+            if (!dir)
             {
-                char filename[64];
-
-                snprintf(filename, sizeof(filename), "/dev/input/%s", list[i]->d_name);
-
-                int fd = open(filename, O_RDONLY);
-
-                if (fd < 0) continue;
-
-                // TODO: check if this is a joystick
-
-                close(fd);
+                Log(Log::Level::ERR) << "Failed to open directory";
+                return false;
             }
+
+            dirent ent;
+            dirent* p;
+
+            while (readdir_r(dir, &ent, &p) == 0 && p)
+            {
+                if (strncmp("event", ent.d_name, 5) == 0)
+                {
+                    Log(Log::Level::INFO) << std::string("/dev/input/") + ent.d_name;
+                }
+            }
+
+            closedir(dir);
 
             return true;
         }
