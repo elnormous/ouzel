@@ -15,7 +15,7 @@ namespace ouzel
 
     namespace input
     {
-        class InputDeviceRasp
+        class EventDevice
         {
         public:
             enum DeviceClass
@@ -27,13 +27,13 @@ namespace ouzel
                 CLASS_GAMEPAD = 8
             };
 
-            InputDeviceRasp(const std::string& filename);
-            ~InputDeviceRasp();
+            EventDevice(const std::string& filename);
+            ~EventDevice();
 
-            InputDeviceRasp(const InputDeviceRasp& other) = delete;
-            InputDeviceRasp& operator=(const InputDeviceRasp& other) = delete;
+            EventDevice(const EventDevice& other) = delete;
+            EventDevice& operator=(const EventDevice& other) = delete;
 
-            InputDeviceRasp(InputDeviceRasp&& other)
+            EventDevice(EventDevice&& other)
             {
                 fd = other.fd;
                 deviceClass = other.deviceClass;
@@ -41,7 +41,7 @@ namespace ouzel
                 other.deviceClass = 0;
             }
 
-            InputDeviceRasp& operator=(InputDeviceRasp&& other)
+            EventDevice& operator=(EventDevice&& other)
             {
                 if (&other != this)
                 {
@@ -75,7 +75,7 @@ namespace ouzel
             uint32_t getModifiers() const;
 
             int maxFd = 0;
-            std::vector<InputDeviceRasp> inputDevices;
+            std::vector<EventDevice> inputDevices;
             bool keyboardKeyDown[256];
             bool mouseButtonDown[3];
         };
