@@ -28,7 +28,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputDeviceRasp::InputDeviceRasp(const std::string& filename)
+        EventDevice::EventDevice(const std::string& filename)
         {
             fd = open(filename.c_str(), O_RDONLY);
 
@@ -81,7 +81,7 @@ namespace ouzel
                 ))
             {
                 Log(Log::Level::INFO) << "Device class: keyboard";
-                deviceClass |= InputDeviceRasp::CLASS_KEYBOARD;
+                deviceClass |= EventDevice::CLASS_KEYBOARD;
             }
 
             if (isBitSet(eventBits, EV_ABS) && isBitSet(absBits, ABS_X) && isBitSet(absBits, ABS_Y))
@@ -89,22 +89,22 @@ namespace ouzel
                 if (isBitSet(keyBits, BTN_STYLUS) || isBitSet(keyBits, BTN_TOOL_PEN))
                 {
                     Log(Log::Level::INFO) << "Device class: tablet";
-                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
                 }
                 else if (isBitSet(keyBits, BTN_TOOL_FINGER) && !isBitSet(keyBits, BTN_TOOL_PEN))
                 {
                     Log(Log::Level::INFO) << "Device class: touchpad";
-                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
                 }
                 else if (isBitSet(keyBits, BTN_MOUSE))
                 {
                     Log(Log::Level::INFO) << "Device class: mouse";
-                    deviceClass |= InputDeviceRasp::CLASS_MOUSE;
+                    deviceClass |= EventDevice::CLASS_MOUSE;
                 }
                 else if (isBitSet(keyBits, BTN_TOUCH))
                 {
                     Log(Log::Level::INFO) << "Device class: touchscreen";
-                    deviceClass |= InputDeviceRasp::CLASS_TOUCHPAD;
+                    deviceClass |= EventDevice::CLASS_TOUCHPAD;
                 }
             }
             else if (isBitSet(eventBits, EV_REL) && isBitSet(relBits, REL_X) && isBitSet(relBits, REL_Y))
@@ -112,24 +112,24 @@ namespace ouzel
                 if (isBitSet(keyBits, BTN_MOUSE))
                 {
                     Log(Log::Level::INFO) << "Device class: mouse";
-                    deviceClass |= InputDeviceRasp::CLASS_MOUSE;
+                    deviceClass |= EventDevice::CLASS_MOUSE;
                 }
             }
 
             if (isBitSet(keyBits, BTN_JOYSTICK))
             {
                 Log(Log::Level::INFO) << "Device class: joystick";
-                deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
+                deviceClass = EventDevice::CLASS_GAMEPAD;
             }
 
             if (isBitSet(keyBits, BTN_GAMEPAD))
             {
                 Log(Log::Level::INFO) << "Device class: gamepad";
-                deviceClass = InputDeviceRasp::CLASS_GAMEPAD;
+                deviceClass = EventDevice::CLASS_GAMEPAD;
             }                
         }
         
-        InputDeviceRasp::~InputDeviceRasp()
+        EventDevice::~EventDevice()
         {
             if (fd != -1)
             {
@@ -324,9 +324,9 @@ namespace ouzel
             {
                 if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    InputDeviceRasp inputDevice(std::string("/dev/input/") + ent.d_name);
+                    EventDevice inputDevice(std::string("/dev/input/") + ent.d_name);
 
-                    if (inputDevice.getDeviceClass() != InputDeviceRasp::CLASS_NONE)
+                    if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
                     {
                         if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
 
@@ -349,7 +349,7 @@ namespace ouzel
 
             FD_ZERO(&rfds);
 
-            for (const InputDeviceRasp& inputDevice : inputDevices)
+            for (const EventDevice& inputDevice : inputDevices)
             {
                 FD_SET(inputDevice.getFd(), &rfds);
             }
@@ -362,7 +362,7 @@ namespace ouzel
             }
             else if (retval > 0)
             {
-                for (const InputDeviceRasp& inputDevice : inputDevices)
+                for (const EventDevice& inputDevice : inputDevices)
                 {
                     if (FD_ISSET(inputDevice.getFd(), &rfds))
                     {
@@ -377,7 +377,7 @@ namespace ouzel
                         {
                             input_event* event = reinterpret_cast<input_event*>(TEMP_BUFFER + i);
 
-                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_KEYBOARD)
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_KEYBOARD)
                             {
                                 if (event->type == EV_KEY)
                                 {
@@ -393,7 +393,7 @@ namespace ouzel
                                     }
                                 }
                             }
-                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_MOUSE)
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_MOUSE)
                             {
                                 if (event->type == EV_ABS)
                                 {
@@ -460,11 +460,11 @@ namespace ouzel
                                     }
                                 }
                             }
-                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_TOUCHPAD)
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_TOUCHPAD)
                             {
                                 // TODO: implement
                             }
-                            if (inputDevice.getDeviceClass() & InputDeviceRasp::CLASS_GAMEPAD)
+                            if (inputDevice.getDeviceClass() & EventDevice::CLASS_GAMEPAD)
                             {
                                 // TODO: implement
                             }
