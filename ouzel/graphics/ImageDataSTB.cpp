@@ -65,6 +65,7 @@ namespace ouzel
                 case STBI_rgb_alpha: pixelFormat = PixelFormat::RGBA8_UNORM; pixelSize = 4; break;
                 default:
                     Log(Log::Level::ERR) << "Unknown pixel size";
+                    stbi_image_free(tempData);
                     return false;
             }
 
