@@ -17,6 +17,7 @@
 #include "assets/LoaderVorbis.hpp"
 #include "assets/LoaderWave.hpp"
 #include "audio/SoundData.hpp"
+#include "files/FileSystem.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Material.hpp"
 #include "graphics/Shader.hpp"
@@ -33,7 +34,7 @@ namespace ouzel
         class Cache final
         {
         public:
-            Cache();
+            explicit Cache(FileSystem* initFileSystem);
             ~Cache();
 
             Cache(const Cache&) = delete;
@@ -93,6 +94,8 @@ namespace ouzel
             void releaseModelData();
 
         private:
+            FileSystem* fileSystem;
+
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;
             LoaderImage loaderImage;
