@@ -5,7 +5,6 @@
 #include <algorithm>
 #include "Cache.hpp"
 #include "Loader.hpp"
-#include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/TextureResource.hpp"
 #include "graphics/ShaderResource.hpp"
@@ -22,7 +21,8 @@ namespace ouzel
 {
     namespace assets
     {
-        Cache::Cache()
+        Cache::Cache(FileSystem* initFileSystem):
+            fileSystem(initFileSystem)
         {
             addLoader(&loaderBMF);
             addLoader(&loaderCollada);
@@ -80,12 +80,12 @@ namespace ouzel
         bool Cache::loadAsset(uint32_t loaderType, const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data;
-            if (!engine->getFileSystem()->readFile(filename, data))
+            if (!fileSystem->readFile(filename, data))
             {
                 return false;
             }
 
-            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = fileSystem->getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
@@ -105,12 +105,12 @@ namespace ouzel
         bool Cache::loadAsset(const std::string& filename, bool mipmaps) const
         {
             std::vector<uint8_t> data;
-            if (!engine->getFileSystem()->readFile(filename, data))
+            if (!fileSystem->readFile(filename, data))
             {
                 return false;
             }
 
-            std::string extension = engine->getFileSystem()->getExtensionPart(filename);
+            std::string extension = fileSystem->getExtensionPart(filename);
             std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
 
             for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
@@ -260,7 +260,7 @@ namespace ouzel
                                             const Vector2& pivot)
         {
             if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                          engine->getFileSystem()->getExtensionPart(filename)) != loaderImage.extensions.end())
+                          fileSystem->getExtensionPart(filename)) != loaderImage.extensions.end())
             {
                 scene::SpriteData newSpriteData;
 
@@ -319,7 +319,7 @@ namespace ouzel
             else
             {
                 if (std::find(loaderImage.extensions.begin(), loaderImage.extensions.end(),
-                              engine->getFileSystem()->getExtensionPart(filename)) != loaderImage.extensions.end())
+                              fileSystem->getExtensionPart(filename)) != loaderImage.extensions.end())
                 {
                     scene::SpriteData newSpriteData;
 
