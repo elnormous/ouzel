@@ -267,7 +267,7 @@ namespace ouzel
                 if (spritesX == 0) spritesX = 1;
                 if (spritesY == 0) spritesY = 1;
 
-                newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
+                newSpriteData.texture = getTexture(filename, mipmaps);
 
                 if (newSpriteData.texture)
                 {
@@ -326,7 +326,7 @@ namespace ouzel
                     if (spritesX == 0) spritesX = 1;
                     if (spritesY == 0) spritesY = 1;
 
-                    newSpriteData.texture = engine->getCache()->getTexture(filename, mipmaps);
+                    newSpriteData.texture = getTexture(filename, mipmaps);
 
                     if (newSpriteData.texture)
                     {
