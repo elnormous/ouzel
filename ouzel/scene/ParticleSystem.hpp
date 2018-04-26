@@ -11,12 +11,12 @@
 #include "math/Vector2.hpp"
 #include "math/Color.hpp"
 #include "graphics/Vertex.hpp"
-#include "core/UpdateCallback.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
+#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {

@@ -58,7 +58,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/core/android/WindowResourceAndroid.cpp \
     ../../ouzel/core/Engine.cpp \
     ../../ouzel/core/Timer.cpp \
-    ../../ouzel/core/UpdateCallback.cpp \
     ../../ouzel/core/Window.cpp \
     ../../ouzel/core/WindowResource.cpp \
     ../../ouzel/events/EventDispatcher.cpp \
@@ -151,6 +150,7 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/scene/Sprite.cpp \
     ../../ouzel/scene/SpriteData.cpp \
     ../../ouzel/scene/TextRenderer.cpp \
+	../../ouzel/scene/UpdateCallback.cpp \
     ../../ouzel/thread/Condition.cpp \
     ../../ouzel/thread/Mutex.cpp \
     ../../ouzel/thread/Thread.cpp \

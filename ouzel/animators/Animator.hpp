@@ -6,7 +6,7 @@
 #include <functional>
 #include <memory>
 #include "scene/Component.hpp"
-#include "core/UpdateCallback.hpp"
+#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {

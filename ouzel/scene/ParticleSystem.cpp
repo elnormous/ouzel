@@ -303,7 +303,7 @@ namespace ouzel
                 if (!active)
                 {
                     active = true;
-                    engine->scheduleUpdate(&updateCallback);
+                    engine->getSceneManager()->scheduleUpdate(&updateCallback);
                 }
 
                 if (particleCount == 0)

@@ -68,17 +68,6 @@ namespace ouzel
         }
 #endif
 
-        for (UpdateCallback* updateCallback : updateCallbackAddSet)
-        {
-            updateCallback->engine = nullptr;
-        }
-
-        for (UpdateCallback* updateCallback : updateCallbacks)
-        {
-            auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
-            if (i == updateCallbackDeleteSet.end()) updateCallback->engine = nullptr;
-        }
-
         engine = nullptr;
     }
 
@@ -380,8 +369,6 @@ namespace ouzel
             active = true;
             paused = false;
 
-            previousUpdateTime = std::chrono::steady_clock::now();
-
 #if OUZEL_MULTITHREADED
             updateThread = Thread(std::bind(&Engine::main, this), "Game");
 #else
@@ -409,8 +396,6 @@ namespace ouzel
             Event event;
             event.type = Event::Type::ENGINE_RESUME;
             eventDispatcher.postEvent(event);
-
-            previousUpdateTime = std::chrono::steady_clock::now();
 
             paused = false;
 
@@ -450,62 +435,9 @@ namespace ouzel
 
     void Engine::update()
     {
-        std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-        auto diff = currentTime - previousUpdateTime;
-
-        if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
-        {
-            executeAllOnUpdateThread();
-
-            previousUpdateTime = currentTime;
-            float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
-
             eventDispatcher.dispatchEvents();
 
-            for (UpdateCallback* updateCallback : updateCallbackDeleteSet)
-            {
-                auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
-
-                if (i != updateCallbacks.end())
-                {
-                    updateCallbacks.erase(i);
-                }
-            }
-
-            updateCallbackDeleteSet.clear();
-
-            for (UpdateCallback* updateCallback : updateCallbackAddSet)
-            {
-                auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
-
-                if (i == updateCallbacks.end())
-                {
-                    auto upperBound = std::upper_bound(updateCallbacks.begin(), updateCallbacks.end(), updateCallback,
-                                                       [](const UpdateCallback* a, const UpdateCallback* b) {
-                                                           return a->priority > b->priority;
-                                                       });
-
-                    updateCallbacks.insert(upperBound, updateCallback);
-                }
-            }
-
-            updateCallbackAddSet.clear();
-
-            for (UpdateCallback* updateCallback : updateCallbacks)
-            {
-                auto i = std::find(updateCallbackDeleteSet.begin(), updateCallbackDeleteSet.end(), updateCallback);
-
-                if (i == updateCallbackDeleteSet.end())
-                {
-                    updateCallback->timeSinceLastUpdate += delta;
-
-                    if (updateCallback->timeSinceLastUpdate >= updateCallback->interval)
-                    {
-                        updateCallback->timeSinceLastUpdate = (updateCallback->interval > 0.0F) ? fmodf(updateCallback->timeSinceLastUpdate, updateCallback->interval) : 0.0F;
-                        if (updateCallback->callback) updateCallback->callback(delta);
-                    }
-                }
-            }
+            sceneManager.update();
 
             if (renderer->getDevice()->getRefillQueue())
             {
@@ -514,7 +446,6 @@ namespace ouzel
             }
 
             audio->update();
-        }
     }
 
     void Engine::main()
@@ -540,70 +471,6 @@ namespace ouzel
 
         eventDispatcher.dispatchEvents();
 #endif
-    }
-
-    void Engine::scheduleUpdate(UpdateCallback* callback)
-    {
-        if (callback->engine)
-        {
-            callback->engine->unscheduleUpdate(callback);
-        }
-
-        callback->engine = this;
-
-        updateCallbackAddSet.insert(callback);
-
-        auto setIterator = updateCallbackDeleteSet.find(callback);
-
-        if (setIterator != updateCallbackDeleteSet.end())
-        {
-            updateCallbackDeleteSet.erase(setIterator);
-        }
-    }
-
-    void Engine::unscheduleUpdate(UpdateCallback* callback)
-    {
-        if (callback->engine == this)
-        {
-            callback->engine = nullptr;
-        }
-
-        updateCallbackDeleteSet.insert(callback);
-
-        auto setIterator = updateCallbackAddSet.find(callback);
-
-        if (setIterator != updateCallbackAddSet.end())
-        {
-            updateCallbackAddSet.erase(setIterator);
-        }
-    }
-
-    void Engine::executeOnUpdateThread(const std::function<void(void)>& func)
-    {
-        Lock lock(updateThreadExecuteMutex);
-
-        updateThreadExecuteQueue.push(func);
-    }
-
-    void Engine::executeAllOnUpdateThread()
-    {
-        std::function<void(void)> func;
-
-        for (;;)
-        {
-            {
-                Lock lock(updateThreadExecuteMutex);
-                if (updateThreadExecuteQueue.empty()) break;
-
-                func = std::move(updateThreadExecuteQueue.front());
-                updateThreadExecuteQueue.pop();
-            }
-
-            if (func)
-            {
-                func();
-            }
-        }
     }
 
     bool Engine::openURL(const std::string&)

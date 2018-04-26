@@ -1283,6 +1283,10 @@
 		30B8598B1F3D286600A16952 /* TTFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TTFont.hpp; sourceTree = "<group>"; };
 		30B859921F3D2F3200A16952 /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		30B859931F3D2F3200A16952 /* Font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Font.hpp; sourceTree = "<group>"; };
+		30BB848B20843FBE00C145A2 /* InputDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputDevice.hpp; sourceTree = "<group>"; };
+		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
+		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
+		30BB848E2084410500C145A2 /* Touchpad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Touchpad.hpp; sourceTree = "<group>"; };
 		30C56C591CAA88F8007AEF8F /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
 		30C56C5A1CAA88F8007AEF8F /* CheckBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CheckBox.hpp; sourceTree = "<group>"; };
 		30C56C631CAB3F2D007AEF8F /* RadioButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RadioButton.cpp; sourceTree = "<group>"; };
@@ -1482,10 +1486,10 @@
 				30519CA01F97EEB700AF3DC4 /* ModelData.hpp */,
 				30216B611ED462B80073E3D5 /* ModelRenderer.cpp */,
 				30216B621ED462B80073E3D5 /* ModelRenderer.hpp */,
-				302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */,
-				309ACD261C70DA73005325D3 /* ParticleSystemData.hpp */,
 				304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */,
 				304A8E951C26EDFB008B1151 /* ParticleSystem.hpp */,
+				302511AF1CD3CA2200D04209 /* ParticleSystemData.cpp */,
+				309ACD261C70DA73005325D3 /* ParticleSystemData.hpp */,
 				30575A9C1C39CB790009C8A7 /* Scene.cpp */,
 				30575A9D1C39CB790009C8A7 /* Scene.hpp */,
 				304A8E401C237C70008B1151 /* SceneManager.cpp */,
@@ -1498,6 +1502,8 @@
 				3053FF6E1F437F0800760E67 /* SpriteData.hpp */,
 				301EB3A81CCD77F600466E92 /* TextRenderer.cpp */,
 				301EB3A91CCD77F600466E92 /* TextRenderer.hpp */,
+				303821EC1D8500E500677CAB /* UpdateCallback.cpp */,
+				30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */,
 			);
 			path = scene;
 			sourceTree = "<group>";
@@ -1596,8 +1602,6 @@
 				305B68D11ED1B31D003352A2 /* Timer.cpp */,
 				305B68D21ED1B31D003352A2 /* Timer.hpp */,
 				303B76311C355A3400FEDE92 /* tvos */,
-				303821EC1D8500E500677CAB /* UpdateCallback.cpp */,
-				30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
 				3009341B1C88698500CC50D3 /* Window.hpp */,
 				30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */,
@@ -1683,8 +1687,12 @@
 				303647131C3DFEAF0024DB5B /* Gamepad.hpp */,
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.hpp */,
+				30BB848B20843FBE00C145A2 /* InputDevice.hpp */,
 				303820F01D817F3400677CAB /* ios */,
+				30BB848D20843FDB00C145A2 /* Keyboard.hpp */,
 				3098A5511EA01C6600528A54 /* macos */,
+				30BB848C20843FCD00C145A2 /* Mouse.hpp */,
+				30BB848E2084410500C145A2 /* Touchpad.hpp */,
 				3098A5521EA01C6C00528A54 /* tvos */,
 			);
 			path = input;

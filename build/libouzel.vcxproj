@@ -65,7 +65,6 @@
     <ClCompile Include="..\ouzel\assets\Loader.cpp" />
     <ClCompile Include="..\ouzel\core\Engine.cpp" />
     <ClCompile Include="..\ouzel\core\Timer.cpp" />
-    <ClCompile Include="..\ouzel\core\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\core\Window.cpp" />
     <ClCompile Include="..\ouzel\core\WindowResource.cpp" />
     <ClCompile Include="..\ouzel\core\windows\EngineWin.cpp" />
@@ -169,6 +168,7 @@
     <ClCompile Include="..\ouzel\scene\Sprite.cpp" />
     <ClCompile Include="..\ouzel\scene\SpriteData.cpp" />
     <ClCompile Include="..\ouzel\scene\TextRenderer.cpp" />
+    <ClCompile Include="..\ouzel\scene\UpdateCallback.cpp" />
     <ClCompile Include="..\ouzel\thread\Condition.cpp" />
     <ClCompile Include="..\ouzel\thread\Mutex.cpp" />
     <ClCompile Include="..\ouzel\thread\Thread.cpp" />
@@ -223,7 +223,6 @@
     <ClInclude Include="..\ouzel\core\Setup.h" />
     <ClInclude Include="..\ouzel\core\Engine.hpp" />
     <ClInclude Include="..\ouzel\core\Timer.hpp" />
-    <ClInclude Include="..\ouzel\core\UpdateCallback.hpp" />
     <ClInclude Include="..\ouzel\core\Window.hpp" />
     <ClInclude Include="..\ouzel\core\WindowResource.hpp" />
     <ClInclude Include="..\ouzel\core\windows\EngineWin.hpp" />
@@ -336,6 +335,7 @@
     <ClInclude Include="..\ouzel\scene\Sprite.hpp" />
     <ClInclude Include="..\ouzel\scene\SpriteData.hpp" />
     <ClInclude Include="..\ouzel\scene\TextRenderer.hpp" />
+    <ClInclude Include="..\ouzel\scene\UpdateCallback.hpp" />
     <ClInclude Include="..\ouzel\thread\Condition.hpp" />
     <ClInclude Include="..\ouzel\thread\Lock.hpp" />
     <ClInclude Include="..\ouzel\thread\Mutex.hpp" />

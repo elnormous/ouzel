@@ -155,7 +155,7 @@ namespace ouzel
 
     void Window::onSizeChange(const Size2& newSize)
     {
-        engine->executeOnUpdateThread([this, newSize]() {
+        engine->getSceneManager()->executeOnUpdateThread([this, newSize]() {
             size = newSize;
 
             Event sizeChangeEvent;
@@ -168,7 +168,7 @@ namespace ouzel
 
     void Window::onResolutionChange(const Size2& newResolution)
     {
-        engine->executeOnUpdateThread([this, newResolution]() {
+        engine->getSceneManager()->executeOnUpdateThread([this, newResolution]() {
             resolution = newResolution;
 
             Event resolutionChangeEvent;
@@ -183,7 +183,7 @@ namespace ouzel
 
     void Window::onFullscreenChange(bool newFullscreen)
     {
-        engine->executeOnUpdateThread([this, newFullscreen]() {
+        engine->getSceneManager()->executeOnUpdateThread([this, newFullscreen]() {
             fullscreen = newFullscreen;
 
             Event event;
@@ -198,7 +198,7 @@ namespace ouzel
 
     void Window::onScreenChange(uint32_t newDisplayId)
     {
-        engine->executeOnUpdateThread([this, newDisplayId]() {
+        engine->getSceneManager()->executeOnUpdateThread([this, newDisplayId]() {
             displayId = newDisplayId;
 
             Event event;
