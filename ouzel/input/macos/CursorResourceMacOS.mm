@@ -7,6 +7,11 @@ namespace ouzel
 {
     namespace input
     {
+        CursorResourceMacOS::CursorResourceMacOS(Input* initInput):
+            CursorResource(initInput)
+        {
+        }
+
         CursorResourceMacOS::~CursorResourceMacOS()
         {
             if (cursor) [cursor release];
