@@ -4,8 +4,8 @@
 #pragma once
 
 #include <atomic>
-#include <vector>
 #include <functional>
+#include <vector>
 #include "Setup.h"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
