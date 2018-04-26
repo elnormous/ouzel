@@ -27,7 +27,7 @@ namespace ouzel
             void handleObject(const DIDEVICEOBJECTINSTANCEW* didObjectInstance);
 
         protected:
-            explicit GamepadDI(const DIDEVICEINSTANCEW* aInstance);
+            GamepadDI(const DIDEVICEINSTANCEW* aInstance, IDirectInput8W* directInput, HWND window);
             bool checkInputBuffered();
             bool checkInputPolled();
             void checkThumbAxisChange(LONG oldValue, LONG newValue,

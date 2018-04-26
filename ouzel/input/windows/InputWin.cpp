@@ -540,7 +540,9 @@ namespace ouzel
 
                 if (!found)
                 {
-                    std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance));
+                    WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
+
+                    std::unique_ptr<GamepadDI> gamepad(new GamepadDI(didInstance, directInput, windowWin->getNativeWindow()));
                     gamepadsDI.push_back(gamepad.get());
 
                     Event event;

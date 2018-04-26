@@ -3,7 +3,6 @@
 
 #include "GamepadDI.hpp"
 #include "InputWin.hpp"
-#include "core/Engine.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "utils/Log.hpp"
 
@@ -22,8 +21,8 @@ namespace ouzel
 {
     namespace input
     {
-        GamepadDI::GamepadDI(const DIDEVICEINSTANCEW* aInstance):
-            instance(aInstance)
+        GamepadDI::GamepadDI(const DIDEVICEINSTANCEW* initInstance, IDirectInput8W* directInput, HWND window):
+            instance(initInstance)
         {
             ZeroMemory(&diState, sizeof(diState));
 
@@ -34,9 +33,7 @@ namespace ouzel
             name.resize(bytesNeeded);
             WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, &name.front(), bytesNeeded, nullptr, nullptr);
 
-            InputWin* inputWin = static_cast<InputWin*>(engine->getInput());
-
-            HRESULT hr = inputWin->getDirectInput()->CreateDevice(instance->guidInstance, &device, nullptr);
+            HRESULT hr = directInput->CreateDevice(instance->guidInstance, &device, nullptr);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create DirectInput device, error: " << hr;
@@ -287,10 +284,8 @@ namespace ouzel
                 rightTrigger.offset = DIJOFS_RY;
             }
 
-            WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(engine->getWindow()->getResource());
-
             // Exclusive access is needed for force feedback
-            hr = device->SetCooperativeLevel(windowWin->getNativeWindow(),
+            hr = device->SetCooperativeLevel(window,
                                              DISCL_BACKGROUND | DISCL_EXCLUSIVE);
             if (FAILED(hr))
             {
