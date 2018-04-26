@@ -4,13 +4,13 @@
 #pragma once
 
 #include "scene/ActorContainer.hpp"
-#include "core/UpdateCallback.hpp"
 #include "math/Box3.hpp"
 #include "math/Color.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector2.hpp"
 #include "math/Vector3.hpp"
+#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {

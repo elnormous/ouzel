@@ -68,7 +68,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/audio/StreamWave.cpp \
 	$(ROOT_DIR)/../ouzel/core/Engine.cpp \
 	$(ROOT_DIR)/../ouzel/core/Timer.cpp \
-	$(ROOT_DIR)/../ouzel/core/UpdateCallback.cpp \
 	$(ROOT_DIR)/../ouzel/core/Window.cpp \
 	$(ROOT_DIR)/../ouzel/core/WindowResource.cpp \
 	$(ROOT_DIR)/../ouzel/events/EventDispatcher.cpp \
@@ -158,6 +157,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/scene/Sprite.cpp \
 	$(ROOT_DIR)/../ouzel/scene/SpriteData.cpp \
 	$(ROOT_DIR)/../ouzel/scene/TextRenderer.cpp \
+	$(ROOT_DIR)/../ouzel/scene/UpdateCallback.cpp \
 	$(ROOT_DIR)/../ouzel/thread/Condition.cpp \
 	$(ROOT_DIR)/../ouzel/thread/Mutex.cpp \
 	$(ROOT_DIR)/../ouzel/thread/Thread.cpp \

@@ -63,7 +63,7 @@ namespace ouzel
 
         void Animator::start()
         {
-            engine->scheduleUpdate(&updateCallback);
+            engine->getSceneManager()->scheduleUpdate(&updateCallback);
             play();
 
             Event startEvent;

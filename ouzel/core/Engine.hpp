@@ -3,13 +3,10 @@
 
 #pragma once
 
-#include <set>
+#include <atomic>
 #include <vector>
 #include <functional>
-#include <atomic>
-#include <chrono>
 #include "Setup.h"
-#include "core/UpdateCallback.hpp"
 #include "core/Timer.hpp"
 #include "core/Window.hpp"
 #include "graphics/Renderer.hpp"
@@ -68,11 +65,6 @@ namespace ouzel
         inline bool isPaused() const { return paused; }
         inline bool isActive() const { return active; }
 
-        void scheduleUpdate(UpdateCallback* callback);
-        void unscheduleUpdate(UpdateCallback* callback);
-
-        void executeOnUpdateThread(const std::function<void(void)>& func);
-
         void update();
 
         virtual void executeOnMainThread(const std::function<void(void)>& func) = 0;
@@ -84,7 +76,6 @@ namespace ouzel
 
     protected:
         virtual void main();
-        void executeAllOnUpdateThread();
 
         FileSystem fileSystem;
         EventDispatcher eventDispatcher;
@@ -100,20 +91,11 @@ namespace ouzel
         ini::Data defaultSettings;
         ini::Data userSettings;
 
-        std::chrono::steady_clock::time_point previousUpdateTime;
-
-        std::vector<UpdateCallback*> updateCallbacks;
-        std::set<UpdateCallback*> updateCallbackAddSet;
-        std::set<UpdateCallback*> updateCallbackDeleteSet;
-
 #if OUZEL_MULTITHREADED
         Thread updateThread;
         Mutex updateMutex;
         Condition updateCondition;
 #endif
-
-        std::queue<std::function<void(void)>> updateThreadExecuteQueue;
-        Mutex updateThreadExecuteMutex;
 
         std::atomic<bool> active;
         std::atomic<bool> paused;

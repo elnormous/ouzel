@@ -165,7 +165,7 @@ namespace ouzel
         // executed on audio thread
         void Sound::onStop()
         {
-            engine->executeOnUpdateThread([this]() {
+            engine->getSceneManager()->executeOnUpdateThread([this]() {
                 playing = false;
 
                 Event event;

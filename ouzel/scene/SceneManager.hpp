@@ -3,8 +3,12 @@
 
 #pragma once
 
+#include <chrono>
 #include <memory>
+#include <queue>
+#include <set>
 #include <vector>
+#include "thread/Mutex.hpp"
 
 namespace ouzel
 {
@@ -13,6 +17,7 @@ namespace ouzel
     namespace scene
     {
         class Scene;
+        class UpdateCallback;
 
         class SceneManager final
         {
@@ -56,13 +61,30 @@ namespace ouzel
 
             inline Scene* getScene() const { return scenes.empty() ? nullptr : scenes.back(); }
 
+            void executeOnUpdateThread(const std::function<void(void)>& func);
+
+            void scheduleUpdate(UpdateCallback* callback);
+            void unscheduleUpdate(UpdateCallback* callback);
+
         protected:
             SceneManager();
+            void update();
+            void executeAllOnUpdateThread();
+            
             void addChildScene(Scene* scene);
             bool removeChildScene(Scene* scene);
 
             std::vector<Scene*> scenes;
             std::vector<std::unique_ptr<Scene>> ownedScenes;
+
+            std::chrono::steady_clock::time_point previousUpdateTime;
+
+            std::vector<UpdateCallback*> updateCallbacks;
+            std::set<UpdateCallback*> updateCallbackAddSet;
+            std::set<UpdateCallback*> updateCallbackDeleteSet;
+
+            std::queue<std::function<void(void)>> updateThreadExecuteQueue;
+            Mutex updateThreadExecuteMutex;
         };
     } // namespace scene
 } // namespace ouzel
