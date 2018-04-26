@@ -8,6 +8,11 @@ namespace ouzel
 {
     namespace input
     {
+        CursorResourceWin::CursorResourceWin(Input* initInput):
+            CursorResource(initInput)
+        {
+        }
+
         CursorResourceWin::~CursorResourceWin()
         {
             if (cursor && !shared) DestroyCursor(cursor);

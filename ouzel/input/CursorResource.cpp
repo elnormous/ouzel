@@ -3,13 +3,13 @@
 
 #include "CursorResource.hpp"
 #include "input/Input.hpp"
-#include "core/Engine.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResource::CursorResource()
+        CursorResource::CursorResource(Input* initInput):
+            input(initInput)
         {
         }
 
@@ -40,10 +40,8 @@ namespace ouzel
 
         void CursorResource::reactivate()
         {
-            if (engine->getInput()->currentCursorResource == this)
-            {
-                engine->getInput()->activateCursorResource(this);
-            }
+            if (input->currentCursorResource == this)
+                input->activateCursorResource(this);
         }
     } // namespace input
 } // namespace ouzel

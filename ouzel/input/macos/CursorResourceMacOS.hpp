@@ -19,6 +19,7 @@ namespace ouzel
         class CursorResourceMacOS: public CursorResource
         {
         public:
+            explicit CursorResourceMacOS(Input* initInput);
             virtual ~CursorResourceMacOS();
 
             virtual bool init(SystemCursor newSystemCursor) override;

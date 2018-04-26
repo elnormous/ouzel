@@ -16,8 +16,8 @@ namespace ouzel
 
         class CursorResource
         {
-            friend Input;
         public:
+            explicit CursorResource(Input* initInput);
             virtual ~CursorResource();
 
             virtual bool init(SystemCursor newSystemCursor);
@@ -27,10 +27,10 @@ namespace ouzel
                               const Vector2& newHotSpot);
 
         protected:
-            CursorResource();
 
             void reactivate();
 
+            Input* input;
             SystemCursor systemCursor = SystemCursor::DEFAULT;
             std::vector<uint8_t> data;
             Size2 size;
