@@ -44,7 +44,7 @@ namespace ouzel
 
             if (diff > std::chrono::milliseconds(1)) // at least one millisecond has passed
             {
-                if (diff > std::chrono::milliseconds(5)) diff = std::chrono::milliseconds(5); // limit the update rate to a minimum 20 FPS
+                if (diff > std::chrono::seconds(1000 / 20)) diff = std::chrono::milliseconds(1000 / 20); // limit the update rate to a minimum 20 FPS
 
                 previousUpdateTime = currentTime;
                 float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
