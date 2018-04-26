@@ -8,7 +8,6 @@
 #include "audio/SoundInput.hpp"
 #include "audio/Stream.hpp"
 #include "scene/Component.hpp"
-#include "core/UpdateCallback.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
