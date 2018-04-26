@@ -8,8 +8,8 @@
 #include "math/Size2.hpp"
 #include "math/Vector2.hpp"
 #include "scene/SpriteData.hpp"
-#include "core/UpdateCallback.hpp"
 #include "graphics/Material.hpp"
+#include "scene/UpdateCallback.hpp"
 
 namespace ouzel
 {
