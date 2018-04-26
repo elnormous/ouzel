@@ -271,7 +271,7 @@ namespace ouzel
         {
             if (!playing)
             {
-                engine->scheduleUpdate(&updateCallback);
+                engine->getSceneManager()->scheduleUpdate(&updateCallback);
                 playing = true;
                 running = true;
             }
