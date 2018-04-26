@@ -7,7 +7,6 @@
 #include "audio/AudioDevice.hpp"
 #include "audio/SoundOutput.hpp"
 #include "scene/Component.hpp"
-#include "core/UpdateCallback.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 
