@@ -36,14 +36,15 @@ namespace ouzel
         bool Cursor::init(SystemCursor systemCursor)
         {
             engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(SystemCursor)>(&CursorResource::init),
-                                                        resource,
-                                                        systemCursor));
+                                                  resource,
+                                                  systemCursor));
 
             return true;
         }
 
         bool Cursor::init(const std::string& filename, const Vector2& hotSpot)
         {
+            // TODO: load with asset loader
             graphics::ImageDataSTB image;
             if (!image.init(filename))
             {
@@ -62,11 +63,11 @@ namespace ouzel
                           const Vector2& hotSpot)
         {
             engine->executeOnMainThread(std::bind(static_cast<bool(CursorResource::*)(const std::vector<uint8_t>&, const Size2&, graphics::PixelFormat, const Vector2&)>(&CursorResource::init),
-                                                        resource,
-                                                        data,
-                                                        size,
-                                                        pixelFormat,
-                                                        hotSpot));
+                                                  resource,
+                                                  data,
+                                                  size,
+                                                  pixelFormat,
+                                                  hotSpot));
 
             return true;
         }
