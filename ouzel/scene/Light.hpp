@@ -14,11 +14,20 @@ namespace ouzel
         public:
             static const uint32_t CLASS = Component::LIGHT;
 
-            Light();
+            enum class Type
+            {
+                POINT,
+                SPOT,
+                DIRECTIONAL
+            };
+
+            Light(Type initType);
             virtual ~Light();
 
         protected:
             virtual void setLayer(Layer* newLayer) override;
+
+            Type type;
         };
     } // namespace scene
 } // namespace ouzel
