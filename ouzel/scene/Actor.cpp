@@ -362,13 +362,13 @@ namespace ouzel
             }
         }
 
-        std::vector<Component*> Actor::getComponents(uint32_t type) const
+        std::vector<Component*> Actor::getComponents(uint32_t cls) const
         {
             std::vector<Component*> result;
 
             for (Component* component : components)
             {
-                if (component->getType() == type)
+                if (component->getClass() == cls)
                 {
                     result.push_back(component);
                 }

@@ -18,7 +18,7 @@ namespace ouzel
                                    const std::string& initText,
                                    Color initColor,
                                    const Vector2& initTextAnchor):
-            Component(TYPE),
+            Component(CLASS),
             text(initText),
             fontSize(initFontSize),
             textAnchor(initTextAnchor),

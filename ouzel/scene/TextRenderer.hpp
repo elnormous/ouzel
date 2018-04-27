@@ -20,7 +20,7 @@ namespace ouzel
         class TextRenderer: public Component
         {
         public:
-            static const uint32_t TYPE = Component::TEXT_RENDERER;
+            static const uint32_t CLASS = Component::TEXT_RENDERER;
 
             TextRenderer(const std::string& fontFile,
                          bool initMipmaps = true,

@@ -13,7 +13,7 @@ namespace ouzel
         class ModelRenderer: public Component
         {
         public:
-            static const uint32_t TYPE = Component::MODEL_RENDERER;
+            static const uint32_t CLASS = Component::MODEL_RENDERER;
 
             ModelRenderer();
             explicit ModelRenderer(const ModelData& modelData);

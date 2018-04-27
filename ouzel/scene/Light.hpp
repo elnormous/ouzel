@@ -12,7 +12,7 @@ namespace ouzel
         class Light: public Component
         {
         public:
-            static const uint32_t TYPE = Component::LIGHT;
+            static const uint32_t CLASS = Component::LIGHT;
 
             Light();
             virtual ~Light();
