@@ -12,10 +12,8 @@ namespace ouzel
         class GamepadRasp: public Gamepad
         {
         public:
-            virtual ~GamepadRasp();
-
-        protected:
             GamepadRasp();
+            virtual ~GamepadRasp();
         };
     } // namespace input
 } // namespace ouzel

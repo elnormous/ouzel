@@ -27,6 +27,7 @@ namespace ouzel
                 float value = 0.0F;
             };
 
+            Gamepad();
             virtual ~Gamepad();
 
             Gamepad(const Gamepad&) = delete;
@@ -52,8 +53,6 @@ namespace ouzel
             virtual float getVibration(Motor motor);
 
         protected:
-            Gamepad();
-
             void handleButtonValueChange(GamepadButton button, bool pressed, float value);
 
             ButtonState buttonStates[static_cast<uint32_t>(GamepadButton::BUTTON_COUNT)];

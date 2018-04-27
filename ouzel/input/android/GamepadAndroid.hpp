@@ -12,10 +12,8 @@ namespace ouzel
         class GamepadAndroid: public Gamepad
         {
         public:
-            virtual ~GamepadAndroid();
-
-        protected:
             GamepadAndroid();
+            virtual ~GamepadAndroid();
         };
     } // namespace input
 } // namespace ouzel

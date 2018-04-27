@@ -12,10 +12,8 @@ namespace ouzel
         class GamepadLinux: public Gamepad
         {
         public:
-            virtual ~GamepadLinux();
-
-        protected:
             GamepadLinux();
+            virtual ~GamepadLinux();
         };
     } // namespace input
 } // namespace ouzel
