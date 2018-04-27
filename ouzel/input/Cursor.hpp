@@ -32,7 +32,7 @@ namespace ouzel
         public:
             Cursor();
             explicit Cursor(SystemCursor systemCursor);
-            Cursor(const std::string& filename, const Vector2& hotSpot);
+            explicit Cursor(const std::string& filename, const Vector2& hotSpot = Vector2());
             virtual ~Cursor();
 
             Cursor(const Cursor&) = delete;
@@ -42,7 +42,7 @@ namespace ouzel
             Cursor& operator=(Cursor&&) = delete;
 
             bool init(SystemCursor systemCursor);
-            bool init(const std::string& filename, const Vector2& hotSpot);
+            bool init(const std::string& filename, const Vector2& hotSpot = Vector2());
             bool init(const std::vector<uint8_t>& data,
                       const Size2& size,
                       graphics::PixelFormat pixelFormat,
