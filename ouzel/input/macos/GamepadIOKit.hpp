@@ -12,18 +12,16 @@ namespace ouzel
 {
     namespace input
     {
-        class InputMacOS;
-
         class GamepadIOKit: public Gamepad
         {
-            friend InputMacOS;
         public:
+            explicit GamepadIOKit(IOHIDDeviceRef initDevice);
+
             inline IOHIDDeviceRef getDevice() const { return device; }
 
             void handleInput(IOHIDValueRef value);
 
-        protected:
-            explicit GamepadIOKit(IOHIDDeviceRef initDevice);
+        private:
             void handleThumbAxisChange(int64_t oldValue, int64_t newValue,
                                        int64_t min, int64_t max,
                                        GamepadButton negativeButton, GamepadButton positiveButton);

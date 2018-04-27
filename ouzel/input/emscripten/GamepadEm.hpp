@@ -9,18 +9,16 @@ namespace ouzel
 {
     namespace input
     {
-        class InputEm;
-
         class GamepadEm: public Gamepad
         {
-            friend InputEm;
         public:
+            explicit GamepadEm(long initIndex);
+
             void update();
 
             long getIndex() const { return index; }
 
-        protected:
-            explicit GamepadEm(long initIndex);
+        private:
             void handleThumbAxisChange(double oldValue, double newValue,
                                        GamepadButton negativeButton, GamepadButton positiveButton);
 

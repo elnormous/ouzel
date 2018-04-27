@@ -17,12 +17,10 @@ namespace ouzel
 {
     namespace input
     {
-        class InputIOS;
-
         class GamepadIOS: public Gamepad
         {
-            friend InputIOS;
         public:
+            explicit GamepadIOS(GCControllerPtr initController);
             virtual void setAbsoluteDpadValues(bool absoluteDpadValues) override;
             virtual bool isAbsoluteDpadValues() const override;
 
@@ -31,9 +29,7 @@ namespace ouzel
 
             GCControllerPtr getController() const { return controller; }
 
-        protected:
-            explicit GamepadIOS(GCControllerPtr initController);
-
+        private:
             GCControllerPtr controller;
         };
     } // namespace input
