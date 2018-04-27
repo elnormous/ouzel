@@ -10,7 +10,7 @@ namespace ouzel
     namespace scene
     {
         Light::Light():
-            Component(TYPE)
+            Component(CLASS)
         {
         }
 

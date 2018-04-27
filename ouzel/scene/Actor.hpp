@@ -141,7 +141,7 @@ namespace ouzel
 
             void removeAllComponents();
             inline const std::vector<Component*>& getComponents() const { return components; }
-            std::vector<Component*> getComponents(uint32_t type) const;
+            std::vector<Component*> getComponents(uint32_t cls) const;
 
             Box3 getBoundingBox() const;
 

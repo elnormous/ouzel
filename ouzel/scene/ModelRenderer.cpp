@@ -9,19 +9,19 @@ namespace ouzel
     namespace scene
     {
         ModelRenderer::ModelRenderer():
-            Component(TYPE)
+            Component(CLASS)
         {
             whitePixelTexture = engine->getCache()->getTexture(graphics::TEXTURE_WHITE_PIXEL);
         }
 
         ModelRenderer::ModelRenderer(const ModelData& modelData):
-            Component(TYPE)
+            Component(CLASS)
         {
             init(modelData);
         }
 
         ModelRenderer::ModelRenderer(const std::string& filename, bool mipmaps):
-            Component(TYPE)
+            Component(CLASS)
         {
             init(filename, mipmaps);
         }

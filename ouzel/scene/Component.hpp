@@ -23,7 +23,7 @@ namespace ouzel
         {
             friend Actor;
         public:
-            enum Type
+            enum Class
             {
                 NONE = 0,
                 CAMERA = 1,
@@ -38,7 +38,7 @@ namespace ouzel
                 LIGHT = 10
             };
 
-            explicit Component(uint32_t initType);
+            explicit Component(uint32_t initClass);
             virtual ~Component();
 
             Component(const Component&) = delete;
@@ -47,7 +47,7 @@ namespace ouzel
             Component(Component&&) = delete;
             Component& operator=(Component&&) = delete;
 
-            inline uint32_t getType() const { return type; }
+            inline uint32_t getClass() const { return cls; }
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
@@ -77,7 +77,7 @@ namespace ouzel
             virtual void setLayer(Layer* newLayer);
             virtual void updateTransform();
 
-            uint32_t type;
+            uint32_t cls;
 
             Box3 boundingBox;
             bool hidden = false;

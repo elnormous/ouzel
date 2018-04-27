@@ -18,7 +18,7 @@ namespace ouzel
         class Sprite: public Component
         {
         public:
-            static const uint32_t TYPE = Component::SPRITE;
+            static const uint32_t CLASS = Component::SPRITE;
 
             Sprite();
             explicit Sprite(const SpriteData& spriteData);

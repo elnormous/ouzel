@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Layer;
         public:
-            static const uint32_t TYPE = Component::CAMERA;
+            static const uint32_t CLASS = Component::CAMERA;
 
             enum class ProjectionMode
             {

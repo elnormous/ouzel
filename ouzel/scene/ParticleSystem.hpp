@@ -25,7 +25,7 @@ namespace ouzel
         class ParticleSystem: public Component
         {
         public:
-            static const uint32_t TYPE = Component::PARTICLE_SYSTEM;
+            static const uint32_t CLASS = Component::PARTICLE_SYSTEM;
 
             ParticleSystem();
             explicit ParticleSystem(const std::string& filename);

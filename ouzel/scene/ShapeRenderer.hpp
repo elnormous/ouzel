@@ -19,7 +19,7 @@ namespace ouzel
         class ShapeRenderer: public Component
         {
         public:
-            static const uint32_t TYPE = Component::SHAPE_RENDERER;
+            static const uint32_t CLASS = Component::SHAPE_RENDERER;
 
             ShapeRenderer();
 
