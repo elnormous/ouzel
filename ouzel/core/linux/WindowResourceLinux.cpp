@@ -76,6 +76,9 @@ namespace ouzel
 
         resolution = size;
 
+        int x = XWidthOfScreen(screen) / 2 - static_cast<int>(size.width / 2.0f);
+        int y = XHeightOfScreen(screen) / 2 - static_cast<int>(size.height / 2.0f);
+
         switch (engine->getRenderer()->getDevice()->getDriver())
         {
             case graphics::Renderer::Driver::EMPTY:
@@ -85,7 +88,7 @@ namespace ouzel
                 swa.border_pixel = 0;
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-                window = XCreateWindow(display, RootWindow(display, screenIndex), 0, 0,
+                window = XCreateWindow(display, RootWindow(display, screenIndex), x, y,
                                        static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                        0, DefaultDepth(display, screenIndex), InputOutput, DefaultVisual(display, screenIndex),
                                        CWBorderPixel | CWBackPixel | CWEventMask, &swa);
@@ -125,7 +128,7 @@ namespace ouzel
                 swa.border_pixel = 0;
                 swa.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
 
-                window = XCreateWindow(display, RootWindow(display, visualInfo->screen), 0, 0,
+                window = XCreateWindow(display, RootWindow(display, visualInfo->screen), x, y,
                                        static_cast<unsigned int>(size.width), static_cast<unsigned int>(size.height),
                                        0, visualInfo->depth, InputOutput, visualInfo->visual,
                                        CWBorderPixel | CWColormap | CWEventMask, &swa);
@@ -154,6 +157,7 @@ namespace ouzel
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
+        XMoveWindow(display, window, x, y);
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
         deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
