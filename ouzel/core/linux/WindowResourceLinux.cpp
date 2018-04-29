@@ -147,17 +147,26 @@ namespace ouzel
         if (!resizable)
         {
             XSizeHints sizeHints;
-            sizeHints.flags = PMinSize | PMaxSize;
+            sizeHints.flags = PPosition | PMinSize | PMaxSize;
+            sizeHints.x = x;
+            sizeHints.y = y;
             sizeHints.min_width = static_cast<int>(size.width);
             sizeHints.max_width = static_cast<int>(size.width);
             sizeHints.min_height = static_cast<int>(size.height);
             sizeHints.max_height = static_cast<int>(size.height);
             XSetWMNormalHints(display, window, &sizeHints);
         }
+        else
+        {
+            XSizeHints sizeHints;
+            sizeHints.flags = PPosition;
+            sizeHints.x = x;
+            sizeHints.y = y;
+            XSetWMNormalHints(display, window, &sizeHints);
+        }
 
         // request the X window to be displayed on the screen
         XMapWindow(display, window);
-        XMoveWindow(display, window, x, y);
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
         deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
