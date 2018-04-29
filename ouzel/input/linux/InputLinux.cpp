@@ -243,6 +243,16 @@ namespace ouzel
         {
         }
 
+        InputLinux::~InputLinux()
+        {
+            if (engine)
+            {
+                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
+                Display* display = windowLinux->getDisplay();
+                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
+            }
+        }
+
         bool InputLinux::init()
         {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
@@ -329,16 +339,6 @@ namespace ouzel
             closedir(dir);
 
             return true;
-        }
-
-        InputLinux::~InputLinux()
-        {
-            if (engine)
-            {
-                WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
-                Display* display = windowLinux->getDisplay();
-                if (emptyCursor != None) XFreeCursor(display, emptyCursor);
-            }
         }
 
         void InputLinux::update()
