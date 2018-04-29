@@ -310,7 +310,19 @@ namespace ouzel
             {
                 if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    Log(Log::Level::INFO) << std::string("/dev/input/") + ent.d_name;
+                    std::string filename = std::string("/dev/input/") + ent.d_name;
+
+                    int fd = open(filename.c_str(), O_RDONLY);
+
+                    if (fd == -1) continue;
+
+                    char name[256];
+                    ioctl(fd, EVIOCGNAME(sizeof(name)), name);
+
+                    struct input_id id;
+                    ioctl(fd, EVIOCGID, &id);
+
+                    close(fd);
                 }
             }
 
