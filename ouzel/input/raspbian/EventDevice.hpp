@@ -30,8 +30,13 @@ namespace ouzel
             {
                 fd = other.fd;
                 deviceClass = other.deviceClass;
+                name = std::move(name);
+                vendor = other.vendor;
+                product = other.product;
                 other.fd = -1;
                 other.deviceClass = 0;
+                other.vendor = 0;
+                other.product = 0;
             }
 
             EventDevice& operator=(EventDevice&& other)
@@ -40,8 +45,13 @@ namespace ouzel
                 {
                     fd = other.fd;
                     deviceClass = other.deviceClass;
+                    name = std::move(name);
+                    vendor = other.vendor;
+                    product = other.product;
                     other.fd = -1;
                     other.deviceClass = 0;
+                    other.vendor = 0;
+                    other.product = 0;
                 }
 
                 return *this;
@@ -50,11 +60,15 @@ namespace ouzel
             inline uint32_t getDeviceClass() const { return deviceClass; }
             inline int getFd() const { return fd; }
             const std::string& getName() const { return name; }
+            uint16_t getVendor() const { return vendor; }
+            uint16_t getProduct() const { return product; }
 
         private:
             uint32_t deviceClass = CLASS_NONE;
             int fd = -1;
             std::string name;
+            uint16_t vendor = 0;
+            uint16_t product = 0;
         };
     } // namespace input
 } // namespace ouzel
