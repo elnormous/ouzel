@@ -35,13 +35,14 @@ namespace ouzel
                 Log(Log::Level::WARN) << "Failed to grab device";
             }
 
-            char name[256];
-            if (ioctl(fd, EVIOCGNAME(sizeof(name) - 1), name) == -1)
+            char deviceName[256];
+            if (ioctl(fd, EVIOCGNAME(sizeof(deviceName) - 1), deviceName) == -1)
             {
                 Log(Log::Level::WARN) << "Failed to get device name";
             }
             else
             {
+                name = deviceName;
                 Log(Log::Level::INFO) << "Got device: " << name;
             }
 

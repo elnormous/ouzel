@@ -49,10 +49,12 @@ namespace ouzel
 
             inline uint32_t getDeviceClass() const { return deviceClass; }
             inline int getFd() const { return fd; }
+            const std::string& getName() const { return name; }
 
         private:
             uint32_t deviceClass = CLASS_NONE;
             int fd = -1;
+            std::string name;
         };
     } // namespace input
 } // namespace ouzel

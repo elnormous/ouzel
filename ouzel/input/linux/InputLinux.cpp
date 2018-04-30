@@ -320,19 +320,14 @@ namespace ouzel
             {
                 if (strncmp("event", ent.d_name, 5) == 0)
                 {
-                    std::string filename = std::string("/dev/input/") + ent.d_name;
+                    EventDevice inputDevice(std::string("/dev/input/") + ent.d_name);
 
-                    int fd = open(filename.c_str(), O_RDONLY);
+                    if (inputDevice.getDeviceClass() != EventDevice::CLASS_NONE)
+                    {
+                        if (inputDevice.getFd() > maxFd) maxFd = inputDevice.getFd();
 
-                    if (fd == -1) continue;
-
-                    char name[256];
-                    ioctl(fd, EVIOCGNAME(sizeof(name)), name);
-
-                    struct input_id id;
-                    ioctl(fd, EVIOCGID, &id);
-
-                    close(fd);
+                        inputDevices.push_back(std::move(inputDevice));
+                    }
                 }
             }
 
