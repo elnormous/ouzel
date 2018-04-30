@@ -3,8 +3,11 @@
 
 #pragma once
 
+#include <cstdint>
+#include <vector>
 #include <X11/keysym.h>
 #include <X11/X.h>
+#include "input/linux/EventDevice.hpp"
 #include "input/Input.hpp"
 
 namespace ouzel
@@ -43,6 +46,8 @@ namespace ouzel
             virtual void activateCursorResource(CursorResource* resource) override;
             virtual CursorResource* createCursorResource() override;
 
+            int maxFd = 0;
+            std::vector<EventDevice> inputDevices;
             bool cursorVisible = true;
             bool cursorLocked = false;
             ::Cursor emptyCursor = None;
