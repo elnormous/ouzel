@@ -119,7 +119,12 @@ namespace ouzel
             {
                 Log(Log::Level::INFO) << "Device class: gamepad";
                 deviceClass = EventDevice::CLASS_GAMEPAD;
-            }                
+            }
+
+            struct input_id id;
+            ioctl(fd, EVIOCGID, &id);
+            vendor = id.vendor;
+            product = id.product;
         }
         
         EventDevice::~EventDevice()
