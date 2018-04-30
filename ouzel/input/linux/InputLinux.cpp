@@ -339,7 +339,35 @@ namespace ouzel
         void InputLinux::update()
         {
             // TODO: check for new gamepads
-            // TODO: update gamepads
+            
+            fd_set rfds;
+            struct timeval tv;
+            tv.tv_sec = 0;
+            tv.tv_usec = 0;
+
+            FD_ZERO(&rfds);
+
+            for (const EventDevice& inputDevice : inputDevices)
+            {
+                FD_SET(inputDevice.getFd(), &rfds);
+            }
+
+            int retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv);
+
+            if (retval == -1)
+            {
+                Log(Log::Level::ERR) << "Select failed";
+            }
+            else if (retval > 0)
+            {
+                for (const EventDevice& inputDevice : inputDevices)
+                {
+                    if (FD_ISSET(inputDevice.getFd(), &rfds))
+                    {
+                        // TODO: read input
+                    }
+                }
+            }
         }
 
         void InputLinux::activateCursorResource(CursorResource* resource)
