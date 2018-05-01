@@ -36,9 +36,7 @@ namespace ouzel
         bool BufferResource::setData(const std::vector<uint8_t>& newData)
         {
             if (!(flags & Buffer::DYNAMIC))
-            {
                 return false;
-            }
 
             data = newData;
 

@@ -162,14 +162,10 @@ namespace ouzel
                                        newSize,
                                        newFlags,
                                        newPixelFormat))
-            {
                 return false;
-            }
 
             if (!createTexture())
-            {
                 return false;
-            }
 
             if (!(flags & Texture::RENDER_TARGET))
             {
@@ -192,9 +188,7 @@ namespace ouzel
         bool TextureResourceMetal::setSize(const Size2& newSize)
         {
             if (!TextureResource::setSize(newSize))
-            {
                 return false;
-            }
 
             if (!texture ||
                 static_cast<NSUInteger>(size.width) != width ||
@@ -212,9 +206,7 @@ namespace ouzel
         bool TextureResourceMetal::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!TextureResource::setData(newData, newSize))
-            {
                 return false;
-            }
 
             if (!texture ||
                 static_cast<NSUInteger>(size.width) != width ||
@@ -247,9 +239,7 @@ namespace ouzel
         bool TextureResourceMetal::setFilter(Texture::Filter newFilter)
         {
             if (!TextureResource::setFilter(newFilter))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -257,9 +247,7 @@ namespace ouzel
         bool TextureResourceMetal::setAddressX(Texture::Address newAddressX)
         {
             if (!TextureResource::setAddressX(newAddressX))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -267,9 +255,7 @@ namespace ouzel
         bool TextureResourceMetal::setAddressY(Texture::Address newAddressY)
         {
             if (!TextureResource::setAddressY(newAddressY))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -277,9 +263,7 @@ namespace ouzel
         bool TextureResourceMetal::setMaxAnisotropy(uint32_t newMaxAnisotropy)
         {
             if (!TextureResource::setMaxAnisotropy(newMaxAnisotropy))
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -287,9 +271,7 @@ namespace ouzel
         bool TextureResourceMetal::setClearColorBuffer(bool clear)
         {
             if (!TextureResource::setClearColorBuffer(clear))
-            {
                 return false;
-            }
 
             colorBufferLoadAction = clearColorBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
@@ -299,9 +281,7 @@ namespace ouzel
         bool TextureResourceMetal::setClearDepthBuffer(bool clear)
         {
             if (!TextureResource::setClearDepthBuffer(clear))
-            {
                 return false;
-            }
 
             depthBufferLoadAction = clearDepthBuffer ? MTLLoadActionClear : MTLLoadActionDontCare;
 
@@ -311,9 +291,7 @@ namespace ouzel
         bool TextureResourceMetal::setClearColor(Color color)
         {
             if (!TextureResource::setClearColor(color))
-            {
                 return false;
-            }
 
             if (!renderPassDescriptor)
             {
@@ -332,9 +310,7 @@ namespace ouzel
         bool TextureResourceMetal::setClearDepth(float clear)
         {
             if (!TextureResource::setClearDepth(clear))
-            {
                 return false;
-            }
 
             if (!renderPassDescriptor)
             {
