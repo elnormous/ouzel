@@ -34,6 +34,9 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
+            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                return false;
+
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const Size2&, uint32_t, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newSize,
@@ -62,6 +65,9 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = image.getPixelFormat();
 
+            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                return false;
+
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    image.getData(),
@@ -85,6 +91,9 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
+            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                return false;
+
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<uint8_t>&, const Size2&, uint32_t, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newData,
@@ -107,6 +116,9 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
+            if ((flags & DYNAMIC || flags & RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                return false;
+
             engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(TextureResource::*)(const std::vector<Level>&, const Size2&, uint32_t, PixelFormat)>(&TextureResource::init),
                                                                    resource,
                                                                    newLevels,
@@ -119,6 +131,9 @@ namespace ouzel
 
         bool Texture::setSize(const Size2& newSize)
         {
+            if (!(flags & Texture::DYNAMIC))
+                return false;
+
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setSize,
@@ -130,6 +145,9 @@ namespace ouzel
 
         bool Texture::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
+            if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
+                return false;
+
             size = newSize;
 
             engine->getRenderer()->executeOnRenderThread(std::bind(&TextureResource::setData,

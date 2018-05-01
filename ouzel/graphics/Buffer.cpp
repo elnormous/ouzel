@@ -65,6 +65,9 @@ namespace ouzel
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
         {
+            if (!(flags & Buffer::DYNAMIC))
+                return false;
+
             engine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
                                                                    resource,
                                                                    newData));

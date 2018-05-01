@@ -34,10 +34,11 @@ namespace ouzel
             sampleCount = newSampleCount;
             pixelFormat = newPixelFormat;
 
-            if (!calculateSizes(newSize))
-            {
+            if ((flags & Texture::DYNAMIC || flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 return false;
-            }
+
+            if (!calculateSizes(newSize))
+                return false;
 
             return true;
         }
@@ -53,15 +54,14 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
-            if (!calculateSizes(newSize))
-            {
+            if ((flags & Texture::DYNAMIC || flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
                 return false;
-            }
+
+            if (!calculateSizes(newSize))
+                return false;
 
             if (!calculateData(newData))
-            {
                 return false;
-            }
 
             return true;
         }
@@ -78,28 +78,22 @@ namespace ouzel
             sampleCount = 1;
             pixelFormat = newPixelFormat;
 
+            if ((flags & Texture::DYNAMIC || flags & Texture::RENDER_TARGET) && (mipmaps == 0 || mipmaps > 1))
+                return false;
+
             return true;
         }
 
         bool TextureResource::setSize(const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC))
-            {
                 return false;
-            }
 
             if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-            {
                 return false;
-            }
 
-            if (newSize != size)
-            {
-                if (!calculateSizes(newSize))
-                {
-                    return false;
-                }
-            }
+            if (newSize != size && !calculateSizes(newSize))
+                return false;
 
             return true;
         }
@@ -107,27 +101,16 @@ namespace ouzel
         bool TextureResource::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!(flags & Texture::DYNAMIC) || flags & Texture::RENDER_TARGET)
-            {
                 return false;
-            }
 
             if (newSize.width <= 0.0F || newSize.height <= 0.0F)
-            {
                 return false;
-            }
 
-            if (newSize != size)
-            {
-                if (!calculateSizes(newSize))
-                {
-                    return false;
-                }
-            }
+            if (newSize != size && !calculateSizes(newSize))
+                return false;
 
             if (!calculateData(newData))
-            {
                 return false;
-            }
 
             return true;
         }
