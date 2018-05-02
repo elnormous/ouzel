@@ -84,6 +84,20 @@ namespace ouzel
         NSApplication* application = [NSApplication sharedApplication];
         [application activateIgnoringOtherApps:YES];
         [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
+
+        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
+
+        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] init] autorelease];
+        [mainMenu addItem:mainMenuItem];
+
+        NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
+        [mainMenuItem setSubmenu:subMenu];
+
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:NSSelectorFromString(@"handleQuit:") keyEquivalent:@"q"] autorelease];
+        [subMenu addItem:quitItem];
+
+        application.mainMenu = mainMenu;
+
         [application run];
 
         [pool release];
