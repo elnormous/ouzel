@@ -65,6 +65,11 @@
     engineMacOS->executeAll();
 }
 
+-(void)handleQuit:(__unused id)sender
+{
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
 @end
 
 namespace ouzel
@@ -93,7 +98,8 @@ namespace ouzel
         NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
         [mainMenuItem setSubmenu:subMenu];
 
-        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:NSSelectorFromString(@"handleQuit:") keyEquivalent:@"q"] autorelease];
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
+        [quitItem setTarget: [application delegate]];
         [subMenu addItem:quitItem];
 
         application.mainMenu = mainMenu;
