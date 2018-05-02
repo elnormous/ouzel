@@ -32,7 +32,7 @@
 
 -(void)handleQuit:(__unused id)sender
 {
-    window->close();
+    [[NSApplication sharedApplication] terminate:nil];
 }
 
 -(void)windowDidResize:(__unused NSNotification*)notification
@@ -232,19 +232,6 @@ namespace ouzel
             contentScale = 1.0F;
             resolution = size;
         }
-
-        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
-
-        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] initWithTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()]) action:nil keyEquivalent:@""] autorelease];
-        [mainMenu addItem:mainMenuItem];
-
-        NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:title.c_str()])] autorelease];
-        [mainMenuItem setSubmenu:subMenu];
-
-        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
-        [subMenu addItem:quitItem];
-
-        [NSApplication sharedApplication].mainMenu = mainMenu;
 
         return true;
     }
