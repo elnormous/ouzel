@@ -30,11 +30,6 @@
     return self;
 }
 
--(void)handleQuit:(__unused id)sender
-{
-    [[NSApplication sharedApplication] terminate:nil];
-}
-
 -(void)windowDidResize:(__unused NSNotification*)notification
 {
     window->handleResize();
