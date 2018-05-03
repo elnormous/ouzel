@@ -742,6 +742,12 @@
 		30673DD61F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
 		30673DD71F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
 		30673DD81F7A694F00EAFAB0 /* WindowResource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */; };
+		3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
+		3067D7A6209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
+		3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3067D7A3209B450F008DF6AF /* InputSystem.cpp */; };
+		3067D7A8209B450F008DF6AF /* InputSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3067D7A4209B450F008DF6AF /* InputSystem.hpp */; };
+		3067D7A9209B450F008DF6AF /* InputSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3067D7A4209B450F008DF6AF /* InputSystem.hpp */; };
+		3067D7AA209B450F008DF6AF /* InputSystem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3067D7A4209B450F008DF6AF /* InputSystem.hpp */; };
 		306A26B31F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
 		306A26B41F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
 		306A26B51F5DD17700E2B0B6 /* Listener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306A26B11F5DD17700E2B0B6 /* Listener.cpp */; };
@@ -1226,6 +1232,8 @@
 		3066725F1F964A77004515F2 /* Light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Light.hpp; sourceTree = "<group>"; };
 		30673DD11F7A694F00EAFAB0 /* WindowResource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowResource.cpp; sourceTree = "<group>"; };
 		30673DD21F7A694F00EAFAB0 /* WindowResource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WindowResource.hpp; sourceTree = "<group>"; };
+		3067D7A3209B450F008DF6AF /* InputSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputSystem.cpp; sourceTree = "<group>"; };
+		3067D7A4209B450F008DF6AF /* InputSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = InputSystem.hpp; sourceTree = "<group>"; };
 		306A26B11F5DD17700E2B0B6 /* Listener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Listener.cpp; sourceTree = "<group>"; };
 		306A26B21F5DD17700E2B0B6 /* Listener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Listener.hpp; sourceTree = "<group>"; };
 		306A26B91F5DD19300E2B0B6 /* Mixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mixer.cpp; sourceTree = "<group>"; };
@@ -1688,6 +1696,8 @@
 				303B76061C34A92B00FEDE92 /* Input.cpp */,
 				303B76071C34A92B00FEDE92 /* Input.hpp */,
 				30BB848B20843FBE00C145A2 /* InputDevice.hpp */,
+				3067D7A3209B450F008DF6AF /* InputSystem.cpp */,
+				3067D7A4209B450F008DF6AF /* InputSystem.hpp */,
 				303820F01D817F3400677CAB /* ios */,
 				30BB848D20843FDB00C145A2 /* Keyboard.hpp */,
 				3098A5511EA01C6600528A54 /* macos */,
@@ -2142,6 +2152,7 @@
 				303B75561C2A3CB700FEDE92 /* Size2.hpp in Headers */,
 				30A883671E7432DA004A033F /* Archive.hpp in Headers */,
 				307237151FAFDAC9002EA399 /* XML.hpp in Headers */,
+				3067D7A8209B450F008DF6AF /* InputSystem.hpp in Headers */,
 				303B75491C2A3C9200FEDE92 /* ShaderResource.hpp in Headers */,
 				303B755E1C2A3CB700FEDE92 /* Vertex.hpp in Headers */,
 				306A26C61F5DD19E00E2B0B6 /* SoundOutput.hpp in Headers */,
@@ -2290,6 +2301,7 @@
 				303B76711C355A3B00FEDE92 /* ImageData.hpp in Headers */,
 				303B76721C355A3B00FEDE92 /* Renderer.hpp in Headers */,
 				306A26ED1F5DE76E00E2B0B6 /* SoundInput.hpp in Headers */,
+				3067D7AA209B450F008DF6AF /* InputSystem.hpp in Headers */,
 				30A9C1361CAE80570084C4BF /* Localization.hpp in Headers */,
 				303B76731C355A3B00FEDE92 /* Size2.hpp in Headers */,
 				30B859991F3D2F3200A16952 /* Font.hpp in Headers */,
@@ -2428,6 +2440,7 @@
 				30381F711D80A3EC00677CAB /* BufferResourceOGL.hpp in Headers */,
 				30C56C681CAB3F2D007AEF8F /* RadioButton.hpp in Headers */,
 				304A8E591C237C70008B1151 /* Matrix3.hpp in Headers */,
+				3067D7A9209B450F008DF6AF /* InputSystem.hpp in Headers */,
 				30216B771ED464730073E3D5 /* Material.hpp in Headers */,
 				303B04BB1E207B6D00011CBE /* OpenGLView.h in Headers */,
 				3049DCB81ED8687C0000997A /* ConvexVolume.hpp in Headers */,
@@ -2734,6 +2747,7 @@
 				30216B631ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
 				30381F111D8094F100677CAB /* BufferResource.cpp in Sources */,
 				30CC89F9203C5DFB00E2C8C3 /* File.cpp in Sources */,
+				3067D7A5209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30519CB31F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30B859941F3D2F3200A16952 /* Font.cpp in Sources */,
 				306A26C31F5DD19E00E2B0B6 /* SoundOutput.cpp in Sources */,
@@ -2898,6 +2912,7 @@
 				30B328861C4E9EAC00040927 /* Ease.cpp in Sources */,
 				3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */,
 				30216B651ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
+				3067D7A7209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30CC89FB203C5DFB00E2C8C3 /* File.cpp in Sources */,
 				30519CB51F9B506F00AF3DC4 /* Loader.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* TextureResourceOGL.cpp in Sources */,
@@ -3111,6 +3126,7 @@
 				304A8E531C237C70008B1151 /* Engine.cpp in Sources */,
 				3030D5031DAEF1FA007CC8EB /* Log.cpp in Sources */,
 				303647141C3DFEAF0024DB5B /* Gamepad.cpp in Sources */,
+				3067D7A6209B450F008DF6AF /* InputSystem.cpp in Sources */,
 				30324E141CB2898E00601A64 /* BlendStateResource.cpp in Sources */,
 				304A8E741C237C70008B1151 /* Vector4.cpp in Sources */,
 				303933581E5C446E000C9A8E /* ImageDataSTB.cpp in Sources */,
