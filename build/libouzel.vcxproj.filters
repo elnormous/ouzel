@@ -463,6 +463,9 @@
     <ClCompile Include="..\ouzel\thread\Mutex.cpp">
       <Filter>ouzel\thread</Filter>
     </ClCompile>
+    <ClCompile Include="..\ouzel\input\InputSystem.cpp">
+      <Filter>ouzel\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ouzel\animators\Animator.hpp">
@@ -961,6 +964,9 @@
       <Filter>ouzel\input</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\input\Touchpad.hpp">
+      <Filter>ouzel\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ouzel\input\InputSystem.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
   </ItemGroup>

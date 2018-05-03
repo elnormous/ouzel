@@ -122,6 +122,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/input/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
 	$(ROOT_DIR)/../ouzel/input/Input.cpp \
+	$(ROOT_DIR)/../ouzel/input/InputSystem.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
 	$(ROOT_DIR)/../ouzel/math/Box2.cpp \
