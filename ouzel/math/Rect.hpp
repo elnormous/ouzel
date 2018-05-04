@@ -141,9 +141,9 @@ namespace ouzel
             return intersects(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
-        static bool intersect(const Rect& r1, const Rect& r2, Rect* dst);
+        static bool intersect(const Rect& r1, const Rect& r2, Rect& dst);
 
-        static void combine(const Rect& r1, const Rect& r2, Rect* dst);
+        static void combine(const Rect& r1, const Rect& r2, Rect& dst);
 
         void inflate(float horizontalAmount, float verticalAmount)
         {
