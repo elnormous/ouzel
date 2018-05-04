@@ -3,15 +3,12 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cassert>
 #include "Rect.hpp"
 
 namespace ouzel
 {
-    bool Rect::intersect(const Rect& r1, const Rect& r2, Rect* dst)
+    bool Rect::intersect(const Rect& r1, const Rect& r2, Rect& dst)
     {
-        assert(dst);
-
         float xmin = std::max(r1.position.x, r2.position.x);
         float xmax = std::min(r1.right(), r2.right());
         if (xmax > xmin)
@@ -20,22 +17,20 @@ namespace ouzel
             float ymax = std::min(r1.bottom(), r2.bottom());
             if (ymax > ymin)
             {
-                dst->set(xmin, ymin, xmax - xmin, ymax - ymin);
+                dst.set(xmin, ymin, xmax - xmin, ymax - ymin);
                 return true;
             }
         }
 
-        dst->set(0, 0, 0, 0);
+        dst.set(0, 0, 0, 0);
         return false;
     }
 
-    void Rect::combine(const Rect& r1, const Rect& r2, Rect* dst)
+    void Rect::combine(const Rect& r1, const Rect& r2, Rect& dst)
     {
-        assert(dst);
-
-        dst->position.x = std::min(r1.position.x, r2.position.x);
-        dst->position.y = std::min(r1.position.y, r2.position.y);
-        dst->size.width = std::max(r1.position.x + r1.size.width, r2.position.x + r2.size.width) - dst->position.x;
-        dst->size.height = std::max(r1.position.y + r1.size.height, r2.position.y + r2.size.height) - dst->position.y;
+        dst.position.x = std::min(r1.position.x, r2.position.x);
+        dst.position.y = std::min(r1.position.y, r2.position.y);
+        dst.size.width = std::max(r1.position.x + r1.size.width, r2.position.x + r2.size.width) - dst.position.x;
+        dst.size.height = std::max(r1.position.y + r1.size.height, r2.position.y + r2.size.height) - dst.position.y;
     }
 }
