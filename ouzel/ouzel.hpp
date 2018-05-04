@@ -78,6 +78,7 @@
 #include "input/Gamepad.hpp"
 #include "input/Input.hpp"
 #include "input/InputDevice.hpp"
+#include "input/InputSystem.hpp"
 #include "input/Keyboard.hpp"
 #include "input/Mouse.hpp"
 #include "input/Touchpad.hpp"
