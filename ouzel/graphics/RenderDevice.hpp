@@ -126,7 +126,7 @@ namespace ouzel
             void executeOnRenderThread(const std::function<void(void)>& func);
 
         protected:
-            explicit RenderDevice(Renderer::Driver aDriver);
+            explicit RenderDevice(Renderer::Driver initDriver);
 
             virtual bool init(Window* newWindow,
                               const Size2& newSize,
