@@ -126,12 +126,12 @@ namespace ouzel
             return contains(r.position.x, r.position.y, r.size.width, r.size.height);
         }
 
-        bool intersects(float aX, float aY, float aWidth, float aHeight) const
+        bool intersects(float x, float y, float width, float height) const
         {
             float t;
-            if ((t = aX - position.x) > size.width || -t > aWidth)
+            if ((t = x - position.x) > size.width || -t > width)
                 return false;
-            if ((t = aY - position.y) > size.height || -t > aHeight)
+            if ((t = y - position.y) > size.height || -t > height)
                 return false;
             return true;
         }
