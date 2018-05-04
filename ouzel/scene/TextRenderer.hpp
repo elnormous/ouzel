@@ -27,7 +27,7 @@ namespace ouzel
                          float initFontSize = 1.0F,
                          const std::string& initText = std::string(),
                          Color initColor = Color::WHITE,
-                         const Vector2& aTextAnchor = Vector2(0.5F, 0.5F));
+                         const Vector2& initTextAnchor = Vector2(0.5F, 0.5F));
 
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
