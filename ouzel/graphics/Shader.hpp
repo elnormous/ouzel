@@ -22,8 +22,8 @@ namespace ouzel
             class ConstantInfo
             {
             public:
-                ConstantInfo(const std::string& aName, DataType initDataType):
-                    name(aName), dataType(initDataType), size(getDataTypeSize(initDataType)) {}
+                ConstantInfo(const std::string& initName, DataType initDataType):
+                    name(initName), dataType(initDataType), size(getDataTypeSize(initDataType)) {}
 
                 std::string name;
                 DataType dataType;
