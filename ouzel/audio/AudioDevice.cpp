@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace audio
     {
-        AudioDevice::AudioDevice(Audio::Driver aDriver):
-            driver(aDriver)
+        AudioDevice::AudioDevice(Audio::Driver initDriver):
+            driver(initDriver)
         {
             buffers.resize(1000);
         }

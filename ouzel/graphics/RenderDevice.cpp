@@ -10,8 +10,8 @@ namespace ouzel
 {
     namespace graphics
     {
-        RenderDevice::RenderDevice(Renderer::Driver aDriver):
-            driver(aDriver),
+        RenderDevice::RenderDevice(Renderer::Driver initDriver):
+            driver(initDriver),
             projectionTransform(Matrix4::IDENTITY),
             renderTargetProjectionTransform(Matrix4::IDENTITY),
             refillQueue(true),

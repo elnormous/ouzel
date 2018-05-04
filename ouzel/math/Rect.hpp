@@ -116,9 +116,9 @@ namespace ouzel
                 point.y >= position.y && point.y <= (position.y + size.height);
         }
 
-        bool contains(float x, float y, float aWidth, float aHeight) const
+        bool contains(float x, float y, float width, float height) const
         {
-            return containsPoint(x, y) && containsPoint(x + aWidth, y + aHeight);
+            return containsPoint(x, y) && containsPoint(x + width, y + height);
         }
 
         bool contains(const Rect& r) const
