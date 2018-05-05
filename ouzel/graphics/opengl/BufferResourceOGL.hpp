@@ -32,7 +32,7 @@ namespace ouzel
         {
             friend MeshBufferResourceOGL;
         public:
-            explicit BufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit BufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~BufferResourceOGL();
 
             virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0) override;
@@ -45,10 +45,10 @@ namespace ouzel
             inline GLuint getBufferId() const { return bufferId; }
             inline GLuint getBufferType() const { return bufferType; }
 
-        protected:
+        private:
             bool createBuffer();
 
-            RenderDeviceOGL* renderDeviceOGL;
+            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint bufferId = 0;
             GLsizeiptr bufferSize = 0;

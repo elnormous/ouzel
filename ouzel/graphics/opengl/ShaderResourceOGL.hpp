@@ -30,7 +30,7 @@ namespace ouzel
         class ShaderResourceOGL: public ShaderResource
         {
         public:
-            explicit ShaderResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~ShaderResourceOGL();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -56,12 +56,12 @@ namespace ouzel
 
             inline GLuint getProgramId() const { return programId; }
 
-        protected:
+        private:
             bool compileShader();
             void printShaderMessage(GLuint shaderId);
             void printProgramMessage();
 
-            RenderDeviceOGL* renderDeviceOGL;
+            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint pixelShaderId = 0;
             GLuint vertexShaderId = 0;

@@ -178,7 +178,7 @@ namespace ouzel
             }
         }
 
-        MeshBufferResourceOGL::MeshBufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+        MeshBufferResourceOGL::MeshBufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
             renderDeviceOGL(initRenderDeviceOGL)
         {
         }
@@ -186,18 +186,14 @@ namespace ouzel
         MeshBufferResourceOGL::~MeshBufferResourceOGL()
         {
             if (vertexArrayId)
-            {
-                renderDeviceOGL->deleteVertexArray(vertexArrayId);
-            }
+                renderDeviceOGL.deleteVertexArray(vertexArrayId);
         }
 
         bool MeshBufferResourceOGL::init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                                          BufferResource* newVertexBuffer)
         {
             if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexBuffer))
-            {
                 return false;
-            }
 
             switch (indexSize)
             {
@@ -235,10 +231,7 @@ namespace ouzel
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
             vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
 
-            if (vertexArrayId)
-            {
-                if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
-            }
+            if (vertexArrayId && glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
 
             return createVertexArray();
         }
@@ -253,9 +246,7 @@ namespace ouzel
         bool MeshBufferResourceOGL::setIndexSize(uint32_t newIndexSize)
         {
             if (MeshBufferResource::setIndexSize(newIndexSize))
-            {
                 return false;
-            }
 
             switch (indexSize)
             {
@@ -280,22 +271,18 @@ namespace ouzel
         bool MeshBufferResourceOGL::setIndexBuffer(BufferResource* newIndexBuffer)
         {
             if (MeshBufferResource::setIndexBuffer(newIndexBuffer))
-            {
                 return false;
-            }
 
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
 
             if (vertexArrayId)
             {
-                renderDeviceOGL->bindVertexArray(vertexArrayId);
+                renderDeviceOGL.bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                    {
+                    if (!renderDeviceOGL.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                         return false;
-                    }
                 }
             }
 
@@ -305,9 +292,7 @@ namespace ouzel
         bool MeshBufferResourceOGL::setVertexBuffer(BufferResource* newVertexBuffer)
         {
             if (MeshBufferResource::setVertexBuffer(newVertexBuffer))
-            {
                 return false;
-            }
 
             vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
 
@@ -315,10 +300,8 @@ namespace ouzel
             {
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                    {
+                    if (!renderDeviceOGL.bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                         return false;
-                    }
 
                     for (GLuint index = 0; index < MAX_VERTEX_ATTRIBUTE_COUNT; ++index)
                     {
@@ -353,10 +336,8 @@ namespace ouzel
         {
             if (vertexArrayId)
             {
-                if (!renderDeviceOGL->bindVertexArray(vertexArrayId))
-                {
+                if (!renderDeviceOGL.bindVertexArray(vertexArrayId))
                     return false;
-                }
             }
             else
             {
@@ -367,10 +348,8 @@ namespace ouzel
                     return false;
                 }
 
-                if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                {
+                if (!renderDeviceOGL.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                     return false;
-                }
 
                 if (!vertexBufferOGL || !vertexBufferOGL->getBufferId())
                 {
@@ -378,10 +357,8 @@ namespace ouzel
                     return false;
                 }
 
-                if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
-                {
+                if (!renderDeviceOGL.bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     return false;
-                }
 
                 for (GLuint index = 0; index < MAX_VERTEX_ATTRIBUTE_COUNT; ++index)
                 {
@@ -416,25 +393,21 @@ namespace ouzel
             if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
                 Log(Log::Level::WARN) << "Failed to create vertex array";
-            }
 
             if (vertexArrayId)
             {
-                renderDeviceOGL->bindVertexArray(vertexArrayId);
+                renderDeviceOGL.bindVertexArray(vertexArrayId);
 
                 if (indexBufferOGL && indexBufferOGL->getBufferId())
                 {
-                    if (!renderDeviceOGL->bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
-                    {
+                    if (!renderDeviceOGL.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferOGL->getBufferId()))
                         return false;
-                    }
                 }
 
                 if (vertexBufferOGL && vertexBufferOGL->getBufferId())
                 {
-                    if (!renderDeviceOGL->bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
+                    if (!renderDeviceOGL.bindBuffer(GL_ARRAY_BUFFER, vertexBufferOGL->getBufferId()))
                     {
                         return false;
                     }

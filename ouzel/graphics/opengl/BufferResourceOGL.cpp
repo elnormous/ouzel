@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+        BufferResourceOGL::BufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
             renderDeviceOGL(initRenderDeviceOGL)
         {
         }
@@ -21,33 +21,25 @@ namespace ouzel
         BufferResourceOGL::~BufferResourceOGL()
         {
             if (bufferId)
-            {
-                renderDeviceOGL->deleteBuffer(bufferId);
-            }
+                renderDeviceOGL.deleteBuffer(bufferId);
         }
 
         bool BufferResourceOGL::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
         {
             if (!BufferResource::init(newUsage, newFlags, newSize))
-            {
                 return false;
-            }
 
             if (!createBuffer())
-            {
                 return false;
-            }
 
             bufferSize = static_cast<GLsizeiptr>(data.size());
 
             if (!data.empty())
             {
-                renderDeviceOGL->bindVertexArray(0);
+                renderDeviceOGL.bindVertexArray(0);
 
-                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
-                {
+                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                     return false;
-                }
 
                 glBufferDataProc(bufferType, bufferSize, nullptr,
                                  (flags & Texture::DYNAMIC) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
@@ -65,22 +57,18 @@ namespace ouzel
         bool BufferResourceOGL::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
         {
             if (!BufferResource::init(newUsage, newData, newFlags))
-            {
                 return false;
-            }
 
             if (!createBuffer())
-            {
                 return false;
-            }
 
             bufferSize = static_cast<GLsizeiptr>(data.size());
 
             if (!data.empty())
             {
-                renderDeviceOGL->bindVertexArray(0);
+                renderDeviceOGL.bindVertexArray(0);
 
-                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -103,15 +91,13 @@ namespace ouzel
             bufferId = 0;
 
             if (!createBuffer())
-            {
                 return false;
-            }
 
             if (!data.empty())
             {
-                renderDeviceOGL->bindVertexArray(0);
+                renderDeviceOGL.bindVertexArray(0);
 
-                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -132,9 +118,7 @@ namespace ouzel
         bool BufferResourceOGL::setData(const std::vector<uint8_t>& newData)
         {
             if (!BufferResource::setData(newData))
-            {
                 return false;
-            }
 
             if (!bufferId)
             {
@@ -144,9 +128,9 @@ namespace ouzel
 
             if (!data.empty())
             {
-                renderDeviceOGL->bindVertexArray(0);
+                renderDeviceOGL.bindVertexArray(0);
 
-                if (!renderDeviceOGL->bindBuffer(bufferType, bufferId))
+                if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                 {
                     return false;
                 }
@@ -181,7 +165,7 @@ namespace ouzel
 
         bool BufferResourceOGL::createBuffer()
         {
-            if (bufferId) renderDeviceOGL->deleteBuffer(bufferId);
+            if (bufferId) renderDeviceOGL.deleteBuffer(bufferId);
 
             glGenBuffersProc(1, &bufferId);
 

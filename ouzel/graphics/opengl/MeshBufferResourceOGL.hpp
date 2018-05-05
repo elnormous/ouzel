@@ -33,7 +33,7 @@ namespace ouzel
         class MeshBufferResourceOGL: public MeshBufferResource
         {
         public:
-            explicit MeshBufferResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit MeshBufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~MeshBufferResourceOGL();
 
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
@@ -54,10 +54,10 @@ namespace ouzel
             inline BufferResourceOGL* getIndexBufferOGL() const { return indexBufferOGL; }
             inline BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
-        protected:
+        private:
             bool createVertexArray();
 
-            RenderDeviceOGL* renderDeviceOGL;
+            RenderDeviceOGL& renderDeviceOGL;
 
             GLenum indexType = 0;
             GLuint bytesPerIndex = 0;

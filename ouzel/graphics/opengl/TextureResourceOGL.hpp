@@ -30,7 +30,7 @@ namespace ouzel
         class TextureResourceOGL: public TextureResource
         {
         public:
-            explicit TextureResourceOGL(RenderDeviceOGL* initRenderDeviceOGL);
+            explicit TextureResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~TextureResourceOGL();
 
             virtual bool init(const Size2& newSize,
@@ -69,11 +69,11 @@ namespace ouzel
             inline GLbitfield getClearMask() const { return clearMask; }
             inline const GLfloat* getFrameBufferClearColor() const { return frameBufferClearColor; }
 
-        protected:
+        private:
             bool createTexture();
             bool setTextureParameters();
 
-            RenderDeviceOGL* renderDeviceOGL;
+            RenderDeviceOGL& renderDeviceOGL;
 
             GLuint textureId = 0;
 

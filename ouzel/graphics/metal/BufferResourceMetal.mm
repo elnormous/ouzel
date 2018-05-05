@@ -14,7 +14,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal* initRenderDeviceMetal):
+        BufferResourceMetal::BufferResourceMetal(RenderDeviceMetal& initRenderDeviceMetal):
             renderDeviceMetal(initRenderDeviceMetal)
         {
         }
@@ -97,8 +97,8 @@ namespace ouzel
 
             if (!data.empty())
             {
-                buffer = [renderDeviceMetal->getDevice() newBufferWithLength:bufferSize
-                                                                     options:MTLResourceCPUCacheModeWriteCombined];
+                buffer = [renderDeviceMetal.getDevice() newBufferWithLength:bufferSize
+                                                                    options:MTLResourceCPUCacheModeWriteCombined];
 
                 if (!buffer)
                 {

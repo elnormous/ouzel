@@ -13,14 +13,14 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL* initRenderDeviceOGL):
+        ShaderResourceOGL::ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL):
             renderDeviceOGL(initRenderDeviceOGL)
         {
         }
 
         ShaderResourceOGL::~ShaderResourceOGL()
         {
-            if (programId) renderDeviceOGL->deleteProgram(programId);
+            if (programId) renderDeviceOGL.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
             if (pixelShaderId) glDeleteShaderProc(pixelShaderId);
         }
@@ -50,7 +50,7 @@ namespace ouzel
 
             if (programId)
             {
-                renderDeviceOGL->deleteProgram(programId);
+                renderDeviceOGL.deleteProgram(programId);
                 programId = 0;
             }
 
@@ -232,7 +232,7 @@ namespace ouzel
                 return false;
             }
 
-            renderDeviceOGL->useProgram(programId);
+            renderDeviceOGL.useProgram(programId);
 
             GLint texture0Location = glGetUniformLocationProc(programId, "texture0");
             if (texture0Location != -1) glUniform1iProc(texture0Location, 0);
@@ -241,9 +241,7 @@ namespace ouzel
             if (texture1Location != -1) glUniform1iProc(texture1Location, 1);
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
                 return false;
-            }
 
             if (!pixelShaderConstantInfo.empty())
             {

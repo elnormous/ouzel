@@ -43,7 +43,7 @@ namespace ouzel
             inline MTLColorWriteMask getColorWriteMask() const { return colorWriteMask; }
             inline bool isMetalBlendingEnabled() const { return metalBlendingEnabled; }
 
-        protected:
+        private:
             MTLBlendOperation rgbBlendOperation;
             MTLBlendOperation alphaBlendOperation;
             MTLBlendFactor sourceRGBBlendFactor;
