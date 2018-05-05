@@ -39,7 +39,7 @@ namespace ouzel
     ouzel::Engine* engine = nullptr;
 
     Engine::Engine():
-        cache(&fileSystem), active(false), paused(false), screenSaverEnabled(true)
+        cache(fileSystem), active(false), paused(false), screenSaverEnabled(true)
     {
         engine = this;
     }

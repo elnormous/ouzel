@@ -34,7 +34,7 @@ namespace ouzel
         class Cache final
         {
         public:
-            explicit Cache(FileSystem* initFileSystem);
+            explicit Cache(FileSystem& initFileSystem);
             ~Cache();
 
             Cache(const Cache&) = delete;
@@ -94,7 +94,7 @@ namespace ouzel
             void releaseModelData();
 
         private:
-            FileSystem* fileSystem;
+            FileSystem& fileSystem;
 
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;

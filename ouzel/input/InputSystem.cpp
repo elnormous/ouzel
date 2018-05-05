@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        InputSystem::InputSystem(Input* initInput):
+        InputSystem::InputSystem(Input& initInput):
             input(initInput)
         {
 
