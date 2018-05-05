@@ -15,7 +15,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal* initRenderDeviceMetal):
+        ShaderResourceMetal::ShaderResourceMetal(RenderDeviceMetal& initRenderDeviceMetal):
             renderDeviceMetal(initRenderDeviceMetal)
         {
         }
@@ -163,7 +163,7 @@ namespace ouzel
             NSError* err;
 
             dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> pixelShaderLibrary = [renderDeviceMetal->getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
+            id<MTLLibrary> pixelShaderLibrary = [renderDeviceMetal.getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
             dispatch_release(pixelShaderDispatchData);
 
             if (!pixelShaderLibrary || err != nil)
@@ -200,7 +200,7 @@ namespace ouzel
             }
 
             dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> vertexShaderLibrary = [renderDeviceMetal->getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
+            id<MTLLibrary> vertexShaderLibrary = [renderDeviceMetal.getDevice() newLibraryWithData:vertexShaderDispatchData error:&err];
             dispatch_release(vertexShaderDispatchData);
 
             if (!vertexShaderLibrary || err != nil)

@@ -51,7 +51,7 @@ namespace ouzel
             inline GLboolean getBlueMask() const { return blueMask; }
             inline GLboolean getAlphaMask() const { return alphaMask; }
 
-        protected:
+        private:
             GLenum modeRGB = GL_NONE;
             GLenum modeAlpha = GL_NONE;
             GLenum sourceFactorRGB = GL_NONE;

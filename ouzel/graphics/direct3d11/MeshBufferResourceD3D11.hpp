@@ -34,7 +34,7 @@ namespace ouzel
             BufferResourceD3D11* getIndexBufferD3D11() const { return indexBufferD3D11; }
             BufferResourceD3D11* getVertexBufferD3D11() const { return vertexBufferD3D11; }
 
-        protected:
+        private:
             DXGI_FORMAT indexFormat = DXGI_FORMAT_UNKNOWN;
 
             BufferResourceD3D11* indexBufferD3D11 = nullptr;

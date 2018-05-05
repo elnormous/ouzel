@@ -43,7 +43,7 @@ namespace ouzel
             inline BufferResourceMetal* getIndexBufferMetal() const { return indexBufferMetal; }
             inline BufferResourceMetal* getVertexBufferMetal() const { return vertexBufferMetal; }
 
-        protected:
+        private:
             MTLIndexType indexType;
             NSUInteger bytesPerIndex = 0;
 

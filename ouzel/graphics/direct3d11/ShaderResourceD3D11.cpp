@@ -82,7 +82,7 @@ namespace ouzel
             return DXGI_FORMAT_UNKNOWN;
         }
 
-        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+        ShaderResourceD3D11::ShaderResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
             renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
@@ -90,29 +90,19 @@ namespace ouzel
         ShaderResourceD3D11::~ShaderResourceD3D11()
         {
             if (pixelShader)
-            {
                 pixelShader->Release();
-            }
 
             if (vertexShader)
-            {
                 vertexShader->Release();
-            }
 
             if (inputLayout)
-            {
                 inputLayout->Release();
-            }
 
             if (pixelShaderConstantBuffer)
-            {
                 pixelShaderConstantBuffer->Release();
-            }
 
             if (vertexShaderConstantBuffer)
-            {
                 vertexShaderConstantBuffer->Release();
-            }
         }
 
         bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newPixelShader,
@@ -140,7 +130,7 @@ namespace ouzel
 
             if (pixelShader) pixelShader->Release();
 
-            HRESULT hr = renderDeviceD3D11->getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
+            HRESULT hr = renderDeviceD3D11.getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
@@ -149,7 +139,7 @@ namespace ouzel
             
             if (vertexShader) vertexShader->Release();
 
-            hr = renderDeviceD3D11->getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);
+            hr = renderDeviceD3D11.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 vertex shader, error: " << hr;
@@ -228,11 +218,11 @@ namespace ouzel
 
             if (inputLayout) inputLayout->Release();
 
-            hr = renderDeviceD3D11->getDevice()->CreateInputLayout(vertexInputElements.data(),
-                                                                   static_cast<UINT>(vertexInputElements.size()),
-                                                                   vertexShaderData.data(),
-                                                                   vertexShaderData.size(),
-                                                                   &inputLayout);
+            hr = renderDeviceD3D11.getDevice()->CreateInputLayout(vertexInputElements.data(),
+                                                                  static_cast<UINT>(vertexInputElements.size()),
+                                                                  vertexShaderData.data(),
+                                                                  vertexShaderData.size(),
+                                                                  &inputLayout);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 input layout for vertex shader, error: " << hr;
@@ -263,7 +253,7 @@ namespace ouzel
 
             if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
 
-            hr = renderDeviceD3D11->getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
+            hr = renderDeviceD3D11.getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer, error: " << hr;
@@ -294,7 +284,7 @@ namespace ouzel
 
             if (vertexShaderConstantBuffer) vertexShaderConstantBuffer->Release();
 
-            hr = renderDeviceD3D11->getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
+            hr = renderDeviceD3D11.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr, &vertexShaderConstantBuffer);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer, error: " << hr;

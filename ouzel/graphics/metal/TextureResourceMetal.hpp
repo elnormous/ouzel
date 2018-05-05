@@ -34,7 +34,7 @@ namespace ouzel
         class TextureResourceMetal: public TextureResource
         {
         public:
-            explicit TextureResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit TextureResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~TextureResourceMetal();
 
             virtual bool init(const Size2& newSize,
@@ -76,11 +76,11 @@ namespace ouzel
             inline MTLLoadAction getColorBufferLoadAction() const { return colorBufferLoadAction; }
             inline MTLLoadAction getDepthBufferLoadAction() const { return depthBufferLoadAction; }
 
-        protected:
+        private:
             bool createTexture();
             bool updateSamplerState();
 
-            RenderDeviceMetal* renderDeviceMetal;
+            RenderDeviceMetal& renderDeviceMetal;
 
             MTLTexturePtr texture = nil;
 

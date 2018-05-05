@@ -50,7 +50,7 @@ namespace ouzel
             }
         }
 
-        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+        TextureResourceD3D11::TextureResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
             renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
@@ -58,34 +58,22 @@ namespace ouzel
         TextureResourceD3D11::~TextureResourceD3D11()
         {
             if (depthStencilTexture)
-            {
                 depthStencilTexture->Release();
-            }
 
             if (depthStencilView)
-            {
                 depthStencilView->Release();
-            }
 
             if (renderTargetView)
-            {
                 renderTargetView->Release();
-            }
 
             if (resourceView)
-            {
                 resourceView->Release();
-            }
 
             if (texture)
-            {
                 texture->Release();
-            }
 
             if (samplerState)
-            {
                 samplerState->Release();
-            }
 
             width = 0;
             height = 0;
@@ -107,9 +95,7 @@ namespace ouzel
             }
 
             if (!createTexture())
-            {
                 return false;
-            }
 
             frameBufferClearColor[0] = clearColor.normR();
             frameBufferClearColor[1] = clearColor.normG();
@@ -135,9 +121,7 @@ namespace ouzel
             }
 
             if (!createTexture())
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -156,9 +140,7 @@ namespace ouzel
             }
 
             if (!createTexture())
-            {
                 return false;
-            }
 
             return updateSamplerState();
         }
@@ -175,9 +157,7 @@ namespace ouzel
                 static_cast<UINT>(size.height) != height)
             {
                 if (!createTexture())
-                {
                     return false;
-                }
             }
 
             return true;
@@ -186,18 +166,14 @@ namespace ouzel
         bool TextureResourceD3D11::setData(const std::vector<uint8_t>& newData, const Size2& newSize)
         {
             if (!TextureResource::setData(newData, newSize))
-            {
                 return false;
-            }
 
             if (!texture ||
                 static_cast<UINT>(size.width) != width ||
                 static_cast<UINT>(size.height) != height)
             {
                 if (!createTexture())
-                {
                     return false;
-                }
             }
             else if (!(flags & Texture::RENDER_TARGET))
             {
@@ -212,9 +188,9 @@ namespace ouzel
                             mappedSubresource.RowPitch = 0;
                             mappedSubresource.DepthPitch = 0;
                         
-                            HRESULT hr = renderDeviceD3D11->getContext()->Map(texture, static_cast<UINT>(level),
-                                                                              (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
-                                                                              0, &mappedSubresource);
+                            HRESULT hr = renderDeviceD3D11.getContext()->Map(texture, static_cast<UINT>(level),
+                                                                             (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
+                                                                             0, &mappedSubresource);
 
                             if (FAILED(hr))
                             {
@@ -247,7 +223,7 @@ namespace ouzel
                                 }
                             }
 
-                            renderDeviceD3D11->getContext()->Unmap(texture, static_cast<UINT>(level));
+                            renderDeviceD3D11.getContext()->Unmap(texture, static_cast<UINT>(level));
                         }
                     }
                 }
@@ -257,9 +233,9 @@ namespace ouzel
                     {
                         if (!levels[level].data.empty())
                         {
-                            renderDeviceD3D11->getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
-                                                                               nullptr, levels[level].data.data(),
-                                                                               static_cast<UINT>(levels[level].pitch), 0);
+                            renderDeviceD3D11.getContext()->UpdateSubresource(texture, static_cast<UINT>(level),
+                                                                              nullptr, levels[level].data.data(),
+                                                                              static_cast<UINT>(levels[level].pitch), 0);
                         }
                     }
                 }
@@ -408,7 +384,7 @@ namespace ouzel
 
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
-                    HRESULT hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
@@ -426,7 +402,7 @@ namespace ouzel
                         subresourceData[level].SysMemSlicePitch = 0;
                     }
 
-                    HRESULT hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
@@ -444,7 +420,7 @@ namespace ouzel
                     resourceViewDesc.Texture2D.MipLevels = static_cast<UINT>(levels.size());
                 }
 
-                HRESULT hr = renderDeviceD3D11->getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
+                HRESULT hr = renderDeviceD3D11.getDevice()->CreateShaderResourceView(texture, &resourceViewDesc, &resourceView);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 shader resource view, error: " << hr;
@@ -462,7 +438,7 @@ namespace ouzel
                         renderTargetViewDesc.Texture2D.MipSlice = 0;
                     }
 
-                    hr = renderDeviceD3D11->getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
+                    hr = renderDeviceD3D11.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
@@ -484,14 +460,14 @@ namespace ouzel
                     depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
                     depthStencilDesc.CPUAccessFlags = 0;
                     depthStencilDesc.MiscFlags = 0;
-                    hr = renderDeviceD3D11->getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                    hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
                         return false;
                     }
 
-                    hr = renderDeviceD3D11->getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                    hr = renderDeviceD3D11.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
@@ -506,13 +482,13 @@ namespace ouzel
         bool TextureResourceD3D11::updateSamplerState()
         {
             RenderDeviceD3D11::SamplerStateDesc samplerDesc;
-            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11->getTextureFilter() : filter;
+            samplerDesc.filter = (filter == Texture::Filter::DEFAULT) ? renderDeviceD3D11.getTextureFilter() : filter;
             samplerDesc.addressX = addressX;
             samplerDesc.addressY = addressY;
-            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11->getMaxAnisotropy() : maxAnisotropy;
+            samplerDesc.maxAnisotropy = (maxAnisotropy == 0) ? renderDeviceD3D11.getMaxAnisotropy() : maxAnisotropy;
 
             if (samplerState) samplerState->Release();
-            samplerState = renderDeviceD3D11->getSamplerState(samplerDesc);
+            samplerState = renderDeviceD3D11.getSamplerState(samplerDesc);
 
             if (!samplerState)
             {

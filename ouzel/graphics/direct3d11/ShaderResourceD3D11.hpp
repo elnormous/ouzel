@@ -20,7 +20,7 @@ namespace ouzel
         class ShaderResourceD3D11: public ShaderResource
         {
         public:
-            explicit ShaderResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11);
+            explicit ShaderResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11);
             virtual ~ShaderResourceD3D11();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -49,8 +49,8 @@ namespace ouzel
             ID3D11Buffer* getVertexShaderConstantBuffer() const { return vertexShaderConstantBuffer; }
             ID3D11InputLayout* getInputLayout() const { return inputLayout; }
 
-        protected:
-            RenderDeviceD3D11* renderDeviceD3D11;
+        private:
+            RenderDeviceD3D11& renderDeviceD3D11;
 
             ID3D11PixelShader* pixelShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;

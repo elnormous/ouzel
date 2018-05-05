@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace graphics
     {
-        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11* initRenderDeviceD3D11):
+        BufferResourceD3D11::BufferResourceD3D11(RenderDeviceD3D11& initRenderDeviceD3D11):
             renderDeviceD3D11(initRenderDeviceD3D11)
         {
         }
@@ -21,9 +21,7 @@ namespace ouzel
         BufferResourceD3D11::~BufferResourceD3D11()
         {
             if (buffer)
-            {
                 buffer->Release();
-            }
         }
 
         bool BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
@@ -76,7 +74,7 @@ namespace ouzel
                     mappedSubresource.RowPitch = 0;
                     mappedSubresource.DepthPitch = 0;
 
-                    HRESULT hr = renderDeviceD3D11->getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
+                    HRESULT hr = renderDeviceD3D11.getContext()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to lock Direct3D 11 buffer, error: " << hr;
@@ -85,7 +83,7 @@ namespace ouzel
 
                     std::copy(data.begin(), data.end(), static_cast<uint8_t*>(mappedSubresource.pData));
 
-                    renderDeviceD3D11->getContext()->Unmap(buffer, 0);
+                    renderDeviceD3D11.getContext()->Unmap(buffer, 0);
                 }
             }
 
@@ -130,7 +128,7 @@ namespace ouzel
                 bufferResourceData.SysMemPitch = 0;
                 bufferResourceData.SysMemSlicePitch = 0;
 
-                HRESULT hr = renderDeviceD3D11->getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
+                HRESULT hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;

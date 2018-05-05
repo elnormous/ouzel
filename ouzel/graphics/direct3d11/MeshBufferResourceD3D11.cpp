@@ -25,9 +25,7 @@ namespace ouzel
                                            BufferResource* newVertexBuffer)
         {
             if (!MeshBufferResource::init(newIndexSize, newIndexBuffer, newVertexBuffer))
-            {
                 return false;
-            }
 
             switch (indexSize)
             {
@@ -52,9 +50,7 @@ namespace ouzel
         bool MeshBufferResourceD3D11::setIndexSize(uint32_t newIndexSize)
         {
             if (MeshBufferResource::setIndexSize(newIndexSize))
-            {
                 return false;
-            }
 
             switch (indexSize)
             {
@@ -76,9 +72,7 @@ namespace ouzel
         bool MeshBufferResourceD3D11::setIndexBuffer(BufferResource* newIndexBuffer)
         {
             if (MeshBufferResource::setIndexBuffer(newIndexBuffer))
-            {
                 return false;
-            }
 
             indexBufferD3D11 = static_cast<BufferResourceD3D11*>(indexBuffer);
 
@@ -88,9 +82,7 @@ namespace ouzel
         bool MeshBufferResourceD3D11::setVertexBuffer(BufferResource* newVertexBuffer)
         {
             if (MeshBufferResource::setVertexBuffer(newVertexBuffer))
-            {
                 return false;
-            }
 
             vertexBufferD3D11 = static_cast<BufferResourceD3D11*>(vertexBuffer);
 

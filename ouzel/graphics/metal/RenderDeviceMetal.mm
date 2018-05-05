@@ -859,7 +859,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            TextureResource* texture = new TextureResourceMetal(this);
+            TextureResource* texture = new TextureResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(texture));
             return texture;
         }
@@ -868,7 +868,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            ShaderResource* shader = new ShaderResourceMetal(this);
+            ShaderResource* shader = new ShaderResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
         }
@@ -886,7 +886,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            BufferResource* buffer = new BufferResourceMetal(this);
+            BufferResource* buffer = new BufferResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(buffer));
             return buffer;
         }

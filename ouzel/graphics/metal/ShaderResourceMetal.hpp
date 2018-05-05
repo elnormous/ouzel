@@ -28,7 +28,7 @@ namespace ouzel
         class ShaderResourceMetal: public ShaderResource
         {
         public:
-            explicit ShaderResourceMetal(RenderDeviceMetal* initRenderDeviceMetal);
+            explicit ShaderResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~ShaderResourceMetal();
 
             virtual bool init(const std::vector<uint8_t>& newPixelShader,
@@ -58,8 +58,8 @@ namespace ouzel
             inline uint32_t getPixelShaderConstantBufferSize() const { return pixelShaderConstantSize; }
             inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
-        protected:
-            RenderDeviceMetal* renderDeviceMetal;
+        private:
+            RenderDeviceMetal& renderDeviceMetal;
 
             MTLFunctionPtr pixelShader = nil;
             MTLFunctionPtr vertexShader = nil;
