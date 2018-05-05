@@ -12,10 +12,10 @@ namespace ouzel
         class InputSystem
         {
         public:
-            InputSystem(Input* initInput);
+            InputSystem(Input& initInput);
 
         private:
-            Input* input;
+            Input& input;
         };
     } // namespace input
 } // namespace ouzel
