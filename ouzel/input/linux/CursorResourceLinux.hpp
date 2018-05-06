@@ -24,7 +24,7 @@ namespace ouzel
 
             ::Cursor getNativeCursor() const { return cursor; }
 
-        protected:
+        private:
             ::Cursor cursor = None;
         };
     } // namespace input

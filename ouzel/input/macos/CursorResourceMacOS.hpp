@@ -30,7 +30,7 @@ namespace ouzel
 
             inline NSCursor* getNativeCursor() const { return cursor; }
 
-        protected:
+        private:
             NSCursor* cursor = nil;
         };
     } // namespace input
