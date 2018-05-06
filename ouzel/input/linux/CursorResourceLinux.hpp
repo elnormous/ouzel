@@ -13,7 +13,7 @@ namespace ouzel
         class CursorResourceLinux: public CursorResource
         {
         public:
-            explicit CursorResourceLinux(Input* initInput);
+            explicit CursorResourceLinux(Input& initInput);
             virtual ~CursorResourceLinux();
 
             virtual bool init(SystemCursor newSystemCursor) override;

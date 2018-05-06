@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResourceWin::CursorResourceWin(Input* initInput):
+        CursorResourceWin::CursorResourceWin(Input& initInput):
             CursorResource(initInput)
         {
         }

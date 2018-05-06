@@ -55,7 +55,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResource> cursorResource(new CursorResource(this));
+            std::unique_ptr<CursorResource> cursorResource(new CursorResource(*this));
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));

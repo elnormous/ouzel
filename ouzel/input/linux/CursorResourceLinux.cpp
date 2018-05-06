@@ -12,7 +12,7 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResourceLinux::CursorResourceLinux(Input* initInput):
+        CursorResourceLinux::CursorResourceLinux(Input& initInput):
             CursorResource(initInput)
         {
         }

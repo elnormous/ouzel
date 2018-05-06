@@ -8,7 +8,7 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResource::CursorResource(Input* initInput):
+        CursorResource::CursorResource(Input& initInput):
             input(initInput)
         {
         }
@@ -40,8 +40,8 @@ namespace ouzel
 
         void CursorResource::reactivate()
         {
-            if (input->currentCursorResource == this)
-                input->activateCursorResource(this);
+            if (input.currentCursorResource == this)
+                input.activateCursorResource(this);
         }
     } // namespace input
 } // namespace ouzel
