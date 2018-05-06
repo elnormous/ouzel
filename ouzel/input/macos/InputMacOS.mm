@@ -368,7 +368,7 @@ namespace ouzel
         {
             Lock lock(resourceMutex);
 
-            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS(this));
+            std::unique_ptr<CursorResourceMacOS> cursorResource(new CursorResourceMacOS(*this));
             CursorResource* result = cursorResource.get();
 
             resources.push_back(std::move(cursorResource));
