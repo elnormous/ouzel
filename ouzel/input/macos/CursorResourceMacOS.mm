@@ -7,7 +7,7 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResourceMacOS::CursorResourceMacOS(Input* initInput):
+        CursorResourceMacOS::CursorResourceMacOS(Input& initInput):
             CursorResource(initInput)
         {
         }
