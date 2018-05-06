@@ -27,7 +27,6 @@ namespace ouzel
                               const Vector2& newHotSpot);
 
         protected:
-
             void reactivate();
 
             Input& input;

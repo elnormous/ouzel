@@ -24,7 +24,7 @@ namespace ouzel
 
             HCURSOR getNativeCursor() const { return cursor; }
 
-        protected:
+        private:
             HCURSOR cursor = nullptr;
             bool shared = false;
         };
