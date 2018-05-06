@@ -27,13 +27,16 @@ namespace ouzel
         return sysinfo.dwNumberOfProcessors;
 #else
 #if defined(__APPLE__)
-        uint32_t count;
-        size_t size=sizeof(count);
-        sysctlbyname("hw.ncpu", &count, &size, NULL, 0);
-        return count;
+        int mib[2];
+        mib[0] = CTL_HW;
+        mib[1] = HW_AVAILCPU;
+        int count;
+        size_t size = sizeof(count);
+        sysctl(mib, 2, &count, &size, NULL, 0);
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
 #elif defined(__linux__) || defined(__ANDROID__)
         int count = pthread_num_processors_np();
-        return (count > 0) ? count : 0;
+        return (count > 0) ? static_cast<uint32_t>(count) : 0;
 #else
         return 1;
 #endif
