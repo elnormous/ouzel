@@ -14,6 +14,8 @@
 #define ThreadLocal __thread
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
+#else
+#include <unistd.h>
 #endif // #if defined(__APPLE__)
 #endif
 
