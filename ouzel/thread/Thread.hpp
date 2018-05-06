@@ -12,10 +12,34 @@
 #else
 #include <pthread.h>
 #define ThreadLocal __thread
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#endif // #if defined(__APPLE__)
 #endif
 
 namespace ouzel
 {
+    inline uint32_t getCPUCount()
+    {
+#if defined(_WIN32)
+        SYSTEM_INFO sysinfo;
+        GetSystemInfo(&sysinfo);
+        return sysinfo.dwNumberOfProcessors;
+#else
+#if defined(__APPLE__)
+        uint32_t count;
+        size_t size=sizeof(count);
+        sysctlbyname("hw.ncpu", &count, &size, NULL, 0);
+        return count;
+#elif defined(__linux__) || defined(__ANDROID__)
+        int count = pthread_num_processors_np();
+        return (count > 0) ? count : 0;
+#else
+        return 1;
+#endif
+#endif
+    }
+
     class Thread final
     {
     public:
