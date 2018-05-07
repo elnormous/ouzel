@@ -8,7 +8,7 @@
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_METAL
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
-#include "core/ios/DisplayLink.h"
+#include "core/ios/DisplayLink.hpp"
 
 namespace ouzel
 {

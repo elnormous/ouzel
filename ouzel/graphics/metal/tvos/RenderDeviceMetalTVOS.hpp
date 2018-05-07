@@ -8,7 +8,7 @@
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_METAL
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
-#include "core/tvos/DisplayLink.h"
+#include "core/tvos/DisplayLink.hpp"
 
 namespace ouzel
 {
