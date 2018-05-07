@@ -69,110 +69,115 @@ namespace ouzel
                 eventQueue.pop();
             }
 
-            bool propagate = true;
+            dispatchEvent(event);
+        }
+    }
 
-            for (const EventHandler* eventHandler : eventHandlers)
+    void EventDispatcher::dispatchEvent(const Event& event)
+    {
+        bool propagate = true;
+
+        for (const EventHandler* eventHandler : eventHandlers)
+        {
+            auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
+
+            if (i == eventHandlerDeleteSet.end())
             {
-                auto i = std::find(eventHandlerDeleteSet.begin(), eventHandlerDeleteSet.end(), eventHandler);
-
-                if (i == eventHandlerDeleteSet.end())
+                switch (event.type)
                 {
-                    switch (event.type)
-                    {
-                        case Event::Type::KEY_PRESS:
-                        case Event::Type::KEY_RELEASE:
-                        case Event::Type::KEY_REPEAT:
-                            if (eventHandler->keyboardHandler)
-                            {
-                                propagate = eventHandler->keyboardHandler(event.type, event.keyboardEvent);
-                            }
-                            break;
+                    case Event::Type::KEY_PRESS:
+                    case Event::Type::KEY_RELEASE:
+                    case Event::Type::KEY_REPEAT:
+                        if (eventHandler->keyboardHandler)
+                        {
+                            propagate = eventHandler->keyboardHandler(event.type, event.keyboardEvent);
+                        }
+                        break;
 
-                        case Event::Type::MOUSE_PRESS:
-                        case Event::Type::MOUSE_RELEASE:
-                        case Event::Type::MOUSE_SCROLL:
-                        case Event::Type::MOUSE_MOVE:
-                            if (eventHandler->mouseHandler)
-                            {
-                                propagate = eventHandler->mouseHandler(event.type, event.mouseEvent);
-                            }
-                            break;
-                        case Event::Type::TOUCH_BEGIN:
-                        case Event::Type::TOUCH_MOVE:
-                        case Event::Type::TOUCH_END:
-                        case Event::Type::TOUCH_CANCEL:
-                            if (eventHandler->touchHandler)
-                            {
-                                propagate = eventHandler->touchHandler(event.type, event.touchEvent);
-                            }
-                            break;
-                        case Event::Type::GAMEPAD_CONNECT:
-                        case Event::Type::GAMEPAD_DISCONNECT:
-                        case Event::Type::GAMEPAD_BUTTON_CHANGE:
-                            if (eventHandler->gamepadHandler)
-                            {
-                                propagate = eventHandler->gamepadHandler(event.type, event.gamepadEvent);
-                            }
-                            break;
-                        case Event::Type::WINDOW_SIZE_CHANGE:
-                        case Event::Type::WINDOW_TITLE_CHANGE:
-                        case Event::Type::FULLSCREEN_CHANGE:
-                        case Event::Type::SCREEN_CHANGE:
-                        case Event::Type::RESOLUTION_CHANGE:
-                            if (eventHandler->windowHandler)
-                            {
-                                propagate = eventHandler->windowHandler(event.type, event.windowEvent);
-                            }
-                            break;
-                        case Event::Type::ENGINE_START:
-                        case Event::Type::ENGINE_STOP:
-                        case Event::Type::ENGINE_RESUME:
-                        case Event::Type::ENGINE_PAUSE:
-                        case Event::Type::ORIENTATION_CHANGE:
-                        case Event::Type::LOW_MEMORY:
-                        case Event::Type::OPEN_FILE:
-                            if (eventHandler->systemHandler)
-                            {
-                                propagate = eventHandler->systemHandler(event.type, event.systemEvent);
-                            }
-                            break;
-                        case Event::Type::ACTOR_ENTER:
-                        case Event::Type::ACTOR_LEAVE:
-                        case Event::Type::ACTOR_PRESS:
-                        case Event::Type::ACTOR_RELEASE:
-                        case Event::Type::ACTOR_CLICK:
-                        case Event::Type::ACTOR_DRAG:
-                        case Event::Type::WIDGET_CHANGE:
-                            if (eventHandler->uiHandler)
-                            {
-                                propagate = eventHandler->uiHandler(event.type, event.uiEvent);
-                            }
-                            break;
-                        case Event::Type::ANIMATION_START:
-                        case Event::Type::ANIMATION_RESET:
-                        case Event::Type::ANIMATION_FINISH:
-                            if (eventHandler->animationHandler)
-                            {
-                                propagate = eventHandler->animationHandler(event.type, event.animationEvent);
-                            }
-                            break;
-                        case Event::Type::SOUND_START:
-                        case Event::Type::SOUND_RESET:
-                        case Event::Type::SOUND_FINISH:
-                            if (eventHandler->soundHandler)
-                            {
-                                propagate = eventHandler->soundHandler(event.type, event.soundEvent);
-                            }
-                            break;
-                        case Event::Type::USER:
-                            if (eventHandler->userHandler)
-                            {
-                                propagate = eventHandler->userHandler(event.type, event.userEvent);
-                            }
-                            break;
-                        default:
-                            return; // custom event should not be sent
-                    }
+                    case Event::Type::MOUSE_PRESS:
+                    case Event::Type::MOUSE_RELEASE:
+                    case Event::Type::MOUSE_SCROLL:
+                    case Event::Type::MOUSE_MOVE:
+                        if (eventHandler->mouseHandler)
+                        {
+                            propagate = eventHandler->mouseHandler(event.type, event.mouseEvent);
+                        }
+                        break;
+                    case Event::Type::TOUCH_BEGIN:
+                    case Event::Type::TOUCH_MOVE:
+                    case Event::Type::TOUCH_END:
+                    case Event::Type::TOUCH_CANCEL:
+                        if (eventHandler->touchHandler)
+                        {
+                            propagate = eventHandler->touchHandler(event.type, event.touchEvent);
+                        }
+                        break;
+                    case Event::Type::GAMEPAD_CONNECT:
+                    case Event::Type::GAMEPAD_DISCONNECT:
+                    case Event::Type::GAMEPAD_BUTTON_CHANGE:
+                        if (eventHandler->gamepadHandler)
+                        {
+                            propagate = eventHandler->gamepadHandler(event.type, event.gamepadEvent);
+                        }
+                        break;
+                    case Event::Type::WINDOW_SIZE_CHANGE:
+                    case Event::Type::WINDOW_TITLE_CHANGE:
+                    case Event::Type::FULLSCREEN_CHANGE:
+                    case Event::Type::SCREEN_CHANGE:
+                    case Event::Type::RESOLUTION_CHANGE:
+                        if (eventHandler->windowHandler)
+                        {
+                            propagate = eventHandler->windowHandler(event.type, event.windowEvent);
+                        }
+                        break;
+                    case Event::Type::ENGINE_START:
+                    case Event::Type::ENGINE_STOP:
+                    case Event::Type::ENGINE_RESUME:
+                    case Event::Type::ENGINE_PAUSE:
+                    case Event::Type::ORIENTATION_CHANGE:
+                    case Event::Type::LOW_MEMORY:
+                    case Event::Type::OPEN_FILE:
+                        if (eventHandler->systemHandler)
+                        {
+                            propagate = eventHandler->systemHandler(event.type, event.systemEvent);
+                        }
+                        break;
+                    case Event::Type::ACTOR_ENTER:
+                    case Event::Type::ACTOR_LEAVE:
+                    case Event::Type::ACTOR_PRESS:
+                    case Event::Type::ACTOR_RELEASE:
+                    case Event::Type::ACTOR_CLICK:
+                    case Event::Type::ACTOR_DRAG:
+                    case Event::Type::WIDGET_CHANGE:
+                        if (eventHandler->uiHandler)
+                        {
+                            propagate = eventHandler->uiHandler(event.type, event.uiEvent);
+                        }
+                        break;
+                    case Event::Type::ANIMATION_START:
+                    case Event::Type::ANIMATION_RESET:
+                    case Event::Type::ANIMATION_FINISH:
+                        if (eventHandler->animationHandler)
+                        {
+                            propagate = eventHandler->animationHandler(event.type, event.animationEvent);
+                        }
+                        break;
+                    case Event::Type::SOUND_START:
+                    case Event::Type::SOUND_RESET:
+                    case Event::Type::SOUND_FINISH:
+                        if (eventHandler->soundHandler)
+                        {
+                            propagate = eventHandler->soundHandler(event.type, event.soundEvent);
+                        }
+                        break;
+                    case Event::Type::USER:
+                        if (eventHandler->userHandler)
+                        {
+                            propagate = eventHandler->userHandler(event.type, event.userEvent);
+                        }
+                        break;
+                    default:
+                        return; // custom event should not be sent
                 }
             }
 
@@ -219,10 +224,17 @@ namespace ouzel
         }
     }
 
-    void EventDispatcher::postEvent(const Event& event)
+    void EventDispatcher::postEvent(const Event& event, bool dispatchImmediately)
     {
-        Lock lock(eventQueueMutex);
+        if (dispatchImmediately)
+        {
+            dispatchEvent(event);
+        }
+        else
+        {
+            Lock lock(eventQueueMutex);
 
-        eventQueue.push(event);
+            eventQueue.push(event);
+        }
     }
 }

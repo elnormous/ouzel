@@ -29,12 +29,14 @@ namespace ouzel
         void addEventHandler(EventHandler* eventHandler);
         void removeEventHandler(EventHandler* eventHandler);
 
-        void postEvent(const Event& event);
+        void postEvent(const Event& event, bool dispatchImmediately = false);
 
     protected:
         EventDispatcher();
 
     private:
+        void dispatchEvent(const Event& event);
+
         std::vector<EventHandler*> eventHandlers;
         std::set<EventHandler*> eventHandlerAddSet;
         std::set<EventHandler*> eventHandlerDeleteSet;
