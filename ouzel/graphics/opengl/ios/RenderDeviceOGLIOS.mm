@@ -5,7 +5,6 @@
 
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_OPENGL
 
-#import "core/ios/DisplayLinkHandler.h"
 #include "RenderDeviceOGLIOS.hpp"
 #include "core/Window.hpp"
 #include "core/ios/WindowResourceIOS.hpp"
@@ -15,11 +14,15 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceOGLIOS::RenderDeviceOGLIOS():
+            displayLink(*this)
+        {
+        }
+
         RenderDeviceOGLIOS::~RenderDeviceOGLIOS()
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
+            displayLink.stop();
             flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
             if (msaaFrameBufferId) glDeleteFramebuffersProc(1, &msaaFrameBufferId);
@@ -99,7 +102,7 @@ namespace ouzel
                 return false;
             }
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
+            displayLink.start(verticalSync);
 
             return true;
         }

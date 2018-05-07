@@ -8,6 +8,7 @@
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
 #include "graphics/opengl/RenderDeviceOGL.hpp"
+#include "core/tvos/DisplayLink.h"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>
@@ -27,6 +28,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceOGLTVOS();
             virtual ~RenderDeviceOGLTVOS();
 
         private:
@@ -56,7 +58,7 @@ namespace ouzel
 
             GLuint depthRenderBufferId = 0;
 
-            id displayLinkHandler = nil;
+            DisplayLink displayLink;
         };
     } // namespace graphics
 } // namespace ouzel
