@@ -3,6 +3,10 @@
 
 #pragma once
 
+#if !defined(__OBJC__)
+#include <objc/objc.h>
+#endif
+
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -11,6 +15,7 @@ namespace ouzel
     {
     public:
         EngineTVOS(int initArgc, char* initArgv[]);
+        virtual ~EngineTVOS();
 
         virtual int run() override;
 
@@ -28,5 +33,6 @@ namespace ouzel
 
         int argc = 0;
         char** argv = nullptr;
+        id executeHanlder = nil;
     };
 }

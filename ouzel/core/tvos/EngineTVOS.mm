@@ -62,11 +62,29 @@
     }
 }
 
+@end
+
+@interface ExecuteHandler: NSObject
+{
+    ouzel::EngineTVOS* engine;
+}
+@end
+
+@implementation ExecuteHandler
+
+-(id)initWithEngine:(ouzel::EngineTVOS*)initEngine
+{
+    if (self = [super init])
+    {
+        engine = initEngine;
+    }
+
+    return self;
+}
+
 -(void)executeAll
 {
-    ouzel::EngineTVOS* engineTVOS = static_cast<ouzel::EngineTVOS*>(ouzel::engine);
-
-    engineTVOS->executeAll();
+    engine->executeAll();
 }
 
 @end
@@ -80,6 +98,13 @@ namespace ouzel
         {
             args.push_back(initArgv[i]);
         }
+
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
+    }
+
+    EngineTVOS::~EngineTVOS()
+    {
+        if (executeHanlder) [executeHanlder release];
     }
 
     int EngineTVOS::run()
@@ -96,6 +121,8 @@ namespace ouzel
         Lock lock(executeMutex);
 
         executeQueue.push(func);
+
+        [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
     bool EngineTVOS::openURL(const std::string& url)

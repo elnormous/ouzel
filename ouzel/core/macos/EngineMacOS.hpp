@@ -3,6 +3,10 @@
 
 #pragma once
 
+#if !defined(__OBJC__)
+#include <objc/objc.h>
+#endif
+
 #include "core/Engine.hpp"
 
 namespace ouzel
@@ -11,6 +15,7 @@ namespace ouzel
     {
     public:
         EngineMacOS(int argc, char* argv[]);
+        virtual ~EngineMacOS();
 
         virtual int run() override;
 
@@ -29,5 +34,6 @@ namespace ouzel
         Mutex executeMutex;
 
         uint32_t noSleepAssertionID = 0;
+        id executeHanlder = nil;
     };
 }

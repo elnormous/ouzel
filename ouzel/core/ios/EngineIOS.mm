@@ -62,11 +62,29 @@
     }
 }
 
+@end
+
+@interface ExecuteHandler: NSObject
+{
+    ouzel::EngineIOS* engine;
+}
+@end
+
+@implementation ExecuteHandler
+
+-(id)initWithEngine:(ouzel::EngineIOS*)initEngine
+{
+    if (self = [super init])
+    {
+        engine = initEngine;
+    }
+
+    return self;
+}
+
 -(void)executeAll
 {
-    ouzel::EngineIOS* engineIOS = static_cast<ouzel::EngineIOS*>(ouzel::engine);
-
-    engineIOS->executeAll();
+    engine->executeAll();
 }
 
 @end
@@ -80,6 +98,13 @@ namespace ouzel
         {
             args.push_back(initArgv[i]);
         }
+
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
+    }
+
+    EngineIOS::~EngineIOS()
+    {
+        if (executeHanlder) [executeHanlder release];
     }
 
     int EngineIOS::run()
@@ -97,9 +122,7 @@ namespace ouzel
 
         executeQueue.push(func);
 
-        UIApplication* application = [UIApplication sharedApplication];
-        NSObject* delegate = application.delegate;
-        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
+        [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
     bool EngineIOS::openURL(const std::string& url)
