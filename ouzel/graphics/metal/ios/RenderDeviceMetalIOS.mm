@@ -5,7 +5,6 @@
 
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_METAL
 
-#import "core/ios/DisplayLinkHandler.h"
 #include "RenderDeviceMetalIOS.hpp"
 #include "MetalView.h"
 #include "core/Window.hpp"
@@ -16,11 +15,15 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceMetalIOS::RenderDeviceMetalIOS():
+            displayLink(*this)
+        {
+        }
+
         RenderDeviceMetalIOS::~RenderDeviceMetalIOS()
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
+            displayLink.stop();
             flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 
         bool RenderDeviceMetalIOS::init(Window* newWindow,
@@ -53,7 +56,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
+            displayLink.start(verticalSync);
 
             return true;
         }

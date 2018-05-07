@@ -5,7 +5,6 @@
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_METAL
 
-#import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceMetalTVOS.hpp"
 #include "MetalView.h"
 #include "core/Window.hpp"
@@ -16,11 +15,15 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceMetalTVOS::RenderDeviceMetalTVOS():
+            displayLink(*this)
+        {
+        }
+
         RenderDeviceMetalTVOS::~RenderDeviceMetalTVOS()
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
+            displayLink.stop();
             flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
         }
 
         bool RenderDeviceMetalTVOS::init(Window* newWindow,
@@ -53,7 +56,7 @@ namespace ouzel
 
             colorFormat = metalLayer.pixelFormat;
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
+            displayLink.start(verticalSync);
 
             return true;
         }

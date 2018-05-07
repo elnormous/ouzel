@@ -8,6 +8,7 @@
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_METAL
 
 #include "graphics/metal/RenderDeviceMetal.hpp"
+#include "core/ios/DisplayLink.h"
 
 namespace ouzel
 {
@@ -17,6 +18,7 @@ namespace ouzel
         {
             friend Renderer;
         public:
+            RenderDeviceMetalIOS();
             virtual ~RenderDeviceMetalIOS();
 
         private:
@@ -30,7 +32,7 @@ namespace ouzel
                               bool newDebugRenderer) override;
 
         private:
-            id displayLinkHandler = nil;
+            DisplayLink displayLink;
         };
     } // namespace graphics
 } // namespace ouzel

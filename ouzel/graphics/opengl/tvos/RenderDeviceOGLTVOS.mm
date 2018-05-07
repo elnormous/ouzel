@@ -5,7 +5,6 @@
 
 #if OUZEL_PLATFORM_TVOS && OUZEL_COMPILE_OPENGL
 
-#import "core/tvos/DisplayLinkHandler.h"
 #include "RenderDeviceOGLTVOS.hpp"
 #include "core/Window.hpp"
 #include "core/tvos/WindowResourceTVOS.hpp"
@@ -15,11 +14,15 @@ namespace ouzel
 {
     namespace graphics
     {
+        RenderDeviceOGLTVOS::RenderDeviceOGLTVOS():
+            displayLink(*this)
+        {
+        }
+
         RenderDeviceOGLTVOS::~RenderDeviceOGLTVOS()
         {
-            if (displayLinkHandler) [displayLinkHandler stop];
+            displayLink.stop();
             flushCommands();
-            if (displayLinkHandler) [displayLinkHandler dealloc];
 
             if (msaaColorRenderBufferId) glDeleteRenderbuffersProc(1, &msaaColorRenderBufferId);
             if (msaaFrameBufferId) glDeleteFramebuffersProc(1, &msaaFrameBufferId);
@@ -95,11 +98,9 @@ namespace ouzel
             }
 
             if (!createFrameBuffer())
-            {
                 return false;
-            }
 
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithRenderDevice:this andVerticalSync:verticalSync];
+            displayLink.start(verticalSync);
 
             return true;
         }
