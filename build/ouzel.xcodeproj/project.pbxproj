@@ -896,7 +896,7 @@
 		30C758B91F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758B41F4A0309008499DC /* RenderDevice.hpp */; };
 		30C758BC1F4A2227008499DC /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BB1F4A2227008499DC /* DisplayLink.mm */; };
-		30C758C01F4A23BD008499DC /* DisplayLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 30C758BE1F4A23BD008499DC /* DisplayLink.h */; };
+		30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30C758BE1F4A23BD008499DC /* DisplayLink.hpp */; };
 		30C758C11F4A23BD008499DC /* DisplayLink.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30C758BF1F4A23BD008499DC /* DisplayLink.mm */; };
 		30CC89F9203C5DFB00E2C8C3 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CC89F7203C5DFB00E2C8C3 /* File.cpp */; };
 		30CC89FA203C5DFB00E2C8C3 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CC89F7203C5DFB00E2C8C3 /* File.cpp */; };
@@ -1306,8 +1306,8 @@
 		30C758B31F4A0309008499DC /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
 		30C758B41F4A0309008499DC /* RenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDevice.hpp; sourceTree = "<group>"; };
 		30C758BB1F4A2227008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
-		30C758BD1F4A2261008499DC /* DisplayLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisplayLink.h; sourceTree = "<group>"; };
-		30C758BE1F4A23BD008499DC /* DisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayLink.h; sourceTree = "<group>"; };
+		30C758BD1F4A2261008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
+		30C758BE1F4A23BD008499DC /* DisplayLink.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
 		30C758BF1F4A23BD008499DC /* DisplayLink.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DisplayLink.mm; sourceTree = "<group>"; };
 		30C8B6211C6D0E350031B64F /* UpdateCallback.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UpdateCallback.hpp; sourceTree = "<group>"; };
 		30CC89F7203C5DFB00E2C8C3 /* File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
@@ -1671,7 +1671,7 @@
 		303B756F1C2A3D0300FEDE92 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				30C758BD1F4A2261008499DC /* DisplayLink.h */,
+				30C758BD1F4A2261008499DC /* DisplayLink.hpp */,
 				30C758BB1F4A2227008499DC /* DisplayLink.mm */,
 				303820561D816C7700677CAB /* EngineIOS.hpp */,
 				303820571D816C7700677CAB /* EngineIOS.mm */,
@@ -1711,7 +1711,7 @@
 		303B76311C355A3400FEDE92 /* tvos */ = {
 			isa = PBXGroup;
 			children = (
-				30C758BE1F4A23BD008499DC /* DisplayLink.h */,
+				30C758BE1F4A23BD008499DC /* DisplayLink.hpp */,
 				30C758BF1F4A23BD008499DC /* DisplayLink.mm */,
 				30EA711E1D52783000AE8C3E /* EngineTVOS.hpp */,
 				30EA711F1D52783000AE8C3E /* EngineTVOS.mm */,
@@ -2283,7 +2283,7 @@
 				303696E91E32DDC1007F4211 /* MeshBuffer.hpp in Headers */,
 				303696F11E32DE08007F4211 /* Shader.hpp in Headers */,
 				3047F7631C4C60B900774E3D /* Fade.hpp in Headers */,
-				30C758C01F4A23BD008499DC /* DisplayLink.h in Headers */,
+				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
 				3039335C1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				303B76681C355A3B00FEDE92 /* Input.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,

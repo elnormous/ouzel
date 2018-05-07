@@ -8,7 +8,7 @@
 #if OUZEL_PLATFORM_IOS && OUZEL_COMPILE_OPENGL
 
 #include "graphics/opengl/RenderDeviceOGL.hpp"
-#include "core/ios/DisplayLink.h"
+#include "core/ios/DisplayLink.hpp"
 
 #if defined(__OBJC__)
 #import <UIKit/UIKit.h>

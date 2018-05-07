@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "DisplayLink.h"
+#include "DisplayLink.hpp"
 #include "utils/Log.hpp"
 
 @interface DisplayLinkHandler: NSObject
