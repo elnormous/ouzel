@@ -83,13 +83,13 @@ namespace ouzel
 
                         if (event.type == KeyPress)
                         {
-                            input->keyPress(input::InputManagerLinux::convertKeyCode(keySym),
-                                            input::InputManagerLinux::getModifiers(event.xkey.state));
+                            inputManager->keyPress(input::InputManagerLinux::convertKeyCode(keySym),
+                                                   input::InputManagerLinux::getModifiers(event.xkey.state));
                         }
                         else
                         {
-                            input->keyRelease(input::InputManagerLinux::convertKeyCode(keySym),
-                                              input::InputManagerLinux::getModifiers(event.xkey.state));
+                            inputManager->keyRelease(input::InputManagerLinux::convertKeyCode(keySym),
+                                                     input::InputManagerLinux::getModifiers(event.xkey.state));
                         }
                         break;
                     }
@@ -119,15 +119,15 @@ namespace ouzel
 
                         if (event.type == ButtonPress)
                         {
-                            input->mouseButtonPress(button,
-                                                    window.convertWindowToNormalizedLocation(pos),
-                                                    input::InputManagerLinux::getModifiers(event.xbutton.state));
+                            inputManager->mouseButtonPress(button,
+                                                           window.convertWindowToNormalizedLocation(pos),
+                                                           input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         else
                         {
-                            input->mouseButtonRelease(button,
-                                                      window.convertWindowToNormalizedLocation(pos),
-                                                      input::InputManagerLinux::getModifiers(event.xbutton.state));
+                            inputManager->mouseButtonRelease(button,
+                                                             window.convertWindowToNormalizedLocation(pos),
+                                                             input::InputManagerLinux::getModifiers(event.xbutton.state));
                         }
                         break;
                     }
@@ -136,8 +136,8 @@ namespace ouzel
                         Vector2 pos(static_cast<float>(event.xmotion.x),
                                     static_cast<float>(event.xmotion.y));
 
-                        input->mouseMove(window.convertWindowToNormalizedLocation(pos),
-                                         input::InputManagerLinux::getModifiers(event.xmotion.state));
+                        inputManager->mouseMove(window.convertWindowToNormalizedLocation(pos),
+                                                input::InputManagerLinux::getModifiers(event.xmotion.state));
 
                         break;
                     }
