@@ -130,10 +130,10 @@
     <ClCompile Include="..\ouzel\utils\INI.cpp">
       <Filter>ouzel\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\Input.cpp">
+    <ClCompile Include="..\ouzel\input\InputManager.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\input\windows\InputWin.cpp">
+    <ClCompile Include="..\ouzel\input\windows\InputManagerWin.cpp">
       <Filter>ouzel\input\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\ouzel\gui\Label.cpp">
@@ -606,10 +606,10 @@
     <ClInclude Include="..\ouzel\utils\INI.hpp">
       <Filter>ouzel\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\Input.hpp">
+    <ClInclude Include="..\ouzel\input\InputManager.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\ouzel\input\windows\InputWin.hpp">
+    <ClInclude Include="..\ouzel\input\windows\InputManagerWin.hpp">
       <Filter>ouzel\input\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\gui\Label.hpp">

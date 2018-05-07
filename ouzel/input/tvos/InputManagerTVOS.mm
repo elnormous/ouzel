@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #import <GameController/GameController.h>
-#include "InputTVOS.hpp"
+#include "InputManagerTVOS.hpp"
 #include "GamepadTVOS.hpp"
 #include "core/tvos/WindowResourceTVOS.hpp"
 #include "core/Engine.hpp"
@@ -13,7 +13,7 @@
 
 @interface ConnectDelegate: NSObject
 {
-    ouzel::input::InputTVOS* input;
+    ouzel::input::InputManagerTVOS* input;
 }
 
 -(void)handleControllerConnected:(NSNotification*)notification;
@@ -23,7 +23,7 @@
 
 @implementation ConnectDelegate
 
--(id)initWithInput:(ouzel::input::InputTVOS*)initInput
+-(id)initWithInput:(ouzel::input::InputManagerTVOS*)initInput
 {
     if (self = [super init])
     {
@@ -59,7 +59,7 @@ namespace ouzel
             {UIPressTypePlayPause, KeyboardKey::PAUSE}
         };
 
-        KeyboardKey InputTVOS::convertKeyCode(NSInteger keyCode)
+        KeyboardKey InputManagerTVOS::convertKeyCode(NSInteger keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -73,11 +73,11 @@ namespace ouzel
             }
         }
 
-        InputTVOS::InputTVOS()
+        InputManagerTVOS::InputManagerTVOS()
         {
         }
 
-        InputTVOS::~InputTVOS()
+        InputManagerTVOS::~InputManagerTVOS()
         {
             if (connectDelegate)
             {
@@ -87,7 +87,7 @@ namespace ouzel
             }
         }
 
-        bool InputTVOS::init()
+        bool InputManagerTVOS::init()
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
@@ -111,7 +111,7 @@ namespace ouzel
             return true;
         }
 
-        void InputTVOS::startGamepadDiscovery()
+        void InputManagerTVOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -121,7 +121,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputTVOS::stopGamepadDiscovery()
+        void InputManagerTVOS::stopGamepadDiscovery()
         {
             if (discovering)
             {
@@ -133,7 +133,7 @@ namespace ouzel
             }
         }
 
-        bool InputTVOS::showVirtualKeyboard()
+        bool InputManagerTVOS::showVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
@@ -144,7 +144,7 @@ namespace ouzel
             return true;
         }
 
-        bool InputTVOS::hideVirtualKeyboard()
+        bool InputManagerTVOS::hideVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceTVOS* windowTVOS = static_cast<WindowResourceTVOS*>(engine->getWindow()->getResource());
@@ -155,13 +155,13 @@ namespace ouzel
             return true;
         }
 
-        void InputTVOS::handleGamepadDiscoveryCompleted()
+        void InputManagerTVOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
             discovering = false;
         }
 
-        void InputTVOS::handleGamepadConnected(GCControllerPtr controller)
+        void InputManagerTVOS::handleGamepadConnected(GCControllerPtr controller)
         {
             std::vector<int32_t> playerIndices = {0, 1, 2, 3};
 
@@ -186,7 +186,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputTVOS::handleGamepadDisconnected(GCControllerPtr controller)
+        void InputManagerTVOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadTVOS* currentGamepad = static_cast<GamepadTVOS*>(gamepad.get());

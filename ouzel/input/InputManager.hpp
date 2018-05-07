@@ -216,19 +216,19 @@ namespace ouzel
 
         class Gamepad;
 
-        class Input
+        class InputManager
         {
             friend Engine;
             friend Cursor;
             friend CursorResource;
         public:
-            virtual ~Input();
+            virtual ~InputManager();
 
-            Input(const Input&) = delete;
-            Input& operator=(const Input&) = delete;
+            InputManager(const InputManager&) = delete;
+            InputManager& operator=(const InputManager&) = delete;
 
-            Input(Input&&) = delete;
-            Input& operator=(Input&&) = delete;
+            InputManager(InputManager&&) = delete;
+            InputManager& operator=(InputManager&&) = delete;
 
             template<class T>
             void setCursor(const std::unique_ptr<T>& cursor)
@@ -274,7 +274,7 @@ namespace ouzel
             virtual bool hideVirtualKeyboard();
 
         protected:
-            Input();
+            InputManager();
             virtual bool init();
 
             void setCurrentCursor(Cursor* cursor);

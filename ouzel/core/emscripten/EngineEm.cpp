@@ -6,7 +6,7 @@
 #include "EngineEm.hpp"
 #include "audio/AudioDevice.hpp"
 #include "graphics/RenderDevice.hpp"
-#include "input/emscripten/InputEm.hpp"
+#include "input/emscripten/InputManagerEm.hpp"
 #include "utils/Utils.hpp"
 
 static void loop(void* arg)
@@ -55,7 +55,7 @@ namespace ouzel
         // TODO: check for result of the AudioDevice::process
         audio->getDevice()->process();
 
-        input::InputEm* inputEm = static_cast<input::InputEm*>(input.get());
+        input::InputManagerEm* inputEm = static_cast<input::InputManagerEm*>(inputManager.get());
         inputEm->update();
 
         return active;

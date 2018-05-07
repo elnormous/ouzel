@@ -12,12 +12,12 @@ namespace ouzel
 {
     namespace input
     {
-        class Input;
+        class InputManager;
 
         class CursorResource
         {
         public:
-            explicit CursorResource(Input& initInput);
+            explicit CursorResource(InputManager& initInputManager);
             virtual ~CursorResource();
 
             virtual bool init(SystemCursor newSystemCursor);
@@ -29,7 +29,7 @@ namespace ouzel
         protected:
             void reactivate();
 
-            Input& input;
+            InputManager& inputManager;
             SystemCursor systemCursor = SystemCursor::DEFAULT;
             std::vector<uint8_t> data;
             Size2 size;

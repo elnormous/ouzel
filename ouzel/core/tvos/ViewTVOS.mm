@@ -3,7 +3,7 @@
 
 #import "ViewTVOS.h"
 #include "core/Engine.hpp"
-#include "input/tvos/InputTVOS.hpp"
+#include "input/tvos/InputManagerTVOS.hpp"
 
 @implementation ViewTVOS
 
@@ -29,7 +29,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::engine->getInput()->keyPress(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInputManager()->keyPress(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -37,7 +37,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
     }
 }
 
@@ -45,7 +45,7 @@
 {
     for (UIPress* press in presses)
     {
-        ouzel::engine->getInput()->keyRelease(ouzel::input::InputTVOS::convertKeyCode(press.type), 0);
+        ouzel::engine->getInputManager()->keyRelease(ouzel::input::InputManagerTVOS::convertKeyCode(press.type), 0);
     }
 }
 

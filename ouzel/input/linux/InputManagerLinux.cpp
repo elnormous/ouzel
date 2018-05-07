@@ -10,7 +10,7 @@
 #include <linux/joystick.h>
 #include <X11/cursorfont.h>
 #include <X11/extensions/XInput2.h>
-#include "InputLinux.hpp"
+#include "InputManagerLinux.hpp"
 #include "CursorResourceLinux.hpp"
 #include "events/Event.hpp"
 #include "core/Engine.hpp"
@@ -212,7 +212,7 @@ namespace ouzel
             {XK_Super_R, KeyboardKey::RIGHT_SUPER}
         };
 
-        KeyboardKey InputLinux::convertKeyCode(KeySym keyCode)
+        KeyboardKey InputManagerLinux::convertKeyCode(KeySym keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -226,7 +226,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputLinux::getModifiers(unsigned int state)
+        uint32_t InputManagerLinux::getModifiers(unsigned int state)
         {
             uint32_t modifiers = 0;
 
@@ -239,11 +239,11 @@ namespace ouzel
             return modifiers;
         }
 
-        InputLinux::InputLinux()
+        InputManagerLinux::InputManagerLinux()
         {
         }
 
-        InputLinux::~InputLinux()
+        InputManagerLinux::~InputManagerLinux()
         {
             if (engine)
             {
@@ -253,7 +253,7 @@ namespace ouzel
             }
         }
 
-        bool InputLinux::init()
+        bool InputManagerLinux::init()
         {
             WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
             ::Window window = windowLinux->getNativeWindow();
@@ -336,15 +336,15 @@ namespace ouzel
             return true;
         }
 
-        void InputLinux::update()
+        void InputManagerLinux::update()
         {
             // TODO: check for new gamepads
             // TODO: update gamepads
         }
 
-        void InputLinux::activateCursorResource(CursorResource* resource)
+        void InputManagerLinux::activateCursorResource(CursorResource* resource)
         {
-            Input::activateCursorResource(resource);
+            InputManager::activateCursorResource(resource);
 
             if (engine)
             {
@@ -382,7 +382,7 @@ namespace ouzel
             }
         }
 
-        CursorResource* InputLinux::createCursorResource()
+        CursorResource* InputManagerLinux::createCursorResource()
         {
             Lock lock(resourceMutex);
 
@@ -394,7 +394,7 @@ namespace ouzel
             return result;
         }
 
-        void InputLinux::setCursorVisible(bool visible)
+        void InputManagerLinux::setCursorVisible(bool visible)
         {
             if (visible != cursorVisible)
             {
@@ -426,12 +426,12 @@ namespace ouzel
             }
         }
 
-        bool InputLinux::isCursorVisible() const
+        bool InputManagerLinux::isCursorVisible() const
         {
             return cursorVisible;
         }
 
-        void InputLinux::setCursorLocked(bool locked)
+        void InputManagerLinux::setCursorLocked(bool locked)
         {
             engine->executeOnMainThread([locked] {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
@@ -458,14 +458,14 @@ namespace ouzel
             cursorLocked = locked;
         }
 
-        bool InputLinux::isCursorLocked() const
+        bool InputManagerLinux::isCursorLocked() const
         {
             return cursorLocked;
         }
 
-        void InputLinux::setCursorPosition(const Vector2& position)
+        void InputManagerLinux::setCursorPosition(const Vector2& position)
         {
-            Input::setCursorPosition(position);
+            InputManager::setCursorPosition(position);
 
             engine->executeOnMainThread([position] {
                 WindowResourceLinux* windowLinux = static_cast<WindowResourceLinux*>(engine->getWindow()->getResource());
@@ -484,7 +484,7 @@ namespace ouzel
             });
         }
 
-        void InputLinux::handleXInput2Event(XGenericEventCookie* cookie)
+        void InputManagerLinux::handleXInput2Event(XGenericEventCookie* cookie)
         {
             if (cookie->extension == xInputOpCode)
             {

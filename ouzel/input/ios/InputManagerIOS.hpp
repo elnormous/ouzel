@@ -12,17 +12,17 @@ typedef GCController* GCControllerPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        class InputTVOS: public Input
+        class InputManagerIOS: public InputManager
         {
             friend Engine;
         public:
-            virtual ~InputTVOS();
+            virtual ~InputManagerIOS();
 
             virtual void startGamepadDiscovery() override;
             virtual void stopGamepadDiscovery() override;
@@ -37,7 +37,7 @@ namespace ouzel
             static KeyboardKey convertKeyCode(NSInteger keyCode);
 
         protected:
-            InputTVOS();
+            InputManagerIOS();
             virtual bool init() override;
 
             id connectDelegate = nil;

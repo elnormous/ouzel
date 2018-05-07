@@ -110,11 +110,11 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/gui/SlideBar.cpp \
     ../../ouzel/gui/Widget.cpp \
     ../../ouzel/input/android/GamepadAndroid.cpp \
-    ../../ouzel/input/android/InputAndroid.cpp \
+    ../../ouzel/input/android/InputManagerAndroid.cpp \
     ../../ouzel/input/Cursor.cpp \
     ../../ouzel/input/CursorResource.cpp \
     ../../ouzel/input/Gamepad.cpp \
-    ../../ouzel/input/Input.cpp \
+    ../../ouzel/input/InputManager.cpp \
     ../../ouzel/input/InputSystem.cpp \
     ../../ouzel/localization/Language.cpp \
     ../../ouzel/localization/Localization.cpp \

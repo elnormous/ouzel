@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/input.h>
-#include "InputRasp.hpp"
+#include "InputManagerRasp.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
@@ -177,11 +177,11 @@ namespace ouzel
             }
         }
 
-        InputRasp::InputRasp()
+        InputManagerRasp::InputManagerRasp()
         {
         }
 
-        bool InputRasp::init()
+        bool InputManagerRasp::init()
         {
             std::fill(std::begin(keyboardKeyDown), std::end(keyboardKeyDown), false);
             std::fill(std::begin(mouseButtonDown), std::end(mouseButtonDown), false);
@@ -217,7 +217,7 @@ namespace ouzel
             return true;
         }
 
-        void InputRasp::update()
+        void InputManagerRasp::update()
         {
             fd_set rfds;
             struct timeval tv;
@@ -351,7 +351,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputRasp::getModifiers() const
+        uint32_t InputManagerRasp::getModifiers() const
         {
             uint32_t modifiers = 0;
 

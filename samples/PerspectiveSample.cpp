@@ -12,7 +12,7 @@ PerspectiveSample::PerspectiveSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init(input::SystemCursor::CROSS);
-    engine->getInput()->setCursor(&cursor);
+    engine->getInputManager()->setCursor(&cursor);
 
     handler.keyboardHandler = bind(&PerspectiveSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     handler.mouseHandler = bind(&PerspectiveSample::handleMouse, this, placeholders::_1, placeholders::_2);

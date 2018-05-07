@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 #include <emscripten/html5.h>
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -14,11 +14,11 @@ namespace ouzel
 
     namespace input
     {
-        class InputEm: public Input
+        class InputManagerEm: public InputManager
         {
             friend Engine;
         public:
-            virtual ~InputEm();
+            virtual ~InputManagerEm();
 
             void update();
 
@@ -38,7 +38,7 @@ namespace ouzel
             void handleGamepadDisconnected(long device);
 
         protected:
-            InputEm();
+            InputManagerEm();
             virtual bool init() override;
 
             bool cursorVisible = true;

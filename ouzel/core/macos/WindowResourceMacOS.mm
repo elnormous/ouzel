@@ -6,7 +6,7 @@
 #include "graphics/RenderDevice.hpp"
 #include "graphics/opengl/macos/OpenGLView.h"
 #include "graphics/metal/macos/MetalView.h"
-#include "input/macos/InputMacOS.hpp"
+#include "input/macos/InputManagerMacOS.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"

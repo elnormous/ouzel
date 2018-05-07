@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "Cursor.hpp"
-#include "Input.hpp"
+#include "InputManager.hpp"
 #include "CursorResource.hpp"
 #include "core/Engine.hpp"
 #include "graphics/ImageDataSTB.hpp"
@@ -13,7 +13,7 @@ namespace ouzel
     {
         Cursor::Cursor()
         {
-            resource = engine->getInput()->createCursorResource();
+            resource = engine->getInputManager()->createCursorResource();
         }
 
         Cursor::Cursor(SystemCursor systemCursor):
@@ -30,7 +30,7 @@ namespace ouzel
 
         Cursor::~Cursor()
         {
-            if (engine && resource) engine->getInput()->deleteCursorResource(resource);
+            if (engine && resource) engine->getInputManager()->deleteCursorResource(resource);
         }
 
         bool Cursor::init(SystemCursor systemCursor)

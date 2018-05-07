@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #import <GameController/GameController.h>
-#include "InputIOS.hpp"
+#include "InputManagerIOS.hpp"
 #include "GamepadIOS.hpp"
 #include "core/ios/WindowResourceIOS.hpp"
 #include "core/Engine.hpp"
@@ -13,7 +13,7 @@
 
 @interface ConnectDelegate: NSObject
 {
-    ouzel::input::InputIOS* input;
+    ouzel::input::InputManagerIOS* input;
 }
 
 -(void)handleControllerConnected:(NSNotification*)notification;
@@ -23,7 +23,7 @@
 
 @implementation ConnectDelegate
 
--(id)initWithInput:(ouzel::input::InputIOS*)initInput
+-(id)initWithInput:(ouzel::input::InputManagerIOS*)initInput
 {
     if (self = [super init])
     {
@@ -59,7 +59,7 @@ namespace ouzel
             {UIPressTypePlayPause, KeyboardKey::PAUSE}
         };
 
-        KeyboardKey InputIOS::convertKeyCode(NSInteger keyCode)
+        KeyboardKey InputManagerIOS::convertKeyCode(NSInteger keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -73,11 +73,11 @@ namespace ouzel
             }
         }
 
-        InputIOS::InputIOS()
+        InputManagerIOS::InputManagerIOS()
         {
         }
 
-        InputIOS::~InputIOS()
+        InputManagerIOS::~InputManagerIOS()
         {
             if (connectDelegate)
             {
@@ -87,7 +87,7 @@ namespace ouzel
             }
         }
 
-        bool InputIOS::init()
+        bool InputManagerIOS::init()
         {
             connectDelegate = [[ConnectDelegate alloc] initWithInput:this];
 
@@ -111,7 +111,7 @@ namespace ouzel
             return true;
         }
 
-        void InputIOS::startGamepadDiscovery()
+        void InputManagerIOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -121,7 +121,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputIOS::stopGamepadDiscovery()
+        void InputManagerIOS::stopGamepadDiscovery()
         {
             if (discovering)
             {
@@ -133,7 +133,7 @@ namespace ouzel
             }
         }
 
-        bool InputIOS::showVirtualKeyboard()
+        bool InputManagerIOS::showVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
@@ -144,7 +144,7 @@ namespace ouzel
             return true;
         }
 
-        bool InputIOS::hideVirtualKeyboard()
+        bool InputManagerIOS::hideVirtualKeyboard()
         {
             engine->executeOnMainThread([]() {
                 WindowResourceIOS* windowIOS = static_cast<WindowResourceIOS*>(engine->getWindow()->getResource());
@@ -155,13 +155,13 @@ namespace ouzel
             return true;
         }
 
-        void InputIOS::handleGamepadDiscoveryCompleted()
+        void InputManagerIOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
             discovering = false;
         }
 
-        void InputIOS::handleGamepadConnected(GCControllerPtr controller)
+        void InputManagerIOS::handleGamepadConnected(GCControllerPtr controller)
         {
             std::vector<int32_t> playerIndices = {0, 1, 2, 3};
 
@@ -186,7 +186,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputIOS::handleGamepadDisconnected(GCControllerPtr controller)
+        void InputManagerIOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [controller](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadIOS* currentGamepad = static_cast<GamepadIOS*>(gamepad.get());

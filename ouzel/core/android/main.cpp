@@ -7,7 +7,7 @@
 #include "core/android/WindowResourceAndroid.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "input/android/InputAndroid.hpp"
+#include "input/android/InputManagerAndroid.hpp"
 
 static std::unique_ptr<ouzel::EngineAndroid> engine;
 
@@ -76,21 +76,21 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onLowM
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onBackPressed(JNIEnv*, jclass)
 {
-    engine->getInput()->keyPress(ouzel::input::KeyboardKey::MENU, 0);
+    engine->getInputManager()->keyPress(ouzel::input::KeyboardKey::MENU, 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInput()->keyPress(ouzel::input::InputAndroid::convertKeyCode(keyCode), 0);
+    engine->getInputManager()->keyPress(ouzel::input::InputManagerAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
-    engine->getInput()->keyRelease(ouzel::input::InputAndroid::convertKeyCode(keyCode), 0);
+    engine->getInputManager()->keyRelease(ouzel::input::InputManagerAndroid::convertKeyCode(keyCode), 0);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzelengine_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
 {
-    ouzel::input::InputAndroid* inputAndroid = static_cast<ouzel::input::InputAndroid*>(engine->getInput());
+    ouzel::input::InputManagerAndroid* inputAndroid = static_cast<ouzel::input::InputManagerAndroid*>(engine->getInputManager());
     return inputAndroid->handleTouchEvent(event);
 }

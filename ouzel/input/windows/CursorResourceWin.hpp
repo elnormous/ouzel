@@ -13,7 +13,7 @@ namespace ouzel
         class CursorResourceWin: public CursorResource
         {
         public:
-            explicit CursorResourceWin(Input& initInput);
+            explicit CursorResourceWin(InputManager& initInputManager);
             virtual ~CursorResourceWin();
 
             virtual bool init(SystemCursor newSystemCursor) override;

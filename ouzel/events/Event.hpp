@@ -10,7 +10,7 @@
 #include "scene/Actor.hpp"
 #include "math/Vector2.hpp"
 #include "math/Size2.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 #include "input/Gamepad.hpp"
 #include "input/InputDevice.hpp"
 #include "input/Keyboard.hpp"

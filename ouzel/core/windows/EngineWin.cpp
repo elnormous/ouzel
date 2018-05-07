@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include "EngineWin.hpp"
 #include "WindowResourceWin.hpp"
-#include "input/windows/InputWin.hpp"
+#include "input/windows/InputManagerWin.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Log.hpp"
 
@@ -88,7 +88,7 @@ namespace ouzel
 
         start();
 
-        input::InputWin* inputWin = static_cast<input::InputWin*>(input.get());
+        input::InputManagerWin* inputWin = static_cast<input::InputManagerWin*>(inputManager.get());
         WindowResourceWin* windowWin = static_cast<WindowResourceWin*>(window.getResource());
 
         MSG msg;

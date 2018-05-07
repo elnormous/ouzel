@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 #include "input/raspbian/EventDevice.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -15,12 +15,12 @@ namespace ouzel
 
     namespace input
     {
-        class InputRasp: public Input
+        class InputManagerRasp: public InputManager
         {
             friend Engine;
             friend EngineRasp;
         protected:
-            InputRasp();
+            InputManagerRasp();
             virtual bool init() override;
 
             void update();

@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <emscripten.h>
-#include "InputEm.hpp"
+#include "InputManagerEm.hpp"
 #include "GamepadEm.hpp"
 #include "core/Engine.hpp"
 #include "core/Window.hpp"
@@ -11,18 +11,18 @@
 
 static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
 {
-    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+    ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
 
     switch (eventType)
     {
         case EMSCRIPTEN_EVENT_KEYPRESS:
         case EMSCRIPTEN_EVENT_KEYDOWN:
-            inputEm->keyPress(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                              ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyPress(ouzel::input::InputManagerEm::convertKeyCode(keyEvent->code),
+                              ouzel::input::InputManagerEm::getKeyboardModifiers(keyEvent));
             return true;
         case EMSCRIPTEN_EVENT_KEYUP:
-            inputEm->keyRelease(ouzel::input::InputEm::convertKeyCode(keyEvent->code),
-                                ouzel::input::InputEm::getKeyboardModifiers(keyEvent));
+            inputEm->keyRelease(ouzel::input::InputManagerEm::convertKeyCode(keyEvent->code),
+                                ouzel::input::InputManagerEm::getKeyboardModifiers(keyEvent));
             return true;
     }
 
@@ -31,7 +31,7 @@ static EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEv
 
 static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
 {
-    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+    ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
     ouzel::input::MouseButton button;
 
     switch (mouseEvent->button)
@@ -58,16 +58,16 @@ static EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseE
         case EMSCRIPTEN_EVENT_MOUSEDOWN:
             inputEm->mouseButtonPress(button,
                                       ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                      ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+                                      ouzel::input::InputManagerEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEUP:
             inputEm->mouseButtonRelease(button,
                                         ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                                        ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+                                        ouzel::input::InputManagerEm::getMouseModifiers(mouseEvent));
             return true;
         case EMSCRIPTEN_EVENT_MOUSEMOVE:
             inputEm->mouseMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                               ouzel::input::InputEm::getMouseModifiers(mouseEvent));
+                               ouzel::input::InputManagerEm::getMouseModifiers(mouseEvent));
             return true;
     }
 
@@ -78,13 +78,13 @@ static EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelE
 {
     if (eventType == EMSCRIPTEN_EVENT_WHEEL)
     {
-        ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+        ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
         ouzel::Vector2 position(static_cast<float>(wheelEvent->mouse.canvasX),
                                 static_cast<float>(wheelEvent->mouse.canvasY));
 
         inputEm->mouseScroll(ouzel::Vector2(static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)),
                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
-                             ouzel::input::InputEm::getMouseModifiers(&wheelEvent->mouse));
+                             ouzel::input::InputManagerEm::getMouseModifiers(&wheelEvent->mouse));
 
         return true;
     }
@@ -96,7 +96,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 {
     if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
     {
-        ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+        ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
         inputEm->pointerLockChanged(pointerlockChangeEvent->isActive);
 
         return true;
@@ -107,7 +107,7 @@ static EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointe
 
 static EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
 {
-    ouzel::input::InputEm* inputEm = static_cast<ouzel::input::InputEm*>(userData);
+    ouzel::input::InputManagerEm* inputEm = static_cast<ouzel::input::InputManagerEm*>(userData);
 
     if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
     {
@@ -235,11 +235,11 @@ namespace ouzel
             {"IntlBackslash", KeyboardKey::LESS}
         };
 
-        InputEm::InputEm()
+        InputManagerEm::InputManagerEm()
         {
         }
 
-        bool InputEm::init()
+        bool InputManagerEm::init()
         {
             emscripten_set_keypress_callback(nullptr, this, true, emKeyCallback);
             emscripten_set_keydown_callback(nullptr, this, true, emKeyCallback);
@@ -271,11 +271,11 @@ namespace ouzel
             return true;
         }
 
-        InputEm::~InputEm()
+        InputManagerEm::~InputManagerEm()
         {
         }
 
-        void InputEm::update()
+        void InputManagerEm::update()
         {
             for (const std::unique_ptr<Gamepad>& gamepad : gamepads)
             {
@@ -284,7 +284,7 @@ namespace ouzel
             }
         }
 
-        KeyboardKey InputEm::convertKeyCode(const EM_UTF8 key[32])
+        KeyboardKey InputManagerEm::convertKeyCode(const EM_UTF8 key[32])
         {
             auto i = keyMap.find(key);
 
@@ -298,7 +298,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)
+        uint32_t InputManagerEm::getKeyboardModifiers(const EmscriptenKeyboardEvent* keyboardEvent)
         {
             uint32_t modifiers = 0;
 
@@ -310,7 +310,7 @@ namespace ouzel
             return modifiers;
         }
 
-        uint32_t InputEm::getMouseModifiers(const EmscriptenMouseEvent* mouseEvent)
+        uint32_t InputManagerEm::getMouseModifiers(const EmscriptenMouseEvent* mouseEvent)
         {
             uint32_t modifiers = 0;
 
@@ -326,7 +326,7 @@ namespace ouzel
             return modifiers;
         }
 
-        void InputEm::setCursorVisible(bool visible)
+        void InputManagerEm::setCursorVisible(bool visible)
         {
             cursorVisible = visible;
 
@@ -351,12 +351,12 @@ namespace ouzel
             });
         }
 
-        bool InputEm::isCursorVisible() const
+        bool InputManagerEm::isCursorVisible() const
         {
             return cursorVisible;
         }
 
-        void InputEm::setCursorLocked(bool locked)
+        void InputManagerEm::setCursorLocked(bool locked)
         {
             engine->executeOnMainThread([locked] {
                 if (locked)
@@ -370,17 +370,17 @@ namespace ouzel
             });
         }
 
-        bool InputEm::isCursorLocked() const
+        bool InputManagerEm::isCursorLocked() const
         {
             return cursorLocked;
         }
 
-        void InputEm::pointerLockChanged(bool locked)
+        void InputManagerEm::pointerLockChanged(bool locked)
         {
             cursorLocked = locked;
         }
 
-        void InputEm::handleGamepadConnected(long index)
+        void InputManagerEm::handleGamepadConnected(long index)
         {
             Event event;
             event.type = Event::Type::GAMEPAD_CONNECT;
@@ -394,7 +394,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void InputEm::handleGamepadDisconnected(long index)
+        void InputManagerEm::handleGamepadDisconnected(long index)
         {
             std::vector<std::unique_ptr<Gamepad>>::iterator i = std::find_if(gamepads.begin(), gamepads.end(), [index](const std::unique_ptr<Gamepad>& gamepad) {
                 GamepadEm* currentGamepad = static_cast<GamepadEm*>(gamepad.get());

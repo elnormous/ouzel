@@ -128,12 +128,12 @@
     <ClCompile Include="..\ouzel\input\Cursor.cpp" />
     <ClCompile Include="..\ouzel\input\CursorResource.cpp" />
     <ClCompile Include="..\ouzel\input\Gamepad.cpp" />
-    <ClCompile Include="..\ouzel\input\Input.cpp" />
+    <ClCompile Include="..\ouzel\input\InputManager.cpp" />
     <ClCompile Include="..\ouzel\input\InputSystem.cpp" />
     <ClCompile Include="..\ouzel\input\windows\CursorResourceWin.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadDI.cpp" />
     <ClCompile Include="..\ouzel\input\windows\GamepadXI.cpp" />
-    <ClCompile Include="..\ouzel\input\windows\InputWin.cpp" />
+    <ClCompile Include="..\ouzel\input\windows\InputManagerWin.cpp" />
     <ClCompile Include="..\ouzel\localization\Language.cpp" />
     <ClCompile Include="..\ouzel\localization\Localization.cpp" />
     <ClCompile Include="..\ouzel\math\Box2.cpp" />
@@ -291,7 +291,7 @@
     <ClInclude Include="..\ouzel\input\Cursor.hpp" />
     <ClInclude Include="..\ouzel\input\CursorResource.hpp" />
     <ClInclude Include="..\ouzel\input\Gamepad.hpp" />
-    <ClInclude Include="..\ouzel\input\Input.hpp" />
+    <ClInclude Include="..\ouzel\input\InputManager.hpp" />
     <ClInclude Include="..\ouzel\input\InputDevice.hpp" />
     <ClInclude Include="..\ouzel\input\InputSystem.hpp" />
     <ClInclude Include="..\ouzel\input\Keyboard.hpp" />
@@ -300,7 +300,7 @@
     <ClInclude Include="..\ouzel\input\windows\CursorResourceWin.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadDI.hpp" />
     <ClInclude Include="..\ouzel\input\windows\GamepadXI.hpp" />
-    <ClInclude Include="..\ouzel\input\windows\InputWin.hpp" />
+    <ClInclude Include="..\ouzel\input\windows\InputManagerWin.hpp" />
     <ClInclude Include="..\ouzel\localization\Language.hpp" />
     <ClInclude Include="..\ouzel\localization\Localization.hpp" />
     <ClInclude Include="..\ouzel\math\Box2.hpp" />

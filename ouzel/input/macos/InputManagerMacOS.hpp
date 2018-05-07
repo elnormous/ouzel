@@ -17,7 +17,7 @@ typedef id NSCursorPtr;
 typedef id GCControllerPtr;
 #endif
 
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -26,11 +26,11 @@ namespace ouzel
         class GamepadGC;
         class GamepadIOKit;
 
-        class InputMacOS: public Input
+        class InputManagerMacOS: public InputManager
         {
             friend Engine;
         public:
-            virtual ~InputMacOS();
+            virtual ~InputManagerMacOS();
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
 
@@ -57,7 +57,7 @@ namespace ouzel
             inline NSCursorPtr getEmptyCursor() const { return emptyCursor; }
 
         protected:
-            InputMacOS();
+            InputManagerMacOS();
             virtual bool init() override;
 
             virtual void activateCursorResource(CursorResource* resource) override;

@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <android/keycodes.h>
 #include <android/input.h>
-#include "InputAndroid.hpp"
+#include "InputManagerAndroid.hpp"
 #include "core/android/EngineAndroid.hpp"
 #include "core/Window.hpp"
 #include "utils/Log.hpp"
@@ -107,7 +107,7 @@ namespace ouzel
             {AKEYCODE_META_RIGHT, KeyboardKey::RIGHT_SUPER}
         };
 
-        KeyboardKey InputAndroid::convertKeyCode(jint keyCode)
+        KeyboardKey InputManagerAndroid::convertKeyCode(jint keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -121,7 +121,7 @@ namespace ouzel
             }
         }
 
-        InputAndroid::InputAndroid()
+        InputManagerAndroid::InputManagerAndroid()
         {
             EngineAndroid* engineAndroid = static_cast<EngineAndroid*>(engine);
             javaVM = engineAndroid->getJavaVM();
@@ -146,7 +146,7 @@ namespace ouzel
             getPressureMethod = jniEnv->GetMethodID(motionEventClass, "getPressure", "(I)F");
         }
 
-        InputAndroid::~InputAndroid()
+        InputManagerAndroid::~InputManagerAndroid()
         {
             JNIEnv* jniEnv;
 
@@ -159,7 +159,7 @@ namespace ouzel
             if (inputDeviceClass) jniEnv->DeleteGlobalRef(inputDeviceClass);
         }
 
-        jboolean InputAndroid::handleTouchEvent(jobject event)
+        jboolean InputManagerAndroid::handleTouchEvent(jobject event)
         {
             JNIEnv* jniEnv;
 

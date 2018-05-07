@@ -13,23 +13,23 @@
 #include "thread/Lock.hpp"
 
 #if OUZEL_PLATFORM_MACOS
-#include "input/macos/InputMacOS.hpp"
+#include "input/macos/InputManagerMacOS.hpp"
 #elif OUZEL_PLATFORM_IOS
-#include "input/ios/InputIOS.hpp"
+#include "input/ios/InputManagerIOS.hpp"
 #elif OUZEL_PLATFORM_TVOS
-#include "input/tvos/InputTVOS.hpp"
+#include "input/tvos/InputManagerTVOS.hpp"
 #elif OUZEL_PLATFORM_ANDROID
 #include <jni.h>
-#include "input/android/InputAndroid.hpp"
+#include "input/android/InputManagerAndroid.hpp"
 #elif OUZEL_PLATFORM_LINUX
 #include "linux/WindowResourceLinux.hpp"
-#include "input/linux/InputLinux.hpp"
+#include "input/linux/InputManagerLinux.hpp"
 #elif OUZEL_PLATFORM_WINDOWS
-#include "input/windows/InputWin.hpp"
+#include "input/windows/InputManagerWin.hpp"
 #elif OUZEL_PLATFORM_RASPBIAN
-#include "input/raspbian/InputRasp.hpp"
+#include "input/raspbian/InputManagerRasp.hpp"
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-#include "input/emscripten/InputEm.hpp"
+#include "input/emscripten/InputManagerEm.hpp"
 #endif
 
 extern std::string APPLICATION_NAME;
@@ -321,26 +321,26 @@ namespace ouzel
         }
 
 #if OUZEL_PLATFORM_MACOS
-        input.reset(new input::InputMacOS());
+        inputManager.reset(new input::InputManagerMacOS());
 #elif OUZEL_PLATFORM_IOS
-        input.reset(new input::InputIOS());
+        inputManager.reset(new input::InputManagerIOS());
 #elif OUZEL_PLATFORM_TVOS
-        input.reset(new input::InputTVOS());
+        inputManager.reset(new input::InputManagerTVOS());
 #elif OUZEL_PLATFORM_ANDROID
-        input.reset(new input::InputAndroid());
+        inputManager.reset(new input::InputManagerAndroid());
 #elif OUZEL_PLATFORM_LINUX
-        input.reset(new input::InputLinux());
+        inputManager.reset(new input::InputManagerLinux());
 #elif OUZEL_PLATFORM_WINDOWS
-        input.reset(new input::InputWin());
+        inputManager.reset(new input::InputManagerWin());
 #elif OUZEL_PLATFORM_RASPBIAN
-        input.reset(new input::InputRasp());
+        inputManager.reset(new input::InputManagerRasp());
 #elif OUZEL_PLATFORM_EMSCRIPTEN
-        input.reset(new input::InputEm());
+        inputManager.reset(new input::InputManagerEm());
 #else
-        input.reset(new input::Input());
+        inputManager.reset(new input::InputManager());
 #endif
 
-        if (!input->init())
+        if (!inputManager->init())
         {
             return false;
         }

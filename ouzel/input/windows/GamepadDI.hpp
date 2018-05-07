@@ -13,11 +13,11 @@ namespace ouzel
 {
     namespace input
     {
-        class InputWin;
+        class InputManagerWin;
 
         class GamepadDI: public Gamepad
         {
-            friend InputWin;
+            friend InputManagerWin;
         public:
             virtual ~GamepadDI();
             bool update();

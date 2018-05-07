@@ -4,7 +4,7 @@
 #pragma once
 
 #include <jni.h>
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -12,17 +12,17 @@ namespace ouzel
 
     namespace input
     {
-        class InputAndroid: public Input
+        class InputManagerAndroid: public InputManager
         {
             friend Engine;
         public:
-            virtual ~InputAndroid();
+            virtual ~InputManagerAndroid();
 
             static KeyboardKey convertKeyCode(jint keyCode);
             jboolean handleTouchEvent(jobject event);
 
         protected:
-            InputAndroid();
+            InputManagerAndroid();
 
             JavaVM* javaVM = nullptr;
             jclass inputDeviceClass = nullptr;

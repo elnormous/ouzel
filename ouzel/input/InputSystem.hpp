@@ -7,15 +7,15 @@ namespace ouzel
 {
     namespace input
     {
-        class Input;
+        class InputManager;
 
         class InputSystem
         {
         public:
-            InputSystem(Input& initInput);
+            InputSystem(InputManager& initInputManager);
 
         private:
-            Input& input;
+            InputManager& inputManager;
         };
     } // namespace input
 } // namespace ouzel

@@ -5,7 +5,7 @@
 #include "Menu.hpp"
 #include "core/Engine.hpp"
 #include "events/EventDispatcher.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 #include "utils/Log.hpp"
 
 namespace ouzel
