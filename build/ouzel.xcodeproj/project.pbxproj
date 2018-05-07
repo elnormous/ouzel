@@ -243,8 +243,8 @@
 		303820871D816C9E00677CAB /* WindowResourceMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3038207A1D816C9E00677CAB /* WindowResourceMacOS.mm */; };
 		303820F51D817F4900677CAB /* GamepadIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F11D817F4900677CAB /* GamepadIOS.hpp */; };
 		303820F81D817F4900677CAB /* GamepadIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F21D817F4900677CAB /* GamepadIOS.mm */; };
-		303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputIOS.hpp */; };
-		303820FE1D817F4900677CAB /* InputIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputIOS.mm */; };
+		303820FB1D817F4900677CAB /* InputManagerIOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303820F31D817F4900677CAB /* InputManagerIOS.hpp */; };
+		303820FE1D817F4900677CAB /* InputManagerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303820F41D817F4900677CAB /* InputManagerIOS.mm */; };
 		303821331D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821341D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
 		303821351D81876E00677CAB /* BlendStateResourceEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */; };
@@ -366,14 +366,14 @@
 		303B75781C2A419F00FEDE92 /* Setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E871C248204008B1151 /* Setup.h */; };
 		303B75811C2B17DC00FEDE92 /* Event.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.hpp */; };
 		303B75821C2B17DC00FEDE92 /* Event.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.hpp */; };
-		303B76081C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
-		303B76091C34A92B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
-		303B760A1C34A92B00FEDE92 /* Input.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.hpp */; };
-		303B760B1C34A92B00FEDE92 /* Input.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.hpp */; };
+		303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
+		303B76091C34A92B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
+		303B760A1C34A92B00FEDE92 /* InputManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* InputManager.hpp */; };
+		303B760B1C34A92B00FEDE92 /* InputManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* InputManager.hpp */; };
 		303B76351C355A3B00FEDE92 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Renderer.cpp */; };
 		303B76361C355A3B00FEDE92 /* MeshBufferResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E901C26ED32008B1151 /* MeshBufferResource.cpp */; };
 		303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E941C26EDFB008B1151 /* ParticleSystem.cpp */; };
-		303B76381C355A3B00FEDE92 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* Input.cpp */; };
+		303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303B76061C34A92B00FEDE92 /* InputManager.cpp */; };
 		303B76391C355A3B00FEDE92 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E441C237C70008B1151 /* Sprite.cpp */; };
 		303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E4C1C237C70008B1151 /* Vector3.cpp */; };
 		303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8EA01C270833008B1151 /* Vertex.cpp */; };
@@ -403,7 +403,7 @@
 		303B76631C355A3B00FEDE92 /* Engine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.hpp */; };
 		303B76641C355A3B00FEDE92 /* SceneManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E411C237C70008B1151 /* SceneManager.hpp */; };
 		303B76661C355A3B00FEDE92 /* Actor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Actor.hpp */; };
-		303B76681C355A3B00FEDE92 /* Input.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* Input.hpp */; };
+		303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* InputManager.hpp */; };
 		303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
 		303B766E1C355A3B00FEDE92 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
@@ -799,12 +799,12 @@
 		307F9FFF1F1E9CA000BA73CB /* GamepadGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */; };
 		3098A5571EA01C8A00528A54 /* GamepadIOKit.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */; };
 		3098A5581EA01C8A00528A54 /* GamepadIOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */; };
-		3098A5591EA01C8A00528A54 /* InputMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5551EA01C8A00528A54 /* InputMacOS.hpp */; };
-		3098A55A1EA01C8A00528A54 /* InputMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5561EA01C8A00528A54 /* InputMacOS.mm */; };
+		3098A5591EA01C8A00528A54 /* InputManagerMacOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */; };
+		3098A55A1EA01C8A00528A54 /* InputManagerMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */; };
 		3098A55F1EA01CA900528A54 /* GamepadTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */; };
 		3098A5601EA01CA900528A54 /* GamepadTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */; };
-		3098A5611EA01CA900528A54 /* InputTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55D1EA01CA900528A54 /* InputTVOS.hpp */; };
-		3098A5621EA01CA900528A54 /* InputTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55E1EA01CA900528A54 /* InputTVOS.mm */; };
+		3098A5611EA01CA900528A54 /* InputManagerTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */; };
+		3098A5621EA01CA900528A54 /* InputManagerTVOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */; };
 		309B48371DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
 		309B48381DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
 		309B48391DEA5EE600A718C5 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 309B48351DEA5EE600A718C5 /* Color.cpp */; };
@@ -1043,8 +1043,8 @@
 		3038207A1D816C9E00677CAB /* WindowResourceMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WindowResourceMacOS.mm; sourceTree = "<group>"; };
 		303820F11D817F4900677CAB /* GamepadIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOS.hpp; sourceTree = "<group>"; };
 		303820F21D817F4900677CAB /* GamepadIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadIOS.mm; sourceTree = "<group>"; };
-		303820F31D817F4900677CAB /* InputIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputIOS.hpp; sourceTree = "<group>"; };
-		303820F41D817F4900677CAB /* InputIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputIOS.mm; sourceTree = "<group>"; };
+		303820F31D817F4900677CAB /* InputManagerIOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerIOS.hpp; sourceTree = "<group>"; };
+		303820F41D817F4900677CAB /* InputManagerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerIOS.mm; sourceTree = "<group>"; };
 		303821231D81876E00677CAB /* BlendStateResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateResourceEmpty.cpp; sourceTree = "<group>"; };
 		303821241D81876E00677CAB /* BlendStateResourceEmpty.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateResourceEmpty.hpp; sourceTree = "<group>"; };
 		303821251D81876E00677CAB /* BufferResourceEmpty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferResourceEmpty.cpp; sourceTree = "<group>"; };
@@ -1086,8 +1086,8 @@
 		303B74FF1C28208800FEDE92 /* FileSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileSystem.hpp; sourceTree = "<group>"; };
 		303B75331C2A3C5800FEDE92 /* libouzel_ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B75801C2B17DC00FEDE92 /* Event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
-		303B76061C34A92B00FEDE92 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
-		303B76071C34A92B00FEDE92 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Input.hpp; sourceTree = "<group>"; };
+		303B76061C34A92B00FEDE92 /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		303B76071C34A92B00FEDE92 /* InputManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManager.hpp; sourceTree = "<group>"; };
 		303B76801C355A3B00FEDE92 /* libouzel_tvos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libouzel_tvos.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		303B76831C355A5800FEDE92 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		30419DDF1D162BCF00A63759 /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
@@ -1260,12 +1260,12 @@
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadIOKit.cpp; sourceTree = "<group>"; };
-		3098A5551EA01C8A00528A54 /* InputMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputMacOS.hpp; sourceTree = "<group>"; };
-		3098A5561EA01C8A00528A54 /* InputMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputMacOS.mm; sourceTree = "<group>"; };
+		3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerMacOS.hpp; sourceTree = "<group>"; };
+		3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerMacOS.mm; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadTVOS.hpp; sourceTree = "<group>"; };
 		3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadTVOS.mm; sourceTree = "<group>"; };
-		3098A55D1EA01CA900528A54 /* InputTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputTVOS.hpp; sourceTree = "<group>"; };
-		3098A55E1EA01CA900528A54 /* InputTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputTVOS.mm; sourceTree = "<group>"; };
+		3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputManagerTVOS.hpp; sourceTree = "<group>"; };
+		3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputManagerTVOS.mm; sourceTree = "<group>"; };
 		309ACD261C70DA73005325D3 /* ParticleSystemData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystemData.hpp; sourceTree = "<group>"; };
 		309B48351DEA5EE600A718C5 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
 		309B48361DEA5EE600A718C5 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
@@ -1427,8 +1427,8 @@
 			children = (
 				303820F11D817F4900677CAB /* GamepadIOS.hpp */,
 				303820F21D817F4900677CAB /* GamepadIOS.mm */,
-				303820F31D817F4900677CAB /* InputIOS.hpp */,
-				303820F41D817F4900677CAB /* InputIOS.mm */,
+				303820F31D817F4900677CAB /* InputManagerIOS.hpp */,
+				303820F41D817F4900677CAB /* InputManagerIOS.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1693,8 +1693,8 @@
 				3049DCD91EDCD0450000997A /* CursorResource.hpp */,
 				303647121C3DFEAF0024DB5B /* Gamepad.cpp */,
 				303647131C3DFEAF0024DB5B /* Gamepad.hpp */,
-				303B76061C34A92B00FEDE92 /* Input.cpp */,
-				303B76071C34A92B00FEDE92 /* Input.hpp */,
+				303B76061C34A92B00FEDE92 /* InputManager.cpp */,
+				303B76071C34A92B00FEDE92 /* InputManager.hpp */,
 				30BB848B20843FBE00C145A2 /* InputDevice.hpp */,
 				3067D7A3209B450F008DF6AF /* InputSystem.cpp */,
 				3067D7A4209B450F008DF6AF /* InputSystem.hpp */,
@@ -1970,8 +1970,8 @@
 				307F9FFD1F1E9CA000BA73CB /* GamepadGC.mm */,
 				3098A5531EA01C8A00528A54 /* GamepadIOKit.hpp */,
 				3098A5541EA01C8A00528A54 /* GamepadIOKit.cpp */,
-				3098A5551EA01C8A00528A54 /* InputMacOS.hpp */,
-				3098A5561EA01C8A00528A54 /* InputMacOS.mm */,
+				3098A5551EA01C8A00528A54 /* InputManagerMacOS.hpp */,
+				3098A5561EA01C8A00528A54 /* InputManagerMacOS.mm */,
 			);
 			path = macos;
 			sourceTree = "<group>";
@@ -1981,8 +1981,8 @@
 			children = (
 				3098A55B1EA01CA900528A54 /* GamepadTVOS.hpp */,
 				3098A55C1EA01CA900528A54 /* GamepadTVOS.mm */,
-				3098A55D1EA01CA900528A54 /* InputTVOS.hpp */,
-				3098A55E1EA01CA900528A54 /* InputTVOS.mm */,
+				3098A55D1EA01CA900528A54 /* InputManagerTVOS.hpp */,
+				3098A55E1EA01CA900528A54 /* InputManagerTVOS.mm */,
 			);
 			path = tvos;
 			sourceTree = "<group>";
@@ -2125,9 +2125,9 @@
 				3039335A1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
 				305B99951C41F06F008589E1 /* Widget.hpp in Headers */,
 				30C758B01F4A0196008499DC /* AudioDevice.hpp in Headers */,
-				303820FB1D817F4900677CAB /* InputIOS.hpp in Headers */,
+				303820FB1D817F4900677CAB /* InputManagerIOS.hpp in Headers */,
 				3038206C1D816C7700677CAB /* WindowResourceIOS.hpp in Headers */,
-				303B760B1C34A92B00FEDE92 /* Input.hpp in Headers */,
+				303B760B1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				300985132031276000BB0340 /* Condition.hpp in Headers */,
 				304E763C1F7095DE0025C0DB /* Client.hpp in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */,
@@ -2204,7 +2204,7 @@
 				3049DCE51EDCD0450000997A /* CursorResource.hpp in Headers */,
 				306B0E641C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				304B275A1C9384A600BA162D /* Size3.hpp in Headers */,
-				3098A5611EA01CA900528A54 /* InputTVOS.hpp in Headers */,
+				3098A5611EA01CA900528A54 /* InputManagerTVOS.hpp in Headers */,
 				303820301D80A55700677CAB /* BufferResourceMetal.hpp in Headers */,
 				30419DE61D162BCF00A63759 /* Audio.hpp in Headers */,
 				303696D11E32DD9C007F4211 /* BlendState.hpp in Headers */,
@@ -2285,7 +2285,7 @@
 				3047F7631C4C60B900774E3D /* Fade.hpp in Headers */,
 				30C758C01F4A23BD008499DC /* DisplayLink.hpp in Headers */,
 				3039335C1E5C446E000C9A8E /* ImageDataSTB.hpp in Headers */,
-				303B76681C355A3B00FEDE92 /* Input.hpp in Headers */,
+				303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */,
 				30C758B21F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
@@ -2380,7 +2380,7 @@
 				30DADE9F1C5167BC001A63B4 /* Cache.hpp in Headers */,
 				3072370E1FAFDAB8002EA399 /* JSON.hpp in Headers */,
 				30C56C5E1CAA88F8007AEF8F /* CheckBox.hpp in Headers */,
-				3098A5591EA01C8A00528A54 /* InputMacOS.hpp in Headers */,
+				3098A5591EA01C8A00528A54 /* InputManagerMacOS.hpp in Headers */,
 				30C758B91F4A0309008499DC /* RenderDevice.hpp in Headers */,
 				3047F7721C4D2C3900774E3D /* Parallel.hpp in Headers */,
 				3009341F1C88698500CC50D3 /* Window.hpp in Headers */,
@@ -2468,7 +2468,7 @@
 				304A8E6F1C237C70008B1151 /* Utils.hpp in Headers */,
 				303B75011C28208800FEDE92 /* FileSystem.hpp in Headers */,
 				30381FE01D80A40700677CAB /* BlendStateResourceMetal.hpp in Headers */,
-				303B760A1C34A92B00FEDE92 /* Input.hpp in Headers */,
+				303B760A1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				304A8E541C237C70008B1151 /* Engine.hpp in Headers */,
 				3011E1C71EFFE6DE00CB1DDC /* INI.hpp in Headers */,
 				3098A5571EA01C8A00528A54 /* GamepadIOKit.hpp in Headers */,
@@ -2671,7 +2671,7 @@
 				303821691D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				3038213F1D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB51D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				303820FE1D817F4900677CAB /* InputIOS.mm in Sources */,
+				303820FE1D817F4900677CAB /* InputManagerIOS.mm in Sources */,
 				30724D821F353A0800D915ED /* ViewIOS.mm in Sources */,
 				300C39F01E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				306B0E601C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
@@ -2687,7 +2687,7 @@
 				30519CA11F97EEB700AF3DC4 /* ModelData.cpp in Sources */,
 				30419DEA1D162BDC00A63759 /* Sound.cpp in Sources */,
 				30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */,
-				303B76091C34A92B00FEDE92 /* Input.cpp in Sources */,
+				303B76091C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD01F9B53CB00AF3DC4 /* LoaderImage.cpp in Sources */,
 				304B277A1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				3047F7701C4D2C3900774E3D /* Parallel.cpp in Sources */,
@@ -2836,7 +2836,7 @@
 				3038216B1D81876E00677CAB /* AudioDeviceEmpty.cpp in Sources */,
 				303821411D81876E00677CAB /* MeshBufferResourceEmpty.cpp in Sources */,
 				30381FB71D80A3F900677CAB /* AudioDeviceAL.cpp in Sources */,
-				3098A5621EA01CA900528A54 /* InputTVOS.mm in Sources */,
+				3098A5621EA01CA900528A54 /* InputManagerTVOS.mm in Sources */,
 				300C39F21E51355000330E4F /* SoundDataWave.cpp in Sources */,
 				30A9C13C1CAEBA540084C4BF /* Language.cpp in Sources */,
 				306B0E611C567D05005C75C1 /* ShapeRenderer.cpp in Sources */,
@@ -2853,7 +2853,7 @@
 				303B76371C355A3B00FEDE92 /* ParticleSystem.cpp in Sources */,
 				30575AA01C39CB790009C8A7 /* Scene.cpp in Sources */,
 				30519CD21F9B53CB00AF3DC4 /* LoaderImage.cpp in Sources */,
-				303B76381C355A3B00FEDE92 /* Input.cpp in Sources */,
+				303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */,
 				304B277B1C95C54D00BA162D /* EditBox.cpp in Sources */,
 				304AA8C01E1190E4006FA70E /* OBF.cpp in Sources */,
 				3053FF721F43834900760E67 /* SpriteData.cpp in Sources */,
@@ -3009,7 +3009,7 @@
 				30216B641ED462B80073E3D5 /* ModelRenderer.cpp in Sources */,
 				30575ABC1C39D9850009C8A7 /* ActorContainer.cpp in Sources */,
 				30EF36531CA76AE200F04F29 /* ScrollBar.cpp in Sources */,
-				3098A55A1EA01C8A00528A54 /* InputMacOS.mm in Sources */,
+				3098A55A1EA01C8A00528A54 /* InputManagerMacOS.mm in Sources */,
 				30575AA61C39D1FF0009C8A7 /* Layer.cpp in Sources */,
 				30A883651E7432DA004A033F /* Archive.cpp in Sources */,
 				303696E51E32DDC1007F4211 /* MeshBuffer.cpp in Sources */,
@@ -3017,7 +3017,7 @@
 				30519CA21F97EEB700AF3DC4 /* ModelData.cpp in Sources */,
 				30419DE91D162BDC00A63759 /* Sound.cpp in Sources */,
 				304B27551C9384A600BA162D /* Size3.cpp in Sources */,
-				303B76081C34A92B00FEDE92 /* Input.cpp in Sources */,
+				303B76081C34A92B00FEDE92 /* InputManager.cpp in Sources */,
 				30519CD11F9B53CB00AF3DC4 /* LoaderImage.cpp in Sources */,
 				304A8E721C237C70008B1151 /* Vector3.cpp in Sources */,
 				30575AC51C3B17540009C8A7 /* Button.cpp in Sources */,

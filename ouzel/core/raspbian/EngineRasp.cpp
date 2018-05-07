@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <pthread.h>
 #include "EngineRasp.hpp"
-#include "input/raspbian/InputRasp.hpp"
+#include "input/raspbian/InputManagerRasp.hpp"
 #include "thread/Lock.hpp"
 #include "utils/Utils.hpp"
 
@@ -27,7 +27,7 @@ namespace ouzel
 
         start();
 
-        input::InputRasp* inputRasp = static_cast<input::InputRasp*>(input.get());
+        input::InputManagerRasp* inputRasp = static_cast<input::InputManagerRasp*>(inputManager.get());
 
         while (active)
         {

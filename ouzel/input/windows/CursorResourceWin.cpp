@@ -8,8 +8,8 @@ namespace ouzel
 {
     namespace input
     {
-        CursorResourceWin::CursorResourceWin(Input& initInput):
-            CursorResource(initInput)
+        CursorResourceWin::CursorResourceWin(InputManager& initInputManager):
+            CursorResource(initInputManager)
         {
         }
 

@@ -6,7 +6,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <Xinput.h>
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -15,11 +15,11 @@ namespace ouzel
         class GamepadDI;
         class GamepadXI;
 
-        class InputWin : public Input
+        class InputManagerWin : public InputManager
         {
             friend Engine;
         public:
-            virtual ~InputWin();
+            virtual ~InputManagerWin();
 
             static KeyboardKey convertKeyCode(UINT keyCode);
             static uint32_t getModifiers(WPARAM wParam);
@@ -41,7 +41,7 @@ namespace ouzel
             void updateCursor();
 
         protected:
-            InputWin();
+            InputManagerWin();
             virtual bool init() override;
 
             virtual void activateCursorResource(CursorResource* resource) override;

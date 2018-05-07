@@ -49,7 +49,7 @@ namespace ouzel
         inline graphics::Renderer* getRenderer() const { return renderer.get(); }
         inline audio::Audio* getAudio() const { return audio.get(); }
         inline scene::SceneManager* getSceneManager() { return &sceneManager; }
-        inline input::Input* getInput() const { return input.get(); }
+        inline input::InputManager* getInputManager() const { return inputManager.get(); }
         inline Localization* getLocalization() { return &localization; }
         inline network::Network* getNetwork() { return &network; }
 
@@ -82,7 +82,7 @@ namespace ouzel
         Window window;
         std::unique_ptr<graphics::Renderer> renderer;
         std::unique_ptr<audio::Audio> audio;
-        std::unique_ptr<input::Input> input;
+        std::unique_ptr<input::InputManager> inputManager;
         Localization localization;
         assets::Cache cache;
         scene::SceneManager sceneManager;

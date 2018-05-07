@@ -11,11 +11,11 @@ namespace ouzel
 {
     namespace input
     {
-        class InputWin;
+        class InputManagerWin;
 
         class GamepadXI: public Gamepad
         {
-            friend InputWin;
+            friend InputManagerWin;
         public:
             void update(const XINPUT_STATE& newState);
 

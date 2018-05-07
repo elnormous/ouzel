@@ -2,14 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include "InputSystem.hpp"
-#include "Input.hpp"
+#include "InputManager.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        InputSystem::InputSystem(Input& initInput):
-            input(initInput)
+        InputSystem::InputSystem(InputManager& initInputManager):
+            inputManager(initInputManager)
         {
 
         }

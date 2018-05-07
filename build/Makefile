@@ -121,7 +121,7 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/input/Cursor.cpp \
 	$(ROOT_DIR)/../ouzel/input/CursorResource.cpp \
 	$(ROOT_DIR)/../ouzel/input/Gamepad.cpp \
-	$(ROOT_DIR)/../ouzel/input/Input.cpp \
+	$(ROOT_DIR)/../ouzel/input/InputManager.cpp \
 	$(ROOT_DIR)/../ouzel/input/InputSystem.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Language.cpp \
 	$(ROOT_DIR)/../ouzel/localization/Localization.cpp \
@@ -182,7 +182,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/windows/RenderDeviceOGLWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadDI.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/GamepadXI.cpp \
-	$(ROOT_DIR)/../ouzel/input/windows/InputWin.cpp \
+	$(ROOT_DIR)/../ouzel/input/windows/InputManagerWin.cpp \
 	$(ROOT_DIR)/../ouzel/input/windows/CursorResourceWin.cpp
 CXXFLAGS+=-DNOMINMAX -DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(platform),raspbian)
@@ -194,7 +194,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/raspbian/RenderDeviceOGLRasp.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/raspbian/GamepadRasp.cpp \
-	$(ROOT_DIR)/../ouzel/input/raspbian/InputRasp.cpp
+	$(ROOT_DIR)/../ouzel/input/raspbian/InputManagerRasp.cpp
 CXXFLAGS+=-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux
 else ifeq ($(platform),linux)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
@@ -206,7 +206,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/alsa/AudioDeviceALSA.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/CursorResourceLinux.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/EventDevice.cpp \
 	$(ROOT_DIR)/../ouzel/input/linux/GamepadLinux.cpp \
-	$(ROOT_DIR)/../ouzel/input/linux/InputLinux.cpp
+	$(ROOT_DIR)/../ouzel/input/linux/InputManagerLinux.cpp
 else ifeq ($(platform),macos)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
@@ -228,7 +228,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/CursorResourceMacOS.cpp \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadGC.mm \
 	$(ROOT_DIR)/../ouzel/input/macos/GamepadIOKit.cpp \
-	$(ROOT_DIR)/../ouzel/input/macos/InputMacOS.mm
+	$(ROOT_DIR)/../ouzel/input/macos/InputManagerMacOS.mm
 else ifeq ($(platform),ios)
 SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
@@ -249,7 +249,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ios/RenderDeviceOGLIOS.mm \
 	$(ROOT_DIR)/../ouzel/input/ios/GamepadIOS.mm \
-	$(ROOT_DIR)/../ouzel/input/ios/InputIOS.mm
+	$(ROOT_DIR)/../ouzel/input/ios/InputManagerIOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 else ifeq ($(platform),tvos)
@@ -272,7 +272,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/OpenGLView.m \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/tvos/RenderDeviceOGLTVOS.mm \
 	$(ROOT_DIR)/../ouzel/input/tvos/GamepadTVOS.mm \
-	$(ROOT_DIR)/../ouzel/input/tvos/InputTVOS.mm
+	$(ROOT_DIR)/../ouzel/input/tvos/InputManagerTVOS.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 else ifeq ($(platform),emscripten)
@@ -281,7 +281,7 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/openal/AudioDeviceAL.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/main.cpp \
 	$(ROOT_DIR)/../ouzel/core/emscripten/WindowResourceEm.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/emscripten/RenderDeviceOGLEm.cpp \
-	$(ROOT_DIR)/../ouzel/input/emscripten/InputEm.cpp \
+	$(ROOT_DIR)/../ouzel/input/emscripten/InputManagerEm.cpp \
 	$(ROOT_DIR)/../ouzel/input/emscripten/GamepadEm.cpp
 endif
 BASE_NAMES=$(basename $(SOURCES))

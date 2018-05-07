@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>
-#include "InputWin.hpp"
+#include "InputManagerWin.hpp"
 #include "CursorResourceWin.hpp"
 #include "GamepadDI.hpp"
 #include "GamepadXI.hpp"
@@ -18,7 +18,7 @@
 
 static BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
 {
-    ouzel::input::InputWin* inputWin = reinterpret_cast<ouzel::input::InputWin*>(context);
+    ouzel::input::InputManagerWin* inputWin = reinterpret_cast<ouzel::input::InputManagerWin*>(context);
     inputWin->handleDeviceConnect(didInstance);
 
     return DIENUM_CONTINUE;
@@ -170,7 +170,7 @@ namespace ouzel
             {VK_OEM_102, KeyboardKey::LESS}
         };
 
-        KeyboardKey InputWin::convertKeyCode(UINT keyCode)
+        KeyboardKey InputManagerWin::convertKeyCode(UINT keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -184,7 +184,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputWin::getModifiers(WPARAM wParam)
+        uint32_t InputManagerWin::getModifiers(WPARAM wParam)
         {
             uint32_t modifiers = 0;
 
@@ -198,13 +198,13 @@ namespace ouzel
             return modifiers;
         }
 
-        InputWin::InputWin()
+        InputManagerWin::InputManagerWin()
         {
             std::fill(std::begin(gamepadsXI), std::end(gamepadsXI), nullptr);
             currentCursor = defaultCursor = LoadCursor(nullptr, IDC_ARROW);
         }
 
-        InputWin::~InputWin()
+        InputManagerWin::~InputManagerWin()
         {
             resourceDeleteSet.clear();
             resources.clear();
@@ -212,7 +212,7 @@ namespace ouzel
             if (directInput) directInput->Release();
         }
 
-        bool InputWin::init()
+        bool InputManagerWin::init()
         {
             HINSTANCE instance = GetModuleHandleW(nullptr);
             HRESULT hr = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, reinterpret_cast<LPVOID*>(&directInput), nullptr);
@@ -225,7 +225,7 @@ namespace ouzel
             return true;
         }
 
-        void InputWin::update()
+        void InputManagerWin::update()
         {
             if (keyboardKeyStates[static_cast<uint32_t>(KeyboardKey::LEFT_SHIFT)] &&
                 (GetKeyState(VK_LSHIFT) & 0x8000) == 0)
@@ -312,9 +312,9 @@ namespace ouzel
             }
         }
 
-        void InputWin::activateCursorResource(CursorResource* resource)
+        void InputManagerWin::activateCursorResource(CursorResource* resource)
         {
-            Input::activateCursorResource(resource);
+            InputManager::activateCursorResource(resource);
 
             CursorResourceWin* cursorWin = static_cast<CursorResourceWin*>(resource);
 
@@ -330,7 +330,7 @@ namespace ouzel
             updateCursor();
         }
 
-        CursorResource* InputWin::createCursorResource()
+        CursorResource* InputManagerWin::createCursorResource()
         {
             Lock lock(resourceMutex);
 
@@ -342,7 +342,7 @@ namespace ouzel
             return result;
         }
 
-        void InputWin::setCursorVisible(bool visible)
+        void InputManagerWin::setCursorVisible(bool visible)
         {
             cursorVisible = visible;
 
@@ -358,12 +358,12 @@ namespace ouzel
             });
         }
 
-        bool InputWin::isCursorVisible() const
+        bool InputManagerWin::isCursorVisible() const
         {
             return cursorVisible;
         }
 
-        void InputWin::setCursorLocked(bool locked)
+        void InputManagerWin::setCursorLocked(bool locked)
         {
             engine->executeOnMainThread([locked] {
                 if (locked)
@@ -394,14 +394,14 @@ namespace ouzel
             cursorLocked = locked;
         }
 
-        bool InputWin::isCursorLocked() const
+        bool InputManagerWin::isCursorLocked() const
         {
             return cursorLocked;
         }
 
-        void InputWin::setCursorPosition(const Vector2& position)
+        void InputManagerWin::setCursorPosition(const Vector2& position)
         {
-            Input::setCursorPosition(position);
+            InputManager::setCursorPosition(position);
 
             engine->executeOnMainThread([position] {
                 Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
@@ -416,7 +416,7 @@ namespace ouzel
             });
         }
 
-        void InputWin::startGamepadDiscovery()
+        void InputManagerWin::startGamepadDiscovery()
         {
             HRESULT hr = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY);
             if (FAILED(hr))
@@ -425,7 +425,7 @@ namespace ouzel
             }
         }
 
-        void InputWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
+        void InputManagerWin::handleDeviceConnect(const DIDEVICEINSTANCEW* didInstance)
         {
             bool isXInputDevice = false;
 
@@ -556,7 +556,7 @@ namespace ouzel
             }
         }
 
-        void InputWin::updateCursor()
+        void InputManagerWin::updateCursor()
         {
             if (cursorVisible)
             {

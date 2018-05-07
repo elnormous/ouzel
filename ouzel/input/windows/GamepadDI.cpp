@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include "GamepadDI.hpp"
-#include "InputWin.hpp"
+#include "InputManagerWin.hpp"
 #include "core/windows/WindowResourceWin.hpp"
 #include "utils/Log.hpp"
 

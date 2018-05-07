@@ -2,7 +2,7 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include "Input.hpp"
+#include "InputManager.hpp"
 #include "CursorResource.hpp"
 #include "Gamepad.hpp"
 #include "core/Engine.hpp"
@@ -14,22 +14,22 @@ namespace ouzel
 {
     namespace input
     {
-        Input::Input()
+        InputManager::InputManager()
         {
             std::fill(std::begin(keyboardKeyStates), std::end(keyboardKeyStates), false);
             std::fill(std::begin(mouseButtonStates), std::end(mouseButtonStates), false);
         }
 
-        Input::~Input()
+        InputManager::~InputManager()
         {
         }
 
-        bool Input::init()
+        bool InputManager::init()
         {
             return true;
         }
 
-        void Input::setCurrentCursor(Cursor* cursor)
+        void InputManager::setCurrentCursor(Cursor* cursor)
         {
             Lock lock(resourceMutex);
 
@@ -42,16 +42,16 @@ namespace ouzel
                 currentCursorResource = nullptr;
             }
 
-            engine->executeOnMainThread(std::bind(&Input::activateCursorResource,
-                                                        this,
-                                                        currentCursorResource));
+            engine->executeOnMainThread(std::bind(&InputManager::activateCursorResource,
+                                                  this,
+                                                  currentCursorResource));
         }
 
-        void Input::activateCursorResource(CursorResource*)
+        void InputManager::activateCursorResource(CursorResource*)
         {
         }
 
-        CursorResource* Input::createCursorResource()
+        CursorResource* InputManager::createCursorResource()
         {
             Lock lock(resourceMutex);
 
@@ -63,7 +63,7 @@ namespace ouzel
             return result;
         }
 
-        void Input::deleteCursorResource(CursorResource* resource)
+        void InputManager::deleteCursorResource(CursorResource* resource)
         {
             engine->executeOnMainThread([this, resource] {
                 Lock lock(resourceMutex);
@@ -89,38 +89,38 @@ namespace ouzel
             });
         }
 
-        void Input::setCursorVisible(bool)
+        void InputManager::setCursorVisible(bool)
         {
         }
 
-        bool Input::isCursorVisible() const
-        {
-            return false;
-        }
-
-        void Input::setCursorLocked(bool)
-        {
-        }
-
-        bool Input::isCursorLocked() const
+        bool InputManager::isCursorVisible() const
         {
             return false;
         }
 
-        void Input::setCursorPosition(const Vector2& position)
+        void InputManager::setCursorLocked(bool)
+        {
+        }
+
+        bool InputManager::isCursorLocked() const
+        {
+            return false;
+        }
+
+        void InputManager::setCursorPosition(const Vector2& position)
         {
             cursorPosition = position;
         }
 
-        void Input::startGamepadDiscovery()
+        void InputManager::startGamepadDiscovery()
         {
         }
 
-        void Input::stopGamepadDiscovery()
+        void InputManager::stopGamepadDiscovery()
         {
         }
 
-        void Input::keyPress(KeyboardKey key, uint32_t modifiers)
+        void InputManager::keyPress(KeyboardKey key, uint32_t modifiers)
         {
             Event event;
 
@@ -141,7 +141,7 @@ namespace ouzel
             }
         }
 
-        void Input::keyRelease(KeyboardKey key, uint32_t modifiers)
+        void InputManager::keyRelease(KeyboardKey key, uint32_t modifiers)
         {
             keyboardKeyStates[static_cast<uint32_t>(key)] = false;
 
@@ -154,7 +154,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseButtonPress(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = true;
 
@@ -168,7 +168,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseButtonRelease(MouseButton button, const Vector2& position, uint32_t modifiers)
         {
             mouseButtonStates[static_cast<uint32_t>(button)] = false;
 
@@ -182,7 +182,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseMove(const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseMove(const Vector2& position, uint32_t modifiers)
         {
             Event event;
             event.type = Event::Type::MOUSE_MOVE;
@@ -196,7 +196,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
+        void InputManager::mouseRelativeMove(const Vector2& relativePosition, uint32_t modifiers)
         {
             Vector2 newPosition = cursorPosition + relativePosition;
 
@@ -206,7 +206,7 @@ namespace ouzel
             mouseMove(newPosition, modifiers);
         }
 
-        void Input::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
+        void InputManager::mouseScroll(const Vector2& scroll, const Vector2& position, uint32_t modifiers)
         {
             Event event;
             event.type = Event::Type::MOUSE_SCROLL;
@@ -218,7 +218,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchBegin(uint64_t touchId, const Vector2& position, float force)
+        void InputManager::touchBegin(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_BEGIN;
@@ -232,7 +232,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchEnd(uint64_t touchId, const Vector2& position, float force)
+        void InputManager::touchEnd(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_END;
@@ -251,7 +251,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchMove(uint64_t touchId, const Vector2& position, float force)
+        void InputManager::touchMove(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_MOVE;
@@ -266,7 +266,7 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        void Input::touchCancel(uint64_t touchId, const Vector2& position, float force)
+        void InputManager::touchCancel(uint64_t touchId, const Vector2& position, float force)
         {
             Event event;
             event.type = Event::Type::TOUCH_CANCEL;
@@ -285,12 +285,12 @@ namespace ouzel
             engine->getEventDispatcher()->postEvent(event);
         }
 
-        bool Input::showVirtualKeyboard()
+        bool InputManager::showVirtualKeyboard()
         {
             return false;
         }
 
-        bool Input::hideVirtualKeyboard()
+        bool InputManager::hideVirtualKeyboard()
         {
             return false;
         }

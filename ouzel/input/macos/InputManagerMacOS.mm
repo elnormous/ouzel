@@ -6,7 +6,7 @@
 #import <Carbon/Carbon.h>
 #import <GameController/GameController.h>
 #import <objc/message.h>
-#include "InputMacOS.hpp"
+#include "InputManagerMacOS.hpp"
 #include "CursorResourceMacOS.hpp"
 #include "GamepadGC.hpp"
 #include "GamepadIOKit.hpp"
@@ -21,7 +21,7 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @interface ConnectDelegate: NSObject
 {
-    ouzel::input::InputMacOS* input;
+    ouzel::input::InputManagerMacOS* input;
 }
 
 -(void)handleControllerConnected:(NSNotification*)notification;
@@ -31,7 +31,7 @@ extern "C" CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClient
 
 @implementation ConnectDelegate
 
--(id)initWithInput:(ouzel::input::InputMacOS*)initInput
+-(id)initWithInput:(ouzel::input::InputManagerMacOS*)initInput
 {
     if (self = [super init])
     {
@@ -62,13 +62,13 @@ enum
 
 static void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {
-    ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
+    ouzel::input::InputManagerMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputManagerMacOS*>(ctx);
     inputMacOS->handleGamepadConnected(device);
 }
 
 static void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
 {
-    ouzel::input::InputMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputMacOS*>(ctx);
+    ouzel::input::InputManagerMacOS* inputMacOS = reinterpret_cast<ouzel::input::InputManagerMacOS*>(ctx);
     inputMacOS->handleGamepadDisconnected(device);
 }
 
@@ -207,7 +207,7 @@ namespace ouzel
             {kVK_RightOption, NX_DEVICERALTKEYMASK}
         };
 
-        KeyboardKey InputMacOS::convertKeyCode(uint16_t keyCode)
+        KeyboardKey InputManagerMacOS::convertKeyCode(uint16_t keyCode)
         {
             auto i = keyMap.find(keyCode);
 
@@ -221,7 +221,7 @@ namespace ouzel
             }
         }
 
-        NSUInteger InputMacOS::getKeyMask(uint16_t keyCode)
+        NSUInteger InputManagerMacOS::getKeyMask(uint16_t keyCode)
         {
             auto i = maskMap.find(keyCode);
 
@@ -235,7 +235,7 @@ namespace ouzel
             }
         }
 
-        uint32_t InputMacOS::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
+        uint32_t InputManagerMacOS::getModifiers(NSUInteger modifierFlags, NSUInteger pressedMouseButtons)
         {
             uint32_t modifiers = 0;
 
@@ -255,7 +255,7 @@ namespace ouzel
             return modifiers;
         }
 
-        InputMacOS::InputMacOS()
+        InputManagerMacOS::InputManagerMacOS()
         {
             currentCursor = defaultCursor = [NSCursor arrowCursor];
 
@@ -279,7 +279,7 @@ namespace ouzel
             startGamepadDiscovery();
         }
 
-        InputMacOS::~InputMacOS()
+        InputManagerMacOS::~InputManagerMacOS()
         {
             resourceDeleteSet.clear();
             resources.clear();
@@ -296,7 +296,7 @@ namespace ouzel
             }
         }
 
-        bool InputMacOS::init()
+        bool InputManagerMacOS::init()
         {
             NSArray* criteria = @[
                                   @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_Joystick)},
@@ -344,9 +344,9 @@ namespace ouzel
             return true;
         }
 
-        void InputMacOS::activateCursorResource(CursorResource* resource)
+        void InputManagerMacOS::activateCursorResource(CursorResource* resource)
         {
-            Input::activateCursorResource(resource);
+            InputManager::activateCursorResource(resource);
 
             CursorResourceMacOS* cursorMacOS = static_cast<CursorResourceMacOS*>(resource);
 
@@ -364,7 +364,7 @@ namespace ouzel
             [windowMacOS->getNativeView() resetCursorRects];
         }
 
-        CursorResource* InputMacOS::createCursorResource()
+        CursorResource* InputManagerMacOS::createCursorResource()
         {
             Lock lock(resourceMutex);
 
@@ -376,7 +376,7 @@ namespace ouzel
             return result;
         }
 
-        void InputMacOS::setCursorVisible(bool visible)
+        void InputManagerMacOS::setCursorVisible(bool visible)
         {
             if (visible != cursorVisible)
             {
@@ -395,14 +395,14 @@ namespace ouzel
             }
         }
 
-        bool InputMacOS::isCursorVisible() const
+        bool InputManagerMacOS::isCursorVisible() const
         {
             return cursorVisible;
         }
 
-        void InputMacOS::setCursorPosition(const Vector2& position)
+        void InputManagerMacOS::setCursorPosition(const Vector2& position)
         {
-            Input::setCursorPosition(position);
+            InputManager::setCursorPosition(position);
 
             ouzel::Vector2 windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
@@ -417,7 +417,7 @@ namespace ouzel
             });
         }
 
-        void InputMacOS::setCursorLocked(bool locked)
+        void InputManagerMacOS::setCursorLocked(bool locked)
         {
             engine->executeOnMainThread([locked] {
                 CGAssociateMouseAndMouseCursorPosition(!locked);
@@ -425,12 +425,12 @@ namespace ouzel
             cursorLocked = locked;
         }
 
-        bool InputMacOS::isCursorLocked() const
+        bool InputManagerMacOS::isCursorLocked() const
         {
             return cursorLocked;
         }
 
-        void InputMacOS::startGamepadDiscovery()
+        void InputManagerMacOS::startGamepadDiscovery()
         {
             Log(Log::Level::INFO) << "Started gamepad discovery";
 
@@ -440,7 +440,7 @@ namespace ouzel
              ^(void){ handleGamepadDiscoveryCompleted(); }];
         }
 
-        void InputMacOS::stopGamepadDiscovery()
+        void InputManagerMacOS::stopGamepadDiscovery()
         {
             if (discovering)
             {
@@ -452,13 +452,13 @@ namespace ouzel
             }
         }
 
-        void InputMacOS::handleGamepadDiscoveryCompleted()
+        void InputManagerMacOS::handleGamepadDiscoveryCompleted()
         {
             Log(Log::Level::INFO) << "Gamepad discovery completed";
             discovering = false;
         }
 
-        void InputMacOS::handleGamepadConnected(GCControllerPtr controller)
+        void InputManagerMacOS::handleGamepadConnected(GCControllerPtr controller)
         {
             int32_t vendorId = 0;
             int32_t productId = 0;
@@ -507,7 +507,7 @@ namespace ouzel
             }
         }
 
-        void InputMacOS::handleGamepadDisconnected(GCControllerPtr controller)
+        void InputManagerMacOS::handleGamepadDisconnected(GCControllerPtr controller)
         {
             auto i = std::find_if(gamepadsGC.begin(), gamepadsGC.end(), [controller](GamepadGC* gamepad) {
                 return gamepad->getController() == controller;
@@ -537,7 +537,7 @@ namespace ouzel
             }
         }
 
-        void InputMacOS::handleGamepadConnected(IOHIDDeviceRef device)
+        void InputManagerMacOS::handleGamepadConnected(IOHIDDeviceRef device)
         {
             int32_t vendorId = 0;
             int32_t productId = 0;
@@ -574,7 +574,7 @@ namespace ouzel
             }
         }
 
-        void InputMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
+        void InputManagerMacOS::handleGamepadDisconnected(IOHIDDeviceRef device)
         {
             auto i = std::find_if(gamepadsIOKit.begin(), gamepadsIOKit.end(), [device](GamepadIOKit* gamepad) {
                 return gamepad->getDevice() == device;

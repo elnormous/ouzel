@@ -2,14 +2,14 @@
 // This file is part of the Ouzel engine.
 
 #include "CursorResource.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
     namespace input
     {
-        CursorResource::CursorResource(Input& initInput):
-            input(initInput)
+        CursorResource::CursorResource(InputManager& initInputManager):
+            inputManager(initInputManager)
         {
         }
 
@@ -40,8 +40,8 @@ namespace ouzel
 
         void CursorResource::reactivate()
         {
-            if (input.currentCursorResource == this)
-                input.activateCursorResource(this);
+            if (inputManager.currentCursorResource == this)
+                inputManager.activateCursorResource(this);
         }
     } // namespace input
 } // namespace ouzel

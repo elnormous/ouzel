@@ -59,7 +59,7 @@ InputSample::InputSample():
     backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "arial.fnt", 1.0F, Color::BLACK, Color::BLACK, Color::BLACK)
 {
     cursor.init("cursor.png", Vector2(0.0F, 63.0F));
-    engine->getInput()->setCursor(&cursor);
+    engine->getInputManager()->setCursor(&cursor);
 
     handler.keyboardHandler = bind(&InputSample::handleKeyboard, this, placeholders::_1, placeholders::_2);
     handler.mouseHandler = bind(&InputSample::handleMouse, this, placeholders::_1, placeholders::_2);
@@ -128,7 +128,7 @@ bool InputSample::handleKeyboard(Event::Type type, const KeyboardEvent& event)
                 break;
             case input::KeyboardKey::ESCAPE:
             case input::KeyboardKey::MENU:
-                engine->getInput()->setCursorVisible(true);
+                engine->getInputManager()->setCursorVisible(true);
                 engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
                 return true;
             default:
@@ -216,12 +216,12 @@ bool InputSample::handleUI(Event::Type type, const UIEvent& event) const
     {
         if (event.actor == &backButton)
         {
-            engine->getInput()->setCursorVisible(true);
+            engine->getInputManager()->setCursorVisible(true);
             engine->getSceneManager()->setScene(std::unique_ptr<scene::Scene>(new MainMenu()));
         }
         else if (event.actor == &hideButton)
         {
-            engine->getInput()->setCursorVisible(!engine->getInput()->isCursorVisible());
+            engine->getInputManager()->setCursorVisible(!engine->getInputManager()->isCursorVisible());
         }
     }
 

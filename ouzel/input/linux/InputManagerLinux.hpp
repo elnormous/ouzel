@@ -8,7 +8,7 @@
 #include <X11/keysym.h>
 #include <X11/X.h>
 #include "input/linux/EventDevice.hpp"
-#include "input/Input.hpp"
+#include "input/InputManager.hpp"
 
 namespace ouzel
 {
@@ -17,7 +17,7 @@ namespace ouzel
 
     namespace input
     {
-        class InputLinux: public Input
+        class InputManagerLinux: public InputManager
         {
             friend Engine;
             friend EngineLinux;
@@ -25,7 +25,7 @@ namespace ouzel
             static KeyboardKey convertKeyCode(KeySym keyCode);
             static uint32_t getModifiers(unsigned int state);
 
-            virtual ~InputLinux();
+            virtual ~InputManagerLinux();
 
             virtual void setCursorVisible(bool visible) override;
             virtual bool isCursorVisible() const override;
@@ -38,7 +38,7 @@ namespace ouzel
             void handleXInput2Event(XGenericEventCookie* cookie);
 
         protected:
-            InputLinux();
+            InputManagerLinux();
             virtual bool init() override;
 
             void update();
