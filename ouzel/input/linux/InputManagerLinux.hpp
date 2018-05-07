@@ -37,7 +37,7 @@ namespace ouzel
 
             void handleXInput2Event(XGenericEventCookie* cookie);
 
-        protected:
+        private:
             InputManagerLinux();
             virtual bool init() override;
 

@@ -40,7 +40,7 @@ namespace ouzel
 
             void updateCursor();
 
-        protected:
+        private:
             InputManagerWin();
             virtual bool init() override;
 

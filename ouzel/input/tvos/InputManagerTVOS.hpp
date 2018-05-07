@@ -36,7 +36,7 @@ namespace ouzel
 
             static KeyboardKey convertKeyCode(NSInteger keyCode);
 
-        protected:
+        private:
             InputManagerTVOS();
             virtual bool init() override;
 

@@ -56,7 +56,7 @@ namespace ouzel
             inline NSCursorPtr getNativeCursor() const { return currentCursor; }
             inline NSCursorPtr getEmptyCursor() const { return emptyCursor; }
 
-        protected:
+        private:
             InputManagerMacOS();
             virtual bool init() override;
 
