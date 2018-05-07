@@ -58,16 +58,34 @@
     ouzel::engine->pause();
 }
 
--(void)executeAll
-{
-    ouzel::EngineMacOS* engineMacOS = static_cast<ouzel::EngineMacOS*>(ouzel::engine);
-
-    engineMacOS->executeAll();
-}
-
 -(void)handleQuit:(__unused id)sender
 {
     [[NSApplication sharedApplication] terminate:nil];
+}
+
+@end
+
+@interface ExecuteHandler: NSObject
+{
+    ouzel::EngineMacOS* engine;
+}
+@end
+
+@implementation ExecuteHandler
+
+-(id)initWithEngine:(ouzel::EngineMacOS*)initEngine
+{
+    if (self = [super init])
+    {
+        engine = initEngine;
+    }
+
+    return self;
+}
+
+-(void)executeAll
+{
+    engine->executeAll();
 }
 
 @end
@@ -80,8 +98,15 @@ namespace ouzel
         {
             args.push_back(argv[i]);
         }
+
+        executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
+    EngineMacOS::~EngineMacOS()
+    {
+        if (executeHanlder) [executeHanlder release];
+    }
+    
     int EngineMacOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
@@ -117,9 +142,7 @@ namespace ouzel
 
         executeQueue.push(func);
 
-        NSApplication* application = [NSApplication sharedApplication];
-        NSObject* delegate = application.delegate;
-        [delegate performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
+        [executeHanlder performSelectorOnMainThread:@selector(executeAll) withObject:nil waitUntilDone:NO];
     }
 
     bool EngineMacOS::openURL(const std::string& url)
