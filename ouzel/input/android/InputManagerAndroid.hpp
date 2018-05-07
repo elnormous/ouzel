@@ -21,7 +21,7 @@ namespace ouzel
             static KeyboardKey convertKeyCode(jint keyCode);
             jboolean handleTouchEvent(jobject event);
 
-        protected:
+        private:
             InputManagerAndroid();
 
             JavaVM* javaVM = nullptr;

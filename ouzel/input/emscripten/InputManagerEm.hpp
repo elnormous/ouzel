@@ -37,7 +37,7 @@ namespace ouzel
             void handleGamepadConnected(long device);
             void handleGamepadDisconnected(long device);
 
-        protected:
+        private:
             InputManagerEm();
             virtual bool init() override;
 

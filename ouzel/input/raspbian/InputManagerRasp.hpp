@@ -19,7 +19,7 @@ namespace ouzel
         {
             friend Engine;
             friend EngineRasp;
-        protected:
+        private:
             InputManagerRasp();
             virtual bool init() override;
 
