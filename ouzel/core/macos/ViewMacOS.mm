@@ -193,6 +193,66 @@
                                                   ouzel::input::InputManagerMacOS::getModifiers(event.modifierFlags, 0));
 }
 
+-(void)touchesBeganWithEvent:(NSEvent*)event
+{
+    NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseBegan inView:self];
+
+    for (NSTouch* touch in touches)
+    {
+        CGPoint location = touch.normalizedPosition;
+
+        ouzel::engine->getInputManager()->touchBegin(reinterpret_cast<uint64_t>(touch),
+                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                  static_cast<float>(location.y))),
+                                                     1.0F);
+    }
+}
+
+-(void)touchesMovedWithEvent:(NSEvent*)event
+{
+    NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseMoved inView:self];
+    
+    for (NSTouch* touch in touches)
+    {
+        CGPoint location = touch.normalizedPosition;
+
+        ouzel::engine->getInputManager()->touchMove(reinterpret_cast<uint64_t>(touch),
+                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                 static_cast<float>(location.y))),
+                                                    1.0F);
+    }
+}
+
+-(void)touchesEndedWithEvent:(NSEvent*)event
+{
+    NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseEnded inView:self];
+    
+    for (NSTouch* touch in touches)
+    {
+        CGPoint location = touch.normalizedPosition;
+
+        ouzel::engine->getInputManager()->touchEnd(reinterpret_cast<uint64_t>(touch),
+                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                static_cast<float>(location.y))),
+                                                   1.0F);
+    }
+}
+
+-(void)touchesCancelledWithEvent:(NSEvent*)event
+{
+    NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseCancelled inView:self];
+
+    for (NSTouch* touch in touches)
+    {
+        CGPoint location = touch.normalizedPosition;
+
+        ouzel::engine->getInputManager()->touchCancel(reinterpret_cast<uint64_t>(touch),
+                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
+                                                                                                                                   static_cast<float>(location.y))),
+                                                      1.0F);
+    }
+}
+
 -(void)swipeWithEvent:(__unused NSEvent*)event
 {
 }
