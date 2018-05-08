@@ -19,7 +19,7 @@
 
         ouzel::engine->getInputManager()->touchBegin(reinterpret_cast<uint64_t>(touch),
                                                      ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
-                                                                    static_cast<float>(1.0 - location.y / self.bounds.size.height)),
+                                                                    static_cast<float>(location.y / self.bounds.size.height)),
                                                      static_cast<float>(force));
     }
 }
@@ -35,7 +35,7 @@
 
         ouzel::engine->getInputManager()->touchMove(reinterpret_cast<uint64_t>(touch),
                                                     ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
-                                                                   static_cast<float>(1.0 - location.y / self.bounds.size.height)),
+                                                                   static_cast<float>(location.y / self.bounds.size.height)),
                                                     static_cast<float>(force));
     }
 }
@@ -51,7 +51,7 @@
 
         ouzel::engine->getInputManager()->touchEnd(reinterpret_cast<uint64_t>(touch),
                                                    ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
-                                                                  static_cast<float>(1.0 - location.y / self.bounds.size.height)),
+                                                                  static_cast<float>(location.y / self.bounds.size.height)),
                                                    static_cast<float>(force));
     }
 }
@@ -67,7 +67,7 @@
 
         ouzel::engine->getInputManager()->touchCancel(reinterpret_cast<uint64_t>(touch),
                                                       ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
-                                                                     static_cast<float>(1.0 - location.y / self.bounds.size.height)),
+                                                                     static_cast<float>(location.y / self.bounds.size.height)),
                                                       static_cast<float>(force));
     }
 }

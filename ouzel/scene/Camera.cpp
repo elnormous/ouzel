@@ -191,7 +191,7 @@ namespace ouzel
         {
             // convert window normalized to viewport clip position
             Vector3 result = Vector3(((normalizedPosition.x - viewport.position.x) / viewport.size.width - 0.5F) * 2.0F,
-                                     ((normalizedPosition.y - viewport.position.y) / viewport.size.height - 0.5F) * 2.0F,
+                                     (((1.0F - normalizedPosition.y) - viewport.position.y) / viewport.size.height - 0.5F) * 2.0F,
                                      0.0F);
 
             getInverseViewProjection().transformPoint(result);
@@ -206,7 +206,7 @@ namespace ouzel
 
             // convert viewport clip position to window normalized
             return Vector2((result.x / 2.0F + 0.5F) * viewport.size.width + viewport.position.x,
-                           (result.y / 2.0F + 0.5F) * viewport.size.height + viewport.position.y);
+                           1.0F - ((result.y / 2.0F + 0.5F) * viewport.size.height + viewport.position.y));
         }
 
         bool Camera::checkVisibility(const Matrix4& boxTransform, const Box3& box) const

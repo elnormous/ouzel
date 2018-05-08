@@ -43,28 +43,24 @@ namespace ouzel
         inline const std::string& getTitle() const { return title; }
         virtual void setTitle(const std::string& newTitle);
 
-        Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
+        inline Vector2 convertWindowToNormalizedLocation(const Vector2& position) const
         {
-            return Vector2(position.x / size.width,
-                           1.0F - (position.y / size.height));
+            return Vector2(position.x / size.width, position.y / size.height);
         }
 
-        Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position) const
+        inline Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position) const
         {
-            return Vector2(position.x / size.width,
-                           -position.y / size.height);
+            return Vector2(position.x / size.width, position.y / size.height);
         }
 
-        Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
+        inline Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
         {
-            return Vector2(position.x * size.width,
-                           (1.0F - position.y) * size.height);
+            return Vector2(position.x * size.width, position.y * size.height);
         }
 
-        Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position) const
+        inline Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position) const
         {
-            return Vector2(position.x * size.width,
-                           -position.y * size.height);
+            return Vector2(position.x * size.width, position.y * size.height);
         }
 
     protected:
