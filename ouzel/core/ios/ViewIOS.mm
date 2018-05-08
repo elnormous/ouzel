@@ -18,8 +18,8 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInputManager()->touchBegin(reinterpret_cast<uint64_t>(touch),
-                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                  static_cast<float>(location.y))),
+                                                     ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                    static_cast<float>(1.0 - location.y / self.bounds.size.height)),
                                                      static_cast<float>(force));
     }
 }
@@ -34,8 +34,8 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInputManager()->touchMove(reinterpret_cast<uint64_t>(touch),
-                                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                 static_cast<float>(location.y))),
+                                                    ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                   static_cast<float>(1.0 - location.y / self.bounds.size.height)),
                                                     static_cast<float>(force));
     }
 }
@@ -50,8 +50,8 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInputManager()->touchEnd(reinterpret_cast<uint64_t>(touch),
-                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                static_cast<float>(location.y))),
+                                                   ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                  static_cast<float>(1.0 - location.y / self.bounds.size.height)),
                                                    static_cast<float>(force));
     }
 }
@@ -66,8 +66,8 @@
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
         ouzel::engine->getInputManager()->touchCancel(reinterpret_cast<uint64_t>(touch),
-                                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(ouzel::Vector2(static_cast<float>(location.x),
-                                                                                                                                   static_cast<float>(location.y))),
+                                                      ouzel::Vector2(static_cast<float>(location.x / self.bounds.size.width),
+                                                                     static_cast<float>(1.0 - location.y / self.bounds.size.height)),
                                                       static_cast<float>(force));
     }
 }
