@@ -48,17 +48,7 @@ namespace ouzel
             return Vector2(position.x / size.width, position.y / size.height);
         }
 
-        inline Vector2 convertWindowToNormalizedLocationRelative(const Vector2& position) const
-        {
-            return Vector2(position.x / size.width, position.y / size.height);
-        }
-
         inline Vector2 convertNormalizedToWindowLocation(const Vector2& position) const
-        {
-            return Vector2(position.x * size.width, position.y * size.height);
-        }
-
-        inline Vector2 convertNormalizedToWindowLocationRelative(const Vector2& position) const
         {
             return Vector2(position.x * size.width, position.y * size.height);
         }
