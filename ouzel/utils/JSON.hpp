@@ -254,7 +254,7 @@ namespace ouzel
             Type type = Type::NONE;
             bool boolValue = false;
             bool nullValue = false;
-            double doubleValue = 0.0f;
+            double doubleValue = 0.0;
             std::map<std::string, Value> objectValue;
             std::vector<Value> arrayValue;
             std::string stringValue;
