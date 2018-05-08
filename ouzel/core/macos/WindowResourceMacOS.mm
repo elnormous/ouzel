@@ -211,6 +211,9 @@ namespace ouzel
                 return false;
         }
 
+        [view setAcceptsTouchEvents:YES];
+        [view setWantsRestingTouches:YES];
+
         window.contentView = view;
         [window makeKeyAndOrderFront:nil];
 
