@@ -64,7 +64,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceEmpty::processCommands(const std::vector<Command>&)
+        bool RenderDeviceEmpty::processCommands(const std::vector<std::unique_ptr<Command>>&)
         {
             return true;
         }
