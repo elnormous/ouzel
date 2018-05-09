@@ -68,7 +68,14 @@ namespace ouzel
                     CLEAR,
                     DRAW,
                     BLIT, // TODO: implement
-                    COMPUTE // TODO: implement
+                    COMPUTE, // TODO: implement
+                    PUSH_DEBUG_MARKER, // TODO: implement
+                    POP_DEBUG_MARKER // TODO: implement
+                    // TODO: blend state commands
+                    // TODO: buffer commands
+                    // TODO: mesh buffer commands
+                    // TODO: shader commands
+                    // TODO: texture commands
                 };
 
                 Command(Type initType):
