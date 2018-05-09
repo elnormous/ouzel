@@ -100,8 +100,8 @@ namespace ouzel
 
             bool saveScreenshot(const std::string& filename);
 
+            bool addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
             bool addClearCommand(const std::shared_ptr<Texture>& renderTarget);
-
             bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                 const std::shared_ptr<Shader>& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -111,7 +111,6 @@ namespace ouzel
                                 uint32_t indexCount,
                                 DrawMode drawMode,
                                 uint32_t startIndex,
-                                const std::shared_ptr<Texture>& renderTarget,
                                 const Rect& viewport,
                                 bool depthWrite,
                                 bool depthTest,

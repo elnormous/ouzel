@@ -789,6 +789,36 @@ namespace ouzel
             {
                 switch (command->type)
                 {
+                    case Command::Type::SET_RENDER_TARGET:
+                    {
+                        SetRenderTargetCommand* setRenderTargetCommand = static_cast<SetRenderTargetCommand*>(command.get());
+
+                        GLuint newFrameBufferId = 0;
+
+                        if (setRenderTargetCommand->renderTarget)
+                        {
+                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetCommand->renderTarget);
+
+                            if (!renderTargetOGL->getFrameBufferId())
+                            {
+                                continue;
+                            }
+
+                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
+                        }
+                        else
+                        {
+                            newFrameBufferId = frameBufferId;
+                        }
+
+                        if (!bindFrameBuffer(newFrameBufferId))
+                        {
+                            return false;
+                        }
+
+                        break;
+                    }
+
                     case Command::Type::CLEAR:
                     {
                         ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
@@ -912,8 +942,8 @@ namespace ouzel
                         switch (drawCommand->cullMode)
                         {
                             case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                            case Renderer::CullMode::FRONT: cullFace = (drawCommand->renderTarget ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                            case Renderer::CullMode::BACK: cullFace = (drawCommand->renderTarget ? GL_BACK : GL_FRONT); break;
+                            case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                            case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
                             default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
                         }
 
@@ -1011,35 +1041,8 @@ namespace ouzel
                             }
                         }
 
-                        // render target
-                        GLuint newFrameBufferId = 0;
-                        GLsizei renderTargetHeight = 0;
-
-                        if (drawCommand->renderTarget)
-                        {
-                            TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(drawCommand->renderTarget);
-
-                            if (!renderTargetOGL->getFrameBufferId())
-                            {
-                                continue;
-                            }
-
-                            renderTargetHeight = renderTargetOGL->getHeight();
-                            newFrameBufferId = renderTargetOGL->getFrameBufferId();
-                        }
-                        else
-                        {
-                            renderTargetHeight = frameBufferHeight;
-                            newFrameBufferId = frameBufferId;
-                        }
-
-                        if (!bindFrameBuffer(newFrameBufferId))
-                        {
-                            return false;
-                        }
-
                         setViewport(static_cast<GLint>(drawCommand->viewport.position.x),
-                                    static_cast<GLint>(renderTargetHeight - (drawCommand->viewport.position.y + drawCommand->viewport.size.height)),
+                                    static_cast<GLint>(drawCommand->viewport.position.y),
                                     static_cast<GLsizei>(drawCommand->viewport.size.width),
                                     static_cast<GLsizei>(drawCommand->viewport.size.height));
 
@@ -1049,7 +1052,7 @@ namespace ouzel
                         // scissor test
                         setScissorTest(drawCommand->scissorTest,
                                        static_cast<GLint>(drawCommand->scissorRectangle.position.x),
-                                       static_cast<GLint>(renderTargetHeight - (drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height)),
+                                       static_cast<GLint>(drawCommand->scissorRectangle.position.y),
                                        static_cast<GLsizei>(drawCommand->scissorRectangle.size.width),
                                        static_cast<GLsizei>(drawCommand->scissorRectangle.size.height));
 

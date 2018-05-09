@@ -64,6 +64,7 @@ namespace ouzel
             {
                 enum Type
                 {
+                    SET_RENDER_TARGET,
                     CLEAR,
                     DRAW,
                     BLIT, // TODO: implement
@@ -76,6 +77,16 @@ namespace ouzel
                 }
 
                 Type type;
+            };
+
+            struct SetRenderTargetCommand: public Command
+            {
+                SetRenderTargetCommand():
+                    Command(Command::Type::SET_RENDER_TARGET)
+                {
+                }
+
+                TextureResource* renderTarget;
             };
 
             struct ClearCommand: public Command
@@ -104,7 +115,6 @@ namespace ouzel
                 uint32_t indexCount;
                 Renderer::DrawMode drawMode;
                 uint32_t startIndex;
-                TextureResource* renderTarget;
                 Rect viewport;
                 bool depthWrite;
                 bool depthTest;

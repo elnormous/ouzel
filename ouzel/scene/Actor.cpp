@@ -85,7 +85,6 @@ namespace ouzel
                     component->draw(transform,
                                     opacity,
                                     camera->getRenderViewProjection(),
-                                    camera->getRenderTarget(),
                                     camera->getRenderViewport(),
                                     camera->getDepthWrite(),
                                     camera->getDepthTest(),
