@@ -436,6 +436,36 @@ namespace ouzel
             {
                 switch (command->type)
                 {
+                    case Command::Type::SET_RENDER_TARGET:
+                    {
+                        SetRenderTargetCommand* setRenderTargetCommand = static_cast<SetRenderTargetCommand*>(command.get());
+
+                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
+                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
+
+                        if (setRenderTargetCommand->renderTarget)
+                        {
+                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(setRenderTargetCommand->renderTarget);
+
+                            if (!renderTargetD3D11->getRenderTargetView())
+                            {
+                                continue;
+                            }
+
+                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
+                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
+                        }
+                        else
+                        {
+                            newRenderTargetView = renderTargetView;
+                            newDepthStencilView = depthStencilView;
+                        }
+
+                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
+
+                        break;
+                    }
+
                     case Command::Type::CLEAR:
                     {
                         ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
@@ -502,30 +532,6 @@ namespace ouzel
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
-                        // render target
-                        ID3D11RenderTargetView* newRenderTargetView = nullptr;
-                        ID3D11DepthStencilView* newDepthStencilView = nullptr;
-
-                        if (drawCommand->renderTarget)
-                        {
-                            TextureResourceD3D11* renderTargetD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->renderTarget);
-
-                            if (!renderTargetD3D11->getRenderTargetView())
-                            {
-                                continue;
-                            }
-
-                            newRenderTargetView = renderTargetD3D11->getRenderTargetView();
-                            newDepthStencilView = renderTargetD3D11->getDepthStencilView();
-                        }
-                        else
-                        {
-                            newRenderTargetView = renderTargetView;
-                            newDepthStencilView = depthStencilView;
-                        }
-
-                        context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
                         viewport.TopLeftX = drawCommand->viewport.position.x;
                         viewport.TopLeftY = drawCommand->viewport.position.y;

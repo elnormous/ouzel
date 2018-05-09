@@ -409,6 +409,8 @@ namespace ouzel
 
             MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
             id<MTLRenderCommandEncoder> currentRenderCommandEncoder = nil;
+            PipelineStateDesc currentPipelineStateDesc;
+            MTLTexturePtr currentRenderTarget = nil;
 
             MTLScissorRect scissorRect;
 
@@ -426,12 +428,64 @@ namespace ouzel
             {
                 switch (command->type)
                 {
+                    case Command::Type::SET_RENDER_TARGET:
+                    {
+                        SetRenderTargetCommand* setRenderTargetCommand = static_cast<SetRenderTargetCommand*>(command.get());
+
+                        MTLRenderPassDescriptorPtr newRenderPassDescriptor;
+
+                        if (setRenderTargetCommand->renderTarget)
+                        {
+                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(setRenderTargetCommand->renderTarget);
+
+                            currentRenderTarget = renderTargetMetal->getTexture();
+                            newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
+                            if (!newRenderPassDescriptor)
+                            {
+                                continue;
+                            }
+
+                            currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
+                            currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
+                            currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+
+                        }
+                        else
+                        {
+                            currentRenderTarget = currentMetalTexture;
+                            newRenderPassDescriptor = renderPassDescriptor;
+                            currentPipelineStateDesc.sampleCount = sampleCount;
+                            currentPipelineStateDesc.colorFormat = colorFormat;
+                            currentPipelineStateDesc.depthFormat = depthFormat;
+                        }
+
+                        if (currentRenderPassDescriptor != newRenderPassDescriptor ||
+                            !currentRenderCommandEncoder)
+                        {
+                            if (currentRenderCommandEncoder)
+                                [currentRenderCommandEncoder endEncoding];
+
+                            currentRenderPassDescriptor = newRenderPassDescriptor;
+                            currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
+
+                            if (!currentRenderCommandEncoder)
+                            {
+                                Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
+                                return false;
+                            }
+
+                            currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+                            currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
+                        }
+
+                        break;
+                    }
+
                     case Command::Type::CLEAR:
                     {
                         ClearCommand* clearCommand = static_cast<ClearCommand*>(command.get());
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                        PipelineStateDesc pipelineStateDesc;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
                         MTLLoadAction newDepthBufferLoadAction = MTLLoadActionLoad;
 
@@ -449,9 +503,10 @@ namespace ouzel
                                 continue;
                             }
 
-                            pipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                            pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                            pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
+                            currentRenderTarget = renderTargetMetal->getTexture();
+                            currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
+                            currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
+                            currentPipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
 
                             renderTargetWidth = renderTargetMetal->getWidth();
                             renderTargetHeight = renderTargetMetal->getHeight();
@@ -461,10 +516,11 @@ namespace ouzel
                         }
                         else
                         {
+                            currentRenderTarget = currentMetalTexture;
                             newRenderPassDescriptor = renderPassDescriptor;
-                            pipelineStateDesc.sampleCount = sampleCount;
-                            pipelineStateDesc.colorFormat = colorFormat;
-                            pipelineStateDesc.depthFormat = depthFormat;
+                            currentPipelineStateDesc.sampleCount = sampleCount;
+                            currentPipelineStateDesc.colorFormat = colorFormat;
+                            currentPipelineStateDesc.depthFormat = depthFormat;
 
                             renderTargetWidth = frameBufferWidth;
                             renderTargetHeight = frameBufferHeight;
@@ -504,59 +560,10 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                        MTLRenderPassDescriptorPtr newRenderPassDescriptor;
-                        PipelineStateDesc pipelineStateDesc;
-
-                        NSUInteger renderTargetWidth = 0;
-                        NSUInteger renderTargetHeight = 0;
-
-                        // render target
-                        if (drawCommand->renderTarget)
+                        if (!currentRenderCommandEncoder)
                         {
-                            TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(drawCommand->renderTarget);
-
-                            newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor)
-                            {
-                                continue;
-                            }
-
-                            renderTargetWidth = renderTargetMetal->getWidth();
-                            renderTargetHeight = renderTargetMetal->getHeight();
-                            pipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
-                            pipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
-                            pipelineStateDesc.depthFormat = renderTargetMetal->getDepthFormat();
-
-                        }
-                        else
-                        {
-                            renderTargetWidth = frameBufferWidth;
-                            renderTargetHeight = frameBufferHeight;
-                            newRenderPassDescriptor = renderPassDescriptor;
-                            pipelineStateDesc.sampleCount = sampleCount;
-                            pipelineStateDesc.colorFormat = colorFormat;
-                            pipelineStateDesc.depthFormat = depthFormat;
-                        }
-
-                        if (currentRenderPassDescriptor != newRenderPassDescriptor ||
-                            !currentRenderCommandEncoder)
-                        {
-                            if (currentRenderCommandEncoder)
-                            {
-                                [currentRenderCommandEncoder endEncoding];
-                            }
-
-                            currentRenderPassDescriptor = newRenderPassDescriptor;
-                            currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
-
-                            if (!currentRenderCommandEncoder)
-                            {
-                                Log(Log::Level::ERR) << "Failed to create Metal render command encoder";
-                                return false;
-                            }
-
-                            currentRenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
-                            currentRenderPassDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
                         }
 
                         viewport.originX = static_cast<double>(drawCommand->viewport.position.x);
@@ -573,16 +580,16 @@ namespace ouzel
                             scissorRect.y = static_cast<NSUInteger>(drawCommand->scissorRectangle.position.y);
                             scissorRect.width = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.width);
                             scissorRect.height = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.height);
-                            if (scissorRect.x >= renderTargetWidth) scissorRect.x = renderTargetWidth - 1;
-                            if (scissorRect.y >= renderTargetHeight) scissorRect.y = renderTargetHeight - 1;
-                            if (scissorRect.width > renderTargetWidth - scissorRect.x) scissorRect.width = renderTargetWidth - scissorRect.x;
-                            if (scissorRect.height > renderTargetHeight - scissorRect.y) scissorRect.height = renderTargetHeight - scissorRect.y;
+                            if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
+                            if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
+                            if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
+                            if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
                         }
                         else
                         {
                             scissorRect.x = scissorRect.y = 0;
-                            scissorRect.width = renderTargetWidth;
-                            scissorRect.height = renderTargetHeight;
+                            scissorRect.width = currentRenderTarget.width;
+                            scissorRect.height = currentRenderTarget.height;
                         }
 
                         [currentRenderCommandEncoder setScissorRect: scissorRect];
@@ -614,7 +621,7 @@ namespace ouzel
                             continue;
                         }
 
-                        pipelineStateDesc.shader = shaderMetal;
+                        currentPipelineStateDesc.shader = shaderMetal;
 
                         // pixel shader constants
                         const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
@@ -711,9 +718,9 @@ namespace ouzel
                             continue;
                         }
 
-                        pipelineStateDesc.blendState = blendStateMetal;
+                        currentPipelineStateDesc.blendState = blendStateMetal;
 
-                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(pipelineStateDesc);
+                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
 
                         if (!pipelineState)
                         {

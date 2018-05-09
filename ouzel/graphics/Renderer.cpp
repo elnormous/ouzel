@@ -266,10 +266,17 @@ namespace ouzel
             return true;
         }
 
+        bool Renderer::addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget)
+        {
+            std::unique_ptr<RenderDevice::SetRenderTargetCommand> setRenderTargetCommand(new RenderDevice::SetRenderTargetCommand());
+            setRenderTargetCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
+
+            return device->addCommand(std::move(setRenderTargetCommand));
+        }
+
         bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
         {
             std::unique_ptr<RenderDevice::ClearCommand> clearCommand(new RenderDevice::ClearCommand());
-            clearCommand->type = RenderDevice::Command::CLEAR;
             clearCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
 
             return device->addCommand(std::move(clearCommand));
@@ -284,7 +291,6 @@ namespace ouzel
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex,
-                                      const std::shared_ptr<Texture>& renderTarget,
                                       const Rect& viewport,
                                       bool depthWrite,
                                       bool depthTest,
@@ -333,7 +339,6 @@ namespace ouzel
             drawCommand->indexCount = indexCount;
             drawCommand->drawMode = drawMode;
             drawCommand->startIndex = startIndex;
-            drawCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
             drawCommand->viewport = viewport;
             drawCommand->depthWrite = depthWrite;
             drawCommand->depthTest = depthTest;

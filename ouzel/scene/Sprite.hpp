@@ -42,7 +42,6 @@ namespace ouzel
             virtual void draw(const Matrix4& transformMatrix,
                               float opacity,
                               const Matrix4& renderViewProjection,
-                              const std::shared_ptr<graphics::Texture>& renderTarget,
                               const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,

@@ -22,7 +22,6 @@ namespace ouzel
         void Component::draw(const Matrix4&,
                              float,
                              const Matrix4&,
-                             const std::shared_ptr<graphics::Texture>&,
                              const Rect&,
                              bool,
                              bool,
