@@ -70,7 +70,31 @@ namespace ouzel
                     COMPUTE // TODO: implement
                 };
 
+                Command(Type initType):
+                    type(initType)
+                {
+                }
+
                 Type type;
+            };
+
+            struct ClearCommand: public Command
+            {
+                ClearCommand():
+                    Command(Command::Type::CLEAR)
+                {
+                }
+
+                TextureResource* renderTarget;
+            };
+
+            struct DrawCommand: public Command
+            {
+                DrawCommand():
+                    Command(Command::Type::DRAW)
+                {
+                }
+
                 TextureResource* textures[Texture::LAYERS];
                 ShaderResource* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
@@ -90,7 +114,7 @@ namespace ouzel
                 Renderer::CullMode cullMode;
             };
 
-            bool addCommand(Command&& command);
+            bool addCommand(std::unique_ptr<Command>&& command);
             void flushCommands();
 
             Vector2 convertScreenToNormalizedLocation(const Vector2& position)
@@ -147,7 +171,7 @@ namespace ouzel
             virtual BufferResource* createBuffer() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool processCommands(const std::vector<Command>& commands) = 0;
+            virtual bool processCommands(const std::vector<std::unique_ptr<Command>>& commands) = 0;
             virtual bool generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;
@@ -185,9 +209,9 @@ namespace ouzel
 
             uint32_t drawCallCount = 0;
 
-            std::vector<Command> commandBuffers[2];
-            std::vector<Command>* fillBuffer = &commandBuffers[0];
-            std::vector<Command>* renderBuffer = &commandBuffers[1];
+            std::vector<std::unique_ptr<Command>> commandBuffers[2];
+            std::vector<std::unique_ptr<Command>>* fillBuffer = &commandBuffers[0];
+            std::vector<std::unique_ptr<Command>>* renderBuffer = &commandBuffers[1];
 
             Mutex commandQueueMutex;
             Condition commandQueueCondition;

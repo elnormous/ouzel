@@ -268,9 +268,9 @@ namespace ouzel
 
         bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            RenderDevice::Command clearCommand;
-            clearCommand.type = RenderDevice::Command::CLEAR;
-            clearCommand.renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
+            std::unique_ptr<RenderDevice::ClearCommand> clearCommand(new RenderDevice::ClearCommand());
+            clearCommand->type = RenderDevice::Command::CLEAR;
+            clearCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
 
             return device->addCommand(std::move(clearCommand));
         }
@@ -318,30 +318,29 @@ namespace ouzel
                 drawTextures.push_back(texture ? texture->getResource() : nullptr);
             }
 
-            RenderDevice::Command drawCommand;
-            drawCommand.type = RenderDevice::Command::DRAW;
+            std::unique_ptr<RenderDevice::DrawCommand> drawCommand(new RenderDevice::DrawCommand());
 
             for (uint32_t i = 0; i < Texture::LAYERS; ++i)
             {
-                drawCommand.textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
+                drawCommand->textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
             }
 
-            drawCommand.shader = shader->getResource();
-            drawCommand.pixelShaderConstants = pixelShaderConstants;
-            drawCommand.vertexShaderConstants = vertexShaderConstants;
-            drawCommand.blendState = blendState->getResource();
-            drawCommand.meshBuffer = meshBuffer->getResource();
-            drawCommand.indexCount = indexCount;
-            drawCommand.drawMode = drawMode;
-            drawCommand.startIndex = startIndex;
-            drawCommand.renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
-            drawCommand.viewport = viewport;
-            drawCommand.depthWrite = depthWrite;
-            drawCommand.depthTest = depthTest;
-            drawCommand.wireframe = wireframe;
-            drawCommand.scissorTest = scissorTest;
-            drawCommand.scissorRectangle = scissorRectangle;
-            drawCommand.cullMode = cullMode;
+            drawCommand->shader = shader->getResource();
+            drawCommand->pixelShaderConstants = pixelShaderConstants;
+            drawCommand->vertexShaderConstants = vertexShaderConstants;
+            drawCommand->blendState = blendState->getResource();
+            drawCommand->meshBuffer = meshBuffer->getResource();
+            drawCommand->indexCount = indexCount;
+            drawCommand->drawMode = drawMode;
+            drawCommand->startIndex = startIndex;
+            drawCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
+            drawCommand->viewport = viewport;
+            drawCommand->depthWrite = depthWrite;
+            drawCommand->depthTest = depthTest;
+            drawCommand->wireframe = wireframe;
+            drawCommand->scissorTest = scissorTest;
+            drawCommand->scissorRectangle = scissorRectangle;
+            drawCommand->cullMode = cullMode;
 
             return device->addCommand(std::move(drawCommand));
         }

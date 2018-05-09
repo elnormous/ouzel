@@ -631,7 +631,7 @@ namespace ouzel
 
             virtual void setSize(const Size2& newSize) override;
 
-            virtual bool processCommands(const std::vector<Command>& commands) override;
+            virtual bool processCommands(const std::vector<std::unique_ptr<Command>>& commands) override;
             virtual bool lockContext();
             virtual bool swapBuffers();
             virtual bool generateScreenshot(const std::string& filename) override;

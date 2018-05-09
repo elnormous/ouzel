@@ -142,7 +142,7 @@ namespace ouzel
             }
         }
 
-        bool RenderDevice::addCommand(Command&& command)
+        bool RenderDevice::addCommand(std::unique_ptr<Command>&& command)
         {
             fillBuffer->push_back(std::move(command));
 
