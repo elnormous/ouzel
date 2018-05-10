@@ -147,7 +147,7 @@ bool PerspectiveSample::handleMouse(ouzel::Event::Type type, const ouzel::MouseE
     {
         if (type == Event::Type::MOUSE_MOVE)
         {
-            cameraRotation.x += event.difference.y;
+            cameraRotation.x -= event.difference.y;
             cameraRotation.y -= event.difference.x;
 
             if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;
@@ -164,7 +164,7 @@ bool PerspectiveSample::handleTouch(ouzel::Event::Type type, const ouzel::TouchE
 {
     if (type == Event::Type::TOUCH_MOVE)
     {
-        cameraRotation.x += event.difference.y;
+        cameraRotation.x -= event.difference.y;
         cameraRotation.y -= event.difference.x;
 
         if (cameraRotation.x < -TAU / 6.0F) cameraRotation.x = -TAU / 6.0F;

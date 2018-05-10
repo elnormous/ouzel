@@ -972,6 +972,16 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        SetDepthStateCommand* setDepthStateCommand = static_cast<SetDepthStateCommand*>(command.get());
+
+                        enableDepthTest(setDepthStateCommand->depthTest);
+                        setDepthMask(setDepthStateCommand->depthWrite);
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -1055,9 +1065,6 @@ namespace ouzel
                                 return false;
                             }
                         }
-
-                        enableDepthTest(drawCommand->depthTest);
-                        setDepthMask(drawCommand->depthWrite);
 
                         // mesh buffer
                         MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);

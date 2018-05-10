@@ -297,15 +297,18 @@ namespace ouzel
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetViewportCommand(viewport)));
         }
 
+        bool Renderer::addSetDepthStateCommand(bool depthTest, bool depthWrite)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetDepthStateCommand(depthTest, depthWrite)));
+        }
+
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants,
                                       const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
-                                      uint32_t startIndex,
-                                      bool depthWrite,
-                                      bool depthTest)
+                                      uint32_t startIndex)
         {
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer())
             {
@@ -333,8 +336,6 @@ namespace ouzel
             drawCommand->indexCount = indexCount;
             drawCommand->drawMode = drawMode;
             drawCommand->startIndex = startIndex;
-            drawCommand->depthWrite = depthWrite;
-            drawCommand->depthTest = depthTest;
 
             return device->addCommand(std::move(drawCommand));
         }

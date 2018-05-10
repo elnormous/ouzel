@@ -659,6 +659,25 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        SetDepthStateCommand* setDepthStateCommand = static_cast<SetDepthStateCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
+                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
+                        [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -670,12 +689,6 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Metal render command encoder not initialized";
                             return false;
                         }
-
-                        uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
-                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
-
-                        [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
 
                         // pixel shader constants
                         const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();

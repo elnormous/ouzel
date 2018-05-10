@@ -200,15 +200,11 @@ namespace ouzel
         void Sprite::draw(const Matrix4& transformMatrix,
                           float opacity,
                           const Matrix4& renderViewProjection,
-                          bool depthWrite,
-                          bool depthTest,
                           bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            depthWrite,
-                            depthTest,
                             wireframe);
 
             if (currentAnimation != animationQueue.end() &&
@@ -242,9 +238,7 @@ namespace ouzel
                                                       currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
                                                       0,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                      0,
-                                                      depthWrite,
-                                                      depthTest);
+                                                      0);
             }
         }
 

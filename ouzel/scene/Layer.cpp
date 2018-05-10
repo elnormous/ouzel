@@ -43,6 +43,7 @@ namespace ouzel
 
                 engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
                 engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
+                engine->getRenderer()->addSetDepthStateCommand(camera->getDepthTest(), camera->getDepthWrite());
 
                 for (Actor* actor : drawQueue)
                 {

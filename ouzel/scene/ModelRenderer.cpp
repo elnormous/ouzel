@@ -46,15 +46,11 @@ namespace ouzel
         void ModelRenderer::draw(const Matrix4& transformMatrix,
                                  float opacity,
                                  const Matrix4& renderViewProjection,
-                                 bool depthWrite,
-                                 bool depthTest,
                                  bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            depthWrite,
-                            depthTest,
                             wireframe);
 
             material->cullMode = graphics::Renderer::CullMode::NONE;
@@ -82,9 +78,7 @@ namespace ouzel
                                                   meshBuffer,
                                                   0,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                  0,
-                                                  depthWrite,
-                                                  depthTest);
+                                                  0);
         }
     } // namespace scene
 } // namespace ouzel
