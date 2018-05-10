@@ -1148,6 +1148,19 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        //PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<PushDebugMarkerCommand*>(command.get());
+                        // TODO: implement
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        // TODO: implement
+                        break;
+                    }
+
                     default: return false;
                 }
             }
