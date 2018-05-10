@@ -22,7 +22,6 @@ namespace ouzel
         void Component::draw(const Matrix4&,
                              float,
                              const Matrix4&,
-                             const Rect&,
                              bool,
                              bool,
                              bool)

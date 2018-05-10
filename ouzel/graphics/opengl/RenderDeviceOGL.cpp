@@ -958,6 +958,18 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        SetViewportCommand* setViewportCommand = static_cast<SetViewportCommand*>(command.get());
+
+                        setViewport(static_cast<GLint>(setViewportCommand->viewport.position.x),
+                                    static_cast<GLint>(setViewportCommand->viewport.position.y),
+                                    static_cast<GLsizei>(setViewportCommand->viewport.size.width),
+                                    static_cast<GLsizei>(setViewportCommand->viewport.size.height));
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -1078,11 +1090,6 @@ namespace ouzel
                                 return false;
                             }
                         }
-
-                        setViewport(static_cast<GLint>(drawCommand->viewport.position.x),
-                                    static_cast<GLint>(drawCommand->viewport.position.y),
-                                    static_cast<GLsizei>(drawCommand->viewport.size.width),
-                                    static_cast<GLsizei>(drawCommand->viewport.size.height));
 
                         enableDepthTest(drawCommand->depthTest);
                         setDepthMask(drawCommand->depthWrite);

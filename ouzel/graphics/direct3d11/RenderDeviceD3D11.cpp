@@ -428,10 +428,6 @@ namespace ouzel
 
             std::vector<float> shaderData;
 
-            D3D11_VIEWPORT viewport;
-            viewport.MinDepth = 0.0F;
-            viewport.MaxDepth = 1.0F;
-
             uint32_t fillModeIndex = 0;
             uint32_t scissorEnableIndex = 0;
             uint32_t cullModeIndex = 0;
@@ -515,6 +511,9 @@ namespace ouzel
 
                         context->OMSetRenderTargets(1, &newRenderTargetView, newDepthStencilView);
 
+                        D3D11_VIEWPORT viewport;
+                        viewport.MinDepth = 0.0F;
+                        viewport.MaxDepth = 1.0F;
                         viewport.TopLeftX = viewport.TopLeftY = 0.0f;
                         viewport.Width = static_cast<FLOAT>(renderTargetWidth);
                         viewport.Height = static_cast<FLOAT>(renderTargetHeight);
@@ -590,15 +589,25 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        SetViewportCommand* setViewportCommand = static_cast<SetViewportCommand*>(command.get());
+
+                        D3D11_VIEWPORT viewport;
+                        viewport.MinDepth = 0.0F;
+                        viewport.MaxDepth = 1.0F;
+                        viewport.TopLeftX = setViewportCommand->viewport.position.x;
+                        viewport.TopLeftY = setViewportCommand->viewport.position.y;
+                        viewport.Width = setViewportCommand->viewport.size.width;
+                        viewport.Height = setViewportCommand->viewport.size.height;
+                        context->RSSetViewports(1, &viewport);
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
-                        viewport.TopLeftX = drawCommand->viewport.position.x;
-                        viewport.TopLeftY = drawCommand->viewport.position.y;
-                        viewport.Width = drawCommand->viewport.size.width;
-                        viewport.Height = drawCommand->viewport.size.height;
-                        context->RSSetViewports(1, &viewport);
 
                         // shader
                         ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand->shader);

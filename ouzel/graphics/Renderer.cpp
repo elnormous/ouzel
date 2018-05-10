@@ -292,6 +292,11 @@ namespace ouzel
                                                                                                                      rectangle)));
         }
 
+        bool Renderer::addSetViewportCommand(const Rect& viewport)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetViewportCommand(viewport)));
+        }
+
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                       const std::shared_ptr<Shader>& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -301,7 +306,6 @@ namespace ouzel
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex,
-                                      const Rect& viewport,
                                       bool depthWrite,
                                       bool depthTest)
         {
@@ -345,7 +349,6 @@ namespace ouzel
             drawCommand->indexCount = indexCount;
             drawCommand->drawMode = drawMode;
             drawCommand->startIndex = startIndex;
-            drawCommand->viewport = viewport;
             drawCommand->depthWrite = depthWrite;
             drawCommand->depthTest = depthTest;
 

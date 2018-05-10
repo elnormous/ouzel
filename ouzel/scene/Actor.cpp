@@ -74,9 +74,7 @@ namespace ouzel
         void Actor::draw(Camera* camera, bool wireframe)
         {
             if (transformDirty)
-            {
                 calculateTransform();
-            }
 
             for (Component* component : components)
             {
@@ -85,7 +83,6 @@ namespace ouzel
                     component->draw(transform,
                                     opacity,
                                     camera->getRenderViewProjection(),
-                                    camera->getRenderViewport(),
                                     camera->getDepthWrite(),
                                     camera->getDepthTest(),
                                     wireframe);

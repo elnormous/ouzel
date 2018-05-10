@@ -638,6 +638,26 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        SetViewportCommand* setViewportCommand = static_cast<SetViewportCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        viewport.originX = static_cast<double>(setViewportCommand->viewport.position.x);
+                        viewport.originY = static_cast<double>(setViewportCommand->viewport.position.y);
+                        viewport.width = static_cast<double>(setViewportCommand->viewport.size.width);
+                        viewport.height = static_cast<double>(setViewportCommand->viewport.size.height);
+
+                        [currentRenderCommandEncoder setViewport: viewport];
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -647,13 +667,6 @@ namespace ouzel
                             Log(Log::Level::ERR) << "Metal render command encoder not initialized";
                             return false;
                         }
-
-                        viewport.originX = static_cast<double>(drawCommand->viewport.position.x);
-                        viewport.originY = static_cast<double>(drawCommand->viewport.position.y);
-                        viewport.width = static_cast<double>(drawCommand->viewport.size.width);
-                        viewport.height = static_cast<double>(drawCommand->viewport.size.height);
-
-                        [currentRenderCommandEncoder setViewport: viewport];
 
                         uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
                         uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;

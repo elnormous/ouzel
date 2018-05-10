@@ -111,6 +111,7 @@ namespace ouzel
             bool addSetCullModeCommad(Renderer::CullMode cullMode);
             bool addSetFillModeCommad(Renderer::FillMode fillMode);
             bool addSetScissorTestCommand(bool enabled, const Rect& rectangle);
+            bool addSetViewportCommand(const Rect& viewport);
             bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                 const std::shared_ptr<Shader>& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -120,7 +121,6 @@ namespace ouzel
                                 uint32_t indexCount,
                                 DrawMode drawMode,
                                 uint32_t startIndex,
-                                const Rect& viewport,
                                 bool depthWrite,
                                 bool depthTest);
 

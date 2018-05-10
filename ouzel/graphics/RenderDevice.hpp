@@ -71,17 +71,21 @@ namespace ouzel
                     SET_CULL_MODE,
                     SET_FILL_MODE,
                     SET_SCISSOR_TEST,
+                    SET_VIEWPORT,
                     DRAW,
                     PUSH_DEBUG_MARKER,
                     POP_DEBUG_MARKER,
                     INIT_BLEND_STATE,
+                    SET_BLEND_STATE,
                     INIT_BUFFER,
                     SET_BUFFER_DATA,
                     INIT_MESH_BUFFER,
                     INIT_SHADER,
+                    SET_SHADER,
                     INIT_TEXTURE,
                     SET_TEXTURE_DATA,
-                    SET_TEXTURE_FLAGS
+                    SET_TEXTURE_FLAGS,
+                    SET_TEXTURE
                 };
 
                 Command(Type initType):
@@ -198,6 +202,17 @@ namespace ouzel
                 Rect rectangle;
             };
 
+            struct SetViewportCommand: public Command
+            {
+                SetViewportCommand(const Rect& initViewport):
+                    Command(Command::Type::SET_VIEWPORT),
+                    viewport(initViewport)
+                {
+                }
+
+                Rect viewport;
+            };
+
             struct DrawCommand: public Command
             {
                 DrawCommand():
@@ -214,7 +229,6 @@ namespace ouzel
                 uint32_t indexCount;
                 Renderer::DrawMode drawMode;
                 uint32_t startIndex;
-                Rect viewport;
                 bool depthWrite;
                 bool depthTest;
             };
