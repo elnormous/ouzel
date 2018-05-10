@@ -145,27 +145,6 @@ namespace ouzel
                 ShaderResource* shader;
             };
 
-            // TODO: implement
-            struct PushDebugMarkerCommand: public Command
-            {
-                PushDebugMarkerCommand(const std::string& initName):
-                    Command(Command::Type::PUSH_DEBUG_MARKER),
-                    name(initName)
-                {
-                }
-
-                std::string name;
-            };
-
-            // TODO: implement
-            struct PopDebugMarkerCommand: public Command
-            {
-                PopDebugMarkerCommand():
-                    Command(Command::Type::POP_DEBUG_MARKER)
-                {
-                }
-            };
-
             struct SetCullModeCommad: public Command
             {
                 SetCullModeCommad(Renderer::CullMode initCullMode):
@@ -216,7 +195,7 @@ namespace ouzel
             struct DrawCommand: public Command
             {
                 DrawCommand():
-                Command(Command::Type::DRAW)
+                    Command(Command::Type::DRAW)
                 {
                 }
 
@@ -231,6 +210,25 @@ namespace ouzel
                 uint32_t startIndex;
                 bool depthWrite;
                 bool depthTest;
+            };
+
+            struct PushDebugMarkerCommand: public Command
+            {
+                PushDebugMarkerCommand(const std::string& initName):
+                    Command(Command::Type::PUSH_DEBUG_MARKER),
+                    name(initName)
+                {
+                }
+
+                std::string name;
+            };
+
+            struct PopDebugMarkerCommand: public Command
+            {
+                PopDebugMarkerCommand():
+                    Command(Command::Type::POP_DEBUG_MARKER)
+                {
+                }
             };
 
             bool addCommand(std::unique_ptr<Command>&& command);

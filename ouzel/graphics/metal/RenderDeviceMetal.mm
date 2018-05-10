@@ -867,6 +867,25 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<PushDebugMarkerCommand*>(command.get());
+                        [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        [currentRenderCommandEncoder popDebugGroup];
+                        break;
+                    }
+
                     default: return false;
                 }
             }
