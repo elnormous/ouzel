@@ -66,16 +66,22 @@ namespace ouzel
                 {
                     SET_RENDER_TARGET,
                     CLEAR,
+                    BLIT,
+                    COMPUTE,
+                    SET_CULL_MODE,
+                    SET_FILL_MODE,
+                    SET_SCISSOR_TEST,
                     DRAW,
-                    BLIT, // TODO: implement
-                    COMPUTE, // TODO: implement
-                    PUSH_DEBUG_MARKER, // TODO: implement
-                    POP_DEBUG_MARKER // TODO: implement
-                    // TODO: blend state commands
-                    // TODO: buffer commands
-                    // TODO: mesh buffer commands
-                    // TODO: shader commands
-                    // TODO: texture commands
+                    PUSH_DEBUG_MARKER,
+                    POP_DEBUG_MARKER,
+                    INIT_BLEND_STATE,
+                    INIT_BUFFER,
+                    SET_BUFFER_DATA,
+                    INIT_MESH_BUFFER,
+                    INIT_SHADER,
+                    INIT_TEXTURE,
+                    SET_TEXTURE_DATA,
+                    SET_TEXTURE_FLAGS
                 };
 
                 Command(Type initType):
@@ -88,8 +94,9 @@ namespace ouzel
 
             struct SetRenderTargetCommand: public Command
             {
-                SetRenderTargetCommand():
-                    Command(Command::Type::SET_RENDER_TARGET)
+                SetRenderTargetCommand(TextureResource* initRenderTarget):
+                    Command(Command::Type::SET_RENDER_TARGET),
+                    renderTarget(initRenderTarget)
                 {
                 }
 
@@ -98,18 +105,103 @@ namespace ouzel
 
             struct ClearCommand: public Command
             {
-                ClearCommand():
-                    Command(Command::Type::CLEAR)
+                ClearCommand(TextureResource* initRenderTarget):
+                    Command(Command::Type::CLEAR),
+                    renderTarget(initRenderTarget)
                 {
                 }
 
                 TextureResource* renderTarget;
             };
 
+            // TODO: implement
+            struct BlitCommand: public Command
+            {
+                BlitCommand(TextureResource* initSourceTexture,
+                            TextureResource* initTargetTexture):
+                    Command(Command::Type::BLIT),
+                    sourceTexture(initSourceTexture),
+                    targetTexture(initTargetTexture)
+                {
+                }
+
+                TextureResource* sourceTexture;
+                TextureResource* targetTexture;
+            };
+
+            // TODO: implement
+            struct ComputeCommand: public Command
+            {
+                ComputeCommand(ShaderResource* initShader):
+                    Command(Command::Type::COMPUTE),
+                    shader(initShader)
+                {
+                }
+
+                ShaderResource* shader;
+            };
+
+            // TODO: implement
+            struct PushDebugMarkerCommand: public Command
+            {
+                PushDebugMarkerCommand(const std::string& initName):
+                    Command(Command::Type::PUSH_DEBUG_MARKER),
+                    name(initName)
+                {
+                }
+
+                std::string name;
+            };
+
+            // TODO: implement
+            struct PopDebugMarkerCommand: public Command
+            {
+                PopDebugMarkerCommand():
+                    Command(Command::Type::POP_DEBUG_MARKER)
+                {
+                }
+            };
+
+            struct SetCullModeCommad: public Command
+            {
+                SetCullModeCommad(Renderer::CullMode initCullMode):
+                    Command(Command::Type::SET_CULL_MODE),
+                    cullMode(initCullMode)
+                {
+                }
+
+                Renderer::CullMode cullMode;
+            };
+
+            struct SetFillModeCommad: public Command
+            {
+                SetFillModeCommad(Renderer::FillMode initFillMode):
+                    Command(Command::Type::SET_FILL_MODE),
+                    fillMode(initFillMode)
+                {
+                }
+
+                Renderer::FillMode fillMode;
+            };
+
+            struct SetScissorTestCommand: public Command
+            {
+                SetScissorTestCommand(bool initEnabled,
+                                      const Rect& initRectangle):
+                    Command(Command::Type::SET_SCISSOR_TEST),
+                    enabled(initEnabled),
+                    rectangle(initRectangle)
+                {
+                }
+
+                bool enabled;
+                Rect rectangle;
+            };
+
             struct DrawCommand: public Command
             {
                 DrawCommand():
-                    Command(Command::Type::DRAW)
+                Command(Command::Type::DRAW)
                 {
                 }
 
@@ -125,10 +217,6 @@ namespace ouzel
                 Rect viewport;
                 bool depthWrite;
                 bool depthTest;
-                bool wireframe;
-                bool scissorTest;
-                Rect scissorRectangle;
-                Renderer::CullMode cullMode;
             };
 
             bool addCommand(std::unique_ptr<Command>&& command);

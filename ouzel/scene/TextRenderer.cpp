@@ -70,9 +70,7 @@ namespace ouzel
                                 const Rect& renderViewport,
                                 bool depthWrite,
                                 bool depthTest,
-                                bool wireframe,
-                                bool scissorTest,
-                                const Rect& scissorRectangle)
+                                bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
@@ -80,9 +78,7 @@ namespace ouzel
                             renderViewport,
                             depthWrite,
                             depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             if (needsMeshUpdate)
             {
@@ -101,6 +97,8 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
+            engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
+
             engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
                                                   shader,
                                                   pixelShaderConstants,
@@ -112,11 +110,7 @@ namespace ouzel
                                                   0,
                                                   renderViewport,
                                                   depthWrite,
-                                                  depthTest,
-                                                  wireframe,
-                                                  scissorTest,
-                                                  scissorRectangle,
-                                                  graphics::Renderer::CullMode::NONE);
+                                                  depthTest);
         }
 
         void TextRenderer::setText(const std::string& newText)

@@ -25,9 +25,7 @@ namespace ouzel
                              const Rect&,
                              bool,
                              bool,
-                             bool,
-                             bool,
-                             const Rect&)
+                             bool)
         {
         }
 

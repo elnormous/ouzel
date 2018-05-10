@@ -36,9 +36,7 @@ namespace ouzel
                               const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             bool init(const ParticleSystemData& newParticleSystemData);
             bool init(const std::string& filename);

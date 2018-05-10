@@ -816,6 +816,8 @@ namespace ouzel
                             return false;
                         }
 
+                        // TODO: update cull mode
+
                         break;
                     }
 
@@ -896,18 +898,69 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        SetCullModeCommad* setCullModeCommad = static_cast<SetCullModeCommad*>(command.get());
+
+                        GLenum cullFace = GL_NONE;
+
+                        switch (setCullModeCommad->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
+                            case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
+                            case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
+                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                        }
+
+                        if (!setCullFace(cullFace != GL_NONE, cullFace))
+                        {
+                            return false;
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        SetFillModeCommad* setFillModeCommad = static_cast<SetFillModeCommad*>(command.get());
+
+#if OUZEL_SUPPORTS_OPENGLES
+                        if (setFillModeCommad->fillMode != Renderer::FillMode::SOLID)
+                        {
+                            Log(Log::Level::ERR) << "Unsupported fill mode";
+                            return false;
+                        }
+#else
+                        GLenum fillMode = GL_NONE;
+
+                        switch (setFillModeCommad->fillMode)
+                        {
+                            case Renderer::FillMode::SOLID: fillMode = GL_FILL; break;
+                            case Renderer::FillMode::WIREFRAME: fillMode = GL_LINE; break;
+                            default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
+                        }
+
+                        setPolygonFillMode(fillMode);
+#endif
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        SetScissorTestCommand* setScissorTestCommand = static_cast<SetScissorTestCommand*>(command.get());
+
+                        setScissorTest(setScissorTestCommand->enabled,
+                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.x),
+                                       static_cast<GLint>(setScissorTestCommand->rectangle.position.y),
+                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.width),
+                                       static_cast<GLsizei>(setScissorTestCommand->rectangle.size.height));
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
-
-#if !OUZEL_SUPPORTS_OPENGLES
-                        setPolygonFillMode(drawCommand->wireframe ? GL_LINE : GL_FILL);
-#else
-                        if (drawCommand->wireframe)
-                        {
-                            continue;
-                        }
-#endif
 
                         // blend state
                         BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand->blendState);
@@ -933,21 +986,6 @@ namespace ouzel
                                           blendStateOGL->getGreenMask(),
                                           blendStateOGL->getBlueMask(),
                                           blendStateOGL->getAlphaMask()))
-                        {
-                            return false;
-                        }
-
-                        GLenum cullFace = GL_NONE;
-
-                        switch (drawCommand->cullMode)
-                        {
-                            case Renderer::CullMode::NONE: cullFace = GL_NONE; break;
-                            case Renderer::CullMode::FRONT: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_FRONT : GL_BACK); break; // flip the faces, because of the flipped y-axis
-                            case Renderer::CullMode::BACK: cullFace = ((stateCache.frameBufferId != frameBufferId) ? GL_BACK : GL_FRONT); break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                        }
-
-                        if (!setCullFace(cullFace != GL_NONE, cullFace))
                         {
                             return false;
                         }
@@ -1048,13 +1086,6 @@ namespace ouzel
 
                         enableDepthTest(drawCommand->depthTest);
                         setDepthMask(drawCommand->depthWrite);
-
-                        // scissor test
-                        setScissorTest(drawCommand->scissorTest,
-                                       static_cast<GLint>(drawCommand->scissorRectangle.position.x),
-                                       static_cast<GLint>(drawCommand->scissorRectangle.position.y),
-                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.width),
-                                       static_cast<GLsizei>(drawCommand->scissorRectangle.size.height));
 
                         // mesh buffer
                         MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);

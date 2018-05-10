@@ -29,9 +29,7 @@ namespace ouzel
                               const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             void clear();
 

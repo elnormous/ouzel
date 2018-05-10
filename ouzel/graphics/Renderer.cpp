@@ -268,18 +268,28 @@ namespace ouzel
 
         bool Renderer::addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            std::unique_ptr<RenderDevice::SetRenderTargetCommand> setRenderTargetCommand(new RenderDevice::SetRenderTargetCommand());
-            setRenderTargetCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
-
-            return device->addCommand(std::move(setRenderTargetCommand));
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetRenderTargetCommand(renderTarget ? renderTarget->getResource() : nullptr)));
         }
 
         bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            std::unique_ptr<RenderDevice::ClearCommand> clearCommand(new RenderDevice::ClearCommand());
-            clearCommand->renderTarget = renderTarget ? renderTarget->getResource() : nullptr;
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::ClearCommand(renderTarget ? renderTarget->getResource() : nullptr)));
+        }
 
-            return device->addCommand(std::move(clearCommand));
+        bool Renderer::addSetCullModeCommad(Renderer::CullMode cullMode)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetCullModeCommad(cullMode)));
+        }
+
+        bool Renderer::addSetFillModeCommad(Renderer::FillMode fillMode)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetFillModeCommad(fillMode)));
+        }
+
+        bool Renderer::addSetScissorTestCommand(bool enabled, const Rect& rectangle)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetScissorTestCommand(enabled,
+                                                                                                                     rectangle)));
         }
 
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
@@ -293,11 +303,7 @@ namespace ouzel
                                       uint32_t startIndex,
                                       const Rect& viewport,
                                       bool depthWrite,
-                                      bool depthTest,
-                                      bool wireframe,
-                                      bool scissorTest,
-                                      const Rect& scissorRectangle,
-                                      CullMode cullMode)
+                                      bool depthTest)
         {
             if (!shader)
             {
@@ -342,10 +348,6 @@ namespace ouzel
             drawCommand->viewport = viewport;
             drawCommand->depthWrite = depthWrite;
             drawCommand->depthTest = depthTest;
-            drawCommand->wireframe = wireframe;
-            drawCommand->scissorTest = scissorTest;
-            drawCommand->scissorRectangle = scissorRectangle;
-            drawCommand->cullMode = cullMode;
 
             return device->addCommand(std::move(drawCommand));
         }
