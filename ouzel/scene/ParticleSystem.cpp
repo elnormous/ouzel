@@ -38,15 +38,11 @@ namespace ouzel
         void ParticleSystem::draw(const Matrix4& transformMatrix,
                                   float opacity,
                                   const Matrix4& renderViewProjection,
-                                  bool depthWrite,
-                                  bool depthTest,
                                   bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            depthWrite,
-                            depthTest,
                             wireframe);
 
             if (particleCount)
@@ -87,9 +83,7 @@ namespace ouzel
                                                       meshBuffer,
                                                       particleCount * 6,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                      0,
-                                                      depthWrite,
-                                                      depthTest);
+                                                      0);
             }
         }
 

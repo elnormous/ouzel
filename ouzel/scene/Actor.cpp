@@ -83,8 +83,6 @@ namespace ouzel
                     component->draw(transform,
                                     opacity,
                                     camera->getRenderViewProjection(),
-                                    camera->getDepthWrite(),
-                                    camera->getDepthTest(),
                                     wireframe);
                 }
             }

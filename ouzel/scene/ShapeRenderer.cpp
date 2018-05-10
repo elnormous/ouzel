@@ -32,15 +32,11 @@ namespace ouzel
         void ShapeRenderer::draw(const Matrix4& transformMatrix,
                                  float opacity,
                                  const Matrix4& renderViewProjection,
-                                 bool depthWrite,
-                                 bool depthTest,
                                  bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            depthWrite,
-                            depthTest,
                             wireframe);
 
             if (dirty)
@@ -71,9 +67,7 @@ namespace ouzel
                                                       meshBuffer,
                                                       drawCommand.indexCount,
                                                       drawCommand.mode,
-                                                      drawCommand.startIndex,
-                                                      depthWrite,
-                                                      depthTest);
+                                                      drawCommand.startIndex);
             }
         }
 

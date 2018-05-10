@@ -67,15 +67,11 @@ namespace ouzel
         void TextRenderer::draw(const Matrix4& transformMatrix,
                                 float opacity,
                                 const Matrix4& renderViewProjection,
-                                bool depthWrite,
-                                bool depthTest,
                                 bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
                             renderViewProjection,
-                            depthWrite,
-                            depthTest,
                             wireframe);
 
             if (needsMeshUpdate)
@@ -105,9 +101,7 @@ namespace ouzel
                                                   meshBuffer,
                                                   static_cast<uint32_t>(indices.size()),
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
-                                                  0,
-                                                  depthWrite,
-                                                  depthTest);
+                                                  0);
         }
 
         void TextRenderer::setText(const std::string& newText)

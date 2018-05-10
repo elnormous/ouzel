@@ -72,6 +72,7 @@ namespace ouzel
                     SET_FILL_MODE,
                     SET_SCISSOR_TEST,
                     SET_VIEWPORT,
+                    SET_DEPTH_STATE,
                     DRAW,
                     PUSH_DEBUG_MARKER,
                     POP_DEBUG_MARKER,
@@ -192,6 +193,20 @@ namespace ouzel
                 Rect viewport;
             };
 
+            struct SetDepthStateCommand: public Command
+            {
+                SetDepthStateCommand(bool initDepthTest,
+                                     bool initDepthWrite):
+                    Command(Command::Type::SET_DEPTH_STATE),
+                    depthTest(initDepthTest),
+                    depthWrite(initDepthWrite)
+                {
+                }
+
+                bool depthTest;
+                bool depthWrite;
+            };
+
             struct DrawCommand: public Command
             {
                 DrawCommand():
@@ -206,8 +221,6 @@ namespace ouzel
                 uint32_t indexCount;
                 Renderer::DrawMode drawMode;
                 uint32_t startIndex;
-                bool depthWrite;
-                bool depthTest;
             };
 
             struct PushDebugMarkerCommand: public Command

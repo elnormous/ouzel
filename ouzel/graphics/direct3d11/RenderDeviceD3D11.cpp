@@ -606,6 +606,13 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        SetDepthStateCommand* setDepthStateCommand = static_cast<SetDepthStateCommand*>(command.get());
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
