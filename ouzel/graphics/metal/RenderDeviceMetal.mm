@@ -421,6 +421,7 @@ namespace ouzel
             if (++shaderConstantBufferIndex >= shaderConstantBuffers.size()) shaderConstantBufferIndex = 0;
 
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
+            ShaderResourceMetal* currentShader = nullptr;
 
             for (const std::unique_ptr<Command>& command : commands)
             {
@@ -662,6 +663,8 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
+                        if (!currentShader) continue;
+
                         if (!currentRenderCommandEncoder)
                         {
                             Log(Log::Level::ERR) << "Metal render command encoder not initialized";
@@ -674,19 +677,8 @@ namespace ouzel
 
                         [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
 
-                        // shader
-                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand->shader);
-
-                        if (!shaderMetal || !shaderMetal->getPixelShader() || !shaderMetal->getVertexShader())
-                        {
-                            // don't render if invalid shader
-                            continue;
-                        }
-
-                        currentPipelineStateDesc.shader = shaderMetal;
-
                         // pixel shader constants
-                        const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = shaderMetal->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
 
                         if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
@@ -710,8 +702,8 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                         }
 
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + shaderMetal->getPixelShaderAlignment() - 1) /
-                                                       shaderMetal->getPixelShaderAlignment()) * shaderMetal->getPixelShaderAlignment(); // round up to nearest aligned pointer
+                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getPixelShaderAlignment() - 1) /
+                                                       currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                         {
@@ -729,7 +721,7 @@ namespace ouzel
                         shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                         // vertex shader constants
-                        const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = shaderMetal->getVertexShaderConstantLocations();
+                        const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
@@ -753,8 +745,8 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                         }
 
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + shaderMetal->getVertexShaderAlignment() - 1) /
-                                                       shaderMetal->getVertexShaderAlignment()) * shaderMetal->getVertexShaderAlignment(); // round up to nearest aligned pointer
+                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
+                                                       currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                         {
@@ -770,27 +762,6 @@ namespace ouzel
                                                              atIndex:1];
 
                         shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
-
-                        // blend state
-                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(drawCommand->blendState);
-
-                        if (!blendStateMetal)
-                        {
-                            // don't render if invalid blend state
-                            continue;
-                        }
-
-                        currentPipelineStateDesc.blendState = blendStateMetal;
-
-                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
-
-                        if (!pipelineState)
-                        {
-                            Log(Log::Level::ERR) << "Failed to get Metal pipeline state";
-                            return false;
-                        }
-
-                        [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
 
                         // textures
                         bool texturesValid = true;
@@ -870,6 +841,13 @@ namespace ouzel
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
                         PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<PushDebugMarkerCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
                         [currentRenderCommandEncoder pushDebugGroup:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pushDebugMarkerCommand->name.c_str()])];
                         break;
                     }
@@ -883,6 +861,47 @@ namespace ouzel
                         }
 
                         [currentRenderCommandEncoder popDebugGroup];
+                        break;
+                    }
+
+                    case Command::Type::SET_BLEND_STATE:
+                    {
+                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(setBlendStateCommand->blendState);
+
+                        currentPipelineStateDesc.blendState = blendStateMetal;
+
+                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
+                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER:
+                    {
+                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(setShaderCommand->shader);
+                        currentShader = shaderMetal;
+
+                        currentPipelineStateDesc.shader = shaderMetal;
+
+                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
+                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
                         break;
                     }
 
@@ -985,6 +1004,8 @@ namespace ouzel
 
         MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)
         {
+            if (!desc.blendState || !desc.shader) return nil;
+
             auto pipelineStateIterator = pipelineStates.find(desc);
 
             if (pipelineStateIterator != pipelineStates.end())

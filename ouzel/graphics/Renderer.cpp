@@ -298,10 +298,8 @@ namespace ouzel
         }
 
         bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
-                                      const std::shared_ptr<Shader>& shader,
                                       const std::vector<std::vector<float>>& pixelShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants,
-                                      const std::shared_ptr<BlendState>& blendState,
                                       const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
@@ -309,18 +307,6 @@ namespace ouzel
                                       bool depthWrite,
                                       bool depthTest)
         {
-            if (!shader)
-            {
-                Log(Log::Level::ERR) << "No shader passed to render queue";
-                return false;
-            }
-
-            if (!blendState)
-            {
-                Log(Log::Level::ERR) << "No blend state passed to render queue";
-                return false;
-            }
-
             if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer())
             {
                 Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
@@ -341,10 +327,8 @@ namespace ouzel
                 drawCommand->textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
             }
 
-            drawCommand->shader = shader->getResource();
             drawCommand->pixelShaderConstants = pixelShaderConstants;
             drawCommand->vertexShaderConstants = vertexShaderConstants;
-            drawCommand->blendState = blendState->getResource();
             drawCommand->meshBuffer = meshBuffer->getResource();
             drawCommand->indexCount = indexCount;
             drawCommand->drawMode = drawMode;
@@ -353,6 +337,26 @@ namespace ouzel
             drawCommand->depthTest = depthTest;
 
             return device->addCommand(std::move(drawCommand));
+        }
+
+        bool Renderer::addPushDebugMarkerCommand(const std::string& name)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::PushDebugMarkerCommand(name)));
+        }
+
+        bool Renderer::addPopDebugMarkerCommand()
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::PopDebugMarkerCommand()));
+        }
+
+        bool Renderer::addSetBlendStateCommand(const std::shared_ptr<BlendState>& blendState)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetBlendStateCommand(blendState ? blendState->getResource() : nullptr)));
+        }
+
+        bool Renderer::addSetShaderCommand(const std::shared_ptr<Shader>& shader)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderCommand(shader ? shader->getResource() : nullptr)));
         }
     } // namespace graphics
 } // namespace ouzel

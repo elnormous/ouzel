@@ -233,12 +233,12 @@ namespace ouzel
                 else textures.assign(std::begin(material->textures), std::end(material->textures));
 
                 engine->getRenderer()->addSetCullModeCommad(material->cullMode);
+                engine->getRenderer()->addSetBlendStateCommand(material->blendState);
+                engine->getRenderer()->addSetShaderCommand(material->shader);
 
                 engine->getRenderer()->addDrawCommand(textures,
-                                                      material->shader,
                                                       pixelShaderConstants,
                                                       vertexShaderConstants,
-                                                      material->blendState,
                                                       currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
                                                       0,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,

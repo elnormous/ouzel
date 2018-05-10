@@ -200,10 +200,8 @@ namespace ouzel
                 }
 
                 TextureResource* textures[Texture::LAYERS];
-                ShaderResource* shader;
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;
-                BlendStateResource* blendState;
                 MeshBufferResource* meshBuffer;
                 uint32_t indexCount;
                 Renderer::DrawMode drawMode;
@@ -230,6 +228,40 @@ namespace ouzel
                 {
                 }
             };
+
+//            INIT_BLEND_STATE
+
+            struct SetBlendStateCommand: public Command
+            {
+                SetBlendStateCommand(BlendStateResource* initBlendState):
+                    Command(Command::Type::SET_BLEND_STATE),
+                    blendState(initBlendState)
+                {
+                }
+
+                BlendStateResource* blendState;
+            };
+
+//            INIT_BUFFER
+//            SET_BUFFER_DATA
+//            INIT_MESH_BUFFER
+//            INIT_SHADER
+
+            struct SetShaderCommand: public Command
+            {
+                SetShaderCommand(ShaderResource* initShader):
+                    Command(Command::Type::SET_SHADER),
+                    shader(initShader)
+                {
+                }
+
+                ShaderResource* shader;
+            };
+
+//            INIT_TEXTURE
+//            SET_TEXTURE_DATA
+//            SET_TEXTURE_FLAGS
+//            SET_TEXTURE
 
             bool addCommand(std::unique_ptr<Command>&& command);
             void flushCommands();
