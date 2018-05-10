@@ -243,7 +243,6 @@ namespace ouzel
                                                       0,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                       0,
-                                                      renderViewport,
                                                       depthWrite,
                                                       depthTest);
             }
