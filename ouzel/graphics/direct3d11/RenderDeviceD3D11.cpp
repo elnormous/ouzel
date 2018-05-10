@@ -537,7 +537,7 @@ namespace ouzel
                     {
                         SetCullModeCommad* setCullModeCommad = static_cast<SetCullModeCommad*>(command.get());
 
-                        switch (drawCommand->cullMode)
+                        switch (setCullModeCommad->cullMode)
                         {
                             case Renderer::CullMode::NONE: cullModeIndex = 0; break;
                             case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
@@ -555,18 +555,15 @@ namespace ouzel
                     {
                         SetFillModeCommad* setFillModeCommad = static_cast<SetFillModeCommad*>(command.get());
 
-                        uint32_t fillModeIndex = (drawCommand->wireframe) ? 1 : 0;
-
-                        MTLTriangleFillMode fillMode;
-
                         switch (setFillModeCommad->fillMode)
                         {
-                            case Renderer::FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
-                            case Renderer::FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
+                            case Renderer::FillMode::SOLID: fillModeIndex = 0; break;
+                            case Renderer::FillMode::WIREFRAME: fillModeIndex = 1; break;
                             default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
                         }
 
-                        [currentRenderCommandEncoder setTriangleFillMode:fillMode];
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                         break;
                     }
