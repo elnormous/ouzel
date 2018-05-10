@@ -769,6 +769,18 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        // D3D11 does not support debug markers
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        // D3D11 does not support debug markers
+                        break;
+                    }
+
                     case Command::Type::SET_BLEND_STATE:
                     {
                         SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
