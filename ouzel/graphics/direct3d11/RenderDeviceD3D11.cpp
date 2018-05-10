@@ -432,6 +432,10 @@ namespace ouzel
             viewport.MinDepth = 0.0F;
             viewport.MaxDepth = 1.0F;
 
+            uint32_t fillModeIndex = 0;
+            uint32_t scissorEnableIndex = 0;
+            uint32_t cullModeIndex = 0;
+
             for (const std::unique_ptr<Command>& command : commands)
             {
                 switch (command->type)
@@ -529,6 +533,66 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        SetCullModeCommad* setCullModeCommad = static_cast<SetCullModeCommad*>(command.get());
+
+                        switch (drawCommand->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullModeIndex = 0; break;
+                            case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
+                            case Renderer::CullMode::BACK: cullModeIndex = 2; break;
+                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                        }
+
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        SetFillModeCommad* setFillModeCommad = static_cast<SetFillModeCommad*>(command.get());
+
+                        uint32_t fillModeIndex = (drawCommand->wireframe) ? 1 : 0;
+
+                        MTLTriangleFillMode fillMode;
+
+                        switch (setFillModeCommad->fillMode)
+                        {
+                            case Renderer::FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
+                            case Renderer::FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
+                            default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
+                        }
+
+                        [currentRenderCommandEncoder setTriangleFillMode:fillMode];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        SetScissorTestCommand* setScissorTestCommand = static_cast<SetScissorTestCommand*>(command.get());
+
+                        if (setScissorTestCommand->enabled)
+                        {
+                            D3D11_RECT rect;
+                            rect.left = static_cast<LONG>(setScissorTestCommand->rectangle.position.x);
+                            rect.top = static_cast<LONG>(setScissorTestCommand->rectangle.position.y);
+                            rect.right = static_cast<LONG>(setScissorTestCommand->rectangle.position.x + setScissorTestCommand->rectangle.size.width);
+                            rect.bottom = static_cast<LONG>(setScissorTestCommand->rectangle.position.y + setScissorTestCommand->rectangle.size.height);
+                            context->RSSetScissorRects(1, &rect);
+                        }
+
+                        scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
+
+                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
+                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -538,30 +602,6 @@ namespace ouzel
                         viewport.Width = drawCommand->viewport.size.width;
                         viewport.Height = drawCommand->viewport.size.height;
                         context->RSSetViewports(1, &viewport);
-
-                        // scissor test
-                        if (drawCommand->scissorTest)
-                        {
-                            D3D11_RECT rect;
-                            rect.left = static_cast<LONG>(drawCommand->scissorRectangle.position.x);
-                            rect.top = static_cast<LONG>(drawCommand->scissorRectangle.position.y);
-                            rect.right = static_cast<LONG>(drawCommand->scissorRectangle.position.x + drawCommand->scissorRectangle.size.width);
-                            rect.bottom = static_cast<LONG>(drawCommand->scissorRectangle.position.y + drawCommand->scissorRectangle.size.height);
-                            context->RSSetScissorRects(1, &rect);
-                        }
-
-                        uint32_t fillModeIndex = (drawCommand->wireframe) ? 1 : 0;
-                        uint32_t scissorEnableIndex = (drawCommand->scissorTest) ? 1 : 0;
-                        uint32_t cullModeIndex;
-                        switch (drawCommand->cullMode)
-                        {
-                            case Renderer::CullMode::NONE: cullModeIndex = 0; break;
-                            case Renderer::CullMode::FRONT: cullModeIndex = 1; break;
-                            case Renderer::CullMode::BACK: cullModeIndex = 2; break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                        }
-                        uint32_t rasterizerStateIndex = fillModeIndex * 6 + scissorEnableIndex * 3 + cullModeIndex;
-                        context->RSSetState(rasterizerStates[rasterizerStateIndex]);
 
                         // shader
                         ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand->shader);

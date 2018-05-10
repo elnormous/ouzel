@@ -49,9 +49,7 @@ namespace ouzel
                                  const Rect& renderViewport,
                                  bool depthWrite,
                                  bool depthTest,
-                                 bool wireframe,
-                                 bool scissorTest,
-                                 const Rect& scissorRectangle)
+                                 bool wireframe)
         {
             Component::draw(transformMatrix,
                             opacity,
@@ -59,9 +57,7 @@ namespace ouzel
                             renderViewport,
                             depthWrite,
                             depthTest,
-                            wireframe,
-                            scissorTest,
-                            scissorRectangle);
+                            wireframe);
 
             material->cullMode = graphics::Renderer::CullMode::NONE;
 
@@ -78,6 +74,8 @@ namespace ouzel
             if (wireframe) textures.push_back(whitePixelTexture);
             else textures.assign(std::begin(material->textures), std::end(material->textures));
 
+            engine->getRenderer()->addSetCullModeCommad(material->cullMode);
+
             engine->getRenderer()->addDrawCommand(textures,
                                                   material->shader,
                                                   pixelShaderConstants,
@@ -89,11 +87,7 @@ namespace ouzel
                                                   0,
                                                   renderViewport,
                                                   depthWrite,
-                                                  depthTest,
-                                                  wireframe,
-                                                  scissorTest,
-                                                  scissorRectangle,
-                                                  material->cullMode);
+                                                  depthTest);
         }
     } // namespace scene
 } // namespace ouzel

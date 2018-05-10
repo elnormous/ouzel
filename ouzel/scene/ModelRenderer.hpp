@@ -28,9 +28,7 @@ namespace ouzel
                               const Rect& renderViewport,
                               bool depthWrite,
                               bool depthTest,
-                              bool wireframe,
-                              bool scissorTest,
-                              const Rect& scissorRectangle) override;
+                              bool wireframe) override;
 
             virtual const std::shared_ptr<graphics::Material>& getMaterial() const { return material; }
             virtual void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }

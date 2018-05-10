@@ -70,6 +70,12 @@ namespace ouzel
                 BACK
             };
 
+            enum class FillMode
+            {
+                SOLID,
+                WIREFRAME
+            };
+
             ~Renderer();
 
             Renderer(const Renderer&) = delete;
@@ -102,6 +108,9 @@ namespace ouzel
 
             bool addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget);
             bool addClearCommand(const std::shared_ptr<Texture>& renderTarget);
+            bool addSetCullModeCommad(Renderer::CullMode cullMode);
+            bool addSetFillModeCommad(Renderer::FillMode fillMode);
+            bool addSetScissorTestCommand(bool enabled, const Rect& rectangle);
             bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
                                 const std::shared_ptr<Shader>& shader,
                                 const std::vector<std::vector<float>>& pixelShaderConstants,
@@ -113,11 +122,7 @@ namespace ouzel
                                 uint32_t startIndex,
                                 const Rect& viewport,
                                 bool depthWrite,
-                                bool depthTest,
-                                bool wireframe,
-                                bool scissorTest,
-                                const Rect& scissorRectangle,
-                                CullMode cullMode);
+                                bool depthTest);
 
         protected:
             explicit Renderer(Driver driver);

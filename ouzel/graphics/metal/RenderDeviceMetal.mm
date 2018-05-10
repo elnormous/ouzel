@@ -412,8 +412,6 @@ namespace ouzel
             PipelineStateDesc currentPipelineStateDesc;
             MTLTexturePtr currentRenderTarget = nil;
 
-            MTLScissorRect scissorRect;
-
             std::vector<float> shaderData;
 
             MTLViewport viewport;
@@ -556,6 +554,90 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        SetCullModeCommad* setCullModeCommad = static_cast<SetCullModeCommad*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        MTLCullMode cullMode;
+
+                        switch (setCullModeCommad->cullMode)
+                        {
+                            case Renderer::CullMode::NONE: cullMode = MTLCullModeNone; break;
+                            case Renderer::CullMode::FRONT: cullMode = MTLCullModeFront; break;
+                            case Renderer::CullMode::BACK: cullMode = MTLCullModeBack; break;
+                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
+                        }
+
+                        [currentRenderCommandEncoder setCullMode:cullMode];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        SetFillModeCommad* setFillModeCommad = static_cast<SetFillModeCommad*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        MTLTriangleFillMode fillMode;
+
+                        switch (setFillModeCommad->fillMode)
+                        {
+                            case Renderer::FillMode::SOLID: fillMode = MTLTriangleFillModeFill; break;
+                            case Renderer::FillMode::WIREFRAME: fillMode = MTLTriangleFillModeLines; break;
+                            default: Log(Log::Level::ERR) << "Invalid fill mode"; return false;
+                        }
+
+                        [currentRenderCommandEncoder setTriangleFillMode:fillMode];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        SetScissorTestCommand* setScissorTestCommand = static_cast<SetScissorTestCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        MTLScissorRect scissorRect;
+
+                        if (setScissorTestCommand->enabled)
+                        {
+                            scissorRect.x = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.x);
+                            scissorRect.y = static_cast<NSUInteger>(setScissorTestCommand->rectangle.position.y);
+                            scissorRect.width = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.width);
+                            scissorRect.height = static_cast<NSUInteger>(setScissorTestCommand->rectangle.size.height);
+                            if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
+                            if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
+                            if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
+                            if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
+                        }
+                        else
+                        {
+                            scissorRect.x = scissorRect.y = 0;
+                            scissorRect.width = currentRenderTarget.width;
+                            scissorRect.height = currentRenderTarget.height;
+                        }
+
+                        [currentRenderCommandEncoder setScissorRect: scissorRect];
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -572,45 +654,12 @@ namespace ouzel
                         viewport.height = static_cast<double>(drawCommand->viewport.size.height);
 
                         [currentRenderCommandEncoder setViewport: viewport];
-                        [currentRenderCommandEncoder setTriangleFillMode:drawCommand->wireframe ? MTLTriangleFillModeLines : MTLTriangleFillModeFill];
-
-                        if (drawCommand->scissorTest)
-                        {
-                            scissorRect.x = static_cast<NSUInteger>(drawCommand->scissorRectangle.position.x);
-                            scissorRect.y = static_cast<NSUInteger>(drawCommand->scissorRectangle.position.y);
-                            scissorRect.width = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.width);
-                            scissorRect.height = static_cast<NSUInteger>(drawCommand->scissorRectangle.size.height);
-                            if (scissorRect.x >= currentRenderTarget.width) scissorRect.x = currentRenderTarget.width - 1;
-                            if (scissorRect.y >= currentRenderTarget.height) scissorRect.y = currentRenderTarget.height - 1;
-                            if (scissorRect.width > currentRenderTarget.width - scissorRect.x) scissorRect.width = currentRenderTarget.width - scissorRect.x;
-                            if (scissorRect.height > currentRenderTarget.height - scissorRect.y) scissorRect.height = currentRenderTarget.height - scissorRect.y;
-                        }
-                        else
-                        {
-                            scissorRect.x = scissorRect.y = 0;
-                            scissorRect.width = currentRenderTarget.width;
-                            scissorRect.height = currentRenderTarget.height;
-                        }
-
-                        [currentRenderCommandEncoder setScissorRect: scissorRect];
 
                         uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
                         uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
                         uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
 
                         [currentRenderCommandEncoder setDepthStencilState:depthStencilStates[depthStencilStateIndex]];
-
-                        MTLCullMode cullMode;
-
-                        switch (drawCommand->cullMode)
-                        {
-                            case Renderer::CullMode::NONE: cullMode = MTLCullModeNone; break;
-                            case Renderer::CullMode::FRONT: cullMode = MTLCullModeFront; break;
-                            case Renderer::CullMode::BACK: cullMode = MTLCullModeBack; break;
-                            default: Log(Log::Level::ERR) << "Invalid cull mode"; return false;
-                        }
-
-                        [currentRenderCommandEncoder setCullMode:cullMode];
 
                         // shader
                         ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(drawCommand->shader);

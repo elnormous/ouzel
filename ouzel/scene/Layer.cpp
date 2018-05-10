@@ -47,7 +47,9 @@ namespace ouzel
 
                     if (camera->getWireframe())
                     {
+                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::WIREFRAME);
                         actor->draw(camera, true);
+                        engine->getRenderer()->addSetFillModeCommad(graphics::Renderer::FillMode::SOLID);
                     }
                 }
             }
