@@ -785,6 +785,8 @@ namespace ouzel
 
         bool RenderDeviceOGL::processCommands(const std::vector<std::unique_ptr<Command>>& commands)
         {
+            ShaderResourceOGL* currentShader = nullptr;
+
             for (const std::unique_ptr<Command>& command : commands)
             {
                 switch (command->type)
@@ -974,33 +976,7 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                        // blend state
-                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(drawCommand->blendState);
-
-                        if (!blendStateOGL)
-                        {
-                            // don't render if invalid blend state
-                            continue;
-                        }
-
-                        if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
-                                           blendStateOGL->getModeRGB(),
-                                           blendStateOGL->getModeAlpha(),
-                                           blendStateOGL->getSourceFactorRGB(),
-                                           blendStateOGL->getDestFactorRGB(),
-                                           blendStateOGL->getSourceFactorAlpha(),
-                                           blendStateOGL->getDestFactorAlpha()))
-                        {
-                            return false;
-                        }
-
-                        if (!setColorMask(blendStateOGL->getRedMask(),
-                                          blendStateOGL->getGreenMask(),
-                                          blendStateOGL->getBlueMask(),
-                                          blendStateOGL->getAlphaMask()))
-                        {
-                            return false;
-                        }
+                        if (!currentShader) continue;
 
                         // textures
                         bool texturesValid = true;
@@ -1036,19 +1012,8 @@ namespace ouzel
                             continue;
                         }
 
-                        // shader
-                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(drawCommand->shader);
-
-                        if (!shaderOGL || !shaderOGL->getProgramId())
-                        {
-                            // don't render if invalid shader
-                            continue;
-                        }
-
-                        useProgram(shaderOGL->getProgramId());
-
                         // pixel shader constants
-                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = shaderOGL->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
 
                         if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
@@ -1070,7 +1035,7 @@ namespace ouzel
                         }
 
                         // vertex shader constants
-                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = shaderOGL->getVertexShaderConstantLocations();
+                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
@@ -1152,12 +1117,74 @@ namespace ouzel
                     {
                         //PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<PushDebugMarkerCommand*>(command.get());
                         // TODO: implement
+                        // EXT_debug_marker
+                        // glPushGroupMarkerEXT
                         break;
                     }
 
                     case Command::Type::POP_DEBUG_MARKER:
                     {
                         // TODO: implement
+                        // EXT_debug_marker
+                        // glPopGroupMarkerEXT
+                        break;
+                    }
+
+                    case Command::Type::SET_BLEND_STATE:
+                    {
+                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
+
+                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(setBlendStateCommand->blendState);
+
+                        if (blendStateOGL)
+                        {
+                            if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
+                                               blendStateOGL->getModeRGB(),
+                                               blendStateOGL->getModeAlpha(),
+                                               blendStateOGL->getSourceFactorRGB(),
+                                               blendStateOGL->getDestFactorRGB(),
+                                               blendStateOGL->getSourceFactorAlpha(),
+                                               blendStateOGL->getDestFactorAlpha()))
+                            {
+                                return false;
+                            }
+
+                            if (!setColorMask(blendStateOGL->getRedMask(),
+                                              blendStateOGL->getGreenMask(),
+                                              blendStateOGL->getBlueMask(),
+                                              blendStateOGL->getAlphaMask()))
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
+                            {
+                                return false;
+                            }
+
+                            if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
+                            {
+                                return false;
+                            }
+                        }
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER:
+                    {
+                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
+
+                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(setShaderCommand->shader);
+                        currentShader = shaderOGL;
+
+                        if (shaderOGL)
+                            useProgram(shaderOGL->getProgramId());
+                        else
+                            useProgram(0);
+
                         break;
                     }
 

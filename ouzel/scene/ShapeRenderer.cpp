@@ -62,12 +62,12 @@ namespace ouzel
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
+                engine->getRenderer()->addSetBlendStateCommand(blendState);
+                engine->getRenderer()->addSetShaderCommand(shader);
 
                 engine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
-                                                      shader,
                                                       pixelShaderConstants,
                                                       vertexShaderConstants,
-                                                      blendState,
                                                       meshBuffer,
                                                       drawCommand.indexCount,
                                                       drawCommand.mode,

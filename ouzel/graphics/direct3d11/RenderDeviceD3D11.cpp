@@ -431,6 +431,7 @@ namespace ouzel
             uint32_t fillModeIndex = 0;
             uint32_t scissorEnableIndex = 0;
             uint32_t cullModeIndex = 0;
+            ShaderResourceD3D11* currentShader = nullptr;
 
             for (const std::unique_ptr<Command>& command : commands)
             {
@@ -609,22 +610,10 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                        // shader
-                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(drawCommand->shader);
-
-                        if (!shaderD3D11 || !shaderD3D11->getPixelShader() || !shaderD3D11->getVertexShader())
-                        {
-                            // don't render if invalid shader
-                            continue;
-                        }
-
-                        context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-                        context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-                        context->IASetInputLayout(shaderD3D11->getInputLayout());
+                        if (!currentShader) continue;
 
                         // pixel shader constants
-                        const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = shaderD3D11->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
 
                         if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
                         {
@@ -648,18 +637,18 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
                         }
 
-                        if (!uploadBuffer(shaderD3D11->getPixelShaderConstantBuffer(),
+                        if (!uploadBuffer(currentShader->getPixelShaderConstantBuffer(),
                                         shaderData.data(),
                                         static_cast<uint32_t>(sizeof(float) * shaderData.size())))
                         {
                             return false;
                         }
 
-                        ID3D11Buffer* pixelShaderConstantBuffers[1] = {shaderD3D11->getPixelShaderConstantBuffer()};
+                        ID3D11Buffer* pixelShaderConstantBuffers[1] = {currentShader->getPixelShaderConstantBuffer()};
                         context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
 
                         // vertex shader constants
-                        const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = shaderD3D11->getVertexShaderConstantLocations();
+                        const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                         {
@@ -683,26 +672,15 @@ namespace ouzel
                             shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
                         }
 
-                        if (!uploadBuffer(shaderD3D11->getVertexShaderConstantBuffer(),
-                                        shaderData.data(),
-                                        static_cast<uint32_t>(sizeof(float) * shaderData.size())))
+                        if (!uploadBuffer(currentShader->getVertexShaderConstantBuffer(),
+                                          shaderData.data(),
+                                          static_cast<uint32_t>(sizeof(float) * shaderData.size())))
                         {
                             return false;
                         }
 
-                        ID3D11Buffer* vertexShaderConstantBuffers[1] = {shaderD3D11->getVertexShaderConstantBuffer()};
+                        ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                         context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
-
-                        // blend state
-                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(drawCommand->blendState);
-
-                        if (!blendStateD3D11 || !blendStateD3D11->getBlendState())
-                        {
-                            // don't render if invalid blend state
-                            continue;
-                        }
-
-                        context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
 
                         // textures
                         bool texturesValid = true;
@@ -787,6 +765,45 @@ namespace ouzel
                         }
 
                         context->DrawIndexed(indexCount, drawCommand->startIndex, 0);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_BLEND_STATE:
+                    {
+                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
+
+                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setBlendStateCommand->blendState);
+
+                        if (blendStateD3D11)
+                            context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
+                        else
+                            context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER:
+                    {
+                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
+
+                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setShaderCommand->shader);
+                        currentShader = shaderD3D11;
+
+                        if (shaderD3D11)
+                        {
+                            context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                            context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+
+                            context->IASetInputLayout(shaderD3D11->getInputLayout());
+                        }
+                        else
+                        {
+                            context->PSSetShader(nullptr, nullptr, 0);
+                            context->VSSetShader(nullptr, nullptr, 0);
+
+                            context->IASetInputLayout(nullptr);
+                        }
 
                         break;
                     }
