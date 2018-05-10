@@ -41,6 +41,9 @@ namespace ouzel
                     actor->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
                 }
 
+                engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
+                engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
+
                 for (Actor* actor : drawQueue)
                 {
                     actor->draw(camera, false);
