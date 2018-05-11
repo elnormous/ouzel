@@ -1089,7 +1089,7 @@ namespace ouzel
 
         MTLRenderPipelineStatePtr RenderDeviceMetal::getPipelineState(const PipelineStateDesc& desc)
         {
-            if (!desc.blendState || !desc.shader) return nil;
+            if (!desc.blendState || !desc.shader || !desc.sampleCount) return nil;
 
             auto pipelineStateIterator = pipelineStates.find(desc);
 
