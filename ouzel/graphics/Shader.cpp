@@ -51,19 +51,18 @@ namespace ouzel
                 return false;
             }
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                   resource,
-                                                                   pixelShaderData,
-                                                                   vertexShaderData,
-                                                                   newVertexAttributes,
-                                                                   newPixelShaderConstantInfo,
-                                                                   newVertexShaderConstantInfo,
-                                                                   newPixelShaderDataAlignment,
-                                                                   newVertexShaderDataAlignment,
-                                                                   newPixelShaderFunction,
-                                                                   newVertexShaderFunction));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            return renderDevice->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitShaderCommand(resource,
+                                                                                                                       pixelShaderData,
+                                                                                                                       vertexShaderData,
+                                                                                                                       newVertexAttributes,
+                                                                                                                       newPixelShaderConstantInfo,
+                                                                                                                       newVertexShaderConstantInfo,
+                                                                                                                       newPixelShaderDataAlignment,
+                                                                                                                       newVertexShaderDataAlignment,
+                                                                                                                       newPixelShaderFunction,
+                                                                                                                       newVertexShaderFunction)));
         }
 
         bool Shader::init(const std::vector<uint8_t>& newPixelShader,
@@ -80,16 +79,18 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            return engine->getRenderer()->getDevice()->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitShaderCommand(resource,
-                                                                                                                                             newPixelShader,
-                                                                                                                                             newVertexShader,
-                                                                                                                                             newVertexAttributes,
-                                                                                                                                             newPixelShaderConstantInfo,
-                                                                                                                                             newVertexShaderConstantInfo,
-                                                                                                                                             newPixelShaderDataAlignment,
-                                                                                                                                             newVertexShaderDataAlignment,
-                                                                                                                                             newPixelShaderFunction,
-                                                                                                                                             newVertexShaderFunction)));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+
+            return renderDevice->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitShaderCommand(resource,
+                                                                                                                       newPixelShader,
+                                                                                                                       newVertexShader,
+                                                                                                                       newVertexAttributes,
+                                                                                                                       newPixelShaderConstantInfo,
+                                                                                                                       newVertexShaderConstantInfo,
+                                                                                                                       newPixelShaderDataAlignment,
+                                                                                                                       newVertexShaderDataAlignment,
+                                                                                                                       newPixelShaderFunction,
+                                                                                                                       newVertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const
