@@ -113,14 +113,14 @@ namespace ouzel
             bool addSetScissorTestCommand(bool enabled, const Rect& rectangle);
             bool addSetViewportCommand(const Rect& viewport);
             bool addSetDepthStateCommand(bool depthTest, bool depthWrite);
+            bool addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
+                                            const std::shared_ptr<Shader>& shader);
             bool addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
                                 uint32_t indexCount,
                                 DrawMode drawMode,
                                 uint32_t startIndex);
             bool addPushDebugMarkerCommand(const std::string& name);
             bool addPopDebugMarkerCommand();
-            bool addSetBlendStateCommand(const std::shared_ptr<BlendState>& blendState);
-            bool addSetShaderCommand(const std::shared_ptr<Shader>& shader);
             bool addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,
                                               std::vector<std::vector<float>> vertexShaderConstants);
             bool addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
