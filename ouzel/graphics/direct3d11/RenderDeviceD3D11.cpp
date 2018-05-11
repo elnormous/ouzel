@@ -619,6 +619,35 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        SetPipelineStateCommand* setPipelineStateCommand = static_cast<SetPipelineStateCommand*>(command.get());
+
+                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setPipelineStateCommand->blendState);
+                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setPipelineStateCommand->shader);
+                        currentShader = shaderD3D11;
+
+                        if (blendStateD3D11)
+                            context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
+                        else
+                            context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+
+                        if (shaderD3D11)
+                        {
+                            context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                            context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
+                            context->IASetInputLayout(shaderD3D11->getInputLayout());
+                        }
+                        else
+                        {
+                            context->PSSetShader(nullptr, nullptr, 0);
+                            context->VSSetShader(nullptr, nullptr, 0);
+                            context->IASetInputLayout(nullptr);
+                        }
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -696,20 +725,6 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_BLEND_STATE:
-                    {
-                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
-
-                        BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setBlendStateCommand->blendState);
-
-                        if (blendStateD3D11)
-                            context->OMSetBlendState(blendStateD3D11->getBlendState(), nullptr, 0xffffffff);
-                        else
-                            context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
-
-                        break;
-                    }
-
                     case Command::Type::INIT_BUFFER:
                     {
                         InitBufferCommand* initBufferCommand = static_cast<InitBufferCommand*>(command.get());
@@ -744,31 +759,6 @@ namespace ouzel
                                                         initShaderCommand->vertexShaderDataAlignment,
                                                         initShaderCommand->pixelShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER:
-                    {
-                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
-
-                        ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setShaderCommand->shader);
-                        currentShader = shaderD3D11;
-
-                        if (shaderD3D11)
-                        {
-                            context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
-                            context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
-
-                            context->IASetInputLayout(shaderD3D11->getInputLayout());
-                        }
-                        else
-                        {
-                            context->PSSetShader(nullptr, nullptr, 0);
-                            context->VSSetShader(nullptr, nullptr, 0);
-
-                            context->IASetInputLayout(nullptr);
-                        }
 
                         break;
                     }

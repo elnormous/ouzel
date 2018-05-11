@@ -69,8 +69,8 @@ namespace ouzel
             else textures.assign(std::begin(material->textures), std::end(material->textures));
 
             engine->getRenderer()->addSetCullModeCommad(material->cullMode);
-            engine->getRenderer()->addSetBlendStateCommand(material->blendState);
-            engine->getRenderer()->addSetShaderCommand(material->shader);
+            engine->getRenderer()->addSetPipelineStateCommand(material->blendState,
+                                                              material->shader);
             engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                 vertexShaderConstants);
             engine->getRenderer()->addSetTexturesCommand(textures);

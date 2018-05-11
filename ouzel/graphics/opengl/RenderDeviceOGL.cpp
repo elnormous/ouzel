@@ -982,6 +982,56 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        SetPipelineStateCommand* setPipelineStateCommand = static_cast<SetPipelineStateCommand*>(command.get());
+
+                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(setPipelineStateCommand->blendState);
+                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(setPipelineStateCommand->shader);
+                        currentShader = shaderOGL;
+
+                        if (blendStateOGL)
+                        {
+                            if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
+                                               blendStateOGL->getModeRGB(),
+                                               blendStateOGL->getModeAlpha(),
+                                               blendStateOGL->getSourceFactorRGB(),
+                                               blendStateOGL->getDestFactorRGB(),
+                                               blendStateOGL->getSourceFactorAlpha(),
+                                               blendStateOGL->getDestFactorAlpha()))
+                            {
+                                return false;
+                            }
+
+                            if (!setColorMask(blendStateOGL->getRedMask(),
+                                              blendStateOGL->getGreenMask(),
+                                              blendStateOGL->getBlueMask(),
+                                              blendStateOGL->getAlphaMask()))
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
+                            {
+                                return false;
+                            }
+
+                            if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
+                            {
+                                return false;
+                            }
+                        }
+
+                        if (shaderOGL)
+                            useProgram(shaderOGL->getProgramId());
+                        else
+                            useProgram(0);
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -1072,49 +1122,6 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_BLEND_STATE:
-                    {
-                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
-
-                        BlendStateResourceOGL* blendStateOGL = static_cast<BlendStateResourceOGL*>(setBlendStateCommand->blendState);
-
-                        if (blendStateOGL)
-                        {
-                            if (!setBlendState(blendStateOGL->isGLBlendEnabled(),
-                                               blendStateOGL->getModeRGB(),
-                                               blendStateOGL->getModeAlpha(),
-                                               blendStateOGL->getSourceFactorRGB(),
-                                               blendStateOGL->getDestFactorRGB(),
-                                               blendStateOGL->getSourceFactorAlpha(),
-                                               blendStateOGL->getDestFactorAlpha()))
-                            {
-                                return false;
-                            }
-
-                            if (!setColorMask(blendStateOGL->getRedMask(),
-                                              blendStateOGL->getGreenMask(),
-                                              blendStateOGL->getBlueMask(),
-                                              blendStateOGL->getAlphaMask()))
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
-                            {
-                                return false;
-                            }
-
-                            if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
-                            {
-                                return false;
-                            }
-                        }
-
-                        break;
-                    }
-
                     case Command::Type::INIT_BUFFER:
                     {
                         InitBufferCommand* initBufferCommand = static_cast<InitBufferCommand*>(command.get());
@@ -1149,21 +1156,6 @@ namespace ouzel
                                                         initShaderCommand->vertexShaderDataAlignment,
                                                         initShaderCommand->pixelShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER:
-                    {
-                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
-
-                        ShaderResourceOGL* shaderOGL = static_cast<ShaderResourceOGL*>(setShaderCommand->shader);
-                        currentShader = shaderOGL;
-
-                        if (shaderOGL)
-                            useProgram(shaderOGL->getProgramId());
-                        else
-                            useProgram(0);
 
                         break;
                     }

@@ -73,16 +73,15 @@ namespace ouzel
                     SET_SCISSOR_TEST,
                     SET_VIEWPORT,
                     SET_DEPTH_STATE,
+                    SET_PIPELINE_STATE,
                     DRAW,
                     PUSH_DEBUG_MARKER,
                     POP_DEBUG_MARKER,
                     INIT_BLEND_STATE,
-                    SET_BLEND_STATE,
                     INIT_BUFFER,
                     SET_BUFFER_DATA,
                     INIT_MESH_BUFFER,
                     INIT_SHADER,
-                    SET_SHADER,
                     SET_SHADER_CONSTANTS,
                     INIT_TEXTURE,
                     SET_TEXTURE_DATA,
@@ -208,6 +207,20 @@ namespace ouzel
                 bool depthWrite;
             };
 
+            struct SetPipelineStateCommand: public Command
+            {
+                SetPipelineStateCommand(BlendStateResource* initBlendState,
+                                        ShaderResource* initShader):
+                    Command(Command::Type::SET_PIPELINE_STATE),
+                    blendState(initBlendState),
+                    shader(initShader)
+                {
+                }
+
+                BlendStateResource* blendState;
+                ShaderResource* shader;
+            };
+
             struct DrawCommand: public Command
             {
                 DrawCommand(MeshBufferResource* initMeshBuffer,
@@ -280,17 +293,6 @@ namespace ouzel
                 uint8_t colorMask;
             };
 
-            struct SetBlendStateCommand: public Command
-            {
-                SetBlendStateCommand(BlendStateResource* initBlendState):
-                    Command(Command::Type::SET_BLEND_STATE),
-                    blendState(initBlendState)
-                {
-                }
-
-                BlendStateResource* blendState;
-            };
-
             // TODO: implement
             struct InitBufferCommand: public Command
             {
@@ -354,17 +356,6 @@ namespace ouzel
                 uint32_t vertexShaderDataAlignment;
                 std::string pixelShaderFunction;
                 std::string vertexShaderFunction;
-            };
-
-            struct SetShaderCommand: public Command
-            {
-                SetShaderCommand(ShaderResource* initShader):
-                    Command(Command::Type::SET_SHADER),
-                    shader(initShader)
-                {
-                }
-
-                ShaderResource* shader;
             };
 
             struct SetShaderConstantsCommand: public Command

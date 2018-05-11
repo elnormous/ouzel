@@ -302,6 +302,13 @@ namespace ouzel
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetDepthStateCommand(depthTest, depthWrite)));
         }
 
+        bool Renderer::addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
+                                                  const std::shared_ptr<Shader>& shader)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetPipelineStateCommand(blendState ? blendState->getResource() : nullptr,
+                                                                                                                       shader ? shader->getResource() : nullptr)));
+        }
+
         bool Renderer::addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
@@ -327,16 +334,6 @@ namespace ouzel
         bool Renderer::addPopDebugMarkerCommand()
         {
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::PopDebugMarkerCommand()));
-        }
-
-        bool Renderer::addSetBlendStateCommand(const std::shared_ptr<BlendState>& blendState)
-        {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetBlendStateCommand(blendState ? blendState->getResource() : nullptr)));
-        }
-
-        bool Renderer::addSetShaderCommand(const std::shared_ptr<Shader>& shader)
-        {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderCommand(shader ? shader->getResource() : nullptr)));
         }
 
         bool Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,

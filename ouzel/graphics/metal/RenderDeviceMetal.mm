@@ -678,6 +678,29 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        SetPipelineStateCommand* setPipelineStateCommand = static_cast<SetPipelineStateCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(setPipelineStateCommand->blendState);
+                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(setPipelineStateCommand->shader);
+                        currentShader = shaderMetal;
+
+                        currentPipelineStateDesc.blendState = blendStateMetal;
+                        currentPipelineStateDesc.shader = shaderMetal;
+
+                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
+                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                        break;
+                    }
+
                     case Command::Type::DRAW:
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
@@ -775,26 +798,6 @@ namespace ouzel
                         break;
                     }
 
-                    case Command::Type::SET_BLEND_STATE:
-                    {
-                        SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                        {
-                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
-                            return false;
-                        }
-
-                        BlendStateResourceMetal* blendStateMetal = static_cast<BlendStateResourceMetal*>(setBlendStateCommand->blendState);
-
-                        currentPipelineStateDesc.blendState = blendStateMetal;
-
-                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
-                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
-
-                        break;
-                    }
-
                     case Command::Type::INIT_BUFFER:
                     {
                         InitBufferCommand* initBufferCommand = static_cast<InitBufferCommand*>(command.get());
@@ -829,27 +832,6 @@ namespace ouzel
                                                         initShaderCommand->vertexShaderDataAlignment,
                                                         initShaderCommand->pixelShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
-
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER:
-                    {
-                        SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
-
-                        if (!currentRenderCommandEncoder)
-                        {
-                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
-                            return false;
-                        }
-
-                        ShaderResourceMetal* shaderMetal = static_cast<ShaderResourceMetal*>(setShaderCommand->shader);
-                        currentShader = shaderMetal;
-
-                        currentPipelineStateDesc.shader = shaderMetal;
-
-                        MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
-                        if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
 
                         break;
                     }
