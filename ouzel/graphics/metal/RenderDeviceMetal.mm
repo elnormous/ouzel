@@ -682,99 +682,11 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                        if (!currentShader) continue;
-
                         if (!currentRenderCommandEncoder)
                         {
                             Log(Log::Level::ERR) << "Metal render command encoder not initialized";
                             return false;
                         }
-
-                        // pixel shader constants
-                        const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
-
-                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                            return false;
-                        }
-
-                        shaderData.clear();
-
-                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
-
-                            if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
-                            {
-                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                                return false;
-                            }
-
-                            shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
-                        }
-
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getPixelShaderAlignment() - 1) /
-                                                       currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
-
-                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
-                            shaderConstantBuffer.offset = 0;
-                        }
-
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
-
-                        [currentRenderCommandEncoder setFragmentBuffer:shaderConstantBuffer.buffer
-                                                                offset:shaderConstantBuffer.offset
-                                                               atIndex:1];
-
-                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
-
-                        // vertex shader constants
-                        const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
-
-                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                            return false;
-                        }
-
-                        shaderData.clear();
-
-                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
-
-                            if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
-                            {
-                                Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                                return false;
-                            }
-
-                            shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
-                        }
-
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
-                                                       currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
-
-                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
-                            shaderConstantBuffer.offset = 0;
-                        }
-
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
-                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
-
-                        [currentRenderCommandEncoder setVertexBuffer:shaderConstantBuffer.buffer
-                                                              offset:shaderConstantBuffer.offset
-                                                             atIndex:1];
-
-                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                         // mesh buffer
                         MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(drawCommand->meshBuffer);
@@ -885,6 +797,111 @@ namespace ouzel
 
                         MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
                         if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER_CONSTANTS:
+                    {
+                        SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<SetShaderConstantsCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        if (!currentShader)
+                        {
+                            Log(Log::Level::ERR) << "No shader set";
+                            return false;
+                        }
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                            return false;
+                        }
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->pixelShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                            const std::vector<float>& pixelShaderConstant = setShaderConstantsCommand->pixelShaderConstants[i];
+
+                            if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
+                            {
+                                Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                                return false;
+                            }
+
+                            shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                        }
+
+                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getPixelShaderAlignment() - 1) /
+                                                       currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
+
+                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                        {
+                            shaderConstantBuffer.offset = 0;
+                        }
+
+                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+
+                        [currentRenderCommandEncoder setFragmentBuffer:shaderConstantBuffer.buffer
+                                                                offset:shaderConstantBuffer.offset
+                                                               atIndex:1];
+
+                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceMetal::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
+                            return false;
+                        }
+
+                        shaderData.clear();
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceMetal::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                            if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
+                            {
+                                Log(Log::Level::ERR) << "Invalid vertex shader constant size";
+                                return false;
+                            }
+
+                            shaderData.insert(shaderData.end(), vertexShaderConstant.begin(), vertexShaderConstant.end());
+                        }
+
+                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getVertexShaderAlignment() - 1) /
+                                                       currentShader->getVertexShaderAlignment()) * currentShader->getVertexShaderAlignment(); // round up to nearest aligned pointer
+
+                        if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
+                        {
+                            shaderConstantBuffer.offset = 0;
+                        }
+
+                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
+                                  reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
+                                  static_cast<char*>([shaderConstantBuffer.buffer contents]) + shaderConstantBuffer.offset);
+
+                        [currentRenderCommandEncoder setVertexBuffer:shaderConstantBuffer.buffer
+                                                              offset:shaderConstantBuffer.offset
+                                                             atIndex:1];
+
+                        shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
                         break;
                     }

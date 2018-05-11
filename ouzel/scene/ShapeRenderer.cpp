@@ -60,10 +60,9 @@ namespace ouzel
                 engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
                 engine->getRenderer()->addSetBlendStateCommand(blendState);
                 engine->getRenderer()->addSetShaderCommand(shader);
-
-                engine->getRenderer()->addDrawCommand(pixelShaderConstants,
-                                                      vertexShaderConstants,
-                                                      meshBuffer,
+                engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
+                                                                    vertexShaderConstants);
+                engine->getRenderer()->addDrawCommand(meshBuffer,
                                                       drawCommand.indexCount,
                                                       drawCommand.mode,
                                                       drawCommand.startIndex);

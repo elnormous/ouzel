@@ -83,7 +83,7 @@ namespace ouzel
                     INIT_MESH_BUFFER,
                     INIT_SHADER,
                     SET_SHADER,
-                    SET_SHADER_VALUES,
+                    SET_SHADER_CONSTANTS,
                     INIT_TEXTURE,
                     SET_TEXTURE_DATA,
                     SET_TEXTURE_FLAGS,
@@ -210,13 +210,18 @@ namespace ouzel
 
             struct DrawCommand: public Command
             {
-                DrawCommand():
-                    Command(Command::Type::DRAW)
+                DrawCommand(MeshBufferResource* initMeshBuffer,
+                            uint32_t initIndexCount,
+                            Renderer::DrawMode initDrawMode,
+                            uint32_t initStartIndex):
+                    Command(Command::Type::DRAW),
+                    meshBuffer(initMeshBuffer),
+                    indexCount(initIndexCount),
+                    drawMode(initDrawMode),
+                    startIndex(initStartIndex)
                 {
                 }
 
-                std::vector<std::vector<float>> pixelShaderConstants;
-                std::vector<std::vector<float>> vertexShaderConstants;
                 MeshBufferResource* meshBuffer;
                 uint32_t indexCount;
                 Renderer::DrawMode drawMode;
@@ -271,7 +276,20 @@ namespace ouzel
                 ShaderResource* shader;
             };
 
-//            SET_SHADER_VALUES
+            struct SetShaderConstantsCommand: public Command
+            {
+                SetShaderConstantsCommand(std::vector<std::vector<float>> initPixelShaderConstants,
+                                          std::vector<std::vector<float>> initVertexShaderConstants):
+                    Command(Command::Type::SET_SHADER_CONSTANTS),
+                    pixelShaderConstants(initPixelShaderConstants),
+                    vertexShaderConstants(initVertexShaderConstants)
+                {
+                }
+
+                std::vector<std::vector<float>> pixelShaderConstants;
+                std::vector<std::vector<float>> vertexShaderConstants;
+            };
+
 //            INIT_TEXTURE
 //            SET_TEXTURE_DATA
 //            SET_TEXTURE_FLAGS
