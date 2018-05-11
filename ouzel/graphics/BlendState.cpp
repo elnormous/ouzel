@@ -37,15 +37,13 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&BlendStateResource::init,
-                                                                   resource,
-                                                                   newEnableBlending,
-                                                                   newColorBlendSource, newColorBlendDest,
-                                                                   newColorOperation,
-                                                                   newAlphaBlendSource, newAlphaBlendDest,
-                                                                   newAlphaOperation,
-                                                                   newColorMask));
-
+            return engine->getRenderer()->getDevice()->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitBlendStateCommand(resource,
+                                                                                                                                                 newEnableBlending,
+                                                                                                                                                 newColorBlendSource, newColorBlendDest,
+                                                                                                                                                 newColorOperation,
+                                                                                                                                                 newAlphaBlendSource, newAlphaBlendDest,
+                                                                                                                                                 newAlphaOperation,
+                                                                                                                                                 newColorMask)));
             return true;
         }
     } // namespace graphics

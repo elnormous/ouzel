@@ -1057,6 +1057,21 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::INIT_BLEND_STATE:
+                    {
+                        InitBlendStateCommand* initBlendStateCommand = static_cast<InitBlendStateCommand*>(command.get());
+
+                        initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
+                                                                initBlendStateCommand->colorBlendSource,
+                                                                initBlendStateCommand->colorBlendDest,
+                                                                initBlendStateCommand->colorOperation,
+                                                                initBlendStateCommand->alphaBlendSource,
+                                                                initBlendStateCommand->alphaBlendDest,
+                                                                initBlendStateCommand->alphaOperation,
+                                                                initBlendStateCommand->colorMask);
+                        break;
+                    }
+
                     case Command::Type::SET_BLEND_STATE:
                     {
                         SetBlendStateCommand* setBlendStateCommand = static_cast<SetBlendStateCommand*>(command.get());
@@ -1096,6 +1111,34 @@ namespace ouzel
                                 return false;
                             }
                         }
+
+                        break;
+                    }
+
+                    case Command::Type::INIT_BUFFER:
+                    {
+                        InitBufferCommand* initBufferCommand = static_cast<InitBufferCommand*>(command.get());
+
+                        break;
+                    }
+
+                    case Command::Type::SET_BUFFER_DATA:
+                    {
+                        SetBufferDataCommand* setBufferDataCommand = static_cast<SetBufferDataCommand*>(command.get());
+
+                        break;
+                    }
+
+                    case Command::Type::INIT_MESH_BUFFER:
+                    {
+                        InitMeshBufferCommand* initMeshBufferCommand = static_cast<InitMeshBufferCommand*>(command.get());
+
+                        break;
+                    }
+
+                    case Command::Type::INIT_SHADER:
+                    {
+                        InitShaderCommand* initShaderCommand = static_cast<InitShaderCommand*>(command.get());
 
                         break;
                     }

@@ -247,7 +247,38 @@ namespace ouzel
                 }
             };
 
-//            INIT_BLEND_STATE
+            struct InitBlendStateCommand: public Command
+            {
+                InitBlendStateCommand(BlendStateResource* initBlendState,
+                                      bool initEnableBlending,
+                                      BlendState::Factor initColorBlendSource, BlendState::Factor initColorBlendDest,
+                                      BlendState::Operation initColorOperation,
+                                      BlendState::Factor initAlphaBlendSource, BlendState::Factor initAlphaBlendDest,
+                                      BlendState::Operation initAlphaOperation,
+                                      uint8_t initColorMask):
+                    Command(Command::Type::INIT_BLEND_STATE),
+                    blendState(initBlendState),
+                    enableBlending(initEnableBlending),
+                    colorBlendSource(initColorBlendSource),
+                    colorBlendDest(initColorBlendDest),
+                    colorOperation(initColorOperation),
+                    alphaBlendSource(initAlphaBlendSource),
+                    alphaBlendDest(initAlphaBlendDest),
+                    alphaOperation(initAlphaOperation),
+                    colorMask(initColorMask)
+                {
+                }
+
+                BlendStateResource* blendState;
+                bool enableBlending;
+                BlendState::Factor colorBlendSource;
+                BlendState::Factor colorBlendDest;
+                BlendState::Operation colorOperation;
+                BlendState::Factor alphaBlendSource;
+                BlendState::Factor alphaBlendDest;
+                BlendState::Operation alphaOperation;
+                uint8_t colorMask;
+            };
 
             struct SetBlendStateCommand: public Command
             {
@@ -260,10 +291,41 @@ namespace ouzel
                 BlendStateResource* blendState;
             };
 
-//            INIT_BUFFER
-//            SET_BUFFER_DATA
-//            INIT_MESH_BUFFER
-//            INIT_SHADER
+            // TODO: implement
+            struct InitBufferCommand: public Command
+            {
+                InitBufferCommand():
+                    Command(Command::Type::INIT_BUFFER)
+                {
+                }
+            };
+
+            // TODO: implement
+            struct SetBufferDataCommand: public Command
+            {
+                SetBufferDataCommand():
+                    Command(Command::Type::SET_BUFFER_DATA)
+                {
+                }
+            };
+
+            // TODO: implement
+            struct InitMeshBufferCommand: public Command
+            {
+                InitMeshBufferCommand():
+                    Command(Command::Type::INIT_MESH_BUFFER)
+                {
+                }
+            };
+
+            // TODO: implement
+            struct InitShaderCommand: public Command
+            {
+                InitShaderCommand():
+                    Command(Command::Type::INIT_SHADER)
+                {
+                }
+            };
 
             struct SetShaderCommand: public Command
             {
