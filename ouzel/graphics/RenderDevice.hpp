@@ -83,10 +83,11 @@ namespace ouzel
                     INIT_MESH_BUFFER,
                     INIT_SHADER,
                     SET_SHADER,
+                    SET_SHADER_VALUES,
                     INIT_TEXTURE,
                     SET_TEXTURE_DATA,
                     SET_TEXTURE_FLAGS,
-                    SET_TEXTURE
+                    SET_TEXTURES
                 };
 
                 Command(Type initType):
@@ -214,7 +215,6 @@ namespace ouzel
                 {
                 }
 
-                TextureResource* textures[Texture::LAYERS];
                 std::vector<std::vector<float>> pixelShaderConstants;
                 std::vector<std::vector<float>> vertexShaderConstants;
                 MeshBufferResource* meshBuffer;
@@ -271,10 +271,22 @@ namespace ouzel
                 ShaderResource* shader;
             };
 
+//            SET_SHADER_VALUES
 //            INIT_TEXTURE
 //            SET_TEXTURE_DATA
 //            SET_TEXTURE_FLAGS
-//            SET_TEXTURE
+//
+            struct SetTexturesCommand: public Command
+            {
+                SetTexturesCommand(TextureResource* initTextures[Texture::LAYERS]):
+                    Command(Command::Type::SET_TEXTURES)
+                {
+                    for (uint32_t i = 0; i < Texture::LAYERS; ++i)
+                        textures[i] = initTextures[i];
+                }
+
+                TextureResource* textures[Texture::LAYERS];
+            };
 
             bool addCommand(std::unique_ptr<Command>&& command);
             void flushCommands();

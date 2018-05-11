@@ -302,8 +302,7 @@ namespace ouzel
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        bool Renderer::addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
-                                      const std::vector<std::vector<float>>& pixelShaderConstants,
+        bool Renderer::addDrawCommand(const std::vector<std::vector<float>>& pixelShaderConstants,
                                       const std::vector<std::vector<float>>& vertexShaderConstants,
                                       const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
@@ -316,19 +315,7 @@ namespace ouzel
                 return false;
             }
 
-            std::vector<TextureResource*> drawTextures;
-
-            for (const std::shared_ptr<Texture>& texture : textures)
-            {
-                drawTextures.push_back(texture ? texture->getResource() : nullptr);
-            }
-
             std::unique_ptr<RenderDevice::DrawCommand> drawCommand(new RenderDevice::DrawCommand());
-
-            for (uint32_t i = 0; i < Texture::LAYERS; ++i)
-            {
-                drawCommand->textures[i] = (i < drawTextures.size()) ? drawTextures[i] : nullptr;
-            }
 
             drawCommand->pixelShaderConstants = pixelShaderConstants;
             drawCommand->vertexShaderConstants = vertexShaderConstants;
@@ -358,6 +345,19 @@ namespace ouzel
         bool Renderer::addSetShaderCommand(const std::shared_ptr<Shader>& shader)
         {
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderCommand(shader ? shader->getResource() : nullptr)));
+        }
+
+        bool Renderer::addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures)
+        {
+            TextureResource* newTextures[Texture::LAYERS];
+
+            for (uint32_t i = 0; i < Texture::LAYERS; ++i)
+            {
+                Texture* texture = (i < textures.size()) ? textures[i].get() : nullptr;
+                newTextures[i] = texture ? texture->getResource() : nullptr;
+            }
+
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetTexturesCommand(newTextures)));
         }
     } // namespace graphics
 } // namespace ouzel

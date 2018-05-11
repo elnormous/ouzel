@@ -61,8 +61,7 @@ namespace ouzel
                 engine->getRenderer()->addSetBlendStateCommand(blendState);
                 engine->getRenderer()->addSetShaderCommand(shader);
 
-                engine->getRenderer()->addDrawCommand(std::vector<std::shared_ptr<graphics::Texture>>(),
-                                                      pixelShaderConstants,
+                engine->getRenderer()->addDrawCommand(pixelShaderConstants,
                                                       vertexShaderConstants,
                                                       meshBuffer,
                                                       drawCommand.indexCount,

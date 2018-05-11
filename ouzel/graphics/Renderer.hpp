@@ -113,8 +113,7 @@ namespace ouzel
             bool addSetScissorTestCommand(bool enabled, const Rect& rectangle);
             bool addSetViewportCommand(const Rect& viewport);
             bool addSetDepthStateCommand(bool depthTest, bool depthWrite);
-            bool addDrawCommand(const std::vector<std::shared_ptr<Texture>>& textures,
-                                const std::vector<std::vector<float>>& pixelShaderConstants,
+            bool addDrawCommand(const std::vector<std::vector<float>>& pixelShaderConstants,
                                 const std::vector<std::vector<float>>& vertexShaderConstants,
                                 const std::shared_ptr<MeshBuffer>& meshBuffer,
                                 uint32_t indexCount,
@@ -124,6 +123,7 @@ namespace ouzel
             bool addPopDebugMarkerCommand();
             bool addSetBlendStateCommand(const std::shared_ptr<BlendState>& blendState);
             bool addSetShaderCommand(const std::shared_ptr<Shader>& shader);
+            bool addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
 
         protected:
             explicit Renderer(Driver driver);
