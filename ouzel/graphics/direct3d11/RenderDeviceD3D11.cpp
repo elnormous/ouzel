@@ -610,6 +610,13 @@ namespace ouzel
                     {
                         SetDepthStateCommand* setDepthStateCommand = static_cast<SetDepthStateCommand*>(command.get());
 
+                        // depth-stencil state
+                        uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
+                        uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
+                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
+
+                        context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
+
                         break;
                     }
 
@@ -723,14 +730,7 @@ namespace ouzel
                         context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
                         context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
-                        // depth-stencil state
-                        uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
-                        uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
-                        uint32_t depthStencilStateIndex = depthTestIndex * 2 + depthWriteIndex;
-
-                        context->OMSetDepthStencilState(depthStencilStates[depthStencilStateIndex], 0);
-
-                        // draw// mesh buffer
+                        // draw mesh buffer
                         MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand->meshBuffer);
                         BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
                         BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
