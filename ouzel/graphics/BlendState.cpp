@@ -44,7 +44,6 @@ namespace ouzel
                                                                                                                                                  newAlphaBlendSource, newAlphaBlendDest,
                                                                                                                                                  newAlphaOperation,
                                                                                                                                                  newColorMask)));
-            return true;
         }
     } // namespace graphics
 } // namespace ouzel

@@ -1140,6 +1140,16 @@ namespace ouzel
                     {
                         InitShaderCommand* initShaderCommand = static_cast<InitShaderCommand*>(command.get());
 
+                        initShaderCommand->shader->init(initShaderCommand->pixelShader,
+                                                        initShaderCommand->vertexShader,
+                                                        initShaderCommand->vertexAttributes,
+                                                        initShaderCommand->pixelShaderConstantInfo,
+                                                        initShaderCommand->vertexShaderConstantInfo,
+                                                        initShaderCommand->pixelShaderDataAlignment,
+                                                        initShaderCommand->vertexShaderDataAlignment,
+                                                        initShaderCommand->pixelShaderFunction,
+                                                        initShaderCommand->vertexShaderFunction);
+
                         break;
                     }
 
