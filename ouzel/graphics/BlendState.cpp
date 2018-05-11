@@ -37,13 +37,15 @@ namespace ouzel
             alphaOperation = newAlphaOperation;
             colorMask = newColorMask;
 
-            return engine->getRenderer()->getDevice()->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitBlendStateCommand(resource,
-                                                                                                                                                 newEnableBlending,
-                                                                                                                                                 newColorBlendSource, newColorBlendDest,
-                                                                                                                                                 newColorOperation,
-                                                                                                                                                 newAlphaBlendSource, newAlphaBlendDest,
-                                                                                                                                                 newAlphaOperation,
-                                                                                                                                                 newColorMask)));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+
+            return renderDevice->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitBlendStateCommand(resource,
+                                                                                                                           newEnableBlending,
+                                                                                                                           newColorBlendSource, newColorBlendDest,
+                                                                                                                           newColorOperation,
+                                                                                                                           newAlphaBlendSource, newAlphaBlendDest,
+                                                                                                                           newAlphaOperation,
+                                                                                                                           newColorMask)));
         }
     } // namespace graphics
 } // namespace ouzel

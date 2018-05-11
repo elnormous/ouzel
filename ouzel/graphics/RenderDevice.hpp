@@ -318,7 +318,6 @@ namespace ouzel
                 }
             };
 
-            // TODO: implement
             struct InitShaderCommand: public Command
             {
                 InitShaderCommand(ShaderResource* initShader,
