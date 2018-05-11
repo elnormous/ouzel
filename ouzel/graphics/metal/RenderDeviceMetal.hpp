@@ -109,9 +109,9 @@ namespace ouzel
             class PipelineStateDesc
             {
             public:
-                BlendStateResourceMetal* blendState;
-                ShaderResourceMetal* shader;
-                NSUInteger sampleCount;
+                BlendStateResourceMetal* blendState = nullptr;
+                ShaderResourceMetal* shader = nullptr;
+                NSUInteger sampleCount = 0;
                 MTLPixelFormat colorFormat;
                 MTLPixelFormat depthFormat;
 
