@@ -71,11 +71,10 @@ namespace ouzel
             engine->getRenderer()->addSetCullModeCommad(material->cullMode);
             engine->getRenderer()->addSetBlendStateCommand(material->blendState);
             engine->getRenderer()->addSetShaderCommand(material->shader);
+            engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
+                                                                vertexShaderConstants);
             engine->getRenderer()->addSetTexturesCommand(textures);
-
-            engine->getRenderer()->addDrawCommand(pixelShaderConstants,
-                                                  vertexShaderConstants,
-                                                  meshBuffer,
+            engine->getRenderer()->addDrawCommand(meshBuffer,
                                                   0,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                   0);

@@ -986,52 +986,6 @@ namespace ouzel
                     {
                         DrawCommand* drawCommand = static_cast<DrawCommand*>(command.get());
 
-                        if (!currentShader) continue;
-
-                        // pixel shader constants
-                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
-
-                        if (drawCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
-                            return false;
-                        }
-
-                        for (size_t i = 0; i < drawCommand->pixelShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = drawCommand->pixelShaderConstants[i];
-
-                            if (!setUniform(pixelShaderConstantLocation.location,
-                                            pixelShaderConstantLocation.dataType,
-                                            pixelShaderConstant.data()))
-                            {
-                                return false;
-                            }
-                        }
-
-                        // vertex shader constants
-                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
-
-                        if (drawCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
-                        {
-                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
-                            return false;
-                        }
-
-                        for (size_t i = 0; i < drawCommand->vertexShaderConstants.size(); ++i)
-                        {
-                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = drawCommand->vertexShaderConstants[i];
-
-                            if (!setUniform(vertexShaderConstantLocation.location,
-                                            vertexShaderConstantLocation.dataType,
-                                            vertexShaderConstant.data()))
-                            {
-                                return false;
-                            }
-                        }
-
                         // mesh buffer
                         MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);
                         BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
@@ -1157,6 +1111,63 @@ namespace ouzel
                             useProgram(shaderOGL->getProgramId());
                         else
                             useProgram(0);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER_CONSTANTS:
+                    {
+                        SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<SetShaderConstantsCommand*>(command.get());
+
+                        if (!currentShader)
+                        {
+                            Log(Log::Level::ERR) << "No shader set";
+                            return false;
+                        }
+
+                        // pixel shader constants
+                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid pixel shader constant size";
+                            return false;
+                        }
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->pixelShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
+                            const std::vector<float>& pixelShaderConstant = setShaderConstantsCommand->pixelShaderConstants[i];
+
+                            if (!setUniform(pixelShaderConstantLocation.location,
+                                            pixelShaderConstantLocation.dataType,
+                                            pixelShaderConstant.data()))
+                            {
+                                return false;
+                            }
+                        }
+
+                        // vertex shader constants
+                        const std::vector<ShaderResourceOGL::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+
+                        if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
+                        {
+                            Log(Log::Level::ERR) << "Invalid vertex shader constant size";
+                            return false;
+                        }
+
+                        for (size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
+                        {
+                            const ShaderResourceOGL::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+
+                            if (!setUniform(vertexShaderConstantLocation.location,
+                                            vertexShaderConstantLocation.dataType,
+                                            vertexShaderConstant.data()))
+                            {
+                                return false;
+                            }
+                        }
 
                         break;
                     }

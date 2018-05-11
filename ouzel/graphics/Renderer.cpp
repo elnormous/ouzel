@@ -302,9 +302,7 @@ namespace ouzel
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetDepthStateCommand(depthTest, depthWrite)));
         }
 
-        bool Renderer::addDrawCommand(const std::vector<std::vector<float>>& pixelShaderConstants,
-                                      const std::vector<std::vector<float>>& vertexShaderConstants,
-                                      const std::shared_ptr<MeshBuffer>& meshBuffer,
+        bool Renderer::addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
                                       uint32_t indexCount,
                                       DrawMode drawMode,
                                       uint32_t startIndex)
@@ -315,16 +313,10 @@ namespace ouzel
                 return false;
             }
 
-            std::unique_ptr<RenderDevice::DrawCommand> drawCommand(new RenderDevice::DrawCommand());
-
-            drawCommand->pixelShaderConstants = pixelShaderConstants;
-            drawCommand->vertexShaderConstants = vertexShaderConstants;
-            drawCommand->meshBuffer = meshBuffer->getResource();
-            drawCommand->indexCount = indexCount;
-            drawCommand->drawMode = drawMode;
-            drawCommand->startIndex = startIndex;
-
-            return device->addCommand(std::move(drawCommand));
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::DrawCommand(meshBuffer->getResource(),
+                                                                                                           indexCount,
+                                                                                                           drawMode,
+                                                                                                           startIndex)));
         }
 
         bool Renderer::addPushDebugMarkerCommand(const std::string& name)
@@ -345,6 +337,13 @@ namespace ouzel
         bool Renderer::addSetShaderCommand(const std::shared_ptr<Shader>& shader)
         {
             return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderCommand(shader ? shader->getResource() : nullptr)));
+        }
+
+        bool Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,
+                                                    std::vector<std::vector<float>> vertexShaderConstants)
+        {
+            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderConstantsCommand(pixelShaderConstants,
+                                                                                                                         vertexShaderConstants)));
         }
 
         bool Renderer::addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures)
