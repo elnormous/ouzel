@@ -776,35 +776,6 @@ namespace ouzel
 
                         shaderConstantBuffer.offset += static_cast<uint32_t>(getVectorSize(shaderData));
 
-                        // textures
-                        bool texturesValid = true;
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(drawCommand->textures[layer]);
-
-                            if (textureMetal)
-                            {
-                                if (!textureMetal->getTexture())
-                                {
-                                    texturesValid = false;
-                                    break;
-                                }
-
-                                [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
-                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
-                            }
-                            else
-                            {
-                                [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
-                            }
-                        }
-
-                        if (!texturesValid)
-                        {
-                            continue;
-                        }
-
                         // mesh buffer
                         MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(drawCommand->meshBuffer);
                         BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
@@ -914,6 +885,37 @@ namespace ouzel
 
                         MTLRenderPipelineStatePtr pipelineState = getPipelineState(currentPipelineStateDesc);
                         if (pipelineState) [currentRenderCommandEncoder setRenderPipelineState:pipelineState];
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        SetTexturesCommand* setTexturesCommand = static_cast<SetTexturesCommand*>(command.get());
+
+                        if (!currentRenderCommandEncoder)
+                        {
+                            Log(Log::Level::ERR) << "Metal render command encoder not initialized";
+                            return false;
+                        }
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceMetal* textureMetal = static_cast<TextureResourceMetal*>(setTexturesCommand->textures[layer]);
+
+                            if (textureMetal)
+                            {
+                                if (!textureMetal->getTexture())
+                                    return false;
+
+                                [currentRenderCommandEncoder setFragmentTexture:textureMetal->getTexture() atIndex:layer];
+                                [currentRenderCommandEncoder setFragmentSamplerState:textureMetal->getSamplerState() atIndex:layer];
+                            }
+                            else
+                            {
+                                [currentRenderCommandEncoder setFragmentTexture:nil atIndex:layer];
+                            }
+                        }
 
                         break;
                     }

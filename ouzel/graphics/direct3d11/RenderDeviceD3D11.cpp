@@ -689,40 +689,6 @@ namespace ouzel
                         ID3D11Buffer* vertexShaderConstantBuffers[1] = {currentShader->getVertexShaderConstantBuffer()};
                         context->VSSetConstantBuffers(0, 1, vertexShaderConstantBuffers);
 
-                        // textures
-                        bool texturesValid = true;
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(drawCommand->textures[layer]);
-
-                            if (textureD3D11)
-                            {
-                                if (!textureD3D11->getResourceView() ||
-                                    !textureD3D11->getSamplerState())
-                                {
-                                    texturesValid = false;
-                                    break;
-                                }
-
-                                resourceViews[layer] = textureD3D11->getResourceView();
-                                samplers[layer] = textureD3D11->getSamplerState();
-                            }
-                            else
-                            {
-                                resourceViews[layer] = nullptr;
-                                samplers[layer] = nullptr;
-                            }
-                        }
-
-                        if (!texturesValid)
-                        {
-                            continue;
-                        }
-
-                        context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
-                        context->PSSetSamplers(0, Texture::LAYERS, samplers);
-
                         // depth-stencil state
                         uint32_t depthTestIndex = drawCommand->depthTest ? 1 : 0;
                         uint32_t depthWriteIndex = drawCommand->depthWrite ? 1 : 0;
@@ -823,6 +789,36 @@ namespace ouzel
 
                             context->IASetInputLayout(nullptr);
                         }
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        SetTexturesCommand* setTexturesCommand = static_cast<SetTexturesCommand*>(command.get());
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceD3D11* textureD3D11 = static_cast<TextureResourceD3D11*>(setTexturesCommand->textures[layer]);
+
+                            if (textureD3D11)
+                            {
+                                if (!textureD3D11->getResourceView() ||
+                                    !textureD3D11->getSamplerState())
+                                    return false;
+
+                                resourceViews[layer] = textureD3D11->getResourceView();
+                                samplers[layer] = textureD3D11->getSamplerState();
+                            }
+                            else
+                            {
+                                resourceViews[layer] = nullptr;
+                                samplers[layer] = nullptr;
+                            }
+                        }
+
+                        context->PSSetShaderResources(0, Texture::LAYERS, resourceViews);
+                        context->PSSetSamplers(0, Texture::LAYERS, samplers);
 
                         break;
                     }

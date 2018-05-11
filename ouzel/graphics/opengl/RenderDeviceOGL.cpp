@@ -988,40 +988,6 @@ namespace ouzel
 
                         if (!currentShader) continue;
 
-                        // textures
-                        bool texturesValid = true;
-
-                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
-                        {
-                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(drawCommand->textures[layer]);
-
-                            if (textureOGL)
-                            {
-                                if (!textureOGL->getTextureId())
-                                {
-                                    texturesValid = false;
-                                    break;
-                                }
-
-                                if (!bindTexture(textureOGL->getTextureId(), layer))
-                                {
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                if (!bindTexture(0, layer))
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-
-                        if (!texturesValid)
-                        {
-                            continue;
-                        }
-
                         // pixel shader constants
                         const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
 
@@ -1191,6 +1157,29 @@ namespace ouzel
                             useProgram(shaderOGL->getProgramId());
                         else
                             useProgram(0);
+
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        SetTexturesCommand* setTexturesCommand = static_cast<SetTexturesCommand*>(command.get());
+
+                        for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
+                        {
+                            TextureResourceOGL* textureOGL = static_cast<TextureResourceOGL*>(setTexturesCommand->textures[layer]);
+
+                            if (textureOGL)
+                            {
+                                if (!textureOGL->getTextureId())
+                                    return false;
+
+                                if (!bindTexture(textureOGL->getTextureId(), layer))
+                                    return false;
+                            }
+                            else if (!bindTexture(0, layer))
+                                return false;
+                        }
 
                         break;
                     }

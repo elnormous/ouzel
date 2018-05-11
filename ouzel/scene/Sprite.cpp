@@ -231,9 +231,9 @@ namespace ouzel
                 engine->getRenderer()->addSetCullModeCommad(material->cullMode);
                 engine->getRenderer()->addSetBlendStateCommand(material->blendState);
                 engine->getRenderer()->addSetShaderCommand(material->shader);
+                engine->getRenderer()->addSetTexturesCommand(textures);
 
-                engine->getRenderer()->addDrawCommand(textures,
-                                                      pixelShaderConstants,
+                engine->getRenderer()->addDrawCommand(pixelShaderConstants,
                                                       vertexShaderConstants,
                                                       currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
                                                       0,

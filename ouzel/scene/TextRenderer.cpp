@@ -94,9 +94,9 @@ namespace ouzel
             engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
             engine->getRenderer()->addSetBlendStateCommand(blendState);
             engine->getRenderer()->addSetShaderCommand(shader);
+            engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
 
-            engine->getRenderer()->addDrawCommand({wireframe ? whitePixelTexture : texture},
-                                                  pixelShaderConstants,
+            engine->getRenderer()->addDrawCommand(pixelShaderConstants,
                                                   vertexShaderConstants,
                                                   meshBuffer,
                                                   static_cast<uint32_t>(indices.size()),
