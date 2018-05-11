@@ -80,19 +80,16 @@ namespace ouzel
             pixelShaderFilename.clear();
             vertexShaderFilename.clear();
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&ShaderResource::init,
-                                                                   resource,
-                                                                   newPixelShader,
-                                                                   newVertexShader,
-                                                                   newVertexAttributes,
-                                                                   newPixelShaderConstantInfo,
-                                                                   newVertexShaderConstantInfo,
-                                                                   newPixelShaderDataAlignment,
-                                                                   newVertexShaderDataAlignment,
-                                                                   newPixelShaderFunction,
-                                                                   newVertexShaderFunction));
-
-            return  true;
+            return engine->getRenderer()->getDevice()->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitShaderCommand(resource,
+                                                                                                                                             newPixelShader,
+                                                                                                                                             newVertexShader,
+                                                                                                                                             newVertexAttributes,
+                                                                                                                                             newPixelShaderConstantInfo,
+                                                                                                                                             newVertexShaderConstantInfo,
+                                                                                                                                             newPixelShaderDataAlignment,
+                                                                                                                                             newVertexShaderDataAlignment,
+                                                                                                                                             newPixelShaderFunction,
+                                                                                                                                             newVertexShaderFunction)));
         }
 
         const std::set<Vertex::Attribute::Usage>& Shader::getVertexAttributes() const

@@ -321,10 +321,40 @@ namespace ouzel
             // TODO: implement
             struct InitShaderCommand: public Command
             {
-                InitShaderCommand():
-                    Command(Command::Type::INIT_SHADER)
+                InitShaderCommand(ShaderResource* initShader,
+                                  const std::vector<uint8_t>& initPixelShader,
+                                  const std::vector<uint8_t>& initVertexShader,
+                                  const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                                  const std::vector<Shader::ConstantInfo>& initPixelShaderConstantInfo,
+                                  const std::vector<Shader::ConstantInfo>& initVertexShaderConstantInfo,
+                                  uint32_t initPixelShaderDataAlignment,
+                                  uint32_t initVertexShaderDataAlignment,
+                                  const std::string& initPixelShaderFunction,
+                                  const std::string& initVertexShaderFunction):
+                    Command(Command::Type::INIT_SHADER),
+                    shader(initShader),
+                    pixelShader(initPixelShader),
+                    vertexShader(initVertexShader),
+                    vertexAttributes(initVertexAttributes),
+                    pixelShaderConstantInfo(initPixelShaderConstantInfo),
+                    vertexShaderConstantInfo(initVertexShaderConstantInfo),
+                    pixelShaderDataAlignment(initPixelShaderDataAlignment),
+                    vertexShaderDataAlignment(initVertexShaderDataAlignment),
+                    pixelShaderFunction(initPixelShaderFunction),
+                    vertexShaderFunction(initVertexShaderFunction)
                 {
                 }
+
+                ShaderResource* shader;
+                std::vector<uint8_t> pixelShader;
+                std::vector<uint8_t> vertexShader;
+                std::set<Vertex::Attribute::Usage> vertexAttributes;
+                std::vector<Shader::ConstantInfo> pixelShaderConstantInfo;
+                std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
+                uint32_t pixelShaderDataAlignment;
+                uint32_t vertexShaderDataAlignment;
+                std::string pixelShaderFunction;
+                std::string vertexShaderFunction;
             };
 
             struct SetShaderCommand: public Command

@@ -816,6 +816,23 @@ namespace ouzel
                         break;
                     }
 
+                    case Command::Type::INIT_SHADER:
+                    {
+                        InitShaderCommand* initShaderCommand = static_cast<InitShaderCommand*>(command.get());
+
+                        initShaderCommand->shader->init(initShaderCommand->pixelShader,
+                                                        initShaderCommand->vertexShader,
+                                                        initShaderCommand->vertexAttributes,
+                                                        initShaderCommand->pixelShaderConstantInfo,
+                                                        initShaderCommand->vertexShaderConstantInfo,
+                                                        initShaderCommand->pixelShaderDataAlignment,
+                                                        initShaderCommand->vertexShaderDataAlignment,
+                                                        initShaderCommand->pixelShaderFunction,
+                                                        initShaderCommand->vertexShaderFunction);
+
+                        break;
+                    }
+
                     case Command::Type::SET_SHADER:
                     {
                         SetShaderCommand* setShaderCommand = static_cast<SetShaderCommand*>(command.get());
