@@ -41,13 +41,13 @@ namespace ouzel
             if (!BufferResource::setData(newData))
                 return false;
 
-            if (!data.empty())
+            if (!buffer || data.size() > bufferSize)
             {
-                if (!buffer || data.size() > bufferSize)
-                {
-                    createBuffer(static_cast<UINT>(data.size());
-                }
-                else
+                createBuffer(static_cast<UINT>(data.size()));
+            }
+            else
+            {
+                if (!data.empty())
                 {
                     D3D11_MAPPED_SUBRESOURCE mappedSubresource;
                     mappedSubresource.pData = nullptr;
