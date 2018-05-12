@@ -159,6 +159,168 @@ namespace ouzel
 {
     namespace graphics
     {
+        static GLenum getVertexFormat(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::BYTE_NORM:
+                case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
+                    return GL_BYTE;
+
+                case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                    return GL_UNSIGNED_BYTE;
+
+                case DataType::SHORT:
+                case DataType::SHORT_NORM:
+                case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
+                    return GL_SHORT;
+
+                case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    return GL_UNSIGNED_SHORT;
+
+                case DataType::INTEGER:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::INTEGER_VECTOR4:
+                    return GL_INT;
+
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                    return GL_UNSIGNED_INT;
+
+                case DataType::FLOAT:
+                case DataType::FLOAT_VECTOR2:
+                case DataType::FLOAT_VECTOR3:
+                case DataType::FLOAT_VECTOR4:
+                case DataType::FLOAT_MATRIX3:
+                case DataType::FLOAT_MATRIX4:
+                    return GL_FLOAT;
+
+                default:
+                    return 0;
+            }
+        }
+
+        static GLint getArraySize(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE:
+                case DataType::BYTE_NORM:
+                case DataType::UNSIGNED_BYTE:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::SHORT:
+                case DataType::SHORT_NORM:
+                case DataType::UNSIGNED_SHORT:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::INTEGER:
+                case DataType::UNSIGNED_INTEGER:
+                case DataType::FLOAT:
+                    return 1;
+
+                case DataType::BYTE_VECTOR2:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR2:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::INTEGER_VECTOR2:
+                case DataType::UNSIGNED_INTEGER_VECTOR2:
+                case DataType::FLOAT_VECTOR2:
+                    return 2;
+
+                case DataType::BYTE_VECTOR3:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR3:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::INTEGER_VECTOR3:
+                case DataType::UNSIGNED_INTEGER_VECTOR3:
+                case DataType::FLOAT_VECTOR3:
+                    return 3;
+
+                case DataType::BYTE_VECTOR4:
+                case DataType::BYTE_VECTOR4_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::SHORT_VECTOR4:
+                case DataType::SHORT_VECTOR4_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                case DataType::INTEGER_VECTOR4:
+                case DataType::UNSIGNED_INTEGER_VECTOR4:
+                case DataType::FLOAT_VECTOR4:
+                    return 4;
+
+                case DataType::FLOAT_MATRIX3:
+                    return 3 * 3;
+
+                case DataType::FLOAT_MATRIX4:
+                    return 4 * 4;
+
+                default:
+                    return 0;
+            }
+        }
+
+        static GLboolean isNormalized(DataType dataType)
+        {
+            switch (dataType)
+            {
+                case DataType::BYTE_NORM:
+                case DataType::BYTE_VECTOR2_NORM:
+                case DataType::BYTE_VECTOR3_NORM:
+                case DataType::BYTE_VECTOR4_NORM:
+                case DataType::UNSIGNED_BYTE_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR2_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR3_NORM:
+                case DataType::UNSIGNED_BYTE_VECTOR4_NORM:
+                case DataType::SHORT_NORM:
+                case DataType::SHORT_VECTOR2_NORM:
+                case DataType::SHORT_VECTOR3_NORM:
+                case DataType::SHORT_VECTOR4_NORM:
+                case DataType::UNSIGNED_SHORT_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR2_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR3_NORM:
+                case DataType::UNSIGNED_SHORT_VECTOR4_NORM:
+                    return GL_TRUE;
+                default:
+                    return GL_FALSE;
+            }
+        }
+
         RenderDeviceOGL::RenderDeviceOGL():
             RenderDevice(Renderer::Driver::OPENGL)
         {
@@ -175,6 +337,8 @@ namespace ouzel
 
         RenderDeviceOGL::~RenderDeviceOGL()
         {
+            if (activeVertexArrayId) deleteVertexArray(activeVertexArrayId);
+
             resourceDeleteSet.clear();
             resources.clear();
         }
@@ -537,10 +701,7 @@ namespace ouzel
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                 }
 
-                if (!multisamplingSupported)
-                {
-                    sampleCount = 1;
-                }
+                if (!multisamplingSupported) sampleCount = 1;
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
@@ -672,6 +833,18 @@ namespace ouzel
             frameBufferClearColor[1] = clearColor.normG();
             frameBufferClearColor[2] = clearColor.normB();
             frameBufferClearColor[3] = clearColor.normA();
+
+            if (glGenVertexArraysProc)
+            {
+                glGenVertexArraysProc(1, &activeVertexArrayId);
+                bindVertexArray(activeVertexArrayId);
+
+                if (checkOpenGLError())
+                {
+                    Log(Log::Level::ERR) << "Failed to create vertex array";
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -1067,6 +1240,34 @@ namespace ouzel
                         if (!meshBufferOGL->bindBuffers())
                         {
                             return false;
+                        }
+
+                        static std::set<GLuint> vbos;
+
+                        if (vbos.insert(meshBufferOGL->getVertexBufferOGL()->getBufferId()).second)
+                        {
+                            GLuint offset = 0;
+
+                            for (GLuint index = 0; index < Vertex::ATTRIBUTES.size(); ++index)
+                            {
+                                const Vertex::Attribute& vertexAttribute = Vertex::ATTRIBUTES[index];
+
+                                glEnableVertexAttribArrayProc(index);
+                                glVertexAttribPointerProc(index,
+                                                          getArraySize(vertexAttribute.dataType),
+                                                          getVertexFormat(vertexAttribute.dataType),
+                                                          isNormalized(vertexAttribute.dataType),
+                                                          static_cast<GLsizei>(sizeof(Vertex)),
+                                                          static_cast<const GLchar*>(nullptr) + offset);
+
+                                offset += getDataTypeSize(vertexAttribute.dataType);
+                            }
+
+                            if (checkOpenGLError())
+                            {
+                                Log(Log::Level::ERR) << "Failed to set vertex attributes";
+                                return false;
+                            }
                         }
 
                         uint32_t indexCount = drawCommand->indexCount;
