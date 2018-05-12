@@ -142,20 +142,13 @@ namespace ouzel
             }
         }
 
-        bool RenderDevice::addCommand(std::unique_ptr<Command>&& command)
-        {
-            fillBuffer->push_back(std::move(command));
-
-            return true;
-        }
-
         void RenderDevice::flushCommands()
         {
 #if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
 #endif
 
-            drawCallCount = static_cast<uint32_t>(fillBuffer->size());
+            //drawCallCount = static_cast<uint32_t>(fillBuffer->size());
 
             refillQueue = false;
             queueFinished = true;

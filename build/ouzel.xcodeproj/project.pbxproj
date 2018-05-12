@@ -1323,6 +1323,7 @@
 		30EF36521CA76AE200F04F29 /* ScrollBar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScrollBar.hpp; sourceTree = "<group>"; };
 		30EF36611CA845DC00F04F29 /* ComboBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComboBox.cpp; sourceTree = "<group>"; };
 		30EF36621CA845DC00F04F29 /* ComboBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComboBox.hpp; sourceTree = "<group>"; };
+		30F249ED20A7681E0007D417 /* CommandBuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CommandBuffer.hpp; sourceTree = "<group>"; };
 		30F5DD361F09756400E14E84 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
 		30F5DD371F09756400E14E84 /* Stream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Stream.hpp; sourceTree = "<group>"; };
 		30F5DD3E1F09757100E14E84 /* StreamWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamWave.cpp; sourceTree = "<group>"; };
@@ -1564,6 +1565,7 @@
 				303696D31E32DDA9007F4211 /* Buffer.hpp */,
 				30381F0F1D8094F100677CAB /* BufferResource.cpp */,
 				30381F101D8094F100677CAB /* BufferResource.hpp */,
+				30F249ED20A7681E0007D417 /* CommandBuffer.hpp */,
 				301457091E40FB5100BA75DB /* DataType.hpp */,
 				303820881D816EAB00677CAB /* empty */,
 				303B74E11C277A7500FEDE92 /* ImageData.cpp */,
