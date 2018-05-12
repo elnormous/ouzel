@@ -253,10 +253,10 @@ namespace ouzel
             }
 
             inline bool setScissorTest(bool scissorTestEnabled,
-                                              GLint x,
-                                              GLint y,
-                                              GLsizei width,
-                                              GLsizei height)
+                                       GLint x,
+                                       GLint y,
+                                       GLsizei width,
+                                       GLsizei height)
             {
                 if (stateCache.scissorTestEnabled != scissorTestEnabled)
                 {
