@@ -969,6 +969,9 @@
     <ClInclude Include="..\ouzel\input\InputSystem.hpp">
       <Filter>ouzel\input</Filter>
     </ClInclude>
+    <ClInclude Include="..\ouzel\graphics\CommandBuffer.hpp">
+      <Filter>ouzel\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ouzel">
