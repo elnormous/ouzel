@@ -197,7 +197,7 @@ namespace ouzel
 
         struct PushDebugMarkerCommand: public Command
         {
-            PushDebugMarkerCommand(const std::string& initName):
+            explicit PushDebugMarkerCommand(const std::string& initName):
                 Command(Command::Type::PUSH_DEBUG_MARKER),
                 name(initName)
             {
@@ -209,7 +209,7 @@ namespace ouzel
         struct PopDebugMarkerCommand: public Command
         {
             PopDebugMarkerCommand():
-            Command(Command::Type::POP_DEBUG_MARKER)
+                Command(Command::Type::POP_DEBUG_MARKER)
             {
             }
         };
@@ -250,28 +250,37 @@ namespace ouzel
         // TODO: implement
         struct InitBufferCommand: public Command
         {
-            InitBufferCommand():
-                Command(Command::Type::INIT_BUFFER)
+            InitBufferCommand(BufferResource* initBuffer):
+                Command(Command::Type::INIT_BUFFER),
+                buffer(initBuffer)
             {
             }
+
+            BufferResource* buffer;
         };
 
         // TODO: implement
         struct SetBufferDataCommand: public Command
         {
-            SetBufferDataCommand():
-                Command(Command::Type::SET_BUFFER_DATA)
+            SetBufferDataCommand(BufferResource* initBuffer):
+                Command(Command::Type::SET_BUFFER_DATA),
+                buffer(initBuffer)
             {
             }
+
+            BufferResource* buffer;
         };
 
         // TODO: implement
         struct InitMeshBufferCommand: public Command
         {
-            InitMeshBufferCommand():
-                Command(Command::Type::INIT_MESH_BUFFER)
+            InitMeshBufferCommand(MeshBuffer* initMeshBuffer):
+                Command(Command::Type::INIT_MESH_BUFFER),
+                meshBuffer(initMeshBuffer)
             {
             }
+
+            MeshBuffer* meshBuffer;
         };
 
         struct InitShaderCommand: public Command
@@ -326,10 +335,39 @@ namespace ouzel
             std::vector<std::vector<float>> vertexShaderConstants;
         };
 
-        //            INIT_TEXTURE
-        //            SET_TEXTURE_DATA
-        //            SET_TEXTURE_FLAGS
-        //
+        struct InitTextureCommand: public Command
+        {
+            InitTextureCommand(TextureResource* initTexture):
+                Command(Command::Type::INIT_TEXTURE),
+                texture(initTexture)
+            {
+            }
+
+            TextureResource* texture;
+        };
+
+        struct SetTextureDataCommand: public Command
+        {
+            SetTextureDataCommand(TextureResource* initTexture):
+                Command(Command::Type::SET_TEXTURE_DATA),
+                texture(initTexture)
+            {
+            }
+
+            TextureResource* texture;
+        };
+
+        struct SetTextureFlagsCommand: public Command
+        {
+            SetTextureFlagsCommand(TextureResource* initTexture):
+                Command(Command::Type::SET_TEXTURE_FLAGS),
+                texture(initTexture)
+            {
+            }
+
+            TextureResource* texture;
+        };
+
         struct SetTexturesCommand: public Command
         {
             SetTexturesCommand(TextureResource* initTextures[Texture::LAYERS]):
@@ -573,6 +611,30 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::Type::INIT_TEXTURE:
+                        {
+                            InitTextureCommand* newInitTextureCommand = reinterpret_cast<InitTextureCommand*>(newBuffer + offset);
+                            new (newInitTextureCommand) InitTextureCommand(std::move(*static_cast<InitTextureCommand*>(command)));
+                            offset += sizeof(InitTextureCommand);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_DATA:
+                        {
+                            SetTextureDataCommand* newSetTextureDataCommand = reinterpret_cast<SetTextureDataCommand*>(newBuffer + offset);
+                            new (newSetTextureDataCommand) SetTextureDataCommand(std::move(*static_cast<SetTextureDataCommand*>(command)));
+                            offset += sizeof(SetTextureDataCommand);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_FLAGS:
+                        {
+                            SetTextureFlagsCommand* newSetTextureFlagsCommand = reinterpret_cast<SetTextureFlagsCommand*>(newBuffer + offset);
+                            new (newSetTextureFlagsCommand) SetTextureFlagsCommand(std::move(*static_cast<SetTextureFlagsCommand*>(command)));
+                            offset += sizeof(SetTextureFlagsCommand);
+                            break;
+                        }
+
                         case Command::Type::SET_TEXTURES:
                         {
                             SetTexturesCommand* newSetTexturesCommand = reinterpret_cast<SetTexturesCommand*>(newBuffer + offset);
@@ -713,11 +775,31 @@ namespace ouzel
                             break;
                         }
 
+                        case Command::Type::INIT_TEXTURE:
+                        {
+                            static_cast<InitTextureCommand*>(command)->~InitTextureCommand();
+                            offset += sizeof(InitTextureCommand);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_DATA:
+                        {
+                            static_cast<SetTextureDataCommand*>(command)->~SetTextureDataCommand();
+                            offset += sizeof(SetTextureDataCommand);
+                            break;
+                        }
+
+                        case Command::Type::SET_TEXTURE_FLAGS:
+                        {
+                            static_cast<SetTextureFlagsCommand*>(command)->~SetTextureFlagsCommand();
+                            offset += sizeof(SetTextureFlagsCommand);
+                            break;
+                        }
+
                         case Command::Type::SET_TEXTURES:
                         {
                             static_cast<SetTexturesCommand*>(command)->~SetTexturesCommand();
                             offset += sizeof(SetTexturesCommand);
-
                             break;
                         }
 
