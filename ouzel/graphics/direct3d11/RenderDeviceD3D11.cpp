@@ -419,7 +419,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceD3D11::processCommands(const std::vector<uint8_t>& commands)
+        bool RenderDeviceD3D11::processCommands(const CommandBuffer& commands)
         {
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
