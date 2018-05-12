@@ -365,7 +365,7 @@ namespace ouzel
                     if (buffer)
                     {
                         deleteCommands();
-                        free(buffer);
+                        delete [] buffer;
                     }
 
                     buffer = other.buffer;
@@ -385,7 +385,7 @@ namespace ouzel
                 if (buffer)
                 {
                     deleteCommands();
-                    free(buffer);
+                    delete [] buffer;
                 }
             }
 
@@ -397,12 +397,12 @@ namespace ouzel
                 {
                     capacity *= 2;
                     if (capacity < size + sizeof(T)) capacity = size + sizeof(T);
-                    uint8_t* newBuffer = static_cast<uint8_t*>(malloc(capacity));
+                    uint8_t* newBuffer = new uint8_t[capacity];
                     if (buffer)
                     {
                         moveCommands(newBuffer);
                         deleteCommands();
-                        free(buffer);
+                        delete [] buffer;
                     }
                     buffer = newBuffer;
                 }
