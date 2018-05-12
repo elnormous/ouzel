@@ -19,8 +19,9 @@ namespace ouzel
         public:
             virtual ~BufferResource();
 
-            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags = 0, uint32_t newSize = 0);
-            virtual bool init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags = 0);
+            virtual bool init(Buffer::Usage newUsage, uint32_t newFlags,
+                              const std::vector<uint8_t>& newData,
+                              uint32_t newSize);
 
             virtual bool setData(const std::vector<uint8_t>& newData);
 
@@ -31,9 +32,9 @@ namespace ouzel
         protected:
             BufferResource();
 
-            std::vector<uint8_t> data;
             Buffer::Usage usage;
             uint32_t flags = 0;
+            std::vector<uint8_t> data;
         };
     } // namespace graphics
 } // namespace ouzel

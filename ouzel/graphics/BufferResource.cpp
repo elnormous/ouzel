@@ -15,16 +15,9 @@ namespace ouzel
         {
         }
 
-        bool BufferResource::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
-        {
-            usage = newUsage;
-            flags = newFlags;
-            data.resize(newSize);
-
-            return true;
-        }
-
-        bool BufferResource::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
+        bool BufferResource::init(Buffer::Usage newUsage, uint32_t newFlags,
+                                  const std::vector<uint8_t>& newData,
+                                  uint32_t)
         {
             usage = newUsage;
             flags = newFlags;
@@ -37,6 +30,8 @@ namespace ouzel
         {
             if (!(flags & Buffer::DYNAMIC))
                 return false;
+
+            if (newData.empty()) return false;
 
             data = newData;
 

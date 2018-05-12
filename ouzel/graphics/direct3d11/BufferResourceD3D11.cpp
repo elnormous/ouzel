@@ -20,36 +20,18 @@ namespace ouzel
 
         BufferResourceD3D11::~BufferResourceD3D11()
         {
-            if (buffer)
-                buffer->Release();
+            if (buffer) buffer->Release();
         }
 
-        bool BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags, uint32_t newSize)
+        bool BufferResourceD3D11::init(Buffer::Usage newUsage, uint32_t newFlags,
+                                       const std::vector<uint8_t>& newData,
+                                       uint32_t newSize)
         {
-            if (!BufferResource::init(newUsage, newFlags, newSize))
-            {
+            if (!BufferResource::init(newUsage, newFlags, newData, newSize))
                 return false;
-            }
 
-            if (!createBuffer())
-            {
+            if (!createBuffer(newSize))
                 return false;
-            }
-
-            return true;
-        }
-
-        bool BufferResourceD3D11::init(Buffer::Usage newUsage, const std::vector<uint8_t>& newData, uint32_t newFlags)
-        {
-            if (!BufferResource::init(newUsage, newData, newFlags))
-            {
-                return false;
-            }
-
-            if (!createBuffer())
-            {
-                return false;
-            }
 
             return true;
         }
@@ -57,15 +39,13 @@ namespace ouzel
         bool BufferResourceD3D11::setData(const std::vector<uint8_t>& newData)
         {
             if (!BufferResource::setData(newData))
-            {
                 return false;
-            }
 
             if (!data.empty())
             {
                 if (!buffer || data.size() > bufferSize)
                 {
-                    createBuffer();
+                    createBuffer(static_cast<UINT>(data.size());
                 }
                 else
                 {
@@ -90,7 +70,7 @@ namespace ouzel
             return true;
         }
 
-        bool BufferResourceD3D11::createBuffer()
+        bool BufferResourceD3D11::createBuffer(UINT newSize)
         {
             if (buffer)
             {
@@ -98,10 +78,10 @@ namespace ouzel
                 buffer = nullptr;
             }
 
-            bufferSize = static_cast<UINT>(data.size());
-
-            if (!data.empty())
+            if (newSize)
             {
+                bufferSize = newSize;
+
                 D3D11_BUFFER_DESC bufferDesc;
                 bufferDesc.ByteWidth = bufferSize;
                 bufferDesc.Usage = (flags & Texture::DYNAMIC) ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE;
@@ -123,12 +103,22 @@ namespace ouzel
                 bufferDesc.MiscFlags = 0;
                 bufferDesc.StructureByteStride = 0;
 
-                D3D11_SUBRESOURCE_DATA bufferResourceData;
-                bufferResourceData.pSysMem = data.data();
-                bufferResourceData.SysMemPitch = 0;
-                bufferResourceData.SysMemSlicePitch = 0;
+                HRESULT hr;
 
-                HRESULT hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
+                if (data.empty())
+                {
+                    hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer);
+                }
+                else
+                {
+                    D3D11_SUBRESOURCE_DATA bufferResourceData;
+                    bufferResourceData.pSysMem = data.data();
+                    bufferResourceData.SysMemPitch = 0;
+                    bufferResourceData.SysMemSlicePitch = 0;
+
+                    hr = renderDeviceD3D11.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &buffer);
+                }
+
                 if (FAILED(hr))
                 {
                     Log(Log::Level::ERR) << "Failed to create Direct3D 11 buffer, error: " << hr;
