@@ -39,13 +39,13 @@ namespace ouzel
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return renderDevice->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::InitBlendStateCommand(resource,
-                                                                                                                           newEnableBlending,
-                                                                                                                           newColorBlendSource, newColorBlendDest,
-                                                                                                                           newColorOperation,
-                                                                                                                           newAlphaBlendSource, newAlphaBlendDest,
-                                                                                                                           newAlphaOperation,
-                                                                                                                           newColorMask)));
+            return renderDevice->addCommand(InitBlendStateCommand(resource,
+                                                                  newEnableBlending,
+                                                                  newColorBlendSource, newColorBlendDest,
+                                                                  newColorOperation,
+                                                                  newAlphaBlendSource, newAlphaBlendDest,
+                                                                  newAlphaOperation,
+                                                                  newColorMask));
         }
     } // namespace graphics
 } // namespace ouzel

@@ -268,45 +268,44 @@ namespace ouzel
 
         bool Renderer::addSetRenderTargetCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetRenderTargetCommand(renderTarget ? renderTarget->getResource() : nullptr)));
+            return device->addCommand(SetRenderTargetCommand(renderTarget ? renderTarget->getResource() : nullptr));
         }
 
         bool Renderer::addClearCommand(const std::shared_ptr<Texture>& renderTarget)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::ClearCommand(renderTarget ? renderTarget->getResource() : nullptr)));
+            return device->addCommand(ClearCommand(renderTarget ? renderTarget->getResource() : nullptr));
         }
 
         bool Renderer::addSetCullModeCommad(Renderer::CullMode cullMode)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetCullModeCommad(cullMode)));
+            return device->addCommand(SetCullModeCommad(cullMode));
         }
 
         bool Renderer::addSetFillModeCommad(Renderer::FillMode fillMode)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetFillModeCommad(fillMode)));
+            return device->addCommand(SetFillModeCommad(fillMode));
         }
 
         bool Renderer::addSetScissorTestCommand(bool enabled, const Rect& rectangle)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetScissorTestCommand(enabled,
-                                                                                                                     rectangle)));
+            return device->addCommand(SetScissorTestCommand(enabled, rectangle));
         }
 
         bool Renderer::addSetViewportCommand(const Rect& viewport)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetViewportCommand(viewport)));
+            return device->addCommand(SetViewportCommand(viewport));
         }
 
         bool Renderer::addSetDepthStateCommand(bool depthTest, bool depthWrite)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetDepthStateCommand(depthTest, depthWrite)));
+            return device->addCommand(SetDepthStateCommand(depthTest, depthWrite));
         }
 
         bool Renderer::addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
                                                   const std::shared_ptr<Shader>& shader)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetPipelineStateCommand(blendState ? blendState->getResource() : nullptr,
-                                                                                                                       shader ? shader->getResource() : nullptr)));
+            return device->addCommand(SetPipelineStateCommand(blendState ? blendState->getResource() : nullptr,
+                                                              shader ? shader->getResource() : nullptr));
         }
 
         bool Renderer::addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
@@ -320,27 +319,27 @@ namespace ouzel
                 return false;
             }
 
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::DrawCommand(meshBuffer->getResource(),
-                                                                                                           indexCount,
-                                                                                                           drawMode,
-                                                                                                           startIndex)));
+            return device->addCommand(DrawCommand(meshBuffer->getResource(),
+                                                                indexCount,
+                                                                drawMode,
+                                                                startIndex));
         }
 
         bool Renderer::addPushDebugMarkerCommand(const std::string& name)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::PushDebugMarkerCommand(name)));
+            return device->addCommand(PushDebugMarkerCommand(name));
         }
 
         bool Renderer::addPopDebugMarkerCommand()
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::PopDebugMarkerCommand()));
+            return device->addCommand(PopDebugMarkerCommand());
         }
 
         bool Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,
                                                     std::vector<std::vector<float>> vertexShaderConstants)
         {
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetShaderConstantsCommand(pixelShaderConstants,
-                                                                                                                         vertexShaderConstants)));
+            return device->addCommand(SetShaderConstantsCommand(pixelShaderConstants,
+                                                                vertexShaderConstants));
         }
 
         bool Renderer::addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures)
@@ -353,7 +352,7 @@ namespace ouzel
                 newTextures[i] = texture ? texture->getResource() : nullptr;
             }
 
-            return device->addCommand(std::unique_ptr<RenderDevice::Command>(new RenderDevice::SetTexturesCommand(newTextures)));
+            return device->addCommand(SetTexturesCommand(newTextures));
         }
     } // namespace graphics
 } // namespace ouzel
