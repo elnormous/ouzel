@@ -38,6 +38,8 @@ namespace ouzel
 
             if (bufferSize > 0)
             {
+                renderDeviceOGL.bindVertexArray(0);
+
                 if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                     return false;
 
@@ -67,6 +69,8 @@ namespace ouzel
 
             if (bufferSize > 0)
             {
+                renderDeviceOGL.bindVertexArray(0);
+
                 if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                     return false;
 
@@ -97,6 +101,8 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Buffer not initialized";
                 return false;
             }
+
+            renderDeviceOGL.bindVertexArray(0);
 
             if (!renderDeviceOGL.bindBuffer(bufferType, bufferId))
                 return false;

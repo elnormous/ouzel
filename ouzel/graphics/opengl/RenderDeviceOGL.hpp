@@ -560,7 +560,11 @@ namespace ouzel
 
             void deleteVertexArray(GLuint vertexArrayId)
             {
+#if OUZEL_PLATFORM_ANDROID
+                bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
+#else
                 if (stateCache.vertexArrayId == vertexArrayId) stateCache.vertexArrayId = 0;
+#endif
                 if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
             }
 
@@ -648,7 +652,6 @@ namespace ouzel
             GLfloat frameBufferClearColor[4];
             bool textureBaseLevelSupported = true;
             bool textureMaxLevelSupported = true;
-            GLuint activeVertexArrayId = 0;
 
             class StateCache
             {
