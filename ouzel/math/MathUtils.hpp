@@ -4,8 +4,6 @@
 #pragma once
 
 #include <cstdint>
-#include "math/Vector2.hpp"
-#include "math/Size2.hpp"
 
 namespace ouzel
 {
