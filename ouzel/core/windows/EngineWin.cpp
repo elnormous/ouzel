@@ -22,22 +22,17 @@ typedef struct tagTHREADNAME_INFO
 
 namespace ouzel
 {
-    EngineWin::EngineWin()
+    EngineWin::EngineWin(int initArgc, LPWSTR* initArgv)
     {
-        int nArgs;
-        LPWSTR* argList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
-
-        if (argList)
+        if (initArgv)
         {
             char temporaryCString[256];
-            for (int i = 0; i < nArgs; i++)
+            for (int i = 0; i < initArgc; ++i)
             {
-                WideCharToMultiByte(CP_UTF8, 0, argList[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
+                WideCharToMultiByte(CP_UTF8, 0, initArgv[i], -1, temporaryCString, sizeof(temporaryCString), nullptr, nullptr);
 
                 args.push_back(temporaryCString);
             }
-
-            LocalFree(argList);
         }
     }
 
