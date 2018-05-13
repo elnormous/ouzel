@@ -10,7 +10,7 @@ namespace ouzel
     class EngineWin : public Engine
     {
     public:
-        EngineWin();
+        EngineWin(int initArgc, LPWSTR* initArgv);
         virtual ~EngineWin();
 
         virtual int run() override;
