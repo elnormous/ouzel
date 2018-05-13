@@ -4,10 +4,10 @@
 #include <Windows.h>
 #include "EngineWin.hpp"
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR cmdLine, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
     int argc;
-    LPWSTR* argv = CommandLineToArgvW(cmdLine, &argc);
+    LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
     std::unique_ptr<ouzel::EngineWin> engine(new ouzel::EngineWin(argc, argv));
 
