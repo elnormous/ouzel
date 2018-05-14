@@ -3,7 +3,6 @@
 
 #include "Plane.hpp"
 #include "Vector4.hpp"
-#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -19,7 +18,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < FLT_EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;

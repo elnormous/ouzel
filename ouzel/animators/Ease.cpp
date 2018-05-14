@@ -11,17 +11,17 @@ namespace ouzel
     {
         static float sineIn(float t)
         {
-            return 1.0F - cosf(t * PI_2);
+            return 1.0F - cosf(t * static_cast<float>(M_PI_2));
         }
 
         static float sineOut(float t)
         {
-            return sinf(t * PI_2);
+            return sinf(t * static_cast<float>(M_PI_2));
         }
 
         static float sineInOut(float t)
         {
-            return -0.5F * (cosf(PI * t) - 1.0F);
+            return -0.5F * (cosf(static_cast<float>(M_PI) * t) - 1.0F);
         }
 
         static float quadIn(float t)
@@ -185,7 +185,7 @@ namespace ouzel
 
             t -= 1.0F;
 
-            return -powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p);
+            return -powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * static_cast<float>(M_PI)) / p);
         }
 
         static float elasticOut(float t)
@@ -195,7 +195,7 @@ namespace ouzel
 
             float p = 0.3F;
 
-            return powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p) + 1.0F;
+            return powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * static_cast<float>(M_PI)) / p) + 1.0F;
         }
 
         static float elasticInOut(float t)
@@ -208,12 +208,12 @@ namespace ouzel
             if (t < 0.5F)
             {
                 t = t * 2.0F - 1.0F;
-                return -0.5F * (powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p));
+                return -0.5F * (powf(2.0F, 10.0F * t) * sinf((t - p / 4.0F) * (2.0F * static_cast<float>(M_PI)) / p));
             }
             else
             {
                 t = t * 2.0F - 1.0F;
-                return 0.5F * powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * PI) / p) + 1.0F;
+                return 0.5F * powf(2.0F, -10.0F * t) * sinf((t - p / 4.0F) * (2.0F * static_cast<float>(M_PI)) / p) + 1.0F;
             }
         }
 

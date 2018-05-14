@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cfloat>
 #include <cmath>
 #include <cassert>
 #include <algorithm>
@@ -8,7 +9,6 @@
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "Color.hpp"
-#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -77,7 +77,7 @@ namespace ouzel
         float dy = v1.w * v2.y - v1.y * v2.w - v1.z * v2.x + v1.x * v2.z;
         float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
 
-        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz) + FLOAT_SMALL, dot(v1, v2));
+        return atan2f(sqrtf(dx * dx + dy * dy + dz * dz), dot(v1, v2));
     }
 
     void Vector4::clamp(const Vector4& min, const Vector4& max)
@@ -164,7 +164,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < FLT_EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;
