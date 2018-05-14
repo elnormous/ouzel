@@ -245,8 +245,8 @@ namespace ouzel
                             float s = sinf(angle);
 
                             // constant power panning
-                            channelVolume[0] *= clamp(SQRT2 / 2.0F * (c - s), 0.0F, 1.0F);
-                            channelVolume[1] *= clamp(SQRT2 / 2.0F * (c + s), 0.0F, 1.0F);
+                            channelVolume[0] *= clamp(static_cast<float>(M_SQRT2) / 2.0F * (c - s), 0.0F, 1.0F);
+                            channelVolume[1] *= clamp(static_cast<float>(M_SQRT2) / 2.0F * (c + s), 0.0F, 1.0F);
                         }
                     }
 
