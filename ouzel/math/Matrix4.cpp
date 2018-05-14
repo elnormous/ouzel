@@ -2,7 +2,6 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <cfloat>
 #include <cmath>
 #include <cassert>
 #include "Matrix4.hpp"
@@ -102,7 +101,7 @@ namespace ouzel
         assert(zFarPlane != zNearPlane);
 
         float theta = fieldOfView * 0.5F;
-        if (fabsf(fmodf(theta, static_cast<float>(M_PI_2))) < FLT_EPSILON)
+        if (fabsf(fmodf(theta, PI_2)) < EPSILON)
         {
             // invalid field of view value
             return;
@@ -174,7 +173,7 @@ namespace ouzel
                                         Matrix4& dst)
     {
         Vector3 delta(objectPosition, cameraPosition);
-        bool isSufficientDelta = delta.lengthSquared() > FLT_EPSILON;
+        bool isSufficientDelta = delta.lengthSquared() > EPSILON;
 
         dst.setIdentity();
         dst.m[3] = objectPosition.x;
@@ -230,7 +229,7 @@ namespace ouzel
             // Not normalized
             n = sqrtf(n);
             // Prevent divide too close to zero
-            if (n >= FLT_EPSILON)
+            if (n >= TOLERANCE)
             {
                 n = 1.0F / n;
                 x *= n;
@@ -595,7 +594,7 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < FLT_EPSILON)
+        if (fabs(det) < TOLERANCE)
             return false;
 
         // Support the case where m == dst

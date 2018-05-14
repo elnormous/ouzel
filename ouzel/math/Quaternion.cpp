@@ -1,9 +1,9 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cfloat>
 #include <cmath>
 #include "Quaternion.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -26,7 +26,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < FLT_EPSILON) // too close to zero
+        if (n < TOLERANCE) // too close to zero
             return;
 
         n = 1.0F / n;
@@ -53,7 +53,7 @@ namespace ouzel
     {
         angle = 2.0F * acosf(w);
         float s = sqrtf(1.0F - w * w);
-        if (s < FLT_EPSILON) // too close to zero
+        if (s < TOLERANCE) // too close to zero
         {
             axis.x = x;
             axis.y = y;

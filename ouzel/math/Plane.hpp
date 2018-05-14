@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <cfloat>
 #include <cmath>
+#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -51,7 +51,7 @@ namespace ouzel
         static inline bool makeFrustumPlane(float a, float b, float c, float d, Plane& plane)
         {
             float n = sqrtf(a * a + b * b + c * c);
-            if (n < FLT_EPSILON)
+            if (n < EPSILON)
             {
                 return false;
             }
