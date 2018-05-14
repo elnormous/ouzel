@@ -44,19 +44,21 @@ namespace ouzel
 #endif
     }
 
-    bool Condition::wait(Mutex& mutex)
+    bool Condition::wait(Lock& lock)
     {
+        if (!lock.getMutex()) return false;
 #if defined(_WIN32)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection, INFINITE) != 0;
+        return SleepConditionVariableCS(&conditionVariable, &lock.getMutex()->criticalSection, INFINITE) != 0;
 #else
-        return pthread_cond_wait(&condition, &mutex.mutex) == 0;
+        return pthread_cond_wait(&condition, &lock.getMutex()->mutex) == 0;
 #endif
     }
 
-    bool Condition::wait(Mutex& mutex, std::chrono::steady_clock::duration duration)
+    bool Condition::wait(Lock& lock, std::chrono::steady_clock::duration duration)
     {
+        if (!lock.getMutex()) return false;
 #if defined(_WIN32)
-        return SleepConditionVariableCS(&conditionVariable, &mutex.criticalSection,
+        return SleepConditionVariableCS(&conditionVariable, &lock.getMutex()->criticalSection,
                                         static_cast<DWORD>(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count())) != 0;
 #else
         static const long NANOSEC_PER_SEC = 1000000000L;
@@ -75,7 +77,7 @@ namespace ouzel
         ts.tv_sec += static_cast<int32_t>(ts.tv_nsec / NANOSEC_PER_SEC);
         ts.tv_nsec %= NANOSEC_PER_SEC;
 
-        return pthread_cond_timedwait(&condition, &mutex.mutex, &ts) == 0;
+        return pthread_cond_timedwait(&condition, &lock.getMutex()->mutex, &ts) == 0;
 #endif
     }
 }

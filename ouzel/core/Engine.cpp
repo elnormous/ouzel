@@ -465,7 +465,7 @@ namespace ouzel
             {
                 Lock lock(updateMutex);
                 while (active && paused)
-                    updateCondition.wait(updateMutex);
+                    updateCondition.wait(lock);
             }
         }
 

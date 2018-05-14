@@ -79,7 +79,7 @@ namespace ouzel
 
 #if OUZEL_MULTITHREADED
             Lock lock(commandQueueMutex);
-            while (!queueFinished) commandQueueCondition.wait(commandQueueMutex);
+            while (!queueFinished) commandQueueCondition.wait(lock);
 #endif
 
             std::swap(fillBuffer, renderBuffer);
