@@ -9,6 +9,7 @@ namespace ouzel
 {
     class Lock final
     {
+        friend Condition;
     public:
         explicit Lock(Mutex& initMutex):
             mutex(&initMutex)
@@ -38,8 +39,6 @@ namespace ouzel
 
             return *this;
         }
-
-        Mutex* getMutex() const { return mutex; }
 
     private:
         Mutex* mutex = nullptr;
