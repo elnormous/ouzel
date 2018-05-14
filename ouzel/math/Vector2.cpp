@@ -115,7 +115,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < TOLERANCE) // too close to zero
+        if (n < EPSILON) // too close to zero
             return;
 
         n = 1.0F / n;

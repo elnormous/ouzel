@@ -229,7 +229,7 @@ namespace ouzel
             // Not normalized
             n = sqrtf(n);
             // Prevent divide too close to zero
-            if (n >= TOLERANCE)
+            if (n >= EPSILON)
             {
                 n = 1.0F / n;
                 x *= n;
@@ -594,7 +594,7 @@ namespace ouzel
         float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
         // Close to zero, can't invert
-        if (fabs(det) < TOLERANCE)
+        if (fabs(det) < EPSILON)
             return false;
 
         // Support the case where m == dst
