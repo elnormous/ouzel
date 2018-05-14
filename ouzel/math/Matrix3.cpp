@@ -145,7 +145,7 @@ namespace ouzel
                     +m[2] * (m[3] * m[7] - m[4] * m[6]);
 
         // Close to zero, can't invert
-        if (fabs(det) < TOLERANCE)
+        if (fabs(det) < EPSILON)
             return false;
 
         float invdet = 1.0F / det;
