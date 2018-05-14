@@ -39,6 +39,8 @@ namespace ouzel
             return *this;
         }
 
+        Mutex* getMutex() const { return mutex; }
+
     private:
         Mutex* mutex = nullptr;
     };

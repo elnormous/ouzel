@@ -4,7 +4,7 @@
 #pragma once
 
 #include <chrono>
-#include "thread/Mutex.hpp"
+#include "thread/Lock.hpp"
 
 namespace ouzel
 {
@@ -22,8 +22,8 @@ namespace ouzel
 
         bool signal();
         bool broadcast();
-        bool wait(Mutex& mutex);
-        bool wait(Mutex& mutex, std::chrono::steady_clock::duration duration);
+        bool wait(Lock& lock);
+        bool wait(Lock& lock, std::chrono::steady_clock::duration duration);
 
     protected:
 #if defined(_WIN32)
