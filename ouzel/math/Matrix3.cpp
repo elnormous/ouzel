@@ -2,11 +2,11 @@
 // This file is part of the Ouzel engine.
 
 #include <algorithm>
-#include <cfloat>
 #include <cmath>
 #include <cassert>
 #include <iterator>
 #include "Matrix3.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -145,7 +145,7 @@ namespace ouzel
                     +m[2] * (m[3] * m[7] - m[4] * m[6]);
 
         // Close to zero, can't invert
-        if (fabs(det) < FLT_EPSILON)
+        if (fabs(det) < TOLERANCE)
             return false;
 
         float invdet = 1.0F / det;

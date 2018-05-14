@@ -1,13 +1,13 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include <cfloat>
 #include <cmath>
 #include <cassert>
 #include <algorithm>
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+#include "MathUtils.hpp"
 
 namespace ouzel
 {
@@ -50,7 +50,7 @@ namespace ouzel
     float Vector2::angle(const Vector2& v1, const Vector2& v2)
     {
         float dz = v1.x * v2.y - v1.y * v2.x;
-        return atan2f(fabsf(dz), dot(v1, v2));
+        return atan2f(fabsf(dz) + FLOAT_SMALL, dot(v1, v2));
     }
 
     void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2& dst)
@@ -115,7 +115,7 @@ namespace ouzel
             return;
 
         n = sqrtf(n);
-        if (n < FLT_EPSILON) // too close to zero
+        if (n < TOLERANCE) // too close to zero
             return;
 
         n = 1.0F / n;
