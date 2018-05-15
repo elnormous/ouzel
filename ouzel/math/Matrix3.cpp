@@ -148,18 +148,18 @@ namespace ouzel
         if (fabs(det) < EPSILON)
             return false;
 
-        float invdet = 1.0F / det;
+        Matrix3 inverse;
+        inverse.m[0] =  (m[4] * m[8] - m[7] * m[5]);
+        inverse.m[3] = -(m[1] * m[8] - m[2] * m[7]);
+        inverse.m[6] =  (m[1] * m[5] - m[2] * m[4]);
+        inverse.m[1] = -(m[3] * m[8] - m[5] * m[6]);
+        inverse.m[4] =  (m[0] * m[8] - m[2] * m[6]);
+        inverse.m[7] = -(m[0] * m[5] - m[3] * m[2]);
+        inverse.m[2] =  (m[3] * m[7] - m[6] * m[4]);
+        inverse.m[5] = -(m[0] * m[7] - m[6] * m[1]);
+        inverse.m[8] =  (m[0] * m[4] - m[3] * m[1]);
 
-        // Support the case where m == dst
-        dst.m[0] =  (m[4] * m[8] - m[7] * m[5]) * invdet;
-        dst.m[3] = -(m[1] * m[8] - m[2] * m[7]) * invdet;
-        dst.m[6] =  (m[1] * m[5] - m[2] * m[4]) * invdet;
-        dst.m[1] = -(m[3] * m[8] - m[5] * m[6]) * invdet;
-        dst.m[4] =  (m[0] * m[8] - m[2] * m[6]) * invdet;
-        dst.m[7] = -(m[0] * m[5] - m[3] * m[2]) * invdet;
-        dst.m[2] =  (m[3] * m[7] - m[6] * m[4]) * invdet;
-        dst.m[5] = -(m[0] * m[7] - m[6] * m[1]) * invdet;
-        dst.m[8] =  (m[0] * m[4] - m[3] * m[1]) * invdet;
+        multiply(inverse, 1.0F / det, dst);
 
         return true;
     }
@@ -199,7 +199,9 @@ namespace ouzel
 
     void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        // Support the case where m1 or m2 is the same array as dst
+        assert(&m1 != &dst);
+        assert(&m2 != &dst);
+
         float product[9];
 
         product[0] = m1.m[0] * m2.m[0] + m1.m[3] * m2.m[1] + m1.m[6] * m2.m[2];
@@ -312,7 +314,8 @@ namespace ouzel
 
     void Matrix3::transformVector(const Vector3& vector, Vector3& dst) const
     {
-        // Handle case where v == dst
+        assert(&vector != &dst);
+
         dst.x = vector.x * m[0] + vector.y * m[3] + vector.z * m[6];
         dst.y = vector.x * m[1] + vector.y * m[4] + vector.z * m[7];
         dst.z = vector.x * m[2] + vector.y * m[5] + vector.z * m[8];

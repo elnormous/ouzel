@@ -597,7 +597,6 @@ namespace ouzel
         if (fabs(det) < EPSILON)
             return false;
 
-        // Support the case where m == dst
         Matrix4 inverse;
         inverse.m[0]  = m[5] * b5 - m[6] * b4 + m[7] * b3;
         inverse.m[1]  = -m[1] * b5 + m[2] * b4 - m[3] * b3;
@@ -892,7 +891,9 @@ namespace ouzel
         else
         {
 #endif
-        // Support the case where m1 or m2 is the same array as dst
+        assert(&m1 != &dst);
+        assert(&m2 != &dst);
+
         float product[16];
 
         product[0]  = m1.m[0] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[8]   * m2.m[2]  + m1.m[12] * m2.m[3];
@@ -1277,7 +1278,8 @@ namespace ouzel
         else
         {
 #endif
-        // Handle case where v == dst
+
+        assert(&vector != &dst);
         dst.x = vector.x * m[0] + vector.y * m[4] + vector.z * m[8] + vector.w * m[12];
         dst.y = vector.x * m[1] + vector.y * m[5] + vector.z * m[9] + vector.w * m[13];
         dst.z = vector.x * m[2] + vector.y * m[6] + vector.z * m[10] + vector.w * m[14];
