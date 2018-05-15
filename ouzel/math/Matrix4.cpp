@@ -891,9 +891,6 @@ namespace ouzel
         else
         {
 #endif
-        assert(&m1 != &dst);
-        assert(&m2 != &dst);
-
         float product[16];
 
         product[0]  = m1.m[0] * m2.m[0]  + m1.m[4] * m2.m[1] + m1.m[8]   * m2.m[2]  + m1.m[12] * m2.m[3];

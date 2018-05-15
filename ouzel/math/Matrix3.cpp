@@ -199,9 +199,6 @@ namespace ouzel
 
     void Matrix3::multiply(const Matrix3& m1, const Matrix3& m2, Matrix3& dst)
     {
-        assert(&m1 != &dst);
-        assert(&m2 != &dst);
-
         float product[9];
 
         product[0] = m1.m[0] * m2.m[0] + m1.m[3] * m2.m[1] + m1.m[6] * m2.m[2];
