@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "core/Setup.h"
+
 #if OUZEL_PLATFORM_WINDOWS
 #include <Windows.h>
 #endif
