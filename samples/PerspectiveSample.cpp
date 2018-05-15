@@ -41,7 +41,7 @@ PerspectiveSample::PerspectiveSample():
     floor.addComponent(&floorSprite);
     layer.addChild(&floor);
     floor.setPosition(Vector2(0.0F, -50.0F));
-    floor.setRotation(Vector3(TAU_4, TAU / 8.0F, 0.0F));
+    floor.setRotation(Vector3(TAU / 4.04F, TAU / 8.0F, 0.0F));
 
     // character
     characterSprite.init("run.json");
