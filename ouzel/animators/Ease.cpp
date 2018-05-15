@@ -11,12 +11,12 @@ namespace ouzel
     {
         static float sineIn(float t)
         {
-            return 1.0F - cosf(t * PI_2);
+            return 1.0F - cosf(t * PI / 2.0F);
         }
 
         static float sineOut(float t)
         {
-            return sinf(t * PI_2);
+            return sinf(t * PI / 2.0F);
         }
 
         static float sineInOut(float t)
