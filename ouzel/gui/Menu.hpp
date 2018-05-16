@@ -17,17 +17,18 @@ namespace ouzel
 
             virtual void setEnabled(bool newEnabled) override;
 
-            void addWidget(Widget* widget)
-            {
-                addChildWidget(widget);
-            }
+            virtual bool removeChild(Actor* actor) override;
+
+            virtual void addWidget(Widget* widget);
+
             template<class T> void addWidget(const std::unique_ptr<T>& widget)
             {
-                addChildWidget(widget.get());
+                addWidget(widget.get());
             }
+
             template<class T> void addWidget(std::unique_ptr<T>&& widget)
             {
-                addChildWidget(widget.get());
+                addWidget(widget.get());
                 ownedChildren.push_back(std::move(widget));
             }
 
@@ -36,9 +37,6 @@ namespace ouzel
             virtual void selectPreviousWidget();
 
         protected:
-            virtual void addChildWidget(Widget* widget);
-            virtual bool removeChildActor(Actor* actor) override;
-
             virtual void enter() override;
             virtual void leave() override;
 

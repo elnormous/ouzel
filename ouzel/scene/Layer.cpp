@@ -59,9 +59,9 @@ namespace ouzel
             }
         }
 
-        void Layer::addChildActor(Actor* actor)
+        void Layer::addChild(Actor* actor)
         {
-            ActorContainer::addChildActor(actor);
+            ActorContainer::addChild(actor);
 
             if (actor)
             {

@@ -88,14 +88,11 @@ namespace ouzel
             }
         }
 
-        void Actor::addChildActor(Actor* actor)
+        void Actor::addChild(Actor* actor)
         {
-            ActorContainer::addChildActor(actor);
+            ActorContainer::addChild(actor);
 
-            if (actor)
-            {
-                actor->updateTransform(getTransform());
-            }
+            actor->updateTransform(getTransform());
         }
 
         void Actor::setPosition(const Vector2& newPosition)
@@ -302,18 +299,18 @@ namespace ouzel
             if (parent) parent->removeChild(this);
         }
 
-        void Actor::addChildComponent(Component* component)
+        void Actor::addComponent(Component* component)
         {
+            assert(component);
+
             if (component->actor)
-            {
                 component->actor->removeComponent(component);
-            }
 
             component->setActor(this);
             components.push_back(component);
         }
 
-        bool Actor::removeChildComponent(Component* component)
+        bool Actor::removeComponent(Component* component)
         {
             bool result = false;
 
