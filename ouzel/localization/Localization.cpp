@@ -11,9 +11,7 @@ namespace ouzel
         std::shared_ptr<Language> language = std::make_shared<Language>();
 
         if (language->init(filename))
-        {
             languages[name] = language;
-        }
     }
 
     void Localization::setLanguage(const std::string& language)
@@ -21,24 +19,16 @@ namespace ouzel
         auto i = languages.find(language);
 
         if (i != languages.end())
-        {
             currentLanguage = i->second;
-        }
         else
-        {
             currentLanguage.reset();
-        }
     }
 
     std::string Localization::getString(const std::string& str)
     {
         if (currentLanguage)
-        {
             return currentLanguage->getString(str);
-        }
         else
-        {
             return str;
-        }
     }
 }

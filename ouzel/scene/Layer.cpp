@@ -1,6 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
+#include <cassert>
 #include <algorithm>
 #include "Layer.hpp"
 #include "core/Engine.hpp"
@@ -25,9 +26,7 @@ namespace ouzel
             if (scene) scene->removeLayer(this);
 
             for (Camera* camera : cameras)
-            {
                 camera->setLayer(nullptr);
-            }
         }
 
         void Layer::draw()
@@ -37,9 +36,7 @@ namespace ouzel
                 std::vector<Actor*> drawQueue;
 
                 for (Actor* actor : children)
-                {
                     actor->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
-                }
 
                 engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
                 engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
@@ -64,13 +61,13 @@ namespace ouzel
             ActorContainer::addChild(actor);
 
             if (actor)
-            {
                 actor->updateTransform(Matrix4::IDENTITY);
-            }
         }
 
         void Layer::addCamera(Camera* camera)
         {
+            assert(camera);
+
             cameras.push_back(camera);
         }
 
@@ -79,13 +76,13 @@ namespace ouzel
             auto i = std::find(cameras.begin(), cameras.end(), camera);
 
             if (i != cameras.end())
-            {
                 cameras.erase(i);
-            }
         }
 
         void Layer::addLight(Light* light)
         {
+            assert(light);
+
             lights.push_back(light);
         }
 
@@ -94,9 +91,7 @@ namespace ouzel
             auto i = std::find(lights.begin(), lights.end(), light);
 
             if (i != lights.end())
-            {
                 lights.erase(i);
-            }
         }
 
         std::pair<Actor*, ouzel::Vector3> Layer::pickActor(const Vector2& position, bool renderTargets) const
@@ -178,9 +173,7 @@ namespace ouzel
         void Layer::recalculateProjection()
         {
             for (Camera* camera : cameras)
-            {
                 camera->recalculateProjection();
-            }
         }
 
         void Layer::enter()
