@@ -35,12 +35,12 @@ namespace ouzel
 
             template<class T> void addLayer(const std::unique_ptr<T>& layer)
             {
-                addChildLayer(layer.get());
+                addLayer(layer.get());
             }
 
             template<class T> void addLayer(std::unique_ptr<T>&& layer)
             {
-                addChildLayer(layer.get());
+                addLayer(layer.get());
                 ownedLayers.push_back(std::move(layer));
             }
 
@@ -48,7 +48,7 @@ namespace ouzel
 
             template<class T> bool removeLayer(const std::unique_ptr<T>& layer)
             {
-                return removeChildLayer(layer.get());
+                return removeLayer(layer.get());
             }
 
             void removeAllLayers();

@@ -96,19 +96,18 @@ namespace ouzel
             }
         }
 
-        void SceneManager::addChildScene(Scene* scene)
+        void SceneManager::setScene(Scene* scene)
         {
-            if (scene)
-            {
-                if (scene->sceneManger) scene->sceneManger->removeScene(scene);
+            assert(scene);
 
-                scene->sceneManger = this;
+            if (scene->sceneManger) scene->sceneManger->removeScene(scene);
 
-                scenes.push_back(scene);
-            }
+            scene->sceneManger = this;
+
+            scenes.push_back(scene);
         }
 
-        bool SceneManager::removeChildScene(Scene* scene)
+        bool SceneManager::removeScene(Scene* scene)
         {
             bool result = false;
 
