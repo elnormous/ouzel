@@ -113,30 +113,26 @@ namespace ouzel
             inline ActorContainer* getParent() const { return parent; }
             void removeFromParent();
 
-            void addComponent(Component* component)
-            {
-                addChildComponent(component);
-            }
+            virtual void addChild(Actor* actor) override;
+
+            void addComponent(Component* component);
 
             template<class T> void addComponent(const std::unique_ptr<T>& component)
             {
-                addChildComponent(component.get());
+                addComponent(component.get());
             }
 
             template<class T> void addComponent(std::unique_ptr<T>&& component)
             {
-                addChildComponent(component.get());
+                addComponent(component.get());
                 ownedComponents.push_back(std::move(component));
             }
 
-            bool removeComponent(Component* component)
-            {
-                return removeChildComponent(component);
-            }
+            bool removeComponent(Component* component);
 
             template<class T> void removeComponent(const std::unique_ptr<T>& component)
             {
-                removeChildComponent(component.get());
+                removeComponent(component.get());
             }
 
             void removeAllComponents();
@@ -146,10 +142,6 @@ namespace ouzel
             Box3 getBoundingBox() const;
 
         protected:
-            virtual void addChildActor(Actor* actor) override;
-            void addChildComponent(Component* component);
-            bool removeChildComponent(Component* component);
-
             virtual void setLayer(Layer* newLayer) override;
 
             void updateLocalTransform();

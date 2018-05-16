@@ -27,6 +27,8 @@ namespace ouzel
 
             virtual void draw();
 
+            virtual void addChild(Actor* actor) override;
+
             inline const std::vector<Camera*>& getCameras() const { return cameras; }
 
             std::pair<Actor*, ouzel::Vector3> pickActor(const Vector2& position, bool renderTargets = false) const;
@@ -40,8 +42,6 @@ namespace ouzel
             void removeFromScene();
 
         protected:
-            virtual void addChildActor(Actor* actor) override;
-
             void addCamera(Camera* camera);
             void removeCamera(Camera* camera);
 

@@ -53,9 +53,11 @@ namespace ouzel
             }
         }
 
-        void Scene::addChildLayer(Layer* layer)
+        void Scene::addLayer(Layer* layer)
         {
-            if (layer && !hasLayer(layer))
+            assert(layer);
+
+            if (!hasLayer(layer))
             {
                 layers.push_back(layer);
 
@@ -65,7 +67,7 @@ namespace ouzel
             }
         }
 
-        bool Scene::removeChildLayer(Layer* layer)
+        bool Scene::removeLayer(Layer* layer)
         {
             bool result = false;
 

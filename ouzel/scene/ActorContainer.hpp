@@ -26,30 +26,24 @@ namespace ouzel
             ActorContainer(ActorContainer&&) = delete;
             ActorContainer& operator=(ActorContainer&&) = delete;
 
-            void addChild(Actor* actor)
-            {
-                addChildActor(actor);
-            }
+            virtual void addChild(Actor* actor);
 
             template<class T> void addChild(const std::unique_ptr<T>& actor)
             {
-                addChildActor(actor.get());
+                addChild(actor.get());
             }
 
             template<class T> void addChild(std::unique_ptr<T>&& actor)
             {
-                addChildActor(actor.get());
+                addChild(actor.get());
                 ownedChildren.push_back(std::move(actor));
             }
 
+            virtual bool removeChild(Actor* actor);
+
             template<class T> bool removeChild(const std::unique_ptr<T>& actor)
             {
-                return removeChildActor(actor.get());
-            }
-
-            bool removeChild(Actor* actor)
-            {
-                return removeChildActor(actor);
+                return removeChild(actor.get());
             }
 
             bool moveChildToBack(Actor* actor);
@@ -64,9 +58,6 @@ namespace ouzel
             virtual void findActors(const std::vector<Vector2>& edges, std::vector<Actor*>& actors) const;
 
         protected:
-            virtual void addChildActor(Actor* actor);
-            virtual bool removeChildActor(Actor* actor);
-
             virtual void setLayer(Layer* newLayer);
 
             virtual void enter();

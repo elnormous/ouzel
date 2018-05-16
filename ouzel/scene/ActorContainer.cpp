@@ -23,23 +23,22 @@ namespace ouzel
             }
         }
 
-        void ActorContainer::addChildActor(Actor* actor)
+        void ActorContainer::addChild(Actor* actor)
         {
-            if (actor)
-            {
-                if (actor->parent)
-                {
-                    actor->parent->removeChild(actor);
-                }
+            assert(actor);
 
-                actor->parent = this;
-                actor->setLayer(layer);
-                if (entered) actor->enter();
-                children.push_back(actor);
+            if (actor->parent)
+            {
+                actor->parent->removeChild(actor);
             }
+
+            actor->parent = this;
+            actor->setLayer(layer);
+            if (entered) actor->enter();
+            children.push_back(actor);
         }
 
-        bool ActorContainer::removeChildActor(Actor* actor)
+        bool ActorContainer::removeChild(Actor* actor)
         {
             bool result = false;
 
