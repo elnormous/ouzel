@@ -24,9 +24,7 @@ namespace ouzel
             }
 
             for (UpdateCallback* updateCallback : updateCallbackAddSet)
-            {
                 updateCallback->sceneManager = nullptr;
-            }
 
             for (UpdateCallback* updateCallback : updateCallbacks)
             {
@@ -54,9 +52,7 @@ namespace ouzel
                     auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
 
                     if (i != updateCallbacks.end())
-                    {
                         updateCallbacks.erase(i);
-                    }
                 }
 
                 updateCallbackDeleteSet.clear();
@@ -127,9 +123,7 @@ namespace ouzel
             });
 
             if (ownedIterator != ownedScenes.end())
-            {
                 ownedScenes.erase(ownedIterator);
-            }
 
             return result;
         }
@@ -137,9 +131,7 @@ namespace ouzel
         void SceneManager::draw()
         {
             while (scenes.size() > 1)
-            {
                 removeScene(scenes.front());
-            }
 
             if (!scenes.empty())
             {
@@ -152,9 +144,7 @@ namespace ouzel
         void SceneManager::scheduleUpdate(UpdateCallback* callback)
         {
             if (callback->sceneManager)
-            {
                 callback->sceneManager->unscheduleUpdate(callback);
-            }
 
             callback->sceneManager = this;
 
@@ -163,26 +153,20 @@ namespace ouzel
             auto setIterator = updateCallbackDeleteSet.find(callback);
 
             if (setIterator != updateCallbackDeleteSet.end())
-            {
                 updateCallbackDeleteSet.erase(setIterator);
-            }
         }
 
         void SceneManager::unscheduleUpdate(UpdateCallback* callback)
         {
             if (callback->sceneManager == this)
-            {
                 callback->sceneManager = nullptr;
-            }
 
             updateCallbackDeleteSet.insert(callback);
 
             auto setIterator = updateCallbackAddSet.find(callback);
 
             if (setIterator != updateCallbackAddSet.end())
-            {
                 updateCallbackAddSet.erase(setIterator);
-            }
         }
 
         void SceneManager::executeOnUpdateThread(const std::function<void(void)>& func)
@@ -206,10 +190,8 @@ namespace ouzel
                     updateThreadExecuteQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
+
             }
         }
     } // namespace scene
