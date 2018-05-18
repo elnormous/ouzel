@@ -250,25 +250,40 @@ namespace ouzel
         // TODO: implement
         struct InitBufferCommand: public Command
         {
-            InitBufferCommand(BufferResource* initBuffer):
+            InitBufferCommand(BufferResource* initBuffer,
+                              Buffer::Usage initUsage,
+                              uint32_t initFlags,
+                              const std::vector<uint8_t>& initData,
+                              uint32_t initSize):
                 Command(Command::Type::INIT_BUFFER),
-                buffer(initBuffer)
+                buffer(initBuffer),
+                usage(initUsage),
+                flags(initFlags),
+                data(initData),
+                size(initSize)
             {
             }
 
             BufferResource* buffer;
+            Buffer::Usage usage;
+            uint32_t flags;
+            std::vector<uint8_t> data;
+            uint32_t size;
         };
 
         // TODO: implement
         struct SetBufferDataCommand: public Command
         {
-            SetBufferDataCommand(BufferResource* initBuffer):
+            SetBufferDataCommand(BufferResource* initBuffer,
+                                 const std::vector<uint8_t>& initData):
                 Command(Command::Type::SET_BUFFER_DATA),
-                buffer(initBuffer)
+                buffer(initBuffer),
+                data(initData)
             {
             }
 
             BufferResource* buffer;
+            std::vector<uint8_t> data;
         };
 
         // TODO: implement

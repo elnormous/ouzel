@@ -746,6 +746,10 @@ namespace ouzel
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
                         offset += sizeof(*initBufferCommand);
 
+                        initBufferCommand->buffer->init(initBufferCommand->usage,
+                                                        initBufferCommand->flags,
+                                                        initBufferCommand->data,
+                                                        initBufferCommand->size);
                         break;
                     }
 
@@ -754,6 +758,7 @@ namespace ouzel
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
                         offset += sizeof(*setBufferDataCommand);
 
+                        setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
                     }
 
