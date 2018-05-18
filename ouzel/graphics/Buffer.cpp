@@ -27,14 +27,13 @@ namespace ouzel
             flags = newFlags;
             size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Usage, uint32_t, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
-                                                                   resource,
-                                                                   newUsage,
-                                                                   newFlags,
-                                                                   std::vector<uint8_t>(),
-                                                                   newSize));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            return renderDevice->addCommand(InitBufferCommand(resource,
+                                                              newUsage,
+                                                              newFlags,
+                                                              std::vector<uint8_t>(),
+                                                              newSize));
         }
 
         bool Buffer::init(Usage newUsage, uint32_t newFlags, const void* newData, uint32_t newSize)
@@ -55,20 +54,22 @@ namespace ouzel
             flags = newFlags;
             size = newSize;
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(static_cast<bool(BufferResource::*)(Buffer::Usage, uint32_t, const std::vector<uint8_t>&, uint32_t)>(&BufferResource::init),
-                                                                   resource,
-                                                                   newUsage,
-                                                                   newFlags,
-                                                                   newData,
-                                                                   newSize));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            return renderDevice->addCommand(InitBufferCommand(resource,
+                                                              newUsage,
+                                                              newFlags,
+                                                              newData,
+                                                              newSize));
         }
 
         bool Buffer::setData(const void* newData, uint32_t newSize)
         {
-            return setData(std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
-                                                static_cast<const uint8_t*>(newData) + newSize));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
+
+            return renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                                 std::vector<uint8_t>(static_cast<const uint8_t*>(newData),
+                                                                                      static_cast<const uint8_t*>(newData) + newSize)));
         }
 
         bool Buffer::setData(const std::vector<uint8_t>& newData)
@@ -80,11 +81,10 @@ namespace ouzel
             
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
-            engine->getRenderer()->executeOnRenderThread(std::bind(&BufferResource::setData,
-                                                                   resource,
-                                                                   newData));
+            RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 
-            return true;
+            return renderDevice->addCommand(SetBufferDataCommand(resource,
+                                                                 newData));
         }
     } // namespace graphics
 } // namespace ouzel
