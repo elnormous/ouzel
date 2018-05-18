@@ -232,26 +232,6 @@ namespace ouzel
                 return true;
             }
 
-            inline bool bindVertexArray(GLuint vertexArrayId)
-            {
-                if (stateCache.vertexArrayId != vertexArrayId)
-                {
-                    if (glBindVertexArrayProc) glBindVertexArrayProc(vertexArrayId);
-
-                    stateCache.vertexArrayId = vertexArrayId;
-                    stateCache.bufferId[GL_ELEMENT_ARRAY_BUFFER] = 0;
-                    stateCache.bufferId[GL_ARRAY_BUFFER] = 0;
-
-                    if (checkOpenGLError())
-                    {
-                        Log(Log::Level::ERR) << "Failed to bind vertex array";
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
             inline bool setScissorTest(bool scissorTestEnabled,
                                        GLint x,
                                        GLint y,
@@ -558,16 +538,6 @@ namespace ouzel
                 glDeleteBuffersProc(1, &bufferId);
             }
 
-            void deleteVertexArray(GLuint vertexArrayId)
-            {
-#if OUZEL_PLATFORM_ANDROID
-                bindVertexArray(0); // workaround for Android (current VAO's element array buffer is set to 0 if glDeleteVertexArrays is called on Android)
-#else
-                if (stateCache.vertexArrayId == vertexArrayId) stateCache.vertexArrayId = 0;
-#endif
-                if (glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
-            }
-
             void deleteRenderBuffer(GLuint renderBufferId)
             {
                 glDeleteRenderbuffersProc(1, &renderBufferId);
@@ -647,6 +617,7 @@ namespace ouzel
             GLuint frameBufferId = 0;
             GLsizei frameBufferWidth = 0;
             GLsizei frameBufferHeight = 0;
+            GLuint vertexArrayId = 0;
 
             GLbitfield clearMask = 0;
             GLfloat frameBufferClearColor[4];
@@ -669,7 +640,6 @@ namespace ouzel
                 GLuint frameBufferId = 0;
 
                 std::map<GLuint, GLuint> bufferId;
-                GLuint vertexArrayId = 0;
 
                 bool blendEnabled = false;
                 GLenum blendModeRGB = 0;

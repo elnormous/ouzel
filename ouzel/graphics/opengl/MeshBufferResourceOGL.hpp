@@ -39,40 +39,21 @@ namespace ouzel
             virtual bool init(uint32_t newIndexSize, BufferResource* newIndexBuffer,
                               BufferResource* newVertexBuffer) override;
 
-            virtual bool reload() override;
-
             virtual bool setIndexSize(uint32_t newIndexSize) override;
             virtual bool setIndexBuffer(BufferResource* newIndexBuffer) override;
             virtual bool setVertexBuffer(BufferResource* newVertexBuffer) override;
 
-            bool bindBuffers();
-
             inline GLenum getIndexType() const { return indexType; }
             inline GLuint getBytesPerIndex() const { return bytesPerIndex; }
-            inline GLuint getVertexArrayId() const { return vertexArrayId; }
 
             inline BufferResourceOGL* getIndexBufferOGL() const { return indexBufferOGL; }
             inline BufferResourceOGL* getVertexBufferOGL() const { return vertexBufferOGL; }
 
         private:
-            bool createVertexArray();
-
             RenderDeviceOGL& renderDeviceOGL;
 
             GLenum indexType = 0;
             GLuint bytesPerIndex = 0;
-
-            struct VertexAttrib
-            {
-                GLint size;
-                GLenum type;
-                GLboolean normalized;
-                GLsizei stride;
-                const GLvoid* pointer;
-            };
-            std::vector<VertexAttrib> vertexAttribs;
-
-            GLuint vertexArrayId = 0;
 
             BufferResourceOGL* indexBufferOGL = nullptr;
             BufferResourceOGL* vertexBufferOGL = nullptr;
