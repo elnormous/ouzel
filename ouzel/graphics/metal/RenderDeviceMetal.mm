@@ -755,6 +755,8 @@ namespace ouzel
                         }
 
                         assert(drawCommand->indexCount);
+                        assert(indexBufferMetal->getSize());
+                        assert(vertexBufferMetal->getSize());
 
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                                 indexCount:drawCommand->indexCount

@@ -1082,6 +1082,8 @@ namespace ouzel
                         }
 
                         assert(drawCommand->indexCount);
+                        assert(indexBufferOGL->getSize());
+                        assert(vertexBufferOGL->getSize());
 
                         glDrawElements(mode,
                                        static_cast<GLsizei>(drawCommand->indexCount),
