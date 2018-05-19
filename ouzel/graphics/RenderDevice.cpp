@@ -184,10 +184,7 @@ namespace ouzel
                     executeQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
             }
         }
     } // namespace graphics
