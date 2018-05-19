@@ -231,7 +231,7 @@ namespace ouzel
             indexBufferOGL = static_cast<BufferResourceOGL*>(indexBuffer);
             vertexBufferOGL = static_cast<BufferResourceOGL*>(vertexBuffer);
 
-            if (vertexArrayId && glDeleteVertexArraysProc) glDeleteVertexArraysProc(1, &vertexArrayId);
+            if (vertexArrayId) renderDeviceOGL.deleteVertexArray(vertexArrayId);
 
             return createVertexArray();
         }

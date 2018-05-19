@@ -261,13 +261,9 @@ namespace ouzel
                 if (stateCache.scissorTestEnabled != scissorTestEnabled)
                 {
                     if (scissorTestEnabled)
-                    {
                         glEnable(GL_SCISSOR_TEST);
-                    }
                     else
-                    {
                         glDisable(GL_SCISSOR_TEST);
-                    }
 
                     if (checkOpenGLError())
                     {
@@ -325,13 +321,9 @@ namespace ouzel
                 if (stateCache.depthTestEnabled != enable)
                 {
                     if (enable)
-                    {
                         glEnable(GL_DEPTH_TEST);
-                    }
                     else
-                    {
                         glDisable(GL_DEPTH_TEST);
-                    }
 
                     if (checkOpenGLError())
                     {
@@ -382,13 +374,9 @@ namespace ouzel
                 if (stateCache.blendEnabled != blendEnabled)
                 {
                     if (blendEnabled)
-                    {
                         glEnable(GL_BLEND);
-                    }
                     else
-                    {
                         glDisable(GL_BLEND);
-                    }
 
                     stateCache.blendEnabled = blendEnabled;
 
@@ -470,13 +458,9 @@ namespace ouzel
                 if (stateCache.cullEnabled != cullEnabled)
                 {
                     if (cullEnabled)
-                    {
                         glEnable(GL_CULL_FACE);
-                    }
                     else
-                    {
                         glDisable(GL_CULL_FACE);
-                    }
 
                     stateCache.cullEnabled = cullEnabled;
 
@@ -492,7 +476,6 @@ namespace ouzel
                     if (stateCache.cullFace != cullFace)
                     {
                         glCullFace(cullFace);
-
                         stateCache.cullFace = cullFace;
                     }
 
@@ -590,9 +573,7 @@ namespace ouzel
                 for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                 {
                     if (stateCache.textureId[layer] == textureId)
-                    {
                         stateCache.textureId[layer] = 0;
-                    }
                 }
                 glDeleteTextures(1, &textureId);
             }
