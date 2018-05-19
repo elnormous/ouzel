@@ -9,6 +9,7 @@
 #include <dlfcn.h>
 #endif
 
+#include <cassert>
 #include <sstream>
 
 #if OUZEL_SUPPORTS_OPENGLES
@@ -1080,15 +1081,10 @@ namespace ouzel
                             return false;
                         }
 
-                        uint32_t indexCount = drawCommand->indexCount;
-
-                        if (!indexCount)
-                        {
-                            indexCount = (indexBufferOGL->getSize() / meshBufferOGL->getIndexSize()) - drawCommand->startIndex;
-                        }
+                        assert(drawCommand->indexCount);
 
                         glDrawElements(mode,
-                                       static_cast<GLsizei>(indexCount),
+                                       static_cast<GLsizei>(drawCommand->indexCount),
                                        meshBufferOGL->getIndexType(),
                                        static_cast<const char*>(nullptr) + (drawCommand->startIndex * meshBufferOGL->getBytesPerIndex()));
 

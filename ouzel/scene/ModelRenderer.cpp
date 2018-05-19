@@ -31,6 +31,7 @@ namespace ouzel
             boundingBox = modelData.boundingBox;
             material = modelData.material;
             meshBuffer = modelData.meshBuffer;
+            indexCount = modelData.indexCount;
             indexBuffer = modelData.indexBuffer;
             vertexBuffer = modelData.vertexBuffer;
 
@@ -75,7 +76,7 @@ namespace ouzel
                                                                 vertexShaderConstants);
             engine->getRenderer()->addSetTexturesCommand(textures);
             engine->getRenderer()->addDrawCommand(meshBuffer,
-                                                  0,
+                                                  indexCount,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                   0);
         }

@@ -16,6 +16,8 @@ namespace ouzel
         {
             boundingBox = newBoundingBox;
 
+            indexCount = static_cast<uint32_t>(indices.size());
+            
             indexBuffer = std::make_shared<graphics::Buffer>();
             indexBuffer->init(graphics::Buffer::Usage::INDEX, 0, indices.data(), static_cast<uint32_t>(getVectorSize(indices)));
 

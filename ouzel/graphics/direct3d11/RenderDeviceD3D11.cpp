@@ -3,6 +3,8 @@
 
 #include "core/Setup.h"
 
+#include <cassert>
+
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include "RenderDeviceD3D11.hpp"
@@ -697,14 +699,9 @@ namespace ouzel
 
                         context->IASetPrimitiveTopology(topology);
 
-                        uint32_t indexCount = drawCommand->indexCount;
+                        assert(drawCommand->indexCount);
 
-                        if (!indexCount)
-                        {
-                            indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand->startIndex;
-                        }
-
-                        context->DrawIndexed(indexCount, drawCommand->startIndex, 0);
+                        context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
 
                         break;
                     }

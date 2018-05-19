@@ -3,6 +3,8 @@
 
 #include "core/Setup.h"
 
+#include <cassert>
+
 #if OUZEL_COMPILE_METAL
 
 #include "RenderDeviceMetal.hpp"
@@ -752,15 +754,10 @@ namespace ouzel
                             default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                         }
 
-                        uint32_t indexCount = drawCommand->indexCount;
-
-                        if (!indexCount)
-                        {
-                            indexCount = (indexBufferMetal->getSize() / meshBufferMetal->getIndexSize()) - drawCommand->startIndex;
-                        }
+                        assert(drawCommand->indexCount);
 
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                                indexCount:indexCount
+                                                                indexCount:drawCommand->indexCount
                                                                  indexType:meshBufferMetal->getIndexType()
                                                                indexBuffer:indexBufferMetal->getBuffer()
                                                          indexBufferOffset:drawCommand->startIndex * meshBufferMetal->getBytesPerIndex()];
