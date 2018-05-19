@@ -37,7 +37,6 @@ namespace ouzel
             return true;
         }
 
-
         void CursorResource::reactivate()
         {
             if (inputManager.currentCursorResource == this)

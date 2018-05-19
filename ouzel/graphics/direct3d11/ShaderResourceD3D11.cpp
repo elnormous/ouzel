@@ -136,7 +136,7 @@ namespace ouzel
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
                 return false;
             }
-            
+
             if (vertexShader) vertexShader->Release();
 
             hr = renderDeviceD3D11.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &vertexShader);

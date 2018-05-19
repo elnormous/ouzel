@@ -47,7 +47,7 @@ namespace ouzel
 
                 previousUpdateTime = currentTime;
                 float delta = std::chrono::duration_cast<std::chrono::microseconds>(diff).count() / 1000000.0F;
-                
+
                 for (UpdateCallback* updateCallback : updateCallbackDeleteSet)
                 {
                     auto i = std::find(updateCallbacks.begin(), updateCallbacks.end(), updateCallback);
