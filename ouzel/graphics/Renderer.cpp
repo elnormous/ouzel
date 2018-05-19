@@ -320,9 +320,9 @@ namespace ouzel
             }
 
             return device->addCommand(DrawCommand(meshBuffer->getResource(),
-                                                                indexCount,
-                                                                drawMode,
-                                                                startIndex));
+                                                  indexCount,
+                                                  drawMode,
+                                                  startIndex));
         }
 
         bool Renderer::addPushDebugMarkerCommand(const std::string& name)

@@ -48,11 +48,15 @@ namespace ouzel
 
                 inline const Box2& getBoundingBox() const { return boundingBox; }
                 inline const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
+                uint32_t getIndexCount() const { return indexCount; }
+                inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const { return indexBuffer; };
+                inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const { return vertexBuffer; };
 
             protected:
                 std::string name;
                 Box2 boundingBox;
                 std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+                uint32_t indexCount = 0;
                 std::shared_ptr<graphics::Buffer> indexBuffer;
                 std::shared_ptr<graphics::Buffer> vertexBuffer;
             };
