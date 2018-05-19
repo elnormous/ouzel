@@ -646,6 +646,10 @@ namespace ouzel
 
                         if (shaderD3D11)
                         {
+                            assert(shaderD3D11->getPixelShader());
+                            assert(shaderD3D11->getVertexShader());
+                            assert(shaderD3D11->getInputLayout());
+
                             context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
                             context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
                             context->IASetInputLayout(shaderD3D11->getInputLayout());
@@ -670,14 +674,11 @@ namespace ouzel
                         BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
                         BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
 
-                        if (!meshBufferD3D11 ||
-                            !indexBufferD3D11 ||
-                            !indexBufferD3D11->getBuffer() ||
-                            !vertexBufferD3D11 ||
-                            !vertexBufferD3D11->getBuffer())
-                        {
-                            continue;
-                        }
+                        assert(meshBufferD3D11);
+                        assert(indexBufferD3D11);
+                        assert(indexBufferD3D11->getBuffer());
+                        assert(vertexBufferD3D11);
+                        assert(vertexBufferD3D11->getBuffer());
 
                         ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
                         UINT strides[] = {sizeof(Vertex)};
