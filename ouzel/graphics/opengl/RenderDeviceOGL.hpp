@@ -129,28 +129,25 @@ namespace ouzel
 
             virtual bool process() override;
 
-            static inline bool checkOpenGLError(bool logError = true)
+            static inline bool checkOpenGLError()
             {
                 GLenum error = glGetError();
 
                 if (error != GL_NO_ERROR)
                 {
-                    if (logError)
+                    const char* errorStr;
+
+                    switch (error)
                     {
-                        const char* errorStr;
-
-                        switch (error)
-                        {
-                            case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
-                            case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
-                            case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
-                            case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
-                            case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
-                            default: errorStr = "Unknown error"; break;
-                        }
-
-                        Log(Log::Level::ERR) << "OpenGL error: " << errorStr << " (" << error << ")";
+                        case GL_INVALID_ENUM: errorStr = "GL_INVALID_ENUM"; break;
+                        case GL_INVALID_VALUE: errorStr = "GL_INVALID_VALUE"; break;
+                        case GL_INVALID_OPERATION: errorStr = "GL_INVALID_OPERATION"; break;
+                        case GL_OUT_OF_MEMORY: errorStr = "GL_OUT_OF_MEMORY"; break;
+                        case GL_INVALID_FRAMEBUFFER_OPERATION: errorStr = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+                        default: errorStr = "Unknown error"; break;
                     }
+
+                    Log(Log::Level::ERR) << "OpenGL error: " << errorStr << " (" << error << ")";
 
                     return true;
                 }

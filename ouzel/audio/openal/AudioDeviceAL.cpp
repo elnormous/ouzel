@@ -12,63 +12,30 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 
 #include "AudioDeviceAL.hpp"
 #include "core/Engine.hpp"
-#include "utils/Log.hpp"
 
 namespace ouzel
 {
     namespace audio
     {
-        bool AudioDeviceAL::checkALCError(bool logError)
+        bool AudioDeviceAL::checkALCError()
         {
             ALCenum error = alcGetError(device);
 
             if (error != ALC_NO_ERROR)
             {
-                if (logError)
+                const char* errorStr;
+
+                switch (error)
                 {
-                    const char* errorStr;
-
-                    switch (error)
-                    {
-                        case ALC_INVALID_DEVICE: errorStr = "ALC_INVALID_DEVICE"; break;
-                        case ALC_INVALID_CONTEXT: errorStr = "ALC_INVALID_CONTEXT"; break;
-                        case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
-                        case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
-                        case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
-                        default: errorStr = "Unknown error"; break;
-                    }
-
-                    Log(Log::Level::ERR) << "OpenAL error: " << errorStr << "(" << error << ")";
+                    case ALC_INVALID_DEVICE: errorStr = "ALC_INVALID_DEVICE"; break;
+                    case ALC_INVALID_CONTEXT: errorStr = "ALC_INVALID_CONTEXT"; break;
+                    case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
+                    case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
+                    case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
+                    default: errorStr = "Unknown error"; break;
                 }
 
-                return true;
-            }
-
-            return false;
-        }
-
-        bool AudioDeviceAL::checkOpenALError(bool logError)
-        {
-            ALenum error = alGetError();
-
-            if (error != AL_NO_ERROR)
-            {
-                if (logError)
-                {
-                    const char* errorStr;
-
-                    switch (error)
-                    {
-                        case AL_INVALID_NAME: errorStr = "AL_INVALID_NAME"; break;
-                        case AL_INVALID_ENUM: errorStr = "AL_INVALID_ENUM"; break;
-                        case AL_INVALID_VALUE: errorStr = "AL_INVALID_VALUE"; break;
-                        case AL_INVALID_OPERATION: errorStr = "AL_INVALID_OPERATION"; break;
-                        case AL_OUT_OF_MEMORY: errorStr = "AL_OUT_OF_MEMORY"; break;
-                        default: errorStr = "Unknown error"; break;
-                    }
-
-                    Log(Log::Level::ERR) << "OpenAL error: " << errorStr << " (" << error << ")";
-                }
+                Log(Log::Level::ERR) << "OpenAL error: " << errorStr << "(" << error << ")";
 
                 return true;
             }
