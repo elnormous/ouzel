@@ -700,6 +700,8 @@ namespace ouzel
                         context->IASetPrimitiveTopology(topology);
 
                         assert(drawCommand->indexCount);
+                        assert(indexBufferD3D11->getSize());
+                        assert(vertexBufferD3D11->getSize());
 
                         context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
 
