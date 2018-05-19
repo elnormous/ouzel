@@ -538,10 +538,7 @@ namespace ouzel
 #endif // OUZEL_OPENGL_INTERFACE_EGL
                 }
 
-                if (!multisamplingSupported)
-                {
-                    sampleCount = 1;
-                }
+                if (!multisamplingSupported) sampleCount = 1;
             }
 
             std::shared_ptr<Shader> textureShader = std::make_shared<Shader>();
@@ -718,10 +715,7 @@ namespace ouzel
 
         bool RenderDeviceOGL::process()
         {
-            if (!lockContext())
-            {
-                return false;
-            }
+            if (!lockContext()) return false;
 
             return RenderDevice::process();
         }
@@ -806,21 +800,15 @@ namespace ouzel
                             TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(setRenderTargetCommand->renderTarget);
 
                             if (!renderTargetOGL->getFrameBufferId())
-                            {
                                 continue;
-                            }
 
                             newFrameBufferId = renderTargetOGL->getFrameBufferId();
                         }
                         else
-                        {
                             newFrameBufferId = frameBufferId;
-                        }
 
                         if (!bindFrameBuffer(newFrameBufferId))
-                        {
                             return false;
-                        }
 
                         // TODO: update cull mode
 
@@ -844,9 +832,7 @@ namespace ouzel
                             TextureResourceOGL* renderTargetOGL = static_cast<TextureResourceOGL*>(clearCommand->renderTarget);
 
                             if (!renderTargetOGL->getFrameBufferId())
-                            {
                                 continue;
-                            }
 
                             renderTargetWidth = renderTargetOGL->getWidth();
                             renderTargetHeight = renderTargetOGL->getHeight();
@@ -868,16 +854,12 @@ namespace ouzel
                         if (newClearMask)
                         {
                             if (!bindFrameBuffer(newFrameBufferId))
-                            {
                                 return false;
-                            }
 
                             if (!setViewport(0, 0,
                                              renderTargetWidth,
                                              renderTargetHeight))
-                            {
                                 return false;
-                            }
 
                             setScissorTest(false, 0, 0, renderTargetWidth, renderTargetHeight);
 
@@ -889,9 +871,7 @@ namespace ouzel
                             }
 
                             if (newClearMask & GL_COLOR_BUFFER_BIT)
-                            {
                                 setClearColorValue(newClearColor);
-                            }
 
                             glClear(newClearMask);
 
@@ -1010,33 +990,28 @@ namespace ouzel
                                                blendStateOGL->getDestFactorRGB(),
                                                blendStateOGL->getSourceFactorAlpha(),
                                                blendStateOGL->getDestFactorAlpha()))
-                            {
                                 return false;
-                            }
 
                             if (!setColorMask(blendStateOGL->getRedMask(),
                                               blendStateOGL->getGreenMask(),
                                               blendStateOGL->getBlueMask(),
                                               blendStateOGL->getAlphaMask()))
-                            {
                                 return false;
-                            }
                         }
                         else
                         {
                             if (!setBlendState(false, 0, 0, 0, 0, 0, 0))
-                            {
                                 return false;
-                            }
 
                             if (!setColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE))
-                            {
                                 return false;
-                            }
                         }
 
                         if (shaderOGL)
+                        {
+                            assert(shaderOGL->getProgramId());
                             useProgram(shaderOGL->getProgramId());
+                        }
                         else
                             useProgram(0);
 
@@ -1053,15 +1028,11 @@ namespace ouzel
                         BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
                         BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
 
-                        if (!meshBufferOGL ||
-                            !indexBufferOGL ||
-                            !indexBufferOGL->getBufferId() ||
-                            !vertexBufferOGL ||
-                            !vertexBufferOGL->getBufferId())
-                        {
-                            // don't render if invalid mesh buffer
-                            continue;
-                        }
+                        assert(meshBufferOGL);
+                        assert(indexBufferOGL);
+                        assert(indexBufferOGL->getBufferId());
+                        assert(vertexBufferOGL);
+                        assert(vertexBufferOGL->getBufferId());
 
                         // draw
                         GLenum mode;
@@ -1077,9 +1048,7 @@ namespace ouzel
                         }
 
                         if (!meshBufferOGL->bindBuffers())
-                        {
                             return false;
-                        }
 
                         assert(drawCommand->indexCount);
                         assert(indexBufferOGL->getSize());

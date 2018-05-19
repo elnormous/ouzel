@@ -94,10 +94,7 @@ namespace ouzel
 
             for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
             {
-                if (depthStencilState)
-                {
-                    [depthStencilState release];
-                }
+                if (depthStencilState) [depthStencilState release];
             }
 
             for (const auto& samplerState : samplerStates)
@@ -105,40 +102,22 @@ namespace ouzel
                 [samplerState.second release];
             }
 
-            if (depthTexture)
-            {
-                [depthTexture release];
-            }
+            if (depthTexture) [depthTexture release];
 
-            if (msaaTexture)
-            {
-                [msaaTexture release];
-            }
+            if (msaaTexture) [msaaTexture release];
 
             for (const auto& pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
             }
 
-            if (commandQueue)
-            {
-                [commandQueue release];
-            }
+            if (commandQueue) [commandQueue release];
 
-            if (renderPassDescriptor)
-            {
-                [renderPassDescriptor release];
-            }
+            if (renderPassDescriptor) [renderPassDescriptor release];
 
-            if (device)
-            {
-                [device release];
-            }
+            if (device) [device release];
 
-            if (currentMetalTexture)
-            {
-                [currentMetalTexture release];
-            }
+            if (currentMetalTexture) [currentMetalTexture release];
         }
 
         bool RenderDeviceMetal::init(Window* newWindow,
@@ -173,9 +152,7 @@ namespace ouzel
             }
 
             if (device.name)
-            {
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
-            }
 
             commandQueue = [device newCommandQueue];
 
@@ -185,10 +162,7 @@ namespace ouzel
                 return false;
             }
 
-            if (depth)
-            {
-                depthFormat = MTLPixelFormatDepth32Float;
-            }
+            if (depth) depthFormat = MTLPixelFormatDepth32Float;
 
             uint32_t depthStencilStateIndex = 0;
 
@@ -315,10 +289,8 @@ namespace ouzel
                 return false;
             }
 
-            if (currentMetalTexture)
-            {
-                [currentMetalTexture release];
-            }
+            if (currentMetalTexture) [currentMetalTexture release];
+
             currentMetalTexture = [currentMetalDrawable.texture retain];
 
             NSUInteger frameBufferWidth = currentMetalTexture.width;
@@ -444,10 +416,7 @@ namespace ouzel
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor)
-                            {
-                                continue;
-                            }
+                            if (!newRenderPassDescriptor) continue;
 
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
                             currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
@@ -503,10 +472,7 @@ namespace ouzel
                             TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(clearCommand->renderTarget);
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor)
-                            {
-                                continue;
-                            }
+                            if (!newRenderPassDescriptor) continue;
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
@@ -535,9 +501,7 @@ namespace ouzel
                         }
 
                         if (currentRenderCommandEncoder)
-                        {
                             [currentRenderCommandEncoder endEncoding];
-                        }
 
                         currentRenderPassDescriptor = newRenderPassDescriptor;
                         currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
@@ -729,15 +693,11 @@ namespace ouzel
                         BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
                         BufferResourceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
 
-                        if (!meshBufferMetal ||
-                            !indexBufferMetal ||
-                            !vertexBufferMetal ||
-                            !indexBufferMetal->getBuffer() ||
-                            !vertexBufferMetal->getBuffer())
-                        {
-                            // don't render if invalid mesh buffer
-                            continue;
-                        }
+                        assert(meshBufferMetal);
+                        assert(indexBufferMetal);
+                        assert(indexBufferMetal->getBuffer());
+                        assert(vertexBufferMetal);
+                        assert(vertexBufferMetal->getBuffer());
 
                         [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
 
@@ -906,9 +866,7 @@ namespace ouzel
                                                        currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
                             shaderConstantBuffer.offset = 0;
-                        }
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
@@ -1003,9 +961,7 @@ namespace ouzel
             }
 
             if (currentRenderCommandEncoder)
-            {
                 [currentRenderCommandEncoder endEncoding];
-            }
 
             if (currentCommandBuffer)
             {
@@ -1109,26 +1065,37 @@ namespace ouzel
             {
                 MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
                 pipelineStateDescriptor.sampleCount = desc.sampleCount;
-                pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
-                pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
-                pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+
+                if (desc.shader)
+                {
+                    assert(desc.shader->getPixelShader());
+                    assert(desc.shader->getVertexShader());
+                    assert(desc.shader->getVertexDescriptor());
+
+                    pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
+                    pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
+                    pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+                }
 
                 pipelineStateDescriptor.colorAttachments[0].pixelFormat = desc.colorFormat;
                 pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
                 pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
-                // blending
-                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
+                if (desc.blendState)
+                {
+                    // blending
+                    pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
 
-                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
+                    pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
+                    pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
+                    pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
+                }
 
                 NSError* error;
                 id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
