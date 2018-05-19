@@ -166,7 +166,7 @@ namespace ouzel
             else
             {
                 path = pwent.pw_dir;
-            }            
+            }
         }
 
         path += DIRECTORY_SEPARATOR + "." + DEVELOPER_NAME;

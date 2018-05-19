@@ -61,8 +61,6 @@ namespace ouzel
 
             inline bool getRefillQueue() const { return refillQueue; }
 
-            
-
             template <class T> bool addCommand(const T& command)
             {
                 fillBuffer->addCommand(command);

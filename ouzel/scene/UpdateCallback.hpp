@@ -12,7 +12,7 @@ namespace ouzel
     namespace scene
     {
         class SceneManager;
-        
+
         class UpdateCallback
         {
             friend SceneManager;

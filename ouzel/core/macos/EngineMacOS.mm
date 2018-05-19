@@ -106,7 +106,7 @@ namespace ouzel
     {
         if (executeHanlder) [executeHanlder release];
     }
-    
+
     int EngineMacOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
