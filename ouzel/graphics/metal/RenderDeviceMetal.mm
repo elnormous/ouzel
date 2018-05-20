@@ -10,7 +10,6 @@
 #include "RenderDeviceMetal.hpp"
 #include "TextureResourceMetal.hpp"
 #include "ShaderResourceMetal.hpp"
-#include "MeshBufferResourceMetal.hpp"
 #include "BufferResourceMetal.hpp"
 #include "BlendStateResourceMetal.hpp"
 #include "events/EventDispatcher.hpp"
@@ -678,11 +677,9 @@ namespace ouzel
                         }
 
                         // mesh buffer
-                        MeshBufferResourceMetal* meshBufferMetal = static_cast<MeshBufferResourceMetal*>(drawCommand->meshBuffer);
-                        BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
-                        BufferResourceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
+                        BufferResourceMetal* indexBufferMetal = static_cast<BufferResourceMetal*>(drawCommand->indexBuffer);
+                        BufferResourceMetal* vertexBufferMetal = static_cast<BufferResourceMetal*>(drawCommand->vertexBuffer);
 
-                        assert(meshBufferMetal);
                         assert(indexBufferMetal);
                         assert(indexBufferMetal->getBuffer());
                         assert(vertexBufferMetal);
@@ -707,11 +704,23 @@ namespace ouzel
                         assert(indexBufferMetal->getSize());
                         assert(vertexBufferMetal->getSize());
 
+                        MTLIndexType indexType;
+
+                        switch (drawCommand->indexSize)
+                        {
+                            case 2: indexType = MTLIndexTypeUInt16; break;
+                            case 4: indexType = MTLIndexTypeUInt32; break;
+                            default:
+                                Log(Log::Level::ERR) << "Invalid index size";
+                                return false;
+                        }
+
+
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
                                                                 indexCount:drawCommand->indexCount
-                                                                 indexType:meshBufferMetal->getIndexType()
+                                                                 indexType:indexType
                                                                indexBuffer:indexBufferMetal->getBuffer()
-                                                         indexBufferOffset:drawCommand->startIndex * meshBufferMetal->getBytesPerIndex()];
+                                                         indexBufferOffset:drawCommand->startIndex * drawCommand->indexSize];
 
                         break;
                     }
@@ -775,13 +784,6 @@ namespace ouzel
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
-                        break;
-                    }
-
-                    case Command::Type::INIT_MESH_BUFFER:
-                    {
-                        const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-
                         break;
                     }
 
@@ -1013,15 +1015,6 @@ namespace ouzel
             ShaderResource* shader = new ShaderResourceMetal(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
-        }
-
-        MeshBufferResource* RenderDeviceMetal::createMeshBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            MeshBufferResource* meshBuffer = new MeshBufferResourceMetal();
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
         }
 
         BufferResource* RenderDeviceMetal::createBuffer()

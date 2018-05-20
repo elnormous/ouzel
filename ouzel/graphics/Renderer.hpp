@@ -37,7 +37,7 @@ namespace ouzel
 
         class RenderDevice;
         class BlendState;
-        class MeshBuffer;
+        class Buffer;
         class Shader;
 
         class Renderer final
@@ -115,8 +115,10 @@ namespace ouzel
             bool addSetDepthStateCommand(bool depthTest, bool depthWrite);
             bool addSetPipelineStateCommand(const std::shared_ptr<BlendState>& blendState,
                                             const std::shared_ptr<Shader>& shader);
-            bool addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
+            bool addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
                                 uint32_t indexCount,
+                                uint32_t indexSize,
+                                const std::shared_ptr<Buffer>& vertexBuffer,
                                 DrawMode drawMode,
                                 uint32_t startIndex);
             bool addPushDebugMarkerCommand(const std::string& name);

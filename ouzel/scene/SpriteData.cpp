@@ -69,9 +69,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -91,9 +88,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
         }
 
         SpriteData::Frame::Frame(const std::string& frameName,
@@ -121,9 +115,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, 0, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
         }
     } // namespace scene
 } // namespace ouzel

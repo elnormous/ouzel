@@ -7,7 +7,6 @@
 #include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 
@@ -35,7 +34,6 @@ namespace ouzel
                 INIT_BLEND_STATE,
                 INIT_BUFFER,
                 SET_BUFFER_DATA,
-                INIT_MESH_BUFFER,
                 INIT_SHADER,
                 SET_SHADER_CONSTANTS,
                 INIT_TEXTURE,
@@ -178,20 +176,26 @@ namespace ouzel
 
         struct DrawCommand: public Command
         {
-            DrawCommand(MeshBufferResource* initMeshBuffer,
+            DrawCommand(BufferResource* initIndexBuffer,
                         uint32_t initIndexCount,
+                        uint32_t initIndexSize,
+                        BufferResource* initVertexBuffer,
                         Renderer::DrawMode initDrawMode,
                         uint32_t initStartIndex):
                 Command(Command::Type::DRAW),
-                meshBuffer(initMeshBuffer),
+                indexBuffer(initIndexBuffer),
                 indexCount(initIndexCount),
+                indexSize(initIndexSize),
+                vertexBuffer(initVertexBuffer),
                 drawMode(initDrawMode),
                 startIndex(initStartIndex)
             {
             }
 
-            MeshBufferResource* meshBuffer;
+            BufferResource* indexBuffer;
             uint32_t indexCount;
+            uint32_t indexSize;
+            BufferResource* vertexBuffer;
             Renderer::DrawMode drawMode;
             uint32_t startIndex;
         };
@@ -285,18 +289,6 @@ namespace ouzel
 
             BufferResource* buffer;
             std::vector<uint8_t> data;
-        };
-
-        // TODO: implement
-        struct InitMeshBufferCommand: public Command
-        {
-            InitMeshBufferCommand(MeshBuffer* initMeshBuffer):
-                Command(Command::Type::INIT_MESH_BUFFER),
-                meshBuffer(initMeshBuffer)
-            {
-            }
-
-            MeshBuffer* meshBuffer;
         };
 
         struct InitShaderCommand: public Command
@@ -515,7 +507,6 @@ namespace ouzel
                     case Command::Type::INIT_BLEND_STATE: position += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
                     case Command::Type::INIT_BUFFER: position += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
                     case Command::Type::SET_BUFFER_DATA: position += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
-                    case Command::Type::INIT_MESH_BUFFER: position += deleteCommand(static_cast<InitMeshBufferCommand*>(command)); break;
                     case Command::Type::INIT_SHADER: position += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
                     case Command::Type::SET_SHADER_CONSTANTS: position += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
                     case Command::Type::INIT_TEXTURE: position += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
@@ -576,7 +567,6 @@ namespace ouzel
                         case Command::Type::INIT_BLEND_STATE: offset += moveCommand(static_cast<InitBlendStateCommand*>(command), newBuffer + offset); break;
                         case Command::Type::INIT_BUFFER: offset += moveCommand(static_cast<InitBufferCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_BUFFER_DATA: offset += moveCommand(static_cast<SetBufferDataCommand*>(command), newBuffer + offset); break;
-                        case Command::Type::INIT_MESH_BUFFER: offset += moveCommand(static_cast<InitMeshBufferCommand*>(command), newBuffer + offset); break;
                         case Command::Type::INIT_SHADER: offset += moveCommand(static_cast<InitShaderCommand*>(command), newBuffer + offset); break;
                         case Command::Type::SET_SHADER_CONSTANTS: offset += moveCommand(static_cast<SetShaderConstantsCommand*>(command), newBuffer + offset); break;
                         case Command::Type::INIT_TEXTURE: offset += moveCommand(static_cast<InitTextureCommand*>(command), newBuffer + offset); break;
@@ -613,7 +603,6 @@ namespace ouzel
                         case Command::Type::INIT_BLEND_STATE: offset += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
                         case Command::Type::INIT_BUFFER: offset += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
                         case Command::Type::SET_BUFFER_DATA: offset += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
-                        case Command::Type::INIT_MESH_BUFFER: offset += deleteCommand(static_cast<InitMeshBufferCommand*>(command)); break;
                         case Command::Type::INIT_SHADER: offset += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
                         case Command::Type::SET_SHADER_CONSTANTS: offset += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
                         case Command::Type::INIT_TEXTURE: offset += deleteCommand(static_cast<InitTextureCommand*>(command)); break;

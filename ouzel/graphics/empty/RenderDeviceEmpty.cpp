@@ -5,7 +5,6 @@
 #include "BlendStateResourceEmpty.hpp"
 #include "TextureResourceEmpty.hpp"
 #include "ShaderResourceEmpty.hpp"
-#include "MeshBufferResourceEmpty.hpp"
 #include "BufferResourceEmpty.hpp"
 #include "core/Engine.hpp"
 #include "thread/Lock.hpp"
@@ -94,15 +93,6 @@ namespace ouzel
             ShaderResource* shader = new ShaderResourceEmpty();
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
-        }
-
-        MeshBufferResource* RenderDeviceEmpty::createMeshBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            MeshBufferResource* meshBuffer = new MeshBufferResourceEmpty();
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
         }
 
         BufferResource* RenderDeviceEmpty::createBuffer()

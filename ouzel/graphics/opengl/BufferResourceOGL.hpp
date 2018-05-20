@@ -26,11 +26,9 @@ namespace ouzel
     namespace graphics
     {
         class RenderDeviceOGL;
-        class MeshBufferResourceOGL;
 
         class BufferResourceOGL: public BufferResource
         {
-            friend MeshBufferResourceOGL;
         public:
             explicit BufferResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~BufferResourceOGL();

@@ -35,9 +35,6 @@ namespace ouzel
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
 
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
-
             font = engine->getCache()->getFont(fontFile, mipmaps);
 
             updateText();
@@ -96,8 +93,10 @@ namespace ouzel
             engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                 vertexShaderConstants);
             engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
-            engine->getRenderer()->addDrawCommand(meshBuffer,
+            engine->getRenderer()->addDrawCommand(indexBuffer,
                                                   static_cast<uint32_t>(indices.size()),
+                                                  sizeof(uint16_t),
+                                                  vertexBuffer,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                   0);
         }

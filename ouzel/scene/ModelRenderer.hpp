@@ -32,8 +32,8 @@ namespace ouzel
 
         protected:
             std::shared_ptr<graphics::Material> material;
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             uint32_t indexCount = 0;
+            uint32_t indexSize = 0;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

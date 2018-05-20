@@ -9,7 +9,6 @@
 #include "gui/BMFont.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 
@@ -60,7 +59,6 @@ namespace ouzel
             std::shared_ptr<graphics::Shader> shader;
             std::shared_ptr<graphics::BlendState> blendState;
 
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

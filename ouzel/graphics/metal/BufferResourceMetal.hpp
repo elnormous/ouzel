@@ -22,11 +22,9 @@ namespace ouzel
     namespace graphics
     {
         class RenderDeviceMetal;
-        class MeshBufferResourceMetal;
 
         class BufferResourceMetal: public BufferResource
         {
-            friend MeshBufferResourceMetal;
         public:
             explicit BufferResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~BufferResourceMetal();

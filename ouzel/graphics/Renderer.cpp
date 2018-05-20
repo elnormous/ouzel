@@ -8,7 +8,6 @@
 #include "TextureResource.hpp"
 #include "ShaderResource.hpp"
 #include "BlendStateResource.hpp"
-#include "MeshBufferResource.hpp"
 #include "BufferResource.hpp"
 #include "events/EventHandler.hpp"
 #include "events/EventDispatcher.hpp"
@@ -308,19 +307,23 @@ namespace ouzel
                                                               shader ? shader->getResource() : nullptr));
         }
 
-        bool Renderer::addDrawCommand(const std::shared_ptr<MeshBuffer>& meshBuffer,
+        bool Renderer::addDrawCommand(const std::shared_ptr<Buffer>& indexBuffer,
                                       uint32_t indexCount,
+                                      uint32_t indexSize,
+                                      const std::shared_ptr<Buffer>& vertexBuffer,
                                       DrawMode drawMode,
                                       uint32_t startIndex)
         {
-            if (!meshBuffer || !meshBuffer->getIndexBuffer() || !meshBuffer->getVertexBuffer())
+            if (!indexBuffer || !vertexBuffer)
             {
                 Log(Log::Level::ERR) << "Invalid mesh buffer passed to render queue";
                 return false;
             }
 
-            return device->addCommand(DrawCommand(meshBuffer->getResource(),
+            return device->addCommand(DrawCommand(indexBuffer->getResource(),
                                                   indexCount,
+                                                  indexSize,
+                                                  vertexBuffer->getResource(),
                                                   drawMode,
                                                   startIndex));
         }

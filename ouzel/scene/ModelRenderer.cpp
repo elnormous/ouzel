@@ -30,8 +30,8 @@ namespace ouzel
         {
             boundingBox = modelData.boundingBox;
             material = modelData.material;
-            meshBuffer = modelData.meshBuffer;
             indexCount = modelData.indexCount;
+            indexSize = modelData.indexSize;
             indexBuffer = modelData.indexBuffer;
             vertexBuffer = modelData.vertexBuffer;
 
@@ -75,8 +75,10 @@ namespace ouzel
             engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                 vertexShaderConstants);
             engine->getRenderer()->addSetTexturesCommand(textures);
-            engine->getRenderer()->addDrawCommand(meshBuffer,
+            engine->getRenderer()->addDrawCommand(indexBuffer,
                                                   indexCount,
+                                                  indexSize,
+                                                  vertexBuffer,
                                                   graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                   0);
         }

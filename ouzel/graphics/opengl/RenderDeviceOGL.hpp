@@ -587,7 +587,6 @@ namespace ouzel
             virtual BlendStateResource* createBlendState() override;
             virtual TextureResource* createTexture() override;
             virtual ShaderResource* createShader() override;
-            virtual MeshBufferResource* createMeshBuffer() override;
             virtual BufferResource* createBuffer() override;
 
             void* getProcAddress(const std::string& name) const;
