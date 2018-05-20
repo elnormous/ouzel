@@ -9,7 +9,6 @@
 #include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "thread/Condition.hpp"
@@ -24,7 +23,6 @@ namespace ouzel
             friend Renderer;
             friend BlendState;
             friend Buffer;
-            friend MeshBuffer;
             friend Shader;
             friend Texture;
         public:
@@ -120,7 +118,6 @@ namespace ouzel
             virtual BlendStateResource* createBlendState() = 0;
             virtual TextureResource* createTexture() = 0;
             virtual ShaderResource* createShader() = 0;
-            virtual MeshBufferResource* createMeshBuffer() = 0;
             virtual BufferResource* createBuffer() = 0;
             virtual void deleteResource(RenderResource* resource);
 

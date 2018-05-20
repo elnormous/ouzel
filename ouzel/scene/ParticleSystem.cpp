@@ -10,7 +10,6 @@
 #include "assets/Cache.hpp"
 #include "Layer.hpp"
 #include "scene/Camera.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/BufferResource.hpp"
 #include "utils/Utils.hpp"
 #include "math/MathUtils.hpp"
@@ -78,8 +77,10 @@ namespace ouzel
                 engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                     vertexShaderConstants);
                 engine->getRenderer()->addSetTexturesCommand({wireframe ? whitePixelTexture : texture});
-                engine->getRenderer()->addDrawCommand(meshBuffer,
+                engine->getRenderer()->addDrawCommand(indexBuffer,
                                                       particleCount * 6,
+                                                      sizeof(uint16_t),
+                                                      vertexBuffer,
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                       0);
             }
@@ -339,9 +340,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC, vertices.data(), static_cast<uint32_t>(getVectorSize(vertices)));
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
 
             particles.resize(particleSystemData.maxParticles);
 

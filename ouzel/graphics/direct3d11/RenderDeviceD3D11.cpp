@@ -11,7 +11,6 @@
 #include "BlendStateResourceD3D11.hpp"
 #include "TextureResourceD3D11.hpp"
 #include "ShaderResourceD3D11.hpp"
-#include "MeshBufferResourceD3D11.hpp"
 #include "BufferResourceD3D11.hpp"
 #include "direct3d11/TexturePSD3D11.h"
 #include "direct3d11/TextureVSD3D11.h"
@@ -659,11 +658,9 @@ namespace ouzel
                         const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
 
                         // draw mesh buffer
-                        MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand->meshBuffer);
-                        BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
-                        BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
+                        BufferResourceD3D11* indexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->indexBuffer);
+                        BufferResourceD3D11* vertexBufferD3D11 = static_cast<BufferResourceD3D11*>(drawCommand->vertexBuffer);
 
-                        assert(meshBufferD3D11);
                         assert(indexBufferD3D11);
                         assert(indexBufferD3D11->getBuffer());
                         assert(vertexBufferD3D11);
@@ -673,7 +670,20 @@ namespace ouzel
                         UINT strides[] = {sizeof(Vertex)};
                         UINT offsets[] = {0};
                         context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
-                        context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), meshBufferD3D11->getIndexFormat(), 0);
+
+                        DXGI_FORMAT indexFormat;
+
+                        switch (drawCommand->indexSize)
+                        {
+                            case 2: indexFormat = DXGI_FORMAT_R16_UINT; break;
+                            case 4: indexFormat = DXGI_FORMAT_R32_UINT; break;
+                            default:
+                                indexFormat = DXGI_FORMAT_UNKNOWN;
+                                Log(Log::Level::ERR) << "Invalid index size";
+                                return false;
+                        }
+
+                        context->IASetIndexBuffer(indexBufferD3D11->getBuffer(), indexFormat, 0);
 
                         D3D_PRIMITIVE_TOPOLOGY topology;
 
@@ -743,13 +753,6 @@ namespace ouzel
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
-                        break;
-                    }
-
-                    case Command::Type::INIT_MESH_BUFFER:
-                    {
-                        const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-
                         break;
                     }
 
@@ -1088,15 +1091,6 @@ namespace ouzel
             ShaderResource* shader = new ShaderResourceD3D11(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
-        }
-
-        MeshBufferResource* RenderDeviceD3D11::createMeshBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            MeshBufferResource* meshBuffer = new MeshBufferResourceD3D11();
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
         }
 
         BufferResource* RenderDeviceD3D11::createBuffer()

@@ -51,8 +51,6 @@
 #include "graphics/Buffer.hpp"
 #include "graphics/BufferResource.hpp"
 #include "graphics/Material.hpp"
-#include "graphics/MeshBuffer.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/PixelFormat.hpp"
 #include "graphics/Renderer.hpp"
 #include "graphics/RenderResource.hpp"

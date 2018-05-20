@@ -13,7 +13,6 @@
 #include "graphics/Vertex.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "scene/UpdateCallback.hpp"
@@ -99,7 +98,6 @@ namespace ouzel
 
             std::vector<Particle> particles;
 
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
 

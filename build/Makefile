@@ -77,13 +77,11 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/files/FileSystem.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BlendStateResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/BufferResourceEmpty.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/empty/MeshBufferResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/RenderDeviceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/ShaderResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/empty/TextureResourceEmpty.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BlendStateResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/BufferResourceOGL.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/opengl/MeshBufferResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/RenderDeviceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/ShaderResourceOGL.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/opengl/TextureResourceOGL.cpp \
@@ -94,8 +92,6 @@ SOURCES=$(ROOT_DIR)/../ouzel/animators/Animator.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageData.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/ImageDataSTB.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Material.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/MeshBuffer.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/MeshBufferResource.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Renderer.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/RenderDevice.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/Shader.cpp \
@@ -175,7 +171,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/dsound/AudioDeviceDS.cpp \
 	$(ROOT_DIR)/../ouzel/core/windows/WindowResourceWin.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BlendStateResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/BufferResourceD3D11.cpp \
-	$(ROOT_DIR)/../ouzel/graphics/direct3d11/MeshBufferResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/RenderDeviceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/ShaderResourceD3D11.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/direct3d11/TextureResourceD3D11.cpp \
@@ -219,7 +214,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/macos/RenderDeviceMetalMacOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
@@ -242,7 +236,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ios/RenderDeviceMetalIOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \
@@ -265,7 +258,6 @@ SOURCES+=$(ROOT_DIR)/../ouzel/audio/coreaudio/AudioDeviceCA.cpp \
 	$(ROOT_DIR)/../ouzel/graphics/metal/tvos/RenderDeviceMetalTVOS.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BlendStateResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/BufferResourceMetal.mm \
-	$(ROOT_DIR)/../ouzel/graphics/metal/MeshBufferResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/RenderDeviceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/ShaderResourceMetal.mm \
 	$(ROOT_DIR)/../ouzel/graphics/metal/TextureResourceMetal.mm \

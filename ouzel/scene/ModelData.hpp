@@ -7,7 +7,7 @@
 #include "graphics/Buffer.hpp"
 #include "graphics/Buffer.hpp"
 #include "graphics/Material.hpp"
-#include "graphics/MeshBuffer.hpp"
+#include "graphics/Vertex.hpp"
 
 namespace ouzel
 {
@@ -23,8 +23,8 @@ namespace ouzel
 
             Box3 boundingBox;
             std::shared_ptr<graphics::Material> material;
-            std::shared_ptr<graphics::MeshBuffer> meshBuffer;
             uint32_t indexCount;
+            uint32_t indexSize;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
         };

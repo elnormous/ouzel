@@ -37,7 +37,6 @@
 #include "RenderDeviceOGL.hpp"
 #include "TextureResourceOGL.hpp"
 #include "ShaderResourceOGL.hpp"
-#include "MeshBufferResourceOGL.hpp"
 #include "BufferResourceOGL.hpp"
 #include "BlendStateResourceOGL.hpp"
 #include "core/Engine.hpp"
@@ -1190,11 +1189,9 @@ namespace ouzel
                         const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
 
                         // mesh buffer
-                        MeshBufferResourceOGL* meshBufferOGL = static_cast<MeshBufferResourceOGL*>(drawCommand->meshBuffer);
-                        BufferResourceOGL* indexBufferOGL = meshBufferOGL->getIndexBufferOGL();
-                        BufferResourceOGL* vertexBufferOGL = meshBufferOGL->getVertexBufferOGL();
+                        BufferResourceOGL* indexBufferOGL = static_cast<BufferResourceOGL*>(drawCommand->indexBuffer);
+                        BufferResourceOGL* vertexBufferOGL = static_cast<BufferResourceOGL*>(drawCommand->vertexBuffer);
 
-                        assert(meshBufferOGL);
                         assert(indexBufferOGL);
                         assert(indexBufferOGL->getBufferId());
                         assert(vertexBufferOGL);
@@ -1246,10 +1243,22 @@ namespace ouzel
                         assert(indexBufferOGL->getSize());
                         assert(vertexBufferOGL->getSize());
 
+                        GLenum indexType;
+
+                        switch (drawCommand->indexSize)
+                        {
+                            case 2: indexType = GL_UNSIGNED_SHORT; break;
+                            case 4: indexType = GL_UNSIGNED_INT; break;
+                            default:
+                                Log(Log::Level::ERR) << "Invalid index size";
+                                return false;
+                        }
+
+
                         glDrawElements(mode,
                                        static_cast<GLsizei>(drawCommand->indexCount),
-                                       meshBufferOGL->getIndexType(),
-                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * meshBufferOGL->getBytesPerIndex()));
+                                       indexType,
+                                       static_cast<const char*>(nullptr) + (drawCommand->startIndex * drawCommand->indexSize));
 
                         if (checkOpenGLError())
                         {
@@ -1309,13 +1318,6 @@ namespace ouzel
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
-                        break;
-                    }
-
-                    case Command::Type::INIT_MESH_BUFFER:
-                    {
-                        //const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-
                         break;
                     }
 
@@ -1502,15 +1504,6 @@ namespace ouzel
             ShaderResource* shader = new ShaderResourceOGL(*this);
             resources.push_back(std::unique_ptr<RenderResource>(shader));
             return shader;
-        }
-
-        MeshBufferResource* RenderDeviceOGL::createMeshBuffer()
-        {
-            Lock lock(resourceMutex);
-
-            MeshBufferResource* meshBuffer = new MeshBufferResourceOGL(*this);
-            resources.push_back(std::unique_ptr<RenderResource>(meshBuffer));
-            return meshBuffer;
         }
 
         BufferResource* RenderDeviceOGL::createBuffer()

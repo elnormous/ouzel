@@ -4,7 +4,6 @@
 #include "ShapeRenderer.hpp"
 #include "core/Engine.hpp"
 #include "graphics/Renderer.hpp"
-#include "graphics/MeshBufferResource.hpp"
 #include "graphics/BufferResource.hpp"
 #include "Camera.hpp"
 #include "utils/Utils.hpp"
@@ -24,9 +23,6 @@ namespace ouzel
 
             vertexBuffer = std::make_shared<graphics::Buffer>();
             vertexBuffer->init(graphics::Buffer::Usage::VERTEX, graphics::Buffer::DYNAMIC);
-
-            meshBuffer = std::make_shared<graphics::MeshBuffer>();
-            meshBuffer->init(sizeof(uint16_t), indexBuffer, vertexBuffer);
         }
 
         void ShapeRenderer::draw(const Matrix4& transformMatrix,
@@ -61,8 +57,10 @@ namespace ouzel
                 engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
                 engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                     vertexShaderConstants);
-                engine->getRenderer()->addDrawCommand(meshBuffer,
+                engine->getRenderer()->addDrawCommand(indexBuffer,
                                                       drawCommand.indexCount,
+                                                      sizeof(uint16_t),
+                                                      vertexBuffer,
                                                       drawCommand.mode,
                                                       drawCommand.startIndex);
             }

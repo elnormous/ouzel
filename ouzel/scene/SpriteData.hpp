@@ -9,7 +9,6 @@
 #include "math/Rect.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
-#include "graphics/MeshBuffer.hpp"
 #include "graphics/Shader.hpp"
 #include "graphics/Texture.hpp"
 #include "graphics/Vertex.hpp"
@@ -47,7 +46,6 @@ namespace ouzel
                 inline const std::string& getName() const { return name; }
 
                 inline const Box2& getBoundingBox() const { return boundingBox; }
-                inline const std::shared_ptr<graphics::MeshBuffer>& getMeshBuffer() const { return meshBuffer; }
                 uint32_t getIndexCount() const { return indexCount; }
                 inline const std::shared_ptr<graphics::Buffer>& getIndexBuffer() const { return indexBuffer; };
                 inline const std::shared_ptr<graphics::Buffer>& getVertexBuffer() const { return vertexBuffer; };
@@ -55,7 +53,6 @@ namespace ouzel
             protected:
                 std::string name;
                 Box2 boundingBox;
-                std::shared_ptr<graphics::MeshBuffer> meshBuffer;
                 uint32_t indexCount = 0;
                 std::shared_ptr<graphics::Buffer> indexBuffer;
                 std::shared_ptr<graphics::Buffer> vertexBuffer;
