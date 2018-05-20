@@ -437,9 +437,6 @@ namespace ouzel
 
             while (Command* command = commands.front())
             {
-                if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
-                const Command* command = reinterpret_cast<const Command*>(commands.getData() + offset);
-
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
