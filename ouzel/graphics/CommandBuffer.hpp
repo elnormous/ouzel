@@ -499,153 +499,27 @@ namespace ouzel
 
                 switch (command->type)
                 {
-                    case Command::Type::SET_RENDER_TARGET:
-                    {
-                        static_cast<SetRenderTargetCommand*>(command)->~SetRenderTargetCommand();
-                        position += sizeof(SetRenderTargetCommand);
-                        break;
-                    }
-
-                    case Command::Type::CLEAR:
-                    {
-                        static_cast<ClearCommand*>(command)->~ClearCommand();
-                        position += sizeof(ClearCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_CULL_MODE:
-                    {
-                        static_cast<SetCullModeCommad*>(command)->~SetCullModeCommad();
-                        position += sizeof(SetCullModeCommad);
-                        break;
-                    }
-
-                    case Command::Type::SET_FILL_MODE:
-                    {
-                        static_cast<SetFillModeCommad*>(command)->~SetFillModeCommad();
-                        position += sizeof(SetFillModeCommad);
-                        break;
-                    }
-
-                    case Command::Type::SET_SCISSOR_TEST:
-                    {
-                        static_cast<SetScissorTestCommand*>(command)->~SetScissorTestCommand();
-                        position += sizeof(SetScissorTestCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_VIEWPORT:
-                    {
-                        static_cast<SetViewportCommand*>(command)->~SetViewportCommand();
-                        position += sizeof(SetViewportCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_DEPTH_STATE:
-                    {
-                        static_cast<SetDepthStateCommand*>(command)->~SetDepthStateCommand();
-                        position += sizeof(SetDepthStateCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_PIPELINE_STATE:
-                    {
-                        static_cast<SetPipelineStateCommand*>(command)->~SetPipelineStateCommand();
-                        position += sizeof(SetPipelineStateCommand);
-                        break;
-                    }
-
-                    case Command::Type::DRAW:
-                    {
-                        static_cast<DrawCommand*>(command)->~DrawCommand();
-                        position += sizeof(DrawCommand);
-                        break;
-                    }
-
-                    case Command::Type::PUSH_DEBUG_MARKER:
-                    {
-                        static_cast<PushDebugMarkerCommand*>(command)->~PushDebugMarkerCommand();
-                        position += sizeof(PushDebugMarkerCommand);
-                        break;
-                    }
-
-                    case Command::Type::POP_DEBUG_MARKER:
-                    {
-                        static_cast<PopDebugMarkerCommand*>(command)->~PopDebugMarkerCommand();
-                        position += sizeof(PopDebugMarkerCommand);
-                        break;
-                    }
-
-                    case Command::Type::INIT_BLEND_STATE:
-                    {
-                        static_cast<InitBlendStateCommand*>(command)->~InitBlendStateCommand();
-                        position += sizeof(InitBlendStateCommand);
-                        break;
-                    }
-
-                    case Command::Type::INIT_BUFFER:
-                    {
-                        static_cast<InitBufferCommand*>(command)->~InitBufferCommand();
-                        position += sizeof(InitBufferCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_BUFFER_DATA:
-                    {
-                        static_cast<SetBufferDataCommand*>(command)->~SetBufferDataCommand();
-                        position += sizeof(SetBufferDataCommand);
-                        break;
-                    }
-
-                    case Command::Type::INIT_MESH_BUFFER:
-                    {
-                        static_cast<InitMeshBufferCommand*>(command)->~InitMeshBufferCommand();
-                        position += sizeof(InitMeshBufferCommand);
-                        break;
-                    }
-
-                    case Command::Type::INIT_SHADER:
-                    {
-                        static_cast<InitShaderCommand*>(command)->~InitShaderCommand();
-                        position += sizeof(InitShaderCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_SHADER_CONSTANTS:
-                    {
-                        static_cast<SetShaderConstantsCommand*>(command)->~SetShaderConstantsCommand();
-                        position += sizeof(SetShaderConstantsCommand);
-                        break;
-                    }
-
-                    case Command::Type::INIT_TEXTURE:
-                    {
-                        static_cast<InitTextureCommand*>(command)->~InitTextureCommand();
-                        position += sizeof(InitTextureCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_DATA:
-                    {
-                        static_cast<SetTextureDataCommand*>(command)->~SetTextureDataCommand();
-                        position += sizeof(SetTextureDataCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURE_FLAGS:
-                    {
-                        static_cast<SetTextureFlagsCommand*>(command)->~SetTextureFlagsCommand();
-                        position += sizeof(SetTextureFlagsCommand);
-                        break;
-                    }
-
-                    case Command::Type::SET_TEXTURES:
-                    {
-                        static_cast<SetTexturesCommand*>(command)->~SetTexturesCommand();
-                        position += sizeof(SetTexturesCommand);
-                        break;
-                    }
-
+                    case Command::Type::SET_RENDER_TARGET: position += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
+                    case Command::Type::CLEAR: position += deleteCommand(static_cast<ClearCommand*>(command)); break;
+                    case Command::Type::SET_CULL_MODE: position += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
+                    case Command::Type::SET_FILL_MODE: position += deleteCommand(static_cast<SetFillModeCommad*>(command)); break;
+                    case Command::Type::SET_SCISSOR_TEST: position += deleteCommand(static_cast<SetScissorTestCommand*>(command)); break;
+                    case Command::Type::SET_VIEWPORT: position += deleteCommand(static_cast<SetViewportCommand*>(command)); break;
+                    case Command::Type::SET_DEPTH_STATE: position += deleteCommand(static_cast<SetDepthStateCommand*>(command)); break;
+                    case Command::Type::SET_PIPELINE_STATE: position += deleteCommand(static_cast<SetPipelineStateCommand*>(command)); break;
+                    case Command::Type::DRAW: position += deleteCommand(static_cast<DrawCommand*>(command)); break;
+                    case Command::Type::PUSH_DEBUG_MARKER: position += deleteCommand(static_cast<PushDebugMarkerCommand*>(command)); break;
+                    case Command::Type::POP_DEBUG_MARKER: position += deleteCommand(static_cast<PopDebugMarkerCommand*>(command)); break;
+                    case Command::Type::INIT_BLEND_STATE: position += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
+                    case Command::Type::INIT_BUFFER: position += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
+                    case Command::Type::SET_BUFFER_DATA: position += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
+                    case Command::Type::INIT_MESH_BUFFER: position += deleteCommand(static_cast<InitMeshBufferCommand*>(command)); break;
+                    case Command::Type::INIT_SHADER: position += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
+                    case Command::Type::SET_SHADER_CONSTANTS: position += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
+                    case Command::Type::INIT_TEXTURE: position += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
+                    case Command::Type::SET_TEXTURE_DATA: position += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
+                    case Command::Type::SET_TEXTURE_FLAGS: position += deleteCommand(static_cast<SetTextureFlagsCommand*>(command)); break;
+                    case Command::Type::SET_TEXTURES: position += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
                     default: break;
                 }
 
@@ -676,6 +550,18 @@ namespace ouzel
             }
 
         private:
+            template<class T> uint32_t deleteCommand(T* command)
+            {
+                command->~T();
+                return sizeof(T);
+            }
+
+            template<class T> uint32_t moveCommand(T* command, void* newPointer)
+            {
+                new (newPointer) T(std::move(*command));
+                return sizeof(T);
+            }
+
             void moveCommands(uint8_t* newBuffer)
             {
                 uint32_t offset = position;
@@ -687,154 +573,28 @@ namespace ouzel
 
                     switch (command->type)
                     {
-                        case Command::Type::SET_RENDER_TARGET:
-                        {
-                            new (newBuffer + offset) SetRenderTargetCommand(std::move(*static_cast<SetRenderTargetCommand*>(command)));
-                            offset += sizeof(SetRenderTargetCommand);
-                            break;
-                        }
-
-                        case Command::Type::CLEAR:
-                        {
-                            new (newBuffer + offset) ClearCommand(std::move(*static_cast<ClearCommand*>(command)));
-                            offset += sizeof(ClearCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            new (newBuffer + offset) SetCullModeCommad(std::move(*static_cast<SetCullModeCommad*>(command)));
-                            offset += sizeof(SetCullModeCommad);
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            new (newBuffer + offset) SetFillModeCommad(std::move(*static_cast<SetFillModeCommad*>(command)));
-                            offset += sizeof(SetFillModeCommad);
-                            break;
-                        }
-
-                        case Command::Type::SET_SCISSOR_TEST:
-                        {
-                            new (newBuffer + offset) SetScissorTestCommand(std::move(*static_cast<SetScissorTestCommand*>(command)));
-                            offset += sizeof(SetScissorTestCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_VIEWPORT:
-                        {
-                            new (newBuffer + offset) SetViewportCommand(std::move(*static_cast<SetViewportCommand*>(command)));
-                            offset += sizeof(SetViewportCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_DEPTH_STATE:
-                        {
-                            new (newBuffer + offset) SetDepthStateCommand(std::move(*static_cast<SetDepthStateCommand*>(command)));
-                            offset += sizeof(SetDepthStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_PIPELINE_STATE:
-                        {
-                            new (newBuffer + offset) SetPipelineStateCommand(std::move(*static_cast<SetPipelineStateCommand*>(command)));
-                            offset += sizeof(SetPipelineStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::DRAW:
-                        {
-                            new (newBuffer + offset) DrawCommand(std::move(*static_cast<DrawCommand*>(command)));
-                            offset += sizeof(DrawCommand);
-                            break;
-                        }
-
-                        case Command::Type::PUSH_DEBUG_MARKER:
-                        {
-                            new (newBuffer + offset) PushDebugMarkerCommand(std::move(*static_cast<PushDebugMarkerCommand*>(command)));
-                            offset += sizeof(PushDebugMarkerCommand);
-                            break;
-                        }
-
-                        case Command::Type::POP_DEBUG_MARKER:
-                        {
-                            new (newBuffer + offset) PopDebugMarkerCommand(std::move(*static_cast<PopDebugMarkerCommand*>(command)));
-                            offset += sizeof(PopDebugMarkerCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_BLEND_STATE:
-                        {
-                            new (newBuffer + offset) InitBlendStateCommand(std::move(*static_cast<InitBlendStateCommand*>(command)));
-                            offset += sizeof(InitBlendStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_BUFFER:
-                        {
-                            new (newBuffer + offset) InitBufferCommand(std::move(*static_cast<InitBufferCommand*>(command)));
-                            offset += sizeof(InitBufferCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_BUFFER_DATA:
-                        {
-                            new (newBuffer + offset) SetBufferDataCommand(std::move(*static_cast<SetBufferDataCommand*>(command)));
-                            offset += sizeof(SetBufferDataCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_MESH_BUFFER:
-                        {
-                            new (newBuffer + offset) InitMeshBufferCommand(std::move(*static_cast<InitMeshBufferCommand*>(command)));
-                            offset += sizeof(InitMeshBufferCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_SHADER:
-                        {
-                            new (newBuffer + offset) InitShaderCommand(std::move(*static_cast<InitShaderCommand*>(command)));
-                            offset += sizeof(InitShaderCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_SHADER_CONSTANTS:
-                        {
-                            new (newBuffer + offset) SetShaderConstantsCommand(std::move(*static_cast<SetShaderConstantsCommand*>(command)));
-                            offset += sizeof(SetShaderConstantsCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_TEXTURE:
-                        {
-                            new (newBuffer + offset) InitTextureCommand(std::move(*static_cast<InitTextureCommand*>(command)));
-                            offset += sizeof(InitTextureCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURE_DATA:
-                        {
-                            new (newBuffer + offset) SetTextureDataCommand(std::move(*static_cast<SetTextureDataCommand*>(command)));
-                            offset += sizeof(SetTextureDataCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURE_FLAGS:
-                        {
-                            new (newBuffer + offset) SetTextureFlagsCommand(std::move(*static_cast<SetTextureFlagsCommand*>(command)));
-                            offset += sizeof(SetTextureFlagsCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURES:
-                        {
-                            new (newBuffer + offset) SetTexturesCommand(std::move(*static_cast<SetTexturesCommand*>(command)));
-                            offset += sizeof(SetTexturesCommand);
-                            break;
-                        }
-
-                        default: break;
+                        case Command::Type::SET_RENDER_TARGET: offset += moveCommand(static_cast<SetRenderTargetCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::CLEAR: offset += moveCommand(static_cast<ClearCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_CULL_MODE: offset += moveCommand(static_cast<SetCullModeCommad*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_FILL_MODE: offset += moveCommand(static_cast<SetFillModeCommad*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_SCISSOR_TEST: offset += moveCommand(static_cast<SetScissorTestCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_VIEWPORT: offset += moveCommand(static_cast<SetViewportCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_DEPTH_STATE: offset += moveCommand(static_cast<SetDepthStateCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_PIPELINE_STATE: offset += moveCommand(static_cast<SetPipelineStateCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::DRAW: offset += moveCommand(static_cast<DrawCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::PUSH_DEBUG_MARKER: offset += moveCommand(static_cast<PushDebugMarkerCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::POP_DEBUG_MARKER: offset += moveCommand(static_cast<PopDebugMarkerCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::INIT_BLEND_STATE: offset += moveCommand(static_cast<InitBlendStateCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::INIT_BUFFER: offset += moveCommand(static_cast<InitBufferCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_BUFFER_DATA: offset += moveCommand(static_cast<SetBufferDataCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::INIT_MESH_BUFFER: offset += moveCommand(static_cast<InitMeshBufferCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::INIT_SHADER: offset += moveCommand(static_cast<InitShaderCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_SHADER_CONSTANTS: offset += moveCommand(static_cast<SetShaderConstantsCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::INIT_TEXTURE: offset += moveCommand(static_cast<InitTextureCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_TEXTURE_DATA: offset += moveCommand(static_cast<SetTextureDataCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_TEXTURE_FLAGS: offset += moveCommand(static_cast<SetTextureFlagsCommand*>(command), newBuffer + offset); break;
+                        case Command::Type::SET_TEXTURES: offset += moveCommand(static_cast<SetTexturesCommand*>(command), newBuffer + offset); break;
+                        default: assert(false);
                     }
                 }
             }
@@ -850,154 +610,28 @@ namespace ouzel
 
                     switch (command->type)
                     {
-                        case Command::Type::SET_RENDER_TARGET:
-                        {
-                            static_cast<SetRenderTargetCommand*>(command)->~SetRenderTargetCommand();
-                            offset += sizeof(SetRenderTargetCommand);
-                            break;
-                        }
-
-                        case Command::Type::CLEAR:
-                        {
-                            static_cast<ClearCommand*>(command)->~ClearCommand();
-                            offset += sizeof(ClearCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_CULL_MODE:
-                        {
-                            static_cast<SetCullModeCommad*>(command)->~SetCullModeCommad();
-                            offset += sizeof(SetCullModeCommad);
-                            break;
-                        }
-
-                        case Command::Type::SET_FILL_MODE:
-                        {
-                            static_cast<SetFillModeCommad*>(command)->~SetFillModeCommad();
-                            offset += sizeof(SetFillModeCommad);
-                            break;
-                        }
-
-                        case Command::Type::SET_SCISSOR_TEST:
-                        {
-                            static_cast<SetScissorTestCommand*>(command)->~SetScissorTestCommand();
-                            offset += sizeof(SetScissorTestCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_VIEWPORT:
-                        {
-                            static_cast<SetViewportCommand*>(command)->~SetViewportCommand();
-                            offset += sizeof(SetViewportCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_DEPTH_STATE:
-                        {
-                            static_cast<SetDepthStateCommand*>(command)->~SetDepthStateCommand();
-                            offset += sizeof(SetDepthStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_PIPELINE_STATE:
-                        {
-                            static_cast<SetPipelineStateCommand*>(command)->~SetPipelineStateCommand();
-                            offset += sizeof(SetPipelineStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::DRAW:
-                        {
-                            static_cast<DrawCommand*>(command)->~DrawCommand();
-                            offset += sizeof(DrawCommand);
-                            break;
-                        }
-
-                        case Command::Type::PUSH_DEBUG_MARKER:
-                        {
-                            static_cast<PushDebugMarkerCommand*>(command)->~PushDebugMarkerCommand();
-                            offset += sizeof(PushDebugMarkerCommand);
-                            break;
-                        }
-
-                        case Command::Type::POP_DEBUG_MARKER:
-                        {
-                            static_cast<PopDebugMarkerCommand*>(command)->~PopDebugMarkerCommand();
-                            offset += sizeof(PopDebugMarkerCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_BLEND_STATE:
-                        {
-                            static_cast<InitBlendStateCommand*>(command)->~InitBlendStateCommand();
-                            offset += sizeof(InitBlendStateCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_BUFFER:
-                        {
-                            static_cast<InitBufferCommand*>(command)->~InitBufferCommand();
-                            offset += sizeof(InitBufferCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_BUFFER_DATA:
-                        {
-                            static_cast<SetBufferDataCommand*>(command)->~SetBufferDataCommand();
-                            offset += sizeof(SetBufferDataCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_MESH_BUFFER:
-                        {
-                            static_cast<InitMeshBufferCommand*>(command)->~InitMeshBufferCommand();
-                            offset += sizeof(InitMeshBufferCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_SHADER:
-                        {
-                            static_cast<InitShaderCommand*>(command)->~InitShaderCommand();
-                            offset += sizeof(InitShaderCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_SHADER_CONSTANTS:
-                        {
-                            static_cast<SetShaderConstantsCommand*>(command)->~SetShaderConstantsCommand();
-                            offset += sizeof(SetShaderConstantsCommand);
-                            break;
-                        }
-
-                        case Command::Type::INIT_TEXTURE:
-                        {
-                            static_cast<InitTextureCommand*>(command)->~InitTextureCommand();
-                            offset += sizeof(InitTextureCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURE_DATA:
-                        {
-                            static_cast<SetTextureDataCommand*>(command)->~SetTextureDataCommand();
-                            offset += sizeof(SetTextureDataCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURE_FLAGS:
-                        {
-                            static_cast<SetTextureFlagsCommand*>(command)->~SetTextureFlagsCommand();
-                            offset += sizeof(SetTextureFlagsCommand);
-                            break;
-                        }
-
-                        case Command::Type::SET_TEXTURES:
-                        {
-                            static_cast<SetTexturesCommand*>(command)->~SetTexturesCommand();
-                            offset += sizeof(SetTexturesCommand);
-                            break;
-                        }
-
-                        default: break;
+                        case Command::Type::SET_RENDER_TARGET: offset += deleteCommand(static_cast<SetRenderTargetCommand*>(command)); break;
+                        case Command::Type::CLEAR: offset += deleteCommand(static_cast<ClearCommand*>(command)); break;
+                        case Command::Type::SET_CULL_MODE: offset += deleteCommand(static_cast<SetCullModeCommad*>(command)); break;
+                        case Command::Type::SET_FILL_MODE: offset += deleteCommand(static_cast<SetFillModeCommad*>(command)); break;
+                        case Command::Type::SET_SCISSOR_TEST: offset += deleteCommand(static_cast<SetScissorTestCommand*>(command)); break;
+                        case Command::Type::SET_VIEWPORT: offset += deleteCommand(static_cast<SetViewportCommand*>(command)); break;
+                        case Command::Type::SET_DEPTH_STATE: offset += deleteCommand(static_cast<SetDepthStateCommand*>(command)); break;
+                        case Command::Type::SET_PIPELINE_STATE: offset += deleteCommand(static_cast<SetPipelineStateCommand*>(command)); break;
+                        case Command::Type::DRAW: offset += deleteCommand(static_cast<DrawCommand*>(command)); break;
+                        case Command::Type::PUSH_DEBUG_MARKER: offset += deleteCommand(static_cast<PushDebugMarkerCommand*>(command)); break;
+                        case Command::Type::POP_DEBUG_MARKER: offset += deleteCommand(static_cast<PopDebugMarkerCommand*>(command)); break;
+                        case Command::Type::INIT_BLEND_STATE: offset += deleteCommand(static_cast<InitBlendStateCommand*>(command)); break;
+                        case Command::Type::INIT_BUFFER: offset += deleteCommand(static_cast<InitBufferCommand*>(command)); break;
+                        case Command::Type::SET_BUFFER_DATA: offset += deleteCommand(static_cast<SetBufferDataCommand*>(command)); break;
+                        case Command::Type::INIT_MESH_BUFFER: offset += deleteCommand(static_cast<InitMeshBufferCommand*>(command)); break;
+                        case Command::Type::INIT_SHADER: offset += deleteCommand(static_cast<InitShaderCommand*>(command)); break;
+                        case Command::Type::SET_SHADER_CONSTANTS: offset += deleteCommand(static_cast<SetShaderConstantsCommand*>(command)); break;
+                        case Command::Type::INIT_TEXTURE: offset += deleteCommand(static_cast<InitTextureCommand*>(command)); break;
+                        case Command::Type::SET_TEXTURE_DATA: offset += deleteCommand(static_cast<SetTextureDataCommand*>(command)); break;
+                        case Command::Type::SET_TEXTURE_FLAGS: offset += deleteCommand(static_cast<SetTextureFlagsCommand*>(command)); break;
+                        case Command::Type::SET_TEXTURES: offset += deleteCommand(static_cast<SetTexturesCommand*>(command)); break;
+                        default: assert(false);
                     }
                 }
             }
