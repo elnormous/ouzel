@@ -126,15 +126,11 @@ namespace ouzel
             {
                 if (renderContext)
                 {
-                    if (wglMakeCurrent(deviceContext, nullptr))
-                    {
+                    if (!wglMakeCurrent(deviceContext, nullptr))
                         Log(Log::Level::ERR) << "Failed to unset OpenGL context";
-                    }
 
                     if (!wglDeleteContext(renderContext))
-                    {
                         Log(Log::Level::ERR) << "Failed to delete OpenGL context";
-                    }
                 }
 
                 if (window)
