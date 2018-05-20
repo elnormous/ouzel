@@ -134,14 +134,10 @@ namespace ouzel
                 }
 
                 if (window)
-                {
                     DestroyWindow(window);
-                }
 
                 if (windowClass)
-                {
                     UnregisterClassW(TEMP_WINDOW_CLASS_NAME, GetModuleHandleW(nullptr));
-                }
             }
 
         private:
@@ -166,14 +162,10 @@ namespace ouzel
             if (renderContext)
             {
                 if (!wglMakeCurrent(deviceContext, nullptr))
-                {
                     Log(Log::Level::ERR) << "Failed to unset OpenGL context";
-                }
 
                 if (!wglDeleteContext(renderContext))
-                {
                     Log(Log::Level::ERR) << "Failed to delete OpenGL context";
-                }
             }
         }
 
@@ -399,10 +391,7 @@ namespace ouzel
 
         void RenderDeviceOGLWin::main()
         {
-            while (running)
-            {
-                process();
-            }
+            while (running) process();
         }
     } // namespace graphics
 } // namespace ouzel
