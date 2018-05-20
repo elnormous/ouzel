@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cassert>
 #include "graphics/RenderResource.hpp"
 #include "graphics/BlendState.hpp"
 #include "graphics/Buffer.hpp"
@@ -458,10 +459,13 @@ namespace ouzel
             {
                 static_assert(std::is_base_of<Command, T>::value, "Not derived from Command");
 
-                if (capacity < size + sizeof(T) + alignof(void*))
+                size_t offset = size;
+                if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
+
+                if (capacity < offset + sizeof(T))
                 {
                     capacity *= 2;
-                    if (capacity < size + sizeof(T) + alignof(void*)) capacity = size + sizeof(T) + alignof(void*);
+                    if (capacity < offset + sizeof(T)) capacity = offset + sizeof(T);
                     uint8_t* newBuffer = new uint8_t[capacity];
                     if (buffer)
                     {
@@ -472,9 +476,7 @@ namespace ouzel
                     buffer = newBuffer;
                 }
 
-                if (size % alignof(Command*) != 0) size += alignof(Command*) - (size % alignof(Command*));
-                size_t offset = size;
-                size += sizeof(T);
+                size = offset + sizeof(T);
                 ++count;
                 new (buffer + offset) T(command);
             }
@@ -534,21 +536,6 @@ namespace ouzel
                 }
             }
 
-            uint32_t getSize() const
-            {
-                return size;
-            }
-
-            uint32_t getCount() const
-            {
-                return count;
-            }
-
-            const uint8_t* getData() const
-            {
-                return buffer;
-            }
-
         private:
             template<class T> uint32_t deleteCommand(T* command)
             {
@@ -564,7 +551,7 @@ namespace ouzel
 
             void moveCommands(uint8_t* newBuffer)
             {
-                uint32_t offset = position;
+                size_t offset = position;
 
                 for (uint32_t i = current; i < count; ++i)
                 {
@@ -601,7 +588,7 @@ namespace ouzel
 
             void deleteCommands()
             {
-                uint32_t offset = position;
+                size_t offset = position;
 
                 for (uint32_t i = current; i < count; ++i)
                 {
@@ -637,10 +624,10 @@ namespace ouzel
             }
 
             uint8_t* buffer = nullptr;
-            uint32_t capacity = 0;
+            size_t capacity = 0;
+            size_t size = 0; // write position
+            size_t position = 0; // read postion
             uint32_t count = 0;
-            uint32_t size = 0; // write position
-            uint32_t position = 0; // read postion
             uint32_t current = 0;
         };
     } // namespace graphics
