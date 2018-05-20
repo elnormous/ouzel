@@ -539,14 +539,16 @@ namespace ouzel
         private:
             template<class T> uint32_t deleteCommand(T* command)
             {
+                (void)command; // silence the unreferenced parameter warning in Visual Studio
                 command->~T();
-                return sizeof(T);
+                return sizeof(*command);
             }
 
             template<class T> uint32_t moveCommand(T* command, void* newPointer)
             {
+                (void)command; // silence the unreferenced parameter warning in Visual Studio
                 new (newPointer) T(std::move(*command));
-                return sizeof(T);
+                return sizeof(*command);
             }
 
             void moveCommands(uint8_t* newBuffer)
