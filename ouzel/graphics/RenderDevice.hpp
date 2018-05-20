@@ -63,7 +63,7 @@ namespace ouzel
 
             template <class T> bool addCommand(const T& command)
             {
-                fillBuffer->addCommand(command);
+                fillBuffer->push(command);
 
                 return true;
             }
@@ -124,7 +124,7 @@ namespace ouzel
             virtual BufferResource* createBuffer() = 0;
             virtual void deleteResource(RenderResource* resource);
 
-            virtual bool processCommands(const CommandBuffer& commands) = 0;
+            virtual bool processCommands(CommandBuffer& commands) = 0;
             virtual bool generateScreenshot(const std::string& filename);
 
             Renderer::Driver driver;

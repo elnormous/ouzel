@@ -404,11 +404,17 @@ namespace ouzel
             {
                 buffer = other.buffer;
                 capacity = other.capacity;
+                count = other.count;
                 size = other.size;
+                position = other.position;
+                current = other.current;
 
                 other.buffer = nullptr;
                 other.capacity = 0;
+                other.count = 0;
                 other.size = 0;
+                other.position = 0;
+                other.current = 0;
             }
             CommandBuffer& operator=(const CommandBuffer&) = delete;
             CommandBuffer& operator=(CommandBuffer&& other)
@@ -423,11 +429,17 @@ namespace ouzel
 
                     buffer = other.buffer;
                     capacity = other.capacity;
+                    count = other.count;
                     size = other.size;
+                    position = other.position;
+                    current = other.current;
 
                     other.buffer = nullptr;
                     other.capacity = 0;
+                    other.count = 0;
                     other.size = 0;
+                    other.position = 0;
+                    other.current = 0;
                 }
 
                 return *this;
@@ -442,14 +454,14 @@ namespace ouzel
                 }
             }
 
-            template <class T> void addCommand(const T& command)
+            template <class T> void push(const T& command)
             {
                 static_assert(std::is_base_of<Command, T>::value, "Not derived from Command");
 
-                if (capacity < size + sizeof(T))
+                if (capacity < size + sizeof(T) + alignof(void*))
                 {
                     capacity *= 2;
-                    if (capacity < size + sizeof(T)) capacity = size + sizeof(T);
+                    if (capacity < size + sizeof(T) + alignof(void*)) capacity = size + sizeof(T) + alignof(void*);
                     uint8_t* newBuffer = new uint8_t[capacity];
                     if (buffer)
                     {
@@ -460,20 +472,196 @@ namespace ouzel
                     buffer = newBuffer;
                 }
 
+                if (size % alignof(Command*) != 0) size += alignof(Command*) - (size % alignof(Command*));
                 size_t offset = size;
                 size += sizeof(T);
+                ++count;
                 new (buffer + offset) T(command);
             }
 
-            void clear()
+            Command* front() const
             {
-                if (buffer) deleteCommands();
-                size = 0;
+                if (current >= count) return nullptr;
+
+                size_t offset = position;
+                if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
+                Command* command = reinterpret_cast<Command*>(buffer + offset);
+
+                return command;
+            }
+
+            void pop()
+            {
+                if (current >= count) return;
+
+                if (position % alignof(Command*) != 0) position += alignof(Command*) - (position % alignof(Command*));
+                Command* command = reinterpret_cast<Command*>(buffer + position);
+
+                switch (command->type)
+                {
+                    case Command::Type::SET_RENDER_TARGET:
+                    {
+                        //static_cast<SetRenderTargetCommand*>(command)->~SetRenderTargetCommand();
+                        position += sizeof(SetRenderTargetCommand);
+                        break;
+                    }
+
+                    case Command::Type::CLEAR:
+                    {
+                        //static_cast<ClearCommand*>(command)->~ClearCommand();
+                        position += sizeof(ClearCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_CULL_MODE:
+                    {
+                        //static_cast<SetCullModeCommad*>(command)->~SetCullModeCommad();
+                        position += sizeof(SetCullModeCommad);
+                        break;
+                    }
+
+                    case Command::Type::SET_FILL_MODE:
+                    {
+                        //static_cast<SetFillModeCommad*>(command)->~SetFillModeCommad();
+                        position += sizeof(SetFillModeCommad);
+                        break;
+                    }
+
+                    case Command::Type::SET_SCISSOR_TEST:
+                    {
+                        //static_cast<SetScissorTestCommand*>(command)->~SetScissorTestCommand();
+                        position += sizeof(SetScissorTestCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_VIEWPORT:
+                    {
+                        //static_cast<SetViewportCommand*>(command)->~SetViewportCommand();
+                        position += sizeof(SetViewportCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_DEPTH_STATE:
+                    {
+                        //static_cast<SetDepthStateCommand*>(command)->~SetDepthStateCommand();
+                        position += sizeof(SetDepthStateCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_PIPELINE_STATE:
+                    {
+                        //static_cast<SetPipelineStateCommand*>(command)->~SetPipelineStateCommand();
+                        position += sizeof(SetPipelineStateCommand);
+                        break;
+                    }
+
+                    case Command::Type::DRAW:
+                    {
+                        //static_cast<DrawCommand*>(command)->~DrawCommand();
+                        position += sizeof(DrawCommand);
+                        break;
+                    }
+
+                    case Command::Type::PUSH_DEBUG_MARKER:
+                    {
+                        //static_cast<PushDebugMarkerCommand*>(command)->~PushDebugMarkerCommand();
+                        position += sizeof(PushDebugMarkerCommand);
+                        break;
+                    }
+
+                    case Command::Type::POP_DEBUG_MARKER:
+                    {
+                        //static_cast<PopDebugMarkerCommand*>(command)->~PopDebugMarkerCommand();
+                        position += sizeof(PopDebugMarkerCommand);
+                        break;
+                    }
+
+                    case Command::Type::INIT_BLEND_STATE:
+                    {
+                        //static_cast<InitBlendStateCommand*>(command)->~InitBlendStateCommand();
+                        position += sizeof(InitBlendStateCommand);
+                        break;
+                    }
+
+                    case Command::Type::INIT_BUFFER:
+                    {
+                        //static_cast<InitBufferCommand*>(command)->~InitBufferCommand();
+                        position += sizeof(InitBufferCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_BUFFER_DATA:
+                    {
+                        //static_cast<SetBufferDataCommand*>(command)->~SetBufferDataCommand();
+                        position += sizeof(SetBufferDataCommand);
+                        break;
+                    }
+
+                    case Command::Type::INIT_MESH_BUFFER:
+                    {
+                        //static_cast<InitMeshBufferCommand*>(command)->~InitMeshBufferCommand();
+                        position += sizeof(InitMeshBufferCommand);
+                        break;
+                    }
+
+                    case Command::Type::INIT_SHADER:
+                    {
+                        //static_cast<InitShaderCommand*>(command)->~InitShaderCommand();
+                        position += sizeof(InitShaderCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_SHADER_CONSTANTS:
+                    {
+                        //static_cast<SetShaderConstantsCommand*>(command)->~SetShaderConstantsCommand();
+                        position += sizeof(SetShaderConstantsCommand);
+                        break;
+                    }
+
+                    case Command::Type::INIT_TEXTURE:
+                    {
+                        //static_cast<InitTextureCommand*>(command)->~InitTextureCommand();
+                        position += sizeof(InitTextureCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_DATA:
+                    {
+                        //static_cast<SetTextureDataCommand*>(command)->~SetTextureDataCommand();
+                        position += sizeof(SetTextureDataCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURE_FLAGS:
+                    {
+                        //static_cast<SetTextureFlagsCommand*>(command)->~SetTextureFlagsCommand();
+                        position += sizeof(SetTextureFlagsCommand);
+                        break;
+                    }
+
+                    case Command::Type::SET_TEXTURES:
+                    {
+                        //static_cast<SetTexturesCommand*>(command)->~SetTexturesCommand();
+                        position += sizeof(SetTexturesCommand);
+                        break;
+                    }
+
+                    default: break;
+                }
+
+                ++current;
+
+                if (current == count) clear();
             }
 
             uint32_t getSize() const
             {
                 return size;
+            }
+
+            uint32_t getCount() const
+            {
+                return count;
             }
 
             const uint8_t* getData() const
@@ -482,10 +670,22 @@ namespace ouzel
             }
 
         private:
+            void clear()
+            {
+                if (buffer) deleteCommands();
+                count = 0;
+                size = 0;
+                position = 0;
+                current = 0;
+            }
+
             void moveCommands(uint8_t* newBuffer)
             {
-                for (uint32_t offset = 0; offset < size;)
+                uint32_t offset = 0;
+
+                for (uint32_t i = 0; i < count; ++i)
                 {
+                    if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
                     Command* command = reinterpret_cast<Command*>(buffer + offset);
 
                     switch (command->type)
@@ -665,8 +865,11 @@ namespace ouzel
 
             void deleteCommands()
             {
-                for (uint32_t offset = 0; offset < size;)
+                uint32_t offset = 0;
+
+                for (uint32_t i = 0; i < count; ++i)
                 {
+                    if (offset % alignof(Command*) != 0) offset += alignof(Command*) - (offset % alignof(Command*));
                     Command* command = reinterpret_cast<Command*>(buffer + offset);
 
                     switch (command->type)
@@ -825,7 +1028,10 @@ namespace ouzel
 
             uint8_t* buffer = nullptr;
             uint32_t capacity = 0;
-            uint32_t size = 0;
+            uint32_t count = 0;
+            uint32_t size = 0; // write position
+            uint32_t position = 0; // read postion
+            uint32_t current = 0;
         };
     } // namespace graphics
 } // namespace ouzel

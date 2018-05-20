@@ -83,7 +83,6 @@ namespace ouzel
 #endif
 
             std::swap(fillBuffer, renderBuffer);
-            fillBuffer->clear();
 
             queueFinished = false;
 
