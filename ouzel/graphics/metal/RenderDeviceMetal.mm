@@ -3,6 +3,8 @@
 
 #include "core/Setup.h"
 
+#include <cassert>
+
 #if OUZEL_COMPILE_METAL
 
 #include "RenderDeviceMetal.hpp"
@@ -92,10 +94,7 @@ namespace ouzel
 
             for (id<MTLDepthStencilState> depthStencilState : depthStencilStates)
             {
-                if (depthStencilState)
-                {
-                    [depthStencilState release];
-                }
+                if (depthStencilState) [depthStencilState release];
             }
 
             for (const auto& samplerState : samplerStates)
@@ -103,40 +102,22 @@ namespace ouzel
                 [samplerState.second release];
             }
 
-            if (depthTexture)
-            {
-                [depthTexture release];
-            }
+            if (depthTexture) [depthTexture release];
 
-            if (msaaTexture)
-            {
-                [msaaTexture release];
-            }
+            if (msaaTexture) [msaaTexture release];
 
             for (const auto& pipelineState : pipelineStates)
             {
                 [pipelineState.second release];
             }
 
-            if (commandQueue)
-            {
-                [commandQueue release];
-            }
+            if (commandQueue) [commandQueue release];
 
-            if (renderPassDescriptor)
-            {
-                [renderPassDescriptor release];
-            }
+            if (renderPassDescriptor) [renderPassDescriptor release];
 
-            if (device)
-            {
-                [device release];
-            }
+            if (device) [device release];
 
-            if (currentMetalTexture)
-            {
-                [currentMetalTexture release];
-            }
+            if (currentMetalTexture) [currentMetalTexture release];
         }
 
         bool RenderDeviceMetal::init(Window* newWindow,
@@ -171,9 +152,7 @@ namespace ouzel
             }
 
             if (device.name)
-            {
                 Log(Log::Level::INFO) << "Using " << [device.name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
-            }
 
             commandQueue = [device newCommandQueue];
 
@@ -183,10 +162,7 @@ namespace ouzel
                 return false;
             }
 
-            if (depth)
-            {
-                depthFormat = MTLPixelFormatDepth32Float;
-            }
+            if (depth) depthFormat = MTLPixelFormatDepth32Float;
 
             uint32_t depthStencilStateIndex = 0;
 
@@ -303,7 +279,7 @@ namespace ouzel
             metalLayer.drawableSize = drawableSize;
         }
 
-        bool RenderDeviceMetal::processCommands(const CommandBuffer& commands)
+        bool RenderDeviceMetal::processCommands(CommandBuffer& commands)
         {
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
@@ -313,10 +289,8 @@ namespace ouzel
                 return false;
             }
 
-            if (currentMetalTexture)
-            {
-                [currentMetalTexture release];
-            }
+            if (currentMetalTexture) [currentMetalTexture release];
+
             currentMetalTexture = [currentMetalDrawable.texture retain];
 
             NSUInteger frameBufferWidth = currentMetalTexture.width;
@@ -423,16 +397,13 @@ namespace ouzel
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
             ShaderResourceMetal* currentShader = nullptr;
 
-            for (uint32_t offset = 0; offset < commands.getSize();)
+            while (Command* command = commands.front())
             {
-                const Command* command = reinterpret_cast<const Command*>(commands.getData() + offset);
-
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
-                        offset += sizeof(*setRenderTargetCommand);
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
 
@@ -442,10 +413,7 @@ namespace ouzel
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor)
-                            {
-                                continue;
-                            }
+                            if (!newRenderPassDescriptor) continue;
 
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
                             currentPipelineStateDesc.colorFormat = renderTargetMetal->getColorFormat();
@@ -486,7 +454,6 @@ namespace ouzel
                     case Command::Type::CLEAR:
                     {
                         const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
-                        offset += sizeof(*clearCommand);
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -501,10 +468,7 @@ namespace ouzel
                             TextureResourceMetal* renderTargetMetal = static_cast<TextureResourceMetal*>(clearCommand->renderTarget);
 
                             newRenderPassDescriptor = renderTargetMetal->getRenderPassDescriptor();
-                            if (!newRenderPassDescriptor)
-                            {
-                                continue;
-                            }
+                            if (!newRenderPassDescriptor) continue;
 
                             currentRenderTarget = renderTargetMetal->getTexture();
                             currentPipelineStateDesc.sampleCount = renderTargetMetal->getSampleCount();
@@ -533,9 +497,7 @@ namespace ouzel
                         }
 
                         if (currentRenderCommandEncoder)
-                        {
                             [currentRenderCommandEncoder endEncoding];
-                        }
 
                         currentRenderPassDescriptor = newRenderPassDescriptor;
                         currentRenderCommandEncoder = [currentCommandBuffer renderCommandEncoderWithDescriptor:currentRenderPassDescriptor];
@@ -562,7 +524,6 @@ namespace ouzel
                     case Command::Type::SET_CULL_MODE:
                     {
                         const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
-                        offset += sizeof(*setCullModeCommad);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -588,7 +549,6 @@ namespace ouzel
                     case Command::Type::SET_FILL_MODE:
                     {
                         const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
-                        offset += sizeof(*setFillModeCommad);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -613,7 +573,6 @@ namespace ouzel
                     case Command::Type::SET_SCISSOR_TEST:
                     {
                         const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
-                        offset += sizeof(*setScissorTestCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -649,7 +608,6 @@ namespace ouzel
                     case Command::Type::SET_VIEWPORT:
                     {
                         const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
-                        offset += sizeof(*setViewportCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -670,7 +628,6 @@ namespace ouzel
                     case Command::Type::SET_DEPTH_STATE:
                     {
                         const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
-                        offset += sizeof(*setDepthStateCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -690,7 +647,6 @@ namespace ouzel
                     case Command::Type::SET_PIPELINE_STATE:
                     {
                         const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
-                        offset += sizeof(*setPipelineStateCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -714,7 +670,6 @@ namespace ouzel
                     case Command::Type::DRAW:
                     {
                         const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
-                        offset += sizeof(*drawCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -727,15 +682,11 @@ namespace ouzel
                         BufferResourceMetal* indexBufferMetal = meshBufferMetal->getIndexBufferMetal();
                         BufferResourceMetal* vertexBufferMetal = meshBufferMetal->getVertexBufferMetal();
 
-                        if (!meshBufferMetal ||
-                            !indexBufferMetal ||
-                            !vertexBufferMetal ||
-                            !indexBufferMetal->getBuffer() ||
-                            !vertexBufferMetal->getBuffer())
-                        {
-                            // don't render if invalid mesh buffer
-                            continue;
-                        }
+                        assert(meshBufferMetal);
+                        assert(indexBufferMetal);
+                        assert(indexBufferMetal->getBuffer());
+                        assert(vertexBufferMetal);
+                        assert(vertexBufferMetal->getBuffer());
 
                         [currentRenderCommandEncoder setVertexBuffer:vertexBufferMetal->getBuffer() offset:0 atIndex:0];
 
@@ -752,15 +703,12 @@ namespace ouzel
                             default: Log(Log::Level::ERR) << "Invalid draw mode"; return false;
                         }
 
-                        uint32_t indexCount = drawCommand->indexCount;
-
-                        if (!indexCount)
-                        {
-                            indexCount = (indexBufferMetal->getSize() / meshBufferMetal->getIndexSize()) - drawCommand->startIndex;
-                        }
+                        assert(drawCommand->indexCount);
+                        assert(indexBufferMetal->getSize());
+                        assert(vertexBufferMetal->getSize());
 
                         [currentRenderCommandEncoder drawIndexedPrimitives:primitiveType
-                                                                indexCount:indexCount
+                                                                indexCount:drawCommand->indexCount
                                                                  indexType:meshBufferMetal->getIndexType()
                                                                indexBuffer:indexBufferMetal->getBuffer()
                                                          indexBufferOffset:drawCommand->startIndex * meshBufferMetal->getBytesPerIndex()];
@@ -771,7 +719,6 @@ namespace ouzel
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
                         const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
-                        offset += sizeof(*pushDebugMarkerCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -786,7 +733,6 @@ namespace ouzel
                     case Command::Type::POP_DEBUG_MARKER:
                     {
                         const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-                        offset += sizeof(*popDebugMarkerCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -801,7 +747,6 @@ namespace ouzel
                     case Command::Type::INIT_BLEND_STATE:
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
-                        offset += sizeof(*initBlendStateCommand);
 
                         initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
                                                                 initBlendStateCommand->colorBlendSource,
@@ -817,7 +762,6 @@ namespace ouzel
                     case Command::Type::INIT_BUFFER:
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
-                        offset += sizeof(*initBufferCommand);
 
                         initBufferCommand->buffer->init(initBufferCommand->usage,
                                                         initBufferCommand->flags,
@@ -829,7 +773,6 @@ namespace ouzel
                     case Command::Type::SET_BUFFER_DATA:
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
-                        offset += sizeof(*setBufferDataCommand);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
@@ -838,7 +781,6 @@ namespace ouzel
                     case Command::Type::INIT_MESH_BUFFER:
                     {
                         const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-                        offset += sizeof(*initMeshBufferCommand);
 
                         break;
                     }
@@ -846,7 +788,6 @@ namespace ouzel
                     case Command::Type::INIT_SHADER:
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
-                        offset += sizeof(*initShaderCommand);
 
                         initShaderCommand->shader->init(initShaderCommand->pixelShader,
                                                         initShaderCommand->vertexShader,
@@ -864,7 +805,6 @@ namespace ouzel
                     case Command::Type::SET_SHADER_CONSTANTS:
                     {
                         const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
-                        offset += sizeof(*setShaderConstantsCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -907,9 +847,7 @@ namespace ouzel
                                                        currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
-                        {
                             shaderConstantBuffer.offset = 0;
-                        }
 
                         std::copy(reinterpret_cast<const char*>(shaderData.data()),
                                   reinterpret_cast<const char*>(shaderData.data()) + static_cast<uint32_t>(sizeof(float) * shaderData.size()),
@@ -970,7 +908,6 @@ namespace ouzel
                     case Command::Type::SET_TEXTURES:
                     {
                         const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
-                        offset += sizeof(*setTexturesCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -1001,12 +938,12 @@ namespace ouzel
 
                     default: return false;
                 }
+
+                commands.pop();
             }
 
             if (currentRenderCommandEncoder)
-            {
                 [currentRenderCommandEncoder endEncoding];
-            }
 
             if (currentCommandBuffer)
             {
@@ -1110,26 +1047,37 @@ namespace ouzel
             {
                 MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
                 pipelineStateDescriptor.sampleCount = desc.sampleCount;
-                pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
-                pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
-                pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+
+                if (desc.shader)
+                {
+                    assert(desc.shader->getPixelShader());
+                    assert(desc.shader->getVertexShader());
+                    assert(desc.shader->getVertexDescriptor());
+
+                    pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
+                    pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
+                    pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
+                }
 
                 pipelineStateDescriptor.colorAttachments[0].pixelFormat = desc.colorFormat;
                 pipelineStateDescriptor.depthAttachmentPixelFormat = desc.depthFormat;
                 pipelineStateDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
 
-                // blending
-                pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
+                if (desc.blendState)
+                {
+                    // blending
+                    pipelineStateDescriptor.colorAttachments[0].blendingEnabled = desc.blendState->isMetalBlendingEnabled() ? YES : NO;
 
-                pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
+                    pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = desc.blendState->getSourceRGBBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].destinationRGBBlendFactor = desc.blendState->getDestinationRGBBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = desc.blendState->getRGBBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
-                pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
+                    pipelineStateDescriptor.colorAttachments[0].sourceAlphaBlendFactor = desc.blendState->getSourceAlphaBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].destinationAlphaBlendFactor = desc.blendState->getDestinationAlphaBlendFactor();
+                    pipelineStateDescriptor.colorAttachments[0].alphaBlendOperation = desc.blendState->getAlphaBlendOperation();
 
-                pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
+                    pipelineStateDescriptor.colorAttachments[0].writeMask = desc.blendState->getColorWriteMask();
+                }
 
                 NSError* error;
                 id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];

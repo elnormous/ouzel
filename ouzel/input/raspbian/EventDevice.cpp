@@ -126,7 +126,7 @@ namespace ouzel
             vendor = id.vendor;
             product = id.product;
         }
-        
+
         EventDevice::~EventDevice()
         {
             if (fd != -1)

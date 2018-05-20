@@ -182,7 +182,7 @@ namespace ouzel
     void EngineAndroid::onConfigurationChanged(jobject newConfig)
     {
         JNIEnv* jniEnv;
-        
+
         if (javaVM->GetEnv(reinterpret_cast<void**>(&jniEnv), JNI_VERSION_1_6) != JNI_OK)
         {
             Log(Log::Level::ERR) << "Failed to get JNI environment";
@@ -197,7 +197,7 @@ namespace ouzel
 
             ouzel::Event event;
             event.type = ouzel::Event::Type::ORIENTATION_CHANGE;
-        
+
             switch (orientation)
             {
                 case ORIENTATION_PORTRAIT:
@@ -210,7 +210,7 @@ namespace ouzel
                     event.systemEvent.orientation = ouzel::SystemEvent::Orientation::UNKNOWN;
                     break;
             }
-        
+
             eventDispatcher.postEvent(event);
         }
     }

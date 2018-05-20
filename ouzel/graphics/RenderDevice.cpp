@@ -83,7 +83,6 @@ namespace ouzel
 #endif
 
             std::swap(fillBuffer, renderBuffer);
-            fillBuffer->clear();
 
             queueFinished = false;
 
@@ -184,10 +183,7 @@ namespace ouzel
                     executeQueue.pop();
                 }
 
-                if (func)
-                {
-                    func();
-                }
+                if (func) func();
             }
         }
     } // namespace graphics

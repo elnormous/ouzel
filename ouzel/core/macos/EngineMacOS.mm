@@ -106,7 +106,7 @@ namespace ouzel
     {
         if (executeHanlder) [executeHanlder release];
     }
-    
+
     int EngineMacOS::run()
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
@@ -205,19 +205,13 @@ namespace ouzel
             {
                 Lock lock(executeMutex);
 
-                if (executeQueue.empty())
-                {
-                    break;
-                }
+                if (executeQueue.empty()) break;
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }
