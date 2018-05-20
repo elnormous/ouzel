@@ -17,32 +17,6 @@ namespace ouzel
 {
     namespace audio
     {
-        bool AudioDeviceAL::checkALCError()
-        {
-            ALCenum error = alcGetError(device);
-
-            if (error != ALC_NO_ERROR)
-            {
-                const char* errorStr;
-
-                switch (error)
-                {
-                    case ALC_INVALID_DEVICE: errorStr = "ALC_INVALID_DEVICE"; break;
-                    case ALC_INVALID_CONTEXT: errorStr = "ALC_INVALID_CONTEXT"; break;
-                    case ALC_INVALID_ENUM: errorStr = "ALC_INVALID_ENUM"; break;
-                    case ALC_INVALID_VALUE: errorStr = "ALC_INVALID_VALUE"; break;
-                    case ALC_OUT_OF_MEMORY: errorStr = "ALC_OUT_OF_MEMORY"; break;
-                    default: errorStr = "Unknown error"; break;
-                }
-
-                Log(Log::Level::ERR) << "OpenAL error: " << errorStr << "(" << error << ")";
-
-                return true;
-            }
-
-            return false;
-        }
-
         AudioDeviceAL::AudioDeviceAL():
             AudioDevice(Audio::Driver::OPENAL)
         {

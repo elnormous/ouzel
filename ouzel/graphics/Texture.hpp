@@ -102,7 +102,7 @@ namespace ouzel
             bool setMaxAnisotropy(uint32_t newMaxAnisotropy);
 
             inline uint32_t getSampleCount() const { return sampleCount; }
-            
+
             inline PixelFormat getPixelFormat() const { return pixelFormat; }
 
             inline bool getClearColorBuffer() const { return clearColorBuffer; }

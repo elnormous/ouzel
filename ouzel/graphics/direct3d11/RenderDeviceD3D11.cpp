@@ -3,6 +3,8 @@
 
 #include "core/Setup.h"
 
+#include <cassert>
+
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include "RenderDeviceD3D11.hpp"
@@ -419,7 +421,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceD3D11::processCommands(const CommandBuffer& commands)
+        bool RenderDeviceD3D11::processCommands(CommandBuffer& commands)
         {
             ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
             ID3D11SamplerState* samplers[Texture::LAYERS];
@@ -433,16 +435,13 @@ namespace ouzel
             uint32_t cullModeIndex = 0;
             ShaderResourceD3D11* currentShader = nullptr;
 
-            for (uint32_t offset = 0; offset < commands.getSize();)
+            while (Command* command = commands.front())
             {
-                const Command* command = reinterpret_cast<const Command*>(commands.getData() + offset);
-
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
-                        offset += sizeof(*setRenderTargetCommand);
 
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
@@ -473,7 +472,6 @@ namespace ouzel
                     case Command::Type::CLEAR:
                     {
                         const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
-                        offset += sizeof(*clearCommand);
 
                         ID3D11RenderTargetView* newRenderTargetView = nullptr;
                         ID3D11DepthStencilView* newDepthStencilView = nullptr;
@@ -540,7 +538,6 @@ namespace ouzel
                     case Command::Type::SET_CULL_MODE:
                     {
                         const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
-                        offset += sizeof(*setCullModeCommad);
 
                         switch (setCullModeCommad->cullMode)
                         {
@@ -559,7 +556,6 @@ namespace ouzel
                     case Command::Type::SET_FILL_MODE:
                     {
                         const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
-                        offset += sizeof(*setFillModeCommad);
 
                         switch (setFillModeCommad->fillMode)
                         {
@@ -577,7 +573,6 @@ namespace ouzel
                     case Command::Type::SET_SCISSOR_TEST:
                     {
                         const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
-                        offset += sizeof(*setScissorTestCommand);
 
                         if (setScissorTestCommand->enabled)
                         {
@@ -600,7 +595,6 @@ namespace ouzel
                     case Command::Type::SET_VIEWPORT:
                     {
                         const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
-                        offset += sizeof(*setViewportCommand);
 
                         D3D11_VIEWPORT viewport;
                         viewport.MinDepth = 0.0F;
@@ -617,7 +611,6 @@ namespace ouzel
                     case Command::Type::SET_DEPTH_STATE:
                     {
                         const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
-                        offset += sizeof(*setDepthStateCommand);
 
                         uint32_t depthTestIndex = setDepthStateCommand->depthTest ? 1 : 0;
                         uint32_t depthWriteIndex = setDepthStateCommand->depthWrite ? 1 : 0;
@@ -631,7 +624,6 @@ namespace ouzel
                     case Command::Type::SET_PIPELINE_STATE:
                     {
                         const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
-                        offset += sizeof(*setPipelineStateCommand);
 
                         BlendStateResourceD3D11* blendStateD3D11 = static_cast<BlendStateResourceD3D11*>(setPipelineStateCommand->blendState);
                         ShaderResourceD3D11* shaderD3D11 = static_cast<ShaderResourceD3D11*>(setPipelineStateCommand->shader);
@@ -644,6 +636,10 @@ namespace ouzel
 
                         if (shaderD3D11)
                         {
+                            assert(shaderD3D11->getPixelShader());
+                            assert(shaderD3D11->getVertexShader());
+                            assert(shaderD3D11->getInputLayout());
+
                             context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
                             context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
                             context->IASetInputLayout(shaderD3D11->getInputLayout());
@@ -661,21 +657,17 @@ namespace ouzel
                     case Command::Type::DRAW:
                     {
                         const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
-                        offset += sizeof(*drawCommand);
 
                         // draw mesh buffer
                         MeshBufferResourceD3D11* meshBufferD3D11 = static_cast<MeshBufferResourceD3D11*>(drawCommand->meshBuffer);
                         BufferResourceD3D11* indexBufferD3D11 = meshBufferD3D11->getIndexBufferD3D11();
                         BufferResourceD3D11* vertexBufferD3D11 = meshBufferD3D11->getVertexBufferD3D11();
 
-                        if (!meshBufferD3D11 ||
-                            !indexBufferD3D11 ||
-                            !indexBufferD3D11->getBuffer() ||
-                            !vertexBufferD3D11 ||
-                            !vertexBufferD3D11->getBuffer())
-                        {
-                            continue;
-                        }
+                        assert(meshBufferD3D11);
+                        assert(indexBufferD3D11);
+                        assert(indexBufferD3D11->getBuffer());
+                        assert(vertexBufferD3D11);
+                        assert(vertexBufferD3D11->getBuffer());
 
                         ID3D11Buffer* buffers[] = {vertexBufferD3D11->getBuffer()};
                         UINT strides[] = {sizeof(Vertex)};
@@ -697,14 +689,11 @@ namespace ouzel
 
                         context->IASetPrimitiveTopology(topology);
 
-                        uint32_t indexCount = drawCommand->indexCount;
+                        assert(drawCommand->indexCount);
+                        assert(indexBufferD3D11->getSize());
+                        assert(vertexBufferD3D11->getSize());
 
-                        if (!indexCount)
-                        {
-                            indexCount = (indexBufferD3D11->getSize() / meshBufferD3D11->getIndexSize()) - drawCommand->startIndex;
-                        }
-
-                        context->DrawIndexed(indexCount, drawCommand->startIndex, 0);
+                        context->DrawIndexed(drawCommand->indexCount, drawCommand->startIndex, 0);
 
                         break;
                     }
@@ -712,7 +701,6 @@ namespace ouzel
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
                         const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
-                        offset += sizeof(*pushDebugMarkerCommand);
                         // D3D11 does not support debug markers
                         break;
                     }
@@ -720,7 +708,6 @@ namespace ouzel
                     case Command::Type::POP_DEBUG_MARKER:
                     {
                         const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-                        offset += sizeof(*popDebugMarkerCommand);
                         // D3D11 does not support debug markers
                         break;
                     }
@@ -728,7 +715,6 @@ namespace ouzel
                     case Command::Type::INIT_BLEND_STATE:
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
-                        offset += sizeof(*initBlendStateCommand);
 
                         initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
                                                                 initBlendStateCommand->colorBlendSource,
@@ -744,7 +730,6 @@ namespace ouzel
                     case Command::Type::INIT_BUFFER:
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
-                        offset += sizeof(*initBufferCommand);
 
                         initBufferCommand->buffer->init(initBufferCommand->usage,
                                                         initBufferCommand->flags,
@@ -756,7 +741,6 @@ namespace ouzel
                     case Command::Type::SET_BUFFER_DATA:
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
-                        offset += sizeof(*setBufferDataCommand);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
@@ -765,7 +749,6 @@ namespace ouzel
                     case Command::Type::INIT_MESH_BUFFER:
                     {
                         const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-                        offset += sizeof(*initMeshBufferCommand);
 
                         break;
                     }
@@ -773,7 +756,6 @@ namespace ouzel
                     case Command::Type::INIT_SHADER:
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
-                        offset += sizeof(*initShaderCommand);
 
                         initShaderCommand->shader->init(initShaderCommand->pixelShader,
                                                         initShaderCommand->vertexShader,
@@ -791,7 +773,6 @@ namespace ouzel
                     case Command::Type::SET_SHADER_CONSTANTS:
                     {
                         const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
-                        offset += sizeof(*setShaderConstantsCommand);
 
                         if (!currentShader)
                         {
@@ -875,7 +856,6 @@ namespace ouzel
                     case Command::Type::SET_TEXTURES:
                     {
                         const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
-                        offset += sizeof(*setTexturesCommand);
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
@@ -905,6 +885,8 @@ namespace ouzel
 
                     default: return false;
                 }
+
+                commands.pop();
             }
 
             swapChain->Present(swapInterval, 0);

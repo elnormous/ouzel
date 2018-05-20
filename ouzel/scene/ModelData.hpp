@@ -24,6 +24,7 @@ namespace ouzel
             Box3 boundingBox;
             std::shared_ptr<graphics::Material> material;
             std::shared_ptr<graphics::MeshBuffer> meshBuffer;
+            uint32_t indexCount;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
         };

@@ -211,7 +211,7 @@
 -(void)touchesMovedWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseMoved inView:self];
-    
+
     for (NSTouch* touch in touches)
     {
         CGPoint location = touch.normalizedPosition;
@@ -226,7 +226,7 @@
 -(void)touchesEndedWithEvent:(NSEvent*)event
 {
     NSSet* touches = [event touchesMatchingPhase:NSTouchPhaseEnded inView:self];
-    
+
     for (NSTouch* touch in touches)
     {
         CGPoint location = touch.normalizedPosition;

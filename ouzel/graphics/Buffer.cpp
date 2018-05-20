@@ -78,7 +78,7 @@ namespace ouzel
                 return false;
 
             if (newData.empty()) return false;
-            
+
             if (newData.size() > size) size = static_cast<uint32_t>(newData.size());
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();

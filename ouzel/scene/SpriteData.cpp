@@ -18,6 +18,7 @@ namespace ouzel
             name(frameName)
         {
             std::vector<uint16_t> indices = {0, 1, 2, 1, 3, 2};
+            indexCount = static_cast<uint32_t>(indices.size());
 
             Vector2 textCoords[4];
             Vector2 finalOffset(-sourceSize.width * pivot.x + sourceOffset.x,
@@ -78,6 +79,8 @@ namespace ouzel
                                  const std::vector<graphics::Vertex>& vertices):
             name(frameName)
         {
+            indexCount = static_cast<uint32_t>(indices.size());
+
             for (const graphics::Vertex& vertex : vertices)
             {
                 boundingBox.insertPoint(vertex.position);
@@ -102,6 +105,8 @@ namespace ouzel
                                  const Vector2& pivot):
             name(frameName)
         {
+            indexCount = static_cast<uint32_t>(indices.size());
+
             for (const graphics::Vertex& vertex : vertices)
             {
                 boundingBox.insertPoint(vertex.position);

@@ -187,7 +187,7 @@ namespace ouzel
                             mappedSubresource.pData = nullptr;
                             mappedSubresource.RowPitch = 0;
                             mappedSubresource.DepthPitch = 0;
-                        
+
                             HRESULT hr = renderDeviceD3D11.getContext()->Map(texture, static_cast<UINT>(level),
                                                                              (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
                                                                              0, &mappedSubresource);
@@ -199,7 +199,7 @@ namespace ouzel
                             }
 
                             uint8_t* destination = static_cast<uint8_t*>(mappedSubresource.pData);
-                        
+
                             if (mappedSubresource.RowPitch == levels[level].pitch)
                             {
                                 std::copy(levels[level].data.begin(),

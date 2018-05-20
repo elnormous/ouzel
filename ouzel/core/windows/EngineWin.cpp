@@ -140,7 +140,7 @@ namespace ouzel
         Lock lock(executeMutex);
 
         executeQueue.push(func);
-        
+
         PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0);
     }
 
