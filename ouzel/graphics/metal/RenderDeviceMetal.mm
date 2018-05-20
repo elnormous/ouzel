@@ -279,7 +279,7 @@ namespace ouzel
             metalLayer.drawableSize = drawableSize;
         }
 
-        bool RenderDeviceMetal::processCommands(const CommandBuffer& commands)
+        bool RenderDeviceMetal::processCommands(CommandBuffer& commands)
         {
             id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
 
@@ -397,16 +397,13 @@ namespace ouzel
             ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
             ShaderResourceMetal* currentShader = nullptr;
 
-            for (uint32_t offset = 0; offset < commands.getSize();)
+            while (Command* command = commands.front())
             {
-                const Command* command = reinterpret_cast<const Command*>(commands.getData() + offset);
-
                 switch (command->type)
                 {
                     case Command::Type::SET_RENDER_TARGET:
                     {
                         const SetRenderTargetCommand* setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command);
-                        offset += sizeof(*setRenderTargetCommand);
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
 
@@ -457,7 +454,6 @@ namespace ouzel
                     case Command::Type::CLEAR:
                     {
                         const ClearCommand* clearCommand = static_cast<const ClearCommand*>(command);
-                        offset += sizeof(*clearCommand);
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
                         MTLLoadAction newColorBufferLoadAction = MTLLoadActionLoad;
@@ -528,7 +524,6 @@ namespace ouzel
                     case Command::Type::SET_CULL_MODE:
                     {
                         const SetCullModeCommad* setCullModeCommad = static_cast<const SetCullModeCommad*>(command);
-                        offset += sizeof(*setCullModeCommad);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -554,7 +549,6 @@ namespace ouzel
                     case Command::Type::SET_FILL_MODE:
                     {
                         const SetFillModeCommad* setFillModeCommad = static_cast<const SetFillModeCommad*>(command);
-                        offset += sizeof(*setFillModeCommad);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -579,7 +573,6 @@ namespace ouzel
                     case Command::Type::SET_SCISSOR_TEST:
                     {
                         const SetScissorTestCommand* setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command);
-                        offset += sizeof(*setScissorTestCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -615,7 +608,6 @@ namespace ouzel
                     case Command::Type::SET_VIEWPORT:
                     {
                         const SetViewportCommand* setViewportCommand = static_cast<const SetViewportCommand*>(command);
-                        offset += sizeof(*setViewportCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -636,7 +628,6 @@ namespace ouzel
                     case Command::Type::SET_DEPTH_STATE:
                     {
                         const SetDepthStateCommand* setDepthStateCommand = static_cast<const SetDepthStateCommand*>(command);
-                        offset += sizeof(*setDepthStateCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -656,7 +647,6 @@ namespace ouzel
                     case Command::Type::SET_PIPELINE_STATE:
                     {
                         const SetPipelineStateCommand* setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command);
-                        offset += sizeof(*setPipelineStateCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -680,7 +670,6 @@ namespace ouzel
                     case Command::Type::DRAW:
                     {
                         const DrawCommand* drawCommand = static_cast<const DrawCommand*>(command);
-                        offset += sizeof(*drawCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -730,7 +719,6 @@ namespace ouzel
                     case Command::Type::PUSH_DEBUG_MARKER:
                     {
                         const PushDebugMarkerCommand* pushDebugMarkerCommand = static_cast<const PushDebugMarkerCommand*>(command);
-                        offset += sizeof(*pushDebugMarkerCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -745,7 +733,6 @@ namespace ouzel
                     case Command::Type::POP_DEBUG_MARKER:
                     {
                         const PopDebugMarkerCommand* popDebugMarkerCommand = static_cast<const PopDebugMarkerCommand*>(command);
-                        offset += sizeof(*popDebugMarkerCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -760,7 +747,6 @@ namespace ouzel
                     case Command::Type::INIT_BLEND_STATE:
                     {
                         const InitBlendStateCommand* initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command);
-                        offset += sizeof(*initBlendStateCommand);
 
                         initBlendStateCommand->blendState->init(initBlendStateCommand->enableBlending,
                                                                 initBlendStateCommand->colorBlendSource,
@@ -776,7 +762,6 @@ namespace ouzel
                     case Command::Type::INIT_BUFFER:
                     {
                         const InitBufferCommand* initBufferCommand = static_cast<const InitBufferCommand*>(command);
-                        offset += sizeof(*initBufferCommand);
 
                         initBufferCommand->buffer->init(initBufferCommand->usage,
                                                         initBufferCommand->flags,
@@ -788,7 +773,6 @@ namespace ouzel
                     case Command::Type::SET_BUFFER_DATA:
                     {
                         const SetBufferDataCommand* setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command);
-                        offset += sizeof(*setBufferDataCommand);
 
                         setBufferDataCommand->buffer->setData(setBufferDataCommand->data);
                         break;
@@ -797,7 +781,6 @@ namespace ouzel
                     case Command::Type::INIT_MESH_BUFFER:
                     {
                         const InitMeshBufferCommand* initMeshBufferCommand = static_cast<const InitMeshBufferCommand*>(command);
-                        offset += sizeof(*initMeshBufferCommand);
 
                         break;
                     }
@@ -805,7 +788,6 @@ namespace ouzel
                     case Command::Type::INIT_SHADER:
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
-                        offset += sizeof(*initShaderCommand);
 
                         initShaderCommand->shader->init(initShaderCommand->pixelShader,
                                                         initShaderCommand->vertexShader,
@@ -823,7 +805,6 @@ namespace ouzel
                     case Command::Type::SET_SHADER_CONSTANTS:
                     {
                         const SetShaderConstantsCommand* setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command);
-                        offset += sizeof(*setShaderConstantsCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -927,7 +908,6 @@ namespace ouzel
                     case Command::Type::SET_TEXTURES:
                     {
                         const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
-                        offset += sizeof(*setTexturesCommand);
 
                         if (!currentRenderCommandEncoder)
                         {
@@ -958,6 +938,8 @@ namespace ouzel
 
                     default: return false;
                 }
+
+                commands.pop();
             }
 
             if (currentRenderCommandEncoder)

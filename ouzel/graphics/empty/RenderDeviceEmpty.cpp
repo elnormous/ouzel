@@ -64,7 +64,7 @@ namespace ouzel
             return true;
         }
 
-        bool RenderDeviceEmpty::processCommands(const CommandBuffer&)
+        bool RenderDeviceEmpty::processCommands(CommandBuffer&)
         {
             return true;
         }
