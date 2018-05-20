@@ -234,8 +234,11 @@ namespace ouzel
                 engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
                                                                     vertexShaderConstants);
                 engine->getRenderer()->addSetTexturesCommand(textures);
-                engine->getRenderer()->addDrawCommand(currentAnimation->animation->frames[currentFrame].getMeshBuffer(),
-                                                      0,
+
+                const SpriteData::Frame& frame = currentAnimation->animation->frames[currentFrame];
+
+                engine->getRenderer()->addDrawCommand(frame.getMeshBuffer(),
+                                                      frame.getIndexCount(),
                                                       graphics::Renderer::DrawMode::TRIANGLE_LIST,
                                                       0);
             }
