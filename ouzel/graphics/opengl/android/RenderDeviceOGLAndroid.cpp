@@ -321,6 +321,8 @@ namespace ouzel
                 return false;
             }
 
+            if (glGenVertexArraysProc) glGenVertexArraysProc(1, &vertexArrayId);
+
             {
                 Lock lock(resourceMutex);
 
