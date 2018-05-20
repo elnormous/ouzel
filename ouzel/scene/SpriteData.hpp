@@ -4,6 +4,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <vector>
 #include "math/Box2.hpp"
 #include "math/Rect.hpp"
