@@ -53,36 +53,38 @@ Supported audio backends:
 
 The following code will open create a scene with a sprite in the center of it:
 
-    #include "ouzel.hpp"
+```cpp
+#include "ouzel.hpp"
 
-    std::string DEVELOPER_NAME = "developer";
-    std::string APPLICATION_NAME = "game";
+std::string DEVELOPER_NAME = "developer";
+std::string APPLICATION_NAME = "game";
 
-    class MainScene: public ouzel::scene::Scene
+class MainScene: public ouzel::scene::Scene
+{
+public:
+    MainScene()
     {
-    public:
-        MainScene()
-        {
-            addLayer(&layer);
-            cameraActor.addComponent(&camera);
-            layer.addChild(&cameraActor);
-            playerSprite.init("player.png");
-            player.addComponent(&playerSprite);
-            layer.addChild(&player);
-        }
-
-    private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
-        ouzel::scene::Sprite playerSprite;
-        ouzel::scene::Actor player;
-    };
-
-    void ouzelMain(const std::vector<std::string>& args)
-    {
-        ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+        addLayer(&layer);
+        cameraActor.addComponent(&camera);
+        layer.addChild(&cameraActor);
+        playerSprite.init("player.png");
+        player.addComponent(&playerSprite);
+        layer.addChild(&player);
     }
+
+private:
+    ouzel::scene::Layer layer;
+    ouzel::scene::Camera camera;
+    ouzel::scene::Actor cameraActor;
+    ouzel::scene::Sprite playerSprite;
+    ouzel::scene::Actor player;
+};
+
+void ouzelMain(const std::vector<std::string>& args)
+{
+    ouzel::engine->getSceneManager()->setScene(std::unique_ptr<ouzel::scene::Scene>(new MainScene()));
+}
+```
 
 ## Showcase
 
