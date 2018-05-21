@@ -94,13 +94,13 @@ The following code will open create a scene with a sprite in the center of it:
 
 Ouzel uses the stb submodule. The following command has to be run after cloning the Ouzel engine:
 
-```
+```shell
 $ git submodule update --init
 ```
 
 or these commands if you have a really old version of git:
 
-```
+```shell
 $ git submodule init
 $ git submodule update
 ```
@@ -111,13 +111,13 @@ You will need to download OpenGL (e.g. Mesa), OpenAL drivers installed in order 
 
 To build Ouzel with Emscripten, pass "platform=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
 
-```
+```shell
 $ make platform=emscripten
 ```
 
 You can build Android samples and run them on an Android device by executing the following commands in "samples/android" directory (Android SDK and NDK must be installed and added to PATH):
 
-```
+```shell
 $ ant debug
 $ adb install -r bin/samples-debug.apk
 $ adb shell am start -n org.ouzelengine/org.ouzelengine.MainActivity
