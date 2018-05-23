@@ -82,7 +82,7 @@ namespace ouzel
             std::shared_ptr<graphics::Texture> whitePixelTexture;
 
             Vector2 offset;
-            Matrix4 offsetMatrix = Matrix4::IDENTITY;
+            Matrix4 offsetMatrix = Matrix4::identity();
 
             bool playing = false;
             bool running = false;

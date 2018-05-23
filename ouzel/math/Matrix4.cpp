@@ -10,16 +10,6 @@
 
 namespace ouzel
 {
-    const Matrix4 Matrix4::IDENTITY(1.0F, 0.0F, 0.0F, 0.0F,
-                                    0.0F, 1.0F, 0.0F, 0.0F,
-                                    0.0F, 0.0F, 1.0F, 0.0F,
-                                    0.0F, 0.0F, 0.0F, 1.0F);
-
-    const Matrix4 Matrix4::ZERO(0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F,
-                                0.0F, 0.0F, 0.0F, 0.0F);
-
     Matrix4::Matrix4(float pm11, float pm12, float pm13, float pm14,
                      float pm21, float pm22, float pm23, float pm24,
                      float pm31, float pm32, float pm33, float pm34,
@@ -151,7 +141,7 @@ namespace ouzel
 
     void Matrix4::createScale(const Vector3& scale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[0] = scale.x;
         dst.m[5] = scale.y;
@@ -160,7 +150,7 @@ namespace ouzel
 
     void Matrix4::createScale(float xScale, float yScale, float zScale, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[0] = xScale;
         dst.m[5] = yScale;
@@ -226,7 +216,7 @@ namespace ouzel
 
     void Matrix4::createRotationX(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -239,7 +229,7 @@ namespace ouzel
 
     void Matrix4::createRotationY(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -252,7 +242,7 @@ namespace ouzel
 
     void Matrix4::createRotationZ(float angle, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         float c = cosf(angle);
         float s = sinf(angle);
@@ -265,7 +255,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(const Vector3& translation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[12] = translation.x;
         dst.m[13] = translation.y;
@@ -274,7 +264,7 @@ namespace ouzel
 
     void Matrix4::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix4& dst)
     {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), dst.m);
+        dst.setIdentity();
 
         dst.m[12] = xTranslation;
         dst.m[13] = yTranslation;
@@ -572,11 +562,6 @@ namespace ouzel
         multiply(inverse, 1.0F / det, dst);
 
         return true;
-    }
-
-    bool Matrix4::isIdentity() const
-    {
-        return std::equal(m, m + sizeof(m) / sizeof(float), IDENTITY.m);
     }
 
     void Matrix4::multiply(float scalar)
@@ -1064,16 +1049,6 @@ namespace ouzel
     {
         assert(array);
         std::copy(array, array + sizeof(m) / sizeof(float), m);
-    }
-
-    void Matrix4::setIdentity()
-    {
-        std::copy(std::begin(IDENTITY.m), std::end(IDENTITY.m), m);
-    }
-
-    void Matrix4::setZero()
-    {
-        std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
     }
 
     void Matrix4::subtract(const Matrix4& matrix)

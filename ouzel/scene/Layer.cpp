@@ -36,7 +36,7 @@ namespace ouzel
                 std::vector<Actor*> drawQueue;
 
                 for (Actor* actor : children)
-                    actor->visit(drawQueue, Matrix4::IDENTITY, false, camera, 0, false);
+                    actor->visit(drawQueue, Matrix4::identity(), false, camera, 0, false);
 
                 engine->getRenderer()->addSetRenderTargetCommand(camera->getRenderTarget());
                 engine->getRenderer()->addSetViewportCommand(camera->getRenderViewport());
@@ -61,7 +61,7 @@ namespace ouzel
             ActorContainer::addChild(actor);
 
             if (actor)
-                actor->updateTransform(Matrix4::IDENTITY);
+                actor->updateTransform(Matrix4::identity());
         }
 
         void Layer::addCamera(Camera* camera)

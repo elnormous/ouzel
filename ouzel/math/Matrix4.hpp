@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include "core/Setup.h"
 #if OUZEL_SUPPORTS_SSE
 #include <xmmintrin.h>
@@ -19,9 +20,6 @@ namespace ouzel
     class Matrix4
     {
     public:
-        static const Matrix4 IDENTITY;
-        static const Matrix4 ZERO;
-
 #if OUZEL_SUPPORTS_SSE
         union
         {
@@ -34,7 +32,7 @@ namespace ouzel
 
         Matrix4()
         {
-            *this = Matrix4::ZERO;
+            std::fill(std::begin(m), std::end(m), 0.0F);
         }
 
         Matrix4(float m11, float m12, float m13, float m14,
@@ -47,6 +45,14 @@ namespace ouzel
 
         float& operator[](size_t index) { return m[index]; }
         float operator[](size_t index) const { return m[index]; }
+
+        static Matrix4 identity()
+        {
+            return Matrix4(1.0F, 0.0F, 0.0F, 0.0F,
+                           0.0F, 1.0F, 0.0F, 0.0F,
+                           0.0F, 0.0F, 1.0F, 0.0F,
+                           0.0F, 0.0F, 0.0F, 1.0F);
+        }
 
         static void createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst);
         static void createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
@@ -139,7 +145,13 @@ namespace ouzel
         bool invert();
         bool invert(Matrix4& dst) const;
 
-        bool isIdentity() const;
+        inline bool isIdentity() const
+        {
+            return m[0]  == 1.0F && m[1]  == 0.0F && m[2]  == 0.0F && m[3]  == 0.0F &&
+                   m[4]  == 0.0F && m[5]  == 1.0F && m[6]  == 0.0F && m[7]  == 0.0F &&
+                   m[8]  == 0.0F && m[9]  == 0.0F && m[10] == 1.0F && m[11] == 0.0F &&
+                   m[12] == 0.0F && m[13] == 0.0F && m[14] == 0.0F && m[15] == 1.0F;
+        }
 
         void multiply(float scalar);
         void multiply(float scalar, Matrix4& dst) const;
@@ -171,8 +183,19 @@ namespace ouzel
                  float m31, float m32, float m33, float m34,
                  float m41, float m42, float m43, float m44);
         void set(const float* array);
-        void setIdentity();
-        void setZero();
+
+        inline void setIdentity()
+        {
+            m[0]  = 1.0F; m[1] = 0.0F;  m[2]  = 0.0F; m[3]  = 0.0F;
+            m[4]  = 0.0F; m[5] = 1.0F;  m[6]  = 0.0F; m[7]  = 0.0F;
+            m[8]  = 0.0F; m[9] = 0.0F;  m[10] = 1.0F; m[11] = 0.0F;
+            m[12] = 0.0F; m[13] = 0.0F; m[14] = 0.0F; m[15] = 1.0F;
+        }
+
+        inline void setZero()
+        {
+            std::fill(m, m + sizeof(m) / sizeof(float), 0.0F);
+        }
 
         void subtract(const Matrix4& matrix);
         static void subtract(const Matrix4& m1, const Matrix4& m2, Matrix4& dst);
