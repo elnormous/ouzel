@@ -65,8 +65,6 @@ namespace ouzel
         {
         }
 
-        Vector4(const Vector4& p1, const Vector4& p2);
-
         Vector4(const Vector4& copy):
             x(copy.x), y(copy.y), z(copy.z), w(copy.w)
         {
@@ -173,14 +171,6 @@ namespace ouzel
             y = newY;
             z = newZ;
             w = newW;
-        }
-
-        void set(const Vector4& p1, const Vector4& p2)
-        {
-            x = p2.x - p1.x;
-            y = p2.y - p1.y;
-            z = p2.z - p1.z;
-            w = p2.w - p1.w;
         }
 
         void subtract(const Vector4& vec)
