@@ -117,7 +117,6 @@ LOCAL_SRC_FILES :=../../ouzel/animators/Animator.cpp \
     ../../ouzel/math/Box2.cpp \
     ../../ouzel/math/Box3.cpp \
     ../../ouzel/math/Color.cpp \
-    ../../ouzel/math/ConvexVolume.cpp \
     ../../ouzel/math/MathUtils.cpp \
     ../../ouzel/math/Matrix3.cpp \
     ../../ouzel/math/Matrix4.cpp \

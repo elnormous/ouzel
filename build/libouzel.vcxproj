@@ -134,7 +134,6 @@
     <ClCompile Include="..\ouzel\math\Box2.cpp" />
     <ClCompile Include="..\ouzel\math\Box3.cpp" />
     <ClCompile Include="..\ouzel\math\Color.cpp" />
-    <ClCompile Include="..\ouzel\math\ConvexVolume.cpp" />
     <ClCompile Include="..\ouzel\math\MathUtils.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix3.cpp" />
     <ClCompile Include="..\ouzel\math\Matrix4.cpp" />

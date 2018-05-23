@@ -76,9 +76,6 @@
     <ClCompile Include="..\ouzel\scene\Component.cpp">
       <Filter>ouzel\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\ConvexVolume.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\input\Cursor.cpp">
       <Filter>ouzel\input</Filter>
     </ClCompile>
