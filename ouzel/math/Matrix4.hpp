@@ -57,11 +57,6 @@ namespace ouzel
         static void createOrthographicFromSize(float width, float height, float zNearPlane, float zFarPlane, Matrix4& dst);
         static void createOrthographicOffCenter(float left, float right, float bottom, float top,
                                                 float zNearPlane, float zFarPlane, Matrix4& dst);
-        static void createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                    const Vector3& cameraUpVector, Matrix4& dst);
-        static void createBillboard(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                    const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
-                                    Matrix4& dst);
         static void createScale(const Vector3& scale, Matrix4& dst);
         static void createScale(float xScale, float yScale, float zScale, Matrix4& dst);
         static void createRotation(const Vector3& axis, float angle, Matrix4& dst);
@@ -315,11 +310,6 @@ namespace ouzel
                    m[14] != matrix.m[14] ||
                    m[15] != matrix.m[15];
         }
-
-    private:
-        static void createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,
-                                          const Vector3& cameraUpVector, const Vector3& cameraForwardVector,
-                                          Matrix4& dst);
     };
 
     inline Vector3& operator*=(Vector3& v, const Matrix4& m)
