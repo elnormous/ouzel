@@ -463,9 +463,6 @@
 		3047F77A1C4D39C500774E3D /* Repeat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.hpp */; };
 		3047F77B1C4D39C500774E3D /* Repeat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.hpp */; };
 		3047F77C1C4D39C500774E3D /* Repeat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3047F7761C4D39C500774E3D /* Repeat.hpp */; };
-		3049DCB41ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
-		3049DCB51ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
-		3049DCB61ED8687C0000997A /* ConvexVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3049DCB21ED8687C0000997A /* ConvexVolume.cpp */; };
 		3049DCB71ED8687C0000997A /* ConvexVolume.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.hpp */; };
 		3049DCB81ED8687C0000997A /* ConvexVolume.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.hpp */; };
 		3049DCB91ED8687C0000997A /* ConvexVolume.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3049DCB31ED8687C0000997A /* ConvexVolume.hpp */; };
@@ -1076,7 +1073,6 @@
 		3047F76E1C4D2C3900774E3D /* Parallel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Parallel.hpp; sourceTree = "<group>"; };
 		3047F7751C4D39C500774E3D /* Repeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Repeat.cpp; sourceTree = "<group>"; };
 		3047F7761C4D39C500774E3D /* Repeat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Repeat.hpp; sourceTree = "<group>"; };
-		3049DCB21ED8687C0000997A /* ConvexVolume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvexVolume.cpp; sourceTree = "<group>"; };
 		3049DCB31ED8687C0000997A /* ConvexVolume.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConvexVolume.hpp; sourceTree = "<group>"; };
 		3049DCD61EDCD0450000997A /* Cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cpp; sourceTree = "<group>"; };
 		3049DCD71EDCD0450000997A /* Cursor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cursor.hpp; sourceTree = "<group>"; };
@@ -1484,7 +1480,6 @@
 				304736D81E0B4776009BC562 /* Box3.hpp */,
 				309B48351DEA5EE600A718C5 /* Color.cpp */,
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
-				3049DCB21ED8687C0000997A /* ConvexVolume.cpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
 				304A8E301C237C70008B1151 /* MathUtils.cpp */,
 				304A8E311C237C70008B1151 /* MathUtils.hpp */,
@@ -2635,7 +2630,6 @@
 				30673DD31F7A694F00EAFAB0 /* WindowResource.cpp in Sources */,
 				303696C41E32DD8F007F4211 /* Texture.cpp in Sources */,
 				30C56C5C1CAA88F8007AEF8F /* CheckBox.cpp in Sources */,
-				3049DCB41ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				303696EC1E32DE08007F4211 /* Shader.cpp in Sources */,
 				303820651D816C7700677CAB /* main.cpp in Sources */,
 				30519CF81F9B54E300AF3DC4 /* LoaderVorbis.cpp in Sources */,
@@ -2796,7 +2790,6 @@
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
 				303B763A1C355A3B00FEDE92 /* Vector3.cpp in Sources */,
 				303696EE1E32DE08007F4211 /* Shader.cpp in Sources */,
-				3049DCB61ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				30519CFA1F9B54E300AF3DC4 /* LoaderVorbis.cpp in Sources */,
 				303B763C1C355A3B00FEDE92 /* Vertex.cpp in Sources */,
 				3009850A2031275300BB0340 /* Thread.cpp in Sources */,
@@ -3019,7 +3012,6 @@
 				3031C13D1F0C43D0002CA717 /* StreamVorbis.cpp in Sources */,
 				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* BufferResourceOGL.cpp in Sources */,
-				3049DCB51ED8687C0000997A /* ConvexVolume.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* LoaderWave.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
