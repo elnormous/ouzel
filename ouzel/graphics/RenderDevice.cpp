@@ -12,8 +12,8 @@ namespace ouzel
     {
         RenderDevice::RenderDevice(Renderer::Driver initDriver):
             driver(initDriver),
-            projectionTransform(Matrix4::IDENTITY),
-            renderTargetProjectionTransform(Matrix4::IDENTITY),
+            projectionTransform(Matrix4::identity()),
+            renderTargetProjectionTransform(Matrix4::identity()),
             refillQueue(true),
             currentFPS(0.0F),
             accumulatedFPS(0.0F)

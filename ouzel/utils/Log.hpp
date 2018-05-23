@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include "math/Matrix3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Quaternion.hpp"
 #include "math/Size2.hpp"
@@ -101,15 +100,6 @@ namespace ouzel
             {
                 s += val;
             }
-
-            return *this;
-        }
-
-        Log& operator<<(const Matrix3& val)
-        {
-            s += std::to_string(val.m[0]) + "," + std::to_string(val.m[1]) + "," + std::to_string(val.m[2]) + "\n" +
-                std::to_string(val.m[3]) + "," + std::to_string(val.m[4]) + "," + std::to_string(val.m[5]) + "\n" +
-                std::to_string(val.m[6]) + "," + std::to_string(val.m[7]) + "," + std::to_string(val.m[8]);
 
             return *this;
         }

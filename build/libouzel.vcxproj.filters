@@ -169,9 +169,6 @@
     <ClCompile Include="..\ouzel\math\MathUtils.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\ouzel\math\Matrix3.cpp">
-      <Filter>ouzel\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\ouzel\math\Matrix4.cpp">
       <Filter>ouzel\math</Filter>
     </ClCompile>
@@ -625,9 +622,6 @@
       <Filter>ouzel\core\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\MathUtils.hpp">
-      <Filter>ouzel\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ouzel\math\Matrix3.hpp">
       <Filter>ouzel\math</Filter>
     </ClInclude>
     <ClInclude Include="..\ouzel\math\Matrix4.hpp">

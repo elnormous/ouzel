@@ -86,7 +86,6 @@
 #include "math/Color.hpp"
 #include "math/ConvexVolume.hpp"
 #include "math/MathUtils.hpp"
-#include "math/Matrix3.hpp"
 #include "math/Matrix4.hpp"
 #include "math/Plane.hpp"
 #include "math/Quaternion.hpp"
