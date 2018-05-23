@@ -21,11 +21,6 @@ namespace ouzel
     const Vector4 Vector4::NEGATIVE_UNIT_Y(0.0F, -1.0F, 0.0F, 1.0F);
     const Vector4 Vector4::NEGATIVE_UNIT_Z(0.0F, 0.0F, -1.0F, 1.0F);
 
-    Vector4::Vector4(const Vector4& p1, const Vector4& p2)
-    {
-        set(p1, p2);
-    }
-
     Vector4::Vector4(const Vector2& vec):
         x(vec.x), y(vec.y), z(0.0F), w(0.0F)
     {

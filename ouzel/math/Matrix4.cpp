@@ -172,7 +172,7 @@ namespace ouzel
                                         const Vector3& cameraForwardVector,
                                         Matrix4& dst)
     {
-        Vector3 delta(objectPosition, cameraPosition);
+        Vector3 delta = objectPosition - cameraPosition;
         bool isSufficientDelta = delta.lengthSquared() > EPSILON;
 
         dst.setIdentity();

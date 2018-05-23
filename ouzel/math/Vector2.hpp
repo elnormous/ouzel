@@ -33,8 +33,6 @@ namespace ouzel
         {
         }
 
-        Vector2(const Vector2& p1, const Vector2& p2);
-
         Vector2(const Vector2& copy):
             x(copy.x), y(copy.y)
         {
@@ -125,12 +123,6 @@ namespace ouzel
         {
             x = newX;
             y = newY;
-        }
-
-        void set(const Vector2& p1, const Vector2& p2)
-        {
-            x = p2.x - p1.x;
-            y = p2.y - p1.y;
         }
 
         void subtract(const Vector2& vec)
