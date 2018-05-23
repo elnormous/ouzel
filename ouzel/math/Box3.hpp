@@ -69,7 +69,7 @@ namespace ouzel
 
         void merge(const Box3& box);
 
-        void set(const Vector2& newMin, const Vector2& newMax)
+        void set(const Vector3& newMin, const Vector3& newMax)
         {
             min = newMin;
             max = newMax;
