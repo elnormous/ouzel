@@ -152,8 +152,8 @@ namespace ouzel
 
         static void imageA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -207,8 +207,8 @@ namespace ouzel
 
         static void imageR8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -262,8 +262,8 @@ namespace ouzel
 
         static void imageRG8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -348,8 +348,8 @@ namespace ouzel
 
         static void imageRGBA8Downsample2x2(uint32_t width, uint32_t height, uint32_t pitch, const uint8_t* src, uint8_t* dst)
         {
-            const uint32_t dstWidth  = width / 2;
-            const uint32_t dstHeight = height / 2;
+            const uint32_t dstWidth  = width >> 1;
+            const uint32_t dstHeight = height >> 1;
 
             if (dstWidth > 0 && dstHeight > 0)
             {
@@ -537,10 +537,31 @@ namespace ouzel
                 uint32_t previousHeight = static_cast<uint32_t>(levels[level - 1].size.height);
                 uint32_t previousPitch = static_cast<uint32_t>(levels[level - 1].pitch);
 
-                if (pixelFormat == PixelFormat::RGBA8_UNORM) imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::RG8_UNORM) imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::R8_UNORM) imageR8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
-                else if (pixelFormat == PixelFormat::A8_UNORM) imageA8Downsample2x2(previousWidth, previousHeight, previousPitch, levels[level - 1].data.data(), levels[level].data.data());
+                switch (pixelFormat)
+                {
+                    case PixelFormat::RGBA8_UNORM:
+                        imageRGBA8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                                levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    case PixelFormat::RG8_UNORM:
+                        imageRG8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                              levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    case PixelFormat::R8_UNORM:
+                        imageR8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                             levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    case PixelFormat::A8_UNORM:
+                        imageA8Downsample2x2(previousWidth, previousHeight, previousPitch,
+                                             levels[level - 1].data.data(), levels[level].data.data());
+                        break;
+
+                    default:
+                        return false;
+                }
             }
 
             return true;
