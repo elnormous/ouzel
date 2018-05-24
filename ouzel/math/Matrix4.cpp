@@ -9,27 +9,6 @@
 
 namespace ouzel
 {
-    Matrix4::Matrix4(float pm11, float pm12, float pm13, float pm14,
-                     float pm21, float pm22, float pm23, float pm24,
-                     float pm31, float pm32, float pm33, float pm34,
-                     float pm41, float pm42, float pm43, float pm44)
-    {
-        set(pm11, pm12, pm13, pm14,
-            pm21, pm22, pm23, pm24,
-            pm31, pm32, pm33, pm34,
-            pm41, pm42, pm43, pm44);
-    }
-
-    Matrix4::Matrix4(const float* array)
-    {
-        set(array);
-    }
-
-    Matrix4::Matrix4(const Matrix4& copy)
-    {
-        std::copy(std::begin(copy.m), std::end(copy.m), m);
-    }
-
     void Matrix4::createLookAt(const Vector3& eyePosition,
                                const Vector3& targetPosition,
                                const Vector3& up,
