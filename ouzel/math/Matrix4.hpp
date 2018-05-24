@@ -37,10 +37,23 @@ namespace ouzel
         Matrix4(float m11, float m12, float m13, float m14,
                 float m21, float m22, float m23, float m24,
                 float m31, float m32, float m33, float m34,
-                float m41, float m42, float m43, float m44);
+                float m41, float m42, float m43, float m44)
+        {
+            set(m11, m12, m13, m14,
+                m21, m22, m23, m24,
+                m31, m32, m33, m34,
+                m41, m42, m43, m44);
+        }
 
-        Matrix4(const float* array);
-        Matrix4(const Matrix4& copy);
+        Matrix4(const float* array)
+        {
+            set(array);
+        }
+
+        Matrix4(const Matrix4& copy)
+        {
+            std::copy(std::begin(copy.m), std::end(copy.m), m);
+        }
 
         float& operator[](size_t index) { return m[index]; }
         float operator[](size_t index) const { return m[index]; }
