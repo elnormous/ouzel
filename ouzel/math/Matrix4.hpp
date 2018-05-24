@@ -68,7 +68,7 @@ namespace ouzel
 
         static void createLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix4& dst);
         static void createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
-                                 float targetCenterX, float targetCenterY, float targetCenterZ,
+                                 float targetPositionX, float targetPositionY, float targetPositionZ,
                                  float upX, float upY, float upZ, Matrix4& dst);
         static void createPerspective(float fieldOfView, float aspectRatio, float zNearPlane, float zFarPlane, Matrix4& dst);
 
@@ -256,9 +256,89 @@ namespace ouzel
         void transpose();
         void transpose(Matrix4& dst) const;
 
-        Vector3 getTranslation() const;
-        Vector3 getScale() const;
-        Quaternion getRotation() const;
+        Vector3 getTranslation() const
+        {
+            return Vector3(m[12], m[13], m[14]);
+        }
+
+        Vector3 getScale() const
+        {
+            Vector3 scale;
+            scale.x = Vector3(m[0], m[1], m[2]).length();
+            scale.y = Vector3(m[4], m[5], m[6]).length();
+            scale.z = Vector3(m[8], m[9], m[10]).length();
+
+            return scale;
+        }
+
+        Quaternion getRotation() const
+        {
+            Vector3 scale = getScale();
+
+            float m11 = m[0] / scale.x;
+            float m21 = m[1] / scale.x;
+            float m31 = m[2] / scale.x;
+
+            float m12 = m[4] / scale.y;
+            float m22 = m[5] / scale.y;
+            float m32 = m[6] / scale.y;
+
+            float m13 = m[8] / scale.z;
+            float m23 = m[9] / scale.z;
+            float m33 = m[10] / scale.z;
+
+            Quaternion result;
+            result.x = sqrtf(std::max(0.0F, 1 + m11 - m22 - m33)) / 2.0F;
+            result.y = sqrtf(std::max(0.0F, 1 - m11 + m22 - m33)) / 2.0F;
+            result.z = sqrtf(std::max(0.0F, 1 - m11 - m22 + m33)) / 2.0F;
+            result.w = sqrtf(std::max(0.0F, 1 + m11 + m22 + m33)) / 2.0F;
+
+            result.x *= sgn(result.x * (m32 - m23));
+            result.y *= sgn(result.y * (m13 - m31));
+            result.z *= sgn(result.z * (m21 - m12));
+
+            result.normalize();
+
+            return result;
+        }
+
+        void setRotation(const Quaternion& rotation)
+        {
+            Matrix4 result;
+
+            float wx = rotation.w * rotation.x;
+            float wy = rotation.w * rotation.y;
+            float wz = rotation.w * rotation.z;
+
+            float xx = rotation.x * rotation.x;
+            float xy = rotation.x * rotation.y;
+            float xz = rotation.x * rotation.z;
+
+            float yy = rotation.y * rotation.y;
+            float yz = rotation.y * rotation.z;
+
+            float zz = rotation.z * rotation.z;
+
+            m[0] = 1.0F - 2.0F * (yy + zz);
+            m[4] = 2.0F * (xy - wz);
+            m[8] = 2.0F * (xz + wy);
+            m[12] = 0.0F;
+
+            m[1] = 2.0F * (xy + wz);
+            m[5] = 1.0F - 2.0F * (xx + zz);
+            m[9] = 2.0F * (yz - wx);
+            m[13] = 0.0F;
+
+            m[2] = 2.0F * (xz - wy);
+            m[6] = 2.0F * (yz + wx);
+            m[10] = 1.0F - 2.0F * (xx + yy);
+            m[14] = 0.0F;
+
+            m[3] = 0.0F;
+            m[7] = 0.0F;
+            m[11] = 0.0F;
+            m[15] = 1.0F;
+        }
 
         inline Matrix4 operator+(const Matrix4& matrix) const
         {
@@ -344,44 +424,6 @@ namespace ouzel
                    m[13] != matrix.m[13] ||
                    m[14] != matrix.m[14] ||
                    m[15] != matrix.m[15];
-        }
-
-        void setRotation(const Quaternion& rotation)
-        {
-            Matrix4 result;
-
-            float wx = rotation.w * rotation.x;
-            float wy = rotation.w * rotation.y;
-            float wz = rotation.w * rotation.z;
-
-            float xx = rotation.x * rotation.x;
-            float xy = rotation.x * rotation.y;
-            float xz = rotation.x * rotation.z;
-
-            float yy = rotation.y * rotation.y;
-            float yz = rotation.y * rotation.z;
-
-            float zz = rotation.z * rotation.z;
-
-            m[0] = 1.0F - 2.0F * (yy + zz);
-            m[4] = 2.0F * (xy - wz);
-            m[8] = 2.0F * (xz + wy);
-            m[12] = 0.0F;
-
-            m[1] = 2.0F * (xy + wz);
-            m[5] = 1.0F - 2.0F * (xx + zz);
-            m[9] = 2.0F * (yz - wx);
-            m[13] = 0.0F;
-
-            m[2] = 2.0F * (xz - wy);
-            m[6] = 2.0F * (yz + wx);
-            m[10] = 1.0F - 2.0F * (xx + yy);
-            m[14] = 0.0F;
-
-            m[3] = 0.0F;
-            m[7] = 0.0F;
-            m[11] = 0.0F;
-            m[15] = 1.0F;
         }
     };
 
