@@ -269,7 +269,11 @@ namespace ouzel
         {
             localTransform.setIdentity();
             localTransform.translate(position);
-            localTransform *= rotation.getMatrix();
+
+            Matrix4 rotationMatrix;
+            rotationMatrix.setRotation(rotation);
+
+            localTransform *= rotationMatrix;
 
             Vector3 realScale = Vector3(scale.x * (flipX ? -1.0F : 1.0F),
                                         scale.y * (flipY ? -1.0F : 1.0F),

@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "math/Matrix4.hpp"
 #include "math/Vector3.hpp"
 
 namespace ouzel
@@ -214,46 +213,6 @@ namespace ouzel
         inline Vector3 getForwardVector() const
         {
             return rotateVector(Vector3::UNIT_Z);
-        }
-
-        Matrix4 getMatrix() const
-        {
-            Matrix4 result;
-
-            float wx = w * x;
-            float wy = w * y;
-            float wz = w * z;
-
-            float xx = x * x;
-            float xy = x * y;
-            float xz = x * z;
-
-            float yy = y * y;
-            float yz = y * z;
-
-            float zz = z * z;
-
-            result.m[0] = 1.0F - 2.0F * (yy + zz);
-            result.m[4] = 2.0F * (xy - wz);
-            result.m[8] = 2.0F * (xz + wy);
-            result.m[12] = 0.0F;
-
-            result.m[1] = 2.0F * (xy + wz);
-            result.m[5] = 1.0F - 2.0F * (xx + zz);
-            result.m[9] = 2.0F * (yz - wx);
-            result.m[13] = 0.0F;
-
-            result.m[2] = 2.0F * (xz - wy);
-            result.m[6] = 2.0F * (yz + wx);
-            result.m[10] = 1.0F - 2.0F * (xx + yy);
-            result.m[14] = 0.0F;
-
-            result.m[3] = 0.0F;
-            result.m[7] = 0.0F;
-            result.m[11] = 0.0F;
-            result.m[15] = 1.0F;
-
-            return result;
         }
 
         Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)

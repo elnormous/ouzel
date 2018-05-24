@@ -5,7 +5,6 @@
 #include <cmath>
 #include <cassert>
 #include "Matrix4.hpp"
-#include "Quaternion.hpp"
 #include "MathUtils.hpp"
 
 namespace ouzel

@@ -10,13 +10,12 @@
 #endif
 #include "math/ConvexVolume.hpp"
 #include "math/Plane.hpp"
+#include "math/Quaternion.hpp"
 #include "math/Vector3.hpp"
 #include "math/Vector4.hpp"
 
 namespace ouzel
 {
-    class Quaternion;
-
     class Matrix4
     {
     public:
@@ -332,6 +331,44 @@ namespace ouzel
                    m[13] != matrix.m[13] ||
                    m[14] != matrix.m[14] ||
                    m[15] != matrix.m[15];
+        }
+
+        void setRotation(const Quaternion& rotation)
+        {
+            Matrix4 result;
+
+            float wx = rotation.w * rotation.x;
+            float wy = rotation.w * rotation.y;
+            float wz = rotation.w * rotation.z;
+
+            float xx = rotation.x * rotation.x;
+            float xy = rotation.x * rotation.y;
+            float xz = rotation.x * rotation.z;
+
+            float yy = rotation.y * rotation.y;
+            float yz = rotation.y * rotation.z;
+
+            float zz = rotation.z * rotation.z;
+
+            m[0] = 1.0F - 2.0F * (yy + zz);
+            m[4] = 2.0F * (xy - wz);
+            m[8] = 2.0F * (xz + wy);
+            m[12] = 0.0F;
+
+            m[1] = 2.0F * (xy + wz);
+            m[5] = 1.0F - 2.0F * (xx + zz);
+            m[9] = 2.0F * (yz - wx);
+            m[13] = 0.0F;
+
+            m[2] = 2.0F * (xz - wy);
+            m[6] = 2.0F * (yz + wx);
+            m[10] = 1.0F - 2.0F * (xx + yy);
+            m[14] = 0.0F;
+
+            m[3] = 0.0F;
+            m[7] = 0.0F;
+            m[11] = 0.0F;
+            m[15] = 1.0F;
         }
     };
 
