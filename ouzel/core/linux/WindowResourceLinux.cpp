@@ -25,16 +25,12 @@ namespace ouzel
     WindowResourceLinux::~WindowResourceLinux()
     {
         if (visualInfo)
-        {
             XFree(visualInfo);
-        }
 
         if (display)
         {
             if (window)
-            {
                 XDestroyWindow(display, window);
-            }
 
             XCloseDisplay(display);
         }
@@ -197,9 +193,7 @@ namespace ouzel
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (!XSendEvent(display, window, False, NoEventMask, &event))
-        {
             Log(Log::Level::ERR) << "Failed to send X11 delete message";
-        }
     }
 
     void WindowResourceLinux::setSize(const Size2& newSize)
@@ -226,9 +220,7 @@ namespace ouzel
 
         Lock lock(listenerMutex);
         if (listener)
-        {
             listener->onResolutionChange(resolution);
-        }
     }
 
     void WindowResourceLinux::setFullscreen(bool newFullscreen)
@@ -261,9 +253,7 @@ namespace ouzel
         event.xclient.data.l[4] = 0; // unused
 
         if (!XSendEvent(display, DefaultRootWindow(display), 0, SubstructureRedirectMask | SubstructureNotifyMask, &event))
-        {
             Log(Log::Level::ERR) << "Failed to send X11 fullscreen message";
-        }
 
         return true;
     }

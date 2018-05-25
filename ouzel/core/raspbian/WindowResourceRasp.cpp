@@ -14,9 +14,8 @@ namespace ouzel
     WindowResourceRasp::~WindowResourceRasp()
     {
         if (display != DISPMANX_NO_HANDLE)
-        {
             vc_dispmanx_display_close(display);
-        }
+
         bcm_host_deinit();
     }
 
