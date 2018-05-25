@@ -36,7 +36,7 @@ namespace ouzel
             AudioDeviceID deviceId = 0;
 #endif
             AudioComponent audioComponent = nullptr;
-            AudioComponentInstance audioUnit = nullptr;
+            AudioUnit audioUnit = nullptr;
 
             uint32_t sampleSize = 0;
             std::vector<uint8_t> data;
