@@ -316,7 +316,7 @@ namespace ouzel
 
             if (result != noErr)
             {
-                Log(Log::Level::ERR) << "Failed to set CoreAudio unit utput callback, error: " << result;
+                Log(Log::Level::ERR) << "Failed to set CoreAudio unit output callback, error: " << result;
                 return false;
             }
 
