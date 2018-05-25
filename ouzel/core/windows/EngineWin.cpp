@@ -48,9 +48,7 @@ namespace ouzel
         for (HACCEL accelerator : accelerators)
         {
             if (TranslateAccelerator(window, accelerator, &msg))
-            {
                 translate = false;
-            }
         }
 
         if (translate)
@@ -71,15 +69,11 @@ namespace ouzel
 
 #ifdef DEBUG
         if (!AllocConsole())
-        {
             Log(Log::Level::INFO) << "Attached to console";
-        }
 #endif
 
         if (!init())
-        {
             return EXIT_FAILURE;
-        }
 
         start();
 
@@ -154,18 +148,13 @@ namespace ouzel
                 Lock lock(executeMutex);
 
                 if (executeQueue.empty())
-                {
                     break;
-                }
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 

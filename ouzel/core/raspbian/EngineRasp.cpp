@@ -13,17 +13,13 @@ namespace ouzel
     EngineRasp::EngineRasp(int argc, char* argv[])
     {
         for (int i = 0; i < argc; ++i)
-        {
             args.push_back(argv[i]);
-        }
     }
 
     int EngineRasp::run()
     {
         if (!init())
-        {
             return EXIT_FAILURE;
-        }
 
         start();
 
@@ -58,18 +54,13 @@ namespace ouzel
                 Lock lock(executeMutex);
 
                 if (executeQueue.empty())
-                {
                     break;
-                }
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }

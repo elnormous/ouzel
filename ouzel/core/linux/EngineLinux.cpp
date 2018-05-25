@@ -22,9 +22,7 @@ namespace ouzel
         argc(initArgc), argv(initArgv)
     {
         for (int i = 0; i < initArgc; ++i)
-        {
             args.push_back(initArgv[i]);
-        }
     }
 
     int EngineLinux::run()
@@ -36,9 +34,7 @@ namespace ouzel
         }
 
         if (!init())
-        {
             return EXIT_FAILURE;
-        }
 
         start();
 
@@ -59,13 +55,9 @@ namespace ouzel
                     case ClientMessage:
                     {
                         if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
-                        {
                             exit();
-                        }
                         else if (event.xclient.message_type == windowLinux->getExecuteAtom())
-                        {
                             executeAll();
-                        }
                         break;
                     }
                     case FocusIn:
@@ -189,9 +181,7 @@ namespace ouzel
         executeQueue.push(func);
 
         if (!XSendEvent(windowLinux->getDisplay(), windowLinux->getNativeWindow(), False, NoEventMask, &event))
-        {
             Log(Log::Level::ERR) << "Failed to send X11 delete message";
-        }
 
         XFlush(windowLinux->getDisplay());
     }
@@ -224,18 +214,13 @@ namespace ouzel
                 Lock lock(executeMutex);
 
                 if (executeQueue.empty())
-                {
                     break;
-                }
 
                 func = std::move(executeQueue.front());
                 executeQueue.pop();
             }
 
-            if (func)
-            {
-                func();
-            }
+            if (func) func();
         }
     }
 }

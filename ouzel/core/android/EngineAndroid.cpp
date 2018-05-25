@@ -346,10 +346,7 @@ namespace ouzel
             }
         }
 
-        if (func)
-        {
-            func();
-        }
+        if (func) func();
     }
 
     void EngineAndroid::main()
@@ -367,8 +364,6 @@ namespace ouzel
         Engine::main();
 
         if (javaVM->DetachCurrentThread() != JNI_OK)
-        {
             Log(Log::Level::ERR) << "Failed to detach current thread from Java VM";
-        }
     }
 }
