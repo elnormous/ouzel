@@ -422,11 +422,6 @@ namespace ouzel
 
         bool RenderDeviceD3D11::processCommands(CommandBuffer& commands)
         {
-            ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
-            ID3D11SamplerState* samplers[Texture::LAYERS];
-            std::fill(std::begin(resourceViews), std::end(resourceViews), nullptr);
-            std::fill(std::begin(samplers), std::end(samplers), nullptr);
-
             std::vector<float> shaderData;
 
             uint32_t fillModeIndex = 0;
@@ -859,6 +854,9 @@ namespace ouzel
                     case Command::Type::SET_TEXTURES:
                     {
                         const SetTexturesCommand* setTexturesCommand = static_cast<const SetTexturesCommand*>(command);
+
+                        ID3D11ShaderResourceView* resourceViews[Texture::LAYERS];
+                        ID3D11SamplerState* samplers[Texture::LAYERS];
 
                         for (uint32_t layer = 0; layer < Texture::LAYERS; ++layer)
                         {
