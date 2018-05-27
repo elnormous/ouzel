@@ -73,6 +73,7 @@ namespace ouzel
             bool cursorVisible = true;
             bool cursorLocked = false;
 
+            unsigned char emptyCursorData[4] = {0, 0, 0, 0};
             NSCursorPtr emptyCursor = nil;
             NSCursorPtr defaultCursor = nil;
             NSCursorPtr currentCursor = nil;
