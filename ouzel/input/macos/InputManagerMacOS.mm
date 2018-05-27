@@ -318,12 +318,11 @@ namespace ouzel
             IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
             IOHIDManagerScheduleWithRunLoop(hidManager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
-            unsigned char data[4] = {0, 0, 0, 0};
-            unsigned char* rgba = data;
+            unsigned char* data = emptyCursorData;
 
             NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
             NSBitmapImageRep* rep = [[NSBitmapImageRep alloc]
-                                     initWithBitmapDataPlanes:&rgba
+                                     initWithBitmapDataPlanes:&data
                                      pixelsWide:1
                                      pixelsHigh:1
                                      bitsPerSample:8
@@ -356,9 +355,7 @@ namespace ouzel
                 if (!currentCursor) currentCursor = emptyCursor;
             }
             else
-            {
                 currentCursor = defaultCursor;
-            }
 
             WindowResourceMacOS* windowMacOS = static_cast<WindowResourceMacOS*>(engine->getWindow()->getResource());
             [windowMacOS->getNativeView() resetCursorRects];
@@ -384,13 +381,9 @@ namespace ouzel
 
                 engine->executeOnMainThread([this, visible] {
                     if (visible)
-                    {
                         [currentCursor set];
-                    }
                     else
-                    {
                         [emptyCursor set];
-                    }
                 });
             }
         }
