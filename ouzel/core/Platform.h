@@ -3,7 +3,7 @@
 
 #pragma once
 
-#if defined (__GLIBC__)
+#if defined (__GLIBC__) || defined(__ANDROID__)
 # include <endian.h>
 # if (__BYTE_ORDER == __LITTLE_ENDIAN)
 #  define OUZEL_LITTLE_ENDIAN
@@ -11,14 +11,6 @@
 #  define OUZEL_BIG_ENDIAN
 # else
 #  error Unsupported endianness
-# endif
-
-#elif defined(__ANDROID__)
-# include "machine/_types.h"
-# ifdef __ARMEB__
-#  define OUZEL_BIG_ENDIAN
-# else
-#  define OUZEL_LITTLE_ENDIAN
 # endif
 
 #elif defined(_BIG_ENDIAN) && !defined(_LITTLE_ENDIAN) || \
