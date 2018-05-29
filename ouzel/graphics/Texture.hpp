@@ -23,7 +23,9 @@ namespace ouzel
             {
                 DYNAMIC = 0x01,
                 RENDER_TARGET = 0x02,
-                DEPTH_BUFFER = 0x04
+                DEPTH_BUFFER = 0x04,
+                BINDABLE_COLOR_BUFFER = 0x08,
+                BINDABLE_DEPTH_BUFFER = 0x10,
             };
 
             enum class Filter
