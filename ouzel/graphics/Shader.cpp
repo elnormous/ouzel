@@ -40,16 +40,12 @@ namespace ouzel
             std::vector<uint8_t> pixelShaderData;
 
             if (!engine->getFileSystem()->readFile(newPixelShader, pixelShaderData))
-            {
                 return false;
-            }
 
             std::vector<uint8_t> vertexShaderData;
 
             if (!engine->getFileSystem()->readFile(newVertexShader, vertexShaderData))
-            {
                 return false;
-            }
 
             RenderDevice* renderDevice = engine->getRenderer()->getDevice();
 

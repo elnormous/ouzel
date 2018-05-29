@@ -44,9 +44,7 @@ namespace ouzel
             if (displayLink)
             {
                 if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                {
                     Log(Log::Level::ERR) << "Failed to stop display link";
-                }
 
                 CVDisplayLinkRelease(displayLink);
             }
@@ -58,9 +56,7 @@ namespace ouzel
             }
 
             if (pixelFormat)
-            {
                 [pixelFormat release];
-            }
         }
 
         bool RenderDeviceOGLMacOS::init(Window* newWindow,
@@ -234,9 +230,7 @@ namespace ouzel
                     if (displayLink)
                     {
                         if (CVDisplayLinkStop(displayLink) != kCVReturnSuccess)
-                        {
                             Log(Log::Level::ERR) << "Failed to stop display link";
-                        }
 
                         CVDisplayLinkRelease(displayLink);
                         displayLink = nullptr;
@@ -269,10 +263,7 @@ namespace ouzel
 
         void RenderDeviceOGLMacOS::renderCallback()
         {
-            if (running)
-            {
-                process();
-            }
+            if (running) process();
         }
     } // namespace graphics
 } // namespace ouzel
