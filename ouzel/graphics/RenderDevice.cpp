@@ -57,9 +57,7 @@ namespace ouzel
             float delta = diff.count() / 1000000000.0F;
 
             if (delta > 0.0F)
-            {
                 currentFPS = 1.0F / delta;
-            }
 
             accumulatedTime += delta;
             currentAccumulatedFPS += 1.0F;

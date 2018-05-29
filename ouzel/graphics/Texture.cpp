@@ -55,9 +55,7 @@ namespace ouzel
         {
             ImageDataSTB image;
             if (!image.init(filename, newPixelFormat))
-            {
                 return false;
-            }
 
             size = image.getSize();
             flags = newFlags;
