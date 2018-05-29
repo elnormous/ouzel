@@ -434,9 +434,7 @@ namespace ouzel
                     renderTargetViewDesc.ViewDimension = (sampleCount > 1) ? D3D11_RTV_DIMENSION_TEXTURE2DMS : D3D11_RTV_DIMENSION_TEXTURE2D;
 
                     if (sampleCount == 1)
-                    {
                         renderTargetViewDesc.Texture2D.MipSlice = 0;
-                    }
 
                     hr = renderDeviceD3D11.getDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTargetView);
                     if (FAILED(hr))
@@ -444,34 +442,34 @@ namespace ouzel
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 render target view, error: " << hr;
                         return false;
                     }
-                }
 
-                if (flags & Texture::DEPTH_BUFFER)
-                {
-                    D3D11_TEXTURE2D_DESC depthStencilDesc;
-                    depthStencilDesc.Width = width;
-                    depthStencilDesc.Height = height;
-                    depthStencilDesc.MipLevels = 1;
-                    depthStencilDesc.ArraySize = 1;
-                    depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                    depthStencilDesc.SampleDesc.Count = sampleCount;
-                    depthStencilDesc.SampleDesc.Quality = 0;
-                    depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-                    depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                    depthStencilDesc.CPUAccessFlags = 0;
-                    depthStencilDesc.MiscFlags = 0;
-                    hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
-                    if (FAILED(hr))
+                    if (flags & Texture::DEPTH_BUFFER)
                     {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
-                        return false;
-                    }
+                        D3D11_TEXTURE2D_DESC depthStencilDesc;
+                        depthStencilDesc.Width = width;
+                        depthStencilDesc.Height = height;
+                        depthStencilDesc.MipLevels = 1;
+                        depthStencilDesc.ArraySize = 1;
+                        depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                        depthStencilDesc.SampleDesc.Count = sampleCount;
+                        depthStencilDesc.SampleDesc.Quality = 0;
+                        depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+                        depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                        depthStencilDesc.CPUAccessFlags = 0;
+                        depthStencilDesc.MiscFlags = 0;
+                        hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil texture, error: " << hr;
+                            return false;
+                        }
 
-                    hr = renderDeviceD3D11.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
-                    if (FAILED(hr))
-                    {
-                        Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
-                        return false;
+                        hr = renderDeviceD3D11.getDevice()->CreateDepthStencilView(depthStencilTexture, nullptr, &depthStencilView);
+                        if (FAILED(hr))
+                        {
+                            Log(Log::Level::ERR) << "Failed to create Direct3D 11 depth stencil view, error: " << hr;
+                            return false;
+                        }
                     }
                 }
             }
