@@ -368,7 +368,15 @@ namespace ouzel
                                                                                                          mipmapped:(levels.size() > 1) ? YES : NO];
                 textureDescriptor.textureType = MTLTextureType2D;
                 textureDescriptor.mipmapLevelCount = static_cast<NSUInteger>(levels.size());
-                textureDescriptor.usage = MTLTextureUsageShaderRead | ((flags & Texture::RENDER_TARGET) ? MTLTextureUsageRenderTarget : 0);
+
+                if (flags & Texture::RENDER_TARGET)
+                {
+                    textureDescriptor.usage = MTLTextureUsageRenderTarget;
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
+                }
+                else
+                    textureDescriptor.usage = MTLTextureUsageShaderRead;
+
                 colorFormat = textureDescriptor.pixelFormat;
 
                 texture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
@@ -432,6 +440,7 @@ namespace ouzel
                     textureDescriptor.storageMode = MTLStorageModePrivate;
                     textureDescriptor.sampleCount = sampleCount;
                     textureDescriptor.usage = MTLTextureUsageRenderTarget;
+                    if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.usage |= MTLTextureUsageShaderRead;
 
                     depthTexture = [renderDeviceMetal.getDevice() newTextureWithDescriptor:textureDescriptor];
 

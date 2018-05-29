@@ -24,14 +24,20 @@ namespace ouzel
             if (depthBufferId)
                 renderDeviceOGL.deleteRenderBuffer(depthBufferId);
 
+            if (colorBufferId)
+                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
+
             if (frameBufferId)
                 renderDeviceOGL.deleteFrameBuffer(frameBufferId);
+
+            if (depthTextureId)
+                renderDeviceOGL.deleteTexture(depthTextureId);
 
             if (textureId)
                 renderDeviceOGL.deleteTexture(textureId);
         }
 
-        static GLint getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
+        static GLenum getOGLInternalPixelFormat(PixelFormat pixelFormat, uint32_t openGLVersion)
         {
 #if OUZEL_SUPPORTS_OPENGLES
             if (openGLVersion >= 3)
@@ -256,7 +262,7 @@ namespace ouzel
 
                 for (size_t level = 0; level < levels.size(); ++level)
                 {
-                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                    glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                  static_cast<GLsizei>(levels[level].size.width),
                                  static_cast<GLsizei>(levels[level].size.height), 0,
                                  oglPixelFormat, oglPixelType, nullptr);
@@ -310,14 +316,14 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
@@ -370,14 +376,14 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
@@ -397,7 +403,9 @@ namespace ouzel
         bool TextureResourceOGL::reload()
         {
             textureId = 0;
+            depthTextureId = 0;
             frameBufferId = 0;
+            colorBufferId = 0;
             depthBufferId = 0;
 
             if (!createTexture())
@@ -423,14 +431,14 @@ namespace ouzel
                 {
                     if (!levels[level].data.empty())
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, levels[level].data.data());
                     }
                     else
                     {
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType, nullptr);
@@ -468,7 +476,8 @@ namespace ouzel
 
                 if (flags & Texture::RENDER_TARGET)
                 {
-                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
+                    // TODO: fix this by resizing all the render buffers and textures
+                    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
                                  width, height, 0,
                                  oglPixelFormat, oglPixelType, nullptr);
 
@@ -513,7 +522,7 @@ namespace ouzel
                     for (size_t level = 0; level < levels.size(); ++level)
                     {
                         // resize all the mip levels
-                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                        glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                      static_cast<GLsizei>(levels[level].size.width),
                                      static_cast<GLsizei>(levels[level].size.height), 0,
                                      oglPixelFormat, oglPixelType,
@@ -569,7 +578,7 @@ namespace ouzel
                         if (!levels[level].data.empty())
                         {
                             // resize and fill all the mip levels with data
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.width),
                                          static_cast<GLsizei>(levels[level].size.height), 0,
                                          oglPixelFormat, oglPixelType,
@@ -578,7 +587,7 @@ namespace ouzel
                         else
                         {
                             // resize all the mip levels
-                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), oglInternalPixelFormat,
+                            glTexImage2D(GL_TEXTURE_2D, static_cast<GLint>(level), static_cast<GLint>(oglInternalPixelFormat),
                                          static_cast<GLsizei>(levels[level].size.width),
                                          static_cast<GLsizei>(levels[level].size.height), 0,
                                          oglPixelFormat, oglPixelType,
@@ -810,6 +819,12 @@ namespace ouzel
                 depthBufferId = 0;
             }
 
+            if (colorBufferId)
+            {
+                renderDeviceOGL.deleteRenderBuffer(colorBufferId);
+                colorBufferId = 0;
+            }
+
             if (frameBufferId)
             {
                 renderDeviceOGL.deleteFrameBuffer(frameBufferId);
@@ -820,6 +835,12 @@ namespace ouzel
             {
                 renderDeviceOGL.deleteTexture(textureId);
                 textureId = 0;
+            }
+
+            if (depthTextureId)
+            {
+                renderDeviceOGL.deleteTexture(depthTextureId);
+                depthTextureId = 0;
             }
 
             glGenTextures(1, &textureId);
@@ -873,37 +894,80 @@ namespace ouzel
 
                 if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    renderDeviceOGL.bindTexture(textureId, 0);
-
-                    glTexImage2D(GL_TEXTURE_2D, 0, oglInternalPixelFormat,
-                                 width, height, 0,
-                                 oglPixelFormat, oglPixelType, nullptr);
-
-                    // TODO: blit multisample render buffer to texture
-                    glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
-
-                    if (flags & Texture::DEPTH_BUFFER)
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER)
                     {
-                        glGenRenderbuffersProc(1, &depthBufferId);
-                        glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+                        renderDeviceOGL.bindTexture(textureId, 0);
+
+                        glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(oglInternalPixelFormat),
+                                     width, height, 0,
+                                     oglPixelFormat, oglPixelType, nullptr);
+
+                        // TODO: blit multisample render buffer to texture
+                        glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
+                    }
+                    else
+                    {
+                        glGenRenderbuffersProc(1, &colorBufferId);
+                        glBindRenderbufferProc(GL_RENDERBUFFER, colorBufferId);
 
                         if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
                         {
                             glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
                                                                  static_cast<GLsizei>(sampleCount),
-                                                                 GL_DEPTH_COMPONENT,
+                                                                 oglInternalPixelFormat,
                                                                  width, height);
                         }
                         else
                         {
-                            glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                            glRenderbufferStorageProc(GL_RENDERBUFFER, oglInternalPixelFormat,
                                                       width, height);
                         }
 
-                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                        glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, depthBufferId);
+                    }
+
+                    if (flags & Texture::DEPTH_BUFFER)
+                    {
+                        if (flags & Texture::BINDABLE_DEPTH_BUFFER)
+                        {
+                            glGenTextures(1, &depthTextureId);
+
+                            renderDeviceOGL.bindTexture(depthTextureId, 0);
+
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24,
+                                         width, height, 0,GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+
+                            glFramebufferTexture2DProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+                        }
+                        else
+                        {
+                            glGenRenderbuffersProc(1, &depthBufferId);
+                            glBindRenderbufferProc(GL_RENDERBUFFER, depthBufferId);
+
+                            if (sampleCount > 1 && renderDeviceOGL.isMultisamplingSupported())
+                            {
+                                glRenderbufferStorageMultisampleProc(GL_RENDERBUFFER,
+                                                                     static_cast<GLsizei>(sampleCount),
+                                                                     GL_DEPTH_COMPONENT,
+                                                                     width, height);
+                            }
+                            else
+                            {
+                                glRenderbufferStorageProc(GL_RENDERBUFFER, GL_DEPTH_COMPONENT,
+                                                          width, height);
+                            }
+
+                            glFramebufferRenderbufferProc(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
+                        }
                     }
 
                     if (glCheckFramebufferStatusProc(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                    {
+                        Log(Log::Level::ERR) << "Failed to create frame buffer";
+                        return false;
+                    }
+
+                    if (RenderDeviceOGL::checkOpenGLError())
                     {
                         Log(Log::Level::ERR) << "Failed to create frame buffer";
                         return false;

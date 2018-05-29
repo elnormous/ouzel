@@ -79,11 +79,13 @@ namespace ouzel
 
             GLsizei width = 0;
             GLsizei height = 0;
-            GLint oglInternalPixelFormat = GL_NONE;
+            GLenum oglInternalPixelFormat = GL_NONE;
             GLenum oglPixelFormat = GL_NONE;
             GLenum oglPixelType = GL_NONE;
 
             GLuint frameBufferId = 0;
+            GLuint colorBufferId = 0;
+            GLuint depthTextureId = 0;
             GLuint depthBufferId = 0;
 
             GLbitfield clearMask = 0;

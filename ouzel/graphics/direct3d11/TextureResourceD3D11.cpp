@@ -367,24 +367,32 @@ namespace ouzel
                     return false;
                 }
 
-                D3D11_TEXTURE2D_DESC textureDesc;
-                textureDesc.Width = width;
-                textureDesc.Height = height;
-                textureDesc.MipLevels = static_cast<UINT>(levels.size());
-                textureDesc.ArraySize = 1;
-                textureDesc.Format = d3d11PixelFormat;
-                textureDesc.SampleDesc.Count = sampleCount;
-                textureDesc.SampleDesc.Quality = 0;
-                if (flags & Texture::RENDER_TARGET) textureDesc.Usage = D3D11_USAGE_DEFAULT;
-                else if (flags & Texture::DYNAMIC) textureDesc.Usage = D3D11_USAGE_DYNAMIC;
-                else textureDesc.Usage = D3D11_USAGE_IMMUTABLE;
-                textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | ((flags & Texture::RENDER_TARGET) ? D3D11_BIND_RENDER_TARGET : 0);
-                textureDesc.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
-                textureDesc.MiscFlags = 0;
+                D3D11_TEXTURE2D_DESC textureDescriptor;
+                textureDescriptor.Width = width;
+                textureDescriptor.Height = height;
+                textureDescriptor.MipLevels = static_cast<UINT>(levels.size());
+                textureDescriptor.ArraySize = 1;
+                textureDescriptor.Format = d3d11PixelFormat;
+                textureDescriptor.SampleDesc.Count = sampleCount;
+                textureDescriptor.SampleDesc.Quality = 0;
+                if (flags & Texture::RENDER_TARGET) textureDescriptor.Usage = D3D11_USAGE_DEFAULT;
+                else if (flags & Texture::DYNAMIC) textureDescriptor.Usage = D3D11_USAGE_DYNAMIC;
+                else textureDescriptor.Usage = D3D11_USAGE_IMMUTABLE;
+
+                if (flags & Texture::RENDER_TARGET)
+                {
+                    textureDescriptor.BindFlags = D3D11_BIND_RENDER_TARGET;
+                    if (flags & Texture::BINDABLE_COLOR_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+                }
+                else
+                    textureDescriptor.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+                textureDescriptor.CPUAccessFlags = (flags & Texture::DYNAMIC && !(flags & Texture::RENDER_TARGET)) ? D3D11_CPU_ACCESS_WRITE : 0;
+                textureDescriptor.MiscFlags = 0;
 
                 if (levels.empty() || flags & Texture::RENDER_TARGET)
                 {
-                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDesc, nullptr, &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &texture);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
@@ -402,7 +410,7 @@ namespace ouzel
                         subresourceData[level].SysMemSlicePitch = 0;
                     }
 
-                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDesc, subresourceData.data(), &texture);
+                    HRESULT hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&textureDescriptor, subresourceData.data(), &texture);
                     if (FAILED(hr))
                     {
                         Log(Log::Level::ERR) << "Failed to create Direct3D 11 texture, error: " << hr;
@@ -455,6 +463,8 @@ namespace ouzel
                         depthStencilDesc.SampleDesc.Quality = 0;
                         depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
                         depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                        if (flags & Texture::BINDABLE_DEPTH_BUFFER) textureDescriptor.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+
                         depthStencilDesc.CPUAccessFlags = 0;
                         depthStencilDesc.MiscFlags = 0;
                         hr = renderDeviceD3D11.getDevice()->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencilTexture);
