@@ -791,14 +791,14 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
 
-                        initShaderCommand->shader->init(initShaderCommand->pixelShader,
+                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
                                                         initShaderCommand->vertexShader,
                                                         initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->pixelShaderConstantInfo,
+                                                        initShaderCommand->fragmentShaderConstantInfo,
                                                         initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->pixelShaderDataAlignment,
+                                                        initShaderCommand->fragmentShaderDataAlignment,
                                                         initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->pixelShaderFunction,
+                                                        initShaderCommand->fragmentShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
 
                         break;
@@ -821,9 +821,9 @@ namespace ouzel
                         }
 
                         // pixel shader constants
-                        const std::vector<ShaderResourceMetal::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceMetal::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
-                        if (setShaderConstantsCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
@@ -831,22 +831,22 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < setShaderConstantsCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const ShaderResourceMetal::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = setShaderConstantsCommand->pixelShaderConstants[i];
+                            const ShaderResourceMetal::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
-                            if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
+                            if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
                             {
                                 Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                                 return false;
                             }
 
-                            shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                            shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
 
-                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getPixelShaderAlignment() - 1) /
-                                                       currentShader->getPixelShaderAlignment()) * currentShader->getPixelShaderAlignment(); // round up to nearest aligned pointer
+                        shaderConstantBuffer.offset = ((shaderConstantBuffer.offset + currentShader->getFragmentShaderAlignment() - 1) /
+                                                       currentShader->getFragmentShaderAlignment()) * currentShader->getFragmentShaderAlignment(); // round up to nearest aligned pointer
 
                         if (shaderConstantBuffer.offset + getVectorSize(shaderData) > BUFFER_SIZE)
                             shaderConstantBuffer.offset = 0;
@@ -1043,12 +1043,12 @@ namespace ouzel
 
                 if (desc.shader)
                 {
-                    assert(desc.shader->getPixelShader());
+                    assert(desc.shader->getFragmentShader());
                     assert(desc.shader->getVertexShader());
                     assert(desc.shader->getVertexDescriptor());
 
                     pipelineStateDescriptor.vertexFunction = desc.shader->getVertexShader();
-                    pipelineStateDescriptor.fragmentFunction = desc.shader->getPixelShader();
+                    pipelineStateDescriptor.fragmentFunction = desc.shader->getFragmentShader();
                     pipelineStateDescriptor.vertexDescriptor = desc.shader->getVertexDescriptor();
                 }
 

@@ -123,7 +123,7 @@ namespace ouzel
                                 uint32_t startIndex);
             bool addPushDebugMarkerCommand(const std::string& name);
             bool addPopDebugMarkerCommand();
-            bool addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,
+            bool addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
                                               std::vector<std::vector<float>> vertexShaderConstants);
             bool addSetTexturesCommand(const std::vector<std::shared_ptr<Texture>>& textures);
 

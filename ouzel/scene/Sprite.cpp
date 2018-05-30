@@ -218,8 +218,8 @@ namespace ouzel
                 Matrix4 modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
                 float colorVector[] = {material->diffuseColor.normR(), material->diffuseColor.normG(), material->diffuseColor.normB(), material->diffuseColor.normA() * opacity * material->opacity};
 
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                std::vector<std::vector<float>> fragmentShaderConstants(1);
+                fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
@@ -231,7 +231,7 @@ namespace ouzel
                 engine->getRenderer()->addSetCullModeCommad(material->cullMode);
                 engine->getRenderer()->addSetPipelineStateCommand(material->blendState,
                                                                   material->shader);
-                engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
+                engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
                                                                     vertexShaderConstants);
                 engine->getRenderer()->addSetTexturesCommand(textures);
 

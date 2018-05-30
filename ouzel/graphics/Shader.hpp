@@ -39,23 +39,23 @@ namespace ouzel
             Shader(Shader&&) = delete;
             Shader& operator=(Shader&&) = delete;
 
-            bool init(const std::vector<uint8_t>& newPixelShader,
+            bool init(const std::vector<uint8_t>& newFragmentShader,
                       const std::vector<uint8_t>& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newFragmentShaderDataAlignment = 0,
                       uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& pixelShaderFunction = "",
+                      const std::string& fragmentShaderFunction = "",
                       const std::string& vertexShaderFunction = "");
-            bool init(const std::string& newPixelShader,
+            bool init(const std::string& newFragmentShader,
                       const std::string& newVertexShader,
                       const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                      const std::vector<ConstantInfo>& newPixelShaderConstantInfo,
+                      const std::vector<ConstantInfo>& newFragmentShaderConstantInfo,
                       const std::vector<ConstantInfo>& newVertexShaderConstantInfo,
-                      uint32_t newPixelShaderDataAlignment = 0,
+                      uint32_t newFragmentShaderDataAlignment = 0,
                       uint32_t newVertexShaderDataAlignment = 0,
-                      const std::string& newPixelShaderFunction = "",
+                      const std::string& newFragmentShaderFunction = "",
                       const std::string& newVertexShaderFunction = "");
 
             inline ShaderResource* getResource() const { return resource; }
@@ -67,7 +67,7 @@ namespace ouzel
 
             std::set<Vertex::Attribute::Usage> vertexAttributes;
 
-            std::string pixelShaderFilename;
+            std::string fragmentShaderFilename;
             std::string vertexShaderFilename;
         };
     } // namespace graphics

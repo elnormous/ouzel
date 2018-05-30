@@ -1325,14 +1325,14 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
 
-                        initShaderCommand->shader->init(initShaderCommand->pixelShader,
+                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
                                                         initShaderCommand->vertexShader,
                                                         initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->pixelShaderConstantInfo,
+                                                        initShaderCommand->fragmentShaderConstantInfo,
                                                         initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->pixelShaderDataAlignment,
+                                                        initShaderCommand->fragmentShaderDataAlignment,
                                                         initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->pixelShaderFunction,
+                                                        initShaderCommand->fragmentShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
 
                         break;
@@ -1349,22 +1349,22 @@ namespace ouzel
                         }
 
                         // pixel shader constants
-                        const std::vector<ShaderResourceOGL::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceOGL::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
-                        if (setShaderConstantsCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
                         }
 
-                        for (size_t i = 0; i < setShaderConstantsCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const ShaderResourceOGL::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = setShaderConstantsCommand->pixelShaderConstants[i];
+                            const ShaderResourceOGL::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
-                            if (!setUniform(pixelShaderConstantLocation.location,
-                                            pixelShaderConstantLocation.dataType,
-                                            pixelShaderConstant.data()))
+                            if (!setUniform(fragmentShaderConstantLocation.location,
+                                            fragmentShaderConstantLocation.dataType,
+                                            fragmentShaderConstant.data()))
                             {
                                 return false;
                             }
