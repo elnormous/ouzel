@@ -630,11 +630,11 @@ namespace ouzel
 
                         if (shaderD3D11)
                         {
-                            assert(shaderD3D11->getPixelShader());
+                            assert(shaderD3D11->getFragmentShader());
                             assert(shaderD3D11->getVertexShader());
                             assert(shaderD3D11->getInputLayout());
 
-                            context->PSSetShader(shaderD3D11->getPixelShader(), nullptr, 0);
+                            context->PSSetShader(shaderD3D11->getFragmentShader(), nullptr, 0);
                             context->VSSetShader(shaderD3D11->getVertexShader(), nullptr, 0);
                             context->IASetInputLayout(shaderD3D11->getInputLayout());
                         }
@@ -755,14 +755,14 @@ namespace ouzel
                     {
                         const InitShaderCommand* initShaderCommand = static_cast<const InitShaderCommand*>(command);
 
-                        initShaderCommand->shader->init(initShaderCommand->pixelShader,
+                        initShaderCommand->shader->init(initShaderCommand->fragmentShader,
                                                         initShaderCommand->vertexShader,
                                                         initShaderCommand->vertexAttributes,
-                                                        initShaderCommand->pixelShaderConstantInfo,
+                                                        initShaderCommand->fragmentShaderConstantInfo,
                                                         initShaderCommand->vertexShaderConstantInfo,
-                                                        initShaderCommand->pixelShaderDataAlignment,
+                                                        initShaderCommand->fragmentShaderDataAlignment,
                                                         initShaderCommand->vertexShaderDataAlignment,
-                                                        initShaderCommand->pixelShaderFunction,
+                                                        initShaderCommand->fragmentShaderFunction,
                                                         initShaderCommand->vertexShaderFunction);
 
                         break;
@@ -779,9 +779,9 @@ namespace ouzel
                         }
 
                         // pixel shader constants
-                        const std::vector<ShaderResourceD3D11::Location>& pixelShaderConstantLocations = currentShader->getPixelShaderConstantLocations();
+                        const std::vector<ShaderResourceD3D11::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
-                        if (setShaderConstantsCommand->pixelShaderConstants.size() > pixelShaderConstantLocations.size())
+                        if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                         {
                             Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                             return false;
@@ -789,29 +789,29 @@ namespace ouzel
 
                         shaderData.clear();
 
-                        for (size_t i = 0; i < setShaderConstantsCommand->pixelShaderConstants.size(); ++i)
+                        for (size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const ShaderResourceD3D11::Location& pixelShaderConstantLocation = pixelShaderConstantLocations[i];
-                            const std::vector<float>& pixelShaderConstant = setShaderConstantsCommand->pixelShaderConstants[i];
+                            const ShaderResourceD3D11::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
-                            if (sizeof(float) * pixelShaderConstant.size() != pixelShaderConstantLocation.size)
+                            if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
                             {
                                 Log(Log::Level::ERR) << "Invalid pixel shader constant size";
                                 return false;
                             }
 
-                            shaderData.insert(shaderData.end(), pixelShaderConstant.begin(), pixelShaderConstant.end());
+                            shaderData.insert(shaderData.end(), fragmentShaderConstant.begin(), fragmentShaderConstant.end());
                         }
 
-                        if (!uploadBuffer(currentShader->getPixelShaderConstantBuffer(),
+                        if (!uploadBuffer(currentShader->getFragmentShaderConstantBuffer(),
                                         shaderData.data(),
                                         static_cast<uint32_t>(sizeof(float) * shaderData.size())))
                         {
                             return false;
                         }
 
-                        ID3D11Buffer* pixelShaderConstantBuffers[1] = {currentShader->getPixelShaderConstantBuffer()};
-                        context->PSSetConstantBuffers(0, 1, pixelShaderConstantBuffers);
+                        ID3D11Buffer* fragmentShaderConstantBuffers[1] = {currentShader->getFragmentShaderConstantBuffer()};
+                        context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
 
                         // vertex shader constants
                         const std::vector<ShaderResourceD3D11::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();

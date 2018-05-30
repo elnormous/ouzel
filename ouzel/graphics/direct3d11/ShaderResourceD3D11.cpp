@@ -89,8 +89,8 @@ namespace ouzel
 
         ShaderResourceD3D11::~ShaderResourceD3D11()
         {
-            if (pixelShader)
-                pixelShader->Release();
+            if (fragmentShader)
+                fragmentShader->Release();
 
             if (vertexShader)
                 vertexShader->Release();
@@ -98,39 +98,39 @@ namespace ouzel
             if (inputLayout)
                 inputLayout->Release();
 
-            if (pixelShaderConstantBuffer)
-                pixelShaderConstantBuffer->Release();
+            if (fragmentShaderConstantBuffer)
+                fragmentShaderConstantBuffer->Release();
 
             if (vertexShaderConstantBuffer)
                 vertexShaderConstantBuffer->Release();
         }
 
-        bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newPixelShader,
+        bool ShaderResourceD3D11::init(const std::vector<uint8_t>& newFragmentShader,
                                        const std::vector<uint8_t>& newVertexShader,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                       const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t newPixelShaderDataAlignment,
+                                       uint32_t newFragmentShaderDataAlignment,
                                        uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newPixelShaderFunction,
+                                       const std::string& newFragmentShaderFunction,
                                        const std::string& newVertexShaderFunction)
         {
-            if (!ShaderResource::init(newPixelShader,
+            if (!ShaderResource::init(newFragmentShader,
                                       newVertexShader,
                                       newVertexAttributes,
-                                      newPixelShaderConstantInfo,
+                                      newFragmentShaderConstantInfo,
                                       newVertexShaderConstantInfo,
-                                      newPixelShaderDataAlignment,
+                                      newFragmentShaderDataAlignment,
                                       newVertexShaderDataAlignment,
-                                      newPixelShaderFunction,
+                                      newFragmentShaderFunction,
                                       newVertexShaderFunction))
             {
                 return false;
             }
 
-            if (pixelShader) pixelShader->Release();
+            if (fragmentShader) fragmentShader->Release();
 
-            HRESULT hr = renderDeviceD3D11.getDevice()->CreatePixelShader(pixelShaderData.data(), pixelShaderData.size(), nullptr, &pixelShader);
+            HRESULT hr = renderDeviceD3D11.getDevice()->CreateFragmentShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
@@ -229,31 +229,31 @@ namespace ouzel
                 return false;
             }
 
-            if (!pixelShaderConstantInfo.empty())
+            if (!fragmentShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                fragmentShaderConstantLocations.clear();
+                fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                pixelShaderConstantSize = 0;
+                fragmentShaderConstantSize = 0;
 
-                for (const Shader::ConstantInfo& info : pixelShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                 {
-                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
-                    pixelShaderConstantSize += info.size;
+                    fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, info.size});
+                    fragmentShaderConstantSize += info.size;
                 }
             }
 
-            D3D11_BUFFER_DESC pixelShaderConstantBufferDesc;
-            pixelShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(pixelShaderConstantSize);
-            pixelShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-            pixelShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            pixelShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            pixelShaderConstantBufferDesc.MiscFlags = 0;
-            pixelShaderConstantBufferDesc.StructureByteStride = 0;
+            D3D11_BUFFER_DESC fragmentShaderConstantBufferDesc;
+            fragmentShaderConstantBufferDesc.ByteWidth = static_cast<UINT>(fragmentShaderConstantSize);
+            fragmentShaderConstantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+            fragmentShaderConstantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+            fragmentShaderConstantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+            fragmentShaderConstantBufferDesc.MiscFlags = 0;
+            fragmentShaderConstantBufferDesc.StructureByteStride = 0;
 
-            if (pixelShaderConstantBuffer) pixelShaderConstantBuffer->Release();
+            if (fragmentShaderConstantBuffer) fragmentShaderConstantBuffer->Release();
 
-            hr = renderDeviceD3D11.getDevice()->CreateBuffer(&pixelShaderConstantBufferDesc, nullptr, &pixelShaderConstantBuffer);
+            hr = renderDeviceD3D11.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr, &fragmentShaderConstantBuffer);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create Direct3D 11 constant buffer, error: " << hr;

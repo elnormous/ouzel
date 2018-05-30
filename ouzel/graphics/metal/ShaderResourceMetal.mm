@@ -22,20 +22,9 @@ namespace ouzel
 
         ShaderResourceMetal::~ShaderResourceMetal()
         {
-            if (vertexShader)
-            {
-                [vertexShader release];
-            }
-
-            if (pixelShader)
-            {
-                [pixelShader release];
-            }
-
-            if (vertexDescriptor)
-            {
-                [vertexDescriptor release];
-            }
+            if (vertexShader) [vertexShader release];
+            if (fragmentShader) [fragmentShader release];
+            if (vertexDescriptor) [vertexDescriptor release];
         }
 
         static MTLVertexFormat getVertexFormat(DataType dataType)
@@ -107,24 +96,24 @@ namespace ouzel
             return MTLVertexFormatInvalid;
         }
 
-        bool ShaderResourceMetal::init(const std::vector<uint8_t>& newPixelShader,
+        bool ShaderResourceMetal::init(const std::vector<uint8_t>& newFragmentShader,
                                        const std::vector<uint8_t>& newVertexShader,
                                        const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                       const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                       const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                        const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                       uint32_t newPixelShaderDataAlignment,
+                                       uint32_t newFragmentShaderDataAlignment,
                                        uint32_t newVertexShaderDataAlignment,
-                                       const std::string& newPixelShaderFunction,
+                                       const std::string& newFragmentShaderFunction,
                                        const std::string& newVertexShaderFunction)
         {
-            if (!ShaderResource::init(newPixelShader,
+            if (!ShaderResource::init(newFragmentShader,
                                       newVertexShader,
                                       newVertexAttributes,
-                                      newPixelShaderConstantInfo,
+                                      newFragmentShaderConstantInfo,
                                       newVertexShaderConstantInfo,
-                                      newPixelShaderDataAlignment,
+                                      newFragmentShaderDataAlignment,
                                       newVertexShaderDataAlignment,
-                                      newPixelShaderFunction,
+                                      newFragmentShaderFunction,
                                       newVertexShaderFunction))
             {
                 return false;
@@ -162,40 +151,40 @@ namespace ouzel
 
             NSError* err;
 
-            dispatch_data_t pixelShaderDispatchData = dispatch_data_create(pixelShaderData.data(), pixelShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-            id<MTLLibrary> pixelShaderLibrary = [renderDeviceMetal.getDevice() newLibraryWithData:pixelShaderDispatchData error:&err];
-            dispatch_release(pixelShaderDispatchData);
+            dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            id<MTLLibrary> fragmentShaderLibrary = [renderDeviceMetal.getDevice() newLibraryWithData:fragmentShaderDispatchData error:&err];
+            dispatch_release(fragmentShaderDispatchData);
 
-            if (!pixelShaderLibrary || err != nil)
+            if (!fragmentShaderLibrary || err != nil)
             {
-                if (pixelShaderLibrary) [pixelShaderLibrary release];
+                if (fragmentShaderLibrary) [fragmentShaderLibrary release];
                 Log(Log::Level::ERR) << "Failed to load pixel shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
                 return false;
             }
 
-            if (pixelShader) [pixelShader release];
+            if (fragmentShader) [fragmentShader release];
 
-            pixelShader = [pixelShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:pixelShaderFunction.c_str()])];
+            fragmentShader = [fragmentShaderLibrary newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
 
-            [pixelShaderLibrary release];
+            [fragmentShaderLibrary release];
 
-            if (!pixelShader || err != nil)
+            if (!fragmentShader || err != nil)
             {
                 Log(Log::Level::ERR) << "Failed to get function from shader, " << (err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error");
                 return false;
             }
 
-            if (!pixelShaderConstantInfo.empty())
+            if (!fragmentShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                fragmentShaderConstantLocations.clear();
+                fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                pixelShaderConstantSize = 0;
+                fragmentShaderConstantSize = 0;
 
-                for (const Shader::ConstantInfo& info : pixelShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                 {
-                    pixelShaderConstantLocations.push_back({pixelShaderConstantSize, info.size});
-                    pixelShaderConstantSize += info.size;
+                    fragmentShaderConstantLocations.push_back({fragmentShaderConstantSize, info.size});
+                    fragmentShaderConstantSize += info.size;
                 }
             }
 

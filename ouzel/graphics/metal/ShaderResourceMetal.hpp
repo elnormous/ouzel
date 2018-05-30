@@ -31,14 +31,14 @@ namespace ouzel
             explicit ShaderResourceMetal(RenderDeviceMetal& initRenderDeviceMetal);
             virtual ~ShaderResourceMetal();
 
-            virtual bool init(const std::vector<uint8_t>& newPixelShader,
+            virtual bool init(const std::vector<uint8_t>& newFragmentShader,
                               const std::vector<uint8_t>& newVertexShader,
                               const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                              const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                               const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                              uint32_t newPixelShaderDataAlignment = 0,
+                              uint32_t newFragmentShaderDataAlignment = 0,
                               uint32_t newVertexShaderDataAlignment = 0,
-                              const std::string& newPixelShaderFunction = "",
+                              const std::string& newFragmentShaderFunction = "",
                               const std::string& newVertexShaderFunction = "") override;
 
             struct Location
@@ -47,27 +47,27 @@ namespace ouzel
                 uint32_t size;
             };
 
-            inline const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            inline MTLFunctionPtr getPixelShader() const { return pixelShader; }
+            inline MTLFunctionPtr getFragmentShader() const { return fragmentShader; }
             inline MTLFunctionPtr getVertexShader() const { return vertexShader; }
 
             inline MTLVertexDescriptorPtr getVertexDescriptor() const { return vertexDescriptor;  }
 
-            inline uint32_t getPixelShaderConstantBufferSize() const { return pixelShaderConstantSize; }
+            inline uint32_t getFragmentShaderConstantBufferSize() const { return fragmentShaderConstantSize; }
             inline uint32_t getVertexShaderConstantBufferSize() const { return vertexShaderConstantSize; }
 
         private:
             RenderDeviceMetal& renderDeviceMetal;
 
-            MTLFunctionPtr pixelShader = nil;
+            MTLFunctionPtr fragmentShader = nil;
             MTLFunctionPtr vertexShader = nil;
 
             MTLVertexDescriptorPtr vertexDescriptor = nil;
 
-            std::vector<Location> pixelShaderConstantLocations;
-            uint32_t pixelShaderConstantSize = 0;
+            std::vector<Location> fragmentShaderConstantLocations;
+            uint32_t fragmentShaderConstantSize = 0;
             std::vector<Location> vertexShaderConstantLocations;
             uint32_t vertexShaderConstantSize = 0;
         };

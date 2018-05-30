@@ -47,15 +47,15 @@ namespace ouzel
 
             for (const DrawCommand& drawCommand : drawCommands)
             {
-                std::vector<std::vector<float>> pixelShaderConstants(1);
-                pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
+                std::vector<std::vector<float>> fragmentShaderConstants(1);
+                fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
                 std::vector<std::vector<float>> vertexShaderConstants(1);
                 vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
 
                 engine->getRenderer()->addSetCullModeCommad(graphics::Renderer::CullMode::NONE);
                 engine->getRenderer()->addSetPipelineStateCommand(blendState, shader);
-                engine->getRenderer()->addSetShaderConstantsCommand(pixelShaderConstants,
+                engine->getRenderer()->addSetShaderConstantsCommand(fragmentShaderConstants,
                                                                     vertexShaderConstants);
                 engine->getRenderer()->addDrawCommand(indexBuffer,
                                                       drawCommand.indexCount,

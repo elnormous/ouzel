@@ -294,52 +294,52 @@ namespace ouzel
         struct InitShaderCommand: public Command
         {
             InitShaderCommand(ShaderResource* initShader,
-                              const std::vector<uint8_t>& initPixelShader,
+                              const std::vector<uint8_t>& initFragmentShader,
                               const std::vector<uint8_t>& initVertexShader,
                               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& initPixelShaderConstantInfo,
+                              const std::vector<Shader::ConstantInfo>& initFragmentShaderConstantInfo,
                               const std::vector<Shader::ConstantInfo>& initVertexShaderConstantInfo,
-                              uint32_t initPixelShaderDataAlignment,
+                              uint32_t initFragmentShaderDataAlignment,
                               uint32_t initVertexShaderDataAlignment,
-                              const std::string& initPixelShaderFunction,
+                              const std::string& initFragmentShaderFunction,
                               const std::string& initVertexShaderFunction):
                 Command(Command::Type::INIT_SHADER),
                 shader(initShader),
-                pixelShader(initPixelShader),
+                fragmentShader(initFragmentShader),
                 vertexShader(initVertexShader),
                 vertexAttributes(initVertexAttributes),
-                pixelShaderConstantInfo(initPixelShaderConstantInfo),
+                fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
                 vertexShaderConstantInfo(initVertexShaderConstantInfo),
-                pixelShaderDataAlignment(initPixelShaderDataAlignment),
+                fragmentShaderDataAlignment(initFragmentShaderDataAlignment),
                 vertexShaderDataAlignment(initVertexShaderDataAlignment),
-                pixelShaderFunction(initPixelShaderFunction),
+                fragmentShaderFunction(initFragmentShaderFunction),
                 vertexShaderFunction(initVertexShaderFunction)
             {
             }
 
             ShaderResource* shader;
-            std::vector<uint8_t> pixelShader;
+            std::vector<uint8_t> fragmentShader;
             std::vector<uint8_t> vertexShader;
             std::set<Vertex::Attribute::Usage> vertexAttributes;
-            std::vector<Shader::ConstantInfo> pixelShaderConstantInfo;
+            std::vector<Shader::ConstantInfo> fragmentShaderConstantInfo;
             std::vector<Shader::ConstantInfo> vertexShaderConstantInfo;
-            uint32_t pixelShaderDataAlignment;
+            uint32_t fragmentShaderDataAlignment;
             uint32_t vertexShaderDataAlignment;
-            std::string pixelShaderFunction;
+            std::string fragmentShaderFunction;
             std::string vertexShaderFunction;
         };
 
         struct SetShaderConstantsCommand: public Command
         {
-            SetShaderConstantsCommand(std::vector<std::vector<float>> initPixelShaderConstants,
+            SetShaderConstantsCommand(std::vector<std::vector<float>> initFragmentShaderConstants,
                                       std::vector<std::vector<float>> initVertexShaderConstants):
                 Command(Command::Type::SET_SHADER_CONSTANTS),
-                pixelShaderConstants(initPixelShaderConstants),
+                fragmentShaderConstants(initFragmentShaderConstants),
                 vertexShaderConstants(initVertexShaderConstants)
             {
             }
 
-            std::vector<std::vector<float>> pixelShaderConstants;
+            std::vector<std::vector<float>> fragmentShaderConstants;
             std::vector<std::vector<float>> vertexShaderConstants;
         };
 

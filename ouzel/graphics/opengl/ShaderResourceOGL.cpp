@@ -22,27 +22,27 @@ namespace ouzel
         {
             if (programId) renderDeviceOGL.deleteProgram(programId);
             if (vertexShaderId) glDeleteShaderProc(vertexShaderId);
-            if (pixelShaderId) glDeleteShaderProc(pixelShaderId);
+            if (fragmentShaderId) glDeleteShaderProc(fragmentShaderId);
         }
 
-        bool ShaderResourceOGL::init(const std::vector<uint8_t>& newPixelShader,
+        bool ShaderResourceOGL::init(const std::vector<uint8_t>& newFragmentShader,
                                      const std::vector<uint8_t>& newVertexShader,
                                      const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                     const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                     const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                      const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                     uint32_t newPixelShaderDataAlignment,
+                                     uint32_t newFragmentShaderDataAlignment,
                                      uint32_t newVertexShaderDataAlignment,
-                                     const std::string& newPixelShaderFunction,
+                                     const std::string& newFragmentShaderFunction,
                                      const std::string& newVertexShaderFunction)
         {
-            if (!ShaderResource::init(newPixelShader,
+            if (!ShaderResource::init(newFragmentShader,
                                       newVertexShader,
                                       newVertexAttributes,
-                                      newPixelShaderConstantInfo,
+                                      newFragmentShaderConstantInfo,
                                       newVertexShaderConstantInfo,
-                                      newPixelShaderDataAlignment,
+                                      newFragmentShaderDataAlignment,
                                       newVertexShaderDataAlignment,
-                                      newPixelShaderFunction,
+                                      newFragmentShaderFunction,
                                       newVertexShaderFunction))
             {
                 return false;
@@ -60,10 +60,10 @@ namespace ouzel
                 vertexShaderId = 0;
             }
 
-            if (pixelShaderId)
+            if (fragmentShaderId)
             {
-                glDeleteShaderProc(pixelShaderId);
-                pixelShaderId = 0;
+                glDeleteShaderProc(fragmentShaderId);
+                fragmentShaderId = 0;
             }
 
             return compileShader();
@@ -71,7 +71,7 @@ namespace ouzel
 
         bool ShaderResourceOGL::reload()
         {
-            pixelShaderId = 0;
+            fragmentShaderId = 0;
             vertexShaderId = 0;
             programId = 0;
 
@@ -108,20 +108,20 @@ namespace ouzel
 
         bool ShaderResourceOGL::compileShader()
         {
-            pixelShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
+            fragmentShaderId = glCreateShaderProc(GL_FRAGMENT_SHADER);
 
-            const GLchar* pixelShaderBuffer = reinterpret_cast<const GLchar*>(pixelShaderData.data());
-            GLint pixelShaderSize = static_cast<GLint>(pixelShaderData.size());
+            const GLchar* fragmentShaderBuffer = reinterpret_cast<const GLchar*>(fragmentShaderData.data());
+            GLint fragmentShaderSize = static_cast<GLint>(fragmentShaderData.size());
 
-            glShaderSourceProc(pixelShaderId, 1, &pixelShaderBuffer, &pixelShaderSize);
-            glCompileShaderProc(pixelShaderId);
+            glShaderSourceProc(fragmentShaderId, 1, &fragmentShaderBuffer, &fragmentShaderSize);
+            glCompileShaderProc(fragmentShaderId);
 
             GLint status;
-            glGetShaderivProc(pixelShaderId, GL_COMPILE_STATUS, &status);
+            glGetShaderivProc(fragmentShaderId, GL_COMPILE_STATUS, &status);
             if (status == GL_FALSE)
             {
                 Log(Log::Level::ERR) << "Failed to compile pixel shader";
-                printShaderMessage(pixelShaderId);
+                printShaderMessage(fragmentShaderId);
                 return false;
             }
 
@@ -147,7 +147,7 @@ namespace ouzel
             programId = glCreateProgramProc();
 
             glAttachShaderProc(programId, vertexShaderId);
-            glAttachShaderProc(programId, pixelShaderId);
+            glAttachShaderProc(programId, fragmentShaderId);
 
             GLuint index = 0;
 
@@ -219,9 +219,9 @@ namespace ouzel
             glDeleteShaderProc(vertexShaderId);
             vertexShaderId = 0;
 
-            glDetachShaderProc(programId, pixelShaderId);
-            glDeleteShaderProc(pixelShaderId);
-            pixelShaderId = 0;
+            glDetachShaderProc(programId, fragmentShaderId);
+            glDeleteShaderProc(fragmentShaderId);
+            fragmentShaderId = 0;
 
             if (RenderDeviceOGL::checkOpenGLError())
                 return false;
@@ -237,12 +237,12 @@ namespace ouzel
             if (RenderDeviceOGL::checkOpenGLError())
                 return false;
 
-            if (!pixelShaderConstantInfo.empty())
+            if (!fragmentShaderConstantInfo.empty())
             {
-                pixelShaderConstantLocations.clear();
-                pixelShaderConstantLocations.reserve(pixelShaderConstantInfo.size());
+                fragmentShaderConstantLocations.clear();
+                fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-                for (const Shader::ConstantInfo& info : pixelShaderConstantInfo)
+                for (const Shader::ConstantInfo& info : fragmentShaderConstantInfo)
                 {
                     GLint location = glGetUniformLocationProc(programId, info.name.c_str());
 
@@ -252,7 +252,7 @@ namespace ouzel
                         return false;
                     }
 
-                    pixelShaderConstantLocations.push_back({location, info.dataType});
+                    fragmentShaderConstantLocations.push_back({location, info.dataType});
                 }
             }
 

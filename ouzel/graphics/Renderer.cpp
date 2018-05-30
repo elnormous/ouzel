@@ -338,10 +338,10 @@ namespace ouzel
             return device->addCommand(PopDebugMarkerCommand());
         }
 
-        bool Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> pixelShaderConstants,
+        bool Renderer::addSetShaderConstantsCommand(std::vector<std::vector<float>> fragmentShaderConstants,
                                                     std::vector<std::vector<float>> vertexShaderConstants)
         {
-            return device->addCommand(SetShaderConstantsCommand(pixelShaderConstants,
+            return device->addCommand(SetShaderConstantsCommand(fragmentShaderConstants,
                                                                 vertexShaderConstants));
         }
 

@@ -33,14 +33,14 @@ namespace ouzel
             explicit ShaderResourceOGL(RenderDeviceOGL& initRenderDeviceOGL);
             virtual ~ShaderResourceOGL();
 
-            virtual bool init(const std::vector<uint8_t>& newPixelShader,
+            virtual bool init(const std::vector<uint8_t>& newFragmentShader,
                               const std::vector<uint8_t>& newVertexShader,
                               const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                              const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                              const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                               const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                              uint32_t newPixelShaderDataAlignment = 0,
+                              uint32_t newFragmentShaderDataAlignment = 0,
                               uint32_t newVertexShaderDataAlignment = 0,
-                              const std::string& newPixelShaderFunction = "",
+                              const std::string& newFragmentShaderFunction = "",
                               const std::string& newVertexShaderFunction = "") override;
 
             virtual bool reload() override;
@@ -51,7 +51,7 @@ namespace ouzel
                 DataType dataType;
             };
 
-            inline const std::vector<Location>& getPixelShaderConstantLocations() const { return pixelShaderConstantLocations; }
+            inline const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             inline const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
             inline GLuint getProgramId() const { return programId; }
@@ -63,11 +63,11 @@ namespace ouzel
 
             RenderDeviceOGL& renderDeviceOGL;
 
-            GLuint pixelShaderId = 0;
+            GLuint fragmentShaderId = 0;
             GLuint vertexShaderId = 0;
             GLuint programId = 0;
 
-            std::vector<Location> pixelShaderConstantLocations;
+            std::vector<Location> fragmentShaderConstantLocations;
             std::vector<Location> vertexShaderConstantLocations;
         };
     } // namespace graphics

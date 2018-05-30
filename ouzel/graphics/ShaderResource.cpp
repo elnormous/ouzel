@@ -15,34 +15,32 @@ namespace ouzel
         {
         }
 
-        bool ShaderResource::init(const std::vector<uint8_t>& newPixelShader,
+        bool ShaderResource::init(const std::vector<uint8_t>& newFragmentShader,
                                   const std::vector<uint8_t>& newVertexShader,
                                   const std::set<Vertex::Attribute::Usage>& newVertexAttributes,
-                                  const std::vector<Shader::ConstantInfo>& newPixelShaderConstantInfo,
+                                  const std::vector<Shader::ConstantInfo>& newFragmentShaderConstantInfo,
                                   const std::vector<Shader::ConstantInfo>& newVertexShaderConstantInfo,
-                                  uint32_t newPixelShaderDataAlignment,
+                                  uint32_t newFragmentShaderDataAlignment,
                                   uint32_t newVertexShaderDataAlignment,
-                                  const std::string& newPixelShaderFunction,
+                                  const std::string& newFragmentShaderFunction,
                                   const std::string& newVertexShaderFunction)
         {
-            pixelShaderData = newPixelShader;
+            fragmentShaderData = newFragmentShader;
             vertexShaderData = newVertexShader;
             vertexAttributes = newVertexAttributes;
-            pixelShaderConstantInfo = newPixelShaderConstantInfo;
+            fragmentShaderConstantInfo = newFragmentShaderConstantInfo;
             vertexShaderConstantInfo = newVertexShaderConstantInfo;
 
-            if (newPixelShaderDataAlignment)
+            if (newFragmentShaderDataAlignment)
             {
-                pixelShaderAlignment = newPixelShaderDataAlignment;
+                fragmentShaderAlignment = newFragmentShaderDataAlignment;
             }
             else
             {
-                pixelShaderAlignment = 0;
+                fragmentShaderAlignment = 0;
 
-                for (const Shader::ConstantInfo& info : newPixelShaderConstantInfo)
-                {
-                    pixelShaderAlignment += info.size;
-                }
+                for (const Shader::ConstantInfo& info : newFragmentShaderConstantInfo)
+                    fragmentShaderAlignment += info.size;
             }
 
             if (newVertexShaderDataAlignment)
@@ -59,7 +57,7 @@ namespace ouzel
                 }
             }
 
-            pixelShaderFunction = newPixelShaderFunction;
+            fragmentShaderFunction = newFragmentShaderFunction;
             vertexShaderFunction = newVertexShaderFunction;
 
             return  true;
