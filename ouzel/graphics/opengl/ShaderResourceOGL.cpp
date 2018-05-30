@@ -126,9 +126,7 @@ namespace ouzel
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
                 return false;
-            }
 
             vertexShaderId = glCreateShaderProc(GL_VERTEX_SHADER);
 
@@ -215,9 +213,7 @@ namespace ouzel
             }
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
                 return false;
-            }
 
             glDetachShaderProc(programId, vertexShaderId);
             glDeleteShaderProc(vertexShaderId);
@@ -228,9 +224,7 @@ namespace ouzel
             pixelShaderId = 0;
 
             if (RenderDeviceOGL::checkOpenGLError())
-            {
                 return false;
-            }
 
             renderDeviceOGL.useProgram(programId);
 
