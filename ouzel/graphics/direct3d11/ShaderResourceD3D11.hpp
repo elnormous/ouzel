@@ -42,7 +42,7 @@ namespace ouzel
             const std::vector<Location>& getFragmentShaderConstantLocations() const { return fragmentShaderConstantLocations; }
             const std::vector<Location>& getVertexShaderConstantLocations() const { return vertexShaderConstantLocations; }
 
-            ID3D11PixelShader* getFragmentShader() const { return fragmenShader; }
+            ID3D11PixelShader* getFragmentShader() const { return fragmentShader; }
             ID3D11VertexShader* getVertexShader() const { return vertexShader; }
 
             ID3D11Buffer* getFragmentShaderConstantBuffer() const { return fragmentShaderConstantBuffer; }
@@ -52,7 +52,7 @@ namespace ouzel
         private:
             RenderDeviceD3D11& renderDeviceD3D11;
 
-            ID3D11PixelShader* fragmenShader = nullptr;
+            ID3D11PixelShader* fragmentShader = nullptr;
             ID3D11VertexShader* vertexShader = nullptr;
             ID3D11InputLayout* inputLayout = nullptr;
 
