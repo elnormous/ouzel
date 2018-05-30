@@ -130,7 +130,7 @@ namespace ouzel
 
             if (fragmentShader) fragmentShader->Release();
 
-            HRESULT hr = renderDeviceD3D11.getDevice()->CreateFragmentShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader);
+            HRESULT hr = renderDeviceD3D11.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &fragmentShader);
             if (FAILED(hr))
             {
                 Log(Log::Level::ERR) << "Failed to create a Direct3D 11 pixel shader, error: " << hr;
