@@ -142,20 +142,14 @@ namespace ouzel
 
         const Matrix4& Camera::getViewProjection() const
         {
-            if (viewProjectionDirty)
-            {
-                calculateViewProjection();
-            }
+            if (viewProjectionDirty) calculateViewProjection();
 
             return viewProjection;
         }
 
         const Matrix4& Camera::getRenderViewProjection() const
         {
-            if (viewProjectionDirty)
-            {
-                calculateViewProjection();
-            }
+            if (viewProjectionDirty) calculateViewProjection();
 
             return renderViewProjection;
         }
@@ -179,9 +173,7 @@ namespace ouzel
             {
                 viewProjection = projection * actor->getInverseTransform();
 
-                renderViewProjection = viewProjection;
-
-                renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * renderViewProjection;
+                renderViewProjection = engine->getRenderer()->getDevice()->getProjectionTransform(renderTarget != nullptr) * viewProjection;
 
                 viewProjectionDirty = false;
             }
