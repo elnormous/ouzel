@@ -14,13 +14,6 @@ namespace ouzel
     class Vector2
     {
     public:
-        static const Vector2 ZERO;
-        static const Vector2 ONE;
-        static const Vector2 UNIT_X;
-        static const Vector2 UNIT_Y;
-        static const Vector2 NEGATIVE_UNIT_X;
-        static const Vector2 NEGATIVE_UNIT_Y;
-
         float x = 0.0F;
         float y = 0.0F;
 

@@ -29,11 +29,6 @@ namespace ouzel
         {
         }
 
-        static Quaternion zero()
-        {
-            return Quaternion(0.0F, 0.0F, 0.0F, 0.0F);
-        }
-
         static Quaternion identity()
         {
             return Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
@@ -209,17 +204,17 @@ namespace ouzel
 
         inline Vector3 getRightVector() const
         {
-            return rotateVector(Vector3::UNIT_X);
+            return rotateVector(Vector3(1.0F, 0.0F, 0.0F));
         }
 
         inline Vector3 getUpVector() const
         {
-            return rotateVector(Vector3::UNIT_Y);
+            return rotateVector(Vector3(0.0F, 1.0F, 0.0F));
         }
 
         inline Vector3 getForwardVector() const
         {
-            return rotateVector(Vector3::UNIT_Z);
+            return rotateVector(Vector3(0.0F, 0.0F, 1.0F));
         }
 
         Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, float t)
