@@ -249,7 +249,7 @@ namespace ouzel
                         if (objectCount)
                         {
                             scene::ModelData modelData;
-                            modelData.init(boundingBox, indices, vertices, material);
+                            if (!modelData.init(boundingBox, indices, vertices, material)) return false;
                             engine->getCache()->setModelData(name, modelData);
                         }
 
@@ -383,22 +383,28 @@ namespace ouzel
                                 return false;
                             }
 
+                            uint32_t index = 0;
+
                             auto vertexIterator = vertexMap.find(i);
                             if (vertexIterator != vertexMap.end())
                             {
-                                vertexIndices.push_back(vertexIterator->second);
+                                index = vertexIterator->second;
                             }
                             else
                             {
+                                index = static_cast<uint32_t>(vertices.size());
+                                vertexMap[i] = index;
+
                                 graphics::Vertex vertex;
                                 vertex.position = positions[std::get<0>(i)];
                                 vertex.texCoords[0] = texCoords[std::get<1>(i)];
                                 vertex.color = Color::WHITE;
                                 vertex.normal = normals[std::get<2>(i)];
-                                vertexIndices.push_back(static_cast<uint32_t>(vertices.size()));
                                 vertices.push_back(vertex);
                                 boundingBox.insertPoint(vertex.position);
                             }
+
+                            vertexIndices.push_back(index);
                         }
 
                         if (vertexIndices.size() < 3)
@@ -434,7 +440,7 @@ namespace ouzel
             if (objectCount)
             {
                 scene::ModelData modelData;
-                modelData.init(boundingBox, indices, vertices, material);
+                if (!modelData.init(boundingBox, indices, vertices, material)) return false;
                 engine->getCache()->setModelData(name, modelData);
             }
 

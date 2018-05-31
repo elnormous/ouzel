@@ -1254,7 +1254,6 @@ namespace ouzel
                                 return false;
                         }
 
-
                         glDrawElements(mode,
                                        static_cast<GLsizei>(drawCommand->indexCount),
                                        indexType,
