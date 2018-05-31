@@ -8,6 +8,7 @@
 #include <map>
 #include "assets/LoaderBMF.hpp"
 #include "assets/LoaderCollada.hpp"
+#include "assets/LoaderGLTF.hpp"
 #include "assets/LoaderImage.hpp"
 #include "assets/LoaderMTL.hpp"
 #include "assets/LoaderOBJ.hpp"
@@ -98,6 +99,7 @@ namespace ouzel
 
             LoaderBMF loaderBMF;
             LoaderCollada loaderCollada;
+            LoaderGLTF loaderGLTF;
             LoaderImage loaderImage;
             LoaderMTL loaderMTL;
             LoaderOBJ loaderOBJ;

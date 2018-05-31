@@ -31,6 +31,7 @@
     <ClCompile Include="..\ouzel\animators\Shake.cpp" />
     <ClCompile Include="..\ouzel\assets\LoaderBMF.cpp" />
     <ClCompile Include="..\ouzel\assets\LoaderCollada.cpp" />
+    <ClCompile Include="..\ouzel\assets\LoaderGLTF.cpp" />
     <ClCompile Include="..\ouzel\assets\LoaderImage.cpp" />
     <ClCompile Include="..\ouzel\assets\LoaderMTL.cpp" />
     <ClCompile Include="..\ouzel\assets\LoaderOBJ.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="..\ouzel\animators\Shake.hpp" />
     <ClInclude Include="..\ouzel\assets\LoaderBMF.hpp" />
     <ClInclude Include="..\ouzel\assets\LoaderCollada.hpp" />
+    <ClInclude Include="..\ouzel\assets\LoaderGLTF.hpp" />
     <ClInclude Include="..\ouzel\assets\LoaderImage.hpp" />
     <ClInclude Include="..\ouzel\assets\LoaderMTL.hpp" />
     <ClInclude Include="..\ouzel\assets\LoaderOBJ.hpp" />

@@ -17,6 +17,7 @@
 #include "assets/Loader.hpp"
 #include "assets/LoaderBMF.hpp"
 #include "assets/LoaderCollada.hpp"
+#include "assets/LoaderGLTF.hpp"
 #include "assets/LoaderImage.hpp"
 #include "assets/LoaderMTL.hpp"
 #include "assets/LoaderOBJ.hpp"
