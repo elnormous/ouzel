@@ -14,15 +14,6 @@ namespace ouzel
     class Vector3
     {
     public:
-        static const Vector3 ZERO;
-        static const Vector3 ONE;
-        static const Vector3 UNIT_X;
-        static const Vector3 UNIT_Y;
-        static const Vector3 UNIT_Z;
-        static const Vector3 NEGATIVE_UNIT_X;
-        static const Vector3 NEGATIVE_UNIT_Y;
-        static const Vector3 NEGATIVE_UNIT_Z;
-
         float x = 0.0F;
         float y = 0.0F;
         float z = 0.0F;

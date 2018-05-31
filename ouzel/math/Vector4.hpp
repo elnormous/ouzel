@@ -19,15 +19,6 @@ namespace ouzel
     class Vector4
     {
     public:
-        static const Vector4 ZERO;
-        static const Vector4 ONE;
-        static const Vector4 UNIT_X;
-        static const Vector4 UNIT_Y;
-        static const Vector4 UNIT_Z;
-        static const Vector4 NEGATIVE_UNIT_X;
-        static const Vector4 NEGATIVE_UNIT_Y;
-        static const Vector4 NEGATIVE_UNIT_Z;
-
 #if OUZEL_SUPPORTS_SSE
 #ifdef _MSC_VER
 #pragma warning(push)

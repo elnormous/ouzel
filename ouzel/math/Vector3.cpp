@@ -12,15 +12,6 @@
 
 namespace ouzel
 {
-    const Vector3 Vector3::ZERO(0.0F, 0.0F, 0.0F);
-    const Vector3 Vector3::ONE(1.0F, 1.0F, 1.0F);
-    const Vector3 Vector3::UNIT_X(1.0F, 0.0F, 0.0F);
-    const Vector3 Vector3::UNIT_Y(0.0F, 1.0F, 0.0F);
-    const Vector3 Vector3::UNIT_Z(0.0F, 0.0F, 1.0F);
-    const Vector3 Vector3::NEGATIVE_UNIT_X(-1.0F, 0.0F, 0.0F);
-    const Vector3 Vector3::NEGATIVE_UNIT_Y(0.0F, -1.0F, 0.0F);
-    const Vector3 Vector3::NEGATIVE_UNIT_Z(0.0F, 0.0F, -1.0F);
-
     Vector3::Vector3(const Vector2& vec):
         x(vec.x), y(vec.y)
     {

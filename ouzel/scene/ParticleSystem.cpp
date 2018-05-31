@@ -418,11 +418,11 @@ namespace ouzel
 
                 if (particleSystemData.positionType == ParticleSystemData::PositionType::FREE)
                 {
-                    position = actor->convertLocalToWorld(Vector2::ZERO);
+                    position = actor->convertLocalToWorld(Vector2());
                 }
                 else if (particleSystemData.positionType == ParticleSystemData::PositionType::PARENT)
                 {
-                    position = actor->convertLocalToWorld(Vector2::ZERO) - actor->getPosition();
+                    position = actor->convertLocalToWorld(Vector2()) - actor->getPosition();
                 }
 
                 for (uint32_t i = particleCount; i < particleCount + count; ++i)
