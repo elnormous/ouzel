@@ -13,7 +13,7 @@ namespace ouzel
 {
     namespace scene
     {
-        class ModelData
+        class MeshData
         {
         public:
             bool init(Box3 newBoundingBox,

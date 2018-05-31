@@ -30,7 +30,7 @@ private:
     ouzel::scene::Actor character;
     ouzel::audio::Sound jumpSound;
 
-    ouzel::scene::ModelRenderer boxModel;
+    ouzel::scene::MeshRenderer boxModel;
     ouzel::scene::Actor box;
 
     std::unique_ptr<ouzel::scene::Animator> rotate;

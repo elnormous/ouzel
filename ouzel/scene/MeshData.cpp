@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Elviss Strazdins
 // This file is part of the Ouzel engine.
 
-#include "ModelData.hpp"
+#include "MeshData.hpp"
 #include "core/Engine.hpp"
 #include "utils/Utils.hpp"
 
@@ -9,7 +9,7 @@ namespace ouzel
 {
     namespace scene
     {
-        bool ModelData::init(Box3 newBoundingBox,
+        bool MeshData::init(Box3 newBoundingBox,
                              const std::vector<uint32_t> indices,
                              const std::vector<graphics::Vertex>& vertices,
                              const std::shared_ptr<graphics::Material>& newMaterial)

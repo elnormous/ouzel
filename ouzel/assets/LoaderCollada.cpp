@@ -3,7 +3,7 @@
 
 #include "LoaderCollada.hpp"
 #include "core/Engine.hpp"
-#include "scene/ModelData.hpp"
+#include "scene/MeshData.hpp"
 #include "utils/Log.hpp"
 #include "utils/XML.hpp"
 
@@ -36,11 +36,11 @@ namespace ouzel
                 return false;
             }
 
-            scene::ModelData modelData;
+            scene::MeshData meshData;
 
             // TODO: load the model
 
-            engine->getCache()->setModelData(filename, modelData);
+            engine->getCache()->setMeshData(filename, meshData);
 
             return true;
         }

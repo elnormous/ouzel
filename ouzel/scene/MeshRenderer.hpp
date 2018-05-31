@@ -4,22 +4,22 @@
 #pragma once
 
 #include "scene/Component.hpp"
-#include "scene/ModelData.hpp"
+#include "scene/MeshData.hpp"
 
 namespace ouzel
 {
     namespace scene
     {
-        class ModelRenderer: public Component
+        class MeshRenderer: public Component
         {
         public:
             static const uint32_t CLASS = Component::MODEL_RENDERER;
 
-            ModelRenderer();
-            explicit ModelRenderer(const ModelData& modelData);
-            explicit ModelRenderer(const std::string& filename, bool mipmaps = true);
+            MeshRenderer();
+            explicit MeshRenderer(const MeshData& meshData);
+            explicit MeshRenderer(const std::string& filename, bool mipmaps = true);
 
-            bool init(const ModelData& modelData);
+            bool init(const MeshData& meshData);
             bool init(const std::string& filename, bool mipmaps = true);
 
             virtual void draw(const Matrix4& transformMatrix,
